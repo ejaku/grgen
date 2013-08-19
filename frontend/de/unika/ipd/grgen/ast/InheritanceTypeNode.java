@@ -18,10 +18,15 @@ import java.util.Map;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.containers.*;
+import de.unika.ipd.grgen.ast.exprevals.EvalStatementNode;
+import de.unika.ipd.grgen.ast.exprevals.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.exprevals.ProcedureDeclNode;
 import de.unika.ipd.grgen.ir.containers.ArrayInit;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.exprevals.FunctionMethod;
 import de.unika.ipd.grgen.ir.exprevals.MemberInit;
+import de.unika.ipd.grgen.ir.exprevals.ProcedureMethod;
 import de.unika.ipd.grgen.ir.containers.MapInit;
 import de.unika.ipd.grgen.ir.containers.DequeInit;
 import de.unika.ipd.grgen.ir.containers.SetInit;
@@ -253,6 +258,20 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		return allMembers;
 	}
 
+	protected boolean checkStatementsInMethods() {
+		boolean res = true;
+		for(BaseNode n : body.getChildren()) {
+			if(n instanceof FunctionDeclNode) {
+				FunctionDeclNode function = (FunctionDeclNode)n;
+				res &= EvalStatementNode.checkStatements(true, function, null, function.evals, true);
+			} else if(n instanceof ProcedureDeclNode) {
+				ProcedureDeclNode procedure = (ProcedureDeclNode)n;
+				res &= EvalStatementNode.checkStatements(false, procedure, null, procedure.evals, true);
+			} 
+		}
+		return res;
+	}
+	
 	protected void constructIR(InheritanceType inhType) {
 		for(BaseNode n : body.getChildren()) {
 			if(n instanceof ConstructorDeclNode) {
@@ -261,7 +280,13 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 			}
 			else if(n instanceof DeclNode) {
 				DeclNode decl = (DeclNode)n;
-				inhType.addMember(decl.getEntity());
+				if(n instanceof FunctionDeclNode) {
+					inhType.addFunctionMethod(n.checkIR(FunctionMethod.class));
+				} else if(n instanceof ProcedureDeclNode) {
+					inhType.addProcedureMethod(n.checkIR(ProcedureMethod.class));
+				} else {
+					inhType.addMember(decl.getEntity());
+				}
 			}
 			else if(n instanceof MemberInitNode) {
 				MemberInitNode mi = (MemberInitNode)n;

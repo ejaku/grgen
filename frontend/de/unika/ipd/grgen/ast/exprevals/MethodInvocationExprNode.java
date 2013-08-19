@@ -317,6 +317,10 @@ public class MethodInvocationExprNode extends ExprNode
   				return false;
   			}
 		}
+		else if(targetType instanceof InheritanceTypeNode) {
+			// METHOD-TODO
+			result = new FunctionMethodOrExternalFunctionMethodInvocationExprNode(((IdentExprNode)targetExpr).getIdent(), methodIdent, params);
+		}
 		else {
 			reportError(targetType.toString() + " does not have any methods");
 			return false;

@@ -14,14 +14,14 @@ package de.unika.ipd.grgen.ir.exprevals;
 import java.util.Vector;
 
 /**
- * Represents a return statement of a computation in the IR.
+ * Represents a return statement of a procedure in the IR.
  */
-public class ReturnStatementComputation extends EvalStatement {
+public class ReturnStatementProcedure extends EvalStatement {
 
 	private Vector<Expression> returnValuesExprs = new Vector<Expression>();
 
-	public ReturnStatementComputation() {
-		super("return statement (computation)");
+	public ReturnStatementProcedure() {
+		super("return statement (procedure)");
 	}
 
 	public void addReturnValueExpr(Expression returnValueExpr) {

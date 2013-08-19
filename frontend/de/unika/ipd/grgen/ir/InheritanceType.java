@@ -56,6 +56,9 @@ public abstract class InheritanceType extends CompoundType {
 	 *  This field is used for caching. */
 	private Map<String, Entity> allMembers = null;
 
+	private Map<String, FunctionMethod> allFunctionMethods = null;
+	private Map<String, ProcedureMethod> allProcedureMethods = null;
+
 	/** Map between overriding and overridden members */
 	private Map<Entity, Entity> overridingMembers = null;
 
@@ -164,6 +167,22 @@ public abstract class InheritanceType extends CompoundType {
 		}
 	}
 
+	private void addFunctionMethods(InheritanceType type) {
+		for(FunctionMethod fm : type.getFunctionMethods()) {
+			// METHOD-TODO - what version is of relevance if alreay defined; override handling
+			String functionName = fm.getIdent().toString();
+			allFunctionMethods.put(functionName, fm);
+		}
+	}
+
+	private void addProcedureMethods(InheritanceType type) {
+		for(ProcedureMethod pm : type.getProcedureMethods()) {
+			// METHOD-TODO - what version is of relevance if alreay defined; override handling
+			String procedureName = pm.getIdent().toString();
+			allProcedureMethods.put(procedureName, pm);
+		}
+	}
+
 	/**
 	 * Method getAllMembers computes the transitive closure of the members (attributes) of a type.
 	 * @return   a Collection containing all members defined in that type and in its supertype.
@@ -184,6 +203,38 @@ public abstract class InheritanceType extends CompoundType {
 		return allMembers.values();
 	}
 
+	public Collection<FunctionMethod> getAllFunctionMethods() {
+		if( allFunctionMethods == null ) {
+			allFunctionMethods = new LinkedHashMap<String, FunctionMethod>();
+			//overridingMembers = new LinkedHashMap<Entity, Entity>(); METHOD-TODO
+
+			// add the members of the super types
+			for(InheritanceType superType : getAllSuperTypes())
+				addFunctionMethods(superType);
+
+			// add members of the current type
+			addFunctionMethods(this);
+		}
+
+		return allFunctionMethods.values();
+	}
+
+	public Collection<ProcedureMethod> getAllProcedureMethods() {
+		if( allProcedureMethods == null ) {
+			allProcedureMethods = new LinkedHashMap<String, ProcedureMethod>();
+			//overridingMembers = new LinkedHashMap<Entity, Entity>(); METHOD-TODO
+
+			// add the members of the super types
+			for(InheritanceType superType : getAllSuperTypes())
+				addProcedureMethods(superType);
+
+			// add members of the current type
+			addProcedureMethods(this);
+		}
+
+		return allProcedureMethods.values();
+	}
+
 	/**
 	 * Gets the overridden member for a given member, if one exists.
 	 * @param overridingMember The member, which eventually overrides another member.
@@ -191,6 +242,14 @@ public abstract class InheritanceType extends CompoundType {
 	 */
 	public Entity getOverriddenMember(Entity overridingMember) {
 		return overridingMembers.get(overridingMember);
+	}
+
+	public FunctionMethod getOverriddenFunctionMethod(FunctionMethod overridingMember) {
+		return null; // METHOD-TODO
+	}
+
+	public ProcedureMethod getOverriddenProcedureMethod(ProcedureMethod overridingMember) {
+		return null; // METHOD-TODO
 	}
 
 	public void addConstructor(Constructor constr) {

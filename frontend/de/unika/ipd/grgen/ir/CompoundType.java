@@ -18,6 +18,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ir.exprevals.FunctionMethod;
+import de.unika.ipd.grgen.ir.exprevals.ProcedureMethod;
+
 /**
  * Abstract base class for compound types containing members.
  */
@@ -25,6 +28,9 @@ public abstract class CompoundType extends Type {
 
 	/** Collection containing all members defined in that type. */
 	private List<Entity> members = new LinkedList<Entity>();
+
+	private List<FunctionMethod> functionMethods = new LinkedList<FunctionMethod>();
+	private List<ProcedureMethod> procedureMethods = new LinkedList<ProcedureMethod>();
 
 	/**
 	 * Make a new compound type.
@@ -44,6 +50,24 @@ public abstract class CompoundType extends Type {
 	public void addMember(Entity member) {
 		members.add(member);
 		member.setOwner(this);
+	}
+
+	public Collection<FunctionMethod> getFunctionMethods() {
+		return Collections.unmodifiableCollection(functionMethods);
+	}
+
+	public void addFunctionMethod(FunctionMethod method) {
+		functionMethods.add(method);
+		method.setOwner(this);
+	}
+
+	public void addProcedureMethod(ProcedureMethod method) {
+		procedureMethods.add(method);
+		method.setOwner(this);
+	}
+
+	public Collection<ProcedureMethod> getProcedureMethods() {
+		return Collections.unmodifiableCollection(procedureMethods);
 	}
 
 	protected void canonicalizeLocal() {

@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.exprevals.Procedure;
+import de.unika.ipd.grgen.ir.exprevals.ProcedureMethod;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
@@ -35,8 +36,10 @@ public class ProcedureDeclNode extends ProcedureBase {
 
 	public CollectNode<EvalStatementNode> evals;
 	static final ProcedureTypeNode procedureType = new ProcedureTypeNode();
+	
+	boolean isMethod;
 
-	public ProcedureDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params, CollectNode<BaseNode> rets) {
+	public ProcedureDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params, CollectNode<BaseNode> rets, boolean isMethod) {
 		super(id, procedureType);
 		this.evals = evals;
 		becomeParent(this.evals);
@@ -44,6 +47,7 @@ public class ProcedureDeclNode extends ProcedureBase {
 		becomeParent(this.paramsUnresolved);
 		this.retsUnresolved = rets;
 		becomeParent(this.retsUnresolved);
+		this.isMethod = isMethod;
 	}
 
 	/** returns children of this node */
@@ -122,8 +126,9 @@ public class ProcedureDeclNode extends ProcedureBase {
 			return getIR();
 		}
 
-		Procedure procedure = new Procedure(getIdentNode().toString(),
-				getIdentNode().getIdent());
+		Procedure procedure = isMethod ? 
+				new ProcedureMethod(getIdentNode().toString(), getIdentNode().getIdent()) : 
+				new Procedure(getIdentNode().toString(), getIdentNode().getIdent());
 
 		// mark this node as already visited
 		setIR(procedure);

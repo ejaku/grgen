@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.exprevals.Function;
+import de.unika.ipd.grgen.ir.exprevals.FunctionMethod;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
@@ -35,8 +36,10 @@ public class FunctionDeclNode extends FunctionBase {
 	
 	public CollectNode<EvalStatementNode> evals;
 	static final FunctionTypeNode functionType = new FunctionTypeNode();
+	
+	boolean isMethod;
 
-	public FunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params, BaseNode ret) {
+	public FunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params, BaseNode ret, boolean isMethod) {
 		super(id, functionType);
 		this.evals = evals;
 		becomeParent(this.evals);
@@ -44,6 +47,7 @@ public class FunctionDeclNode extends FunctionBase {
 		becomeParent(this.paramsUnresolved);
 		this.retUnresolved = ret;
 		becomeParent(this.retUnresolved);
+		this.isMethod = isMethod;
 	}
 
 	/** returns children of this node */
@@ -122,8 +126,9 @@ public class FunctionDeclNode extends FunctionBase {
 			return getIR();
 		}
 
-		Function function = new Function(getIdentNode().toString(),
-				getIdentNode().getIdent(), ret.checkIR(Type.class));
+		Function function = isMethod ?
+				new FunctionMethod(getIdentNode().toString(), getIdentNode().getIdent(), ret.checkIR(Type.class)) :
+				new Function(getIdentNode().toString(), getIdentNode().getIdent(), ret.checkIR(Type.class));
 
 		// mark this node as already visited
 		setIR(function);

@@ -17,17 +17,20 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ir.containers.DequeClear;
+import de.unika.ipd.grgen.ir.containers.DequeVarClear;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeClearNode extends EvalStatementNode
+public class DequeClearNode extends ProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(DequeClearNode.class, "deque clear statement");
 	}
 
 	private QualIdentNode target;
+	private VarDeclNode targetVar;
 
 	public DequeClearNode(Coords coords, QualIdentNode target)
 	{
@@ -35,10 +38,16 @@ public class DequeClearNode extends EvalStatementNode
 		this.target = becomeParent(target);
 	}
 
+	public DequeClearNode(Coords coords, VarDeclNode targetVar)
+	{
+		super(coords);
+		this.targetVar = becomeParent(targetVar);
+	}
+
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(target);
+		children.add(target!=null ? target : targetVar);
 		return children;
 	}
 
@@ -65,6 +74,9 @@ public class DequeClearNode extends EvalStatementNode
 
 	@Override
 	protected IR constructIR() {
-		return new DequeClear(target.checkIR(Qualification.class));
+		if(target!=null)
+			return new DequeClear(target.checkIR(Qualification.class));
+		else
+			return new DequeVarClear(targetVar.checkIR(Variable.class));
 	}
 }

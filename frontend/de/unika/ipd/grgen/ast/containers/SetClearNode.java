@@ -18,16 +18,19 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.Qualification;
+import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.containers.SetClear;
+import de.unika.ipd.grgen.ir.containers.SetVarClear;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SetClearNode extends EvalStatementNode
+public class SetClearNode extends ProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(SetClearNode.class, "set clear statement");
 	}
 
 	private QualIdentNode target;
+	private VarDeclNode targetVar;
 
 	public SetClearNode(Coords coords, QualIdentNode target)
 	{
@@ -35,10 +38,16 @@ public class SetClearNode extends EvalStatementNode
 		this.target = becomeParent(target);
 	}
 
+	public SetClearNode(Coords coords, VarDeclNode targetVar)
+	{
+		super(coords);
+		this.targetVar = becomeParent(targetVar);
+	}
+
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(target);
+		children.add(target!=null ? target : targetVar);
 		return children;
 	}
 
@@ -65,6 +74,9 @@ public class SetClearNode extends EvalStatementNode
 
 	@Override
 	protected IR constructIR() {
-		return new SetClear(target.checkIR(Qualification.class));
+		if(target!=null)
+			return new SetClear(target.checkIR(Qualification.class));
+		else
+			return new SetVarClear(targetVar.checkIR(Variable.class));
 	}
 }

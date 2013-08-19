@@ -30,6 +30,7 @@ public class ReturnAssignmentNode extends EvalStatementNode {
 
 	ProcedureOrExternalProcedureInvocationNode procedure;
 	ProcedureInvocationNode builtinProcedure;
+	ProcedureMethodInvocationNode procedureMethod;
 	CollectNode<EvalStatementNode> targets;
 	int context;
 	
@@ -53,11 +54,21 @@ public class ReturnAssignmentNode extends EvalStatementNode {
 		this.context = context;
 	}
 
+	public ReturnAssignmentNode(Coords coords, ProcedureMethodInvocationNode procedureMethod,
+			CollectNode<EvalStatementNode> targets, int context) {
+		super(coords);
+		this.procedureMethod = procedureMethod;
+		becomeParent(this.builtinProcedure);
+		this.targets = targets;
+		becomeParent(this.targets);
+		this.context = context;
+	}
+
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(builtinProcedure!=null ? builtinProcedure : procedure);
+		children.add(procedure!=null ? procedure : builtinProcedure != null ? builtinProcedure : procedureMethod);
 		children.add(targets);
 		return children;
 	}
@@ -89,11 +100,16 @@ public class ReturnAssignmentNode extends EvalStatementNode {
 				procedure.reportError("Expected " + procedure.getNumReturnTypes() + " procedure return variables, given " + targets.children.size());
 				return false;
 			}
-		} else {
+		} else if(builtinProcedure!=null) {
 			if(targets.children.size() != builtinProcedure.getNumReturnTypes() && targets.children.size()!=0) {
 				builtinProcedure.reportError("Expected " + builtinProcedure.getNumReturnTypes() + " procedure return variables, given " + targets.children.size());
 				return false;
 			}
+		} else { //procedureMethod!=null
+			if(targets.children.size() != procedureMethod.getNumReturnTypes() && targets.children.size()!=0) {
+				procedureMethod.reportError("Expected " + procedureMethod.getNumReturnTypes() + " procedure return variables, given " + targets.children.size());
+				return false;
+			}			
 		}
 		// hint: the types are checked in the singular assignments
 		return true;
@@ -113,9 +129,12 @@ public class ReturnAssignmentNode extends EvalStatementNode {
 		if(procedure != null) {
 			retAssign = new ReturnAssignment(
 					procedure.checkIR(ProcedureInvocationBase.class));
-		} else {
+		} else if(builtinProcedure != null) {
 			retAssign = new ReturnAssignment(
 					builtinProcedure.checkIR(ProcedureInvocationBase.class));
+		} else {
+			retAssign = new ReturnAssignment(
+					procedureMethod.checkIR(ProcedureInvocationBase.class));
 		}
 		for(EvalStatementNode target : targets.getChildren()) {
 			retAssign.addAssignment(target.checkIR(AssignmentBase.class));

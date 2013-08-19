@@ -1847,6 +1847,9 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof AssignmentGraphEntity) {
 			genAssignmentGraphEntity(sb, state, (AssignmentGraphEntity) evalStmt);
 		}
+		else if(evalStmt instanceof AssignmentMember) {
+			genAssignmentMember(sb, state, (AssignmentMember) evalStmt);
+		}
 		else if(evalStmt instanceof AssignmentVisited) {
 			genAssignmentVisited(sb, state, (AssignmentVisited) evalStmt);
 		}
@@ -1952,8 +1955,8 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof ReturnStatement) {
 			genReturnStatement(sb, state, (ReturnStatement) evalStmt);
 		}
-		else if(evalStmt instanceof ReturnStatementComputation) {
-			genReturnStatementComputation(sb, state, (ReturnStatementComputation) evalStmt);
+		else if(evalStmt instanceof ReturnStatementProcedure) {
+			genReturnStatementProcedure(sb, state, (ReturnStatementProcedure) evalStmt);
 		}
 		else if(evalStmt instanceof ConditionStatement) {
 			genConditionStatement(sb, state, (ConditionStatement) evalStmt);
@@ -1989,7 +1992,7 @@ public class ModifyGen extends CSharpBase {
 			genExecStatement(sb, state, (ExecStatement) evalStmt);
 		}
 		else if(evalStmt instanceof ReturnAssignment) {
-			genReturnAssignment(sb, state, (ReturnAssignment) evalStmt);
+			genReturnAssignment(sb, state, (ReturnAssignment) evalStmt); // contains the procedure and method invocations
 		}
 		else {
 			throw new UnsupportedOperationException("Unexpected eval statement \"" + evalStmt + "\"");
@@ -2200,6 +2203,27 @@ public class ModifyGen extends CSharpBase {
 					sb.append("(GRGEN_LGSP.LGSPNode)");
 				else
 					sb.append("(GRGEN_LGSP.LGSPEdge)");
+			}
+			genExpression(sb, expr, state);
+			sb.append(";\n");
+		} else {
+			StringBuffer tmp = new StringBuffer();
+			genExpression(tmp, expr, state);
+			sb.append(formatGlobalVariableWrite(target, tmp.toString()));
+			sb.append(";\n");
+		}
+	}
+
+	private void genAssignmentMember(StringBuffer sb, ModifyGenerationStateConst state, AssignmentMember ass) {
+		Entity target = ass.getTarget();
+		Expression expr = ass.getExpression();
+
+		sb.append("\t\t\t");
+		if(!Expression.isGlobalVariable(target)) {
+			genMemberAccess(sb, target);
+			sb.append(" = ");
+			if((target.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION) {
+				sb.append("(" + formatType(target.getType()) + ")");
 			}
 			genExpression(sb, expr, state);
 			sb.append(";\n");
@@ -2943,9 +2967,9 @@ public class ModifyGen extends CSharpBase {
 		sb.append(";\n");
 	}
 
-	private void genReturnStatementComputation(StringBuffer sb, ModifyGenerationStateConst state, ReturnStatementComputation rsc) {
+	private void genReturnStatementProcedure(StringBuffer sb, ModifyGenerationStateConst state, ReturnStatementProcedure rsp) {
 		int i = 0;
-		for(Expression returnValueExpr : rsc.getReturnValueExpr()) {
+		for(Expression returnValueExpr : rsp.getReturnValueExpr()) {
 			sb.append("\t\t\t_out_param_" + i + " = ");
 			genExpression(sb, returnValueExpr, state);
 			sb.append(";\n");
@@ -3436,9 +3460,12 @@ public class ModifyGen extends CSharpBase {
 		// do the call, with out variables, depending on the type of procedure
 		if(ra.getProcedureInvocation() instanceof ProcedureInvocation
 			|| ra.getProcedureInvocation() instanceof ExternalProcedureInvocation) {
-			genReturnAssignmentProcedureOrExternalProcedureInvocation(sb, state, ra, outParams);
+			genReturnAssignmentProcedureOrExternalProcedureInvocation(sb, state, ra.getProcedureInvocation(), outParams);
+		} else if(ra.getProcedureInvocation() instanceof ProcedureMethodInvocation
+			|| ra.getProcedureInvocation() instanceof ExternalProcedureMethodInvocation) {
+			genReturnAssignmentProcedureMethodOrExternalProcedureMethodInvocation(sb, state, ra.getProcedureInvocation(), outParams);
 		} else {
-			genReturnAssignmentBuiltinProcedureInvocation(sb, state, ra, outParams);
+			genReturnAssignmentBuiltinProcedureOrMethodInvocation(sb, state, ra.getProcedureInvocation(), outParams);
 		}
 		
 		// assign out variables to the real targets
@@ -3447,9 +3474,8 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genReturnAssignmentProcedureOrExternalProcedureInvocation(StringBuffer sb, ModifyGenerationStateConst state, ReturnAssignment ra, Vector<String> outParams) {
+	private void genReturnAssignmentProcedureOrExternalProcedureInvocation(StringBuffer sb, ModifyGenerationStateConst state, ProcedureInvocationBase procedure, Vector<String> outParams) {
 		// call the procedure with out variables  
-		ProcedureInvocationBase procedure = ra.getProcedureInvocation();
 		if(procedure instanceof ProcedureInvocation) {
 			ProcedureInvocation call = (ProcedureInvocation)procedure;
 			sb.append("\t\t\tProcedures." + call.getProcedure().getIdent().toString() + "(actionEnv, graph");
@@ -3471,9 +3497,37 @@ public class ModifyGen extends CSharpBase {
 		sb.append(");\n");
 	}
 
-	private void genReturnAssignmentBuiltinProcedureInvocation(StringBuffer sb, ModifyGenerationStateConst state, ReturnAssignment ra, Vector<String> outParams) {
-		// call the procedure, either without return value, or with one return value, more not supported as of now
-		ProcedureInvocationBase procedure = ra.getProcedureInvocation();
+	private void genReturnAssignmentProcedureMethodOrExternalProcedureMethodInvocation(StringBuffer sb, ModifyGenerationStateConst state, ProcedureInvocationBase procedure, Vector<String> outParams) {
+		// call the procedure method with out variables  
+		if(procedure instanceof ProcedureMethodInvocation) {
+			ProcedureMethodInvocation call = (ProcedureMethodInvocation)procedure;
+			Entity owner = call.getOwner();
+			sb.append("\t\t\t(("+ formatElementInterfaceRef(owner.getType()) + ") ");
+			sb.append(formatEntity(owner) + ").@");
+			sb.append(call.getProcedure().getIdent().toString() + "(actionEnv, graph");
+		} else {
+			ExternalProcedureMethodInvocation call = (ExternalProcedureMethodInvocation)procedure;
+			Entity owner = call.getOwner();
+			sb.append("\t\t\t(("+ formatElementInterfaceRef(owner.getType()) + ") ");
+			sb.append(formatEntity(owner) + ").@");
+			sb.append(call.getExternalProc().getIdent().toString() + "(actionEnv, graph");
+		}
+		for(int i=0; i<procedure.arity(); ++i) {
+			sb.append(", ");
+			Expression argument = procedure.getArgument(i);
+			if(argument.getType() instanceof InheritanceType) {
+				sb.append("(" + formatElementInterfaceRef(argument.getType()) + ")");
+			}
+			genExpression(sb, argument, state);
+		}
+		for(int i=0; i<procedure.returnArity(); ++i) {
+			sb.append(", out " + outParams.get(i));
+		}
+		sb.append(");\n");
+	}
+
+	private void genReturnAssignmentBuiltinProcedureOrMethodInvocation(StringBuffer sb, ModifyGenerationStateConst state, ProcedureInvocationBase procedure, Vector<String> outParams) {
+		// call the procedure or procedure method, either without return value, or with one return value, more not supported as of now
 		if(outParams.size()==0) {
 			genEvalComp(sb, state, procedure);
 		} else {
@@ -3575,6 +3629,78 @@ public class ModifyGen extends CSharpBase {
 		}
 		else if(evalProc instanceof RollbackTransactionProc) {
 			genRollbackTransactionProc(sb, state, (RollbackTransactionProc) evalProc);
+		}
+		else if(evalProc instanceof MapRemoveItem) {
+			genMapRemoveItem(sb, state, (MapRemoveItem) evalProc);
+		} 
+		else if(evalProc instanceof MapClear) {
+			genMapClear(sb, state, (MapClear) evalProc);
+		} 
+		else if(evalProc instanceof MapAddItem) {
+			genMapAddItem(sb, state, (MapAddItem) evalProc);
+		} 
+		else if(evalProc instanceof SetRemoveItem) {
+			genSetRemoveItem(sb, state, (SetRemoveItem) evalProc);
+		} 
+		else if(evalProc instanceof SetClear) {
+			genSetClear(sb, state, (SetClear) evalProc);
+		} 
+		else if(evalProc instanceof SetAddItem) {
+			genSetAddItem(sb, state, (SetAddItem) evalProc);
+		}
+		else if(evalProc instanceof ArrayRemoveItem) {
+			genArrayRemoveItem(sb, state, (ArrayRemoveItem) evalProc);
+		} 
+		else if(evalProc instanceof ArrayClear) {
+			genArrayClear(sb, state, (ArrayClear) evalProc);
+		} 
+		else if(evalProc instanceof ArrayAddItem) {
+			genArrayAddItem(sb, state, (ArrayAddItem) evalProc);
+		}
+		else if(evalProc instanceof DequeRemoveItem) {
+			genDequeRemoveItem(sb, state, (DequeRemoveItem) evalProc);
+		} 
+		else if(evalProc instanceof DequeClear) {
+			genDequeClear(sb, state, (DequeClear) evalProc);
+		} 
+		else if(evalProc instanceof DequeAddItem) {
+			genDequeAddItem(sb, state, (DequeAddItem) evalProc);
+		}
+		else if(evalProc instanceof MapVarRemoveItem) {
+			genMapVarRemoveItem(sb, state, (MapVarRemoveItem) evalProc);
+		} 
+		else if(evalProc instanceof MapVarClear) {
+			genMapVarClear(sb, state, (MapVarClear) evalProc);
+		} 
+		else if(evalProc instanceof MapVarAddItem) {
+			genMapVarAddItem(sb, state, (MapVarAddItem) evalProc);
+		}
+		else if(evalProc instanceof SetVarRemoveItem) {
+			genSetVarRemoveItem(sb, state, (SetVarRemoveItem) evalProc);
+		}
+		else if(evalProc instanceof SetVarClear) {
+			genSetVarClear(sb, state, (SetVarClear) evalProc);
+		}
+		else if(evalProc instanceof SetVarAddItem) {
+			genSetVarAddItem(sb, state, (SetVarAddItem) evalProc);
+		}
+		else if(evalProc instanceof ArrayVarRemoveItem) {
+			genArrayVarRemoveItem(sb, state, (ArrayVarRemoveItem) evalProc);
+		}
+		else if(evalProc instanceof ArrayVarClear) {
+			genArrayVarClear(sb, state, (ArrayVarClear) evalProc);
+		}
+		else if(evalProc instanceof ArrayVarAddItem) {
+			genArrayVarAddItem(sb, state, (ArrayVarAddItem) evalProc);
+		}
+		else if(evalProc instanceof DequeVarRemoveItem) {
+			genDequeVarRemoveItem(sb, state, (DequeVarRemoveItem) evalProc);
+		}
+		else if(evalProc instanceof DequeVarClear) {
+			genDequeVarClear(sb, state, (DequeVarClear) evalProc);
+		}
+		else if(evalProc instanceof DequeVarAddItem) {
+			genDequeVarAddItem(sb, state, (DequeVarAddItem) evalProc);
 		}
 		else {
 			throw new UnsupportedOperationException("Unexpected eval procedure \"" + evalProc + "\"");
@@ -4014,7 +4140,8 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	protected void genMemberAccess(StringBuffer sb, Entity member) {
-		throw new UnsupportedOperationException("Member expressions not allowed in actions!");
+		// needed in implementing methods
+		sb.append("@" + formatIdentifiable(member));
 	}
 
 	private boolean accessViaVariable(ModifyGenerationStateConst state, GraphEntity elem, Entity attr) {

@@ -3184,7 +3184,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a function invocation (internal attribute evaluation function).
+    /// Class representing a function invocation (of an internal attribute evaluation function).
     /// </summary>
     public class FunctionInvocation : Expression
     {
@@ -3221,13 +3221,13 @@ namespace de.unika.ipd.grGen.expression
                 yield return argument;
         }
 
-        String FunctionName;
-        Expression[] Arguments;
-        String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
+        public String FunctionName;
+        public Expression[] Arguments;
+        public String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
     }
 
     /// <summary>
-    /// Class representing a function invocation of an external attribute evaluation function.
+    /// Class representing a function invocation (of an external attribute evaluation function).
     /// </summary>
     public class ExternalFunctionInvocation : Expression
     {
@@ -3265,9 +3265,84 @@ namespace de.unika.ipd.grGen.expression
                 yield return argument;
         }
 
-        String FunctionName;
-        Expression[] Arguments;
-        String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
+        public String FunctionName;
+        public Expression[] Arguments;
+        public String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
+    }
+
+    /// <summary>
+    /// Class representing a function method invocation (of an internal attribute evaluation function method).
+    /// </summary>
+    public class FunctionMethodInvocation : FunctionInvocation
+    {
+        public FunctionMethodInvocation(String ownerType, String owner, String functionName, Expression[] arguments, String[] argumentTypes)
+            : base(functionName, arguments, argumentTypes)
+        {
+            OwnerType = ownerType;
+            Owner = owner; 
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            Expression[] newArguments = new Expression[Arguments.Length];
+            for(int i = 0; i < Arguments.Length; ++i) newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
+            return new FunctionMethodInvocation(OwnerType, Owner + renameSuffix, FunctionName, newArguments, (String[])ArgumentTypes.Clone());
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((" + OwnerType + ")" + NamesOfEntities.CandidateVariable(Owner) + ").@");
+            sourceCode.Append(FunctionName + "(actionEnv, graph");
+            for(int i = 0; i < Arguments.Length; ++i)
+            {
+                sourceCode.Append(", ");
+                Expression argument = Arguments[i];
+                if(ArgumentTypes[i] != null) sourceCode.Append("(" + ArgumentTypes[i] + ")");
+                argument.Emit(sourceCode);
+            }
+            sourceCode.Append(")");
+        }
+
+        String OwnerType;
+        String Owner; 
+    }
+
+    /// <summary>
+    /// Class representing a function method invocation (of an external attribute evaluation function method).
+    /// </summary>
+    public class ExternalFunctionMethodInvocation : ExternalFunctionInvocation
+    {
+        public ExternalFunctionMethodInvocation(String ownerType, String owner, String functionName, Expression[] arguments, String[] argumentTypes)
+            : base(functionName, arguments, argumentTypes)
+        {
+            OwnerType = ownerType;
+            Owner = owner;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            Expression[] newArguments = new Expression[Arguments.Length];
+            for(int i = 0; i < Arguments.Length; ++i) newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
+            return new ExternalFunctionMethodInvocation(OwnerType, Owner + renameSuffix, FunctionName, newArguments, (String[])ArgumentTypes.Clone());
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((" + OwnerType + ")" + NamesOfEntities.CandidateVariable(Owner) + ").@");
+            sourceCode.Append(FunctionName + "(actionEnv, graph");
+            for(int i = 0; i < Arguments.Length; ++i)
+            {
+                sourceCode.Append(", ");
+                Expression argument = Arguments[i];
+                if(ArgumentTypes[i] != null)
+                    sourceCode.Append("(" + ArgumentTypes[i] + ")");
+                argument.Emit(sourceCode);
+            }
+            sourceCode.Append(")");
+        }
+
+        String OwnerType;
+        String Owner; 
     }
 
     /// <summary>

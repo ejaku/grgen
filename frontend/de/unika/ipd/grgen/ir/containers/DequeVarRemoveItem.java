@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class DequeVarRemoveItem extends EvalStatement {
+public class DequeVarRemoveItem extends ProcedureInvocationBase {
 	Variable target;
 	Expression indexExpr;
 
@@ -30,6 +30,10 @@ public class DequeVarRemoveItem extends EvalStatement {
 
 	public Expression getIndexExpr() {
 		return indexExpr;
+	}
+
+	public ProcedureBase getProcedureBase() {
+		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

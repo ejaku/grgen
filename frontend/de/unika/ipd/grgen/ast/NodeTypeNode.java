@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.containers.*;
+import de.unika.ipd.grgen.ast.exprevals.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.exprevals.ProcedureDeclNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
@@ -72,7 +74,8 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	@SuppressWarnings("unchecked")
 	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
 			new DeclarationResolver<BaseNode>(MemberDeclNode.class, MemberInitNode.class, ConstructorDeclNode.class,
-					MapInitNode.class, SetInitNode.class, ArrayInitNode.class, DequeInitNode.class));
+					MapInitNode.class, SetInitNode.class, ArrayInitNode.class, DequeInitNode.class,
+					FunctionDeclNode.class, ProcedureDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override

@@ -150,6 +150,10 @@ public class ModelNode extends DeclNode {
 	public boolean IsLowerClassDefined() {
 		return isLowerClassDefined;
 	}
+	
+	public CollectNode<TypeDeclNode> getTypeDecls() {
+		return decls;
+	}
 
 	/**
 	 * Get the IR model node for this AST node.

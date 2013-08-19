@@ -20,10 +20,12 @@ import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ir.exprevals.Assignment;
 import de.unika.ipd.grgen.ir.exprevals.AssignmentGraphEntity;
 import de.unika.ipd.grgen.ir.exprevals.AssignmentIdentical;
+import de.unika.ipd.grgen.ir.exprevals.AssignmentMember;
 import de.unika.ipd.grgen.ir.exprevals.AssignmentVar;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
@@ -46,6 +48,7 @@ public class AssignNode extends EvalStatementNode {
 	QualIdentNode lhsQual;
 	VarDeclNode lhsVar;
 	ConstraintDeclNode lhsGraphElement;
+	MemberDeclNode lhsMember;
 
 	/**
 	 * @param coords The source code coordinates of = operator.
@@ -104,6 +107,8 @@ public class AssignNode extends EvalStatementNode {
 					lhsVar = (VarDeclNode)unresolved.decl;
 				} else if(unresolved.decl instanceof ConstraintDeclNode) {
 					lhsGraphElement = (ConstraintDeclNode)unresolved.decl;
+				} else if(unresolved.decl instanceof MemberDeclNode) {
+					lhsMember = (MemberDeclNode)unresolved.decl;
 				} else {
 					reportError("error in resolving lhs of assignment, unexpected type.");
 					successfullyResolved = false;
@@ -198,7 +203,7 @@ public class AssignNode extends EvalStatementNode {
 					return false;
 				}
 			}
-		} else { //lhsVar!=null
+		} else if(lhsVar!=null) {
 			if(lhsVar.defEntityToBeYieldedTo) {
 				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
 				if((lhsVar.context&CONTEXT_COMPUTATION)!=CONTEXT_COMPUTATION) {
@@ -234,6 +239,8 @@ public class AssignNode extends EvalStatementNode {
 					return false;
 				}
 			}
+		} else {
+			// METHOD-TODO
 		}
 				
 		return typeCheckLocal();
@@ -249,6 +256,7 @@ public class AssignNode extends EvalStatementNode {
 		if(lhsQual!=null) targetType = lhsQual.getDecl().getDeclType();
 		if(lhsVar!=null) targetType = lhsVar.getDeclType();
 		if(lhsGraphElement!=null) targetType = lhsGraphElement.getDeclType();
+		if(lhsMember!=null) targetType = lhsMember.getDeclType();
 		TypeNode exprType = rhs.getType();
 
 		if (exprType.isEqual(targetType))
@@ -315,13 +323,20 @@ public class AssignNode extends EvalStatementNode {
 			
 			ExprNode rhsEvaluated = rhs.evaluate();
 			return new AssignmentVar(var, rhsEvaluated.checkIR(Expression.class));
-		} else {
+		} else if(lhsGraphElement!=null) {
 			GraphEntity graphEntity = lhsGraphElement.checkIR(GraphEntity.class);
 
 			// TODO: extend optimization to assignments to graph entities
 			
 			ExprNode rhsEvaluated = rhs.evaluate();
 			return new AssignmentGraphEntity(graphEntity, rhsEvaluated.checkIR(Expression.class));
+		} else {
+			Entity entity = lhsMember.checkIR(Entity.class);
+
+			// TODO: extend optimization to assignments to entities
+			
+			ExprNode rhsEvaluated = rhs.evaluate();
+			return new AssignmentMember(entity, rhsEvaluated.checkIR(Expression.class));			
 		}
 	}
 

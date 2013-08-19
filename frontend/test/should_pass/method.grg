@@ -1,0 +1,37 @@
+using method_model;
+
+rule r
+{
+	n:N;
+	if{ n.name!="foo" && n.foo(13)<42; }
+	if{ n.qux()=="foo"; }
+	
+	modify {
+		eval {
+			def var x:int = 1;
+			def var y:int = 2;
+			(x,y) = n.bar(y,x);
+			n.baz();
+			(x,y) = n.bar(n.foo(13), n.qux().length());
+		}
+	}
+}
+
+/*
+rule s
+{
+	-e:E->;
+	if{ e.foo(13)<42; }
+	if{ e.qux()=="foo"; }
+	
+	modify {
+		eval {
+			def var x:int = 1;
+			def var y:int = 2;
+			(x,y) = e.bar(y,x);
+			e.baz();
+			(x,y) = e.bar(e.foo(13), e.qux().length());
+		}
+	}
+}
+*/
