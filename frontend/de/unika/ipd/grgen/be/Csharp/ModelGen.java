@@ -43,6 +43,7 @@ public class ModelGen extends CSharpBase {
 		rootTypes.add("Edge");
 		rootTypes.add("AEdge");
 		rootTypes.add("UEdge");
+		mgFuncComp = new ModifyGen(backend, nodeTypePrefix, edgeTypePrefix);
 	}
 
 	/**
@@ -296,6 +297,7 @@ public class ModelGen extends CSharpBase {
 		sb.append("\n");
 		sb.append("\t{\n");
 		genAttributeAccess(type, type.getMembers(), "");
+		genMethods(type, type.getFunctionMethods(), type.getProcedureMethods(), "");
 		sb.append("\t}\n");
 	}
 
@@ -353,6 +355,41 @@ public class ModelGen extends CSharpBase {
 			} else {
 				sb.append(formatAttributeType(e) + " @" + formatIdentifiable(e) + " { get; set; }\n");
 			}
+		}
+	}
+
+	private void genMethods(InheritanceType type, Collection<FunctionMethod> functionMethods,
+			Collection<ProcedureMethod> procedureMethods, String modifiers) {
+		// METHOD-TODO - inheritance?
+		for(FunctionMethod fm : functionMethods) {
+			sb.append("\t\t" + formatType(fm.getReturnType()) + " ");
+			sb.append(fm.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
+			for(Entity inParam : fm.getParameters()) {
+				sb.append(", ");
+				sb.append(formatType(inParam.getType()));
+				sb.append(" ");
+				sb.append(formatEntity(inParam));
+			}
+			sb.append(");\n");
+		}
+		for(ProcedureMethod pm : procedureMethods) {
+			sb.append("\t\tvoid ");
+			sb.append(pm.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
+			for(Entity inParam : pm.getParameters()) {
+				sb.append(", ");
+				sb.append(formatType(inParam.getType()));
+				sb.append(" ");
+				sb.append(formatEntity(inParam));
+			}
+			int i = 0;
+			for(Type outType : pm.getReturnTypes()) {
+				sb.append(", out ");
+				sb.append(formatType(outType));
+				sb.append(" ");
+				sb.append("_out_param_" + i);
+				++i;
+			}
+			sb.append(");\n");
 		}
 	}
 
@@ -574,6 +611,8 @@ public class ModelGen extends CSharpBase {
 				+ "\t\t}\n\n");
 
 		genAttributesAndAttributeAccessImpl(type);
+
+		genMethods(type);
 
 		sb.append("\t}\n");
 
@@ -1207,6 +1246,55 @@ deque_init_loop:
 		sb.append("\t\t{\n");
 		initAllMembersNonConst(type, "this", "\t\t\t", true, true);
 		sb.append("\t\t}\n");
+	}
+
+	private void genMethods(InheritanceType type) {
+		// METHOD-TODO
+		for(FunctionMethod fm : type.getAllFunctionMethods()) {
+			sb.append("\t\tpublic " + formatType(fm.getReturnType()) + " ");
+			sb.append(fm.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
+			for(Entity inParam : fm.getParameters()) {
+				sb.append(", ");
+				sb.append(formatType(inParam.getType()));
+				sb.append(" ");
+				sb.append(formatEntity(inParam));
+			}
+			sb.append(")\n");
+			sb.append("\t\t{\n");
+			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model);
+			for(EvalStatement evalStmt : fm.getComputationStatements()) {
+				modifyGenState.functionOrProcedureName = fm.getIdent().toString();
+				mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
+			}
+			sb.append("\t\t}\n");
+		}
+		for(ProcedureMethod pm : type.getAllProcedureMethods()) {
+			sb.append("\t\tpublic void ");
+			sb.append(pm.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
+			for(Entity inParam : pm.getParameters()) {
+				sb.append(", ");
+				sb.append(formatType(inParam.getType()));
+				sb.append(" ");
+				sb.append(formatEntity(inParam));
+			}
+			int i = 0;
+			for(Type outType : pm.getReturnTypes()) {
+				sb.append(", out ");
+				sb.append(formatType(outType));
+				sb.append(" ");
+				sb.append("_out_param_" + i);
+				++i;
+			}
+			sb.append(")\n");
+			sb.append("\t\t{\n");
+			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model);
+			mgFuncComp.initEvalGen();
+			for(EvalStatement evalStmt : pm.getComputationStatements()) {
+				modifyGenState.functionOrProcedureName = pm.getIdent().toString();
+				mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
+			}
+			sb.append("\t\t}\n");
+		}
 	}
 
 	////////////////////////////////////
@@ -2284,5 +2372,6 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private String curMemberOwner = null;
 	private String nsIndent = "\t";
 	private HashSet<String> rootTypes;
+	private ModifyGen mgFuncComp;
 }
 

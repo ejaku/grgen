@@ -43,6 +43,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	public QualIdentNode(Coords coords, IdentNode owner, IdentNode member) {
 		super(coords);
 		this.ownerUnresolved = owner;
+		ownerUnresolved.getCoords();
 		becomeParent(this.ownerUnresolved);
 		this.memberUnresolved = member;
 		becomeParent(this.memberUnresolved);
@@ -81,7 +82,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		boolean successfullyResolved = true;
 		owner = ownerResolver.resolve(ownerUnresolved, this);
 		successfullyResolved = owner!=null && successfullyResolved;
-		boolean ownerResolveResult = owner.resolve();
+		boolean ownerResolveResult = owner!=null && owner.resolve();
 
 		if (!ownerResolveResult) {
 			// member can not be resolved due to inaccessible owner

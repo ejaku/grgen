@@ -1,0 +1,33 @@
+node class N
+{
+	name:string;
+	counter:int;
+	
+	function foo(var x:int) : int
+	{
+		return (counter + x);
+	}
+	
+	procedure bar(var x:int, var y:int) : (int, int)
+	{
+		return (counter + x, counter - y);
+	}
+	
+	procedure baz()
+	{
+		counter = counter + 1;
+		name = name + "baz";
+		return;
+	}
+	
+	function qux() : string
+	{
+		return(name);
+	}
+}
+
+/*
+edge class E
+{
+}
+*/

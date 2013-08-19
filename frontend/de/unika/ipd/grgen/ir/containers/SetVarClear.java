@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class SetVarClear extends EvalStatement {
+public class SetVarClear extends ProcedureInvocationBase {
 	Variable target;
 
 	public SetVarClear(Variable target) {
@@ -24,6 +24,10 @@ public class SetVarClear extends EvalStatement {
 
 	public Variable getTarget() {
 		return target;
+	}
+
+	public ProcedureBase getProcedureBase() {
+		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

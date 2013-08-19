@@ -16,32 +16,39 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ir.exprevals.ExternalFunction;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.ExternalFunctionInvocationExpr;
+import de.unika.ipd.grgen.ir.exprevals.ExternalFunctionMethodInvocationExpr;
 import de.unika.ipd.grgen.ir.exprevals.Function;
-import de.unika.ipd.grgen.ir.exprevals.FunctionInvocationExpr;
+import de.unika.ipd.grgen.ir.exprevals.FunctionMethodInvocationExpr;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 
 /**
- * Invocation of a function or an external function
+ * Invocation of a function method
  */
-public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
+public class FunctionMethodOrExternalFunctionMethodInvocationExprNode extends ExprNode
 {
 	static {
-		setName(FunctionOrExternalFunctionInvocationExprNode.class, "function or external function invocation expression");
+		setName(FunctionMethodOrExternalFunctionMethodInvocationExprNode.class, "function method or external function method invocation expression");
 	}
 
+	private IdentNode ownerUnresolved;
+	private DeclNode owner;
+	
 	private IdentNode functionOrExternalFunctionUnresolved;
 	private ExternalFunctionDeclNode externalFunctionDecl;
 	private FunctionDeclNode functionDecl;
+	
 	private CollectNode<ExprNode> arguments;
 
-	public FunctionOrExternalFunctionInvocationExprNode(IdentNode functionOrExternalFunctionUnresolved, CollectNode<ExprNode> arguments)
+	public FunctionMethodOrExternalFunctionMethodInvocationExprNode(IdentNode owner, IdentNode functionOrExternalFunctionUnresolved, CollectNode<ExprNode> arguments)
 	{
 		super(functionOrExternalFunctionUnresolved.getCoords());
+		this.ownerUnresolved = becomeParent(owner);
 		this.functionOrExternalFunctionUnresolved = becomeParent(functionOrExternalFunctionUnresolved);
 		this.arguments = becomeParent(arguments);
 	}
@@ -49,6 +56,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(getValidVersion(ownerUnresolved, owner));
 		children.add(getValidVersion(functionOrExternalFunctionUnresolved, functionDecl, externalFunctionDecl));
 		children.add(arguments);
 		return children;
@@ -57,24 +65,59 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("function or external function");
+		childrenNames.add("owner");
+		childrenNames.add("function method or external function method");
 		childrenNames.add("arguments");
 		return childrenNames;
 	}
 
+	private static final DeclarationResolver<DeclNode> ownerResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
 	private static final DeclarationPairResolver<FunctionDeclNode, ExternalFunctionDeclNode> resolver =
 			new DeclarationPairResolver<FunctionDeclNode, ExternalFunctionDeclNode>(FunctionDeclNode.class, ExternalFunctionDeclNode.class);
 
 	protected boolean resolveLocal() {
-		fixupDefinition((IdentNode)functionOrExternalFunctionUnresolved, functionOrExternalFunctionUnresolved.getScope());
-		Pair<FunctionDeclNode, ExternalFunctionDeclNode> resolved = resolver.resolve(functionOrExternalFunctionUnresolved, this);
-		if(resolved == null) {
-			functionOrExternalFunctionUnresolved.reportError("Unknown function called -- misspelled function name? Or procedure call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
+		/* 1) resolve left hand side identifier, yielding a declaration of a type owning a scope
+		 * 2) the scope owned by the lhs allows the ident node of the right hand side to fix/find its definition therein
+		 * 3) resolve now complete/correct right hand side identifier into its declaration */
+		boolean res = fixupDefinition(ownerUnresolved, ownerUnresolved.getScope());
+		if(!res)
+			return false;
+
+		boolean successfullyResolved = true;
+		owner = ownerResolver.resolve(ownerUnresolved, this);
+		successfullyResolved = owner!=null && successfullyResolved;
+		boolean ownerResolveResult = owner!=null && owner.resolve();
+
+		if (!ownerResolveResult) {
+			// member can not be resolved due to inaccessible owner
 			return false;
 		}
-		functionDecl = resolved.fst;
-		externalFunctionDecl = resolved.snd;
-		return true;
+
+		if (ownerResolveResult && owner != null && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
+			TypeNode ownerType = owner.getDeclType();
+			if(ownerType instanceof ScopeOwner) {
+				ScopeOwner o = (ScopeOwner) ownerType;
+				res = o.fixupDefinition(functionOrExternalFunctionUnresolved);
+
+				Pair<FunctionDeclNode, ExternalFunctionDeclNode> resolved = resolver.resolve(functionOrExternalFunctionUnresolved, this);
+				if(resolved == null) {
+					functionOrExternalFunctionUnresolved.reportError("Unknown function called -- misspelled function name? Or procedure call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
+					return false;
+				}
+				functionDecl = resolved.fst;
+				externalFunctionDecl = resolved.snd;
+
+				successfullyResolved = (functionDecl!=null || externalFunctionDecl!=null) && successfullyResolved;
+			} else {
+				reportError("Left hand side of '.' does not own a scope");
+				successfullyResolved = false;
+			}
+		} else {
+			reportError("Left hand side of '.' is neither a node nor an edge");
+			successfullyResolved = false;
+		}
+
+		return successfullyResolved;
 	}
 
 	@Override
@@ -133,15 +176,17 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 	@Override
 	protected IR constructIR() {
 		if(functionDecl!=null) {
-			FunctionInvocationExpr fi = new FunctionInvocationExpr(
+			FunctionMethodInvocationExpr ci = new FunctionMethodInvocationExpr(
+					owner.checkIR(Entity.class),
 					functionDecl.ret.checkIR(Type.class),
 					functionDecl.checkIR(Function.class));
 			for(ExprNode expr : arguments.getChildren()) {
-				fi.addArgument(expr.checkIR(Expression.class));
+				ci.addArgument(expr.checkIR(Expression.class));
 			}
-			return fi;
+			return ci;
 		} else {
-			ExternalFunctionInvocationExpr efi = new ExternalFunctionInvocationExpr(
+			ExternalFunctionMethodInvocationExpr efi = new ExternalFunctionMethodInvocationExpr(
+					owner.checkIR(Entity.class),
 					externalFunctionDecl.ret.checkIR(Type.class),
 					externalFunctionDecl.checkIR(ExternalFunction.class));
 			for(ExprNode expr : arguments.getChildren()) {

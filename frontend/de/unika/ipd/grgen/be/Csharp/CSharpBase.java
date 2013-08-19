@@ -1302,10 +1302,42 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof ExternalFunctionInvocationExpr) {
 			ExternalFunctionInvocationExpr efi = (ExternalFunctionInvocationExpr)expr;
-			sb.append("GRGEN_EXPR.ExternalFunctions." + efi.getExternalFunc().getIdent() + "(actionEnv, graph");
+			sb.append("GRGEN_EXPR.ExternalFunctions." + efi.getExternalFunc().getIdent().toString() + "(actionEnv, graph");
 			for(int i=0; i<efi.arity(); ++i) {
 				sb.append(", ");
 				Expression argument = efi.getArgument(i);
+				if(argument.getType() instanceof InheritanceType) {
+					sb.append("(" + formatElementInterfaceRef(argument.getType()) + ")");
+				}
+				genExpression(sb, argument, modifyGenerationState);
+			}
+			sb.append(")");
+		}
+		else if (expr instanceof FunctionMethodInvocationExpr) {
+			FunctionMethodInvocationExpr fmi = (FunctionMethodInvocationExpr)expr;
+			Entity owner = fmi.getOwner();
+			sb.append("(("+ formatElementInterfaceRef(owner.getType()) + ") ");
+			sb.append(formatEntity(owner) + ").@");
+			sb.append(fmi.getFunction().getIdent().toString() + "(actionEnv, graph");
+			for(int i=0; i<fmi.arity(); ++i) {
+				sb.append(", ");
+				Expression argument = fmi.getArgument(i);
+				if(argument.getType() instanceof InheritanceType) {
+					sb.append("(" + formatElementInterfaceRef(argument.getType()) + ")");
+				}
+				genExpression(sb, argument, modifyGenerationState);
+			}
+			sb.append(")");
+		}
+		else if (expr instanceof ExternalFunctionMethodInvocationExpr) {
+			ExternalFunctionMethodInvocationExpr efmi = (ExternalFunctionMethodInvocationExpr)expr;
+			Entity owner = efmi.getOwner();
+			sb.append("(("+ formatElementInterfaceRef(owner.getType()) + ") ");
+			sb.append(formatEntity(owner) + ").@");
+			sb.append(efmi.getExternalFunc().getIdent().toString() + "(actionEnv, graph");
+			for(int i=0; i<efmi.arity(); ++i) {
+				sb.append(", ");
+				Expression argument = efmi.getArgument(i);
 				if(argument.getType() instanceof InheritanceType) {
 					sb.append("(" + formatElementInterfaceRef(argument.getType()) + ")");
 				}

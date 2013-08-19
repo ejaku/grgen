@@ -16,7 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.ReturnStatementComputation;
+import de.unika.ipd.grgen.ir.exprevals.ReturnStatementProcedure;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.ReturnStatement;
 import de.unika.ipd.grgen.parser.Coords;
@@ -120,11 +120,11 @@ public class ReturnStatementNode extends EvalStatementNode {
 		if(isFunctionReturn) {
 			return new ReturnStatement(returnValueExprs.get(0).checkIR(Expression.class));
 		} else {
-			ReturnStatementComputation rsc = new ReturnStatementComputation();
+			ReturnStatementProcedure rsp = new ReturnStatementProcedure();
 			for(ExprNode returnValueExpr : returnValueExprs.getChildren()) {
-				rsc.addReturnValueExpr(returnValueExpr.checkIR(Expression.class));
+				rsp.addReturnValueExpr(returnValueExpr.checkIR(Expression.class));
 			}
-			return rsc;
+			return rsp;
 		}
 	}
 }

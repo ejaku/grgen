@@ -15,12 +15,12 @@ package de.unika.ipd.grgen.ir.exprevals;
  * A procedure invocation.
  */
 public class ProcedureInvocation extends ProcedureInvocationBase {
-	/** The procedure of the procedure invocation expression. */
+	/** The procedure of the procedure invocation. */
 	protected Procedure procedure;
 
 
 	public ProcedureInvocation(Procedure procedure) {
-		super("procedure invocation expr");
+		super("procedure invocation");
 
 		this.procedure = procedure;
 	}

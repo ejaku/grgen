@@ -384,10 +384,11 @@ patternOrActionOrSequenceOrFunctionOrProcedureDecl [ CollectNode<IdentNode> patt
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 		CollectNode<BaseNode> modifyParams = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> retTypes = new CollectNode<BaseNode>();
+		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
 		ExecNode exec = null;
 		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 		TestDeclNode actionDecl = null;
-		boolean withFuncProc = false;
 	}
 
 	: t=TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
@@ -458,33 +459,23 @@ patternOrActionOrSequenceOrFunctionOrProcedureDecl [ CollectNode<IdentNode> patt
 			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
 			sequenceChilds.addChild(id);
 		}
-	| (FUNCTION { withFuncProc = true; } | PROCEDURE { withFuncProc = true; })? id=funcOrExtFuncIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
-		functionOrProcedureDecl[withFuncProc, id, params, functionChilds, procedureChilds]
-	;
-
-functionOrProcedureDecl[boolean withFuncProc, IdentNode id, CollectNode<BaseNode> params,
-							CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> procedureChilds]
-	@init{
-		CollectNode<BaseNode> returnTypes = new CollectNode<BaseNode>();
-		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
-	}
-	: COLON retType=returnType
+	| f=FUNCTION id=funcOrExtFuncIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
+		COLON retType=returnType
 		LBRACE
 			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE popScope
 		{
-			id.setDecl(new FunctionDeclNode(id, evals, params, retType));
+			id.setDecl(new FunctionDeclNode(id, evals, params, retType, false));
 			functionChilds.addChild(id);
-			if(!withFuncProc) reportWarning(id.getCoords(), "use function keyword to declare function");
 		}
-	| (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)?
+	| pr=PROCEDURE id=funcOrExtFuncIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
+		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
 		LBRACE
 			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE popScope
 		{
-			id.setDecl(new ProcedureDeclNode(id, evals, params, returnTypes));
+			id.setDecl(new ProcedureDeclNode(id, evals, params, retTypes, false));
 			procedureChilds.addChild(id);
-			if(!withFuncProc) reportWarning(id.getCoords(), "use procedure keyword to declare procedure");
 		}
 	;
 	
@@ -2326,15 +2317,11 @@ textTypes returns [ ModelNode model = null ]
 
 typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs,  CollectNode<IdentNode> externalProcs ]
 	returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false, boolean isEqualClassDefined = false, boolean isLowerClassDefined = false; ]
-	@init {
-		boolean withFuncProc = false;
-	}
 	
 	: (
 		type=typeDecl { types.addChild(type); }
 	  |
-		(FUNCTION { withFuncProc = true; } | PROCEDURE { withFuncProc = true; })? id=funcOrExtFuncIdentDecl params=paramTypes
-		externalFunctionOrProcedureDecl[withFuncProc, id, params, externalFuncs, externalProcs]
+		externalFunctionOrProcedureDecl[externalFuncs, externalProcs]
 	  |
 	    EMIT CLASS SEMI { $isEmitClassDefined = true; }
 	  |
@@ -2346,23 +2333,20 @@ typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs,
 	  )*
 	;
 
-externalFunctionOrProcedureDecl [ boolean withFuncProc, IdentNode id, CollectNode<BaseNode> params,
-									CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs ]
+externalFunctionOrProcedureDecl [ CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs ]
 									returns [ IdentNode res = env.getDummyIdent() ]
 	@init{
 		CollectNode<BaseNode> returnTypes = new CollectNode<BaseNode>();
 	}
-	: COLON ret=returnType SEMI
+	: FUNCTION id=funcOrExtFuncIdentDecl params=paramTypes COLON ret=returnType SEMI
 		{
 			id.setDecl(new ExternalFunctionDeclNode(id, params, ret));
 			externalFuncs.addChild(id);
-			if(!withFuncProc) reportWarning(id.getCoords(), "use function keyword to declare function");
 		}
-	| (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)? SEMI
+	| PROCEDURE id=funcOrExtFuncIdentDecl params=paramTypes (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)? SEMI
 		{
 			id.setDecl(new ExternalProcedureDeclNode(id, params, returnTypes));
 			externalProcs.addChild(id);
-			if(!withFuncProc) reportWarning(id.getCoords(), "use procedure keyword to declare procedure");
 		}
 	;
 
@@ -2560,12 +2544,16 @@ nodeExtendsCont [IdentNode clsId, CollectNode<IdentNode> c ]
 classBody [IdentNode clsId] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
 	:	(
 			(
-				b1=basicAndContainerDecl[c]
+				basicAndContainerDecl[c] SEMI
 			|
-				b3=initExpr { c.addChild(b3); }
+				funcMethod=inClassFunctionDecl { c.addChild(funcMethod); }
 			|
-				b4=constrDecl[clsId] { c.addChild(b4); }
-			) SEMI
+				procMethod=inClassProcedureDecl { c.addChild(procMethod); }
+			|
+				init=initExpr { c.addChild(init); } SEMI
+			|
+				constr=constrDecl[clsId] { c.addChild(constr); } SEMI
+			)
 		)*
 	;
 
@@ -2739,6 +2727,39 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 				)?
 			)
 		)
+	;
+
+inClassFunctionDecl returns [ FunctionDeclNode res = null ]
+	@init{
+		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
+	}
+	
+	: f=FUNCTION id=methodOrExtMethodIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
+		COLON retType=returnType
+		LBRACE
+			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+		RBRACE popScope
+		{
+			res = new FunctionDeclNode(id, evals, params, retType, true);
+			id.setDecl(res);
+		}
+	;
+
+inClassProcedureDecl returns [ ProcedureDeclNode res = null ]
+	@init{
+		CollectNode<BaseNode> retTypes = new CollectNode<BaseNode>();
+		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
+	}
+	
+	: pr=PROCEDURE id=methodOrExtMethodIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
+		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
+		LBRACE
+			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+		RBRACE popScope
+		{
+			res = new ProcedureDeclNode(id, evals, params, retTypes, true);
+			id.setDecl(res);
+		}
 	;
 
 initExpr returns [ MemberInitNode res = null ]
@@ -2952,6 +2973,11 @@ funcOrExtFuncIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
+methodOrExtMethodIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+	: i=IDENT 
+		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
+		( annots=annotations { res.setAnnotations(annots); } )?
+	;
 
 /////////////////////////////////////////////////////////
 // Identifier usages, it is checked, whether the identifier is declared.
@@ -3067,7 +3093,7 @@ options { k = 5; }
 		int ccat = CompoundAssignNode.NONE; // changed compound assign type
 		BaseNode tgtChanged = null;
 		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
-		boolean yielded = false;
+		boolean yielded = false, methodCall = false, attributeMethodCall = false;
 		CollectNode<ExprNode> returnValues = new CollectNode<ExprNode>();
 		CollectNode<ProjectionExprNode> targetProjs = new CollectNode<ProjectionExprNode>();
 		CollectNode<EvalStatementNode> targets = new CollectNode<EvalStatementNode>();
@@ -3091,13 +3117,6 @@ options { k = 5; }
 	|
 	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false] SEMI
 		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, yielded), e, idx); }
-	| 
-	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse DOT method=memberIdentUse params=paramExprs[false] SEMI
-		{ res = new MethodCallNode(new QualIdentNode(getCoords(d), owner, member), method, params); }
-		{ if(onLHS) reportError(getCoords(d), "Method call on an attribute is forbidden in LHS eval, only yield method call to a def variable allowed."); }
-	|
-	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse DOT method=memberIdentUse params=paramExprs[false] SEMI
-		{ res = new MethodCallNode(new IdentExprNode(variable, yielded), method, params); }
 	| 
 	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse 
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
@@ -3146,52 +3165,87 @@ options { k = 5; }
 			{ res=new DoWhileStatementNode(getCoords(d), cs, e); }
 	|
 	  (l=LPAREN tgts=targets[getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
+		( (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse d=DOT { methodCall = true; } (member=entIdentUse DOT { attributeMethodCall = true; })? )?
 		(i=IDENT | i=EMIT) params=paramExprs[false] SEMI
 			{ 
-				if(	i.getText().equals("valloc") && params.getChildren().size()==0
-					|| i.getText().equals("vfree") || i.getText().equals("vfreenonreset") || i.getText().equals("vreset") 
-					|| i.getText().equals("record") || i.getText().equals("emit") || i.getText().equals("highlight") 
-					|| i.getText().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()==3)
-					|| i.getText().equals("rem") || i.getText().equals("clear")
-					|| i.getText().equals("retype") && params.getChildren().size()==2
-					|| i.getText().equals("addCopy") && (params.getChildren().size()==1 || params.getChildren().size()==3)
-					|| i.getText().equals("merge")
-					|| i.getText().equals("redirectSource") || i.getText().equals("redirectTarget")
-					|| i.getText().equals("redirectSourceAndTarget")
-					|| i.getText().equals("startTransaction") && params.getChildren().size()==0
-					|| i.getText().equals("pauseTransaction") || i.getText().equals("resumeTransaction")
-					|| i.getText().equals("commitTransaction") || i.getText().equals("rollbackTransaction")
-					|| i.getText().equals("insert") && params.getChildren().size()==1
-					|| i.getText().equals("insertCopy") && params.getChildren().size()==2
-					|| (i.getText().equals("insertInduced") || i.getText().equals("insertDefined")) && params.getChildren().size()==2
-					|| i.getText().equals("export") && (params.getChildren().size()==1 || params.getChildren().size()==2)
-					)
+				if(!methodCall)
 				{
-					IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
-					ProcedureInvocationNode proc = new ProcedureInvocationNode(procIdent, params, env);
-					ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
-					for(ProjectionExprNode proj : targetProjs.getChildren()) {
-						proj.setProcedure(proc);
+					if(	i.getText().equals("valloc") && params.getChildren().size()==0
+						|| i.getText().equals("vfree") || i.getText().equals("vfreenonreset") || i.getText().equals("vreset") 
+						|| i.getText().equals("record") || i.getText().equals("emit") || i.getText().equals("highlight") 
+						|| i.getText().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()==3)
+						|| i.getText().equals("rem") || i.getText().equals("clear")
+						|| i.getText().equals("retype") && params.getChildren().size()==2
+						|| i.getText().equals("addCopy") && (params.getChildren().size()==1 || params.getChildren().size()==3)
+						|| i.getText().equals("merge")
+						|| i.getText().equals("redirectSource") || i.getText().equals("redirectTarget")
+						|| i.getText().equals("redirectSourceAndTarget")
+						|| i.getText().equals("startTransaction") && params.getChildren().size()==0
+						|| i.getText().equals("pauseTransaction") || i.getText().equals("resumeTransaction")
+						|| i.getText().equals("commitTransaction") || i.getText().equals("rollbackTransaction")
+						|| i.getText().equals("insert") && params.getChildren().size()==1
+						|| i.getText().equals("insertCopy") && params.getChildren().size()==2
+						|| (i.getText().equals("insertInduced") || i.getText().equals("insertDefined")) && params.getChildren().size()==2
+						|| i.getText().equals("export") && (params.getChildren().size()==1 || params.getChildren().size()==2)
+						)
+					{
+						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+						ProcedureInvocationNode proc = new ProcedureInvocationNode(procIdent, params, env);
+						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
+						for(ProjectionExprNode proj : targetProjs.getChildren()) {
+							proj.setProcedure(proc);
+						}
+						for(EvalStatementNode eval : targets.getChildren()) {
+							eval.setCoords(getCoords(a));
+						}
+						ms.addStatement(ra);
+						res = ms;
 					}
-					for(EvalStatementNode eval : targets.getChildren()) {
-						eval.setCoords(getCoords(a));
+					else
+					{
+						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+						ProcedureOrExternalProcedureInvocationNode proc = new ProcedureOrExternalProcedureInvocationNode(procIdent, params);
+						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
+						for(ProjectionExprNode proj : targetProjs.getChildren()) {
+							proj.setProcedure(proc);
+						}
+						for(EvalStatementNode eval : targets.getChildren()) {
+							eval.setCoords(getCoords(a));
+						}
+						ms.addStatement(ra);
+						res = ms;
 					}
-					ms.addStatement(ra);
-					res = ms;
 				}
 				else
 				{
-					IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
-					ProcedureOrExternalProcedureInvocationNode proc = new ProcedureOrExternalProcedureInvocationNode(procIdent, params);
-					ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
-					for(ProjectionExprNode proj : targetProjs.getChildren()) {
-						proj.setProcedure(proc);
+					IdentNode method_ = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
+					if(!attributeMethodCall) 
+					{
+						ProcedureMethodInvocationNode pmi = new ProcedureMethodInvocationNode(new IdentExprNode(variable, yielded), method_, params);
+						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
+						for(ProjectionExprNode proj : targetProjs.getChildren()) {
+							proj.setProcedure(pmi);
+						}
+						for(EvalStatementNode eval : targets.getChildren()) {
+							eval.setCoords(getCoords(a));
+						}
+						ms.addStatement(ra);
+						res = ms;
 					}
-					for(EvalStatementNode eval : targets.getChildren()) {
-						eval.setCoords(getCoords(a));
+					else
+					{
+						ProcedureMethodInvocationNode pmi = new ProcedureMethodInvocationNode(new QualIdentNode(getCoords(d), variable, member), method_, params);
+						if(onLHS) reportError(getCoords(d), "Method call on an attribute is forbidden in LHS eval, only yield method call to a def variable allowed.");
+						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
+						for(ProjectionExprNode proj : targetProjs.getChildren()) {
+							proj.setProcedure(pmi);
+						}
+						for(EvalStatementNode eval : targets.getChildren()) {
+							eval.setCoords(getCoords(a));
+						}
+						ms.addStatement(ra);
+						res = ms;
 					}
-					ms.addStatement(ra);
-					res = ms;
 				}
 			}
 	|

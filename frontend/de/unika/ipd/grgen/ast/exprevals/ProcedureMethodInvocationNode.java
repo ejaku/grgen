@@ -18,18 +18,18 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ir.IR;
 
-public class MethodCallNode extends EvalStatementNode
+public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(MethodCallNode.class, "method call eval statement");
+		setName(ProcedureMethodInvocationNode.class, "procedure method invocation statement");
 	}
 
 	private BaseNode target;
 	private IdentNode methodIdent;
 	private CollectNode<ExprNode> params;
-	private EvalStatementNode result;
+	private ProcedureMethodInvocationBaseNode result;
 
-	public MethodCallNode(BaseNode target, IdentNode methodIdent, CollectNode<ExprNode> params)
+	public ProcedureMethodInvocationNode(BaseNode target, IdentNode methodIdent, CollectNode<ExprNode> params)
 	{
 		super(methodIdent.getCoords());
 		this.target = becomeParent(target);
@@ -69,9 +69,11 @@ public class MethodCallNode extends EvalStatementNode
 		if(target instanceof QualIdentNode) {
 			targetQual = (QualIdentNode)target;
 			targetType = targetQual.getDecl().getDeclType();
-		} else {
+		} else if(((IdentExprNode)target).decl instanceof VarDeclNode) {
 			targetVar = (VarDeclNode)((IdentExprNode)target).decl;
 			targetType = targetVar.getDeclType();
+		} else {
+			targetType = ((IdentExprNode)target).getType();
 		}
 
 		if(targetType instanceof MapTypeNode) {
@@ -84,7 +86,7 @@ public class MethodCallNode extends EvalStatementNode
   					if(targetQual!=null)
   						result = new MapAddItemNode(getCoords(), targetQual, params.get(0), params.get(1));
   					else
-  						result = new MapVarAddItemNode(getCoords(), targetVar, params.get(0), params.get(1));
+  						result = new MapAddItemNode(getCoords(), targetVar, params.get(0), params.get(1));
   				}
   			}
 			else if(methodName.equals("rem")) {
@@ -96,7 +98,7 @@ public class MethodCallNode extends EvalStatementNode
   					if(targetQual!=null)
   						result = new MapRemoveItemNode(getCoords(), targetQual, params.get(0));
   					else
-  						result = new MapVarRemoveItemNode(getCoords(), targetVar, params.get(0));
+  						result = new MapRemoveItemNode(getCoords(), targetVar, params.get(0));
   				}
 			}
 			else if(methodName.equals("clear")) {
@@ -108,7 +110,7 @@ public class MethodCallNode extends EvalStatementNode
   					if(targetQual!=null)
   						result = new MapClearNode(getCoords(), targetQual);
   					else
-  						result = new MapVarClearNode(getCoords(), targetVar);
+  						result = new MapClearNode(getCoords(), targetVar);
   				}
 			}
   			else {
@@ -126,7 +128,7 @@ public class MethodCallNode extends EvalStatementNode
   					if(targetQual!=null)
   						result = new SetAddItemNode(getCoords(), targetQual, params.get(0));
   					else
-  						result = new SetVarAddItemNode(getCoords(), targetVar, params.get(0));
+  						result = new SetAddItemNode(getCoords(), targetVar, params.get(0));
   				}
 			}
 			else if(methodName.equals("rem")) {
@@ -138,7 +140,7 @@ public class MethodCallNode extends EvalStatementNode
   					if(targetQual!=null)
   						result = new SetRemoveItemNode(getCoords(), targetQual, params.get(0));
   					else
-  						result = new SetVarRemoveItemNode(getCoords(), targetVar, params.get(0));
+  						result = new SetRemoveItemNode(getCoords(), targetVar, params.get(0));
   				}
 			}
 			else if(methodName.equals("clear")) {
@@ -150,7 +152,7 @@ public class MethodCallNode extends EvalStatementNode
   					if(targetQual!=null)
   						result = new SetClearNode(getCoords(), targetQual);
   					else
-  						result = new SetVarClearNode(getCoords(), targetVar);
+  						result = new SetClearNode(getCoords(), targetVar);
   				}
 			}
   			else {
@@ -168,7 +170,7 @@ public class MethodCallNode extends EvalStatementNode
   					if(targetQual!=null)
   						result = new ArrayAddItemNode(getCoords(), targetQual, params.get(0), params.size()!=1 ? params.get(1) : null);
   					else
-  						result = new ArrayVarAddItemNode(getCoords(), targetVar, params.get(0), params.size()!=1 ? params.get(1) : null);
+  						result = new ArrayAddItemNode(getCoords(), targetVar, params.get(0), params.size()!=1 ? params.get(1) : null);
   				}
 			}
 			else if(methodName.equals("rem")) {
@@ -180,7 +182,7 @@ public class MethodCallNode extends EvalStatementNode
   					if(targetQual!=null)
   						result = new ArrayRemoveItemNode(getCoords(), targetQual, params.size()!=0 ? params.get(0) : null);
   					else
-  						result = new ArrayVarRemoveItemNode(getCoords(), targetVar, params.size()!=0 ? params.get(0) : null);
+  						result = new ArrayRemoveItemNode(getCoords(), targetVar, params.size()!=0 ? params.get(0) : null);
   				}
 			}
 			else if(methodName.equals("clear")) {
@@ -192,7 +194,7 @@ public class MethodCallNode extends EvalStatementNode
   					if(targetQual!=null)
   						result = new ArrayClearNode(getCoords(), targetQual);
   					else
-  						result = new ArrayVarClearNode(getCoords(), targetVar);
+  						result = new ArrayClearNode(getCoords(), targetVar);
   				}
 			}
 		}
@@ -206,7 +208,7 @@ public class MethodCallNode extends EvalStatementNode
   					if(targetQual!=null)
   						result = new DequeAddItemNode(getCoords(), targetQual, params.get(0), params.size()!=1 ? params.get(1) : null);
   					else
-  						result = new DequeVarAddItemNode(getCoords(), targetVar, params.get(0), params.size()!=1 ? params.get(1) : null);
+  						result = new DequeAddItemNode(getCoords(), targetVar, params.get(0), params.size()!=1 ? params.get(1) : null);
   				}
 			}
 			else if(methodName.equals("rem")) {
@@ -218,7 +220,7 @@ public class MethodCallNode extends EvalStatementNode
   					if(targetQual!=null)
   						result = new DequeRemoveItemNode(getCoords(), targetQual, params.size()!=0 ? params.get(0) : null);
   					else
-  						result = new DequeVarRemoveItemNode(getCoords(), targetVar, params.size()!=0 ? params.get(0) : null);
+  						result = new DequeRemoveItemNode(getCoords(), targetVar, params.size()!=0 ? params.get(0) : null);
   				}
 			}
 			else if(methodName.equals("clear")) {
@@ -230,9 +232,13 @@ public class MethodCallNode extends EvalStatementNode
   					if(targetQual!=null)
   						result = new DequeClearNode(getCoords(), targetQual);
   					else
-  						result = new DequeVarClearNode(getCoords(), targetVar);
+  						result = new DequeClearNode(getCoords(), targetVar);
   				}
 			}
+		}
+		else if(targetType instanceof InheritanceTypeNode) {
+			// METHOD-TODO
+			result = new ProcedureMethodOrExternalProcedureMethodInvocationNode(((IdentExprNode)target).getIdent(), methodIdent, params);
 		}
 		else {
 			reportError(targetType.toString() + " does not have any methods");
@@ -248,6 +254,14 @@ public class MethodCallNode extends EvalStatementNode
 
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
 		return true;
+	}
+	
+	public Vector<TypeNode> getType() {
+		return result.getType();
+	}
+
+	public int getNumReturnTypes() {
+		return result.getType().size();
 	}
 
 	@Override

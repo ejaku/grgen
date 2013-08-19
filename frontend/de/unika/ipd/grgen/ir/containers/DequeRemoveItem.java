@@ -16,7 +16,7 @@ import java.util.HashSet;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class DequeRemoveItem extends EvalStatement {
+public class DequeRemoveItem extends ProcedureInvocationBase {
 	Qualification target;
 	Expression indexExpr;
 
@@ -32,6 +32,10 @@ public class DequeRemoveItem extends EvalStatement {
 
 	public Expression getIndexExpr() {
 		return indexExpr;
+	}
+
+	public ProcedureBase getProcedureBase() {
+		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

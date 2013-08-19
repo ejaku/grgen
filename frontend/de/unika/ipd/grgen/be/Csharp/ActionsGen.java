@@ -876,9 +876,9 @@ public class ActionsGen extends CSharpBase {
 				ReturnStatement returnStmt = (ReturnStatement)eval;
 				returnStmt.getReturnValueExpr().collectNeededEntities(needs);
 			}
-			else if(eval instanceof ReturnStatementComputation) {
-				ReturnStatementComputation returnStmtComp = (ReturnStatementComputation)eval;
-				for(Expression returnValueExpr : returnStmtComp.getReturnValueExpr()) {
+			else if(eval instanceof ReturnStatementProcedure) {
+				ReturnStatementProcedure returnStmtProc = (ReturnStatementProcedure)eval;
+				for(Expression returnValueExpr : returnStmtProc.getReturnValueExpr()) {
 					returnValueExpr.collectNeededEntities(needs);
 				}
 			}
@@ -2561,6 +2561,54 @@ public class ActionsGen extends CSharpBase {
 			sb.append("new String[] {");
 			for(int i=0; i<efi.arity(); ++i) {
 				Expression argument = efi.getArgument(i);
+				if(argument.getType() instanceof InheritanceType) {
+					sb.append("\"" + formatElementInterfaceRef(argument.getType()) + "\"");
+				} else {
+					sb.append("null");
+				}
+				sb.append(", ");
+			}
+			sb.append("}");
+			sb.append(")");
+		}
+		else if (expr instanceof FunctionMethodInvocationExpr) {
+			FunctionMethodInvocationExpr fmi = (FunctionMethodInvocationExpr) expr;
+			sb.append("new GRGEN_EXPR.FunctionMethodInvocation(\"" + formatElementInterfaceRef(fmi.getOwner().getType()) + "\","
+					+ " \"" + formatEntity(fmi.getOwner(), pathPrefix, alreadyDefinedEntityToName) + "\","
+					+ " \"" + fmi.getFunction().getIdent() + "\", new GRGEN_EXPR.Expression[] {");
+			for(int i=0; i<fmi.arity(); ++i) {
+				Expression argument = fmi.getArgument(i);
+				genExpressionTree(sb, argument, className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", ");
+			}
+			sb.append("}, ");
+			sb.append("new String[] {");
+			for(int i=0; i<fmi.arity(); ++i) {
+				Expression argument = fmi.getArgument(i);
+				if(argument.getType() instanceof InheritanceType) {
+					sb.append("\"" + formatElementInterfaceRef(argument.getType()) + "\"");
+				} else {
+					sb.append("null");
+				}
+				sb.append(", ");
+			}
+			sb.append("}");
+			sb.append(")");
+		}
+		else if (expr instanceof ExternalFunctionMethodInvocationExpr) {
+			ExternalFunctionMethodInvocationExpr efmi = (ExternalFunctionMethodInvocationExpr)expr;
+			sb.append("new GRGEN_EXPR.ExternalFunctionMethodInvocation(\"" + formatElementInterfaceRef(efmi.getOwner().getType()) + "\","
+					+ " \"" + formatEntity(efmi.getOwner(), pathPrefix, alreadyDefinedEntityToName) + "\","
+					+ " \"" + efmi.getExternalFunc().getIdent() + "\", new GRGEN_EXPR.Expression[] {");
+			for(int i=0; i<efmi.arity(); ++i) {
+				Expression argument = efmi.getArgument(i);
+				genExpressionTree(sb, argument, className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", ");
+			}
+			sb.append("}, ");
+			sb.append("new String[] {");
+			for(int i=0; i<efmi.arity(); ++i) {
+				Expression argument = efmi.getArgument(i);
 				if(argument.getType() instanceof InheritanceType) {
 					sb.append("\"" + formatElementInterfaceRef(argument.getType()) + "\"");
 				} else {

@@ -152,6 +152,15 @@ public class UnitNode extends BaseNode {
 	protected boolean checkLocal() {
 		Checker modelChecker = new CollectChecker(new SimpleChecker(ModelNode.class));
 		boolean res = modelChecker.check(models, error);
+		for(ModelNode model : models.getChildren()) {
+			for(TypeDeclNode typeDecl : model.getTypeDecls().getChildren()) {
+				DeclaredTypeNode declType = typeDecl.getDeclType();
+				if(declType instanceof InheritanceTypeNode) {
+					InheritanceTypeNode inhType = (InheritanceTypeNode)declType;
+					res &= inhType.checkStatementsInMethods();
+				}
+			}
+		}
 		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {	
 			res &= checkStatementsLHS(subpattern, subpattern.pattern);
 			if(subpattern.right.size()>0)

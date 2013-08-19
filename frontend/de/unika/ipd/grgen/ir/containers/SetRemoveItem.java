@@ -15,7 +15,7 @@ import java.util.HashSet;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class SetRemoveItem extends EvalStatement {
+public class SetRemoveItem extends ProcedureInvocationBase {
 	Qualification target;
 	Expression valueExpr;
 
@@ -31,6 +31,10 @@ public class SetRemoveItem extends EvalStatement {
 
 	public Expression getValueExpr() {
 		return valueExpr;
+	}
+
+	public ProcedureBase getProcedureBase() {
+		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

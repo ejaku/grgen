@@ -16,7 +16,7 @@ import java.util.HashSet;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayAddItem extends EvalStatement {
+public class ArrayAddItem extends ProcedureInvocationBase {
 	Qualification target;
     Expression valueExpr;
     Expression indexExpr;
@@ -38,6 +38,10 @@ public class ArrayAddItem extends EvalStatement {
 
 	public Expression getIndexExpr() {
 		return indexExpr;
+	}
+
+	public ProcedureBase getProcedureBase() {
+		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
