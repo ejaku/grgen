@@ -17,11 +17,10 @@ rule r
 	}
 }
 
-/*
 rule s
 {
 	-e:E->;
-	if{ e.foo(13)<42; }
+	if{ e.name!="foo" && e.foo(13)<42; }
 	if{ e.qux()=="foo"; }
 	
 	modify {
@@ -34,4 +33,3 @@ rule s
 		}
 	}
 }
-*/
