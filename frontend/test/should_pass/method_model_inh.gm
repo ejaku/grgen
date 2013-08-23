@@ -1,6 +1,5 @@
 node class N
 {
-	name:string;
 	counter:int;
 	
 	function foo(var x:int) : int
@@ -11,24 +10,30 @@ node class N
 	procedure bar(var x:int, var y:int) : (int, int)
 	{
 		return (this.counter + x, this.counter - y);
-	}
+	}	
+}
+
+node class NN extends N
+{
+	name:string;
 	
 	procedure baz()
 	{
 		this.counter = this.counter + 1;
 		this.name = this.name + "baz";
+		def var x:int = 1;
+		(x,this.counter) = this.bar(this.counter,x);
 		return;
 	}
 	
 	function qux() : string
 	{
-		return(this.name);
+		return(this.counter != this.foo(this.counter) ? this.name : this.name + "42");
 	}
 }
 
 edge class E
 {
-	name:string;
 	counter:int;
 	
 	function foo(var x:int) : int
@@ -39,17 +44,24 @@ edge class E
 	procedure bar(var x:int, var y:int) : (int, int)
 	{
 		return (this.counter + x, this.counter - y);
-	}
+	}	
+}
+
+edge class EE extends E
+{
+	name:string;
 	
 	procedure baz()
 	{
 		this.counter = this.counter + 1;
 		this.name = this.name + "baz";
+		def var x:int = 1;
+		(x,this.counter) = this.bar(this.counter,x);
 		return;
 	}
 	
 	function qux() : string
 	{
-		return(this.name);
+		return(this.counter != this.foo(this.counter) ? this.name : this.name + "42");
 	}
 }

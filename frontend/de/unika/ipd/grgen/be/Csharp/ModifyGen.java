@@ -1848,6 +1848,7 @@ public class ModifyGen extends CSharpBase {
 			genAssignmentGraphEntity(sb, state, (AssignmentGraphEntity) evalStmt);
 		}
 		else if(evalStmt instanceof AssignmentMember) {
+			// currently unused, would be needed for member assignment inside method without "this." prefix
 			genAssignmentMember(sb, state, (AssignmentMember) evalStmt);
 		}
 		else if(evalStmt instanceof AssignmentVisited) {

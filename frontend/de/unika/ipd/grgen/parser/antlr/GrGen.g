@@ -1938,7 +1938,7 @@ seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 			{ res = new MemberAccessExprNode(getCoords(d), new IdentExprNode((IdentNode)target), attr); }
 		sel=seqExprSelector[res, xg] { res = sel; }
 	| (xgrsConstant[null]) => exp=xgrsConstant[xg] { res = (ExprNode)exp; }
-	| THIS { xg.append("this"); }
+	| {input.LT(1).getText().equals("this")}? i=IDENT { xg.append("this"); }
 	| (functionCall[null]) => fc=functionCall[xg]
 			 { res = fc; }
 	| (xgrsVarUse[null]) => target=xgrsVarUse[xg]
@@ -2399,7 +2399,7 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 		EDGE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
 	  	ext=edgeExtends[id, arbitrary, undirected] cas=connectAssertions pushScope[id]
 		(
-			LBRACE body=classBody[id] RBRACE
+			LBRACE body=classBody[id, false] RBRACE
 		|	SEMI
 			{ body = new CollectNode<BaseNode>(); }
 		)
@@ -2425,7 +2425,7 @@ nodeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	: 	NODE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
 	  	ext=nodeExtends[id] pushScope[id]
 		(
-			LBRACE body=classBody[id] RBRACE
+			LBRACE body=classBody[id, true] RBRACE
 		|	SEMI
 			{ body = new CollectNode<BaseNode>(); }
 		)
@@ -2541,14 +2541,14 @@ nodeExtendsCont [IdentNode clsId, CollectNode<IdentNode> c ]
 		{ if ( c.getChildren().size() == 0 ) c.addChild(env.getNodeRoot()); }
 	;
 
-classBody [IdentNode clsId] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
+classBody [IdentNode clsId, boolean isNode] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
 	:	(
 			(
 				basicAndContainerDecl[c] SEMI
 			|
-				funcMethod=inClassFunctionDecl { c.addChild(funcMethod); }
+				funcMethod=inClassFunctionDecl[clsId, isNode] { c.addChild(funcMethod); }
 			|
-				procMethod=inClassProcedureDecl { c.addChild(procMethod); }
+				procMethod=inClassProcedureDecl[clsId, isNode] { c.addChild(procMethod); }
 			|
 				init=initExpr { c.addChild(init); } SEMI
 			|
@@ -2729,7 +2729,7 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 		)
 	;
 
-inClassFunctionDecl returns [ FunctionDeclNode res = null ]
+inClassFunctionDecl [ IdentNode clsId, boolean isNode ] returns [ FunctionDeclNode res = null ]
 	@init{
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
 	}
@@ -2737,6 +2737,12 @@ inClassFunctionDecl returns [ FunctionDeclNode res = null ]
 	: f=FUNCTION id=methodOrExtMethodIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
 		COLON retType=returnType
 		LBRACE
+			{
+				if(isNode)
+					evals.addChild(new DefDeclStatementNode(getCoords(f), new SingleNodeConnNode(new NodeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))), new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())), false, BaseNode.CONTEXT_COMPUTATION, TypeExprNode.getEmpty(), PatternGraphNode.getInvalid(), false, true)), BaseNode.CONTEXT_COMPUTATION));
+				else
+					evals.addChild(new DefDeclStatementNode(getCoords(f), new ConnectionNode(env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()), new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))), new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())), false, BaseNode.CONTEXT_COMPUTATION, TypeExprNode.getEmpty(), PatternGraphNode.getInvalid(), false, true), env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()), ConnectionNode.DIRECTED, ConnectionNode.NO_REDIRECTION), BaseNode.CONTEXT_COMPUTATION));
+			}
 			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE popScope
 		{
@@ -2745,7 +2751,7 @@ inClassFunctionDecl returns [ FunctionDeclNode res = null ]
 		}
 	;
 
-inClassProcedureDecl returns [ ProcedureDeclNode res = null ]
+inClassProcedureDecl [ IdentNode clsId, boolean isNode ] returns [ ProcedureDeclNode res = null ]
 	@init{
 		CollectNode<BaseNode> retTypes = new CollectNode<BaseNode>();
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
@@ -2754,6 +2760,12 @@ inClassProcedureDecl returns [ ProcedureDeclNode res = null ]
 	: pr=PROCEDURE id=methodOrExtMethodIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
 		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
 		LBRACE
+			{
+				if(isNode)
+					evals.addChild(new DefDeclStatementNode(getCoords(pr), new SingleNodeConnNode(new NodeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))), new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())), false, BaseNode.CONTEXT_COMPUTATION, TypeExprNode.getEmpty(), PatternGraphNode.getInvalid(), false, true)), BaseNode.CONTEXT_COMPUTATION));
+				else
+					evals.addChild(new DefDeclStatementNode(getCoords(pr), new ConnectionNode(env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()), new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))), new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())), false, BaseNode.CONTEXT_COMPUTATION, TypeExprNode.getEmpty(), PatternGraphNode.getInvalid(), false, true), env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()), ConnectionNode.DIRECTED, ConnectionNode.NO_REDIRECTION), BaseNode.CONTEXT_COMPUTATION));
+			}
 			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE popScope
 		{
@@ -3539,7 +3551,6 @@ options { k = 4; }
 	| e=identExpr { res = e; }
 	| e=globalsAccessExpr { res = e; }
 	| e=constant { res = e; }
-	| e=thisExpr { res = e; }
 	| e=enumItemExpr { res = e; }
 	| e=typeOf { res = e; }
 	| e=initContainerExpr { res = e; }
@@ -3628,21 +3639,21 @@ constant returns [ ExprNode res = env.initExprNode() ]
 		{ res = new NullConstNode(getCoords(n)); }
 	;
 
-thisExpr returns [ ExprNode res = env.initExprNode() ]
-	: t=THIS { res = new ThisExprNode(getCoords(t)); }
-	;
-
 identExpr returns [ ExprNode res = env.initExprNode() ]
 	@init{ IdentNode id; }
 
 	: i=IDENT
 		{
-			// Entity names can overwrite type names
-			if(env.test(ParserEnvironment.ENTITIES, i.getText()) || !env.test(ParserEnvironment.TYPES, i.getText()))
-				id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-			else
-				id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
-			res = new IdentExprNode(id);
+			if(i.getText().equals("this") && !env.test(ParserEnvironment.ENTITIES, "this"))
+				res = new ThisExprNode(getCoords(i));
+			else {
+				// Entity names can overwrite type names
+				if(env.test(ParserEnvironment.ENTITIES, i.getText()) || !env.test(ParserEnvironment.TYPES, i.getText()))
+					id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
+				else
+					id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
+				res = new IdentExprNode(id);
+			}
 		}
 	;
 
@@ -3992,7 +4003,6 @@ RULE : 'rule';
 SEQUENCE : 'sequence';
 SET : 'set';
 TEST : 'test';
-THIS : 'this';
 TRUE : 'true';
 TYPEOF : 'typeof';
 UNDIRECTED : 'undirected';

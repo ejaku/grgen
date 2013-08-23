@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents an assignment statement in the IR.
  */
+//currently unused, would be needed for member assignment inside method without "this." prefix
 public class AssignmentMember extends AssignmentBase {
 
 	/** The lhs of the assignment. */
