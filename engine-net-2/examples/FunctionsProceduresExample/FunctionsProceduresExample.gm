@@ -1,0 +1,65 @@
+node class N
+{
+	i:int;
+	
+	function foo(var j:int) : int
+	{
+		return(this.i + j + 1);
+	}
+	
+	procedure bar(var j:int)
+	{
+		this.i = j;
+		return;
+	}
+}
+
+node class NN extends N
+{
+	s:string;
+
+	function foo(var j:int) : int
+	{
+		return(this.i + j + this.s.length());
+	}
+	
+	procedure bla(var t:string) : (string)
+	{
+		def var stemp:string = this.s;
+		this.s = t;
+		return(stemp);
+	}
+}
+
+edge class E
+{
+	i:int;
+	
+	function foo(var j:int) : int
+	{
+		return(this.i + j + 1);
+	}
+	
+	procedure bar(var j:int)
+	{
+		this.i = j;
+		return;
+	}
+}
+
+edge class EE extends E
+{
+	s:string;
+
+	function foo(var j:int) : int
+	{
+		return(this.i + j + this.s.length());
+	}
+	
+	procedure bla(var t:string) : (string)
+	{
+		def var stemp:string = this.s;
+		this.s = t;
+		return(stemp);
+	}
+}
