@@ -4620,7 +4620,7 @@ namespace de.unika.ipd.grGen.lgsp
                 && ex.Kind != SequenceParserError.FilterError
                 && ex.Kind != SequenceParserError.OperatorNotFound)
             {
-                Console.Error.WriteLine("Unknown rule/sequence: \"{0}\"", ex.Name);
+                Console.Error.WriteLine("Unknown " + ex.DefinitionTypeName + ": \"{0}\"", ex.Name);
                 return;
             }
 
@@ -4628,21 +4628,21 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 case SequenceParserError.BadNumberOfParametersOrReturnParameters:
                     if(rulesToInputTypes[ex.Name].Count != ex.NumGivenInputs && rulesToOutputTypes[ex.Name].Count != ex.NumGivenOutputs)
-                        Console.Error.WriteLine("Wrong number of parameters and return values for action/sequence \"" + ex.Name + "\"!");
+                        Console.Error.WriteLine("Wrong number of parameters and return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                     else if(rulesToInputTypes[ex.Name].Count != ex.NumGivenInputs)
-                        Console.Error.WriteLine("Wrong number of parameters for action/sequence \"" + ex.Name + "\"!");
+                        Console.Error.WriteLine("Wrong number of parameters for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                     else if(rulesToOutputTypes[ex.Name].Count != ex.NumGivenOutputs)
-                        Console.Error.WriteLine("Wrong number of return values for action/sequence \"" + ex.Name + "\"!");
+                        Console.Error.WriteLine("Wrong number of return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                     else
                         goto default;
                     break;
 
                 case SequenceParserError.BadParameter:
-                    Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". parameter is not valid for action/sequence \"" + ex.Name + "\"!");
+                    Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". parameter is not valid for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                     break;
 
                 case SequenceParserError.BadReturnParameter:
-                    Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". return parameter is not valid for action/sequence \"" + ex.Name + "\"!");
+                    Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". return parameter is not valid for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                     break;
 
                 case SequenceParserError.FilterError:
@@ -4673,31 +4673,65 @@ namespace de.unika.ipd.grGen.lgsp
                     throw new ArgumentException("Invalid error kind: " + ex.Kind);
             }
 
-            // todo: Sequence
-            Console.Error.Write("Prototype: {0}", ex.Name);
-            if(rulesToInputTypes[ex.Name].Count != 0)
+            if(rulesToInputTypes.ContainsKey(ex.Name))
+            {
+                Console.Error.Write("Signature of rule/test: {0}", ex.Name);
+                PrintInputParams(rulesToInputTypes[ex.Name]);
+                PrintOutputParams(rulesToOutputTypes[ex.Name]);
+                Console.Error.WriteLine();
+            }
+            else if(sequencesToInputTypes.ContainsKey(ex.Name))
+            {
+                Console.Error.Write("Signature of sequence: {0}", ex.Name);
+                PrintInputParams(sequencesToInputTypes[ex.Name]);
+                PrintOutputParams(sequencesToOutputTypes[ex.Name]);
+                Console.Error.WriteLine();
+            }
+            else if(proceduresToInputTypes.ContainsKey(ex.Name))
+            {
+                Console.Error.Write("Signature procedure: {0}", ex.Name);
+                PrintInputParams(proceduresToInputTypes[ex.Name]);
+                PrintOutputParams(proceduresToOutputTypes[ex.Name]);
+                Console.Error.WriteLine();
+            }
+            else if(functionsToInputTypes.ContainsKey(ex.Name))
+            {
+                Console.Error.Write("Signature of function: {0}", ex.Name);
+                PrintInputParams(functionsToInputTypes[ex.Name]);
+                Console.Error.Write(" : ");
+                Console.Error.Write(functionsToOutputType[ex.Name]);
+                Console.Error.WriteLine();
+            }
+        }
+
+        void PrintInputParams(List<String> nameToInputTypes)
+        {
+            if(nameToInputTypes.Count != 0)
             {
                 Console.Error.Write("(");
                 bool first = true;
-                foreach(String typeName in rulesToInputTypes[ex.Name])
+                foreach(String typeName in nameToInputTypes)
                 {
                     Console.Error.Write("{0}{1}", first ? "" : ", ", typeName);
                     first = false;
                 }
                 Console.Error.Write(")");
             }
-            if(rulesToOutputTypes[ex.Name].Count != 0)
+        }
+
+        void PrintOutputParams(List<String> nameToOutputTypes)
+        {
+            if(nameToOutputTypes.Count != 0)
             {
                 Console.Error.Write(" : (");
                 bool first = true;
-                foreach(String typeName in rulesToOutputTypes[ex.Name])
+                foreach(String typeName in nameToOutputTypes)
                 {
                     Console.Error.Write("{0}{1}", first ? "" : ", ", typeName);
                     first = false;
                 }
                 Console.Error.Write(")");
             }
-            Console.Error.WriteLine();
         }
     }
 }
