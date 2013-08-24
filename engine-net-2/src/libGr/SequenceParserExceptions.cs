@@ -30,17 +30,17 @@ namespace de.unika.ipd.grGen.libGr
         UnknownFunction,
 
         /// <summary>
-        /// The number of parameters and/or return parameters does not match the action.
+        /// The number of parameters and/or return parameters does not match the signature of the definition.
         /// </summary>
         BadNumberOfParametersOrReturnParameters,
 
         /// <summary>
-        /// The type of a parameter does not match the signature of the action.
+        /// The type of a parameter does not match the signature of the definition.
         /// </summary>
         BadParameter,
 
         /// <summary>
-        /// The type of a return parameter does not match the signature of the action.
+        /// The type of a return parameter does not match the signature of the definition.
         /// </summary>
         BadReturnParameter,
 
@@ -95,6 +95,15 @@ namespace de.unika.ipd.grGen.libGr
         UnknownRule
     }
 
+    public enum DefinitionType
+    {
+        Unknown,
+        Action,
+        Sequence,
+        Procedure,
+        Function
+    }
+
     /// <summary>
     /// An exception thrown by SequenceParser,
     /// describing the error, e.g. which rule caused the problem and how it was used
@@ -107,7 +116,12 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceParserError Kind;
 
         /// <summary>
-        /// The name of the rule/sequence.
+        /// The type of the definition that caused the error, Unknown if no definition was involved.
+        /// </summary>
+        public DefinitionType DefType = DefinitionType.Unknown;
+
+        /// <summary>
+        /// The name of the definition (rule/test/sequence/procedure/function/procedure method/function method).
         /// </summary>
         public String Name;
 
@@ -233,6 +247,7 @@ namespace de.unika.ipd.grGen.libGr
             NumGivenInputs = paramBindings.Arguments.Length;
             NumGivenOutputs = paramBindings.ReturnVars.Length;
             BadParamIndex = badParamIndex;
+            ClassifyDefinitionType(paramBindings);
         }
 
         /// <summary>
@@ -259,6 +274,7 @@ namespace de.unika.ipd.grGen.libGr
             Name = paramBindings.Name;
             NumGivenInputs = paramBindings.Arguments.Length;
             BadParamIndex = badParamIndex;
+            ClassifyDefinitionType(paramBindings);
         }
 
         /// <summary>
@@ -323,24 +339,24 @@ namespace de.unika.ipd.grGen.libGr
                     if (this.Action.RulePattern.Inputs.Length != this.NumGivenInputs &&
                         this.Action.RulePattern.Outputs.Length != this.NumGivenOutputs)
                     {
-                        return "Wrong number of parameters and return values for action \"" + this.Name + "\"!";
+                        return "Wrong number of parameters and return values for " + DefinitionTypeName + " \"" + this.Name + "\"!";
                     } else if (this.Action.RulePattern.Inputs.Length != this.NumGivenInputs) {
-                        return "Wrong number of parameters for action \"" + this.Name + "\"!";
+                        return "Wrong number of parameters for " + DefinitionTypeName + " \"" + this.Name + "\"!";
                     } else if (this.Action.RulePattern.Outputs.Length != this.NumGivenOutputs) {
-                        return "Wrong number of return values for action \"" + this.Name + "\"!";
+                        return "Wrong number of return values for " + DefinitionTypeName + " \"" + this.Name + "\"!";
                     } else {
                         goto default;
                     }
                     // TODO: sequence
 
                 case SequenceParserError.BadParameter:
-                    return "The " + (this.BadParamIndex + 1) + ". parameter is not valid for action/sequence \"" + this.Name + "\"!";
+                    return "The " + (this.BadParamIndex + 1) + ". parameter is not valid for " + DefinitionTypeName + " \"" + this.Name + "\"!";
 
                 case SequenceParserError.BadReturnParameter:
-                    return "The " + (this.BadParamIndex + 1) + ". return parameter is not valid for action/sequence \"" + this.Name + "\"!";
+                    return "The " + (this.BadParamIndex + 1) + ". return parameter is not valid for " + DefinitionTypeName + " \"" + this.Name + "\"!";
 
                 case SequenceParserError.RuleNameUsedByVariable:
-                    return "The name of the variable conflicts with the name of action/sequence \"" + this.Name + "\"!";
+                    return "The name of the variable conflicts with the name of " + DefinitionTypeName + " \"" + this.Name + "\"!";
 
                 case SequenceParserError.VariableUsedWithParametersOrReturnParameters:
                     return "The variable \"" + this.Name + "\" may neither receive parameters nor return values!";
@@ -371,6 +387,38 @@ namespace de.unika.ipd.grGen.libGr
 
                 default:
                     return "Invalid error kind: " + this.Kind;
+                }
+            }
+        }
+
+        void ClassifyDefinitionType(InvocationParameterBindings paramBindings)
+        {
+            if(paramBindings is RuleInvocationParameterBindings)
+                DefType = DefinitionType.Action;
+            else if(paramBindings is SequenceInvocationParameterBindings)
+                DefType = DefinitionType.Sequence;
+            else if(paramBindings is ProcedureInvocationParameterBindings)
+                DefType = DefinitionType.Procedure;
+            else if(paramBindings is FunctionInvocationParameterBindings)
+                DefType = DefinitionType.Function;
+        }
+
+        public string DefinitionTypeName
+        {
+            get
+            {
+                switch(DefType)
+                {
+                    case DefinitionType.Action:
+                        return "rule/test";
+                    case DefinitionType.Sequence:
+                        return "sequence";
+                    case DefinitionType.Procedure:
+                        return "procedure";
+                    case DefinitionType.Function:
+                        return "function";
+                    default:
+                        return "definition";
                 }
             }
         }
