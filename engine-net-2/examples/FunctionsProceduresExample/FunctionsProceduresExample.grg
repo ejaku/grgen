@@ -1,0 +1,38 @@
+using FunctionsProceduresExample;
+
+rule init
+{
+	replace {
+		nn:NN -:EE-> nn;
+	}
+}
+
+rule r
+{
+	nn:NN -ee:EE-> nn;
+
+	modify {
+		eval {
+			def var tmp:string = "bla";
+			(tmp)=nn.bla(tmp);
+			(tmp)=ee.bla(tmp);
+		}
+	}
+}
+
+function hur(nn:NN, -ee:EE->) : int
+{
+	return(nn.foo(42) + ee.foo(42));
+}
+
+procedure dur(nn:NN, -ee:EE->) : (N, E)
+{
+	nn.bar(42);
+	ee.bar(42);
+	return(nn,ee);
+}
+
+sequence s(nn:NN, ee:EE) : (no:N, eo:E)
+{
+	r() ;> { (no,eo)=dur(nn,ee) } ;> { dur(nn,ee) }
+}
