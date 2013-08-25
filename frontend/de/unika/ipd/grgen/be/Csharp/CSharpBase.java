@@ -322,6 +322,14 @@ public abstract class CSharpBase {
 	public String formatAttributeTypeName(Entity e) {
 		return "AttributeType_" + formatIdentifiable(e);
 	}
+	
+	public String formatFunctionMethodInfoName(FunctionMethod fm, InheritanceType type) {
+		return "FunctionMethodInfo_" + formatIdentifiable(fm) + "_" + formatIdentifiable(type);
+	}
+
+	public String formatProcedureMethodInfoName(ProcedureMethod pm, InheritanceType type) {
+		return "ProcedureMethodInfo_" + formatIdentifiable(pm) + "_" + formatIdentifiable(type);
+	}
 
 	public String formatType(Type type) {
 		if(type instanceof InheritanceType) {

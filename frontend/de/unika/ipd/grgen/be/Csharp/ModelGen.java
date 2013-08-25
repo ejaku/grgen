@@ -297,7 +297,7 @@ public class ModelGen extends CSharpBase {
 		sb.append("\n");
 		sb.append("\t{\n");
 		genAttributeAccess(type, type.getMembers(), "");
-		genMethods(type, type.getFunctionMethods(), type.getProcedureMethods(), "");
+		genMethodInterfaces(type, type.getFunctionMethods(), type.getProcedureMethods(), "");
 		sb.append("\t}\n");
 	}
 
@@ -358,12 +358,12 @@ public class ModelGen extends CSharpBase {
 		}
 	}
 
-	private void genMethods(InheritanceType type, Collection<FunctionMethod> functionMethods,
+	private void genMethodInterfaces(InheritanceType type, Collection<FunctionMethod> functionMethods,
 			Collection<ProcedureMethod> procedureMethods, String modifiers) {
 		// METHOD-TODO - inheritance?
 		for(FunctionMethod fm : functionMethods) {
 			sb.append("\t\t" + formatType(fm.getReturnType()) + " ");
-			sb.append(fm.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
+			sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph");
 			for(Entity inParam : fm.getParameters()) {
 				sb.append(", ");
 				sb.append(formatType(inParam.getType()));
@@ -374,7 +374,7 @@ public class ModelGen extends CSharpBase {
 		}
 		for(ProcedureMethod pm : procedureMethods) {
 			sb.append("\t\tvoid ");
-			sb.append(pm.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
+			sb.append(pm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph");
 			for(Entity inParam : pm.getParameters()) {
 				sb.append(", ");
 				sb.append(formatType(inParam.getType()));
@@ -1248,11 +1248,66 @@ deque_init_loop:
 		sb.append("\t\t}\n");
 	}
 
+	private void genParameterPassingMethodCall(InheritanceType type, FunctionMethod fm) {
+		sb.append("\t\t\t\tcase \"" + fm.getIdent().toString() + "\":\n");
+		sb.append("\t\t\t\t\treturn @" + fm.getIdent().toString() + "(actionEnv, graph");
+		int i = 0;
+		for(Entity inParam : fm.getParameters()) {
+			sb.append(", (" + formatType(inParam.getType()) + ")arguments[" + i + "]");
+			++i;
+		}
+		sb.append(");\n");
+	}
+
+	private void genParameterPassingMethodCall(InheritanceType type, ProcedureMethod pm) {
+		sb.append("\t\t\t\tcase \"" + pm.getIdent().toString() + "\":\n");
+		sb.append("\t\t\t\t{\n");
+		int i = 0;
+		for(Type outType : pm.getReturnTypes()) {
+			sb.append("\t\t\t\t\t" + formatType(outType));
+			sb.append(" ");
+			sb.append("_out_param_" + i + ";\n");
+			++i;
+		}
+		sb.append("\t\t\t\t\t@" + pm.getIdent().toString() + "(actionEnv, graph");
+		i = 0;
+		for(Entity inParam : pm.getParameters()) {
+			sb.append(", (" + formatType(inParam.getType()) + ")arguments[" + i + "]");
+			++i;
+		}
+		for(i=0; i<pm.getReturnTypes().size(); ++i) {
+			sb.append(", out ");
+			sb.append("_out_param_" + i);
+		}
+		sb.append(");\n");
+		for(i=0; i<pm.getReturnTypes().size(); ++i) {
+			sb.append("\t\t\t\t\tReturnArray_" + pm.getIdent().toString() + "_" + type.getIdent().toString() + "[" + i + "] = ");
+			sb.append("_out_param_" + i + ";\n");
+		}
+		sb.append("\t\t\t\t\treturn ReturnArray_" + pm.getIdent().toString() + "_" + type.getIdent().toString() + ";\n");
+		sb.append("\t\t\t\t}\n");
+	}
+
+	private void genParameterPassingReturnArray(InheritanceType type, ProcedureMethod pm) {
+		sb.append("\t\tprivate static object[] ReturnArray_" + pm.getIdent().toString() + "_" + type.getIdent().toString() + " = new object[" + pm.getReturnTypes().size() + "];\n");
+	}
+
+	// METHOD-TODO
 	private void genMethods(InheritanceType type) {
-		// METHOD-TODO
+		sb.append("\n\t\tpublic override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tswitch(name)\n");
+		sb.append("\t\t\t{\n");
+		for(FunctionMethod fm : type.getAllFunctionMethods()) {
+			genParameterPassingMethodCall(type, fm);
+		}
+		sb.append("\t\t\t\tdefault: throw new NullReferenceException(\"" + formatIdentifiable(type) + " does not have the function method \" + name + \"!\");\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t}\n");
+
 		for(FunctionMethod fm : type.getAllFunctionMethods()) {
 			sb.append("\t\tpublic " + formatType(fm.getReturnType()) + " ");
-			sb.append(fm.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
+			sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
 			for(Entity inParam : fm.getParameters()) {
 				sb.append(", ");
 				sb.append(formatType(inParam.getType()));
@@ -1261,6 +1316,8 @@ deque_init_loop:
 			}
 			sb.append(")\n");
 			sb.append("\t\t{\n");
+			sb.append("\t\t\tGRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
+			sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
 			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model);
 			for(EvalStatement evalStmt : fm.getComputationStatements()) {
 				modifyGenState.functionOrProcedureName = fm.getIdent().toString();
@@ -1268,9 +1325,26 @@ deque_init_loop:
 			}
 			sb.append("\t\t}\n");
 		}
+
+		//////////////////////////////////////////////////////////////
+		
+		sb.append("\t\tpublic override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tswitch(name)\n");
+		sb.append("\t\t\t{\n");
+		for(ProcedureMethod pm : type.getAllProcedureMethods()) {
+			genParameterPassingMethodCall(type, pm);
+		}
+		sb.append("\t\t\t\tdefault: throw new NullReferenceException(\"" + formatIdentifiable(type) + " does not have the procedure method \" + name + \"!\");\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t}\n");
+		for(ProcedureMethod pm : type.getAllProcedureMethods()) {
+			genParameterPassingReturnArray(type, pm);
+		}
+
 		for(ProcedureMethod pm : type.getAllProcedureMethods()) {
 			sb.append("\t\tpublic void ");
-			sb.append(pm.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
+			sb.append(pm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
 			for(Entity inParam : pm.getParameters()) {
 				sb.append(", ");
 				sb.append(formatType(inParam.getType()));
@@ -1287,6 +1361,8 @@ deque_init_loop:
 			}
 			sb.append(")\n");
 			sb.append("\t\t{\n");
+			sb.append("\t\t\tGRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
+			sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
 			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model);
 			mgFuncComp.initEvalGen();
 			for(EvalStatement evalStmt : pm.getComputationStatements()) {
@@ -1409,6 +1485,14 @@ deque_init_loop:
 		genAttributeTypesEnumerator(type);
 		genGetAttributeType(type);
 
+		sb.append("\t\tpublic override int NumFunctionMethods { get { return " + type.getAllFunctionMethods().size() + "; } }\n");
+		genFunctionMethodsEnumerator(type);
+		genGetFunctionMethod(type);
+
+		sb.append("\t\tpublic override int NumProcedureMethods { get { return " + type.getAllProcedureMethods().size() + "; } }\n");
+		genProcedureMethodsEnumerator(type);
+		genGetProcedureMethod(type);
+
 		sb.append("\t\tpublic override bool IsA(GRGEN_LIBGR.GrGenType other)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\treturn (this == other) || isA[other.TypeID];\n");
@@ -1416,6 +1500,18 @@ deque_init_loop:
 
 		genCreateWithCopyCommons(type);
 		sb.append("\t}\n");
+		
+		// generate function method info classes
+		Collection<FunctionMethod> allFunctionMethods = type.getAllFunctionMethods();
+		for(FunctionMethod fm : allFunctionMethods) {
+			genFunctionMethodInfo(fm, type);
+		}
+		
+		// generate procedure method info classes
+		Collection<ProcedureMethod> allProcedureMethods = type.getAllProcedureMethods();
+		for(ProcedureMethod pm : allProcedureMethods) {
+			genProcedureMethodInfo(pm, type);
+		}
 	}
 
 	private void genIsA(Collection<? extends InheritanceType> types, InheritanceType type) {
@@ -1638,6 +1734,82 @@ deque_init_loop:
 		}
 	}
 
+	private void genFunctionMethodsEnumerator(InheritanceType type) {
+		Collection<FunctionMethod> allFunctionMethods = type.getAllFunctionMethods();
+		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods");
+
+		if(allFunctionMethods.isEmpty())
+			sb.append(" { get { yield break; } }\n");
+		else {
+			sb.append("\n\t\t{\n");
+			sb.append("\t\t\tget\n");
+			sb.append("\t\t\t{\n");
+			for(FunctionMethod fm : allFunctionMethods) {
+				sb.append("\t\t\t\tyield return " + formatFunctionMethodInfoName(fm, type) + ".Instance;\n");
+			}
+			sb.append("\t\t\t}\n");
+			sb.append("\t\t}\n");
+		}
+	}
+
+	private void genGetFunctionMethod(InheritanceType type) {
+		Collection<FunctionMethod> allFunctionMethods = type.getAllFunctionMethods();
+		sb.append("\t\tpublic override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name)");
+
+		if(allFunctionMethods.isEmpty())
+			sb.append(" { return null; }\n");
+		else {
+			sb.append("\n\t\t{\n");
+			sb.append("\t\t\tswitch(name)\n");
+			sb.append("\t\t\t{\n");
+			for(FunctionMethod fm : allFunctionMethods) {
+				sb.append("\t\t\t\tcase \"" + formatIdentifiable(fm) + "\" : return " +
+						formatFunctionMethodInfoName(fm, type) + ".Instance;\n");
+			}
+			sb.append("\t\t\t}\n");
+			sb.append("\t\t\treturn null;\n");
+			sb.append("\t\t}\n");
+		}
+	}
+
+	private void genProcedureMethodsEnumerator(InheritanceType type) {
+		Collection<ProcedureMethod> allProcedureMethods = type.getAllProcedureMethods();
+		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods");
+
+		if(allProcedureMethods.isEmpty())
+			sb.append(" { get { yield break; } }\n");
+		else {
+			sb.append("\n\t\t{\n");
+			sb.append("\t\t\tget\n");
+			sb.append("\t\t\t{\n");
+			for(ProcedureMethod pm : allProcedureMethods) {
+				sb.append("\t\t\t\tyield return " + formatProcedureMethodInfoName(pm, type) + ".Instance;\n");
+			}
+			sb.append("\t\t\t}\n");
+			sb.append("\t\t}\n");
+		}
+	}
+
+	private void genGetProcedureMethod(InheritanceType type) {
+		Collection<ProcedureMethod> allProcedureMethods = type.getAllProcedureMethods();
+		sb.append("\t\tpublic override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name)");
+
+		if(allProcedureMethods.isEmpty())
+			sb.append(" { return null; }\n");
+		else {
+			sb.append("\n\t\t{\n");
+			sb.append("\t\t\tswitch(name)\n");
+			sb.append("\t\t\t{\n");
+			for(ProcedureMethod pm : allProcedureMethods) {
+				sb.append("\t\t\t\tcase \"" + formatIdentifiable(pm) + "\" : return " +
+						formatProcedureMethodInfoName(pm, type) + ".Instance;\n");
+			}
+			sb.append("\t\t\t}\n");
+			sb.append("\t\t\treturn null;\n");
+			sb.append("\t\t}\n");
+		}
+	}
+
 	private void getFirstCommonAncestors(InheritanceType curType,
 			InheritanceType type, Set<InheritanceType> resTypes) {
 		if(type.isCastableTo(curType))
@@ -1809,6 +1981,109 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 					+ "\t\t}\n\n");
 			}
 		}
+	}
+
+	/**
+	 * Generates the function info for the given function method
+	 */
+	private void genFunctionMethodInfo(FunctionMethod fm, InheritanceType type) {
+		String functionMethodName = formatIdentifiable(fm);
+		String className = formatFunctionMethodInfoName(fm, type);
+
+		sb.append("\tpublic class " + className + " : GRGEN_LIBGR.FunctionInfo\n");
+		sb.append("\t{\n");
+		sb.append("\t\tprivate static " + className + " instance = null;\n");
+		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
+				+ "instance = new " + className + "(); } return instance; } }\n");
+		sb.append("\n");
+
+		sb.append("\t\tprivate " + className + "()\n");
+		sb.append("\t\t\t\t\t: base(\n");
+		sb.append("\t\t\t\t\t\t\"" + functionMethodName + "\",\n");
+		sb.append("\t\t\t\t\t\tnew String[] { ");
+		for(Entity inParam : fm.getParameters()) {
+			sb.append("\"" + inParam.getIdent() + "\", ");
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Entity inParam : fm.getParameters()) {
+			if(inParam.getType() instanceof InheritanceType) {
+				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
+			}
+		}
+		sb.append(" },\n");
+		Type outType = fm.getReturnType();
+		if(outType instanceof InheritanceType) {
+			sb.append("\t\t\t\t\t\t" + formatTypeClassRef(outType) + ".typeVar\n");
+		} else {
+			sb.append("\t\t\t\t\t\tGRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
+		}
+		sb.append("\t\t\t\t\t  )\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t}\n");
+		
+		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tthrow new Exception(\"Not implemented, can't call function method without this object!\");\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t}\n");
+		sb.append("\n");
+	}
+
+	/**
+	 * Generates the procedure info for the given procedure method
+	 */
+	private void genProcedureMethodInfo(ProcedureMethod pm, InheritanceType type) {
+		String procedureMethodName = formatIdentifiable(pm);
+		String className = formatProcedureMethodInfoName(pm, type);
+
+		sb.append("\tpublic class " + className + " : GRGEN_LIBGR.ProcedureInfo\n");
+		sb.append("\t{\n");
+		sb.append("\t\tprivate static " + className + " instance = null;\n");
+		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
+				+ "instance = new " + className + "(); } return instance; } }\n");
+		sb.append("\n");
+
+		sb.append("\t\tprivate " + className + "()\n");
+		sb.append("\t\t\t\t\t: base(\n");
+		sb.append("\t\t\t\t\t\t\"" + procedureMethodName + "\",\n");
+		sb.append("\t\t\t\t\t\tnew String[] { ");
+		for(Entity inParam : pm.getParameters()) {
+			sb.append("\"" + inParam.getIdent() + "\", ");
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Entity inParam : pm.getParameters()) {
+			if(inParam.getType() instanceof InheritanceType) {
+				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
+			}
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Type outType : pm.getReturnTypes()) {
+			if(outType instanceof InheritanceType) {
+				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + ")), ");
+			}
+		}
+		sb.append(" }\n");
+		sb.append("\t\t\t\t\t  )\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t}\n");
+		
+		sb.append("\t\tpublic override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tthrow new Exception(\"Not implemented, can't call procedure method without this object!\");\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t}\n");
+		sb.append("\n");
 	}
 
 	////////////////////////////
