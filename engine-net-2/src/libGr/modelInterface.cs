@@ -629,6 +629,9 @@ namespace de.unika.ipd.grGen.libGr
         public bool Equals(SetValueType other) { return true; }
     }
 
+    // TODO: create common base for node type and edge type only, one one for node type, edge type, and var type
+    // the var type is not building a type hiararchy, as is the case for the node and edge types
+
     /// <summary>
     /// A representation of a GrGen graph element type.
     /// </summary>
@@ -791,6 +794,42 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="name">Name of the attribute</param>
         /// <returns>The AttributeType matching the name, or null if there is no such</returns>
         public abstract AttributeType GetAttributeType(String name);
+
+        /// <summary>
+        /// The number of function methods of this type.
+        /// </summary>
+        public abstract int NumFunctionMethods { get; }
+
+        /// <summary>
+        /// Enumerates all function methods of this type.
+        /// </summary>
+        public abstract IEnumerable<FunctionInfo> FunctionMethods { get; }
+
+        /// <summary>
+        /// Returns a FunctionInfo object for the given function method name.
+        /// If this type does not have a function method with this name, null is returned.
+        /// </summary>
+        /// <param name="name">Name of the function method</param>
+        /// <returns>The FunctionInfo of the function method matching the name, or null if there is no such</returns>
+        public abstract FunctionInfo GetFunctionMethod(String name);
+
+        /// <summary>
+        /// The number of procedure methods of this type.
+        /// </summary>
+        public abstract int NumProcedureMethods { get; }
+
+        /// <summary>
+        /// Enumerates all procedure methods of this type.
+        /// </summary>
+        public abstract IEnumerable<ProcedureInfo> ProcedureMethods { get; }
+
+        /// <summary>
+        /// Returns a ProcedureInfo object for the given procedure method name.
+        /// If this type does not have a procedure method with this name, null is returned.
+        /// </summary>
+        /// <param name="name">Name of the procedure method</param>
+        /// <returns>The ProcedureInfo of the procedure method matching the name, or null if there is no such</returns>
+        public abstract ProcedureInfo GetProcedureMethod(String name);
 
         /// <summary>
         /// Checks, whether this type is compatible to the given type, i.e. this type is the same type as the given type
@@ -1156,6 +1195,36 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override AttributeType GetAttributeType(string name)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override int NumFunctionMethods
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        public override IEnumerable<FunctionInfo> FunctionMethods
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        public override FunctionInfo GetFunctionMethod(String name)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override int NumProcedureMethods
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        public override IEnumerable<ProcedureInfo> ProcedureMethods
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        public override ProcedureInfo GetProcedureMethod(String name)
         {
             throw new Exception("The method or operation is not implemented.");
         }

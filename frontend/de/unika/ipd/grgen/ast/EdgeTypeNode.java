@@ -185,7 +185,11 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
     	assert isResolved();
 
     	for(BaseNode n : body.getChildren()) {
-    		if(n instanceof DeclNode) {
+			if(n instanceof FunctionDeclNode) {
+				continue; // METHOD-TODO check that parameters are identical to overridden method(s)
+			} else if(n instanceof ProcedureDeclNode) {
+				continue; // METHOD-TODO check that parameters are identical to overridden mehtod(s)
+			} else if(n instanceof DeclNode) {
     			DeclNode decl = (DeclNode)n;
 
     			DeclNode old=members.put(decl.getIdentNode().toString(), decl);

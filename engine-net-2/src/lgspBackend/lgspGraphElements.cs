@@ -514,6 +514,28 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract bool AreAttributesEqual(IGraphElement that);
 
         /// <summary>
+        /// Executes the function method given by its name.
+        /// Throws an exception if the method does not exists or the parameters are of wrong types.
+        /// </summary>
+        /// <param name="actionEnv">The current action execution environment.</param>
+        /// <param name="graph">The current graph.</param>
+        /// <param name="name">The name of the function method to apply.</param>
+        /// <param name="arguments">An array with the arguments to the method.</param>
+        /// <returns>The return value of function application.</returns>
+        public abstract object ApplyFunctionMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments);
+
+        /// <summary>
+        /// Executes the procedure method given by its name.
+        /// Throws an exception if the method does not exists or the parameters are of wrong types.
+        /// </summary>
+        /// <param name="actionEnv">The current action execution environment.</param>
+        /// <param name="graph">The current graph.</param>
+        /// <param name="name">The name of the procedure method to apply.</param>
+        /// <param name="arguments">An array with the arguments to the method.</param>
+        /// <returns>An array with the return values of procedure application. Only valid until the next call of this method.</returns>
+        public abstract object[] ApplyProcedureMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments);
+
+        /// <summary>
         /// Recycles this node. This may pool the node or just ignore it.
         /// </summary>
         public abstract void Recycle();
@@ -552,6 +574,16 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public override bool AreAttributesEqual(IGraphElement that)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override object ApplyFunctionMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override object[] ApplyProcedureMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -749,6 +781,28 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract bool AreAttributesEqual(IGraphElement that);
 
         /// <summary>
+        /// Executes the function method given by its name.
+        /// Throws an exception if the method does not exists or the parameters are of wrong types.
+        /// </summary>
+        /// <param name="actionEnv">The current action execution environment.</param>
+        /// <param name="graph">The current graph.</param>
+        /// <param name="name">The name of the function method to apply.</param>
+        /// <param name="arguments">An array with the arguments to the method.</param>
+        /// <returns>The return value of function application.</returns>
+        public abstract object ApplyFunctionMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments);
+
+        /// <summary>
+        /// Executes the procedure method given by its name.
+        /// Throws an exception if the method does not exists or the parameters are of wrong types.
+        /// </summary>
+        /// <param name="actionEnv">The current action execution environment.</param>
+        /// <param name="graph">The current graph.</param>
+        /// <param name="name">The name of the procedure method to apply.</param>
+        /// <param name="arguments">An array with the arguments to the method.</param>
+        /// <returns>An array with the return values of procedure application. Only valid until the next call of this method.</returns>
+        public abstract object[] ApplyProcedureMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments);
+
+        /// <summary>
         /// Recycles this edge. This may pool the edge or just ignore it.
         /// </summary>
         public abstract void Recycle();
@@ -787,6 +841,16 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public override bool AreAttributesEqual(IGraphElement that)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override object ApplyFunctionMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override object[] ApplyProcedureMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments)
         {
             throw new Exception("The method or operation is not implemented.");
         }

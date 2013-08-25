@@ -62,6 +62,12 @@ namespace de.unika.ipd.grGen.libGr
         public override int NumAttributes { get { return 0; } }
         public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
         public override AttributeType GetAttributeType(String name) { return null; }
+        public override int NumFunctionMethods { get { return 0; } }
+        public override IEnumerable<FunctionInfo> FunctionMethods { get { yield break; } }
+        public override FunctionInfo GetFunctionMethod(String name) { return null; }
+        public override int NumProcedureMethods { get { return 0; } }
+        public override IEnumerable<ProcedureInfo> ProcedureMethods { get { yield break;} }
+        public override ProcedureInfo GetProcedureMethod(String name) { return null; }
 
         public override INode CreateNode()
         {
@@ -138,7 +144,17 @@ namespace de.unika.ipd.grGen.libGr
 		{
 			get { throw new Exception("The method or operation is not implemented."); }
 		}
-	}
+
+        public object ApplyFunctionMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments)
+		{
+			throw new Exception("The method or operation is not implemented.");
+		}
+
+        public object[] ApplyProcedureMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments)
+		{
+			throw new Exception("The method or operation is not implemented.");
+		}
+    }
 
     internal class DumpContext
     {

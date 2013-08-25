@@ -179,7 +179,7 @@ namespace de.unika.ipd.grGen.libGr
 
         #endregion Functions handling
 
-        #region Procedure handling
+        #region Procedures handling
 
         protected Dictionary<String, ProcedureInfo> namesToProcedureDefinitions = new Dictionary<string, ProcedureInfo>();
 
@@ -225,6 +225,6 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        #endregion Procedure handling
+        #endregion Procedures handling
     }
 }
