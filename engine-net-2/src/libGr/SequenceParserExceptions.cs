@@ -364,6 +364,12 @@ namespace de.unika.ipd.grGen.libGr
                 case SequenceParserError.UnknownAttribute:
                     return "Unknown attribute \"" + this.Name + "\"!";
 
+                case SequenceParserError.UnknownProcedure:
+                    return "Unknown procedure \"" + this.Name + "\")!";
+
+                case SequenceParserError.UnknownFunction:
+                    return "Unknown function \"" + this.Name + "\")!";
+
                 case SequenceParserError.TypeMismatch:
                     return "The construct \"" + this.VariableOrFunctionName + "\" expects:" + this.ExpectedType + " but is /given " + this.GivenType + "!";
 

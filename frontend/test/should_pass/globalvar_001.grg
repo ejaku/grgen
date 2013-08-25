@@ -74,18 +74,18 @@ rule re
 	cc:CC -ed:Edge->;
 
 	modify {
-//		exec ( { incident(::g_n).size()!=0 } ); function calls can't be nested yet in the sequences
-		exec ( { ::g_e in incoming(::g_n) } );
-		exec ( { ::g_a.f + 1.0 < 2.0 } );
-		exec ( { ::g_s + "o" != "Foo" } );
-		exec ( { ::g_i!=42 } );
-		exec ( { ::g_m["Foo"]==::g_a } );
-		exec ( { ::g_ar[::g_i]==::g_n } );
-		exec ( { ::g_de[::g_i]==::g_n } );
-		exec ( { ::g_m["Foo"]==::g_a.m["Foo"] } );
-//		exec ( { ::g_m["Foo"].i1==::g_m["Foo"].i2 } ); not supported
-		exec ( { ::g_ar[::g_i]==::g_a.ar[::g_i] } );
-		exec ( { ::g_de[::g_i]==::g_a.de[::g_i] } );
+//		exec ( {{ incident(::g_n).size()!=0 }} ); function calls can't be nested yet in the sequences
+		exec ( {{ ::g_e in incoming(::g_n) }} );
+		exec ( {{ ::g_a.f + 1.0 < 2.0 }} );
+		exec ( {{ ::g_s + "o" != "Foo" }} );
+		exec ( {{ ::g_i!=42 }} );
+		exec ( {{ ::g_m["Foo"]==::g_a }} );
+		exec ( {{ ::g_ar[::g_i]==::g_n }} );
+		exec ( {{ ::g_de[::g_i]==::g_n }} );
+		exec ( {{ ::g_m["Foo"]==::g_a.m["Foo"] }} );
+//		exec ( {{ ::g_m["Foo"].i1==::g_m["Foo"].i2 }} ); not supported
+		exec ( {{ ::g_ar[::g_i]==::g_a.ar[::g_i] }} );
+		exec ( {{ ::g_de[::g_i]==::g_a.de[::g_i] }} );
 
 		exec ( { ::g_n = cc } );
 		exec ( { ::g_e = ed } );

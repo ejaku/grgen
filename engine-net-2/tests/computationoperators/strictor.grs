@@ -1,12 +1,12 @@
 new graph computationoperators/computationoperators
 
-xgrs ::r=({true | true})
+xgrs ::r=({{true | true}})
 show var r
-xgrs ::r=({true | false})
+xgrs ::r=({{true | false}})
 show var r
-xgrs ::r=({false | true})
+xgrs ::r=({{false | true}})
 show var r
-xgrs ::r=({false | false})
+xgrs ::r=({{false | false}})
 show var r
 
 quit

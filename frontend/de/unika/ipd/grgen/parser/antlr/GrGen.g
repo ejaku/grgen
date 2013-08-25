@@ -1825,9 +1825,9 @@ seqCompoundComputation[ExecNode xg]
 seqComputation[ExecNode xg]
 	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); }) seqExpressionOrAssign[xg]
 	| (xgrsEntityDecl[null,true]) => xgrsVarDecl=xgrsEntityDecl[xg, true]
-	| (methodCall[null]) => methodCallRepeated[xg]
+	| (methodCall[null]) => methodCall[xg]
 	| (procedureCall[null]) => procedureCall[xg]
-	| seqExpression[xg]
+	| LBRACE { xg.append("{"); } seqExpression[xg] RBRACE { xg.append("}"); }
 	;
 
 seqExpressionOrAssign[ExecNode xg]
@@ -2025,16 +2025,6 @@ methodCall[ExecNode xg]
 				&& !method.getText().equals("size") && !method.getText().equals("empty") && !method.getText().equals("peek"))
 			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty|peek on set|map|array|deque)");
 		}
-	;
-
-methodCallRepeated[ExecNode xg]
-	: methodCall[xg] ( d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
-			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])? )? RPAREN { xg.append(")"); }
-		{ if(!method.getText().equals("add") && !method.getText().equals("rem") && !method.getText().equals("clear")
-				&& !method.getText().equals("size") && !method.getText().equals("empty") && !method.getText().equals("peek"))
-			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty|peek on set|map|array|deque)");
-		}
-	)*
 	;
 
 xgrsConstant[ExecNode xg] returns[ExprNode res = env.initExprNode()]

@@ -11,13 +11,13 @@ r.sub = import("redgreenblue.grs");\
 g.sub = sub;\
 b.sub=import("redgreenblue2.grs");\
 export("redgreenbluefull.grs");\
-r.sub==g.sub && g.sub==b.sub\
+{r.sub==g.sub && g.sub==b.sub}\
 }
 
 # ensure that the subgraphs in the nodes of the main graph are not equal to the main graph (cause their sub-attributes are null)
 exec (r:RedGraph)=red ;> (g:GreenGraph)=green ;> (b:BlueGraph)=blue ;> {\
 sub:graph = import("redgreenbluefull.grs");\
-sub!=r.sub && sub!=g.sub && sub!=b.sub\
+{sub!=r.sub && sub!=g.sub && sub!=b.sub}\
 }
 
 # descend to r and g subgraphs, importing a rgb-graph to the sub attribute of r
@@ -27,11 +27,11 @@ rr:RedGraph ;> in r.sub { (rr)=red ;> { rr.sub = import("redgreenblue.grs")} } ;
 gr:RedGraph ;> in g.sub { (gr)=red ;> { gr.sub = import("redgreenblue.grs")} } ;>\
 br:RedGraph ;> in b.sub { (br)=red } ;>\
 { export("redgreenbluefull2.grs");\
-rr.sub == gr.sub && r.sub == g.sub && rr.sub != br.sub && br.sub == null && r.sub != b.sub}
+{rr.sub == gr.sub && r.sub == g.sub && rr.sub != br.sub && br.sub == null && r.sub != b.sub} }
 
 # create copy of current main graph, ensure the copy is isomorph to current main graph
 exec { clone:graph=copy(this); full:graph=import("redgreenbluefull2.grs"); initial:graph=import("redgreenblue.grs");\
-this==clone && this==full && this!=initial}
+{this==clone && this==full && this!=initial} }
 
 # descend to g and b subgraphs, change their contained rgb-graph in different ways
 # now all subgraphs must be different from each other (r still containing the imported pure rgb-subgraph)
@@ -41,7 +41,7 @@ rsub:graph ;> gsub:graph ;> bsub:graph ;> { rsub=r.sub; gsub=g.sub; bsub=b.sub }
 attr:graph ;> in gsub { (gg:GreenGraph)=green ;> { rem(gg) } ;> (gr:RedGraph)=red ;> { attr=gr.sub } } ;>\
 in bsub { (bb:BlueGraph)=blue ;> { (bb2:BlueGraph)=add(BlueGraph); add(Edge, bb, bb2) } ;> blueblue() ;> (br:RedGraph)=red ;> { br.sub=attr } } ;>\
 { export("redgreenbluefull3.grs");\
-rsub != gsub && gsub != bsub && rsub != bsub && this != import("redgreenbluefull2.grs")}
+{rsub != gsub && gsub != bsub && rsub != bsub && this != import("redgreenbluefull2.grs")} }
 
 # descend to g and b subgraphs, change them now so that each contains the previous change to the other
 # now the g and b subgraphs must be isomorph again
@@ -50,6 +50,6 @@ rsub:graph ;> gsub:graph ;> bsub:graph ;> { rsub=r.sub; gsub=g.sub; bsub=b.sub }
 in gsub { (bb:BlueGraph)=blue ;> { (bb2:BlueGraph)=add(BlueGraph); add(Edge, bb, bb2) } ;> blueblue() } ;>\
 in bsub { remGreen } ;>\
 { export("redgreenbluefull4.grs");\
-gsub == bsub && rsub != gsub && rsub != bsub && this != import("redgreenbluefull3.grs") && this == import("redgreenbluefull4.grs")}
+{gsub == bsub && rsub != gsub && rsub != bsub && this != import("redgreenbluefull3.grs") && this == import("redgreenbluefull4.grs")} }
 
 exit

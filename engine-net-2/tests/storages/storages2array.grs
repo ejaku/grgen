@@ -28,7 +28,7 @@ show var sz
 
 xgrs {::sz=::st3.size()}
 show var sz
-xgrs if{{::e in ::st3}; false; {::st3.add(::e)} && addNode}
+xgrs if{ {{::e in ::st3}}; false; {::st3.add(::e)} && addNode }
 show num nodes
 xgrs {::sz=::st3.size()}
 show var sz
@@ -43,11 +43,11 @@ show var sz
 
 xgrs {::sz=::st2.size()}
 show var sz
-xgrs (::index)=getIndexArrayEdge(::st2, ::e) ;> if{{::e in ::st2}; {::st2.rem(::index)} && addNode; false}
+xgrs (::index)=getIndexArrayEdge(::st2, ::e) ;> if{ {{::e in ::st2}}; {::st2.rem(::index)} && addNode; false}
 show num nodes
 xgrs {::sz=::st2.size()}
 show var sz
-xgrs for{::e in ::st3; (::index)=getIndexArrayEdge(::st2, ::e) ;> if{ {::index >= 0}; {::st2.rem(::index)}} && false} && addNode
+xgrs for{::e in ::st3; (::index)=getIndexArrayEdge(::st2, ::e) ;> if{ {{::index >= 0}}; {::st2.rem(::index)}} && false} && addNode
 show num nodes
 xgrs {::sz=::st2.size()}
 show var sz

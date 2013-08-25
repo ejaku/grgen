@@ -6,12 +6,12 @@ include statespaceChemistry/layout.grsi
 
 def addReactionResultsIfNotYetExisting(mol:Molecule) {\
 	( existsChild(mol) && ((newmol:Molecule)=buildMoleculeFromReactionResult(mol) <; adj:set<Node>=set<Node>{} <; {newmol.sub=inducedSubgraph(adj)}) &&\
-	( sub:graph ;> newmolcopy:Molecule ;> {adj=adjacentOutgoing(newmol, contains); sub=inducedSubgraph(adj)} ;> if{ for{others:Molecule in nodes(Molecule); {sub!=others.sub} } ; / {(newmolcopy)=insertInduced(adj, newmol)} && {newmolcopy.sub=sub} / } ;> deleteTree(newmol) ) )*\
+	( sub:graph ;> newmolcopy:Molecule ;> {adj=adjacentOutgoing(newmol, contains); sub=inducedSubgraph(adj)} ;> if{ for{others:Molecule in nodes(Molecule); {{sub!=others.sub}} } ; / {(newmolcopy)=insertInduced(adj, newmol)} && {newmolcopy.sub=sub} / } ;> deleteTree(newmol) ) )*\
 }
 
 def stateStepIsoCheck(level:int) { false }
 def stateStepIsoCheck(level:int) {\
-	if{{level < ::stopLevel};\
+	if{ {{level < ::stopLevel}};\
 		molecules:set<Molecule>=set<Molecule>{} ;> [collectMolecule(molecules)]\
 		;> << (mol1:Molecule,mol2:Molecule)=amideFormation(molecules) ;; addReactionResultsIfNotYetExisting(mol1) ;> addReactionResultsIfNotYetExisting(mol2) ;> false >>\
 		;> ::replaceThisPlaceholderBySomeOtherRulesInBacktrackingAnglesReplicatingResultsInBacktrackingPauses\

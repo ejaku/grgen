@@ -14,12 +14,12 @@ def copyAndLinkBlue(gr:Graph) : (ngr:Graph) {\
 
 def stateStepIsoCheck(gr:Graph, level:int) { false }
 def stateStepIsoCheck(gr:Graph, level:int) {\
-	if{{level < ::stopLevel};\
+	if{ {{level < ::stopLevel}};\
 		sub:graph ;> ngr:Graph\
-		;> << insertRed(gr) ;; {sub=inducedSubgraph(adjacent(gr, contains))} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / (ngr)=copyAndLinkRed(gr) && {ngr.sub=sub} / && stateStepIsoCheck(ngr, level+1) >>\
-		;> << insertGreen(gr) ;; {sub=inducedSubgraph(adjacent(gr, contains))} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / (ngr)=copyAndLinkGreen(gr) && {ngr.sub=sub} / && stateStepIsoCheck(ngr, level+1) >>\
-		;> << insertBlue(gr) ;; {sub=inducedSubgraph(adjacent(gr, contains))} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / (ngr)=copyAndLinkBlue(gr) && {ngr.sub=sub} / && stateStepIsoCheck(ngr, level+1) >>;\
-		false}\
+		;> << insertRed(gr) ;; {sub=inducedSubgraph(adjacent(gr, contains))} ;> for{ others:Graph in nodes(Graph); {{sub!=others.sub}} } && / (ngr)=copyAndLinkRed(gr) && {ngr.sub=sub} / && stateStepIsoCheck(ngr, level+1) >>\
+		;> << insertGreen(gr) ;; {sub=inducedSubgraph(adjacent(gr, contains))} ;> for{ others:Graph in nodes(Graph); {{sub!=others.sub}} } && / (ngr)=copyAndLinkGreen(gr) && {ngr.sub=sub} / && stateStepIsoCheck(ngr, level+1) >>\
+		;> << insertBlue(gr) ;; {sub=inducedSubgraph(adjacent(gr, contains))} ;> for{ others:Graph in nodes(Graph); {{sub!=others.sub}} } && / (ngr)=copyAndLinkBlue(gr) && {ngr.sub=sub} / && stateStepIsoCheck(ngr, level+1) >>;\
+		false }\
 }
 
 exec (gr:Graph)=init ;> {gr.sub=inducedSubgraph(adjacent(gr, contains))} ;> ::stopLevel=5 ;> stateStepIsoCheck(gr, 0)
