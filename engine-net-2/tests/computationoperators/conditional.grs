@@ -1,20 +1,20 @@
 new graph computationoperators/computationoperators
 
-xgrs ::r=({true?true:true})
+xgrs ::r=({{true?true:true}})
 show var r
-xgrs ::r=({true?true:false})
+xgrs ::r=({{true?true:false}})
 show var r
-xgrs ::r=({true?false:true})
+xgrs ::r=({{true?false:true}})
 show var r
-xgrs ::r=({true?false:false})
+xgrs ::r=({{true?false:false}})
 show var r
-xgrs ::r=({false?true:true})
+xgrs ::r=({{false?true:true}})
 show var r
-xgrs ::r=({false?true:false})
+xgrs ::r=({{false?true:false}})
 show var r
-xgrs ::r=({false?false:true})
+xgrs ::r=({{false?false:true}})
 show var r
-xgrs ::r=({false?false:false})
+xgrs ::r=({{false?false:false}})
 show var r
 
 quit

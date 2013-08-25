@@ -106,12 +106,12 @@ rule fromGrs()
 			;> visId2:int=0 ;> {(visId2)=valloc()}
 			;> {n1.visited[visId1]=true}
 			;> {n2.visited[visId2]=true}
-			;> {n1.visited[visId1]} && empty
-			;> {n1.visited[visId2]} && empty
-			;> {n2.visited[visId1]} && empty
-			;> {n2.visited[visId2]} && empty
-			;> {n3.visited[visId1]} && empty
-			;> {n3.visited[visId2]} && empty
+			;> {{n1.visited[visId1]}} && empty
+			;> {{n1.visited[visId2]}} && empty
+			;> {{n2.visited[visId1]}} && empty
+			;> {{n2.visited[visId2]}} && empty
+			;> {{n3.visited[visId1]}} && empty
+			;> {{n3.visited[visId2]}} && empty
 			;> [isVisited(visId1)]
 			;> [isVisited(visId2)]
 			;> {vreset(visId2)}
@@ -122,7 +122,7 @@ rule fromGrs()
 			;> [isVisited(visId2)]
 			;> [setVisited(visId1)]
 			;> [isVisited(visId1)]
-			;> {n3.visited[visId1]} && empty
+			;> {{n3.visited[visId1]}} && empty
 			;> [isVisited(visId2)]
 			;> {vreset(visId1)}
 			;> [isVisited(visId1)]

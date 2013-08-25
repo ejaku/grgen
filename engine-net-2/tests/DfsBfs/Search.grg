@@ -4,10 +4,10 @@ using SearchModel;
 sequence BreadthFirstCompiled(root:WalkOrder)
 {
 	d:deque<WalkOrder>=deque<WalkOrder>][ ;> vis:int ;> {(vis)=valloc()} ;> num:int=0 ;> {d.add(root); root.visited[vis]=true} ;>
-	(if{ {!d.empty()} ;
+	(if{ {{!d.empty()}} ;
 		cur:WalkOrder ;> {cur=d.peek(); d.rem(); cur.num=num; num=num+1} ;> 
 		for{n:WalkOrder in adjacentOutgoing(cur); 
-			if{ {!n.visited[vis]} ; {d.add(n); n.visited[vis]=true}}
+			if{ {{!n.visited[vis]}} ; {d.add(n); n.visited[vis]=true}}
 		} ;> true ;
 		false}
 	)* ;> {vfree(vis)}
@@ -17,10 +17,10 @@ sequence BreadthFirstCompiled(root:WalkOrder)
 sequence DepthFirstCompiled(root:WalkOrder)
 {
 	a:array<WalkOrder>=array<WalkOrder>[] ;> vis:int ;> {(vis)=valloc()} ;> num:int=0 ;> {a.add(root); root.visited[vis]=true} ;>
-	(if{ {!a.empty()} ;
+	(if{ {{!a.empty()}} ;
 		cur:WalkOrder ;> {cur=a.peek(); a.rem(); cur.num=num; num=num+1} ;> 
 		for{n:WalkOrder in adjacentOutgoing(cur); 
-			if{ {!n.visited[vis]} ; {a.add(n); n.visited[vis]=true}}
+			if{ {{!n.visited[vis]}} ; {a.add(n); n.visited[vis]=true}}
 		} ;> true ;
 		false}
 	)* ;> {vfree(vis)}
@@ -32,7 +32,7 @@ sequence DepthFirstCallCompiled(root:WalkOrder, num:int, vis:int) : (resnum:int)
 	{root.visited[vis]=true} ;>
 	{root.num=num; num=num+1} ;> 
 	for{n:WalkOrder in adjacentOutgoing(root); 
-		if{ {!n.visited[vis]} ; (num)=DepthFirstCallCompiled(n,num,vis) }
+		if{ {{!n.visited[vis]}} ; (num)=DepthFirstCallCompiled(n,num,vis) }
 	}
 	;> {resnum = num}
 }

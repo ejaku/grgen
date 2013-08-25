@@ -33,7 +33,7 @@ show num edges
 
 xgrs {::sz=::st2.size()}
 show var sz
-xgrs if{{::n in ::st2}; false; {::st2.add(::n)} && addNode}
+xgrs if{ {{::n in ::st2}}; false; {::st2.add(::n)} && addNode }
 show num nodes
 xgrs {::sz=::st2.size()}
 show var sz
@@ -48,11 +48,11 @@ show var sz
 
 xgrs {::sz=::st1.size()}
 show var sz
-xgrs (::index)=getIndexArrayNN(::st1, ::n) ;> if{{::n in ::st1}; {::st1.rem(::index)} && addNode; false}
+xgrs (::index)=getIndexArrayNN(::st1, ::n) ;> if{ {{::n in ::st1}}; {::st1.rem(::index)} && addNode; false }
 show num nodes
 xgrs {::sz=::st1.size()}
 show var sz
-xgrs for{::n in ::st2; (::index)=getIndexArrayNN(::st1, ::n) ;> if{ {::index >= 0}; {::st1.rem(::index)}} && false} && addNode
+xgrs for{::n in ::st2; (::index)=getIndexArrayNN(::st1, ::n) ;> if{ {{::index >= 0}}; {::st1.rem(::index)}} && false } && addNode
 show num nodes
 xgrs {::sz=::st1.size()}
 show var sz

@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.libGr
         GraphAddCopy, GraphMerge, GraphRedirectSource, GraphRedirectTarget, GraphRedirectSourceAndTarget,
         Insert, InsertCopy,
         InsertInduced, InsertDefined,
-        ProcedureCall, BuiltinProcedureCall,
+        ProcedureCall, BuiltinProcedureCall, ProcedureMethodCall,
         AssignmentTarget, // every assignment target (lhs value) is a computation
         Expression // every expression (rhs value) is a computation
     }
@@ -129,14 +129,12 @@ namespace de.unika.ipd.grGen.libGr
     public abstract class SequenceComputationContainer : SequenceComputation
     {
         public SequenceVariable Container;
-        public SequenceComputation MethodCall;
         public SequenceExpressionAttributeAccess Attribute;
 
-        public SequenceComputationContainer(SequenceComputationType type, SequenceVariable container, SequenceComputation methodCall)
+        public SequenceComputationContainer(SequenceComputationType type, SequenceVariable container)
             : base(type)
         {
             Container = container;
-            MethodCall = methodCall;
         }
 
         public SequenceComputationContainer(SequenceComputationType type, SequenceExpressionAttributeAccess attribute)
@@ -148,7 +146,6 @@ namespace de.unika.ipd.grGen.libGr
         public string ContainerType(SequenceCheckingEnvironment env)
         {
             if(Container != null) return Container.Type;
-            else if(MethodCall != null) return MethodCall.Type(env);
             else return Attribute.Type(env);
         }
 
@@ -157,8 +154,6 @@ namespace de.unika.ipd.grGen.libGr
             string ContainerType;
             if(Container != null)
                 ContainerType = Container.Type;
-            else if(MethodCall != null)
-                ContainerType = MethodCall.Type(env);
             else
                 ContainerType = Attribute.CheckAndReturnAttributeType(env);
             if(ContainerType == "")
@@ -176,12 +171,6 @@ namespace de.unika.ipd.grGen.libGr
                 attrType = null;
                 return Container.GetVariableValue(procEnv);
             }
-            else if(MethodCall != null)
-            {
-                elem = null;
-                attrType = null;
-                return MethodCall.Execute(procEnv);
-            }
             else
             {
                 return Attribute.ExecuteNoImplicitContainerCopy(procEnv, out elem, out attrType);
@@ -192,14 +181,12 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(Container != null)
                 return Container.Type;
-            else if(MethodCall != null)
-                return MethodCall.Type(env);
             else 
                 return Attribute.Type(env);
         }
 
         public override int Precedence { get { return 8; } }
-        public string Name { get { if(Container != null) return Container.Name; else if(MethodCall != null) return MethodCall.Symbol; else return Attribute.Symbol; } }
+        public string Name { get { if(Container != null) return Container.Name; else return Attribute.Symbol; } }
     }
 
 
@@ -373,14 +360,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceExpression ExprDst;
 
         public SequenceComputationContainerAdd(SequenceVariable container, SequenceExpression expr, SequenceExpression exprDst)
-            : base(SequenceComputationType.ContainerAdd, container, null)
-        {
-            Expr = expr;
-            ExprDst = exprDst;
-        }
-
-        public SequenceComputationContainerAdd(SequenceComputation methodCall, SequenceExpression expr, SequenceExpression exprDst)
-            : base(SequenceComputationType.ContainerAdd, null, methodCall)
+            : base(SequenceComputationType.ContainerAdd, container)
         {
             Expr = expr;
             ExprDst = exprDst;
@@ -445,7 +425,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceComputationContainerAdd copy = (SequenceComputationContainerAdd)MemberwiseClone();
             if(Container != null) copy.Container = Container.Copy(originalToCopy, procEnv);
-            if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy, procEnv);
             if(Attribute != null) copy.Attribute = (SequenceExpressionAttributeAccess)Attribute.Copy(originalToCopy, procEnv);
             copy.Expr = Expr.CopyExpression(originalToCopy, procEnv);
             if(ExprDst != null) copy.ExprDst = ExprDst.CopyExpression(originalToCopy, procEnv);
@@ -522,13 +501,12 @@ namespace de.unika.ipd.grGen.libGr
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             if(Container != null) Container.GetLocalVariables(variables);
-            if(MethodCall != null) MethodCall.GetLocalVariables(variables, containerConstructors);
             if(Attribute != null) Attribute.GetLocalVariables(variables, containerConstructors);
             Expr.GetLocalVariables(variables, containerConstructors);
             if(ExprDst != null) ExprDst.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override IEnumerable<SequenceComputation> Children { get { if(MethodCall != null) yield return MethodCall; yield return Expr; if(ExprDst != null) yield return ExprDst; } }
+        public override IEnumerable<SequenceComputation> Children { get { yield return Expr; if(ExprDst != null) yield return ExprDst; } }
         public override string Symbol { get { return Name + ".add(" + Expr.Symbol + (ExprDst != null ? "," + ExprDst.Symbol : "") + ")"; } }
     }
 
@@ -537,13 +515,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceExpression Expr;
 
         public SequenceComputationContainerRem(SequenceVariable container, SequenceExpression expr)
-            : base(SequenceComputationType.ContainerRem, container, null)
-        {
-            Expr = expr;
-        }
-
-        public SequenceComputationContainerRem(SequenceComputation methodCall, SequenceExpression expr)
-            : base(SequenceComputationType.ContainerRem, null, methodCall)
+            : base(SequenceComputationType.ContainerRem, container)
         {
             Expr = expr;
         }
@@ -589,7 +561,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceComputationContainerRem copy = (SequenceComputationContainerRem)MemberwiseClone();
             if(Container != null) copy.Container = Container.Copy(originalToCopy, procEnv);
-            if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy, procEnv);
             if(Attribute != null) copy.Attribute = (SequenceExpressionAttributeAccess)Attribute.Copy(originalToCopy, procEnv);
             if(Expr != null) copy.Expr = Expr.CopyExpression(originalToCopy, procEnv);
             return copy;
@@ -664,24 +635,18 @@ namespace de.unika.ipd.grGen.libGr
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             if(Container != null) Container.GetLocalVariables(variables);
-            if(MethodCall != null) MethodCall.GetLocalVariables(variables, containerConstructors);
             if(Attribute != null) Attribute.GetLocalVariables(variables, containerConstructors);
             if(Expr != null) Expr.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override IEnumerable<SequenceComputation> Children { get { if(MethodCall != null) yield return MethodCall; if(Expr != null) yield return Expr; yield break; } }
+        public override IEnumerable<SequenceComputation> Children { get { if(Expr != null) yield return Expr; yield break; } }
         public override string Symbol { get { return Name + ".rem(" + (Expr != null ? Expr.Symbol : "") + ")"; } }
     }
 
     public class SequenceComputationContainerClear : SequenceComputationContainer
     {
         public SequenceComputationContainerClear(SequenceVariable container)
-            : base(SequenceComputationType.ContainerClear, container, null)
-        {
-        }
-
-        public SequenceComputationContainerClear(SequenceComputation methodCall)
-            : base(SequenceComputationType.ContainerClear, null, methodCall)
+            : base(SequenceComputationType.ContainerClear, container)
         {
         }
 
@@ -703,7 +668,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceComputationContainerClear copy = (SequenceComputationContainerClear)MemberwiseClone();
             if(Container != null) copy.Container = Container.Copy(originalToCopy, procEnv);
-            if(MethodCall != null) copy.MethodCall = MethodCall.Copy(originalToCopy, procEnv);
             if(Attribute != null) copy.Attribute = (SequenceExpressionAttributeAccess)Attribute.Copy(originalToCopy, procEnv);
             return copy;
         }
@@ -780,11 +744,10 @@ namespace de.unika.ipd.grGen.libGr
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             if(Container != null) Container.GetLocalVariables(variables);
-            if(MethodCall != null) MethodCall.GetLocalVariables(variables, containerConstructors);
             if(Attribute != null) Attribute.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override IEnumerable<SequenceComputation> Children { get { if(MethodCall == null) yield break; else yield return MethodCall; } }
+        public override IEnumerable<SequenceComputation> Children { get { yield break; } }
         public override string Symbol { get { return Name + ".clear()"; } }
     }
 
@@ -2049,6 +2012,12 @@ namespace de.unika.ipd.grGen.libGr
             ParamBindings = paramBindings;
         }
 
+        public SequenceComputationProcedureCall(SequenceComputationType seqCompType, ProcedureInvocationParameterBindings paramBindings)
+            : base(seqCompType)
+        {
+            ParamBindings = paramBindings;
+        }
+
         public override void Check(SequenceCheckingEnvironment env)
         {
             //base.Check(env); // check children
@@ -2088,7 +2057,7 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceComputation> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
 
-        protected String GetProcedureString()
+        protected virtual String GetProcedureString()
         {
             StringBuilder sb = new StringBuilder();
             if(ParamBindings.ReturnVars.Length > 0)
@@ -2119,5 +2088,105 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override string Symbol { get { return GetProcedureString(); } }
+    }
+
+    public class SequenceComputationProcedureMethodCall : SequenceComputationProcedureCall
+    {
+        public SequenceExpression TargetExpr;
+        public SequenceVariable TargetVar;
+
+        public SequenceComputationProcedureMethodCall(SequenceExpression targetExpr, ProcedureInvocationParameterBindings paramBindings)
+            : base(SequenceComputationType.ProcedureMethodCall, paramBindings)
+        {
+            TargetExpr = targetExpr;
+        }
+
+        public SequenceComputationProcedureMethodCall(SequenceVariable targetVar, ProcedureInvocationParameterBindings paramBindings)
+            : base(SequenceComputationType.ProcedureMethodCall, paramBindings)
+        {
+            TargetVar = targetVar;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            //base.Check(env); // check children
+            if(TargetExpr!=null)
+                env.CheckProcedureMethodCall(TargetExpr, this);
+            else
+                env.CheckProcedureMethodCall(TargetVar, this);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationProcedureMethodCall copy = (SequenceComputationProcedureMethodCall)MemberwiseClone();
+            if(TargetExpr!=null) copy.TargetExpr = TargetExpr.CopyExpression(originalToCopy, procEnv);
+            if(TargetVar != null) copy.TargetVar = TargetVar.Copy(originalToCopy, procEnv);
+            copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            IGraphElement owner;
+            if(TargetExpr != null)
+                owner = (IGraphElement)TargetExpr.Evaluate(procEnv);
+            else
+                owner = (IGraphElement)TargetVar.Value;
+            for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; i++)
+            {
+                if(ParamBindings.ArgumentExpressions[i] != null)
+                    ParamBindings.Arguments[i] = ParamBindings.ArgumentExpressions[i].Evaluate(procEnv);
+            }
+            object[] resultVars = owner.ApplyProcedureMethod(procEnv, procEnv.Graph, ParamBindings.Name, ParamBindings.Arguments);
+            if(ParamBindings.ReturnVars.Length > 0)
+            {
+                for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
+                    ParamBindings.ReturnVars[i].SetVariableValue(resultVars[i], procEnv);
+            }
+            return null;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            if(TargetExpr != null) TargetExpr.GetLocalVariables(variables, containerConstructors);
+            if(TargetVar != null) TargetVar.GetLocalVariables(variables);
+            ParamBindings.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceComputation> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+
+        protected override String GetProcedureString()
+        {
+            StringBuilder sb = new StringBuilder();
+            if(ParamBindings.ReturnVars.Length > 0)
+            {
+                sb.Append("(");
+                for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
+                {
+                    sb.Append(ParamBindings.ReturnVars[i].Name);
+                    if(i != ParamBindings.ReturnVars.Length - 1) sb.Append(",");
+                }
+                sb.Append(")=");
+            }
+            if(TargetExpr != null) sb.Append(TargetExpr.Symbol + ".");
+            if(TargetVar != null) sb.Append(TargetVar.ToString() + ".");
+            sb.Append(ParamBindings.ProcedureDef.name);
+            if(ParamBindings.ArgumentExpressions.Length > 0)
+            {
+                sb.Append("(");
+                for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
+                {
+                    if(ParamBindings.ArgumentExpressions[i] != null)
+                        sb.Append(ParamBindings.ArgumentExpressions[i].Symbol);
+                    else
+                        sb.Append(ParamBindings.Arguments[i] != null ? ParamBindings.Arguments[i] : "null");
+                    if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");
+                }
+                sb.Append(")");
+            }
+            return sb.ToString();
+        }
     }
 }

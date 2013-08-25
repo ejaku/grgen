@@ -16,12 +16,12 @@ def copyAndLinkBlue(gr:Graph) : (ngr:Graph) {\
 
 def stateStepIsoCheckDefined(gr:Graph, level:int) { false }
 def stateStepIsoCheckDefined(gr:Graph, level:int) {\
-	if{{level < ::stopLevel};\
+	if{ {{level < ::stopLevel}};\
 		sub:graph ;> ngr:Graph\
-		;> << insertRed(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / (ngr)=copyAndLinkRed(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefined(ngr, level+1) >>\
-		;> << insertGreen(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / (ngr)=copyAndLinkGreen(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefined(ngr, level+1) >>\
-		;> << insertBlue(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{others:Graph in nodes(Graph); {sub!=others.sub}} && / (ngr)=copyAndLinkBlue(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefined(ngr, level+1) >>;\
-		false}\
+		;> << insertRed(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{ others:Graph in nodes(Graph); {{sub!=others.sub}} } && / (ngr)=copyAndLinkRed(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefined(ngr, level+1) >>\
+		;> << insertGreen(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{ others:Graph in nodes(Graph); {{sub!=others.sub}} } && / (ngr)=copyAndLinkGreen(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefined(ngr, level+1) >>\
+		;> << insertBlue(gr) ;; {sub=definedSubgraph(incident(gr, contains))} ;> for{ others:Graph in nodes(Graph); {{sub!=others.sub}} } && / (ngr)=copyAndLinkBlue(gr) && {ngr.sub=sub} / && stateStepIsoCheckDefined(ngr, level+1) >>;\
+		false }\
 }
 
 exec (gr:Graph)=init ;> {gr.sub=definedSubgraph(incident(gr, contains))} ;> ::stopLevel=5 ;> stateStepIsoCheckDefined(gr, 0)

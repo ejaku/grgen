@@ -14,82 +14,82 @@ test False
 rule then
 {
 	modify {
-		exec(r:boolean=({true ; true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({true ; false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false ; true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false ; false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true} ; {true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true} ; {false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false} ; {true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false} ; {false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
 rule lazyor
 {
 	modify {
-		exec(r:boolean=({true || true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({true || false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false || true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false || false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true || true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true || false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false || true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false || false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
 rule lazyand
 {
 	modify {
-		exec(r:boolean=({true && true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({true && false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false && true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false && false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true && true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true && false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false && true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false && false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
 rule strictor
 {
 	modify {
-		exec(r:boolean=({true | true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({true | false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false | true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false | false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true | true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true | false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false | true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false | false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
 rule strictand
 {
 	modify {
-		exec(r:boolean=({true & true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({true & false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false & true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false & false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true & true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true & false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false & true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false & false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
 rule strictxor
 {
 	modify {
-		exec(r:boolean=({true ^ true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({true ^ false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false ^ true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false ^ false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true ^ true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true ^ false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false ^ true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false ^ false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
 rule neg
 {
 	modify {
-		exec(r:boolean=({!true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({!false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{!true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{!false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
 rule conditional
 {
 	modify {
-		exec(r:boolean=({true ? true : true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({true ? true : false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({true ? false : true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({true ? false : false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false ? true : true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false ? true : false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false ? false : true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false ? false : false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true ? true : true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true ? true : false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true ? false : true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true ? false : false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false ? true : true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false ? true : false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false ? false : true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false ? false : false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
@@ -121,7 +121,7 @@ rule variabledeclaration
 rule methodcall
 {
 	modify {
-		exec(::r=set<int>{} ;> ::s=({::r.add(1).add(2).add(3).rem(3).empty()})
+		exec(::r=set<int>{} ;> ::s=({::r.add(1); ::r.add(2); ::r.add(3); ::r.rem(3); {::r.empty()}})
 				;> {emit("The value of variable r of type bool is: ")} ;> {emit(::r)} ;> {emit("\n")}
 				;> {emit("The value of variable s of type bool is: ")} ;> {emit(::s)} ;> {emit("\n")});
 	}
@@ -130,408 +130,408 @@ rule methodcall
 rule equal
 {
 	modify {
-		exec(r:boolean=({true == true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({true == false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false == true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false == false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true == true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true == false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false == true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false == false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({"a" == "a"}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({"a" == "b"}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({"b" == "a"}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({"b" == "b"}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{"a" == "a"}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{"a" == "b"}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{"b" == "a"}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{"b" == "b"}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({Foo::Bar == Foo::Bar}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bar == Foo::Bla}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bla == Foo::Bar}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bla == Foo::Bla}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bar == Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bar == Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bla == Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bla == Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1Y == 1Y}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1Y == 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 == 1Y}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 == 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1Y == 1Y}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1Y == 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 == 1Y}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 == 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1S == 1S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1S == 0S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0S == 1S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0S == 0S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1S == 1S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1S == 0S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0S == 1S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0S == 0S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1 == 1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1 == 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 == 1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 == 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1 == 1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1 == 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 == 1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 == 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1L == 1L}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1L == 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 == 1L}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 == 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1L == 1L}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1L == 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 == 1L}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 == 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1.0f == 1.0f}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1.0f == 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 == 1.0f}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 == 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0f == 1.0f}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0f == 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 == 1.0f}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 == 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1.0 == 1.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1.0 == 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 == 1.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 == 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0 == 1.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0 == 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 == 1.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 == 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
 		exec(::s1=set<string>{} ;> {::s1.add("foo")} ;> ::s2=set<string>{});
-		exec(r:boolean=({::s1 == ::s1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s1 == ::s2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s2 == ::s1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s2 == ::s2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s1 == ::s1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s1 == ::s2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s2 == ::s1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s2 == ::s2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
 		exec(::m1=map<int,double>{} ;> {::m1.add(42,3.141592654)} ;> ::m2=map<int,double>{});
-		exec(r:boolean=({::m1 == ::m1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m1 == ::m2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m2 == ::m1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m2 == ::m2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m1 == ::m1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m1 == ::m2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m2 == ::m1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m2 == ::m2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(::a1=array<boolean>[] ;> {::a1.add(true).add(false)} ;> ::a2=array<boolean>[]);
-		exec(r:boolean=({::a1 == ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a1 == ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a2 == ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a2 == ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(::a1=array<boolean>[] ;> {::a1.add(true); ::a1.add(false)} ;> ::a2=array<boolean>[]);
+		exec(r:boolean=({{::a1 == ::a1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a1 == ::a2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a2 == ::a1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a2 == ::a2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][);
-		exec(r:boolean=({::d1 == ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d1 == ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d2 == ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d2 == ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true); ::d1.add(false)} ;> ::d2=deque<boolean>][);
+		exec(r:boolean=({{::d1 == ::d1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d1 == ::d2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d2 == ::d1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d2 == ::d2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({null == null}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{null == null}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
 rule notequal
 {
 	modify {
-		exec(r:boolean=({true != true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({true != false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false != true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({false != false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true != true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{true != false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false != true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{false != false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({"a" != "a"}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({"a" != "b"}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({"b" != "a"}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({"b" != "b"}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{"a" != "a"}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{"a" != "b"}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{"b" != "a"}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{"b" != "b"}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({Foo::Bar != Foo::Bar}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bar != Foo::Bla}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bla != Foo::Bar}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bla != Foo::Bla}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bar != Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bar != Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bla != Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bla != Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1Y != 1Y}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1Y != 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 != 1Y}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 != 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1Y != 1Y}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1Y != 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 != 1Y}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 != 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1S != 1S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1S != 0S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0S != 1S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0S != 0S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1S != 1S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1S != 0S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0S != 1S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0S != 0S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1 != 1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1 != 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 != 1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 != 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1 != 1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1 != 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 != 1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 != 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1L != 1L}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1L != 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 != 1L}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 != 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1L != 1L}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1L != 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 != 1L}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 != 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1.0f != 1.0f}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1.0f != 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 != 1.0f}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 != 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0f != 1.0f}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0f != 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 != 1.0f}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 != 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1.0 != 1.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1.0 != 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 != 1.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 != 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0 != 1.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0 != 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 != 1.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 != 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
 		exec(::s1=set<string>{} ;> {::s1.add("foo")} ;> ::s2=set<string>{});
-		exec(r:boolean=({::s1 != ::s1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s1 != ::s2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s2 != ::s1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s2 != ::s2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s1 != ::s1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s1 != ::s2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s2 != ::s1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s2 != ::s2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
 		exec(::m1=map<int,double>{} ;> {::m1.add(42,3.141592654)} ;> ::m2=map<int,double>{});
-		exec(r:boolean=({::m1 != ::m1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m1 != ::m2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m2 != ::m1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m2 != ::m2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m1 != ::m1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m1 != ::m2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m2 != ::m1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m2 != ::m2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(::a1=array<boolean>[] ;> {::a1.add(true).add(false)} ;> ::a2=array<boolean>[]);
-		exec(r:boolean=({::a1 != ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a1 != ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a2 != ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a2 != ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(::a1=array<boolean>[] ;> {::a1.add(true); ::a1.add(false)} ;> ::a2=array<boolean>[]);
+		exec(r:boolean=({{::a1 != ::a1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a1 != ::a2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a2 != ::a1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a2 != ::a2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(::d1=array<boolean>[] ;> {::d1.add(true).add(false)} ;> ::d2=array<boolean>[]);
-		exec(r:boolean=({::d1 != ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d1 != ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d2 != ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d2 != ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true); ::d1.add(false)} ;> ::d2=deque<boolean>][);
+		exec(r:boolean=({{::d1 != ::d1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d1 != ::d2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d2 != ::d1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d2 != ::d2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({null != null}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{null != null}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
 rule greater
 {
 	modify {
-		exec(r:boolean=({Foo::Bar > Foo::Bar}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bar > Foo::Bla}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bla > Foo::Bar}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bla > Foo::Bla}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bar > Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bar > Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bla > Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bla > Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1Y > 1Y}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1Y > 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 > 1Y}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 > 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1Y > 1Y}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1Y > 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 > 1Y}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 > 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1S > 1S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1S > 0S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0S > 1S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0S > 0S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1S > 1S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1S > 0S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0S > 1S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0S > 0S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1 > 1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1 > 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 > 1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 > 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1 > 1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1 > 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 > 1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 > 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1L > 1L}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1L > 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 > 1L}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 > 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1L > 1L}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1L > 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 > 1L}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 > 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1.0f > 1.0f}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1.0f > 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 > 1.0f}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 > 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0f > 1.0f}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0f > 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 > 1.0f}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 > 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1.0 > 1.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1.0 > 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 > 1.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 > 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0 > 1.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0 > 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 > 1.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 > 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
 		exec(::s1=set<string>{} ;> {::s1.add("foo")} ;> ::s2=set<string>{});
-		exec(r:boolean=({::s1 > ::s1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s1 > ::s2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s2 > ::s1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s2 > ::s2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s1 > ::s1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s1 > ::s2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s2 > ::s1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s2 > ::s2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
 		exec(::m1=map<int,double>{} ;> {::m1.add(42,3.141592654)} ;> ::m2=map<int,double>{});
-		exec(r:boolean=({::m1 > ::m1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m1 > ::m2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m2 > ::m1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m2 > ::m2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m1 > ::m1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m1 > ::m2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m2 > ::m1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m2 > ::m2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(::a1=array<boolean>[] ;> {::a1.add(true).add(false)} ;> ::a2=array<boolean>[]);
-		exec(r:boolean=({::a1 > ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a1 > ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a2 > ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a2 > ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-
-		exec(::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][);
-		exec(r:boolean=({::d1 > ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d1 > ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d2 > ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d2 > ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(::a1=array<boolean>[] ;> {::a1.add(true); ::a1.add(false)} ;> ::a2=array<boolean>[]);
+		exec(r:boolean=({{::a1 > ::a1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a1 > ::a2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a2 > ::a1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a2 > ::a2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true); ::d1.add(false)} ;> ::d2=deque<boolean>][);
+		exec(r:boolean=({{::d1 > ::d1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d1 > ::d2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d2 > ::d1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d2 > ::d2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
 rule lower
 {
 	modify {
-		exec(r:boolean=({Foo::Bar < Foo::Bar}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bar < Foo::Bla}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bla < Foo::Bar}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bla < Foo::Bla}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bar < Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bar < Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bla < Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bla < Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1Y < 1Y}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1Y < 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 < 1Y}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 < 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1Y < 1Y}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1Y < 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 < 1Y}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 < 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1S < 1S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1S < 0S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0S < 1S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0S < 0S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1S < 1S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1S < 0S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0S < 1S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0S < 0S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1 < 1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1 < 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 < 1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 < 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1 < 1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1 < 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 < 1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 < 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1L < 1L}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1L < 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 < 1L}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 < 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1L < 1L}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1L < 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 < 1L}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 < 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1.0f < 1.0f}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1.0f < 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 < 1.0f}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 < 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0f < 1.0f}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0f < 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 < 1.0f}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 < 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1.0 < 1.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1.0 < 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 < 1.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 < 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0 < 1.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0 < 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 < 1.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 < 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
 		exec(::s1=set<string>{} ;> {::s1.add("foo")} ;> ::s2=set<string>{});
-		exec(r:boolean=({::s1 < ::s1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s1 < ::s2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s2 < ::s1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s2 < ::s2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s1 < ::s1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s1 < ::s2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s2 < ::s1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s2 < ::s2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
 		exec(::m1=map<int,double>{} ;> {::m1.add(42,3.141592654)} ;> ::m2=map<int,double>{});
-		exec(r:boolean=({::m1 < ::m1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m1 < ::m2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m2 < ::m1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m2 < ::m2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m1 < ::m1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m1 < ::m2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m2 < ::m1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m2 < ::m2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(::a1=array<boolean>[] ;> {::a1.add(true).add(false)} ;> ::a2=array<boolean>[]);
-		exec(r:boolean=({::a1 < ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a1 < ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a2 < ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a2 < ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(::a1=array<boolean>[] ;> {::a1.add(true); ::a1.add(false)} ;> ::a2=array<boolean>[]);
+		exec(r:boolean=({{::a1 < ::a1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a1 < ::a2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a2 < ::a1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a2 < ::a2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		
-		exec(::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][);
-		exec(r:boolean=({::d1 < ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d1 < ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d2 < ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d2 < ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true); ::d1.add(false)} ;> ::d2=deque<boolean>][);
+		exec(r:boolean=({{::d1 < ::d1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d1 < ::d2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d2 < ::d1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d2 < ::d2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
 rule greaterequal
 {
 	modify {
-		exec(r:boolean=({Foo::Bar >= Foo::Bar}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bar >= Foo::Bla}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bla >= Foo::Bar}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bla >= Foo::Bla}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bar >= Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bar >= Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bla >= Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bla >= Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1Y >= 1Y}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1Y >= 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 >= 1Y}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 >= 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1Y >= 1Y}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1Y >= 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 >= 1Y}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 >= 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1S >= 1S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1S >= 0S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0S >= 1S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0S >= 0S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1S >= 1S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1S >= 0S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0S >= 1S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0S >= 0S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1 >= 1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1 >= 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 >= 1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 >= 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1 >= 1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1 >= 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 >= 1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 >= 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1L >= 1L}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1L >= 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 >= 1L}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 >= 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1L >= 1L}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1L >= 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 >= 1L}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 >= 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1.0f >= 1.0f}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1.0f >= 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 >= 1.0f}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 >= 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0f >= 1.0f}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0f >= 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 >= 1.0f}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 >= 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1.0 >= 1.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1.0 >= 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 >= 1.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 >= 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0 >= 1.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0 >= 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 >= 1.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 >= 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
 		exec(::s1=set<string>{} ;> {::s1.add("foo")} ;> ::s2=set<string>{});
-		exec(r:boolean=({::s1 >= ::s1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s1 >= ::s2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s2 >= ::s1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s2 >= ::s2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s1 >= ::s1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s1 >= ::s2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s2 >= ::s1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s2 >= ::s2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
 		exec(::m1=map<int,double>{} ;> {::m1.add(42,3.141592654)} ;> ::m2=map<int,double>{});
-		exec(r:boolean=({::m1 >= ::m1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m1 >= ::m2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m2 >= ::m1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m2 >= ::m2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m1 >= ::m1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m1 >= ::m2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m2 >= ::m1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m2 >= ::m2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(::a1=array<boolean>[] ;> {::a1.add(true).add(false)} ;> ::a2=array<boolean>[]);
-		exec(r:boolean=({::a1 >= ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a1 >= ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a2 >= ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a2 >= ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-
-		exec(::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][);
-		exec(r:boolean=({::d1 >= ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d1 >= ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d2 >= ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d2 >= ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(::a1=array<boolean>[] ;> {::a1.add(true); ::a1.add(false)} ;> ::a2=array<boolean>[]);
+		exec(r:boolean=({{::a1 >= ::a1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a1 >= ::a2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a2 >= ::a1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a2 >= ::a2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true); ::d1.add(false)} ;> ::d2=deque<boolean>][);
+		exec(r:boolean=({{::d1 >= ::d1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d1 >= ::d2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d2 >= ::d1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d2 >= ::d2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
 rule lowerequal
 {
 	modify {
-		exec(r:boolean=({Foo::Bar <= Foo::Bar}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bar <= Foo::Bla}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bla <= Foo::Bar}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({Foo::Bla <= Foo::Bla}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bar <= Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bar <= Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bla <= Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{Foo::Bla <= Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1Y <= 1Y}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1Y <= 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 <= 1Y}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 <= 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1Y <= 1Y}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1Y <= 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 <= 1Y}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 <= 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1S <= 1S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1S <= 0S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0S <= 1S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0S <= 0S}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1S <= 1S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1S <= 0S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0S <= 1S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0S <= 0S}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1 <= 1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1 <= 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 <= 1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 <= 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1 <= 1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1 <= 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 <= 1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 <= 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1L <= 1L}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1L <= 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 <= 1L}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0 <= 0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1L <= 1L}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1L <= 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 <= 1L}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0 <= 0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1.0f <= 1.0f}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1.0f <= 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 <= 1.0f}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 <= 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0f <= 1.0f}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0f <= 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 <= 1.0f}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 <= 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(r:boolean=({1.0 <= 1.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({1.0 <= 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 <= 1.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({0.0 <= 0.0}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0 <= 1.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{1.0 <= 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 <= 1.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{0.0 <= 0.0}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
 		exec(::s1=set<string>{} ;> {::s1.add("foo")} ;> ::s2=set<string>{});
-		exec(r:boolean=({::s1 <= ::s1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s1 <= ::s2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s2 <= ::s1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::s2 <= ::s2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s1 <= ::s1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s1 <= ::s2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s2 <= ::s1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::s2 <= ::s2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
 		exec(::m1=map<int,double>{} ;> {::m1.add(42,3.141592654)} ;> ::m2=map<int,double>{});
-		exec(r:boolean=({::m1 <= ::m1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m1 <= ::m2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m2 <= ::m1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::m2 <= ::m2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m1 <= ::m1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m1 <= ::m2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m2 <= ::m1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::m2 <= ::m2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 
-		exec(::a1=array<boolean>[] ;> {::a1.add(true).add(false)} ;> ::a2=array<boolean>[]);
-		exec(r:boolean=({::a1 <= ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a1 <= ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a2 <= ::a1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::a2 <= ::a2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(::a1=array<boolean>[] ;> {::a1.add(true); ::a1.add(false)} ;> ::a2=array<boolean>[]);
+		exec(r:boolean=({{::a1 <= ::a1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a1 <= ::a2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a2 <= ::a1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::a2 <= ::a2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		
-		exec(::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][);
-		exec(r:boolean=({::d1 <= ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d1 <= ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d2 <= ::d1}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
-		exec(r:boolean=({::d2 <= ::d2}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true); ::d1.add(false)} ;> ::d2=deque<boolean>][);
+		exec(r:boolean=({{::d1 <= ::d1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d1 <= ::d2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d2 <= ::d1}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
+		exec(r:boolean=({{::d2 <= ::d2}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
 }
 
@@ -578,13 +578,13 @@ rule plus
 		exec({::r=0.0 + 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=0.0 + 0.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 
-		exec(::a1=array<boolean>[] ;> {::a1.add(true).add(false)} ;> ::a2=array<boolean>[]);
+		exec(::a1=array<boolean>[] ;> {::a1.add(true); ::a1.add(false)} ;> ::a2=array<boolean>[]);
 		exec({::r=::a1 + ::a1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=::a1 + ::a2} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=::a2 + ::a1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=::a2 + ::a2} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
-
-		exec(::d1=deque<boolean>][ ;> {::d1.add(true).add(false)} ;> ::d2=deque<boolean>][);
+		
+		exec(::d1=deque<boolean>][ ;> {::d1.add(true); ::d1.add(false)} ;> ::d2=deque<boolean>][);
 		exec({::r=::d1 + ::d1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=::d1 + ::d2} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=::d2 + ::d1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});

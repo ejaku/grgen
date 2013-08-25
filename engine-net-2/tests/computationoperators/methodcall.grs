@@ -1,6 +1,6 @@
 new graph computationoperators/computationoperators
 
-xgrs ::r=set<int>{} ;> ::s=({::r.add(1).add(2).add(3).rem(3).empty()})
+xgrs ::r=set<int>{} ;> ::s=({ ::r.add(1); ::r.add(2); ::r.add(3); ::r.rem(3); {::r.empty()} })
 show var r
 show var s
 

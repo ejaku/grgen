@@ -14,12 +14,12 @@ def copyAndLinkBlue(gr:Graph) : (ngr:Graph) {\
 
 def stateStep(gr:Graph, level:int) { false }
 def stateStep(gr:Graph, level:int) {\
-	if{{level < ::stopLevel};\
+	if{ {{level < ::stopLevel}};\
 		ngr:Graph\
 		;> << insertRed(gr) ;; / (ngr)=copyAndLinkRed(gr) / ;> stateStep(ngr, level+1) >>\
 		;> << insertGreen(gr) ;; / (ngr)=copyAndLinkGreen(gr) / ;> stateStep(ngr, level+1) >>\
 		;> << insertBlue(gr) ;; / (ngr)=copyAndLinkBlue(gr) / ;> stateStep(ngr, level+1) >>;\
-		false}\
+		false }\
 }
 
 exec (gr:Graph)=init ;> ::stopLevel=5 ;> stateStep(gr, 0)

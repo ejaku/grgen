@@ -8,12 +8,12 @@ xgrs {(::visId2)=valloc()}
 xgrs {::n1.visited[::visId1]=true}
 xgrs {::n2.visited[::visId2]=true}
 show num nodes
-xgrs {::n1.visited[::visId1]} && empty
-xgrs {::n1.visited[::visId2]} && empty
-xgrs {::n2.visited[::visId1]} && empty
-xgrs {::n2.visited[::visId2]} && empty
-xgrs {::n3.visited[::visId1]} && empty
-xgrs {::n3.visited[::visId2]} && empty
+xgrs {{::n1.visited[::visId1]}} && empty
+xgrs {{::n1.visited[::visId2]}} && empty
+xgrs {{::n2.visited[::visId1]}} && empty
+xgrs {{::n2.visited[::visId2]}} && empty
+xgrs {{::n3.visited[::visId1]}} && empty
+xgrs {{::n3.visited[::visId2]}} && empty
 show num nodes
 xgrs [isVisited(::visId1)]
 xgrs [isVisited(::visId2)]
@@ -26,7 +26,7 @@ xgrs [isVisited(::visId2)]
 show num nodes
 xgrs [setVisited(::visId1)]
 xgrs [isVisited(::visId1)]
-xgrs {::n3.visited[::visId1]} && empty
+xgrs {{::n3.visited[::visId1]}} && empty
 xgrs [isVisited(::visId2)]
 xgrs {vreset(::visId1)}
 xgrs [isVisited(::visId1)]

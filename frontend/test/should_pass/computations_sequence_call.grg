@@ -35,7 +35,7 @@ procedure foo(var x:int, y:Node, -z:Edge->, y2:A, -z2:E1->) : (int)
 	} else {
 		def var n:int = 0;
 		exec( (::num)=t() ;> { yield n=::num + bar(); } );
-		exec( if{ {42 <= bar()}; { (resres:int) = foo(x,y,z,y2,z2); resres > bar() } } );
+		exec( if{ {{42 <= bar()}}; { (resres:int) = foo(x,y,z,y2,z2); {resres > bar()} } } );
 		exec( y3:Node ;> { (y3)=add(A); (nn:int) = foo(n,y3,z,y2,z2); } );
 		def var res:int;
 		(res) = foo(x - 1, y, z, y2, z2);

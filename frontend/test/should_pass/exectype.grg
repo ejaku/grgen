@@ -545,7 +545,7 @@ rule AssignConstToVar
 		exec(xby:byte=3Y && xsh:short=3S && x:int=3 && xl:long=3L && y:string="fool" && z:foo=foo::Bar
 			&& u:double=3.141592654 && l:float=3.141f && v:boolean=true
 			&& w:set<int>=set<int>{} && k:map<A,H>=map<A,H>{} 
-			&& m:array<int>=array<int>[] && d:deque<int>=deque<int>][
+			&& m:array<int>=array<int>[] && n:deque<int>=deque<int>][
 			&& {emit("value of variable xby 5 6 7 8 9 ")} && {emit(xby)} && {emit("\n")}
 			&& {emit("value of variable xsh 5 6 7 8 9 ")} && {emit(xsh)} && {emit("\n")}
 			&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
@@ -558,7 +558,7 @@ rule AssignConstToVar
 			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(w)} && {emit("\n")}
 			&& {emit("value of variable k 5 6 7 8 9 ")} && {emit(k)} && {emit("\n")}
 			&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(m)} && {emit("\n")}
-			&& {emit("value of variable d 5 6 7 8 9 ")} && {emit(d)} && {emit("\n")}
+			&& {emit("value of variable n 5 6 7 8 9 ")} && {emit(n)} && {emit("\n")}
 		);
 	}
 }
@@ -569,7 +569,7 @@ rule AssignConstToVarUntyped
 		exec(::xby=3Y && ::xsh=3S && ::x=3 && ::xl=3L && ::y="fool" && ::z=foo::Bar
 			&& ::u=3.141592654 && ::l=3.141f && ::v=true
 			&& ::w=set<int>{} && ::k=map<A,H>{}
-			&& ::m=array<int>[] && ::d=deque<int>][
+			&& ::m=array<int>[] && ::n=deque<int>][
 			&& {emit("value of variable xby 5 6 7 8 9 ")} && {emit(::xby)} && {emit("\n")}
 			&& {emit("value of variable xsh 5 6 7 8 9 ")} && {emit(::xsh)} && {emit("\n")}
 			&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(::x)} && {emit("\n")}
@@ -582,7 +582,7 @@ rule AssignConstToVarUntyped
 			&& {emit("value of variable w 5 6 7 8 9 ")} && {emit(::w)} && {emit("\n")}
 			&& {emit("value of variable k 5 6 7 8 9 ")} && {emit(::k)} && {emit("\n")}
 			&& {emit("value of variable m 5 6 7 8 9 ")} && {emit(::m)} && {emit("\n")}
-			&& {emit("value of variable d 5 6 7 8 9 ")} && {emit(::d)} && {emit("\n")}
+			&& {emit("value of variable n 5 6 7 8 9 ")} && {emit(::n)} && {emit("\n")}
 		);
 	}
 }
@@ -638,11 +638,11 @@ rule Visited(n:A,-e:H->)
 {
 	modify {
 		exec(i:int=0 && {(i)=valloc()} && v:boolean=false && {n.visited[i]=v} && v=true && {e.visited[i]=v}
-			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
-			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {{n.visited[i]}} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {{e.visited[i]}} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
 			;> {vreset(i)}
-			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
-			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {{n.visited[i]}} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {{e.visited[i]}} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
 			;> {vfree(i)}
 		);
 	}
@@ -652,11 +652,11 @@ rule VisitedUntyped(n:A,-e:H->)
 {
 	modify {
 		exec({(::i)=valloc()} && ::v=false && {n.visited[::i]=::v} && ::v=true && {e.visited[::i]=::v}
-			;> {n.visited[::i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
-			;> {e.visited[::i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {{n.visited[::i]}} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {{e.visited[::i]}} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
 			;> {vreset(::i)}
-			;> {n.visited[::i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
-			;> {e.visited[::i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {{n.visited[::i]}} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {{e.visited[::i]}} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
 			;> {vfree(::i)}
 		);
 	}
@@ -666,11 +666,11 @@ rule VisitedPartial2(n:A,-e:H->)
 {
 	modify {
 		exec({(::ifirst)=valloc()} && {(::i)=valloc()} && v:boolean=false && {n.visited[::i]=v} && v=true && {e.visited[::i]=v}
-			;> {n.visited[::i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
-			;> {e.visited[::i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {{n.visited[::i]}} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {{e.visited[::i]}} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
 			;> {vreset(::i)}
-			;> {n.visited[::i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
-			;> {e.visited[::i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {{n.visited[::i]}} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {{e.visited[::i]}} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
 			;> {vfree(::i)} ;> {vfree(::ifirst)}
 		);
 	}
@@ -680,11 +680,11 @@ rule VisitedPartial1(n:A,-e:H->)
 {
 	modify {
 		exec(i:int=0 && {(i)=valloc()} && ::v=false && {n.visited[i]=::v} && ::v=true && {e.visited[i]=::v}
-			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
-			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {{n.visited[i]}} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {{e.visited[i]}} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
 			;> {vreset(i)}
-			;> {n.visited[i]} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
-			;> {e.visited[i]} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
+			;> {{n.visited[i]}} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
+			;> {{e.visited[i]}} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
 			;> {vfree(i)}
 		);
 	}
@@ -693,8 +693,8 @@ rule VisitedPartial1(n:A,-e:H->)
 rule VarPredicate{
 	modify {
 		exec(x:boolean=true && y:boolean=false
-			&& x && {x} && {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
-			&& y && {y} && {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")}
+			&& x && {{x}} && {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
+			&& y && {{y}} && {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")}
 		);
 	}
 }
@@ -703,8 +703,8 @@ rule VarPredicateUntyped
 {
 	modify {
 		exec(::x=true && ::y=false
-			&& ::x && {::x} && {emit("value of variable x 5 6 7 8 9 ")} && {emit(::x)} && {emit("\n")}
-			&& ::y && {::y} && {emit("value of variable y 5 6 7 8 9 ")} && {emit(::y)} && {emit("\n")}
+			&& ::x && {{::x}} && {emit("value of variable x 5 6 7 8 9 ")} && {emit(::x)} && {emit("\n")}
+			&& ::y && {{::y}} && {emit("value of variable y 5 6 7 8 9 ")} && {emit(::y)} && {emit("\n")}
 		);
 	}
 }

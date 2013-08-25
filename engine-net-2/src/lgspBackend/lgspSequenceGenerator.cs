@@ -1781,10 +1781,6 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceComputationContainerAdd seqAdd = (SequenceComputationContainerAdd)seqComp;
 
-                    if(seqAdd.MethodCall != null)
-                    {
-                        EmitSequenceComputation(seqAdd.MethodCall, source);
-                    }
                     string container = GetContainerValue(seqAdd);
 
                     if(seqAdd.ContainerType(env) == "")
@@ -2009,10 +2005,6 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceComputationContainerRem seqDel = (SequenceComputationContainerRem)seqComp;
 
-                    if(seqDel.MethodCall != null)
-                    {
-                        EmitSequenceComputation(seqDel.MethodCall, source);
-                    }
                     string container = GetContainerValue(seqDel);
 
                     if(seqDel.ContainerType(env) == "")
@@ -2226,10 +2218,6 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceComputationContainerClear seqClear = (SequenceComputationContainerClear)seqComp;
 
-                    if(seqClear.MethodCall != null)
-                    {
-                        EmitSequenceComputation(seqClear.MethodCall, source);
-                    }
                     string container = GetContainerValue(seqClear);
 
                     if(seqClear.ContainerType(env) == "")
@@ -2697,6 +2685,14 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceComputationType.ProcedureMethodCall:
+                {
+                    SequenceComputationProcedureMethodCall seqCall = (SequenceComputationProcedureMethodCall)seqComp;
+                    // METHOD-TODO
+                    source.AppendFront(SetResultVar(seqCall, "null"));
+                    break;
+                }
+
 				default:
 					throw new Exception("Unknown sequence computation type: " + seqComp.SequenceComputationType);
 			}
@@ -3092,9 +3088,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         string GetContainerValue(SequenceComputationContainer container)
         {
-            if(container.MethodCall != null)
-                return GetResultVar(container.MethodCall);
-            else if(container.Container != null)
+            if(container.Container != null)
                 return GetVar(container.Container);
             else
                 return "((GRGEN_LIBGR.IGraphElement)" + GetVar(container.Attribute.SourceVar) + ")" + ".GetAttribute(\"" + container.Attribute.AttributeName + "\")";
@@ -3633,11 +3627,6 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionContainerSize seqContainerSize = (SequenceExpressionContainerSize)expr;
 
-                    if(seqContainerSize.MethodCall != null)
-                    {
-                        EmitSequenceComputation(seqContainerSize.MethodCall, source);
-                    }
-
                     string container = GetContainerValue(seqContainerSize, source);
 
                     if(seqContainerSize.ContainerType(env) == "")
@@ -3688,10 +3677,6 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionContainerEmpty seqContainerEmpty = (SequenceExpressionContainerEmpty)expr;
                     
-                    if(seqContainerEmpty.MethodCall != null)
-                    {
-                        EmitSequenceComputation(seqContainerEmpty.MethodCall, source);
-                    }
                     string container = GetContainerValue(seqContainerEmpty, source);
 
                     if(seqContainerEmpty.ContainerType(env) == "")
@@ -3830,10 +3815,6 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionContainerPeek seqContainerPeek = (SequenceExpressionContainerPeek)expr;
 
-                    if(seqContainerPeek.MethodCall != null)
-                    {
-                        EmitSequenceComputation(seqContainerPeek.MethodCall, source);
-                    }
                     string container = GetContainerValue(seqContainerPeek, source);
 
                     if(seqContainerPeek.KeyExpr != null)
@@ -3998,6 +3979,14 @@ namespace de.unika.ipd.grGen.lgsp
                     return sb.ToString();
                 }
 
+                case SequenceExpressionType.FunctionMethodCall:
+                {
+                    SequenceExpressionFunctionMethodCall seqFuncCall = (SequenceExpressionFunctionMethodCall)expr;
+                    StringBuilder sb = new StringBuilder();
+                    // METHOD-TODO
+                    return sb.ToString();
+                }
+
                 default:
                     throw new Exception("Unknown sequence expression type: " + expr.SequenceExpressionType);
             }
@@ -4049,18 +4038,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         string GetContainerValue(SequenceExpressionContainer container, SourceBuilder source)
         {
-            if(container.MethodCall != null)
-                return GetResultVar(container.MethodCall);
-            else
+            if(container.ContainerExpr is SequenceExpressionAttributeAccess)
             {
-                if(container.ContainerExpr is SequenceExpressionAttributeAccess)
-                {
-                    SequenceExpressionAttributeAccess attribute = (SequenceExpressionAttributeAccess)container.ContainerExpr;
-                    return "((GRGEN_LIBGR.IGraphElement)" + GetVar(attribute.SourceVar) + ")" + ".GetAttribute(\"" + attribute.AttributeName + "\")";
-                }
-                else
-                    return GetSequenceExpression(container.ContainerExpr, source);
+                SequenceExpressionAttributeAccess attribute = (SequenceExpressionAttributeAccess)container.ContainerExpr;
+                return "((GRGEN_LIBGR.IGraphElement)" + GetVar(attribute.SourceVar) + ")" + ".GetAttribute(\"" + attribute.AttributeName + "\")";
             }
+            else
+                return GetSequenceExpression(container.ContainerExpr, source);
         }
 
         private string GetConstant(object constant)
@@ -4663,6 +4647,14 @@ namespace de.unika.ipd.grGen.lgsp
 
                 case SequenceParserError.UnknownAttribute:
                     Console.WriteLine("Unknown attribute \"" + ex.Name + "\"!");
+                    return;
+
+                case SequenceParserError.UnknownProcedure:
+                    Console.WriteLine("Unknown procedure \"" + ex.Name + "\"!");
+                    return;
+
+                case SequenceParserError.UnknownFunction:
+                    Console.WriteLine("Unknown function \"" + ex.Name + "\"!");
                     return;
 
                 case SequenceParserError.TypeMismatch:

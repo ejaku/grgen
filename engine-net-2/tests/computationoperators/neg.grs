@@ -1,8 +1,8 @@
 new graph computationoperators/computationoperators
 
-xgrs ::r=({!true})
+xgrs ::r=({{!true}})
 show var r
-xgrs ::r=({!false})
+xgrs ::r=({{!false}})
 show var r
 
 quit

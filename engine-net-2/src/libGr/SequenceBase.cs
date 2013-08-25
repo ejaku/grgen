@@ -235,6 +235,42 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Helper for checking procedure method calls.
+        /// Checks whether called entity exists, type checks the input, type checks the output.
+        /// Throws an exception when an error is found.
+        /// </summary>
+        /// <param name="seq">The sequence computation to check, must be a procedure call</param>
+        public void CheckProcedureMethodCall(SequenceExpression targetExpr, SequenceComputation seq)
+        {
+            CheckProcedureCall(seq);
+            // METHOD-TODO
+        }
+
+        /// <summary>
+        /// Helper for checking procedure method calls.
+        /// Checks whether called entity exists, type checks the input, type checks the output.
+        /// Throws an exception when an error is found.
+        /// </summary>
+        /// <param name="seq">The sequence computation to check, must be a procedure call</param>
+        public void CheckProcedureMethodCall(SequenceVariable targetVar, SequenceComputation seq)
+        {
+            CheckProcedureCall(seq);
+            // METHOD-TODO
+        }
+
+        /// <summary>
+        /// Helper for checking function method calls.
+        /// Checks whether called entity exists, and type checks the input.
+        /// Throws an exception when an error is found.
+        /// </summary>
+        /// <param name="seq">The sequence expression to check, must be a function call</param>
+        public void CheckFunctionMethodCall(SequenceExpression targetExpr, SequenceExpression seq)
+        {
+            CheckFunctionCall(seq);
+            // METHOD-TODO
+        }
+
+        /// <summary>
         /// Helper which returns the type of the given top level entity of the given rule.
         /// Throws an exception in case the rule of the given name does not exist 
         /// or in case it does not contain an entity of the given name.

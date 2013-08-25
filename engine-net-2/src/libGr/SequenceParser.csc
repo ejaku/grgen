@@ -1131,27 +1131,12 @@ SequenceComputation Computation():
 		return new SequenceComputationVariableDeclaration(toVar);
 	}
 |
-	LOOKAHEAD( { (GetToken(1).kind==WORD && GetToken(2).kind==DOT && GetToken(3).kind==WORD && GetToken(4).kind==LPARENTHESIS && (GetToken(3).image=="add" || GetToken(3).image=="rem" || GetToken(3).image=="clear")) 
-				|| (GetToken(1).kind==DOUBLECOLON && GetToken(2).kind==WORD && GetToken(3).kind==DOT && GetToken(4).kind==WORD && GetToken(5).kind==LPARENTHESIS && (GetToken(4).image=="add" || GetToken(4).image=="rem" || GetToken(4).image=="clear")) } )
-	comp=MethodCallRepeated()
+	comp=ProcedureOrMethodCall()
 	{
 		return comp;
 	}
 |
-	LOOKAHEAD( { (GetToken(1).kind==WORD && GetToken(2).kind==DOT && GetToken(3).kind==WORD && GetToken(4).kind==DOT && GetToken(5).kind==WORD && GetToken(6).kind==LPARENTHESIS && (GetToken(5).image=="add" || GetToken(5).image=="rem" || GetToken(5).image=="clear")) 
-				|| (GetToken(1).kind==DOUBLECOLON && GetToken(2).kind==WORD && GetToken(3).kind==DOT && GetToken(4).kind==WORD && GetToken(5).kind==DOT && GetToken(6).kind==WORD && GetToken(7).kind==LPARENTHESIS && (GetToken(6).image=="add" || GetToken(6).image=="rem" || GetToken(6).image=="clear")) } )
-	comp=AttributeMethodCall()
-	{
-		return comp;
-	}
-|
-	LOOKAHEAD(3)
-	comp=ProcedureCall()
-	{
-		return comp;
-	}
-|
-	expr=Expression()
+	"{" expr=Expression() "}"
 	{
 		return expr;
 	}
@@ -1397,22 +1382,24 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
 {
 	String methodOrAttrName;
 	SequenceExpression fromExpr2 = null;
+	List<SequenceExpression> argExprs = new List<SequenceExpression>();
 }
 {
 	"." methodOrAttrName=Word()
 	(
-		"(" ( fromExpr2=Expression() )? ")"
+		"(" (Arguments(argExprs))? ")"
 		{
 			if(methodOrAttrName=="size") {
-				if(fromExpr2!=null) throw new ParseException("\"" + methodOrAttrName + "\" expects no parameters)");
+				if(argExprs.Count!=0) throw new ParseException("\"" + methodOrAttrName + "\" expects no parameters)");
 				return new SequenceExpressionContainerSize(fromExpr);
 			} else if(methodOrAttrName=="empty") {
-				if(fromExpr2!=null) throw new ParseException("\"" + methodOrAttrName + "\" expects no parameters)");
+				if(argExprs.Count!=0) throw new ParseException("\"" + methodOrAttrName + "\" expects no parameters)");
 				return new SequenceExpressionContainerEmpty(fromExpr);
 			} else if(methodOrAttrName=="peek") {
-				return new SequenceExpressionContainerPeek(fromExpr, fromExpr2);
+				if(argExprs.Count!=0 && argExprs.Count!=1) throw new ParseException("\"" + methodOrAttrName + "\" expects none or one parameter)");
+				return new SequenceExpressionContainerPeek(fromExpr, argExprs.Count!=0 ? argExprs[0] : null);
 			} else {
-				throw new ParseException("Unknown method name: \"" + methodOrAttrName + "\"! (available are size|empty|peek as expressions on set/map/array/deque)");
+				return new SequenceExpressionFunctionMethodCall(fromExpr, CreateFunctionMethodInvocationParameterBindings(methodOrAttrName, argExprs));
 			}
 		}
 	|
@@ -1430,81 +1417,116 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
 	}
 }
 			
-SequenceComputation ProcedureCall():
+SequenceComputation ProcedureOrMethodCall():
 {
 	String procedure;
+	SequenceVariable fromVar = null;
+	String attrName = null;
 	List<SequenceExpression> argExprs = new List<SequenceExpression>();
 	List<SequenceVariable> returnVars = new List<SequenceVariable>();
 }
 {
 	("(" VariableList(returnVars) ")" "=" )?
-		procedure=Word() "(" (Arguments(argExprs))? ")"
+		(LOOKAHEAD(2) fromVar=VariableUse() "." (LOOKAHEAD(2) attrName=Word() ".")?)? procedure=Word() "(" (Arguments(argExprs))? ")"
 	{
-		if(procedure=="valloc") {
-			if(argExprs.Count!=0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
-			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationVAlloc(), returnVars);
-		} else if(procedure=="vfree") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-			return new SequenceComputationVFree(getArgument(argExprs, 0), true);
-		} else if(procedure=="vfreenonreset") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-			return new SequenceComputationVFree(getArgument(argExprs, 0), false);
-		} else if(procedure=="vreset") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-			return new SequenceComputationVReset(getArgument(argExprs, 0));
-		} else if(procedure=="emit") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-			return new SequenceComputationEmit(getArgument(argExprs, 0));
-		} else if(procedure=="record") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-			return new SequenceComputationRecord(getArgument(argExprs, 0));
-		} else if(procedure=="add") {
-			if(argExprs.Count!=1 && argExprs.Count!=3) throw new ParseException("\"" + procedure + "\" expects 1(for a node) or 3(for an edge) parameters)");
-			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphAdd(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2)), returnVars);
-		} else if(procedure=="rem") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-			return new SequenceComputationGraphRem(getArgument(argExprs, 0));
-		} else if(procedure=="clear") {
-			if(argExprs.Count!=0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
-			return new SequenceComputationGraphClear();
-		} else if(procedure=="retype") {
-			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (graph entity, new type) parameters)");
-			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphRetype(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
-		} else if(procedure=="addCopy") {
-			if(argExprs.Count!=1 && argExprs.Count!=3) throw new ParseException("\"" + procedure + "\" expects 1(for a node) or 3(for an edge) parameters)");
-			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphAddCopy(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2)), returnVars);
-		} else if(procedure=="merge") {
-			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (the nodes to merge) parameters)");
-			return new SequenceComputationGraphMerge(getArgument(argExprs, 0), getArgument(argExprs, 1));
-		} else if(procedure=="redirectSource") {
-			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (edge to redirect, new source node) parameters)");
-			return new SequenceComputationGraphRedirectSource(getArgument(argExprs, 0), getArgument(argExprs, 1));
-		} else if(procedure=="redirectTarget") {
-			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (edge to redirect, new target node) parameters)");
-			return new SequenceComputationGraphRedirectTarget(getArgument(argExprs, 0), getArgument(argExprs, 1));
-		} else if(procedure=="redirectSourceAndTarget") {
-			if(argExprs.Count!=3) throw new ParseException("\"" + procedure + "\" expects 3 (edge to redirect, new source node, new target node) parameters)");
-			return new SequenceComputationGraphRedirectSourceAndTarget(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2));
-		} else if(procedure=="insert") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 (graph to destroyingly insert) parameter)");
-			return new SequenceComputationInsert(getArgument(argExprs, 0));
-		} else if(procedure=="insertCopy") {
-			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (graph and one node to return the clone of) parameters)");
-			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertCopy(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
-		} else if(procedure=="insertInduced") {
-			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 parameters (the set of nodes to compute the induced subgraph from which will be cloned and inserted, and one node of the set of which the clone will be returned)");
-			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertInduced(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
-		} else if(procedure=="insertDefined") {
-			if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 parameters (the set of edges which define the subgraph which will be cloned and inserted, and one edge of the set of which the clone will be returned)");
-			return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertDefined(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
-		} else if(procedure=="export") {
-			if(argExprs.Count!=1 && argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 1 (name of file only) or 2 (graph to export, name of file) parameters)");
-			return new SequenceComputationExport(getArgument(argExprs, 0), getArgument(argExprs, 1));
-		} else {
-			if(IsProcedureName(procedure)) {
-				return new SequenceComputationProcedureCall(CreateProcedureInvocationParameterBindings(procedure, argExprs, returnVars));
+		if(fromVar==null) // procedure call
+		{
+			if(procedure=="valloc") {
+				if(argExprs.Count!=0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
+				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationVAlloc(), returnVars);
+			} else if(procedure=="vfree") {
+				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+				return new SequenceComputationVFree(getArgument(argExprs, 0), true);
+			} else if(procedure=="vfreenonreset") {
+				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+				return new SequenceComputationVFree(getArgument(argExprs, 0), false);
+			} else if(procedure=="vreset") {
+				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+				return new SequenceComputationVReset(getArgument(argExprs, 0));
+			} else if(procedure=="emit") {
+				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+				return new SequenceComputationEmit(getArgument(argExprs, 0));
+			} else if(procedure=="record") {
+				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+				return new SequenceComputationRecord(getArgument(argExprs, 0));
+			} else if(procedure=="add") {
+				if(argExprs.Count!=1 && argExprs.Count!=3) throw new ParseException("\"" + procedure + "\" expects 1(for a node) or 3(for an edge) parameters)");
+				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphAdd(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2)), returnVars);
+			} else if(procedure=="rem") {
+				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
+				return new SequenceComputationGraphRem(getArgument(argExprs, 0));
+			} else if(procedure=="clear") {
+				if(argExprs.Count!=0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
+				return new SequenceComputationGraphClear();
+			} else if(procedure=="retype") {
+				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (graph entity, new type) parameters)");
+				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphRetype(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
+			} else if(procedure=="addCopy") {
+				if(argExprs.Count!=1 && argExprs.Count!=3) throw new ParseException("\"" + procedure + "\" expects 1(for a node) or 3(for an edge) parameters)");
+				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphAddCopy(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2)), returnVars);
+			} else if(procedure=="merge") {
+				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (the nodes to merge) parameters)");
+				return new SequenceComputationGraphMerge(getArgument(argExprs, 0), getArgument(argExprs, 1));
+			} else if(procedure=="redirectSource") {
+				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (edge to redirect, new source node) parameters)");
+				return new SequenceComputationGraphRedirectSource(getArgument(argExprs, 0), getArgument(argExprs, 1));
+			} else if(procedure=="redirectTarget") {
+				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (edge to redirect, new target node) parameters)");
+				return new SequenceComputationGraphRedirectTarget(getArgument(argExprs, 0), getArgument(argExprs, 1));
+			} else if(procedure=="redirectSourceAndTarget") {
+				if(argExprs.Count!=3) throw new ParseException("\"" + procedure + "\" expects 3 (edge to redirect, new source node, new target node) parameters)");
+				return new SequenceComputationGraphRedirectSourceAndTarget(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2));
+			} else if(procedure=="insert") {
+				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 (graph to destroyingly insert) parameter)");
+				return new SequenceComputationInsert(getArgument(argExprs, 0));
+			} else if(procedure=="insertCopy") {
+				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (graph and one node to return the clone of) parameters)");
+				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertCopy(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
+			} else if(procedure=="insertInduced") {
+				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 parameters (the set of nodes to compute the induced subgraph from which will be cloned and inserted, and one node of the set of which the clone will be returned)");
+				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertInduced(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
+			} else if(procedure=="insertDefined") {
+				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 parameters (the set of edges which define the subgraph which will be cloned and inserted, and one edge of the set of which the clone will be returned)");
+				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertDefined(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
+			} else if(procedure=="export") {
+				if(argExprs.Count!=1 && argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 1 (name of file only) or 2 (graph to export, name of file) parameters)");
+				return new SequenceComputationExport(getArgument(argExprs, 0), getArgument(argExprs, 1));
 			} else {
-				throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|record|export|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget|insert|insertCopy|insertInduced|insertDefined or one of the procedures defined in the .grg: " + GetProcedureNames() + ")");
+				if(IsProcedureName(procedure)) {
+					return new SequenceComputationProcedureCall(CreateProcedureInvocationParameterBindings(procedure, argExprs, returnVars));
+				} else {
+					throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|record|export|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget|insert|insertCopy|insertInduced|insertDefined or one of the procedures defined in the .grg: " + GetProcedureNames() + ")");
+				}
+			}
+		} else { // method call
+			if(attrName==null)
+			{
+				if(procedure=="add") {
+					if(argExprs.Count!=1 && argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 1(for set,deque,array end) or 2(for map,array with index) parameters)");
+					return new SequenceComputationContainerAdd(fromVar, argExprs[0], argExprs.Count==2 ? argExprs[1] : null);
+				} else if(procedure=="rem") {
+					if(argExprs.Count>1) throw new ParseException("\"" + procedure + "\" expects 1(for set,map,array with index) or 0(for deque,array end) parameters )");
+					return new SequenceComputationContainerRem(fromVar, argExprs.Count==1 ? argExprs[0] : null);
+				} else if(procedure=="clear") {
+					if(argExprs.Count>0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
+					return new SequenceComputationContainerClear(fromVar);
+				} else {
+					return new SequenceComputationProcedureMethodCall(fromVar, CreateProcedureMethodInvocationParameterBindings(procedure, argExprs, returnVars));
+				}
+			} else { // attribute method call
+				SequenceExpressionAttributeAccess attrAcc = new SequenceExpressionAttributeAccess(fromVar, attrName);
+				if(procedure=="add") {
+					if(argExprs.Count!=1 && argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 1(for set,deque,array end) or 2(for map,array with index) parameters)");
+					return new SequenceComputationContainerAdd(attrAcc, argExprs[0], argExprs.Count==2 ? argExprs[1] : null);
+				} else if(procedure=="rem") {
+					if(argExprs.Count>1) throw new ParseException("\"" + procedure + "\" expects 1(for set,map,array with index) or 0(for deque,array end) parameters )");
+					return new SequenceComputationContainerRem(attrAcc, argExprs.Count==1 ? argExprs[0] : null);
+				} else if(procedure=="clear") {
+					if(argExprs.Count>0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
+					return new SequenceComputationContainerClear(attrAcc);
+				} else {
+					return new SequenceComputationProcedureMethodCall(attrAcc, CreateProcedureMethodInvocationParameterBindings(procedure, argExprs, returnVars));
+				}
 			}
 		}
     }
@@ -1638,92 +1660,6 @@ SequenceExpression FunctionCall():
 			}
 		}
     }
-}
-
-SequenceComputation AttributeMethodCall():
-{
-	String attrName = null, method;
-	SequenceVariable fromVar;
-	SequenceExpression fromExpr2 = null, fromExpr3 = null;
-}
-{
-	fromVar=VariableUse() "." attrName=Word() "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
-	{
-		if(method=="add") {
-			if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set,deque,array end) or 2(for map,array with index) parameters)");
-			return new SequenceComputationContainerAdd(new SequenceExpressionAttributeAccess(fromVar, attrName), fromExpr2, fromExpr3);
-		} else if(method=="rem") {
-			if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for deque,array end) parameters )");
-			return new SequenceComputationContainerRem(new SequenceExpressionAttributeAccess(fromVar, attrName), fromExpr2);
-		} else if(method=="clear") {
-			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
-			return new SequenceComputationContainerClear(new SequenceExpressionAttributeAccess(fromVar, attrName));
-		} else {
-			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as procedures on set/map/array/deque)");
-		}
-    }
-}
-
-SequenceComputation MethodCall():
-{
-	String method;
-	SequenceVariable fromVar;
-	SequenceExpression fromExpr2 = null, fromExpr3 = null;
-}
-{
-	fromVar=VariableUse() "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
-	{
-		if(method=="add") {
-			if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set,deque,array end) or 2(for map,array with index) parameters)");
-			return new SequenceComputationContainerAdd(fromVar, fromExpr2, fromExpr3);
-		} else if(method=="rem") {
-			if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for deque,array end) parameters )");
-			return new SequenceComputationContainerRem(fromVar, fromExpr2);
-		} else if(method=="clear") {
-			if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
-			return new SequenceComputationContainerClear(fromVar);
-		} else {
-			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as procedures and size|empty|peek as expressions on set/map/array/deque)");
-		}
-    }
-}
-
-SequenceComputation MethodCallRepeated():
-{
-	String method;
-	SequenceComputation methodCall;
-	SequenceExpression fromExpr2 = null, fromExpr3 = null;
-}
-{
-	methodCall=MethodCall()
-	( "." method=Word() "(" ( fromExpr2=Expression() ("," fromExpr3=Expression())? )? ")"
-		{
-			if(method=="add") {
-				if(fromExpr2==null) throw new ParseException("\"" + method + "\" expects 1(for set value, array end, deque end) or 2(for map key-value, array/deque value with index) parameters)");
-				methodCall = new SequenceComputationContainerAdd(methodCall, fromExpr2, fromExpr3);
-				fromExpr2 = null; fromExpr3 = null;
-			} else if(method=="rem") {
-				if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1(for set value, map key, array/deque index) or 0(for array end, deque begin) parameters )");
-				methodCall = new SequenceComputationContainerRem(methodCall, fromExpr2);
-				fromExpr2 = null;
-			} else if(method=="clear") {
-				if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
-				methodCall = new SequenceComputationContainerClear(methodCall);
-			} else if(method=="size") {
-				if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
-				methodCall = new SequenceExpressionContainerSize(methodCall);
-			} else if(method=="empty") {
-				if(fromExpr2!=null || fromExpr3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
-				methodCall = new SequenceExpressionContainerEmpty(methodCall);
-			} else if(method=="peek") {
-				if(fromExpr3!=null) throw new ParseException("\"" + method + "\" expects 1 parameter or 0(for array end, deque begin))");
-				return new SequenceExpressionContainerPeek(methodCall, fromExpr2);
-			} else {
-				throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear as procedures and size|empty|peek as expressions on set/map/array/deque)");
-			}
-		}
-	)*
-	{ return methodCall; }
 }
 
 void RuleLookahead():
@@ -1877,6 +1813,17 @@ ProcedureInvocationParameterBindings CreateProcedureInvocationParameterBindings(
 	return paramBindings;
 }
 
+CSHARPCODE
+ProcedureInvocationParameterBindings CreateProcedureMethodInvocationParameterBindings(String procedureName,
+				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+{
+	ProcedureInvocationParameterBindings paramBindings = new ProcedureInvocationParameterBindings(null,
+			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());
+
+	paramBindings.Name = procedureName;
+
+	return paramBindings;
+}
 
 CSHARPCODE
 FunctionInvocationParameterBindings CreateFunctionInvocationParameterBindings(String functionName,
@@ -1897,6 +1844,19 @@ FunctionInvocationParameterBindings CreateFunctionInvocationParameterBindings(St
 			if(functionNames[i] == functionName)
 				paramBindings.ReturnType = functionOutputTypes[i];
 	}
+
+	return paramBindings;
+}
+
+CSHARPCODE
+FunctionInvocationParameterBindings CreateFunctionMethodInvocationParameterBindings(String functionMethodName,
+				List<SequenceExpression> argExprs)
+{
+	FunctionInvocationParameterBindings paramBindings = new FunctionInvocationParameterBindings(null,
+			argExprs.ToArray(), new object[argExprs.Count]);
+
+	paramBindings.Name = functionMethodName;
+	paramBindings.ReturnType = "";
 
 	return paramBindings;
 }
