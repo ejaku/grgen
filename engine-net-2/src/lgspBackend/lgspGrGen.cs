@@ -974,6 +974,7 @@ namespace de.unika.ipd.grGen.lgsp
             CSharpCodeProvider compiler;
             CompilerParameters compParams;
             SetupCompiler(cc.modelAssemblyName, out compiler, out compParams);
+            compParams.ReferencedAssemblies.AddRange(cc.externalAssemblies); 
             compParams.GenerateInMemory = false;
             compParams.IncludeDebugInformation = (flags & ProcessSpecFlags.CompileWithDebug) != 0;
             compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
@@ -1544,7 +1545,7 @@ namespace de.unika.ipd.grGen.lgsp
         private void EmitExternalActionsFileHeader(CompileConfiguration cc, IGraphModel model, bool implementationNeeded,
             ref SourceBuilder externalSource)
         {
-            cc.externalActionsExtensionOutputFilename = cc.actionsName + "ExternalFunctions.cs";
+            cc.externalActionsExtensionOutputFilename = cc.destDir + cc.actionsName + "ExternalFunctions.cs";
             externalSource = new SourceBuilder((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0);
 
             // generate external action extension file header
@@ -1563,7 +1564,7 @@ namespace de.unika.ipd.grGen.lgsp
             externalSource.Indent();
 
             if(implementationNeeded) // not needed if only auto filters exist, then the generated file is sufficient
-                cc.externalActionsExtensionFilename = cc.actionsName + "ExternalFunctionsImpl.cs";
+                cc.externalActionsExtensionFilename = cc.destDir + cc.actionsName + "ExternalFunctionsImpl.cs";
         }
 
         private static void DetermineWhetherExternalActionsFileIsNeeded(LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns,
