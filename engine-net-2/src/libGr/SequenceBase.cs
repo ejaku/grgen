@@ -101,12 +101,12 @@ namespace de.unika.ipd.grGen.libGr
             InvocationParameterBindingsWithReturns paramBindings = ExtractParameterBindings(seq);
 
             // check the name against the available names
-            if(!IsCalledEntityExisting(paramBindings))
+            if(!IsCalledEntityExisting(paramBindings, null))
                 throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRuleOrSequence);
 
             // Check whether number of parameters and return parameters match
-            if(NumInputParameters(paramBindings) != paramBindings.ArgumentExpressions.Length
-                    || paramBindings.ReturnVars.Length != 0 && NumOutputParameters(paramBindings) != paramBindings.ReturnVars.Length)
+            if(NumInputParameters(paramBindings, null) != paramBindings.ArgumentExpressions.Length
+                    || paramBindings.ReturnVars.Length != 0 && NumOutputParameters(paramBindings, null) != paramBindings.ReturnVars.Length)
                 throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
 
             // Check parameter types
@@ -116,12 +116,12 @@ namespace de.unika.ipd.grGen.libGr
 
                 if(paramBindings.ArgumentExpressions[i] != null)
                 {
-                    if(!TypesHelper.IsSameOrSubtype(paramBindings.ArgumentExpressions[i].Type(this), InputParameterType(i, paramBindings), Model))
+                    if(!TypesHelper.IsSameOrSubtype(paramBindings.ArgumentExpressions[i].Type(this), InputParameterType(i, paramBindings, null), Model))
                         throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
                 }
                 else
                 {
-                    if(paramBindings.Arguments[i]!=null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(paramBindings.Arguments[i], Model), InputParameterType(i, paramBindings), Model))
+                    if(paramBindings.Arguments[i]!=null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(paramBindings.Arguments[i], Model), InputParameterType(i, paramBindings, null), Model))
                         throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
                 }
             }
@@ -129,7 +129,7 @@ namespace de.unika.ipd.grGen.libGr
             // Check return types
             for(int i = 0; i < paramBindings.ReturnVars.Length; ++i)
             {
-                if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, paramBindings), paramBindings.ReturnVars[i].Type, Model))
+                if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, paramBindings, null), paramBindings.ReturnVars[i].Type, Model))
                     throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
             }
 
@@ -156,17 +156,18 @@ namespace de.unika.ipd.grGen.libGr
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seq">The sequence computation to check, must be a procedure call</param>
-        public void CheckProcedureCall(SequenceComputation seq)
+        /// <param name="ownerType">Gives the owner type of the procedure method call, in case this is a method call, otherwise null</param>
+        private void CheckProcedureCallBase(SequenceComputation seq, GrGenType ownerType)
         {
             InvocationParameterBindingsWithReturns paramBindings = (seq as SequenceComputationProcedureCall).ParamBindings;
 
             // check the name against the available names
-            if(!IsCalledEntityExisting(paramBindings))
+            if(!IsCalledEntityExisting(paramBindings, ownerType))
                 throw new SequenceParserException(paramBindings, SequenceParserError.UnknownProcedure);
 
             // Check whether number of parameters and return parameters match
-            if(NumInputParameters(paramBindings) != paramBindings.ArgumentExpressions.Length
-                    || paramBindings.ReturnVars.Length != 0 && NumOutputParameters(paramBindings) != paramBindings.ReturnVars.Length)
+            if(NumInputParameters(paramBindings, ownerType) != paramBindings.ArgumentExpressions.Length
+                    || paramBindings.ReturnVars.Length != 0 && NumOutputParameters(paramBindings, ownerType) != paramBindings.ReturnVars.Length)
                 throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
 
             // Check parameter types
@@ -176,12 +177,12 @@ namespace de.unika.ipd.grGen.libGr
 
                 if(paramBindings.ArgumentExpressions[i] != null)
                 {
-                    if(!TypesHelper.IsSameOrSubtype(paramBindings.ArgumentExpressions[i].Type(this), InputParameterType(i, paramBindings), Model))
+                    if(!TypesHelper.IsSameOrSubtype(paramBindings.ArgumentExpressions[i].Type(this), InputParameterType(i, paramBindings, ownerType), Model))
                         throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
                 }
                 else
                 {
-                    if(paramBindings.Arguments[i] != null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(paramBindings.Arguments[i], Model), InputParameterType(i, paramBindings), Model))
+                    if(paramBindings.Arguments[i] != null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(paramBindings.Arguments[i], Model), InputParameterType(i, paramBindings, ownerType), Model))
                         throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
                 }
             }
@@ -189,7 +190,7 @@ namespace de.unika.ipd.grGen.libGr
             // Check return types
             for(int i = 0; i < paramBindings.ReturnVars.Length; ++i)
             {
-                if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, paramBindings), paramBindings.ReturnVars[i].Type, Model))
+                if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, paramBindings, ownerType), paramBindings.ReturnVars[i].Type, Model))
                     throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
             }
 
@@ -202,16 +203,17 @@ namespace de.unika.ipd.grGen.libGr
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seq">The sequence expression to check, must be a function call</param>
-        public void CheckFunctionCall(SequenceExpression seq)
+        /// <param name="ownerType">Gives the owner type of the function method call, in case this is a method call, otherwise null</param>
+        private void CheckFunctionCallBase(SequenceExpression seq, GrGenType ownerType)
         {
             InvocationParameterBindings paramBindings = (seq as SequenceExpressionFunctionCall).ParamBindings;
 
             // check the name against the available names
-            if(!IsCalledEntityExisting(paramBindings))
+            if(!IsCalledEntityExisting(paramBindings, ownerType))
                 throw new SequenceParserException(paramBindings, SequenceParserError.UnknownFunction);
 
             // Check whether number of parameters and return parameters match
-            if(NumInputParameters(paramBindings) != paramBindings.ArgumentExpressions.Length)
+            if(NumInputParameters(paramBindings, ownerType) != paramBindings.ArgumentExpressions.Length)
                 throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
 
             // Check parameter types
@@ -221,12 +223,12 @@ namespace de.unika.ipd.grGen.libGr
 
                 if(paramBindings.ArgumentExpressions[i] != null)
                 {
-                    if(!TypesHelper.IsSameOrSubtype(paramBindings.ArgumentExpressions[i].Type(this), InputParameterType(i, paramBindings), Model))
+                    if(!TypesHelper.IsSameOrSubtype(paramBindings.ArgumentExpressions[i].Type(this), InputParameterType(i, paramBindings, ownerType), Model))
                         throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
                 }
                 else
                 {
-                    if(paramBindings.Arguments[i] != null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(paramBindings.Arguments[i], Model), InputParameterType(i, paramBindings), Model))
+                    if(paramBindings.Arguments[i] != null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(paramBindings.Arguments[i], Model), InputParameterType(i, paramBindings, ownerType), Model))
                         throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
                 }
             }
@@ -235,15 +237,14 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Helper for checking procedure method calls.
+        /// Helper for checking procedure calls.
         /// Checks whether called entity exists, type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seq">The sequence computation to check, must be a procedure call</param>
-        public void CheckProcedureMethodCall(SequenceExpression targetExpr, SequenceComputation seq)
+        public void CheckProcedureCall(SequenceComputation seq)
         {
-            CheckProcedureCall(seq);
-            // METHOD-TODO
+            CheckProcedureCallBase(seq, null);
         }
 
         /// <summary>
@@ -252,10 +253,59 @@ namespace de.unika.ipd.grGen.libGr
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seq">The sequence computation to check, must be a procedure call</param>
+        /// <param name="targetExpr">The target of the procedure method call</param>
+        public void CheckProcedureMethodCall(SequenceExpression targetExpr, SequenceComputation seq)
+        {
+            if(targetExpr.Type(this) == "")
+            {
+                // only runtime checks possible (we could check whether the called procedure signature exists in at least one of the model types, if not it's a type error, can't work at runtime, but that kind of negative check is not worth the effort)
+                return;
+            }
+
+            GrGenType ownerType = TypesHelper.GetNodeOrEdgeType(targetExpr.Type(this), Model);
+            if(ownerType == null)
+            {
+                // error, must be node or edge type
+                throw new SequenceParserException(targetExpr.Type(this), SequenceParserError.UserMethodsOnlyAvailableForGraphElements);
+            }
+            
+            CheckProcedureCallBase(seq, ownerType);
+        }
+
+        /// <summary>
+        /// Helper for checking procedure method calls.
+        /// Checks whether called entity exists, type checks the input, type checks the output.
+        /// Throws an exception when an error is found.
+        /// </summary>
+        /// <param name="seq">The sequence computation to check, must be a procedure call</param>
+        /// <param name="targetVar">The target of the procedure method call</param>
         public void CheckProcedureMethodCall(SequenceVariable targetVar, SequenceComputation seq)
         {
-            CheckProcedureCall(seq);
-            // METHOD-TODO
+            if(targetVar.Type == "")
+            {
+                // only runtime checks possible (we could check whether the called procedure signature exists in at least one of the model types, if not it's a type error, can't work at runtime, but that kind of negative check is not worth the effort)
+                return;
+            }
+
+            GrGenType ownerType = TypesHelper.GetNodeOrEdgeType(targetVar.Type, Model);
+            if(ownerType == null)
+            {
+                // error, must be node or edge type
+                throw new SequenceParserException(targetVar.Type, SequenceParserError.UserMethodsOnlyAvailableForGraphElements);
+            }
+
+            CheckProcedureCallBase(seq, ownerType);
+        }
+
+        /// <summary>
+        /// Helper for checking function calls.
+        /// Checks whether called entity exists, type checks the input, type checks the output.
+        /// Throws an exception when an error is found.
+        /// </summary>
+        /// <param name="seq">The sequence expression to check, must be a function call</param>
+        public void CheckFunctionCall(SequenceExpression seq)
+        {
+            CheckFunctionCallBase(seq, null);
         }
 
         /// <summary>
@@ -264,10 +314,23 @@ namespace de.unika.ipd.grGen.libGr
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seq">The sequence expression to check, must be a function call</param>
+        /// <param name="targetExpr">The target of the procedure function call</param>
         public void CheckFunctionMethodCall(SequenceExpression targetExpr, SequenceExpression seq)
         {
-            CheckFunctionCall(seq);
-            // METHOD-TODO
+            if(targetExpr.Type(this) == "")
+            {
+                // only runtime checks possible (we could check whether the called procedure signature exists in at least one of the model types, if not it's a type error, can't work at runtime, but that kind of negative check is not worth the effort)
+                return;
+            }
+
+            GrGenType ownerType = TypesHelper.GetNodeOrEdgeType(targetExpr.Type(this), Model);
+            if(ownerType == null)
+            {
+                // error, must be node or edge type
+                throw new SequenceParserException(targetExpr.Type(this), SequenceParserError.UserMethodsOnlyAvailableForGraphElements);
+            }
+
+            CheckFunctionCallBase(seq, ownerType);
         }
 
         /// <summary>
@@ -285,11 +348,11 @@ namespace de.unika.ipd.grGen.libGr
                 return (seq as SequenceSequenceCall).ParamBindings;
         }
 
-        protected abstract bool IsCalledEntityExisting(InvocationParameterBindings paramBindings);
-        protected abstract int NumInputParameters(InvocationParameterBindings paramBindings);
-        protected abstract int NumOutputParameters(InvocationParameterBindings paramBindings);
-        protected abstract string InputParameterType(int i, InvocationParameterBindings paramBindings);
-        protected abstract string OutputParameterType(int i, InvocationParameterBindings paramBindings);
+        protected abstract bool IsCalledEntityExisting(InvocationParameterBindings paramBindings, GrGenType ownerType);
+        protected abstract int NumInputParameters(InvocationParameterBindings paramBindings, GrGenType ownerType);
+        protected abstract int NumOutputParameters(InvocationParameterBindings paramBindings, GrGenType ownerType);
+        protected abstract string InputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType);
+        protected abstract string OutputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType);
         protected abstract bool IsFilterExisting(SequenceRuleCall seq);
     }
 
@@ -334,7 +397,7 @@ namespace de.unika.ipd.grGen.libGr
             throw new SequenceParserException(ruleName, entityName, SequenceParserError.UnknownPatternElement);
         }
 
-        protected override bool IsCalledEntityExisting(InvocationParameterBindings paramBindings)
+        protected override bool IsCalledEntityExisting(InvocationParameterBindings paramBindings, GrGenType ownerType)
         {
             if(paramBindings is RuleInvocationParameterBindings)
             {
@@ -349,16 +412,23 @@ namespace de.unika.ipd.grGen.libGr
             else if(paramBindings is ProcedureInvocationParameterBindings)
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
-                return procParamBindings.ProcedureDef != null;
+                if(ownerType != null)
+                    return ownerType.GetProcedureMethod(procParamBindings.Name) != null;
+                else
+                    return procParamBindings.ProcedureDef != null;
             }
-            else
+            else if(paramBindings is FunctionInvocationParameterBindings)
             {
                 FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
-                return funcParamBindings.FunctionDef != null;
+                if(ownerType != null)
+                    return ownerType.GetFunctionMethod(funcParamBindings.Name) != null;
+                else
+                    return funcParamBindings.FunctionDef != null;
             }
+            throw new Exception("Internal error");
         }
 
-        protected override int NumInputParameters(InvocationParameterBindings paramBindings)
+        protected override int NumInputParameters(InvocationParameterBindings paramBindings, GrGenType ownerType)
         {
             if(paramBindings is RuleInvocationParameterBindings)
             {
@@ -382,16 +452,23 @@ namespace de.unika.ipd.grGen.libGr
             else if(paramBindings is ProcedureInvocationParameterBindings)
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
-                return procParamBindings.ProcedureDef.inputs.Length;
+                if(ownerType != null)
+                    return ownerType.GetProcedureMethod(procParamBindings.Name).inputs.Length;
+                else
+                    return procParamBindings.ProcedureDef.inputs.Length;
             }
-            else
+            else if(paramBindings is FunctionInvocationParameterBindings)
             {
                 FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
-                return funcParamBindings.FunctionDef.inputs.Length;
+                if(ownerType != null)
+                    return ownerType.GetFunctionMethod(funcParamBindings.Name).inputs.Length;
+                else
+                    return funcParamBindings.FunctionDef.inputs.Length;
             }
+            throw new Exception("Internal error");
         }
 
-        protected override int NumOutputParameters(InvocationParameterBindings paramBindings)
+        protected override int NumOutputParameters(InvocationParameterBindings paramBindings, GrGenType ownerType)
         {
             if(paramBindings is RuleInvocationParameterBindings)
             {
@@ -412,14 +489,18 @@ namespace de.unika.ipd.grGen.libGr
                     return seqDef.SeqInfo.OutParameterTypes.Length;
                 }
             }
-            else
+            else if(paramBindings is ProcedureInvocationParameterBindings)
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
-                return procParamBindings.ProcedureDef.outputs.Length;
+                if(ownerType != null)
+                    return ownerType.GetProcedureMethod(procParamBindings.Name).outputs.Length;
+                else
+                    return procParamBindings.ProcedureDef.outputs.Length;
             }
+            throw new Exception("Internal error");
         }
 
-        protected override string InputParameterType(int i, InvocationParameterBindings paramBindings)
+        protected override string InputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType)
         {
             if(paramBindings is RuleInvocationParameterBindings)
             {
@@ -443,16 +524,23 @@ namespace de.unika.ipd.grGen.libGr
             else if(paramBindings is ProcedureInvocationParameterBindings)
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
-                return TypesHelper.DotNetTypeToXgrsType(procParamBindings.ProcedureDef.inputs[i]);
+                if(ownerType != null)
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).inputs[i]);
+                else
+                    return TypesHelper.DotNetTypeToXgrsType(procParamBindings.ProcedureDef.inputs[i]);
             }
-            else
+            else if(paramBindings is FunctionInvocationParameterBindings)
             {
                 FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
-                return TypesHelper.DotNetTypeToXgrsType(funcParamBindings.FunctionDef.inputs[i]);
+                if(ownerType != null)
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetFunctionMethod(funcParamBindings.Name).inputs[i]);
+                else
+                    return TypesHelper.DotNetTypeToXgrsType(funcParamBindings.FunctionDef.inputs[i]);
             }
+            throw new Exception("Internal error");
         }
 
-        protected override string OutputParameterType(int i, InvocationParameterBindings paramBindings)
+        protected override string OutputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType)
         {
             if(paramBindings is RuleInvocationParameterBindings)
             {
@@ -473,11 +561,15 @@ namespace de.unika.ipd.grGen.libGr
                     return TypesHelper.DotNetTypeToXgrsType(seqDef.SeqInfo.OutParameterTypes[i]);
                 }
             }
-            else
+            else if(paramBindings is ProcedureInvocationParameterBindings)
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
-                return TypesHelper.DotNetTypeToXgrsType(procParamBindings.ProcedureDef.outputs[i]);
+                if(ownerType != null)
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).outputs[i]);
+                else
+                    return TypesHelper.DotNetTypeToXgrsType(procParamBindings.ProcedureDef.outputs[i]);
             }
+            throw new Exception("Internal error");
         }
 
         protected override bool IsFilterExisting(SequenceRuleCall seq)
@@ -589,7 +681,7 @@ namespace de.unika.ipd.grGen.libGr
             return rulesToTopLevelEntityTypes[ruleName][indexOfEntity];
         }
 
-        protected override bool IsCalledEntityExisting(InvocationParameterBindings paramBindings)
+        protected override bool IsCalledEntityExisting(InvocationParameterBindings paramBindings, GrGenType ownerType)
         {
             if(paramBindings is RuleInvocationParameterBindings)
             {
@@ -604,16 +696,23 @@ namespace de.unika.ipd.grGen.libGr
             else if(paramBindings is ProcedureInvocationParameterBindings)
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
-                return Array.IndexOf(procedureNames, procParamBindings.Name) != -1;
+                if(ownerType != null)
+                    return ownerType.GetProcedureMethod(procParamBindings.Name) != null;
+                else
+                    return Array.IndexOf(procedureNames, procParamBindings.Name) != -1;
             }
-            else
+            else if(paramBindings is FunctionInvocationParameterBindings)
             {
                 FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
-                return Array.IndexOf(functionNames, funcParamBindings.Name) != -1;
+                if(ownerType != null)
+                    return ownerType.GetFunctionMethod(funcParamBindings.Name) != null;
+                else
+                    return Array.IndexOf(functionNames, funcParamBindings.Name) != -1;
             }
+            throw new Exception("Internal error");
         }
 
-        protected override int NumInputParameters(InvocationParameterBindings paramBindings)
+        protected override int NumInputParameters(InvocationParameterBindings paramBindings, GrGenType ownerType)
         {
             if(paramBindings is RuleInvocationParameterBindings)
             {
@@ -628,16 +727,23 @@ namespace de.unika.ipd.grGen.libGr
             else if(paramBindings is ProcedureInvocationParameterBindings)
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
-                return proceduresToInputTypes[procParamBindings.Name].Count;
+                if(ownerType != null)
+                    return ownerType.GetProcedureMethod(procParamBindings.Name).inputs.Length;
+                else
+                    return proceduresToInputTypes[procParamBindings.Name].Count;
             }
-            else
+            else if(paramBindings is FunctionInvocationParameterBindings)
             {
                 FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
-                return functionsToInputTypes[funcParamBindings.Name].Count;
+                if(ownerType != null)
+                    return ownerType.GetFunctionMethod(funcParamBindings.Name).inputs.Length;
+                else
+                    return functionsToInputTypes[funcParamBindings.Name].Count;
             }
+            throw new Exception("Internal error");
         }
 
-        protected override int NumOutputParameters(InvocationParameterBindings paramBindings)
+        protected override int NumOutputParameters(InvocationParameterBindings paramBindings, GrGenType ownerType)
         {
             if(paramBindings is RuleInvocationParameterBindings)
             {
@@ -649,14 +755,18 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
                 return sequencesToOutputTypes[seqParamBindings.Name].Count;
             }
-            else
+            else if(paramBindings is ProcedureInvocationParameterBindings)
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
-                return proceduresToOutputTypes[procParamBindings.Name].Count;
+                if(ownerType != null)
+                    return ownerType.GetProcedureMethod(procParamBindings.Name).outputs.Length;
+                else
+                    return proceduresToOutputTypes[procParamBindings.Name].Count;
             }
+            throw new Exception("Internal error");
         }
 
-        protected override string InputParameterType(int i, InvocationParameterBindings paramBindings)
+        protected override string InputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType)
         {
             if(paramBindings is RuleInvocationParameterBindings)
             {
@@ -671,16 +781,23 @@ namespace de.unika.ipd.grGen.libGr
             else if(paramBindings is ProcedureInvocationParameterBindings)
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
-                return proceduresToInputTypes[procParamBindings.Name][i];
+                if(ownerType != null)
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).inputs[i]);
+                else
+                    return proceduresToInputTypes[procParamBindings.Name][i];
             }
-            else
+            else if(paramBindings is FunctionInvocationParameterBindings)
             {
                 FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
-                return functionsToInputTypes[funcParamBindings.Name][i];
+                if(ownerType != null)
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetFunctionMethod(funcParamBindings.Name).inputs[i]);
+                else
+                    return functionsToInputTypes[funcParamBindings.Name][i];
             }
+            throw new Exception("Internal error");
         }
 
-        protected override string OutputParameterType(int i, InvocationParameterBindings paramBindings)
+        protected override string OutputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType)
         {
             if(paramBindings is RuleInvocationParameterBindings)
             {
@@ -692,11 +809,15 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
                 return sequencesToOutputTypes[seqParamBindings.Name][i];
             }
-            else
+            else if(paramBindings is ProcedureInvocationParameterBindings)
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
-                return proceduresToOutputTypes[procParamBindings.Name][i];
+                if(ownerType != null)
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).outputs[i]);
+                else
+                    return proceduresToOutputTypes[procParamBindings.Name][i];
             }
+            throw new Exception("Internal error");
         }
 
         protected override bool IsFilterExisting(SequenceRuleCall seq)

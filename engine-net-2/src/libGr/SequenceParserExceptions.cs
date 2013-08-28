@@ -92,7 +92,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The rule is unknown (only rule name available, originating from match type)
         /// </summary>
-        UnknownRule
+        UnknownRule,
+
+        /// <summary>
+        /// Method call notations of a not-builtin-method was used on a non-graph-type
+        /// </summary>
+        UserMethodsOnlyAvailableForGraphElements
     }
 
     public enum DefinitionType
@@ -210,7 +215,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
-        /// given name does not exist or input or output parameters do not match.
+        /// given name does not exist or input or output parameters do not match, or a method was called on a type not supporting this.
         /// </summary>
         /// <param name="ruleName">Name of the rule or sequence or variable.</param>
         /// <param name="errorKind">The kind of error.</param>
@@ -390,6 +395,9 @@ namespace de.unika.ipd.grGen.libGr
 
                 case SequenceParserError.UnknownPatternElement:
                     return "The rule \"" + this.Name + "\" does not contain a (top-level) element \"" + this.EntityName + "\" (so type match<" + this.Name + "> does not)!";
+
+                case SequenceParserError.UserMethodsOnlyAvailableForGraphElements:
+                    return "The type \"" + this.Name + "\" does not support user methods";
 
                 default:
                     return "Invalid error kind: " + this.Kind;

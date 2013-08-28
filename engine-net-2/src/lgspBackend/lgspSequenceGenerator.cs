@@ -2688,7 +2688,48 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceComputationType.ProcedureMethodCall:
                 {
                     SequenceComputationProcedureMethodCall seqCall = (SequenceComputationProcedureMethodCall)seqComp;
-                    // METHOD-TODO
+                    String type = seqCall.TargetExpr != null ? seqCall.TargetExpr.Type(env) : seqCall.TargetVar.Type;
+                    if(type == "")
+                    {
+                        string tmpVarName = "tmpvar_" + tmpVarCtr.ToString();
+                        ++tmpVarCtr;
+                        source.AppendFront("object[] " + tmpVarName + " = ");
+                        source.Append("((IGraphElement)");
+                        if(seqCall.TargetExpr != null)
+                            source.Append(GetSequenceExpression(seqCall.TargetExpr, source));
+                        else
+                            source.Append(GetVar(seqCall.TargetVar));
+                        source.Append(").ApplyProcedureMethod(procEnv, graph, ");
+                        source.Append("\"" + seqCall.ParamBindings.Name + "\"");
+                        source.Append(BuildParametersInObject(seqCall.ParamBindings));
+                        source.Append(");\n");
+                        for(int i = 0; i < seqCall.ParamBindings.ReturnVars.Length; i++)
+                            source.Append(SetVar(seqCall.ParamBindings.ReturnVars[i], tmpVarName));
+                    }
+                    else
+                    {
+                        String returnParameterDeclarations;
+                        String returnArguments;
+                        String returnAssignments;
+                        BuildReturnParameters(seqCall.ParamBindings, TypesHelper.GetNodeOrEdgeType(type, model), out returnParameterDeclarations, out returnArguments, out returnAssignments);
+
+                        if(returnParameterDeclarations.Length != 0)
+                            source.AppendFront(returnParameterDeclarations + "\n");
+
+                        source.AppendFront("((");
+                        source.Append(TypesHelper.XgrsTypeToCSharpType(type, model));
+                        source.Append(")");
+                        if(seqCall.TargetExpr != null)
+                            source.Append(GetSequenceExpression(seqCall.TargetExpr, source));
+                        else
+                            source.Append(GetVar(seqCall.TargetVar));
+                        source.Append(").");
+                        source.Append(seqCall.ParamBindings.Name);
+                        source.Append("(procEnv, graph");
+                        source.Append(BuildParameters(seqCall.ParamBindings, TypesHelper.GetNodeOrEdgeType(type, model).GetProcedureMethod(seqCall.ParamBindings.Name)));
+                        source.Append(returnArguments);
+                        source.Append(");\n");
+                    }
                     source.AppendFront(SetResultVar(seqCall, "null"));
                     break;
                 }
@@ -2983,6 +3024,64 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters;
         }
 
+        private String BuildParameters(InvocationParameterBindings paramBindings, FunctionInfo functionMethod)
+        {
+            String parameters = "";
+            for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
+            {
+                if(paramBindings.ArgumentExpressions[i] != null)
+                {
+                    String typeName = TypesHelper.DotNetTypeToXgrsType(functionMethod.inputs[i]);
+                    String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
+                    parameters += ", " + cast + GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
+                }
+                else
+                {
+                    // the sequence parser always emits all argument expressions, for interpreted and compiled
+                    throw new Exception("Internal error: missing argument expressions");
+                }
+            }
+            return parameters;
+        }
+
+        private String BuildParameters(InvocationParameterBindings paramBindings, ProcedureInfo procedureMethod)
+        {
+            String parameters = "";
+            for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
+            {
+                if(paramBindings.ArgumentExpressions[i] != null)
+                {
+                    String typeName = TypesHelper.DotNetTypeToXgrsType(procedureMethod.inputs[i]);
+                    String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
+                    parameters += ", " + cast + GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
+                }
+                else
+                {
+                    // the sequence parser always emits all argument expressions, for interpreted and compiled
+                    throw new Exception("Internal error: missing argument expressions");
+                }
+            }
+            return parameters;
+        }
+
+        private String BuildParametersInObject(InvocationParameterBindings paramBindings)
+        {
+            String parameters = "new object[] { ";
+            for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
+            {
+                if(paramBindings.ArgumentExpressions[i] != null)
+                {
+                    parameters += ", " + GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
+                }
+                else
+                {
+                    // the sequence parser always emits all argument expressions, for interpreted and compiled
+                    throw new Exception("Internal error: missing argument expressions");
+                }
+            }
+            return parameters + " }";
+        }
+
         private String BuildParametersInDeclarations(InvocationParameterBindings paramBindings, out String declarations)
         {
             String parameters = "";
@@ -3078,6 +3177,32 @@ namespace de.unika.ipd.grGen.lgsp
                     varName = tmpVarCtr.ToString();
                 ++tmpVarCtr;
                 String typeName = proceduresToOutputTypes[paramBindings.Name][i];
+                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
+                returnArguments += ", out tmpvar_" + varName;
+                if(paramBindings.ReturnVars.Length != 0)
+                    returnAssignments += SetVar(paramBindings.ReturnVars[i], "tmpvar_" + varName);
+            }
+        }
+
+        private void BuildReturnParameters(ProcedureInvocationParameterBindings paramBindings, GrGenType ownerType, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
+        {
+            // can't use the normal xgrs variables for return value receiving as the type of an out-parameter must be invariant
+            // this is bullshit, as it is perfectly safe to assign a subtype to a variable of a supertype
+            // so we create temporary variables of exact type, which are used to receive the return values,
+            // and finally we assign these temporary variables to the real xgrs variables
+
+            returnParameterDeclarations = "";
+            returnArguments = "";
+            returnAssignments = "";
+            for(int i = 0; i < ownerType.GetProcedureMethod(paramBindings.Name).outputs.Length; i++)
+            {
+                String varName;
+                if(paramBindings.ReturnVars.Length != 0)
+                    varName = tmpVarCtr.ToString() + paramBindings.ReturnVars[i].PureName;
+                else
+                    varName = tmpVarCtr.ToString();
+                ++tmpVarCtr;
+                String typeName = TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(paramBindings.Name).outputs[i]);
                 returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
                 if(paramBindings.ReturnVars.Length != 0)
@@ -3983,7 +4108,27 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionFunctionMethodCall seqFuncCall = (SequenceExpressionFunctionMethodCall)expr;
                     StringBuilder sb = new StringBuilder();
-                    // METHOD-TODO
+                    if(seqFuncCall.TargetExpr.Type(env) == "")
+                    {
+                        sb.Append("((IGraphElement)");
+                        sb.Append(GetSequenceExpression(seqFuncCall.TargetExpr, source));
+                        sb.Append(").ApplyFunctionMethod(procEnv, graph, ");
+                        sb.Append("\"" + seqFuncCall.ParamBindings.Name+ "\"");
+                        sb.Append(BuildParametersInObject(seqFuncCall.ParamBindings));
+                        sb.Append(")");
+                    }
+                    else
+                    {
+                        sb.Append("((");
+                        sb.Append(TypesHelper.XgrsTypeToCSharpType(seqFuncCall.TargetExpr.Type(env), model));
+                        sb.Append(")");
+                        sb.Append(GetSequenceExpression(seqFuncCall.TargetExpr, source));
+                        sb.Append(").");
+                        sb.Append(seqFuncCall.ParamBindings.Name);
+                        sb.Append("(procEnv, graph");
+                        sb.Append(BuildParameters(seqFuncCall.ParamBindings, TypesHelper.GetNodeOrEdgeType(seqFuncCall.TargetExpr.Type(env), model).GetFunctionMethod(seqFuncCall.ParamBindings.Name)));
+                        sb.Append(")");
+                    }
                     return sb.ToString();
                 }
 

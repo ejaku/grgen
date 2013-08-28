@@ -3322,7 +3322,6 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            base.Check(env); // check children
             env.CheckFunctionCall(this);
         }
 
@@ -3379,7 +3378,6 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            base.Check(env); // check children
             env.CheckFunctionMethodCall(TargetExpr, this);
         }
 
