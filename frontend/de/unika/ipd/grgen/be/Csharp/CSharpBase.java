@@ -344,7 +344,10 @@ public abstract class CSharpBase {
 	}
 
 	public String formatEntity(Entity entity, String pathPrefix) {
-		if(entity instanceof Node) {
+		if(entity.getIdent().toString()=="this") {
+			return "this";
+		}
+		else if(entity instanceof Node) {
 			return pathPrefix + "node_" + formatIdentifiable(entity);
 		}
 		else if (entity instanceof Edge) {

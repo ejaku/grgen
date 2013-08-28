@@ -3027,6 +3027,9 @@ public class ModifyGen extends CSharpBase {
 
 	private void genDefDeclGraphEntityStatement(StringBuffer sb, ModifyGenerationStateConst state, DefDeclGraphEntityStatement ddges) {
 		GraphEntity graphEntity = ddges.getTarget();
+		if(graphEntity.getIdent().toString()=="this") {
+			return; // don't emit a declaration for the fake "this" entity of a method
+		}
 		sb.append("\t\t\t" + formatType(graphEntity.getType()) + " " + formatEntity(graphEntity));
 		if(graphEntity.initialization!=null) {
 			sb.append(" = ");
