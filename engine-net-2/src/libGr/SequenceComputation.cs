@@ -1922,8 +1922,6 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            base.Check(env); // check children
-            //env.CheckProcedureCall(this);
             if(!(BuiltinProcedure is SequenceComputationVAlloc) 
                 && !(BuiltinProcedure is SequenceComputationGraphAdd)
                 && !(BuiltinProcedure is SequenceComputationGraphRetype)
@@ -2020,7 +2018,6 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            //base.Check(env); // check children
             env.CheckProcedureCall(this);
         }
 
@@ -2109,8 +2106,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            //base.Check(env); // check children
-            if(TargetExpr!=null)
+            if(TargetExpr != null)
                 env.CheckProcedureMethodCall(TargetExpr, this);
             else
                 env.CheckProcedureMethodCall(TargetVar, this);
