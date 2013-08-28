@@ -1,0 +1,29 @@
+node class N {
+	i:int = 0;
+	
+	procedure seti(var c:int)
+	{
+		this.i = c;
+		return;
+	}
+	
+	function geti() : int
+	{
+		return(i);
+	}
+}
+
+edge class E {
+	i:int = 0;
+	
+	procedure seti(var c:int)
+	{
+		this.i = c;
+		return;
+	}
+	
+	function geti() : int
+	{
+		return(i);
+	}
+}
