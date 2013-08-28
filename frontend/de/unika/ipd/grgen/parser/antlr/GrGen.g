@@ -1813,7 +1813,6 @@ options { k = 3; }
 			expr1=seqExpression[xg] (COMMA { xg.append(","); } expr2=seqExpression[xg] (COMMA { xg.append(","); } expr3=seqExpression[xg])? )?
 			RPAREN { xg.append(")"); }
 			SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
-	| SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
 	| IN LBRACK QUESTION { xg.append(" in [?"); } callRule[xg, returns] RBRACK { xg.append("]"); }
 			SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
 	;
@@ -2021,10 +2020,6 @@ functionCallParameters[ExecNode xg] returns [ CollectNode<ExprNode> params = new
 methodCall[ExecNode xg]
 	: xgrsVarUse[xg] d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
 			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])? )? RPAREN { xg.append(")"); }
-		{ if(!method.getText().equals("add") && !method.getText().equals("rem") && !method.getText().equals("clear")
-				&& !method.getText().equals("size") && !method.getText().equals("empty") && !method.getText().equals("peek"))
-			reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear|size|empty|peek on set|map|array|deque)");
-		}
 	;
 
 xgrsConstant[ExecNode xg] returns[ExprNode res = env.initExprNode()]

@@ -107,9 +107,10 @@ public class AssignNode extends EvalStatementNode {
 					lhsVar = (VarDeclNode)unresolved.decl;
 				} else if(unresolved.decl instanceof ConstraintDeclNode) {
 					lhsGraphElement = (ConstraintDeclNode)unresolved.decl;
-// currently unused, would be needed for member assignment inside method without "this." prefix
-//				} else if(unresolved.decl instanceof MemberDeclNode) {
+				} else if(unresolved.decl instanceof MemberDeclNode) {
 //					lhsMember = (MemberDeclNode)unresolved.decl;
+					reportError("error in resolving lhs of assignment, use \"this." + unresolved.getIdent().toString() + "\" to access a class member inside a method.");
+					successfullyResolved = false;
 				} else {
 					reportError("error in resolving lhs of assignment, unexpected type.");
 					successfullyResolved = false;
