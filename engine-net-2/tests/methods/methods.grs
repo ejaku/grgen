@@ -1,0 +1,37 @@
+new graph "methods/methods.grg"
+
+exec init
+
+exec (::ni, ::ne)=r
+
+show var ni
+show var ne
+
+exec {::ni=0; ::ne=0}
+
+exec (::ni, ::ne)=t
+
+show var ni
+show var ne
+
+exec {::ni=0; ::ne=0}
+clear graph
+
+exec init
+
+exec (::ni, ::ne)=se
+
+show var ni
+show var ne
+
+exec {::ni=0; ::ne=0}
+clear graph
+
+exec init
+
+exec for{n:N in nodes(N); {n.seti(42); ::ni=n.geti()}} ;> for{e:E in edges(E); {e.seti(43); ::ne=e.geti()}}
+
+show var ni
+show var ne
+
+quit

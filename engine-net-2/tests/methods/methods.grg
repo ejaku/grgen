@@ -1,0 +1,38 @@
+using mm;
+
+rule init
+{
+	modify {
+		n:N -e:E-> n;
+	}
+}
+
+rule r : (int, int)
+{
+	n:N -e:E->;
+
+	modify {
+		def var ni:int;
+		def var ne:int;
+		eval {
+			n.seti(42);
+			yield ni = n.geti();
+			e.seti(43);
+			yield ne = e.geti();
+		}
+		return(ni, ne);
+	}
+}
+
+test t : (int, int)
+{
+	n:N -e:E->;
+	
+	return(n.geti(), e.geti());
+}
+
+sequence se() : (ni:int, ne:int)
+{
+	for{n:N in nodes(N); {n.seti(42); yield ni=n.geti()}} ;>
+	for{e:E in edges(E); {e.seti(43); yield ne=e.geti()}}
+}
