@@ -1,0 +1,42 @@
+using method_model_inh_ovrrd2;
+
+rule r
+{
+	n:N;
+	nn1:NN1;
+	nn2:NN2;
+	nnn:NNN;
+	if{ n.foo(13)<42 && nn1.foo(13)<42 && nn2.foo(13)<42 && nnn.foo(13)<42; }
+	
+	modify {
+		eval {
+			def var x:int = 1;
+			def var y:int = 2;
+			(x,y) = n.bar(y,x);
+			(x,y) = nn1.bar(y,x);
+			(x,y) = nn2.bar(y,x);
+			(x,y) = nnn.bar(y,x);
+		}
+	}
+}
+
+rule s
+{
+	-e:E->;
+	-ee1:EE1->;
+	-ee2:EE2->;
+	-eee:EEE->;
+	if{ e.foo(13)<42 && ee1.foo(13)<42 && ee2.foo(13)<42 && eee.foo(13)<42; }
+	
+	modify {
+		eval {
+			def var x:int = 1;
+			def var y:int = 2;
+			(x,y) = e.bar(y,x);
+			(x,y) = ee1.bar(y,x);
+			(x,y) = ee2.bar(y,x);
+			(x,y) = eee.bar(y,x);
+		}
+	}
+}
+

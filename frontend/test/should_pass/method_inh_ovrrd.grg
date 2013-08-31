@@ -1,0 +1,37 @@
+using method_model_inh_ovrrd;
+
+rule r
+{
+	n:N;
+	nn:NN;
+	if{ nn.name!="foo" && n.foo(13)<42 && nn.foo(13)<42; }
+	if{ nn.qux()=="foo"; }
+	
+	modify {
+		eval {
+			def var x:int = 1;
+			def var y:int = 2;
+			(x,y) = n.bar(y,x);
+			nn.baz();
+			(x,y) = nn.bar(n.foo(13) + nn.foo(0), nn.qux().length());
+		}
+	}
+}
+
+rule s
+{
+	-e:E->;
+	-ee:EE->;
+	if{ ee.name!="foo" && e.foo(13)<42 && ee.foo(13)<42; }
+	if{ ee.qux()=="foo"; }
+	
+	modify {
+		eval {
+			def var x:int = 1;
+			def var y:int = 2;
+			(x,y) = e.bar(y,x);
+			ee.baz();
+			(x,y) = ee.bar(e.foo(13) + ee.foo(0), ee.qux().length());
+		}
+	}
+}

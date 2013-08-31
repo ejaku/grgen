@@ -1,0 +1,64 @@
+edge class E
+{
+	counter:int;
+	
+	function foo(var x:int) : int
+	{
+		return (this.counter + x);
+	}
+	
+	procedure bar(var x:int, var y:int) : (int, int)
+	{
+		return (this.counter + x, this.counter - y);
+	}	
+}
+
+edge class EE1 extends E
+{
+	name1:string;
+	
+	function foo(var x:int) : int
+	{
+		return (this.counter + this.name1.length());
+	}
+	
+	procedure bar(var x:int, var y:int) : (int, int)
+	{
+		return (this.counter + x, this.counter - this.name1.length());
+	}	
+}
+
+edge class EE2 extends E
+{
+	name2:string;
+	
+	function foo(var x:int) : int
+	{
+		return (this.counter + this.name2.length());
+	}
+	
+	procedure bar(var x:int, var y:int) : (int, int)
+	{
+		return (this.counter + x, this.counter - this.name2.length());
+	}	
+}
+
+edge class EEE extends EE1, EE2
+{
+	ubercounter:int;
+
+	function foo(var x:int) : int
+	{
+		return (this.counter + this.ubercounter + x);
+	}
+	
+	procedure bar(var x:int, var y:int) : (int, int)
+	{
+		return (this.counter + x + this.name1.length(), this.counter - y - this.name2.length());
+	}
+}
+
+edge class EEEE extends EEE, E
+{
+// must fail because foo and bar of EEEE are ambiguous, could be from EEE or E
+}

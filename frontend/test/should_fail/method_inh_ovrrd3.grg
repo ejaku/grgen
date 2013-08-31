@@ -1,0 +1,23 @@
+using method_model_inh_ovrrd3;
+
+rule r
+{
+	n:N;
+	nn1:NN1;
+	nn2:NN2;
+	nnn:NNN;
+	nnnn:NNNN;
+	if{ n.foo(13)<42 && nn1.foo(13)<42 && nn2.foo(13)<42 && nnn.foo(13)<42 && nnnn.foo(13)<42; }
+	
+	modify {
+		eval {
+			def var x:int = 1;
+			def var y:int = 2;
+			(x,y) = n.bar(y,x);
+			(x,y) = nn1.bar(y,x);
+			(x,y) = nn2.bar(y,x);
+			(x,y) = nnn.bar(y,x);
+			(x,y) = nnnn.bar(y,x);
+		}
+	}
+}
