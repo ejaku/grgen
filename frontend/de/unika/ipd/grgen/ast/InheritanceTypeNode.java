@@ -205,7 +205,9 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 				if(def == null) def = newDef;
 				else if(def != newDef) {
 					error.error(getIdentNode().getCoords(), "Identifier " + id
-							+ " is ambiguous (other definition at " + def.getCoords() + ")");
+							+ " is ambiguous (other definition at " + def.getCoords() + ")."
+							+ " There must be one unique declaration of a member, in a common parent; or different names must be used for different members. "
+							+ " A method that comes in from more than one parent must be implemented locally, overriding the parental versions.");
 				}
 			}
 		}
