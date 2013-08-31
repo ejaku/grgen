@@ -2694,7 +2694,7 @@ namespace de.unika.ipd.grGen.lgsp
                         string tmpVarName = "tmpvar_" + tmpVarCtr.ToString();
                         ++tmpVarCtr;
                         source.AppendFront("object[] " + tmpVarName + " = ");
-                        source.Append("((IGraphElement)");
+                        source.Append("((GRGEN_LIBGR.IGraphElement)");
                         if(seqCall.TargetExpr != null)
                             source.Append(GetSequenceExpression(seqCall.TargetExpr, source));
                         else
@@ -3066,7 +3066,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private String BuildParametersInObject(InvocationParameterBindings paramBindings)
         {
-            String parameters = "new object[] { ";
+            String parameters = ", new object[] { ";
             for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
             {
                 if(paramBindings.ArgumentExpressions[i] != null)
@@ -4110,7 +4110,7 @@ namespace de.unika.ipd.grGen.lgsp
                     StringBuilder sb = new StringBuilder();
                     if(seqFuncCall.TargetExpr.Type(env) == "")
                     {
-                        sb.Append("((IGraphElement)");
+                        sb.Append("((GRGEN_LIBGR.IGraphElement)");
                         sb.Append(GetSequenceExpression(seqFuncCall.TargetExpr, source));
                         sb.Append(").ApplyFunctionMethod(procEnv, graph, ");
                         sb.Append("\"" + seqFuncCall.ParamBindings.Name+ "\"");

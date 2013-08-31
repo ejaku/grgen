@@ -2127,7 +2127,7 @@ namespace de.unika.ipd.grGen.libGr
             if(TargetExpr != null)
                 owner = (IGraphElement)TargetExpr.Evaluate(procEnv);
             else
-                owner = (IGraphElement)TargetVar.Value;
+                owner = (IGraphElement)TargetVar.GetVariableValue(procEnv);
             for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; i++)
             {
                 if(ParamBindings.ArgumentExpressions[i] != null)
