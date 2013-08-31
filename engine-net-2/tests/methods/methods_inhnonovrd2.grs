@@ -1,0 +1,89 @@
+new graph "methods/methods_inhnonovrd.grg"
+
+exec initNN
+show num nodes N
+show num nodes NN
+show num nodes NNN
+show num edges E
+show num edges EE
+show num edges EEE
+
+exec (::ni, ::ne)=r
+
+show var ni
+show var ne
+
+exec {::ni=0; ::ne=0}
+
+exec (::ni, ::ne)=t
+
+show var ni
+show var ne
+
+exec {::ni=0; ::ne=0}
+
+clear graph
+exec initNN
+
+exec (::ni, ::ne)=se
+
+show var ni
+show var ne
+
+exec {::ni=0; ::ne=0}
+
+exec (::ni, ::ne)=se2
+
+show var ni
+show var ne
+
+exec {::ni=0; ::ne=0}
+
+clear graph
+exec initNN
+
+exec for{n:N in nodes(N); {n.seti(); ::ni=n.i}} ;> for{e:E in edges(E); {e.seti(); ::ne=e.i}}
+
+show var ni
+show var ne
+
+exec {::ni=0; ::ne=0}
+
+exec for{n:N in nodes(N); {::ni=n.get()}} ;> for{e:E in edges(E); {::ne=e.get()}}
+
+show var ni
+show var ne
+
+clear graph
+exec initNN
+
+exec (::ni, ::ne)=sve
+
+show var ni
+show var ne
+
+exec {::ni=0; ::ne=0}
+
+exec (::ni, ::ne)=sve2
+
+show var ni
+show var ne
+
+exec {::ni=0; ::ne=0}
+
+clear graph
+exec initNN
+
+exec (::n,::e)=neret() ;> {::n.seti(); ::ni=::n.i; ::e.seti(); ::ne=::e.i}
+
+show var ni
+show var ne
+
+exec {::ni=0; ::ne=0}
+
+exec (::n,::e)=neret() ;> {::ni=::n.get(); ::ne=::e.get()}
+
+show var ni
+show var ne
+
+quit

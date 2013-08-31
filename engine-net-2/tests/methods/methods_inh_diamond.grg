@@ -1,0 +1,77 @@
+using mm_inh_diamond;
+
+rule initN
+{
+	modify {
+		n:N -e:E-> n;
+	}
+}
+
+rule initNN1
+{
+	modify {
+		n:NN1 -e:EE1-> n;
+	}
+}
+
+rule initNN2
+{
+	modify {
+		n:NN2 -e:EE2-> n;
+	}
+}
+
+rule initNNN
+{
+	modify {
+		n:NNN -e:EEE-> n;
+	}
+}
+
+test neret : (N, E)
+{
+	n:N -e:E-> n;
+	return(n,e);
+}
+
+rule r : (int, int)
+{
+	n:N -e:E->;
+
+	modify {
+		eval {
+			n.seti();
+			e.seti();
+		}
+		return(n.i, e.i);
+	}
+}
+
+test t : (int, int)
+{
+	n:N -e:E->;
+	
+	return(n.get(), e.get());
+}
+
+sequence se() : (ni:int, ne:int)
+{
+	for{n:N in nodes(N); {n.seti(); ni=n.i}} ;>
+	for{e:E in edges(E); {e.seti(); ne=e.i}}
+}
+
+sequence se2() : (ni:int, ne:int)
+{
+	for{n:N in nodes(N); {ni=n.get()}} ;>
+	for{e:E in edges(E); {ne=e.get()}}
+}
+
+sequence sve() : (ni:int, ne:int)
+{
+	(::n,::e)=neret() ;> {::n.seti(); ni=::n.i; ::e.seti(); ne=::e.i}
+}
+
+sequence sve2() : (ni:int, ne:int)
+{
+	(::n,::e)=neret() ;> {ni=::n.get(); ne=::e.get()}
+}

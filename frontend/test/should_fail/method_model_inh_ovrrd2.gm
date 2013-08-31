@@ -1,0 +1,61 @@
+node class N
+{
+	counter:int;
+	
+	function foo(var x:int) : int
+	{
+		return (this.counter + x);
+	}
+	
+	procedure bar(var x:int, var y:int) : (int, int)
+	{
+		return (this.counter + x, this.counter - y);
+	}	
+}
+
+node class NN1 extends N
+{
+	name1:string;
+	
+	function foo(var x:int) : int
+	{
+		return (this.counter + this.name1.length());
+	}
+	
+	procedure bar(var x:int, var y:int) : (int, int)
+	{
+		return (this.counter + x, this.counter - this.name1.length());
+	}	
+}
+
+node class NN2 extends N
+{
+	name2:string;
+	
+	function foo(var x:int) : int
+	{
+		return (this.counter + this.name2.length());
+	}
+	
+	procedure bar(var x:int, var y:int) : (int, int)
+	{
+		return (this.counter + x, this.counter - this.name2.length());
+	}	
+}
+
+node class NNN extends NN1, NN2
+{
+	ubercounter:int;
+
+// must fail because foo and bar of NNN are ambiguous, could be from NN1 or NN2	
+/*	function foo(var x:int) : int
+	{
+		return (this.counter + this.ubercounter + x);
+	}
+	
+	procedure bar(var x:int, var y:int) : (int, int)
+	{
+		return (this.counter + x + this.name1.length(), this.counter - y - this.name2.length());
+	}
+*/
+}

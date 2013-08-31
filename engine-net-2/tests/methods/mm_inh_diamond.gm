@@ -1,0 +1,115 @@
+node class N
+{
+	i:int = 0;
+	
+	procedure seti()
+	{
+		this.i = 0;
+		return;
+	}
+	
+	function get() : int
+	{
+		return(0);
+	}
+}
+
+node class NN1 extends N
+{	
+	procedure seti()
+	{
+		this.i = 1;
+		return;
+	}
+	
+	function get() : int
+	{
+		return(1);
+	}
+}
+
+node class NN2 extends N
+{	
+	procedure seti()
+	{
+		this.i = 2;
+		return;
+	}
+	
+	function get() : int
+	{
+		return(2);
+	}
+}
+
+node class NNN extends NN1, NN2
+{	
+	procedure seti()
+	{
+		this.i = 42;
+		return;
+	}
+	
+	function get() : int
+	{
+		return(42);
+	}
+}
+
+edge class E
+{
+	i:int = 0;
+	
+	procedure seti()
+	{
+		this.i = 0;
+		return;
+	}
+	
+	function get() : int
+	{
+		return(0);
+	}
+}
+
+edge class EE1 extends E
+{
+	procedure seti()
+	{
+		this.i = 1;
+		return;
+	}
+	
+	function get() : int
+	{
+		return(1);
+	}
+}
+
+edge class EE2 extends E
+{
+	procedure seti()
+	{
+		this.i = 2;
+		return;
+	}
+	
+	function get() : int
+	{
+		return(2);
+	}
+}
+
+edge class EEE extends EE1, EE2
+{
+	procedure seti()
+	{
+		this.i = 42;
+		return;
+	}
+	
+	function get() : int
+	{
+		return(42);
+	}
+}

@@ -1,0 +1,59 @@
+node class N
+{
+	i:int = 0;
+	
+	procedure seti()
+	{
+		this.i = 0;
+		return;
+	}
+	
+	function get() : int
+	{
+		return(0);
+	}
+}
+
+node class NN extends N
+{	
+	procedure seti()
+	{
+		this.i = 1;
+		return;
+	}
+	
+	function get() : int
+	{
+		return(1);
+	}
+}
+
+edge class E
+{
+	i:int = 0;
+	
+	procedure seti()
+	{
+		this.i = 0;
+		return;
+	}
+	
+	function get() : int
+	{
+		return(0);
+	}
+}
+
+edge class EE extends E
+{
+	procedure seti()
+	{
+		this.i = 1;
+		return;
+	}
+	
+	function get() : int
+	{
+		return(1);
+	}
+}

@@ -1,0 +1,22 @@
+using method_model_inh_ovrrd2e;
+
+rule s
+{
+	-e:E->;
+	-ee1:EE1->;
+	-ee2:EE2->;
+	-eee:EEE->;
+	if{ e.foo(13)<42 && ee1.foo(13)<42 && ee2.foo(13)<42 && eee.foo(13)<42; }
+	
+	modify {
+		eval {
+			def var x:int = 1;
+			def var y:int = 2;
+			(x,y) = e.bar(y,x);
+			(x,y) = ee1.bar(y,x);
+			(x,y) = ee2.bar(y,x);
+			(x,y) = eee.bar(y,x);
+		}
+	}
+}
+
