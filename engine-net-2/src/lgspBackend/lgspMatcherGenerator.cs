@@ -2199,11 +2199,15 @@ exitSecondLoop: ;
             sb.AppendFront("void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)\n");
             sb.AppendFront("{\n");
             sb.Indent();
+            sb.AppendFront("if(filterName.StartsWith(\"keepFirst\") || filterName.StartsWith(\"keepLast\")) {\n");
+            sb.AppendFront("\tmatches.FilterFirstLast(filterName);\n");
+            sb.AppendFront("\treturn;\n");
+            sb.AppendFront("}\n");
             sb.AppendFront("switch(filterName) {\n");
             sb.Indent();
             foreach(string filterName in matchingPattern.Filters)
             {
-                if(filterName == "auto")
+                if(LGSPGrGen.IsGeneratedFilter(filterName, matchingPattern))
                     sb.AppendFrontFormat("case \"{1}\": MatchFilters.Filter_{0}_{1}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, ({2})matches); break;\n", patternName, filterName, matchesType);
                 else
                     sb.AppendFrontFormat("case \"{0}\": MatchFilters.Filter_{0}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, ({1})matches); break;\n", filterName, matchesType);

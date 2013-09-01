@@ -1685,6 +1685,7 @@ Sequence Rule():
 	SequenceVariable varChooseRand = null, varChooseRand2 = null, subgraph = null, countResult = null;
 	List<SequenceExpression> argExprs = new List<SequenceExpression>();
 	List<SequenceVariable> returnVars = new List<SequenceVariable>();
+	List<String> filters = new List<String>();
 }
 {
 	("(" VariableList(returnVars) ")" "=" )?
@@ -1694,7 +1695,7 @@ Sequence Rule():
 		)?
 		"[" ("%" { special = true; } | "?" { test = true; })* 
 		(LOOKAHEAD(2) subgraph=Variable() ".")? str=Word() ("(" (Arguments(argExprs))? ")")?
-			("\\" filter=Word())?
+			("\\" filter=Filter() { filters.Add(filter); })*
 		"]"
 		{
 			// No variable with this name may exist
@@ -1702,13 +1703,13 @@ Sequence Rule():
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
 			return new SequenceRuleAllCall(CreateRuleInvocationParameterBindings(str, argExprs, returnVars, subgraph),
-					special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice, filter);
+					special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice, filters);
 		}
 	|
 		"count"
 		"[" ("%" { special = true; } | "?" { test = true; })* 
 		(LOOKAHEAD(2) subgraph=Variable() ".")? str=Word() ("(" (Arguments(argExprs))? ")")?
-			("\\" filter=Word())?
+			("\\" filter=Filter() { filters.Add(filter); })*
 		"]" "=>" countResult=Variable()
 		{
 			// No variable with this name may exist
@@ -1716,12 +1717,12 @@ Sequence Rule():
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
 			return new SequenceRuleCountAllCall(CreateRuleInvocationParameterBindings(str, argExprs, returnVars, subgraph),
-					special, test, countResult, filter);
+					special, test, countResult, filters);
 		}
 	|
 		("%" { special = true; } | "?" { test = true; })*
 		(LOOKAHEAD(2) subgraph=Variable() ".")? str=Word() ("(" (Arguments(argExprs))? ")")? // if only str is given, this might be a variable predicate; but this is decided later on in resolve
-			("\\" filter=Word())?
+			("\\" filter=Filter() { filters.Add(filter); })*
 		{
 			if(argExprs.Count==0 && returnVars.Count==0)
 			{
@@ -1730,7 +1731,7 @@ Sequence Rule():
 				{
 					if(var.Type!="" && var.Type!="boolean")
 						throw new SequenceParserException(str, "untyped or bool", var.Type);
-					if(filter!=null)
+					if(filters.Count > 0)
 						throw new SequenceParserException(str, filter, SequenceParserError.FilterError);
 					if(subgraph!=null)
 						throw new SequenceParserException(str, "", SequenceParserError.SubgraphError);
@@ -1743,18 +1744,56 @@ Sequence Rule():
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
 			if(IsSequenceName(str)) {
-				if(filter!=null)
-					throw new SequenceParserException(str, filter, SequenceParserError.FilterError);
+				if(filters.Count > 0)
+					throw new SequenceParserException(str, string.Join("\\", filters.ToArray()), SequenceParserError.FilterError);
 				return new SequenceSequenceCall(
 								CreateSequenceInvocationParameterBindings(str, argExprs, returnVars, subgraph),
 								special);
 			} else {
 				return new SequenceRuleCall(
 								CreateRuleInvocationParameterBindings(str, argExprs, returnVars, subgraph),
-								special, test, filter);
+								special, test, filters);
 			}
 		}
 	)
+}
+
+string Filter() :
+{
+	String filter, filterBase, filterVariable;
+	int n;
+	double f;
+}
+{
+	LOOKAHEAD(2) filterBase=Word() "<" filterVariable=Word() ">"
+		// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
+		{
+			if(filterBase!="orderAscendingBy" && filterBase!="orderDescendingBy" && filterBase!="groupBy"
+				&& filterBase!="keepSameAsFirst" && filterBase!="keepSameAsLast" && filterBase!="keepOneForEach")
+				throw new ParseException("Unknown def-variable-based filter " + filterBase + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
+			else
+				return filterBase + "_" + filterVariable;
+		}
+|
+	LOOKAHEAD(3) filterBase=Word() "(" n=Number() ")"
+		// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
+		{
+			if(filterBase!="keepFirst" && filterBase!="keepLast")
+				throw new ParseException("Unknown integer-parameterized filter " + filterBase + "! Available are keepFirst, keepLast.");
+			else
+				return filterBase + "_" + n;
+		}
+|	
+	LOOKAHEAD(3) filterBase=Word() "(" f=DoubleNumber() ")" 
+		// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
+		{
+			if(filterBase!="keepFirstFraction" && filterBase!="keepLastFraction")
+				throw new ParseException("Unknown floating-parameterized filter " + filterBase + "! Available are keepFirstFraction, keepLastFraction.");
+			else
+				return filterBase + "_" + f.ToString(System.Globalization.CultureInfo.InvariantCulture).Replace(".", "_");
+		}
+|
+	filter=Word() { return filter; } 
 }
 
 CSHARPCODE

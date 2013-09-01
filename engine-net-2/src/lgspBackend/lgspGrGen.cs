@@ -878,7 +878,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             Dictionary<String, List<String>> rulesToInputTypes;
             Dictionary<String, List<String>> rulesToOutputTypes;
-            Dictionary<String, List<String>> rulesToFilters;
+            Dictionary<String, List<String>> rulesToGeneratedFilters;
+            Dictionary<String, List<String>> rulesToNonGeneratedFilters;
             Dictionary<String, List<String>> sequencesToInputTypes;
             Dictionary<String, List<String>> sequencesToOutputTypes;
             Dictionary<String, List<String>> proceduresToInputTypes;
@@ -888,14 +889,16 @@ namespace de.unika.ipd.grGen.lgsp
             Dictionary<String, List<String>> rulesToTopLevelEntities;
             Dictionary<String, List<String>> rulesToTopLevelEntityTypes;
             CollectActionParameterTypes(ruleAndMatchingPatterns, model,
-                out rulesToInputTypes, out rulesToOutputTypes, out rulesToFilters,
+                out rulesToInputTypes, out rulesToOutputTypes,
+                out rulesToGeneratedFilters, out rulesToNonGeneratedFilters,
                 out rulesToTopLevelEntities, out rulesToTopLevelEntityTypes,
                 out sequencesToInputTypes, out sequencesToOutputTypes,
                 out proceduresToInputTypes, out proceduresToOutputTypes,
                 out functionsToInputTypes, out functionsToOutputType);
 
             LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(this, model,
-                rulesToInputTypes, rulesToOutputTypes, rulesToFilters,
+                rulesToInputTypes, rulesToOutputTypes,
+                rulesToGeneratedFilters, rulesToNonGeneratedFilters,
                 rulesToTopLevelEntities, rulesToTopLevelEntityTypes,
                 sequencesToInputTypes, sequencesToOutputTypes,
                 proceduresToInputTypes, proceduresToOutputTypes,
@@ -904,16 +907,16 @@ namespace de.unika.ipd.grGen.lgsp
             ///////////////////////////////////////////////
             // generate external extension source if needed (cause there are external action extension)
 
-            bool isAutoFilterExisting;
-            bool isNonAutoFilterExisting;
+            bool isGeneratedFilterExisting;
+            bool isNonGeneratedFilterExisting;
             bool isExternalSequenceExisting;
             DetermineWhetherExternalActionsFileIsNeeded(ruleAndMatchingPatterns,
-                out isAutoFilterExisting, out isNonAutoFilterExisting, out isExternalSequenceExisting);
+                out isGeneratedFilterExisting, out isNonGeneratedFilterExisting, out isExternalSequenceExisting);
 
             SourceBuilder externalSource = null;
-            if(isAutoFilterExisting || isNonAutoFilterExisting || isExternalSequenceExisting)
+            if(isGeneratedFilterExisting || isNonGeneratedFilterExisting || isExternalSequenceExisting)
             {
-                EmitExternalActionsFileHeader(cc, model, isNonAutoFilterExisting || isExternalSequenceExisting,
+                EmitExternalActionsFileHeader(cc, model, isNonGeneratedFilterExisting || isExternalSequenceExisting,
                     ref externalSource);
             }
 
@@ -960,7 +963,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             GenerateAndInsertMatcherSourceCode(model, cc.actionsName, unitName,
                 cc.externalActionsExtensionFilename, ruleAndMatchingPatterns, seqGen,
-                isAutoFilterExisting, isNonAutoFilterExisting, 
+                isGeneratedFilterExisting, isNonGeneratedFilterExisting, 
                 graphStatistics, statisticsPath,
                 externalSource, source);
 
@@ -1027,7 +1030,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void GenerateAndInsertMatcherSourceCode(IGraphModel model, String actionsName, String unitName,
             string externalActionsExtensionFilename, LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, 
-            LGSPSequenceGenerator seqGen, bool isAutoFilterExisting, bool isNonAutoFilterExisting,
+            LGSPSequenceGenerator seqGen, bool isGeneratedFilterExisting, bool isNonGeneratedFilterExisting,
             LGSPGraphStatistics graphStatistics, string statisticsPath,
             SourceBuilder externalSource, SourceBuilder source)
         {
@@ -1050,7 +1053,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             GenerateDefinedSequencesAndFiltersAndFilterStubs(externalActionsExtensionFilename, 
-                isAutoFilterExisting, isNonAutoFilterExisting,
+                isGeneratedFilterExisting, isNonGeneratedFilterExisting,
                 ruleAndMatchingPatterns, seqGen, externalSource, source);
 
             // the actions class referencing the generated stuff is generated now into 
@@ -1116,7 +1119,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private static void GenerateDefinedSequencesAndFiltersAndFilterStubs(string externalActionsExtensionFilename, 
-            bool isAutoFilterExisting, bool isNonAutoFilterExisting,
+            bool isGeneratedFilterExisting, bool isNonGeneratedFilterExisting,
             LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, LGSPSequenceGenerator seqGen,
             SourceBuilder externalSource, SourceBuilder source)
         {
@@ -1126,14 +1129,14 @@ namespace de.unika.ipd.grGen.lgsp
                     seqGen.GenerateExternalDefinedSequencePlaceholder(externalSource, (ExternalDefinedSequenceInfo)sequence, externalActionsExtensionFilename);
             }
 
-            if(isAutoFilterExisting || isNonAutoFilterExisting)
+            if(isGeneratedFilterExisting || isNonGeneratedFilterExisting)
             {
                 externalSource.Append("\n");
                 externalSource.AppendFrontFormat("public partial class MatchFilters\n");
                 externalSource.AppendFront("{\n");
                 externalSource.Indent();
 
-                if(isNonAutoFilterExisting)
+                if(isNonGeneratedFilterExisting)
                 {
                     externalSource.AppendFrontFormat("// You must implement the following filter functions in the same partial class in ./{0}\n", externalActionsExtensionFilename);
                     foreach(LGSPRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
@@ -1142,15 +1145,15 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                if(isAutoFilterExisting)
+                if(isGeneratedFilterExisting)
                 {
-                    if(isNonAutoFilterExisting)
+                    if(isNonGeneratedFilterExisting)
                         externalSource.Append("\n").AppendFront("// ------------------------------------------------------\n\n");
 
                     externalSource.AppendFront("// The following filter functions are automatically generated, you don't need to supply any further implementation\n");
                     foreach(LGSPRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
                     {
-                        seqGen.GenerateAutomorphyFilters(externalSource, rulePattern);
+                        seqGen.GenerateFilters(externalSource, rulePattern);
                     }
                 }
 
@@ -1563,23 +1566,23 @@ namespace de.unika.ipd.grGen.lgsp
             externalSource.AppendFront("{");
             externalSource.Indent();
 
-            if(implementationNeeded) // not needed if only auto filters exist, then the generated file is sufficient
+            if(implementationNeeded) // not needed if only generated filters exist, then the generated file is sufficient
                 cc.externalActionsExtensionFilename = cc.destDir + cc.actionsName + "ExternalFunctionsImpl.cs";
         }
 
         private static void DetermineWhetherExternalActionsFileIsNeeded(LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns,
-            out bool isAutoFilterExisting, out bool isNonAutoFilterExisting, out bool isExternalSequenceExisting)
+            out bool isGeneratedFilterExisting, out bool isNonGeneratedFilterExisting, out bool isExternalSequenceExisting)
         {
-            isAutoFilterExisting = false;
-            isNonAutoFilterExisting = false;
+            isGeneratedFilterExisting = false;
+            isNonGeneratedFilterExisting = false;
             foreach(IRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
             {
                 foreach(string filter in rulePattern.Filters)
                 {
-                    if(filter == "auto")
-                        isAutoFilterExisting = true;
+                    if(IsGeneratedFilter(filter, rulePattern))
+                        isGeneratedFilterExisting = true;
                     else
-                        isNonAutoFilterExisting = true;
+                        isNonGeneratedFilterExisting = true;
                 }
             }
 
@@ -1594,8 +1597,38 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        public static bool IsGeneratedFilter(string filter, IRulePattern rulePattern)
+        {
+            if(filter.IndexOf('_')!=-1)
+            {
+                string filterBase = filter.Substring(0, filter.IndexOf('_'));
+                string filterVariable = filter.Substring(filter.IndexOf('_') + 1);
+                if(filterBase=="orderAscendingBy" || filterBase=="orderDescendingBy"
+                    || filterBase=="groupBy" || filterBase=="keepSameAsFirst"
+                    || filterBase=="keepSameAsLast" || filterBase=="keepOneForEach")
+                {
+                    if(IsFilterVariable(filterVariable, rulePattern))
+                        return true;
+                }
+            }
+            if(filter == "auto")
+                return true;
+            return false;
+        }
+
+        private static bool IsFilterVariable(string variable, IRulePattern rulePattern)
+        {
+            foreach(IPatternVariable patternVariable in rulePattern.PatternGraph.Variables)
+            {
+                if(patternVariable.UnprefixedName == variable)
+                    return true;
+            }
+            return false;
+        }
+
         private static void CollectActionParameterTypes(LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, IGraphModel model,
-            out Dictionary<String, List<String>> rulesToInputTypes, out Dictionary<String, List<String>> rulesToOutputTypes, out Dictionary<String, List<String>> rulesToFilters,
+            out Dictionary<String, List<String>> rulesToInputTypes, out Dictionary<String, List<String>> rulesToOutputTypes,
+            out Dictionary<String, List<String>> rulesToGeneratedFilters, out Dictionary<String, List<String>> rulesToNonGeneratedFilters,
             out Dictionary<String, List<String>> rulesToTopLevelEntities, out Dictionary<String, List<String>> rulesToTopLevelEntityTypes,
             out Dictionary<String, List<String>> sequencesToInputTypes, out Dictionary<String, List<String>> sequencesToOutputTypes,
             out Dictionary<String, List<String>> proceduresToInputTypes, out Dictionary<String, List<String>> proceduresToOutputTypes,
@@ -1604,7 +1637,8 @@ namespace de.unika.ipd.grGen.lgsp
             rulesToInputTypes = new Dictionary<String, List<String>>();
             rulesToOutputTypes = new Dictionary<String, List<String>>();
             
-            rulesToFilters = new Dictionary<String, List<String>>();
+            rulesToGeneratedFilters = new Dictionary<String, List<String>>();
+            rulesToNonGeneratedFilters = new Dictionary<String, List<String>>();
             
             rulesToTopLevelEntities = new Dictionary<String, List<String>>();
             rulesToTopLevelEntityTypes = new Dictionary<String, List<String>>();
@@ -1634,11 +1668,16 @@ namespace de.unika.ipd.grGen.lgsp
                     outputTypes.Add(TypesHelper.DotNetTypeToXgrsType(outputType));
                 }
                 
-                List<String> filters = new List<String>();
-                rulesToFilters.Add(rulePattern.PatternGraph.Name, filters);
+                List<String> generatedFilters = new List<String>();
+                rulesToGeneratedFilters.Add(rulePattern.PatternGraph.Name, generatedFilters);
+                List<String> nonGeneratedFilters = new List<String>();
+                rulesToNonGeneratedFilters.Add(rulePattern.PatternGraph.Name, nonGeneratedFilters);
                 foreach(String filter in rulePattern.Filters)
                 {
-                    filters.Add(filter);
+                    if(LGSPGrGen.IsGeneratedFilter(filter, rulePattern))
+                        generatedFilters.Add(filter);
+                    else
+                        nonGeneratedFilters.Add(filter);
                 }
 
                 List<String> topLevelEntities = new List<String>();

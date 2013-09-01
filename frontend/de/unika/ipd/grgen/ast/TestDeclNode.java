@@ -283,13 +283,67 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		if(!(this instanceof RuleDeclNode))
 			noRewriteParts = SameNumberOfRewriteParts();
 
-		return noRewriteParts && childs && edgeReUse && returnParams;
+		return checkFilters() && noRewriteParts && childs && edgeReUse && returnParams;
 	}
 
 	public boolean checkControlFlow() {
 		return true;
 	}
 
+	private boolean checkFilters() {
+		boolean allFilterEntitiesExistAndAreOfAdmissibleType = true;
+		for(String filter : filters) {
+			if(filter.indexOf('_')!=-1) {
+				String filterBase = filter.substring(0, filter.indexOf('_'));
+				String filterVariable = filter.substring(filter.indexOf('_') + 1);
+				if(filterBase.equals("orderAscendingBy") || filterBase.equals("orderDescendingBy")
+					|| filterBase.equals("groupBy") || filterBase.equals("keepSameAsFirst")
+					|| filterBase.equals("keepSameAsLast") || filterBase.equals("keepOneForEach")) {
+					allFilterEntitiesExistAndAreOfAdmissibleType = checkFilterVariable(filterBase, filterVariable);
+				}
+			}
+		}
+		return allFilterEntitiesExistAndAreOfAdmissibleType;
+	}
+
+	private boolean checkFilterVariable(String filterBase, String filterVariable) {
+		if(getVariable(filterVariable)==null) {
+			reportError(filterBase + "<" + filterVariable + ">: unknown variable " + filterVariable);
+			return false;
+		}
+		if(!isFilterableType(getVariable(filterVariable).getDeclType())) {
+			reportError(filterBase + "<" + filterVariable + ">: the variable " + filterVariable + " must be of one of the following types: byte, short, int, long, float, double, string");
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean isFilterableType(TypeNode givenType) {
+		if(givenType.isEqual(BasicTypeNode.byteType))
+			return true;
+		if(givenType.isEqual(BasicTypeNode.shortType))
+			return true;
+		if(givenType.isEqual(BasicTypeNode.intType))
+			return true;
+		if(givenType.isEqual(BasicTypeNode.longType))
+			return true;
+		if(givenType.isEqual(BasicTypeNode.floatType))
+			return true;
+		if(givenType.isEqual(BasicTypeNode.doubleType))
+			return true;
+		if(givenType.isEqual(BasicTypeNode.stringType))
+			return true;
+		return false;
+	}
+	
+	private VarDeclNode getVariable(String name) {
+		for(VarDeclNode var : pattern.getDefVariablesToBeYieldedTo().getChildren()) {
+			if(var.getIdentNode().toString().equals(name))
+				return var;
+		}
+		return null;
+	}
+	
 	protected void constructIRaux(MatchingAction ma, CollectNode<ExprNode> aReturns) {
 		PatternGraph patternGraph = ma.getPattern();
 

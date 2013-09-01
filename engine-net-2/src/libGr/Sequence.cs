@@ -707,14 +707,14 @@ namespace de.unika.ipd.grGen.libGr
         public RuleInvocationParameterBindings ParamBindings;
 
         public bool Test;
-        public string Filter;
+        public List<string> Filters;
 
-        public SequenceRuleCall(RuleInvocationParameterBindings paramBindings, bool special, bool test, string filter)
+        public SequenceRuleCall(RuleInvocationParameterBindings paramBindings, bool special, bool test, List<string> filters)
             : base(special, SequenceType.RuleCall)
         {
             ParamBindings = paramBindings;
             Test = test;
-            Filter = filter;
+            Filters = filters;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -738,7 +738,7 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("Applying rule " + GetRuleCallString(procEnv));
 #endif
-                res = procEnv.ApplyRewrite(ParamBindings, 0, 1, Special, Test, Filter) > 0;
+                res = procEnv.ApplyRewrite(ParamBindings, 0, 1, Special, Test, Filters) > 0;
             }
             catch (NullReferenceException)
             {
@@ -817,8 +817,10 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 sb.Append(")");
             }
-            if(Filter != null)
-                sb.Append("\\").Append(Filter);
+            for(int i = 0; i < Filters.Count; ++i)
+            {
+                sb.Append("\\").Append(Filters[i]);
+            }
             return sb.ToString();
         }
 
@@ -851,8 +853,10 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 sb.Append(")");
             }
-            if(Filter != null)
-                sb.Append("\\").Append(Filter);
+            for(int i = 0; i < Filters.Count; ++i)
+            {
+                sb.Append("\\").Append(Filters[i]);
+            }
             return sb.ToString();
         }
 
@@ -886,8 +890,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceRuleAllCall(RuleInvocationParameterBindings paramBindings, bool special, bool test,
             bool chooseRandom, SequenceVariable varChooseRandom,
-            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, string filter)
-            : base(paramBindings, special, test, filter)
+            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, List<string> filters)
+            : base(paramBindings, special, test, filters)
         {
             SequenceType = SequenceType.RuleAllCall;
             ChooseRandom = chooseRandom;
@@ -930,7 +934,7 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                     procEnv.Recorder.WriteLine("Applying rule all " + GetRuleCallString(procEnv));
 #endif
-                    res = procEnv.ApplyRewrite(ParamBindings, -1, -1, Special, Test, Filter) > 0;
+                    res = procEnv.ApplyRewrite(ParamBindings, -1, -1, Special, Test, Filters) > 0;
                 }
                 catch (NullReferenceException)
                 {
@@ -972,8 +976,8 @@ namespace de.unika.ipd.grGen.libGr
                 try
                 {
                     matches = ParamBindings.Action.Match(procEnv, curMaxMatches, parameters);
-                    if(Filter != null)
-                        ParamBindings.Action.Filter(procEnv, matches, Filter);
+                    for(int i = 0; i < Filters.Count; ++i)
+                        ParamBindings.Action.Filter(procEnv, matches, Filters[i]);
                 }
                 catch (NullReferenceException)
                 {
@@ -1115,8 +1119,8 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceVariable CountResult;
         
         public SequenceRuleCountAllCall(RuleInvocationParameterBindings paramBindings, 
-            bool special, bool test, SequenceVariable countResult, string filter)
-            : base(paramBindings, special, test, filter)
+            bool special, bool test, SequenceVariable countResult, List<string> filters)
+            : base(paramBindings, special, test, filters)
         {
             SequenceType = SequenceType.RuleCountAllCall;
             CountResult = countResult;
@@ -1139,7 +1143,7 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("Applying rule all " + GetRuleCallString(procEnv));
 #endif
-                res = procEnv.ApplyRewrite(ParamBindings, -1, -1, Special, Test, Filter);
+                res = procEnv.ApplyRewrite(ParamBindings, -1, -1, Special, Test, Filters);
             }
             catch(NullReferenceException)
             {
@@ -1876,8 +1880,8 @@ namespace de.unika.ipd.grGen.libGr
 
                 if (procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
                 IMatches matches = rule.ParamBindings.Action.Match(procEnv, maxMatches, parameters);
-                if(rule.Filter != null)
-                    rule.ParamBindings.Action.Filter(procEnv, matches, rule.Filter);
+                for(int j=0; j<rule.Filters.Count; ++j)
+                    rule.ParamBindings.Action.Filter(procEnv, matches, rule.Filters[j]);
                 if (procEnv.PerformanceInfo != null)
                 {
                     procEnv.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
@@ -2000,8 +2004,8 @@ namespace de.unika.ipd.grGen.libGr
 
             if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
             IMatches matches = Rule.ParamBindings.Action.Match(procEnv, procEnv.MaxMatches, parameters);
-            if(Rule.Filter != null)
-                Rule.ParamBindings.Action.Filter(procEnv, matches, Rule.Filter);
+            for(int i=0; i<Rule.Filters.Count; ++i)
+                Rule.ParamBindings.Action.Filter(procEnv, matches, Rule.Filters[i]);
             if(procEnv.PerformanceInfo != null)
             {
                 procEnv.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
@@ -2945,8 +2949,8 @@ namespace de.unika.ipd.grGen.libGr
 
             if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
             IMatches matches = Rule.ParamBindings.Action.Match(procEnv, procEnv.MaxMatches, parameters);
-            if(Rule.Filter != null)
-                Rule.ParamBindings.Action.Filter(procEnv, matches, Rule.Filter);
+            for(int i=0; i<Rule.Filters.Count; ++i)
+                Rule.ParamBindings.Action.Filter(procEnv, matches, Rule.Filters[i]);
             if(procEnv.PerformanceInfo != null)
             {
                 procEnv.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore

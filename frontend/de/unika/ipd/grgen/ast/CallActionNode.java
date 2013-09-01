@@ -50,7 +50,7 @@ public class CallActionNode extends BaseNode {
 
 	private CollectNode<BaseNode> paramsUnresolved;
 	private CollectNode<BaseNode> returnsUnresolved;
-	private IdentNode filterUnresolved;
+	private CollectNode<IdentNode> filtersUnresolved;
 
 	private TestDeclNode action;
 	private SequenceDeclNode sequence;
@@ -58,7 +58,7 @@ public class CallActionNode extends BaseNode {
 
 	protected CollectNode<ExprNode> params;
 	protected CollectNode<ExecVarDeclNode> returns;
-	protected FilterDeclNode filter;
+	protected CollectNode<FilterDeclNode> filters;
 
 	/**
 	 * @param    ruleUnresolved      an IdentNode: thr rule/test name
@@ -66,12 +66,12 @@ public class CallActionNode extends BaseNode {
 	 * @param    returnsUnresolved   a  CollectNode<BaseNode>
 	 */
 	public CallActionNode(Coords coords, IdentNode ruleUnresolved, CollectNode<BaseNode> paramsUnresolved,
-			CollectNode<BaseNode> returnsUnresolved, IdentNode filterUnresolved) {
+			CollectNode<BaseNode> returnsUnresolved, CollectNode<IdentNode> filtersUnresolved) {
 		super(coords);
 		this.actionUnresolved = ruleUnresolved;
 		this.paramsUnresolved = paramsUnresolved;
 		this.returnsUnresolved = returnsUnresolved;
-		this.filterUnresolved = filterUnresolved;
+		this.filtersUnresolved = filtersUnresolved;
 	}
 
 	/** returns children of this node */
@@ -81,8 +81,8 @@ public class CallActionNode extends BaseNode {
 		children.add(getValidVersion(actionUnresolved,action,sequence,booleVar));
 		children.add(getValidVersion(paramsUnresolved,params));
 		children.add(getValidVersion(returnsUnresolved,returns));
-		if(filterUnresolved!=null)
-			children.add(getValidVersion(filterUnresolved,filter));
+		if(filtersUnresolved!=null)
+			children.add(getValidVersion(filtersUnresolved,filters));
 		return children;
 	}
 
@@ -93,7 +93,7 @@ public class CallActionNode extends BaseNode {
 		childrenNames.add("action");
 		childrenNames.add("params");
 		childrenNames.add("returns");
-		if(filterUnresolved!=null)
+		if(filtersUnresolved!=null)
 			childrenNames.add("filter");
 		return childrenNames;
 	}
@@ -155,8 +155,8 @@ public class CallActionNode extends BaseNode {
 	private static final CollectResolver<ExecVarDeclNode> varDeclNodeResolver =
 		new CollectResolver<ExecVarDeclNode>(new DeclarationResolver<ExecVarDeclNode>(ExecVarDeclNode.class));
 
-	private static final DeclarationResolver<FilterDeclNode> filterResolver =
-		new DeclarationResolver<FilterDeclNode>(FilterDeclNode.class);
+	private static final CollectResolver<FilterDeclNode> filterResolver =
+		new CollectResolver<FilterDeclNode>(new DeclarationResolver<FilterDeclNode>(FilterDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
@@ -164,8 +164,8 @@ public class CallActionNode extends BaseNode {
 		boolean successfullyResolved = true;
 		addImplicitDefinitions();
 		fixupDefinition(actionUnresolved, actionUnresolved.getScope());
-		if(filterUnresolved!=null)
-			fixupDefinition(filterUnresolved, filterUnresolved.getScope());
+		if(filtersUnresolved!=null)
+			fixupDefinition(filtersUnresolved, filtersUnresolved.getScope());
 		Triple<TestDeclNode, SequenceDeclNode, ExecVarDeclNode> resolved =
 			actionResolver.resolve(actionUnresolved, this);
 		if(resolved!=null) {
@@ -185,9 +185,9 @@ public class CallActionNode extends BaseNode {
 		returns = varDeclNodeResolver.resolve(returnsUnresolved, this);
 		successfullyResolved = returns!=null && successfullyResolved;
 
-		if(filterUnresolved!=null) {
-			filter = filterResolver.resolve(filterUnresolved, this);
-			successfullyResolved = filter!=null && successfullyResolved;
+		if(filtersUnresolved!=null) {
+			filters = filterResolver.resolve(filtersUnresolved, this);
+			successfullyResolved = filters!=null && successfullyResolved;
 		}
 		
 		return successfullyResolved;
@@ -222,10 +222,12 @@ public class CallActionNode extends BaseNode {
 		}
 		
 		if(action!=null) {
-			if(filter != null && filter.action!=action)
-				reportError("Filter " + filter.getIdentNode().toString() + " is defined for action " + filter.action.getIdentNode().toString() + ". It can't be applied to action " + action.getIdentNode().toString());
+			for(FilterDeclNode filter : filters.getChildren()) {
+				if(filter.action!=action)
+					reportError("Filter " + filter.getIdentNode().toString() + " is defined for action " + filter.action.getIdentNode().toString() + ". It can't be applied to action " + action.getIdentNode().toString());				
+			}
 		} else {
-			if(filterUnresolved!=null)
+			if(filtersUnresolved.size()>0)
 				reportError("Match filters can only be applied on tests or rules.");
 		}
 

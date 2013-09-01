@@ -111,9 +111,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="special">Specifies whether the %-modifier has been used for this rule, which may have a special meaning for
         /// the application</param>
         /// <param name="test">If true, no rewrite step is performed.</param>
-        /// <param name="filter">The name of the filter to apply to the matches before rewriting, or null.</param>
+        /// <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
         /// <returns>The number of matches found</returns>
-        int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test, string filter);
+        int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test, List<string> filters);
 
 
         #region Variables management

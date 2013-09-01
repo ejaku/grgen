@@ -405,7 +405,7 @@ patternOrActionOrSequenceOrFunctionOrProcedureDecl [ CollectNode<IdentNode> patt
 				reportError(getCoords(t), "no \"dpo\" or \"dangling\" or \"identification\" modifier allowed for test");
 			}
 		}
-		externalFilters[id, actionDecl]
+		filterDecls[id, actionDecl]
 	| r=RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
 		ret=returnTypes LBRACE
 		left=patternPart[getCoords(r), params, namer, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
@@ -429,7 +429,7 @@ patternOrActionOrSequenceOrFunctionOrProcedureDecl [ CollectNode<IdentNode> patt
 			}
 		)
 		RBRACE popScope
-		externalFilters[id, actionDecl]
+		filterDecls[id, actionDecl]
 	| p=PATTERN id=patIdentDecl pushScope[id] params=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
 		((MODIFY|REPLACE) mp=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS|BaseNode.CONTEXT_PARAMETER, null] { modifyParams = mp; })?
 		LBRACE
@@ -566,24 +566,52 @@ returnType returns [ BaseNode res = env.initNode() ]
 		}
 	;
 
-externalFilters [ IdentNode actionIdent, TestDeclNode actionDecl ]
+filterDecls [ IdentNode actionIdent, TestDeclNode actionDecl ]
 	@init {
-		ArrayList<String> extFilters = new ArrayList<String>();
-		actionDecl.addFilters(extFilters);
+		ArrayList<String> filters = new ArrayList<String>();
+		actionDecl.addFilters(filters);
 	}
-	: BACKSLASH externalFilterList[actionIdent, extFilters]
+	: BACKSLASH filterDeclList[actionIdent, filters]
 	|
 	;
 
-externalFilterList [ IdentNode actionIdent, ArrayList<String> extFilters ]
-	: (id=actionIdentDecl { extFilters.add(id.getSymbol().getText()); id.setDecl(new FilterDeclNode(id, actionIdent)); } 
-		| AUTO { extFilters.add("auto"); }
+filterDeclList [ IdentNode actionIdent, ArrayList<String> filters ]
+	: (id=actionIdentDecl
+			{ filters.add(id.getSymbol().getText()); id.setDecl(new FilterDeclNode(id, actionIdent)); } 
+		| AUTO
+			{ filters.add("auto"); }
+		| filterBase=IDENT LT filterVariable=IDENT GT 
+			// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
+			{
+				if(!filterBase.getText().equals("orderAscendingBy") && !filterBase.getText().equals("orderDescendingBy") && !filterBase.getText().equals("groupBy")
+					&& !filterBase.getText().equals("keepSameAsFirst") && !filterBase.getText().equals("keepSameAsLast") && !filterBase.getText().equals("keepOneForEach"))
+						reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBase.getText());
+				else
+					filters.add(filterBase.getText() + "_" + filterVariable.getText());
+			}
 		)
-		( COMMA id=actionIdentDecl { extFilters.add(id.getSymbol().getText()); id.setDecl(new FilterDeclNode(id, actionIdent)); } 
-		| COMMA AUTO { extFilters.add("auto"); }
+		(
+			filterDeclListContinuation [ actionIdent, filters ]
 		)*
 	;
 
+filterDeclListContinuation [ IdentNode actionIdent, ArrayList<String> filters ]
+options { k = 3; }
+	: COMMA id=actionIdentDecl
+		{ filters.add(id.getSymbol().getText()); id.setDecl(new FilterDeclNode(id, actionIdent)); } 
+	| COMMA AUTO
+		{ filters.add("auto"); }
+	| COMMA filterBase=IDENT LT filterVariable=IDENT GT
+		{
+			if(!filterBase.getText().equals("orderAscendingBy") && !filterBase.getText().equals("orderDescendingBy") && !filterBase.getText().equals("groupBy")
+				&& !filterBase.getText().equals("keepSameAsFirst") && !filterBase.getText().equals("keepSameAsLast") && !filterBase.getText().equals("keepOneForEach"))
+					reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBase.getText());
+			else
+				filters.add(filterBase.getText() + "_" + filterVariable.getText());
+		}
+	;
+	
+	
 patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, AnonymousScopeNamer namer, int mod,
 			int context, String nameOfGraph ]
 			returns [ PatternGraphNode res = null ]
@@ -2123,15 +2151,48 @@ parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
 callRule[ExecNode xg, CollectNode<BaseNode> returns]
 	@init{
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+		CollectNode<IdentNode> filters = new CollectNode<IdentNode>();
 	}
 	
 	: ( | MOD { xg.append("\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?\%"); } )
 		(xgrsVarUse[xg] DOT {xg.append(".");})?
 		id=actionIdentUse {xg.append(id);}
 		(LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
-		(BACKSLASH filterId=actionIdentUse {xg.append("\\"); xg.append(filterId);} | BACKSLASH AUTO {xg.append("\\"); xg.append("auto");})?
+		(callRuleFilter[xg, filters])*
 		{
-			xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns, filterId));
+			// TODO: there may be more than one user-defined filter be given (that should be checked in the call action node, just postponed because unlikely)
+			xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns, filters));
+		}
+	;
+
+callRuleFilter[ExecNode xg, CollectNode<IdentNode> filters]
+options { k = 4; }
+	: BACKSLASH filterId=actionIdentUse {xg.append("\\"); xg.append(filterId); filters.addChild(filterId); } 
+	| BACKSLASH AUTO {xg.append("\\"); xg.append("auto");}
+	| BACKSLASH filterBase=IDENT LT filterVariable=IDENT GT 
+		// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
+		{
+			if(!filterBase.getText().equals("orderAscendingBy") && !filterBase.getText().equals("orderDescendingBy") && !filterBase.getText().equals("groupBy")
+				&& !filterBase.getText().equals("keepSameAsFirst") && !filterBase.getText().equals("keepSameAsLast") && !filterBase.getText().equals("keepOneForEach"))
+					reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBase.getText() + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
+			else
+					xg.append("\\"); xg.append(filterBase.getText() + "_" + filterVariable.getText());
+		}
+	| BACKSLASH filterBase=IDENT LPAREN n=NUM_INTEGER RPAREN 
+		// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
+		{
+			if(!filterBase.getText().equals("keepFirst") && !filterBase.getText().equals("keepLast"))
+					reportError(getCoords(filterBase), "Unknown integer-parameterized filter " + filterBase.getText() + "! Available are keepFirst, keepLast.");
+			else
+					xg.append("\\"); xg.append(filterBase.getText() + "_" + n.getText());
+		}
+	| BACKSLASH filterBase=IDENT LPAREN f=NUM_DOUBLE RPAREN 
+		// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
+		{
+			if(!filterBase.getText().equals("keepFirstFraction") && !filterBase.getText().equals("keepLastFraction"))
+					reportError(getCoords(filterBase), "Unknown floating-parameterized filter " + filterBase.getText() + "! Available are keepFirstFraction, keepLastFraction.");
+			else
+					xg.append("\\"); xg.append(filterBase.getText() + "_" + f.getText().replace(".", "_"));
 		}
 	;
 

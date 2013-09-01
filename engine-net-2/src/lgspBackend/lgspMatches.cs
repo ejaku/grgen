@@ -511,6 +511,71 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// For filtering to the first or last elements
+        /// implements the keepFirst, keepLast, keepFirstFraction, keepLastFractions filter
+        /// </summary>
+        /// <param name="filter">The filter string, with encoded parameter value (following underscore, with decimal point encoded as underscore)</param>
+        public void FilterFirstLast(string filter)
+        {
+            if(filter.StartsWith("keepFirstFraction"))
+            {
+                string fractionToKeep = filter.Substring(filter.IndexOf('_') + 1);
+                fractionToKeep = fractionToKeep.Replace('_', '.');
+                FilterFirstFraction(Double.Parse(fractionToKeep, System.Globalization.CultureInfo.InvariantCulture));
+            }
+            else if(filter.StartsWith("keepLastFraction"))
+            {
+                string fractionToKeep = filter.Substring(filter.IndexOf('_') + 1);
+                fractionToKeep = fractionToKeep.Replace('_', '.');
+                FilterLastFraction(Double.Parse(fractionToKeep, System.Globalization.CultureInfo.InvariantCulture));
+            }
+            else if(filter.StartsWith("keepFirst"))
+            {
+                string countToKeep = filter.Substring(filter.IndexOf('_') + 1);
+                FilterFirst(Int32.Parse(countToKeep, System.Globalization.CultureInfo.InvariantCulture));
+            }
+            else if(filter.StartsWith("keepLast"))
+            {
+                string countToKeep = filter.Substring(filter.IndexOf('_') + 1);
+                FilterLast(Int32.Parse(countToKeep, System.Globalization.CultureInfo.InvariantCulture));
+            }
+            else
+            {
+                throw new Exception("Unknown filter " + filter + " - don't know how to apply");
+            }
+        }
+
+        void FilterFirstFraction(double fractionToKeep)
+        {
+            FilterFirst((int)Math.Ceiling(fractionToKeep * count));
+        }
+
+        public void FilterLastFraction(double fractionToKeep)
+        {
+            FilterLast((int)Math.Ceiling(fractionToKeep * count));
+        }
+
+        public void FilterFirst(int countToKeep)
+        {
+            List<MatchInterface> matchesArray = ToList();
+            for(int i = countToKeep; i < matchesArray.Count; ++i)
+            {
+                matchesArray[i] = default(MatchInterface); // = null
+            }
+            FromList();
+        }
+
+        public void FilterLast(int countToKeep)
+        {
+            List<MatchInterface> matchesArray = ToList();
+            for(int i = matchesArray.Count-1 - countToKeep; i >= 0; --i)
+            {
+                matchesArray[i] = default(MatchInterface); // = null
+            }
+            FromList();
+        }
+
+        /// <summary>
         /// the action object used to generate this LGSPMatchesList object
         /// </summary>
         public IAction producer;
