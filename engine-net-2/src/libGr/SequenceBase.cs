@@ -135,9 +135,9 @@ namespace de.unika.ipd.grGen.libGr
 
             // Check filter in case there is one
             if(seq is SequenceRuleCall)
-                if((seq as SequenceRuleCall).Filter!=null)
-                    if(!IsFilterExisting(seq as SequenceRuleCall))
-                        throw new SequenceParserException(paramBindings.Name, (seq as SequenceRuleCall).Filter, SequenceParserError.FilterError);
+                if((seq as SequenceRuleCall).Filters.Count > 0)
+                    if(NotExistingFilter(seq as SequenceRuleCall)!=null)
+                        throw new SequenceParserException(paramBindings.Name, NotExistingFilter(seq as SequenceRuleCall), SequenceParserError.FilterError);
 
             SequenceVariable subgraph;
             if(paramBindings is RuleInvocationParameterBindings)
@@ -353,7 +353,7 @@ namespace de.unika.ipd.grGen.libGr
         protected abstract int NumOutputParameters(InvocationParameterBindings paramBindings, GrGenType ownerType);
         protected abstract string InputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType);
         protected abstract string OutputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType);
-        protected abstract bool IsFilterExisting(SequenceRuleCall seq);
+        protected abstract string NotExistingFilter(SequenceRuleCall seq);
     }
 
     /// <summary>
@@ -572,9 +572,18 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override bool IsFilterExisting(SequenceRuleCall seq)
+        protected override string NotExistingFilter(SequenceRuleCall seq)
         {
-            return Array.IndexOf(seq.ParamBindings.Action.RulePattern.Filters, seq.Filter) != -1;
+            foreach(String filter in seq.Filters)
+            {
+                if(Array.IndexOf(seq.ParamBindings.Action.RulePattern.Filters, filter) == -1
+                    && !filter.StartsWith("keepFirst")
+                    && !filter.StartsWith("keepLast"))
+                {
+                    return filter;
+                }
+            }
+            return null;
         }
     }
 
@@ -586,7 +595,8 @@ namespace de.unika.ipd.grGen.libGr
     {
         // constructor for compiled sequences
         public SequenceCheckingEnvironmentCompiled(String[] ruleNames, String[] sequenceNames, String[] procedureNames, String[] functionNames,
-            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes, Dictionary<String, List<String>> rulesToFilters,
+            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
+            Dictionary<String, List<String>> rulesToGeneratedFilters, Dictionary<String, List<String>> rulesToNonGeneratedFilters,
             Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
             Dictionary<String, List<String>> proceduresToInputTypes, Dictionary<String, List<String>> proceduresToOutputTypes,
@@ -599,7 +609,8 @@ namespace de.unika.ipd.grGen.libGr
             this.functionNames = functionNames;
             this.rulesToInputTypes = rulesToInputTypes;
             this.rulesToOutputTypes = rulesToOutputTypes;
-            this.rulesToFilters = rulesToFilters;
+            this.rulesToGeneratedFilters = rulesToGeneratedFilters;
+            this.rulesToNonGeneratedFilters = rulesToNonGeneratedFilters;
             this.rulesToTopLevelEntities = rulesToTopLevelEntities;
             this.rulesToTopLevelEntityTypes = rulesToTopLevelEntityTypes;
             this.sequencesToInputTypes = sequencesToInputTypes;
@@ -630,8 +641,10 @@ namespace de.unika.ipd.grGen.libGr
         // maps rule names available in the .grg to compile to the list of the output typ names
         private Dictionary<String, List<String>> rulesToOutputTypes;
 
-        // maps rule names available in the .grg to compile to the list of the match filter names
-        private Dictionary<String, List<String>> rulesToFilters;
+        // maps rule names available in the .grg to compile to the list of the generated match filter names
+        private Dictionary<String, List<String>> rulesToGeneratedFilters;
+        // maps rule names available in the .grg to compile to the list of the non-generated match filter names
+        private Dictionary<String, List<String>> rulesToNonGeneratedFilters;
 
         // maps rule names available in the .grg to compile to the list of the top level entity names (nodes,edges,variables)
         private Dictionary<String, List<String>> rulesToTopLevelEntities;
@@ -820,9 +833,19 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override bool IsFilterExisting(SequenceRuleCall seq)
+        protected override string NotExistingFilter(SequenceRuleCall seq)
         {
-            return rulesToFilters[seq.ParamBindings.Name].Contains(seq.Filter);
+            foreach(String filter in seq.Filters)
+            {
+                if(!rulesToGeneratedFilters[seq.ParamBindings.Name].Contains(filter)
+                    && !rulesToNonGeneratedFilters[seq.ParamBindings.Name].Contains(filter)
+                    && !filter.StartsWith("keepFirst")
+                    && !filter.StartsWith("keepLast"))
+                {
+                    return filter;
+                }
+            }
+            return null;
         }
     }
 

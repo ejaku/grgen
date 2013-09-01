@@ -50,8 +50,10 @@ namespace de.unika.ipd.grGen.lgsp
         // maps rule names available in the .grg to compile to the list of the output typ names
         Dictionary<String, List<String>> rulesToOutputTypes;
 
-        // maps rule names available in the .grg to compile to the list of the match filter names
-        Dictionary<String, List<String>> rulesToFilters;
+        // maps rule names available in the .grg to compile to the list of the generated match filter names
+        Dictionary<String, List<String>> rulesToGeneratedFilters;
+        // maps rule names available in the .grg to compile to the list of the non-generated match filter names
+        Dictionary<String, List<String>> rulesToNonGeneratedFilters;
         
         // maps rule names available in the .grg to compile to the list of the top level entity names (nodes,edges,variables)
         Dictionary<String, List<String>> rulesToTopLevelEntities;
@@ -99,7 +101,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// Constructs the sequence generator
         /// </summary>
         public LGSPSequenceGenerator(LGSPGrGen gen, IGraphModel model,
-            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes, Dictionary<String, List<String>> rulesToFilters,
+            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
+            Dictionary<String, List<String>> rulesToGeneratedFilters, Dictionary<String, List<String>> rulesToNonGeneratedFilters,
             Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
             Dictionary<String, List<String>> proceduresToInputTypes, Dictionary<String, List<String>> proceduresToOutputTypes,
@@ -109,7 +112,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             this.rulesToInputTypes = rulesToInputTypes;
             this.rulesToOutputTypes = rulesToOutputTypes;
-            this.rulesToFilters = rulesToFilters;
+            this.rulesToGeneratedFilters = rulesToGeneratedFilters;
+            this.rulesToNonGeneratedFilters = rulesToNonGeneratedFilters;
             this.rulesToTopLevelEntities = rulesToTopLevelEntities;
             this.rulesToTopLevelEntityTypes = rulesToTopLevelEntityTypes;
             this.sequencesToInputTypes = sequencesToInputTypes;
@@ -164,7 +168,8 @@ namespace de.unika.ipd.grGen.lgsp
             // create the environment for (type) checking the compiled sequences after parsing
             env = new SequenceCheckingEnvironmentCompiled(
                 ruleNames, sequenceNames, procedureNames, functionNames,
-                rulesToInputTypes, rulesToOutputTypes, rulesToFilters, 
+                rulesToInputTypes, rulesToOutputTypes, 
+                rulesToGeneratedFilters, rulesToNonGeneratedFilters, 
                 rulesToTopLevelEntities, rulesToTopLevelEntityTypes,
                 sequencesToInputTypes, sequencesToOutputTypes,
                 proceduresToInputTypes, proceduresToOutputTypes,
@@ -545,12 +550,14 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                 + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
                 + parameters + ");\n");
-            if(seqRule.Filter != null)
+            for(int i = 0; i < seqRule.Filters.Count; ++i)
             {
-                if(seqRule.Filter == "auto")
-                    source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, seqRule.Filter, matchesName);
+                if(rulesToGeneratedFilters[patternName].Contains(seqRule.Filters[i]))
+                    source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, seqRule.Filters[i], matchesName);
+                else if(rulesToNonGeneratedFilters[patternName].Contains(seqRule.Filters[i]))
+                    source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqRule.Filters[i], matchesName);
                 else
-                    source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqRule.Filter, matchesName);
+                    source.AppendFrontFormat("{0}.FilterFirstLast(\"{1}\");\n", matchesName, seqRule.Filters[i]);
             }
 
             if(gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
@@ -1136,12 +1143,14 @@ namespace de.unika.ipd.grGen.lgsp
                     String matchesName = "matches_" + seqFor.Id;
                     source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                         + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
-                    if(seqFor.Rule.Filter != null)
+                    for(int i=0; i<seqFor.Rule.Filters.Count; ++i)
                     {
-                        if(seqFor.Rule.Filter == "auto")
-                            source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, seqFor.Rule.Filter, matchesName);
+                        if(rulesToGeneratedFilters[patternName].Contains(seqFor.Rule.Filters[i]))
+                            source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, seqFor.Rule.Filters[i], matchesName);
+                        else if(rulesToNonGeneratedFilters[patternName].Contains(seqFor.Rule.Filters[i]))
+                            source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqFor.Rule.Filters[i], matchesName);
                         else
-                            source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqFor.Rule.Filter, matchesName);
+                            source.AppendFrontFormat("{0}.FilterFirstLast(\"{1}\");\n", matchesName, seqFor.Rule.Filters[i]);
                     }
 
                     source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
@@ -1406,12 +1415,14 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesName = "matches_" + seq.Id;
             source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                 + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
-            if(seq.Rule.Filter != null)
+            for(int i=0; i<seq.Rule.Filters.Count; ++i)
             {
-                if(seq.Rule.Filter == "auto")
-                    source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, seq.Rule.Filter, matchesName);
+                if(rulesToGeneratedFilters[patternName].Contains(seq.Rule.Filters[i]))
+                    source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, seq.Rule.Filters[i], matchesName);
+                else if(rulesToNonGeneratedFilters[patternName].Contains(seq.Rule.Filters[i]))
+                    source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seq.Rule.Filters[i], matchesName);
                 else
-                    source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seq.Rule.Filter, matchesName);
+                    source.AppendFrontFormat("{0}.FilterFirstLast(\"{1}\");\n", matchesName, seq.Rule.Filters[i]);
             }
 
             source.AppendFront("if(" + matchesName + ".Count==0) {\n");
@@ -1562,12 +1573,14 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                     + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
                     + parameters + ");\n");
-                if(seqRule.Filter != null)
+                for(int j=0; j<seqRule.Filters.Count; ++j)
                 {
-                    if(seqRule.Filter == "auto")
-                        source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, seqRule.Filter, matchesName);
+                    if(rulesToGeneratedFilters[patternName].Contains(seqRule.Filters[i]))
+                        source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, seqRule.Filters[j], matchesName);
+                    else if(rulesToNonGeneratedFilters[patternName].Contains(seqRule.Filters[i]))
+                        source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqRule.Filters[j], matchesName);
                     else
-                        source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqRule.Filter, matchesName);
+                        source.AppendFrontFormat("{0}.FilterFirstLast(\"{1}\");\n", matchesName, seqRule.Filters[i]);
                 }
                 if (gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
                 source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
@@ -4633,59 +4646,250 @@ namespace de.unika.ipd.grGen.lgsp
 
             foreach(string filterName in rulePattern.Filters)
             {
-                if(filterName == "auto")
+                if(LGSPGrGen.IsGeneratedFilter(filterName, rulePattern))
                     continue;
 
                 source.AppendFrontFormat("//public static void Filter_{0}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {1} matches)\n", filterName, matchesListType);
             }
         }
 
-        public void GenerateAutomorphyFilters(SourceBuilder source, LGSPRulePattern rulePattern)
+        public void GenerateFilters(SourceBuilder source, LGSPRulePattern rulePattern)
+        {
+            foreach(string filter in rulePattern.Filters)
+            {
+                if(LGSPGrGen.IsGeneratedFilter(filter, rulePattern))
+                {
+                    if(filter == "auto")
+                        GenerateAutomorphyFilter(source, rulePattern);
+                    else
+                    {
+                        string filterBase = filter.Substring(0, filter.IndexOf('_'));
+                        string filterVariable = filter.Substring(filter.IndexOf('_') + 1);
+
+                        if(filterBase == "orderAscendingBy")
+                            GenerateOrderByFilter(source, rulePattern, filterVariable, true);
+                        if(filterBase == "orderDescendingBy")
+                            GenerateOrderByFilter(source, rulePattern, filterVariable, false);
+                        if(filterBase == "groupBy")
+                            GenerateGroupByFilter(source, rulePattern, filterVariable);
+                        if(filterBase == "keepSameAsFirst")
+                            GenerateKeepSameFilter(source, rulePattern, filterVariable, true);
+                        if(filterBase == "keepSameAsLast")
+                            GenerateKeepSameFilter(source, rulePattern, filterVariable, false);
+                        if(filterBase == "keepOneForEach")
+                            GenerateKeepOneForEachFilter(source, rulePattern, filterVariable);
+                    }
+                }
+            }
+        }
+
+        private static void GenerateAutomorphyFilter(SourceBuilder source, LGSPRulePattern rulePattern)
         {
             String rulePatternClassName = rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
+            String filterName = "auto";
+            
+            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", rulePattern.name, filterName, matchesListType);
+            source.AppendFront("{\n");
+            source.Indent();
 
-            foreach(string filterName in rulePattern.Filters)
+            source.AppendFront("if(matches.Count<2)\n");
+            source.AppendFront("\treturn;\n");
+
+            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
+            source.AppendFront("for(int i = 0; i < matchesArray.Count; ++i)\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFront("if(matchesArray[i] == null)\n");
+            source.AppendFront("\tcontinue;\n");
+
+            source.AppendFront("for(int j = i + 1; j < matchesArray.Count; ++j)\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFront("if(matchesArray[j] == null)\n");
+            source.AppendFront("\tcontinue;\n");
+
+            source.AppendFront("if(GRGEN_LIBGR.SymmetryChecker.AreSymmetric(matchesArray[i], matchesArray[j], procEnv.graph))\n");
+            source.AppendFront("\tmatchesArray[j] = null;\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.AppendFront("matches.FromList();\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private static void GenerateOrderByFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterVariable, bool ascending)
+        {
+            String rulePatternClassName = rulePattern.GetType().Name;
+            String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
+            String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
+            String filterName = ascending ? "orderAscendingBy_" + filterVariable : "orderDescendingBy_" + filterVariable;
+
+            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", rulePattern.name, filterName, matchesListType);
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
+            source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}());\n", rulePattern.name, filterName);
+            source.AppendFront("matches.FromList();\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.AppendFrontFormat("class Comparer_{0}_{1} : Comparer<{2}>\n", rulePattern.name, filterName, matchInterfaceName);
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFrontFormat("public override int Compare({0} left, {0} right)\n", matchInterfaceName);
+            source.AppendFront("{\n");
+            source.Indent();
+            if(ascending)
+                source.AppendFrontFormat("return left.{0}.CompareTo(right.{0});\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+            else
+                source.AppendFrontFormat("return -left.{0}.CompareTo(right.{0});\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        void GenerateGroupByFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterVariable)
+        {
+            String rulePatternClassName = rulePattern.GetType().Name;
+            String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
+            String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
+            String filterName = "groupBy_" + filterVariable;
+
+            if(true) // does the type of the variable to group-by support ordering? then order, is more efficient than equality comparisons
             {
-                if(filterName != "auto")
-                    continue;
-
                 source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", rulePattern.name, filterName, matchesListType);
                 source.AppendFront("{\n");
                 source.Indent();
 
-                source.AppendFront("if(matches.Count<2)\n");
-                source.AppendFront("\treturn;\n");
-
                 source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
-                source.AppendFront("for(int i = 0; i < matchesArray.Count; ++i)\n");
-                source.AppendFront("{\n");
-                source.Indent();
-
-                source.AppendFront("if(matchesArray[i] == null)\n");
-                source.AppendFront("\tcontinue;\n");
-                
-                source.AppendFront("for(int j = i + 1; j < matchesArray.Count; ++j)\n");
-                source.AppendFront("{\n");
-                source.Indent();
-
-                source.AppendFront("if(matchesArray[j] == null)\n");
-                source.AppendFront("\tcontinue;\n");
-
-                source.AppendFront("if(GRGEN_LIBGR.SymmetryChecker.AreSymmetric(matchesArray[i], matchesArray[j], procEnv.graph))\n");
-                source.AppendFront("\tmatchesArray[j] = null;\n");
-                
-                source.Unindent();
-                source.AppendFront("}\n");
-
-                source.Unindent();
-                source.AppendFront("}\n");
+                source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}());\n", rulePattern.name, filterName);
                 source.AppendFront("matches.FromList();\n");
 
                 source.Unindent();
                 source.AppendFront("}\n");
+
+                source.AppendFrontFormat("class Comparer_{0}_{1} : Comparer<{2}>\n", rulePattern.name, filterName, matchInterfaceName);
+                source.AppendFront("{\n");
+                source.Indent();
+
+                source.AppendFrontFormat("public override int Compare({0} left, {0} right)\n", matchInterfaceName);
+                source.AppendFront("{\n");
+                source.Indent();
+                source.AppendFrontFormat("return left.{0}.CompareTo(right.{0});\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                source.Unindent();
+                source.AppendFront("}\n");
+
+                source.Unindent();
+                source.AppendFront("}\n");
             }
+            else
+            {
+                // ensure that if two elements are equal, they are neighbours or only separated by equal elements
+                // not needed yet, as of now we only support numerical types and string, that support ordering in addition to equality comparison
+                /*List<T> matchesArray;
+                for(int i = 0; i < matchesArray.Count - 1; ++i)
+                {
+                    for(int j = i + 1; j < matchesArray.Count; ++j)
+                    {
+                        if(matchesArray[i] == matchesArray[j])
+                        {
+                            T tmp = matchesArray[i + 1];
+                            matchesArray[i + 1] = matchesArray[j];
+                            matchesArray[j] = tmp;
+                            break;
+                        }
+                    }
+                }*/
+            }
+        }
+
+        void GenerateKeepSameFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterVariable, bool sameAsFirst)
+        {
+            String rulePatternClassName = rulePattern.GetType().Name;
+            String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
+            String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
+            String filterName = sameAsFirst ? "keepSameAsFirst_" + filterVariable : "keepSameAsLast_" + filterVariable;
+
+            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", rulePattern.name, filterName, matchesListType);
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
+
+            if(sameAsFirst)
+            {
+                source.AppendFront("int pos = 0 + 1;\n");
+                source.AppendFrontFormat("while(pos < matchesArray.Count && matchesArray[pos].{0} == matchesArray[0].{0})\n", 
+                    NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                source.AppendFront("{\n");
+                source.AppendFront("\t++pos;\n");
+                source.AppendFront("}\n");
+                source.AppendFront("for(; pos < matchesArray.Count; ++pos)\n");
+                source.AppendFront("{\n");
+                source.AppendFront("\tmatchesArray[pos] = null;\n");
+                source.AppendFront("}\n");
+            }
+            else
+            {
+                source.AppendFront("int pos = matchesArray.Count-1 - 1;\n");
+                source.AppendFrontFormat("while(pos >= 0 && matchesArray[pos].{0} == matchesArray[matchesArray.Count-1].{0})\n",
+                    NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                source.AppendFront("{\n");
+                source.AppendFront("\t--pos;\n");
+                source.AppendFront("}\n");
+                source.AppendFront("for(; pos >= 0; --pos)\n");
+                source.AppendFront("{\n");
+                source.AppendFront("\tmatchesArray[pos] = null;\n");
+                source.AppendFront("}\n");
+            }
+
+            source.AppendFront("matches.FromList();\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        void GenerateKeepOneForEachFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterVariable)
+        {
+            String rulePatternClassName = rulePattern.GetType().Name;
+            String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
+            String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
+            String filterName = "keepOneForEach_" + filterVariable;
+
+            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", rulePattern.name, filterName, matchesListType);
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
+
+            source.AppendFront("int cmpPos = 0;\n");
+            source.AppendFront("int pos = 0 + 1;\n");
+            source.AppendFront("for(; pos < matchesArray.Count; ++pos)\n");
+            source.AppendFront("{\n");
+            source.AppendFrontFormat("\tif(matchesArray[pos].{0} == matchesArray[cmpPos].{0})\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+            source.AppendFront("\t\tmatchesArray[pos] = null;\n");
+            source.AppendFront("\telse\n");
+            source.AppendFront("\t\tcmpPos = pos;\n");
+            source.AppendFront("}\n");
+
+            source.AppendFront("matches.FromList();\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
         }
 
         void GenerateContainerConstructor(SequenceExpressionContainerConstructor cc, SourceBuilder source)
@@ -4775,7 +4979,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
 
                 case SequenceParserError.FilterError:
-                    Console.Error.WriteLine("Can't apply filter " + ex.FilterName + " to rule!");
+                    Console.Error.WriteLine("Can't apply filter " + ex.FilterName + " to rule " + ex.Name + "!");
                     return;
 
                 case SequenceParserError.OperatorNotFound:

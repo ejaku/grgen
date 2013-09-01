@@ -309,6 +309,13 @@ namespace de.unika.ipd.grGen.libGr
         /// Clone the matches
         /// </summary>
         IMatches Clone();
+
+        /// <summary>
+        /// For filtering to the first or last elements
+        /// implements the keepFirst, keepLast, keepFirstFraction, keepLastFractions filter
+        /// </summary>
+        /// <param name="filter">The filter string, with encoded parameter value (following underscore)</param>
+        void FilterFirstLast(string filter);
     }
 
 
