@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Mon Jul 29 10:33:45 CEST 2013
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Sep 01 23:22:02 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -1656,6 +1656,10 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -1895,6 +1899,10 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -2118,6 +2126,10 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -2329,6 +2341,10 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -2628,6 +2644,10 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }

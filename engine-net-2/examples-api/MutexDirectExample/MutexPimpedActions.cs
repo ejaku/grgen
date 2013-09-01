@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Jul 29 10:31:14 CEST 2013
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Sep 01 23:22:24 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -7366,6 +7366,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -7642,6 +7646,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -7853,6 +7861,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -8076,6 +8088,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -8356,6 +8372,10 @@ label0: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -8626,6 +8646,10 @@ label2: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -8867,6 +8891,10 @@ label2: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -9117,6 +9145,10 @@ label3: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -9370,6 +9402,10 @@ label3: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -9623,6 +9659,10 @@ label3: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -9923,6 +9963,10 @@ label3: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -10173,6 +10217,10 @@ label4: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -10414,6 +10462,10 @@ label4: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -10734,6 +10786,10 @@ label5: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -11029,6 +11085,10 @@ label5: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -11277,6 +11337,10 @@ label6: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -11515,6 +11579,10 @@ label7: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -11738,6 +11806,10 @@ label7: ;
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }

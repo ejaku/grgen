@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Jul 21 19:01:01 CEST 2013
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Sep 01 23:22:18 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -110,6 +110,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			// implicit initialization, container creation of Node
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Node does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Node does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Node : GRGEN_LIBGR.NodeType
@@ -136,6 +151,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -262,6 +283,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			this.@name = null;
 			// explicit initializations of Package for target Package
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Package does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Package does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Package : GRGEN_LIBGR.NodeType
@@ -303,6 +339,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 			return null;
 		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -471,6 +513,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			this.@isAbstract = false;
 			// explicit initializations of Classifier for target Classifier
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Classifier does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Classifier does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Classifier : GRGEN_LIBGR.NodeType
@@ -520,6 +577,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 			return null;
 		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -710,6 +773,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// explicit initializations of Classifier for target Class
 			// explicit initializations of Class for target Class
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Class does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Class does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Class : GRGEN_LIBGR.NodeType
@@ -757,6 +835,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 			return null;
 		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -941,6 +1025,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// explicit initializations of Classifier for target Interface
 			// explicit initializations of Interface for target Interface
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Interface does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Interface does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Interface : GRGEN_LIBGR.NodeType
@@ -984,6 +1083,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 			return null;
 		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1179,6 +1284,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			this.@isFinal = false;
 			// explicit initializations of Variable for target Variable
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Variable does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Variable does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Variable : GRGEN_LIBGR.NodeType
@@ -1232,6 +1352,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 			return null;
 		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1433,6 +1559,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			this.@isFinal = false;
 			// explicit initializations of Operation for target Operation
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Operation does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Operation does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Operation : GRGEN_LIBGR.NodeType
@@ -1490,6 +1631,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 			return null;
 		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1611,6 +1758,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// implicit initialization, container creation of MethodBody
 			// explicit initializations of MethodBody for target MethodBody
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("MethodBody does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("MethodBody does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_MethodBody : GRGEN_LIBGR.NodeType
@@ -1637,6 +1799,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1742,6 +1910,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// implicit initialization, container creation of Expression
 			// explicit initializations of Expression for target Expression
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Expression does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Expression does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Expression : GRGEN_LIBGR.NodeType
@@ -1768,6 +1951,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1783,7 +1972,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public interface IAccess : IExpression
 	{
-		bool @this { get; set; }
+		bool @this_ { get; set; }
 	}
 
 	public sealed class @Access : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IAccess
@@ -1811,14 +2000,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Access(GRGEN_MODEL.@Access oldElem) : base(GRGEN_MODEL.NodeType_Access.typeVar)
 		{
-			this_M0no_suXx_h4rD = oldElem.this_M0no_suXx_h4rD;
+			this__M0no_suXx_h4rD = oldElem.this__M0no_suXx_h4rD;
 		}
 
 		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
 			if(!(that is @Access)) return false;
 			@Access that_ = (@Access)that;
 			return true
-				&& this_M0no_suXx_h4rD == that_.this_M0no_suXx_h4rD
+				&& this__M0no_suXx_h4rD == that_.this__M0no_suXx_h4rD
 			;
 		}
 
@@ -1834,7 +2023,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, container creation of Access
-				node.@this = false;
+				node.@this_ = false;
 				// explicit initializations of Expression for target Access
 				// explicit initializations of Access for target Access
 			}
@@ -1854,7 +2043,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, container creation of Access
-				node.@this = false;
+				node.@this_ = false;
 				// explicit initializations of Expression for target Access
 				// explicit initializations of Access for target Access
 			}
@@ -1869,17 +2058,17 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private bool this_M0no_suXx_h4rD;
-		public bool @this
+		private bool this__M0no_suXx_h4rD;
+		public bool @this_
 		{
-			get { return this_M0no_suXx_h4rD; }
-			set { this_M0no_suXx_h4rD = value; }
+			get { return this__M0no_suXx_h4rD; }
+			set { this__M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
 			switch(attrName)
 			{
-				case "this": return this.@this;
+				case "this_": return this.@this_;
 			}
 			throw new NullReferenceException(
 				"The node type \"Access\" does not have the attribute \"" + attrName + "\"!");
@@ -1888,7 +2077,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			switch(attrName)
 			{
-				case "this": this.@this = (bool) value; return;
+				case "this_": this.@this_ = (bool) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"Access\" does not have the attribute \"" + attrName + "\"!");
@@ -1896,9 +2085,24 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override void ResetAllAttributes()
 		{
 			// implicit initialization, container creation of Access
-			this.@this = false;
+			this.@this_ = false;
 			// explicit initializations of Expression for target Access
 			// explicit initializations of Access for target Access
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Access does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Access does not have the procedure method " + name + "!");
+			}
 		}
 	}
 
@@ -1909,10 +2113,10 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, };
 		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public static GRGEN_LIBGR.AttributeType AttributeType_this;
+		public static GRGEN_LIBGR.AttributeType AttributeType_this_;
 		public NodeType_Access() : base((int) NodeTypes.@Access)
 		{
-			AttributeType_this = new GRGEN_LIBGR.AttributeType("this", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_this_ = new GRGEN_LIBGR.AttributeType("this_", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Access"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IAccess"; } }
@@ -1930,17 +2134,23 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			get
 			{
-				yield return AttributeType_this;
+				yield return AttributeType_this_;
 			}
 		}
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "this" : return AttributeType_this;
+				case "this_" : return AttributeType_this_;
 			}
 			return null;
 		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1955,7 +2165,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 					// copy attributes for: Access
 					{
 						GRGEN_MODEL.IAccess old = (GRGEN_MODEL.IAccess) oldNode;
-						newNode.@this = old.@this;
+						newNode.@this_ = old.@this_;
 					}
 					break;
 			}
@@ -1968,7 +2178,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public interface IUpdate : IExpression
 	{
-		bool @this { get; set; }
+		bool @this_ { get; set; }
 	}
 
 	public sealed class @Update : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IUpdate
@@ -1996,14 +2206,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Update(GRGEN_MODEL.@Update oldElem) : base(GRGEN_MODEL.NodeType_Update.typeVar)
 		{
-			this_M0no_suXx_h4rD = oldElem.this_M0no_suXx_h4rD;
+			this__M0no_suXx_h4rD = oldElem.this__M0no_suXx_h4rD;
 		}
 
 		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
 			if(!(that is @Update)) return false;
 			@Update that_ = (@Update)that;
 			return true
-				&& this_M0no_suXx_h4rD == that_.this_M0no_suXx_h4rD
+				&& this__M0no_suXx_h4rD == that_.this__M0no_suXx_h4rD
 			;
 		}
 
@@ -2019,7 +2229,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, container creation of Update
-				node.@this = false;
+				node.@this_ = false;
 				// explicit initializations of Expression for target Update
 				// explicit initializations of Update for target Update
 			}
@@ -2039,7 +2249,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, container creation of Update
-				node.@this = false;
+				node.@this_ = false;
 				// explicit initializations of Expression for target Update
 				// explicit initializations of Update for target Update
 			}
@@ -2054,17 +2264,17 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private bool this_M0no_suXx_h4rD;
-		public bool @this
+		private bool this__M0no_suXx_h4rD;
+		public bool @this_
 		{
-			get { return this_M0no_suXx_h4rD; }
-			set { this_M0no_suXx_h4rD = value; }
+			get { return this__M0no_suXx_h4rD; }
+			set { this__M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
 			switch(attrName)
 			{
-				case "this": return this.@this;
+				case "this_": return this.@this_;
 			}
 			throw new NullReferenceException(
 				"The node type \"Update\" does not have the attribute \"" + attrName + "\"!");
@@ -2073,7 +2283,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			switch(attrName)
 			{
-				case "this": this.@this = (bool) value; return;
+				case "this_": this.@this_ = (bool) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"Update\" does not have the attribute \"" + attrName + "\"!");
@@ -2081,9 +2291,24 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override void ResetAllAttributes()
 		{
 			// implicit initialization, container creation of Update
-			this.@this = false;
+			this.@this_ = false;
 			// explicit initializations of Expression for target Update
 			// explicit initializations of Update for target Update
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Update does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Update does not have the procedure method " + name + "!");
+			}
 		}
 	}
 
@@ -2094,10 +2319,10 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, };
 		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public static GRGEN_LIBGR.AttributeType AttributeType_this;
+		public static GRGEN_LIBGR.AttributeType AttributeType_this_;
 		public NodeType_Update() : base((int) NodeTypes.@Update)
 		{
-			AttributeType_this = new GRGEN_LIBGR.AttributeType("this", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_this_ = new GRGEN_LIBGR.AttributeType("this_", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Update"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IUpdate"; } }
@@ -2115,17 +2340,23 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			get
 			{
-				yield return AttributeType_this;
+				yield return AttributeType_this_;
 			}
 		}
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "this" : return AttributeType_this;
+				case "this_" : return AttributeType_this_;
 			}
 			return null;
 		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -2140,7 +2371,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 					// copy attributes for: Update
 					{
 						GRGEN_MODEL.IUpdate old = (GRGEN_MODEL.IUpdate) oldNode;
-						newNode.@this = old.@this;
+						newNode.@this_ = old.@this_;
 					}
 					break;
 			}
@@ -2153,7 +2384,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public interface ICall : IExpression
 	{
-		bool @this { get; set; }
+		bool @this_ { get; set; }
 		bool @super { get; set; }
 	}
 
@@ -2182,7 +2413,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Call(GRGEN_MODEL.@Call oldElem) : base(GRGEN_MODEL.NodeType_Call.typeVar)
 		{
-			this_M0no_suXx_h4rD = oldElem.this_M0no_suXx_h4rD;
+			this__M0no_suXx_h4rD = oldElem.this__M0no_suXx_h4rD;
 			super_M0no_suXx_h4rD = oldElem.super_M0no_suXx_h4rD;
 		}
 
@@ -2190,7 +2421,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			if(!(that is @Call)) return false;
 			@Call that_ = (@Call)that;
 			return true
-				&& this_M0no_suXx_h4rD == that_.this_M0no_suXx_h4rD
+				&& this__M0no_suXx_h4rD == that_.this__M0no_suXx_h4rD
 				&& super_M0no_suXx_h4rD == that_.super_M0no_suXx_h4rD
 			;
 		}
@@ -2207,7 +2438,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, container creation of Call
-				node.@this = false;
+				node.@this_ = false;
 				node.@super = false;
 				// explicit initializations of Expression for target Call
 				// explicit initializations of Call for target Call
@@ -2228,7 +2459,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, container creation of Call
-				node.@this = false;
+				node.@this_ = false;
 				node.@super = false;
 				// explicit initializations of Expression for target Call
 				// explicit initializations of Call for target Call
@@ -2244,11 +2475,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private bool this_M0no_suXx_h4rD;
-		public bool @this
+		private bool this__M0no_suXx_h4rD;
+		public bool @this_
 		{
-			get { return this_M0no_suXx_h4rD; }
-			set { this_M0no_suXx_h4rD = value; }
+			get { return this__M0no_suXx_h4rD; }
+			set { this__M0no_suXx_h4rD = value; }
 		}
 
 		private bool super_M0no_suXx_h4rD;
@@ -2261,7 +2492,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			switch(attrName)
 			{
-				case "this": return this.@this;
+				case "this_": return this.@this_;
 				case "super": return this.@super;
 			}
 			throw new NullReferenceException(
@@ -2271,7 +2502,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			switch(attrName)
 			{
-				case "this": this.@this = (bool) value; return;
+				case "this_": this.@this_ = (bool) value; return;
 				case "super": this.@super = (bool) value; return;
 			}
 			throw new NullReferenceException(
@@ -2280,10 +2511,25 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override void ResetAllAttributes()
 		{
 			// implicit initialization, container creation of Call
-			this.@this = false;
+			this.@this_ = false;
 			this.@super = false;
 			// explicit initializations of Expression for target Call
 			// explicit initializations of Call for target Call
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Call does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Call does not have the procedure method " + name + "!");
+			}
 		}
 	}
 
@@ -2294,11 +2540,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, };
 		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public static GRGEN_LIBGR.AttributeType AttributeType_this;
+		public static GRGEN_LIBGR.AttributeType AttributeType_this_;
 		public static GRGEN_LIBGR.AttributeType AttributeType_super;
 		public NodeType_Call() : base((int) NodeTypes.@Call)
 		{
-			AttributeType_this = new GRGEN_LIBGR.AttributeType("this", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_this_ = new GRGEN_LIBGR.AttributeType("this_", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
 			AttributeType_super = new GRGEN_LIBGR.AttributeType("super", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Call"; } }
@@ -2317,7 +2563,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			get
 			{
-				yield return AttributeType_this;
+				yield return AttributeType_this_;
 				yield return AttributeType_super;
 			}
 		}
@@ -2325,11 +2571,17 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			switch(name)
 			{
-				case "this" : return AttributeType_this;
+				case "this_" : return AttributeType_this_;
 				case "super" : return AttributeType_super;
 			}
 			return null;
 		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -2344,7 +2596,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 					// copy attributes for: Call
 					{
 						GRGEN_MODEL.ICall old = (GRGEN_MODEL.ICall) oldNode;
-						newNode.@this = old.@this;
+						newNode.@this_ = old.@this_;
 						newNode.@super = old.@super;
 					}
 					break;
@@ -2454,6 +2706,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// explicit initializations of Expression for target Instantiation
 			// explicit initializations of Instantiation for target Instantiation
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Instantiation does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Instantiation does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Instantiation : GRGEN_LIBGR.NodeType
@@ -2480,6 +2747,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -2612,6 +2885,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// explicit initializations of Expression for target Operator
 			// explicit initializations of Operator for target Operator
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Operator does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Operator does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Operator : GRGEN_LIBGR.NodeType
@@ -2653,6 +2941,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 			return null;
 		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -2776,6 +3070,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// explicit initializations of Expression for target Return
 			// explicit initializations of Return for target Return
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Return does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Return does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Return : GRGEN_LIBGR.NodeType
@@ -2802,6 +3111,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -2913,6 +3228,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// explicit initializations of Expression for target Block
 			// explicit initializations of Block for target Block
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Block does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Block does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Block : GRGEN_LIBGR.NodeType
@@ -2939,6 +3269,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -3065,6 +3401,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			this.@value = null;
 			// explicit initializations of Literal for target Literal
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Literal does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Literal does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Literal : GRGEN_LIBGR.NodeType
@@ -3106,6 +3457,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 			return null;
 		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -3223,6 +3580,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// implicit initialization, container creation of Parameter
 			// explicit initializations of Parameter for target Parameter
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Parameter does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Parameter does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class NodeType_Parameter : GRGEN_LIBGR.NodeType
@@ -3249,6 +3621,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -3625,9 +4003,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.NodeType_Operation.AttributeType_isAbstract,
 			GRGEN_MODEL.NodeType_Operation.AttributeType_isStatic,
 			GRGEN_MODEL.NodeType_Operation.AttributeType_isFinal,
-			GRGEN_MODEL.NodeType_Access.AttributeType_this,
-			GRGEN_MODEL.NodeType_Update.AttributeType_this,
-			GRGEN_MODEL.NodeType_Call.AttributeType_this,
+			GRGEN_MODEL.NodeType_Access.AttributeType_this_,
+			GRGEN_MODEL.NodeType_Update.AttributeType_this_,
+			GRGEN_MODEL.NodeType_Call.AttributeType_this_,
 			GRGEN_MODEL.NodeType_Call.AttributeType_super,
 			GRGEN_MODEL.NodeType_Operator.AttributeType_name,
 			GRGEN_MODEL.NodeType_Literal.AttributeType_value,
@@ -3674,6 +4052,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -3772,6 +4156,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			// implicit initialization, container creation of Edge
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Edge does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Edge does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_Edge : GRGEN_LIBGR.EdgeType
@@ -3804,6 +4203,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -3903,6 +4308,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			// implicit initialization, container creation of UEdge
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("UEdge does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("UEdge does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
@@ -3935,6 +4355,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -4043,6 +4469,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// implicit initialization, container creation of belongsTo
 			// explicit initializations of belongsTo for target belongsTo
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("belongsTo does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("belongsTo does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_belongsTo : GRGEN_LIBGR.EdgeType
@@ -4075,6 +4516,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -4183,6 +4630,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// implicit initialization, container creation of type_
 			// explicit initializations of type_ for target type_
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("type_ does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("type_ does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_type_ : GRGEN_LIBGR.EdgeType
@@ -4215,6 +4677,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -4323,6 +4791,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// implicit initialization, container creation of extends_
 			// explicit initializations of extends_ for target extends_
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("extends_ does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("extends_ does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_extends_ : GRGEN_LIBGR.EdgeType
@@ -4355,6 +4838,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -4463,6 +4952,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// implicit initialization, container creation of imports
 			// explicit initializations of imports for target imports
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("imports does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("imports does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_imports : GRGEN_LIBGR.EdgeType
@@ -4495,6 +4999,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -4603,6 +5113,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// implicit initialization, container creation of implements
 			// explicit initializations of implements for target implements
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("implements does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("implements does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_implements : GRGEN_LIBGR.EdgeType
@@ -4635,6 +5160,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -4764,6 +5295,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			this.@order = 0;
 			// explicit initializations of parameter for target parameter
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("parameter does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("parameter does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_parameter : GRGEN_LIBGR.EdgeType
@@ -4811,6 +5357,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 			return null;
 		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -4931,6 +5483,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// implicit initialization, container creation of actualParameter
 			// explicit initializations of actualParameter for target actualParameter
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("actualParameter does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("actualParameter does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_actualParameter : GRGEN_LIBGR.EdgeType
@@ -4963,6 +5530,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -5071,6 +5644,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// implicit initialization, container creation of binding
 			// explicit initializations of binding for target binding
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("binding does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("binding does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_binding : GRGEN_LIBGR.EdgeType
@@ -5103,6 +5691,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -5211,6 +5805,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// implicit initialization, container creation of link
 			// explicit initializations of link for target link
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("link does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("link does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_link : GRGEN_LIBGR.EdgeType
@@ -5243,6 +5852,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -5372,6 +5987,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			this.@order = 0;
 			// explicit initializations of expression for target expression
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("expression does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("expression does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_expression : GRGEN_LIBGR.EdgeType
@@ -5419,6 +6049,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 			return null;
 		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -5539,6 +6175,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// implicit initialization, container creation of inBlock
 			// explicit initializations of inBlock for target inBlock
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("inBlock does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("inBlock does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_inBlock : GRGEN_LIBGR.EdgeType
@@ -5571,6 +6222,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -5679,6 +6336,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			// implicit initialization, container creation of inClass
 			// explicit initializations of inClass for target inClass
 		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("inClass does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("inClass does not have the procedure method " + name + "!");
+			}
+		}
 	}
 
 	public sealed class EdgeType_inClass : GRGEN_LIBGR.EdgeType
@@ -5711,6 +6383,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -6092,7 +6770,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return this_ == that;
 		}
 
-		public string MD5Hash { get { return "8fd694f4f8cc691f8759cb852bb0c81c"; } }
+		public string MD5Hash { get { return "9ed13ad8bc778f9123d81b2ebb16880c"; } }
 	}
 
 	//
@@ -6314,7 +6992,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return this_ == that;
 		}
 
-		public string MD5Hash { get { return "8fd694f4f8cc691f8759cb852bb0c81c"; } }
+		public string MD5Hash { get { return "9ed13ad8bc778f9123d81b2ebb16880c"; } }
 	}
 
 	//
@@ -6696,6 +7374,6 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return this_ == that;
 		}
 
-		public string MD5Hash { get { return "8fd694f4f8cc691f8759cb852bb0c81c"; } }
+		public string MD5Hash { get { return "9ed13ad8bc778f9123d81b2ebb16880c"; } }
 	}
 }

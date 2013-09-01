@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Mon Jul 29 10:33:47 CEST 2013
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sun Sep 01 23:22:05 CEST 2013
 
 using System;
 using System.Collections.Generic;
@@ -2048,6 +2048,10 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 case "f1": MatchFilters.Filter_f1((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase>)matches); break;
                 case "nomnomnom": MatchFilters.Filter_nomnomnom((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase>)matches); break;
@@ -2274,6 +2278,10 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 case "f2": MatchFilters.Filter_f2((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass>)matches); break;
                 case "f3": MatchFilters.Filter_f3((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass>)matches); break;
@@ -2502,6 +2510,10 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 case "f4": MatchFilters.Filter_f4((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_filterHass.IMatch_filterHass>)matches); break;
                 default: throw new Exception("Unknown filter name");
@@ -2714,6 +2726,10 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }
@@ -2937,6 +2953,10 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         }
         void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
         {
+            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
+            	matches.FilterFirstLast(filterName);
+            	return;
+            }
             switch(filterName) {
                 default: throw new Exception("Unknown filter name");
             }

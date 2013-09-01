@@ -33,6 +33,6 @@ test t : (int, int)
 
 sequence se() : (ni:int, ne:int)
 {
-	for{n:N in nodes(N); {n.seti(42); yield ni=n.geti()}} ;>
-	for{e:E in edges(E); {e.seti(43); yield ne=e.geti()}}
+	for{n:N in nodes(N); {n.seti(42); ni=n.geti()}} ;>
+	for{e:E in edges(E); {e.seti(43); ne=e.geti()}}
 }
