@@ -1,0 +1,74 @@
+new graph "Filters/Filters"
+
+exec init
+show num nodes
+show num edges
+
+exec sstrascfirst
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sstrdesclast
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sstrascfirstfrac
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sstrdesclastfrac
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sstrasclast
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sstrgroupeach
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sstrascsamefirst
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sstrdescsamelast
+
+show num nodes
+show num edges
+
+quit

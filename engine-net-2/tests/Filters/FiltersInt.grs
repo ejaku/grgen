@@ -1,0 +1,75 @@
+new graph "Filters/Filters"
+
+exec init
+show num nodes
+show num edges
+
+exec [filterInt\orderAscendingBy<i>\keepFirst(4)]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterInt\orderDescendingBy<i>\keepLast(4)]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterInt\orderAscendingBy<i>\keepFirstFraction(0.5)]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterInt\orderDescendingBy<i>\keepLastFraction(0.5)]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterInt\orderAscendingBy<i>\keepLast(4)]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterInt\groupBy<i>\keepOneForEach<i>]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterInt\orderAscendingBy<i>\keepSameAsFirst<i>]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterInt\orderDescendingBy<i>\keepSameAsLast<i>]
+
+show num nodes
+show num edges
+
+quit

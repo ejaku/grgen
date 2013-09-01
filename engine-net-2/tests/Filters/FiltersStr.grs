@@ -1,0 +1,75 @@
+new graph "Filters/Filters"
+
+exec init
+show num nodes
+show num edges
+
+exec [filterString\orderAscendingBy<s>\keepFirst(4)]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterString\orderDescendingBy<s>\keepLast(4)]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterString\orderAscendingBy<s>\keepFirstFraction(0.5)]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterString\orderDescendingBy<s>\keepLastFraction(0.5)]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterString\orderAscendingBy<s>\keepLast(4)]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterString\groupBy<s>\keepOneForEach<s>]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterString\orderAscendingBy<s>\keepSameAsFirst<s>]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterString\orderDescendingBy<s>\keepSameAsLast<s>]
+
+show num nodes
+show num edges
+
+quit
