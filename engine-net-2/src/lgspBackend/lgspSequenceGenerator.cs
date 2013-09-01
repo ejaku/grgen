@@ -1575,12 +1575,12 @@ namespace de.unika.ipd.grGen.lgsp
                     + parameters + ");\n");
                 for(int j=0; j<seqRule.Filters.Count; ++j)
                 {
-                    if(rulesToGeneratedFilters[patternName].Contains(seqRule.Filters[i]))
+                    if(rulesToGeneratedFilters[patternName].Contains(seqRule.Filters[j]))
                         source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, seqRule.Filters[j], matchesName);
-                    else if(rulesToNonGeneratedFilters[patternName].Contains(seqRule.Filters[i]))
+                    else if(rulesToNonGeneratedFilters[patternName].Contains(seqRule.Filters[j]))
                         source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1});\n", seqRule.Filters[j], matchesName);
                     else
-                        source.AppendFrontFormat("{0}.FilterFirstLast(\"{1}\");\n", matchesName, seqRule.Filters[i]);
+                        source.AppendFrontFormat("{0}.FilterFirstLast(\"{1}\");\n", matchesName, seqRule.Filters[j]);
                 }
                 if (gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
                 source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
