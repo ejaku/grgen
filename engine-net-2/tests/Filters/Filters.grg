@@ -1,0 +1,95 @@
+rule filterInt
+{
+	def var i:int;
+
+	n:Node;
+
+	yield {
+		yield i = incident(n).size();
+	}
+	
+	modify{
+		delete(n);
+	}
+} \ orderAscendingBy<i>, orderDescendingBy<i>, groupBy<i>, keepSameAsFirst<i>, keepSameAsLast<i>, keepOneForEach<i>
+
+rule filterDouble
+{
+	def var d:double;
+	
+	n:Node;
+
+	yield {
+		yield d = incident(n).size() * 3.141592654;
+	}
+	
+	modify {
+		delete(n);
+	}
+} \ orderAscendingBy<d>, orderDescendingBy<d>, groupBy<d>, keepSameAsFirst<d>, keepSameAsLast<d>, keepOneForEach<d>
+
+rule filterString
+{
+	def var s:string;
+
+	n:Node;
+	
+	yield {
+		yield s = helper(incident(n).size());
+	}
+	
+	modify {
+		delete(n);
+	}
+} \ orderAscendingBy<s>, orderDescendingBy<s>, groupBy<s>, keepSameAsFirst<s>, keepSameAsLast<s>, keepOneForEach<s>
+
+function helper(var counter:int) : string
+{
+	def var ret:string = "";
+	while(counter>0) {
+		ret = ret + "A";
+		counter = counter - 1;
+	}
+	return(ret);
+}
+
+rule init
+{
+	replace {
+		n0:Node;
+		n0b:Node;
+		n1:Node --> n1;
+		n2:Node --> n2 --> n2;
+		n2b:Node --> n2b --> n2b;
+		n3:Node --> n3 --> n3 --> n3;
+		n4:Node --> n4 --> n4 --> n4 --> n4;
+		n4b:Node --> n4b --> n4b --> n4b --> n4b;
+	}
+}
+
+sequence sintascfirst { [filterInt\orderAscendingBy<i>\keepFirst(4)] }
+sequence sintdesclast { [filterInt\orderDescendingBy<i>\keepLast(4)] }
+sequence sintascfirstfrac {	[filterInt\orderAscendingBy<i>\keepFirstFraction(0.5)] }
+sequence sintdesclastfrac { [filterInt\orderDescendingBy<i>\keepLastFraction(0.5)] }
+sequence sintasclast { [filterInt\orderAscendingBy<i>\keepLast(4)] }
+sequence sintgroupeach { [filterInt\groupBy<i>\keepOneForEach<i>] }
+sequence sintascsamefirst {	[filterInt\orderAscendingBy<i>\keepSameAsFirst<i>] }
+sequence sintdescsamelast {	[filterInt\orderDescendingBy<i>\keepSameAsLast<i>] }
+
+sequence sdblascfirst { [filterDouble\orderAscendingBy<d>\keepFirst(4)] }
+sequence sdbldesclast { [filterDouble\orderDescendingBy<d>\keepLast(4)] }
+sequence sdblascfirstfrac {	[filterDouble\orderAscendingBy<d>\keepFirstFraction(0.5)] }
+sequence sdbldesclastfrac { [filterDouble\orderDescendingBy<d>\keepLastFraction(0.5)] }
+sequence sdblasclast { [filterDouble\orderAscendingBy<d>\keepLast(4)] }
+sequence sdblgroupeach { [filterDouble\groupBy<d>\keepOneForEach<d>] }
+sequence sdblascsamefirst {	[filterDouble\orderAscendingBy<d>\keepSameAsFirst<d>] }
+sequence sdbldescsamelast {	[filterDouble\orderDescendingBy<d>\keepSameAsLast<d>] }
+
+sequence sstrascfirst { [filterString\orderAscendingBy<s>\keepFirst(4)] }
+sequence sstrdesclast { [filterString\orderDescendingBy<s>\keepLast(4)] }
+sequence sstrascfirstfrac {	[filterString\orderAscendingBy<s>\keepFirstFraction(0.5)] }
+sequence sstrdesclastfrac { [filterString\orderDescendingBy<s>\keepLastFraction(0.5)] }
+sequence sstrasclast { [filterString\orderAscendingBy<s>\keepLast(4)] }
+sequence sstrgroupeach { [filterString\groupBy<s>\keepOneForEach<s>] }
+sequence sstrascsamefirst {	[filterString\orderAscendingBy<s>\keepSameAsFirst<s>] }
+sequence sstrdescsamelast {	[filterString\orderDescendingBy<s>\keepSameAsLast<s>] }

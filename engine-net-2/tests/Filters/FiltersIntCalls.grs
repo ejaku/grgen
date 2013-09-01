@@ -1,0 +1,74 @@
+new graph "Filters/Filters"
+
+exec init
+show num nodes
+show num edges
+
+exec sintascfirst
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sintdesclast
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sintascfirstfrac
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sintdesclastfrac
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sintasclast
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sintgroupeach
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sintascsamefirst
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sintdescsamelast
+
+show num nodes
+show num edges
+
+quit

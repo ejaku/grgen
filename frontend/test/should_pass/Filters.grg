@@ -1,0 +1,69 @@
+rule filterBase
+{
+	def var i:int;
+
+	n:Node;
+
+	yield {
+		yield i = incident(n).size();
+	}
+	
+	modify{
+	}
+} \ auto, orderAscendingBy<i>, orderDescendingBy<i>, groupBy<i>, keepSameAsFirst<i>, keepSameAsLast<i>, keepOneForEach<i>
+
+rule filterBass
+{
+	def var d:double;
+	
+	n:Node --> n;
+
+	yield {
+		yield d = incident(n).size() * 3.141592654;
+	}
+	
+	modify {
+	}
+} \ orderAscendingBy<d>, orderDescendingBy<d>, groupBy<d>, keepSameAsFirst<d>, keepSameAsLast<d>, keepOneForEach<d>
+
+test filterHass(n:Node):(Edge)
+{
+	def var s:string;
+
+	n -e:Edge-> n;
+	
+	yield {
+		yield s = incident(n).size() > 1 ? "foo" : "fool";
+	}
+
+	return(e);
+} \ orderAscendingBy<s>, orderDescendingBy<s>, groupBy<s>, keepSameAsFirst<s>, keepSameAsLast<s>, keepOneForEach<s>
+
+rule init : (Node)
+{
+	replace {
+		n1:Node --> n1 --> n1;
+		n2:Node --> n2;
+		return(n1);
+	}
+}
+
+rule r
+{
+	n:Node -e:Edge-> n;
+
+	modify {
+		m:Node;
+
+		exec(filterBase\orderAscendingBy<i>\keepSameAsFirst<i>\keepFirst(3)
+				;> filterBase\orderDescendingBy<i>\keepSameAsLast<i>\keepLast(3)
+				;> filterBase\groupBy<i>\keepOneForEach<i>
+				;> [filterBass\orderAscendingBy<d>\keepSameAsFirst<d>\keepFirstFraction(0.5)]
+				;> $::x[filterBass\orderDescendingBy<d>\keepSameAsLast<d>\keepLastFraction(0.5)]
+				;> [filterBass\groupBy<d>\keepOneForEach<d>]
+				;> (::ee)=filterHass(::n)\orderAscendingBy<s>\keepSameAsFirst<s>
+				;> <<filterHass(::n)\orderDescendingBy<s>\keepSameAsLast<s>;filterHass(::n)\orderDescendingBy<s>\keepSameAsLast<s> >>
+				;> ${<filterHass(::n)\groupBy<s>\keepOneForEach<s>,[filterHass(::n)\groupBy<s>\keepOneForEach<s>]>}
+		);
+	}
+}

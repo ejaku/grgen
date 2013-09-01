@@ -1,0 +1,74 @@
+new graph "Filters/Filters"
+
+exec init
+show num nodes
+show num edges
+
+exec sdblascfirst
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sdbldesclast
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sdblascfirstfrac
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sdbldesclastfrac
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sdblasclast
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sdblgroupeach
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sdblascsamefirst
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sdbldescsamelast
+
+show num nodes
+show num edges
+
+quit
