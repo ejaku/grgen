@@ -211,8 +211,6 @@ table~\ref{funcstab} lists the built-in functions of the rule language at a glan
 \texttt{import(string):graph}\\
 \texttt{copy(graph):graph}\\
 \hline
-\texttt{this:graph}\\
-\hline
 \texttt{min(Number,Number):Number}\\
 \texttt{max(Number,Number):Number}\\
 \texttt{abs(Number):Number}\\
@@ -316,7 +314,11 @@ The \emph{AssignmentTarget} may be any of the LHS expressions supported by the d
 \label{procstab}
 \end{table}
 
-\subsection{The Big Picture}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Big Picture}
 Figure \ref{figcomptypescallsuses} displays the different computation types of \GrG, and how they may use and call each other. On top the strategy language for rule control, to the left the declarative rules and subpatterns, and to the right the imperative parts for attribute computations or traditional graph programming. The statements include the expressions and non-graph changing statements.
 
 \begin{figure}[hptb]
@@ -325,4 +327,166 @@ Figure \ref{figcomptypescallsuses} displays the different computation types of \
   \caption{Computation Types and Possible Calls/Uses}
   \label{figcomptypescallsuses}
 \end{figure}
+
+The following tables give an overview over the rule and computation sublanguages of \GrG;
+separated into pattern and rewrite part, and into expressions and statements.
+
+ %\makeatletter
+\begin{table}[htbp]
+\begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
+\begin{tabularx}{\linewidth}{|lX|}
+\hline
+\texttt{.}	& Declaration of an anonymous node of type \texttt{Node}, to be matched. \\
+\texttt{-->}	& Declaration of an anonymous edge of type \texttt{Edge}, to be matched. \\
+\texttt{n:N} & Declaration of a node \texttt{n} of type \texttt{N}, to be matched.\\
+\texttt{-e:E->} & Declaration of an edge \texttt{e} of type \texttt{E}, to be matched.\\
+\texttt{n} & Reference to node \texttt{n} within a graphlet.\\
+\texttt{-e->} & Reference to edge \texttt{e} within a graphlet.\\
+\texttt{def var v:B}	& Defines a def-variable \texttt{v} of basic type \texttt{B}, to be yielded to.\\
+\texttt{def ref c:C}	& Defines a def-variable \texttt{c} of container type \texttt{C}, to be yielded to.\\
+\hline
+\texttt{x:typeof(y)} & The element \texttt{x} to be matched must be of the same or a subtype as \texttt{y}.\\
+\texttt{x:T{\textbackslash}S} & The element \texttt{x} must be of type \texttt{T} but not of subtype \texttt{S}.\\
+\texttt{x:T<y>} & The element \texttt{y} casted to \texttt{T}, accessible as \texttt{x}.\\
+\hline
+\texttt{hom(x,y)} & The pattern elements \texttt{x} and \texttt{y} are allowed to match the same graph element.\\
+\texttt{independent(x)} & The pattern element \texttt{x} may be matched homomorphically to all other pattern elements.\\
+\texttt{exact(x,y)} & All edges incident to \texttt{x} and \texttt{y} in the host graph must have been specified in the pattern.\\
+\texttt{induced(x,y)} & Induced edges in between \texttt{x} and \texttt{y} in the host graph must have been specified in the pattern.\\
+\hline
+\texttt{if\{exp;\}} & An attribute condition constraining the pattern.\\
+\texttt{yield\{stmt\}} & A computation for yielding to def variables.\\
+\hline
+\texttt{nested\{pattern\}} & A nested pattern, with \texttt{nested} being one of the pattern construction modi listed in \ref{keywordregexpsyntax}.\\
+\hline
+\texttt{p:P()} & A usage/call \texttt{p} of a (user-defined) subpattern of type \texttt{P}.\\
+\hline
+\end{tabularx}
+\end{minipage}\\
+\\ 
+{\small Let \texttt{exp} be an expression, \texttt{stmt} be a statement, and \texttt{pattern} be a LHS pattern.}
+\caption{Pattern (LHS) elements at a glance}
+\label{patternstab}
+\end{table}
+%\makeatother
+
+ %\makeatletter
+\begin{table}[htbp]
+\begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
+\begin{tabularx}{\linewidth}{|lX|}
+\hline
+\texttt{modify\{pattern\}}	& An RHS pattern nested in an arbitrary LHS pattern, specifying the changes. \\
+\texttt{replace\{pattern\}}	& An RHS pattern nested in an arbitrary LHS pattern, specifying the target pattern. \\
+\hline
+\texttt{.}	& Declaration of an anonymous node of type \texttt{Node}, to be created. \\
+\texttt{-->}	& Declaration of an anonymous edge of type \texttt{Edge}, to be created. \\
+\texttt{n:N} & Declaration of a node \texttt{n} of type \texttt{N}, to be created.\\
+\texttt{-e:E->} & Declaration of an edge \texttt{e} of type \texttt{E}, to be created.\\
+\texttt{n} & Reference to node \texttt{n} within a graphlet, ensures it is kept in \texttt{replace} mode.\\
+\texttt{-e->} & Reference to edge \texttt{e} within a graphlet, ensures it is kept in \texttt{replace} mode.\\
+\texttt{def var v:B}	& Defines a def-variable \texttt{v} of basic type \texttt{B}, to be yielded to.\\
+\texttt{def ref c:C}	& Defines a def-variable \texttt{c} of container type \texttt{C}, to be yielded to.\\
+\texttt{delete(x)} & Deletes element \texttt{x} in \texttt{modify} mode.\\
+\hline
+\texttt{x:typeof(y)} & The element \texttt{x} is created with the same type as \texttt{y}.\\
+\texttt{x:T<y>} & The element \texttt{y} is casted to type \texttt{T}, accessible as \texttt{x} afterwards.\\
+\texttt{x:copy<y>} & The element \texttt{x} is created as exact copy of \texttt{y}.\\
+\texttt{x:typeof(y)<y,z>} & The nodes \texttt{y} and \texttt{z} are merged and casted to the original type of \texttt{y}, accessible as \texttt{x} afterwards.\\
+\texttt{x !-e->! y} & The edge \texttt{e} is redirected to source node \texttt{x} and target node \texttt{y}.\\
+\hline
+\texttt{eval\{stmt\}} & A computation assigning to attributes or def variables.\\
+\hline
+\texttt{exec(s ;> yield o=i)} & Executes the sequence \texttt{s}, and then yields the value of an inner variable \texttt{i} to an outer variable \texttt{o}. Yielding from an \texttt{exec} is only possible in the top-level \texttt{exec} of a rule, in nested patterns and subpatterns the \texttt{exec} is executed deferred.\\
+\hline
+\texttt{delete(p)} & Deletes the subpattern used as \texttt{p}.\\
+\texttt{:P()} & Creates a simple subpattern of type \texttt{P}.\\
+\texttt{:p()} & Uses or calls the rewrite part of a (user-defined) subpattern used as \texttt{p} in the containing LHS pattern.\\
+\hline
+\end{tabularx}
+\end{minipage}\\
+\\ 
+{\small Let \texttt{stmt} be a statement.}
+\caption{Rewrite elements (RHS pattern) at a glance}
+\label{rewritestab}
+\end{table}
+%\makeatother
+
+%\makeatletter
+\begin{table}[htbp]
+\begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
+\begin{tabularx}{\linewidth}{|lX|}
+\hline
+\texttt{v}	& Reads the variable \texttt{v}. \\
+\texttt{::v}	& Reads the global variable \texttt{v}. \\
+\texttt{v.a} & Reads the attribute \texttt{a} of \texttt{v}.\\
+\texttt{v[i]} & Reads the value at position \texttt{i} of container \texttt{v}.\\
+\texttt{x.a[i]} & Reads the value at position \texttt{i} of container attribute \texttt{a} of \texttt{x}.\\
+\texttt{x.visited[i]} & Reads the visited flag \texttt{i} of graph element \texttt{x}.\\
+\hline
+\texttt{typeof(v)}	& Returns the type of graph element \texttt{v}. \\
+\texttt{(T)v}	& Casts \texttt{v} to type \texttt{T}. \\
+\texttt{nameof(v)}	& Returns the name of graph element \texttt{v}. \\
+\texttt{random()}	& Returns a random value in between 0.0 and 1.0. \\
+\hline
+\texttt{cond ? exp1 :~exp2}	& Returns \texttt{exp1} if \texttt{cond}, otherwise \texttt{exp2}. \\
+\texttt{e op f}	& For \texttt{op} being one of the binary operators listed in \ref{tabopprios}. \\
+\texttt{op f}	& For \texttt{op} being one of the unary operators listed in \ref{tabopprios}. \\
+\hline
+\texttt{f(...)}	& Calls one of the functions listed in \ref{funcstab}. Or calls a user defined function \texttt{f}. \\
+\texttt{v.fm(...)}	& Calls one of the function methods listed in \ref{funcmethstab}. Or calls a user defined function method \texttt{fm}.\\
+\hline
+\end{tabularx}
+\end{minipage}\\
+\\ 
+{\small Let \texttt{cond}, \texttt{exp1}, and \texttt{exp2} be expressions.}
+\caption{Expressions at a glance}
+\label{expressionstab}
+\end{table}
+%\makeatother
+
+ %\makeatletter
+\begin{table}[htbp]
+\begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
+\begin{tabularx}{\linewidth}{|lX|}
+\hline
+\texttt{def n:N}	& Defines a variable \texttt{n} of node type \texttt{N}.\\
+\texttt{def -e:E->}	& Defines a variable \texttt{e} of edge type \texttt{E}.\\
+\texttt{def var v:B}	& Defines a variable \texttt{v} of basic type \texttt{B}.\\
+\texttt{def ref c:C}	& Defines a variable \texttt{c} of container type \texttt{C}.\\
+\hline
+\texttt{v = exp} & Assigns the value of \texttt{exp} to the variable \texttt{v}.\\
+\texttt{::v = exp} & Assigns the value of \texttt{exp} to the global variable \texttt{v}.\\
+\texttt{v.a = exp} & Assigns the value of \texttt{exp} to the attribute \texttt{a} of \texttt{v}.\\
+\texttt{v[i] = exp} & Assigns the value of \texttt{exp} to the position \texttt{i} of container \texttt{v}.\\
+\texttt{x.a[i] = exp} & Assigns the value of \texttt{exp} to the position \texttt{i} of container attribute \texttt{a} of \texttt{x}.\\
+\texttt{x.visited[i] = exp} & Assigns the value of \texttt{exp} to the visited flag \texttt{i} of graph element \texttt{x}.\\
+\hline
+\texttt{if(cond) \{S1\} else \{S2\}} & Executes \texttt{S1} iff \texttt{cond} evaluates to \texttt{true}, or \texttt{S2} otherwise.\\
+\texttt{while(cond) \{S1\} } & Executes \texttt{S1} as long as \texttt{cond} evaluates to s\texttt{true}.\\
+\texttt{do \{S1\} while(cond) } & Executes \texttt{S1} until \texttt{cond} evaluates to \texttt{false}.\\
+\texttt{for(v:T in c) \{S1\} } & Executes \texttt{S1} for each value \texttt{v} contained in container \texttt{c}.\\
+\texttt{for(i:T->v:S in c) \{S1\} } & Executes \texttt{S1} for each key/position to value pair \texttt{(i,v)} contained in container \texttt{c}.\\
+\hline
+\texttt{break} & Aborts execution of the containing loop.\\
+\texttt{continue} & Continues execution of the containing loop at its condition.\\
+\texttt{return} & Returns from a containing function or procedure.\\
+\texttt{return(v)} & Returns from a containing function or procedure with result value \texttt{v}.\\
+\hline
+\texttt{exec(s ;> yield o=i)} & Executes the sequence \texttt{s}, and then yields the value of an inner variable \texttt{i} to an outer variable \texttt{o}.\\
+\hline
+\texttt{(...)=p(...)}	& Calls one of the procedures listed in \ref{procstab}. Or calls a user defined procedure \texttt{p}.\\
+\texttt{(...)=v.pm(...)}	& Calls one of the procedure methods listed in \ref{procmethstab}. Or calls a user defined procedure method \texttt{pm}.\\
+\hline
+\texttt{exec(s)} & Executes the sequence \texttt{s}.\\
+\hline
+\end{tabularx}
+\end{minipage}\\
+\\ 
+{\small Let \texttt{exp} and \texttt{cond} be expressions, and \texttt{S1} and \texttt{S2} be statements}
+\caption{Statements at a glance}
+\label{statementstab}
+\end{table}
+%\makeatother
+
+
 

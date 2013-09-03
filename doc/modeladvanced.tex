@@ -1,0 +1,271 @@
+\chapter{Object-Oriented and Graph-Oriented Programming}\indexmain{methods}\indexmain{graph-oriented programming}\indexmain{object-oriented programming}
+\label{chapmodeladvanced}
+
+In addition to the key features of \GrG\ \emph{graph models}\indexmain{graph model} as already described in Chapter~\ref{chapmodellang}, you may specify \emph{methods} in the node or edge classes.
+Methods are functions or procedures that are declared inside class scope.
+In contrast to attributes that do not support overwriting -- each attribute of a type is added to all subtypes, with multiple declarations being forbidden -- methods support overwriting.
+Independent of the statically known type of the variable, the method that was defined nearest to the exact dynamic type of the value is executed if a method is called.
+
+This \emph{dynamic dispatch} is the defining feature of object-oriented programming.
+For graph-oriented programming, the defining feature is \emph{pattern-matching}.
+Graph-oriented programming can be made scalable to large tasks with hierarchically \emph{nested graphs}, allowed for by attributes of graph type in the model, implemented with switch-to-subgraph and return-from-subgraph operations.
+
+\begin{rail}
+  AdvancedModelDeclarations: () + (FunctionMethodDefinition
+										 | ProcedureMethodDefinition
+  									 | ExternalClassDeclaration
+  									 | ExternalFunctionDeclaration
+  									 | EmitParseDeclaration
+  									 | CopyCompareDeclaration);
+\end{rail}\ixnterm{AdvancedModelDeclarations}
+
+The \emph{ExternalClassDeclaration} registers an \indexed{external class}, including its subtype hierarchy, excluding any attributes with \GrG~which can subsequently be used in attribute computations with \indexed{external function} calls; the \emph{EmitParseDeclaration} declares that the user defines emit and parse functions for external or object type values, whereas the \emph{CopyCompareDeclaration} declares that the user defines copy and compare functions for external or object type values.
+You find more on them in \ref{chapextensions}, here we will take a closer look on the \emph{FunctionMethodDefinition} and \emph{ProcedureMethodDefinition}.
+%Node/Edge typed attributes are possible.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methods}\label{sec:objectoriented}
+
+Computations on attributes of node or edge types that are occurring frequently may be factored out into a method definition given inside a class definition of the model file.
+Such compound computations can be built and abstracted into reusable entities in two different forms, \emph{function methods} usable(/callable) from expression context, and \emph{procedure methods} usable(/callable) from statement context.
+Besides, some built-in function methods and procedure methods on container types are available in rule language computations and sequence computations, cf. \ref{cha:container};
+in addition to the methods defined in \ref{cha:typeexpr} that are only available in the rule language.
+%(Furthermore, external functions methods and computation methods may be declared, callable with the same syntax, too.)
+
+%-----------------------------------------------------------------------------------------------
+\subsection{Function Method Definition and Call}\label{sub:functionmethods}\label{sec:funcmethcall} 
+
+Function methods are defined in exactly the same way as a function is defined, just inside the hosting class.
+They have the same requrirements, 
+i.e. exactly one output value must be returned, 
+and they must be side-effect free, which especially means that they are not allowed to change the attributes of their hosting type.
+
+\begin{rail} 
+  FunctionMethodDefinition: FunctionDefinition;
+\end{rail}\ixnterm{FunctionMethodDefinition}
+
+\begin{rail}
+  FunctionMethodCall: (Variable | Variable '.' Attribute) '.' Name '(' (Expression * ',') ')' ;
+\end{rail}\ixnterm{FunctionMethodCall}
+
+A such defined function method may then be called as an expression atom from anywhere in the rule language file where an expression is required; or even from the sequence computations where an expression is required.
+The built-in function methods listed in \ref{funcmethstab} are called with the same syntax.
+
+Inside the function methods, the special entity \texttt{this} is available.
+It allows to access the attributes and methods of the type the method is contained in.
+In contrast to Java, C++, or C\# where \texttt{this} may be used optionally to denote member or method access,
+the usage of \texttt{this} is mandatory in \GrG~to access the attributes of the type or call the methods of the type.
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|}
+\hline
+\texttt{string.length():int}\\
+\texttt{string.indexOf(string):int}\\
+\texttt{string.lastIndexOf(string):int}\\
+\texttt{string.substring(int, int):string}\\
+\texttt{string.replace(int, int, string):string}\\
+\hline
+\texttt{set<T>.size():int}\\
+\texttt{set<T>.empty():boolean}\\
+\texttt{set<T>.peek(int):T}\\
+\hline
+\texttt{map<S,T>.size():int}\\
+\texttt{map<S,T>.empty():boolean}\\
+\texttt{map<S,T>.peek(int):S}\\
+\texttt{map<S,T>.domain():set<S>}\\
+\texttt{map<S,T>.range():set<T>}\\
+\hline
+\texttt{array<T>.size():int}\\
+\texttt{array<T>.empty():boolean}\\
+\texttt{array<T>.peek([int]):T}\\
+\texttt{array<T>.indexOf(T):int}\\
+\texttt{array<T>.lastIndexOf(T):int}\\
+\texttt{array<T>.subarray(int, int):array<T>}\\
+\hline
+\texttt{deque<T>.size():int}\\
+\texttt{deque<T>.empty():boolean}\\
+\texttt{deque<T>.peek(num):T}\\
+\texttt{deque<T>.indexOf(T):int}\\
+\texttt{deque<T>.lastIndexOf(T):int}\\
+\texttt{deque<T>.subdeque(int, int):deque<T>}\\
+\hline
+\end{tabular}
+\caption{Function methods at a glance}
+\label{funcmethstab}
+\end{table}
+
+%-----------------------------------------------------------------------------------------------
+\subsection{Procedure Method Definition And Call}\label{sub:proceduremethods}\label{sec:procmethcall} 
+
+Procedure methods are defined in exactly the same way as a procedure is defined, just inside the hosting class.
+They may return an arbitrary number of return values, and are thus only callable as a statement.
+They are allowed to manipulate the graph and esp. the element they are contained in as needed while being executed;
+so you are free to call other procedures -- but in contrast to global procedures, you can not include exec statements.
+
+\begin{rail} 
+  ProcedureMethodDefinition: ProcedureDefinition;
+\end{rail}\ixnterm{ProcedureMethodDefinition}
+
+\begin{rail}
+  ProcedureMethodCall: (OutputAssignment)? (Variable | Variable '.' Attribute) \\
+		'.' Name '(' (Expression * ',') ')' ;
+\end{rail}\ixnterm{ProcedureMethodCall}
+
+A such defined procedure may then be called as a statement atom from anywhere in the rule language file where an attribute evaluation (/computation) is required; or even from the sequence computations where a statement is required.
+The built-in procedure methods listed in \ref{procmethstab} are called with the same syntax.
+
+Inside the procedure method, the special entity \texttt{this} is available.
+It allows to access the attributes and methods of the type the method is contained in.
+In contrast to Java, C++, or C\# where \texttt{this} may be used optionally to denote member or method access,
+the usage of \texttt{this} is mandatory in \GrG~to access the attributes of the type or call the methods of the type.
+
+
+%\makeatletter
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|}
+\hline
+\texttt{set<T>.add(T)}\\
+\texttt{set<T>.rem(T)}\\
+\texttt{set<T>.clear()}\\
+\hline
+\texttt{map<S,T>.add(S,T)}\\
+\texttt{map<S,T>.rem(S)}\\
+\texttt{map<S,T>.clear()}\\
+\hline
+\texttt{array<T>.add(T[,int])}\\
+\texttt{array<T>.rem([int])}\\
+\texttt{array<T>.clear()}\\
+\hline
+\texttt{deque<T>.add(T[,int])}\\
+\texttt{deque<T>.rem([int])}\\
+\texttt{deque<T>.clear()}\\
+\hline
+\end{tabular}
+\caption{Procedure methods at a glance}
+\label{procmethstab}
+\end{table}
+
+
+\begin{example}
+In the following listing, we declare function and a procedure methods inside a node class, and use them from a rule.
+Please note the mandatory \texttt{this} in the methods to denote members and call other methods.
+	\begin{grgen}
+node class N
+{
+	i:int;
+	
+	function get_i():int
+	{
+		return(this.i);
+	}
+	procedure set_i(var val:int)
+	{
+		this.i = val;
+		return;
+	}
+	procedure inc_i(var val:int) : (int)
+	{
+		this.set_i( this.get_i() + val );
+		return(this.i);
+	}
+}
+
+rule foo : (int)
+{
+	n:N;
+	modify {
+		def var i:int;
+		eval {
+			n.set_i(41);
+			n.inc_i(1);
+			yield i = n.get_i();
+		}
+		return(i); // exeuting foo will return 42
+	}
+}
+	\end{grgen}
+\end{example}
+
+
+\begin{example}
+The following listing highlights the effect of dynamic dispatch (the heart and soul of object-oriented programming): 
+the method finally called depends not simply on the static type we know for sure the object is an instance of,
+but on the real dynamic type of the object, that it was created with.
+Please note that in reality you use this language device to achieve the \emph{same behaviour} as seen from the outward of objects of different types, but implemented \emph{internally consistent} regarding the exact type, taking all of its members into account (including the ones unknown to parent types).
+	\begin{grgen}
+node class N
+{	
+	function get():int
+	{
+		return(0);
+	}
+}
+
+node class NN extends N
+{	
+	function get():int
+	{
+		return(1);
+	}
+}
+
+rule foo : (int)
+{
+	n:N; // statically declared N, may match dynamically to node of type NN
+	modify {
+		def var i:int;
+		eval {
+			yield i = n.get();
+		}
+		return(i); // exeuting foo will return 0 iff n was bound to node of type N, but 1 iff n was bound to node of type NN
+	}
+}
+	\end{grgen}
+\end{example}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph Nesting}\label{sec:graphnesting}
+
+Graph nesting is possible with nodes or edges of a graph bearing attributes of graph type (cf. \ref{cha:graph}).
+They can then be filled with other graphs, employing the operations in \ref{sec:subgraphop}.
+
+Attributes of graph type are opaque to the processing of the host graph containing them; 
+their only direct usage is comparison, i.e. isomorphy checking against other graphs,
+as needed for state space enumeration (cf. \ref{sec:statespaceenum}),
+in this case only immutable subgraphs are stored.
+
+\begin{rail} 
+  ExtendedControl: 
+    'in' (GraphVariable | NodeOrEdge '.' Attribute) lbrace RewriteSequence rbrace;
+\end{rail}\ixkeyw{in}
+
+But they can be opened up and made modifiable by switching the location of processing with the \verb#in g { seq }# sequence.
+Inside the braces is the host graph switched to \texttt{g}, the sequence \texttt{seq} is executed in the host graph switched to, all queries and updates are carried out on the new graph; after executing the construct the old graph that was previously used is made the current host graph again.
+
+\begin{rail}
+  Rule: GraphVariable '.' RuleIdent (() | '(' (Variable+',') ')');
+\end{rail}\ixnterm{Rule}
+
+The rules are always applied on the current host graph without any ability to switch to a subgraph;
+switching the location of processing is only available in the sequences.
+But a simplified and more lightweight version of the full switch is available for single rule calls with \verb#g.r#; so a method call in the plain sequences (above the sequence computations) denotes in fact a temporary subgraph switch.
+The syntax of rule application is extended by the grammar rule above to allow for this is.
+
+The \emph{information hiding} shown by the graph attributes is comparable to the information hiding shown by the objects in \emph{object-oriented programming}, there the attributes but especially the neighbouring elements are only known to the containing object and accessible to the methods of the object.
+In \emph{graph-oriented programming} are the attributes but especially the neighboring elements known to the containing graph, the connecting topology is open for \emph{pattern matching}.
+This crucial difference also defines the main benefit compared to OO, removing it would mean to revert back to OO.
+But this openness might not be needed always for all parts.
+When building a \emph{large system}, you typically only need a certain \emph{layer} to be accessible at a time.
+You may use graph attributes and nested graph in this case,
+utilizing open graph-oriented programming for the parts you need to work globally with pattern matching at a time,
+and closed object-oriented programming for parts you only need to access locally,
+decoupled by explicit move-to-subgraph and return-to-subgraph steps.
+
+You may model containment with edges denoting a containment type pointing to the contained parts instead of attributes of subgraph type
+when the pattern matcher needs overall access to the graph, but there are still some containment or nesting relationships in place.
+You can then still benefit from a hierarchical structure in debugging, utilizing the built-in nesting for visualization capabilities of \GrG (cf. \ref{sub:visual}, the graphs nested in attributes are truly opaque and invisible, only when processing switches to them are they displayed instead of their containing host graph).
+
