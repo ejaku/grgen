@@ -33,7 +33,7 @@ whereas it is pointless to specify an expression before.
      Assignment |
      MethodCall |
      ProcedureCall |
-     SequenceExpression
+     lbrace SequenceExpression rbrace
   ;
 	Assignment:	AssignmentTarget '=' (SequenceExpression | Assignment); 
 \end{rail}\ixnterm{Computation}
@@ -44,16 +44,14 @@ It may be chained; such an assignment chain is executed from right to left, assi
 The form of expressions and assignment targets will be specified below.
 
 \begin{rail} 
-	MethodCall: (Variable | GraphElement '.' Attribute) (SingleMethodCall +);
-	SingleMethodCall: '.' MethodName '(' Arguments ')';
+	MethodCall: ('(' Variables ')' '=')? (Variable | GraphElement '.' Attribute) '.' MethodName '(' Arguments ')';
 	ProcedureCall: ('(' Variables ')' '=')? ProcedureName '(' Arguments ')';
 	Arguments: (SequenceExpression * ',');
 	Varibales: (Variable + ',');
 \end{rail}\label{recstmt}\indexmain{record}\indexmain{emit}
 
-A method call executes a (predefined) method on a variable, passing further arguments.
-It may be chained; such a method call chain is executed from left to right. 
-This is possible with storage changing methods which return the variable again, better: which return the then altered variable. 
+A method call executes a method on a variable, passing further arguments.
+The method may be one of the predefined container methods, or a user-defined method (cf. \ref{}).
 
 A procedure call executes a (built-in or user defined) procedure, passing further arguments.
 In addition to the graph type based functions and procedures which will be explained in more detail further below,
@@ -275,10 +273,11 @@ Table~\ref{comptab} lists most of the operations of the graph rewrite computatio
 \begin{tabularx}{\linewidth}{|lX|}
 \hline
 \texttt{c;d}	& Computes c then d; the value of the computation is d\\
+\hline
+\texttt{\{e\}} & An unspecified sequence expression executed for its result, defining the success of the computation.\\
+\hline
 \texttt{t=e}	& Simple assignment of an expression value to an assignment target\\
 \texttt{t=e=f}	& Chained assignment \\
-\texttt{v.m(e)}	& Simple method call, with m e.g. being storage add \\
-\texttt{v.m(e).m(e)}	& Chained method call\\
 \hline
 \texttt{e ? f : g}	& Returns f if e evaluates to true, otherwise g \\
 \texttt{e op f}	& For \texttt{op} being one of the boolean operators \texttt{||,|,\&,\&\&,\^\ } \\
@@ -292,13 +291,16 @@ Table~\ref{comptab} lists most of the operations of the graph rewrite computatio
 \texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
 \texttt{random(upperBound)} & Returns random number from [0;upper bound[, if upper bound is missing from [0.0;1.0[.\\
 \hline
-\texttt{function(...)}	& One of the functions for graph querying defined in \ref{funcstab} and explained in \ref{cha:graph}. The numerical functions are \emph{not} available.\\
-\hline
-\texttt{procedure(...)}	& One of the procedures for graph manipulation defined in \ref{procstab} and explained in \ref{cha:graph}.\\
-\hline
 \texttt{u=set<Node>\{\}}	& Example for container constructor, creates storage set and assigns to \texttt{u}.\\
 \texttt{u[e]}	& Target value of \texttt{e} in \texttt{u}. Fails if \texttt{!(e in u)}. Assignment target or expression.\\
-\texttt{storage.method(...)}	& One of the methods \texttt{add,rem,clear,size,empty,peek} defined in \ref{cha:container}. The infix operators, methods specific to a certain container type, and change assignments are \emph{not} available.\\
+\hline
+\texttt{f(...)}	& Calls one of the functions for graph querying defined in \ref{funcstab} and explained in \ref{cha:graph}. Or calls a user defined function. The numerical functions are \emph{not} available.\\
+\hline
+\texttt{(...)=p(...)}	& Calls one of the procedures for graph manipulation defined in \ref{procstab} and explained in \ref{cha:graph}. Or calls a user defined procedure.\\
+\hline
+\texttt{v.fm(...)}	& Calls one of the function methods \texttt{size,empty,peek} for container querying defined in \ref{funcmethstab} and explained in \ref{cha:container}. Or calls a user defined function. The string function methods and other container function methods as well as infix operators are \emph{not} available.\\
+\hline
+\texttt{(...)=v.pm(...)}	& Calls one of the procedure methods \texttt{add,rem,clear} for container manipulation defined in \ref{procmethstab} and explained in \ref{cha:container}. Or calls a user defined procedure. The change assignments are \emph{not} available.\\
 \hline
 \end{tabularx}
 \end{minipage}\\

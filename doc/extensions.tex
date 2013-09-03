@@ -36,19 +36,14 @@ You may extend \GrG~with external procedures if the built-in attribute computati
 \section{External Match Filters}\label{sub:extflt}
 
 \begin{rail}
-  MatchFilter: ( backslash (IdentDecl + ',') )?;
-\end{rail}\ixnterm{MatchFilter}
+  FilterDecl: ( backslash (Filter + ',') )?;
+\end{rail}\ixnterm{FilterDecl}
 
-Registers one or multiple \indexed{external match filter}s with \GrG~, for the rule the match filters are appended at, to be used from selected applications of that rule (cf. \emph{FilterIdent} in \ref{sec:ruleapplication}).
+If \emph{Filter} is a simple \emph{FilterIdent} (cf. \ref{sub:filters} for the other options), the \emph{FilterDecl} registers an \indexed{external match filter}s with \GrG~ for the test or rule the match filter is appended at.
+It can then be used from applications of that rule (cf. \emph{Filters} in \ref{sec:ruleapplication}).
+An external match filter name must be globally unique (in contrast to the predefined filters, each rule may offer one with the same name).
 The \indexed{match filter} function must be implemented externally, see \ref{sub:extfltseqimpl}.
 You may extend \GrG~with match filters if you need to inspect the matches found for a rule in order to decide which to apply (see note \ref{note:inspect}) or if you just need a post-match hook which informs you about the found matches.
-
-In addition to the external match filters, you may request from GrGen to generate a match filter for \indexed{symmetric matches}.
-In order to do so use the special filter name \texttt{auto}; this filter name may be used on multiple rules in contrast to the other names which must be unique.
-The generated code implementing the \texttt{auto} filter is to be applied like your own external filters, after a backslash following the rule call.
-The filter is removing matches due to an \indexed{automorphic} pattern, matches which are covering the same spot in the host graph with a permutation of the nodes, the edges, or subpatterns of the same type at the same level.
-Other nested pattern constructs which are structurally identical are not recognized to be identical when they appear as commuted subparts; but they are so when they are factored into a subpattern which is instantiated multiple times.
-It is highly recommended to use this \indexed{symmetry reduction} technique when building state spaces including isomorphic state collapsing, as puring the matches which lead to isomorphic states early saves expensive graph comparisons -- and often it gives the semantics you are interested in anyway.
 
 \subsubsection*{Match object}
 

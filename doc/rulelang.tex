@@ -306,15 +306,15 @@ If necessary you must use prefixes as you might do in C.
 \footnote{We doubt that graph rewriting kernels will be combined from the work of \emph{many} programmers or used to built large application suites, so the simple model modularization available as of now should be sufficient or even a better fit for the overwhelming majority of tasks.}
 
 \begin{rail}
-  TestDeclaration: TestModifier 'test' ActionSignature lbrace Pattern rbrace MatchFilter;
-  RuleDeclaration: RuleModifier 'rule' ActionSignature lbrace Pattern Replace rbrace MatchFilter;
+  TestDeclaration: TestModifier 'test' ActionSignature lbrace Pattern rbrace FilterDecl;
+  RuleDeclaration: RuleModifier 'rule' ActionSignature lbrace Pattern Replace rbrace FilterDecl;
 \end{rail}\ixkeyw{test}\ixkeyw{rule}\ixkeyw{exact}\ixkeyw{induced}\ixkeyw{dpo}\ixkeyw{dangling}\ixkeyw{identification}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}
 Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}.
 It consists of a pattern part (see Section~\ref{patternpart}) in conjunction with its rewrite/modify part (see Section~\ref{sec:replacemodify}).
 A \newterm{test} has no rewrite specification.
 It's intended to check whether (and maybe how many times) a pattern occurs (see example \ref{ex:rulelang:testrule}).
 For an explanation of the available modifiers see Section~\ref{sct:patternmodifier},
-for an explanation of the external match filters see Section~\ref{sub:extflt}.
+for an explanation of the filters see Section~\ref{sub:filters} and Section~\ref{sub:extflt}.
 
 
 \begin{example}
