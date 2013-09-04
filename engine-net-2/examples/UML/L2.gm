@@ -241,7 +241,7 @@ enum TransitionKind {
 	//Implies that the transition, if triggered, will not exit the composite (source) state, but it will apply to any state within the composite state, and these will be exited and entered.
 	local,
 	//Implies that the transition, if triggered, will exit the composite (source) state.
-	external
+	external_
 
 }
 
@@ -1697,7 +1697,7 @@ edge class deferrableTrigger extends attribute connect
 //A transition is a directed relationship between a source vertex and a target vertex. It may be part of a compound transition, which takes the state machine from one state configuration to another, representing the complete response of the state machine to an occurrence of an event of a particular type.
 node class Transition extends RedefinableElement, Namespace {
 
-	kind : TransitionKind = TransitionKind::external;
+	kind : TransitionKind = TransitionKind::external_;
 
 }
 edge class container extends attribute connect

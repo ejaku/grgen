@@ -55,7 +55,7 @@ debug exec mb:MethodBody=::mb && tgt:Class=::tgt && src:Class=::src && op:Operat
 		&& (!thisIsAccessed || thisIsAccessed && (srcparam:Parameter)=addSourceParameter(op,src) && useSourceParameter(srcparam)*) \
 		&& relinkOperationAndMethodBody(op,mb,src,tgt) \
 		&& ( (call:Call,pe:Expression)=getUnprocessedCallWithActualParameter(op,p) \
-				&& (({def(srcparam)} && addSourceToCall(call,srcparam)) || true) \
+				&& (({{def(srcparam)}} && addSourceToCall(call,srcparam)) || true) \
 				&& (replaceAccess_Parameter_AccessWithoutLink(call,pe) || replaceAccess_Parameter_AccessWithLinkToExpression(call,pe)) \
 		   )*
 
@@ -64,7 +64,7 @@ debug exec mb:MethodBody=::mb && tgt:Class=::tgt && src:Class=::src && op:Operat
 #		&& !callToSuperExists && !isStatic(mb) && !methodNameExists(mb,tgt) \
 #		&& (!thisIsAccessed || thisIsAccessed && (srcparam:Parameter)=addSourceParameter(op,src) && useSourceParameter(srcparam)*) \
 #		&& relinkOperationAndMethodBody(op,mb,src,tgt) \
-#		&& (({def(srcparam)} && [replaceAccess_Variable_WithSource(op,v,srcparam)]) || [replaceAccess_Variable(op,v)])
+#		&& (({{def(srcparam)}} && [replaceAccess_Variable_WithSource(op,v,srcparam)]) || [replaceAccess_Variable(op,v)])
 
 # debug set layout Hierarchic ## use hierarchic with delegate, there are problems with compilergraph
 # debug exec ((vp:Variable)=someInstanceVariableOfTargetType(mb,tgt) || (vp)=someParameterOfTargetType(mb,tgt)) \
