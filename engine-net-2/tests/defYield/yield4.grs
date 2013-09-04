@@ -6,12 +6,12 @@ show num nodes
 show num nodes NINT
 show num edges
 
-xgrs (::count)=countNINT(::start)
+xgrs (::count_)=countNINT(::start)
 
 show num nodes
 show num nodes NINT
 show num edges
 
-show var count
+show var count_
 
 quit
