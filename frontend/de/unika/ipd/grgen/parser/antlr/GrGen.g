@@ -389,6 +389,7 @@ patternOrActionOrSequenceOrFunctionOrProcedureDecl [ CollectNode<IdentNode> patt
 		ExecNode exec = null;
 		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 		TestDeclNode actionDecl = null;
+		boolean isExternal = false;
 	}
 
 	: t=TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
@@ -448,12 +449,13 @@ patternOrActionOrSequenceOrFunctionOrProcedureDecl [ CollectNode<IdentNode> patt
 				patternChilds.addChild(id);
 			}
 		RBRACE popScope
-	| s=SEQUENCE id=actionIdentDecl pushScope[id] { exec = new ExecNode(getCoords(s)); }
+	| (EXTERNAL { isExternal = true; })? s=SEQUENCE id=actionIdentDecl pushScope[id] { exec = new ExecNode(getCoords(s)); }
 		inParams=execInParameters[exec] outParams=execOutParameters[exec]
 		(LBRACE 
 			xgrs[exec]
-		RBRACE
+		 RBRACE
 		| SEMI // no body? -> external sequence (externally implemented)
+		  { if(!isExternal) reportWarning(getCoords(s), "External sequence must start with \"external\""); }
 		) popScope
 		{
 			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
@@ -576,8 +578,16 @@ filterDecls [ IdentNode actionIdent, TestDeclNode actionDecl ]
 	;
 
 filterDeclList [ IdentNode actionIdent, ArrayList<String> filters ]
-	: (id=actionIdentDecl
-			{ filters.add(id.getSymbol().getText()); id.setDecl(new FilterDeclNode(id, actionIdent)); } 
+	@init {
+		boolean isExternal = false;
+	}
+	: ((EXTERNAL { isExternal = true; })? id=actionIdentDecl
+			{
+				filters.add(id.getSymbol().getText());
+				id.setDecl(new FilterDeclNode(id, actionIdent));
+				if(!isExternal)
+					reportWarning(id.getCoords(), "External filter must start with \"external\"");
+			} 
 		| AUTO
 			{ filters.add("auto"); }
 		| filterBase=IDENT LT filterVariable=IDENT GT 
@@ -597,8 +607,16 @@ filterDeclList [ IdentNode actionIdent, ArrayList<String> filters ]
 
 filterDeclListContinuation [ IdentNode actionIdent, ArrayList<String> filters ]
 options { k = 3; }
-	: COMMA id=actionIdentDecl
-		{ filters.add(id.getSymbol().getText()); id.setDecl(new FilterDeclNode(id, actionIdent)); } 
+	@init {
+		boolean isExternal = false;
+	}
+	: COMMA (EXTERNAL { isExternal = true; })? id=actionIdentDecl
+		{ 
+			filters.add(id.getSymbol().getText());
+			id.setDecl(new FilterDeclNode(id, actionIdent));
+			if(!isExternal)
+				reportWarning(id.getCoords(), "External filter must start with \"external\"");
+		}
 	| COMMA AUTO
 		{ filters.add("auto"); }
 	| COMMA filterBase=IDENT LT filterVariable=IDENT GT
@@ -2362,20 +2380,22 @@ textTypes returns [ ModelNode model = null ]
 	;
 
 typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs,  CollectNode<IdentNode> externalProcs ]
-	returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false, boolean isEqualClassDefined = false, boolean isLowerClassDefined = false; ]
-	
+		returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false, boolean isEqualClassDefined = false, boolean isLowerClassDefined = false; ]
+	@init{
+		boolean isExternal = false;
+	}	
 	: (
 		type=typeDecl { types.addChild(type); }
 	  |
 		externalFunctionOrProcedureDecl[externalFuncs, externalProcs]
 	  |
-	    EMIT CLASS SEMI { $isEmitClassDefined = true; }
+	    (EXTERNAL { isExternal = true; })? EMIT c=CLASS SEMI { $isEmitClassDefined = true; if(!isExternal) reportWarning(getCoords(c), "Emit class must start with \"external\""); }
 	  |
-	    COPY CLASS SEMI { $isCopyClassDefined = true; }
+	    (EXTERNAL { isExternal = true; })? COPY c=CLASS SEMI { $isCopyClassDefined = true; if(!isExternal) reportWarning(getCoords(c), "Copy class must start with \"external\""); }
 	  |
-	    EQUAL CLASS SEMI { $isEqualClassDefined = true; }
+	    (EXTERNAL { isExternal = true; })? EQUAL c=CLASS SEMI { $isEqualClassDefined = true; if(!isExternal) reportWarning(getCoords(c), "== class must start with \"external\""); }
 	  |
-	    LT CLASS SEMI { $isLowerClassDefined = true; }
+	    (EXTERNAL { isExternal = true; })? LT c=CLASS SEMI { $isLowerClassDefined = true; if(!isExternal) reportWarning(getCoords(c), "< class must start with \"external\""); }
 	  )*
 	;
 
@@ -2383,16 +2403,21 @@ externalFunctionOrProcedureDecl [ CollectNode<IdentNode> externalFuncs, CollectN
 									returns [ IdentNode res = env.getDummyIdent() ]
 	@init{
 		CollectNode<BaseNode> returnTypes = new CollectNode<BaseNode>();
+		boolean isExternal = false;
 	}
-	: FUNCTION id=funcOrExtFuncIdentDecl params=paramTypes COLON ret=returnType SEMI
+	: (EXTERNAL { isExternal = true; })? f=FUNCTION id=funcOrExtFuncIdentDecl params=paramTypes COLON ret=returnType SEMI
 		{
 			id.setDecl(new ExternalFunctionDeclNode(id, params, ret));
 			externalFuncs.addChild(id);
+			if(!isExternal)
+				reportWarning(getCoords(f), "External function must start with \"external\"");
 		}
-	| PROCEDURE id=funcOrExtFuncIdentDecl params=paramTypes (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)? SEMI
+	| (EXTERNAL { isExternal = true; })? p=PROCEDURE id=funcOrExtFuncIdentDecl params=paramTypes (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)? SEMI
 		{
 			id.setDecl(new ExternalProcedureDeclNode(id, params, returnTypes));
 			externalProcs.addChild(id);
+			if(!isExternal)
+				reportWarning(getCoords(p), "External procedure must start with \"external\"");
 		}
 	;
 
@@ -2651,11 +2676,16 @@ enumItemDecl [ IdentNode type, CollectNode<EnumItemNode> coll, ExprNode defInit,
 	;
 
 extClassDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: CLASS id=typeIdentDecl ext=extExtends[id] SEMI
+	@init {
+		boolean isExternal = false;
+	}
+	: (EXTERNAL { isExternal = true; })? c=CLASS id=typeIdentDecl ext=extExtends[id] SEMI
 		{
 			ExternalTypeNode et = new ExternalTypeNode(ext);
 			id.setDecl(new TypeDeclNode(id, et));
 			res = id;
+			if(!isExternal)
+				reportWarning(getCoords(c), "External class must start with \"external\"");
 		}
 	;
 
@@ -4020,6 +4050,7 @@ EVALHERE : 'evalhere';
 EXACT : 'exact';
 EXEC : 'exec';
 EXTENDS : 'extends';
+EXTERNAL : 'external';
 FALSE : 'false';
 FOR : 'for';
 FUNCTION : 'function';
