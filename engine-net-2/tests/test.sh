@@ -64,7 +64,7 @@ for filename in $targets; do
             getline correctvalue < \"$grs.data\"
             sub(\"\\r\$\", \"\", correctvalue)
             if(value != correctvalue)
-              fail(testnum, \"\n  Test \" testnum \" failed: Expected value of attribute = \" correctvalue \", Found \" value)
+              fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of attribute = \" correctvalue \", Found \" value)
             getline
             sub(\"\\r\$\", \"\")
           }
@@ -81,7 +81,7 @@ for filename in $targets; do
             getline correctvalue < \"$grs.data\"
             sub(\"\\r\$\", \"\", correctvalue)
             if(value != correctvalue)
-              fail(testnum, \"\n  Test \" testnum \" failed: Expected value of attribute = \" correctvalue \", Found \" value)
+              fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of attribute = \" correctvalue \", Found \" value)
             getline
             sub(\"\\r\$\", \"\")
           }
@@ -104,7 +104,7 @@ for filename in $targets; do
 		}
       }
       /^> / {
-        fail(testnum, \"\n  Test failed! It is waiting for user input!\")
+        fail(testnum, \"\n  Test FAILED! It is waiting for user input!\")
       }
       /Sequence done/ { time += \$7 }
       /analyzed in/ { time += \$(NF-1) }
@@ -115,7 +115,7 @@ for filename in $targets; do
           fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
         sub(\"\\r\$\", \"\", correctmatches)
         if(\$2 != correctmatches)
-          fail(testnum, \"\n  Test \" testnum \" failed: Expected matches = \" correctmatches \", Found matches = \" \$2)
+          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected matches = \" correctmatches \", Found matches = \" \$2)
       }
       /rewrites performed/ {
         testnum++
@@ -123,7 +123,7 @@ for filename in $targets; do
           fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
         sub(\"\\r\$\", \"\", correctrewrites)
         if(\$2 != correctrewrites)
-          fail(testnum, \"\n  Test \" testnum \" failed: Expected rewrites = \" correctrewrites \", Found rewrites = \" \$2)
+          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected rewrites = \" correctrewrites \", Found rewrites = \" \$2)
       }
       /Number/ {
         testnum++
@@ -131,7 +131,7 @@ for filename in $targets; do
           fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
         sub(\"\\r\$\", \"\", correctnum)
         if(\$8 != correctnum)
-          fail(testnum, \"\n  Test \" testnum \" failed: Expected number = \" correctnum \", Found \" \$0)
+          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected number = \" correctnum \", Found \" \$0)
       }
       /value of attribute/ {
         testnum++
@@ -140,7 +140,7 @@ for filename in $targets; do
           fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
         sub(\"\\r\$\", \"\", correctvalue)
         if(value != correctvalue)
-          fail(testnum, \"\n  Test \" testnum \" failed: Expected value of attribute = \" correctvalue \", Found \" value)
+          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of attribute = \" correctvalue \", Found \" value)
       }
 	  /value of variable/ {
         testnum++
@@ -149,7 +149,7 @@ for filename in $targets; do
           fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
         sub(\"\\r\$\", \"\", correctvalue)
         if(value != correctvalue)
-          fail(testnum, \"\n  Test \" testnum \" failed: Expected value of attribute = \" correctvalue \", Found \" value)
+          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of attribute = \" correctvalue \", Found \" value)
       }
       /reported back:/ {
         testnum++
@@ -158,7 +158,7 @@ for filename in $targets; do
           fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
         sub(\"\\r\$\", \"\", correctvalue)
         if(value != correctvalue)
-          fail(testnum, \"\n  Test \" testnum \" failed: Expected value of attribute = \" correctvalue \", Found \" value)
+          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of attribute = \" correctvalue \", Found \" value)
       }
 	  END {
         if(failed) exit 1
@@ -166,7 +166,7 @@ for filename in $targets; do
         if((getline noline < \"$grs.data\") > 0)
           fail(testnum, \"\n  Unexpected end of test after Test \" testnum \"!\")
 
-        print \" Success! Total told time: \" time \" ms\"
+        print \" Success. Total told time: \" time \" ms\"
       }
 
       function getAttribute(startindex)
