@@ -2,20 +2,20 @@ using ExternalFiltersAndSequences;
 
 // we declare the external sequences
 // signature only, external implementation!
-sequence foo(v1:int, v2:double, v3:Enu, v4:string, v5:boolean) : (r1:int, r2:double, r3:Enu, r4:string, r5:boolean);
-sequence bar(v1:object, v2:object) : (r1:object);
-sequence isnull(v1:object);
-sequence bla(v1:N, v2:E) : (r1:N, r2:E);
-sequence blo(v1:Node, v2:Edge) : (r1:Node, r2:Edge);
-sequence createEdge(n1:Node, n2:Node) : (e:Edge);
-sequence huh;
+external sequence foo(v1:int, v2:double, v3:Enu, v4:string, v5:boolean) : (r1:int, r2:double, r3:Enu, r4:string, r5:boolean);
+external sequence bar(v1:object, v2:object) : (r1:object);
+external sequence isnull(v1:object);
+external sequence bla(v1:N, v2:E) : (r1:N, r2:E);
+external sequence blo(v1:Node, v2:Edge) : (r1:Node, r2:Edge);
+external sequence createEdge(n1:Node, n2:Node) : (e:Edge);
+external sequence huh;
 
 sequence counterExample1(v1:int, v2:Node) : (r1:int, r2:Node) { {r1=v1; r2=v2;} }
 sequence counterExample2 { true }
 
 rule filterBase
 {
-} \ f1,nomnomnom,auto // we declare two external matches filter for the matches of the filterBase rule, plus the auto filter
+} \ external f1, external nomnomnom, auto // we declare two external matches filter for the matches of the filterBase rule, plus the auto filter
 
 rule filterBass
 {
@@ -23,13 +23,13 @@ rule filterBass
 	
 	modify {
 	}
-} \ f2,f3,auto // we declare two external matches filter for the matches of the filterBass rule, plus the auto filter
+} \ external f2, external f3, auto // we declare two external matches filter for the matches of the filterBass rule, plus the auto filter
 
 test filterHass(n:N):(E)
 {
 	n -e:E-> n;
 	return(e);
-} \ f4 // we declare an external matches filter for the matches of the filterHass test
+} \ external f4 // we declare an external matches filter for the matches of the filterHass test
 
 rule init : (N)
 {

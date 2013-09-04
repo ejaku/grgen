@@ -11,7 +11,7 @@ validate exec verify
 
 exec now:set<FirmNode>=set<FirmNode>{} ;> next:set<FirmNode>=set<FirmNode>{} ;>\
 	( [collectConstUsers(null, now)] ;>\
-		(wavefront(now, next) ;> {now.clear(); tmp:set<FirmNode>=now; now=next; next=tmp; isEmpty:boolean=now.empty(); !isEmpty})* ;>\
+		(wavefront(now, next) ;> {now.clear(); tmp:set<FirmNode>=now; now=next; next=tmp; isEmpty:boolean=now.empty(); {!isEmpty}})* ;>\
 		[foldAssociativeAndCommutative] ;>\
 		(foldCond+ | removeUnreachablePhiOperand+ | removeUnreachableBlock+ | removeUnreachableNode+)* ;>\
 		fixEdgePosition* ;>\

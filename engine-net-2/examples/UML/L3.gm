@@ -260,7 +260,7 @@ enum ENUM_TransitionKind {
 	//Implies that the transition, if triggered, will not exit the composite (source) state, but it will apply to any state within the composite state, and these will be exited and entered.
 	local,
 	//Implies that the transition, if triggered, will exit the composite (source) state.
-	external
+	external_
 }
 
 node class TransitionKind extends CMOFEnumeration {
