@@ -227,7 +227,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceComputation> Children { get { yield return left; yield return right; } }
         public override int Precedence { get { return 7; } }
-        public override string Symbol { get { return left.Symbol + "; " + right.Symbol; } }
+        public override string Symbol { get { return left.Symbol + "; " + (right is SequenceExpression ? "{" + right.Symbol + "}" : right.Symbol); } }
     }
 
 
