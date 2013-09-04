@@ -7,16 +7,16 @@ The primary means available are: external attribute types, external functions, m
 %-----------------------------------------------------------------------------------------------
 \section{External Attribute Types}\label{sub:extcls}
 \begin{rail}
-  ExternalClassDeclaration: 'class' IdentDecl (() | 'extends' (ExternalClassType+',')) ';';
-\end{rail}\ixnterm{ExternalClassDeclaration}\ixkeyw{class}\ixkeyw{extends}
+  ExternalClassDeclaration: 'external' 'class' IdentDecl (() | 'extends' (ExternalClassType+',')) ';';
+\end{rail}\ixnterm{ExternalClassDeclaration}\ixkeyw{external}\ixkeyw{class}\ixkeyw{extends}
 Registers a new attribute type with \GrG. You may declare the base types of the type, but not give attributes. The attribute type must be implemented externally, see \ref{sub:extclsfctimpl}; for \GrG~the type is opaque, only external functions can do computations with it. You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs.
 (Those types are not implicitely casted to \texttt{object}, but can be explicitely casted.)
 
 %-----------------------------------------------------------------------------------------------
 \section{External Function Types}\label{sub:extfct}
 \begin{rail}
-  ExternalFunctionDeclaration: 'function' IdentDecl '(' ( () | (Type + ',') ) ')' ':' Type ';';
-\end{rail}\ixnterm{ExternalFunctionDeclaration}
+  ExternalFunctionDeclaration: 'external' 'function' IdentDecl '(' ( () | (Type + ',') ) ')' ':' Type ';';
+\end{rail}\ixnterm{ExternalFunctionDeclaration}\ixkeyw{external}\ixkeyw{function}
 Registers an \indexed{external function} with \GrG~to be used in attribute computations.
 An external function declaration specifies the expected input types and the output type. The function must be implemented externally, see \ref{sub:extclsfctimpl}.
 An external function call (cf. \ref{sec:primexpr}) may receive and return values of the built-in (attribute) types as well as of the external attribute types; the real arguments on the call sites are type-checked against the declared signature following the subtyping hierarchy of the built-in as well as of the external attribute types.
@@ -25,8 +25,8 @@ You may extend \GrG~with external functions if the built-in attribute computatio
 %-----------------------------------------------------------------------------------------------
 \section{External Procedure Types}\label{sub:extproc}
 \begin{rail}
-  ExternalProcedureDeclaration: 'procedure' IdentDecl '(' ( () | (Type + ',') ) ')' \\ ( ':' '(' (Type + ',') ')' )? ';';
-\end{rail}\ixnterm{ExternalProcedureDeclaration}
+  ExternalProcedureDeclaration: 'external' 'procedure' IdentDecl '(' ( () | (Type + ',') ) ')' \\ ( ':' '(' (Type + ',') ')' )? ';';
+\end{rail}\ixnterm{ExternalProcedureDeclaration}\ixkeyw{external}\ixkeyw{procedure}
 Registers an \indexed{external procedure} with \GrG~to be used in attribute computations.
 An external procedure declaration specifies the expected input types and the output types. The procedure must be implemented externally, see \ref{sub:extclsfctimpl}.
 An external procedure call (cf. \ref{sec:primexpr}) may receive and return values of the built-in (attribute) types as well as of the external attribute types; the real arguments on the call sites are type-checked against the declared signature following the subtyping hierarchy of the built-in as well as of the external attribute types.
@@ -35,11 +35,8 @@ You may extend \GrG~with external procedures if the built-in attribute computati
 %-----------------------------------------------------------------------------------------------
 \section{External Match Filters}\label{sub:extflt}
 
-\begin{rail}
-  FilterDecl: ( backslash (Filter + ',') )?;
-\end{rail}\ixnterm{FilterDecl}
-
-If \emph{Filter} is a simple \emph{FilterIdent} (cf. \ref{sub:filters} for the other options), the \emph{FilterDecl} registers an \indexed{external match filter}s with \GrG~ for the test or rule the match filter is appended at.
+The \emph{FilterDecl} \texttt{external FilterIdent} (cf. \ref{sub:filters} for more on filters), 
+registers an \indexed{external match filter}s with \GrG~ for the rule (or test) the match filter is appended at.
 It can then be used from applications of that rule (cf. \emph{Filters} in \ref{sec:ruleapplication}).
 An external match filter name must be globally unique (in contrast to the predefined filters, each rule may offer one with the same name).
 The \indexed{match filter} function must be implemented externally, see \ref{sub:extfltseqimpl}.
@@ -58,8 +55,8 @@ The same holds for independent patterns; negative patterns do not appear in the 
 \section{External Sequences}\label{sub:extseq}
 \begin{rail}
   ExternalSequenceDeclaration: 
-    'sequence' RewriteSequenceSignature ';';
-\end{rail}\ixnterm{ExternalSequenceDeclaration}
+    'external' 'sequence' RewriteSequenceSignature ';';
+\end{rail}\ixnterm{ExternalSequenceDeclaration}\ixkeyw{external}
 Registers an \indexed{external sequence} similar to a defined sequence (cf. \ref{sec:sequencedefinition}) but in contrast to that it must or can be implemented outside in C\# code.
 An external sequence declaration specifies the expected input types and the output types. The sequence must be implemented externally, see \ref{sub:extfltseqimpl}.
 You may extend \GrG~with external sequences if you want to call into external code to interface with libraries from outside the domain of graph rewriting, or if the \GrG-languages are not well suited for parts of the task at hand.
@@ -67,8 +64,8 @@ You may extend \GrG~with external sequences if you want to call into external co
 %-----------------------------------------------------------------------------------------------
 \section{External Emitting and Parsing}\label{sub:extemitparse}
 \begin{rail}
-  EmitParseDeclaration: 'emit' 'class' ';';
-\end{rail}\ixnterm{EmitParseDeclaration}\ixkeyw{emit}\ixkeyw{class}
+  EmitParseDeclaration: 'external' 'emit' 'class' ';';
+\end{rail}\ixnterm{EmitParseDeclaration}\ixkeyw{external}\ixkeyw{emit}\ixkeyw{class}
 Tells \GrG~that the developer wants to extend grs importing and exporting, as well as emitting and debugger display, so that they can handle external types, or the type \texttt{object}.
 This allows for a tight integration of external types with the built-in functionality;
 it allows to inspect types not defined in \GrG~in the debugger (incl. yComp),
@@ -78,8 +75,8 @@ See \ref{sub:apiextemitparse} for an explanation on what needs to be implemented
 %-----------------------------------------------------------------------------------------------
 \section{External Cloning and Comparison}\label{sub:extcopycompare}
 \begin{rail}
-  CopyCompareDeclaration: ('copy' 'class' | '=''=' 'class' | '<' 'class') ';';
-\end{rail}\ixnterm{CopyCompareDeclaration}\ixkeyw{copy}\ixkeyw{class}
+  CopyCompareDeclaration: 'external' ('copy' | '=''=' | '<' ) 'class' ';';
+\end{rail}\ixnterm{CopyCompareDeclaration}\ixkeyw{external}\ixkeyw{copy}\ixkeyw{class}
 Tells \GrG~that the developer wants to extend graph element copying or attribute type comparison (with equality esp. being used for graph isomorphy comparison), so that they can handle external types, or the type \texttt{object}.
 This allows for a tight integration of external types with the built-in functionality, 
 and allows to implement value semantics for objects that are normally compared by checking reference identity and cloned by copying the reference.
