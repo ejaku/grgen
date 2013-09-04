@@ -3606,6 +3606,6 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Special ? "%{ " + Computation.Symbol + " }" : "{ " + Computation.Symbol + " }"; } }
+        public override string Symbol { get { return Special ? "%{ " + (Computation is SequenceExpression ? "{" + Computation.Symbol + "}" : Computation.Symbol) + " }" : "{ " + (Computation is SequenceExpression ? "{" + Computation.Symbol + "}" : Computation.Symbol) + " }"; } }
     }
 }
