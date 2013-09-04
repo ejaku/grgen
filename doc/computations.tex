@@ -148,7 +148,7 @@ On the other hand we consider pure functional programming not a help but a burde
   Parameter: IdentDecl ':' NodeType |
   '-' IdentDecl ':' EdgeType '->' |
   ('var' | 'ref') IdentDecl ':' VarType;
-\end{rail}\ixnterm{FunctionDefinition}\ixnterm{Parameter}\ixkeyw{var}\ixkeyw{ref}
+\end{rail}\ixnterm{FunctionDefinition}\ixnterm{Parameter}\ixkeyw{function}\ixkeyw{var}\ixkeyw{ref}
 
 The function definition must return a value with a return statement (so there must be at least one return statement).
 The type of the one return value must be compatible to the return type specified in the computation definition.
@@ -245,7 +245,7 @@ so in a procedure definition you are free to call other procedures (self-defined
 	'procedure' Name '(' Parameters ')' ReturnTypes \\
 	lbrace (Statement+) rbrace;
   ReturnTypes: (':' '(' (ReturnType + ',') ')' )?;
-\end{rail}\ixnterm{ProcedureDefinition}\ixnterm{Parameter}\ixkeyw{var}\ixkeyw{ref}
+\end{rail}\ixnterm{ProcedureDefinition}\ixnterm{Parameter}\ixkeyw{procedure}\ixkeyw{var}\ixkeyw{ref}
 
 Please note the syntactic difference distinguishing the procedures from the functions (besides the different keyword): the return types are enclosed in parenthesis (or omitted altogether).
 The computation definition may return between zero and $k$ values.

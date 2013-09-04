@@ -13,8 +13,7 @@ In this chapter we'll have a look at sequence computations, which are not concer
 
 The non-computational constructs introduced before are used for executing rules, to determine which rule to execute next depending on success and failure of the previous rule applications, and where to apply it next by transmitting atomic variables of node or edge type in between the rules.
 Sequence computations in contrast are used for manipulating container variables, evaluating computational expressions, or for causing side effects like output or element markings.
-The computation will return a boolean value by comparing the return value of the compound computation to the default value of the corresponding type, and returning false if equal, or true if unequal; a computation without a return value always returns true.
-So just using a boolean variable as computation returns the value of the variable.
+A computation returns always true, with exception of an expression used as a computation (explained below).
 A prepended \texttt{\%} attaches a \indexed{break point} to the computation.
 
 \begin{rail} 
@@ -24,7 +23,7 @@ A prepended \texttt{\%} attaches a \indexed{break point} to the computation.
 A compound computation consists of a computation followed by an optional list of computations separated by semicolons.
 The computations are executed from left to right;
 the value of the compound computation is the value of the last computation.
-So you must give an expression there in order to return a value, 
+So you must give an expression at that point in order to return a value, 
 whereas it is pointless to specify an expression before.
 
 \begin{rail} 
@@ -41,6 +40,9 @@ whereas it is pointless to specify an expression before.
 A variable declaration declares a local variable in the same way as in the sequences.
 An assignment assigns the value of a sequence expression to an assignment target.
 It may be chained; such an assignment chain is executed from right to left, assigning the rightmost value to all the assignment targets given.
+The expression used as computation -- denoted by and enclosed in braces -- will return a boolean value by comparing the return value of the expression to the default value of the corresponding type, returning false if equal, or true if unequal.
+So just using a boolean variable as expression returns the value of the variable.
+For returning an expression evaluation result value to a sequence you need two opening braces, one for entering the sequence computations, and the other for entering the sequence expressions.
 The form of expressions and assignment targets will be specified below.
 
 \begin{rail} 

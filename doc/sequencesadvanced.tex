@@ -118,10 +118,11 @@ Most filters need to be \emph{declared} beforehand at a rule (or test, but filte
 They may then be \emph{used} at rule applications in the sequences; some filters do not need information from a specific match, they are always available.
 
 \begin{rail}
-  FilterDecl: ( backslash (Filter + ',') )?;
-  Filters: (backslash Filter)*;
+  FiltersDecl: ( backslash (FilterDecl + ',') )?;
+  FilterDecl: ( FilterIdent '<' VariableIdent '>' | 'auto' | 'external' FilterIdent );
+	Filters: (backslash Filter)*;
   Filter: ( FilterIdent '<' VariableIdent '>' | FilterIdent '(' (Number | FloatingNumber ) ')' | 'auto' | FilterIdent );
-\end{rail}\ixnterm{FilterDecl}\ixnterm{Filters}\ixnterm{Filter}
+\end{rail}\ixnterm{FiltersDecl}\ixnterm{FilterDecl}\ixnterm{Filters}\ixnterm{Filter}\ixkeyw{auto}\ixkeyw{external}
 
 Filters allow to filter out matches, of automorphic patterns, or of a certain number of matches from the beginning or the end of the matches list, or of matches based on certain conditions regarding some \emph{def variables} contained in the pattern.
 Furthermore, they allow to to reorder a matches list alongside a chosen def variable.
