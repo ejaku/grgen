@@ -33,15 +33,15 @@ pattern P(start:Node) modify(def var i:int)
 	}
 }
 
-pattern Chain(begin:Node) modify(def var count:int)
+pattern Chain(begin:Node) modify(def var count_:int)
 {
 	optional {
 		begin --> next:Node\(NINT+NFLOAT+NSTRING);
 		c:Chain(next);
 
 		modify {
-			c(yield count);
-			evalhere { yield count = count + 1; }
+			c(yield count_);
+			evalhere { yield count_ = count_ + 1; }
 		}
 	}
 
