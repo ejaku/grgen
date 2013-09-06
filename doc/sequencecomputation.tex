@@ -46,7 +46,7 @@ For returning an expression evaluation result value to a sequence you need two o
 The form of expressions and assignment targets will be specified below.
 
 \begin{rail} 
-	MethodCall: ('(' Variables ')' '=')? (Variable | GraphElement '.' Attribute) '.' MethodName '(' Arguments ')';
+	MethodCall: ('(' Variables ')' '=')? (Variable | GraphElement '.' Attribute) \\ '.' MethodName '(' Arguments ')';
 	ProcedureCall: ('(' Variables ')' '=')? ProcedureName '(' Arguments ')';
 	Arguments: (SequenceExpression * ',');
 	Varibales: (Variable + ',');
