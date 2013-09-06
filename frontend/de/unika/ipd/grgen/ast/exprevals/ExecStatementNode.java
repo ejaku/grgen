@@ -29,10 +29,13 @@ public class ExecStatementNode extends EvalStatementNode {
 
 	ExecNode exec;
 
-	public ExecStatementNode(ExecNode exec) {
+	public int context;
+	
+	public ExecStatementNode(ExecNode exec, int context) {
 		super(exec.getCoords());
 		this.exec = exec;
 		becomeParent(this.exec);
+		this.context = context;
 	}
 
 	/** returns children of this node */
@@ -58,6 +61,16 @@ public class ExecStatementNode extends EvalStatementNode {
 
 	@Override
 	protected boolean checkLocal() {
+		if((context&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+			if((context&BaseNode.CONTEXT_METHOD)==BaseNode.CONTEXT_METHOD) {
+				reportError("exec not allowed in method");
+				return false;
+			}
+			else if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION) {
+				reportError("exec not allowed in function");
+				return false;
+			}
+		}
 		return true;
 	}	
 

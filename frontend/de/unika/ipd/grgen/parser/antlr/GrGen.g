@@ -461,19 +461,19 @@ patternOrActionOrSequenceOrFunctionOrProcedureDecl [ CollectNode<IdentNode> patt
 			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
 			sequenceChilds.addChild(id);
 		}
-	| f=FUNCTION id=funcOrExtFuncIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
+	| f=FUNCTION id=funcOrExtFuncIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
 		COLON retType=returnType
 		LBRACE
-			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+			( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE popScope
 		{
 			id.setDecl(new FunctionDeclNode(id, evals, params, retType, false));
 			functionChilds.addChild(id);
 		}
-	| pr=PROCEDURE id=funcOrExtFuncIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
+	| pr=PROCEDURE id=funcOrExtFuncIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphNode.getInvalid()]
 		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
 		LBRACE
-			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+			( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE popScope
 		{
 			id.setDecl(new ProcedureDeclNode(id, evals, params, retTypes, false));
@@ -1615,7 +1615,7 @@ evaluation [ CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplaceme
 			  evals.addChild(curEval);
 			}
 		LBRACE pushScope[namer.eval()]
-			( c=computation[false, context|BaseNode.CONTEXT_COMPUTATION, directlyNestingLHSGraph] { curEval.addChild(c); } )*
+			( c=computation[false, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph] { curEval.addChild(c); } )*
 		RBRACE popScope
 	| eh=EVALHERE
 			{ namer.defEval(null, getCoords(eh));
@@ -1623,7 +1623,7 @@ evaluation [ CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplaceme
 			  orderedReplacements.addChild(curOrderedRepl);
 			}
 		LBRACE pushScope[namer.eval()]
-			( c=computation[false, context|BaseNode.CONTEXT_COMPUTATION, directlyNestingLHSGraph] { curOrderedRepl.addChild(c); } )*
+			( c=computation[false, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph] { curOrderedRepl.addChild(c); } )*
 		RBRACE popScope
 	;
 
@@ -1636,7 +1636,7 @@ yielding [ CollectNode<EvalStatementsNode> evals, AnonymousScopeNamer namer, int
 			  curEval = new EvalStatementsNode(getCoords(y), namer.yield().toString());
 			  evals.addChild(curEval); }
 		LBRACE pushScope[namer.yield()]
-			( c=computation[true, context|BaseNode.CONTEXT_COMPUTATION, directlyNestingLHSGraph] { curEval.addChild(c); } )*
+			( c=computation[true, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, directlyNestingLHSGraph] { curEval.addChild(c); } )*
 		RBRACE popScope
 	;
 	
@@ -2810,16 +2810,22 @@ inClassFunctionDecl [ IdentNode clsId, boolean isNode ] returns [ FunctionDeclNo
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
 	}
 	
-	: f=FUNCTION id=methodOrExtMethodIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
+	: f=FUNCTION id=methodOrExtMethodIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphNode.getInvalid()]
 		COLON retType=returnType
 		LBRACE
 			{
 				if(isNode)
-					evals.addChild(new DefDeclStatementNode(getCoords(f), new SingleNodeConnNode(new NodeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))), new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())), false, BaseNode.CONTEXT_COMPUTATION, TypeExprNode.getEmpty(), PatternGraphNode.getInvalid(), false, true)), BaseNode.CONTEXT_COMPUTATION));
+					evals.addChild(new DefDeclStatementNode(getCoords(f), new SingleNodeConnNode(
+							new NodeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))), new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())), false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphNode.getInvalid(), false, true)),
+						BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD));
 				else
-					evals.addChild(new DefDeclStatementNode(getCoords(f), new ConnectionNode(env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()), new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))), new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())), false, BaseNode.CONTEXT_COMPUTATION, TypeExprNode.getEmpty(), PatternGraphNode.getInvalid(), false, true), env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()), ConnectionNode.DIRECTED, ConnectionNode.NO_REDIRECTION), BaseNode.CONTEXT_COMPUTATION));
+					evals.addChild(new DefDeclStatementNode(getCoords(f), new ConnectionNode(
+							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()),
+							new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))), new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())), false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphNode.getInvalid(), false, true),
+							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphNode.getInvalid()), ConnectionNode.DIRECTED, ConnectionNode.NO_REDIRECTION),
+						BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD));
 			}
-			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+			( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE popScope
 		{
 			res = new FunctionDeclNode(id, evals, params, retType, true);
@@ -2833,16 +2839,22 @@ inClassProcedureDecl [ IdentNode clsId, boolean isNode ] returns [ ProcedureDecl
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
 	}
 	
-	: pr=PROCEDURE id=methodOrExtMethodIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()]
+	: pr=PROCEDURE id=methodOrExtMethodIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphNode.getInvalid()]
 		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
 		LBRACE
 			{
 				if(isNode)
-					evals.addChild(new DefDeclStatementNode(getCoords(pr), new SingleNodeConnNode(new NodeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))), new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())), false, BaseNode.CONTEXT_COMPUTATION, TypeExprNode.getEmpty(), PatternGraphNode.getInvalid(), false, true)), BaseNode.CONTEXT_COMPUTATION));
+					evals.addChild(new DefDeclStatementNode(getCoords(pr), new SingleNodeConnNode(
+							new NodeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))), new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())), false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphNode.getInvalid(), false, true)),
+						BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD));
 				else
-					evals.addChild(new DefDeclStatementNode(getCoords(pr), new ConnectionNode(env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()), new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))), new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())), false, BaseNode.CONTEXT_COMPUTATION, TypeExprNode.getEmpty(), PatternGraphNode.getInvalid(), false, true), env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()), ConnectionNode.DIRECTED, ConnectionNode.NO_REDIRECTION), BaseNode.CONTEXT_COMPUTATION));
+					evals.addChild(new DefDeclStatementNode(getCoords(pr), new ConnectionNode(
+							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphNode.getInvalid()), 
+							new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))), new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())), false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphNode.getInvalid(), false, true),
+							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphNode.getInvalid()), ConnectionNode.DIRECTED, ConnectionNode.NO_REDIRECTION), 
+						BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD));
 			}
-			( c=computation[false, BaseNode.CONTEXT_COMPUTATION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+			( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE popScope
 		{
 			res = new ProcedureDeclNode(id, evals, params, retTypes, true);
@@ -3196,15 +3208,15 @@ options { k = 5; }
 		{ res = new AssignNode(getCoords(a), new IdentExprNode(variable, yielded), e, context); }
 	|
 	  vis=visited a=ASSIGN e=expr[false] SEMI
-		{ res = new AssignVisitedNode(getCoords(a), vis, e); }
+		{ res = new AssignVisitedNode(getCoords(a), vis, e, context); }
 		{ if(onLHS) reportError(getCoords(a), "Assignment to a visited flag is forbidden in LHS eval."); }
 	| 
 	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false] SEMI //'false' because this rule is not used for the assignments in enum item decls
-		{ res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx); }
+		{ res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx, context); }
 		{ if(onLHS) reportError(getCoords(d), "Indexed assignment to an attribute is forbidden in LHS eval, only yield indexed assignment to a def variable allowed."); }
 	|
 	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false] SEMI
-		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, yielded), e, idx); }
+		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, yielded), e, idx, context); }
 	| 
 	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse 
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
@@ -3278,7 +3290,7 @@ options { k = 5; }
 						)
 					{
 						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
-						ProcedureInvocationNode proc = new ProcedureInvocationNode(procIdent, params, env);
+						ProcedureInvocationNode proc = new ProcedureInvocationNode(procIdent, params, context, env);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
 							proj.setProcedure(proc);
@@ -3292,7 +3304,7 @@ options { k = 5; }
 					else
 					{
 						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
-						ProcedureOrExternalProcedureInvocationNode proc = new ProcedureOrExternalProcedureInvocationNode(procIdent, params);
+						ProcedureOrExternalProcedureInvocationNode proc = new ProcedureOrExternalProcedureInvocationNode(procIdent, params, context);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
 							proj.setProcedure(proc);
@@ -3309,7 +3321,7 @@ options { k = 5; }
 					IdentNode method_ = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
 					if(!attributeMethodCall) 
 					{
-						ProcedureMethodInvocationNode pmi = new ProcedureMethodInvocationNode(new IdentExprNode(variable, yielded), method_, params);
+						ProcedureMethodInvocationNode pmi = new ProcedureMethodInvocationNode(new IdentExprNode(variable, yielded), method_, params, context);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
 							proj.setProcedure(pmi);
@@ -3322,7 +3334,7 @@ options { k = 5; }
 					}
 					else
 					{
-						ProcedureMethodInvocationNode pmi = new ProcedureMethodInvocationNode(new QualIdentNode(getCoords(d), variable, member), method_, params);
+						ProcedureMethodInvocationNode pmi = new ProcedureMethodInvocationNode(new QualIdentNode(getCoords(d), variable, member), method_, params, context);
 						if(onLHS) reportError(getCoords(d), "Method call on an attribute is forbidden in LHS eval, only yield method call to a def variable allowed.");
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
@@ -3338,7 +3350,7 @@ options { k = 5; }
 			}
 	|
 	  exec=execStmt[null, context, directlyNestingLHSGraph] SEMI
-		{ res = new ExecStatementNode(exec); }
+		{ res = new ExecStatementNode(exec, context); }
 	;
 
 targets	[Coords coords, MultiStatementNode ms, int context, PatternGraphNode directlyNestingLHSGraph] returns [ CollectNode<ProjectionExprNode> tgtProjs = new CollectNode<ProjectionExprNode>(), CollectNode<EvalStatementNode> tgts = new CollectNode<EvalStatementNode>() ]
@@ -3364,13 +3376,13 @@ options { k = 5; }
 		{ res = new AssignNode(coords, new IdentExprNode(variable, yielded), e, context); }
 	|
 	  vis=visited
-		{ res = new AssignVisitedNode(coords, vis, e); }
+		{ res = new AssignVisitedNode(coords, vis, e, context); }
 	| 
 	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[false] RBRACK
-		{ res = new AssignIndexedNode(coords, new QualIdentNode(getCoords(d), owner, member), e, idx); }
+		{ res = new AssignIndexedNode(coords, new QualIdentNode(getCoords(d), owner, member), e, idx, context); }
 	|
 	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[false] RBRACK
-		{ res = new AssignIndexedNode(coords, new IdentExprNode(variable, yielded), e, idx); }
+		{ res = new AssignIndexedNode(coords, new IdentExprNode(variable, yielded), e, idx, context); }
 	|
 	  de=defEntityToBeYieldedTo[null, null, context, directlyNestingLHSGraph]
 		{

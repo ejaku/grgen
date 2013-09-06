@@ -31,18 +31,21 @@ public class AssignVisitedNode extends EvalStatementNode {
 
 	VisitedNode lhs;
 	ExprNode rhs;
+	
+	int context;
 
 	/**
 	 * @param coords The source code coordinates of = operator.
 	 * @param target The left hand side.
 	 * @param expr The expression, that is assigned.
 	 */
-	public AssignVisitedNode(Coords coords, VisitedNode target, ExprNode expr) {
+	public AssignVisitedNode(Coords coords, VisitedNode target, ExprNode expr, int context) {
 		super(coords);
 		this.lhs = target;
 		becomeParent(this.lhs);
 		this.rhs = expr;
 		becomeParent(this.rhs);
+		this.context = context;
 	}
 
 	/** returns children of this node */
@@ -72,6 +75,11 @@ public class AssignVisitedNode extends EvalStatementNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal() {
+		if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION) {
+			reportError("assignment to visited flag not allowed in function or lhs context");
+			return false;
+		}
+
 		if(rhs.getType() != BasicTypeNode.booleanType) {
 			error.error(getCoords(), "Visited flags may only be assigned boolean values");
 			return false;

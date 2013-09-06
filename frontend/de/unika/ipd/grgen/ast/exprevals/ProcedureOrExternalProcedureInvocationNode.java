@@ -38,12 +38,15 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	private ExternalProcedureDeclNode externalProcedureDecl;
 	private ProcedureDeclNode procedureDecl;
 	private CollectNode<ExprNode> arguments;
+	
+	private int context;
 
-	public ProcedureOrExternalProcedureInvocationNode(IdentNode procedureOrExternalProcedureUnresolved, CollectNode<ExprNode> arguments)
+	public ProcedureOrExternalProcedureInvocationNode(IdentNode procedureOrExternalProcedureUnresolved, CollectNode<ExprNode> arguments, int context)
 	{
 		super(procedureOrExternalProcedureUnresolved.getCoords());
 		this.procedureOrExternalProcedureUnresolved = becomeParent(procedureOrExternalProcedureUnresolved);
 		this.arguments = becomeParent(arguments);
+		this.context = context;
 	}
 
 	@Override
@@ -79,6 +82,10 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 
 	@Override
 	protected boolean checkLocal() {
+		if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION) {
+			reportError("procedure call not allowed in function or lhs context");
+			return false;
+		}
 		return checkSignatureAdhered();
 	}
 

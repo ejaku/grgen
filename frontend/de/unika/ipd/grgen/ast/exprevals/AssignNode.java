@@ -139,6 +139,11 @@ public class AssignNode extends EvalStatementNode {
 	protected boolean checkLocal() {
 		if(lhsQual!=null)
 		{
+			if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION) {
+				reportError("assignment to attribute of graph element not allowed in function or lhs context");
+				return false;
+			}
+
 			DeclNode owner = lhsQual.getOwner();
 			TypeNode ty = owner.getDeclType();
 	

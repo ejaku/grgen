@@ -80,11 +80,6 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 				res &= checkStatements(isLHS, root, iayn, iayn.accumulationStatements, false);
 			} else if(eval instanceof ReturnStatementNode) {
 				returnPassed = true;
-			} else if(eval instanceof ExecStatementNode) {
-				if(root instanceof FunctionDeclNode) {
-					eval.reportError("exec not allowed in function");					
-					res = false;
-				}
 			} else if(eval instanceof ReturnAssignmentNode) {
 				if(root instanceof FunctionDeclNode || isLHS) {
 					ReturnAssignmentNode node = (ReturnAssignmentNode)eval;
