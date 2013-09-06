@@ -39,6 +39,8 @@ public class AssignIndexedNode extends EvalStatementNode {
 
 	QualIdentNode lhsQual;
 	VarDeclNode lhsVar;
+	
+	int context;
 
 	/**
 	 * @param coords The source code coordinates of = operator.
@@ -46,7 +48,7 @@ public class AssignIndexedNode extends EvalStatementNode {
 	 * @param expr The expression, that is assigned.
 	 * @param index The index expression to the lhs entity.
 	 */
-	public AssignIndexedNode(Coords coords, QualIdentNode target, ExprNode expr, ExprNode index) {
+	public AssignIndexedNode(Coords coords, QualIdentNode target, ExprNode expr, ExprNode index, int context) {
 		super(coords);
 		this.lhsUnresolved = target;
 		becomeParent(this.lhsUnresolved);
@@ -54,6 +56,7 @@ public class AssignIndexedNode extends EvalStatementNode {
 		becomeParent(this.rhs);
 		this.index = index;
 		becomeParent(this.index);
+		this.context = context;
 	}
 
 	/**
@@ -62,7 +65,7 @@ public class AssignIndexedNode extends EvalStatementNode {
 	 * @param expr The expression, that is assigned.
 	 * @param index The index expression to the lhs entity.
 	 */
-	public AssignIndexedNode(Coords coords, IdentExprNode target, ExprNode expr, ExprNode index) {
+	public AssignIndexedNode(Coords coords, IdentExprNode target, ExprNode expr, ExprNode index, int context) {
 		super(coords);
 		this.lhsUnresolved = target;
 		becomeParent(this.lhsUnresolved);
@@ -70,6 +73,7 @@ public class AssignIndexedNode extends EvalStatementNode {
 		becomeParent(this.rhs);
 		this.index = index;
 		becomeParent(this.index);
+		this.context = context;
 	}
 
 	/** returns children of this node */
@@ -129,6 +133,11 @@ public class AssignIndexedNode extends EvalStatementNode {
 	protected boolean checkLocal() {
 		if(lhsQual!=null)
 		{
+			if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION) {
+				reportError("indexed assignment to attribute of graph element not allowed in function or lhs context");
+				return false;
+			}
+
 			DeclNode owner = lhsQual.getOwner();
 			TypeNode ty = owner.getDeclType();
 

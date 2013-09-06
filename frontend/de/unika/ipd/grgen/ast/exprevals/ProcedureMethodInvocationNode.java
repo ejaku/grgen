@@ -28,13 +28,16 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
 	private IdentNode methodIdent;
 	private CollectNode<ExprNode> params;
 	private ProcedureMethodInvocationBaseNode result;
-
-	public ProcedureMethodInvocationNode(BaseNode target, IdentNode methodIdent, CollectNode<ExprNode> params)
+	
+	private int context;
+	
+	public ProcedureMethodInvocationNode(BaseNode target, IdentNode methodIdent, CollectNode<ExprNode> params, int context)
 	{
 		super(methodIdent.getCoords());
 		this.target = becomeParent(target);
 		this.methodIdent = becomeParent(methodIdent);
 		this.params = becomeParent(params);
+		this.context = context;
 	}
 
 	@Override
@@ -238,7 +241,7 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
 		}
 		else if(targetType instanceof InheritanceTypeNode) {
 			// METHOD-TODO
-			result = new ProcedureMethodOrExternalProcedureMethodInvocationNode(((IdentExprNode)target).getIdent(), methodIdent, params);
+			result = new ProcedureMethodOrExternalProcedureMethodInvocationNode(((IdentExprNode)target).getIdent(), methodIdent, params, context);
 		}
 		else {
 			reportError(targetType.toString() + " does not have any methods");
@@ -249,6 +252,12 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
 
 	@Override
 	protected boolean checkLocal() {
+		if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION 
+				&& !(result instanceof ProcedureMethodOrExternalProcedureMethodInvocationNode)
+				&& target instanceof QualIdentNode) {
+			reportError("procedure method call not allowed in function or lhs context (built-in-procedure-method)");
+			return false;
+		}
 		return true;
 	}
 

@@ -30,13 +30,16 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 	private CollectNode<ExprNode> params;
 	private ProcedureInvocationBaseNode result;
 
+	private int context;
+
 	ParserEnvironment env;
 
-	public ProcedureInvocationNode(IdentNode procedureIdent, CollectNode<ExprNode> params, ParserEnvironment env)
+	public ProcedureInvocationNode(IdentNode procedureIdent, CollectNode<ExprNode> params, int context, ParserEnvironment env)
 	{
 		super(procedureIdent.getCoords());
 		this.procedureIdent = becomeParent(procedureIdent);
 		this.params = becomeParent(params);
+		this.context = context;
 		this.env = env;
 	}
 
@@ -312,6 +315,12 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 
 	@Override
 	protected boolean checkLocal() {
+		if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION
+				&& !procedureIdent.toString().equals("emit")
+				&& !procedureIdent.toString().equals("highlight")) {
+			reportError("procedure call not allowed in function or lhs context (built-in-procedure)");
+			return false;
+		}
 		return true;
 	}
 

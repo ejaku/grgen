@@ -44,13 +44,16 @@ public class ProcedureMethodOrExternalProcedureMethodInvocationNode extends Proc
 	private ProcedureDeclNode procedureDecl;
 	
 	private CollectNode<ExprNode> arguments;
+	
+	private int context;
 
-	public ProcedureMethodOrExternalProcedureMethodInvocationNode(IdentNode owner, IdentNode procedureOrExternalProcedureUnresolved, CollectNode<ExprNode> arguments)
+	public ProcedureMethodOrExternalProcedureMethodInvocationNode(IdentNode owner, IdentNode procedureOrExternalProcedureUnresolved, CollectNode<ExprNode> arguments, int context)
 	{
 		super(procedureOrExternalProcedureUnresolved.getCoords());
 		this.ownerUnresolved = becomeParent(owner);
 		this.procedureOrExternalProcedureUnresolved = becomeParent(procedureOrExternalProcedureUnresolved);
 		this.arguments = becomeParent(arguments);
+		this.context = context;
 	}
 
 	@Override
@@ -122,6 +125,10 @@ public class ProcedureMethodOrExternalProcedureMethodInvocationNode extends Proc
 
 	@Override
 	protected boolean checkLocal() {
+		if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION) {
+			reportError("procedure method call not allowed in function or lhs context");
+			return false;
+		}
 		return checkSignatureAdhered();
 	}
 
