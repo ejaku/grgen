@@ -1032,7 +1032,7 @@
             The C#-part responsible for compiling the XGRSs of the exec statements.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.#ctor(de.unika.ipd.grGen.lgsp.LGSPGrGen,de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.#ctor(de.unika.ipd.grGen.lgsp.LGSPGrGen,de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
             Constructs the sequence generator
             </summary>
@@ -2623,6 +2623,28 @@
             If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.ApplyFunctionMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
+            <summary>
+            Executes the function method given by its name.
+            Throws an exception if the method does not exists or the parameters are of wrong types.
+            </summary>
+            <param name="actionEnv">The current action execution environment.</param>
+            <param name="graph">The current graph.</param>
+            <param name="name">The name of the function method to apply.</param>
+            <param name="arguments">An array with the arguments to the method.</param>
+            <returns>The return value of function application.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.ApplyProcedureMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
+            <summary>
+            Executes the procedure method given by its name.
+            Throws an exception if the method does not exists or the parameters are of wrong types.
+            </summary>
+            <param name="actionEnv">The current action execution environment.</param>
+            <param name="graph">The current graph.</param>
+            <param name="name">The name of the procedure method to apply.</param>
+            <param name="arguments">An array with the arguments to the method.</param>
+            <returns>An array with the return values of procedure application. Only valid until the next call of this method.</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.Recycle">
             <summary>
             Recycles this node. This may pool the node or just ignore it.
@@ -2818,6 +2840,28 @@
             Returns whether the attributes of this element and that are equal.
             If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.ApplyFunctionMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
+            <summary>
+            Executes the function method given by its name.
+            Throws an exception if the method does not exists or the parameters are of wrong types.
+            </summary>
+            <param name="actionEnv">The current action execution environment.</param>
+            <param name="graph">The current graph.</param>
+            <param name="name">The name of the function method to apply.</param>
+            <param name="arguments">An array with the arguments to the method.</param>
+            <returns>The return value of function application.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.ApplyProcedureMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
+            <summary>
+            Executes the procedure method given by its name.
+            Throws an exception if the method does not exists or the parameters are of wrong types.
+            </summary>
+            <param name="actionEnv">The current action execution environment.</param>
+            <param name="graph">The current graph.</param>
+            <param name="name">The name of the procedure method to apply.</param>
+            <param name="arguments">An array with the arguments to the method.</param>
+            <returns>An array with the return values of procedure application. Only valid until the next call of this method.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.Recycle">
             <summary>
@@ -6076,6 +6120,13 @@
             Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterFirstLast(System.String)">
+            <summary>
+            For filtering to the first or last elements
+            implements the keepFirst, keepLast, keepFirstFraction, keepLastFractions filter
+            </summary>
+            <param name="filter">The filter string, with encoded parameter value (following underscore, with decimal point encoded as underscore)</param>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.producer">
             <summary>
             the action object used to generate this LGSPMatchesList object
@@ -6856,12 +6907,22 @@
         </member>
         <member name="T:de.unika.ipd.grGen.expression.FunctionInvocation">
             <summary>
-            Class representing a function invocation (internal attribute evaluation function).
+            Class representing a function invocation (of an internal attribute evaluation function).
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ExternalFunctionInvocation">
             <summary>
-            Class representing a function invocation of an external attribute evaluation function.
+            Class representing a function invocation (of an external attribute evaluation function).
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.FunctionMethodInvocation">
+            <summary>
+            Class representing a function method invocation (of an internal attribute evaluation function method).
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ExternalFunctionMethodInvocation">
+            <summary>
+            Class representing a function method invocation (of an external attribute evaluation function method).
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Nodes">

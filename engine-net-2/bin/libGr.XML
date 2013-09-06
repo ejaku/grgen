@@ -1153,7 +1153,7 @@
             <param name="old">The old graph.</param>
             <param name="clone">The new, cloned version of the graph.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.ApplyRewrite(de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings,System.Int32,System.Int32,System.Boolean,System.Boolean,System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.ApplyRewrite(de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{System.String})">
             <summary>
             Apply a rewrite rule (first computing the parameters with sequence expressions, last assigning result variables).
             </summary>
@@ -1164,7 +1164,7 @@
             <param name="special">Specifies whether the %-modifier has been used for this rule, which may have a special meaning for
             the application</param>
             <param name="test">If true, no rewrite step is performed.</param>
-            <param name="filter">The name of the filter to apply to the matches before rewriting, or null.</param>
+            <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
             <returns>The number of matches found</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.GetElementVariables(de.unika.ipd.grGen.libGr.IGraphElement)">
@@ -2550,17 +2550,17 @@
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.BadNumberOfParametersOrReturnParameters">
             <summary>
-            The number of parameters and/or return parameters does not match the action.
+            The number of parameters and/or return parameters does not match the signature of the definition.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.BadParameter">
             <summary>
-            The type of a parameter does not match the signature of the action.
+            The type of a parameter does not match the signature of the definition.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.BadReturnParameter">
             <summary>
-            The type of a return parameter does not match the signature of the action.
+            The type of a return parameter does not match the signature of the definition.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.RuleNameUsedByVariable">
@@ -2613,6 +2613,11 @@
             The rule is unknown (only rule name available, originating from match type)
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.UserMethodsOnlyAvailableForGraphElements">
+            <summary>
+            Method call notations of a not-builtin-method was used on a non-graph-type
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceParserException">
             <summary>
             An exception thrown by SequenceParser,
@@ -2624,9 +2629,14 @@
             The kind of error.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.DefType">
+            <summary>
+            The type of the definition that caused the error, Unknown if no definition was involved.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.Name">
             <summary>
-            The name of the rule/sequence.
+            The name of the definition (rule/test/sequence/procedure/function/procedure method/function method).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.FilterName">
@@ -2705,7 +2715,7 @@
         <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(System.String,de.unika.ipd.grGen.libGr.SequenceParserError)">
             <summary>
             Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
-            given name does not exist or input or output parameters do not match.
+            given name does not exist or input or output parameters do not match, or a method was called on a type not supporting this.
             </summary>
             <param name="ruleName">Name of the rule or sequence or variable.</param>
             <param name="errorKind">The kind of error.</param>
@@ -2815,6 +2825,28 @@
             Returns whether the attributes of this element and that are equal.
             If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphElement.ApplyFunctionMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
+            <summary>
+            Executes the function method given by its name.
+            Throws an exception if the method does not exists or the parameters are of wrong types.
+            </summary>
+            <param name="actionEnv">The current action execution environment.</param>
+            <param name="graph">The current graph.</param>
+            <param name="name">The name of the function method to apply.</param>
+            <param name="arguments">An array with the arguments to the method.</param>
+            <returns>The return value of function application.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphElement.ApplyProcedureMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
+            <summary>
+            Executes the procedure method given by its name.
+            Throws an exception if the method does not exists or the parameters are of wrong types.
+            </summary>
+            <param name="actionEnv">The current action execution environment.</param>
+            <param name="graph">The current graph.</param>
+            <param name="name">The name of the procedure method to apply.</param>
+            <param name="arguments">An array with the arguments to the method.</param>
+            <returns>An array with the return values of procedure application. Only valid until the next call of this method.</returns>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphElement.Type">
             <summary>
@@ -3731,6 +3763,13 @@
             <summary>
             Clone the matches
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatches.FilterFirstLast(System.String)">
+            <summary>
+            For filtering to the first or last elements
+            implements the keepFirst, keepLast, keepFirstFraction, keepLastFractions filter
+            </summary>
+            <param name="filter">The filter string, with encoded parameter value (following underscore)</param>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatches.Producer">
             <summary>
@@ -4656,6 +4695,22 @@
             <param name="name">Name of the attribute</param>
             <returns>The AttributeType matching the name, or null if there is no such</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GrGenType.GetFunctionMethod(System.String)">
+            <summary>
+            Returns a FunctionInfo object for the given function method name.
+            If this type does not have a function method with this name, null is returned.
+            </summary>
+            <param name="name">Name of the function method</param>
+            <returns>The FunctionInfo of the function method matching the name, or null if there is no such</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GrGenType.GetProcedureMethod(System.String)">
+            <summary>
+            Returns a ProcedureInfo object for the given procedure method name.
+            If this type does not have a procedure method with this name, null is returned.
+            </summary>
+            <param name="name">Name of the procedure method</param>
+            <returns>The ProcedureInfo of the procedure method matching the name, or null if there is no such</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GrGenType.IsA(de.unika.ipd.grGen.libGr.GrGenType)">
             <summary>
             Checks, whether this type is compatible to the given type, i.e. this type is the same type as the given type
@@ -4774,6 +4829,26 @@
         <member name="P:de.unika.ipd.grGen.libGr.GrGenType.AttributeTypes">
             <summary>
             Enumerates all attribute types of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.NumFunctionMethods">
+            <summary>
+            The number of function methods of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.FunctionMethods">
+            <summary>
+            Enumerates all function methods of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.NumProcedureMethods">
+            <summary>
+            The number of procedure methods of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.ProcedureMethods">
+            <summary>
+            Enumerates all procedure methods of this type.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.NodeType">
@@ -7243,6 +7318,24 @@
             </summary>
             <param name="seq">The sequence to check, must be a rule call, a rule all call, or a sequence call</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckProcedureCallBase(de.unika.ipd.grGen.libGr.SequenceComputation,de.unika.ipd.grGen.libGr.GrGenType)">
+            <summary>
+            Helper for checking procedure calls.
+            Checks whether called entity exists, type checks the input, type checks the output.
+            Throws an exception when an error is found.
+            </summary>
+            <param name="seq">The sequence computation to check, must be a procedure call</param>
+            <param name="ownerType">Gives the owner type of the procedure method call, in case this is a method call, otherwise null</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckFunctionCallBase(de.unika.ipd.grGen.libGr.SequenceExpression,de.unika.ipd.grGen.libGr.GrGenType)">
+            <summary>
+            Helper for checking function calls.
+            Checks whether called entity exists, and type checks the input.
+            Throws an exception when an error is found.
+            </summary>
+            <param name="seq">The sequence expression to check, must be a function call</param>
+            <param name="ownerType">Gives the owner type of the function method call, in case this is a method call, otherwise null</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckProcedureCall(de.unika.ipd.grGen.libGr.SequenceComputation)">
             <summary>
             Helper for checking procedure calls.
@@ -7251,13 +7344,40 @@
             </summary>
             <param name="seq">The sequence computation to check, must be a procedure call</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckProcedureMethodCall(de.unika.ipd.grGen.libGr.SequenceExpression,de.unika.ipd.grGen.libGr.SequenceComputation)">
+            <summary>
+            Helper for checking procedure method calls.
+            Checks whether called entity exists, type checks the input, type checks the output.
+            Throws an exception when an error is found.
+            </summary>
+            <param name="seq">The sequence computation to check, must be a procedure call</param>
+            <param name="targetExpr">The target of the procedure method call</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckProcedureMethodCall(de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceComputation)">
+            <summary>
+            Helper for checking procedure method calls.
+            Checks whether called entity exists, type checks the input, type checks the output.
+            Throws an exception when an error is found.
+            </summary>
+            <param name="seq">The sequence computation to check, must be a procedure call</param>
+            <param name="targetVar">The target of the procedure method call</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckFunctionCall(de.unika.ipd.grGen.libGr.SequenceExpression)">
             <summary>
             Helper for checking function calls.
+            Checks whether called entity exists, type checks the input, type checks the output.
+            Throws an exception when an error is found.
+            </summary>
+            <param name="seq">The sequence expression to check, must be a function call</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckFunctionMethodCall(de.unika.ipd.grGen.libGr.SequenceExpression,de.unika.ipd.grGen.libGr.SequenceExpression)">
+            <summary>
+            Helper for checking function method calls.
             Checks whether called entity exists, and type checks the input.
             Throws an exception when an error is found.
             </summary>
             <param name="seq">The sequence expression to check, must be a function call</param>
+            <param name="targetExpr">The target of the procedure function call</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.TypeOfTopLevelEntityInRule(System.String,System.String)">
             <summary>
