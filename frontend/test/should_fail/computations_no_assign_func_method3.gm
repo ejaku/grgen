@@ -1,0 +1,8 @@
+node class N
+{
+	function bar() : boolean
+	{
+		this.visited[0] = true;
+		return(this.visited[0]);
+	}
+}

@@ -1,0 +1,15 @@
+procedure foo() : (int)
+{
+	return(42);
+}
+
+test bar()
+{
+	def var x:int;
+	
+	optional {
+		yield {
+			(yield x) = foo();
+		}
+	}
+}

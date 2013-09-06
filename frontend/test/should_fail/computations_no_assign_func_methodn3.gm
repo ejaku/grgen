@@ -1,0 +1,12 @@
+node class N
+{
+}
+
+node class NN
+{
+	function bar(n:N) : boolean
+	{
+		n.visited[0] = true;
+		return(n.visited[0]);
+	}
+}

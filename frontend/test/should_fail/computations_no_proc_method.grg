@@ -1,0 +1,6 @@
+using computations_no_proc_method;
+
+procedure foo()
+{
+	return;
+}

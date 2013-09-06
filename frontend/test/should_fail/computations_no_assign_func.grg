@@ -1,0 +1,7 @@
+using computations_no_assign_func;
+
+function bar(n:N) : int
+{
+	n.x = 42;
+	return(n.x);
+}

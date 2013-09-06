@@ -1,0 +1,13 @@
+node class N
+{
+	x:int;
+}
+
+node class NN
+{
+	function bar(n:N) : int
+	{
+		n.x = 42;
+		return(n.x);
+	}
+}

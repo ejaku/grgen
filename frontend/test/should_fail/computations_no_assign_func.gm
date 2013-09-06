@@ -1,0 +1,4 @@
+node class N
+{
+	x:int;	
+}

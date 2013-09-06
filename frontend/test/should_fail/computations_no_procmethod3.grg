@@ -1,0 +1,8 @@
+using computations_no_procmethod;
+
+test bar()
+{
+	n:NO;
+	
+	if { n.no()<3; }
+}
