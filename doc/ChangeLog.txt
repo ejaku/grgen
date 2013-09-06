@@ -1,4 +1,62 @@
-﻿v4.0.1 (2013-08-12)
+﻿v4.1.0 (2013-09-07)
+ Methods are now supported (user-defined, in contrast to some built-in methods already available before): 
+  - methods are declared in the model as functions or procedures nested inside node or edge classes
+  - a "this" node or edge is declared implicitely inside the method functions or procedures
+    to access the members or call the methods of the element (needed for dot notation)
+  - method calls occur in dot notation, with an expression or variable or the "this" element before the dot,
+    denoting the element to apply the method on; otherwise they look like a function or procedure call;
+    it is not possible inside a method to access elements or methods of the class without dot notation
+  - procedure methods are callable from rule language statements and sequence computations
+  - function methods are callable from rule language expressions and sequence expressions
+  - dynamic dispatch: the implementation of the exact type of the current element is called,
+    irrespective of the statically known base type of the pattern element or variable
+  - if a method name comes in from different parents, the method must be overriden in the joining class
+    (GrGen supports multiple inheritance, forming a DAG-structured inheritance relationship)
+  - a method name that comes in from only one parent can be kept unimplemented,
+	the nearest implementation in the inheritance hierarchy is then used
+
+ Supporting methods required changes regarding the sequence computations:
+  - sequence expressions used as sequence computations must be enclosed in braces from now on,
+    so in sequence "if { {{def(x)}}; ... }" all opening braces are required,
+	the second "{" is for opening a computation, and the third "{" is for opening an expression
+  - chained method calls are not possible any more
+
+ Changes to improve readability:
+  - external entities must be prefixed with an "external" keyword at their declaration
+  - sequence expressions used as sequence computations must be enclosed in braces from now on,
+    so the only computation that returns a value is visually differentiated from the other computations
+ 
+ The support for filtering of the matches list (of rule all calls) was extended considerably:
+ - allowed multiple chained filters per rule application with syntax r\f1\f2\...
+ - added new def var based filters, they must be specified beforehand, as code is generated for them,
+   available for def vars of the pattern, of integer, floating point, and string type:
+   - orderAscendingBy<var> for ordering the matches list ascendingly alongside the def var
+   - orderDescendingBy<var> for ordering the matches list descendingly alongside the def var
+   - groupBy<var> for ensuring matches of equal def var values are neighbours 
+     or only separated by matches of equal def var values, in the matches list
+   - keepSameAsFirst<var> for filtering away all matches of def var values not equal 
+     to the def var value of the first match
+   - keepSameAsLast<var> for filtering away all matches of def var values not equal 
+     to the def var value of the last match
+   - keepOneForEach<var> for filtering away all matches of duplicate def var values, 
+     i.e. only one prototypical match is kept per def var value in the matches list
+ - added new pre-implemented filters (callable without a filter declaration at the rule declaration):
+   - keepFirst(count) for keeping the first count matches, at the begin of the matches list
+   - keepLast(count) for keeping the last count matches, at the end of the matches list
+   - keepFirstFraction(fraction) for keeping the fraction of the matches specified (0.0 - 1.0),
+     from the begin of the matches list
+   - keepLastFraction(fraction) for keeping the fractin of the matches specified (0.0 - 1.0),
+     from the end of the matches list
+
+ Bugfixes:
+  - fixed bug in set/map add in yielding statements
+  - referenced assemblies are now included when building the actions, too
+  - the external action files are now expected and generated where the rules reside, too
+  - some minor improvements / fixes (e.g. error messages and error checks)
+
+--------------------------------------------------------------------------------------------------------
+
+v4.0.1 (2013-08-12)
  More consistent and easier readable function/procedure definitions:
  - function or external function declarations must start with the "function" keyword now
  - procedure or external procedure declarations must start with the "procedure" keyword now
