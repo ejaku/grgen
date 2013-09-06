@@ -1,0 +1,7 @@
+using computations_no_assign_func2;
+
+function bar(n:N) : int
+{
+	n.x[0] = 42;
+	return(n.x[0]);
+}

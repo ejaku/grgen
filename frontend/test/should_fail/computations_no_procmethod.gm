@@ -1,0 +1,7 @@
+node class NO
+{
+	procedure no() : (int)
+	{
+		return(42);
+	}
+}

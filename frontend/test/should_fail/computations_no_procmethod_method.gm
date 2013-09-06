@@ -1,0 +1,10 @@
+using computations_no_procmethod;
+
+node class N
+{
+	function bar(n:NO) : int
+	{
+		n.no();
+		return(42);
+	}
+}

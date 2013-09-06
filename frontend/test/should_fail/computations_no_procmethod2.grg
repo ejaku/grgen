@@ -1,0 +1,14 @@
+using computations_no_procmethod;
+
+test bar()
+{
+	def var x:int;
+
+	n:NO;
+	
+	optional {
+		yield {
+			(yield x) = n.no();
+		}
+	}
+}

@@ -1,0 +1,10 @@
+node class N
+{
+	x:array<int>;
+	
+	function bar() : int
+	{
+		this.x[0] = 42;
+		return(this.x[0]);
+	}
+}

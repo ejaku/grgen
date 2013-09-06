@@ -1,0 +1,9 @@
+procedure foo() : (int)
+{
+	return(42);
+}
+
+test bar()
+{
+	if { foo()<3; }
+}

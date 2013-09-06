@@ -1,0 +1,8 @@
+node class N
+{
+	function bar() : int
+	{
+		add(Node);
+		return(42);
+	}
+}

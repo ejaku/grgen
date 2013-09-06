@@ -1,0 +1,8 @@
+node class N
+{
+	function bar() : int
+	{
+		exec( t() ); // no exec in (function) method
+		return(42);
+	}
+}

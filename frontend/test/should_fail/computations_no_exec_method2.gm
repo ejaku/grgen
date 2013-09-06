@@ -1,0 +1,8 @@
+node class N
+{
+	procedure bar() : (int)
+	{
+		exec( t() ); // no exec in (procedure) method 
+		return(42);
+	}
+}

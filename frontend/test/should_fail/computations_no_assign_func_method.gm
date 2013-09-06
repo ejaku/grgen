@@ -1,0 +1,10 @@
+node class N
+{
+	x:int;
+	
+	function bar() : int
+	{
+		this.x = 42;
+		return(this.x);
+	}
+}
