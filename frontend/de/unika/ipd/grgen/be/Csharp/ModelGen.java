@@ -67,6 +67,7 @@ public class ModelGen extends CSharpBase {
 				+ "using System.IO;\n"
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
+                + "using GRGEN_EXPR = de.unika.ipd.grGen.expression;\n"
 				+ "\n"
 				+ "namespace de.unika.ipd.grGen.Model_" + model.getIdent() + "\n"
 				+ "{\n"

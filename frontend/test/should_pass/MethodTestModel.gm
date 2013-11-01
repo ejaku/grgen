@@ -1,0 +1,1 @@
+node class MethodNode{    procedure testProcedure():()    {        externalProcedure();        return ();    }}external procedure externalProcedure();
