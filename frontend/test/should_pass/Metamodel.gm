@@ -1,0 +1,8 @@
+
+node class MyNode
+{
+	function GetInterger():int
+	{
+		return(1);
+	}
+}

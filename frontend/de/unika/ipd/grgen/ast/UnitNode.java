@@ -153,12 +153,9 @@ public class UnitNode extends BaseNode {
 		Checker modelChecker = new CollectChecker(new SimpleChecker(ModelNode.class));
 		boolean res = modelChecker.check(models, error);
 		for(ModelNode model : models.getChildren()) {
-			for(TypeDeclNode typeDecl : model.getTypeDecls().getChildren()) {
-				DeclaredTypeNode declType = typeDecl.getDeclType();
-				if(declType instanceof InheritanceTypeNode) {
-					InheritanceTypeNode inhType = (InheritanceTypeNode)declType;
-					res &= inhType.checkStatementsInMethods();
-				}
+			res = checkModelTypes(res, model);
+			for(ModelNode usedModel : model.getUsedModels().getChildren()) {
+				res = checkModelTypes(res, usedModel);
 			}
 		}
 		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {	
@@ -178,6 +175,17 @@ public class UnitNode extends BaseNode {
 		}
 		for(ProcedureDeclNode procedure : procedures.getChildren()) {
 			res &= EvalStatementNode.checkStatements(false, procedure, null, procedure.evals, true);
+		}
+		return res;
+	}
+
+	private boolean checkModelTypes(boolean res, ModelNode model) {
+		for(TypeDeclNode typeDecl : model.getTypeDecls().getChildren()) {
+			DeclaredTypeNode declType = typeDecl.getDeclType();
+			if(declType instanceof InheritanceTypeNode) {
+				InheritanceTypeNode inhType = (InheritanceTypeNode)declType;
+				res &= inhType.checkStatementsInMethods();
+			}
 		}
 		return res;
 	}
