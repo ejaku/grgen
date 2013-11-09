@@ -1,0 +1,4 @@
+node class Common
+{
+	name:string;
+}

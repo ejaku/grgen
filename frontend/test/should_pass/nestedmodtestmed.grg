@@ -1,0 +1,22 @@
+#using "nestedmod/nestedmodalt1.gm"
+#using "nestedmod/nestedmodalt2.gm"
+
+#include "nestedmodtestbase.grg"
+
+rule balt
+{	
+	alternative {
+		alt1 {
+			modify {
+				f:Foo;
+				exec( bbase(f) );
+			}
+		}
+		alt2 {
+			modify {
+				b:Bar;
+				exec( bbase(b) );
+			}
+		}
+	}
+}
