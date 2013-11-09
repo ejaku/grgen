@@ -1,0 +1,7 @@
+#using "nestedmod/nestedmodalt1.gm"
+#using "nestedmod/nestedmodalt2.gm"
+
+node class Top extends Foo, Bar
+{
+	hop : string;
+}

@@ -25,8 +25,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.prefs.Preferences;
 
 import javax.swing.BorderFactory;
@@ -137,11 +135,11 @@ public class Main extends Base implements Sys {
 
 	private File debugPath;
 
-	/** A list of files containing paths where the graph model can be searched. */
-	private Collection<File> modelPaths = new LinkedList<File>();
+	/** A file containing a path where the graph model can be searched. */
+	private File modelPath = null;
 
-	public File[] getModelPaths() {
-		return modelPaths.toArray(new File[modelPaths.size()]);
+	public File getModelPath() {
+		return modelPath;
 	}
 
 	public ErrorReporter getErrorReporter() {
@@ -449,8 +447,7 @@ public class Main extends Base implements Sys {
 			sourcePath = new File(".");
 		if(setDebugPath)
 			debugPath = new File(sourcePath, inputFile.getName() + "_debug");
-		modelPaths.clear();
-		modelPaths.add(sourcePath);
+		modelPath = sourcePath;
 	}
 
 	private void dumpVCG(Walkable node, GraphDumpVisitor visitor,

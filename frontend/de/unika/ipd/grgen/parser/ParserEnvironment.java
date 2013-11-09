@@ -152,22 +152,19 @@ public abstract class ParserEnvironment extends Base {
 	}
 
 	public File findModel(String modelName) {
-		File res = null;
-		File[] modelPaths = system.getModelPaths();
-		String modelFile = modelName + MODEL_SUFFIX;
+		File modelPath = system.getModelPath();
+		String modelFile = modelName.endsWith(MODEL_SUFFIX) ? modelName : modelName + MODEL_SUFFIX;
 
-		for(int i = 0; i < modelPaths.length; i++) {
-			File curr;
-			if(modelPaths[i].getPath().equals("."))
-				curr = new File(modelFile);
-			else
-				curr = new File(modelPaths[i], modelFile);
-			debug.report(NOTE, "trying: " + curr);
-			if(curr.exists()) {
-				res = curr;
-				break;
-			}
-		}
+		File curr;
+		if(modelPath.getPath().equals("."))
+			curr = new File(modelFile);
+		else
+			curr = new File(modelPath, modelFile);
+		debug.report(NOTE, "trying: " + curr);
+
+		File res = null;
+		if(curr.exists())
+			res = curr;
 		return res;
 	}
 

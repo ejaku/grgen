@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 public interface Sys {
 
-	File[] getModelPaths();
+	File getModelPath();
 
 	ErrorReporter getErrorReporter();
 

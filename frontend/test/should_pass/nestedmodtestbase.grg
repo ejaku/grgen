@@ -1,0 +1,10 @@
+#using "nestedmod/nestednestedmod/nestedmodbase.gm"
+
+rule bbase(c:Common)
+{
+	if( c.name == "foobar" );
+	
+	modify {
+		delete(c);
+	}
+}

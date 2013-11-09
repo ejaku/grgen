@@ -276,6 +276,20 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 			}
 		}
 		SEMI // don't move before the semantic action, this would cause a following include to be processed before the using of the model
+	| h=HASHUSING s=STRING_LITERAL
+		{
+			modelChilds.setCoords(getCoords(h));
+			String modelName = s.getText();
+			modelName = modelName.substring(1,modelName.length()-1);
+			File modelFile = env.findModel(modelName);
+			if ( modelFile == null ) {
+				reportError(getCoords(h), "model \"" + modelName + "\" could not be found");
+			} else {
+				ModelNode model;
+				model = env.parseModel(modelFile);
+				modelChilds.addChild(model);
+			}
+		}
 	;
 
 globalVarDecl 
@@ -4034,6 +4048,8 @@ INCLUDE
 	env.pushFile(this, new File(file));
   }
   ;
+
+HASHUSING : '#using';
 
 ABSTRACT : 'abstract';
 ACTIONS : 'actions';
