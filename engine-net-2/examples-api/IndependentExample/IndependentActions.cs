@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Sun Sep 01 23:22:12 CEST 2013
+// Generated from "..\..\tests\independent\Independent.grg" on Sun Dec 01 13:17:11 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -277,8 +277,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_iteratedPath : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node_end { get; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node_end { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -298,10 +298,10 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_iteratedPath_alt_0_base : IMatch_iteratedPath_alt_0
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node_end { get; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node_end { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -314,11 +314,11 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_iteratedPath_alt_0_recursive : IMatch_iteratedPath_alt_0
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node_intermediate { get; }
-			GRGEN_LIBGR.INode node_end { get; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node_intermediate { get; set; }
+			GRGEN_LIBGR.INode node_end { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			@Pattern_iteratedPath.Match_iteratedPath @_sub0 { get; }
@@ -331,8 +331,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_iteratedPath : GRGEN_LGSP.ListElement<Match_iteratedPath>, IMatch_iteratedPath
 		{
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node_end;
 			public enum iteratedPath_NodeNums { @beg, @end, END_OF_ENUM };
@@ -485,8 +485,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_iteratedPath_alt_0_base : GRGEN_LGSP.ListElement<Match_iteratedPath_alt_0_base>, IMatch_iteratedPath_alt_0_base
 		{
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node_end;
 			public enum iteratedPath_alt_0_base_NodeNums { @beg, @end, END_OF_ENUM };
@@ -510,7 +510,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum iteratedPath_alt_0_base_EdgeNums { @_edge0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -639,9 +639,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_iteratedPath_alt_0_recursive : GRGEN_LGSP.ListElement<Match_iteratedPath_alt_0_recursive>, IMatch_iteratedPath_alt_0_recursive
 		{
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node_intermediate { get { return (GRGEN_LIBGR.INode)_node_intermediate; } }
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_intermediate { get { return (GRGEN_LIBGR.INode)_node_intermediate; } set { _node_intermediate = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node_intermediate;
 			public GRGEN_LGSP.LGSPNode _node_end;
@@ -668,7 +668,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum iteratedPath_alt_0_recursive_EdgeNums { @_edge0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -1059,7 +1059,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_iteratedPathToIntNode : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_beg { get; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -1079,10 +1079,10 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_iteratedPathToIntNode_alt_0_base : IMatch_iteratedPathToIntNode_alt_0
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_MODEL.IintNode node_end { get; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_MODEL.IintNode node_end { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -1095,10 +1095,10 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_iteratedPathToIntNode_alt_0_recursive : IMatch_iteratedPathToIntNode_alt_0
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node_intermediate { get; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node_intermediate { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			@Pattern_iteratedPathToIntNode.Match_iteratedPathToIntNode @_sub0 { get; }
@@ -1111,7 +1111,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_iteratedPathToIntNode : GRGEN_LGSP.ListElement<Match_iteratedPathToIntNode>, IMatch_iteratedPathToIntNode
 		{
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public enum iteratedPathToIntNode_NodeNums { @beg, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
@@ -1260,8 +1260,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_iteratedPathToIntNode_alt_0_base : GRGEN_LGSP.ListElement<Match_iteratedPathToIntNode_alt_0_base>, IMatch_iteratedPathToIntNode_alt_0_base
 		{
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_MODEL.IintNode node_end { get { return (GRGEN_MODEL.IintNode)_node_end; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IintNode node_end { get { return (GRGEN_MODEL.IintNode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node_end;
 			public enum iteratedPathToIntNode_alt_0_base_NodeNums { @beg, @end, END_OF_ENUM };
@@ -1285,7 +1285,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum iteratedPathToIntNode_alt_0_base_EdgeNums { @_edge0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -1414,8 +1414,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_iteratedPathToIntNode_alt_0_recursive : GRGEN_LGSP.ListElement<Match_iteratedPathToIntNode_alt_0_recursive>, IMatch_iteratedPathToIntNode_alt_0_recursive
 		{
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node_intermediate { get { return (GRGEN_LIBGR.INode)_node_intermediate; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_intermediate { get { return (GRGEN_LIBGR.INode)_node_intermediate; } set { _node_intermediate = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node_intermediate;
 			public enum iteratedPathToIntNode_alt_0_recursive_NodeNums { @beg, @intermediate, END_OF_ENUM };
@@ -1439,7 +1439,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum iteratedPathToIntNode_alt_0_recursive_EdgeNums { @_edge0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -1601,7 +1601,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -1856,7 +1856,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -1949,15 +1949,15 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_find : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node__node0 { get; }
-			GRGEN_LIBGR.INode node_end { get; }
-			GRGEN_LIBGR.INode node__node1 { get; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node__node0 { get; set; }
+			GRGEN_LIBGR.INode node_end { get; set; }
+			GRGEN_LIBGR.INode node__node1 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
-			GRGEN_LIBGR.IEdge edge__edge3 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge3 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -1969,10 +1969,10 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_find : GRGEN_LGSP.ListElement<Match_find>, IMatch_find
 		{
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } }
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
-			public GRGEN_LIBGR.INode node__node1 { get { return (GRGEN_LIBGR.INode)_node__node1; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node__node1 { get { return (GRGEN_LIBGR.INode)_node__node1; } set { _node__node1 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public GRGEN_LGSP.LGSPNode _node_end;
@@ -2002,10 +2002,10 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
-			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } set { _edge__edge3 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -2200,7 +2200,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -2328,12 +2328,12 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_findIndependent : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node__node0 { get; }
-			GRGEN_LIBGR.INode node_end { get; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node__node0 { get; set; }
+			GRGEN_LIBGR.INode node_end { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -2347,12 +2347,12 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_findIndependent_idpt_0 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node__node0 { get; }
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node_end { get; }
+			GRGEN_LIBGR.INode node__node0 { get; set; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node_end { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -2364,9 +2364,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_findIndependent : GRGEN_LGSP.ListElement<Match_findIndependent>, IMatch_findIndependent
 		{
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } }
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public GRGEN_LGSP.LGSPNode _node_end;
@@ -2393,8 +2393,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public enum findIndependent_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
@@ -2533,9 +2533,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_findIndependent_idpt_0 : GRGEN_LGSP.ListElement<Match_findIndependent_idpt_0>, IMatch_findIndependent_idpt_0
 		{
-			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } }
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
+			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node_end;
@@ -2562,8 +2562,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public enum findIndependent_idpt_0_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
@@ -2797,7 +2797,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -3078,12 +3078,12 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_findMultiNested : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node__node0 { get; }
-			GRGEN_LIBGR.INode node_end { get; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node__node0 { get; set; }
+			GRGEN_LIBGR.INode node_end { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -3098,12 +3098,12 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_findMultiNested_idpt_0 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node__node0 { get; }
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node_end { get; }
+			GRGEN_LIBGR.INode node__node0 { get; set; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node_end { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -3117,12 +3117,12 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_findMultiNested_idpt_0_idpt_1 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node__node0 { get; }
-			GRGEN_LIBGR.INode node_end { get; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node__node0 { get; set; }
+			GRGEN_LIBGR.INode node_end { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -3135,12 +3135,12 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_findMultiNested_idpt_2 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node__node0 { get; }
-			GRGEN_LIBGR.INode node_end { get; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node__node0 { get; set; }
+			GRGEN_LIBGR.INode node_end { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -3154,12 +3154,12 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_findMultiNested_idpt_2_idpt_3 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node__node0 { get; }
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node_end { get; }
+			GRGEN_LIBGR.INode node__node0 { get; set; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node_end { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -3171,9 +3171,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_findMultiNested : GRGEN_LGSP.ListElement<Match_findMultiNested>, IMatch_findMultiNested
 		{
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } }
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public GRGEN_LGSP.LGSPNode _node_end;
@@ -3200,8 +3200,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public enum findMultiNested_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
@@ -3345,9 +3345,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_findMultiNested_idpt_0 : GRGEN_LGSP.ListElement<Match_findMultiNested_idpt_0>, IMatch_findMultiNested_idpt_0
 		{
-			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } }
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
+			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node_end;
@@ -3374,8 +3374,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public enum findMultiNested_idpt_0_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
@@ -3514,9 +3514,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_findMultiNested_idpt_0_idpt_1 : GRGEN_LGSP.ListElement<Match_findMultiNested_idpt_0_idpt_1>, IMatch_findMultiNested_idpt_0_idpt_1
 		{
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } }
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public GRGEN_LGSP.LGSPNode _node_end;
@@ -3543,8 +3543,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public enum findMultiNested_idpt_0_idpt_1_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
@@ -3678,9 +3678,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_findMultiNested_idpt_2 : GRGEN_LGSP.ListElement<Match_findMultiNested_idpt_2>, IMatch_findMultiNested_idpt_2
 		{
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } }
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public GRGEN_LGSP.LGSPNode _node_end;
@@ -3707,8 +3707,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public enum findMultiNested_idpt_2_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
@@ -3847,9 +3847,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_findMultiNested_idpt_2_idpt_3 : GRGEN_LGSP.ListElement<Match_findMultiNested_idpt_2_idpt_3>, IMatch_findMultiNested_idpt_2_idpt_3
 		{
-			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } }
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
+			public GRGEN_LIBGR.INode node__node0 { get { return (GRGEN_LIBGR.INode)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node_end;
@@ -3876,8 +3876,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public enum findMultiNested_idpt_2_idpt_3_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
@@ -4039,7 +4039,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_intNode.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -4289,7 +4289,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -4365,8 +4365,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_findChainPlusChainToInt : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node_end { get; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node_end { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -4381,8 +4381,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_findChainPlusChainToInt : GRGEN_LGSP.ListElement<Match_findChainPlusChainToInt>, IMatch_findChainPlusChainToInt
 		{
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node_end;
 			public enum findChainPlusChainToInt_NodeNums { @beg, @end, END_OF_ENUM };
@@ -4580,7 +4580,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -4686,8 +4686,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_findChainPlusChainToIntIndependent : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_beg { get; }
-			GRGEN_LIBGR.INode node_end { get; }
+			GRGEN_LIBGR.INode node_beg { get; set; }
+			GRGEN_LIBGR.INode node_end { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -4703,7 +4703,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public interface IMatch_findChainPlusChainToIntIndependent_idpt_0 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_LIBGR.INode node_end { get; }
+			GRGEN_LIBGR.INode node_end { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -4717,8 +4717,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_findChainPlusChainToIntIndependent : GRGEN_LGSP.ListElement<Match_findChainPlusChainToIntIndependent>, IMatch_findChainPlusChainToIntIndependent
 		{
-			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } }
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
+			public GRGEN_LIBGR.INode node_beg { get { return (GRGEN_LIBGR.INode)_node_beg; } set { _node_beg = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_beg;
 			public GRGEN_LGSP.LGSPNode _node_end;
 			public enum findChainPlusChainToIntIndependent_NodeNums { @beg, @end, END_OF_ENUM };
@@ -4876,7 +4876,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 		public class Match_findChainPlusChainToIntIndependent_idpt_0 : GRGEN_LGSP.ListElement<Match_findChainPlusChainToIntIndependent_idpt_0>, IMatch_findChainPlusChainToIntIndependent_idpt_0
 		{
-			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } }
+			public GRGEN_LIBGR.INode node_end { get { return (GRGEN_LIBGR.INode)_node_end; } set { _node_end = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_end;
 			public enum findChainPlusChainToIntIndependent_idpt_0_NodeNums { @end, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
@@ -5037,6 +5037,14 @@ namespace de.unika.ipd.grGen.Action_Independent
 	{
 
 		static Procedures() {
+		}
+
+	}
+
+	public partial class MatchFilters
+	{
+
+		static MatchFilters() {
 		}
 
 	}
@@ -6453,13 +6461,13 @@ namespace de.unika.ipd.grGen.Action_Independent
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -6786,13 +6794,13 @@ namespace de.unika.ipd.grGen.Action_Independent
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -7135,13 +7143,13 @@ label2: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -7733,13 +7741,13 @@ label14: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -7955,13 +7963,13 @@ label14: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -8244,13 +8252,13 @@ label14: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -9042,13 +9050,13 @@ label15: ;
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Sep 01 23:22:35 CEST 2013
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Dec 01 13:17:33 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -256,22 +256,22 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_BenzolRing : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
-			GRGEN_LIBGR.IEdge edge__edge3 { get; }
-			GRGEN_LIBGR.IEdge edge__edge4 { get; }
-			GRGEN_LIBGR.IEdge edge__edge5 { get; }
-			GRGEN_LIBGR.IEdge edge__edge6 { get; }
-			GRGEN_LIBGR.IEdge edge__edge7 { get; }
-			GRGEN_LIBGR.IEdge edge__edge8 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge3 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge4 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge5 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge6 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge7 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge8 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -283,12 +283,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_BenzolRing : GRGEN_LGSP.ListElement<Match_BenzolRing>, IMatch_BenzolRing
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -324,15 +324,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
-			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } }
-			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } }
-			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } }
-			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } }
-			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } }
-			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } set { _edge__edge3 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } set { _edge__edge4 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } set { _edge__edge5 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } set { _edge__edge6 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } set { _edge__edge7 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } set { _edge__edge8 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -716,22 +716,22 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_BenzolRingC123456Exposed : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
-			GRGEN_LIBGR.IEdge edge__edge3 { get; }
-			GRGEN_LIBGR.IEdge edge__edge4 { get; }
-			GRGEN_LIBGR.IEdge edge__edge5 { get; }
-			GRGEN_LIBGR.IEdge edge__edge6 { get; }
-			GRGEN_LIBGR.IEdge edge__edge7 { get; }
-			GRGEN_LIBGR.IEdge edge__edge8 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge3 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge4 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge5 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge6 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge7 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge8 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -743,12 +743,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_BenzolRingC123456Exposed : GRGEN_LGSP.ListElement<Match_BenzolRingC123456Exposed>, IMatch_BenzolRingC123456Exposed
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -784,15 +784,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
-			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } }
-			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } }
-			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } }
-			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } }
-			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } }
-			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } set { _edge__edge3 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } set { _edge__edge4 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } set { _edge__edge5 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } set { _edge__edge6 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } set { _edge__edge7 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } set { _edge__edge8 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -1196,22 +1196,22 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_BenzolRingC1Exposed : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
-			GRGEN_LIBGR.IEdge edge__edge3 { get; }
-			GRGEN_LIBGR.IEdge edge__edge4 { get; }
-			GRGEN_LIBGR.IEdge edge__edge5 { get; }
-			GRGEN_LIBGR.IEdge edge__edge6 { get; }
-			GRGEN_LIBGR.IEdge edge__edge7 { get; }
-			GRGEN_LIBGR.IEdge edge__edge8 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge3 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge4 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge5 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge6 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge7 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge8 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -1223,12 +1223,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_BenzolRingC1Exposed : GRGEN_LGSP.ListElement<Match_BenzolRingC1Exposed>, IMatch_BenzolRingC1Exposed
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -1264,15 +1264,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
-			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } }
-			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } }
-			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } }
-			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } }
-			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } }
-			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } set { _edge__edge3 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } set { _edge__edge4 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } set { _edge__edge5 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } set { _edge__edge6 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } set { _edge__edge7 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } set { _edge__edge8 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -1761,22 +1761,22 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_BenzolRingC1ExposedNotC6Nitro : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
-			GRGEN_LIBGR.IEdge edge__edge3 { get; }
-			GRGEN_LIBGR.IEdge edge__edge4 { get; }
-			GRGEN_LIBGR.IEdge edge__edge5 { get; }
-			GRGEN_LIBGR.IEdge edge__edge6 { get; }
-			GRGEN_LIBGR.IEdge edge__edge7 { get; }
-			GRGEN_LIBGR.IEdge edge__edge8 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge3 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge4 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge5 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge6 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge7 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge8 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -1789,14 +1789,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_BenzolRingC1ExposedNotC6Nitro_neg_0 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c6 { get; }
-			GRGEN_MODEL.IN node_n { get; }
-			GRGEN_MODEL.IO node__node0 { get; }
-			GRGEN_MODEL.IO node__node1 { get; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
+			GRGEN_MODEL.IN node_n { get; set; }
+			GRGEN_MODEL.IO node__node0 { get; set; }
+			GRGEN_MODEL.IO node__node1 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -1808,12 +1808,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_BenzolRingC1ExposedNotC6Nitro : GRGEN_LGSP.ListElement<Match_BenzolRingC1ExposedNotC6Nitro>, IMatch_BenzolRingC1ExposedNotC6Nitro
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -1849,15 +1849,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
-			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } }
-			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } }
-			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } }
-			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } }
-			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } }
-			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } set { _edge__edge3 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } set { _edge__edge4 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } set { _edge__edge5 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } set { _edge__edge6 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } set { _edge__edge7 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } set { _edge__edge8 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -2022,10 +2022,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_BenzolRingC1ExposedNotC6Nitro_neg_0 : GRGEN_LGSP.ListElement<Match_BenzolRingC1ExposedNotC6Nitro_neg_0>, IMatch_BenzolRingC1ExposedNotC6Nitro_neg_0
 		{
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
-			public GRGEN_MODEL.IN node_n { get { return (GRGEN_MODEL.IN)_node_n; } }
-			public GRGEN_MODEL.IO node__node0 { get { return (GRGEN_MODEL.IO)_node__node0; } }
-			public GRGEN_MODEL.IO node__node1 { get { return (GRGEN_MODEL.IO)_node__node1; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IN node_n { get { return (GRGEN_MODEL.IN)_node_n; } set { _node_n = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node0 { get { return (GRGEN_MODEL.IO)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node1 { get { return (GRGEN_MODEL.IO)_node__node1; } set { _node__node1 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c6;
 			public GRGEN_LGSP.LGSPNode _node_n;
 			public GRGEN_LGSP.LGSPNode _node__node0;
@@ -2055,9 +2055,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -2322,11 +2322,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_Oxygen : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IO node_o1 { get; }
-			GRGEN_MODEL.IO node_o2 { get; }
+			GRGEN_MODEL.IO node_o1 { get; set; }
+			GRGEN_MODEL.IO node_o2 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -2338,8 +2338,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_Oxygen : GRGEN_LGSP.ListElement<Match_Oxygen>, IMatch_Oxygen
 		{
-			public GRGEN_MODEL.IO node_o1 { get { return (GRGEN_MODEL.IO)_node_o1; } }
-			public GRGEN_MODEL.IO node_o2 { get { return (GRGEN_MODEL.IO)_node_o2; } }
+			public GRGEN_MODEL.IO node_o1 { get { return (GRGEN_MODEL.IO)_node_o1; } set { _node_o1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node_o2 { get { return (GRGEN_MODEL.IO)_node_o2; } set { _node_o2 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_o1;
 			public GRGEN_LGSP.LGSPNode _node_o2;
 			public enum Oxygen_NodeNums { @o1, @o2, END_OF_ENUM };
@@ -2363,8 +2363,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public enum Oxygen_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
@@ -2608,10 +2608,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_Hydrogen : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_anchor { get; }
-			GRGEN_MODEL.IH node__node0 { get; }
+			GRGEN_MODEL.IC node_anchor { get; set; }
+			GRGEN_MODEL.IH node__node0 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -2623,8 +2623,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_Hydrogen : GRGEN_LGSP.ListElement<Match_Hydrogen>, IMatch_Hydrogen
 		{
-			public GRGEN_MODEL.IC node_anchor { get { return (GRGEN_MODEL.IC)_node_anchor; } }
-			public GRGEN_MODEL.IH node__node0 { get { return (GRGEN_MODEL.IH)_node__node0; } }
+			public GRGEN_MODEL.IC node_anchor { get { return (GRGEN_MODEL.IC)_node_anchor; } set { _node_anchor = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node0 { get { return (GRGEN_MODEL.IH)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_anchor;
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public enum Hydrogen_NodeNums { @anchor, @_node0, END_OF_ENUM };
@@ -2648,7 +2648,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum Hydrogen_EdgeNums { @_edge0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -2909,12 +2909,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_Hydroxyl : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_anchor { get; }
-			GRGEN_MODEL.IO node__node0 { get; }
-			GRGEN_MODEL.IH node__node1 { get; }
+			GRGEN_MODEL.IC node_anchor { get; set; }
+			GRGEN_MODEL.IO node__node0 { get; set; }
+			GRGEN_MODEL.IH node__node1 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -2926,9 +2926,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_Hydroxyl : GRGEN_LGSP.ListElement<Match_Hydroxyl>, IMatch_Hydroxyl
 		{
-			public GRGEN_MODEL.IC node_anchor { get { return (GRGEN_MODEL.IC)_node_anchor; } }
-			public GRGEN_MODEL.IO node__node0 { get { return (GRGEN_MODEL.IO)_node__node0; } }
-			public GRGEN_MODEL.IH node__node1 { get { return (GRGEN_MODEL.IH)_node__node1; } }
+			public GRGEN_MODEL.IC node_anchor { get { return (GRGEN_MODEL.IC)_node_anchor; } set { _node_anchor = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node0 { get { return (GRGEN_MODEL.IO)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node1 { get { return (GRGEN_MODEL.IH)_node__node1; } set { _node__node1 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_anchor;
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public GRGEN_LGSP.LGSPNode _node__node1;
@@ -2955,8 +2955,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public enum Hydroxyl_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
@@ -3264,16 +3264,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_Methyl : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_anchor { get; }
-			GRGEN_MODEL.IC node_c { get; }
-			GRGEN_MODEL.IH node__node0 { get; }
-			GRGEN_MODEL.IH node__node1 { get; }
-			GRGEN_MODEL.IH node__node2 { get; }
+			GRGEN_MODEL.IC node_anchor { get; set; }
+			GRGEN_MODEL.IC node_c { get; set; }
+			GRGEN_MODEL.IH node__node0 { get; set; }
+			GRGEN_MODEL.IH node__node1 { get; set; }
+			GRGEN_MODEL.IH node__node2 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
-			GRGEN_LIBGR.IEdge edge__edge3 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge3 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -3285,11 +3285,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_Methyl : GRGEN_LGSP.ListElement<Match_Methyl>, IMatch_Methyl
 		{
-			public GRGEN_MODEL.IC node_anchor { get { return (GRGEN_MODEL.IC)_node_anchor; } }
-			public GRGEN_MODEL.IC node_c { get { return (GRGEN_MODEL.IC)_node_c; } }
-			public GRGEN_MODEL.IH node__node0 { get { return (GRGEN_MODEL.IH)_node__node0; } }
-			public GRGEN_MODEL.IH node__node1 { get { return (GRGEN_MODEL.IH)_node__node1; } }
-			public GRGEN_MODEL.IH node__node2 { get { return (GRGEN_MODEL.IH)_node__node2; } }
+			public GRGEN_MODEL.IC node_anchor { get { return (GRGEN_MODEL.IC)_node_anchor; } set { _node_anchor = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c { get { return (GRGEN_MODEL.IC)_node_c; } set { _node_c = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node0 { get { return (GRGEN_MODEL.IH)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node1 { get { return (GRGEN_MODEL.IH)_node__node1; } set { _node__node1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node2 { get { return (GRGEN_MODEL.IH)_node__node2; } set { _node__node2 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_anchor;
 			public GRGEN_LGSP.LGSPNode _node_c;
 			public GRGEN_LGSP.LGSPNode _node__node0;
@@ -3322,10 +3322,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
-			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } set { _edge__edge3 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -3622,14 +3622,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_Nitro : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_anchor { get; }
-			GRGEN_MODEL.IN node_n { get; }
-			GRGEN_MODEL.IO node__node0 { get; }
-			GRGEN_MODEL.IO node__node1 { get; }
+			GRGEN_MODEL.IC node_anchor { get; set; }
+			GRGEN_MODEL.IN node_n { get; set; }
+			GRGEN_MODEL.IO node__node0 { get; set; }
+			GRGEN_MODEL.IO node__node1 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -3641,10 +3641,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_Nitro : GRGEN_LGSP.ListElement<Match_Nitro>, IMatch_Nitro
 		{
-			public GRGEN_MODEL.IC node_anchor { get { return (GRGEN_MODEL.IC)_node_anchor; } }
-			public GRGEN_MODEL.IN node_n { get { return (GRGEN_MODEL.IN)_node_n; } }
-			public GRGEN_MODEL.IO node__node0 { get { return (GRGEN_MODEL.IO)_node__node0; } }
-			public GRGEN_MODEL.IO node__node1 { get { return (GRGEN_MODEL.IO)_node__node1; } }
+			public GRGEN_MODEL.IC node_anchor { get { return (GRGEN_MODEL.IC)_node_anchor; } set { _node_anchor = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IN node_n { get { return (GRGEN_MODEL.IN)_node_n; } set { _node_n = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node0 { get { return (GRGEN_MODEL.IO)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node1 { get { return (GRGEN_MODEL.IO)_node__node1; } set { _node__node1 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_anchor;
 			public GRGEN_LGSP.LGSPNode _node_n;
 			public GRGEN_LGSP.LGSPNode _node__node0;
@@ -3674,9 +3674,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -3942,9 +3942,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_TriNitro : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -3960,9 +3960,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_TriNitro : GRGEN_LGSP.ListElement<Match_TriNitro>, IMatch_TriNitro
 		{
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c4;
 			public GRGEN_LGSP.LGSPNode _node_c6;
@@ -4285,12 +4285,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_ToluolCoreThenTriNitro : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -4307,12 +4307,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_ToluolCoreThenTriNitro : GRGEN_LGSP.ListElement<Match_ToluolCoreThenTriNitro>, IMatch_ToluolCoreThenTriNitro
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -4522,7 +4522,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -4772,7 +4772,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -4907,12 +4907,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_TNTTotallyFolded : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -4932,12 +4932,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_TNTTotallyFolded : GRGEN_LGSP.ListElement<Match_TNTTotallyFolded>, IMatch_TNTTotallyFolded
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -5174,7 +5174,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -5279,12 +5279,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_TNTChain : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -5299,12 +5299,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_TNTChain : GRGEN_LGSP.ListElement<Match_TNTChain>, IMatch_TNTChain
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -5506,7 +5506,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -5576,7 +5576,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_ToluolCore : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -5591,7 +5591,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_ToluolCore : GRGEN_LGSP.ListElement<Match_ToluolCore>, IMatch_ToluolCore
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public enum ToluolCore_NodeNums { @c1, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
@@ -5773,7 +5773,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -5843,7 +5843,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_ToluolCoreNotC6Nitro : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -5858,7 +5858,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_ToluolCoreNotC6Nitro : GRGEN_LGSP.ListElement<Match_ToluolCoreNotC6Nitro>, IMatch_ToluolCoreNotC6Nitro
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public enum ToluolCoreNotC6Nitro_NodeNums { @c1, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
@@ -6050,7 +6050,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -6185,12 +6185,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_Toluol : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -6210,12 +6210,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_Toluol : GRGEN_LGSP.ListElement<Match_Toluol>, IMatch_Toluol
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -6470,7 +6470,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -6649,22 +6649,22 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_TNT : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
-			GRGEN_LIBGR.IEdge edge__edge3 { get; }
-			GRGEN_LIBGR.IEdge edge__edge4 { get; }
-			GRGEN_LIBGR.IEdge edge__edge5 { get; }
-			GRGEN_LIBGR.IEdge edge__edge6 { get; }
-			GRGEN_LIBGR.IEdge edge__edge7 { get; }
-			GRGEN_LIBGR.IEdge edge__edge8 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge3 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge4 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge5 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge6 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge7 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge8 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			@Pattern_Methyl.Match_Methyl @_sub0 { get; }
@@ -6682,12 +6682,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_TNT : GRGEN_LGSP.ListElement<Match_TNT>, IMatch_TNT
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -6723,15 +6723,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
-			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } }
-			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } }
-			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } }
-			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } }
-			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } }
-			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } set { _edge__edge3 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } set { _edge__edge4 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } set { _edge__edge5 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } set { _edge__edge6 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } set { _edge__edge7 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } set { _edge__edge8 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -7042,7 +7042,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -7323,52 +7323,52 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_TNTUnfolded : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
-			GRGEN_MODEL.IC node_c { get; }
-			GRGEN_MODEL.IH node__node0 { get; }
-			GRGEN_MODEL.IH node__node1 { get; }
-			GRGEN_MODEL.IH node__node2 { get; }
-			GRGEN_MODEL.IN node_n2 { get; }
-			GRGEN_MODEL.IO node__node3 { get; }
-			GRGEN_MODEL.IO node__node4 { get; }
-			GRGEN_MODEL.IH node__node5 { get; }
-			GRGEN_MODEL.IN node_n4 { get; }
-			GRGEN_MODEL.IO node__node6 { get; }
-			GRGEN_MODEL.IO node__node7 { get; }
-			GRGEN_MODEL.IH node__node8 { get; }
-			GRGEN_MODEL.IN node_n6 { get; }
-			GRGEN_MODEL.IO node__node9 { get; }
-			GRGEN_MODEL.IO node__node10 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
+			GRGEN_MODEL.IC node_c { get; set; }
+			GRGEN_MODEL.IH node__node0 { get; set; }
+			GRGEN_MODEL.IH node__node1 { get; set; }
+			GRGEN_MODEL.IH node__node2 { get; set; }
+			GRGEN_MODEL.IN node_n2 { get; set; }
+			GRGEN_MODEL.IO node__node3 { get; set; }
+			GRGEN_MODEL.IO node__node4 { get; set; }
+			GRGEN_MODEL.IH node__node5 { get; set; }
+			GRGEN_MODEL.IN node_n4 { get; set; }
+			GRGEN_MODEL.IO node__node6 { get; set; }
+			GRGEN_MODEL.IO node__node7 { get; set; }
+			GRGEN_MODEL.IH node__node8 { get; set; }
+			GRGEN_MODEL.IN node_n6 { get; set; }
+			GRGEN_MODEL.IO node__node9 { get; set; }
+			GRGEN_MODEL.IO node__node10 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
-			GRGEN_LIBGR.IEdge edge__edge3 { get; }
-			GRGEN_LIBGR.IEdge edge__edge4 { get; }
-			GRGEN_LIBGR.IEdge edge__edge5 { get; }
-			GRGEN_LIBGR.IEdge edge__edge6 { get; }
-			GRGEN_LIBGR.IEdge edge__edge7 { get; }
-			GRGEN_LIBGR.IEdge edge__edge8 { get; }
-			GRGEN_LIBGR.IEdge edge__edge9 { get; }
-			GRGEN_LIBGR.IEdge edge__edge10 { get; }
-			GRGEN_LIBGR.IEdge edge__edge11 { get; }
-			GRGEN_LIBGR.IEdge edge__edge12 { get; }
-			GRGEN_LIBGR.IEdge edge__edge13 { get; }
-			GRGEN_LIBGR.IEdge edge__edge14 { get; }
-			GRGEN_LIBGR.IEdge edge__edge15 { get; }
-			GRGEN_LIBGR.IEdge edge__edge16 { get; }
-			GRGEN_LIBGR.IEdge edge__edge17 { get; }
-			GRGEN_LIBGR.IEdge edge__edge18 { get; }
-			GRGEN_LIBGR.IEdge edge__edge19 { get; }
-			GRGEN_LIBGR.IEdge edge__edge20 { get; }
-			GRGEN_LIBGR.IEdge edge__edge21 { get; }
-			GRGEN_LIBGR.IEdge edge__edge22 { get; }
-			GRGEN_LIBGR.IEdge edge__edge23 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge3 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge4 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge5 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge6 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge7 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge8 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge9 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge10 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge11 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge12 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge13 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge14 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge15 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge16 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge17 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge18 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge19 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge20 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge21 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge22 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge23 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -7380,27 +7380,27 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_TNTUnfolded : GRGEN_LGSP.ListElement<Match_TNTUnfolded>, IMatch_TNTUnfolded
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
-			public GRGEN_MODEL.IC node_c { get { return (GRGEN_MODEL.IC)_node_c; } }
-			public GRGEN_MODEL.IH node__node0 { get { return (GRGEN_MODEL.IH)_node__node0; } }
-			public GRGEN_MODEL.IH node__node1 { get { return (GRGEN_MODEL.IH)_node__node1; } }
-			public GRGEN_MODEL.IH node__node2 { get { return (GRGEN_MODEL.IH)_node__node2; } }
-			public GRGEN_MODEL.IN node_n2 { get { return (GRGEN_MODEL.IN)_node_n2; } }
-			public GRGEN_MODEL.IO node__node3 { get { return (GRGEN_MODEL.IO)_node__node3; } }
-			public GRGEN_MODEL.IO node__node4 { get { return (GRGEN_MODEL.IO)_node__node4; } }
-			public GRGEN_MODEL.IH node__node5 { get { return (GRGEN_MODEL.IH)_node__node5; } }
-			public GRGEN_MODEL.IN node_n4 { get { return (GRGEN_MODEL.IN)_node_n4; } }
-			public GRGEN_MODEL.IO node__node6 { get { return (GRGEN_MODEL.IO)_node__node6; } }
-			public GRGEN_MODEL.IO node__node7 { get { return (GRGEN_MODEL.IO)_node__node7; } }
-			public GRGEN_MODEL.IH node__node8 { get { return (GRGEN_MODEL.IH)_node__node8; } }
-			public GRGEN_MODEL.IN node_n6 { get { return (GRGEN_MODEL.IN)_node_n6; } }
-			public GRGEN_MODEL.IO node__node9 { get { return (GRGEN_MODEL.IO)_node__node9; } }
-			public GRGEN_MODEL.IO node__node10 { get { return (GRGEN_MODEL.IO)_node__node10; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c { get { return (GRGEN_MODEL.IC)_node_c; } set { _node_c = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node0 { get { return (GRGEN_MODEL.IH)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node1 { get { return (GRGEN_MODEL.IH)_node__node1; } set { _node__node1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node2 { get { return (GRGEN_MODEL.IH)_node__node2; } set { _node__node2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IN node_n2 { get { return (GRGEN_MODEL.IN)_node_n2; } set { _node_n2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node3 { get { return (GRGEN_MODEL.IO)_node__node3; } set { _node__node3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node4 { get { return (GRGEN_MODEL.IO)_node__node4; } set { _node__node4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node5 { get { return (GRGEN_MODEL.IH)_node__node5; } set { _node__node5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IN node_n4 { get { return (GRGEN_MODEL.IN)_node_n4; } set { _node_n4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node6 { get { return (GRGEN_MODEL.IO)_node__node6; } set { _node__node6 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node7 { get { return (GRGEN_MODEL.IO)_node__node7; } set { _node__node7 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node8 { get { return (GRGEN_MODEL.IH)_node__node8; } set { _node__node8 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IN node_n6 { get { return (GRGEN_MODEL.IN)_node_n6; } set { _node_n6 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node9 { get { return (GRGEN_MODEL.IO)_node__node9; } set { _node__node9 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node10 { get { return (GRGEN_MODEL.IO)_node__node10; } set { _node__node10 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -7481,30 +7481,30 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
-			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } }
-			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } }
-			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } }
-			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } }
-			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } }
-			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } }
-			public GRGEN_LIBGR.IEdge edge__edge9 { get { return (GRGEN_LIBGR.IEdge)_edge__edge9; } }
-			public GRGEN_LIBGR.IEdge edge__edge10 { get { return (GRGEN_LIBGR.IEdge)_edge__edge10; } }
-			public GRGEN_LIBGR.IEdge edge__edge11 { get { return (GRGEN_LIBGR.IEdge)_edge__edge11; } }
-			public GRGEN_LIBGR.IEdge edge__edge12 { get { return (GRGEN_LIBGR.IEdge)_edge__edge12; } }
-			public GRGEN_LIBGR.IEdge edge__edge13 { get { return (GRGEN_LIBGR.IEdge)_edge__edge13; } }
-			public GRGEN_LIBGR.IEdge edge__edge14 { get { return (GRGEN_LIBGR.IEdge)_edge__edge14; } }
-			public GRGEN_LIBGR.IEdge edge__edge15 { get { return (GRGEN_LIBGR.IEdge)_edge__edge15; } }
-			public GRGEN_LIBGR.IEdge edge__edge16 { get { return (GRGEN_LIBGR.IEdge)_edge__edge16; } }
-			public GRGEN_LIBGR.IEdge edge__edge17 { get { return (GRGEN_LIBGR.IEdge)_edge__edge17; } }
-			public GRGEN_LIBGR.IEdge edge__edge18 { get { return (GRGEN_LIBGR.IEdge)_edge__edge18; } }
-			public GRGEN_LIBGR.IEdge edge__edge19 { get { return (GRGEN_LIBGR.IEdge)_edge__edge19; } }
-			public GRGEN_LIBGR.IEdge edge__edge20 { get { return (GRGEN_LIBGR.IEdge)_edge__edge20; } }
-			public GRGEN_LIBGR.IEdge edge__edge21 { get { return (GRGEN_LIBGR.IEdge)_edge__edge21; } }
-			public GRGEN_LIBGR.IEdge edge__edge22 { get { return (GRGEN_LIBGR.IEdge)_edge__edge22; } }
-			public GRGEN_LIBGR.IEdge edge__edge23 { get { return (GRGEN_LIBGR.IEdge)_edge__edge23; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } set { _edge__edge3 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } set { _edge__edge4 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } set { _edge__edge5 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } set { _edge__edge6 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } set { _edge__edge7 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } set { _edge__edge8 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge9 { get { return (GRGEN_LIBGR.IEdge)_edge__edge9; } set { _edge__edge9 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge10 { get { return (GRGEN_LIBGR.IEdge)_edge__edge10; } set { _edge__edge10 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge11 { get { return (GRGEN_LIBGR.IEdge)_edge__edge11; } set { _edge__edge11 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge12 { get { return (GRGEN_LIBGR.IEdge)_edge__edge12; } set { _edge__edge12 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge13 { get { return (GRGEN_LIBGR.IEdge)_edge__edge13; } set { _edge__edge13 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge14 { get { return (GRGEN_LIBGR.IEdge)_edge__edge14; } set { _edge__edge14 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge15 { get { return (GRGEN_LIBGR.IEdge)_edge__edge15; } set { _edge__edge15 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge16 { get { return (GRGEN_LIBGR.IEdge)_edge__edge16; } set { _edge__edge16 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge17 { get { return (GRGEN_LIBGR.IEdge)_edge__edge17; } set { _edge__edge17 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge18 { get { return (GRGEN_LIBGR.IEdge)_edge__edge18; } set { _edge__edge18 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge19 { get { return (GRGEN_LIBGR.IEdge)_edge__edge19; } set { _edge__edge19 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge20 { get { return (GRGEN_LIBGR.IEdge)_edge__edge20; } set { _edge__edge20 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge21 { get { return (GRGEN_LIBGR.IEdge)_edge__edge21; } set { _edge__edge21 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge22 { get { return (GRGEN_LIBGR.IEdge)_edge__edge22; } set { _edge__edge22 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge23 { get { return (GRGEN_LIBGR.IEdge)_edge__edge23; } set { _edge__edge23 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -7772,7 +7772,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -8077,7 +8077,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -8256,22 +8256,22 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_DNT : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
-			GRGEN_LIBGR.IEdge edge__edge3 { get; }
-			GRGEN_LIBGR.IEdge edge__edge4 { get; }
-			GRGEN_LIBGR.IEdge edge__edge5 { get; }
-			GRGEN_LIBGR.IEdge edge__edge6 { get; }
-			GRGEN_LIBGR.IEdge edge__edge7 { get; }
-			GRGEN_LIBGR.IEdge edge__edge8 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge3 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge4 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge5 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge6 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge7 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge8 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			@Pattern_Methyl.Match_Methyl @_sub0 { get; }
@@ -8289,12 +8289,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_DNT : GRGEN_LGSP.ListElement<Match_DNT>, IMatch_DNT
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -8330,15 +8330,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
-			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } }
-			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } }
-			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } }
-			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } }
-			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } }
-			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } set { _edge__edge3 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } set { _edge__edge4 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } set { _edge__edge5 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } set { _edge__edge6 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } set { _edge__edge7 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } set { _edge__edge8 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -8641,7 +8641,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -8902,48 +8902,48 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_DNTUnfolded : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
-			GRGEN_MODEL.IC node_c { get; }
-			GRGEN_MODEL.IH node__node0 { get; }
-			GRGEN_MODEL.IH node__node1 { get; }
-			GRGEN_MODEL.IH node__node2 { get; }
-			GRGEN_MODEL.IN node_n2 { get; }
-			GRGEN_MODEL.IO node__node3 { get; }
-			GRGEN_MODEL.IO node__node4 { get; }
-			GRGEN_MODEL.IH node__node5 { get; }
-			GRGEN_MODEL.IN node_n4 { get; }
-			GRGEN_MODEL.IO node__node6 { get; }
-			GRGEN_MODEL.IO node__node7 { get; }
-			GRGEN_MODEL.IH node__node8 { get; }
-			GRGEN_MODEL.IH node__node9 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
+			GRGEN_MODEL.IC node_c { get; set; }
+			GRGEN_MODEL.IH node__node0 { get; set; }
+			GRGEN_MODEL.IH node__node1 { get; set; }
+			GRGEN_MODEL.IH node__node2 { get; set; }
+			GRGEN_MODEL.IN node_n2 { get; set; }
+			GRGEN_MODEL.IO node__node3 { get; set; }
+			GRGEN_MODEL.IO node__node4 { get; set; }
+			GRGEN_MODEL.IH node__node5 { get; set; }
+			GRGEN_MODEL.IN node_n4 { get; set; }
+			GRGEN_MODEL.IO node__node6 { get; set; }
+			GRGEN_MODEL.IO node__node7 { get; set; }
+			GRGEN_MODEL.IH node__node8 { get; set; }
+			GRGEN_MODEL.IH node__node9 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
-			GRGEN_LIBGR.IEdge edge__edge3 { get; }
-			GRGEN_LIBGR.IEdge edge__edge4 { get; }
-			GRGEN_LIBGR.IEdge edge__edge5 { get; }
-			GRGEN_LIBGR.IEdge edge__edge6 { get; }
-			GRGEN_LIBGR.IEdge edge__edge7 { get; }
-			GRGEN_LIBGR.IEdge edge__edge8 { get; }
-			GRGEN_LIBGR.IEdge edge__edge9 { get; }
-			GRGEN_LIBGR.IEdge edge__edge10 { get; }
-			GRGEN_LIBGR.IEdge edge__edge11 { get; }
-			GRGEN_LIBGR.IEdge edge__edge12 { get; }
-			GRGEN_LIBGR.IEdge edge__edge13 { get; }
-			GRGEN_LIBGR.IEdge edge__edge14 { get; }
-			GRGEN_LIBGR.IEdge edge__edge15 { get; }
-			GRGEN_LIBGR.IEdge edge__edge16 { get; }
-			GRGEN_LIBGR.IEdge edge__edge17 { get; }
-			GRGEN_LIBGR.IEdge edge__edge18 { get; }
-			GRGEN_LIBGR.IEdge edge__edge19 { get; }
-			GRGEN_LIBGR.IEdge edge__edge20 { get; }
-			GRGEN_LIBGR.IEdge edge__edge21 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge3 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge4 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge5 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge6 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge7 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge8 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge9 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge10 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge11 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge12 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge13 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge14 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge15 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge16 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge17 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge18 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge19 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge20 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge21 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -8955,25 +8955,25 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_DNTUnfolded : GRGEN_LGSP.ListElement<Match_DNTUnfolded>, IMatch_DNTUnfolded
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
-			public GRGEN_MODEL.IC node_c { get { return (GRGEN_MODEL.IC)_node_c; } }
-			public GRGEN_MODEL.IH node__node0 { get { return (GRGEN_MODEL.IH)_node__node0; } }
-			public GRGEN_MODEL.IH node__node1 { get { return (GRGEN_MODEL.IH)_node__node1; } }
-			public GRGEN_MODEL.IH node__node2 { get { return (GRGEN_MODEL.IH)_node__node2; } }
-			public GRGEN_MODEL.IN node_n2 { get { return (GRGEN_MODEL.IN)_node_n2; } }
-			public GRGEN_MODEL.IO node__node3 { get { return (GRGEN_MODEL.IO)_node__node3; } }
-			public GRGEN_MODEL.IO node__node4 { get { return (GRGEN_MODEL.IO)_node__node4; } }
-			public GRGEN_MODEL.IH node__node5 { get { return (GRGEN_MODEL.IH)_node__node5; } }
-			public GRGEN_MODEL.IN node_n4 { get { return (GRGEN_MODEL.IN)_node_n4; } }
-			public GRGEN_MODEL.IO node__node6 { get { return (GRGEN_MODEL.IO)_node__node6; } }
-			public GRGEN_MODEL.IO node__node7 { get { return (GRGEN_MODEL.IO)_node__node7; } }
-			public GRGEN_MODEL.IH node__node8 { get { return (GRGEN_MODEL.IH)_node__node8; } }
-			public GRGEN_MODEL.IH node__node9 { get { return (GRGEN_MODEL.IH)_node__node9; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c { get { return (GRGEN_MODEL.IC)_node_c; } set { _node_c = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node0 { get { return (GRGEN_MODEL.IH)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node1 { get { return (GRGEN_MODEL.IH)_node__node1; } set { _node__node1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node2 { get { return (GRGEN_MODEL.IH)_node__node2; } set { _node__node2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IN node_n2 { get { return (GRGEN_MODEL.IN)_node_n2; } set { _node_n2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node3 { get { return (GRGEN_MODEL.IO)_node__node3; } set { _node__node3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node4 { get { return (GRGEN_MODEL.IO)_node__node4; } set { _node__node4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node5 { get { return (GRGEN_MODEL.IH)_node__node5; } set { _node__node5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IN node_n4 { get { return (GRGEN_MODEL.IN)_node_n4; } set { _node_n4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node6 { get { return (GRGEN_MODEL.IO)_node__node6; } set { _node__node6 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node7 { get { return (GRGEN_MODEL.IO)_node__node7; } set { _node__node7 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node8 { get { return (GRGEN_MODEL.IH)_node__node8; } set { _node__node8 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node9 { get { return (GRGEN_MODEL.IH)_node__node9; } set { _node__node9 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -9048,28 +9048,28 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
-			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } }
-			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } }
-			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } }
-			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } }
-			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } }
-			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } }
-			public GRGEN_LIBGR.IEdge edge__edge9 { get { return (GRGEN_LIBGR.IEdge)_edge__edge9; } }
-			public GRGEN_LIBGR.IEdge edge__edge10 { get { return (GRGEN_LIBGR.IEdge)_edge__edge10; } }
-			public GRGEN_LIBGR.IEdge edge__edge11 { get { return (GRGEN_LIBGR.IEdge)_edge__edge11; } }
-			public GRGEN_LIBGR.IEdge edge__edge12 { get { return (GRGEN_LIBGR.IEdge)_edge__edge12; } }
-			public GRGEN_LIBGR.IEdge edge__edge13 { get { return (GRGEN_LIBGR.IEdge)_edge__edge13; } }
-			public GRGEN_LIBGR.IEdge edge__edge14 { get { return (GRGEN_LIBGR.IEdge)_edge__edge14; } }
-			public GRGEN_LIBGR.IEdge edge__edge15 { get { return (GRGEN_LIBGR.IEdge)_edge__edge15; } }
-			public GRGEN_LIBGR.IEdge edge__edge16 { get { return (GRGEN_LIBGR.IEdge)_edge__edge16; } }
-			public GRGEN_LIBGR.IEdge edge__edge17 { get { return (GRGEN_LIBGR.IEdge)_edge__edge17; } }
-			public GRGEN_LIBGR.IEdge edge__edge18 { get { return (GRGEN_LIBGR.IEdge)_edge__edge18; } }
-			public GRGEN_LIBGR.IEdge edge__edge19 { get { return (GRGEN_LIBGR.IEdge)_edge__edge19; } }
-			public GRGEN_LIBGR.IEdge edge__edge20 { get { return (GRGEN_LIBGR.IEdge)_edge__edge20; } }
-			public GRGEN_LIBGR.IEdge edge__edge21 { get { return (GRGEN_LIBGR.IEdge)_edge__edge21; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } set { _edge__edge3 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } set { _edge__edge4 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } set { _edge__edge5 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } set { _edge__edge6 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } set { _edge__edge7 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } set { _edge__edge8 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge9 { get { return (GRGEN_LIBGR.IEdge)_edge__edge9; } set { _edge__edge9 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge10 { get { return (GRGEN_LIBGR.IEdge)_edge__edge10; } set { _edge__edge10 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge11 { get { return (GRGEN_LIBGR.IEdge)_edge__edge11; } set { _edge__edge11 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge12 { get { return (GRGEN_LIBGR.IEdge)_edge__edge12; } set { _edge__edge12 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge13 { get { return (GRGEN_LIBGR.IEdge)_edge__edge13; } set { _edge__edge13 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge14 { get { return (GRGEN_LIBGR.IEdge)_edge__edge14; } set { _edge__edge14 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge15 { get { return (GRGEN_LIBGR.IEdge)_edge__edge15; } set { _edge__edge15 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge16 { get { return (GRGEN_LIBGR.IEdge)_edge__edge16; } set { _edge__edge16 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge17 { get { return (GRGEN_LIBGR.IEdge)_edge__edge17; } set { _edge__edge17 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge18 { get { return (GRGEN_LIBGR.IEdge)_edge__edge18; } set { _edge__edge18 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge19 { get { return (GRGEN_LIBGR.IEdge)_edge__edge19; } set { _edge__edge19 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge20 { get { return (GRGEN_LIBGR.IEdge)_edge__edge20; } set { _edge__edge20 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge21 { get { return (GRGEN_LIBGR.IEdge)_edge__edge21; } set { _edge__edge21 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -9327,7 +9327,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -9628,7 +9628,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -9807,22 +9807,22 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_TNB : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
-			GRGEN_LIBGR.IEdge edge__edge3 { get; }
-			GRGEN_LIBGR.IEdge edge__edge4 { get; }
-			GRGEN_LIBGR.IEdge edge__edge5 { get; }
-			GRGEN_LIBGR.IEdge edge__edge6 { get; }
-			GRGEN_LIBGR.IEdge edge__edge7 { get; }
-			GRGEN_LIBGR.IEdge edge__edge8 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge3 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge4 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge5 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge6 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge7 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge8 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			@Pattern_Hydrogen.Match_Hydrogen @_sub0 { get; }
@@ -9840,12 +9840,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_TNB : GRGEN_LGSP.ListElement<Match_TNB>, IMatch_TNB
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -9881,15 +9881,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
-			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } }
-			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } }
-			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } }
-			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } }
-			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } }
-			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } set { _edge__edge3 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } set { _edge__edge4 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } set { _edge__edge5 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } set { _edge__edge6 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } set { _edge__edge7 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } set { _edge__edge8 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -10188,7 +10188,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -10439,46 +10439,46 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public interface IMatch_TNBUnfolded : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IC node_c1 { get; }
-			GRGEN_MODEL.IC node_c2 { get; }
-			GRGEN_MODEL.IC node_c3 { get; }
-			GRGEN_MODEL.IC node_c4 { get; }
-			GRGEN_MODEL.IC node_c5 { get; }
-			GRGEN_MODEL.IC node_c6 { get; }
-			GRGEN_MODEL.IH node__node0 { get; }
-			GRGEN_MODEL.IN node_n2 { get; }
-			GRGEN_MODEL.IO node__node1 { get; }
-			GRGEN_MODEL.IO node__node2 { get; }
-			GRGEN_MODEL.IH node__node3 { get; }
-			GRGEN_MODEL.IN node_n4 { get; }
-			GRGEN_MODEL.IO node__node4 { get; }
-			GRGEN_MODEL.IO node__node5 { get; }
-			GRGEN_MODEL.IH node__node6 { get; }
-			GRGEN_MODEL.IN node_n6 { get; }
-			GRGEN_MODEL.IO node__node7 { get; }
-			GRGEN_MODEL.IO node__node8 { get; }
+			GRGEN_MODEL.IC node_c1 { get; set; }
+			GRGEN_MODEL.IC node_c2 { get; set; }
+			GRGEN_MODEL.IC node_c3 { get; set; }
+			GRGEN_MODEL.IC node_c4 { get; set; }
+			GRGEN_MODEL.IC node_c5 { get; set; }
+			GRGEN_MODEL.IC node_c6 { get; set; }
+			GRGEN_MODEL.IH node__node0 { get; set; }
+			GRGEN_MODEL.IN node_n2 { get; set; }
+			GRGEN_MODEL.IO node__node1 { get; set; }
+			GRGEN_MODEL.IO node__node2 { get; set; }
+			GRGEN_MODEL.IH node__node3 { get; set; }
+			GRGEN_MODEL.IN node_n4 { get; set; }
+			GRGEN_MODEL.IO node__node4 { get; set; }
+			GRGEN_MODEL.IO node__node5 { get; set; }
+			GRGEN_MODEL.IH node__node6 { get; set; }
+			GRGEN_MODEL.IN node_n6 { get; set; }
+			GRGEN_MODEL.IO node__node7 { get; set; }
+			GRGEN_MODEL.IO node__node8 { get; set; }
 			//Edges
-			GRGEN_LIBGR.IEdge edge__edge0 { get; }
-			GRGEN_LIBGR.IEdge edge__edge1 { get; }
-			GRGEN_LIBGR.IEdge edge__edge2 { get; }
-			GRGEN_LIBGR.IEdge edge__edge3 { get; }
-			GRGEN_LIBGR.IEdge edge__edge4 { get; }
-			GRGEN_LIBGR.IEdge edge__edge5 { get; }
-			GRGEN_LIBGR.IEdge edge__edge6 { get; }
-			GRGEN_LIBGR.IEdge edge__edge7 { get; }
-			GRGEN_LIBGR.IEdge edge__edge8 { get; }
-			GRGEN_LIBGR.IEdge edge__edge9 { get; }
-			GRGEN_LIBGR.IEdge edge__edge10 { get; }
-			GRGEN_LIBGR.IEdge edge__edge11 { get; }
-			GRGEN_LIBGR.IEdge edge__edge12 { get; }
-			GRGEN_LIBGR.IEdge edge__edge13 { get; }
-			GRGEN_LIBGR.IEdge edge__edge14 { get; }
-			GRGEN_LIBGR.IEdge edge__edge15 { get; }
-			GRGEN_LIBGR.IEdge edge__edge16 { get; }
-			GRGEN_LIBGR.IEdge edge__edge17 { get; }
-			GRGEN_LIBGR.IEdge edge__edge18 { get; }
-			GRGEN_LIBGR.IEdge edge__edge19 { get; }
-			GRGEN_LIBGR.IEdge edge__edge20 { get; }
+			GRGEN_LIBGR.IEdge edge__edge0 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge1 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge2 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge3 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge4 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge5 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge6 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge7 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge8 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge9 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge10 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge11 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge12 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge13 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge14 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge15 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge16 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge17 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge18 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge19 { get; set; }
+			GRGEN_LIBGR.IEdge edge__edge20 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -10490,24 +10490,24 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 		public class Match_TNBUnfolded : GRGEN_LGSP.ListElement<Match_TNBUnfolded>, IMatch_TNBUnfolded
 		{
-			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } }
-			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } }
-			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } }
-			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } }
-			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } }
-			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } }
-			public GRGEN_MODEL.IH node__node0 { get { return (GRGEN_MODEL.IH)_node__node0; } }
-			public GRGEN_MODEL.IN node_n2 { get { return (GRGEN_MODEL.IN)_node_n2; } }
-			public GRGEN_MODEL.IO node__node1 { get { return (GRGEN_MODEL.IO)_node__node1; } }
-			public GRGEN_MODEL.IO node__node2 { get { return (GRGEN_MODEL.IO)_node__node2; } }
-			public GRGEN_MODEL.IH node__node3 { get { return (GRGEN_MODEL.IH)_node__node3; } }
-			public GRGEN_MODEL.IN node_n4 { get { return (GRGEN_MODEL.IN)_node_n4; } }
-			public GRGEN_MODEL.IO node__node4 { get { return (GRGEN_MODEL.IO)_node__node4; } }
-			public GRGEN_MODEL.IO node__node5 { get { return (GRGEN_MODEL.IO)_node__node5; } }
-			public GRGEN_MODEL.IH node__node6 { get { return (GRGEN_MODEL.IH)_node__node6; } }
-			public GRGEN_MODEL.IN node_n6 { get { return (GRGEN_MODEL.IN)_node_n6; } }
-			public GRGEN_MODEL.IO node__node7 { get { return (GRGEN_MODEL.IO)_node__node7; } }
-			public GRGEN_MODEL.IO node__node8 { get { return (GRGEN_MODEL.IO)_node__node8; } }
+			public GRGEN_MODEL.IC node_c1 { get { return (GRGEN_MODEL.IC)_node_c1; } set { _node_c1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c2 { get { return (GRGEN_MODEL.IC)_node_c2; } set { _node_c2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c3 { get { return (GRGEN_MODEL.IC)_node_c3; } set { _node_c3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c4 { get { return (GRGEN_MODEL.IC)_node_c4; } set { _node_c4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c5 { get { return (GRGEN_MODEL.IC)_node_c5; } set { _node_c5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IC node_c6 { get { return (GRGEN_MODEL.IC)_node_c6; } set { _node_c6 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node0 { get { return (GRGEN_MODEL.IH)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IN node_n2 { get { return (GRGEN_MODEL.IN)_node_n2; } set { _node_n2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node1 { get { return (GRGEN_MODEL.IO)_node__node1; } set { _node__node1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node2 { get { return (GRGEN_MODEL.IO)_node__node2; } set { _node__node2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node3 { get { return (GRGEN_MODEL.IH)_node__node3; } set { _node__node3 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IN node_n4 { get { return (GRGEN_MODEL.IN)_node_n4; } set { _node_n4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node4 { get { return (GRGEN_MODEL.IO)_node__node4; } set { _node__node4 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node5 { get { return (GRGEN_MODEL.IO)_node__node5; } set { _node__node5 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IH node__node6 { get { return (GRGEN_MODEL.IH)_node__node6; } set { _node__node6 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IN node_n6 { get { return (GRGEN_MODEL.IN)_node_n6; } set { _node_n6 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node7 { get { return (GRGEN_MODEL.IO)_node__node7; } set { _node__node7 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IO node__node8 { get { return (GRGEN_MODEL.IO)_node__node8; } set { _node__node8 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_c1;
 			public GRGEN_LGSP.LGSPNode _node_c2;
 			public GRGEN_LGSP.LGSPNode _node_c3;
@@ -10579,27 +10579,27 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			
-			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
-			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
-			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
-			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } }
-			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } }
-			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } }
-			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } }
-			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } }
-			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } }
-			public GRGEN_LIBGR.IEdge edge__edge9 { get { return (GRGEN_LIBGR.IEdge)_edge__edge9; } }
-			public GRGEN_LIBGR.IEdge edge__edge10 { get { return (GRGEN_LIBGR.IEdge)_edge__edge10; } }
-			public GRGEN_LIBGR.IEdge edge__edge11 { get { return (GRGEN_LIBGR.IEdge)_edge__edge11; } }
-			public GRGEN_LIBGR.IEdge edge__edge12 { get { return (GRGEN_LIBGR.IEdge)_edge__edge12; } }
-			public GRGEN_LIBGR.IEdge edge__edge13 { get { return (GRGEN_LIBGR.IEdge)_edge__edge13; } }
-			public GRGEN_LIBGR.IEdge edge__edge14 { get { return (GRGEN_LIBGR.IEdge)_edge__edge14; } }
-			public GRGEN_LIBGR.IEdge edge__edge15 { get { return (GRGEN_LIBGR.IEdge)_edge__edge15; } }
-			public GRGEN_LIBGR.IEdge edge__edge16 { get { return (GRGEN_LIBGR.IEdge)_edge__edge16; } }
-			public GRGEN_LIBGR.IEdge edge__edge17 { get { return (GRGEN_LIBGR.IEdge)_edge__edge17; } }
-			public GRGEN_LIBGR.IEdge edge__edge18 { get { return (GRGEN_LIBGR.IEdge)_edge__edge18; } }
-			public GRGEN_LIBGR.IEdge edge__edge19 { get { return (GRGEN_LIBGR.IEdge)_edge__edge19; } }
-			public GRGEN_LIBGR.IEdge edge__edge20 { get { return (GRGEN_LIBGR.IEdge)_edge__edge20; } }
+			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } set { _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge3 { get { return (GRGEN_LIBGR.IEdge)_edge__edge3; } set { _edge__edge3 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge4 { get { return (GRGEN_LIBGR.IEdge)_edge__edge4; } set { _edge__edge4 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge5 { get { return (GRGEN_LIBGR.IEdge)_edge__edge5; } set { _edge__edge5 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge6 { get { return (GRGEN_LIBGR.IEdge)_edge__edge6; } set { _edge__edge6 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge7 { get { return (GRGEN_LIBGR.IEdge)_edge__edge7; } set { _edge__edge7 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge8 { get { return (GRGEN_LIBGR.IEdge)_edge__edge8; } set { _edge__edge8 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge9 { get { return (GRGEN_LIBGR.IEdge)_edge__edge9; } set { _edge__edge9 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge10 { get { return (GRGEN_LIBGR.IEdge)_edge__edge10; } set { _edge__edge10 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge11 { get { return (GRGEN_LIBGR.IEdge)_edge__edge11; } set { _edge__edge11 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge12 { get { return (GRGEN_LIBGR.IEdge)_edge__edge12; } set { _edge__edge12 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge13 { get { return (GRGEN_LIBGR.IEdge)_edge__edge13; } set { _edge__edge13 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge14 { get { return (GRGEN_LIBGR.IEdge)_edge__edge14; } set { _edge__edge14 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge15 { get { return (GRGEN_LIBGR.IEdge)_edge__edge15; } set { _edge__edge15 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge16 { get { return (GRGEN_LIBGR.IEdge)_edge__edge16; } set { _edge__edge16 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge17 { get { return (GRGEN_LIBGR.IEdge)_edge__edge17; } set { _edge__edge17 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge18 { get { return (GRGEN_LIBGR.IEdge)_edge__edge18; } set { _edge__edge18 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge19 { get { return (GRGEN_LIBGR.IEdge)_edge__edge19; } set { _edge__edge19 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_LIBGR.IEdge edge__edge20 { get { return (GRGEN_LIBGR.IEdge)_edge__edge20; } set { _edge__edge20 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public GRGEN_LGSP.LGSPEdge _edge__edge2;
@@ -10852,7 +10852,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -11123,7 +11123,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -11367,7 +11367,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -11600,7 +11600,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -11845,7 +11845,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -12074,6 +12074,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 	{
 
 		static Procedures() {
+		}
+
+	}
+
+	public partial class MatchFilters
+	{
+
+		static MatchFilters() {
 		}
 
 	}
@@ -16961,13 +16969,13 @@ label0: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -18186,13 +18194,13 @@ label0: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -18955,13 +18963,13 @@ label0: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -19649,13 +19657,13 @@ label0: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -20437,13 +20445,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -21436,13 +21444,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -22602,13 +22610,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -23698,13 +23706,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -23906,13 +23914,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -24990,13 +24998,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -26004,13 +26012,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -26212,13 +26220,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -27255,13 +27263,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -28228,13 +28236,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -28436,13 +28444,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -28669,13 +28677,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -28877,13 +28885,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -29110,13 +29118,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -29343,13 +29351,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
