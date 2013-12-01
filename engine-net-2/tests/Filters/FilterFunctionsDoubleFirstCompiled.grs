@@ -1,0 +1,16 @@
+new graph "Filters/FilterFunctions"
+
+exec init
+
+show num nodes
+show num edges
+
+exec incidencyorderAscendingByikeepFirst
+
+exec incidencyorderAscendingByifilterMaxToFrontkeepFirst
+
+exec incidencyorderAscendingByi
+
+exec incidencyorderAscendingByifilterMaxToFrontfilterDoubleFirst
+
+quit

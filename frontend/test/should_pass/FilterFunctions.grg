@@ -1,0 +1,94 @@
+rule filterBase
+{
+	def var i:int;
+
+	n:Node;
+
+	yield {
+		yield i = incident(n).size();
+	}
+	
+	modify{
+	}
+} \ auto, orderAscendingBy<i>
+
+filter fBase<filterBase>
+{
+	for(m:match<filterBase> in this)
+	{
+		m.i = incident(m.n).size();
+	}
+	for(m:match<filterBase> in this)
+	{
+		m.i = m.i + adjacent(m.n).size();
+	}
+	this.add(copy(this.peek()));
+	this.add(copy(this.peek()), 1);
+	this.rem(1);
+	this.rem();
+	this[0] = this[0];
+//	this[0].i = incident(this[i].n).size(); // first index access then member access is not allowed, must be mapped to an assignment of a local variable
+	def ref mi:match<filterBase> = this[0];
+	mi.i = this[1].i + mi.i;
+}
+
+rule filterBass
+{
+	def var d:double;
+	
+	n:Node --> n;
+
+	yield {
+		yield d = incident(n).size() * 3.141592654;
+	}
+	
+	modify {
+	}
+} \ orderAscendingBy<d>, keepSameAsFirst<d>
+
+filter fBass<filterBass>
+{
+}
+
+test filterHass(n:Node):(Edge)
+{
+	def var s:string;
+
+	n -e:Edge-> n;
+	
+	yield {
+		yield s = incident(n).size() > 1 ? "foo" : "fool";
+	}
+
+	return(e);
+}
+
+filter fHass<filterHass>
+{
+}
+
+rule init : (Node)
+{
+	replace {
+		n1:Node --> n1 --> n1;
+		n2:Node --> n2;
+		return(n1);
+	}
+}
+
+rule r
+{
+	n:Node -e:Edge-> n;
+
+	modify {
+		m:Node;
+
+		exec(filterBase\orderAscendingBy<i>\keepFirst(3)
+				;> filterBase
+				;> [filterBass\orderAscendingBy<d>\keepSameAsFirst<d>]
+				;> $::x[filterBass]
+				;> (::ee)=filterHass(::n)
+				;> ${<filterHass(::n),[filterHass(::n)]>}
+		);
+	}
+}

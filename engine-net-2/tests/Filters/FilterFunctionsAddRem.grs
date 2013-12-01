@@ -1,0 +1,23 @@
+new graph "Filters/FilterFunctions"
+
+exec [addNode\filterAdd]
+
+show num nodes
+show num edges
+
+exec [remNode\filterRem]
+
+show num nodes
+show num edges
+
+exec [remNode\filterRemByNull]
+
+show num nodes
+show num edges
+
+exec [remNode\filterAddForRem\filterRem]
+
+show num nodes
+show num edges
+
+quit

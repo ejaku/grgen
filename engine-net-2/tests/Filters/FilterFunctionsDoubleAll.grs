@@ -1,0 +1,13 @@
+new graph "Filters/FilterFunctions"
+
+exec init
+
+exec [incidency\orderAscendingBy<i>\filterDoubleAll]
+
+exec [incidency\orderAscendingBy<i>\keepFirst(1)\filterDoubleAll]
+
+exec [incidency\orderAscendingBy<i>]
+
+exec [incidency\orderAscendingBy<i>\filterDoubleAll\filterDoubleLast]
+
+quit

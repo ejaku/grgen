@@ -1,0 +1,16 @@
+new graph "Filters/FilterFunctions"
+
+exec init
+
+show num nodes
+show num edges
+
+exec [incidency\orderAscendingBy<i>\keepFirst(1)]
+
+exec [incidency\orderAscendingBy<i>\filterMaxToFront\keepFirst(1)]
+
+exec [incidency\orderAscendingBy<i>]
+
+exec [incidency\orderAscendingBy<i>\filterMaxToFront\filterDoubleFirst]
+
+quit
