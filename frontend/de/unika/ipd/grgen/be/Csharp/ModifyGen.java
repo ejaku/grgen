@@ -1953,6 +1953,9 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof DequeVarAddItem) {
 			genDequeVarAddItem(sb, state, (DequeVarAddItem) evalStmt);
 		}
+		else if(evalStmt instanceof ReturnStatementFilter) {
+			genReturnStatementFilter(sb, state, (ReturnStatementFilter) evalStmt);
+		}
 		else if(evalStmt instanceof ReturnStatement) {
 			genReturnStatement(sb, state, (ReturnStatement) evalStmt);
 		}
@@ -1979,6 +1982,9 @@ public class ModifyGen extends CSharpBase {
 		}
 		else if(evalStmt instanceof ContainerAccumulationYield) {
 			genContainerAccumulationYield(sb, state, (ContainerAccumulationYield) evalStmt);
+		}
+		else if(evalStmt instanceof MatchesAccumulationYield) {
+			genMatchesAccumulationYield(sb, state, (MatchesAccumulationYield) evalStmt);
 		}
 		else if(evalStmt instanceof ForFunction) {
 			genForFunction(sb, state, (ForFunction) evalStmt);
@@ -2122,7 +2128,8 @@ public class ModifyGen extends CSharpBase {
 		}
 		else
 		{
-			genChangingAttribute(sb, state, target, "Assign", varName, "null");
+			if(!(target.getOwner().getType() instanceof MatchType))
+				genChangingAttribute(sb, state, target, "Assign", varName, "null");
 	
 			sb.append("\t\t\t");
 			genExpression(sb, target, state); // global var case handled by genQualAccess
@@ -2154,7 +2161,7 @@ public class ModifyGen extends CSharpBase {
 
 		sb.append("\t\t\t");
 		if(!Expression.isGlobalVariable(target)) {
-			sb.append("var_" + target.getIdent());
+			sb.append(formatEntity(target));
 			if(ass instanceof AssignmentVarIndexed) {
 				AssignmentVarIndexed assIdx = (AssignmentVarIndexed)ass;
 				Expression index = assIdx.getIndex();
@@ -2296,7 +2303,7 @@ public class ModifyGen extends CSharpBase {
 		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
 			changedOperation = " = ";
 		
-		String prefix = "\t\t\t" + "var_" + changedTarget.getIdent() + changedOperation;
+		String prefix = "\t\t\t" + formatEntity(changedTarget) + changedOperation;
 
 		genCompoundAssignment(sb, state, cass, prefix, ";\n");
 	}
@@ -2401,7 +2408,7 @@ public class ModifyGen extends CSharpBase {
 		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
 			changedOperation = " = ";
 		
-		String prefix = "\t\t\t" + "var_" + changedTarget.getIdent() + changedOperation;
+		String prefix = "\t\t\t" + formatEntity(changedTarget) + changedOperation;
 		
 		genCompoundAssignmentVar(sb, state, cass, prefix, ";\n");
 	}
@@ -2442,7 +2449,7 @@ public class ModifyGen extends CSharpBase {
 			sb.append("GRGEN_LIBGR.ContainerHelper.ExceptChanged(");
 		else //if(cass.getOperation()==CompoundAssignment.CONCATENATE)
 			sb.append("GRGEN_LIBGR.ContainerHelper.ConcatenateChanged(");
-		sb.append("var_" + target.getIdent());
+		sb.append(formatEntity(target));
 		sb.append(", ");
 		genExpression(sb, expr, state);
 		sb.append(")");
@@ -2846,7 +2853,7 @@ public class ModifyGen extends CSharpBase {
 			sb.append(indexStr);
 		} else {
 			sb.append("(");
-			sb.append("\t\t\tvar_" + target.getIdent());
+			sb.append("\t\t\t" + formatEntity(target));
 			sb.append(").Count - 1");
 		}
 		sb.append(");\n");
@@ -2956,10 +2963,15 @@ public class ModifyGen extends CSharpBase {
 
 	private void genVar(StringBuffer sb, Variable var, ModifyGenerationStateConst state) {
 		if(!Expression.isGlobalVariable(var)) {
-			sb.append("\t\t\tvar_" + var.getIdent());
+			sb.append("\t\t\t" + formatEntity(var));
 		} else {
 			sb.append(formatGlobalVariableRead(var));
 		}
+	}
+
+	private void genReturnStatementFilter(StringBuffer sb, ModifyGenerationStateConst state, ReturnStatementFilter rsf) {
+		sb.append("\t\t\tmatches.FromList();\n");
+		sb.append("\t\t\treturn;\n");
 	}
 
 	private void genReturnStatement(StringBuffer sb, ModifyGenerationStateConst state, ReturnStatement rs) {
@@ -3013,6 +3025,10 @@ public class ModifyGen extends CSharpBase {
 
 	private void genDefDeclVarStatement(StringBuffer sb, ModifyGenerationStateConst state, DefDeclVarStatement ddvs) {
 		Variable var = ddvs.getTarget();
+		if(var.getIdent().toString().equals("this") && var.getType() instanceof ArrayType) {
+			sb.append("\t\t\t" + formatType(var.getType()) + " this_matches = matches.ToList();\n");
+			return;
+		}
 		sb.append("\t\t\t" + formatType(var.getType()) + " " + formatEntity(var));
 		if(var.initialization!=null) {
 			sb.append(" = ");
@@ -3158,6 +3174,26 @@ public class ModifyGen extends CSharpBase {
 
             sb.append("\t\t\t}\n");            
         }
+	}
+
+	private void genMatchesAccumulationYield(StringBuffer sb, ModifyGenerationStateConst state, MatchesAccumulationYield may) {
+    	Type arrayValueType = may.getIterationVar().getType();
+    	String arrayValueTypeStr = formatType(arrayValueType);
+    	String indexVar = "index_" + tmpVarID++;
+    	String entryVar = "entry_" + tmpVarID++;
+        sb.append("\t\t\tList<" + arrayValueTypeStr + "> " + entryVar + " = (List<" + arrayValueTypeStr + ">) this_matches;\n");
+        sb.append("\t\t\tfor(int " + indexVar + "=0; " + indexVar + "<" + entryVar + ".Count; ++" + indexVar + ")\n");
+        sb.append("\t\t\t{\n");
+
+		if(!Expression.isGlobalVariable(may.getIterationVar()) || (may.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+            sb.append("\t\t\t" + arrayValueTypeStr + " "  + formatEntity(may.getIterationVar()) + " = " + entryVar + "[" + indexVar + "];\n");
+		} else {
+			sb.append("\t\t\t" + formatGlobalVariableWrite(may.getIterationVar(), entryVar + "[" + indexVar + "]") + ";\n");
+		}
+
+		genEvals(sb, state, may.getAccumulationStatements());
+
+        sb.append("\t\t\t}\n");
 	}
 
 	private void genForFunction(StringBuffer sb, ModifyGenerationStateConst state, ForFunction ff) {
@@ -4118,7 +4154,11 @@ public class ModifyGen extends CSharpBase {
 	protected void genQualAccess(StringBuffer sb, Qualification qual, ModifyGenerationStateConst state) {
 		Entity owner = qual.getOwner();
 		Entity member = qual.getMember();
-		genQualAccess(sb, state, owner, member);
+		if(owner.getType() instanceof MatchType) {
+			sb.append(formatEntity(owner) + "." + formatEntity(member));
+		} else {
+			genQualAccess(sb, state, owner, member);
+		}
 	}
 
 	protected void genQualAccess(StringBuffer sb, ModifyGenerationStateConst state, Entity owner, Entity member) {

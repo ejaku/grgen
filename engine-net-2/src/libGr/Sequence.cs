@@ -707,9 +707,9 @@ namespace de.unika.ipd.grGen.libGr
         public RuleInvocationParameterBindings ParamBindings;
 
         public bool Test;
-        public List<string> Filters;
+        public List<FilterCall> Filters;
 
-        public SequenceRuleCall(RuleInvocationParameterBindings paramBindings, bool special, bool test, List<string> filters)
+        public SequenceRuleCall(RuleInvocationParameterBindings paramBindings, bool special, bool test, List<FilterCall> filters)
             : base(special, SequenceType.RuleCall)
         {
             ParamBindings = paramBindings;
@@ -890,7 +890,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceRuleAllCall(RuleInvocationParameterBindings paramBindings, bool special, bool test,
             bool chooseRandom, SequenceVariable varChooseRandom,
-            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, List<string> filters)
+            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, List<FilterCall> filters)
             : base(paramBindings, special, test, filters)
         {
             SequenceType = SequenceType.RuleAllCall;
@@ -1119,7 +1119,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceVariable CountResult;
         
         public SequenceRuleCountAllCall(RuleInvocationParameterBindings paramBindings, 
-            bool special, bool test, SequenceVariable countResult, List<string> filters)
+            bool special, bool test, SequenceVariable countResult, List<FilterCall> filters)
             : base(paramBindings, special, test, filters)
         {
             SequenceType = SequenceType.RuleCountAllCall;

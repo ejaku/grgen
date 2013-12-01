@@ -10,13 +10,12 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
-
 /**
- * Type of test filter node declaration.
+ * Type of filter function node declaration.
  */
-public class FilterTypeNode extends TypeNode {
+public class FilterFunctionTypeNode extends TypeNode {
 	static {
-		setName(FilterTypeNode.class, "filter type");
+		setName(FilterFunctionTypeNode.class, "filter function type");
 	}
 
 	/** returns children of this node */
@@ -35,3 +34,4 @@ public class FilterTypeNode extends TypeNode {
 		return childrenNames;
 	}
 };
+

@@ -139,7 +139,8 @@ public class AssignNode extends EvalStatementNode {
 	protected boolean checkLocal() {
 		if(lhsQual!=null)
 		{
-			if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION) {
+			if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION
+					&& !lhsQual.isMatchAssignment()) {
 				reportError("assignment to attribute of graph element not allowed in function or lhs context");
 				return false;
 			}
@@ -147,7 +148,8 @@ public class AssignNode extends EvalStatementNode {
 			DeclNode owner = lhsQual.getOwner();
 			TypeNode ty = owner.getDeclType();
 	
-			if(lhsQual.getDecl().isConst()) {
+			MemberDeclNode member = lhsQual.getDecl(); // null for match type
+			if(member!=null && member.isConst()) {
 				error.error(getCoords(), "assignment to a const member is not allowed");
 				return false;
 			}
@@ -260,7 +262,16 @@ public class AssignNode extends EvalStatementNode {
 	 */
 	private boolean typeCheckLocal() {
 		TypeNode targetType = null;
-		if(lhsQual!=null) targetType = lhsQual.getDecl().getDeclType();
+		if(lhsQual!=null) {
+			if(!lhsQual.isMatchAssignment())
+				targetType = lhsQual.getDecl().getDeclType();
+			else if(lhsQual.getNodeFromMatch()!=null)
+				targetType = lhsQual.getNodeFromMatch().getDeclType();
+			else if(lhsQual.getEdgeFromMatch()!=null)
+				targetType = lhsQual.getEdgeFromMatch().getDeclType();
+			else
+				targetType = lhsQual.getVarFromMatch().getDeclType();
+		}
 		if(lhsVar!=null) targetType = lhsVar.getDeclType();
 		if(lhsGraphElement!=null) targetType = lhsGraphElement.getDeclType();
 		if(lhsMember!=null) targetType = lhsMember.getDeclType();
@@ -352,7 +363,7 @@ public class AssignNode extends EvalStatementNode {
 		// TODO: extend optimization to rewrite to compound assignment statement if same lhs but non-constructor rhs
 		
 		// is it a set or map assignment ?
-		if(lhsQual == null) {
+		if(lhsQual == null || lhsQual.getDecl() == null) { // don't look at match entities
 			return false; // TODO: extend optimization to assignments to variables
 		}
 		QualIdentNode qual = lhsQual;

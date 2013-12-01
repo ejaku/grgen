@@ -418,6 +418,25 @@ public abstract class BaseNode extends Base
 		return unresolved;
 	}
 
+	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
+	protected final <T extends BaseNode> T getValidVersion(T unresolved, T firstResolved, T secondResolved, T thirdResolved, T fourthResolved) {
+		if(isResolved()){
+			if(firstResolved != null){
+				return firstResolved;
+			}
+			if(secondResolved != null){
+				return secondResolved;
+			}
+			if(thirdResolved != null){
+				return thirdResolved;
+			}
+			if(fourthResolved != null){
+				return fourthResolved;
+			}
+		}
+		return unresolved;
+	}
+
 	/** Return new vector containing elements of the currently valid member vector. Currently valid depends on vector was already resolved. */
 	protected final <T extends BaseNode> Vector<T> getValidVersionVector(Vector<? extends T> unresolved, Vector<? extends T> resolved) {
 		Vector<T> result = new Vector<T>();

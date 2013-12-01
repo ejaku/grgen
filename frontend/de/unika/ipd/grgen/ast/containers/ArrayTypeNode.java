@@ -73,6 +73,10 @@ public class ArrayTypeNode extends DeclaredTypeNode {
 		if(valueTypeUnresolved instanceof IdentNode)
 			fixupDefinition((IdentNode)valueTypeUnresolved, valueTypeUnresolved.getScope());
 		valueType = typeResolver.resolve(valueTypeUnresolved, this);
+		if(valueType instanceof TestTypeNode || valueType instanceof RuleTypeNode) {
+			valueType = MatchTypeNode.getMatchType(valueTypeUnresolved);
+			if(valueType != null) valueType.resolve();
+		}
 
 		if(valueType == null) return false;
 

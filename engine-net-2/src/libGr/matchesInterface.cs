@@ -314,8 +314,8 @@ namespace de.unika.ipd.grGen.libGr
         /// For filtering to the first or last elements
         /// implements the keepFirst, keepLast, keepFirstFraction, keepLastFractions filter
         /// </summary>
-        /// <param name="filter">The filter string, with encoded parameter value (following underscore)</param>
-        void FilterFirstLast(string filter);
+        /// <param name="filter">The filter call</param>
+        void FilterFirstLast(FilterCall filter);
     }
 
 

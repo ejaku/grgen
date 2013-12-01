@@ -73,6 +73,10 @@ public abstract class ExprNode extends BaseNode {
 				|| src instanceof NodeTypeNode || src instanceof EdgeTypeNode) {
 			return this;
 		}
+		
+		if(tgt instanceof MatchTypeNode && src instanceof NullTypeNode) {
+			return this;
+		}
 
 		if( src.isCompatibleTo(tgt) ) {
 			return new CastNode(getCoords(), tgt, this, this);

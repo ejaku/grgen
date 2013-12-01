@@ -255,7 +255,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
 
-        public int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test, List<string> filters)
+        public int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test, List<FilterCall> filters)
         {
             int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
 

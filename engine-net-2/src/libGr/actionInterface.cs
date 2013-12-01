@@ -172,7 +172,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="actionEnv">The action execution environment, esp. giving access to the host graph.</param>
         /// <param name="matches">The matches to inspect and filter</param>
-        /// <param name="filterName">The name of the filter function to apply</param>
-        void Filter(IActionExecutionEnvironment actionEnv, IMatches matches, string filterName);
+        /// <param name="filter">The filter to apply</param>
+        void Filter(IActionExecutionEnvironment actionEnv, IMatches matches, FilterCall filter);
     }
 }

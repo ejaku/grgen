@@ -405,7 +405,8 @@ public class Main extends Base implements Sys {
 		// No .grg file given?
 		if(root == null) {
 			root = new UnitNode("NoGRGFileGiven", inputFileNames[0], env.getStdModel(),
-					new CollectNode<ModelNode>(), new CollectNode<IdentNode>(), new CollectNode<IdentNode>(),
+					new CollectNode<ModelNode>(), new CollectNode<IdentNode>(),
+					new CollectNode<IdentNode>(), new CollectNode<IdentNode>(),
 					new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), new CollectNode<IdentNode>());
 		}
 

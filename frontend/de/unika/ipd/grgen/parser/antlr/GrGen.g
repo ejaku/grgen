@@ -194,6 +194,7 @@ textActions returns [ UnitNode main = null ]
 		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> functionChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> procedureChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> filterChilds = new CollectNode<IdentNode>();
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
 		if(!Util.isFilenameValidActionName(getFilename())) {
 			reportError(new de.unika.ipd.grgen.parser.Coords(), "the filename "+getFilename()+" can't be used as action name, must be similar to an identifier");
@@ -216,7 +217,9 @@ textActions returns [ UnitNode main = null ]
 	
 	( globalVarDecl )*
 
-	( patternOrActionOrSequenceOrFunctionOrProcedureDecls[patternChilds, actionChilds, sequenceChilds, functionChilds, procedureChilds] )? EOF
+	( patternOrActionOrSequenceOrFunctionOrProcedureDecls[
+			patternChilds, actionChilds, sequenceChilds, functionChilds, procedureChilds, filterChilds]
+	)? EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
@@ -250,7 +253,7 @@ textActions returns [ UnitNode main = null ]
 				modelChilds.addChild(model);
 			}
 			main = new UnitNode(actionsName, getFilename(), env.getStdModel(), 
-								modelChilds, patternChilds, actionChilds, 
+								modelChilds, patternChilds, actionChilds, filterChilds,
 								sequenceChilds, functionChilds, procedureChilds);
 		}
 	;
@@ -341,11 +344,13 @@ globalVarDecl
 		SEMI
 	;
 
-patternOrActionOrSequenceOrFunctionOrProcedureDecls[ CollectNode<IdentNode> patternChilds, 
-														CollectNode<IdentNode> actionChilds, CollectNode<IdentNode> sequenceChilds, 
-														CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> procedureChilds ]
+patternOrActionOrSequenceOrFunctionOrProcedureDecls[ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds,
+														CollectNode<IdentNode> sequenceChilds, CollectNode<IdentNode> functionChilds, 
+														CollectNode<IdentNode> procedureChilds, CollectNode<IdentNode> filterChilds ]
 	@init{ mod = 0; }
-	: ( mod=patternModifiers patternOrActionOrSequenceOrFunctionOrProcedureDecl[patternChilds, actionChilds, sequenceChilds, functionChilds, procedureChilds, mod] )+
+	: ( mod=patternModifiers patternOrActionOrSequenceOrFunctionOrProcedureDecl[
+			patternChilds, actionChilds, sequenceChilds, functionChilds, procedureChilds, filterChilds, mod]
+	  )+
 	;
 	
 patternModifiers returns [ int res = 0 ]
@@ -392,7 +397,7 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 
 patternOrActionOrSequenceOrFunctionOrProcedureDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, 
 											 CollectNode<IdentNode> sequenceChilds, CollectNode<IdentNode> functionChilds,
-											 CollectNode<IdentNode> procedureChilds,
+											 CollectNode<IdentNode> procedureChilds, CollectNode<IdentNode> filterChilds,
 											 int mod ]
 	@init{
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
@@ -493,8 +498,22 @@ patternOrActionOrSequenceOrFunctionOrProcedureDecl [ CollectNode<IdentNode> patt
 			id.setDecl(new ProcedureDeclNode(id, evals, params, retTypes, false));
 			procedureChilds.addChild(id);
 		}
+	| f=FILTER id=actionIdentDecl LT actionId=actionIdentUse GT pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
+		LBRACE
+			{
+				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
+						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))), ArrayTypeNode.getArrayType(new IdentNode(env.occurs(ParserEnvironment.ACTIONS, actionId.toString(), actionId.getCoords()))), PatternGraphNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
+					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
+			}
+			( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+		RBRACE popScope
+		{
+			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, evals, params, actionId);
+			id.setDecl(ff);
+			filterChilds.addChild(id);
+		}
 	;
-	
+
 parameters [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
 	: LPAREN (paramList[res, context, directlyNestingLHSGraph])? RPAREN
 	|
@@ -584,66 +603,62 @@ returnType returns [ BaseNode res = env.initNode() ]
 
 filterDecls [ IdentNode actionIdent, TestDeclNode actionDecl ]
 	@init {
-		ArrayList<String> filters = new ArrayList<String>();
+		ArrayList<FilterCharacter> filters = new ArrayList<FilterCharacter>();
 		actionDecl.addFilters(filters);
 	}
 	: BACKSLASH filterDeclList[actionIdent, filters]
 	|
 	;
 
-filterDeclList [ IdentNode actionIdent, ArrayList<String> filters ]
+filterDeclList [ IdentNode actionIdent, ArrayList<FilterCharacter> filters ]
 	@init {
 		boolean isExternal = false;
 	}
-	: ((EXTERNAL { isExternal = true; })? id=actionIdentDecl
-			{
-				filters.add(id.getSymbol().getText());
-				id.setDecl(new FilterDeclNode(id, actionIdent));
-				if(!isExternal)
-					reportWarning(id.getCoords(), "External filter must start with \"external\"");
-			} 
-		| AUTO
-			{ filters.add("auto"); }
-		| filterBase=IDENT LT filterVariable=IDENT GT 
-			// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
-			{
-				if(!filterBase.getText().equals("orderAscendingBy") && !filterBase.getText().equals("orderDescendingBy") && !filterBase.getText().equals("groupBy")
-					&& !filterBase.getText().equals("keepSameAsFirst") && !filterBase.getText().equals("keepSameAsLast") && !filterBase.getText().equals("keepOneForEach"))
-						reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBase.getText());
-				else
-					filters.add(filterBase.getText() + "_" + filterVariable.getText());
-			}
-		)
-		(
-			filterDeclListContinuation [ actionIdent, filters ]
-		)*
+	: ((EXTERNAL { isExternal = true; })? id=actionIdentDecl params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
+		{
+			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, null, params, actionIdent);
+			filters.add(ff);
+			id.setDecl(ff);
+			if(!isExternal)
+				reportWarning(id.getCoords(), "External filter must start with \"external\"");
+		} 
+	| a=AUTO
+		{
+			filters.add(new FilterAutoGeneratedNode(getCoords(a), "auto", null, actionIdent));
+		}
+	| filterBase=IDENT LT filterVariable=IDENT GT 
+		{
+			filters.add(new FilterAutoGeneratedNode(getCoords(filterBase), filterBase.getText(), filterVariable.getText(), actionIdent));
+		}
+	)
+	(
+		filterDeclListContinuation [ actionIdent, filters ]
+	)*
 	;
 
-filterDeclListContinuation [ IdentNode actionIdent, ArrayList<String> filters ]
+filterDeclListContinuation [ IdentNode actionIdent, ArrayList<FilterCharacter> filters ]
 options { k = 3; }
 	@init {
 		boolean isExternal = false;
 	}
-	: COMMA (EXTERNAL { isExternal = true; })? id=actionIdentDecl
+	: COMMA (EXTERNAL { isExternal = true; })? id=actionIdentDecl params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
 		{ 
-			filters.add(id.getSymbol().getText());
-			id.setDecl(new FilterDeclNode(id, actionIdent));
+			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, null, params, actionIdent);
+			filters.add(ff);
+			id.setDecl(ff);
 			if(!isExternal)
 				reportWarning(id.getCoords(), "External filter must start with \"external\"");
 		}
-	| COMMA AUTO
-		{ filters.add("auto"); }
+	| COMMA a=AUTO
+		{
+			filters.add(new FilterAutoGeneratedNode(getCoords(a), "auto", null, actionIdent));
+		}
 	| COMMA filterBase=IDENT LT filterVariable=IDENT GT
 		{
-			if(!filterBase.getText().equals("orderAscendingBy") && !filterBase.getText().equals("orderDescendingBy") && !filterBase.getText().equals("groupBy")
-				&& !filterBase.getText().equals("keepSameAsFirst") && !filterBase.getText().equals("keepSameAsLast") && !filterBase.getText().equals("keepOneForEach"))
-					reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBase.getText());
-			else
-				filters.add(filterBase.getText() + "_" + filterVariable.getText());
+			filters.add(new FilterAutoGeneratedNode(getCoords(filterBase), filterBase.getText(), filterVariable.getText(), actionIdent));
 		}
 	;
-	
-	
+		
 patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, AnonymousScopeNamer namer, int mod,
 			int context, String nameOfGraph ]
 			returns [ PatternGraphNode res = null ]
@@ -954,41 +969,48 @@ defGraphElementInitialization [ int context, ConstraintDeclNode graphElement ]
 
 defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ VarDeclNode res = env.initVarNode(directlyNestingLHSGraph, context) ]
 	@init{ VarDeclNode var = null; }
-	: paramModifier=IDENT id=entIdentDecl COLON
+	: modifier=IDENT id=entIdentDecl COLON
 		(
 			type=typeIdentUse
 			{
 				var = new VarDeclNode(id, type, directlyNestingLHSGraph, context, true);
-				if(!paramModifier.getText().equals("var")) 
-					{ reportError(getCoords(paramModifier), "var keyword needed before non graph element and non container parameter"); }
+				if(!modifier.getText().equals("var")) 
+					{ reportError(getCoords(modifier), "var keyword needed before non graph element and non container def variable"); }
 			}
 		|
 			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				var = new VarDeclNode(id, MapTypeNode.getMapType(keyType, valueType), directlyNestingLHSGraph, context, true);
-				if(!paramModifier.getText().equals("ref"))
-					{ reportError(getCoords(paramModifier), "ref keyword needed before map typed parameter"); }
+				if(!modifier.getText().equals("ref"))
+					{ reportError(getCoords(modifier), "ref keyword needed before map typed def variable"); }
 			}
 		|
 			SET LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				var = new VarDeclNode(id, SetTypeNode.getSetType(keyType), directlyNestingLHSGraph, context, true);
-				if(!paramModifier.getText().equals("ref")) 
-					{ reportError(getCoords(paramModifier), "ref keyword needed before set typed parameter"); }
+				if(!modifier.getText().equals("ref")) 
+					{ reportError(getCoords(modifier), "ref keyword needed before set typed def variable"); }
 			}
 		|
 			ARRAY LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				var = new VarDeclNode(id, ArrayTypeNode.getArrayType(keyType), directlyNestingLHSGraph, context, true);
-				if(!paramModifier.getText().equals("ref")) 
-					{ reportError(getCoords(paramModifier), "ref keyword needed before array typed parameter"); }
+				if(!modifier.getText().equals("ref")) 
+					{ reportError(getCoords(modifier), "ref keyword needed before array typed def variable"); }
 			}
 		|
 			DEQUE LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				var = new VarDeclNode(id, DequeTypeNode.getDequeType(keyType), directlyNestingLHSGraph, context, true);
-				if(!paramModifier.getText().equals("ref")) 
-					{ reportError(getCoords(paramModifier), "ref keyword needed before deque typed parameter"); }
+				if(!modifier.getText().equals("ref")) 
+					{ reportError(getCoords(modifier), "ref keyword needed before deque typed def variable"); }
+			}
+		|
+			MATCH LT keyType=actionIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				var = new VarDeclNode(id, MatchTypeNode.getMatchType(keyType), directlyNestingLHSGraph, 0);
+				if(!modifier.getText().equals("ref"))
+					{ reportError(getCoords(modifier), "ref keyword needed before match typed def variable"); }
 			}
 		)
 		{ if(var!=null) res = var; }
@@ -2202,29 +2224,26 @@ options { k = 4; }
 	: BACKSLASH filterId=actionIdentUse {xg.append("\\"); xg.append(filterId); filters.addChild(filterId); } 
 	| BACKSLASH AUTO {xg.append("\\"); xg.append("auto");}
 	| BACKSLASH filterBase=IDENT LT filterVariable=IDENT GT 
-		// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
 		{
 			if(!filterBase.getText().equals("orderAscendingBy") && !filterBase.getText().equals("orderDescendingBy") && !filterBase.getText().equals("groupBy")
 				&& !filterBase.getText().equals("keepSameAsFirst") && !filterBase.getText().equals("keepSameAsLast") && !filterBase.getText().equals("keepOneForEach"))
 					reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBase.getText() + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
 			else
-					xg.append("\\"); xg.append(filterBase.getText() + "_" + filterVariable.getText());
+					xg.append("\\"); xg.append(filterBase.getText() + "<" + filterVariable.getText() + "> ");
 		}
 	| BACKSLASH filterBase=IDENT LPAREN n=NUM_INTEGER RPAREN 
-		// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
 		{
 			if(!filterBase.getText().equals("keepFirst") && !filterBase.getText().equals("keepLast"))
 					reportError(getCoords(filterBase), "Unknown integer-parameterized filter " + filterBase.getText() + "! Available are keepFirst, keepLast.");
 			else
-					xg.append("\\"); xg.append(filterBase.getText() + "_" + n.getText());
+					xg.append("\\"); xg.append(filterBase.getText() + "(" + n.getText() + ")");
 		}
 	| BACKSLASH filterBase=IDENT LPAREN f=NUM_DOUBLE RPAREN 
-		// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
 		{
 			if(!filterBase.getText().equals("keepFirstFraction") && !filterBase.getText().equals("keepLastFraction"))
 					reportError(getCoords(filterBase), "Unknown floating-parameterized filter " + filterBase.getText() + "! Available are keepFirstFraction, keepLastFraction.");
 			else
-					xg.append("\\"); xg.append(filterBase.getText() + "_" + f.getText().replace(".", "_"));
+					xg.append("\\"); xg.append(filterBase.getText() + "(" + f.getText() + ")");
 		}
 	;
 
@@ -3434,6 +3453,7 @@ options { k = *; }
 	@init{
 		IdentNode iterIdentUse = null;
 		IdentNode containerIdentUse = null;
+		IdentNode matchesIdentUse = null;
 		IdentNode functionIdentUse = null;
 		VarDeclNode iterVar = null;
 		VarDeclNode iterIndex = null;
@@ -3481,6 +3501,15 @@ options { k = *; }
 		{
 			iterVar = new VarDeclNode(variable, type, directlyNestingLHSGraph, context);
 			res = new ForFunctionNode(f, iterVar, (FunctionInvocationExprNode)function, cs);
+		}
+	| variable=entIdentDecl COLON MATCH LT type=actionIdentUse GT IN i=IDENT RPAREN
+		LBRACE
+			cs=computations[onLHS, context, directlyNestingLHSGraph]
+		RBRACE popScope
+		{
+			matchesIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
+			iterVar = new VarDeclNode(variable, MatchTypeNode.getMatchType(type), directlyNestingLHSGraph, context);
+			res = new MatchesAccumulationYieldNode(f, iterVar, matchesIdentUse, cs);
 		}
 	;
 
@@ -4080,6 +4109,7 @@ EXEC : 'exec';
 EXTENDS : 'extends';
 EXTERNAL : 'external';
 FALSE : 'false';
+FILTER : 'filter';
 FOR : 'for';
 FUNCTION : 'function';
 HOM : 'hom';

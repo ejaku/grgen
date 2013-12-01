@@ -19,9 +19,9 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.exprevals.MatchAccess;
 import de.unika.ipd.grgen.ir.exprevals.Qualification;
-import de.unika.ipd.grgen.ir.UntypedExecVarType;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MemberAccessExprNode extends ExprNode
@@ -33,7 +33,10 @@ public class MemberAccessExprNode extends ExprNode
 	private ExprNode targetExpr; // resulting from primary expression, most often an IdentExprNode
 	private IdentNode memberIdent;
 	private MemberDeclNode member;
-
+	private NodeDeclNode node;
+	private EdgeDeclNode edge;
+	private VarDeclNode var;
+	
 	public MemberAccessExprNode(Coords coords, ExprNode targetExpr, IdentNode memberIdent) {
 		super(coords);
 		this.targetExpr  = becomeParent(targetExpr);
@@ -69,7 +72,24 @@ public class MemberAccessExprNode extends ExprNode
 		TypeNode ownerType = targetExpr.getType();
 		
 		if(ownerType instanceof MatchTypeNode) {
-			return true; // behave like a nop in case we're a match access
+			MatchTypeNode matchType = (MatchTypeNode)ownerType;
+			if(!matchType.resolve()) {
+				reportError("Unkown test/rule referenced by match type in filter function");
+				return false;
+			}
+			TestDeclNode test = matchType.getTest();
+			if(!test.resolve()) {
+				reportError("Error in test/rule referenced by match type in filter function");
+				return false;
+			}
+			node = test.tryGetNode(memberIdent);
+			edge = test.tryGetEdge(memberIdent);
+			var = test.tryGetVar(memberIdent);
+			if(node==null && edge==null && var==null) {
+				reportError("Unknown member, can't find in test/rule referenced by match type in filter function");
+				return false;
+			}
+			return true;
 		}
 		
 		if(!(ownerType instanceof ScopeOwner)) {
@@ -112,7 +132,14 @@ public class MemberAccessExprNode extends ExprNode
 	@Override
 	public TypeNode getType() {
 		if(targetExpr.getType() instanceof MatchTypeNode) {
-			return new UntypedExecVarTypeNode(); // behave like a nop in case we're a match access
+			if(node!=null)
+				return node.getDeclType();
+			if(edge!=null)
+				return edge.getDeclType();
+			if(var!=null)
+				return var.getDeclType();
+			return null;
+//			return new UntypedExecVarTypeNode(); // behave like a nop in case we're a match access
 		}
 
 		return member.getDecl().getDeclType();
@@ -120,8 +147,14 @@ public class MemberAccessExprNode extends ExprNode
 
 	@Override
 	protected IR constructIR() {
-		if(targetExpr.getType() instanceof MatchTypeNode)
-			return new MatchAccess((UntypedExecVarType) new UntypedExecVarTypeNode().getType()); // behave like a nop in case we're a match access
+		if(targetExpr.getType() instanceof MatchTypeNode) {
+			if(node!=null)
+				return new MatchAccess(targetExpr.checkIR(Expression.class), node.getNode());
+			else if(edge!=null)
+				return new MatchAccess(targetExpr.checkIR(Expression.class), edge.getEdge());
+			else
+				return new MatchAccess(targetExpr.checkIR(Expression.class), var.getVariable());
+		}
 		return new Qualification(targetExpr.checkIR(GraphEntityExpression.class).getGraphEntity(), member.checkIR(Entity.class));
 	}
 

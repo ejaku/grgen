@@ -35,6 +35,9 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 
 	protected IdentNode memberUnresolved;
 	private MemberDeclNode member;
+	private NodeDeclNode node;
+	private EdgeDeclNode edge;
+	private VarDeclNode var;
 
 	/**
 	 * Make a new identifier qualify node.
@@ -54,7 +57,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(ownerUnresolved, owner));
-		children.add(getValidVersion(memberUnresolved, member));
+		children.add(getValidVersion(memberUnresolved, member, node, edge, var));
 		return children;
 	}
 
@@ -89,19 +92,42 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 			return false;
 		}
 
-		if (ownerResolveResult && owner != null && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
-			TypeNode ownerType = owner.getDeclType();
-			if(ownerType instanceof ScopeOwner) {
-				ScopeOwner o = (ScopeOwner) ownerType;
-				o.fixupDefinition(memberUnresolved);
-				member = memberResolver.resolve(memberUnresolved, this);
-				successfullyResolved = member!=null && successfullyResolved;
+		if (ownerResolveResult && owner != null) {
+			if (owner instanceof NodeCharacter || owner instanceof EdgeCharacter) {
+				TypeNode ownerType = owner.getDeclType();
+				if(ownerType instanceof ScopeOwner) {
+					ScopeOwner o = (ScopeOwner) ownerType;
+					o.fixupDefinition(memberUnresolved);
+					member = memberResolver.resolve(memberUnresolved, this);
+					successfullyResolved = member!=null && successfullyResolved;
+				} else {
+					reportError("Left hand side of '.' does not own a scope");
+					successfullyResolved = false;
+				}
+			} else if(owner instanceof VarDeclNode && owner.typeUnresolved instanceof MatchTypeNode) {
+				MatchTypeNode matchType = (MatchTypeNode)owner.getDeclType();
+				if(!matchType.resolve()) {
+					reportError("Unkown test/rule referenced by match type in filter function");
+					return false;
+				}
+				TestDeclNode test = matchType.getTest();
+				if(!test.resolve()) {
+					reportError("Error in test/rule referenced by match type in filter function");
+					return false;
+				}
+				node = test.tryGetNode(memberUnresolved);
+				edge = test.tryGetEdge(memberUnresolved);
+				var = test.tryGetVar(memberUnresolved);
+				if(node==null && edge==null && var==null) {
+					reportError("Unknown member, can't find in test/rule referenced by match type in filter function");
+					successfullyResolved = false;
+				}
 			} else {
-				reportError("Left hand side of '.' does not own a scope");
+				reportError("Left hand side of '.' is neither a node nor an edge (nor a match type)");
 				successfullyResolved = false;
 			}
 		} else {
-			reportError("Left hand side of '.' is neither a node nor an edge");
+			reportError("Left hand side of '.' is neither a node nor an edge (nor a match type)");
 			successfullyResolved = false;
 		}
 
@@ -126,11 +152,43 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 
 		return owner;
 	}
+	
+	public boolean isMatchAssignment() {
+		assert isResolved();
+
+		return node!=null || edge!=null || var!=null;
+	}
+	
+	public NodeDeclNode getNodeFromMatch() {
+		assert isResolved();
+
+		return node;
+	}
+
+	public EdgeDeclNode getEdgeFromMatch() {
+		assert isResolved();
+
+		return edge;
+	}
+	
+	public VarDeclNode getVarFromMatch() {
+		assert isResolved();
+
+		return var;
+	}
 
 	@Override
 	protected IR constructIR() {
 		Entity ownerIR = owner.checkIR(Entity.class);
-		Entity memberIR = member.checkIR(Entity.class);
+		Entity memberIR;
+		if(member!=null)
+			memberIR = member.checkIR(Entity.class);
+		else if(node!=null)
+			memberIR = node.checkIR(Entity.class);
+		else if(edge!=null)
+			memberIR = edge.checkIR(Entity.class);
+		else
+			memberIR = var.checkIR(Entity.class);
 
 		return new Qualification(ownerIR, memberIR);
 	}

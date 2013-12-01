@@ -38,8 +38,8 @@ public abstract class MatchingAction extends Action {
 	/** A list of the return-parameters */
 	private final List<Expression> returns = new LinkedList<Expression>();
 
-	/** A list of the filters (their names) */
-	private final List<String> filters = new LinkedList<String>();
+	/** A list of the filters */
+	private final List<Filter> filters = new LinkedList<Filter>();
 
 	
 	/**
@@ -90,12 +90,12 @@ public abstract class MatchingAction extends Action {
 	}
 	
 	/** Add a filter to the action. */
-	public void addFilter(String name) {
-		filters.add(name);
+	public void addFilter(Filter filter) {
+		filters.add(filter);
 	}
 
 	/** Get all filters of this action. */
-	public List<String> getFilters() {
+	public List<Filter> getFilters() {
 		return Collections.unmodifiableList(filters);
 	}
 }

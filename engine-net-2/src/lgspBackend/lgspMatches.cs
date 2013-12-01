@@ -514,34 +514,28 @@ namespace de.unika.ipd.grGen.lgsp
         /// For filtering to the first or last elements
         /// implements the keepFirst, keepLast, keepFirstFraction, keepLastFractions filter
         /// </summary>
-        /// <param name="filter">The filter string, with encoded parameter value (following underscore, with decimal point encoded as underscore)</param>
-        public void FilterFirstLast(string filter)
+        /// <param name="filter">The filter call</param>
+        public void FilterFirstLast(FilterCall filter)
         {
-            if(filter.StartsWith("keepFirstFraction"))
+            if(filter.Name == "keepFirstFraction")
             {
-                string fractionToKeep = filter.Substring(filter.IndexOf('_') + 1);
-                fractionToKeep = fractionToKeep.Replace('_', '.');
-                FilterFirstFraction(Double.Parse(fractionToKeep, System.Globalization.CultureInfo.InvariantCulture));
+                FilterFirstFraction((double)filter.Argument);
             }
-            else if(filter.StartsWith("keepLastFraction"))
+            else if(filter.Name == "keepLastFraction")
             {
-                string fractionToKeep = filter.Substring(filter.IndexOf('_') + 1);
-                fractionToKeep = fractionToKeep.Replace('_', '.');
-                FilterLastFraction(Double.Parse(fractionToKeep, System.Globalization.CultureInfo.InvariantCulture));
+                FilterLastFraction((double)filter.Argument);
             }
-            else if(filter.StartsWith("keepFirst"))
+            else if(filter.Name == "keepFirst")
             {
-                string countToKeep = filter.Substring(filter.IndexOf('_') + 1);
-                FilterFirst(Int32.Parse(countToKeep, System.Globalization.CultureInfo.InvariantCulture));
+                FilterFirst((int)filter.Argument);
             }
-            else if(filter.StartsWith("keepLast"))
+            else if(filter.Name == "keepLast")
             {
-                string countToKeep = filter.Substring(filter.IndexOf('_') + 1);
-                FilterLast(Int32.Parse(countToKeep, System.Globalization.CultureInfo.InvariantCulture));
+                FilterLast((int)filter.Argument);
             }
             else
             {
-                throw new Exception("Unknown filter " + filter + " - don't know how to apply");
+                throw new Exception("Unknown filter " + filter.ToString() + " - don't know how to apply");
             }
         }
 
