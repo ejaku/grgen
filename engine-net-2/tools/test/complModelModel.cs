@@ -1,12 +1,13 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Sep 01 23:21:54 CEST 2013
+// Generated from "test.grg" on Sun Dec 01 13:16:53 CET 2013
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
+using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 
 namespace de.unika.ipd.grGen.Model_complModel
 {

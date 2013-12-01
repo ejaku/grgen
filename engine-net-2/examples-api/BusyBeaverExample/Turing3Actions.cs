@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Sep 01 23:21:57 CEST 2013
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Dec 01 13:16:56 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -50,7 +50,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -138,11 +138,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public interface IMatch_readZeroRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IState node_s { get; }
-			GRGEN_MODEL.IWriteValue node_wv { get; }
-			GRGEN_MODEL.IBandPosition node_bp { get; }
+			GRGEN_MODEL.IState node_s { get; set; }
+			GRGEN_MODEL.IWriteValue node_wv { get; set; }
+			GRGEN_MODEL.IBandPosition node_bp { get; set; }
 			//Edges
-			GRGEN_MODEL.IreadZero edge_rv { get; }
+			GRGEN_MODEL.IreadZero edge_rv { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -154,9 +154,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public class Match_readZeroRule : GRGEN_LGSP.ListElement<Match_readZeroRule>, IMatch_readZeroRule
 		{
-			public GRGEN_MODEL.IState node_s { get { return (GRGEN_MODEL.IState)_node_s; } }
-			public GRGEN_MODEL.IWriteValue node_wv { get { return (GRGEN_MODEL.IWriteValue)_node_wv; } }
-			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } }
+			public GRGEN_MODEL.IState node_s { get { return (GRGEN_MODEL.IState)_node_s; } set { _node_s = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IWriteValue node_wv { get { return (GRGEN_MODEL.IWriteValue)_node_wv; } set { _node_wv = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } set { _node_bp = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_s;
 			public GRGEN_LGSP.LGSPNode _node_wv;
 			public GRGEN_LGSP.LGSPNode _node_bp;
@@ -183,7 +183,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 			
-			public GRGEN_MODEL.IreadZero edge_rv { get { return (GRGEN_MODEL.IreadZero)_edge_rv; } }
+			public GRGEN_MODEL.IreadZero edge_rv { get { return (GRGEN_MODEL.IreadZero)_edge_rv; } set { _edge_rv = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_rv;
 			public enum readZeroRule_EdgeNums { @rv, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -350,7 +350,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -438,11 +438,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public interface IMatch_readOneRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IState node_s { get; }
-			GRGEN_MODEL.IWriteValue node_wv { get; }
-			GRGEN_MODEL.IBandPosition node_bp { get; }
+			GRGEN_MODEL.IState node_s { get; set; }
+			GRGEN_MODEL.IWriteValue node_wv { get; set; }
+			GRGEN_MODEL.IBandPosition node_bp { get; set; }
 			//Edges
-			GRGEN_MODEL.IreadOne edge_rv { get; }
+			GRGEN_MODEL.IreadOne edge_rv { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -454,9 +454,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public class Match_readOneRule : GRGEN_LGSP.ListElement<Match_readOneRule>, IMatch_readOneRule
 		{
-			public GRGEN_MODEL.IState node_s { get { return (GRGEN_MODEL.IState)_node_s; } }
-			public GRGEN_MODEL.IWriteValue node_wv { get { return (GRGEN_MODEL.IWriteValue)_node_wv; } }
-			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } }
+			public GRGEN_MODEL.IState node_s { get { return (GRGEN_MODEL.IState)_node_s; } set { _node_s = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IWriteValue node_wv { get { return (GRGEN_MODEL.IWriteValue)_node_wv; } set { _node_wv = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } set { _node_bp = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_s;
 			public GRGEN_LGSP.LGSPNode _node_wv;
 			public GRGEN_LGSP.LGSPNode _node_bp;
@@ -483,7 +483,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 			
-			public GRGEN_MODEL.IreadOne edge_rv { get { return (GRGEN_MODEL.IreadOne)_edge_rv; } }
+			public GRGEN_MODEL.IreadOne edge_rv { get { return (GRGEN_MODEL.IreadOne)_edge_rv; } set { _edge_rv = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_rv;
 			public enum readOneRule_EdgeNums { @rv, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -663,7 +663,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -784,11 +784,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public interface IMatch_ensureMoveLeftValidRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IWriteValue node_wv { get; }
-			GRGEN_MODEL.IState node__node0 { get; }
-			GRGEN_MODEL.IBandPosition node_bp { get; }
+			GRGEN_MODEL.IWriteValue node_wv { get; set; }
+			GRGEN_MODEL.IState node__node0 { get; set; }
+			GRGEN_MODEL.IBandPosition node_bp { get; set; }
 			//Edges
-			GRGEN_MODEL.ImoveLeft edge__edge0 { get; }
+			GRGEN_MODEL.ImoveLeft edge__edge0 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -801,10 +801,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public interface IMatch_ensureMoveLeftValidRule_neg_0 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IBandPosition node__node0 { get; }
-			GRGEN_MODEL.IBandPosition node_bp { get; }
+			GRGEN_MODEL.IBandPosition node__node0 { get; set; }
+			GRGEN_MODEL.IBandPosition node_bp { get; set; }
 			//Edges
-			GRGEN_MODEL.Iright edge__edge0 { get; }
+			GRGEN_MODEL.Iright edge__edge0 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -816,9 +816,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public class Match_ensureMoveLeftValidRule : GRGEN_LGSP.ListElement<Match_ensureMoveLeftValidRule>, IMatch_ensureMoveLeftValidRule
 		{
-			public GRGEN_MODEL.IWriteValue node_wv { get { return (GRGEN_MODEL.IWriteValue)_node_wv; } }
-			public GRGEN_MODEL.IState node__node0 { get { return (GRGEN_MODEL.IState)_node__node0; } }
-			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } }
+			public GRGEN_MODEL.IWriteValue node_wv { get { return (GRGEN_MODEL.IWriteValue)_node_wv; } set { _node_wv = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IState node__node0 { get { return (GRGEN_MODEL.IState)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } set { _node_bp = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_wv;
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public GRGEN_LGSP.LGSPNode _node_bp;
@@ -845,7 +845,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 			
-			public GRGEN_MODEL.ImoveLeft edge__edge0 { get { return (GRGEN_MODEL.ImoveLeft)_edge__edge0; } }
+			public GRGEN_MODEL.ImoveLeft edge__edge0 { get { return (GRGEN_MODEL.ImoveLeft)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum ensureMoveLeftValidRule_EdgeNums { @_edge0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -975,8 +975,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public class Match_ensureMoveLeftValidRule_neg_0 : GRGEN_LGSP.ListElement<Match_ensureMoveLeftValidRule_neg_0>, IMatch_ensureMoveLeftValidRule_neg_0
 		{
-			public GRGEN_MODEL.IBandPosition node__node0 { get { return (GRGEN_MODEL.IBandPosition)_node__node0; } }
-			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } }
+			public GRGEN_MODEL.IBandPosition node__node0 { get { return (GRGEN_MODEL.IBandPosition)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } set { _node_bp = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public GRGEN_LGSP.LGSPNode _node_bp;
 			public enum ensureMoveLeftValidRule_neg_0_NodeNums { @_node0, @bp, END_OF_ENUM };
@@ -1000,7 +1000,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 			
-			public GRGEN_MODEL.Iright edge__edge0 { get { return (GRGEN_MODEL.Iright)_edge__edge0; } }
+			public GRGEN_MODEL.Iright edge__edge0 { get { return (GRGEN_MODEL.Iright)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum ensureMoveLeftValidRule_neg_0_EdgeNums { @_edge0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -1179,7 +1179,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -1300,11 +1300,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public interface IMatch_ensureMoveRightValidRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IWriteValue node_wv { get; }
-			GRGEN_MODEL.IState node__node0 { get; }
-			GRGEN_MODEL.IBandPosition node_bp { get; }
+			GRGEN_MODEL.IWriteValue node_wv { get; set; }
+			GRGEN_MODEL.IState node__node0 { get; set; }
+			GRGEN_MODEL.IBandPosition node_bp { get; set; }
 			//Edges
-			GRGEN_MODEL.ImoveRight edge__edge0 { get; }
+			GRGEN_MODEL.ImoveRight edge__edge0 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -1317,10 +1317,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public interface IMatch_ensureMoveRightValidRule_neg_0 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IBandPosition node_bp { get; }
-			GRGEN_MODEL.IBandPosition node__node0 { get; }
+			GRGEN_MODEL.IBandPosition node_bp { get; set; }
+			GRGEN_MODEL.IBandPosition node__node0 { get; set; }
 			//Edges
-			GRGEN_MODEL.Iright edge__edge0 { get; }
+			GRGEN_MODEL.Iright edge__edge0 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -1332,9 +1332,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public class Match_ensureMoveRightValidRule : GRGEN_LGSP.ListElement<Match_ensureMoveRightValidRule>, IMatch_ensureMoveRightValidRule
 		{
-			public GRGEN_MODEL.IWriteValue node_wv { get { return (GRGEN_MODEL.IWriteValue)_node_wv; } }
-			public GRGEN_MODEL.IState node__node0 { get { return (GRGEN_MODEL.IState)_node__node0; } }
-			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } }
+			public GRGEN_MODEL.IWriteValue node_wv { get { return (GRGEN_MODEL.IWriteValue)_node_wv; } set { _node_wv = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IState node__node0 { get { return (GRGEN_MODEL.IState)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } set { _node_bp = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_wv;
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public GRGEN_LGSP.LGSPNode _node_bp;
@@ -1361,7 +1361,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 			
-			public GRGEN_MODEL.ImoveRight edge__edge0 { get { return (GRGEN_MODEL.ImoveRight)_edge__edge0; } }
+			public GRGEN_MODEL.ImoveRight edge__edge0 { get { return (GRGEN_MODEL.ImoveRight)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum ensureMoveRightValidRule_EdgeNums { @_edge0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -1491,8 +1491,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public class Match_ensureMoveRightValidRule_neg_0 : GRGEN_LGSP.ListElement<Match_ensureMoveRightValidRule_neg_0>, IMatch_ensureMoveRightValidRule_neg_0
 		{
-			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } }
-			public GRGEN_MODEL.IBandPosition node__node0 { get { return (GRGEN_MODEL.IBandPosition)_node__node0; } }
+			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } set { _node_bp = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IBandPosition node__node0 { get { return (GRGEN_MODEL.IBandPosition)_node__node0; } set { _node__node0 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_bp;
 			public GRGEN_LGSP.LGSPNode _node__node0;
 			public enum ensureMoveRightValidRule_neg_0_NodeNums { @bp, @_node0, END_OF_ENUM };
@@ -1516,7 +1516,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 			
-			public GRGEN_MODEL.Iright edge__edge0 { get { return (GRGEN_MODEL.Iright)_edge__edge0; } }
+			public GRGEN_MODEL.Iright edge__edge0 { get { return (GRGEN_MODEL.Iright)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum ensureMoveRightValidRule_neg_0_EdgeNums { @_edge0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -1685,7 +1685,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -1774,13 +1774,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public interface IMatch_moveLeftRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IWriteValue node_wv { get; }
-			GRGEN_MODEL.IState node_s { get; }
-			GRGEN_MODEL.IBandPosition node_lbp { get; }
-			GRGEN_MODEL.IBandPosition node_bp { get; }
+			GRGEN_MODEL.IWriteValue node_wv { get; set; }
+			GRGEN_MODEL.IState node_s { get; set; }
+			GRGEN_MODEL.IBandPosition node_lbp { get; set; }
+			GRGEN_MODEL.IBandPosition node_bp { get; set; }
 			//Edges
-			GRGEN_MODEL.ImoveLeft edge__edge0 { get; }
-			GRGEN_MODEL.Iright edge__edge1 { get; }
+			GRGEN_MODEL.ImoveLeft edge__edge0 { get; set; }
+			GRGEN_MODEL.Iright edge__edge1 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -1792,10 +1792,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public class Match_moveLeftRule : GRGEN_LGSP.ListElement<Match_moveLeftRule>, IMatch_moveLeftRule
 		{
-			public GRGEN_MODEL.IWriteValue node_wv { get { return (GRGEN_MODEL.IWriteValue)_node_wv; } }
-			public GRGEN_MODEL.IState node_s { get { return (GRGEN_MODEL.IState)_node_s; } }
-			public GRGEN_MODEL.IBandPosition node_lbp { get { return (GRGEN_MODEL.IBandPosition)_node_lbp; } }
-			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } }
+			public GRGEN_MODEL.IWriteValue node_wv { get { return (GRGEN_MODEL.IWriteValue)_node_wv; } set { _node_wv = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IState node_s { get { return (GRGEN_MODEL.IState)_node_s; } set { _node_s = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IBandPosition node_lbp { get { return (GRGEN_MODEL.IBandPosition)_node_lbp; } set { _node_lbp = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } set { _node_bp = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_wv;
 			public GRGEN_LGSP.LGSPNode _node_s;
 			public GRGEN_LGSP.LGSPNode _node_lbp;
@@ -1825,8 +1825,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 			
-			public GRGEN_MODEL.ImoveLeft edge__edge0 { get { return (GRGEN_MODEL.ImoveLeft)_edge__edge0; } }
-			public GRGEN_MODEL.Iright edge__edge1 { get { return (GRGEN_MODEL.Iright)_edge__edge1; } }
+			public GRGEN_MODEL.ImoveLeft edge__edge0 { get { return (GRGEN_MODEL.ImoveLeft)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Iright edge__edge1 { get { return (GRGEN_MODEL.Iright)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public enum moveLeftRule_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
@@ -2001,7 +2001,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -2090,13 +2090,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public interface IMatch_moveRightRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IWriteValue node_wv { get; }
-			GRGEN_MODEL.IState node_s { get; }
-			GRGEN_MODEL.IBandPosition node_bp { get; }
-			GRGEN_MODEL.IBandPosition node_rbp { get; }
+			GRGEN_MODEL.IWriteValue node_wv { get; set; }
+			GRGEN_MODEL.IState node_s { get; set; }
+			GRGEN_MODEL.IBandPosition node_bp { get; set; }
+			GRGEN_MODEL.IBandPosition node_rbp { get; set; }
 			//Edges
-			GRGEN_MODEL.ImoveRight edge__edge0 { get; }
-			GRGEN_MODEL.Iright edge__edge1 { get; }
+			GRGEN_MODEL.ImoveRight edge__edge0 { get; set; }
+			GRGEN_MODEL.Iright edge__edge1 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -2108,10 +2108,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public class Match_moveRightRule : GRGEN_LGSP.ListElement<Match_moveRightRule>, IMatch_moveRightRule
 		{
-			public GRGEN_MODEL.IWriteValue node_wv { get { return (GRGEN_MODEL.IWriteValue)_node_wv; } }
-			public GRGEN_MODEL.IState node_s { get { return (GRGEN_MODEL.IState)_node_s; } }
-			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } }
-			public GRGEN_MODEL.IBandPosition node_rbp { get { return (GRGEN_MODEL.IBandPosition)_node_rbp; } }
+			public GRGEN_MODEL.IWriteValue node_wv { get { return (GRGEN_MODEL.IWriteValue)_node_wv; } set { _node_wv = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IState node_s { get { return (GRGEN_MODEL.IState)_node_s; } set { _node_s = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } set { _node_bp = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IBandPosition node_rbp { get { return (GRGEN_MODEL.IBandPosition)_node_rbp; } set { _node_rbp = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_wv;
 			public GRGEN_LGSP.LGSPNode _node_s;
 			public GRGEN_LGSP.LGSPNode _node_bp;
@@ -2141,8 +2141,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 			
-			public GRGEN_MODEL.ImoveRight edge__edge0 { get { return (GRGEN_MODEL.ImoveRight)_edge__edge0; } }
-			public GRGEN_MODEL.Iright edge__edge1 { get { return (GRGEN_MODEL.Iright)_edge__edge1; } }
+			public GRGEN_MODEL.ImoveRight edge__edge0 { get { return (GRGEN_MODEL.ImoveRight)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Iright edge__edge1 { get { return (GRGEN_MODEL.Iright)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge__edge1;
 			public enum moveRightRule_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
@@ -2307,7 +2307,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -2369,7 +2369,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public interface IMatch_countZeros : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IBandPosition node_bp { get; }
+			GRGEN_MODEL.IBandPosition node_bp { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -2382,7 +2382,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public class Match_countZeros : GRGEN_LGSP.ListElement<Match_countZeros>, IMatch_countZeros
 		{
-			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } }
+			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } set { _node_bp = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_bp;
 			public enum countZeros_NodeNums { @bp, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
@@ -2556,7 +2556,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -2618,7 +2618,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public interface IMatch_countOnes : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IBandPosition node_bp { get; }
+			GRGEN_MODEL.IBandPosition node_bp { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -2631,7 +2631,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public class Match_countOnes : GRGEN_LGSP.ListElement<Match_countOnes>, IMatch_countOnes
 		{
-			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } }
+			public GRGEN_MODEL.IBandPosition node_bp { get { return (GRGEN_MODEL.IBandPosition)_node_bp; } set { _node_bp = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_bp;
 			public enum countOnes_NodeNums { @bp, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
@@ -2787,6 +2787,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
 	{
 
 		static Procedures() {
+		}
+
+	}
+
+	public partial class MatchFilters
+	{
+
+		static MatchFilters() {
 		}
 
 	}
@@ -3063,13 +3071,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -3305,13 +3313,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -3573,13 +3581,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -3841,13 +3849,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -4114,13 +4122,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -4387,13 +4395,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -4606,13 +4614,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -4825,13 +4833,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }

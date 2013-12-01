@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Sep 01 23:22:24 CEST 2013
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Dec 01 13:17:22 CET 2013
 
 using System;
 using System.Collections.Generic;
@@ -47,7 +47,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -126,10 +126,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_newRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IProcess node_p1 { get; }
-			GRGEN_MODEL.IProcess node_p2 { get; }
+			GRGEN_MODEL.IProcess node_p1 { get; set; }
+			GRGEN_MODEL.IProcess node_p2 { get; set; }
 			//Edges
-			GRGEN_MODEL.Inext edge_n { get; }
+			GRGEN_MODEL.Inext edge_n { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -141,8 +141,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_newRule : GRGEN_LGSP.ListElement<Match_newRule>, IMatch_newRule
 		{
-			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } }
-			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } }
+			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } set { _node_p1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } set { _node_p2 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_p1;
 			public GRGEN_LGSP.LGSPNode _node_p2;
 			public enum newRule_NodeNums { @p1, @p2, END_OF_ENUM };
@@ -166,7 +166,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Inext edge_n { get { return (GRGEN_MODEL.Inext)_edge_n; } }
+			public GRGEN_MODEL.Inext edge_n { get { return (GRGEN_MODEL.Inext)_edge_n; } set { _edge_n = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_n;
 			public enum newRule_EdgeNums { @n, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -333,7 +333,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -424,12 +424,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_killRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IProcess node_p1 { get; }
-			GRGEN_MODEL.IProcess node_p { get; }
-			GRGEN_MODEL.IProcess node_p2 { get; }
+			GRGEN_MODEL.IProcess node_p1 { get; set; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
+			GRGEN_MODEL.IProcess node_p2 { get; set; }
 			//Edges
-			GRGEN_MODEL.Inext edge_n1 { get; }
-			GRGEN_MODEL.Inext edge_n2 { get; }
+			GRGEN_MODEL.Inext edge_n1 { get; set; }
+			GRGEN_MODEL.Inext edge_n2 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -441,9 +441,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_killRule : GRGEN_LGSP.ListElement<Match_killRule>, IMatch_killRule
 		{
-			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } }
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
-			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } }
+			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } set { _node_p1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } set { _node_p2 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_p1;
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public GRGEN_LGSP.LGSPNode _node_p2;
@@ -470,8 +470,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Inext edge_n1 { get { return (GRGEN_MODEL.Inext)_edge_n1; } }
-			public GRGEN_MODEL.Inext edge_n2 { get { return (GRGEN_MODEL.Inext)_edge_n2; } }
+			public GRGEN_MODEL.Inext edge_n1 { get { return (GRGEN_MODEL.Inext)_edge_n1; } set { _edge_n1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Inext edge_n2 { get { return (GRGEN_MODEL.Inext)_edge_n2; } set { _edge_n2 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_n1;
 			public GRGEN_LGSP.LGSPEdge _edge_n2;
 			public enum killRule_EdgeNums { @n1, @n2, END_OF_ENUM };
@@ -635,7 +635,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -697,7 +697,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_mountRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IProcess node_p { get; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -710,7 +710,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_mountRule : GRGEN_LGSP.ListElement<Match_mountRule>, IMatch_mountRule
 		{
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public enum mountRule_NodeNums { @p, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
@@ -888,7 +888,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -965,10 +965,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_unmountRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IResource node_r { get; }
-			GRGEN_MODEL.IProcess node_p { get; }
+			GRGEN_MODEL.IResource node_r { get; set; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
 			//Edges
-			GRGEN_MODEL.Itoken edge_t { get; }
+			GRGEN_MODEL.Itoken edge_t { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -980,8 +980,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_unmountRule : GRGEN_LGSP.ListElement<Match_unmountRule>, IMatch_unmountRule
 		{
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public enum unmountRule_NodeNums { @r, @p, END_OF_ENUM };
@@ -1005,7 +1005,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Itoken edge_t { get { return (GRGEN_MODEL.Itoken)_edge_t; } }
+			public GRGEN_MODEL.Itoken edge_t { get { return (GRGEN_MODEL.Itoken)_edge_t; } set { _edge_t = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_t;
 			public enum unmountRule_EdgeNums { @t, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -1184,7 +1184,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -1312,12 +1312,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_passRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IResource node_r { get; }
-			GRGEN_MODEL.IProcess node_p1 { get; }
-			GRGEN_MODEL.IProcess node_p2 { get; }
+			GRGEN_MODEL.IResource node_r { get; set; }
+			GRGEN_MODEL.IProcess node_p1 { get; set; }
+			GRGEN_MODEL.IProcess node_p2 { get; set; }
 			//Edges
-			GRGEN_MODEL.Itoken edge__edge0 { get; }
-			GRGEN_MODEL.Inext edge_n { get; }
+			GRGEN_MODEL.Itoken edge__edge0 { get; set; }
+			GRGEN_MODEL.Inext edge_n { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -1330,10 +1330,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_passRule_neg_0 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IProcess node_p1 { get; }
-			GRGEN_MODEL.IResource node_r { get; }
+			GRGEN_MODEL.IProcess node_p1 { get; set; }
+			GRGEN_MODEL.IResource node_r { get; set; }
 			//Edges
-			GRGEN_MODEL.Irequest edge_req { get; }
+			GRGEN_MODEL.Irequest edge_req { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -1345,9 +1345,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_passRule : GRGEN_LGSP.ListElement<Match_passRule>, IMatch_passRule
 		{
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
-			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } }
-			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } set { _node_p1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } set { _node_p2 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public GRGEN_LGSP.LGSPNode _node_p1;
 			public GRGEN_LGSP.LGSPNode _node_p2;
@@ -1374,8 +1374,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Itoken edge__edge0 { get { return (GRGEN_MODEL.Itoken)_edge__edge0; } }
-			public GRGEN_MODEL.Inext edge_n { get { return (GRGEN_MODEL.Inext)_edge_n; } }
+			public GRGEN_MODEL.Itoken edge__edge0 { get { return (GRGEN_MODEL.Itoken)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Inext edge_n { get { return (GRGEN_MODEL.Inext)_edge_n; } set { _edge_n = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public GRGEN_LGSP.LGSPEdge _edge_n;
 			public enum passRule_EdgeNums { @_edge0, @n, END_OF_ENUM };
@@ -1509,8 +1509,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_passRule_neg_0 : GRGEN_LGSP.ListElement<Match_passRule_neg_0>, IMatch_passRule_neg_0
 		{
-			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } }
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
+			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } set { _node_p1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_p1;
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public enum passRule_neg_0_NodeNums { @p1, @r, END_OF_ENUM };
@@ -1534,7 +1534,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } }
+			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } set { _edge_req = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_req;
 			public enum passRule_neg_0_EdgeNums { @req, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -1721,7 +1721,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -1872,8 +1872,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_requestRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IProcess node_p { get; }
-			GRGEN_MODEL.IResource node_r { get; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
+			GRGEN_MODEL.IResource node_r { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -1887,10 +1887,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_requestRule_neg_0 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IResource node_r { get; }
-			GRGEN_MODEL.IProcess node_p { get; }
+			GRGEN_MODEL.IResource node_r { get; set; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
 			//Edges
-			GRGEN_MODEL.Iheld_by edge_hb { get; }
+			GRGEN_MODEL.Iheld_by edge_hb { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -1903,10 +1903,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_requestRule_neg_1 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IProcess node_p { get; }
-			GRGEN_MODEL.IResource node_m { get; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
+			GRGEN_MODEL.IResource node_m { get; set; }
 			//Edges
-			GRGEN_MODEL.Irequest edge_req { get; }
+			GRGEN_MODEL.Irequest edge_req { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -1918,8 +1918,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_requestRule : GRGEN_LGSP.ListElement<Match_requestRule>, IMatch_requestRule
 		{
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public enum requestRule_NodeNums { @p, @r, END_OF_ENUM };
@@ -2067,8 +2067,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_requestRule_neg_0 : GRGEN_LGSP.ListElement<Match_requestRule_neg_0>, IMatch_requestRule_neg_0
 		{
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public enum requestRule_neg_0_NodeNums { @r, @p, END_OF_ENUM };
@@ -2092,7 +2092,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Iheld_by edge_hb { get { return (GRGEN_MODEL.Iheld_by)_edge_hb; } }
+			public GRGEN_MODEL.Iheld_by edge_hb { get { return (GRGEN_MODEL.Iheld_by)_edge_hb; } set { _edge_hb = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_hb;
 			public enum requestRule_neg_0_EdgeNums { @hb, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -2221,8 +2221,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_requestRule_neg_1 : GRGEN_LGSP.ListElement<Match_requestRule_neg_1>, IMatch_requestRule_neg_1
 		{
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
-			public GRGEN_MODEL.IResource node_m { get { return (GRGEN_MODEL.IResource)_node_m; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IResource node_m { get { return (GRGEN_MODEL.IResource)_node_m; } set { _node_m = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public GRGEN_LGSP.LGSPNode _node_m;
 			public enum requestRule_neg_1_NodeNums { @p, @m, END_OF_ENUM };
@@ -2246,7 +2246,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } }
+			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } set { _edge_req = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_req;
 			public enum requestRule_neg_1_EdgeNums { @req, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -2411,7 +2411,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -2496,11 +2496,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_takeRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IResource node_r { get; }
-			GRGEN_MODEL.IProcess node_p { get; }
+			GRGEN_MODEL.IResource node_r { get; set; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
 			//Edges
-			GRGEN_MODEL.Itoken edge_t { get; }
-			GRGEN_MODEL.Irequest edge_req { get; }
+			GRGEN_MODEL.Itoken edge_t { get; set; }
+			GRGEN_MODEL.Irequest edge_req { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -2512,8 +2512,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_takeRule : GRGEN_LGSP.ListElement<Match_takeRule>, IMatch_takeRule
 		{
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public enum takeRule_NodeNums { @r, @p, END_OF_ENUM };
@@ -2537,8 +2537,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Itoken edge_t { get { return (GRGEN_MODEL.Itoken)_edge_t; } }
-			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } }
+			public GRGEN_MODEL.Itoken edge_t { get { return (GRGEN_MODEL.Itoken)_edge_t; } set { _edge_t = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } set { _edge_req = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_t;
 			public GRGEN_LGSP.LGSPEdge _edge_req;
 			public enum takeRule_EdgeNums { @t, @req, END_OF_ENUM };
@@ -2719,7 +2719,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -2839,10 +2839,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_releaseRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IResource node_r { get; }
-			GRGEN_MODEL.IProcess node_p { get; }
+			GRGEN_MODEL.IResource node_r { get; set; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
 			//Edges
-			GRGEN_MODEL.Iheld_by edge_hb { get; }
+			GRGEN_MODEL.Iheld_by edge_hb { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -2855,10 +2855,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_releaseRule_neg_0 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IProcess node_p { get; }
-			GRGEN_MODEL.IResource node_m { get; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
+			GRGEN_MODEL.IResource node_m { get; set; }
 			//Edges
-			GRGEN_MODEL.Irequest edge_req { get; }
+			GRGEN_MODEL.Irequest edge_req { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -2870,8 +2870,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_releaseRule : GRGEN_LGSP.ListElement<Match_releaseRule>, IMatch_releaseRule
 		{
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public enum releaseRule_NodeNums { @r, @p, END_OF_ENUM };
@@ -2895,7 +2895,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Iheld_by edge_hb { get { return (GRGEN_MODEL.Iheld_by)_edge_hb; } }
+			public GRGEN_MODEL.Iheld_by edge_hb { get { return (GRGEN_MODEL.Iheld_by)_edge_hb; } set { _edge_hb = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_hb;
 			public enum releaseRule_EdgeNums { @hb, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -3024,8 +3024,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_releaseRule_neg_0 : GRGEN_LGSP.ListElement<Match_releaseRule_neg_0>, IMatch_releaseRule_neg_0
 		{
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
-			public GRGEN_MODEL.IResource node_m { get { return (GRGEN_MODEL.IResource)_node_m; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IResource node_m { get { return (GRGEN_MODEL.IResource)_node_m; } set { _node_m = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public GRGEN_LGSP.LGSPNode _node_m;
 			public enum releaseRule_neg_0_NodeNums { @p, @m, END_OF_ENUM };
@@ -3049,7 +3049,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } }
+			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } set { _edge_req = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_req;
 			public enum releaseRule_neg_0_EdgeNums { @req, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -3216,7 +3216,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -3303,12 +3303,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_giveRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IResource node_r { get; }
-			GRGEN_MODEL.IProcess node_p1 { get; }
-			GRGEN_MODEL.IProcess node_p2 { get; }
+			GRGEN_MODEL.IResource node_r { get; set; }
+			GRGEN_MODEL.IProcess node_p1 { get; set; }
+			GRGEN_MODEL.IProcess node_p2 { get; set; }
 			//Edges
-			GRGEN_MODEL.Irelease edge_rel { get; }
-			GRGEN_MODEL.Inext edge_n { get; }
+			GRGEN_MODEL.Irelease edge_rel { get; set; }
+			GRGEN_MODEL.Inext edge_n { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -3320,9 +3320,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_giveRule : GRGEN_LGSP.ListElement<Match_giveRule>, IMatch_giveRule
 		{
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
-			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } }
-			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } set { _node_p1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } set { _node_p2 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public GRGEN_LGSP.LGSPNode _node_p1;
 			public GRGEN_LGSP.LGSPNode _node_p2;
@@ -3349,8 +3349,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Irelease edge_rel { get { return (GRGEN_MODEL.Irelease)_edge_rel; } }
-			public GRGEN_MODEL.Inext edge_n { get { return (GRGEN_MODEL.Inext)_edge_n; } }
+			public GRGEN_MODEL.Irelease edge_rel { get { return (GRGEN_MODEL.Irelease)_edge_rel; } set { _edge_rel = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Inext edge_n { get { return (GRGEN_MODEL.Inext)_edge_n; } set { _edge_n = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_rel;
 			public GRGEN_LGSP.LGSPEdge _edge_n;
 			public enum giveRule_EdgeNums { @rel, @n, END_OF_ENUM };
@@ -3522,7 +3522,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -3607,12 +3607,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_blockedRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IProcess node_p1 { get; }
-			GRGEN_MODEL.IResource node_r { get; }
-			GRGEN_MODEL.IProcess node_p2 { get; }
+			GRGEN_MODEL.IProcess node_p1 { get; set; }
+			GRGEN_MODEL.IResource node_r { get; set; }
+			GRGEN_MODEL.IProcess node_p2 { get; set; }
 			//Edges
-			GRGEN_MODEL.Irequest edge_req { get; }
-			GRGEN_MODEL.Iheld_by edge_hb { get; }
+			GRGEN_MODEL.Irequest edge_req { get; set; }
+			GRGEN_MODEL.Iheld_by edge_hb { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -3624,9 +3624,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_blockedRule : GRGEN_LGSP.ListElement<Match_blockedRule>, IMatch_blockedRule
 		{
-			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } }
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
-			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } }
+			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } set { _node_p1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } set { _node_p2 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_p1;
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public GRGEN_LGSP.LGSPNode _node_p2;
@@ -3653,8 +3653,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } }
-			public GRGEN_MODEL.Iheld_by edge_hb { get { return (GRGEN_MODEL.Iheld_by)_edge_hb; } }
+			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } set { _edge_req = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Iheld_by edge_hb { get { return (GRGEN_MODEL.Iheld_by)_edge_hb; } set { _edge_hb = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_req;
 			public GRGEN_LGSP.LGSPEdge _edge_hb;
 			public enum blockedRule_EdgeNums { @req, @hb, END_OF_ENUM };
@@ -3832,7 +3832,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -3936,15 +3936,15 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_waitingRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IResource node_r2 { get; }
-			GRGEN_MODEL.IProcess node_p1 { get; }
-			GRGEN_MODEL.IResource node_r1 { get; }
-			GRGEN_MODEL.IProcess node_p2 { get; }
-			GRGEN_MODEL.IResource node_r { get; }
+			GRGEN_MODEL.IResource node_r2 { get; set; }
+			GRGEN_MODEL.IProcess node_p1 { get; set; }
+			GRGEN_MODEL.IResource node_r1 { get; set; }
+			GRGEN_MODEL.IProcess node_p2 { get; set; }
+			GRGEN_MODEL.IResource node_r { get; set; }
 			//Edges
-			GRGEN_MODEL.Iblocked edge_b { get; }
-			GRGEN_MODEL.Iheld_by edge_hb { get; }
-			GRGEN_MODEL.Irequest edge_req { get; }
+			GRGEN_MODEL.Iblocked edge_b { get; set; }
+			GRGEN_MODEL.Iheld_by edge_hb { get; set; }
+			GRGEN_MODEL.Irequest edge_req { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -3956,11 +3956,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_waitingRule : GRGEN_LGSP.ListElement<Match_waitingRule>, IMatch_waitingRule
 		{
-			public GRGEN_MODEL.IResource node_r2 { get { return (GRGEN_MODEL.IResource)_node_r2; } }
-			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } }
-			public GRGEN_MODEL.IResource node_r1 { get { return (GRGEN_MODEL.IResource)_node_r1; } }
-			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } }
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
+			public GRGEN_MODEL.IResource node_r2 { get { return (GRGEN_MODEL.IResource)_node_r2; } set { _node_r2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } set { _node_p1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IResource node_r1 { get { return (GRGEN_MODEL.IResource)_node_r1; } set { _node_r1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } set { _node_p2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_r2;
 			public GRGEN_LGSP.LGSPNode _node_p1;
 			public GRGEN_LGSP.LGSPNode _node_r1;
@@ -3993,9 +3993,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Iblocked edge_b { get { return (GRGEN_MODEL.Iblocked)_edge_b; } }
-			public GRGEN_MODEL.Iheld_by edge_hb { get { return (GRGEN_MODEL.Iheld_by)_edge_hb; } }
-			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } }
+			public GRGEN_MODEL.Iblocked edge_b { get { return (GRGEN_MODEL.Iblocked)_edge_b; } set { _edge_b = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Iheld_by edge_hb { get { return (GRGEN_MODEL.Iheld_by)_edge_hb; } set { _edge_hb = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } set { _edge_req = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_b;
 			public GRGEN_LGSP.LGSPEdge _edge_hb;
 			public GRGEN_LGSP.LGSPEdge _edge_req;
@@ -4183,7 +4183,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -4300,10 +4300,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_ignoreRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IResource node_r { get; }
-			GRGEN_MODEL.IProcess node_p { get; }
+			GRGEN_MODEL.IResource node_r { get; set; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
 			//Edges
-			GRGEN_MODEL.Iblocked edge_b { get; }
+			GRGEN_MODEL.Iblocked edge_b { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -4316,10 +4316,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_ignoreRule_neg_0 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IResource node_m { get; }
-			GRGEN_MODEL.IProcess node_p { get; }
+			GRGEN_MODEL.IResource node_m { get; set; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
 			//Edges
-			GRGEN_MODEL.Iheld_by edge_hb { get; }
+			GRGEN_MODEL.Iheld_by edge_hb { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -4331,8 +4331,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_ignoreRule : GRGEN_LGSP.ListElement<Match_ignoreRule>, IMatch_ignoreRule
 		{
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public enum ignoreRule_NodeNums { @r, @p, END_OF_ENUM };
@@ -4356,7 +4356,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Iblocked edge_b { get { return (GRGEN_MODEL.Iblocked)_edge_b; } }
+			public GRGEN_MODEL.Iblocked edge_b { get { return (GRGEN_MODEL.Iblocked)_edge_b; } set { _edge_b = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_b;
 			public enum ignoreRule_EdgeNums { @b, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -4485,8 +4485,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_ignoreRule_neg_0 : GRGEN_LGSP.ListElement<Match_ignoreRule_neg_0>, IMatch_ignoreRule_neg_0
 		{
-			public GRGEN_MODEL.IResource node_m { get { return (GRGEN_MODEL.IResource)_node_m; } }
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
+			public GRGEN_MODEL.IResource node_m { get { return (GRGEN_MODEL.IResource)_node_m; } set { _node_m = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_m;
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public enum ignoreRule_neg_0_NodeNums { @m, @p, END_OF_ENUM };
@@ -4510,7 +4510,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Iheld_by edge_hb { get { return (GRGEN_MODEL.Iheld_by)_edge_hb; } }
+			public GRGEN_MODEL.Iheld_by edge_hb { get { return (GRGEN_MODEL.Iheld_by)_edge_hb; } set { _edge_hb = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_hb;
 			public enum ignoreRule_neg_0_EdgeNums { @hb, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -4675,7 +4675,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -4760,11 +4760,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_unlockRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IResource node_r { get; }
-			GRGEN_MODEL.IProcess node_p { get; }
+			GRGEN_MODEL.IResource node_r { get; set; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
 			//Edges
-			GRGEN_MODEL.Iblocked edge_b { get; }
-			GRGEN_MODEL.Iheld_by edge_hb { get; }
+			GRGEN_MODEL.Iblocked edge_b { get; set; }
+			GRGEN_MODEL.Iheld_by edge_hb { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -4776,8 +4776,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_unlockRule : GRGEN_LGSP.ListElement<Match_unlockRule>, IMatch_unlockRule
 		{
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public enum unlockRule_NodeNums { @r, @p, END_OF_ENUM };
@@ -4801,8 +4801,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Iblocked edge_b { get { return (GRGEN_MODEL.Iblocked)_edge_b; } }
-			public GRGEN_MODEL.Iheld_by edge_hb { get { return (GRGEN_MODEL.Iheld_by)_edge_hb; } }
+			public GRGEN_MODEL.Iblocked edge_b { get { return (GRGEN_MODEL.Iblocked)_edge_b; } set { _edge_b = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Iheld_by edge_hb { get { return (GRGEN_MODEL.Iheld_by)_edge_hb; } set { _edge_hb = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_b;
 			public GRGEN_LGSP.LGSPEdge _edge_hb;
 			public enum unlockRule_EdgeNums { @b, @hb, END_OF_ENUM };
@@ -4989,7 +4989,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -5124,14 +5124,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_requestStarRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IResource node_r1 { get; }
-			GRGEN_MODEL.IProcess node_p1 { get; }
-			GRGEN_MODEL.IProcess node_p2 { get; }
-			GRGEN_MODEL.IResource node_r2 { get; }
+			GRGEN_MODEL.IResource node_r1 { get; set; }
+			GRGEN_MODEL.IProcess node_p1 { get; set; }
+			GRGEN_MODEL.IProcess node_p2 { get; set; }
+			GRGEN_MODEL.IResource node_r2 { get; set; }
 			//Edges
-			GRGEN_MODEL.Iheld_by edge_h1 { get; }
-			GRGEN_MODEL.Inext edge_n { get; }
-			GRGEN_MODEL.Iheld_by edge_h2 { get; }
+			GRGEN_MODEL.Iheld_by edge_h1 { get; set; }
+			GRGEN_MODEL.Inext edge_n { get; set; }
+			GRGEN_MODEL.Iheld_by edge_h2 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -5144,10 +5144,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_requestStarRule_neg_0 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IProcess node_p1 { get; }
-			GRGEN_MODEL.IResource node_r2 { get; }
+			GRGEN_MODEL.IProcess node_p1 { get; set; }
+			GRGEN_MODEL.IResource node_r2 { get; set; }
 			//Edges
-			GRGEN_MODEL.Irequest edge_req { get; }
+			GRGEN_MODEL.Irequest edge_req { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -5159,10 +5159,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_requestStarRule : GRGEN_LGSP.ListElement<Match_requestStarRule>, IMatch_requestStarRule
 		{
-			public GRGEN_MODEL.IResource node_r1 { get { return (GRGEN_MODEL.IResource)_node_r1; } }
-			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } }
-			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } }
-			public GRGEN_MODEL.IResource node_r2 { get { return (GRGEN_MODEL.IResource)_node_r2; } }
+			public GRGEN_MODEL.IResource node_r1 { get { return (GRGEN_MODEL.IResource)_node_r1; } set { _node_r1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } set { _node_p1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } set { _node_p2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IResource node_r2 { get { return (GRGEN_MODEL.IResource)_node_r2; } set { _node_r2 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_r1;
 			public GRGEN_LGSP.LGSPNode _node_p1;
 			public GRGEN_LGSP.LGSPNode _node_p2;
@@ -5192,9 +5192,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Iheld_by edge_h1 { get { return (GRGEN_MODEL.Iheld_by)_edge_h1; } }
-			public GRGEN_MODEL.Inext edge_n { get { return (GRGEN_MODEL.Inext)_edge_n; } }
-			public GRGEN_MODEL.Iheld_by edge_h2 { get { return (GRGEN_MODEL.Iheld_by)_edge_h2; } }
+			public GRGEN_MODEL.Iheld_by edge_h1 { get { return (GRGEN_MODEL.Iheld_by)_edge_h1; } set { _edge_h1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Inext edge_n { get { return (GRGEN_MODEL.Inext)_edge_n; } set { _edge_n = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Iheld_by edge_h2 { get { return (GRGEN_MODEL.Iheld_by)_edge_h2; } set { _edge_h2 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_h1;
 			public GRGEN_LGSP.LGSPEdge _edge_n;
 			public GRGEN_LGSP.LGSPEdge _edge_h2;
@@ -5333,8 +5333,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_requestStarRule_neg_0 : GRGEN_LGSP.ListElement<Match_requestStarRule_neg_0>, IMatch_requestStarRule_neg_0
 		{
-			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } }
-			public GRGEN_MODEL.IResource node_r2 { get { return (GRGEN_MODEL.IResource)_node_r2; } }
+			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } set { _node_p1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IResource node_r2 { get { return (GRGEN_MODEL.IResource)_node_r2; } set { _node_r2 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_p1;
 			public GRGEN_LGSP.LGSPNode _node_r2;
 			public enum requestStarRule_neg_0_NodeNums { @p1, @r2, END_OF_ENUM };
@@ -5358,7 +5358,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } }
+			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } set { _edge_req = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_req;
 			public enum requestStarRule_neg_0_EdgeNums { @req, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -5529,7 +5529,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -5625,14 +5625,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_releaseStarRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IProcess node_p1 { get; }
-			GRGEN_MODEL.IResource node_r1 { get; }
-			GRGEN_MODEL.IProcess node_p2 { get; }
-			GRGEN_MODEL.IResource node_r2 { get; }
+			GRGEN_MODEL.IProcess node_p1 { get; set; }
+			GRGEN_MODEL.IResource node_r1 { get; set; }
+			GRGEN_MODEL.IProcess node_p2 { get; set; }
+			GRGEN_MODEL.IResource node_r2 { get; set; }
 			//Edges
-			GRGEN_MODEL.Irequest edge_rq { get; }
-			GRGEN_MODEL.Iheld_by edge_h1 { get; }
-			GRGEN_MODEL.Iheld_by edge_h2 { get; }
+			GRGEN_MODEL.Irequest edge_rq { get; set; }
+			GRGEN_MODEL.Iheld_by edge_h1 { get; set; }
+			GRGEN_MODEL.Iheld_by edge_h2 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -5644,10 +5644,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_releaseStarRule : GRGEN_LGSP.ListElement<Match_releaseStarRule>, IMatch_releaseStarRule
 		{
-			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } }
-			public GRGEN_MODEL.IResource node_r1 { get { return (GRGEN_MODEL.IResource)_node_r1; } }
-			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } }
-			public GRGEN_MODEL.IResource node_r2 { get { return (GRGEN_MODEL.IResource)_node_r2; } }
+			public GRGEN_MODEL.IProcess node_p1 { get { return (GRGEN_MODEL.IProcess)_node_p1; } set { _node_p1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IResource node_r1 { get { return (GRGEN_MODEL.IResource)_node_r1; } set { _node_r1 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p2 { get { return (GRGEN_MODEL.IProcess)_node_p2; } set { _node_p2 = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IResource node_r2 { get { return (GRGEN_MODEL.IResource)_node_r2; } set { _node_r2 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_p1;
 			public GRGEN_LGSP.LGSPNode _node_r1;
 			public GRGEN_LGSP.LGSPNode _node_p2;
@@ -5677,9 +5677,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Irequest edge_rq { get { return (GRGEN_MODEL.Irequest)_edge_rq; } }
-			public GRGEN_MODEL.Iheld_by edge_h1 { get { return (GRGEN_MODEL.Iheld_by)_edge_h1; } }
-			public GRGEN_MODEL.Iheld_by edge_h2 { get { return (GRGEN_MODEL.Iheld_by)_edge_h2; } }
+			public GRGEN_MODEL.Irequest edge_rq { get { return (GRGEN_MODEL.Irequest)_edge_rq; } set { _edge_rq = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Iheld_by edge_h1 { get { return (GRGEN_MODEL.Iheld_by)_edge_h1; } set { _edge_h1 = (GRGEN_LGSP.LGSPEdge)value; } }
+			public GRGEN_MODEL.Iheld_by edge_h2 { get { return (GRGEN_MODEL.Iheld_by)_edge_h2; } set { _edge_h2 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_rq;
 			public GRGEN_LGSP.LGSPEdge _edge_h1;
 			public GRGEN_LGSP.LGSPEdge _edge_h2;
@@ -5864,7 +5864,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -5980,10 +5980,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_requestSimpleRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IResource node_r { get; }
-			GRGEN_MODEL.IProcess node_p { get; }
+			GRGEN_MODEL.IResource node_r { get; set; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
 			//Edges
-			GRGEN_MODEL.Itoken edge_t { get; }
+			GRGEN_MODEL.Itoken edge_t { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -5996,10 +5996,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_requestSimpleRule_neg_0 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IProcess node_p { get; }
-			GRGEN_MODEL.IResource node_r { get; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
+			GRGEN_MODEL.IResource node_r { get; set; }
 			//Edges
-			GRGEN_MODEL.Irequest edge_req { get; }
+			GRGEN_MODEL.Irequest edge_req { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -6011,8 +6011,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_requestSimpleRule : GRGEN_LGSP.ListElement<Match_requestSimpleRule>, IMatch_requestSimpleRule
 		{
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public enum requestSimpleRule_NodeNums { @r, @p, END_OF_ENUM };
@@ -6036,7 +6036,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Itoken edge_t { get { return (GRGEN_MODEL.Itoken)_edge_t; } }
+			public GRGEN_MODEL.Itoken edge_t { get { return (GRGEN_MODEL.Itoken)_edge_t; } set { _edge_t = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_t;
 			public enum requestSimpleRule_EdgeNums { @t, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -6165,8 +6165,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_requestSimpleRule_neg_0 : GRGEN_LGSP.ListElement<Match_requestSimpleRule_neg_0>, IMatch_requestSimpleRule_neg_0
 		{
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public enum requestSimpleRule_neg_0_NodeNums { @p, @r, END_OF_ENUM };
@@ -6190,7 +6190,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } }
+			public GRGEN_MODEL.Irequest edge_req { get { return (GRGEN_MODEL.Irequest)_edge_req; } set { _edge_req = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_req;
 			public enum requestSimpleRule_neg_0_EdgeNums { @req, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -6363,7 +6363,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 		}
 		private void initialize()
@@ -6468,7 +6468,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_aux_attachResource : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IProcess node_p { get; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
 			//Edges
 			//Variables
 			//EmbeddedGraphs
@@ -6482,10 +6482,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_aux_attachResource_neg_0 : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IResource node_r { get; }
-			GRGEN_MODEL.IProcess node_p { get; }
+			GRGEN_MODEL.IResource node_r { get; set; }
+			GRGEN_MODEL.IProcess node_p { get; set; }
 			//Edges
-			GRGEN_MODEL.Iheld_by edge__edge0 { get; }
+			GRGEN_MODEL.Iheld_by edge__edge0 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -6497,7 +6497,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_aux_attachResource : GRGEN_LGSP.ListElement<Match_aux_attachResource>, IMatch_aux_attachResource
 		{
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public enum aux_attachResource_NodeNums { @p, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
@@ -6641,8 +6641,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_aux_attachResource_neg_0 : GRGEN_LGSP.ListElement<Match_aux_attachResource_neg_0>, IMatch_aux_attachResource_neg_0
 		{
-			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } }
-			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } }
+			public GRGEN_MODEL.IResource node_r { get { return (GRGEN_MODEL.IResource)_node_r; } set { _node_r = (GRGEN_LGSP.LGSPNode)value; } }
+			public GRGEN_MODEL.IProcess node_p { get { return (GRGEN_MODEL.IProcess)_node_p; } set { _node_p = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_r;
 			public GRGEN_LGSP.LGSPNode _node_p;
 			public enum aux_attachResource_neg_0_NodeNums { @r, @p, END_OF_ENUM };
@@ -6666,7 +6666,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.Iheld_by edge__edge0 { get { return (GRGEN_MODEL.Iheld_by)_edge__edge0; } }
+			public GRGEN_MODEL.Iheld_by edge__edge0 { get { return (GRGEN_MODEL.Iheld_by)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum aux_attachResource_neg_0_EdgeNums { @_edge0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -6827,7 +6827,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			defs = new GRGEN_LIBGR.GrGenType[] { };
 			defNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new String[] { };
+			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
 			annotations.Add("specialRule", "true");
 		}
@@ -6897,9 +6897,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public interface IMatch_annotationTestRule : GRGEN_LIBGR.IMatch
 		{
 			//Nodes
-			GRGEN_MODEL.IAnnotationTestNode node_n1 { get; }
+			GRGEN_MODEL.IAnnotationTestNode node_n1 { get; set; }
 			//Edges
-			GRGEN_MODEL.IannotationTestEdge edge_e1 { get; }
+			GRGEN_MODEL.IannotationTestEdge edge_e1 { get; set; }
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
@@ -6911,7 +6911,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public class Match_annotationTestRule : GRGEN_LGSP.ListElement<Match_annotationTestRule>, IMatch_annotationTestRule
 		{
-			public GRGEN_MODEL.IAnnotationTestNode node_n1 { get { return (GRGEN_MODEL.IAnnotationTestNode)_node_n1; } }
+			public GRGEN_MODEL.IAnnotationTestNode node_n1 { get { return (GRGEN_MODEL.IAnnotationTestNode)_node_n1; } set { _node_n1 = (GRGEN_LGSP.LGSPNode)value; } }
 			public GRGEN_LGSP.LGSPNode _node_n1;
 			public enum annotationTestRule_NodeNums { @n1, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
@@ -6932,7 +6932,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public GRGEN_MODEL.IannotationTestEdge edge_e1 { get { return (GRGEN_MODEL.IannotationTestEdge)_edge_e1; } }
+			public GRGEN_MODEL.IannotationTestEdge edge_e1 { get { return (GRGEN_MODEL.IannotationTestEdge)_edge_e1; } set { _edge_e1 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_e1;
 			public enum annotationTestRule_EdgeNums { @e1, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -7072,6 +7072,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	{
 
 		static Procedures() {
+		}
+
+	}
+
+	public partial class MatchFilters
+	{
+
+		static MatchFilters() {
 		}
 
 	}
@@ -7364,13 +7372,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -7644,13 +7652,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -7859,13 +7867,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -8086,13 +8094,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -8370,13 +8378,13 @@ label0: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -8644,13 +8652,13 @@ label2: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -8889,13 +8897,13 @@ label2: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -9143,13 +9151,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -9400,13 +9408,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -9657,13 +9665,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -9961,13 +9969,13 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -10215,13 +10223,13 @@ label4: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -10460,13 +10468,13 @@ label4: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -10784,13 +10792,13 @@ label5: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -11083,13 +11091,13 @@ label5: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -11335,13 +11343,13 @@ label6: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -11577,13 +11585,13 @@ label7: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
@@ -11804,13 +11812,13 @@ label7: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, string filterName)
+        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
-            if(filterName.StartsWith("keepFirst") || filterName.StartsWith("keepLast")) {
-            	matches.FilterFirstLast(filterName);
+            if(filter.IsAutoSupplied) {
+            	matches.FilterFirstLast(filter);
             	return;
             }
-            switch(filterName) {
+            switch(filter.FullName) {
                 default: throw new Exception("Unknown filter name");
             }
         }
