@@ -1,0 +1,184 @@
+rule addNode
+{
+	modify{
+		.;
+	}
+}
+
+filter filterAdd<addNode>
+{
+	this.add(copy(this.peek()));
+}
+
+rule remNode
+{
+	n:Node;
+	
+	replace {
+	}
+}
+
+filter filterRem<remNode>
+{
+	this.rem();
+}
+
+filter filterRemByNull<remNode>
+{
+	this[this.size()-1] = null;
+	emit("The value of variable nodecountingraph of type int is: ");
+	emit(nodes().size());
+	emit("\n");
+}
+
+filter filterAddForRem<remNode>
+{
+	this.add(copy(this.peek()));
+	emit("The value of variable this of type arrayofmatch is: ");
+	emit(this.size());
+	emit("\n");
+	emit("The value of variable nodecountingraph of type int is: ");
+	emit(nodes().size());
+	emit("\n");
+}
+
+rule incidency
+{
+	def var i:int;
+
+	n:Node;
+
+	yield {
+		yield i = incident(n).size();
+	}
+	
+	modify{
+		emit("The value of variable i of type int is: ");
+		emit(i);
+		emit("\n");
+	}
+} \ orderAscendingBy<i>
+
+filter filterMaxToFront<incidency>
+{
+	def var maxpos:int=0; 
+	def var pos:int=0;
+	for(m:match<incidency> in this)
+	{
+		if(m.i > this[maxpos].i) {
+			maxpos = pos; 
+		}
+		pos = pos + 1;
+	}
+	def ref tmp:match<incidency> = this[0];
+	this[0] = this[maxpos];
+	this[maxpos] = tmp;
+	return;
+}
+
+filter filterDoubleFirst<incidency>
+{
+	def ref tmp:match<incidency> = this[0];
+	tmp.i = tmp.i + this[0].i; // member can only be assigned directly, not if computed with lhs index expression
+}
+
+filter filterDoubleLast<incidency>
+{
+	def ref tmp:match<incidency> = this[this.size()-1];
+	tmp.i = tmp.i + this[this.size()-1].i; // member can only be assigned directly, not if computed with lhs index expression
+}
+
+filter filterDoubleAll<incidency>
+{
+	for(m:match<incidency> in this)
+	{
+		m.i = m.i + incident(m.n).size();
+	}
+}
+
+rule addNodefilterAdd
+{
+	modify {
+		exec([addNode\filterAdd]);
+	}
+}
+
+rule remNodefilterRem
+{
+	modify {
+		exec([remNode\filterRem]);
+	}
+}
+
+rule remNodefilterRemByNull
+{
+	modify {
+		exec([remNode\filterRemByNull]);
+	}
+}
+
+rule remNodefilterAddForRemfilterRem
+{
+	modify {
+		exec([remNode\filterAddForRem\filterRem]);
+	}
+}
+
+rule incidencyorderAscendingByikeepFirst
+{
+	modify {
+		exec([incidency\orderAscendingBy<i>\keepFirst(1)]);
+	}
+}
+
+rule incidencyorderAscendingByifilterMaxToFrontkeepFirst
+{
+	modify {
+		exec([incidency\orderAscendingBy<i>\filterMaxToFront\keepFirst(1)]);
+	}
+}
+
+rule incidencyorderAscendingByi
+{
+	modify {
+		exec([incidency\orderAscendingBy<i>]);
+	}
+}
+
+rule incidencyorderAscendingByifilterMaxToFrontfilterDoubleFirst
+{
+	modify {
+		exec([incidency\orderAscendingBy<i>\filterMaxToFront\filterDoubleFirst]);
+	}
+}
+
+rule incidencyorderAscendingByifilterDoubleAll
+{
+	modify {
+		exec([incidency\orderAscendingBy<i>\filterDoubleAll]);
+	}
+}
+
+rule incidencyorderAscendingByikeepFirstfilterDoubleAll
+{
+	modify {
+		exec([incidency\orderAscendingBy<i>\keepFirst(1)\filterDoubleAll]);
+	}
+}
+
+rule incidencyorderAscendingByifilterDoubleAllfilterDoubleLast
+{
+	modify {
+		exec([incidency\orderAscendingBy<i>\filterDoubleAll\filterDoubleLast]);
+	}
+}
+
+rule init
+{
+	replace {
+		n0:Node;
+		n1:Node --> n2;
+		n2:Node --> n2;
+	}
+}
+
