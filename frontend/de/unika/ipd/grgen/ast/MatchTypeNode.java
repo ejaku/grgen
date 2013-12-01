@@ -15,10 +15,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MatchType;
-import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Rule;
 
 public class MatchTypeNode extends DeclaredTypeNode {
 	static {
@@ -27,7 +27,7 @@ public class MatchTypeNode extends DeclaredTypeNode {
 
 	@Override
 	public String getName() {
-		return "match<" + valueTypeUnresolved.toString() + "> type";
+		return "match<" + actionUnresolved.toString() + "> type";
 	}
 
 	private static HashMap<String, MatchTypeNode> matchTypes = new HashMap<String, MatchTypeNode>();
@@ -42,12 +42,12 @@ public class MatchTypeNode extends DeclaredTypeNode {
 		return matchTypeNode;
 	}
 
-	private IdentNode valueTypeUnresolved;
-	protected TypeNode valueType;
+	private IdentNode actionUnresolved;
+	protected TestDeclNode action;
 
 	// the match type node instances are created in ParserEnvironment as needed
-	public MatchTypeNode(IdentNode valueTypeIdent) {
-		valueTypeUnresolved = becomeParent(valueTypeIdent);
+	public MatchTypeNode(IdentNode actionIdent) {
+		actionUnresolved = becomeParent(actionIdent);
 	}
 
 	@Override
@@ -64,28 +64,31 @@ public class MatchTypeNode extends DeclaredTypeNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<TypeNode> typeResolver = new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+	private static final DeclarationResolver<TestDeclNode> actionResolver = new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
 
 	@Override
 	protected boolean resolveLocal() {
-		if(valueTypeUnresolved instanceof IdentNode)
-			fixupDefinition((IdentNode)valueTypeUnresolved, valueTypeUnresolved.getScope());
-		valueType = typeResolver.resolve(valueTypeUnresolved, this);
-
-		if(valueType == null) return false;
-
+		if(actionUnresolved instanceof IdentNode)
+			fixupDefinition((IdentNode)actionUnresolved, actionUnresolved.getScope());
+		action = actionResolver.resolve(actionUnresolved, this);
+		if(action == null) return false;
 		return true;
+	}
+	
+	public TestDeclNode getTest() {
+		assert(isResolved());
+		return action;
 	}
 
 	@Override
 	protected IR constructIR() {
-		Type vt = valueType.getType();
+		Rule matchAction = action.getAction();
 
 		// return if the keyType or valueType construction already constructed the IR object
 		if (isIRAlreadySet()) {
 			return (MatchType)getIR();
 		}
 
-		return new MatchType(vt);
+		return new MatchType(matchAction);
 	}
 }

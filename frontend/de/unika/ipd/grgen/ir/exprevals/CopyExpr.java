@@ -10,20 +10,20 @@ package de.unika.ipd.grgen.ir.exprevals;
 import de.unika.ipd.grgen.ir.*;
 
 public class CopyExpr extends Expression {
-	private final Expression graphExpr;
+	private final Expression sourceExpr;
 
-	public CopyExpr(Expression graphExpr, Type type) {
+	public CopyExpr(Expression sourceExpr, Type type) {
 		super("copy expression", type);
-		this.graphExpr = graphExpr;
+		this.sourceExpr = sourceExpr;
 	}
 
-	public Expression getGraphExpr() {
-		return graphExpr;
+	public Expression getSourceExpr() {
+		return sourceExpr;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		graphExpr.collectNeededEntities(needs);
+		sourceExpr.collectNeededEntities(needs);
 		needs.needsGraph();
 	}
 }

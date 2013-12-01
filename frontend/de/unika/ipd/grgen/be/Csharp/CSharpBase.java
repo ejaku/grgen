@@ -312,6 +312,11 @@ public abstract class CSharpBase {
 		else if(t instanceof InheritanceType) {
 			return formatElementInterfaceRef(t);
 		}
+		else if(t instanceof MatchType) {
+			MatchType matchType = (MatchType) t;
+			String actionName = matchType.getAction().getIdent().toString();
+			return "Rule_" + actionName + ".IMatch_" + actionName;
+		}
 		else throw new IllegalArgumentException("Illegal type: " + t);
 	}
 
@@ -345,7 +350,10 @@ public abstract class CSharpBase {
 
 	public String formatEntity(Entity entity, String pathPrefix) {
 		if(entity.getIdent().toString()=="this") {
-			return "this";
+			if(entity.getType() instanceof ArrayType)
+				return "this_matches";
+			else
+				return "this";
 		}
 		else if(entity instanceof Node) {
 			return pathPrefix + "node_" + formatIdentifiable(entity);
@@ -805,9 +813,16 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof CopyExpr) {
 			CopyExpr ce = (CopyExpr) expr;
-        	sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
-			genExpression(sb, ce.getGraphExpr(), modifyGenerationState);
-			sb.append(")");
+			Type t = ce.getSourceExpr().getType();
+			if(t instanceof MatchType) {
+	        	sb.append("(("+formatType(t)+")(");
+				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+				sb.append(").Clone())");
+			} else {
+	        	sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
+				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+				sb.append(")");
+			}
 		}
 		else if(expr instanceof Count) {
 			Count count = (Count) expr;
@@ -850,7 +865,10 @@ public abstract class CSharpBase {
 		else if(expr instanceof VariableExpression) {
 			Variable var = ((VariableExpression) expr).getVariable();
 			if(!Expression.isGlobalVariable(var)) {
-				sb.append("var_" + var.getIdent());
+				if(var.getIdent().toString().equals("this") && var.getType() instanceof ArrayType)
+					sb.append("this_matches");
+				else
+					sb.append(formatEntity(var));
 			} else {
 				sb.append(formatGlobalVariableRead(var));
 			}
@@ -1623,6 +1641,12 @@ public abstract class CSharpBase {
 		else if(expr instanceof ProjectionExpr) {
 			ProjectionExpr proj = (ProjectionExpr) expr;
 			sb.append(proj.getProjectedValueVarName());
+		}
+		else if(expr instanceof MatchAccess) {
+			MatchAccess ma = (MatchAccess) expr;
+			genExpression(sb, ma.getExpr(), modifyGenerationState);
+			sb.append(".");
+			sb.append(formatEntity(ma.getEntity()));
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

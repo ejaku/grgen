@@ -574,13 +574,13 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override string NotExistingFilter(SequenceRuleCall seq)
         {
-            foreach(String filter in seq.Filters)
+            foreach(FilterCall filter in seq.Filters)
             {
-                if(Array.IndexOf(seq.ParamBindings.Action.RulePattern.Filters, filter) == -1
-                    && !filter.StartsWith("keepFirst")
-                    && !filter.StartsWith("keepLast"))
+                if(!filter.IsContainedIn(seq.ParamBindings.Action.RulePattern.Filters)
+                    && !filter.Name.StartsWith("keepFirst")
+                    && !filter.Name.StartsWith("keepLast"))
                 {
-                    return filter;
+                    return filter.ToString();
                 }
             }
             return null;
@@ -595,8 +595,8 @@ namespace de.unika.ipd.grGen.libGr
     {
         // constructor for compiled sequences
         public SequenceCheckingEnvironmentCompiled(String[] ruleNames, String[] sequenceNames, String[] procedureNames, String[] functionNames,
+            Dictionary<String, List<IFilter>> rulesToFilters,
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
-            Dictionary<String, List<String>> rulesToGeneratedFilters, Dictionary<String, List<String>> rulesToNonGeneratedFilters,
             Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
             Dictionary<String, List<String>> proceduresToInputTypes, Dictionary<String, List<String>> proceduresToOutputTypes,
@@ -609,8 +609,7 @@ namespace de.unika.ipd.grGen.libGr
             this.functionNames = functionNames;
             this.rulesToInputTypes = rulesToInputTypes;
             this.rulesToOutputTypes = rulesToOutputTypes;
-            this.rulesToGeneratedFilters = rulesToGeneratedFilters;
-            this.rulesToNonGeneratedFilters = rulesToNonGeneratedFilters;
+            this.rulesToFilters = rulesToFilters;
             this.rulesToTopLevelEntities = rulesToTopLevelEntities;
             this.rulesToTopLevelEntityTypes = rulesToTopLevelEntityTypes;
             this.sequencesToInputTypes = sequencesToInputTypes;
@@ -636,15 +635,13 @@ namespace de.unika.ipd.grGen.libGr
         // the function names available in the .grg to compile
         private String[] functionNames;
 
+        // maps rule names available in the .grg to compile to the list of the match filters
+        private Dictionary<String, List<IFilter>> rulesToFilters;
+
         // maps rule names available in the .grg to compile to the list of the input typ names
         private Dictionary<String, List<String>> rulesToInputTypes;
         // maps rule names available in the .grg to compile to the list of the output typ names
         private Dictionary<String, List<String>> rulesToOutputTypes;
-
-        // maps rule names available in the .grg to compile to the list of the generated match filter names
-        private Dictionary<String, List<String>> rulesToGeneratedFilters;
-        // maps rule names available in the .grg to compile to the list of the non-generated match filter names
-        private Dictionary<String, List<String>> rulesToNonGeneratedFilters;
 
         // maps rule names available in the .grg to compile to the list of the top level entity names (nodes,edges,variables)
         private Dictionary<String, List<String>> rulesToTopLevelEntities;
@@ -835,14 +832,13 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override string NotExistingFilter(SequenceRuleCall seq)
         {
-            foreach(String filter in seq.Filters)
+            foreach(FilterCall filter in seq.Filters)
             {
-                if(!rulesToGeneratedFilters[seq.ParamBindings.Name].Contains(filter)
-                    && !rulesToNonGeneratedFilters[seq.ParamBindings.Name].Contains(filter)
-                    && !filter.StartsWith("keepFirst")
-                    && !filter.StartsWith("keepLast"))
+                if(!filter.IsContainedIn(rulesToFilters[seq.ParamBindings.Name])
+                    && !filter.Name.StartsWith("keepFirst")
+                    && !filter.Name.StartsWith("keepLast"))
                 {
-                    return filter;
+                    return filter.ToString();
                 }
             }
             return null;

@@ -32,6 +32,8 @@ public class Unit extends IR {
 
 	private final List<Rule> actionRules = new LinkedList<Rule>();
 
+	private final List<FilterFunction> filterFunctions = new LinkedList<FilterFunction>();
+
 	private final List<Rule> subpatternRules = new LinkedList<Rule>();
 
 	private final List<Sequence> sequences = new LinkedList<Sequence>();
@@ -65,6 +67,15 @@ public class Unit extends IR {
 
 	public Collection<Rule> getActionRules() {
 		return Collections.unmodifiableCollection(actionRules);
+	}
+
+	/** Add a filter function to the unit. */
+	public void addFilterFunction(FilterFunction filterFunction) {
+		filterFunctions.add(filterFunction);
+	}
+
+	public Collection<FilterFunction> getFilterFunctions() {
+		return Collections.unmodifiableCollection(filterFunctions);
 	}
 
 	/** Add a subpattern-rule to the unit. */

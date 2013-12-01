@@ -24,8 +24,6 @@ import de.unika.ipd.grgen.ir.Variable;
  * Declaration of a variable.
  */
 public class VarDeclNode extends DeclNode {
-	private static final DeclarationResolver<DeclNode> declOfTypeResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
-
 	private TypeNode type;
 
 	protected PatternGraphNode directlyNestingLHSGraph;
@@ -94,6 +92,9 @@ public class VarDeclNode extends DeclNode {
 		return childrenNames;
 	}
 
+	private static final DeclarationResolver<DeclNode> declOfTypeResolver = 
+		new DeclarationResolver<DeclNode>(DeclNode.class);
+
 	@Override
 	protected boolean resolveLocal() {
 		// Type was already known at construction?
@@ -142,7 +143,7 @@ public class VarDeclNode extends DeclNode {
 	 * Get the IR object correctly casted.
 	 * @return The Variable IR object.
 	 */
-	protected Variable getVariable() {
+	public Variable getVariable() {
 		return checkIR(Variable.class);
 	}
 

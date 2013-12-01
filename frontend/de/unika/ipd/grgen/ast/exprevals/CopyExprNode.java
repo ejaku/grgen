@@ -24,19 +24,19 @@ public class CopyExprNode extends ExprNode {
 		setName(CopyExprNode.class, "copy expr");
 	}
 
-	private ExprNode graphExpr;
+	private ExprNode sourceExpr;
 		
-	public CopyExprNode(Coords coords, ExprNode graphExpr) {
+	public CopyExprNode(Coords coords, ExprNode sourceExpr) {
 		super(coords);
-		this.graphExpr = graphExpr;
-		becomeParent(this.graphExpr);
+		this.sourceExpr = sourceExpr;
+		becomeParent(this.sourceExpr);
 	}
 
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(graphExpr);
+		children.add(sourceExpr);
 		return children;
 	}
 
@@ -44,7 +44,7 @@ public class CopyExprNode extends ExprNode {
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("graphExpr");
+		childrenNames.add("source expression");
 		return childrenNames;
 	}
 
@@ -57,8 +57,9 @@ public class CopyExprNode extends ExprNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal() {
-		if(!(graphExpr.getType() instanceof GraphTypeNode)) {
-			graphExpr.reportError("graph expected as argument to copy");
+		if(!(sourceExpr.getType() instanceof GraphTypeNode)
+				&& !(sourceExpr.getType() instanceof MatchTypeNode)) {
+			sourceExpr.reportError("graph or match expected as argument to copy");
 			return false;
 		}
 		return true;
@@ -66,12 +67,15 @@ public class CopyExprNode extends ExprNode {
 
 	@Override 
 	protected IR constructIR() {
-		return new CopyExpr(graphExpr.checkIR(Expression.class), 
+		return new CopyExpr(sourceExpr.checkIR(Expression.class), 
 								getType().getType());
 	}
 
 	@Override
 	public TypeNode getType() {
-		return BasicTypeNode.graphType;
+		if(sourceExpr.getType() instanceof MatchTypeNode)
+			return sourceExpr.getType();
+		else
+			return BasicTypeNode.graphType;
 	}
 }

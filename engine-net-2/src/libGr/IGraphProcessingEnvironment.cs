@@ -113,7 +113,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="test">If true, no rewrite step is performed.</param>
         /// <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
         /// <returns>The number of matches found</returns>
-        int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test, List<string> filters);
+        int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test, List<FilterCall> filters);
 
 
         #region Variables management

@@ -13,16 +13,43 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-// fakes class which represents a match access and behaves like a nop
-// the match access handling in the frontend is reduced to syntax checking, which is basically a nop
-// all further work is done in the sequence generation and esp. checking of the backend
-// doing correct resolving and type checking is sth I think would be a lot of effort
-// which is simply not needed for a construct which can only appear in the sequences, not requiring any presets
 public class MatchAccess extends Expression {
-	public MatchAccess(UntypedExecVarType type) {
-		super("match access", type);
+	Expression expression;
+	Node node;
+	Edge edge;
+	Variable var;
+	
+	public MatchAccess(Expression expression, Node node) {
+		super("match access", node.getNodeType());
+		this.expression = expression;
+		this.node = node;
 	}
 
+	public MatchAccess(Expression expression, Edge edge) {
+		super("match access", edge.getEdgeType());
+		this.expression = expression;
+		this.edge = edge;
+	}
+
+	public MatchAccess(Expression expression, Variable var) {
+		super("match access", var.getType());
+		this.expression = expression;
+		this.var = var;
+	}
+	
+	public Expression getExpr() {
+		return expression;
+	}
+
+	public Entity getEntity() {
+		if(node!=null)
+			return node;
+		else if(edge!=null)
+			return edge;
+		else
+			return var;
+	}
+	
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 	}

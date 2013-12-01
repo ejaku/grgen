@@ -11,24 +11,9 @@
 
 package de.unika.ipd.grgen.ir;
 
-public class MatchType extends Type {
-	Rule action;
-
-	public MatchType(Rule action) {
-		super("match type", null);
-		this.action = action;
-	}
-
-	public MatchType() {
-		super("match type", null);
-	}
-	
-	public Rule getAction() {
-		return action;
-	}
-
-	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
-		return IS_MATCH;
-	}
+/**
+ * A filter (base type for auto-generated filters and filter functions (internal and external)).
+ */
+public interface Filter {
+	Rule getAction();
 }

@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ir.FilterFunction;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Rule;
@@ -46,6 +47,9 @@ public class UnitNode extends BaseNode {
 	private CollectNode<TestDeclNode> actions;
 	private CollectNode<IdentNode> actionsUnresolved;
 
+	private CollectNode<FilterFunctionDeclNode> filterFunctions;
+	private CollectNode<IdentNode> filterFunctionsUnresolved;
+
 	private CollectNode<SequenceDeclNode> sequences;
 	private CollectNode<IdentNode> sequencesUnresolved;
 
@@ -66,7 +70,8 @@ public class UnitNode extends BaseNode {
 	private String filename;
 
 	public UnitNode(String unitname, String filename, ModelNode stdModel,
-			CollectNode<ModelNode> models, CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions, 
+			CollectNode<ModelNode> models, CollectNode<IdentNode> subpatterns, 
+			CollectNode<IdentNode> actions, CollectNode<IdentNode> filterFunctions, 
 			CollectNode<IdentNode> sequences, CollectNode<IdentNode> functions, CollectNode<IdentNode> procedures) {
 		this.stdModel = stdModel;
 		this.models = models;
@@ -75,6 +80,8 @@ public class UnitNode extends BaseNode {
 		becomeParent(this.subpatternsUnresolved);
 		this.actionsUnresolved = actions;
 		becomeParent(this.actionsUnresolved);
+		this.filterFunctionsUnresolved = filterFunctions;
+		becomeParent(this.filterFunctionsUnresolved);
 		this.sequencesUnresolved = sequences;
 		becomeParent(this.sequencesUnresolved);
 		this.functionsUnresolved = functions;
@@ -100,6 +107,7 @@ public class UnitNode extends BaseNode {
 		children.add(models);
 		children.add(getValidVersion(subpatternsUnresolved, subpatterns));
 		children.add(getValidVersion(actionsUnresolved, actions));
+		children.add(getValidVersion(filterFunctionsUnresolved, filterFunctions));
 		children.add(getValidVersion(sequencesUnresolved, sequences));
 		children.add(getValidVersion(functionsUnresolved, functions));
 		children.add(getValidVersion(proceduresUnresolved, procedures));
@@ -113,6 +121,7 @@ public class UnitNode extends BaseNode {
 		childrenNames.add("models");
 		childrenNames.add("subpatterns");
 		childrenNames.add("actions");
+		childrenNames.add("filter functions");
 		childrenNames.add("sequences");
 		childrenNames.add("functions");
 		childrenNames.add("procedures");
@@ -121,6 +130,9 @@ public class UnitNode extends BaseNode {
 
 	private static final CollectResolver<TestDeclNode> actionsResolver = new CollectResolver<TestDeclNode>(
 			new DeclarationResolver<TestDeclNode>(TestDeclNode.class));
+
+	private static final CollectResolver<FilterFunctionDeclNode> filterFunctionsResolver = new CollectResolver<FilterFunctionDeclNode>(
+			new DeclarationResolver<FilterFunctionDeclNode>(FilterFunctionDeclNode.class));
 
 	private static final CollectResolver<SubpatternDeclNode> subpatternsResolver = new CollectResolver<SubpatternDeclNode>(
 			new DeclarationResolver<SubpatternDeclNode>(SubpatternDeclNode.class));
@@ -138,12 +150,13 @@ public class UnitNode extends BaseNode {
 	@Override
 	protected boolean resolveLocal() {
 		actions      = actionsResolver.resolve(actionsUnresolved, this);
+		filterFunctions = filterFunctionsResolver.resolve(filterFunctionsUnresolved, this);
 		subpatterns  = subpatternsResolver.resolve(subpatternsUnresolved, this);
 		sequences    = sequencesResolver.resolve(sequencesUnresolved, this);
 		functions = functionsResolver.resolve(functionsUnresolved, this);
 		procedures = proceduresResolver.resolve(proceduresUnresolved, this);
 
-		return actions != null && subpatterns != null && sequences != null && functions != null && procedures != null;
+		return actions != null && filterFunctions != null && subpatterns != null && sequences != null && functions != null && procedures != null;
 	}
 
 	/** Check the collect nodes containing the model declarations, subpattern declarations, action declarations
@@ -169,6 +182,9 @@ public class UnitNode extends BaseNode {
 				RuleDeclNode rule = (RuleDeclNode)action;
 				res &= checkStatementsRHS(action, rule.right.graph);
 			}
+		}
+		for(FilterFunctionDeclNode filterFunction : filterFunctions.getChildren()) {
+			res &= EvalStatementNode.checkStatements(true, filterFunction, null, filterFunction.evals, true);
 		}
 		for(FunctionDeclNode function : functions.getChildren()) {
 			res &= EvalStatementNode.checkStatements(true, function, null, function.evals, true);
@@ -259,6 +275,11 @@ public class UnitNode extends BaseNode {
 		for(TestDeclNode n : actions.getChildren()) {
 			Rule rule = n.getAction();
 			res.addActionRule(rule);
+		}
+
+		for(FilterFunctionDeclNode n : filterFunctions.getChildren()) {
+			FilterFunction filter = n.getFilterFunction();
+			res.addFilterFunction(filter);
 		}
 
 		for(SequenceDeclNode n : sequences.getChildren()) {

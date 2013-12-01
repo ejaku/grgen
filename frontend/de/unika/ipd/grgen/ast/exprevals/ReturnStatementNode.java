@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.exprevals.ReturnStatementFilter;
 import de.unika.ipd.grgen.ir.exprevals.ReturnStatementProcedure;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.ReturnStatement;
@@ -31,6 +32,7 @@ public class ReturnStatementNode extends EvalStatementNode {
 
 	CollectNode<ExprNode> returnValueExprs;
 
+	boolean isFilterReturn = false;
 	boolean isFunctionReturn = false;
 
 	public ReturnStatementNode(Coords coords, CollectNode<ExprNode> returnValueExprs) {
@@ -66,12 +68,15 @@ public class ReturnStatementNode extends EvalStatementNode {
 	}
 
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
-		if(!(root instanceof FunctionDeclNode) && !(root instanceof ProcedureDeclNode)){
-			reportError("return must be nested inside a function or procedure (from where to return?)");
+		if(!(root instanceof FunctionDeclNode) && !(root instanceof ProcedureDeclNode) && !(root instanceof FilterFunctionDeclNode)){
+			reportError("return must be nested inside a function or procedure or filter (from where to return?)");
 			return false;
 		}
 		Vector<TypeNode> retTypes;
-		if(root instanceof FunctionDeclNode) {
+		if(root instanceof FilterFunctionDeclNode) {
+			isFilterReturn = true;
+			retTypes = new Vector<TypeNode>();
+		} else if(root instanceof FunctionDeclNode) {
 			isFunctionReturn = true;
 			FunctionDeclNode function = (FunctionDeclNode)root;
 			retTypes = new Vector<TypeNode>();
@@ -117,7 +122,9 @@ public class ReturnStatementNode extends EvalStatementNode {
 
 	@Override
 	protected IR constructIR() {
-		if(isFunctionReturn) {
+		if(isFilterReturn) {
+			return new ReturnStatementFilter();			
+		} else if(isFunctionReturn) {
 			return new ReturnStatement(returnValueExprs.get(0).checkIR(Expression.class));
 		} else {
 			ReturnStatementProcedure rsp = new ReturnStatementProcedure();

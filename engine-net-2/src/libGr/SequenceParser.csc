@@ -1680,12 +1680,13 @@ void RuleLookahead():
 Sequence Rule():
 {
 	bool special = false, test = false;
-	String str, filter = null;
+	String str;
+	FilterCall filter = null;
 	bool chooseRandSpecified = false, chooseRandSpecified2 = false, choice = false;
 	SequenceVariable varChooseRand = null, varChooseRand2 = null, subgraph = null, countResult = null;
 	List<SequenceExpression> argExprs = new List<SequenceExpression>();
 	List<SequenceVariable> returnVars = new List<SequenceVariable>();
-	List<String> filters = new List<String>();
+	List<FilterCall> filters = new List<FilterCall>();
 }
 {
 	("(" VariableList(returnVars) ")" "=" )?
@@ -1732,7 +1733,7 @@ Sequence Rule():
 					if(var.Type!="" && var.Type!="boolean")
 						throw new SequenceParserException(str, "untyped or bool", var.Type);
 					if(filters.Count > 0)
-						throw new SequenceParserException(str, filter, SequenceParserError.FilterError);
+						throw new SequenceParserException(str, filter.ToString(), SequenceParserError.FilterError);
 					if(subgraph!=null)
 						throw new SequenceParserException(str, "", SequenceParserError.SubgraphError);
 					return new SequenceBooleanComputation(new SequenceExpressionVariable(var), null, special);
@@ -1745,7 +1746,7 @@ Sequence Rule():
 
 			if(IsSequenceName(str)) {
 				if(filters.Count > 0)
-					throw new SequenceParserException(str, string.Join("\\", filters.ToArray()), SequenceParserError.FilterError);
+					throw new SequenceParserException(str, FiltersToString(filters), SequenceParserError.FilterError);
 				return new SequenceSequenceCall(
 								CreateSequenceInvocationParameterBindings(str, argExprs, returnVars, subgraph),
 								special);
@@ -1758,7 +1759,7 @@ Sequence Rule():
 	)
 }
 
-string Filter() :
+FilterCall Filter() :
 {
 	String filter, filterBase, filterVariable;
 	int n;
@@ -1766,34 +1767,31 @@ string Filter() :
 }
 {
 	LOOKAHEAD(2) filterBase=Word() "<" filterVariable=Word() ">"
-		// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
 		{
 			if(filterBase!="orderAscendingBy" && filterBase!="orderDescendingBy" && filterBase!="groupBy"
 				&& filterBase!="keepSameAsFirst" && filterBase!="keepSameAsLast" && filterBase!="keepOneForEach")
 				throw new ParseException("Unknown def-variable-based filter " + filterBase + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
 			else
-				return filterBase + "_" + filterVariable;
+				return new FilterCall(filterBase, filterVariable);
 		}
 |
 	LOOKAHEAD(3) filterBase=Word() "(" n=Number() ")"
-		// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
 		{
 			if(filterBase!="keepFirst" && filterBase!="keepLast")
 				throw new ParseException("Unknown integer-parameterized filter " + filterBase + "! Available are keepFirst, keepLast.");
 			else
-				return filterBase + "_" + n;
+				return new FilterCall(filterBase, n);
 		}
-|	
+|
 	LOOKAHEAD(3) filterBase=Word() "(" f=DoubleNumber() ")" 
-		// TODO: implement filters correctly, with data structures, instead of quick and dirty name mangling into a string
 		{
 			if(filterBase!="keepFirstFraction" && filterBase!="keepLastFraction")
 				throw new ParseException("Unknown floating-parameterized filter " + filterBase + "! Available are keepFirstFraction, keepLastFraction.");
 			else
-				return filterBase + "_" + f.ToString(System.Globalization.CultureInfo.InvariantCulture).Replace(".", "_");
+				return new FilterCall(filterBase, f);
 		}
 |
-	filter=Word() { return filter; } 
+	filter=Word() { return filter=="auto" ? new FilterCall(filter, null) : new FilterCall(filter); } 
 }
 
 CSHARPCODE
@@ -1997,6 +1995,22 @@ SequenceExpression getArgument(List<SequenceExpression> argExprs, int index)
 		return argExprs[index];
 	else // optional argument, is not parsed into list, function constructor requires null value
 		return null;
+}
+
+CSHARPCODE
+String FiltersToString(List<FilterCall> filters)
+{
+	StringBuilder sb = new StringBuilder();
+	bool first = true;
+	for(int i=0; i<filters.Count; ++i)
+	{
+		if(first)
+			first = false;
+		else
+			sb.Append("\\");
+		sb.Append(filters[i].ToString());
+	}
+	return sb.ToString();
 }
 
 TOKEN: { < ERROR: ~[] > }
