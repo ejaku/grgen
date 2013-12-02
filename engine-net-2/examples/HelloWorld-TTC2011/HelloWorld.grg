@@ -1,4 +1,4 @@
-using helloworld__ecore;
+#using "helloworld__ecore.gm"
 
 rule createHelloWorld {
 	replace {

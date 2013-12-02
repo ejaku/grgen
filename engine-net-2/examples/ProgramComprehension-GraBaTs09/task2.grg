@@ -1,4 +1,9 @@
-using JDTAST__ecore, CFG__ecore, PDG__ecore, Util, CFG_Util, PDG_Util;
+#using "JDTAST__ecore.gm"
+#using "CFG__ecore.gm"
+#using "PDG__ecore.gm"
+#using "Util.gm"
+#using "CFG_Util.gm"
+#using "PDG_Util.gm"
 
 #include "nameExpressions.gri"
 #include "test.gri"

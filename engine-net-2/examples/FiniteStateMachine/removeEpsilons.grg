@@ -1,6 +1,6 @@
 // this is the version presented in the quick introduction to the user manual
 
-using StateMachine;
+#using "StateMachine.gm"
 
 test checkStartState {
     x:StartState;

@@ -1,4 +1,4 @@
-using Alternatives;
+#using "Alternatives.gm"
 
 rule createA {
 	modify {

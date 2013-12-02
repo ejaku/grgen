@@ -4,7 +4,7 @@
 // creation of elements of statically unknown exact dynamical type by the typeof operator
 // next is removeEpsilons2.grg
 
-using NFAModel;
+#using "NFAModel.gm"
 
 // if there is an epsilon transition between x and y and a transition between y and z
 // then the rule adds the transition between y and z directly in between x and z

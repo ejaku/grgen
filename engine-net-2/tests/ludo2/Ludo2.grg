@@ -1,4 +1,4 @@
-using Ludo2Model;
+#using "Ludo2Model.gm"
 
 rule init {
 	replace {

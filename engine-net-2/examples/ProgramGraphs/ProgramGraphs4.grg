@@ -4,7 +4,7 @@
 // like the abstract syntax graph given (abstract syntax tree along contains edges plus crossing def-use edges)
 // before was ProgramGraphs3d.grg
 
-using ProgramGraphs;
+#using "ProgramGraphs.gm"
 
 #include "ProgramGraphs0WithoutUsing.grg"
 

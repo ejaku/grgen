@@ -1,4 +1,4 @@
-using DTreeModel;
+#using "DTreeModel.gm"
 
 rule init {
  replace {

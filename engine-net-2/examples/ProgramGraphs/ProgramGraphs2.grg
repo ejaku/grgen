@@ -2,7 +2,7 @@
 //  this allows to match and transform structures extending into breadth, e.g. all incident edges of an node
 // before was ProgramGraphs1.grg, next is ProgramGraphs3a.grg
 
-using ProgramGraphs;
+#using "ProgramGraphs.gm"
 
 #include "ProgramGraphs0WithoutUsing.grg"
 

@@ -1,6 +1,6 @@
 // Varró "Benchmark"(bah, where's a suffieciently large benchmark graph?) Object to Relational Mapping
 
-using ObjectToSchema;
+#using "ObjectToSchema.gm"
 
 rule schemaRule
 {

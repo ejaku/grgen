@@ -1,4 +1,4 @@
-using TranskriptionAbstrakt;
+#using "TranskriptionAbstrakt.gm"
 
 rule transcription()
 {

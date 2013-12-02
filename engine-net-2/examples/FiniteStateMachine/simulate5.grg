@@ -3,7 +3,7 @@
 // and how such embedded xgrs can yield values to the rule, to be returned out of the rule
 // before was simulate4.grg
 
-using NFAModel;
+#using "NFAModel.gm"
 
 #include "removeEpsilons3WithoutUsing.grg"
 

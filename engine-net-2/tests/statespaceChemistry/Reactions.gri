@@ -1,4 +1,4 @@
-using Chemistry;
+#using "Chemistry.gm"
 
 rule amideFormation(ref molecules:set<Molecule>) : (Molecule, Molecule)  {
 	C1:C-->:Bond<--N1:N-->n1h1:Bond<--H1:H;

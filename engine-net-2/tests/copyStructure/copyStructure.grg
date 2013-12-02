@@ -1,4 +1,4 @@
-using copyStructure;
+#using "copyStructure.gm"
 
 rule copySubgraph(root:Node, ref oldToNew:map<Node, Node>)
 {

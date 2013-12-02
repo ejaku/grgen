@@ -1,4 +1,4 @@
-using AntWorld_NoGammel;
+#using "AntWorld_NoGammel.gm"
 
 rule InitWorld : (Ant)
 {

@@ -1,4 +1,4 @@
-using Firm;
+#using "Firm.gm"
 
 //#include "Sad.grg"
 #include "test.gri"

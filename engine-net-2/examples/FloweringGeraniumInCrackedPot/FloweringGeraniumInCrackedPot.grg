@@ -1,4 +1,4 @@
-using FloweringGeraniumInCrackedPot;
+#using "FloweringGeraniumInCrackedPot.gm"
 
 rule moveFloweringInCrackedPotsToNewPots()
 {

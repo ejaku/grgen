@@ -1,4 +1,4 @@
-using JavaProgramGraphs;
+#using "JavaProgramGraphs.gm"
 
 #include "JavaProgramGraphsGxlDumper.gri"
 #include "JavaProgramGraphsTextDumper.gri"

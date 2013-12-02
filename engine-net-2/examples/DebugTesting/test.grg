@@ -1,6 +1,6 @@
 // this file is for manually testing the debugger
 
-using testmodel;
+#using "testmodel.gm"
 
 test domatch
 {

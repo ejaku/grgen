@@ -1,4 +1,4 @@
-using Turing3;
+#using "Turing3.gm"
 
 rule readZeroRule(s:State, bp:BandPosition) : (WriteValue) {
 	s -rv:readZero-> wv:WriteValue;

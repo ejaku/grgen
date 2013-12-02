@@ -1,4 +1,4 @@
-using Mutex;
+#using "Mutex.gm"
 
 rule initRule {
 	replace {

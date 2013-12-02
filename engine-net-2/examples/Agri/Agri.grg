@@ -1,4 +1,4 @@
-using AgriModel;
+#using "AgriModel.gm"
 
 rule repRule(f:Farmer) : (Apple) {
   f -sa:Sees-> a:Apple\ToffeeApple

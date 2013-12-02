@@ -1,4 +1,4 @@
-using ExternalFiltersAndSequences;
+#using "ExternalFiltersAndSequences.gm"
 
 // we declare the external sequences
 // signature only, external implementation!

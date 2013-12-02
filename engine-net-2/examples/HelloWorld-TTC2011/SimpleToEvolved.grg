@@ -1,4 +1,5 @@
-using graph1__ecore, graph2__ecore;
+#using "graph1__ecore.gm"
+#using "graph2__ecore.gm"
 
 rule migrateGraph {
 	n:graph1_Graph;

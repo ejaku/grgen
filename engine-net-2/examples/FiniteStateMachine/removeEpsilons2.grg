@@ -4,7 +4,7 @@
 //  i.e. elements from the outside can get matched again unless they are referenced by name
 // before was removeEpsilons1.grg, next is removeEpsilons2b.grg
 
-using NFAModel;
+#using "NFAModel.gm"
 
 test checkStartState {
     x:StartState;

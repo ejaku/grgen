@@ -1,4 +1,4 @@
-using Powertrain;
+#using "Powertrain.gm"
 
 rule init_conventional : (Powertrain)
 {

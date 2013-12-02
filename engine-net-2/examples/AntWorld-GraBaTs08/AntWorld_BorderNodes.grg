@@ -1,4 +1,4 @@
-using AntWorld_BorderNodes;
+#using "AntWorld_BorderNodes.gm"
 
 rule InitWorld : (Ant)
 {

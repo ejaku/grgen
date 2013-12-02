@@ -1,4 +1,4 @@
-using SnowflakeModel;
+#using "SnowflakeModel.gm"
 
 rule init {
 	replace {

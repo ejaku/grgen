@@ -3,7 +3,7 @@
 // the rules needed for freeing the nfa from epsilon transitions are now complete
 // before was removeEpsilons2b.grg, next is simulate4.grg
 
-using NFAModel;
+#using "NFAModel.gm"
 
 test checkStartState {
     x:StartState;

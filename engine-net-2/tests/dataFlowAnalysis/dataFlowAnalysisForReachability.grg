@@ -1,4 +1,4 @@
-using dataFlowAnalysisForReachability;
+#using "dataFlowAnalysisForReachability.gm"
 
 rule init
 {
