@@ -2,7 +2,7 @@
 // A Benchmark Evaluation of Incremental Pattern Matching in Graph Transformation
 // see http://viatra.inf.mit.bme.hu/download/icgt2008_pn_benchmark.zip for original/further versions
 
-using PetriModel;
+#using "PetriModel.gm"
 
 rule fireRule
 {

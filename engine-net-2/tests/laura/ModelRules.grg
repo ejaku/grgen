@@ -1,4 +1,4 @@
-using MyModel;
+#using "MyModel.gm"
 
 rule foo {
 	n:N;

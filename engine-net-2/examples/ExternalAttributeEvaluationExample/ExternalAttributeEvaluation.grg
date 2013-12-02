@@ -1,4 +1,4 @@
-using ExternalAttributeEvaluation;
+#using "ExternalAttributeEvaluation.gm"
 
 rule init
 {

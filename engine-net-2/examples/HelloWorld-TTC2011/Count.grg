@@ -1,4 +1,5 @@
-using graph1__ecore, result__ecore;
+#using "graph1__ecore.gm"
+#using "result__ecore.gm"
 
 #include "Emitter.gri"
 

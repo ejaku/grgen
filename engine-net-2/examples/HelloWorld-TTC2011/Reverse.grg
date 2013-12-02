@@ -1,4 +1,4 @@
-using graph1__ecore;
+#using "graph1__ecore.gm"
 
 rule reverseEdge {
 	alternative {

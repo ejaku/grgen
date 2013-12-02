@@ -1,4 +1,4 @@
-using conference;
+#using "conference.gm"
 
 rule init : (Slot, CounterNode)
 {

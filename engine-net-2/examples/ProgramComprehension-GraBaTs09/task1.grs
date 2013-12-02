@@ -9,6 +9,6 @@ redirect emit set0-output-grgen.xmi
 exec xmlPrefix
 exec (::counter)=initXMLCounter
 exec {(::visID) = valloc()}
-exec ((::counter)=filter(::visID, ::counter))*
+exec ((::counter)=filter_(::visID, ::counter))*
 exec {vfree(::visID)}
 exec xmlSuffix

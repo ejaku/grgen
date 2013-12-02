@@ -1,4 +1,4 @@
-using visit;
+#using "visit.gm"
 
 #include "graphgen.gri"
 

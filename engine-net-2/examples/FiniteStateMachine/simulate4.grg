@@ -4,7 +4,7 @@
 // and how a rule or test can expect values of a more concrete type than the type it receives
 // before was removeEpsilons3.grg, next is simulate5.grg
 
-using NFAModel;
+#using "NFAModel.gm"
 
 #include "removeEpsilons3WithoutUsing.grg"
 

@@ -2,7 +2,7 @@
 //  this can be used to match structures extending into depth, here it is used to match a statement list/chain
 // before was ProgramGraphs3a.grg, next is ProgramGraphs3c.grg
 
-using ProgramGraphs;
+#using "ProgramGraphs.gm"
 
 #include "ProgramGraphs0WithoutUsing.grg"
 

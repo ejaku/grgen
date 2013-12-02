@@ -8,7 +8,7 @@
 //    but it's your responsability to ensure the rewrites don't conflict (e.g. retyping of a node already deleted)
 // next is ProgramGraphs1.grg
 
-using ProgramGraphs;
+#using "ProgramGraphs.gm"
 
 
 // rules to create the example graphs //

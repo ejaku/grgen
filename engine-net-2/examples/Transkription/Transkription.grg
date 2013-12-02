@@ -1,4 +1,4 @@
-using Transkription;
+#using "Transkription.gm"
 
 rule Transkription
 {

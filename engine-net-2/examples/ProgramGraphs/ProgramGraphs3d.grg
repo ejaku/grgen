@@ -5,7 +5,7 @@
 //  i.e. can only be used to formulate positive conditions
 // before was ProgramGraphs3c.grg, next is ProgramGraphs4.grg
 
-using ProgramGraphs;
+#using "ProgramGraphs.gm"
 
 #include "ProgramGraphs0WithoutUsing.grg"
 

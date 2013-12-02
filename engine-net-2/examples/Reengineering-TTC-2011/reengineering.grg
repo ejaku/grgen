@@ -1,4 +1,7 @@
-using primitive_types__ecore, java__ecore, StateMachine__ecore, Link;
+#using "primitive_types__ecore.gm"
+#using "java__ecore.gm"
+#using "StateMachine__ecore.gm"
+#using "Link.gm"
 
 #include "export.gri"
 

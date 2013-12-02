@@ -1,5 +1,7 @@
 // The used graph models !!!
-using L3, auxtypes, L3Metamodel;
+#using "L3.gm"
+#using "auxtypes.gm"
+#using "L3Metamodel.gm"
 
 // create a counter node. Used by the uniquifier method
 rule createAUX_Counter : (AUX_Counter) {

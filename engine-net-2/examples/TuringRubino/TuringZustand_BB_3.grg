@@ -1,4 +1,4 @@
-using TuringZustandModel;
+#using "TuringZustandModel.gm"
 
 rule init {
 	replace {

@@ -1,6 +1,9 @@
 // This is the GrGen.NET solution to the Model Migration case of Transformation Tool Contest 2010.
 
-using original_minimal_metamodel__ecore, evolved_metamodel__ecore, dump_helper, export;
+#using "original_minimal_metamodel__ecore.gm"
+#using "evolved_metamodel__ecore.gm"
+#using "dump_helper.gm"
+#using "export.gm"
 
 // Rules for beautify the graph
 #include "dump_helper.gri"

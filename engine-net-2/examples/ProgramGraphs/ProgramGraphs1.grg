@@ -6,7 +6,7 @@
 //  i.e. they allow you to specify a change, not only a pattern
 // before was ProgramGraphs0.grg, next is ProgramGraphs2.grg
 
-using ProgramGraphs;
+#using "ProgramGraphs.gm"
 
 #include "ProgramGraphs0WithoutUsing.grg"
 

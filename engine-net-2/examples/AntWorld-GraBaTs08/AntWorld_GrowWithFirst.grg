@@ -1,4 +1,4 @@
-using AntWorld;
+#using "AntWorld.gm"
 
 rule InitWorld : (Ant)
 {

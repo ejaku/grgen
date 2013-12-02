@@ -1,4 +1,4 @@
-using TranskriptionAbstraktNachAtom;
+#using "TranskriptionAbstraktNachAtom.gm"
 
 rule createDNAChain // create sample abstract dna chain
 {

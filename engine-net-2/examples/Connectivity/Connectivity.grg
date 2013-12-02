@@ -1,4 +1,4 @@
-using ConnectivityModel;
+#using "ConnectivityModel.gm"
 
 // example graph
 rule init {

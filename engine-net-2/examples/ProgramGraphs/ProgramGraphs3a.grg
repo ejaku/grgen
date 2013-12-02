@@ -5,7 +5,7 @@
 //  from the subpattern replacement usage by using call syntax on the subpattern entity in the rewrite part of the pattern containing the entity declaration
 // before was ProgramGraphs2.grg, next is ProgramGraphs3b.grg
 
-using ProgramGraphs;
+#using "ProgramGraphs.gm"
 
 #include "ProgramGraphs0WithoutUsing.grg"
 

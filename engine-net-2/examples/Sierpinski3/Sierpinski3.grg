@@ -1,4 +1,4 @@
-using Sierpinski3Model;
+#using "Sierpinski3Model.gm"
 
 rule init {
  replace {

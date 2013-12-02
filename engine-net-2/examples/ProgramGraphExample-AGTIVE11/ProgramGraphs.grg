@@ -1,4 +1,4 @@
-using ProgramGraphs;
+#using "ProgramGraphs.gm"
 
 rule init
 {

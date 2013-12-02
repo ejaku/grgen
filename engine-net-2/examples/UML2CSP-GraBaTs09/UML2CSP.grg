@@ -1,4 +1,7 @@
-using UMLModel, CSPModel, HelperModel, GrIO;
+#using "UMLModel.gm"
+#using "CSPModel.gm"
+#using "HelperModel.gm"
+#using "GrIO.gm"
 
 #include "ExampleGraph.gri"
 #include "CSPOutput.gri"

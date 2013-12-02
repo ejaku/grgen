@@ -1,4 +1,4 @@
-using FunctionsProceduresExample;
+#using "FunctionsProceduresExample.gm"
 
 rule init
 {

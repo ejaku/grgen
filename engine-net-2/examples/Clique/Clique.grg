@@ -1,4 +1,4 @@
-using CliqueModel;
+#using "CliqueModel.gm"
 
 rule init : (State) {
   modify {
