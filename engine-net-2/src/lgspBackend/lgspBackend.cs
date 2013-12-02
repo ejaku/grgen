@@ -410,13 +410,21 @@ namespace de.unika.ipd.grGen.lgsp
 						GetNeededFiles(basePath, includedGRG, neededFiles, processedActionFiles, processedModelFiles);
 					}
 
+                    if(MatchString(charStream, "#using"))
+                    {
+                        String modelName = ReadQuotedString(charStream);
+                        modelName = basePath + FixDirectorySeparators(modelName);
+                        neededFiles.Add(modelName);
+                        GetNeededFiles(basePath, modelName, neededFiles, processedModelFiles);
+                    }
+
                     if(MatchString(charStream, "using"))
                     {
                         while(true)
                         {
                             String modelName = ReadString(charStream);
                             neededFiles.Add(basePath + modelName + ".gm");
-                            GetNeededFiles(basePath, modelName, neededFiles, processedModelFiles);
+                            GetNeededFiles(basePath, basePath + modelName + ".gm", neededFiles, processedModelFiles);
                             IgnoreSpace(charStream);
                             curChar = charStream.ReadChar();
                             if(curChar == ';') break;
@@ -443,7 +451,7 @@ namespace de.unika.ipd.grGen.lgsp
 							neededFiles.Add(includedGRG);
                             GetNeededFiles(basePath, includedGRG, neededFiles, processedActionFiles, processedModelFiles);
 						}
-						else if(curChar == '\\') charStream.ReadChar();			// skip escape sequences
+                        else if(curChar == '\\') charStream.ReadChar();			// skip escape sequences
 						else if(curChar == '/') IgnoreComment(charStream);
 						else if(curChar == '"')
 						{
@@ -454,13 +462,20 @@ namespace de.unika.ipd.grGen.lgsp
 								else if(curChar == '\\') charStream.ReadChar();		// skip escape sequence
 							}
 						}
+                        else if(curChar == '#' && MatchString(charStream, "using"))
+                        {
+                            String modelName = ReadQuotedString(charStream);
+                            modelName = basePath + FixDirectorySeparators(modelName);
+                            neededFiles.Add(modelName);
+                            GetNeededFiles(basePath, modelName, neededFiles, processedModelFiles);
+                        }
                         else if(curChar == 'u' && MatchString(charStream, "sing"))
                         {
                             while(true)
                             {
                                 String modelName = ReadString(charStream);
                                 neededFiles.Add(basePath + modelName + ".gm");
-                                GetNeededFiles(basePath, modelName, neededFiles, processedModelFiles);
+                                GetNeededFiles(basePath, basePath + modelName + ".gm", neededFiles, processedModelFiles);
                                 IgnoreSpace(charStream);
                                 curChar = charStream.ReadChar();
                                 if(curChar == ';') break;
@@ -484,22 +499,30 @@ namespace de.unika.ipd.grGen.lgsp
         {
             processedModelFiles[modelName] = null;
 
-            if(!File.Exists(basePath + modelName + ".gm"))
+            if(!File.Exists(modelName))
                 throw new FileNotFoundException("Used model file \"" + modelName + "\" does not exist!");
 
-            using(StreamReader reader = new StreamReader(basePath + modelName + ".gm"))
+            using(StreamReader reader = new StreamReader(modelName))
             {
                 SimpleCharStream charStream = new SimpleCharStream(reader);
                 char curChar;
                 try
                 {
+                    if(MatchString(charStream, "#using"))
+                    {
+                        String usedModelName = ReadQuotedString(charStream);
+                        usedModelName = basePath + FixDirectorySeparators(usedModelName);
+                        neededFiles.Add(usedModelName);
+                        GetNeededFiles(basePath, usedModelName, neededFiles, processedModelFiles);
+                    }
+
                     if(MatchString(charStream, "using"))
                     {
                         while(true)
                         {
                             String usedModelName = ReadString(charStream);
                             neededFiles.Add(basePath + usedModelName + ".gm");
-                            GetNeededFiles(basePath, usedModelName, neededFiles, processedModelFiles);
+                            GetNeededFiles(basePath, basePath + usedModelName + ".gm", neededFiles, processedModelFiles);
                             IgnoreSpace(charStream);
                             curChar = charStream.ReadChar();
                             if(curChar == ';') break;
@@ -525,13 +548,20 @@ namespace de.unika.ipd.grGen.lgsp
                                 else if(curChar == '\\') charStream.ReadChar();		// skip escape sequence
                             }
                         }
+                        else if(MatchString(charStream, "#using"))
+                        {
+                            String usedModelName = ReadQuotedString(charStream);
+                            usedModelName = basePath + FixDirectorySeparators(usedModelName);
+                            neededFiles.Add(usedModelName);
+                            GetNeededFiles(basePath, usedModelName, neededFiles, processedModelFiles);
+                        }
                         else if(curChar == 'u' && MatchString(charStream, "sing"))
                         {
                             while(true)
                             {
                                 String usedModelName = ReadString(charStream);
                                 neededFiles.Add(basePath + usedModelName + ".gm");
-                                GetNeededFiles(basePath, usedModelName, neededFiles, processedModelFiles);
+                                GetNeededFiles(basePath, basePath + usedModelName + ".gm", neededFiles, processedModelFiles);
                                 IgnoreSpace(charStream);
                                 curChar = charStream.ReadChar();
                                 if(curChar == ';') break;
@@ -648,7 +678,7 @@ namespace de.unika.ipd.grGen.lgsp
                 mainModelName = actionsName;
 
             actionsFilename = actionsDir + "lgsp-" + actionsName + "Actions.dll";
-            modelFilename = actionsDir + "lgsp-" + mainModelName + "Model.dll";
+            modelFilename = actionsDir + "lgsp-" + GetPathBaseName(mainModelName) + "Model.dll";
 
             // Do the libraries exist at all?
             if(!File.Exists(actionsFilename) || !File.Exists(modelFilename))
@@ -678,7 +708,7 @@ namespace de.unika.ipd.grGen.lgsp
                 neededFilenames.Add(statisticsPath);
 
             Dictionary<String, object> processedModelFiles = new Dictionary<String, object>();
-            GetNeededFiles(modelDir, modelName, neededFilenames, processedModelFiles);
+            GetNeededFiles(modelDir, gmFilename, neededFilenames, processedModelFiles);
 
             modelFilename = modelDir + "lgsp-" + modelName + "Model.dll";
 
