@@ -1546,6 +1546,12 @@ SequenceExpression FunctionCall():
 		} else if(function=="edges") {
 			if(argExprs.Count>1) throw new ParseException("\"" + function + "\" expects 1 parameter (edge type) or none (to get all edges)");
 			return new SequenceExpressionEdges(getArgument(argExprs, 0));
+		} else if(function=="empty") {
+			if(argExprs.Count>0) throw new ParseException("\"" + function + "\" expects no parameters");
+			return new SequenceExpressionEmpty();
+		} else if(function=="size") {
+			if(argExprs.Count>0) throw new ParseException("\"" + function + "\" expects no parameters");
+			return new SequenceExpressionSize();
 		} else if(function=="adjacent") {
 			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
 			return new SequenceExpressionAdjacentIncident(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.AdjacentNodes);
@@ -1655,7 +1661,7 @@ SequenceExpression FunctionCall():
 				if(function=="valloc" || function=="add" || function=="retype" || function=="insertInduced" || function=="insertDefined") {
 					throw new ParseException("\"" + function + "\" is a procedure, call with (var)=" + function + "();");
 				} else {
-					throw new ParseException("Unknown function name: \"" + function + "\"! (available are nodes|edges|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|isAdjacent|isAdjacentIncoming|isAdjacentOutgoing|isIncident|isIncoming|isOutgoing|isReachable|isReachableIncoming|isReachableOutgoing|isReachableEdges|isReachableEdgeIncoming|isReachableEdgesOutgoing|inducedSubgraph|definedSubgraph|source|target|opposite|nameof|import|copy|random|canonize or one of the functions defined in the .grg:" + GetFunctionNames() + ")");
+					throw new ParseException("Unknown function name: \"" + function + "\"! (available are nodes|edges|empty|size|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|isAdjacent|isAdjacentIncoming|isAdjacentOutgoing|isIncident|isIncoming|isOutgoing|isReachable|isReachableIncoming|isReachableOutgoing|isReachableEdges|isReachableEdgeIncoming|isReachableEdgesOutgoing|inducedSubgraph|definedSubgraph|source|target|opposite|nameof|import|copy|random|canonize or one of the functions defined in the .grg:" + GetFunctionNames() + ")");
 				}
 			}
 		}

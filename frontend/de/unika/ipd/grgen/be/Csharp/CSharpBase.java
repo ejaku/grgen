@@ -1386,6 +1386,14 @@ public abstract class CSharpBase {
 			genExpression(sb, n.getNodeTypeExpr(), modifyGenerationState);
 			sb.append(")");
 		}
+		else if (expr instanceof EmptyExpr) {
+			//EmptyExpr e = (EmptyExpr)expr;
+			sb.append("(graph.NumNodes+graph.NumEdges == 0)");
+		}
+		else if (expr instanceof SizeExpr) {
+			//SizeExpr s = (SizeExpr)expr;
+			sb.append("(graph.NumNodes+graph.NumEdges)");
+		}
 		else if (expr instanceof SourceExpr) {
 			SourceExpr s = (SourceExpr) expr;
 			sb.append("((");

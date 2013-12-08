@@ -1,0 +1,14 @@
+rule r {
+	if { !empty(); }
+	if { size()>0; }
+
+	modify {
+		eval {
+			def var x:boolean = empty();
+			def var y:int = size();
+		}
+		
+		exec({{ !empty() && size()>0}} && r);
+	}
+}
+

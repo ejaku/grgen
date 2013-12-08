@@ -2069,6 +2069,7 @@ functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 				|| (i.getText().equals("pow") || i.getText().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
 				|| i.getText().equals("abs") && params.getChildren().size()==1
 				|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
+				|| (i.getText().equals("empty") || i.getText().equals("size")) && params.getChildren().size()==0
 				|| (i.getText().equals("source") || i.getText().equals("target")) && params.getChildren().size()==1
 				|| i.getText().equals("opposite") && params.getChildren().size()==2
 				|| (i.getText().equals("incoming") || i.getText().equals("outgoing") || i.getText().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
@@ -3816,6 +3817,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| (i.getText().equals("pow") || i.getText().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
 				|| i.getText().equals("abs") && params.getChildren().size()==1
 				|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
+				|| (i.getText().equals("empty") || i.getText().equals("size")) && params.getChildren().size()==0
 				|| (i.getText().equals("source") || i.getText().equals("target")) && params.getChildren().size()==1
 				|| i.getText().equals("opposite") && params.getChildren().size()==2
 				|| (i.getText().equals("incoming") || i.getText().equals("outgoing") || i.getText().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3

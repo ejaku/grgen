@@ -3575,7 +3575,19 @@ namespace de.unika.ipd.grGen.lgsp
                     string edgeType = ExtractEdgeType(source, seqEdges.EdgeType);
                     return "GRGEN_LIBGR.GraphHelper.Edges(graph, (GRGEN_LIBGR.EdgeType)" + edgeType + ")";
                 }
-                
+
+                case SequenceExpressionType.Empty:
+                {
+                    SequenceExpressionEmpty seqEmpty = (SequenceExpressionEmpty)expr;
+                    return "(graph.NumNodes+graph.NumEdges==0)";
+                }
+
+                case SequenceExpressionType.Size:
+                {
+                    SequenceExpressionSize seqSize = (SequenceExpressionSize)expr;
+                    return "(graph.NumNodes+graph.NumEdges)";
+                }
+
                 case SequenceExpressionType.AdjacentNodes:
                 case SequenceExpressionType.AdjacentNodesViaIncoming:
                 case SequenceExpressionType.AdjacentNodesViaOutgoing:

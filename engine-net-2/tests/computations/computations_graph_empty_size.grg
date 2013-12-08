@@ -1,0 +1,38 @@
+rule addNode
+{
+	modify {
+		.;
+	}
+}
+
+rule addEdge
+{
+	n:Node;
+	modify {
+		n --> n;
+	}
+}
+
+rule r : (int, int) {
+	if { !empty(); }
+	if { size()>0; }
+
+	def var xs:boolean;
+	def var ys:int;
+	yield {
+		yield xs = empty();
+		yield ys = size();
+	}
+	
+	modify {
+		def var x:boolean;
+		def var y:int;
+		eval {
+			yield x = empty();
+			yield y = size();
+		}
+		
+		return(ys, y);
+	}
+}
+
