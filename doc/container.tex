@@ -135,15 +135,38 @@ It is non-constant if it contains nodes/edges/or member accesses, which may be t
 If the type of the container is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
 Without the type prefix all elements given in the constructor must be of the same type.
 
-\begin{note}
-To add a value to a set you may use set union with a single valued set constructor,
-to remove a value from a set you may use set difference with a single valued set constructor.
+%\begin{note}
+%To add a value to a set you may use set union with a single valued set constructor,
+%to remove a value from a set you may use set difference with a single valued set constructor.
+%\begin{grgen}
+%s | { "foo" }
+%s \ { n.a }
+%\end{grgen}
+%Used in this way they get internally optimized to the imperative set addition \texttt{s.add(x)} and removal \texttt{s.rem(x)} methods available in the \texttt{eval} block and the XGRS.
+%\end{note}
+
+\begin{example}
+An example explaining some set operations.
 \begin{grgen}
-s | { "foo" }
-s \ { n.a }
+function setExample(ref si:set<int>) : boolean
+{
+	def ref s:set<int> = set<int>{};
+	s.add(1); // { 1 }
+	s.add(2); // { 1, 2 }
+	s.add(3); // { 1, 2, 3 }, s.size()==3
+	s.rem(2); // { 1, 3 }
+	for(v:int in s) {
+		si.add(v);
+	} // s == si == { 1, 3 }, assuming input was {}
+	def var i:int = s.size(); // i==2
+	if(!(i in s)) { 
+		s.add(i);
+	} // { 1, 2, 3 }
+	s.add(3); // still { 1, 2, 3 }
+	return (2 in s | set<int>{ 4,5 }); // true
+}
 \end{grgen}
-Used in this way they get internally optimized to the imperative set addition \texttt{s.add(x)} and removal \texttt{s.rem(x)} methods available in the \texttt{eval} block and the XGRS.
-\end{note}
+\end{example}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -231,15 +254,40 @@ It is non-constant if it contains nodes/edges/or member accesses, which may be t
 If the type of the container is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
 Without the type prefix all elements given in the constructor must be of the same type.
 
-\begin{note}
-To add a (key,value)-pair to a map you may use map union with a single valued map constructor,
-to remove a value from a map you may use map difference with a single valued set or map constructor.
+%\begin{note}
+%To add a (key,value)-pair to a map you may use map union with a single valued map constructor,
+%to remove a value from a map you may use map difference with a single valued set or map constructor.
+%\begin{grgen}
+%m | { "foo" -> 42 }
+%m \ { n.a -> n.b } or m \ { n.a }
+%\end{grgen}
+%Used in this way they get internally optimized to the imperative map addition \texttt{s.add(key,value)} and removal \texttt{s.rem(key)} methods available in the \texttt{eval} block and the XGRS.
+%\end{note}
+
+
+\begin{example}
+An example explaining some map operations.
 \begin{grgen}
-m | { "foo" -> 42 }
-m \ { n.a -> n.b } or m \ { n.a }
+function mapExample(ref mi:map<int,int>) : boolean
+{
+	def ref m:map<int,int> = map<int,int>{};
+	m.add(1,1); // { 1->1 }
+	m.add(2,2); // { 1->1, 2->2 }
+	m.add(3,3); // { 1->1, 2->2, 3->3 }, m.size()==3
+	m.rem(2); // { 1->1, 3->3 }
+	for(k:int -> v:int in m) {
+		mi.add(k,v); // mi[k] == m[k]
+	} // m == mi == { 1->1, 3->3 }, assuming input was {->}
+	m[3] = m[1]; // m = { 1->1, 3->1 }
+	def var i:int = a.size(); // i==2
+	if(!(i in m)) { 
+		m.add(i, 1);
+	} // { 1->1, 2->1, 3->1 }
+	m.add(3, 3); // { 1->1, 2->1, 3->3 }
+	return (2 in m | map<int,int>{ 4->4, 5->m[0] }); // true
+}
 \end{grgen}
-Used in this way they get internally optimized to the imperative map addition \texttt{s.add(key,value)} and removal \texttt{s.rem(key)} methods available in the \texttt{eval} block and the XGRS.
-\end{note}
+\end{example}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -328,6 +376,31 @@ It is constant if only primitive type literals, enum literals, or constant expre
 It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
 If the type of the container is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
 Without the type prefix all elements given in the constructor must be of the same type.
+
+\begin{example}
+An example explaining some array operations.
+\begin{grgen}
+function arrayExample(ref ai:array<int>) : boolean
+{
+	def ref a:array<int> = array<int>[];
+	a.add(1); // [ 1 ]
+	a.add(2); // [ 1, 2 ]
+	a.add(3); // [ 1, 2, 3 ], a.size()==3
+	a.peek(); // end of [ 1, 2, 3 ] is 3 
+	a.rem(); // [ 1, 2 ] FIFO
+	for(k:int -> v:int in a) {
+		ai.add(v); // ai[k] == a[k]
+	} // a == ai == [ 1, 2 ], assuming input was []
+	def var i:int = a.indexOf(2);
+	if(i != -1) { // a[i]==2
+		a[i] = 3;
+	} // [ 1, 3 ]
+	a.add(2, 1); // [ 1, 2, 3 ]
+	return (2 in a + array<int>[ 4, 5 ]); // true
+}
+\end{grgen}
+\end{example}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Deque Operations} \label{sec:dequeexpr}
@@ -423,6 +496,30 @@ The primary usage of the deque is as a queue, as needed for breadth first search
 This is in contrast to the array that is suited to be employed as a stack, e.g. in a depth first search (unless that is programmed using the call stack), accessed LIFO.
 \end{note}
 
+\begin{example}
+An example explaining some deque operations.
+\begin{grgen}
+function dequeExample(ref di:deque<int>) : boolean
+{
+	def ref d:deque<int> = deque<int>][;
+	d.add(1); // ] 1 [
+	d.add(2); // ] 1, 2 [
+	d.add(3); // ] 1, 2, 3 [, d.size()==3
+	d.peek(); // begin of ] 1, 2, 3 [ is 1 
+	d.rem(); // ] 2, 3 [ LIFO
+	for(k:int -> v:int in d) {
+		di.add(v); // di[k] == d[k]
+	} // d == di == ] 2, 3 [, assuming input was ][
+	def var i:int = d.indexOf(2);
+	if(i != -1) {
+		d[i] = 1;
+	} // ] 1, 3 [
+	d.add(2, 1); // ] 1, 2, 3 [
+	return (2 in d + deque<int>] 4, 5 [); // true
+}
+\end{grgen}
+\end{example}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Storage Access in the Rules} \label{sub:storageaccess}\indexmain{storage access}
@@ -484,6 +581,8 @@ test neighbourneighbour(ref neighbours:map<City, City>) : City
 %The by-ref container parameters or container attributes can be operated upon by the container state change methods,
 %which allow to only partially change the container by adding or removing or overwriting elements resp. pairs of elements (in contrast to normal assignments which replace overwrite the target variable entirely);
 %they are especially useful for containers containing nodes or edges.
+
+%show usage as storages after examples with scalars
 
 \begin{example}
 The container state change methods \texttt{add} and \texttt{rem} allow to add graph elements to storages or remove graph elements from storages, i.e. sets or maps or arrays or deques holding nodes and edges used for rewrite in the calling sequence (cf. \ref{sec:storages}).

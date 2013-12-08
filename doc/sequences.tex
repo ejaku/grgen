@@ -31,7 +31,7 @@ i) graph global variables\indexmain{graph global variable}\indexmainsee{variable
 ii) sequence local variables\indexmain{sequence local variable}\indexmainsee{variable}{sequence local variable}.
 A variable is alive from its first declaration on: graph global variables are implicitly declared upon first usage of their name,
 sequence local variables are explicitly declared with a typed variable declaration of the form \texttt{name:type}.
-Graph global variables must be prefixed with a double colon ::, local variables are referenced just with their name.
+Graph global variables must be prefixed with a double colon \texttt{::}, local variables are referenced just with their name.
 Graph global variables are untyped; their values are typed, though, so type errors cause an exception at runtime.
 They belong to and are stored in the graph processing environment -- if you save the graph in \GrShell\ 
 then the variables are saved, too, and restored next time you load the saved graph.
@@ -105,10 +105,6 @@ The break point \texttt{\%} can be applied to a sequence call, but neither the \
 The square braces (\texttt{[]}) introduce a special kind of multiple rule application:
 Every pattern match produced by the rule will be rewritten;
 if at least one was found, rule application will succeed, otherwise it will fail. 
-Attention: This \indexed{all bracketing} is \textbf{not} equal to \texttt{Rule*}.
-Instead this operator collects all the matches first before starting to rewrite.
-So if one rewrite destroys other matches or creates new match opportunities the semantics differ;
-in particular the semantics is unsafe, i.e.\ one needs to avoid deleting or retyping a graph element that is bound by another match (will be deleted/retyped there). On the other hand this version is more efficient and allows one to get along without marking already handled situations (to prevent a rule matching again and again because the match situation is still there after the rewrite; normally you would need some match preventing device like a negative or visited flags to handle such a situation).
 If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.
 
 The \texttt{count}ed all bracketing \texttt{count[r]=>c} assigns the \indexed{count} of matches of rule \texttt{r} to the variable \texttt{c}, and applies \texttt{r} on all the matches.
@@ -202,6 +198,23 @@ The \indexed {user input assignment} \texttt{v=\$\%(string)} queries the user fo
 The user input assignment \texttt{v=\$\%(Node)} queries the user for a node from the host graph -- this only works in the GrShell in debug mode.
 The non simple variable handling is given in \ref{sec:seqcomp}, even further variable handling constructs are given in \ref{sec:storages}.
 
+\begin{example}
+The sequence \verb#(x)=s || (x)=t ;> [r(x)] & !u(::k,::l)# is executed in two halves,
+first \verb#(x)=s || (x)=t#,
+then \verb#[r(x)] & !u(::k,::l)#,
+as the then-right operator exercises the weakest binding of the used operators.
+The evaluation result of the first part is thrown away after it was computed, only the result of the second part defines the outcome of the sequence.
+From the first part, first \texttt{s} is executed, writing \texttt{x} in case of success.
+If \texttt{s} matches, execution of the left part is complete as the outcome of the lazy or is determined to be \texttt{true},
+and \texttt{t} not needed any more.
+If it does not match, \texttt{t} is executed, defining \texttt{x} (in case of success, which we assume).
+Then the right part is executed, first applying \texttt{r} on all matches found for the previously written \texttt{x} argument,
+then \texttt{u} on the values stored in the global variables used as arguments.
+Here, \texttt{u} is executed due to the eager operator even if \texttt{r} was not found, thus forcing the result to be \texttt{false}.
+The result of the entire sequence is true iff \texttt{r} was found at least once, and \texttt{u} was \emph{not} found (because of the negation).
+But to really give a valid sequence, we need to first declare the local variable \texttt{x} specifying its type, in contrast to the dynamically typed \texttt{::k} and \texttt{::l} global variables that we can use right away,
+so the complete sequence is \verb#x:Node ;> (x)=s || (x)=t ;> [r(x)] & !u(::k,::l)#.
+\end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Decisions and Loops}\indexmain{loop}\indexmain{regular expression syntax}
@@ -228,8 +241,25 @@ A sequence \verb#s+# is equivalent to \verb#s && s*#.
 The brackets (\texttt{[m]}) execute a sequence repeatedly as long as its execution does not fail but \emph{m} times at most;
 the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \emph{n} of iterations was not reached.
 
+\begin{example}
+The sequence \verb#if{ (x:Node)=s; (::cnt)=r(x,::cnt)* ; count[q(x)]=>::cnt ;> true }# 
+executes first \texttt{s}, writing the output value to the variable \texttt{x} that is declared on-the-fly.
+The result of \texttt{s} is used to decide which part to execute, in case of \texttt{true} it's \verb#(::cnt)=r(x,::cnt)*#,
+in case of \texttt{false} it's \verb#count[q(x)]=>::cnt ;> true#.
+The former executes the rule \texttt{r} as often as it matches, incrementing a variable \texttt{::cnt} used as counter each time (assuming that \texttt{r} contains a \verb#return(incnt+1)# for an input parameter \texttt{incnt}).
+Each match is sought in the host graph at the state left behind by the execution of the rule in the previous iteration step.
+%after each step previously available match possibilities may have been removed (besides the one matched), or previously unavailable ones may have been created.
+The latter sequence part executes the rule \texttt{q} on all matches in the current host graph at once, assigning the number of matches found (equalling the number of rewrites) to \texttt{::cnt}.
+%Match possibilites created this way are not inspected any more, hopefully there were no conflicts due to overlapping matches.
+The result of the overall sequence is always \texttt{true}, for one because the star operator used in the true-case always succeeds, and for the other because the false-case explicitely fixes its result to the constant \texttt{true}.
+\end{example}
+
 \begin{note}
 Consider all-bracketing introduced in the first section for rewriting all matches of a rule instead of iteration if they are independent.
+Attention: The \indexed{all bracketing} is \textbf{not} equal to \texttt{Rule*}.
+Instead this operator collects all the matches first before starting to rewrite.
+So if one rewrite destroys other matches or creates new match opportunities the semantics differ;
+in particular the semantics is unsafe, i.e.\ one needs to avoid deleting or retyping a graph element that is bound by another match (will be deleted/retyped there). On the other hand this version is more efficient and allows one to get along without marking already handled situations (to prevent a rule matching again and again because the match situation is still there after the rewrite; normally you would need some match preventing device like a negative or visited flags to handle such a situation).
 \end{note}
 
 
@@ -265,7 +295,7 @@ Table~\ref{seqbasictab} lists the basic operations of the graph rewrite sequence
 \texttt{count[\emph{a}]=>v} & Rewrite every pattern match produced by the action \emph{a}, and write the count of the matches found to the variable v.\\
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\
-\texttt{v}	& A variable acting as a predicate.\\
+\texttt{v}	& A boolean variable acting as a predicate.\\
 \hline
 \end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}}\indexmain{\texttt{"|}}
 \indexmain{\texttt{\&}}\indexmain{\texttt{"|"|}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}\indexmain{\texttt{;>}}\indexmain{\texttt{<;}}\indexmain{\texttt{+}}\indexmain{\texttt{[]}}
