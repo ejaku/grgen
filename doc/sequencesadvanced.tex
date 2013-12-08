@@ -54,6 +54,10 @@ Graph rewrite sequences can be processed \indexed{transaction}ally by using angl
 if the return value of the nested sequence is \texttt{false}, all the changes carried out on the host graph will be rolled back.
 Nested transactions\indexmainsee{nested transaction}{transaction} are supported, i.e. a transaction which was committed is rolled back again if an enclosing transaction fails.
 
+\begin{example}
+We want to execute a sequence \texttt{rs} and if it fails a rule \texttt{t} -- on the original graph. But \texttt{rs} is composed of two rules, it denotes the sequence \verb#r&&s#. So first \texttt{r} must succeed, and then \texttt{s}, too. Unfortunately, it is possible that \texttt{r} succeeds and carries out its effects on the graph, and then \texttt{s} fails. So we'd need an explicit \texttt{undo-r} to reverse the effect of \texttt{r} after \texttt{s} failed. Luckily, we can omit writing such reversal code (which may require a horrendous amount of bookkeeping) by utilizing transactions, to just try out and roll back on failure: \verb#if{!< r && s >; t}#. After \texttt{r} succeeded -- with the graph in state post-\texttt{r} -- \texttt{s} is executed. If \texttt{s} succeeds, the sequence as such succeeds. But if \texttt{s} fails we just roll back the effects of \texttt{r} and execute \texttt{t} instead. 
+\end{example}
+
 Transactions as such are only helpful in a limited number of cases, but they are a key ingredient for backtracking, which is syntactically specified by double angle brackets (\texttt{<<r;;s>>}.
 The semantics of the construct are:
 First compute all matches for rule \texttt{r}, then start a transaction.
@@ -65,15 +69,38 @@ On first sight this may not look very impressive, but this construct in combinat
 The backtracking double angles separate matching from rewriting: first all matches are found, but then only one after the other is applied, without interference of the other matches.
 The ``without interference of other matches'' statement is ensured by rolling back the changes of the application of the previous match, and much more, of the entire sequence which followed the rewriting of the previous match.
 
+\begin{example}
+The situation we find ourselves in now is to find an application of rule \texttt{r} that makes test \texttt{t} succeed. Unfortunately, the test would be very complicated to write based on the state before-\texttt{r}. So we want to execute \texttt{r} and try \texttt{t} afterwards. But remembering the other matches of \texttt{r} we found in case the just chosen match makes \texttt{t} fail, so we can exhaustively enumerate and try them all. Only in case none of them works do we accept failure.
+The sequence \verb#<<r;;t>># allows us directly to do so, it fails iff none of the possible applications of \texttt{r} can make a following \texttt{t} succeeds, it succeeds with the first application of \texttt{r} for which \texttt{t} succeeds. 
+\end{example}
+
 If you are just interested in the first goal state stumbled upon which satisfies your requirements during a search,
-then you only need to give a condition as last statement of the sequence which returns true if the goal was reached; the iteration stops exactly in the target state.
-When you are interested in finding all states which satisfy your requirements, or even in enumerating each and every state, just force backtracking by noting down the constant false as last element of the sequence.
+then you only need to give a condition as last statement of the sequence which returns true if the goal was reached; the iteration stops exactly in the target state (see example above).
+But when you are interested in finding all states which satisfy your requirements, or even in enumerating each and every state, just force backtracking by noting down the constant false as last element of the sequence (see example below).
+
+\begin{example}
+The sequence \verb#<< r ;; t ;> false >># allows us to visit all applications of \texttt{r} that make \texttt{t} succeed.
+But everything is rolled back after sequence end.
+So this is only helpful if you remember something about the states that saw \texttt{r} and \texttt{t} succeed.
+Either in some variables, or in the graph itself, during a transaction pause. 
+\end{example}
 
 The backtracking construct encodes a single decision point of a search, splitting into breadth along the different choices available at that point, and further continuing the search in the sequence.
 When this point of splitting into breadth is contained in a sequence,
 and this sequence calls itself again recursively on each branch of the decision taken,
 you get a recursion which is able to search into depth,
 continuing decision making on the resulting graph of the previous decision. 
+
+\begin{example}
+The example shows the scheme for a backtracking search.
+\begin{grgen}
+sequence rec(level:int) {
+	if{ {{level < ::MAXDEPTH}};
+		<< r ;; t && changes-to-be-remembered && rec(level+1) >>;
+		false } // end of recursion, will make all the rec return false, causing full rollback to initial state, with exception of changes that occured during a pause or are outside the graph and thus out of reach of transaction control
+}
+\end{grgen}
+\end{example}
 
 \begin{figure}[htbp]
   \centering

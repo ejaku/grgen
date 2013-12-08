@@ -2,7 +2,26 @@
 
 \chapter{Sequence Computations}\indexmain{sequence computations}
 
-In this chapter we'll have a look at sequence computations, which are not concerned with directly controlling rules, but with computing values or causing side effects.
+In this chapter we'll take a look at sequence computations, which are not concerned with directly controlling rules, but with computing values or causing side effects, that are then used to control rules.
+
+\begin{example}
+Sequence computations are typically employed when storages have to be maintained:
+\verb#now:set<Node>=set<Node>{};>next:set<Node>=set<Node>{};>initializeNow(now) ;>#
+\verb#( processNowFillNext(now, next) ;> { now.clear(); tmp:set<Node>=now; now=next;#
+\verb#next=tmp; {!now.empty()} } )*#
+--- that example sequence is used to implement a wavefront as rule control strategy.
+
+A set \texttt{now} of current nodes is processed, filling a set of output nodes to be processed \texttt{next}, which are then used in the following iteration step as input nodes, until all of parts of the graph reachable from the initial nodes have been passed, yielding an empty set.
+The sequence computation for switching in between the sets is given enclosed in braces in the sequence, 
+the sequence expression to determine whether the wavefront came to a halt is given at the end of the computation,
+enclosed a level deeper in braces.
+As long as the set is still filled the final expression, thus the computation, returns \texttt{true}, continuing with the loop -- when it gets empty, the expression yields \texttt{false}, henceforth terminating the loop and the wavefront algorithm.
+
+Sequence computations are made available in the sequences for tasks that benefit from state changes and comparisons being embedded directly in the controlling sequence, esp. for variable initializations and loop control.
+But as sequences are existing to control rules and not to do the bulk of the computational work,
+is only a small subset of the rule computations language available in the sequence compuations. 
+\end{example}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Sequence Computation} \label{sec:seqcomp}
@@ -30,7 +49,7 @@ whereas it is pointless to specify an expression before.
   Computation:
      VariableDeclaration |
      Assignment |
-     MethodCall |
+     ProcedureMethodCall |
      ProcedureCall |
      lbrace SequenceExpression rbrace
   ;
@@ -46,14 +65,14 @@ For returning an expression evaluation result value to a sequence you need two o
 The form of expressions and assignment targets will be specified below.
 
 \begin{rail} 
-	MethodCall: ('(' Variables ')' '=')? (Variable | GraphElement '.' Attribute) \\ '.' MethodName '(' Arguments ')';
+	ProcedureMethodCall: ('(' Variables ')' '=')? (Variable | GraphElement '.' Attribute) \\ '.' MethodName '(' Arguments ')';
 	ProcedureCall: ('(' Variables ')' '=')? ProcedureName '(' Arguments ')';
 	Arguments: (SequenceExpression * ',');
 	Varibales: (Variable + ',');
 \end{rail}\label{recstmt}\indexmain{record}\indexmain{emit}
 
 A method call executes a method on a variable, passing further arguments.
-The method may be one of the predefined container methods, or a user-defined method (cf. \ref{}).
+The method may be one of the predefined container methods, or a user-defined method (cf. \ref{TODO}).
 
 A procedure call executes a (built-in or user defined) procedure, passing further arguments.
 In addition to the graph type based functions and procedures which will be explained in more detail further below,
@@ -88,6 +107,11 @@ A \texttt{yield} assignment writes the rhs variable value to the lhs variable wh
 Yielding is only possible from compiled sequences, it always succeeds.
 Further on, the attributes of graph elements may be written to, the values at given positions of array or deque or map variables may be written to, and the visited status of graph elements may be changed.
 
+\begin{example}
+The sequence computation \verb#{ x:int=42; y:N; (y)=proc(x); y.meth(x); y.a=x }# shows a variable declaration including an initialization (which falls out of scope at the closing brace), a variable declaration of node type without initialization, a call of a procedure with one input argument, assigning an output value, a call of a method of the node type, and the assignment of a graph element attribute.
+
+The example \verb#{ x:array<int>=array<int>[]; x.add(42); x[0]=1; {x.size()>0} }# shows an array declaration and initialization, the adding of a value to the array, the indexed assignment to an array, and a terminal sequence expressions that makes the sequence computation succeed if the array is not empty (that's the case here) and fail otherwise. Sequence computations that don't end with a sequence expression always succeed.
+\end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Sequence Expression} \label{sec:seqexpr}
@@ -166,8 +190,8 @@ this means esp. that a Variable may denote a graph global variable if prefixed w
     Variable '[' SequenceExpression ']' |
     GraphElement '.' Attribute '[' SequenceExpression ']' |
     GraphElement '.' 'visited' '[' SequenceExpression ']' |
-    MethodCall |
-    ProcedureCall;
+    FunctionMethodCall |
+    FunctionCall;
   ;
 \end{rail}\ixnterm{SpecialSequenceExpression}\ixkeyw{visited}
 
@@ -178,6 +202,10 @@ They were explained in the chapters \ref{cha:container} and \ref{cha:graph}.
 
 The random value function \texttt{random} behaves like the random function from the expressions, see \ref{sec:primexpr};
 i.e. if noted down with an integer as argument it returns a random integer in between 0 and that upper bound, exclusive; if given without an argument it returns a random double in between 0.0 and 1.0, exclusive.
+
+\begin{example}
+The sequence expression \verb#{{ def(y) && y.meth(x)>=y.a || @("$1").a+1 != func(x) }}# checks whether the node typed variable \texttt{y} is defined, i.e. not null, and if so compares the return value of a method of that type with an attribute value. If the comparison succeeds, it defines the return value of the expression; in case the definedness check failed or the comparison yields false, is a graph element fetched from the graph by its persistent name \verb#$1#, and its attribute \texttt{a} plus 1 compared against the result of a function call. Then the result of this latter comparison defines the outcome of the expression.
+\end{example}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -190,6 +218,10 @@ The first group is built from basic graph manipulation operators, as defined in 
 Elements may be added, removed, or retyped, and nodes may be merged or edges redirected.
 Not available are numerical functions, they are only offered by the computations of the rules. 
 
+\begin{example}
+The sequence compuation \verb#{ (::x)=add(N); (::x)=retype(::x,M); rem(::x) }# adds a newly created node of type \texttt{N} to the graph (storing it in the global variable \verb#::x#), retypes it to \texttt{M}, and finally removes it again from the graph.
+\end{example}
+
 The second group is built from the operators querying primarily the connectedness of graph elements,
 as defined in \ref{sub:functions}.
 You may ask for one for the nodes or edges of a type.
@@ -198,16 +230,52 @@ Furthermore, you may query for adjacent nodes and incident edges,
 maybe even transitively for the reachability.
 Furthermore you may ask with a predicate whether nodes or edges are adjacent or incident to other nodes or edges, maybe even transitively for reachability.
 
+\begin{example}
+\verb#for{x:N in nodes(N); for{::y in outgoing(x); { ::z=target(::y); ::z.a = 42 } } }# 
+is a sequences that sets the attribute \texttt{a} to 42 for all nodes that are adjacent as targets to a source node \texttt{x} of type \texttt{N}.
+You will receive a runtime exception if the type of \verb#::z# does not possess an attribute \texttt{a}.
+
+A more realistic example is to check whether two nodes returned by some rule applications are reachable from each other, carrying out a change only in this case:\\
+\verb#(::x)=r() ;> (::y)=s() ;> if{ {{isReachable(::x,::y)}} ; doSomething(::x, ::y) }#
+\end{example}
+
 The third group is defined by functions and procedures that operate on (sub-)graphs, as defined in \ref{sub:functions} and \ref{sub:procedures}.
 They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
 You may import, clone, or compute induced subgraphs.
 You may export a subgraph or insert a subgraph into the hostgraph.
 
+\begin{example}
+\verb#( doSomething() ;> { export("graph"+i+".grs") } )*# is a sequence scheme for exporting a graph after each iteration step in a loop, gaining a series of snapshots on the hard drive.
+In a later step, you may then conditionally add exported graphs to the host graph: 
+\verb#if{cond; { ::g=import("graph"+n.a+".grs"); insert(::g) } }#
+\end{example}
+
+\begin{example}
+When you model a state space with \texttt{Graph} representative nodes (\emph{not} \texttt{graph} standing for a real (sub)graph), which are pointing with \texttt{contains} edges to the nodes contained in their state (i.e. subgraph), and store additionally a replica of the subgraph in a \texttt{sub} attribute of the \texttt{Graph} node, so it is readily available for comparisons,
+then the step of a state space enumeration with isomorphic state pruning is controled with code like this:\\
+\verb#<< modifiyCurrent(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)}#\\
+Inside the backtracking double angles, a new state is computed as first step by modifying the currently focused state received as input \texttt{gr:Graph} from the previous step. The modified subgraph is extracted for comparison by computing the \texttt{inducedSubgraph} from the nodes \texttt{adjacent} via \texttt{contains}-edges to the \texttt{gr}-node.\\
+\verb#;> for{others:Graph in nodes(Graph); {{sub!=others.sub}} } && #\\
+The extracted subgraph is compared with all already enumerated subgraphs that can be accessed by their \texttt{Graph} representative node. Only if none is isomorphic to it, do we continue with making the state persistent.\\
+\verb#/ {(ngr)=insertInduced(adj, gr)} && link(gr,ngr) && {ngr.sub=sub} /#\\
+During a backtracking pause, the modified subgraph is cloned and inserted flatly into the host graph again with \texttt{insertInduced}. A link is added from the old representative to this new representative, to reflect ancestry. Then the subgraph attribute of the new representative \texttt{ngr} is filled with the previously computed subgraph \texttt{sub}. Remark: the first \texttt{inducedSubgraph} above does not contain the representative node and thus is missing all containment edges, too. This \texttt{insertInduced} includes the representative node and thus the containment edges. Syntactical remark: \texttt{inducedSubgraph} is used in an assignment with a function call as RHS, whereas \texttt{insertInduced} is employed from a procedure call which requires parenthesis around the output arguments.\\
+\verb#&& stateStep(ngr, level+1) >>#\\
+Finally, we continue state space construction with the next step, modifying the just inserted subgraph.
+After this step returns (with \texttt{false} as result), do the backtracking double angles roll back the modification -- keeping the changes written during the pause untouched -- and execute \texttt{modifyCurrent} on the next match available in \texttt{gr}.
+\end{example}
+
 The fourth group are the visited flags related operations,
 as described in chapter \ref{sub:visitedaccess}.
 Available is an expression for reading a visited flag, an assignment for writing a visited flag, and procedures for managing the visited flags as defined in \ref{procstab}.
 
-In the sequences only the sequence expressions are available to compute the parameters for the functions and procedures.
+\begin{example}
+Because of the need to allocate and deallocate them, the visited flags are typically used with code like this:
+\verb#flag:int ;> {(flag)=valloc()} ;> r(flag) ;> {vfree(flag)}#\\
+In addition, they may be read in the sequence expressions, and written in the sequence computations:
+\verb#if{ {{!n.visited[flag]}} ; { n.visited[flag] = true } }#
+\end{example}
+
+In the sequences only the sequence expressions are available to compute the parameters for the functions and procedures, compared to the full-fledged expressions of the computations language.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -246,7 +314,7 @@ First an empty set \texttt{x} is created, which gets populated by an rule \textt
 Then another rule is executed iterated for every member of the set doing the main work, and finally the set gets cleared to prevent memory leaks or later mistakes.
 If the graph should stay untouched during set filling you may need \texttt{visited} flags to prevent endless looping.
 \verb#x=set<Node>{} ;> ( (v)=t() && {x.add(v)} )+ && for{v in x; r(v)} <; {x.clear()}#
-Handing in the storage to the rule, and using the set \texttt{add} method as introduced down below in \ref{sct:imperative} within the rule to fill the storage, allows to shorten the sequence to:\\
+You could hand in the storage to the rule, and \texttt{add} there to the set, this would allow to shorten the sequence to:\\
 \verb#x=set<Node>{} ;> ( t(x) )+ && for{v in x; r(v)} <; {x.clear()}#\\
 The for loop could be replaced by employing the storage access in the rule construct, cf. \ref{sub:storageaccess}; this would be especially beneficial if the rule \texttt{r} inside the for loop would have to change the storage \texttt{x}, which would corrupt the iteration/enumeration variable.
 \end{example}
