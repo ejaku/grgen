@@ -2698,6 +2698,16 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, n.getNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof EmptyExpr) {
+			//EmptyExpr e = (EmptyExpr) expr;
+			sb.append("new GRGEN_EXPR.Empty(");
+			sb.append(")");
+		}
+		else if (expr instanceof SizeExpr) {
+			//SizeExpr s = (SizeExpr) expr;
+			sb.append("new GRGEN_EXPR.Size(");
+			sb.append(")");
+		}
 		else if (expr instanceof SourceExpr) {
 			SourceExpr s = (SourceExpr) expr;
 			sb.append("new GRGEN_EXPR.Source(");

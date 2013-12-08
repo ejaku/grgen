@@ -183,6 +183,24 @@ public class FunctionInvocationExprNode extends ExprNode
 				result = new EdgesExprNode(getCoords(), params.size()==1 ? params.get(0) : new IdentExprNode(env.getDirectedEdgeRoot()), env.getDirectedEdgeRoot());
 			}
 		}
+		else if(functionName.equals("empty")) {
+			if(params.size() > 0) {
+				reportError("empty() takes no parameters.");
+				return false;
+			}
+			else {
+				result = new EmptyExprNode(getCoords());
+			}
+		}
+		else if(functionName.equals("size")) {
+			if(params.size() > 0) {
+				reportError("size() takes no parameters.");
+				return false;
+			}
+			else {
+				result = new SizeExprNode(getCoords());
+			}
+		}
 		else if(functionName.equals("source")) {			
 			if(params.size() == 1) {
 				result = new SourceExprNode(getCoords(), params.get(0), env.getNodeRoot());

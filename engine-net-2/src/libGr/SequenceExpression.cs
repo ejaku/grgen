@@ -36,6 +36,7 @@ namespace de.unika.ipd.grGen.libGr
         GraphElementAttribute,
         ElementOfMatch,
         Nodes, Edges,
+        Empty, Size,
         AdjacentNodes, AdjacentNodesViaIncoming, AdjacentNodesViaOutgoing,
         IncidentEdges, IncomingEdges, OutgoingEdges,
         ReachableNodes, ReachableNodesViaIncoming, ReachableNodesViaOutgoing,
@@ -2270,6 +2271,80 @@ namespace de.unika.ipd.grGen.libGr
         {
             get { return FunctionSymbol + "(" + (EdgeType != null ? EdgeType.Symbol : "") + ")"; }
         }
+    }
+
+    public class SequenceExpressionEmpty : SequenceExpression
+    {
+        public SequenceExpressionEmpty()
+            : base(SequenceExpressionType.Empty)
+        {
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionEmpty copy = (SequenceExpressionEmpty)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return procEnv.Graph.NumNodes + procEnv.Graph.NumEdges == 0;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "empty()"; } }
+    }
+
+    public class SequenceExpressionSize : SequenceExpression
+    {
+        public SequenceExpressionSize()
+            : base(SequenceExpressionType.Size)
+        {
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionSize copy = (SequenceExpressionSize)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return procEnv.Graph.NumNodes + procEnv.Graph.NumEdges;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "size()"; } }
     }
 
     public class SequenceExpressionAdjacentIncident : SequenceExpression

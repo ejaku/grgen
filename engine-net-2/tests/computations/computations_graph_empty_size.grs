@@ -1,0 +1,37 @@
+new graph "computations/computations_graph_empty_size"
+
+show num nodes
+show num edges
+
+exec (::s1, ::s2)=r
+show var s1
+show var s2
+
+exec addNode
+
+show num nodes
+show num edges
+
+exec (::s1, ::s2)=r
+show var s1
+show var s2
+
+exec addEdge
+
+show num nodes
+show num edges
+
+exec (::s1, ::s2)=r
+show var s1
+show var s2
+
+exec addNode
+
+show num nodes
+show num edges
+
+exec (::s1, ::s2)=r
+show var s1
+show var s2
+
+exit

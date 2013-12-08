@@ -3396,6 +3396,46 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning whether the graph is empty
+    /// </summary>
+    public class Empty : Expression
+    {
+        public Empty()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Empty();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(graph.NumNodes+graph.NumEdges==0)");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning the number of graph elements
+    /// </summary>
+    public class Size : Expression
+    {
+        public Size()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Size();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(graph.NumNodes+graph.NumEdges)");
+        }
+    }
+
+    /// <summary>
     /// Class representing expression returning the source node of an edge
     /// </summary>
     public class Source : Expression
