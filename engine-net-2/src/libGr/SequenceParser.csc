@@ -1767,9 +1767,8 @@ Sequence Rule():
 
 FilterCall Filter() :
 {
-	String filter, filterBase, filterVariable;
-	int n;
-	double f;
+	String filterBase, filterVariable;
+	List<SequenceExpression> argExprs = new List<SequenceExpression>();
 }
 {
 	LOOKAHEAD(2) filterBase=Word() "<" filterVariable=Word() ">"
@@ -1778,26 +1777,25 @@ FilterCall Filter() :
 				&& filterBase!="keepSameAsFirst" && filterBase!="keepSameAsLast" && filterBase!="keepOneForEach")
 				throw new ParseException("Unknown def-variable-based filter " + filterBase + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
 			else
-				return new FilterCall(filterBase, filterVariable);
+				return new FilterCall(filterBase, filterVariable, true);
 		}
 |
-	LOOKAHEAD(3) filterBase=Word() "(" n=Number() ")"
+	filterBase=Word() ("(" (Arguments(argExprs))? ")")?
 		{
-			if(filterBase!="keepFirst" && filterBase!="keepLast")
-				throw new ParseException("Unknown integer-parameterized filter " + filterBase + "! Available are keepFirst, keepLast.");
+			if(filterBase=="keepFirst" || filterBase=="keepLast"
+				|| filterBase=="keepFirstFraction" || filterBase=="keepLastFraction")
+			{
+				if(argExprs.Count!=1)
+					throw new ParseException("The auto-supplied filter " + filterBase + " expects exactly one parameter!");
+				return new FilterCall(filterBase, argExprs[0]);
+			}
 			else
-				return new FilterCall(filterBase, n);
+			{
+				if(filterBase=="auto")
+					return new FilterCall("auto", null, true);
+				return new FilterCall(filterBase, argExprs);
+			}
 		}
-|
-	LOOKAHEAD(3) filterBase=Word() "(" f=DoubleNumber() ")" 
-		{
-			if(filterBase!="keepFirstFraction" && filterBase!="keepLastFraction")
-				throw new ParseException("Unknown floating-parameterized filter " + filterBase + "! Available are keepFirstFraction, keepLastFraction.");
-			else
-				return new FilterCall(filterBase, f);
-		}
-|
-	filter=Word() { return filter=="auto" ? new FilterCall(filter, null) : new FilterCall(filter); } 
 }
 
 CSHARPCODE

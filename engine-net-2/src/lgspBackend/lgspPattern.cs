@@ -1279,15 +1279,39 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPFilterFunction : LGSPFilter, IFilterFunction
     {
-        public LGSPFilterFunction(String name, bool isExternal)
+        public LGSPFilterFunction(String name, bool isExternal, GrGenType[] inputs, String[] inputNames)
             : base(name)
         {
             this.isExternal = isExternal;
+            this.inputs = inputs;
+            this.inputNames = inputNames;
         }
+
 
         public bool IsExternal { get { return isExternal; } }
 
+        /// <summary>
+        /// An array of GrGen types corresponding to filter parameters.
+        /// </summary>
+        public GrGenType[] Inputs { get { return inputs; } }
+
+        /// <summary>
+        /// An array of the names corresponding to filter parameters.
+        /// </summary>
+        public String[] InputNames { get { return inputNames; } }
+
+
         public bool isExternal;
+
+        /// <summary>
+        /// An array of GrGen types corresponding to filter parameters.
+        /// </summary>
+        public GrGenType[] inputs;
+
+        /// <summary>
+        /// Names of the filter parameter elements
+        /// </summary>
+        public string[] inputNames;
     }
 
     /// <summary>

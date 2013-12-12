@@ -2200,8 +2200,18 @@ exitSecondLoop: ;
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFront("if(filter.IsAutoSupplied) {\n");
-            sb.AppendFront("\tmatches.FilterFirstLast(filter);\n");
-            sb.AppendFront("\treturn;\n");
+            sb.Indent();
+            sb.AppendFront("switch(filter.Name) {\n");
+            sb.Indent();
+            sb.AppendFront("case \"keepFirst\": matches.FilterKeepFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
+            sb.AppendFront("case \"keepLast\": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
+            sb.AppendFront("case \"keepFirstFraction\": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
+            sb.AppendFront("case \"keepLastFraction\": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
+            sb.AppendFront("default: throw new Exception(\"Unknown auto supplied filter name!\");\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+            sb.AppendFront("return;\n");
+            sb.Unindent();
             sb.AppendFront("}\n");
             sb.AppendFront("switch(filter.FullName) {\n");
             sb.Indent();
@@ -2215,9 +2225,18 @@ exitSecondLoop: ;
                         sb.AppendFrontFormat("case \"{1}\": MatchFilters.Filter_{0}_{1}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, ({2})matches); break;\n", patternName, filter.Name, matchesType);
                 }
                 else
-                    sb.AppendFrontFormat("case \"{0}\": MatchFilters.Filter_{0}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, ({1})matches); break;\n", filter.Name, matchesType);
+                {
+                    IFilterFunction filterFunction = (IFilterFunction)filter;
+                    sb.AppendFrontFormat("case \"{0}\": MatchFilters.Filter_{0}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, ({1})matches", filterFunction.Name, matchesType);
+                    for(int i=0; i<filterFunction.Inputs.Length; ++i)
+                    {
+                        sb.AppendFormat(", ({0})(filter.ArgumentExpressions[{1}]!=null ? filter.ArgumentExpressions[{1}].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[{1}])", 
+                            TypesHelper.TypeName(filterFunction.Inputs[i]), i);
+                    }
+                    sb.Append("); break;\n");
+                }
             }
-            sb.AppendFront("default: throw new Exception(\"Unknown filter name\");\n");
+            sb.AppendFront("default: throw new Exception(\"Unknown filter name!\");\n");
             sb.Unindent();
             sb.AppendFront("}\n");
             sb.Unindent();

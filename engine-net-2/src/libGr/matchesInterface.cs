@@ -311,11 +311,28 @@ namespace de.unika.ipd.grGen.libGr
         IMatches Clone();
 
         /// <summary>
-        /// For filtering to the first or last elements
-        /// implements the keepFirst, keepLast, keepFirstFraction, keepLastFractions filter
+        /// For filtering with the auto-supplied filter keepFirst
         /// </summary>
-        /// <param name="filter">The filter call</param>
-        void FilterFirstLast(FilterCall filter);
+        /// <param name="count">The number of matches to keep</param>
+        void FilterKeepFirst(int count);
+        
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepLast
+        /// </summary>
+        /// <param name="count">The number of matches to keep</param>
+        void FilterKeepLast(int count);
+        
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepFirstFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to keep</param>
+        void FilterKeepFirstFraction(double fraction);
+        
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepLastFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to keep</param>
+        void FilterKeepLastFraction(double fraction);
     }
 
 
