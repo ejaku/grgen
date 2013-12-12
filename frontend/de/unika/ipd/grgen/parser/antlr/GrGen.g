@@ -2221,9 +2221,30 @@ callRule[ExecNode xg, CollectNode<BaseNode> returns]
 	;
 
 callRuleFilter[ExecNode xg, CollectNode<IdentNode> filters]
-options { k = 4; }
-	: BACKSLASH filterId=actionIdentUse {xg.append("\\"); xg.append(filterId); filters.addChild(filterId); } 
-	| BACKSLASH AUTO {xg.append("\\"); xg.append("auto");}
+options { k = 3; }
+	@init{
+		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+	}
+	: BACKSLASH { xg.append("\\"); } (filterId=IDENT | filterId=AUTO) { xg.append(filterId.getText()); } 
+		(LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
+			{
+				if(filterId.getText().equals("keepFirst") || filterId.getText().equals("keepLast")
+					|| filterId.getText().equals("keepFirstFraction") || filterId.getText().equals("keepLastFraction"))
+				{
+					if(params.size()!=1)
+						reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 arguments.");
+				}
+				else if(filterId.getText().equals("auto"))
+				{
+					if(params.size()!=0)
+						reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 0 arguments.");
+				}
+				else
+				{
+					//TODO: remove IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+					filters.addChild(new IdentNode(env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId))));
+				}
+			}
 	| BACKSLASH filterBase=IDENT LT filterVariable=IDENT GT 
 		{
 			if(!filterBase.getText().equals("orderAscendingBy") && !filterBase.getText().equals("orderDescendingBy") && !filterBase.getText().equals("groupBy")
@@ -2231,20 +2252,6 @@ options { k = 4; }
 					reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBase.getText() + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
 			else
 					xg.append("\\"); xg.append(filterBase.getText() + "<" + filterVariable.getText() + "> ");
-		}
-	| BACKSLASH filterBase=IDENT LPAREN n=NUM_INTEGER RPAREN 
-		{
-			if(!filterBase.getText().equals("keepFirst") && !filterBase.getText().equals("keepLast"))
-					reportError(getCoords(filterBase), "Unknown integer-parameterized filter " + filterBase.getText() + "! Available are keepFirst, keepLast.");
-			else
-					xg.append("\\"); xg.append(filterBase.getText() + "(" + n.getText() + ")");
-		}
-	| BACKSLASH filterBase=IDENT LPAREN f=NUM_DOUBLE RPAREN 
-		{
-			if(!filterBase.getText().equals("keepFirstFraction") && !filterBase.getText().equals("keepLastFraction"))
-					reportError(getCoords(filterBase), "Unknown floating-parameterized filter " + filterBase.getText() + "! Available are keepFirstFraction, keepLastFraction.");
-			else
-					xg.append("\\"); xg.append(filterBase.getText() + "(" + f.getText() + ")");
 		}
 	;
 

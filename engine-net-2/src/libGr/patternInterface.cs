@@ -310,6 +310,16 @@ namespace de.unika.ipd.grGen.libGr
     {
         // tells whether the filter function is an externally defined one or an internal one
         bool IsExternal { get; }
+
+        /// <summary>
+        /// An array of GrGen types corresponding to filter parameters.
+        /// </summary>
+        GrGenType[] Inputs { get; }
+
+        /// <summary>
+        /// An array of the names corresponding to filter parameters.
+        /// </summary>
+        String[] InputNames { get; }
     }
 }
 

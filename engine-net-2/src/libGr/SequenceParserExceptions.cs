@@ -75,6 +75,11 @@ namespace de.unika.ipd.grGen.libGr
         FilterError,
 
         /// <summary>
+        /// The parameters of the given filter applied to the given rule don't fit to the declaration
+        /// </summary>
+        FilterParameterError,
+
+        /// <summary>
         /// The given subgraph is of wrong type
         /// </summary>
         SubgraphTypeError,
@@ -319,8 +324,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(errorKind == SequenceParserError.FilterError)
                 FilterName = filterNameOrEntityName;
-            else
+            else if(errorKind == SequenceParserError.FilterParameterError)
                 FilterName = filterNameOrEntityName;
+            else
+                EntityName = filterNameOrEntityName;
             Name = ruleName;
             Kind = errorKind;
         }
@@ -334,7 +341,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 // TODO: function
 
-                if (this.Action == null && this.Kind != SequenceParserError.TypeMismatch && this.Kind != SequenceParserError.FilterError) {
+                if(this.Action == null && this.Kind != SequenceParserError.TypeMismatch && this.Kind != SequenceParserError.FilterError && this.Kind != SequenceParserError.FilterParameterError)
+                {
                     return "Unknown rule/sequence: \"" + this.Name + "\"";
                 }
 
@@ -383,6 +391,9 @@ namespace de.unika.ipd.grGen.libGr
 
                 case SequenceParserError.FilterError:
                     return "The filter \"" + this.FilterName + "\" can't be applied to \"" + this.Name + "\"!";
+
+                case SequenceParserError.FilterParameterError:
+                    return "Filter parameter mismatch for filter \"" + this.FilterName + "\" applied to \"" + this.Name + "\"!";
 
                 case SequenceParserError.SubgraphError:
                     return "The construct \"" + this.VariableOrFunctionName  + "\" does not support subgraph prefixes!";

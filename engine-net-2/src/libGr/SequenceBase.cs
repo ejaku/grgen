@@ -133,11 +133,37 @@ namespace de.unika.ipd.grGen.libGr
                     throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
             }
 
-            // Check filter in case there is one
+            // Check filter calls
             if(seq is SequenceRuleCall)
-                if((seq as SequenceRuleCall).Filters.Count > 0)
-                    if(NotExistingFilter(seq as SequenceRuleCall)!=null)
-                        throw new SequenceParserException(paramBindings.Name, NotExistingFilter(seq as SequenceRuleCall), SequenceParserError.FilterError);
+            {
+                SequenceRuleCall seqRuleCall = (SequenceRuleCall)seq;
+                foreach(FilterCall filterCall in seqRuleCall.Filters)
+                {
+                    if(!IsFilterExisting(filterCall, seqRuleCall))
+                        throw new SequenceParserException(paramBindings.Name, filterCall.Name, SequenceParserError.FilterError);
+
+                    // Check whether number of filter parameters match
+                    if(NumFilterFunctionParameters(filterCall, seqRuleCall) != filterCall.ArgumentExpressions.Length)
+                        throw new SequenceParserException(paramBindings.Name, filterCall.Name, SequenceParserError.FilterParameterError);
+
+                    // Check parameter types
+                    for(int i = 0; i < filterCall.ArgumentExpressions.Length; i++)
+                    {
+                        filterCall.ArgumentExpressions[i].Check(this);
+
+                        if(filterCall.ArgumentExpressions[i] != null)
+                        {
+                            if(!TypesHelper.IsSameOrSubtype(filterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, filterCall, seqRuleCall), Model))
+                                throw new SequenceParserException(paramBindings.Name, filterCall.Name, SequenceParserError.FilterParameterError);
+                        }
+                        else
+                        {
+                            if(filterCall.Arguments[i] != null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(filterCall.Arguments[i], Model), FilterFunctionParameterType(i, filterCall, seqRuleCall), Model))
+                                throw new SequenceParserException(paramBindings.Name, filterCall.Name, SequenceParserError.FilterParameterError);
+                        }
+                    }
+                }
+            }
 
             SequenceVariable subgraph;
             if(paramBindings is RuleInvocationParameterBindings)
@@ -353,7 +379,9 @@ namespace de.unika.ipd.grGen.libGr
         protected abstract int NumOutputParameters(InvocationParameterBindings paramBindings, GrGenType ownerType);
         protected abstract string InputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType);
         protected abstract string OutputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType);
-        protected abstract string NotExistingFilter(SequenceRuleCall seq);
+        protected abstract bool IsFilterExisting(FilterCall filterCall, SequenceRuleCall seq);
+        protected abstract int NumFilterFunctionParameters(FilterCall filterCall, SequenceRuleCall seq);
+        protected abstract string FilterFunctionParameterType(int i, FilterCall filterCall, SequenceRuleCall seq);
     }
 
     /// <summary>
@@ -572,18 +600,63 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override string NotExistingFilter(SequenceRuleCall seq)
+        protected override bool IsFilterExisting(FilterCall filterCall, SequenceRuleCall seq)
         {
-            foreach(FilterCall filter in seq.Filters)
+            if(filterCall.Name=="keepFirst")
+                return true;
+            if(filterCall.Name=="keepFirstFraction")
+                return true;
+            if(filterCall.Name=="keepLast")
+                return true;
+            if(filterCall.Name=="keepLastFraction")
+                return true;
+            if(filterCall.IsContainedIn(seq.ParamBindings.Action.RulePattern.Filters))
+                return true;
+            return false;
+        }
+
+        protected override int NumFilterFunctionParameters(FilterCall filterCall, SequenceRuleCall seq)
+        {
+            if(filterCall.Name == "keepFirst")
+                return 1;
+            if(filterCall.Name == "keepFirstFraction")
+                return 1;
+            if(filterCall.Name == "keepLast")
+                return 1;
+            if(filterCall.Name == "keepLastFraction")
+                return 1;
+            foreach(IFilter filter in seq.ParamBindings.Action.RulePattern.Filters)
             {
-                if(!filter.IsContainedIn(seq.ParamBindings.Action.RulePattern.Filters)
-                    && !filter.Name.StartsWith("keepFirst")
-                    && !filter.Name.StartsWith("keepLast"))
+                if(filter is IFilterFunction)
                 {
-                    return filter.ToString();
+                    IFilterFunction filterFunction = (IFilterFunction)filter;
+                    if(filterCall.Name == filterFunction.Name)
+                        return filterFunction.Inputs.Length;
                 }
             }
-            return null;
+            return 0; // auto-generated
+        }
+
+        protected override string FilterFunctionParameterType(int i, FilterCall filterCall, SequenceRuleCall seq)
+        {
+            if(filterCall.Name == "keepFirst")
+                return "int";
+            if(filterCall.Name == "keepFirstFraction")
+                return "double";
+            if(filterCall.Name == "keepLast")
+                return "int";
+            if(filterCall.Name == "keepLastFraction")
+                return "double";
+            foreach(IFilter filter in seq.ParamBindings.Action.RulePattern.Filters)
+            {
+                if(filter is IFilterFunction)
+                {
+                    IFilterFunction filterFunction = (IFilterFunction)filter;
+                    if(filterCall.Name == filterFunction.Name)
+                        return TypesHelper.DotNetTypeToXgrsType(filterFunction.Inputs[i]);
+                }
+            }
+            throw new Exception("Internal error");
         }
     }
 
@@ -595,7 +668,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         // constructor for compiled sequences
         public SequenceCheckingEnvironmentCompiled(String[] ruleNames, String[] sequenceNames, String[] procedureNames, String[] functionNames,
-            Dictionary<String, List<IFilter>> rulesToFilters,
+            Dictionary<String, List<IFilter>> rulesToFilters, Dictionary<String, List<String>> filterFunctionsToInputTypes,
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
             Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
@@ -607,9 +680,10 @@ namespace de.unika.ipd.grGen.libGr
             this.sequenceNames = sequenceNames;
             this.procedureNames = procedureNames;
             this.functionNames = functionNames;
+            this.rulesToFilters = rulesToFilters;
+            this.filterFunctionsToInputTypes = filterFunctionsToInputTypes;
             this.rulesToInputTypes = rulesToInputTypes;
             this.rulesToOutputTypes = rulesToOutputTypes;
-            this.rulesToFilters = rulesToFilters;
             this.rulesToTopLevelEntities = rulesToTopLevelEntities;
             this.rulesToTopLevelEntityTypes = rulesToTopLevelEntityTypes;
             this.sequencesToInputTypes = sequencesToInputTypes;
@@ -637,6 +711,8 @@ namespace de.unika.ipd.grGen.libGr
 
         // maps rule names available in the .grg to compile to the list of the match filters
         private Dictionary<String, List<IFilter>> rulesToFilters;
+        // maps filter function names available in the .grg to compile to the list of the input typ names
+        Dictionary<String, List<String>> filterFunctionsToInputTypes;
 
         // maps rule names available in the .grg to compile to the list of the input typ names
         private Dictionary<String, List<String>> rulesToInputTypes;
@@ -830,18 +906,48 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override string NotExistingFilter(SequenceRuleCall seq)
+        protected override bool IsFilterExisting(FilterCall filterCall, SequenceRuleCall seq)
         {
-            foreach(FilterCall filter in seq.Filters)
-            {
-                if(!filter.IsContainedIn(rulesToFilters[seq.ParamBindings.Name])
-                    && !filter.Name.StartsWith("keepFirst")
-                    && !filter.Name.StartsWith("keepLast"))
-                {
-                    return filter.ToString();
-                }
-            }
-            return null;
+            if(filterCall.Name == "keepFirst")
+                return true;
+            if(filterCall.Name == "keepFirstFraction")
+                return true;
+            if(filterCall.Name == "keepLast")
+                return true;
+            if(filterCall.Name == "keepLastFraction")
+                return true;
+            if(filterCall.IsContainedIn(rulesToFilters[seq.ParamBindings.Name]))
+                return true;
+            return false;
+        }
+
+        protected override int NumFilterFunctionParameters(FilterCall filterCall, SequenceRuleCall seq)
+        {
+            if(filterCall.Name == "keepFirst")
+                return 1;
+            if(filterCall.Name == "keepFirstFraction")
+                return 1;
+            if(filterCall.Name == "keepLast")
+                return 1;
+            if(filterCall.Name == "keepLastFraction")
+                return 1;
+            if(filterFunctionsToInputTypes.ContainsKey(filterCall.Name))
+                return filterFunctionsToInputTypes[filterCall.Name].Count;
+            else
+                return 0; // auto-supplied
+        }
+
+        protected override string FilterFunctionParameterType(int i, FilterCall filterCall, SequenceRuleCall seq)
+        {
+            if(filterCall.Name == "keepFirst")
+                return "int";
+            if(filterCall.Name == "keepFirstFraction")
+                return "double";
+            if(filterCall.Name == "keepLast")
+                return "int";
+            if(filterCall.Name == "keepLastFraction")
+                return "double";
+            return filterFunctionsToInputTypes[filterCall.Name][i];
         }
     }
 

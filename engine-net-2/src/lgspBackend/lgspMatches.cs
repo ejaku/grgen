@@ -511,58 +511,45 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// For filtering to the first or last elements
-        /// implements the keepFirst, keepLast, keepFirstFraction, keepLastFractions filter
+        /// For filtering with the auto-supplied filter keepFirstFraction
         /// </summary>
-        /// <param name="filter">The filter call</param>
-        public void FilterFirstLast(FilterCall filter)
+        /// <param name="fraction">The fraction of matches to keep</param>
+        public void FilterKeepFirstFraction(double fraction)
         {
-            if(filter.Name == "keepFirstFraction")
-            {
-                FilterFirstFraction((double)filter.Argument);
-            }
-            else if(filter.Name == "keepLastFraction")
-            {
-                FilterLastFraction((double)filter.Argument);
-            }
-            else if(filter.Name == "keepFirst")
-            {
-                FilterFirst((int)filter.Argument);
-            }
-            else if(filter.Name == "keepLast")
-            {
-                FilterLast((int)filter.Argument);
-            }
-            else
-            {
-                throw new Exception("Unknown filter " + filter.ToString() + " - don't know how to apply");
-            }
+            FilterKeepFirst((int)Math.Ceiling(fraction * count));
         }
 
-        void FilterFirstFraction(double fractionToKeep)
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepLastFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to keep</param>
+        public void FilterKeepLastFraction(double fraction)
         {
-            FilterFirst((int)Math.Ceiling(fractionToKeep * count));
+            FilterKeepLast((int)Math.Ceiling(fraction * count));
         }
 
-        public void FilterLastFraction(double fractionToKeep)
-        {
-            FilterLast((int)Math.Ceiling(fractionToKeep * count));
-        }
-
-        public void FilterFirst(int countToKeep)
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepFirst
+        /// </summary>
+        /// <param name="count">The number of matches to keep</param>
+        public void FilterKeepFirst(int count)
         {
             List<MatchInterface> matchesArray = ToList();
-            for(int i = countToKeep; i < matchesArray.Count; ++i)
+            for(int i = count; i < matchesArray.Count; ++i)
             {
                 matchesArray[i] = default(MatchInterface); // = null
             }
             FromList();
         }
 
-        public void FilterLast(int countToKeep)
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepLast
+        /// </summary>
+        /// <param name="count">The number of matches to keep</param>
+        public void FilterKeepLast(int count)
         {
             List<MatchInterface> matchesArray = ToList();
-            for(int i = matchesArray.Count-1 - countToKeep; i >= 0; --i)
+            for(int i = matchesArray.Count-1 - count; i >= 0; --i)
             {
                 matchesArray[i] = default(MatchInterface); // = null
             }
