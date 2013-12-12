@@ -51,15 +51,17 @@ rule init : (Node)
 rule r
 {
 	n:Node -e:Edge-> n;
+	def var x:int = 42;
 
 	modify {
 		m:Node;
+		def var y:double = 42.0;
 
-		exec(filterBase\orderAscendingBy<i>\keepSameAsFirst<i>\keepFirst(3)
-				;> filterBase\orderDescendingBy<i>\keepSameAsLast<i>\keepLast(3)
+		exec(z:int=0 ;> filterBase\orderAscendingBy<i>\keepSameAsFirst<i>\keepFirst(3)\keepFirst(x)\keepFirst(z)
+				;> filterBase\orderDescendingBy<i>\keepSameAsLast<i>\keepLast(3)\keepLast(x)\keepLast(z)
 				;> filterBase\groupBy<i>\keepOneForEach<i>
-				;> [filterBass\orderAscendingBy<d>\keepSameAsFirst<d>\keepFirstFraction(0.5)]
-				;> $::x[filterBass\orderDescendingBy<d>\keepSameAsLast<d>\keepLastFraction(0.5)]
+				;> [filterBass\orderAscendingBy<d>\keepSameAsFirst<d>\keepFirstFraction(0.5)\keepFirstFraction(y)]
+				;> $::x[filterBass\orderDescendingBy<d>\keepSameAsLast<d>\keepLastFraction(0.5)\keepLastFraction(y)]
 				;> [filterBass\groupBy<d>\keepOneForEach<d>]
 				;> (::ee)=filterHass(::n)\orderAscendingBy<s>\keepSameAsFirst<s>
 				;> <<filterHass(::n)\orderDescendingBy<s>\keepSameAsLast<s>;filterHass(::n)\orderDescendingBy<s>\keepSameAsLast<s> >>

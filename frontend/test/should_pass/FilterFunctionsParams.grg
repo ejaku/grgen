@@ -12,7 +12,7 @@ rule filterBase
 	}
 } \ auto, orderAscendingBy<i>
 
-filter fBase<filterBase>
+filter fBase<filterBase>(var x:int)
 {
 	for(m:match<filterBase> in this)
 	{
@@ -20,13 +20,13 @@ filter fBase<filterBase>
 	}
 	for(m:match<filterBase> in this)
 	{
-		m.i = m.i + adjacent(m.n).size();
+		m.i = m.i + adjacent(m.n).size() + x;
 	}
 	this.add(copy(this.peek()));
-	this.add(copy(this.peek()), 1);
-	this.rem(1);
+	this.add(copy(this.peek()), x);
+	this.rem(x);
 	this.rem();
-	this[0] = this[0];
+	this[x] = this[x];
 //	this[0].i = incident(this[i].n).size(); // first index access then member access is not allowed, must be mapped to an assignment of a local variable
 	def ref mi:match<filterBase> = this[0];
 	mi.i = this[1].i + mi.i;
@@ -46,7 +46,7 @@ rule filterBass
 	}
 } \ orderAscendingBy<d>, keepSameAsFirst<d>
 
-filter fBass<filterBass>
+filter fBass<filterBass>(var y:double)
 {
 }
 
@@ -63,7 +63,7 @@ test filterHass(n:Node):(Edge)
 	return(e);
 }
 
-filter fHass<filterHass>
+filter fHass<filterHass>(var x:int, var y:double, var z:string, var c:int)
 {
 }
 
@@ -79,16 +79,18 @@ rule init : (Node)
 rule r
 {
 	n:Node -e:Edge-> n;
+	def var x:int = 1;
 
 	modify {
 		m:Node;
+		def var y:double = 42.0;
 
-		exec(filterBase\orderAscendingBy<i>\keepFirst(3)
-				;> filterBase\fBase
+		exec(z:string="foo" ;> filterBase\orderAscendingBy<i>\keepFirst(3)
+				;> filterBase\fBase(x)
 				;> [filterBass\orderAscendingBy<d>\keepSameAsFirst<d>]
-				;> $::x[filterBass\fBass]
+				;> $::x[filterBass\fBass(42.0)]
 				;> (::ee)=filterHass(::n)
-				;> ${<filterHass(::n)\fHass,[filterHass(::n)\fHass]>}
+				;> ${<filterHass(::n)\fHass(x,y,z,3),[filterHass(::n)\fHass(x,y,z,3)]>}
 		);
 	}
 }

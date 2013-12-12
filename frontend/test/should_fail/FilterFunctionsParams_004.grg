@@ -1,0 +1,23 @@
+rule filterBase
+{
+	def var i:int;
+	
+	modify{
+	}
+}
+
+filter fBase<filterBase>(var x:int, y:Node)
+{
+}
+
+rule r
+{
+	n:Node -e:Edge-> n;
+	def var x:int = 1;
+
+	modify {
+		def var y:double = 42.0;
+
+		exec(filterBase\fBase(x, e));
+	}
+}

@@ -1,0 +1,11 @@
+new graph "Filters/FilterFunctions"
+
+exec init
+
+exec x:int=1 ;> [incidency\orderAscendingBy<i>\filterAddIfGreaterThan(x, 0-x)]
+
+exec [incidency\orderAscendingBy<i>\filterAddIfGreaterThan(1, 0)]
+
+exec x:int=1 ;> [incidency\orderAscendingBy<i>\filterAddIfGreaterThan(x + x + 1, x)]
+
+quit

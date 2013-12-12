@@ -96,6 +96,24 @@ filter filterDoubleAll<incidency>
 	}
 }
 
+filter filterMultiply<incidency>(var f:int)
+{
+	for(m:match<incidency> in this)
+	{
+		m.i = m.i * f;
+	}
+}
+
+filter filterAddIfGreaterThan<incidency>(var s:int, var gt:int)
+{
+	for(m:match<incidency> in this)
+	{
+		if(m.i > gt) {
+			m.i = m.i + s;
+		}
+	}
+}
+
 rule addNodefilterAdd
 {
 	modify {
@@ -170,6 +188,48 @@ rule incidencyorderAscendingByifilterDoubleAllfilterDoubleLast
 {
 	modify {
 		exec([incidency\orderAscendingBy<i>\filterDoubleAll\filterDoubleLast]);
+	}
+}
+
+rule incidencyorderAscendingByifilterMultiplyx
+{
+	modify {
+		exec(x:int=1 ;> [incidency\orderAscendingBy<i>\filterMultiply(x)]);
+	}
+}
+
+rule incidencyorderAscendingByifilterMultiply2
+{
+	modify {
+		exec([incidency\orderAscendingBy<i>\filterMultiply(2)]);
+	}
+}
+
+rule incidencyorderAscendingByifilterMultiplyxx1
+{
+	modify {
+		exec(x:int=1 ;> [incidency\orderAscendingBy<i>\filterMultiply(x + x + 1)]);
+	}
+}
+
+rule incidencyorderAscendingByifilterAddIfGreaterThanx0x
+{
+	modify {
+		exec(x:int=1 ;> [incidency\orderAscendingBy<i>\filterAddIfGreaterThan(x, 0-x)]);
+	}
+}
+
+rule incidencyorderAscendingByifilterAddIfGreaterThan10
+{
+	modify {
+		exec([incidency\orderAscendingBy<i>\filterAddIfGreaterThan(1, 0)]);
+	}
+}
+
+rule incidencyorderAscendingByifilterAddIfGreaterThanxx1x
+{
+	modify {
+		exec(x:int=1 ;> [incidency\orderAscendingBy<i>\filterAddIfGreaterThan(x + x + 1, x)]);
 	}
 }
 
