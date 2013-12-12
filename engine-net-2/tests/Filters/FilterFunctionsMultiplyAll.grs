@@ -1,0 +1,11 @@
+new graph "Filters/FilterFunctions"
+
+exec init
+
+exec x:int=1 ;> [incidency\orderAscendingBy<i>\filterMultiply(x)]
+
+exec [incidency\orderAscendingBy<i>\filterMultiply(2)]
+
+exec x:int=1 ;> [incidency\orderAscendingBy<i>\filterMultiply(x + x + 1)]
+
+quit
