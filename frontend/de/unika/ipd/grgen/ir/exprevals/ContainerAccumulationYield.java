@@ -60,8 +60,10 @@ public class ContainerAccumulationYield extends EvalStatement {
 			needs.add(containerVar);
 		for(EvalStatement accumulationStatement : accumulationStatements)
 			accumulationStatement.collectNeededEntities(needs);
-		needs.variables.remove(iterationVar);
+		if(needs.variables != null)
+			needs.variables.remove(iterationVar);
 		if(indexVar != null)
-			needs.variables.remove(indexVar);
+			if(needs.variables != null)
+				needs.variables.remove(indexVar);
 	}
 }

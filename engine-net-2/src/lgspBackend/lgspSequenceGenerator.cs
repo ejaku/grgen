@@ -2510,6 +2510,16 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceComputationType.DeleteFile:
+                {
+                    SequenceComputationDeleteFile seqDelFile = (SequenceComputationDeleteFile)seqComp;
+                    string delFileName = "delfilename_" + seqDelFile.Id;
+                    source.AppendFront("object " + delFileName + " = " + GetSequenceExpression(seqDelFile.Name, source) + ";\n");
+                    source.AppendFront("\tSystem.IO.File.Delete((string)" + delFileName + ");\n");
+                    source.AppendFront(SetResultVar(seqDelFile, "null"));
+                    break;
+                }
+
                 case SequenceComputationType.GraphAdd:
                 {
                     SequenceComputationGraphAdd seqAdd = (SequenceComputationGraphAdd)seqComp;
@@ -2640,7 +2650,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceComputationInsert seqIns = (SequenceComputationInsert)seqComp;
                     string graphExpr = GetSequenceExpression(seqIns.Graph, source);
-                    source.AppendFrontFormat("GRGEN_LIBGR.GraphHelper.Insert((IGraph){0}, graph);\n", graphExpr);
+                    source.AppendFrontFormat("GRGEN_LIBGR.GraphHelper.Insert((GRGEN_LIBGR.IGraph){0}, graph);\n", graphExpr);
                     source.AppendFront(SetResultVar(seqIns, "null"));
                     break;
                 }
@@ -2650,7 +2660,7 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceComputationInsertCopy seqInsCopy = (SequenceComputationInsertCopy)seqComp;
                     string graphExpr = GetSequenceExpression(seqInsCopy.Graph, source);
                     string rootNodeExpr = GetSequenceExpression(seqInsCopy.RootNode, source);
-                    source.AppendFormat("GRGEN_LIBGR.GraphHelper.InsertCopy((IGraph){0}, (INode){1}, graph)", graphExpr, rootNodeExpr);
+                    source.AppendFormat("GRGEN_LIBGR.GraphHelper.InsertCopy((GRGEN_LIBGR.IGraph){0}, (GRGEN_LIBGR.INode){1}, graph)", graphExpr, rootNodeExpr);
                     break;
                 }
 
@@ -3765,6 +3775,12 @@ namespace de.unika.ipd.grGen.lgsp
                         return "GRGEN_LIBGR.GraphHelper.Nameof(" + GetSequenceExpression(seqNameof.NamedEntity, source) + ", graph)";
                     else
                         return "GRGEN_LIBGR.GraphHelper.Nameof(null, graph)";
+                }
+
+                case SequenceExpressionType.ExistsFile:
+                {
+                    SequenceExpressionExistsFile seqExistsFile = (SequenceExpressionExistsFile)expr;
+                    return "System.IO.File.Exists((string)" + GetSequenceExpression(seqExistsFile.Path, source) + ")";
                 }
 
                 case SequenceExpressionType.Import:

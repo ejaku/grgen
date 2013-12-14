@@ -53,6 +53,7 @@ public class ForFunction extends EvalStatement {
 		function.collectNeededEntities(needs);
 		for(EvalStatement loopedStatement : loopedStatements)
 			loopedStatement.collectNeededEntities(needs);
-		needs.variables.remove(iterationVar);
+		if(needs.variables != null)
+			needs.variables.remove(iterationVar);
 	}
 }

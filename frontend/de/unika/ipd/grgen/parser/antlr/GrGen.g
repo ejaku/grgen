@@ -2083,7 +2083,7 @@ functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 				|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
 				|| i.getText().equals("canonize") && params.getChildren().size()==1
 				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
-				|| i.getText().equals("import") && params.getChildren().size()==1
+				|| (i.getText().equals("existsFile") || i.getText().equals("import")) && params.getChildren().size()==1
 				|| i.getText().equals("copy") && params.getChildren().size()==1
 			  )
 			{
@@ -3328,6 +3328,7 @@ options { k = 5; }
 						|| i.getText().equals("insertCopy") && params.getChildren().size()==2
 						|| (i.getText().equals("insertInduced") || i.getText().equals("insertDefined")) && params.getChildren().size()==2
 						|| i.getText().equals("export") && (params.getChildren().size()==1 || params.getChildren().size()==2)
+						|| i.getText().equals("deleteFile") && (params.getChildren().size()==1)
 						)
 					{
 						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
@@ -3838,7 +3839,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
 				|| i.getText().equals("canonize") && params.getChildren().size()==1
 				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
-				|| i.getText().equals("import") && params.getChildren().size()==1
+				|| (i.getText().equals("existsFile") || i.getText().equals("import")) && params.getChildren().size()==1
 				|| i.getText().equals("copy") && params.getChildren().size()==1
 			  )
 			{

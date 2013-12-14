@@ -247,3 +247,86 @@ rule printNames
 		emit("value of variable e6 which is a edge rly ", nameof(e6), "\n");
 	}
 }
+
+rule createConnectedComponents
+{
+	modify {
+		.;
+		
+		. --> :N4 --> .;
+		
+		n1:N2a --> . --> . --> n1;
+		
+		n2:Node --> n3:N3 --> n2 --> n2;
+	}
+}
+
+test matchConnectedComponents
+{
+	.;
+		
+	. --> :N4 --> .;
+		
+	n1:N2a --> . --> . --> n1;
+		
+	n2:Node --> n3:N3 --> n2 --> n2;
+}
+
+
+procedure saveConnectedComponents()
+{
+	def var i:int = 0;
+	while(!empty()) {
+		def var n:Node = fetchNode();
+		def ref connectedComponent:set<Node> = reachable(n) | {n};
+		def var sub:graph = inducedSubgraph(connectedComponent);
+		export(sub, "cc"+i+".grs");
+		deleteSubgraph(connectedComponent);
+		i = i + 1;
+	}
+	return;
+}
+
+procedure loadConnectedComponents()
+{
+	def var i:int = 0;
+	while(existsFile("cc"+i+".grs")) {
+		insert(import("cc"+i+".grs"));
+		i = i + 1;
+	}
+	return;
+}
+
+procedure removeSavedConnectedComponentsFiles()
+{
+	def var i:int = 0;
+	while(existsFile("cc"+i+".grs")) {
+		deleteFile("cc"+i+".grs");
+		i = i + 1;
+	}
+	return;
+}
+
+function fetchNode() : Node
+{
+	for(n:Node in nodes()) {
+		return(n);
+	}
+	return(null);
+}
+
+procedure deleteSubgraph(ref sn:set<Node>)
+{
+	for(n:Node in sn) {
+//		emit("del "); emit(n); emit(";");
+		rem(n);
+	}
+	return;
+}
+
+rule burnCycles
+{
+	n:Node;
+	modify {
+	}
+}
