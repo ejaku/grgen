@@ -1,0 +1,15 @@
+rule r {
+	if(existsFile("foo.grs"));
+	
+	replace {
+		eval {
+			def var b:boolean = existsFile("foo.grs");
+			if(b) {
+				deleteFile("foo.grs");
+			}
+		}
+		
+		exec(if{ {{existsFile("foo.grs")}} ; {deleteFile("foo.grs")} });
+	}
+}
+

@@ -1491,11 +1491,14 @@ SequenceComputation ProcedureOrMethodCall():
 			} else if(procedure=="export") {
 				if(argExprs.Count!=1 && argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 1 (name of file only) or 2 (graph to export, name of file) parameters)");
 				return new SequenceComputationExport(getArgument(argExprs, 0), getArgument(argExprs, 1));
+			} else if(procedure=="deleteFile") {
+				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 (the path of the file) parameter)");
+				return new SequenceComputationDeleteFile(getArgument(argExprs, 0));
 			} else {
 				if(IsProcedureName(procedure)) {
 					return new SequenceComputationProcedureCall(CreateProcedureInvocationParameterBindings(procedure, argExprs, returnVars));
 				} else {
-					throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|record|export|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget|insert|insertCopy|insertInduced|insertDefined or one of the procedures defined in the .grg: " + GetProcedureNames() + ")");
+					throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|record|export|deleteFile|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget|insert|insertCopy|insertInduced|insertDefined or one of the procedures defined in the .grg: " + GetProcedureNames() + ")");
 				}
 			}
 		} else { // method call
@@ -1642,6 +1645,9 @@ SequenceExpression FunctionCall():
 		} else if(function=="nameof") {
 			if(argExprs.Count>1) throw new ParseException("\"" + function + "\" expects none (for the name of the current graph) or 1 parameter (for the name of the node/edge/subgraph given as parameter)");
 			return new SequenceExpressionNameof(getArgument(argExprs, 0));
+		} else if(function=="existsFile") {
+			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the path as string)");
+			return new SequenceExpressionExistsFile(getArgument(argExprs, 0));
 		} else if(function=="import") {
 			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the path as string to the grs file containing the subgraph to import)");
 			return new SequenceExpressionImport(getArgument(argExprs, 0));
@@ -1661,7 +1667,7 @@ SequenceExpression FunctionCall():
 				if(function=="valloc" || function=="add" || function=="retype" || function=="insertInduced" || function=="insertDefined") {
 					throw new ParseException("\"" + function + "\" is a procedure, call with (var)=" + function + "();");
 				} else {
-					throw new ParseException("Unknown function name: \"" + function + "\"! (available are nodes|edges|empty|size|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|isAdjacent|isAdjacentIncoming|isAdjacentOutgoing|isIncident|isIncoming|isOutgoing|isReachable|isReachableIncoming|isReachableOutgoing|isReachableEdges|isReachableEdgeIncoming|isReachableEdgesOutgoing|inducedSubgraph|definedSubgraph|source|target|opposite|nameof|import|copy|random|canonize or one of the functions defined in the .grg:" + GetFunctionNames() + ")");
+					throw new ParseException("Unknown function name: \"" + function + "\"! (available are nodes|edges|empty|size|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|isAdjacent|isAdjacentIncoming|isAdjacentOutgoing|isIncident|isIncoming|isOutgoing|isReachable|isReachableIncoming|isReachableOutgoing|isReachableEdges|isReachableEdgeIncoming|isReachableEdgesOutgoing|inducedSubgraph|definedSubgraph|source|target|opposite|nameof|existsFile|import|copy|random|canonize or one of the functions defined in the .grg:" + GetFunctionNames() + ")");
 				}
 			}
 		}

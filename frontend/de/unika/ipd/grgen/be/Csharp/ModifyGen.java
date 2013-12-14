@@ -3008,7 +3008,7 @@ public class ModifyGen extends CSharpBase {
 		genExpression(sb, ws.getConditionExpr(), state);
 		sb.append(") {\n");
 		genEvals(sb, state, ws.getLoopedStatements());
-		sb.append("}\n");
+		sb.append("\t\t\t}\n");
 	}
 
 	private void genDoWhileStatement(StringBuffer sb, ModifyGenerationStateConst state, DoWhileStatement dws) {
@@ -3595,6 +3595,9 @@ public class ModifyGen extends CSharpBase {
 		else if(evalProc instanceof ExportProc) {
 			genExportProc(sb, state, (ExportProc) evalProc);
 		}
+		else if(evalProc instanceof DeleteFileProc) {
+			genDeleteFileProc(sb, state, (DeleteFileProc) evalProc);
+		}
 		else if(evalProc instanceof GraphAddNodeProc) {
 			genGraphAddNodeProc(sb, state, (GraphAddNodeProc) evalProc);
 		}
@@ -3806,6 +3809,12 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	private void genDeleteFileProc(StringBuffer sb, ModifyGenerationStateConst state, DeleteFileProc dfp) {
+		sb.append("\t\t\tSystem.IO.File.Delete(");
+		genExpression(sb, dfp.getPathExpr(), state);
+		sb.append(");\n");
+	}
+
 	private void genGraphAddNodeProc(StringBuffer sb, ModifyGenerationStateConst state, GraphAddNodeProc ganp) {
 		Constant constant = (Constant)ganp.getNodeTypeExpr();
 		sb.append("(" + formatType((Type)constant.getValue()) + ")"
@@ -3963,15 +3972,15 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void genInsertProc(StringBuffer sb, ModifyGenerationStateConst state, InsertProc ip) {
-		sb.append("\t\t\tGRGEN_LIBGR.GraphHelper.Insert((IGraph)");
+		sb.append("\t\t\tGRGEN_LIBGR.GraphHelper.Insert((GRGEN_LIBGR.IGraph)");
 		genExpression(sb, ip.getGraphExpr(), state);
 		sb.append(", graph);\n");
 	}
 
 	private void genInsertCopyProc(StringBuffer sb, ModifyGenerationStateConst state, InsertCopyProc icp) {
-		sb.append("GRGEN_LIBGR.GraphHelper.InsertCopy((IGraph)");
+		sb.append("GRGEN_LIBGR.GraphHelper.InsertCopy((GRGEN_LIBGR.IGraph)");
 		genExpression(sb, icp.getGraphExpr(), state);
-		sb.append(", (INode)");
+		sb.append(", (GRGEN_LIBGR.INode)");
 		genExpression(sb, icp.getNodeExpr(), state);
 		sb.append(", graph)");
 	}

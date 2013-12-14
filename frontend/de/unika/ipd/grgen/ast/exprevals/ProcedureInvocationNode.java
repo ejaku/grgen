@@ -205,6 +205,14 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 				return false;
 			}
 		}
+		else if(procedureName.equals("deleteFile")) {
+			if(params.size() == 1) {
+				result = new DeleteFileProcNode(getCoords(), params.get(0));
+			} else {
+				reportError(procedureName + "() takes 1 (filepath) parameters.");
+				return false;
+			}
+		}
 		else if(procedureName.equals("highlight")) {
 			HighlightProcNode highlight = new HighlightProcNode(getCoords());
 			for(ExprNode param : params.getChildren()) {

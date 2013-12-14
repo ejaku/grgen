@@ -805,6 +805,12 @@ public abstract class CSharpBase {
 				sb.append(", graph)");
 			}
 		}
+		else if(expr instanceof ExistsFileExpr) {
+			ExistsFileExpr efe = (ExistsFileExpr) expr;
+        	sb.append("System.IO.File.Exists((string)");
+			genExpression(sb, efe.getPathExpr(), modifyGenerationState);
+			sb.append(")");
+		}
 		else if(expr instanceof ImportExpr) {
 			ImportExpr ie = (ImportExpr) expr;
         	sb.append("GRGEN_LIBGR.GraphHelper.Import(");

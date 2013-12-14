@@ -25,7 +25,7 @@ namespace de.unika.ipd.grGen.libGr
         ContainerAdd, ContainerRem, ContainerClear,
         Assignment,
         VariableDeclaration,
-        Emit, Record, Export,
+        Emit, Record, Export, DeleteFile,
         GraphAdd, GraphRem, GraphClear, GraphRetype,
         GraphAddCopy, GraphMerge, GraphRedirectSource, GraphRedirectTarget, GraphRedirectSourceAndTarget,
         Insert, InsertCopy,
@@ -978,6 +978,41 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceComputation> Children { get { yield return Name; if(Graph != null) yield return Graph; else yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "export(" + (Graph!=null ? Graph.Symbol + ", " : "") + Name.Symbol + ")"; } }
+    }
+
+    public class SequenceComputationDeleteFile : SequenceComputation
+    {
+        public SequenceExpression Name;
+
+        public SequenceComputationDeleteFile(SequenceExpression expr1)
+            : base(SequenceComputationType.DeleteFile)
+        {
+            Name = expr1;
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationDeleteFile copy = (SequenceComputationDeleteFile)MemberwiseClone();
+            copy.Name = Name.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object path = Name.Evaluate(procEnv);
+            File.Delete((string)path);
+            return null;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            Name.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceComputation> Children { get { yield return Name; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "deleteFile(" + Name.Symbol + ")"; } }
     }
 
 

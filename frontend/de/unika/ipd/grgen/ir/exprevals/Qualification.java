@@ -40,7 +40,7 @@ public class Qualification extends Expression {
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		if(!isGlobalVariable(owner))
+		if(!isGlobalVariable(owner) && !(owner.getType() instanceof MatchType))
 			needs.addAttr((GraphEntity) owner, member);
 	}
 }

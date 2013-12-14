@@ -1485,6 +1485,36 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing exists file expression
+    /// </summary>
+    public class ExistsFileExpression : Expression
+    {
+        public ExistsFileExpression(Expression path)
+        {
+            Path = path;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ExistsFileExpression(Path.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("System.IO.File.Exists(");
+            Path.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Path;
+        }
+
+        Expression Path;
+    }
+
+    /// <summary>
     /// Class representing import expression
     /// </summary>
     public class ImportExpression : Expression

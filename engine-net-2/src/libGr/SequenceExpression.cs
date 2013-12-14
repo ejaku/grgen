@@ -47,7 +47,7 @@ namespace de.unika.ipd.grGen.libGr
         IsReachableEdges, IsReachableEdgesViaIncoming, IsReachableEdgesViaOutgoing,
         InducedSubgraph, DefinedSubgraph,
         Nameof,
-        Import,
+        ExistsFile, Import,
         Copy,
         Canonize,
         FunctionCall, FunctionMethodCall
@@ -3273,6 +3273,58 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { if(NamedEntity != null) yield return NamedEntity; else yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "nameof(" + (NamedEntity != null ? "..." : "") + ")"; } }
+    }
+
+    public class SequenceExpressionExistsFile : SequenceExpression
+    {
+        public SequenceExpression Path;
+
+        public SequenceExpressionExistsFile(SequenceExpression path)
+            : base(SequenceExpressionType.ExistsFile)
+        {
+            Path = path;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Path.Type(env) == "")
+                return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+
+            if(!TypesHelper.IsSameOrSubtype(Path.Type(env), "string", env.Model))
+            {
+                throw new SequenceParserException(Symbol, "string type", Path.Type(env));
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionExistsFile copy = (SequenceExpressionExistsFile)MemberwiseClone();
+            copy.Path = Path.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object path = Path.Evaluate(procEnv);
+            return File.Exists((string)path);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            Path.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Path; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "existsFile(" + Path.Symbol + ")"; } }
     }
 
     public class SequenceExpressionImport : SequenceExpression

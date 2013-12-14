@@ -53,6 +53,7 @@ public class MatchesAccumulationYield extends EvalStatement {
 			needs.add(matchesVar);
 		for(EvalStatement accumulationStatement : accumulationStatements)
 			accumulationStatement.collectNeededEntities(needs);
-		needs.variables.remove(iterationVar);
+		if(needs.variables != null)
+			needs.variables.remove(iterationVar);
 	}
 }

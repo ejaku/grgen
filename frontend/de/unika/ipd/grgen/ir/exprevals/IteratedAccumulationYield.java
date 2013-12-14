@@ -51,6 +51,7 @@ public class IteratedAccumulationYield extends EvalStatement {
 	{
 		for(EvalStatement accumulationStatement : accumulationStatements)
 			accumulationStatement.collectNeededEntities(needs);
-		needs.variables.remove(iterationVar);
+		if(needs.variables != null)
+			needs.variables.remove(iterationVar);
 	}
 }

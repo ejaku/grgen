@@ -536,17 +536,22 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t{\n");
 		
 		for(FilterFunction filter : be.unit.getFilterFunctions()) {
-			if(filter instanceof FilterFunctionInternal)
-				genFilterFunction(sb, (FilterFunctionInternal)filter);
+			if(filter instanceof FilterFunctionInternal) {
+				FilterFunctionInternal filterFunction = (FilterFunctionInternal)filter;
+				genFilterFunction(sb, filterFunction);
+			}
 		}
 
 		List<String> staticInitializers = new LinkedList<String>();
 		String pathPrefixForElements = "";
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
 
-		for(Function function : be.unit.getFunctions()) {
-			genLocalContainersEvals(sb, function.getComputationStatements(), staticInitializers,
+		for(FilterFunction filter : be.unit.getFilterFunctions()) {
+			if(filter instanceof FilterFunctionInternal) {
+				FilterFunctionInternal filterFunction = (FilterFunctionInternal)filter;
+				genLocalContainersEvals(sb, filterFunction.getComputationStatements(), staticInitializers,
 					pathPrefixForElements, alreadyDefinedEntityToName);
+			}
 		}
 
 		genStaticConstructor(sb, "MatchFilters", staticInitializers);
@@ -895,55 +900,7 @@ public class ActionsGen extends CSharpBase {
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
 		for(EvalStatement eval : evals) {
-			if(eval instanceof AssignmentIndexed) { // must come before Assignment
-				AssignmentIndexed assignment = (AssignmentIndexed)eval;
-				assignment.getExpression().collectNeededEntities(needs);
-				assignment.getIndex().collectNeededEntities(needs);
-			}
-			else if(eval instanceof Assignment) {
-				Assignment assignment = (Assignment)eval;
-				assignment.getExpression().collectNeededEntities(needs);
-			}
-			else if(eval instanceof CompoundAssignment) {
-				CompoundAssignment assignment = (CompoundAssignment)eval;
-				assignment.getExpression().collectNeededEntities(needs);
-			}
-			else if(eval instanceof AssignmentVarIndexed) { // must come before AssignmentVar
-				AssignmentVarIndexed assignment = (AssignmentVarIndexed)eval;
-				assignment.getExpression().collectNeededEntities(needs);
-				assignment.getIndex().collectNeededEntities(needs);
-			}
-			else if(eval instanceof AssignmentVar) {
-				AssignmentVar assignment = (AssignmentVar)eval;
-				assignment.getExpression().collectNeededEntities(needs);
-			}
-			else if(eval instanceof AssignmentGraphEntity) {
-				AssignmentGraphEntity assignment = (AssignmentGraphEntity)eval;
-				assignment.getExpression().collectNeededEntities(needs);
-			}
-			else if(eval instanceof CompoundAssignmentVar) {
-				CompoundAssignmentVar assignment = (CompoundAssignmentVar)eval;
-				assignment.getExpression().collectNeededEntities(needs);
-			}
-			else if(eval instanceof DefDeclVarStatement) {
-				DefDeclVarStatement assignment = (DefDeclVarStatement)eval;
-				if(assignment.getTarget().initialization != null)
-					assignment.getTarget().initialization.collectNeededEntities(needs);
-			}
-			else if(eval instanceof ReturnStatement) {
-				ReturnStatement returnStmt = (ReturnStatement)eval;
-				returnStmt.getReturnValueExpr().collectNeededEntities(needs);
-			}
-			else if(eval instanceof ReturnStatementProcedure) {
-				ReturnStatementProcedure returnStmtProc = (ReturnStatementProcedure)eval;
-				for(Expression returnValueExpr : returnStmtProc.getReturnValueExpr()) {
-					returnValueExpr.collectNeededEntities(needs);
-				}
-			}
-			else if(eval instanceof ReturnAssignment) {
-				ReturnAssignment returnAssignment = (ReturnAssignment)eval;
-				returnAssignment.getProcedureInvocation().collectNeededEntities(needs);
-			}
+			eval.collectNeededEntities(needs);
 		}
 		genLocalContainers(sb, needs, staticInitializers);
 	}
@@ -2236,6 +2193,12 @@ public class ActionsGen extends CSharpBase {
 				sb.append("null");
 			else
 				genExpressionTree(sb, no.getNamedEntity(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if(expr instanceof ExistsFileExpr) {
+			ExistsFileExpr efe = (ExistsFileExpr) expr;
+			sb.append("new GRGEN_EXPR.ExistsFileExpression(");
+			genExpressionTree(sb, efe.getPathExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if(expr instanceof ImportExpr) {

@@ -444,6 +444,14 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new DefinedSubgraphExprNode(getCoords(), params.get(0));
 		}
+		else if(functionName.equals("existsFile")) {
+			if(params.size() != 1) {
+				reportError("existsFile(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new ExistsFileExprNode(getCoords(), params.get(0));
+		}
 		else if(functionName.equals("import")) {
 			if(params.size() != 1) {
 				reportError("import(.) takes one parameter.");
