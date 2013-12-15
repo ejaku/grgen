@@ -83,7 +83,7 @@ We will use the \GrShell\ (see Chapter~\ref{chapgrshell}) and---for visualizatio
 To get everything working we need a rule set file, too.
 For the moment we just create an almost empty file \texttt{removeEpsilons.grg} in the \texttt{/home/grgen} directory, containing only the line
 \begin{grgen}
-using StateMachine;
+#using "StateMachine.gm"
 \end{grgen}
 Now, we could start by launching the \GrShell\ and typing the commands interactively.
 This is, however, in most of the cases not the preferred way.
@@ -146,7 +146,7 @@ See Chapter~\ref{chaprulelang} for the rule set language reference.
 \begin{figure}[htbp]
 	\centering
 	\begin{grgen}
-using StateMachine;
+#using "StateMachine.gm"
 
 test checkStartState {
     x:StartState;

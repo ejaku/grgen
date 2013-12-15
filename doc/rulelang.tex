@@ -12,7 +12,7 @@ The following rewrite rule mentioned in Geiß et al.~\cite{GBGHS:06} gives a rou
 %\begin{figure}[tb]
 \begin{example}\label{ex:rule:SomeRule}
 \begin{grgen}
-using SomeModel;
+#using "SomeModel.gm"
 
 rule SomeRule {
   n1:NodeTypeA;
@@ -286,16 +286,19 @@ And some illegal graphlets:\\
 \label{ruledecls}
 The structure of a \indexed{rule set} file is as follows:
 \begin{rail}
-  RuleSet: FileHeader ((TestDeclaration | RuleDeclaration | SubpatternDeclaration | RewriteSequenceDefinition | ComputationDefinition)+) ;
+  RuleSet: FileHeader ((TestDeclaration | RuleDeclaration | SubpatternDeclaration | RewriteSequenceDefinition | FunctionDefinition | ProcedureDefinition | FilterFunctionDefinition)+) ;
   FileHeader: ((ModelUsage)*()) ((RulesInclusion)*()) ((GlobalVarDecl)*());
-  ModelUsage: 'using' ((ModelIdent)+',') ';';
+  ModelUsage: '\#using' Filename;
   RulesInclusion: '\#include' Filename;
   GlobalVarDecl: '::' IdentDecl ':' NodeType ';' | '-' '::' IdentDecl ':' EdgeType '->' ';' | ('var'|'ref') '::' IdentDecl ':' VarType ';';
 \end{rail}\ixkeyw{using}\ixkeyw{include}\ixnterm{RuleSet}\ixnterm{FileHeader}\ixnterm{ModelUsage}\ixnterm{RulesInclusion}\ixnterm{GlobalVarDecl}
 
-A rule set consists of the underlying \indexed{graph model}s and several rewrite rules and tests (subpatterns will be introduced in \ref{sec:subpattern}, rewrite sequence definitions in \ref{sec:sequencedefinition}).
+A rule set built on the \indexed{graph model}s you are \texttt{using}
+consists primarily of rewrite rules and tests,
+plus further constructs that will be introduced in later chapters.
+%(subpatterns will be introduced in \ref{sec:subpattern}, rewrite sequence definitions in \ref{sec:sequencedefinition}, functions and procedures in \ref{}, and post-match filters in \ref{}).
+Additionally you may \texttt{include} further rule language files.
 (As a hint regarding the syntax diagrams: please note that the bottom rail in the \emph{RuleSet} diagram departs before the end and joins in after the \emph{FileHeader}, i.e. it denotes a looping back edge (a fast forward edge would have split and join points at the same positions but of the opposite direction)).
-Additionally you may \texttt{include} further rule set files (without \texttt{using} directives, we prefer to suffix them with \texttt{.gri} in this case).
 
 Furthermore, you may declare \indexed{graph global variable}s; this is a pure declaration that they will exist with the given type during execution. It renders them accessible in the rules (esp. the attribute condition and attribute evaluation), but you must define and assign them  before rule execution outside of the rules. They are made available to allow for an easy parameterization of entire transformations, defining the environment; other uses are discouraged. See \ref{cha:xgrs} for more on this.
 (Use \texttt{ref} for container types and \texttt{var} for the other (non-node or edge) types.)
