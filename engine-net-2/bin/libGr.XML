@@ -819,6 +819,60 @@
             type might be a string denoting a NodeType or EdgeType, or a NodeType or EdgeType
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.FilterCall">
+            <summary>
+            An object representing a filter call.
+            It specifies the filter and potential arguments.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCall.Name">
+            <summary>
+            The name of the filter.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCall.Entity">
+            <summary>
+            The entity the filter is based on, in case of a def-variable based auto-generated filter, otherwise null.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCall.IsAutoSupplied">
+            <summary>
+            True in case this is the call of an auto-supplied filter.
+            In this case, there must be exactly one Argument or ArgumentExpression given.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCall.ArgumentExpressions">
+            <summary>
+            An array of expressions used to compute the input arguments for a filter function (or auto-supplied filter).
+            It must have the same length as Arguments.
+            If an entry is null, the according entry in Arguments is used unchanged.
+            Otherwise the entry in Arguments is filled with the evaluation result of the expression.
+            The sequence parser generates argument expressions for every entry;
+            they may be omitted by a user assembling an invocation at API level.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCall.Arguments">
+            <summary>
+            Buffer to store the argument values for the filter function call (or auto-supplied filter call);
+            used by libGr to avoid unneccessary memory allocations.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.FilterCall.#ctor(System.String,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceExpression})">
+            <summary>
+            Instantiates a new FilterCall object for a filter function or auto
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.FilterCall.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            Instantiates a new FilterCall object for an auto-generated filter
+            dummy is only existing so that FilterCall("auto", null, true) can be resolved to this constructor
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.FilterCall.#ctor(System.String,de.unika.ipd.grGen.libGr.SequenceExpression)">
+            <summary>
+            Instantiates a new FilterCall object for an auto-supplied filter (with sequence expression parameter)
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.SymmetryChecker">
             <summary>
             A class which contains the AreSymmetric function to check to matches of a pattern for being symmetric,
@@ -1153,7 +1207,7 @@
             <param name="old">The old graph.</param>
             <param name="clone">The new, cloned version of the graph.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.ApplyRewrite(de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{System.String})">
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.ApplyRewrite(de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.FilterCall})">
             <summary>
             Apply a rewrite rule (first computing the parameters with sequence expressions, last assigning result variables).
             </summary>
@@ -2593,6 +2647,11 @@
             The given filter can't be applied to the given rule 
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.FilterParameterError">
+            <summary>
+            The parameters of the given filter applied to the given rule don't fit to the declaration
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.SubgraphTypeError">
             <summary>
             The given subgraph is of wrong type
@@ -3764,12 +3823,29 @@
             Clone the matches
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IMatches.FilterFirstLast(System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.IMatches.FilterKeepFirst(System.Int32)">
             <summary>
-            For filtering to the first or last elements
-            implements the keepFirst, keepLast, keepFirstFraction, keepLastFractions filter
+            For filtering with the auto-supplied filter keepFirst
             </summary>
-            <param name="filter">The filter string, with encoded parameter value (following underscore)</param>
+            <param name="count">The number of matches to keep</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatches.FilterKeepLast(System.Int32)">
+            <summary>
+            For filtering with the auto-supplied filter keepLast
+            </summary>
+            <param name="count">The number of matches to keep</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatches.FilterKeepFirstFraction(System.Double)">
+            <summary>
+            For filtering with the auto-supplied filter keepFirstFraction
+            </summary>
+            <param name="fraction">The fraction of matches to keep</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatches.FilterKeepLastFraction(System.Double)">
+            <summary>
+            For filtering with the auto-supplied filter keepLastFraction
+            </summary>
+            <param name="fraction">The fraction of matches to keep</param>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatches.Producer">
             <summary>
@@ -6522,6 +6598,31 @@
             An array of the names of the available filters (external extensions)
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IFilter">
+            <summary>
+            A description of a filter of a rule
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IFilterAutoGenerated">
+            <summary>
+            A description of an auto-generated filter
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IFilterFunction">
+            <summary>
+            A description of a filter function
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IFilterFunction.Inputs">
+            <summary>
+            An array of GrGen types corresponding to filter parameters.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IFilterFunction.InputNames">
+            <summary>
+            An array of the names corresponding to filter parameters.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceVariable">
             <summary>
             A variable declared/used within a sequence,
@@ -7154,13 +7255,13 @@
             The array must contain at least RulePattern.Inputs.Length elements.</param>
             <returns>True, if the rule was applied at least min times.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IAction.Filter(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IMatches,System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.IAction.Filter(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IMatches,de.unika.ipd.grGen.libGr.FilterCall)">
             <summary>
             Filters the matches found by this action 
             </summary>
             <param name="actionEnv">The action execution environment, esp. giving access to the host graph.</param>
             <param name="matches">The matches to inspect and filter</param>
-            <param name="filterName">The name of the filter function to apply</param>
+            <param name="filter">The filter to apply</param>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IAction.Name">
             <summary>
