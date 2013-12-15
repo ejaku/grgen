@@ -498,20 +498,31 @@ patternOrActionOrSequenceOrFunctionOrProcedureDecl [ CollectNode<IdentNode> patt
 			id.setDecl(new ProcedureDeclNode(id, evals, params, retTypes, false));
 			procedureChilds.addChild(id);
 		}
-	| f=FILTER id=actionIdentDecl LT actionId=actionIdentUse GT pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
-		LBRACE
+	| (EXTERNAL { isExternal = true; })? f=FILTER id=actionIdentDecl LT actionId=actionIdentUse GT pushScope[id] params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
+		(
+			LBRACE
+				{
+					evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
+							new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))), ArrayTypeNode.getArrayType(new IdentNode(env.occurs(ParserEnvironment.ACTIONS, actionId.toString(), actionId.getCoords()))), PatternGraphNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
+						BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
+				}
+				( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+			RBRACE popScope
 			{
-				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
-						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))), ArrayTypeNode.getArrayType(new IdentNode(env.occurs(ParserEnvironment.ACTIONS, actionId.toString(), actionId.getCoords()))), PatternGraphNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
-					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
+				FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, evals, params, actionId);
+				id.setDecl(ff);
+				filterChilds.addChild(id);
 			}
-			( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
-		RBRACE popScope
-		{
-			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, evals, params, actionId);
-			id.setDecl(ff);
-			filterChilds.addChild(id);
-		}
+		|
+			SEMI
+			{
+				FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, null, params, actionId);
+				id.setDecl(ff);
+				filterChilds.addChild(id);
+				if(!isExternal)
+					reportWarning(id.getCoords(), "External filter must start with \"external\"");
+			} 
+		)
 	;
 
 parameters [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]

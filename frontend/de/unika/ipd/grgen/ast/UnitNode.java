@@ -184,7 +184,8 @@ public class UnitNode extends BaseNode {
 			}
 		}
 		for(FilterFunctionDeclNode filterFunction : filterFunctions.getChildren()) {
-			res &= EvalStatementNode.checkStatements(true, filterFunction, null, filterFunction.evals, true);
+			if(filterFunction.evals != null) // otherwise external filter function without statements
+				res &= EvalStatementNode.checkStatements(true, filterFunction, null, filterFunction.evals, true);
 		}
 		for(FunctionDeclNode function : functions.getChildren()) {
 			res &= EvalStatementNode.checkStatements(true, function, null, function.evals, true);
