@@ -65,9 +65,13 @@ new sE_1 -:moveLeft-> sC
 
 exec ((readOneRule || readEmptyRule) | (writeOneRule || writeEmptyRule) | (ensureMoveLeftValidRule || ensureMoveRightValidRule) | (moveLeftRule || moveRightRule))[1:100]
 
+custom actions explain moveRightRule
+
 custom graph analyze
 #custom actions gen_searchplan readOneRule readEmptyRule writeOneRule writeEmptyRule ensureMoveLeftValidRule ensureMoveRightValidRule moveLeftRule moveRightRule
 #the command below generates the matcher programs of all known rules anew, the command above the matcher programs of the specified rules
 custom actions gen_searchplan
+
+custom actions explain moveRightRule
 
 exec ((readOneRule || readEmptyRule) | (writeOneRule || writeEmptyRule) | (ensureMoveLeftValidRule || ensureMoveRightValidRule) | (moveLeftRule || moveRightRule))*
