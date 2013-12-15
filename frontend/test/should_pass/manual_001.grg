@@ -1,0 +1,104 @@
+#using "manual.gm"
+
+var ::v:int;
+
+rule example
+{
+  n:N; // we assume attributes a:int, arr:array<int>, narr:array<N>
+	
+	modify {
+		eval {
+			def var sum:int = 0; // declares a local variable of type int and initializes it
+			n.a = 42; // assigns 42 to the attribute a of the node n of type N
+			::v = n.a - 1; // assigns the global variable the value 41
+			def ref arr:array<int> = array<int>[ sum,1,2,3 ];
+			arr[0] = arr[1] + n.arr[sum];
+			def ref narr:array<N> = array<N>[ n ];
+			//narr[0].a = 0xAFFE; -- currently not possible, you must work around it this way:
+			def tmp:N = narr[0];
+			tmp.a = 0xAFFE;
+			n.narr[0] = n; // this is possible in contrast
+		}
+	}
+}
+
+
+rule example2
+{
+  n:N; // we (again) assume attributes a:int, arr:array<int>, narr:array<N>
+	
+	modify {
+		eval {
+			if(n.a < 42) {
+				while(true) {
+					n.a = n.a + 1;
+					if(n.a == 42) {
+						break; // leaves the while loop, n.a==42 afterwards
+					}
+				}
+			} else {
+				def ref narr:array<N> = n.narr;
+				def var i:int = 0;
+				for(tn:N in narr) {
+					i = i + 1;
+					n.a = n.a + tn.a + n.arr[i];
+				}
+			}
+		}
+	}
+}
+
+
+function fac(var x:int) : int
+{
+	if(x>1) {
+		return( x * fac(x-1) );
+	} else {
+		return( 1 );
+	}
+}
+function foo(m:N) : boolean
+{
+	def var tmp:int = fac(m.a);
+	tmp = tmp - 1;
+	return( m.a < tmp );
+}
+test example3 : (int)
+{
+	n:N;
+	if{foo(n);}
+	return ( fac(n.a) );
+}
+
+
+procedure foo_(n:N) : (N,int)
+{
+	def m:N;
+	(m) = add(N); // create new node of type N and add it to the graph
+	return( m, n.a );
+}
+
+procedure bar(m:N, var i:int)
+{
+	def var fac:int = 1;
+	while(i>0) {
+		fac = fac * i;
+		i = i - 1;
+	}
+	m.a = m.a - fac;
+	return;
+}
+
+rule example4 : (int,int)
+{
+	n:N;
+	modify {
+		def var i:int;
+		eval {
+			def m:N;
+			(m,yield i)=foo_(n);
+			bar(m,i);
+		}
+		return(i,n.a);
+	}
+}

@@ -1,0 +1,37 @@
+#using "manual.gm"
+
+sequence s
+{
+	for{x:N in nodes(N); 
+		for{::y in outgoing(x); 
+			{ ::z=target(::y); ::z.a = 42 } 
+		}
+	}
+}
+
+sequence t
+{
+	(::x)=r() ;> (::y)=u() ;> if{ {{isReachable(::x,::y)}} ; doSomething(::x, ::y) }
+}
+
+rule r() : (Node)
+{
+	n:Node;
+	modify {
+		return(n);
+	}
+}
+
+rule u() : (Node)
+{
+	m:Node;
+	modify {
+		return(m);
+	}
+}
+
+rule doSomething(n:Node, m:Node)
+{
+	modify {
+	}
+}
