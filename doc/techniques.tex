@@ -20,6 +20,8 @@ for deferred rule execution to do work later on you can't do while executing the
 	\item[storages and storagemaps]
 to store elements collected in one run and reuse them as input in another run, i.e. using multi-value variables to break up the transformation into passes. (This is the half point, as they are not a means to build a complex rule, but a means to communicate between rules building complex transformations.)
 \end{description}
+%Besides, sequences combining rules into more complex sequences.
+%Besides, programmed-direct graph manipulation from procedures, and programmed-direct graph querying from functions.
 
 \noindent In the following we'll employ them to merge and split nodes, emulate node replacement grammars, execute transformations in a narrow sense, copy substructures, compute flow equations over the graph structure with sets in the nodes, and enumerate state spaces.
 Further examples can be found in \cite{CompilerOptimization} employing two storagesets switched in between for computing a wavefront running over a compiler graph and \cite{ProgramUnderstanding} using the nested and subpatterns for elegantly extracting a state machine model from a program graph.
