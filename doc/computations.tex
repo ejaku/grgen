@@ -72,6 +72,8 @@ At their definition, an initializing expression may be given.
 \begin{example}
 The following rule eval part gives some example statements regarding data flow.
   \begin{grgen}
+var ::v:int;
+	
 rule example
 {
   n:N; // we assume attributes a:int, arr:array<int>, narr:array<N>
@@ -220,7 +222,7 @@ The type of the one return value must be compatible to the return type specified
 \begin{example}
 An example showing how functions are declared and used.
   \begin{grgen}
-function fac(x:int) : int
+function fac(var x:int) : int
 {
 	if(x>1) {
 		return( x * fac(x-1) );
@@ -230,7 +232,7 @@ function fac(x:int) : int
 }
 function foo(m:N) : boolean
 {
-	def var tmp = fac(m.a);
+	def var tmp:int = fac(m.a);
 	tmp = tmp - 1;
 	return( m.a < tmp );
 }
@@ -354,7 +356,7 @@ procedure foo(n:N) : (N,int)
 	return( m, n.a );
 }
 
-procedure bar(m:N, var i:int) : (boolean)
+procedure bar(m:N, var i:int)
 {
 	def var fac:int = 1;
 	while(i>0) {
@@ -372,7 +374,7 @@ rule example : (int,int)
 		def var i:int;
 		eval {
 			def m:N;
-			(m,i)=foo(n);
+			(m,yield i)=foo(n);
 			bar(m,i);
 		}
 		return(i,n.a);
