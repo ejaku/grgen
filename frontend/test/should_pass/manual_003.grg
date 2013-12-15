@@ -1,0 +1,127 @@
+#using "manual.gm"
+
+rule example
+{
+	x:N -e:E-> y:N <--> z:M;
+	if { e.a == 42; }
+
+	modify {
+		delete(y);
+		xn:NN<x>;
+		xn --> yn:N --> z;
+	}
+}
+// this procedure behaves similarily to the rule above
+procedure example
+{
+	// match LHS pattern
+	def var leave:boolean = false;
+	for(x:N in nodes(N)) // lookup n of type N in the graph
+	{
+		x.visited = true; // (see 14.5 Visited Flags below)
+		for(e:E in outgoing(x, E)) // from x on find outgoing edge e of type E
+		{
+			if(!(e.a == 42)) { // with e.a == 42
+				continue;
+			}
+			def y:Node = target(e); // and target node y of type N
+			if(!(typeof(y)<=N)) {
+				continue;
+			}
+			if(y.visited) { // that is not the same as x
+				continue;
+			}
+			for(z:Node in adjacent(y, Edge, M)) // from y on find adjacent node z of type M
+			{ // N and M are disjoint, can't match each other, otherwise visited would be needed
+			
+				// rewrite according to RHS pattern
+				rem(y);
+				(def xn:NN)=retype(x,NN);
+				(def yn:N)=add(N);
+				add(Edge, xn, yn);
+				add(Edge, yn, z);
+
+				leave = true; break;
+			}
+			if(leave) { break; }
+		}
+		x.visited = false;
+		if(leave) { break; }
+	}
+	return;
+}
+
+rule init
+{
+	modify { // creates the host graph our example rule and function are working on
+		start1:SN -:contains-> s1x:Node;
+		start1    -:contains-> s1y:Node;
+		s1x --> s1y;
+
+		start2:SN -:contains-> s2x:Node;
+		start2    -:contains-> s2y:Node;
+		start2    -:contains-> s2z:Node;
+		s2x --> s2y --> s2z --> s2x;
+	}
+}
+
+function unequalContainedSubgraphs(start1:SN, start2:SN) : boolean
+{
+	def ref adj:set<Node> = adjacentOutgoing(start1, contains); //adj=={s1x,s2x}
+	def var sub1:graph = inducedSubgraph(adj); // sub1==graph(s1x' -->' s1y') -- does not contain s1x,s1y themselves!
+	def var sub2:graph = inducedSubgraph(adjacentOutgoing(start2, contains));
+	def var res:boolean = sub1 == sub2; // false as graph(s1x' -->' s1y') != graph(s2x' -->' s2y' -->' s2z' -->' s2x'), answered quickly because number of elements different
+	def var sub3:graph = copy(sub1);
+	def var res2:boolean = sub1 == sub3; // true as graph(s1x' -->' s1y') isomorphic graph(s1x'' -->'' s1y''), answered slowly because isomorphy matching
+	return(res); // remark: the original graph is untouched
+}
+
+rule example2
+{
+	start1:SN; start2:SN;
+	if{ unequalContainedSubgraphs(start1, start2); }
+	
+	modify {
+		eval {
+			insert(inducedSubgraph(adjacentOutgoing(start2, contains) | set<Node>{start2}));
+				// 1. computes the union of the set of the nodes outgoing from start2 with the set containing start2
+				// 2. creates a structurally equal clone of the induced graph of the node set handed in (start2, s2x, s2y, s2z, and all edges in between)
+				// 3. inserts the clone into the original graph (disjoint union)
+				// the clone was destroyed by insert, can't be accessed further
+			(def start2n:SN)=insertInduced(adjacentOutgoing(start2), start2);
+				// does the same, just a bit simpler and more efficient, 
+				// with start2n you have a node that gives you access to the subgraph just inserted (by computing adjacentOutgoing(start2n, contains)),
+				// so you can do further processing of that newly created piece,
+				// e.g. link it to other nodes in the original graph
+		}
+	}
+}
+
+
+procedure lengthOfLongestPath(start:Node, var lengthReached:int, var flag:int) : (int)
+{
+	def var maxLength:int = lengthReached;
+	start.visited[flag] = true;
+	for(child:Node in adjacent(start)) {
+		if(!child.visited[flag]) {
+			def var lengthOfLongestPathStartingAtChild:int;
+			(lengthOfLongestPathStartingAtChild)=lengthOfLongestPath(child, lengthReached+1, flag);
+			maxLength = max(maxLength, lengthOfLongestPathStartingAtChild);
+		}
+	}
+	start.visited[flag] = false;
+	return (maxLength);
+}
+
+rule getLolp(start:Node) : (int)
+{
+	modify {
+		def var lolp:int;
+		eval {
+			(def var flag:int) = valloc();
+			(yield lolp) = lengthOfLongestPath(start, 0, flag);
+			vfree(flag);
+		}
+		return(lolp);
+	}
+}

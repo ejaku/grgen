@@ -1,0 +1,19 @@
+node class N
+{
+	a:int;
+	arr:array<int>;
+	narr:array<N>;
+}
+
+node class NN extends M;
+
+node class M;
+
+edge class E
+{
+	a:int;
+}
+
+edge class contains;
+
+node class SN;
