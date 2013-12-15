@@ -3986,19 +3986,23 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void genInsertInducedSubgraphProc(StringBuffer sb, ModifyGenerationStateConst state, InsertInducedSubgraphProc iisp) {
-		sb.append("GRGEN_LIBGR.GraphHelper.InsertInduced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)");
+		sb.append("((");
+		sb.append(formatType(iisp.getNodeExpr().getType()));
+		sb.append(")GRGEN_LIBGR.GraphHelper.InsertInduced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)");
 		genExpression(sb, iisp.getSetExpr(), state);
 		sb.append(", ");
 		genExpression(sb, iisp.getNodeExpr(), state);
-		sb.append(", graph)");
+		sb.append(", graph))");
 	}
 
 	private void genInsertDefinedSubgraphProc(StringBuffer sb, ModifyGenerationStateConst state, InsertDefinedSubgraphProc idsp) {
-		sb.append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
+		sb.append("((");
+		sb.append(formatType(idsp.getEdgeExpr().getType()));
+		sb.append(")GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
 		genExpression(sb, idsp.getSetExpr(), state);
 		sb.append(", ");
 		genExpression(sb, idsp.getEdgeExpr(), state);
-		sb.append(", graph)");
+		sb.append(", graph))");
 	}
 
 	private void genVAllocProc(StringBuffer sb, ModifyGenerationStateConst state, VAllocProc vap) {
@@ -4178,7 +4182,7 @@ public class ModifyGen extends CSharpBase {
 				return;
 			}
 	
-			if(accessViaVariable(state, (GraphEntity) owner, member)) {
+			if(accessViaVariable(state, /*(GraphEntity)*/owner, member)) {
 				sb.append("tempvar_" + formatEntity(owner) + "_" + formatIdentifiable(member));
 			} else {
 				if(state.accessViaInterface().contains(owner))
@@ -4197,7 +4201,7 @@ public class ModifyGen extends CSharpBase {
 		sb.append("@" + formatIdentifiable(member));
 	}
 
-	private boolean accessViaVariable(ModifyGenerationStateConst state, GraphEntity elem, Entity attr) {
+	private boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr) {
 		HashSet<Entity> forcedAttrs = state.forceAttributeToVar().get(elem);
 		return forcedAttrs != null && forcedAttrs.contains(attr);
 	}

@@ -200,6 +200,10 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
   						result = new ArrayClearNode(getCoords(), targetVar);
   				}
 			}
+			else {
+  				reportError("array<T> does not have a statement method named \"" + methodName + "\"");
+  				return false;
+  			}
 		}
 		else if(targetType instanceof DequeTypeNode) {
 			if(methodName.equals("add")) {
@@ -238,6 +242,11 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
   						result = new DequeClearNode(getCoords(), targetVar);
   				}
 			}
+  			else
+  			{
+  				reportError("deque<T> does not have a statement method named \"" + methodName + "\"");
+  				return false;
+  			}
 		}
 		else if(targetType instanceof InheritanceTypeNode) {
 			// METHOD-TODO
