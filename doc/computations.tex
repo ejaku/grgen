@@ -290,6 +290,7 @@ table~\ref{funcstab} lists the built-in functions of the rule language at a glan
 \texttt{inducedSubgraph(set<Node>):graph}\\
 \texttt{definedSubgraph(set<Edge>):graph}\\
 \texttt{import(string):graph}\\
+\texttt{existsFile(string):boolean}\\
 \texttt{copy(graph):graph}\\
 \hline
 \hline
@@ -413,6 +414,7 @@ The \emph{AssignmentTarget} may be any of the LHS expressions supported by the d
 \texttt{insertDefined(set<Edge>,Edge):(Edge)}\\
 \texttt{export(string)}\\
 \texttt{export(graph,string)}\\
+\texttt{deleteFile(string)}\\
 \hline
 \texttt{valloc():(int)}\\
 \texttt{vfree(int)}\\
