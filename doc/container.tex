@@ -163,7 +163,7 @@ function setExample(ref si:set<int>) : boolean
 		s.add(i);
 	} // { 1, 2, 3 }
 	s.add(3); // still { 1, 2, 3 }
-	return (2 in s | set<int>{ 4,5 }); // true
+	return (2 in (s | set<int>{ 4,5 })); // true
 }
 \end{grgen}
 \end{example}
@@ -279,12 +279,12 @@ function mapExample(ref mi:map<int,int>) : boolean
 		mi.add(k,v); // mi[k] == m[k]
 	} // m == mi == { 1->1, 3->3 }, assuming input was {->}
 	m[3] = m[1]; // m = { 1->1, 3->1 }
-	def var i:int = a.size(); // i==2
+	def var i:int = m.size(); // i==2
 	if(!(i in m)) { 
 		m.add(i, 1);
 	} // { 1->1, 2->1, 3->1 }
 	m.add(3, 3); // { 1->1, 2->1, 3->3 }
-	return (2 in m | map<int,int>{ 4->4, 5->m[0] }); // true
+	return (2 in (m | map<int,int>{ 4->4, 5->m[0] })); // true
 }
 \end{grgen}
 \end{example}
@@ -386,7 +386,7 @@ function arrayExample(ref ai:array<int>) : boolean
 	a.add(1); // [ 1 ]
 	a.add(2); // [ 1, 2 ]
 	a.add(3); // [ 1, 2, 3 ], a.size()==3
-	a.peek(); // end of [ 1, 2, 3 ] is 3 
+	def var tmp:int = a.peek(); // end of [ 1, 2, 3 ] is 3 
 	a.rem(); // [ 1, 2 ] FIFO
 	for(k:int -> v:int in a) {
 		ai.add(v); // ai[k] == a[k]
@@ -505,7 +505,7 @@ function dequeExample(ref di:deque<int>) : boolean
 	d.add(1); // ] 1 [
 	d.add(2); // ] 1, 2 [
 	d.add(3); // ] 1, 2, 3 [, d.size()==3
-	d.peek(); // begin of ] 1, 2, 3 [ is 1 
+	def var tmp:int = d.peek(); // begin of ] 1, 2, 3 [ is 1 
 	d.rem(); // ] 2, 3 [ LIFO
 	for(k:int -> v:int in d) {
 		di.add(v); // di[k] == d[k]
