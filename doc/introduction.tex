@@ -20,22 +20,22 @@ anytime the focus is on the relationship in between your data entities,
 and esp. if your algorithms operate upon data entities that stand in multiple relations to each other.
 
 These tasks are traditionally handled by pointer structures and pointer structure navi\-gation-, search-, and replacement routines written by hand
--- this low-level, pointer-fiddling code can be generated automatically for you by \GrG.
-You specify your transformation task on a \emph{higher level of abstraction} with of nodes connected by edges,
-and rewrite rules of \emph{patterns} to be searched plus modifications to be carried out,
-and then let \GrG\ generate the algorithmic core of your application.
-You specify the \emph{what} with \emph{declarative rules}, \GrG\ takes care of the \emph{how},
+-- this low-level, pointer-fiddling code can be generated automatically by \GrG\ for you.
+You specify your transformation task on a \emph{higher level of abstraction} with nodes connected by edges,
+and rewrite rules consisting of \emph{patterns} to be searched as well as modifications to be carried out.
+\GrG\ then generates the algorithmic core of your application.
+You specify the \emph{what} with \emph{declarative rules}, \GrG\ takes care of the \emph{how};
 similar to SQL expressions implemented by database engines, 
 or to grammar rules implemented by parser generators.
 Development is supported by \emph{visual debugging}, you work on a visualization of your network and the rule applications inside it.
-Altogether, your efficiency in programming, i.e. your \emph{productivity} is boosted way beyond traditional programming;
-luckily the efficiency of execution does not suffer thanks due to all optimizations implemented in the pattern matching engine, yielding \emph{high-performance} solutions.
-
+The debugger and the pattern based languages boost your \emph{productivity} for graph-representation-based tasks way beyond traditional programming.
+Thanks to all the optimizations implemented in the pattern matching engine you still gain \emph{high-performance} solutions.
+Altogether, \GrG\ offers the highest combined speed of development and execution you can find for those kind of tasks.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{An Example Graph-Based Representation}\label{sub:examplegraphrep}
 Let's have a look at an example of a graph-based representation \GrG\ is well suited for 
--- a simplified version of the graph-based compiler intermediate representation \Firm\footnote{\url{www.libfirm.org}} that \GrG\ was originally developed for.
+-- a simplified version of the graph-based compiler intermediate representation \Firm\footnote{\url{www.libfirm.org}} that \textsc{GrGen} was originally developed for.
 Nodes represent basic operations, e.g.\ a \node{Load} fetches a value from an address or an \node{Add} sums two values.
 Edges indicate dependencies between nodes, e.g.\ an \node{Add} requires that its two operands are available before it can be executed.
 Each operation is located within a basic block,
@@ -78,37 +78,44 @@ The key points here are that
 \begin{enumerate}
 	\item this is a mesh of objects (denoting operations),
 	\item that stand to each other in 3 relations (control flow (red), data flow (brown), and memory flow (blue) \footnote{we use dependencies, i.e. the direction is reversed compared to the flow}), 
-	\item and the major part of the information is encoded in the connection structure (topology),
+	\item and a major part of the information is encoded in the connection structure (topology),
 	which is explicitly represented with edges.
 \end{enumerate}
 
 You find such representations in other domains than \emph{programming languages} and \emph{compilers}, too.
-\emph{Knowledge} can be \emph{represented} intuitively like this with \emph{semantic nets}, you could use \GrG\ for reasoning over them.
+The \emph{knowledge} of an agent about the exterior world can be \emph{represented} intuitively like this with \emph{semantic nets}, you could use \GrG\ for reasoning over them.
 \emph{Models} as understood by \emph{model driven engineering} are typically graphs, with \GrG\ you can implement a model transformation between models, or into a lower-level program representation.
 When working in \emph{computational linguistics} you may be interested in modeling an \emph{abstract syntax graph} in \GrG;
 the recursive and iterated patterns that allow to process tree-like data structures declaratively render \GrG\ an excellent match for such tasks.
 But also in \emph{mechanical engineering} or \emph{architecture} where you need to describe the buildup of the modeled system from components, here you can derive and simulate \emph{blueprints}.
-If you need not only to model one system but want to derive all possible systems to choose from them according to a performance metric, you find support for this with built-in support for a backtracking search through a search space or even the enumeration of a state space with isomorphic state pruning.
+If you need not only to model one system, but want to derive all possible systems, in order to choose from them according to a performance metric, do you find help in the built-in support for a backtracking search through a search space or even the enumeration of a state space with isomorphic state pruning.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{When Not to Use \GrG}
-There is nothing to gain from \GrG\ if scalars and lists are sufficient to model your domain,
-which is the case for a lot of tasks in computing indeed;
-but which is not the case for others which would be better modeled with trees and especially graphs,
-but aren't because of the cost of maintaining pointer structures by hand.
+There is nothing to gain from \GrG\ if scalars, lists or arrays are sufficient to model your domain,
+which is the case for a lot of tasks in computing indeed.
+(But which is not the case for others which would be better modeled with trees and especially graphs,
+but aren't because of the cost of maintaining pointer structures by hand.)
+\GrG\ is likely too heavyweight if you are just interested in computing shortest paths in simple graphs.
+You're better off with a traditional graph library and its set of pre-implemented algorithms --
+the library can be learned quicker and the algorithms can be reused directly.
+\GrG\ with its domain-specific languages in contrast requires some time to learn and some effort to specify or code a solution in.
 
-The graph rewrite generator is not the right tool for you if you're searching for a visual environment to teach children programming -- it's a powerful tool for software engineers that requires a not-that-small effort to learn. Simpler and less powerful languages like story diagrams\cite{storydiagrams} may be a better match here.
+The graph rewrite generator is not the right tool for you if you're searching for a visual environment to teach children programming -- it's a powerful tool for (software) engineers.
+Simpler and less powerful languages like story diagrams\cite{storydiagrams} that can be learned quicker and understood more intuitively may be a better match here.
 Neither is it what you need if your graph structured data is to be interactively edited by an end user instead of being automatically transformed by rules (the editor generator DiaGen\cite{diagen} may be of interest in this case).
 
 Each object-oriented program contains a heap of objects pointing to each other that can be understood as a graph like representation, with objects being the nodes and the references being the edges.
 In contrast to object-oriented programming is the topology in graph-oriented programming as offered by \GrG\ not hidden and encapsulated in the objects, but globally open for inspection and modification, open and readily accessible for pattern matching and rewriting.
-If you don't need to map one complete representation to another complete representation,
-or if you don't need to match and rewrite patterns inside a representation,
-you are likely better off with the stronger information hiding of object-oriented programming
--- it leads to a better software system architecture.
-A certain level of information hiding is offered with hierarchical graphs as offered by \GrG, though.
-The graph inside an attribute is shielded from the graph containing it.
+Prefer the closed heaps if you don't need a global view on the data, they are cheaper and the information hiding cuts dependencies.
+
+%If you don't need to map one complete representation to another complete representation,
+%or if you don't need to match and rewrite patterns inside a representation,
+%you are likely better off with the stronger information hiding of object-oriented programming.
+%-- it leads to a better software system architecture.
+%A certain level of information hiding is offered with hierarchical graphs as offered by \GrG, though.
+%The graph inside an attribute is shielded from the graph containing it.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
