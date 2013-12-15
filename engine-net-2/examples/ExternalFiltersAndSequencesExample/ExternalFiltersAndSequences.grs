@@ -20,7 +20,7 @@ exec filterBase\auto
 exec [filterBass\f2]
 exec $::x[filterBass\f3]
 exec [filterBass\auto]
-exec (::ee)=filterHass(::n)\f4
+exec (::ee)=filterHass(::n)\f4(::n.i, "foo")
 exec <<filterBase\f1;filterBase\f1>>
 exec ${<filterBase\f1,[filterBass\f2]>}
 
