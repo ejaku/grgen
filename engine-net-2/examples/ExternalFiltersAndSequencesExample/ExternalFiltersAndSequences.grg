@@ -15,7 +15,11 @@ sequence counterExample2 { true }
 
 rule filterBase
 {
-} \ external f1, external nomnomnom, auto // we declare two external matches filter for the matches of the filterBase rule, plus the auto filter
+} \ auto // we declare the automorphy filter that is henceforth auto-generated for us
+
+// we declare two external matches filter for the matches of the filterBase rule
+external filter f1<filterBase>;
+external filter nomnomnom<filterBase>;
 
 rule filterBass
 {
@@ -23,13 +27,20 @@ rule filterBass
 	
 	modify {
 	}
-} \ external f2, external f3, auto // we declare two external matches filter for the matches of the filterBass rule, plus the auto filter
+} \ auto // we declare the automorphy filter that is henceforth auto-generated for us
+
+// we declare two external matches filter for the matches of the filterBass rule
+external filter f2<filterBass>;
+external filter f3<filterBass>;
 
 test filterHass(n:N):(E)
 {
 	n -e:E-> n;
 	return(e);
-} \ external f4 // we declare an external matches filter for the matches of the filterHass test
+}
+
+// we declare an external matches filter for the matches of the filterHass test
+external filter f4<filterHass>(var i:int, var s:string);
 
 rule init : (N)
 {
@@ -62,7 +73,7 @@ rule r
 				;> [filterBass\f2]
 				;> $::x[filterBass\f3]
 				;> [filterBass\auto]
-				;> (::ee)=filterHass(::n)\f4
+				;> (::ee)=filterHass(::n)\f4(::n.i, "foo")
 				;> <<filterBase\f1;filterBase\f1>>
 				;> ${<filterBase\f1,[filterBass\f2]>}
 		);
