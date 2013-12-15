@@ -1,4 +1,36 @@
-﻿v4.1.0 (2013-09-07)
+﻿v4.2beta (2013-12-15)
+ Added path-based model inclusion statement #using "<path>" as new default:
+  - it allows to reference a model file by a full path, so models can be organized in directories
+  - in exchange it only allows for one model file per statement, similar to #include
+ 
+ Added user-defined post-match filter functions to the rule language:
+  - complementing the auto-generated and auto-supplied filters (or the external filter functions)
+  - filter foo<bar>(params) { eval-stmt } specifies filter function foo for rule bar
+   - within filter, "this" allows to access the matches, as this:array<match<bar>>
+   - the this-matches-array can be iterated over,
+     an array entry comprising a match can be read and written by index,
+     a match entity can be read and written with member access notation (in the rule language, with correct types),
+      (in combination with an index lookup it can be only read, 
+ 	  writing requires an intermediate assignment to a variable tmp:match<bar>)
+     matches can be added to the array, matches can be removed from the array,
+     a high-performance way of removing is assigning null to a matches array index
+   - the copy function can be used now on matches, too,
+      this allows to insert new matches derived from clones of old matches to the matches array
+   - for external filter functions syntax is now: external filter foo<bar>(params);
+
+ Added new global functions and procedures:
+  - empty():boolean returns whether the graph is empty, i.e. contains no nodes and edges
+  - size():int returns the number of elements (nodes plus edges) in the graph
+  - existsFile(path:string):boolean returns whether the path exists
+  - deleteFile(path:string) deletes the path given
+  
+ Added numerous examples for the more recent parts of the languages to the user manual
+ 
+ Several bugs fixed
+
+--------------------------------------------------------------------------------------------------------
+
+v4.1.0 (2013-09-07)
  Methods are now supported (user-defined, in contrast to some built-in methods already available before): 
   - methods are declared in the model as functions or procedures nested inside node or edge classes
   - a "this" node or edge is declared implicitely inside the method functions or procedures
