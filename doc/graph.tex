@@ -280,7 +280,7 @@ The reachable iteration is the most concise way to note down a depth first walk 
 \end{example}
 
 %-----------------------------------------------------------------------------------------------
-\section{Subgraph Operations}\label{sec:subgraphop}
+\section{Subgraph and File Operations}\label{sec:subgraphop}
 
 Several functions and procedures returning and accepting subgraphs are available;
 they are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}, but also in graph-oriented programming with the structuring and information hiding supported by hierarchically nested graphs, cf. \ref{sec:graphnesting}.
@@ -294,6 +294,7 @@ The functions allow to compute (node-or-edge) induced subgraphs, import subgraph
 \item[\texttt{inducedSubgraph(.)}] returns the induced subgraph (type: \texttt{graph}) of the host graph for the set of nodes given as argument value.
 \item[\texttt{definedSubgraph(.)}] returns the defined (edge-induced) subgraph (type: \texttt{graph}) of the host graph for the set of edges given as argument value.
 \item[\texttt{import(.)}] returns the (sub)graph stored in the \texttt{.grs}-file given by its path (the main graph is \emph{not} replaced, the graph must be compatible to the model of the current host graph).
+\item[\texttt{existsFile(.)}] returns whether the file given by its path exists.
 \item[\texttt{copy(.)}] returns a clone of the original subgraph given as argument.
 \end{description}
 
@@ -308,11 +309,12 @@ or to export subgraphs.
 \item[\texttt{insertDefined(.,.)}] adds a clone of the subgraph defined (edge-induced) by the set of edges given as first argument to the host graph, returns the clone of the anchor edge given as second argument.
 \item[\texttt{export(.)}] exports the current host graph to a file with the given path.
 \item[\texttt{export(.,.)}] exports the subgraph given as first argument to a file with the given path.
+\item[\texttt{deleteFile(.)}] deletes the file with the given path.
 \end{description}
 
 % todo: mehr beispiele
 
-
+\pagebreak % to improve layout later on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph comparison}\label{sec:relationalgraph}
 
@@ -348,37 +350,54 @@ This will save you from the cost of repeated search planning; in addition, often
 \begin{example}
 An example showing how to save a graph exploded into its connected components, and how to load it again from them.
 \begin{grgen}
-procedure saveConnectedComponents
+procedure saveConnectedComponents()
 {
 	def var i:int = 0;
 	while(!empty()) {
 		def var n:Node = fetchNode();
-		def ref connectedComponent:set<Node> = reachable(n);
-		sub:graph = inducedSubgraph(connectedComponent);
+		def ref connectedComponent:set<Node> = reachable(n) | {n};
+		def var sub:graph = inducedSubgraph(connectedComponent);
 		export(sub, "cc"+i+".grs");
 		deleteSubgraph(connectedComponent);
 		i = i + 1;
 	}
+	return;
 }
-procedure loadConnectedComponents
+
+procedure loadConnectedComponents()
 {
 	def var i:int = 0;
 	while(existsFile("cc"+i+".grs")) {
 		insert(import("cc"+i+".grs"));
+		i = i + 1;
 	}
+	return;
 }
+
+procedure removeSavedConnectedComponentsFiles()
+{
+	def var i:int = 0;
+	while(existsFile("cc"+i+".grs")) {
+		deleteFile("cc"+i+".grs");
+		i = i + 1;
+	}
+	return;
+}
+
 function fetchNode() : Node
 {
 	for(n:Node in nodes()) {
 		return(n);
 	}
-	return null;
+	return(null);
 }
-procedure deleteSubgraph(sn:set<Node>)
+
+procedure deleteSubgraph(ref sn:set<Node>)
 {
 	for(n:Node in sn) {
 		rem(n);
 	}
+	return;
 }
 \end{grgen}
 \end{example}
