@@ -1,0 +1,188 @@
+\chapter{Filtering and Sorting of Matches}\indexmain{filters}\label{sub:filters}
+
+Filters are used to process the matches list of a rule all application (including the one-element matches list of a single rule application) after all matches were found, but before they are rewritten.
+They allow you to follow only the \emph{most promising matches} during a search task.
+
+You may implement filters in the form of \emph{filter functions} on your own.
+Alternatively, you may declare certain filters at their rules, they are then \emph{auto-generated} for you.
+Some filters are \emph{auto-supplied} and may just be used.
+All filters are used by \emph{filter calls} from the sequences (normally together with a rule all application).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Filter Functions}
+
+Filter functions need to be \emph{defined}, i.e. declared and implemented before they can be \emph{used}.
+
+\begin{rail}
+	FilterFunctionDefinition: 'filter' FilterIdent '<' RuleIdent '>' (Parameters | ()) \\ lbrace (Statement+) rbrace;
+\end{rail}\ixnterm{FilterFunctionDefinition}\ixkeyw{filter}
+
+A \indexed{filter function definition} is given in between the rules as a global construct.
+It specifies the name of the filter and the parameters supported, furthermore it specifies which rule the filter applies to, and it supplies a list of statements in the body. 
+
+The restrictions of a function body apply here, i.e. you are not allowed to manipulate the graph.
+In contrast to the function body is a \texttt{this} variable predefined, which gives access to the matches array to filter, of type \texttt{array<match<r>>}, where \texttt{r} denotes the name of the rule the filter is defined for.
+All the operations known for variables of array type (cf. \ref{sec:arrayexpr}) are available.
+
+\begin{example}
+The following filter \texttt{ff} for the rule \texttt{foo} clones the last match in the array of matches, and adds it to the array.
+So the last match would be rewritten twice (which is fine for \texttt{foo} that only creates a node, but take care when deleting or retyping nodes).
+But in the following the first entry and the last entry are deleted (again); the first in an efficient in-place way by assigning \texttt{null}.
+\begin{grgen}
+rule foo
+{
+	n:Node;
+	modify{
+		nn:Node;
+	}
+}
+
+filter ff<foo>
+{
+	this.add(copy(this.peek()));
+	this[0] = null; // removes first entry in matches array, efficiently
+	this.rem();
+}
+\end{grgen}
+\end{example}
+
+\indexmain{copy}The \indexed{match type} \texttt{match<r>} itself provides member access in dot notation (reading and writing), and a \indexed{\texttt{copy}} operation to get a clone (for insertion into the matches array).
+
+\begin{example}
+The following rule \texttt{incidency} yields for each node \texttt{n} matched the number of incident edges to a def variable \texttt{i} and assigns it in the eval on to an attribute \texttt{j}.
+The filter \texttt{filterMultiply} modifies the def variable \texttt{i} in the matches with the factor \texttt{f} handed in as filter parameter.
+\begin{grgen}
+rule incidency
+{
+	n:N;
+	def var i:int;
+	yield { yield i = incident(n).size(); }
+	
+	modify{
+		eval { n.j = i; }
+	}
+}
+
+filter filterMultiply<incidency>(var f:int)
+{
+	for(m:match<incidency> in this)
+	{
+		m.i = m.i * f;
+	}
+}
+\end{grgen}
+The following call triples the count of incident edges that is finally written to the attribute \texttt{j} for each node \texttt{n} matched by \texttt{incidency}:
+\begin{grshell}
+  exec [incidency \ filterMultiply(3)]
+\end{grshell}
+\end{example}
+
+You may declare external filters you must implement then in a C\# accompanying file, see \ref{sub:extflt} for more on that.
+With filter functions and external filter functions, you may implement matches-list modifications exceeding the available pre-implemented functionality.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Auto-Generated Filters}
+
+Auto-generated filters need to be \emph{declared} at their rule before they can be \emph{used}, they are implemented by \GrG.
+
+\begin{rail}
+  FiltersDecl: ( backslash (FilterDecl + ',') )?;
+  FilterDecl: ( FilterIdent '<' VariableIdent '>' | 'auto' );
+\end{rail}\ixnterm{FiltersDecl}\ixnterm{FilterDecl}\ixkeyw{auto}
+
+The \indexed{auto-generated filters} must be declared at the end of a rule definition (cf. \ref{ruledecls}).
+With exception of the \texttt{auto} filter for removal of automorphic matches they have to specify the name of a \texttt{def var} variable contained in the pattern, of integer, floating point, or string type; you \texttt{yield} a value computed from the elements and their attributes to it, per matched pattern.
+They filter based on certain conditions regarding that variable; filtering may mean to reorder a matches list alongside the chosen def variable.
+
+\begin{description}
+\item[\texttt{orderAscendingBy<v>}] orders the matches list ascendingly (from lowest ot highest value according to the \verb#<# operator), alongside the \texttt{v} contained in each match.
+\item[\texttt{orderDescendingBy<v>}] orders the matches list descendingly, alongside the \texttt{v} contained in each match.
+\item[\texttt{groupBy<v>}] ensures matches of equal \texttt{v} values are neighbours or only separated by matches of equal \texttt{v} values. Ordering subsumes this. (Grouping could be applied on types that only support the \verb#==# operator, though.)
+\item[\texttt{keepSameAsFirst<v>}] filters away all matches with \texttt{v} values that are not equal to the \texttt{v} value of the first match. May be used to ensure all matches of an indeterministically chosen value are rewritten, but typically you want to order the matches list before.
+\item[\texttt{keepSameAsLast<v>}] filters away all matches with \texttt{v} values that are not equal to the \texttt{v} value of the last match.
+\item[\texttt{keepOneForEach<v>}] filters away all matches with duplicate \texttt{v} values, i.e. only one (prototypical) match is kept per \texttt{v} value. The list must have been grouped or ordered before, otherwise the result is undefined.
+\end{description}
+ 
+Besides those variable-based filters you may use the automorphic matches filter to purge \indexed{symmetric matches}.
+In order to do so specify the special filter named \texttt{auto} at the rule declaration, and use it with the same name at the an application of that action (with the known backslash syntax).
+The filter is removing matches due to an \indexed{automorphic} pattern, matches which are covering the same spot in the host graph with a permutation of the nodes, the edges, or subpatterns of the same type at the same level.
+Other nested pattern constructs which are structurally identical are not recognized to be identical when they appear as commuted subparts; but they are so when they are factored into a subpattern which is instantiated multiple times.
+It is highly recommended to use this \indexed{symmetry reduction} technique when building state spaces including isomorphic state collapsing, as puring the matches which lead to isomorphic states early saves expensive graph comparisons -- and often it gives the semantics you are interested in anyway.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Auto-Supplied Filters}
+
+A few filters (that do not need information from a specific match) are auto-supplied, they can be used without implementation and even without declaration. They allow to keep (and thus remove) a certain number of matches from the beginning or the end of the matches list.
+
+The following auto-supplied filters may be used directly:
+\begin{description}
+\item[\texttt{keepFirst(count)}] keeps the first \texttt{count} matches from the begin of the matches list, \texttt{count} must be an integer number.
+\item[\texttt{keepLast(count) }] keeps the first \texttt{count} matches from the end of the matches list, \texttt{count} must be an integer number.
+\item[\texttt{keepFirstFraction(fraction)}] keeps the \texttt{fraction} of the matches from the begin of the matches list, \texttt{fraction} must be a floating point number in between \verb#0.0# and \verb#1.0#.
+\item[\texttt{keepLastFraction(fraction)}] keeps the \texttt{fraction} of the matches from the end of the matches list, \texttt{fraction} must be a floating point number in between \verb#0.0# and \verb#1.0#.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Filter calls}
+
+\begin{rail}
+	FilterCalls: (backslash FilterCall)*;
+  FilterCall: ( FilterIdent ('(' Arguments ')'|()) | FilterIdent '<' VariableIdent '>' | 'auto' );
+\end{rail}\ixnterm{FilterCalls}\ixnterm{FilterCall}\ixkeyw{auto}
+
+Filters are employed with \verb#r\f# notation at rule calls from the sequences language.
+This holds for user-implemented, auto-generated, and auto-supplied filters.
+
+\begin{example}
+The following rule \texttt{deleteNode} yields to a def variable the amount of outgoing edges of a node, and deletes the node.
+Without filtering this behaviour would be pointless, but a filter ordering based on the def variable is already declared for it.
+\begin{grgen}
+rule deleteNode
+{
+	def var i:int;
+
+	n:Node;
+
+	yield {
+		yield i = outgoing(n).size();
+	}
+	
+	modify{
+		delete(n);
+	}
+} \ orderAscendingBy<i>
+\end{grgen}
+The rule may then be applied with a sequence like the following:
+\begin{grshell}
+  exec [deleteNode \ orderAscendingBy<i> \ keepFirstFraction(0.5)]
+\end{grshell}
+This way, the 50\% of the nodes with the smallest number of outgoing edges are deleted from the host graph (because they don't get filtered away), or rephrased: the 50\% of the nodes with the highest number of outgoing edges are kept (their matches at the end of the ordered matches list are filtered away).
+\end{example}
+	
+%\makeatletter
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|}
+\hline
+\texttt{orderAscendingBy<def var:int|double|string>}\\
+\texttt{orderDescendingBy<def var:int|double|string>}\\
+\texttt{groupBy<def var:int|double|string>}\\
+\texttt{keepSameAsFirst<def var:int|double|string>}\\
+\texttt{keepSameAsLast<def var>:int|double|string}\\
+\texttt{keepOneForEach<def var:int|double|string>}\\
+\texttt{auto}\\
+\hline
+\texttt{keepFirst(int-Number)}\\
+\texttt{keepLast(int-Number)}\\
+\texttt{keepFirstFraction(double-Number)}\\
+\texttt{keepLastFraction(double-Number)}\\
+\hline
+\end{tabular}
+\caption{Auto-generated and then auto-supplied filters at a glance}
+\label{filterstab}
+\end{table}
+
+

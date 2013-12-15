@@ -33,13 +33,17 @@ An external procedure call (cf. \ref{sec:primexpr}) may receive and return value
 You may extend \GrG~with external procedures if the built-in attribute computation capabilities (cf. \ref{sub:expr}) or graph manipulation capabilities are insufficient for your needs.
 
 %-----------------------------------------------------------------------------------------------
-\section{External Match Filters}\label{sub:extflt}
+\section{External Filter Functions}\label{sub:extflt}
 
-The \emph{FilterDecl} \texttt{external FilterIdent} (cf. \ref{sub:filters} for more on filters), 
-registers an \indexed{external match filter}s with \GrG~ for the rule (or test) the match filter is appended at.
-It can then be used from applications of that rule (cf. \emph{Filters} in \ref{sec:ruleapplication}).
-An external match filter name must be globally unique (in contrast to the predefined filters, each rule may offer one with the same name).
-The \indexed{match filter} function must be implemented externally, see \ref{sub:extfltseqimpl}.
+\begin{rail}
+	FilterFunctionDefinition: 'external' 'filter' FilterIdent '<' RuleIdent '>' (Parameters | ()) ';';
+\end{rail}\ixnterm{FilterFunctionDefinition}\ixkeyw{filter}\ixkeyw{external}
+
+The \emph{FilterFunctionDefinition} prepended with an \texttt{external} and deprived of its body (cf. \ref{sub:filters} for more on filters), 
+registers an \indexed{external filter function} with \GrG~ for the rule (or test) specified in angles.
+It can then be used from applications of that rule (cf. \emph{FilterCalls} in \ref{sec:ruleapplication}).
+A filter function name -- irrespective whether external or internal -- must be globally unique (in contrast to the predefined filters, each rule may offer one with the same name).
+The match filter function must be implemented externally, see \ref{sub:extfltseqimpl}.
 You may extend \GrG~with match filters if you need to inspect the matches found for a rule in order to decide which to apply (see note \ref{note:inspect}) or if you just need a post-match hook which informs you about the found matches.
 
 \subsubsection*{Match object}
