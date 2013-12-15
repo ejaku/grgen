@@ -129,9 +129,24 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
             matches.FromList();
         }
 
-        public static void Filter_f4(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterHass.IMatch_filterHass> matches)
+        public static void Filter_f4(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterHass.IMatch_filterHass> matches, System.Int32 i, System.String s)
         {
-            // just let pass
+            // inspect matches carefully and manipulate as needed, depending on input parameters
+            // transforming to a List<IMatch> for easier manipulation and back to an IMatchesExact if needed
+            List<Rule_filterHass.IMatch_filterHass> matchesArray = matches.ToList();
+            for(int j = 0; j < matchesArray.Count; ++j)
+            {
+                Rule_filterHass.IMatch_filterHass match = matchesArray[j];
+                if(match.node_n.i < i)
+                {
+                    matchesArray[j] = null; // setting to null is an efficient way to delete, better than List.RemoveAt
+                }
+                if(match.node_n.s != s)
+                {
+                    match.node_n.s = s;
+                }
+            }
+            matches.FromList();
         }
     }
 }
