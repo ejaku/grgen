@@ -296,4 +296,37 @@ Let the beaver run:
   exec ((readOneRule | readEmptyRule) & (writeOneRule | writeEmptyRule) & (ensureMoveLeftValidRule | ensureMoveRightValidRule) & (moveLeftRule | moveRightRule))*
 \end{grshell}
 
+You can see the difference in between the search plans causing that improvement in execution time by utilizing the \texttt{explain} command.
 
+\begin{grshell}
+custom actions explain moveRightRule
+\end{grshell}
+
+We'll take a look at the search plan of the \texttt{moveRightRule}, first the initial version:
+
+\begin{verbatim}
+static search plans
+moveRightRule:
+    lookup -r:right-> in graph
+    from <-r- get source tp:TapePosition
+    from -r-> get target rtp:TapePosition
+    from tp incoming <-h:rwHead-
+    from <-h- get source wv:WriteValue
+    from wv outgoing -_edge0:moveRight->
+    from -_edge0-> get target s:State
+\end{verbatim}
+
+After graph analysis and search plan regeneration it looks like this:
+
+\begin{verbatim}
+moveRightRule:
+    lookup -h:rwHead-> in graph
+    from <-h- get source wv:WriteValue
+    from -h-> get target tp:TapePosition
+    from wv outgoing -_edge0:moveRight->
+    from -_edge0-> get target s:State
+    from tp outgoing -r:right->
+    from -r-> get target rtp:TapePosition
+\end{verbatim}
+
+The crucial difference is the changed lookup, the rule begins matching at the single \texttt{rmHead} edge instead of one of the many \texttt{right} edges on the tape.
