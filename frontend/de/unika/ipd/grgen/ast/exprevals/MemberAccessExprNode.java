@@ -22,6 +22,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.exprevals.MatchAccess;
 import de.unika.ipd.grgen.ir.exprevals.Qualification;
+import de.unika.ipd.grgen.ir.exprevals.VariableExpression;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MemberAccessExprNode extends ExprNode
@@ -67,7 +68,9 @@ public class MemberAccessExprNode extends ExprNode
 
 	@Override
 	protected boolean resolveLocal() {
-		if(!targetExpr.resolve()) return false;
+		if(!targetExpr.resolve()) {
+			return false;
+		}
 
 		TypeNode ownerType = targetExpr.getType();
 		
@@ -155,7 +158,9 @@ public class MemberAccessExprNode extends ExprNode
 			else
 				return new MatchAccess(targetExpr.checkIR(Expression.class), var.getVariable());
 		}
-		return new Qualification(targetExpr.checkIR(GraphEntityExpression.class).getGraphEntity(), member.checkIR(Entity.class));
+		return new Qualification(
+				targetExpr.getIR() instanceof VariableExpression ? targetExpr.checkIR(VariableExpression.class).getVariable() : targetExpr.checkIR(GraphEntityExpression.class).getGraphEntity(), 
+				member.checkIR(Entity.class));
 	}
 
 	public static String getKindStr() {
