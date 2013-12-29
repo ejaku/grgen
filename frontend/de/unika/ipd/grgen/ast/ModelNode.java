@@ -23,6 +23,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
+import de.unika.ipd.grgen.ir.PackageType;
 import de.unika.ipd.grgen.ir.exprevals.ExternalFunction;
 import de.unika.ipd.grgen.ir.exprevals.ExternalProcedure;
 
@@ -36,25 +37,29 @@ public class ModelNode extends DeclNode {
 
 	private CollectNode<ModelNode> usedModels;
 
-	protected CollectNode<TypeDeclNode> decls;
+	private CollectNode<IdentNode> packagesUnresolved;
+	protected CollectNode<TypeDeclNode> packages;
 	private CollectNode<IdentNode> declsUnresolved;
-	protected CollectNode<ExternalFunctionDeclNode> externalFuncDecls;
+	protected CollectNode<TypeDeclNode> decls;
 	private CollectNode<IdentNode> externalFuncDeclsUnresolved;
-	protected CollectNode<ExternalProcedureDeclNode> externalProcDecls;
+	protected CollectNode<ExternalFunctionDeclNode> externalFuncDecls;
 	private CollectNode<IdentNode> externalProcDeclsUnresolved;
+	protected CollectNode<ExternalProcedureDeclNode> externalProcDecls;
 	private ModelTypeNode type;
 	private boolean isEmitClassDefined;
 	private boolean isCopyClassDefined;
 	private boolean isEqualClassDefined;
 	private boolean isLowerClassDefined;
 
-	public ModelNode(IdentNode id, CollectNode<IdentNode> decls, 
+	public ModelNode(IdentNode id, CollectNode<IdentNode> packages, CollectNode<IdentNode> decls, 
 			CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
 			CollectNode<ModelNode> usedModels, 
 			boolean isEmitClassDefined, boolean isCopyClassDefined,
 			boolean isEqualClassDefined, boolean isLowerClassDefined) {
 		super(id, modelType);
 
+		this.packagesUnresolved = packages;
+		becomeParent(this.packagesUnresolved);
 		this.declsUnresolved = decls;
 		becomeParent(this.declsUnresolved);
 		this.externalFuncDeclsUnresolved = externalFuncs;
@@ -75,6 +80,7 @@ public class ModelNode extends DeclNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
+		children.add(getValidVersion(packagesUnresolved, packages));
 		children.add(getValidVersion(declsUnresolved, decls));
 		children.add(getValidVersion(externalFuncDeclsUnresolved, externalFuncDecls));
 		children.add(getValidVersion(externalProcDeclsUnresolved, externalProcDecls));
@@ -88,6 +94,7 @@ public class ModelNode extends DeclNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
+		childrenNames.add("packages");
 		childrenNames.add("decls");
 		childrenNames.add("externalFuncDecls");
 		childrenNames.add("externalProcDecls");
@@ -95,6 +102,8 @@ public class ModelNode extends DeclNode {
 		return childrenNames;
 	}
 
+	private static CollectResolver<TypeDeclNode> packagesResolver = new CollectResolver<TypeDeclNode>(
+			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
 	private static CollectResolver<TypeDeclNode> declsResolver = new CollectResolver<TypeDeclNode>(
 		new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
 	private static CollectResolver<ExternalFunctionDeclNode> externalFunctionsResolver = new CollectResolver<ExternalFunctionDeclNode>(
@@ -114,6 +123,7 @@ public class ModelNode extends DeclNode {
 			OperatorSignature.makeBinOp(OperatorSignature.LT, BasicTypeNode.booleanType, BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
 		}
 		
+		packages = packagesResolver.resolve(packagesUnresolved, this);
 		decls = declsResolver.resolve(declsUnresolved, this);
 		externalFuncDecls = externalFunctionsResolver.resolve(externalFuncDeclsUnresolved, this);
 		externalProcDecls = externalProceduresResolver.resolve(externalProcDeclsUnresolved, this);
@@ -178,6 +188,9 @@ public class ModelNode extends DeclNode {
 		Model res = new Model(id, isEmitClassDefined, isCopyClassDefined, isEqualClassDefined, isLowerClassDefined);
 		for(ModelNode model : usedModels.getChildren())
 			res.addUsedModel(model.getModel());
+		for(TypeDeclNode typeDecl : packages.getChildren()) {
+			res.addPackage((PackageType)typeDecl.getDeclType().getType());
+		}
 		for(TypeDeclNode typeDecl : decls.getChildren()) {
 			res.addType(typeDecl.getDeclType().getType());
 		}

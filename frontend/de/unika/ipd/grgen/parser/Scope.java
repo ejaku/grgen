@@ -242,6 +242,21 @@ public class Scope {
 	}
 
 	/**
+	 * Enter a new or re-enter an already defined subscope.
+	 * @param name The name of the new subscope.
+	 * @return The newly entered scope.
+	 */
+	public Scope newOrReuseScope(IdentNode name) {
+		for(Scope child : childs) {
+			if(child.getIdentNode().toString().equals(name))
+				return child;
+		}
+		Scope s = new Scope(this, childs.size(), name);
+		childs.add(s);
+		return s;
+	}
+
+	/**
 	 * Leave a scope.
 	 * @return The parent scope of the one to leave.
 	 */

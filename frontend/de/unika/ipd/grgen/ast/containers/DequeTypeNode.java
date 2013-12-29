@@ -18,6 +18,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.DequeType;
 import de.unika.ipd.grgen.ir.Type;
@@ -70,7 +71,9 @@ public class DequeTypeNode extends DeclaredTypeNode {
 
 	@Override
 	protected boolean resolveLocal() {
-		if(valueTypeUnresolved instanceof IdentNode)
+		if(valueTypeUnresolved instanceof PackageIdentNode)
+			Resolver.resolveOwner((PackageIdentNode)valueTypeUnresolved);
+		else if(valueTypeUnresolved instanceof IdentNode)
 			fixupDefinition((IdentNode)valueTypeUnresolved, valueTypeUnresolved.getScope());
 		valueType = typeResolver.resolve(valueTypeUnresolved, this);
 

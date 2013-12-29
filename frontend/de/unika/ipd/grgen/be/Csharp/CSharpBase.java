@@ -139,6 +139,36 @@ public abstract class CSharpBase {
 		return res.replace('$', '_');
 	}
 
+	public String getPackagePrefixDot(Type type) {
+		if(type instanceof ContainedInPackage) {
+			ContainedInPackage cip = (ContainedInPackage)type;
+			if(cip.getPackageContainedIn()!=null) {
+				return cip.getPackageContainedIn() + ".";
+			}
+		}
+		return "";
+	}
+
+	public String getPackagePrefixDoubleColon(Type type) {
+		if(type instanceof ContainedInPackage) {
+			ContainedInPackage cip = (ContainedInPackage)type;
+			if(cip.getPackageContainedIn()!=null) {
+				return cip.getPackageContainedIn() + "::";
+			}
+		}
+		return "";
+	}
+
+	public String getPackagePrefix(Type type) {
+		if(type instanceof ContainedInPackage) {
+			ContainedInPackage cip = (ContainedInPackage)type;
+			if(cip.getPackageContainedIn()!=null) {
+				return cip.getPackageContainedIn();
+			}
+		}
+		return "";
+	}
+
 	public String formatIdentifiable(Identifiable id, String pathPrefix) {
 		String ident = id.getIdent().toString();
 		return pathPrefix+ident.replace('$', '_');
@@ -209,7 +239,7 @@ public abstract class CSharpBase {
 	}
 
 	public String formatTypeClassRef(Type type) {
-		return "GRGEN_MODEL." + formatTypeClassName(type);
+		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatTypeClassName(type);
 	}
 
 	public String formatElementClassRaw(Type type) {
@@ -221,7 +251,7 @@ public abstract class CSharpBase {
 	}
 
 	public String formatElementClassRef(Type type) {
-		return "GRGEN_MODEL." + formatElementClassName(type);
+		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatElementClassName(type);
 	}
 
 	public String formatElementInterfaceRef(Type type) {
@@ -242,7 +272,7 @@ public abstract class CSharpBase {
 		else if(ident == "Node") return "GRGEN_LIBGR.INode";
 		else if(ident == "Edge" || ident == "UEdge") return "GRGEN_LIBGR.IEdge";
 
-		return "GRGEN_MODEL.I" + formatElementClassRaw(type);
+		return "GRGEN_MODEL." + getPackagePrefixDot(type) + "I" + formatElementClassRaw(type);
 	}
 
 	public String formatVarDeclWithCast(String type, String varName) {
@@ -281,7 +311,7 @@ public abstract class CSharpBase {
 		else if (t instanceof StringType)
 			return "string";
 		else if (t instanceof EnumType)
-			return "GRGEN_MODEL.ENUM_" + formatIdentifiable(t);
+			return "GRGEN_MODEL." + getPackagePrefixDot(t) + "ENUM_" + formatIdentifiable(t);
 		else if (t instanceof ObjectType || t instanceof VoidType)
 			return "object"; //TODO maybe we need another output type
 		else if (t instanceof MapType) {
@@ -789,7 +819,7 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof EnumExpression) {
 			EnumExpression enumExp = (EnumExpression) expr;
-			sb.append("GRGEN_MODEL.ENUM_" + enumExp.getType().getIdent().toString() + ".@" + enumExp.getEnumItem().toString());
+			sb.append("GRGEN_MODEL." + getPackagePrefixDot(enumExp.getType()) + "ENUM_" + enumExp.getType().getIdent().toString() + ".@" + enumExp.getEnumItem().toString());
 		}
 		else if(expr instanceof Constant) { // gen C-code for constant expressions
 			Constant constant = (Constant) expr;

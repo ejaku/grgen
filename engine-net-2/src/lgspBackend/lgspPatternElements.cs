@@ -202,7 +202,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
-        /// <param name="defToBeYieldedTo">The initialization expression for the element if some was defined, 
+        /// <param name="initialization">The initialization expression for the element if some was defined, 
         ///     only possible for defToBeYieldedTo elements, otherwise null.</param>
         public PatternElement(int typeID, String typeName, 
             String name, String unprefixedName, 
@@ -326,7 +326,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
-        /// <param name="defToBeYieldedTo">The initialization expression for the node if some was defined, 
+        /// <param name="initialization">The initialization expression for the node if some was defined, 
         ///     only possible for defToBeYieldedTo nodes, otherwise null.</param>
         public PatternNode(int typeID, NodeType type, String typeName,
             String name, String unprefixedName,
@@ -415,7 +415,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
-        /// <param name="defToBeYieldedTo">The initialization expression for the edge if some was defined, 
+        /// <param name="initialization">The initialization expression for the edge if some was defined, 
         ///     only possible for defToBeYieldedTo edges, otherwise null.</param>
         public PatternEdge(bool fixedDirection,
             int typeID, EdgeType type, String typeName, 

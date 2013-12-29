@@ -2409,7 +2409,7 @@ namespace de.unika.ipd.grGen.lgsp
                 nodeFromEdge = new GetCandidateByDrawing(
                     GetCandidateByDrawingType.NodeFromEdge,
                     currentNode.PatternElement.Name,
-                    "GRGEN_MODEL." + model.NodeModel.Types[currentNode.PatternElement.TypeID].Name,
+                    TypesHelper.XgrsTypeToCSharpTypeNodeEdge(model.NodeModel.Types[currentNode.PatternElement.TypeID].PackagePrefixedName),
                     edge.PatternElement.Name,
                     nodeType);
                 insertionPoint = insertionPoint.Append(nodeFromEdge);
@@ -2423,7 +2423,7 @@ namespace de.unika.ipd.grGen.lgsp
                     nodeFromEdge = new GetCandidateByDrawing(
                         GetCandidateByDrawingType.NodeFromEdge,
                         currentNode.PatternElement.Name,
-                        "GRGEN_MODEL." + model.NodeModel.Types[currentNode.PatternElement.TypeID].Name,
+                        TypesHelper.XgrsTypeToCSharpTypeNodeEdge(model.NodeModel.Types[currentNode.PatternElement.TypeID].PackagePrefixedName),
                         edge.PatternElement.Name,
                         edge.PatternEdgeSource == currentNode ? edge.PatternEdgeTarget.PatternElement.Name
                             : edge.PatternEdgeSource.PatternElement.Name,
@@ -2438,7 +2438,7 @@ namespace de.unika.ipd.grGen.lgsp
                         nodeFromEdge = new GetCandidateByDrawing(
                             GetCandidateByDrawingType.NodeFromEdge,
                             currentNode.PatternElement.Name,
-                            "GRGEN_MODEL." + model.NodeModel.Types[currentNode.PatternElement.TypeID].Name,
+                            TypesHelper.XgrsTypeToCSharpTypeNodeEdge(model.NodeModel.Types[currentNode.PatternElement.TypeID].PackagePrefixedName),
                             edge.PatternElement.Name,
                             ImplicitNodeType.Source);
                         insertionPoint = insertionPoint.Append(nodeFromEdge);
@@ -2454,7 +2454,7 @@ namespace de.unika.ipd.grGen.lgsp
                         nodeFromEdge = new GetCandidateByDrawing(
                             GetCandidateByDrawingType.NodeFromEdge,
                             currentNode.PatternElement.Name,
-                            "GRGEN_MODEL." + model.NodeModel.Types[currentNode.PatternElement.TypeID].Name,
+                            TypesHelper.XgrsTypeToCSharpTypeNodeEdge(model.NodeModel.Types[currentNode.PatternElement.TypeID].PackagePrefixedName),
                             edge.PatternElement.Name,
                             ImplicitNodeType.SourceOrTarget);
                         insertionPoint = insertionPoint.Append(nodeFromEdge);
@@ -3998,7 +3998,7 @@ namespace de.unika.ipd.grGen.lgsp
                         new GetTypeByIteration(
                             GetTypeByIterationType.AllCompatible,
                             target.PatternElement.Name,
-                            "GRGEN_MODEL." + typeModel.TypeTypes[target.PatternElement.TypeID].Name,
+                            TypesHelper.PrefixedTypeFromType(typeModel.TypeTypes[target.PatternElement.TypeID]),
                             isNode);
                     continuationPoint = insertionPoint.Append(typeIteration);
 
@@ -4131,7 +4131,7 @@ namespace de.unika.ipd.grGen.lgsp
                         new CheckCandidateForType(
                             CheckCandidateForTypeType.ByIsMyType,
                             target.PatternElement.Name,
-                            "GRGEN_MODEL." + typeModel.TypeTypes[target.PatternElement.TypeID].Name,
+                            TypesHelper.PrefixedTypeFromType(typeModel.TypeTypes[target.PatternElement.TypeID]),
                             isNode);
                     insertionPoint = insertionPoint.Append(checkType);
                 }

@@ -203,6 +203,14 @@ public class Unit extends IR {
 			for(InheritanceType type : model.getEdgeTypes()) {
 				type.getAllMembers(); // checks overwriting of attributes
 			}
+			for(PackageType pt : model.getPackages()) {
+				for(InheritanceType type : pt.getNodeTypes()) {
+					type.getAllMembers(); // checks overwriting of attributes
+				}
+				for(InheritanceType type : pt.getEdgeTypes()) {
+					type.getAllMembers(); // checks overwriting of attributes
+				}
+			}
 		}
 	}
 	

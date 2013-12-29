@@ -349,6 +349,36 @@ namespace de.unika.ipd.grGen.libGr
                 throw GetSyntaxException("Syntax error", "ident or double quoted text or single quoted text");
         }
 
+        private string ParseTypeText()
+        {
+            string typeText;
+            if(LookaheadToken() == TokenKind.IDENT)
+                typeText = MatchAndReturnToken(TokenKind.IDENT);
+            else if(LookaheadToken() == TokenKind.DOUBLEQUOTEDTEXT)
+                typeText = MatchAndReturnToken(TokenKind.DOUBLEQUOTEDTEXT);
+            else if(LookaheadToken() == TokenKind.SINGLEQUOTEDTEXT)
+                typeText = MatchAndReturnToken(TokenKind.SINGLEQUOTEDTEXT);
+            else
+                throw GetSyntaxException("Syntax error", "ident or double quoted text or single quoted text");
+
+            if(LookaheadToken() != TokenKind.DOUBLECOLON)
+                return typeText;
+            
+            Match(TokenKind.DOUBLECOLON);
+            string packageText = typeText;
+
+            if(LookaheadToken() == TokenKind.IDENT)
+                typeText = MatchAndReturnToken(TokenKind.IDENT);
+            else if(LookaheadToken() == TokenKind.DOUBLEQUOTEDTEXT)
+                typeText = MatchAndReturnToken(TokenKind.DOUBLEQUOTEDTEXT);
+            else if(LookaheadToken() == TokenKind.SINGLEQUOTEDTEXT)
+                typeText = MatchAndReturnToken(TokenKind.SINGLEQUOTEDTEXT);
+            else
+                throw GetSyntaxException("Syntax error", "ident or double quoted text or single quoted text");
+
+            return packageText + "::" + typeText;
+        }
+
         private INode ParseNode()
         {
             // at lparen Text rparen
@@ -386,7 +416,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             // colon Text lparen dollar equal Text Attributes rparen
             Match(TokenKind.COLON);
-            string typeName = ParseText();
+            string typeName = ParseTypeText();
             
             NodeType nodeType = graph.Model.NodeModel.GetType(typeName);
             if(nodeType == null) throw new Exception("Unknown node type: \"" + typeName + "\"");
@@ -418,7 +448,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             // colon Text lparen dollar equal Text Attributes rparen
             Match(TokenKind.COLON);
-            string typeName = ParseText();
+            string typeName = ParseTypeText();
 
             edgeType = graph.Model.EdgeModel.GetType(typeName);
             if(edgeType == null) throw new Exception("Unknown edge type: \"" + typeName + "\"");
@@ -454,7 +484,7 @@ namespace de.unika.ipd.grGen.libGr
                 // set<type> { value * , } 
                 Match(TokenKind.SET);
                 Match(TokenKind.LANGLE);
-                string type = ParseText();
+                string type = ParseTypeText();
                 Match(TokenKind.RANGLE);
 
                 IDictionary set = ContainerHelper.NewDictionary(
@@ -482,9 +512,9 @@ namespace de.unika.ipd.grGen.libGr
                 // map<type,tgtType> { value -> tgtValue * , } 
                 Match(TokenKind.MAP);
                 Match(TokenKind.LANGLE);
-                string type = ParseText();
+                string type = ParseTypeText();
                 Match(TokenKind.COMMA);
-                string tgtType = ParseText();
+                string tgtType = ParseTypeText();
                 Match(TokenKind.RANGLE);
 
                 IDictionary map = ContainerHelper.NewDictionary(
@@ -516,7 +546,7 @@ namespace de.unika.ipd.grGen.libGr
                 // array<type> [ value * , ]
                 Match(TokenKind.ARRAY);
                 Match(TokenKind.LANGLE);
-                string type = ParseText();
+                string type = ParseTypeText();
                 Match(TokenKind.RANGLE);
 
                 IList array = ContainerHelper.NewList(
@@ -543,7 +573,7 @@ namespace de.unika.ipd.grGen.libGr
                 // deque<type> ] value * , [
                 Match(TokenKind.DEQUE);
                 Match(TokenKind.LANGLE);
-                string type = ParseText();
+                string type = ParseTypeText();
                 Match(TokenKind.RANGLE);
 
                 IDeque deque = ContainerHelper.NewDeque(
@@ -607,9 +637,9 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.GraphAttr:
                     return ParseGraphValue();
                 case AttributeKind.NodeAttr:
-                    return ParseNodeValue(attrType.TypeName);
+                    return ParseNodeValue(attrType.PackagePrefixedTypeName);
                 case AttributeKind.EdgeAttr:
-                    return ParseEdgeValue(attrType.TypeName);
+                    return ParseEdgeValue(attrType.PackagePrefixedTypeName);
                 case AttributeKind.MapAttr:
                 case AttributeKind.SetAttr:
                 case AttributeKind.ArrayAttr:
@@ -699,23 +729,29 @@ namespace de.unika.ipd.grGen.libGr
             {
                 Match(TokenKind.DOUBLECOLON);
                 enumValue = ParseText();
+                if(LookaheadToken() == TokenKind.DOUBLECOLON)
+                {
+                    enumName = enumName + "::" + enumValue; // package::type::value
+                    Match(TokenKind.DOUBLECOLON);
+                    enumValue = ParseText();
+                }
             }
             else
             {
                 if(enumName.Contains("::"))
                 {
                     enumValue = enumName.Substring(enumName.LastIndexOf(':') + 1);
-                    enumName = enumName.Substring(0, enumName.IndexOf(':'));
+                    enumName = enumName.Substring(0, enumName.LastIndexOf(':') - 1);
                 }
                 else
                 {
                     enumValue = enumName;
-                    enumName = enumAttrType.Name;
+                    enumName = enumAttrType.PackagePrefixedName;
                 }
             }
 
-            if(enumAttrType.Name != enumName)
-                throw GetSyntaxException("", "enum type " + enumAttrType.Name);
+            if(enumAttrType.PackagePrefixedName != enumName)
+                throw GetSyntaxException("", "enum type " + enumAttrType.PackagePrefixedName);
 
             object value;
             int val;
@@ -724,7 +760,7 @@ namespace de.unika.ipd.grGen.libGr
             else
                 value = Enum.Parse(enumAttrType.EnumType, enumValue);
             if(value == null)
-                throw GetSyntaxException("Unknown enum member", "member of " + enumAttrType.Name);
+                throw GetSyntaxException("Unknown enum member", "member of " + enumAttrType.PackagePrefixedName);
 
             return value;
         }
@@ -1040,7 +1076,7 @@ namespace de.unika.ipd.grGen.libGr
 
             while(true)
             {
-                if(char.IsLetterOrDigit(Lookahead())) // TODO: is the underscore included?
+                if(char.IsLetterOrDigit(Lookahead()) || Lookahead()=='_')
                 {
                     EatChar();
                     continue;
@@ -1204,7 +1240,7 @@ namespace de.unika.ipd.grGen.libGr
         private TokenKind TokenizeIdentOrKeyword()
         {
             EatChar(); // lookahead was IsLetter
-            while(char.IsLetterOrDigit(Lookahead())) // TODO: is the underscore included?
+            while(char.IsLetterOrDigit(Lookahead()) || Lookahead()=='_')
             {
                 EatChar();
             }

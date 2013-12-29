@@ -441,6 +441,16 @@ namespace de.unika.ipd.grGen.libGr
         public readonly String TypeName;
 
         /// <summary>
+        /// The package name if this is a node or edge type that is contained in a package, otherwise null
+        /// </summary>
+        public readonly String Package;
+
+        /// <summary>
+        /// The name of the attribute type with the package as prefix if it is contained in a package, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr
+        /// </summary>
+        public readonly String PackagePrefixedTypeName;
+
+        /// <summary>
         /// The .NET type of the Attribute Type
         /// </summary>
         public readonly Type Type;
@@ -465,9 +475,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="valueType">The attribute type of the value of the set, if Kind == AttributeKind.SetAttr; the attribute type of the value of the map, if Kind == AttributeKind.MapAttr; the attribute type of the value of the array, if Kind == AttributeKind.ArrayAttr; the attribute type of the value of the deque, if Kind == AttributeKind.DequeAttr; otherwise null. </param>
         /// <param name="keyType">The attribute type of the key of the map, if Kind == AttributeKind.MapAttr; otherwise null.</param>
         /// <param name="typeName">The name of the attribute type, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr; otherwise null.</param>
+        /// <param name="package">The package name if this is a node or edge type that is contained in a package, otherwise null.</param>
+        /// <param name="packagePrefixedTypeName">The name of the attribute type with the package as prefix if it is contained in a package, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr.</param>
+        /// <param name="type">The type of the attribute type.</param>
         public AttributeType(String name, GrGenType ownerType, AttributeKind kind,
             EnumAttributeType enumType, AttributeType valueType, AttributeType keyType,
-            String typeName, Type type)
+            String typeName, String package, String packagePrefixedTypeName, Type type)
         {
             Name = name;
             OwnerType = ownerType;
@@ -476,11 +489,13 @@ namespace de.unika.ipd.grGen.libGr
             ValueType = valueType;
             KeyType = keyType;
             TypeName = typeName;
+            Package = package;
+            PackagePrefixedTypeName = packagePrefixedTypeName;
             Type = type;
         }
 
         /// <summary>
-        /// Returns the name of the given basic attribute kind (not enum,set,map)
+        /// Returns the name of the given basic attribute kind (enum,container not supported)
         /// </summary>
         /// <param name="attrKind">The AttributeKind value</param>
         /// <returns>The name of the attribute kind</returns>
@@ -510,13 +525,13 @@ namespace de.unika.ipd.grGen.libGr
         {
             switch(Kind)
             {
-                case AttributeKind.EnumAttr: return EnumType.Name;
+                case AttributeKind.EnumAttr: return EnumType.PackagePrefixedName;
                 case AttributeKind.MapAttr: return "map<" + KeyType.GetKindName() + "," + ValueType.GetKindName() + ">";
                 case AttributeKind.SetAttr: return "set<" + ValueType.GetKindName() + ">";
                 case AttributeKind.ArrayAttr: return "array<" + ValueType.GetKindName() + ">";
                 case AttributeKind.DequeAttr: return "deque<" + ValueType.GetKindName() + ">";
-                case AttributeKind.NodeAttr: return TypeName;
-                case AttributeKind.EdgeAttr: return TypeName;
+                case AttributeKind.NodeAttr: return PackagePrefixedTypeName;
+                case AttributeKind.EdgeAttr: return PackagePrefixedTypeName;
             }
             return GetKindName(Kind);
         }
@@ -570,6 +585,17 @@ namespace de.unika.ipd.grGen.libGr
         public readonly String Name;
 
         /// <summary>
+        /// null if this is a global type, otherwise the package the type is contained in.
+        /// </summary>
+        public readonly String Package;
+
+        /// <summary>
+        /// The name of the type in case of a global type,
+        /// the name of the type prefixed by the name of the package otherwise.
+        /// </summary>
+        public readonly String PackagePrefixedName;
+
+        /// <summary>
         /// The .NET type for the enum type.
         /// </summary>
         public readonly Type EnumType;
@@ -580,11 +606,15 @@ namespace de.unika.ipd.grGen.libGr
         /// Initializes an EnumAttributeType instance.
         /// </summary>
         /// <param name="name">The name of the enum type.</param>
+        /// <param name="name">The package the enum is contained in, or null if it is not contained in a package.</param>
+        /// <param name="name">The name of the enum type; prefixed by the package name plus a double colon, in case it is contain in a package.</param>
         /// <param name="enumType">The .NET type for the enum type.</param>
         /// <param name="memberArray">An array of all enum members.</param>
-        public EnumAttributeType(String name, Type enumType, EnumMember[] memberArray)
+        public EnumAttributeType(String name, String package, String packagePrefixedName, Type enumType, EnumMember[] memberArray)
         {
             Name = name;
+            Package = package;
+            PackagePrefixedName = packagePrefixedName;
             EnumType = enumType;
             members = memberArray;
             Array.Sort<EnumMember>(members); // ensure the ordering needed for the binary search of the [] operator
@@ -630,7 +660,7 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     // TODO: create common base for node type and edge type only, one one for node type, edge type, and var type
-    // the var type is not building a type hiararchy, as is the case for the node and edge types
+    // the var type is not building a type hierarchy, as is the case for the node and edge types
 
     /// <summary>
     /// A representation of a GrGen graph element type.
@@ -655,6 +685,17 @@ namespace de.unika.ipd.grGen.libGr
         /// The name of the type.
         /// </summary>
         public abstract String Name { get; }
+
+        /// <summary>
+        /// null if this is a global type, otherwise the package the type is contained in.
+        /// </summary>
+        public abstract String Package { get; }
+
+        /// <summary>
+        /// The name of the type in case of a global type,
+        /// the name of the type prefixed by the name of the package otherwise.
+        /// </summary>
+        public abstract String PackagePrefixedName { get; }
 
         /// <summary>
         /// Array containing this type first and following all sub types.
@@ -1162,6 +1203,47 @@ namespace de.unika.ipd.grGen.libGr
         {
             [DebuggerStepThrough]
             get { return type.Name; }
+        }
+
+        /// <summary>
+        /// null if this is a global type, otherwise the package the type is contained in.
+        /// </summary>
+        public override string Package
+        {
+            [DebuggerStepThrough]
+            get
+            {
+                if(type.FullName.StartsWith("de.unika.ipd.grGen."))
+                {
+                    String fullTypeName = type.FullName;
+                    fullTypeName = fullTypeName.Substring(19); // remove "de.unika.ipd.grGen."
+                    fullTypeName = fullTypeName.Substring(fullTypeName.IndexOf('.') + 1); // remove "model_XXX."
+                    string[] packageAndType = fullTypeName.Split('.');
+                    if(packageAndType.Length == 2) // otherwise it's only a type name without package/namespace
+                        return packageAndType[0];
+                }
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// The name of the type in case of a global type,
+        /// the name of the type prefixed by the name of the package otherwise.
+        /// </summary>
+        public override string PackagePrefixedName
+        {
+            [DebuggerStepThrough]
+            get
+            {
+                if(type.FullName.StartsWith("de.unika.ipd.grGen."))
+                {
+                    String fullTypeName = type.FullName;
+                    fullTypeName = fullTypeName.Substring(19); // remove "de.unika.ipd.grGen."
+                    fullTypeName = fullTypeName.Substring(fullTypeName.IndexOf('.') + 1); // remove "model_XXX."
+                    return fullTypeName;
+                }
+                return type.Name;
+            }
         }
 
         /// <summary>

@@ -23,8 +23,9 @@ import java.util.Set;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class Model extends Identifiable {
+public class Model extends Identifiable implements NodeEdgeEnumBearer {
 	private List<Model> usedModels = new LinkedList<Model>();
+	private List<PackageType> packages = new LinkedList<PackageType>();
 	private List<Type> types = new LinkedList<Type>();
 
 	private Set<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
@@ -55,6 +56,14 @@ public class Model extends Identifiable {
 			addType(type);
 		for(ExternalFunction externalFunc : model.getExternalFunctions())
 			addExternalFunction(externalFunc);
+	}
+
+	public void addPackage(PackageType p) {
+		packages.add(p);
+	}
+
+	public Collection<PackageType> getPackages() {
+		return Collections.unmodifiableCollection(packages);
 	}
 
 	/** Add the given type to the type model. */

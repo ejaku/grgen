@@ -555,13 +555,17 @@ String Variable():
 String AttributeValue():
 {
 	Token tok;
-	String enumName, enumValue, elemName;
+	String package, enumName, enumValue=null, elemName;
 }
 {
 	(
-		LOOKAHEAD(2) enumName=WordOrText() "::" enumValue=AttributeName()
+		LOOKAHEAD(2)
+		package=WordOrText() "::" enumName=AttributeName() ("::" enumValue=AttributeName())?
 		{
-			return enumName + "::" + enumValue;
+			if(enumValue!=null)
+				return package + "::" + enumName + "::" + enumValue;
+			else
+				return package + "::" + enumName; // package is enumName, enumName is enumValue
 		}
 	|
 		"@" "(" elemName=WordOrText() ")"
@@ -838,18 +842,26 @@ IEdge Edge():
 
 NodeType NodeType():
 {
-	String str;
+	String package=null, type;
 }
 {
-	str=WordOrText() { return impl.GetNodeType(str); }
+	(LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetNodeType(package!=null ? package+"::"+type : type); }
 }
 
 EdgeType EdgeType():
 {
-	String str;
+	String package=null, type;
 }
 {
-	str=WordOrText() { return impl.GetEdgeType(str); }
+	(LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetEdgeType(package!=null ? package+"::"+type : type); }
+}
+
+String TypeName():
+{
+	String package=null, type;
+}
+{
+	(LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return package!=null ? package+"::"+type : type; }
 }
 
 ShellGraphProcessingEnvironment Graph():
@@ -869,7 +881,7 @@ object SimpleConstant():
 {
 	object constant = null;
 	Token tok;
-	string type, value;
+	string package, type, value = null;
 }
 {
 	(
@@ -896,19 +908,26 @@ object SimpleConstant():
 	|
 		<NULL> { constant = null; }
 	|
-		type=WordOrText() "::" value=AttributeName()
+		package=WordOrText() "::" type=AttributeName() ("::" value=AttributeName())?
 		{
-			foreach(EnumAttributeType attrType in impl.CurrentGraph.Model.EnumAttributeTypes)
+			if(value!=null)
 			{
-				if(attrType.Name == type)
-				{
-					Type enumType = attrType.EnumType;
-					constant = Enum.Parse(enumType, value);
-					break;
-				}
+				EnumAttributeType attrType = TypesHelper.GetEnumAttributeType(package+"::"+type, impl.CurrentGraph.Model);
+				if(attrType!=null)
+					constant = Enum.Parse(attrType.EnumType, value);
+				if(constant==null)
+					throw new ParseException("Invalid constant \""+package+"::"+type+"::"+value+"\"!");
 			}
-			if(constant==null)
-				throw new ParseException("Invalid constant \""+type+"::"+value+"\"!");
+			else
+			{
+				value = type;
+				type = package;
+				EnumAttributeType attrType = TypesHelper.GetEnumAttributeType(type, impl.CurrentGraph.Model);
+				if(attrType!=null)
+					constant = Enum.Parse(attrType.EnumType, value);
+				if(constant==null)
+					throw new ParseException("Invalid constant \""+type+"::"+value+"\"!");
+			}
 		}
 	)
 	{
@@ -927,7 +946,7 @@ object Constant():
 	(
 		constant=SimpleConstant()
     |
-		"set" "<" typeName=WordOrText() ">"
+		"set" "<" typeName=TypeName() ">"
 		{
 			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
 			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
@@ -941,7 +960,7 @@ object Constant():
 				( "," src=SimpleConstant() { ((IDictionary)constant)[src] = null; })*
 		"}"
 	|
-		"map" "<" typeName=WordOrText() "," typeNameDst=WordOrText() ">"
+		"map" "<" typeName=TypeName() "," typeNameDst=TypeName() ">"
 		{
 			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
 			dstType = ContainerHelper.GetTypeFromNameForContainer(typeNameDst, impl.CurrentGraph.Model);
@@ -955,7 +974,7 @@ object Constant():
 				( "," src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant)[src] = dst; } )*
 		"}"
 	|
-		"array" "<" typeName=WordOrText() ">"
+		"array" "<" typeName=TypeName() ">"
 		{
 			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
 			if(srcType!=null)
@@ -968,7 +987,7 @@ object Constant():
 				( "," src=SimpleConstant() { ((IList)constant).Add(src); })*
 		"]"
 	|
-		"deque" "<" typeName=WordOrText() ">"
+		"deque" "<" typeName=TypeName() ">"
 		{
 			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
 			if(srcType!=null)
@@ -1359,31 +1378,31 @@ void ShellCommand():
         (
 			"askfor"
 			(
-				str2=WordOrText()
+				str2=TypeName()
 				{
 					obj = impl.Askfor(str2);
 					if(obj == null) noError = false;
 				}
 			|
-				"set" "<" str2=WordOrText() ">"
+				"set" "<" str2=TypeName() ">"
 				{
 					obj = impl.Askfor("set<"+str2+">");
 					if(obj == null) noError = false;
 				}
 			|
-				"map" "<" str2=WordOrText() "," str3=WordOrText() ">"
+				"map" "<" str2=TypeName() "," str3=TypeName() ">"
 				{
 					obj = impl.Askfor("map<"+str2+","+str3+">");
 					if(obj == null) noError = false;
 				}
 			|
-				"array" "<" str2=WordOrText() ">"
+				"array" "<" str2=TypeName() ">"
 				{
 					obj = impl.Askfor("array<"+str2+">");
 					if(obj == null) noError = false;
 				}
 			|
-				"deque" "<" str2=WordOrText() ">"
+				"deque" "<" str2=TypeName() ">"
 				{
 					obj = impl.Askfor("deque<"+str2+">");
 					if(obj == null) noError = false;
@@ -1490,7 +1509,7 @@ ElementDef ElementDefinition():
 {
 	(varName=Variable())?
 	(
-		":" typeName=WordOrText()
+		":" typeName=TypeName()
 		(
 			"("
 			(
@@ -1527,43 +1546,43 @@ void SingleAttribute(ArrayList attributes):
 void AttributeParamValue(ref Param param):
 {
 	String value, valueTgt;
-	String type, typeTgt;
+	String typeName, typeNameTgt;
 }
 {
 	value=AttributeValue()
 		{
 			param.Value = value;
 		}
-	| "set" "<" type=WordOrText() ">"
+	| "set" "<" typeName=TypeName() ">"
 		{
 			param.Value = "set";
-			param.Type = type;
+			param.Type = typeName;
 			param.Values = new ArrayList();
 		}
 		"{" ( value=AttributeValue() { param.Values.Add(value); } )?
 			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "}"
-	| "map" "<" type=WordOrText() "," typeTgt=WordOrText() ">"
+	| "map" "<" typeName=TypeName() "," typeNameTgt=TypeName() ">"
 		{
 			param.Value = "map";
-			param.Type = type;
-			param.TgtType = typeTgt;
+			param.Type = typeName;
+			param.TgtType = typeNameTgt;
 			param.Values = new ArrayList();
 			param.TgtValues = new ArrayList();
 		}
 		"{" ( value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )?
 			( <COMMA> value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )* "}"
-	| "array" "<" type=WordOrText() ">"
+	| "array" "<" typeName=TypeName() ">"
 		{
 			param.Value = "array";
-			param.Type = type;
+			param.Type = typeName;
 			param.Values = new ArrayList();
 		}
 		"[" ( value=AttributeValue() { param.Values.Add(value); } )?
 			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "]"
-	| "deque" "<" type=WordOrText() ">"
+	| "deque" "<" typeName=TypeName() ">"
 		{
 			param.Value = "deque";
-			param.Type = type;
+			param.Type = typeName;
 			param.Values = new ArrayList();
 		}
 		"]" ( value=AttributeValue() { param.Values.Add(value); } )?
@@ -1670,12 +1689,12 @@ void RetypeCommand():
 {
 	try
 	{
-		"-" edge=Edge() "<" typeName=WordOrText() ">" ( "->" | "-" ) LineEnd()
+		"-" edge=Edge() "<" typeName=TypeName() ">" ( "->" | "-" ) LineEnd()
 		{
 			noError = impl.Retype(edge, typeName) != null;
 		}
 	|
-		node=Node() "<" typeName=WordOrText() ">" LineEnd()
+		node=Node() "<" typeName=TypeName() ">" LineEnd()
 		{
 			noError = impl.Retype(node, typeName) != null;
 		}

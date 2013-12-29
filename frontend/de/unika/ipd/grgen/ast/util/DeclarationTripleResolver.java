@@ -10,6 +10,7 @@ package de.unika.ipd.grgen.ast.util;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.util.Util;
 
 /**
@@ -75,6 +76,12 @@ public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T
 	/** resolves n to node of type R, S or T, via declaration
 	 *  returns null if n's declaration can't be cast to R/S/T */
 	private Triple<R, S, T> resolve(IdentNode n) {
+		if(n instanceof PackageIdentNode) {
+			if(!resolveOwner((PackageIdentNode)n)) {
+				return null;
+			}
+		}
+
 		Triple<R, S, T> triple = new Triple<R, S, T>();
 		DeclNode resolved = n.getDecl();
 		if(clsR.isInstance(resolved)) {

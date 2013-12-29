@@ -107,6 +107,8 @@ public abstract class ExprNode extends BaseNode {
 				msg = "Incompatible assignment from " + getType() + " to " + targetType;
 			}
 			error.error(errorCoords, msg);
+			if(getType().toString().equals(targetType.toString()))
+				error.warning(errorCoords, "Check package prefix.");
 		}
 		return expr;
 	}

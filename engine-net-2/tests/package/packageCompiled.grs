@@ -1,0 +1,27 @@
+new graph "package/package"
+
+exec (::n,::e,::lal)=initFoo
+
+exec [matchFoo]
+exec [matchBar]
+
+exec (::n2,::e2,::lal2)=initBar
+
+exec [matchFoo]
+exec [matchBar]
+
+exec matchFooBarCompiledA
+exec matchFooBarCompiledB
+
+show var "no"
+show var "ed"
+
+exec matchFooBar2CompiledA
+exec matchFooBar2CompiledB
+
+exec matchFooPureCompiled
+exec initFurchtbar
+exec [matchFurchtbar]
+exec matchFooPureCompiled
+
+quit

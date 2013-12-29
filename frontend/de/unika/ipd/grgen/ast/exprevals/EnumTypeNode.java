@@ -107,7 +107,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 
 	@Override
 	public String toString() {
-		return "enum " + getIdentNode();
+		return "enum " + getIdentNode().toString();
 	}
 
 	public static String getKindStr() {

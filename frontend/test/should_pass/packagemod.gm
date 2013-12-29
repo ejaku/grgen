@@ -1,0 +1,63 @@
+package Foo
+{
+	node class N
+	{
+		attr : int;
+
+		procedure n(var x:int) : (int) {
+			this.attr = this.attr + x;
+			return(this.attr);
+		}
+	}
+	
+	edge class E
+	{
+		attr : string;
+		lal : Lal;
+		lol : set<Node>;
+	}
+	
+	enum Lal
+	{
+		Bla,
+		Bar,
+		Blubb
+	}
+}
+
+package Bar
+{
+	node class N
+	{
+		attr_ : int;
+		
+		procedure n(var x:int) : (int) {
+			this.attr_ = this.attr_ + x;
+			return(this.attr_);
+		}
+	}
+	
+	edge class E
+	{
+		attr : string;
+		lal : Lal;
+		lol : set<Node>;
+	}
+	
+	enum Lal
+	{
+		Bla,
+		Bar,
+		Blubb
+	}
+}
+
+node class Furchtbar extends Bar::N, Foo::N;
+
+edge class Fubar extends Foo::E
+{
+	attr_ : string;
+	lal_ : Bar::Lal;
+	lol_ : set<Foo::N>;
+	lel : Bar::N;
+}

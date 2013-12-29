@@ -1,0 +1,148 @@
+#using "packagemod.gm"
+
+rule initFoo : (Foo::N, Foo::E, Foo::Lal)
+{
+	modify {
+		x:Foo::N -e:Foo::E-> x;
+		eval {
+			x.attr = 42;
+			e.attr = "fool";
+			e.lal = Foo::Lal::Bar;
+			e.lol = set<Node> { x };
+		}
+		return(x,e,e.lal);
+	}
+}
+
+rule initBar : (Bar::N, Bar::E, Bar::Lal)
+{
+	modify {
+		x:Bar::N -e:Bar::E-> x;
+		eval {
+			x.attr_ = 42;
+			e.attr = "fool";
+			e.lal = Bar::Lal::Blubb;
+			e.lol = set<Node> { x };
+		}
+		return(x,e,e.lal);
+	}
+}
+
+test matchFoo : (Foo::N, Foo::E, Foo::Lal)
+{
+	x:Foo::N -e:Foo::E-> x;
+	if {
+		x.attr == 42;
+		e.attr == "fool";
+		e.lal == Foo::Lal::Bar;
+		e.lol == set<Node> { x };
+	}
+	return(x,e,e.lal);
+}
+
+test matchBar : (Bar::N, Bar::E, Bar::Lal)
+{
+	x:Bar::N -e:Bar::E-> x;
+	if {
+		x.attr_ == 42;
+		e.attr == "fool";
+		e.lal == Bar::Lal::Blubb;
+		e.lol == set<Node> { x };
+	}
+	return(x,e,e.lal);
+}
+
+test matchFooBar(fooX:Foo::N, -fooE:Foo::E->, var fooLal:Foo::Lal, barX:Bar::N, -barE:Bar::E->, var barLal:Bar::Lal) : (int, int)
+{
+	fooX -fooE-> fooX;
+	barX -barE-> barX;
+	if {
+		fooLal == fooE.lal && barLal == barE.lal;
+	}
+	
+	def ref no:set<Node> = set<Node>{};
+	def ref ed:set<Edge> = set<Edge>{};
+	yield {
+		no.add(fooX);
+		no.add(barX);
+		ed.add(fooE);
+		ed.add(barE);
+	}
+	return(no.size(), ed.size());
+}
+
+test matchFooBar2(fooX:Node, -fooE:Edge->, barX:Node, -barE:Edge->)
+{
+	fooX -fooE-> fooX;
+	barX -barE-> barX;
+	if {
+		typeof(fooX) <= Foo::N;
+		typeof(fooE) <= Foo::E;
+		typeof(barX) <= Bar::N;
+		typeof(barE) <= Bar::E;
+	}
+}
+
+rule initFurchtbar() : (Furchtbar, Fubar_)
+{
+	modify {
+		fch:Furchtbar -f:Fubar_-> fch;
+		eval {
+			fch.attr = 42;
+			fch.attr_ = 42;
+			f.lol = set<Node>{ fch };
+			f.lol_ = set<Foo::N>{ fch };
+		}
+		return(fch,f);
+	}
+}
+
+test matchFurchtbar
+{
+	fch:Furchtbar -f:Fubar_-> fch;
+	if {
+		fch.attr == 42;
+		fch.attr_ == 42;
+		f.lol == set<Node>{ fch };
+		f.lol_ == set<Foo::N>{ fch };
+	}
+}
+
+test matchFooPure
+{
+	x:Foo::N -e:Foo::E-> x;
+}
+
+sequence matchFooBarCompiledA
+{
+	[matchFooBar(::n,::e,::lal,::n2,::e2,::lal2)]
+}
+
+sequence matchFooBarCompiledB
+{
+	fooX:Foo::N ;> fooE:Foo::E ;> fooLal:Foo::Lal ;> barX:Bar::N ;> barE:Bar::E ;> barLal:Bar::Lal ;>
+	{fooX=::n; fooE=::e; fooLal=::lal; barX=::n2; barE=::e2; barLal=::lal2} ;> 
+	(::no,::ed)=matchFooBar(fooX, fooE, fooLal, barX, barE, barLal)
+}
+
+sequence matchFooBar2CompiledA
+{
+	[matchFooBar2(::n,::e,::n2,::e2)]
+}
+
+sequence matchFooBar2CompiledB
+{
+	fooX:Foo::N ;> fooE:Foo::E ;> barX:Bar::N ;> barE:Bar::E ;>
+	{fooX=::n; fooE=::e; barX=::n2; barE=::e2} ;> 
+	[matchFooBar2(fooX, fooE, barX, barE)]
+}
+
+sequence matchFooPureCompiled
+{
+	[matchFooPure]
+}
+
+test areStructEqual(var left:graph, var right:graph)
+{
+	if{left~~right;}
+}

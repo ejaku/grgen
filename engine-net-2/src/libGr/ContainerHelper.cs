@@ -147,7 +147,7 @@ namespace de.unika.ipd.grGen.libGr
             // No standard type, so check enums
             foreach (EnumAttributeType enumAttrType in model.EnumAttributeTypes)
             {
-                if (enumAttrType.Name == typeName)
+                if (enumAttrType.PackagePrefixedName == typeName)
                     return enumAttrType.EnumType;
             }
 
@@ -156,7 +156,7 @@ namespace de.unika.ipd.grGen.libGr
             // check node and edge types
             foreach (NodeType nodeType in model.NodeModel.Types)
             {
-                if (nodeType.Name == typeName)
+                if (nodeType.PackagePrefixedName == typeName)
                 {
                     Type type = Type.GetType(nodeType.NodeInterfaceName); // available in libGr (INode)?
                     if (type != null) return type;
@@ -166,7 +166,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             foreach (EdgeType edgeType in model.EdgeModel.Types)
             {
-                if (edgeType.Name == typeName)
+                if (edgeType.PackagePrefixedName == typeName)
                 {
                     Type type = Type.GetType(edgeType.EdgeInterfaceName); // available in libGr (IEdge)?
                     if (type != null) return type;

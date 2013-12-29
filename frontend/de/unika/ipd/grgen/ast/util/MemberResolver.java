@@ -18,6 +18,7 @@ import de.unika.ipd.grgen.ast.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.InvalidDeclNode;
 import de.unika.ipd.grgen.ast.ActionDeclNode;
 import de.unika.ipd.grgen.ast.SequenceDeclNode;
+import de.unika.ipd.grgen.ast.exprevals.EnumTypeNode;
 import de.unika.ipd.grgen.ast.exprevals.ProcedureDeclNode;
 import de.unika.ipd.grgen.ast.exprevals.FunctionDeclNode;
 import de.unika.ipd.grgen.util.Base;
@@ -64,6 +65,11 @@ public class MemberResolver<T> extends Base
 				identNode.reportError("Undefined identifier \"" + identNode.toString() + "\"");
 				return false;
 			} else {
+				if(scopeDecl.getDeclType() instanceof EnumTypeNode) {
+					identNode.reportError("Resolving failure, see error messages before; unexpected enum member " + identNode.toString()
+							+ " of " + scopeDecl.getDeclType());
+					return false;
+				}
 				InheritanceTypeNode typeNode = (InheritanceTypeNode) scopeDecl.getDeclType();
 				Map<String, DeclNode> allMembers = typeNode.getAllMembers();
 				unresolvedNode = allMembers.get(identNode.toString());

@@ -364,7 +364,8 @@ object Constant():
 {
 	object constant = null;
 	Token tok;
-	string type, value;
+	string type, value, package, packageOrType, typeOrValue;
+	EnumAttributeType attrType;
 }
 {
 	(
@@ -391,26 +392,38 @@ object Constant():
 	|
 		<NULL> { constant = null; }
 	|
-		LOOKAHEAD(2)
-		type=Word() "::" value=Word()
+		LOOKAHEAD(4)
+		package=Word() "::" type=Word() "::" value=Word()
 		{
-			foreach(EnumAttributeType attrType in model.EnumAttributeTypes)
-			{
-				if(attrType.Name == type)
-				{
-					Type enumType = attrType.EnumType;
-					constant = Enum.Parse(enumType, value);
-					break;
-				}
-			}
+			attrType = TypesHelper.GetEnumAttributeType(package+"::"+type, model);
+			if(attrType!=null)
+				constant = Enum.Parse(attrType.EnumType, value);
 			if(constant==null)
-				throw new ParseException("Invalid constant \""+type+"::"+value+"\"!");
+				throw new ParseException("Invalid constant \""+package+"::"+type+"::"+value+"\"!");
 		}
 	|
-		LOOKAHEAD({ GetToken(1).kind==WORD && varDecls.Lookup(GetToken(1).image)==null && TypesHelper.GetNodeOrEdgeType(GetToken(1).image, model)!=null})
+		LOOKAHEAD(2)
+		packageOrType=Word() "::" typeOrValue=Word()
+		{
+			package = packageOrType;
+			type = typeOrValue;
+			constant = TypesHelper.GetNodeOrEdgeType(package+"::"+type, model);
+			if(constant==null)
+			{
+				type = packageOrType;
+				value = typeOrValue;
+				attrType = TypesHelper.GetEnumAttributeType(type, model);
+				if(attrType!=null)
+					constant = Enum.Parse(attrType.EnumType, value);
+			}
+			if(constant==null)
+				throw new ParseException("Invalid constant \""+packageOrType+"::"+typeOrValue+"\"!");
+		}
+	|
+		LOOKAHEAD({ GetToken(1).kind==WORD && varDecls.Lookup(GetToken(1).image)==null && TypesHelper.GetNodeOrEdgeType(GetToken(1).image, model)!=null })
 		type=Word()
 		{
-			return TypesHelper.GetNodeOrEdgeType(type, model);
+			constant = TypesHelper.GetNodeOrEdgeType(type, model);
 		}
 	)
 	{
@@ -427,7 +440,7 @@ SequenceExpression InitContainerExpr():
 }
 {
 	(
-		"set" "<" typeName=Word() ">" { srcItems = new List<SequenceExpression>(); }
+		"set" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
 		"{"
 			( src=Expression() { srcItems.Add(src); } )?
 				( "," src=Expression() { srcItems.Add(src); })*
@@ -436,7 +449,7 @@ SequenceExpression InitContainerExpr():
 			res = new SequenceExpressionSetConstructor(typeName, srcItems.ToArray());
 		}
 	|
-		"map" "<" typeName=Word() "," typeNameDst=Word() ">" { srcItems = new List<SequenceExpression>(); dstItems = new List<SequenceExpression>(); }
+		"map" "<" typeName=TypeNonGeneric() "," typeNameDst=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); dstItems = new List<SequenceExpression>(); }
 		"{"
 			( src=Expression() "->" dst=Expression() { srcItems.Add(src); dstItems.Add(dst); } )?
 				( "," src=Expression() "->" dst=Expression() { srcItems.Add(src); dstItems.Add(dst); } )*
@@ -445,7 +458,7 @@ SequenceExpression InitContainerExpr():
 			res = new SequenceExpressionMapConstructor(typeName, typeNameDst, srcItems.ToArray(), dstItems.ToArray());
 		}
 	|
-		"array" "<" typeName=Word() ">" { srcItems = new List<SequenceExpression>(); }
+		"array" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
 		"["
 			( src=Expression() { srcItems.Add(src); } )?
 				( "," src=Expression() { srcItems.Add(src); })*
@@ -454,7 +467,7 @@ SequenceExpression InitContainerExpr():
 			res = new SequenceExpressionArrayConstructor(typeName, srcItems.ToArray());
 		}
 	|
-		"deque" "<" typeName=Word() ">" { srcItems = new List<SequenceExpression>(); }
+		"deque" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
 		"]"
 			( src=Expression() { srcItems.Add(src); } )?
 				( "," src=Expression() { srcItems.Add(src); })*
@@ -592,29 +605,40 @@ String Type():
 	String typeParam, typeParamDst;
 }
 { 
-	(type=Word()
-	| LOOKAHEAD("set" "<" Word() ">") "set" "<" typeParam=Word() ">" { type = "set<"+typeParam+">"; }
+	(type=TypeNonGeneric()
+	| LOOKAHEAD("set" "<" TypeNonGeneric() ">") "set" "<" typeParam=TypeNonGeneric() ">" { type = "set<"+typeParam+">"; }
 		(LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
-	| LOOKAHEAD("map" "<" Word() "," Word() ">") "map" "<" typeParam=Word() "," typeParamDst=Word() ">" { type = "map<"+typeParam+","+typeParamDst+">"; }
+	| LOOKAHEAD("map" "<" TypeNonGeneric() "," TypeNonGeneric() ">") "map" "<" typeParam=TypeNonGeneric() "," typeParamDst=TypeNonGeneric() ">" { type = "map<"+typeParam+","+typeParamDst+">"; }
 		(LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
-	| LOOKAHEAD("array" "<" Word() ">") "array" "<" typeParam=Word() ">" { type = "array<"+typeParam+">"; }
+	| LOOKAHEAD("array" "<" TypeNonGeneric() ">") "array" "<" typeParam=TypeNonGeneric() ">" { type = "array<"+typeParam+">"; }
 		(LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
-	| LOOKAHEAD("deque" "<" Word() ">") "deque" "<" typeParam=Word() ">" { type = "deque<"+typeParam+">"; }
+	| LOOKAHEAD("deque" "<" TypeNonGeneric() ">") "deque" "<" typeParam=TypeNonGeneric() ">" { type = "deque<"+typeParam+">"; }
 		(LOOKAHEAD(2) "]" { throw new ParseException("no ][ allowed at deque declaration, use d:deque<T> = deque<T>][ for initialization"); })?
 	// for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
-	| LOOKAHEAD("set" "<" Word() ">=") "set" "<" typeParam=Word() { type = "set<"+typeParam+">"; }
+	| LOOKAHEAD("set" "<" TypeNonGeneric() ">=") "set" "<" typeParam=TypeNonGeneric() { type = "set<"+typeParam+">"; }
 		(LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
-	| LOOKAHEAD("map" "<" Word() "," Word() ">=") "map" "<" typeParam=Word() "," typeParamDst=Word() { type = "map<"+typeParam+","+typeParamDst+">"; }
+	| LOOKAHEAD("map" "<" TypeNonGeneric() "," TypeNonGeneric() ">=") "map" "<" typeParam=TypeNonGeneric() "," typeParamDst=TypeNonGeneric() { type = "map<"+typeParam+","+typeParamDst+">"; }
 		(LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
-	| LOOKAHEAD("array" "<" Word() ">=") "array" "<" typeParam=Word() { type = "array<"+typeParam+">"; }
+	| LOOKAHEAD("array" "<" TypeNonGeneric() ">=") "array" "<" typeParam=TypeNonGeneric() { type = "array<"+typeParam+">"; }
 		(LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
-	| LOOKAHEAD("deque" "<" Word() ">=") "deque" "<" typeParam=Word() { type = "deque<"+typeParam+">"; }
+	| LOOKAHEAD("deque" "<" TypeNonGeneric() ">=") "deque" "<" typeParam=TypeNonGeneric() { type = "deque<"+typeParam+">"; }
 		(LOOKAHEAD(2) "]" { throw new ParseException("no ][ allowed at deque declaration, use d:deque<T> = deque<T>][ for initialization"); })?
 	// the match type exists only for the loop variable of the for matches loop
 	| LOOKAHEAD("match" "<" Word() ">") "match" "<" typeParam=Word() ">" { type = "match<"+typeParam+">"; }	
 	)
 	{
 		return type;
+	}
+}
+
+String TypeNonGeneric():
+{
+	String package=null, type;
+}
+{ 
+	(LOOKAHEAD(2) package=Word() "::")? type=Word()
+	{
+		return package!=null ? package + "::" + type : type;
 	}
 }
 
@@ -1678,8 +1702,8 @@ void RuleLookahead():
 {
 }
 {
-	("(" ( Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">" | "array" "<" Word() ">" | "deque" "<" Word() ">"))? | "::" Word() ) 
-			("," ( Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">" | "array" "<" Word() ">" | "deque" "<" Word() ">"))? | "::" Word() ) )* ")" "=")?
+	("(" ( Word() (":" (TypeNonGeneric() | "set" "<" TypeNonGeneric() ">" | "map" "<" TypeNonGeneric() "," TypeNonGeneric() ">" | "array" "<" TypeNonGeneric() ">" | "deque" "<" TypeNonGeneric() ">"))? | "::" Word() ) 
+			("," ( Word() (":" (TypeNonGeneric() | "set" "<" TypeNonGeneric() ">" | "map" "<" TypeNonGeneric() "," TypeNonGeneric() ">" | "array" "<" TypeNonGeneric() ">" | "deque" "<" TypeNonGeneric() ">"))? | "::" Word() ) )* ")" "=")?
 	(
 	    ( "$" ("%")? ( Variable() ("," (Variable() | "*"))? )? )? "["
 	|

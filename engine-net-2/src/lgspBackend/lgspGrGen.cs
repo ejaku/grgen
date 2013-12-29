@@ -1820,7 +1820,7 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         String output = sr.ReadToEnd();
                         if(output.Length != 0)
-                            throw new Exception("Error while processing specification:\n" + output);
+                            throw new Exception("\nError while processing specification:\n" + output);
                     }
                 }
                 throw new Exception("Error while processing specification!");
