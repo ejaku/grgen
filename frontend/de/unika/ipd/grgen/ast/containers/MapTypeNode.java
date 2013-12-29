@@ -18,6 +18,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.containers.MapType;
 import de.unika.ipd.grgen.ir.Type;
 
@@ -80,9 +81,13 @@ public class MapTypeNode extends DeclaredTypeNode {
 
 	@Override
 	protected boolean resolveLocal() {
-		if(keyTypeUnresolved instanceof IdentNode)
+		if(keyTypeUnresolved instanceof PackageIdentNode)
+			Resolver.resolveOwner((PackageIdentNode)keyTypeUnresolved);
+		else if(keyTypeUnresolved instanceof IdentNode)
 			fixupDefinition((IdentNode)keyTypeUnresolved, keyTypeUnresolved.getScope());
-		if(valueTypeUnresolved instanceof IdentNode)
+		if(valueTypeUnresolved instanceof PackageIdentNode)
+			Resolver.resolveOwner((PackageIdentNode)valueTypeUnresolved);
+		else if(valueTypeUnresolved instanceof IdentNode)
 			fixupDefinition((IdentNode)valueTypeUnresolved, valueTypeUnresolved.getScope());
 
 		keyType   = typeResolver.resolve(keyTypeUnresolved, this);

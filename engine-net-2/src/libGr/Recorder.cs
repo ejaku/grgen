@@ -293,7 +293,7 @@ namespace de.unika.ipd.grGen.libGr
                             recordingState.writer.Write(".add(");
                             recordingState.writer.Write(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                             recordingState.writer.Write(", ");
-                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int)), graph));
                             recordingState.writer.WriteLine(")");
                         }
                         break;
@@ -309,7 +309,7 @@ namespace de.unika.ipd.grGen.libGr
                             recordingState.writer.Write(".add(");
                             recordingState.writer.Write(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                             recordingState.writer.Write(", ");
-                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int)), graph));
                             recordingState.writer.WriteLine(")");
                         }
                         break;
@@ -334,13 +334,13 @@ namespace de.unika.ipd.grGen.libGr
                     case AttributeKind.ArrayAttr:
                         recordingState.writer.Write(".rem(");
                         if(keyValue!=null)
-                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int)), graph));
                         recordingState.writer.WriteLine(")");
                         break;
                     case AttributeKind.DequeAttr:
                         recordingState.writer.Write(".rem(");
                         if(keyValue != null)
-                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                            recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int)), graph));
                         recordingState.writer.WriteLine(")");
                         break;
                     default:
@@ -353,13 +353,13 @@ namespace de.unika.ipd.grGen.libGr
                     {
                     case AttributeKind.ArrayAttr:
                         recordingState.writer.Write("[");
-                        recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                        recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int)), graph));
                         recordingState.writer.Write("] = ");
                         recordingState.writer.WriteLine(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                         break;
                     case AttributeKind.DequeAttr:
                         recordingState.writer.Write("[");
-                        recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, typeof(int)), graph));
+                        recordingState.writer.Write(GRSExport.ToString(mainExportContext, keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int)), graph));
                         recordingState.writer.Write("] = ");
                         recordingState.writer.WriteLine(GRSExport.ToString(mainExportContext, newValue, attrType.ValueType, graph));
                         break;

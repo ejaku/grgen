@@ -1,0 +1,29 @@
+new graph "package/package"
+
+exec (::n,::e,::lal)=initFoo
+
+exec [matchFoo]
+exec [matchBar]
+
+exec (::n2,::e2,::lal2)=initBar
+
+exec [matchFoo]
+exec [matchBar]
+
+exec [matchFooBar(::n,::e,::lal,::n2,::e2,::lal2)]
+exec fooX:Foo::N ;> fooE:Foo::E ;> fooLal:Foo::Lal ;> barX:Bar::N ;> barE:Bar::E ;> barLal:Bar::Lal ;>\
+{fooX=::n; fooE=::e; fooLal=::lal; barX=::n2; barE=::e2; barLal=::lal2} ;> (::no,::ed)=matchFooBar(fooX, fooE, fooLal, barX, barE, barLal)
+
+show var "no"
+show var "ed"
+
+exec [matchFooBar2(::n,::e,::n2,::e2)]
+exec fooX:Foo::N ;> fooE:Foo::E ;> barX:Bar::N ;> barE:Bar::E ;>\
+{fooX=::n; fooE=::e; barX=::n2; barE=::e2} ;> [matchFooBar2(fooX, fooE, barX, barE)]
+
+exec [matchFooPure]
+exec initFurchtbar
+exec [matchFurchtbar]
+exec [matchFooPure]
+
+quit

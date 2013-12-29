@@ -1049,7 +1049,7 @@ public class ModifyGen extends CSharpBase {
 			sb.append("\t\t\t" + formatAttributeType(var.getType()) + " " + formatEntity(var) + " = ");
 			if(var.initialization!=null) {
 				if(var.getType() instanceof EnumType)
-					sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(var.getType()) + ") ");
+					sb.append("(GRGEN_MODEL." + getPackagePrefixDot(var.getType()) + "ENUM_" + formatIdentifiable(var.getType()) + ") ");
 				genExpression(sb, var.initialization, state);
 				sb.append(";\n");
 			} else {
@@ -2121,7 +2121,7 @@ public class ModifyGen extends CSharpBase {
 			
 			sb.append(" = ");
 			if(targetType instanceof EnumType)
-				sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(targetType) + ") ");
+				sb.append("(GRGEN_MODEL." + getPackagePrefixDot(targetType) + "ENUM_" + formatIdentifiable(targetType) + ") ");
 			sb.append(varName + ";\n");
 			
 			sb.append("\t\t\t}\n");
@@ -2136,7 +2136,7 @@ public class ModifyGen extends CSharpBase {
 			
 			sb.append(" = ");
 			if(targetType instanceof EnumType)
-				sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(targetType) + ") ");
+				sb.append("(GRGEN_MODEL." + getPackagePrefixDot(targetType) + "ENUM_" + formatIdentifiable(targetType) + ") ");
 			sb.append(varName + ";\n");
 		}
 	}
@@ -4211,7 +4211,7 @@ public class ModifyGen extends CSharpBase {
 		String attrName = formatIdentifiable(entity);
 		Type type = entity.getType();
 		if(type instanceof EnumType) {
-			varTypeName = "GRGEN_MODEL.ENUM_" + formatIdentifiable(type);
+			varTypeName = "GRGEN_MODEL." + getPackagePrefixDot(type) + "ENUM_" + formatIdentifiable(type);
 		} else {
 			varTypeName = getTypeNameForTempVarDecl(type);
 		}

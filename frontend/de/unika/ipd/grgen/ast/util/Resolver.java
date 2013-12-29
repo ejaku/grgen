@@ -12,6 +12,10 @@
 package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.CompoundTypeNode;
+import de.unika.ipd.grgen.ast.DeclNode;
+import de.unika.ipd.grgen.ast.PackageIdentNode;
+import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.util.Base;
 
 /**
@@ -30,4 +34,33 @@ public abstract class Resolver<T> extends Base {
 	 *         original node itself), or null if the resolving failed.
 	 */
 	public abstract T resolve(BaseNode node, BaseNode parent);
+	
+	public static boolean resolveOwner(PackageIdentNode pn) {
+		DeclNode owner = pn.getOwnerDecl();
+		if(owner == null) {
+			pn.reportError("Failure in resolving package of " + pn);
+			return false;
+		}
+		boolean success = owner.resolve();
+		if(!success) {
+			pn.reportError("Failure in resolving package of " + pn);
+			return false;
+		}
+		TypeNode tn = owner.getDeclType();
+		if(tn == null) {
+			pn.reportError("Failure in resolving package of " + pn);
+			return false;
+		}
+		if(!(tn instanceof CompoundTypeNode)) {
+			pn.reportError("Failure in resolving package of " + pn);
+			return false;
+		}
+		CompoundTypeNode ownerType = (CompoundTypeNode)tn;
+		success = ownerType.fixupDefinition(pn);
+		if(!success) {
+			pn.reportError("Failure in resolving the member in the package, regarding " + pn);
+			return false;
+		}
+		return true;
+	}
 }

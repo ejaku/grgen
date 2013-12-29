@@ -1436,7 +1436,7 @@ public class ActionsGen extends CSharpBase {
 				
 				String nodeName = formatEntity(node, pathPrefixForElements);
 				sb.append("\t\t\tGRGEN_LGSP.PatternNode " + nodeName + " = new GRGEN_LGSP.PatternNode(");
-				sb.append("(int) GRGEN_MODEL.NodeTypes.@" + formatIdentifiable(node.getType()) 
+				sb.append("(int) GRGEN_MODEL." + getPackagePrefixDot(node.getType()) + "NodeTypes.@" + formatIdentifiable(node.getType()) 
 						+ ", " + formatTypeClassRef(node.getType()) + ".typeVar"
 						+ ", \"" + formatElementInterfaceRef(node.getType()) + "\", ");
 				sb.append("\"" + nodeName + "\", \"" + formatIdentifiable(node) + "\", ");
@@ -1474,7 +1474,7 @@ public class ActionsGen extends CSharpBase {
 				String edgeName = formatEntity(edge, pathPrefixForElements);
 				sb.append("\t\t\tGRGEN_LGSP.PatternEdge " + edgeName + " = new GRGEN_LGSP.PatternEdge(");
 				sb.append((edge.hasFixedDirection() ? "true" : "false") + ", ");
-				sb.append("(int) GRGEN_MODEL.EdgeTypes.@" + formatIdentifiable(edge.getType()) 
+				sb.append("(int) GRGEN_MODEL." + getPackagePrefixDot(edge.getType()) + "EdgeTypes.@" + formatIdentifiable(edge.getType()) 
 						+ ", " + formatTypeClassRef(edge.getType()) + ".typeVar"
 						+ ", \"" + formatElementInterfaceRef(edge.getType()) + "\", ");
 				sb.append("\"" + edgeName + "\", \"" + formatIdentifiable(edge) + "\", ");

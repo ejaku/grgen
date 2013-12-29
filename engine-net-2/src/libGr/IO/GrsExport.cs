@@ -176,7 +176,7 @@ restart:
             int numNodes = 0;
             foreach(INode node in context.graph.Nodes)
             {
-                sw.Write("new :{0}($ = \"{1}\"", node.Type.Name, context.graph.GetElementName(node));
+                sw.Write("new :{0}($ = \"{1}\"", node.Type.PackagePrefixedName, context.graph.GetElementName(node));
                 foreach(AttributeType attrType in node.Type.AttributeTypes)
                 {
                     if(IsNodeOrEdgeUsedInAttribute(attrType))
@@ -210,7 +210,7 @@ restart:
                 foreach(IEdge edge in node.Outgoing)
                 {
                     sw.Write("new @(\"{0}\") - :{1}($ = \"{2}\"", context.graph.GetElementName(node),
-                        edge.Type.Name, context.graph.GetElementName(edge));
+                        edge.Type.PackagePrefixedName, context.graph.GetElementName(edge));
                     foreach(AttributeType attrType in edge.Type.AttributeTypes)
                     {
                         if(IsNodeOrEdgeUsedInAttribute(attrType))
@@ -255,7 +255,7 @@ restart:
                             continue;
 
                         object value = node.GetAttribute(attrType.Name);
-                        sw.Write("{0}.{1} = ", context.graph.GetElementName(node), attrType.Name);
+                        sw.Write("@(\"{0}\").{1} = ", context.graph.GetElementName(node), attrType.Name);
                         EmitAttribute(mainGraphContext, attrType, value, context.graph, sw);
                         sw.Write("\n");
                     }
@@ -270,7 +270,7 @@ restart:
                                 continue;
 
                             object value = edge.GetAttribute(attrType.Name);
-                            sw.Write("{0}.{1} = ", context.graph.GetElementName(edge), attrType.Name);
+                            sw.Write("@(\"{0}\").{1} = ", context.graph.GetElementName(edge), attrType.Name);
                             EmitAttribute(mainGraphContext, attrType, value, context.graph, sw);
                             sw.Write("\n");
                         }
@@ -514,11 +514,11 @@ restart:
                 else
                     return "null";
             case AttributeKind.EnumAttr:
-                return type.EnumType.Name + "::" + type.EnumType[(int)value].Name;
+                return type.EnumType.PackagePrefixedName + "::" + type.EnumType[(int)value].Name;
             case AttributeKind.NodeAttr:
             case AttributeKind.EdgeAttr:
                 if(value != null)
-                    return graph.GetElementName((IGraphElement)value);
+                    return "\"" + graph.GetElementName((IGraphElement)value) + "\"";
                 else
                     return "null";
             default:

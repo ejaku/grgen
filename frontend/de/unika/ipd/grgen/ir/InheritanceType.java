@@ -35,6 +35,7 @@ public abstract class InheritanceType extends CompoundType {
 	private static ArrayList<InheritanceType> inheritanceTypesByID = new ArrayList<InheritanceType>();
 
 	private int typeID;
+	private int nodeOrEdgeTypeID;
 	private int maxDist = -1;
 	private final Set<InheritanceType> directSuperTypes = new LinkedHashSet<InheritanceType>();
 	private final Set<InheritanceType> directSubTypes = new LinkedHashSet<InheritanceType>();
@@ -90,6 +91,16 @@ public abstract class InheritanceType extends CompoundType {
 
 	public static InheritanceType getByTypeID(int typeID) {
 		return inheritanceTypesByID.get(typeID);
+	}
+
+	/** @return a unique type identifier starting with zero, for the nodes, or the edges. Only unique for either the nodes, or the edges, not for both.*/
+	public int getNodeOrEdgeTypeID(boolean isNode) {
+		return nodeOrEdgeTypeID;
+	}
+
+	/** @return a unique type identifier starting with zero, for the nodes, or the edges. Only unique for either the nodes, or the edges, not for both.*/
+	public void setNodeOrEdgeTypeID(boolean isNode, int nodeOrEdgeTypeID) {
+		this.nodeOrEdgeTypeID = nodeOrEdgeTypeID;
 	}
 
 	/** @return true, if this type does not inherit from some other types, being the root of an inheritance hierarchy. */

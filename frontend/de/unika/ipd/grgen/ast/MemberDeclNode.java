@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
@@ -78,8 +79,10 @@ public class MemberDeclNode extends DeclNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		if(typeUnresolved instanceof IdentNode)
-			fixupDefinition((IdentNode)typeUnresolved, ((IdentNode)typeUnresolved).getScope().getIdentNode().getScope(), true);
+		if(typeUnresolved instanceof PackageIdentNode)
+			Resolver.resolveOwner((PackageIdentNode)typeUnresolved);
+		else if(typeUnresolved instanceof IdentNode)
+			fixupDefinition((IdentNode)typeUnresolved, ((IdentNode)typeUnresolved).getScope().getIdentNode().getScope());
 		type = typeResolver.resolve(typeUnresolved, this);
 		return type!=null;
 	}

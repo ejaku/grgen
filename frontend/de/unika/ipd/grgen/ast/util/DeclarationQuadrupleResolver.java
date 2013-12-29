@@ -10,6 +10,7 @@ package de.unika.ipd.grgen.ast.util;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.util.Util;
 
 /**
@@ -83,6 +84,12 @@ public class DeclarationQuadrupleResolver<R extends BaseNode, S extends BaseNode
 	/** resolves n to node of type R, S, T or U, via declaration
 	 *  returns null if n's declaration can't be cast to R/S/T/U */
 	private Quadruple<R, S, T, U> resolve(IdentNode n) {
+		if(n instanceof PackageIdentNode) {
+			if(!resolveOwner((PackageIdentNode)n)) {
+				return null;
+			}
+		}
+
 		Quadruple<R, S, T, U> quadruple = new Quadruple<R, S, T, U>();
 		DeclNode resolved = n.getDecl();
 		if(clsR.isInstance(resolved)) {

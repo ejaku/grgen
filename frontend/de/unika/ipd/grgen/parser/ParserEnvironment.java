@@ -39,6 +39,7 @@ public abstract class ParserEnvironment extends Base {
 	public static final int MODELS = 7;
 	public static final int FUNCTIONS_AND_EXTERNAL_FUNCTIONS = 8;
 	public static final int COMPUTATION_BLOCKS = 9;
+	public static final int PACKAGES = 10;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
 		new SymbolTable("types", TYPES),        // types and patterns
@@ -51,6 +52,7 @@ public abstract class ParserEnvironment extends Base {
 		new SymbolTable("models", MODELS),
 		new SymbolTable("functions and external functions", FUNCTIONS_AND_EXTERNAL_FUNCTIONS),
 		new SymbolTable("computation blocks", COMPUTATION_BLOCKS),
+		new SymbolTable("packages", PACKAGES)
 	};
 
 	private final IntConstNode one = new IntConstNode(Coords.getBuiltin(), 1);
@@ -108,10 +110,11 @@ public abstract class ParserEnvironment extends Base {
 		initLexerKeywords();
 
 		// The standard model
+		CollectNode<IdentNode> stdModelPackages = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> stdModelChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> stdModelAttrEvalFuncChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> stdModelAttrEvalCompChilds = new CollectNode<IdentNode>();
-		stdModel = new ModelNode(predefine(ENTITIES, "Std"), stdModelChilds, 
+		stdModel = new ModelNode(predefine(ENTITIES, "Std"), stdModelPackages, stdModelChilds, 
 				stdModelAttrEvalFuncChilds, stdModelAttrEvalCompChilds, new CollectNode<ModelNode>(), 
 				false, false, false, false);
 
@@ -198,6 +201,10 @@ public abstract class ParserEnvironment extends Base {
 	public void pushScope(IdentNode ident) {
 		currScope = currScope.newScope(ident);
 		BaseNode.setCurrScope(currScope);
+	}
+
+	public void pushScope(String str, Coords coords) {
+		pushScope(new IdentNode(new Symbol.Definition(getCurrScope(), coords, new Symbol(str, SymbolTable.getInvalid()))));
 	}
 
 	public void popScope() {

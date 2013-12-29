@@ -30,15 +30,15 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	}
 
 	/** The annotations. */
-	private Annotations annotations = EmptyAnnotations.get();
+	protected Annotations annotations = EmptyAnnotations.get();
 
 	/** Occurrence of the identifier. */
-	private Symbol.Occurrence occ;
+	protected Symbol.Occurrence occ;
 
 	/** The declaration associated with this identifier. */
-	private DeclNode decl = DeclNode.getInvalid();
+	protected DeclNode decl = DeclNode.getInvalid();
 
-	private static final IdentNode INVALID =
+	protected static final IdentNode INVALID =
 		new IdentNode(Symbol.Definition.getInvalid());
 
 	/**

@@ -1,0 +1,55 @@
+#using "packagemod.gm"
+
+rule rfoo(var inp:Foo::Lal, inp2:Foo::N) : (Foo::Lal, Foo::N) {
+	x:Foo::N -e:Foo::E-> x;
+	if{ x.attr==42 && e.attr=="fool" && e.lal==Foo::Lal::Bla && x in e.lol && typeof(x)<=Foo::N; }
+
+	modify {
+		delete(e);
+		x -i:Foo::E-> y:Foo::N;
+		
+		eval{ x.attr = 42; }
+		eval{ x.n(42); }
+		eval{ i.attr = "foolish"; }
+		eval{ i.lal = Foo::Lal::Bar; }
+		eval{ i.lol.add(y); }
+		eval{ def var tmp:boolean = typeof(y)<=Foo::N; }
+		eval{ add(Foo::N); }
+
+	    exec((kk:Foo::Lal,kkk:Foo::N)=rfoo(Foo::Lal::Bla, inp2));
+		
+		return(inp, x);
+	}
+}
+
+rule rbar(var inp:Bar::Lal, inp2:Bar::N) : (Bar::Lal, Bar::N) {
+	x:Bar::N -e:Bar::E-> x;
+	if{ x.attr_==42 && e.attr=="fool" && e.lal==Bar::Lal::Bla && x in e.lol && typeof(x)<=Bar::N; }
+
+	modify {
+		delete(e);
+		x -i:Bar::E-> y:Bar::N;
+
+		eval{ x.attr_ = 42; }
+		eval{ x.n(42); }
+		eval{ i.attr = "foolish"; }
+		eval{ i.lal = Bar::Lal::Bar; }
+		eval{ i.lol.add(y); }
+		eval{ def var tmp:boolean = typeof(y)<=Bar::N; }
+		eval{ add(Bar::N); }
+		
+	    exec((kk:Bar::Lal,kkk:Bar::N)=rbar(Bar::Lal::Bla, inp2));
+		
+		return(inp, x);
+	}
+}
+
+rule r2(var inp:Foo::Lal, inp2:Foo::N, var inp_:Bar::Lal, inp2_:Bar::N) : (Foo::Lal, Foo::N, Bar::Lal, Bar::N)
+{
+	x:Furchtbar -y:Fubar->;
+	modify {
+		x_:Furchtbar -y_:Fubar-> x;
+	    exec((kk:Foo::Lal,kkk:Foo::N,kk_:Bar::Lal,kkk_:Bar::N)=r2(Foo::Lal::Bla, inp2, Bar::Lal::Bla, inp2_));
+		return(inp,inp2,inp_,inp2_);
+	}
+}

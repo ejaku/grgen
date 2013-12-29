@@ -21,10 +21,11 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * An enumeration type.
  */
-public class EnumType extends PrimitiveType {
+public class EnumType extends PrimitiveType implements ContainedInPackage {
+	private String packageContainedIn; 
 
 	private final List<EnumItem> items = new LinkedList<EnumItem>();
-
+	
 	/** Make a new enum type.
 	 *  @param ident The identifier of this enumeration. */
 	public EnumType(Ident ident) {
@@ -46,6 +47,14 @@ public class EnumType extends PrimitiveType {
 		return IS_INTEGER;
 	}
 
+	public String getPackageContainedIn() {
+		return packageContainedIn;
+	}
+	
+	public void setPackageContainedIn(String packageContainedIn) {
+		this.packageContainedIn = packageContainedIn;
+	}
+	
 	protected void canonicalizeLocal() {
 		Collections.sort(items, Identifiable.COMPARATOR);
 	}

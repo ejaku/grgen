@@ -22,7 +22,9 @@ import java.util.Map;
 /**
  * IR class that represents edge types.
  */
-public class EdgeType extends InheritanceType {
+public class EdgeType extends InheritanceType implements ContainedInPackage {
+	private String packageContainedIn;
+	
 	/** The connection assertions. */
 	private final List<ConnAssert> connectionAsserts = new LinkedList<ConnAssert>();
 
@@ -91,5 +93,13 @@ public class EdgeType extends InheritanceType {
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {
 		return IS_EDGE;
+	}
+	
+	public String getPackageContainedIn() {
+		return packageContainedIn;
+	}
+	
+	public void setPackageContainedIn(String packageContainedIn) {
+		this.packageContainedIn = packageContainedIn;
 	}
 }

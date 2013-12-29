@@ -10,6 +10,7 @@ package de.unika.ipd.grgen.ast.util;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.util.Util;
 
 /**
@@ -50,6 +51,12 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 	/** resolves n to node of type R, via declaration
 	 *  returns null if n's declaration can't be cast to R */
 	public R resolve(IdentNode n) {
+		if(n instanceof PackageIdentNode) {
+			if(!resolveOwner((PackageIdentNode)n)) {
+				return null;
+			}
+		}
+
 		DeclNode resolved = n.getDecl();
 
 		R res = tryCast(resolved);

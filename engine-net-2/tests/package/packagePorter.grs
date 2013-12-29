@@ -1,0 +1,44 @@
+new graph "package/package"
+
+exec (::n,::e,::lal)=initFoo
+exec (::n2,::e2,::lal2)=initBar
+exec [matchFoo]
+exec [matchBar]
+exec [matchFooBar(::n,::e,::lal,::n2,::e2,::lal2)]
+exec [matchFooBar2(::n,::e,::n2,::e2)]
+
+show num nodes only Node
+show num nodes only Foo::N
+show num nodes only Bar::N
+show num nodes only Furchtbar
+
+show num edges only Edge
+show num edges only Foo::E
+show num edges only Bar::E
+show num edges only Fubar_
+
+export package/testgraph.grs
+
+import package/testgraph.grs package/packagemod.gm
+
+show num nodes only Node
+show num nodes only Foo::N
+show num nodes only Bar::N
+show num nodes only Furchtbar
+
+show num edges only Edge
+show num edges only Foo::E
+show num edges only Bar::E
+show num edges only Fubar_
+
+select actions package/lgsp-packageActions.dll
+
+exec (::n,::e,::lal)=[matchFoo]
+exec (::n2,::e2,::lal2)=[matchBar]
+exec [matchFooBar(::n,::e,::lal,::n2,::e2,::lal2)]
+exec [matchFooBar2(::n,::e,::n2,::e2)]
+
+# the test script tries to test all available .grs; no sense in trying to test the exported graph
+!rm package/testgraph.grs
+
+quit

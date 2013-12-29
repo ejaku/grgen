@@ -90,7 +90,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 LGSPNode n = (LGSPNode)node;
                 nodes[count] = new PatternNode(
-                    n.Type.TypeID, n.Type, n.Type.Name,
+                    n.Type.TypeID, n.Type, n.Type.PackagePrefixedName,
                     graph.Name+"_node_"+count, "node_"+count,
                     null, null,
                     1.0f, -1, false,
@@ -109,7 +109,7 @@ namespace de.unika.ipd.grGen.lgsp
                 LGSPEdge e = (LGSPEdge)edge;
                 edges[count] = new PatternEdge(
                     true,
-                    e.Type.TypeID, e.Type, e.Type.Name,
+                    e.Type.TypeID, e.Type, e.Type.PackagePrefixedName,
                     graph.Name+"_edge_"+count, "edge_"+count,
                     null, null,
                     1.0f, -1, false,
@@ -1926,7 +1926,7 @@ exitSecondLoop: ;
                 outParameters += ", out " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i;
                 refParameters += ", ref " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i;
                 outLocals += TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i + "; ";
-                refLocals += TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i + " = " + TypesHelper.DefaultValueString(matchingPattern.Outputs[i].Name, model) + "; ";
+                refLocals += TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i + " = " + TypesHelper.DefaultValueString(matchingPattern.Outputs[i].PackagePrefixedName, model) + "; ";
                 outArguments += ", out output_" + i;
                 refArguments += ", ref output_" + i;
             }
@@ -1965,7 +1965,7 @@ exitSecondLoop: ;
             sb.AppendFront("{\n");
             sb.Indent();
             for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
-                sb.AppendFrontFormat("output_{0} = {1};\n", i, TypesHelper.DefaultValueString(matchingPattern.Outputs[i].Name, model));
+                sb.AppendFrontFormat("output_{0} = {1};\n", i, TypesHelper.DefaultValueString(matchingPattern.Outputs[i].PackagePrefixedName, model));
             }
             sb.AppendFrontFormat("foreach({0} match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match{1});\n", matchType, outArguments);
             sb.Unindent();
