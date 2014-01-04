@@ -18,14 +18,25 @@ import java.util.Vector;
 /**
  * A graph rewrite sequence definition.
  */
-public class Sequence extends Identifiable {
+public class Sequence extends Identifiable implements ContainedInPackage {
+	private String packageContainedIn;
+
 	private Exec exec;
+	
 	private List<ExecVariable> inParams = new Vector<ExecVariable>();
 	private List<ExecVariable> outParams = new Vector<ExecVariable>();
 
 	public Sequence(Ident ident, Exec exec) {
 		super("sequence", ident);
 		this.exec = exec;
+	}
+
+	public String getPackageContainedIn() {
+		return packageContainedIn;
+	}
+	
+	public void setPackageContainedIn(String packageContainedIn) {
+		this.packageContainedIn = packageContainedIn;
 	}
 
 	public Exec getExec() {

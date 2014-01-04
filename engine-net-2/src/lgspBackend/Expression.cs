@@ -3218,8 +3218,9 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class FunctionInvocation : Expression
     {
-        public FunctionInvocation(String functionName, Expression[] arguments, String[] argumentTypes)
+        public FunctionInvocation(String packageName, String functionName, Expression[] arguments, String[] argumentTypes)
         {
+            PackageName = packageName;
             FunctionName = functionName;
             Arguments = arguments;
             ArgumentTypes = argumentTypes;
@@ -3229,12 +3230,12 @@ namespace de.unika.ipd.grGen.expression
         {
             Expression[] newArguments = new Expression[Arguments.Length];
             for(int i = 0; i < Arguments.Length; ++i) newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
-            return new FunctionInvocation(FunctionName, newArguments, (String[])ArgumentTypes.Clone());
+            return new FunctionInvocation(PackageName, FunctionName, newArguments, (String[])ArgumentTypes.Clone());
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("Functions." + FunctionName + "(actionEnv, graph");
+            sourceCode.Append(PackageName + "Functions." + FunctionName + "(actionEnv, graph");
             for(int i = 0; i < Arguments.Length; ++i)
             {
                 sourceCode.Append(", ");
@@ -3251,6 +3252,7 @@ namespace de.unika.ipd.grGen.expression
                 yield return argument;
         }
 
+        public String PackageName;
         public String FunctionName;
         public Expression[] Arguments;
         public String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
@@ -3306,7 +3308,7 @@ namespace de.unika.ipd.grGen.expression
     public class FunctionMethodInvocation : FunctionInvocation
     {
         public FunctionMethodInvocation(String ownerType, String owner, String functionName, Expression[] arguments, String[] argumentTypes)
-            : base(functionName, arguments, argumentTypes)
+            : base("", functionName, arguments, argumentTypes)
         {
             OwnerType = ownerType;
             Owner = owner; 

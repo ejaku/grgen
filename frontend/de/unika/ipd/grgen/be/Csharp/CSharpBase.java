@@ -139,9 +139,9 @@ public abstract class CSharpBase {
 		return res.replace('$', '_');
 	}
 
-	public String getPackagePrefixDot(Type type) {
-		if(type instanceof ContainedInPackage) {
-			ContainedInPackage cip = (ContainedInPackage)type;
+	public String getPackagePrefixDot(Identifiable id) {
+		if(id instanceof ContainedInPackage) {
+			ContainedInPackage cip = (ContainedInPackage)id;
 			if(cip.getPackageContainedIn()!=null) {
 				return cip.getPackageContainedIn() + ".";
 			}
@@ -149,9 +149,9 @@ public abstract class CSharpBase {
 		return "";
 	}
 
-	public String getPackagePrefixDoubleColon(Type type) {
-		if(type instanceof ContainedInPackage) {
-			ContainedInPackage cip = (ContainedInPackage)type;
+	public String getPackagePrefixDoubleColon(Identifiable id) {
+		if(id instanceof ContainedInPackage) {
+			ContainedInPackage cip = (ContainedInPackage)id;
 			if(cip.getPackageContainedIn()!=null) {
 				return cip.getPackageContainedIn() + "::";
 			}
@@ -159,9 +159,9 @@ public abstract class CSharpBase {
 		return "";
 	}
 
-	public String getPackagePrefix(Type type) {
-		if(type instanceof ContainedInPackage) {
-			ContainedInPackage cip = (ContainedInPackage)type;
+	public String getPackagePrefix(Identifiable id) {
+		if(id instanceof ContainedInPackage) {
+			ContainedInPackage cip = (ContainedInPackage)id;
 			if(cip.getPackageContainedIn()!=null) {
 				return cip.getPackageContainedIn();
 			}
@@ -223,10 +223,10 @@ public abstract class CSharpBase {
 	}
 
 
-	String matchType(PatternGraph patternGraph, boolean isSubpattern, String pathPrefix) {
+	String matchType(PatternGraph patternGraph, Rule subpattern, boolean isSubpattern, String pathPrefix) {
 		String matchClassContainer;
 		if(isSubpattern) {
-			matchClassContainer = "Pattern_" + patternGraph.getNameOfGraph();
+			matchClassContainer = getPackagePrefixDot(subpattern) + "Pattern_" + patternGraph.getNameOfGraph();
 		} else {
 			matchClassContainer = "Rule_" + patternGraph.getNameOfGraph();
 		}
@@ -1357,7 +1357,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof FunctionInvocationExpr) {
 			FunctionInvocationExpr fi = (FunctionInvocationExpr) expr;
-			sb.append("Functions." + fi.getFunction().getIdent().toString() + "(actionEnv, graph");
+			sb.append("GRGEN_ACTIONS." + getPackagePrefixDot(fi.getFunction()) + "Functions." + fi.getFunction().getIdent().toString() + "(actionEnv, graph");
 			for(int i=0; i<fi.arity(); ++i) {
 				sb.append(", ");
 				Expression argument = fi.getArgument(i);

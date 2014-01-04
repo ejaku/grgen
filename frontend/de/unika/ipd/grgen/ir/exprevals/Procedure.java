@@ -20,7 +20,9 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * A procedure.
  */
-public class Procedure extends ProcedureBase {
+public class Procedure extends ProcedureBase implements ContainedInPackage {
+	private String packageContainedIn;
+
 	/** A list of the parameters */
 	private List<Entity> params = new LinkedList<Entity>();
 
@@ -33,6 +35,14 @@ public class Procedure extends ProcedureBase {
 
 	public Procedure(String name, Ident ident) {
 		super(name, ident);
+	}
+
+	public String getPackageContainedIn() {
+		return packageContainedIn;
+	}
+	
+	public void setPackageContainedIn(String packageContainedIn) {
+		this.packageContainedIn = packageContainedIn;
 	}
 
 	/** Add a parameter to the computation. */

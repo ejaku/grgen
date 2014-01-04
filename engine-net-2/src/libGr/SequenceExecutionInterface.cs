@@ -22,15 +22,18 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
         /// <param name="outParameters">The names of the graph elements of the containing action yielded to.</param>
         /// <param name="outParameterTypes">The types of the graph elements of the containing action yielded to.</param>
+        /// <param name="package">null if this is a global embedded sequence, otherwise the package the embedded sequence is contained in.</param>
         /// <param name="xgrs">The XGRS string.</param>
         /// <param name="lineNr">The line number the sequence appears on in the source.</param>
         public EmbeddedSequenceInfo(String[] parameters, GrGenType[] parameterTypes,
-            String[] outParameters, GrGenType[] outParameterTypes, String xgrs, int lineNr)
+            String[] outParameters, GrGenType[] outParameterTypes, 
+            String package, String xgrs, int lineNr)
         {
             Parameters = parameters;
             ParameterTypes = parameterTypes;
             OutParameters = outParameters;
             OutParameterTypes = outParameterTypes;
+            Package = package;
             XGRS = xgrs;
             LineNr = lineNr;
         }
@@ -60,6 +63,11 @@ namespace de.unika.ipd.grGen.libGr
         public GrGenType[] OutParameterTypes;
 
         /// <summary>
+        /// null if this is a global embedded sequence, otherwise the package the embedded sequence is contained in.
+        /// </summary>
+        public string Package;
+
+        /// <summary>
         /// The XGRS string.
         /// </summary>
         public String XGRS;
@@ -83,20 +91,31 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="outParameters">The names of the graph elements returned to the calling action.</param>
         /// <param name="outParameterTypes">The types of the graph elements returned to the calling action.</param>
         /// <param name="name">The name the sequence was defined with.</param>
+        /// <param name="package">null if this is a global sequence, otherwise the package the sequence is contained in.</param>
+        /// <param name="packagePrefixedName">The name of the type in case of a global type,
+        /// the name of the type prefixed by the name of the package otherwise.</param>
         /// <param name="xgrs">The XGRS string.</param>
         /// <param name="lineNr">The line number the sequence appears on in the source.</param>
         public DefinedSequenceInfo(String[] parameters, GrGenType[] parameterTypes,
             String[] outParameters, GrGenType[] outParameterTypes,
-            String name, String xgrs, int lineNr)
-            : base(parameters, parameterTypes, outParameters, outParameterTypes, xgrs, lineNr)
+            String name, String package, String packagePrefixedName,
+            String xgrs, int lineNr)
+            : base(parameters, parameterTypes, outParameters, outParameterTypes, package, xgrs, lineNr)
         {
             Name = name;
+            PackagePrefixedName = packagePrefixedName;
         }
 
         /// <summary>
         /// The name the sequence was defined with
         /// </summary>
         public string Name;
+
+        /// <summary>
+        /// The name of the type in case of a global type,
+        /// the name of the type prefixed by the name of the package otherwise.
+        /// </summary>
+        public string PackagePrefixedName;
     }
 
     /// <summary>
@@ -116,7 +135,7 @@ namespace de.unika.ipd.grGen.libGr
         public ExternalDefinedSequenceInfo(String[] parameters, GrGenType[] parameterTypes,
             String[] outParameters, GrGenType[] outParameterTypes,
             String name, int lineNr)
-            : base(parameters, parameterTypes, outParameters, outParameterTypes, name, "", lineNr)
+            : base(parameters, parameterTypes, outParameters, outParameterTypes, name, null, name, "", lineNr)
         {
         }
     }

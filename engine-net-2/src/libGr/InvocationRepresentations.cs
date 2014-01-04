@@ -19,9 +19,35 @@ namespace de.unika.ipd.grGen.libGr
     {
         /// <summary>
         /// The name of the rule or sequence or procedure or function.
-        /// Used for generation, where the rule or sequence or procedure or function representation objects do not exist yet.
+        /// Used for compilation, where the rule or sequence or procedure or function representation objects do not exist yet.
         /// </summary>
         public String Name;
+
+        /// <summary>
+        /// null if this is a call of a global rule/sequence/procedure/function, otherwise the package the call target is contained in.
+        /// Used for compilation, where the rule or sequence or procedure or function representation objects do not exist yet.
+        /// </summary>
+        public String Package;
+
+        /// <summary>
+        /// The name of the rule or sequence or procedure or function, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
+        /// Used for compilation, where the rule or sequence or procedure or function representation objects do not exist yet.
+        /// </summary>
+        public String PackagePrefixedName;
+
+        /// <summary>
+        /// null if this is a call of a global rule/sequence/procedure/function, otherwise the package the call target is contained in.
+        /// May be even null for a call of a package target, if done from a context where the package is set.
+        /// Used for compilation, where the rule or sequence or procedure or function representation objects do not exist yet.
+        /// </summary>
+        public String PrePackage;
+
+        /// <summary>
+        /// The package this invocation is contained in (the calling source, not the rule/sequence/procedure/function call target).
+        /// Needed to resolve names from the local package accessed without package prefix.
+        /// Used for compilation, where the rule or sequence or procedure or function representation objects do not exist yet.
+        /// </summary>
+        public String PrePackageContext;
 
         /// <summary>
         /// An array of expressions used to compute the input arguments.
@@ -129,7 +155,13 @@ namespace de.unika.ipd.grGen.libGr
             : base(argExprs, arguments, returnVars)
         {
             Action = action;
-            if(action != null) Name = action.Name;
+            if(action != null)
+            {
+                Name = action.Name;
+                PrePackage = action.Package;
+                Package = PrePackage;
+                PackagePrefixedName = Package != null ? Package + "::" + Name : Name;
+            }
             Subgraph = subgraph;
         }
 
@@ -189,7 +221,13 @@ namespace de.unika.ipd.grGen.libGr
             : base(argExprs, arguments, returnVars)
         {
             SequenceDef = sequenceDef;
-            if(sequenceDef != null) Name = sequenceDef.SequenceName;
+            if(sequenceDef != null)
+            {
+                Name = sequenceDef.SequenceName;
+                PrePackage = sequenceDef is SequenceDefinitionCompiled ?  ((SequenceDefinitionCompiled)sequenceDef).SeqInfo.Package : null;
+                Package = PrePackage;
+                PackagePrefixedName = Package != null ? Package + "::" + Name : Name;
+            }
             Subgraph = subgraph;
         }
 
@@ -244,7 +282,13 @@ namespace de.unika.ipd.grGen.libGr
             : base(argExprs, arguments, returnVars)
         {
             ProcedureDef = procedureDef;
-            if(procedureDef != null) Name = procedureDef.name;
+            if(procedureDef != null)
+            {
+                Name = procedureDef.name;
+                PrePackage = procedureDef.package;
+                Package = PrePackage;
+                PackagePrefixedName = Package != null ? Package + "::" + Name : Name;
+            }
         }
 
         public ProcedureInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -291,7 +335,13 @@ namespace de.unika.ipd.grGen.libGr
             : base(argExprs, arguments)
         {
             FunctionDef = functionDef;
-            if(functionDef != null) Name = functionDef.name;
+            if(functionDef != null)
+            {
+                Name = functionDef.name;
+                PrePackage = functionDef.package;
+                Package = PrePackage;
+                PackagePrefixedName = Package != null ? Package + "::" + Name : Name;
+            }
         }
 
         public FunctionInvocationParameterBindings Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)

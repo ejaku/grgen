@@ -20,7 +20,9 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * A function.
  */
-public class Function extends FunctionBase {
+public class Function extends FunctionBase implements ContainedInPackage {
+	private String packageContainedIn;
+	
 	/** A list of the parameters */
 	private List<Entity> params = new LinkedList<Entity>();
 
@@ -33,6 +35,14 @@ public class Function extends FunctionBase {
 
 	public Function(String name, Ident ident, Type retType) {
 		super(name, ident, retType);
+	}
+
+	public String getPackageContainedIn() {
+		return packageContainedIn;
+	}
+	
+	public void setPackageContainedIn(String packageContainedIn) {
+		this.packageContainedIn = packageContainedIn;
 	}
 
 	/** Add a parameter to the function. */
