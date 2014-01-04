@@ -22,6 +22,17 @@ namespace de.unika.ipd.grGen.libGr
         String Name { get; }
 
         /// <summary>
+        /// null if this is a global type, otherwise the package the type is contained in.
+        /// </summary>
+        String Package { get; }
+
+        /// <summary>
+        /// The name of the type in case of a global type,
+        /// the name of the type prefixed by the name of the package otherwise.
+        /// </summary>
+        String PackagePrefixedName { get; }
+
+        /// <summary>
         /// The RulePattern object from which this IAction object has been created.
         /// </summary>
         IRulePattern RulePattern { get; }

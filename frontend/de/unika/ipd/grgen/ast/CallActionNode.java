@@ -163,9 +163,16 @@ public class CallActionNode extends BaseNode {
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		addImplicitDefinitions();
-		fixupDefinition(actionUnresolved, actionUnresolved.getScope());
-		if(filterFunctionsUnresolved!=null)
-			fixupDefinition(filterFunctionsUnresolved, filterFunctionsUnresolved.getScope());
+		if(!(actionUnresolved instanceof PackageIdentNode)) {
+			fixupDefinition(actionUnresolved, actionUnresolved.getScope());
+		}
+		if(filterFunctionsUnresolved!=null) {
+			for(IdentNode filterFunctionUnresolved : filterFunctionsUnresolved.getChildren()) {
+				if(!(filterFunctionUnresolved instanceof PackageIdentNode)) {
+					fixupDefinition(filterFunctionUnresolved, filterFunctionUnresolved.getScope());
+				}
+			}
+		}
 		Triple<TestDeclNode, SequenceDeclNode, ExecVarDeclNode> resolved =
 			actionResolver.resolve(actionUnresolved, this);
 		if(resolved!=null) {

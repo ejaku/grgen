@@ -1,0 +1,160 @@
+package Foo
+{
+	pattern P {
+		x:Node -e:Edge-> x;
+		if{ incident(x).size()>1 && func() && func2(); }
+
+		modify {
+			delete(e);
+			x -i:Edge-> y:Node;
+			eval{ add(Node); }
+			eval{ proc(func() && func2()); }
+
+			exec(t\auto ;> r\f ;> { proc(true); { func() && func2() } } ;> s ;> r2\auto);		
+		}
+	}
+	
+	test t {
+		x:Node -e:Edge-> x;
+		if{ incident(x).size()>1 && func(); }
+	} \ auto
+	
+	rule r {
+		x:Node -e:Edge-> x;
+		if{ incident(x).size()>1 && func() && func2(); }
+		p:P();
+
+		modify {
+			delete(e);
+			x -i:Edge-> y:Node;
+			p();
+			eval{ add(Node); }
+			eval{ proc(func() && func2()); }
+
+			exec(t\auto ;> r\f ;> { proc(true); { func() && func2() } } ;> s ;> r2\auto);
+		}
+	}
+	
+	filter f<r> {
+		return;
+	}
+	
+	function func : boolean {
+		return(true);
+	}
+	
+	procedure proc(var b:boolean) {
+		exec(t\auto ;> r\f ;> { proc(true); { func() && func2() } } ;> s);
+		return;
+	}
+	
+	sequence s {
+		t\auto ;> r\f ;> { proc(true); { func() && func2() } } ;> s ;> r2\auto
+	}
+}
+
+package Bar 
+{
+	pattern P {
+		x:Node -e:Edge-> x;
+		if{ incident(x).size()>1 && func() && func2(); }
+
+		modify {
+			delete(e);
+			x -i:Edge-> y:Node;
+			eval{ add(Node); }
+			eval{ proc(func() && func2()); }
+
+			exec(t\auto ;> r\f ;> { proc(true); { func() && func2() } } ;> s ;> r2\auto);
+		}
+	}
+	
+	test t {
+		x:Node -e:Edge-> x;
+		if{ incident(x).size()>1 && func(); }
+	} \ auto
+	
+	rule r {
+		x:Node -e:Edge-> x;
+		if{ incident(x).size()>1 && func() && func2(); }
+		p:P();
+
+		modify {
+			delete(e);
+			x -i:Edge-> y:Node;
+			p();
+			eval{ add(Node); }
+			eval{ proc(func() && func2()); }
+
+			exec(t\auto ;> r\f ;> { proc(true); { func() && func2() } } ;> s ;> r2\auto);
+		}
+	}
+		
+	filter f<r> {
+		return;
+	}
+	
+	function func : boolean {
+		return(true);
+	}
+	
+	procedure proc(var b:boolean) {
+		exec(t\auto ;> r\f ;> { proc(true); { func() && func2() } } ;> s);
+		return;
+	}
+	
+	sequence s {
+		t\auto ;> r\f ;> { proc(true); { func() && func2() } } ;> s ;> r2\auto
+	}
+}
+
+pattern P2 {
+	x:Node -e:Edge-> x;
+	if{ incident(x).size()>1 && Foo::func() && Bar::func(); }
+
+	modify {
+		delete(e);
+		x -i:Edge-> y:Node;
+		eval{ add(Node); }
+		eval{ Foo::proc(Bar::func()); }
+		eval{ Bar::proc(Foo::func()); }
+
+		exec(Foo::t()\auto || Foo::r()\Foo::f ;> Bar::t()\auto || Bar::r()\Bar::f ;> { Foo::proc(true); Bar::proc(true); proc2(true); { Foo::func() || Bar::func() || func2() } } ;> Foo::s ;> Bar::s ;> r2\auto ;> s2);			
+	}
+}
+
+rule r2 {
+	x:Node -e:Edge-> x;
+	if{ incident(x).size()>1 && Foo::func() && Bar::func(); }
+
+	p1:Foo::P();
+	p2:Bar::P();
+	p:P2();
+	
+	modify {
+		delete(e);
+		x -i:Edge-> y:Node;
+		eval{ add(Node); }
+		eval{ Foo::proc(Bar::func()); Bar::proc(Foo::func()); proc2(func2()); }
+		p1();
+		p2();
+		p();
+		
+		exec(Foo::t()\auto || Foo::r()\Foo::f ;> Bar::t()\auto || Bar::r()\Bar::f ;> { Foo::proc(true); Bar::proc(true); proc2(true); { Foo::func() || Bar::func() || func2() } } ;> Foo::s ;> Bar::s ;> r2\auto ;> s2);
+	}
+} \ auto
+
+function func2 : boolean {
+	return(Foo::func() || Bar::func());
+}
+
+procedure proc2(var b:boolean) {
+	Foo::proc(b);
+	Bar::proc(b);
+	exec(Foo::t()\auto || Foo::r()\Foo::f ;> Bar::t()\auto || Bar::r()\Bar::f ;> { Foo::proc(b); Bar::proc(b); proc2(b); { Foo::func() || Bar::func() || func2() } } ;> Foo::s ;> Bar::s ;> r2\auto ;> s2);
+	return;
+}
+
+sequence s2 {
+	Foo::t()\auto || Foo::r()\Foo::f ;> Bar::t()\auto || Bar::r()\Bar::f ;> { Foo::proc(true); Bar::proc(true); proc2(true); { Foo::func() || Bar::func() || func2() } } ;> Foo::s ;> Bar::s ;> r2\auto ;> s2
+}

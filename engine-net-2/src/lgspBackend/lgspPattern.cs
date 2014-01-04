@@ -31,6 +31,17 @@ namespace de.unika.ipd.grGen.lgsp
         public String Name { get { return name; } }
 
         /// <summary>
+        /// null if this is a global pattern graph, otherwise the package the pattern graph is contained in.
+        /// </summary>
+        public String Package { get { return package; } }
+
+        /// <summary>
+        /// The name of the pattern graph in case of a global type,
+        /// the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).
+        /// </summary>
+        public String PackagePrefixedName { get { return packagePrefixedName; } }
+
+        /// <summary>
         /// An array of all pattern nodes.
         /// </summary>        
         public IPatternNode[] Nodes { get { return nodes; } }
@@ -134,6 +145,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// Prefix for name from nesting path
         /// </summary>
         public String pathPrefix;
+
+        /// <summary>
+        /// null if this is a global pattern graph, otherwise the package the pattern graph is contained in.
+        /// </summary>
+        String package;
+
+        /// <summary>
+        /// The name of the pattern graph in case of a global type,
+        /// the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).
+        /// </summary>
+        String packagePrefixedName;
 
         /// <summary>
         /// Tells whether the elements from the parent patterns (but not sibling patterns)
@@ -511,6 +533,8 @@ namespace de.unika.ipd.grGen.lgsp
                 variableToCopy.Add(kvp.Key, kvp.Value);
 
             name = original.name + nameSuffix + "_in_" + inlinedSubpatternEmbedding.PointOfDefinition.pathPrefix + inlinedSubpatternEmbedding.PointOfDefinition.name;
+            package = original.package;
+            packagePrefixedName = original.packagePrefixedName;
             originalSubpatternEmbedding = inlinedSubpatternEmbedding;
             pathPrefix = original.pathPrefix;
             isPatternpathLocked = original.isPatternpathLocked;
@@ -717,6 +741,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="name">The name of the pattern graph.</param>
         /// <param name="pathPrefix">Prefix for name from nesting path.</param>
+        /// <param name="package">null if this is a global pattern graph, otherwise the package the pattern graph is contained in.</param>
+        /// <param name="packagePrefixedName">The name of the pattern graph in case of a global type,
+        /// the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).</param>
         /// <param name="isPatternpathLocked"> Tells whether the elements from the parent patterns (but not sibling patterns)
         /// should be isomorphy locked, i.e. not again matchable, even in negatives/independents,
         /// which are normally hom to all. This allows to match paths without a specified end,
@@ -734,7 +761,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="negativePatternGraphs">An array of negative pattern graphs which make the
         /// search fail if they get matched (NACs - Negative Application Conditions).</param>
         /// <param name="independentPatternGraphs">An array of independent pattern graphs which make the
-        /// search fail if they don't get matched (PACs - Positive sApplication Conditions).</param>
+        /// search fail if they don't get matched (PACs - Positive Application Conditions).</param>
         /// <param name="conditions">The conditions used in this pattern graph or its nested graphs.</param>
         /// <param name="yieldings">The yieldings used in this pattern graph or its nested graphs.</param>
         /// <param name="homomorphicNodes">A two-dimensional array describing which pattern node may
@@ -750,6 +777,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="totallyHomomorphicNodes"> An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.</param>
         /// <param name="totallyHomomorphicEdges"> An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.</param>
         public PatternGraph(String name, String pathPrefix, 
+            String package, String packagePrefixedName,
             bool isPatternpathLocked, bool isIterationBreaking,
             PatternNode[] nodes, PatternEdge[] edges,
             PatternVariable[] variables, PatternGraphEmbedding[] embeddedGraphs,
@@ -762,6 +790,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             this.name = name;
             this.pathPrefix = pathPrefix;
+            this.package = package;
+            this.packagePrefixedName = packagePrefixedName;
             this.isPatternpathLocked = isPatternpathLocked;
             this.isIterationBreaking = isIterationBreaking;
             this.nodes = nodes;
@@ -1248,14 +1278,24 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPFilter : IFilter
     {
-        public LGSPFilter(String name)
+        public LGSPFilter(String name, String package, String packagePrefixedName)
         {
             this.name = name;
+            this.package = package;
+            this.packagePrefixedName = packagePrefixedName;
         }
 
         public String Name { get { return name; } }
 
         public String name;
+
+        public String Package { get { return package; } }
+
+        public String package;
+
+        public String PackagePrefixedName { get { return packagePrefixedName; } }
+
+        public String packagePrefixedName;
     }
 
     /// <summary>
@@ -1263,10 +1303,12 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPFilterAutoGenerated : LGSPFilter, IFilterAutoGenerated
     {
-        public LGSPFilterAutoGenerated(String name, string entity)
-            : base(name)
+        public LGSPFilterAutoGenerated(String name, String package, String packagePrefixedName, string entity)
+            : base(name, package, packagePrefixedName)
         {
             this.entity = entity;
+            this.package = package;
+            this.packagePrefixedName = packagePrefixedName;
         }
 
         public string Entity { get { return entity; } }
@@ -1279,8 +1321,8 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPFilterFunction : LGSPFilter, IFilterFunction
     {
-        public LGSPFilterFunction(String name, bool isExternal, GrGenType[] inputs, String[] inputNames)
-            : base(name)
+        public LGSPFilterFunction(String name, String package, String packagePrefixedName, bool isExternal, GrGenType[] inputs, String[] inputNames)
+            : base(name, package, packagePrefixedName)
         {
             this.isExternal = isExternal;
             this.inputs = inputs;

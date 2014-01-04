@@ -1504,7 +1504,7 @@ public class ModifyGen extends CSharpBase {
 					SubpatternDependentReplacement subRep = (SubpatternDependentReplacement)orderedRep;
 					Rule subRule = subRep.getSubpatternUsage().getSubpatternAction();
 					String subName = formatIdentifiable(subRep);
-					sb.append("\t\t\tPattern_" + formatIdentifiable(subRule)
+					sb.append("\t\t\t" + getPackagePrefixDot(subRule) + "Pattern_" + formatIdentifiable(subRule)
 							+ ".Instance." + formatIdentifiable(subRule) +
 							"_Modify(actionEnv, subpattern_" + subName);
 					NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false, false);
@@ -1652,7 +1652,7 @@ public class ModifyGen extends CSharpBase {
 	private void genExtractSubmatchesFromMatch(StringBuffer sb, String pathPrefix, PatternGraph pattern) {
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
 			String subName = formatIdentifiable(sub);
-			sb.append("\t\t\t"+matchType(sub.getSubpatternAction().getPattern(), true, "")+" subpattern_" + subName
+			sb.append("\t\t\t"+matchType(sub.getSubpatternAction().getPattern(), sub.getSubpatternAction(), true, "")+" subpattern_" + subName
 					+ " = curMatch.@_" + formatIdentifiable(sub) + ";\n");
 		}
 		for(Rule iter : pattern.getIters()) {
@@ -1787,7 +1787,7 @@ public class ModifyGen extends CSharpBase {
 			if(hasAbstractElements(subUsage.getSubpatternAction().getPattern()))
 				continue;
 
-			sb.append("\t\t\tPattern_" + formatIdentifiable(subUsage.getSubpatternAction())
+			sb.append("\t\t\t" + getPackagePrefixDot(subUsage.getSubpatternAction()) + "Pattern_" + formatIdentifiable(subUsage.getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
 					"_Create(actionEnv");
 			for(Expression expr: subUsage.getSubpatternConnections()) {
@@ -1807,7 +1807,7 @@ public class ModifyGen extends CSharpBase {
 	{
 		for(SubpatternUsage subUsage : state.delSubpatternUsages()) {
 			String subName = formatIdentifiable(subUsage);
-			sb.append("\t\t\tPattern_" + formatIdentifiable(subUsage.getSubpatternAction())
+			sb.append("\t\t\t" + getPackagePrefixDot(subUsage.getSubpatternAction()) + "Pattern_" + formatIdentifiable(subUsage.getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
 					"_Delete(actionEnv, subpattern_" + subName + ");\n");
 		}
@@ -3518,7 +3518,7 @@ public class ModifyGen extends CSharpBase {
 		// call the procedure with out variables  
 		if(procedure instanceof ProcedureInvocation) {
 			ProcedureInvocation call = (ProcedureInvocation)procedure;
-			sb.append("\t\t\tProcedures." + call.getProcedure().getIdent().toString() + "(actionEnv, graph");
+			sb.append("\t\t\tGRGEN_ACTIONS." + getPackagePrefixDot(call.getProcedure()) + "Procedures." + call.getProcedure().getIdent().toString() + "(actionEnv, graph");
 		} else {
 			ExternalProcedureInvocation call = (ExternalProcedureInvocation)procedure;
 			sb.append("\t\t\tGRGEN_EXPR.ExternalProcedures." + call.getExternalProc().getIdent().toString() + "(actionEnv, graph");

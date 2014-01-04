@@ -45,7 +45,7 @@ namespace de.unika.ipd.grGen.libGr
                     case "Edge": return "GRGEN_LIBGR.IEdge";
                     case "UEdge": return "GRGEN_LIBGR.IEdge";
                     case "AEdge": return "GRGEN_LIBGR.IEdge";
-                    default: return "GRGEN_MODEL." + GetPackagePrefixDot(type) + "I" + type.Name;
+                    default: return "GRGEN_MODEL." + GetPackagePrefixDot(type.Package) + "I" + type.Name;
                 }
             }
         }
@@ -157,40 +157,31 @@ namespace de.unika.ipd.grGen.libGr
 
             if(typeName.StartsWith("ENUM_"))
             {
-                fullTypeName = fullTypeName.Substring(19); // remove "de.unika.ipd.grGen."
-                fullTypeName = fullTypeName.Substring(fullTypeName.IndexOf('.') + 1); // remove "model_XXX."
-                if(fullTypeName == typeName)
-                    return typeName.Substring(5); // remove "ENUM_"
+                String package;
+                String type = GetNameAndPackageFromFullTypeName(fullTypeName, out package);
+                if(package == null)
+                    return type.Substring(5); // remove "ENUM_"
                 else
-                {
-                    String[] packageAndTypeName = fullTypeName.Split('.');
-                    return packageAndTypeName[0] + "::" + packageAndTypeName[1].Substring(5); // remove "ENUM_"
-                }
+                    return package + "::" + type.Substring(5); // remove "ENUM_"
             }
 
             if(typeName.StartsWith("NodeType_"))
             {
-                fullTypeName = fullTypeName.Substring(19); // remove "de.unika.ipd.grGen."
-                fullTypeName = fullTypeName.Substring(fullTypeName.IndexOf('.') + 1); // remove "model_XXX."
-                if(fullTypeName == typeName)
-                    return typeName.Substring(9); // remove "NodeType_"
+                String package;
+                String type = GetNameAndPackageFromFullTypeName(fullTypeName, out package);
+                if(package == null)
+                    return type.Substring(9); // remove "NodeType_"
                 else
-                {
-                    String[] packageAndTypeName = fullTypeName.Split('.');
-                    return packageAndTypeName[0] + "::" + packageAndTypeName[1].Substring(9); // remove "NodeType_"
-                }
+                    return package + "::" + type.Substring(9); // remove "NodeType_"
             }
             if(typeName.StartsWith("EdgeType_"))
             {
-                fullTypeName = fullTypeName.Substring(19); // remove "de.unika.ipd.grGen."
-                fullTypeName = fullTypeName.Substring(fullTypeName.IndexOf('.') + 1); // remove "model_XXX."
-                if(fullTypeName == typeName)
-                    return typeName.Substring(9); // remove "EdgeType_"
+                String package;
+                String type = GetNameAndPackageFromFullTypeName(fullTypeName, out package);
+                if(package == null)
+                    return type.Substring(9); // remove "EdgeType_"
                 else
-                {
-                    String[] packageAndTypeName = fullTypeName.Split('.');
-                    return packageAndTypeName[0] + "::" + packageAndTypeName[1].Substring(9); // remove "EdgeType_"
-                }
+                    return package + "::" + type.Substring(9); // remove "EdgeType_"
             }
 
             return typeName.Substring(1); // remove I from class name
@@ -649,9 +640,41 @@ namespace de.unika.ipd.grGen.libGr
             return false;
         }
 
-        public static string GetPackagePrefixDot(GrGenType type)
+        public static string GetPackagePrefixDot(String package)
         {
-            return type.Package != null ? type.Package + "." : "";
+            return package != null ? package + "." : "";
+        }
+
+        public static string PackagePrefixedNameUnderscore(String package, String name)
+        {
+            return package != null ? package + "_" + name : name;
+        }
+
+        public static string GetNameAndPackageFromFullTypeName(string fullTypeName, out string package)
+        {
+            fullTypeName = fullTypeName.Substring(19); // remove "de.unika.ipd.grGen."
+            fullTypeName = fullTypeName.Substring(fullTypeName.IndexOf('.') + 1); // remove "model_XXX." or "Action_XXX."
+            String[] packageAndTypeName = fullTypeName.Split('.');
+            if(packageAndTypeName.Length == 1)
+            {
+                package = null;
+                return packageAndTypeName[0];
+            }
+            else
+            {
+                package = packageAndTypeName[0];
+                return packageAndTypeName[1];
+            }
+        }
+
+        public static string GetPackagePrefixedNameFromFullTypeName(string fullTypeName)
+        {
+            String package;
+            String type = GetNameAndPackageFromFullTypeName(fullTypeName, out package);
+            if(package != null)
+                return package + "::" + type;
+            else
+                return type;
         }
     }
 }

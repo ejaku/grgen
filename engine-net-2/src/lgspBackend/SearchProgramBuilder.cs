@@ -49,7 +49,7 @@ namespace de.unika.ipd.grGen.lgsp
             negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
             isNegative = false;
             isNestedInNegative = false;
-            rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, false);
+            rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.PatternGraph.Package, false);
             
             // filter out parameters which are implemented by lookup due to maybe null unfolding
             // and suffix matcher method name by missing parameters which get computed by lookup here
@@ -157,7 +157,7 @@ namespace de.unika.ipd.grGen.lgsp
             negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
             isNegative = false;
             isNestedInNegative = false;
-            rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, true);
+            rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, true);
 
             // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfSubpattern(
@@ -202,7 +202,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             this.alternative = alternative;
-            rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, !(matchingPattern is LGSPRulePattern));
+            rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, !(matchingPattern is LGSPRulePattern));
 
             // build combined list of namesOfPatternGraphsOnPathToEnclosedPatternpath
             // from the namesOfPatternGraphsOnPathToEnclosedPatternpath of the alternative cases
@@ -306,7 +306,7 @@ namespace de.unika.ipd.grGen.lgsp
             negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
             isNegative = false;
             isNestedInNegative = false;
-            rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, !(matchingPattern is LGSPRulePattern));
+            rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, !(matchingPattern is LGSPRulePattern));
 
             // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfIterated(
@@ -2549,7 +2549,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(patternGraph.embeddedGraphsPlusInlined[i].inlined)
                 {
                     LGSPMatchingPattern matchingPattern = patternGraph.embeddedGraphsPlusInlined[i].matchingPatternOfEmbeddedGraph;
-                    string inlinedPatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, true);
+                    string inlinedPatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, true);
                     insertionPoint = insertionPoint.Append(
                         new CreateInlinedSubpatternMatch(
                             inlinedPatternClassName,
@@ -2713,7 +2713,7 @@ namespace de.unika.ipd.grGen.lgsp
                             inlinedMatchObjectName = "match_" + patternGraph.embeddedGraphsPlusInlined[i].originalSubpatternEmbedding.Name;
                         unprefixedName = patternGraph.embeddedGraphsPlusInlined[i].originalEmbedding.name;
                     }
-                    string subpatternContainingType = NamesOfEntities.RulePatternClassName(patternGraph.embeddedGraphsPlusInlined[i].EmbeddedGraph.Name, true);
+                    string subpatternContainingType = NamesOfEntities.RulePatternClassName(patternGraph.embeddedGraphsPlusInlined[i].EmbeddedGraph.Name, patternGraph.embeddedGraphsPlusInlined[i].EmbeddedGraph.Package, true);
                     string subpatternType = NamesOfEntities.MatchClassName(patternGraph.embeddedGraphsPlusInlined[i].EmbeddedGraph.Name);
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(

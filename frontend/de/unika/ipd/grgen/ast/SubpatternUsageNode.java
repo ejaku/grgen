@@ -82,7 +82,9 @@ public class SubpatternUsageNode extends DeclNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		fixupDefinition((IdentNode)typeUnresolved, typeUnresolved.getScope());
+		if(!(typeUnresolved instanceof PackageIdentNode)) {
+			fixupDefinition((IdentNode)typeUnresolved, typeUnresolved.getScope());
+		}
 		type        = actionResolver.resolve(typeUnresolved, this);
 		return type != null;
 	}

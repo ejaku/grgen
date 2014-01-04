@@ -28,21 +28,23 @@ import de.unika.ipd.grgen.util.Util;
 /**
  * A unit with all declared entities
  */
-public class Unit extends IR {
+public class Unit extends IR implements ActionsBearer {
+
+	private final List<Model> models = new LinkedList<Model>();
+
+	private final List<Rule> subpatternRules = new LinkedList<Rule>();
 
 	private final List<Rule> actionRules = new LinkedList<Rule>();
 
 	private final List<FilterFunction> filterFunctions = new LinkedList<FilterFunction>();
 
-	private final List<Rule> subpatternRules = new LinkedList<Rule>();
-
-	private final List<Sequence> sequences = new LinkedList<Sequence>();
-
 	private final List<Function> functions = new LinkedList<Function>();
 
 	private final List<Procedure> procedures = new LinkedList<Procedure>();
 
-	private final List<Model> models = new LinkedList<Model>();
+	private final List<Sequence> sequences = new LinkedList<Sequence>();
+	
+	private final List<PackageActionType> packages = new LinkedList<PackageActionType>();
 
 	private String digest = "";
 
@@ -58,6 +60,26 @@ public class Unit extends IR {
 		super("unit");
 		this.unitName = unitName;
 		this.filename = filename;
+	}
+
+	/** Add a model to the unit. */
+	public void addModel(Model model) {
+		models.add(model);
+		digestValid = false;
+	}
+
+	/** @return The type model of this unit. */
+	public Collection<Model> getModels() {
+		return Collections.unmodifiableCollection(models);
+	}
+
+	/** Add a subpattern-rule to the unit. */
+	public void addSubpatternRule(Rule subpatternRule) {
+		subpatternRules.add(subpatternRule);
+	}
+
+	public Collection<Rule> getSubpatternRules() {
+		return Collections.unmodifiableCollection(subpatternRules);
 	}
 
 	/** Add an action-rule to the unit. */
@@ -76,24 +98,6 @@ public class Unit extends IR {
 
 	public Collection<FilterFunction> getFilterFunctions() {
 		return Collections.unmodifiableCollection(filterFunctions);
-	}
-
-	/** Add a subpattern-rule to the unit. */
-	public void addSubpatternRule(Rule subpatternRule) {
-		subpatternRules.add(subpatternRule);
-	}
-
-	public Collection<Rule> getSubpatternRules() {
-		return Collections.unmodifiableCollection(subpatternRules);
-	}
-
-	/** Add a sequence to the unit. */
-	public void addSequence(Sequence sequence) {
-		sequences.add(sequence);
-	}
-
-	public Collection<Sequence> getSequences() {
-		return Collections.unmodifiableCollection(sequences);
 	}
 	
 	/** Add a function to the unit. */
@@ -114,15 +118,22 @@ public class Unit extends IR {
 		return Collections.unmodifiableCollection(procedures);
 	}
 
-	/** Add a model to the unit. */
-	public void addModel(Model model) {
-		models.add(model);
-		digestValid = false;
+	/** Add a sequence to the unit. */
+	public void addSequence(Sequence sequence) {
+		sequences.add(sequence);
 	}
 
-	/** @return The type model of this unit. */
-	public Collection<Model> getModels() {
-		return Collections.unmodifiableCollection(models);
+	public Collection<Sequence> getSequences() {
+		return Collections.unmodifiableCollection(sequences);
+	}
+
+	/** Add a package to the unit. */
+	public void addPackage(PackageActionType packageActionType) {
+		packages.add(packageActionType);
+	}
+
+	public Collection<PackageActionType> getPackages() {
+		return Collections.unmodifiableCollection(packages);
 	}
 
 	public Model getActionsGraphModel() {
@@ -193,59 +204,73 @@ public class Unit extends IR {
 	}
 
 	public void postPatchIR() {
-		// deferred step that has to be done after IR was built
-		// filling in transitive members for inheritance types
-		// can't be called during IR building because of dependencies (node/edge attributes of subtypes)
 		for(Model model : models) {
-			for(InheritanceType type : model.getNodeTypes()) {
-				type.getAllMembers(); // checks overwriting of attributes
-			}
-			for(InheritanceType type : model.getEdgeTypes()) {
-				type.getAllMembers(); // checks overwriting of attributes
-			}
+			postPatchIR(model);
 			for(PackageType pt : model.getPackages()) {
-				for(InheritanceType type : pt.getNodeTypes()) {
-					type.getAllMembers(); // checks overwriting of attributes
-				}
-				for(InheritanceType type : pt.getEdgeTypes()) {
-					type.getAllMembers(); // checks overwriting of attributes
-				}
+				postPatchIR(pt);
 			}
 		}
 	}
-	
+
+	public static void postPatchIR(NodeEdgeEnumBearer bearer) {
+		// deferred step that has to be done after IR was built
+		// filling in transitive members for inheritance types
+		// can't be called during IR building because of dependencies (node/edge attributes of subtypes)
+		for(InheritanceType type : bearer.getNodeTypes()) {
+			type.getAllMembers(); // checks overwriting of attributes
+		}
+		for(InheritanceType type : bearer.getEdgeTypes()) {
+			type.getAllMembers(); // checks overwriting of attributes
+		}
+	}
+
 	public void checkForEmptyPatternsInIterateds()
+	{
+		checkForEmptyPatternsInIterateds(new ComposedActionsBearer(this));
+	}
+
+	public static void checkForEmptyPatternsInIterateds(ActionsBearer bearer)
 	{
 		// iterateds don't terminate if they match an empty pattern again and again
 		// so we compute maybe empty/epsilon patterns and emit error messages if they occur inside an iterated
-		for(Rule actionRule : actionRules) {
+		for(Rule actionRule : bearer.getActionRules()) {
 			actionRule.pattern.checkForEmptyPatternsInIterateds();
 		}
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternRule.pattern.checkForEmptyPatternsInIterateds();
 		}
 	}
 
 	public void checkForEmptySubpatternRecursions()
 	{
+		checkForEmptySubpatternRecursions(new ComposedActionsBearer(this));
+	}
+
+	public static void checkForEmptySubpatternRecursions(ActionsBearer bearer)
+	{
 		// subpatterns may not terminate if there is a recursion only involving empty terminal graphs
 		// so we compute the subpattern derivation paths containing only empty graphs
 		// and emit error messages if they contain a subpattern calling itself
 		HashSet<PatternGraph> subpatternsAlreadyVisited = new HashSet<PatternGraph>();
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternsAlreadyVisited.add(subpatternRule.pattern);
 			subpatternRule.pattern.checkForEmptySubpatternRecursions(subpatternsAlreadyVisited);
 			subpatternsAlreadyVisited.clear();
 		}
 	}
-	
+
 	public void checkForNeverSucceedingSubpatternRecursions()
+	{
+		checkForNeverSucceedingSubpatternRecursions(new ComposedActionsBearer(this));
+	}
+
+	public static void checkForNeverSucceedingSubpatternRecursions(ActionsBearer bearer)
 	{
 		// matching a subpattern never terminates successfully 
 		// if there is no terminal pattern on any of its alternative branches/bodies
 		// emit an error message in this case (it might be the case more often, this is what we can tell for sure)
 		HashSet<PatternGraph> subpatternsAlreadyVisited = new HashSet<PatternGraph>();
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternsAlreadyVisited.add(subpatternRule.pattern);
 			if(subpatternRule.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisited))
 			{
@@ -257,12 +282,17 @@ public class Unit extends IR {
 
 	public void checkForMultipleRetypes()
 	{
+		checkForMultipleRetypes(new ComposedActionsBearer(this));
+	}
+
+	public static void checkForMultipleRetypes(ActionsBearer bearer)
+	{
 		// an iterated may cause an element matched once to be retyped multiple times
 		// check for this situation (collect elements on descending over nesting structure, 
 		// spark checker on visiting an iterated to check its local and nested content)
 		HashSet<Node> alreadyDefinedNodes = new HashSet<Node>();
 		HashSet<Edge> alreadyDefinedEdges = new HashSet<Edge>();
-		for(Rule actionRule : actionRules) {
+		for(Rule actionRule : bearer.getActionRules()) {
 			if(actionRule.getRight()!=null) {
 				actionRule.pattern.checkForMultipleRetypes(
 						alreadyDefinedNodes, alreadyDefinedEdges, actionRule.getRight());
@@ -270,7 +300,7 @@ public class Unit extends IR {
 				alreadyDefinedEdges.clear();
 			}
 		}
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			if(subpatternRule.getRight()!=null) {
 				subpatternRule.pattern.checkForMultipleRetypes(
 						alreadyDefinedNodes, alreadyDefinedEdges, subpatternRule.getRight());
@@ -282,6 +312,11 @@ public class Unit extends IR {
 
 	public void checkForMultipleDeletesOrRetypes()
 	{
+		checkForMultipleDeletesOrRetypes(new ComposedActionsBearer(this));
+	}
+
+	public static void checkForMultipleDeletesOrRetypes(ActionsBearer bearer)
+	{
 		// an element may be deleted/retyped several times at different nesting levels
 		// or even in a subpattern called and outside of this subpattern
 		// so we check that on all nesting paths there is only one delete/retype occuring
@@ -290,10 +325,10 @@ public class Unit extends IR {
 		// initial step: compute the subpatterns where a subpattern is used
 		HashMap<Rule, HashSet<Rule>> subpatternsDefToUse = 
 			new HashMap<Rule, HashSet<Rule>>();
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternsDefToUse.put(subpatternRule, new HashSet<Rule>());
 		}
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternRule.computeUsageDependencies(subpatternsDefToUse, subpatternRule);
 		}
 		// then: compute which parameters may get deleted/retyped, 
@@ -301,14 +336,14 @@ public class Unit extends IR {
 		// which is processed step by step until it gets empty due to a fixpoint being reached
 		HashMap<Rule, HashMap<Entity, Rule>> subpatternsToParametersToTheirDeletingOrRetypingPattern = 
 			new HashMap<Rule, HashMap<Entity, Rule>>();
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternsToParametersToTheirDeletingOrRetypingPattern.put(subpatternRule, new HashMap<Entity, Rule>());
 			for(Entity param : subpatternRule.getParameters()) {
 				subpatternsToParametersToTheirDeletingOrRetypingPattern.get(subpatternRule).put(param, null);
 			}
 		}
 		ArrayDeque<Rule> subpatternsToProcess = new ArrayDeque<Rule>();
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternsToProcess.add(subpatternRule);
 		}
 		while(subpatternsToProcess.size()>0) {
@@ -324,13 +359,18 @@ public class Unit extends IR {
 			}
 		}
 		// finally: do the computation on the (non-callable) rules
-		for(Rule actionRule : actionRules) {
+		for(Rule actionRule : bearer.getActionRules()) {
 			actionRule.checkForMultipleDeletesOrRetypes(new HashMap<Entity, Rule>(), 
 					subpatternsToParametersToTheirDeletingOrRetypingPattern);
 		}
 	}
 
 	public void transmitExecUsageToRules()
+	{
+		transmitExecUsageToRules(new ComposedActionsBearer(this));
+	}
+
+	public static void transmitExecUsageToRules(ActionsBearer bearer)
 	{
 		// if an alternative, iterated, or subpattern used from a rule employs an exec,
 		// the execs are not executed directly but added to a to-be-executed-queue;
@@ -340,23 +380,23 @@ public class Unit extends IR {
 		
 		// step 1a: compute the subpatterns and rules where a subpattern is used
 		HashMap<Rule, HashSet<Rule>> defToUse = new HashMap<Rule, HashSet<Rule>>();
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			defToUse.put(subpatternRule, new HashSet<Rule>());
 		}
-		for(Rule actionRule : actionRules) {
+		for(Rule actionRule : bearer.getActionRules()) {
 			defToUse.put(actionRule, new HashSet<Rule>());
 		}
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternRule.computeUsageDependencies(defToUse, subpatternRule);
 		}
-		for(Rule actionRule : actionRules) {
+		for(Rule actionRule : bearer.getActionRules()) {
 			actionRule.computeUsageDependencies(defToUse, actionRule);
 		}
 		// step 1b: compute which subpatterns and rules use non-direct execs (alternative,iterated,usage of subpattern with exec)
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternRule.mightThereBeDeferredExecs = subpatternRule.isUsingNonDirectExec(false);
 		}
-		for(Rule actionRule : actionRules) {
+		for(Rule actionRule : bearer.getActionRules()) {
 			actionRule.mightThereBeDeferredExecs = actionRule.isUsingNonDirectExec(true);
 		}
 		// step 2: propagate the exec-using to the subpatterns and rules containing the exec-using-subpatterns
@@ -364,7 +404,7 @@ public class Unit extends IR {
 		boolean changed;
 		do {
 			changed = false;
-			for(Rule subpatternRule : subpatternRules) {
+			for(Rule subpatternRule : bearer.getSubpatternRules()) {
 				if(subpatternRule.mightThereBeDeferredExecs) {
 					for(Rule toBeMarkedAsNonDirectExecUser : defToUse.get(subpatternRule)) {
 						if(!toBeMarkedAsNonDirectExecUser.mightThereBeDeferredExecs) {
@@ -377,25 +417,35 @@ public class Unit extends IR {
 		} while(changed);
 		
 		// final step: remove the information again from the subpatterns to prevent the exec-dequeing code being called from there
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternRule.mightThereBeDeferredExecs = false;
 		}
 	}
-	
-	public void resolvePatternLockedModifier() {
-		for(Rule actionRule : actionRules) {
+
+	public void resolvePatternLockedModifier()
+	{
+		resolvePatternLockedModifier(new ComposedActionsBearer(this));
+	}
+
+	public static void resolvePatternLockedModifier(ActionsBearer bearer) {
+		for(Rule actionRule : bearer.getActionRules()) {
 			actionRule.pattern.resolvePatternLockedModifier();
 		}
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternRule.pattern.resolvePatternLockedModifier();
 		}
 	}
 
-	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern() {
+	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern()
+	{
+		ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(new ComposedActionsBearer(this));
+	}
+
+	public static void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(ActionsBearer bearer) {
 		HashSet<Node> alreadyDefinedNodes = new HashSet<Node>();
 		HashSet<Edge> alreadyDefinedEdges = new HashSet<Edge>();
 		HashSet<Variable> alreadyDefinedVariables = new HashSet<Variable>();
-		for(Rule actionRule : actionRules) {
+		for(Rule actionRule : bearer.getActionRules()) {
 			actionRule.pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodes, alreadyDefinedEdges, alreadyDefinedVariables,
 					actionRule.getRight());
@@ -403,7 +453,7 @@ public class Unit extends IR {
 			alreadyDefinedEdges.clear();
 			alreadyDefinedVariables.clear();
 		}
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternRule.pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodes, alreadyDefinedEdges, alreadyDefinedVariables,
 					subpatternRule.getRight());
@@ -415,19 +465,29 @@ public class Unit extends IR {
 	
 	public void checkForRhsElementsUsedOnLhs()
 	{
-		for(Rule actionRule : actionRules) {
+		checkForRhsElementsUsedOnLhs(new ComposedActionsBearer(this));
+	}
+
+	public static void checkForRhsElementsUsedOnLhs(ActionsBearer bearer)
+	{
+		for(Rule actionRule : bearer.getActionRules()) {
 			actionRule.checkForRhsElementsUsedOnLhs();
 		}
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternRule.checkForRhsElementsUsedOnLhs();
 		}
 	}
 
-	public void setDependencyLevelOfInterElementDependencies() {
-		for(Rule actionRule : actionRules) {
+	public void setDependencyLevelOfInterElementDependencies()
+	{
+		setDependencyLevelOfInterElementDependencies(new ComposedActionsBearer(this));
+	}
+
+	public static void setDependencyLevelOfInterElementDependencies(ActionsBearer bearer) {
+		for(Rule actionRule : bearer.getActionRules()) {
 			actionRule.setDependencyLevelOfInterElementDependencies();
 		}
-		for(Rule subpatternRule : subpatternRules) {
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternRule.setDependencyLevelOfInterElementDependencies();
 		}
 	}

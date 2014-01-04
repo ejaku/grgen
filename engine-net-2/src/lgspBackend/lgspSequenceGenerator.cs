@@ -86,6 +86,8 @@ namespace de.unika.ipd.grGen.lgsp
         String[] functionNames;
         // array containing the output types names of the functions available in the .grg to compile
         String[] functionOutputTypes;
+        // array containing the names of the filter functions available in the .grg to compile
+        String[] filterFunctionNames;
 
         // environment for (type) checking the compiled sequences
         SequenceCheckingEnvironment env;
@@ -163,6 +165,14 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(KeyValuePair<String, String> functionToOutputType in functionsToOutputType)
             {
                 functionOutputTypes[i] = functionToOutputType.Value;
+                ++i;
+            }
+            // extract filter function names from domain of filter functions to input types
+            filterFunctionNames = new String[filterFunctionsToInputTypes.Count];
+            i = 0;
+            foreach(KeyValuePair<String, List<String>> filterFunctionToInputType in filterFunctionsToInputTypes)
+            {
+                filterFunctionNames[i] = filterFunctionToInputType.Key;
                 ++i;
             }
 
@@ -317,12 +327,12 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.RuleCountAllCall:
                 {
 					SequenceRuleCall seqRule = (SequenceRuleCall) seq;
-					String ruleName = seqRule.ParamBindings.Name;
+					String ruleName = seqRule.ParamBindings.PackagePrefixedName;
 					if(!knownRules.ContainsKey(ruleName))
 					{
                         knownRules.Add(ruleName, null);
-                        source.AppendFront("Action_" + ruleName + " " + "rule_" + ruleName);
-                        source.Append(" = Action_" + ruleName + ".Instance;\n");
+                        source.AppendFront(TypesHelper.GetPackagePrefixDot(seqRule.ParamBindings.Package) + "Action_" + seqRule.ParamBindings.Name + " " + "rule_" + TypesHelper.PackagePrefixedNameUnderscore(seqRule.ParamBindings.Package, seqRule.ParamBindings.Name));
+                        source.Append(" = " + TypesHelper.GetPackagePrefixDot(seqRule.ParamBindings.Package) + "Action_" + seqRule.ParamBindings.Name + ".Instance;\n");
                     }
                     // no handling for the input arguments seqRule.ParamBindings.ArgumentExpressions needed 
                     // because there can only be variable uses
@@ -534,7 +544,7 @@ namespace de.unika.ipd.grGen.lgsp
                 parameters = BuildParametersInDeclarations(paramBindings, out parameterDeclarations);
             else
                 parameters = BuildParameters(paramBindings);
-            String matchingPatternClassName = "Rule_" + paramBindings.Name;
+            String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Rule_" + paramBindings.Name;
             String patternName = paramBindings.Name;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             String matchName = "match_" + seqRule.Id;
@@ -548,7 +558,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
             }
 
-            source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
+            source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name)
                 + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
                 + parameters + ");\n");
             for(int i = 0; i < seqRule.Filters.Count; ++i)
@@ -594,7 +604,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
                 if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
-                source.AppendFront("rule_" + paramBindings.Name + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                 if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
             }
@@ -609,7 +619,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
                 source.AppendFront("if(" + matchName + "!=" + matchesName + ".FirstExact) procEnv.RewritingNextMatch();\n");
                 if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                source.AppendFront("rule_" + paramBindings.Name + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                 if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
                 source.Unindent();
@@ -627,7 +637,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("if(i != 0) procEnv.RewritingNextMatch();\n");
                 source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
                 if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                source.AppendFront("rule_" + paramBindings.Name + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                 if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
                 source.Unindent();
@@ -669,7 +679,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(outParameterDeclarations.Length != 0)
                 source.AppendFront(outParameterDeclarations + "\n");
-            source.AppendFront("if(Sequence_"+paramBindings.Name+".ApplyXGRS_" + paramBindings.Name
+            source.AppendFront("if(" + TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Sequence_" + paramBindings.Name + ".ApplyXGRS_" + paramBindings.Name
                                 + "(procEnv" + parameters + outArguments + ")) {\n");
             source.Indent();
             if(outAssignments.Length != 0)
@@ -1131,13 +1141,13 @@ namespace de.unika.ipd.grGen.lgsp
                     RuleInvocationParameterBindings paramBindings = seqFor.Rule.ParamBindings;
                     String specialStr = seqFor.Rule.Special ? "true" : "false";
                     String parameters = BuildParameters(paramBindings);
-                    String matchingPatternClassName = "Rule_" + paramBindings.Name;
+                    String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Rule_" + paramBindings.Name;
                     String patternName = paramBindings.Name;
                     String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
                     String matchName = "match_" + seqFor.Id;
                     String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
                     String matchesName = "matches_" + seqFor.Id;
-                    source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
+                    source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name)
                         + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
                     for(int i=0; i<seqFor.Rule.Filters.Count; ++i)
                     {
@@ -1398,13 +1408,13 @@ namespace de.unika.ipd.grGen.lgsp
             RuleInvocationParameterBindings paramBindings = seq.Rule.ParamBindings;
             String specialStr = seq.Rule.Special ? "true" : "false";
             String parameters = BuildParameters(paramBindings);
-            String matchingPatternClassName = "Rule_" + paramBindings.Name;
+            String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Rule_" + paramBindings.Name;
             String patternName = paramBindings.Name;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             String matchName = "match_" + seq.Id;
             String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
             String matchesName = "matches_" + seq.Id;
-            source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
+            source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name)
                 + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
             for(int i=0; i<seq.Rule.Filters.Count; ++i)
             {
@@ -1447,7 +1457,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + matchName + ", " + specialStr + ");\n");
             if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
 
-            source.AppendFront("rule_" + paramBindings.Name + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+            source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
             if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
             if(gen.FireEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
@@ -1551,12 +1561,12 @@ namespace de.unika.ipd.grGen.lgsp
                 RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
                 String specialStr = seqRule.Special ? "true" : "false";
                 String parameters = BuildParameters(paramBindings);
-                String matchingPatternClassName = "Rule_" + paramBindings.Name;
+                String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Rule_" + paramBindings.Name;
                 String patternName = paramBindings.Name;
                 String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
                 String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
                 String matchesName = "matches_" + seqRule.Id;
-                source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
+                source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name)
                     + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
                     + parameters + ");\n");
                 for(int j=0; j<seqRule.Filters.Count; ++j)
@@ -1632,7 +1642,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (gen.FireEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                     source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                    source.AppendFront("rule_" + paramBindings.Name + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                    source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                     if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                     if (gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
                     source.AppendFront(firstRewrite + " = false;\n");
@@ -1662,7 +1672,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (gen.FireEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                     source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                    source.AppendFront("rule_" + paramBindings.Name + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                    source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                     if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                     if (gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
                     source.AppendFront(firstRewrite + " = false;\n");
@@ -1698,7 +1708,7 @@ namespace de.unika.ipd.grGen.lgsp
                         if (gen.FireEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                         source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                        source.AppendFront("rule_" + paramBindings.Name + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                        source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                         if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                         if (gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
                         source.AppendFront(firstRewrite + " = false;\n");
@@ -1716,7 +1726,7 @@ namespace de.unika.ipd.grGen.lgsp
                         if (gen.FireEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                         source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                        source.AppendFront("rule_" + paramBindings.Name + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                        source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                         if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                         if (gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
                         source.AppendFront(firstRewrite + " = false;\n");
@@ -1732,15 +1742,43 @@ namespace de.unika.ipd.grGen.lgsp
 
         void EmitFilterCall(SourceBuilder source, FilterCall filterCall, string patternName, string matchesName)
         {
-            if(filterCall.IsContainedIn(rulesToFilters[patternName]))
+            if(filterCall.Name == "keepFirst"
+                || filterCall.Name == "keepFirstFraction"
+                || filterCall.Name == "keepLast"
+                || filterCall.Name == "keepLastFraction")
+            {
+                switch(filterCall.Name)
+                {
+                    case "keepFirst":
+                        source.AppendFrontFormat("{0}.FilterKeepFirst((int)({1}));\n",
+                            matchesName, GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                        break;
+                    case "keepLast":
+                        source.AppendFrontFormat("{0}.FilterKeepLast((int)({1}));\n",
+                            matchesName, GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                        break;
+                    case "keepFirstFraction":
+                        source.AppendFrontFormat("{0}.FilterKeepFirstFraction((double)({1}));\n",
+                            matchesName, GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                        break;
+                    case "keepLastFraction":
+                        source.AppendFrontFormat("{0}.FilterKeepLastFraction((double)({1}));\n",
+                            matchesName, GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                        break;
+                }
+            }
+            else
             {
                 if(filterCall.IsAutoGenerated && filterCall.Name == "auto")
-                    source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}(procEnv, {2});\n", patternName, filterCall.Name, matchesName);
+                    source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchFilters.Filter_{1}_{2}(procEnv, {3});\n",
+                        TypesHelper.GetPackagePrefixDot(filterCall.Package), patternName, filterCall.Name, matchesName);
                 else if(filterCall.IsAutoGenerated)
-                    source.AppendFrontFormat("MatchFilters.Filter_{0}_{1}_{2}(procEnv, {3});\n", patternName, filterCall.Name, filterCall.Entity, matchesName);
+                    source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchFilters.Filter_{1}_{2}_{3}(procEnv, {4});\n",
+                        TypesHelper.GetPackagePrefixDot(filterCall.Package), patternName, filterCall.Name, filterCall.Entity, matchesName);
                 else
                 {
-                    source.AppendFrontFormat("MatchFilters.Filter_{0}(procEnv, {1}", filterCall.Name, matchesName);
+                    source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchFilters.Filter_{1}(procEnv, {2}",
+                        TypesHelper.GetPackagePrefixDot(filterCall.Package), filterCall.Name, matchesName);
                     for(int i = 0; i < filterCall.ArgumentExpressions.Length; ++i)
                     {
                         source.AppendFormat(", ({0})({1})",
@@ -1748,24 +1786,6 @@ namespace de.unika.ipd.grGen.lgsp
                             GetSequenceExpression(filterCall.ArgumentExpressions[i], source));
                     } 
                     source.Append(");\n");
-                }
-            }
-            else // filterCall.IsAutoSupplied
-            {
-                switch(filterCall.Name)
-                {
-                    case "keepFirst":
-                        source.AppendFrontFormat("{0}.FilterKeepFirst((int)({1}));\n", matchesName, GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
-                        break;
-                    case "keepLast":
-                        source.AppendFrontFormat("{0}.FilterKeepLast((int)({1}));\n", matchesName, GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
-                        break;
-                    case "keepFirstFraction":
-                        source.AppendFrontFormat("{0}.FilterKeepFirstFraction((double)({1}));\n", matchesName, GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
-                        break;
-                    case "keepLastFraction":
-                        source.AppendFrontFormat("{0}.FilterKeepLastFraction((double)({1}));\n", matchesName, GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
-                        break;
                 }
             }
         }
@@ -2715,7 +2735,8 @@ namespace de.unika.ipd.grGen.lgsp
                     if(returnParameterDeclarations.Length != 0)
                         source.AppendFront(returnParameterDeclarations + "\n");
 
-                    source.AppendFront("Procedures.");
+                    source.AppendFrontFormat("GRGEN_ACTIONS.{0}Procedures.", 
+                        TypesHelper.GetPackagePrefixDot(seqCall.ParamBindings.Package));
                     source.Append(seqCall.ParamBindings.Name);
                     source.Append("(procEnv, graph");
                     source.Append(BuildParameters(seqCall.ParamBindings));
@@ -3048,14 +3069,14 @@ namespace de.unika.ipd.grGen.lgsp
                 if (paramBindings.ArgumentExpressions[i] != null)
                 {
                     String typeName;
-                    if(rulesToInputTypes.ContainsKey(paramBindings.Name))
-                        typeName = rulesToInputTypes[paramBindings.Name][i];
-                    else if(sequencesToInputTypes.ContainsKey(paramBindings.Name))
-                        typeName = sequencesToInputTypes[paramBindings.Name][i];
-                    else if(proceduresToInputTypes.ContainsKey(paramBindings.Name))
-                        typeName = proceduresToInputTypes[paramBindings.Name][i];
+                    if(rulesToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
+                        typeName = rulesToInputTypes[paramBindings.PackagePrefixedName][i];
+                    else if(sequencesToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
+                        typeName = sequencesToInputTypes[paramBindings.PackagePrefixedName][i];
+                    else if(proceduresToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
+                        typeName = proceduresToInputTypes[paramBindings.PackagePrefixedName][i];
                     else
-                        typeName = functionsToInputTypes[paramBindings.Name][i];
+                        typeName = functionsToInputTypes[paramBindings.PackagePrefixedName][i];
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
                     parameters += ", " + cast + GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
                 }
@@ -3135,10 +3156,10 @@ namespace de.unika.ipd.grGen.lgsp
                 if(paramBindings.ArgumentExpressions[i] != null)
                 {
                     String typeName;
-                    if(rulesToInputTypes.ContainsKey(paramBindings.Name))
-                        typeName = rulesToInputTypes[paramBindings.Name][i];
+                    if(rulesToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
+                        typeName = rulesToInputTypes[paramBindings.PackagePrefixedName][i];
                     else 
-                        typeName = sequencesToInputTypes[paramBindings.Name][i];
+                        typeName = sequencesToInputTypes[paramBindings.PackagePrefixedName][i];
                     String type = TypesHelper.XgrsTypeToCSharpType(typeName, model);
                     String name = "tmpvar_" + tmpVarCtr.ToString();
                     ++tmpVarCtr;
@@ -3159,7 +3180,7 @@ namespace de.unika.ipd.grGen.lgsp
             outParameterDeclarations = "";
             outArguments = "";
             outAssignments = "";
-            for(int i = 0; i < sequencesToOutputTypes[paramBindings.Name].Count; i++)
+            for(int i = 0; i < sequencesToOutputTypes[paramBindings.PackagePrefixedName].Count; i++)
             {
                 String varName;
                 if(paramBindings.ReturnVars.Length != 0)
@@ -3167,7 +3188,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     varName = tmpVarCtr.ToString();
                 ++tmpVarCtr;
-                String typeName = sequencesToOutputTypes[paramBindings.Name][i];
+                String typeName = sequencesToOutputTypes[paramBindings.PackagePrefixedName][i];
                 outParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName
                     + " = " + TypesHelper.DefaultValueString(typeName, model) + ";";
                 outArguments += ", ref tmpvar_" + varName;
@@ -3186,7 +3207,7 @@ namespace de.unika.ipd.grGen.lgsp
             returnParameterDeclarations = "";
             returnArguments = "";
             returnAssignments = "";
-            for(int i = 0; i < rulesToOutputTypes[paramBindings.Name].Count; i++)
+            for(int i = 0; i < rulesToOutputTypes[paramBindings.PackagePrefixedName].Count; i++)
             {
                 String varName;
                 if(paramBindings.ReturnVars.Length != 0)
@@ -3194,7 +3215,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     varName = tmpVarCtr.ToString();
                 ++tmpVarCtr;
-                String typeName = rulesToOutputTypes[paramBindings.Name][i];
+                String typeName = rulesToOutputTypes[paramBindings.PackagePrefixedName][i];
                 returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
                 if(paramBindings.ReturnVars.Length != 0)
@@ -3212,7 +3233,7 @@ namespace de.unika.ipd.grGen.lgsp
             returnParameterDeclarations = "";
             returnArguments = "";
             returnAssignments = "";
-            for(int i = 0; i < proceduresToOutputTypes[paramBindings.Name].Count; i++)
+            for(int i = 0; i < proceduresToOutputTypes[paramBindings.PackagePrefixedName].Count; i++)
             {
                 String varName;
                 if(paramBindings.ReturnVars.Length != 0)
@@ -3220,7 +3241,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     varName = tmpVarCtr.ToString();
                 ++tmpVarCtr;
-                String typeName = proceduresToOutputTypes[paramBindings.Name][i];
+                String typeName = proceduresToOutputTypes[paramBindings.PackagePrefixedName][i];
                 returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
                 if(paramBindings.ReturnVars.Length != 0)
@@ -4158,7 +4179,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionFunctionCall seqFuncCall = (SequenceExpressionFunctionCall)expr;
                     StringBuilder sb = new StringBuilder();
-                    sb.Append("Functions.");
+                    sb.AppendFormat("GRGEN_ACTIONS.{0}Functions.", TypesHelper.GetPackagePrefixDot(seqFuncCall.ParamBindings.Package));
                     sb.Append(seqFuncCall.ParamBindings.Name);
                     sb.Append("(procEnv, graph");
                     sb.Append(BuildParameters(seqFuncCall.ParamBindings));
@@ -4329,7 +4350,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-		public bool GenerateXGRSCode(string xgrsName, String xgrsStr,
+		public bool GenerateXGRSCode(string xgrsName, String package, String xgrsStr,
             String[] paramNames, GrGenType[] paramTypes,
             String[] defToBeYieldedToNames, GrGenType[] defToBeYieldedToTypes,
             SourceBuilder source, int lineNr)
@@ -4348,9 +4369,9 @@ namespace de.unika.ipd.grGen.lgsp
             try
             {
                 List<string> warnings = new List<string>();
-                seq = SequenceParser.ParseSequence(xgrsStr, 
+                seq = SequenceParser.ParseSequence(xgrsStr, package,
                     ruleNames, sequenceNames, procedureNames, functionNames,
-                    functionOutputTypes, varDecls, model, warnings);
+                    functionOutputTypes, filterFunctionNames, varDecls, model, warnings);
                 foreach(string warning in warnings)
                 {
                     Console.Error.WriteLine("The exec statement \"" + xgrsStr
@@ -4428,9 +4449,9 @@ namespace de.unika.ipd.grGen.lgsp
             try
             {
                 List<string> warnings = new List<string>();
-                seq = SequenceParser.ParseSequence(sequence.XGRS, 
+                seq = SequenceParser.ParseSequence(sequence.XGRS, sequence.Package,
                     ruleNames, sequenceNames, procedureNames, functionNames, 
-                    functionOutputTypes, varDecls, model, warnings);
+                    functionOutputTypes, filterFunctionNames, varDecls, model, warnings);
                 foreach(string warning in warnings)
                 {
                     Console.Error.WriteLine("In the defined sequence " + sequence.Name
@@ -4457,6 +4478,14 @@ namespace de.unika.ipd.grGen.lgsp
 
             // exact sequence definition compiled class
             source.Append("\n");
+
+            if(sequence.Package != null)
+            {
+                source.AppendFrontFormat("namespace {0}\n", sequence.Package);
+                source.AppendFront("{\n");
+                source.Indent();
+            }
+
             source.AppendFront("public class Sequence_" + sequence.Name + " : GRGEN_LIBGR.SequenceDefinitionCompiled\n");
             source.AppendFront("{\n");
             source.Indent();
@@ -4475,6 +4504,12 @@ namespace de.unika.ipd.grGen.lgsp
             // end of exact sequence definition compiled class
             source.Unindent();
             source.AppendFront("}\n");
+
+            if(sequence.Package != null)
+            {
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
 
             return true;
         }
@@ -4701,13 +4736,31 @@ namespace de.unika.ipd.grGen.lgsp
                 IFilterFunction filterFunction = (IFilterFunction)filter;
                 if(!filterFunction.IsExternal)
                     continue;
-                
+
+                if(filter.Package != null)
+                {
+                    source.AppendFrontFormat("namespace {0}\n", filter.Package);
+                    source.AppendFront("{\n");
+                    source.Indent();
+                }
+                source.AppendFront("public partial class MatchFilters\n");
+                source.AppendFront("{\n");
+                source.Indent();
+
                 source.AppendFrontFormat("//public static void Filter_{0}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {1} matches", filter.Name, matchesListType);
                 for(int i = 0; i < filterFunction.Inputs.Length; ++i)
                 {
                     source.AppendFormat(", {0} {1}", TypesHelper.TypeName(filterFunction.Inputs[i]), filterFunction.InputNames[i]);
                 }
                 source.Append(")\n");
+
+                source.Unindent();
+                source.AppendFront("}\n");
+                if(filter.Package != null)
+                {
+                    source.Unindent();
+                    source.AppendFront("}\n");
+                }
             }
         }
 
@@ -4718,6 +4771,17 @@ namespace de.unika.ipd.grGen.lgsp
                 if(f is IFilterAutoGenerated)
                 {
                     IFilterAutoGenerated filter = (IFilterAutoGenerated)f;
+
+                    if(filter.Package != null)
+                    {
+                        source.AppendFrontFormat("namespace {0}\n", filter.Package);
+                        source.AppendFront("{\n");
+                        source.Indent();
+                    }
+                    source.AppendFront("public partial class MatchFilters\n");
+                    source.AppendFront("{\n");
+                    source.Indent();
+
                     if(filter.Name == "auto")
                         GenerateAutomorphyFilter(source, rulePattern);
                     else
@@ -4735,18 +4799,27 @@ namespace de.unika.ipd.grGen.lgsp
                         if(filter.Name == "keepOneForEach")
                             GenerateKeepOneForEachFilter(source, rulePattern, filter.Entity);
                     }
+
+                    source.Unindent();
+                    source.AppendFront("}\n");
+                    if(filter.Package != null)
+                    {
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
                 }
             }
         }
 
         private static void GenerateAutomorphyFilter(SourceBuilder source, LGSPRulePattern rulePattern)
         {
-            String rulePatternClassName = rulePattern.GetType().Name;
+            String rulePatternClassName = TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = "auto";
             
-            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", rulePattern.name, filterName, matchesListType);
+            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", 
+                rulePattern.name, filterName, matchesListType);
             source.AppendFront("{\n");
             source.Indent();
 
@@ -4784,12 +4857,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         private static void GenerateOrderByFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterVariable, bool ascending)
         {
-            String rulePatternClassName = rulePattern.GetType().Name;
+            String rulePatternClassName = TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = ascending ? "orderAscendingBy_" + filterVariable : "orderDescendingBy_" + filterVariable;
 
-            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", rulePattern.name, filterName, matchesListType);
+            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", 
+                rulePattern.name, filterName, matchesListType);
             source.AppendFront("{\n");
             source.Indent();
 
@@ -4820,14 +4894,15 @@ namespace de.unika.ipd.grGen.lgsp
 
         void GenerateGroupByFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterVariable)
         {
-            String rulePatternClassName = rulePattern.GetType().Name;
+            String rulePatternClassName = TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = "groupBy_" + filterVariable;
 
             if(true) // does the type of the variable to group-by support ordering? then order, is more efficient than equality comparisons
             {
-                source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", rulePattern.name, filterName, matchesListType);
+                source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
+                    rulePattern.name, filterName, matchesListType);
                 source.AppendFront("{\n");
                 source.Indent();
 
@@ -4875,12 +4950,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         void GenerateKeepSameFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterVariable, bool sameAsFirst)
         {
-            String rulePatternClassName = rulePattern.GetType().Name;
+            String rulePatternClassName = TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = sameAsFirst ? "keepSameAsFirst_" + filterVariable : "keepSameAsLast_" + filterVariable;
 
-            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", rulePattern.name, filterName, matchesListType);
+            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", 
+                rulePattern.name, filterName, matchesListType);
+
             source.AppendFront("{\n");
             source.Indent();
 
@@ -4921,12 +4998,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         void GenerateKeepOneForEachFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterVariable)
         {
-            String rulePatternClassName = rulePattern.GetType().Name;
+            String rulePatternClassName = TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = "keepOneForEach_" + filterVariable;
 
-            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", rulePattern.name, filterName, matchesListType);
+            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
+                 rulePattern.name, filterName, matchesListType);
             source.AppendFront("{\n");
             source.Indent();
 

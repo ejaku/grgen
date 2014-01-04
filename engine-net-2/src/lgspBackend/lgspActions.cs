@@ -46,6 +46,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// The name of the action (without prefixes)
         /// </summary>
         public abstract string Name { get; }
+
+        /// <summary>
+        /// null if this is a global type, otherwise the package the type is contained in.
+        /// </summary>
+        public string Package { get { return patternGraph.Package; } }
+
+        /// <summary>
+        /// The name of the type in case of a global type,
+        /// the name of the type prefixed by the name of the package otherwise.
+        /// </summary>
+        public string PackagePrefixedName { get { return patternGraph.PackagePrefixedName; } }
     }
 
 

@@ -69,7 +69,9 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 			new DeclarationPairResolver<ProcedureDeclNode, ExternalProcedureDeclNode>(ProcedureDeclNode.class, ExternalProcedureDeclNode.class);
 
 	protected boolean resolveLocal() {
-		fixupDefinition((IdentNode)procedureOrExternalProcedureUnresolved, procedureOrExternalProcedureUnresolved.getScope());
+		if(!(procedureOrExternalProcedureUnresolved instanceof PackageIdentNode)) {
+			fixupDefinition((IdentNode)procedureOrExternalProcedureUnresolved, procedureOrExternalProcedureUnresolved.getScope());
+		}
 		Pair<ProcedureDeclNode, ExternalProcedureDeclNode> resolved = resolver.resolve(procedureOrExternalProcedureUnresolved, this);
 		if(resolved == null) {
 			procedureOrExternalProcedureUnresolved.reportError("Unknown procedure called -- misspelled procedure name? Or function call intended (not possible when assignment target is given as (param,...)=call denoting a procedure call)?");

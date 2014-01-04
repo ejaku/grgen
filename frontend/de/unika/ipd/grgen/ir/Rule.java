@@ -26,12 +26,14 @@ import de.unika.ipd.grgen.ast.BaseNode;
 /**
  * A graph rewrite rule or subrule, with none, one, or arbitrary many (not yet) replacements.
  */
-public class Rule extends MatchingAction {
+public class Rule extends MatchingAction implements ContainedInPackage {
 	/** Names of the children of this node. */
 	private static final String[] childrenNames = {
 		"left", "right", "eval"
 	};
 
+	private String packageContainedIn;
+	
 	/** The right hand side of the rule. */
 	private final PatternGraph right;
 
@@ -91,6 +93,14 @@ public class Rule extends MatchingAction {
 		this.minMatches = minMatches;
 		this.maxMatches = maxMatches;
 		mightThereBeDeferredExecs = false;
+	}
+
+	public String getPackageContainedIn() {
+		return packageContainedIn;
+	}
+	
+	public void setPackageContainedIn(String packageContainedIn) {
+		this.packageContainedIn = packageContainedIn;
 	}
 
 	/** @return A collection containing all eval assignments of this rule. */
@@ -168,7 +178,8 @@ public class Rule extends MatchingAction {
 	public void computeUsageDependencies(HashMap<Rule, HashSet<Rule>> subpatternsDefToUse, Rule subpattern)
 	{
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
-			subpatternsDefToUse.get(sub.subpatternAction).add(subpattern);
+			HashSet<Rule> uses = subpatternsDefToUse.get(sub.subpatternAction);
+			uses.add(subpattern);
 		}
 
 		for(Alternative alternative : pattern.getAlts()) {

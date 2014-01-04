@@ -96,20 +96,26 @@ public class ModelGen extends CSharpBase {
 			++typeID;
 		}
 
-		System.out.println("    generating packages...");
-		genPackages(allNodeTypes, allEdgeTypes);
-		
-		System.out.println("    generating enums...");
-		sb.append("\n");
-		genEnums(model);
+		for(PackageType pt : model.getPackages()) {
+			System.out.println("    generating package " + pt.getIdent() + "...");
+	
+			sb.append("\n");
+			sb.append("\t//-----------------------------------------------------------\n");
+			sb.append("\tnamespace ");
+			sb.append(formatIdentifiable(pt));
+			sb.append("\n");
+			sb.append("\t//-----------------------------------------------------------\n");
+			sb.append("\t{\n");
+	
+			genBearer(allNodeTypes, allEdgeTypes, pt, pt.getIdent().toString());
+	
+			sb.append("\n");
+			sb.append("\t//-----------------------------------------------------------\n");
+			sb.append("\t}\n");
+			sb.append("\t//-----------------------------------------------------------\n");
+		}
 
-		System.out.println("    generating node types...");
-		sb.append("\n");
-		genTypes(allNodeTypes, model, true);
-
-		System.out.println("    generating edge types...");
-		sb.append("\n");
-		genTypes(allEdgeTypes, model, false);
+		genBearer(allNodeTypes, allEdgeTypes, model, null);
 
 		sb.append("\t//-----------------------------------------------------------\n");
 
@@ -255,43 +261,30 @@ public class ModelGen extends CSharpBase {
 		return stubsb;
 	}
 
-	private void genPackages(Collection<? extends InheritanceType> allNodeTypes,
-			Collection<? extends InheritanceType> allEdgeTypes) {
-		for(PackageType pt : model.getPackages()) {
-			sb.append("\n");
-			sb.append("\t//-----------------------------------------------------------\n");
-			sb.append("\tnamespace ");
-			sb.append(formatIdentifiable(pt));
-			sb.append("\n");
-			sb.append("\t//-----------------------------------------------------------\n");
-			sb.append("\t{\n");
-			
-			System.out.println("    generating enums...");
-			sb.append("\n");
-			genEnums(pt);
+	private void genBearer(Collection<? extends InheritanceType> allNodeTypes,
+			Collection<? extends InheritanceType> allEdgeTypes,
+			NodeEdgeEnumBearer bearer, String packageName) {
+		
+		System.out.println("    generating enums...");
+		sb.append("\n");
+		genEnums(bearer);
 
-			System.out.println("    generating node types...");
-			sb.append("\n");
-			genTypes(allNodeTypes, pt, true);
+		System.out.println("    generating node types...");
+		sb.append("\n");
+		genTypes(allNodeTypes, bearer, packageName, true);
 
-			System.out.println("    generating edge types...");
-			sb.append("\n");
-			genTypes(allEdgeTypes, pt, false);
-
-			sb.append("\n");
-			sb.append("\t//-----------------------------------------------------------\n");
-			sb.append("\t}\n");
-			sb.append("\t//-----------------------------------------------------------\n");
-		}
+		System.out.println("    generating edge types...");
+		sb.append("\n");
+		genTypes(allEdgeTypes, bearer, packageName, false);
 	}
 
-	private void genEnums(NodeEdgeEnumBearer neeb) {
+	private void genEnums(NodeEdgeEnumBearer bearer) {
 		sb.append("\t//\n");
 		sb.append("\t// Enums\n");
 		sb.append("\t//\n");
 		sb.append("\n");
 
-		for(EnumType enumt : neeb.getEnumTypes()) {
+		for(EnumType enumt : bearer.getEnumTypes()) {
 			sb.append("\tpublic enum ENUM_" + formatIdentifiable(enumt) + " { ");
 			for(EnumItem enumi : enumt.getItems()) {
 				sb.append("@" + formatIdentifiable(enumi) + " = " + enumi.getValue().getValue() + ", ");
@@ -301,7 +294,7 @@ public class ModelGen extends CSharpBase {
 
 		sb.append("\tpublic class Enums\n");
 		sb.append("\t{\n");
-		for(EnumType enumt : neeb.getEnumTypes()) {
+		for(EnumType enumt : bearer.getEnumTypes()) {
 			sb.append("\t\tpublic static GRGEN_LIBGR.EnumAttributeType @" + formatIdentifiable(enumt)
 					+ " = new GRGEN_LIBGR.EnumAttributeType(\"" + formatIdentifiable(enumt) + "\", "
 					+ (!getPackagePrefix(enumt).equals("") ? "\""+getPackagePrefix(enumt)+"\"" : "null") + ", "
@@ -321,9 +314,9 @@ public class ModelGen extends CSharpBase {
 	 * Generates code for all given element types.
 	 */
 	private void genTypes(Collection<? extends InheritanceType> allTypes, 
-			NodeEdgeEnumBearer neeb, boolean isNode) {
+			NodeEdgeEnumBearer bearer, String packageName, boolean isNode) {
 		Collection<? extends InheritanceType> curTypes = 
-			isNode ? neeb.getNodeTypes() : neeb.getEdgeTypes();
+			isNode ? bearer.getNodeTypes() : bearer.getEdgeTypes();
 		
 		sb.append("\t//\n");
 		sb.append("\t// " + formatNodeOrEdge(isNode) + " types\n");
@@ -343,14 +336,14 @@ public class ModelGen extends CSharpBase {
 		sb.append(";\n");
 
 		for(InheritanceType type : curTypes) {
-			genType(allTypes, type);
+			genType(allTypes, type, packageName);
 		}
 	}
 
 	/**
 	 * Generates all code for a given type.
 	 */
-	private void genType(Collection<? extends InheritanceType> allTypes, InheritanceType type) {
+	private void genType(Collection<? extends InheritanceType> allTypes, InheritanceType type, String packageName) {
 		sb.append("\n");
 		sb.append("\t// *** " + formatNodeOrEdge(type) + " " + formatIdentifiable(type) + " ***\n");
 		sb.append("\n");
@@ -359,7 +352,7 @@ public class ModelGen extends CSharpBase {
 			genElementInterface(type);
 		if(!type.isAbstract())
 			genElementImplementation(type);
-		genTypeImplementation(allTypes, type);
+		genTypeImplementation(allTypes, type, packageName);
 	}
 
 	//////////////////////////////////
@@ -1459,7 +1452,7 @@ deque_init_loop:
 	/**
 	 * Generates the type implementation
 	 */
-	private void genTypeImplementation(Collection<? extends InheritanceType> allTypes, InheritanceType type) {
+	private void genTypeImplementation(Collection<? extends InheritanceType> allTypes, InheritanceType type, String packageName) {
 		String typeident = formatIdentifiable(type);
 		String typename = formatTypeClassName(type);
 		String typeref = formatTypeClassRef(type);
@@ -1585,13 +1578,13 @@ deque_init_loop:
 		// generate function method info classes
 		Collection<FunctionMethod> allFunctionMethods = type.getAllFunctionMethods();
 		for(FunctionMethod fm : allFunctionMethods) {
-			genFunctionMethodInfo(fm, type);
+			genFunctionMethodInfo(fm, type, packageName);
 		}
 		
 		// generate procedure method info classes
 		Collection<ProcedureMethod> allProcedureMethods = type.getAllProcedureMethods();
 		for(ProcedureMethod pm : allProcedureMethods) {
-			genProcedureMethodInfo(pm, type);
+			genProcedureMethodInfo(pm, type, packageName);
 		}
 	}
 
@@ -2070,7 +2063,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	/**
 	 * Generates the function info for the given function method
 	 */
-	private void genFunctionMethodInfo(FunctionMethod fm, InheritanceType type) {
+	private void genFunctionMethodInfo(FunctionMethod fm, InheritanceType type, String packageName) {
 		String functionMethodName = formatIdentifiable(fm);
 		String className = formatFunctionMethodInfoName(fm, type);
 
@@ -2084,6 +2077,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\tprivate " + className + "()\n");
 		sb.append("\t\t\t\t\t: base(\n");
 		sb.append("\t\t\t\t\t\t\"" + functionMethodName + "\",\n");
+		sb.append("\t\t\t\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ", ");
+		sb.append("\"" + (packageName!=null ? packageName + "::" + functionMethodName : functionMethodName) + "\",\n");
 		sb.append("\t\t\t\t\t\tnew String[] { ");
 		for(Entity inParam : fm.getParameters()) {
 			sb.append("\"" + inParam.getIdent() + "\", ");
@@ -2120,7 +2115,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	/**
 	 * Generates the procedure info for the given procedure method
 	 */
-	private void genProcedureMethodInfo(ProcedureMethod pm, InheritanceType type) {
+	private void genProcedureMethodInfo(ProcedureMethod pm, InheritanceType type, String packageName) {
 		String procedureMethodName = formatIdentifiable(pm);
 		String className = formatProcedureMethodInfoName(pm, type);
 
@@ -2134,6 +2129,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\tprivate " + className + "()\n");
 		sb.append("\t\t\t\t\t: base(\n");
 		sb.append("\t\t\t\t\t\t\"" + procedureMethodName + "\",\n");
+		sb.append("\t\t\t\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ", ");
+		sb.append("\"" + (packageName!=null ? packageName + "::" + procedureMethodName : procedureMethodName) + "\",\n");
 		sb.append("\t\t\t\t\t\tnew String[] { ");
 		for(Entity inParam : pm.getParameters()) {
 			sb.append("\"" + inParam.getIdent() + "\", ");

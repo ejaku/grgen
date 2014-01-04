@@ -91,6 +91,17 @@ namespace de.unika.ipd.grGen.libGr
         String Name { get; }
 
         /// <summary>
+        /// null if this is a global pattern graph, otherwise the package the pattern graph is contained in.
+        /// </summary>
+        String Package { get; }
+
+        /// <summary>
+        /// The name of the pattern graph in case of a global type,
+        /// the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).
+        /// </summary>
+        String PackagePrefixedName { get; }
+
+        /// <summary>
         /// An array of all pattern nodes.
         /// </summary>
         IPatternNode[] Nodes { get; }
@@ -290,8 +301,19 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public interface IFilter
     {
-        // the name of the filter (plain name in case of auto-generated filter)
+        // The name of the filter (plain name in case of auto-generated filter)
         String Name { get; }
+
+        /// <summary>
+        /// null if this is a global type, otherwise the package the type is contained in.
+        /// </summary>
+        String Package { get; }
+
+        /// <summary>
+        /// The name of the type in case of a global type,
+        /// the name of the type prefixed by the name of the package otherwise.
+        /// </summary>
+        String PackagePrefixedName { get; }
     }
 
     /// <summary>

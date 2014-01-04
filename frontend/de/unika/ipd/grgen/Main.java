@@ -407,7 +407,8 @@ public class Main extends Base implements Sys {
 			root = new UnitNode("NoGRGFileGiven", inputFileNames[0], env.getStdModel(),
 					new CollectNode<ModelNode>(), new CollectNode<IdentNode>(),
 					new CollectNode<IdentNode>(), new CollectNode<IdentNode>(),
-					new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), new CollectNode<IdentNode>());
+					new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), 
+					new CollectNode<IdentNode>(), new CollectNode<IdentNode>());
 		}
 
 		// Now all .gm files

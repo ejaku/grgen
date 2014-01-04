@@ -18,7 +18,9 @@ import java.util.List;
 /**
  * Base type for filter functions (internal and external).
  */
-public abstract class FilterFunction extends Identifiable implements Filter {
+public abstract class FilterFunction extends Identifiable implements Filter, ContainedInPackage {
+	private String packageContainedIn;
+
 	/** A list of the parameters */
 	protected List<Entity> params = new LinkedList<Entity>();
 
@@ -35,7 +37,15 @@ public abstract class FilterFunction extends Identifiable implements Filter {
 	public void setAction(Rule action) {
 		this.action = action;
 	}
+
+	public String getPackageContainedIn() {
+		return packageContainedIn;
+	}
 	
+	public void setPackageContainedIn(String packageContainedIn) {
+		this.packageContainedIn = packageContainedIn;
+	}
+
 	public Rule getAction() {
 		return action;
 	}

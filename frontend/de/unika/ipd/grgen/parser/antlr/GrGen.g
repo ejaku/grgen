@@ -189,12 +189,13 @@ tokens {
 textActions returns [ UnitNode main = null ]
 	@init{
 		CollectNode<ModelNode> modelChilds = new CollectNode<ModelNode>();
+		CollectNode<IdentNode> packages = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> patternChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
-		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> filterChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> functionChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> procedureChilds = new CollectNode<IdentNode>();
-		CollectNode<IdentNode> filterChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
 		if(!Util.isFilenameValidActionName(getFilename())) {
 			reportError(new de.unika.ipd.grgen.parser.Coords(), "the filename "+getFilename()+" can't be used as action name, must be similar to an identifier");
@@ -217,8 +218,10 @@ textActions returns [ UnitNode main = null ]
 	
 	( globalVarDecl )*
 
+	( pack=packageActionDecl { packages.addChild(pack); } )*
+
 	( declsPatternMatchingOrAttributeEvaluationUnits[
-			patternChilds, actionChilds, sequenceChilds, functionChilds, procedureChilds, filterChilds]
+			patternChilds, actionChilds, filterChilds, functionChilds, procedureChilds, sequenceChilds]
 	)? EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
@@ -254,7 +257,8 @@ textActions returns [ UnitNode main = null ]
 			}
 			main = new UnitNode(actionsName, getFilename(), env.getStdModel(), 
 								modelChilds, patternChilds, actionChilds, filterChilds,
-								sequenceChilds, functionChilds, procedureChilds);
+								functionChilds, procedureChilds,
+								sequenceChilds, packages);
 		}
 	;
 
@@ -344,12 +348,35 @@ globalVarDecl
 		SEMI
 	;
 
+packageActionDecl returns [ IdentNode res = env.getDummyIdent() ]
+	@init{
+		CollectNode<IdentNode> patternChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> functionChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> procedureChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> filterChilds = new CollectNode<IdentNode>();
+	}
+	: PACKAGE id=packageIdentDecl LBRACE { env.pushScope(id); }
+		( declsPatternMatchingOrAttributeEvaluationUnits[
+			patternChilds, actionChilds, filterChilds, functionChilds, procedureChilds, sequenceChilds]
+		)?
+	  RBRACE
+	  {
+			PackageActionTypeNode pt = new PackageActionTypeNode(patternChilds, actionChilds, filterChilds,
+				functionChilds, procedureChilds, sequenceChilds);
+			id.setDecl(new TypeDeclNode(id, pt));
+			res = id;
+	  }
+	  { env.popScope(); }
+	;
+	
 declsPatternMatchingOrAttributeEvaluationUnits [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds,
-													CollectNode<IdentNode> sequenceChilds, CollectNode<IdentNode> functionChilds, 
-													CollectNode<IdentNode> procedureChilds, CollectNode<IdentNode> filterChilds ]
+													CollectNode<IdentNode> filterChilds, CollectNode<IdentNode> functionChilds, 
+													CollectNode<IdentNode> procedureChilds, CollectNode<IdentNode> sequenceChilds ]
 	@init{ mod = 0; }
 	: ( mod=patternModifiers declPatternMatchingOrAttributeEvaluationUnit[
-			patternChilds, actionChilds, sequenceChilds, functionChilds, procedureChilds, filterChilds, mod]
+			patternChilds, actionChilds, filterChilds, functionChilds, procedureChilds, sequenceChilds, mod]
 	  )+
 	;
 	
@@ -396,8 +423,8 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 	;
 
 declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, 
-											 CollectNode<IdentNode> sequenceChilds, CollectNode<IdentNode> functionChilds,
-											 CollectNode<IdentNode> procedureChilds, CollectNode<IdentNode> filterChilds,
+											 CollectNode<IdentNode> filterChilds, CollectNode<IdentNode> functionChilds,
+											 CollectNode<IdentNode> procedureChilds, CollectNode<IdentNode> sequenceChilds,
 											 int mod ]
 	@init{
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
@@ -801,13 +828,13 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 			CollectNode<OrderedReplacementsNode> orderedReplacements, int context, PatternGraphNode directlyNestingLHSGraph ]
 	@init{
 		id = env.getDummyIdent();
-		type = env.getNodeRoot();
-		constr = TypeExprNode.getEmpty();
+		IdentNode type = env.getNodeRoot();
+		TypeExprNode constr = TypeExprNode.getEmpty();
 		annots = env.getEmptyAnnotations();
 		boolean hasAnnots = false;
 		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
 		CollectNode<ExprNode> subpatternReplConn = new CollectNode<ExprNode>();
-		curId = env.getDummyIdent();
+		IdentNode curId = env.getDummyIdent();
 		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
 		BaseNode n = null;
 	}
@@ -819,105 +846,133 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 		  curOrderedRepl.addChild(new SubpatternReplNode(id, subpatternReplConn));
 		}
 	| id=entIdentDecl cc=COLON // node or subpattern declaration
-		( // node declaration
-			type=typeIdentUse
-			( constr=typeConstraint )?
-			( 
-				{
-					n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
-				}
-			| LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT
-				{
-					n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
-				}
-			| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
-				{
-					if(mapAccess==null)
-						n = new MatchNodeFromStorageNode(id, type, context, 
-							attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
-					else
-						n = new MatchNodeByStorageAccessNode(id, type, context, 
-							attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
-				}
-			)
-			firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
-		| // node typeof declaration
-			TYPEOF LPAREN type=entIdentUse RPAREN
-			( constr=typeConstraint )?
-			( LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT )?
-			{
-				if(oldid==null) {
-					n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
-				} else {
-					n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
-				}
-			}
-			firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
-		| // node copy declaration
-			COPY LT type=entIdentUse GT 
-			{
-				n = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
-			}
-			firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
-		| // subpattern declaration
-			type=patIdentUse LPAREN arguments[subpatternConn] RPAREN
-			{ subpatterns.addChild(new SubpatternUsageNode(id, type, context, subpatternConn)); }
-		)
+		firstNodeOrSubpatternDeclaration [ id, conn, subpatterns, context, directlyNestingLHSGraph ]
 	| ( annots=annotations { hasAnnots = true; } )?
 		c=COLON // anonymous node or subpattern declaration
-			( // node declaration
-				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
-				type=typeIdentUse
-				( constr=typeConstraint )?
-				(
-					{
-						n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
-					}
-				| LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT
-					{
-						n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
-					}
-				| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
-					{
-						if(mapAccess==null)
-							n = new MatchNodeFromStorageNode(id, type, context, 
-								attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
-						else
-							n = new MatchNodeByStorageAccessNode(id, type, context,
-								attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
-					}
-				)
-				firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
-			| // node typeof declaration
-				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
-				TYPEOF LPAREN type=entIdentUse RPAREN
-				( constr=typeConstraint )?
-				( LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT )?
-				{
-					if(oldid==null) {
-						n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
-					} else {
-						n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
-					}
-				}
-				firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
-			| // node copy declaration
-				COPY LT type=entIdentUse GT 
-				{
-					n = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
-				}
-				firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
-			| // subpattern declaration
-				{ id = env.defineAnonymousEntity("sub", getCoords(c)); }
-				type=patIdentUse LPAREN arguments[subpatternConn] RPAREN
-				{ subpatterns.addChild(new SubpatternUsageNode(id, type, context, subpatternConn)); }
-			)
-			{ if (hasAnnots) { id.setAnnotations(annots); } }
+		anonymousFirstNodeOrSubpatternDeclaration [ c, conn, subpatterns, context, directlyNestingLHSGraph ]
+		{ if (hasAnnots) { id.setAnnotations(annots); } }
 	| d=DOT // anonymous node declaration of type node
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
 		( annots=annotations { id.setAnnotations(annots); } )?
 		{ n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph); }
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+	;
+
+firstNodeOrSubpatternDeclaration [ IdentNode id, CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, 
+			int context, PatternGraphNode directlyNestingLHSGraph ]
+	options { k = 4; }
+	@init{
+		type = env.getNodeRoot();
+		constr = TypeExprNode.getEmpty();
+		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
+		curId = env.getDummyIdent();
+		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
+		BaseNode n = null;
+	}
+
+	: // node declaration
+		type=typeIdentUse
+		( constr=typeConstraint )?
+		( 
+			{
+				n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
+			}
+		| LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT
+			{
+				n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
+			}
+		| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
+			{
+				if(mapAccess==null)
+					n = new MatchNodeFromStorageNode(id, type, context, 
+						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
+				else
+					n = new MatchNodeByStorageAccessNode(id, type, context, 
+						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+			}
+		)
+		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+	| // node typeof declaration
+		TYPEOF LPAREN type=entIdentUse RPAREN
+		( constr=typeConstraint )?
+		( LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT )?
+		{
+			if(oldid==null) {
+				n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
+			} else {
+				n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
+			}
+		}
+		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+	| // node copy declaration
+		COPY LT type=entIdentUse GT 
+		{
+			n = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
+		}
+		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+	| // subpattern declaration
+		type=patIdentUse LPAREN arguments[subpatternConn] RPAREN
+		{ subpatterns.addChild(new SubpatternUsageNode(id, type, context, subpatternConn)); }
+	;
+
+anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, 
+			int context, PatternGraphNode directlyNestingLHSGraph ] returns [ IdentNode id = env.getDummyIdent() ]
+	options { k = 4; }
+	@init{
+		type = env.getNodeRoot();
+		constr = TypeExprNode.getEmpty();
+		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
+		curId = env.getDummyIdent();
+		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
+		BaseNode n = null;
+	}
+
+	:  // node declaration
+		{ id = env.defineAnonymousEntity("node", getCoords(c)); }
+		type=typeIdentUse
+		( constr=typeConstraint )?
+		(
+			{
+				n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
+			}
+		| LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT
+			{
+				n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
+			}
+		| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
+			{
+				if(mapAccess==null)
+					n = new MatchNodeFromStorageNode(id, type, context, 
+						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
+				else
+					n = new MatchNodeByStorageAccessNode(id, type, context,
+						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+			}
+		)
+		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+	| // node typeof declaration
+		{ id = env.defineAnonymousEntity("node", getCoords(c)); }
+		TYPEOF LPAREN type=entIdentUse RPAREN
+		( constr=typeConstraint )?
+		( LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT )?
+		{
+			if(oldid==null) {
+				n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
+			} else {
+				n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
+			}
+		}
+		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+	| // node copy declaration
+		COPY LT type=entIdentUse GT 
+		{
+			n = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
+		}
+		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+	| // subpattern declaration
+		{ id = env.defineAnonymousEntity("sub", getCoords(c)); }
+		type=patIdentUse LPAREN arguments[subpatternConn] RPAREN
+		{ subpatterns.addChild(new SubpatternUsageNode(id, type, context, subpatternConn)); }
 	;
 
 defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
@@ -2067,12 +2122,17 @@ procedureCall[ExecNode xg]
 	}
 	// built-in procedure or user defined procedure, backend has to decide whether the call is valid
 	: ( LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");} )?
-		(i=IDENT | i=EMIT) LPAREN { xg.append(i.getText()); xg.append("("); } functionCallParameters[xg] RPAREN { xg.append(")"); }
+		( p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); } )?
+		( i=IDENT | i=EMIT ) LPAREN { xg.append(i.getText()); xg.append("("); } functionCallParameters[xg] RPAREN { xg.append(")"); }
 	;
 
 functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	@init{
+		boolean inPackage = false;
+	}
 	// built-in function or user defined function, backend has to decide whether the call is valid
-	: (i=IDENT | i=COPY) LPAREN { xg.append(i.getText()); xg.append("("); } params=functionCallParameters[xg] RPAREN { xg.append(")"); }
+	: ( p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); } )?
+	  ( i=IDENT | i=COPY ) LPAREN { xg.append(i.getText()); xg.append("("); } params=functionCallParameters[xg] RPAREN { xg.append(")"); }
 		{
 			if( (i.getText().equals("min") || i.getText().equals("max")) && params.getChildren().size()==2
 				|| (i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")) && params.getChildren().size()==1
@@ -2101,7 +2161,10 @@ functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 				res = new FunctionInvocationExprNode(funcIdent, params, env);
 			} else {
-				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+				IdentNode funcIdent = inPackage ? 
+					new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
+						env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)))
+					: new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 				res = new FunctionOrExternalFunctionInvocationExprNode(funcIdent, params);
 			}
 		}
@@ -2234,11 +2297,13 @@ callRule[ExecNode xg, CollectNode<BaseNode> returns]
 	;
 
 callRuleFilter[ExecNode xg, CollectNode<IdentNode> filters]
-options { k = 3; }
+options { k = 5; }
 	@init{
+		boolean inPackage = false;
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
 	}
-	: BACKSLASH { xg.append("\\"); } (filterId=IDENT | filterId=AUTO) { xg.append(filterId.getText()); } 
+	: BACKSLASH { xg.append("\\"); } (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); inPackage = true; })? 
+		(filterId=IDENT | filterId=AUTO) { xg.append(filterId.getText()); } 
 		(LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
 			{
 				if(filterId.getText().equals("keepFirst") || filterId.getText().equals("keepLast")
@@ -2254,17 +2319,21 @@ options { k = 3; }
 				}
 				else
 				{
-					//TODO: remove IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
-					filters.addChild(new IdentNode(env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId))));
+					filters.addChild(inPackage ? 
+						new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
+							env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId))) :
+						new IdentNode(env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)))
+						);
 				}
 			}
-	| BACKSLASH filterBase=IDENT LT filterVariable=IDENT GT 
+	| BACKSLASH { xg.append("\\"); } (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })?
+		filterBase=IDENT LT filterVariable=IDENT GT 
 		{
 			if(!filterBase.getText().equals("orderAscendingBy") && !filterBase.getText().equals("orderDescendingBy") && !filterBase.getText().equals("groupBy")
 				&& !filterBase.getText().equals("keepSameAsFirst") && !filterBase.getText().equals("keepSameAsLast") && !filterBase.getText().equals("keepOneForEach"))
 					reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBase.getText() + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
 			else
-					xg.append("\\"); xg.append(filterBase.getText() + "<" + filterVariable.getText() + "> ");
+					xg.append(filterBase.getText() + "<" + filterVariable.getText() + "> ");
 		}
 	;
 
@@ -3168,8 +3237,12 @@ entIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	;
 
 actionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+options { k = 3; }
 	: i=IDENT
-	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
+		{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
+	| p=IDENT DOUBLECOLON i=IDENT 
+		{ if(i!=null) res = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
+				env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
 	;
 
 altIdentUse returns [ IdentNode res = env.getDummyIdent() ]
@@ -3193,8 +3266,12 @@ idptIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	;
 
 patIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+options { k = 3; }
 	: i=IDENT 
-	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.PATTERNS, i.getText(), getCoords(i))); }
+		{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.PATTERNS, i.getText(), getCoords(i))); }
+	| p=IDENT DOUBLECOLON i=IDENT 
+		{ if(i!=null) res = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
+				env.occurs(ParserEnvironment.PATTERNS, i.getText(), getCoords(i))); }
 	;
 
 funcOrExtFuncIdentUse returns [ IdentNode res = env.getDummyIdent() ]
@@ -3261,7 +3338,7 @@ options { k = 5; }
 		int ccat = CompoundAssignNode.NONE; // changed compound assign type
 		BaseNode tgtChanged = null;
 		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
-		boolean yielded = false, methodCall = false, attributeMethodCall = false;
+		boolean yielded = false, methodCall = false, attributeMethodCall = false, packPrefix = false;
 		CollectNode<ExprNode> returnValues = new CollectNode<ExprNode>();
 		CollectNode<ProjectionExprNode> targetProjs = new CollectNode<ProjectionExprNode>();
 		CollectNode<EvalStatementNode> targets = new CollectNode<EvalStatementNode>();
@@ -3334,7 +3411,7 @@ options { k = 5; }
 	|
 	  (l=LPAREN tgts=targets[getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
 		( (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse d=DOT { methodCall = true; } (member=entIdentUse DOT { attributeMethodCall = true; })? )?
-		(i=IDENT | i=EMIT) params=paramExprs[false] SEMI
+		(pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=EMIT) params=paramExprs[false] SEMI
 			{ 
 				if(!methodCall)
 				{
@@ -3372,7 +3449,13 @@ options { k = 5; }
 					}
 					else
 					{
-						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+						IdentNode procIdent;
+						if(packPrefix) {
+							procIdent = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, pack.getText(), getCoords(pack)), 
+								env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+						} else {
+							procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+						}
 						ProcedureOrExternalProcedureInvocationNode proc = new ProcedureOrExternalProcedureInvocationNode(procIdent, params, context);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
@@ -3864,7 +3947,10 @@ identExprOrEnumItemExpr returns [ ExprNode res = env.initExprNode() ]
 	;
 	
 externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: (i=IDENT | i=COPY) params=paramExprs[inEnumInit]
+	@init{
+		boolean packPrefix = false;
+	}
+	: (pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=COPY) params=paramExprs[inEnumInit]
 		{
 			if( (i.getText().equals("min") || i.getText().equals("max")) && params.getChildren().size()==2
 				|| (i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")) && params.getChildren().size()==1
@@ -3893,7 +3979,13 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 				res = new FunctionInvocationExprNode(funcIdent, params, env);
 			} else {
-				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+				IdentNode funcIdent;
+				if(packPrefix) {
+					funcIdent = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, pack.getText(), getCoords(pack)), 
+						env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+				} else {
+					funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+				}
 				res = new FunctionOrExternalFunctionInvocationExprNode(funcIdent, params);
 			}
 		}

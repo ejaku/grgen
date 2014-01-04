@@ -66,7 +66,9 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 			new DeclarationPairResolver<FunctionDeclNode, ExternalFunctionDeclNode>(FunctionDeclNode.class, ExternalFunctionDeclNode.class);
 
 	protected boolean resolveLocal() {
-		fixupDefinition((IdentNode)functionOrExternalFunctionUnresolved, functionOrExternalFunctionUnresolved.getScope());
+		if(!(functionOrExternalFunctionUnresolved instanceof PackageIdentNode)) {
+			fixupDefinition((IdentNode)functionOrExternalFunctionUnresolved, functionOrExternalFunctionUnresolved.getScope());
+		}
 		Pair<FunctionDeclNode, ExternalFunctionDeclNode> resolved = resolver.resolve(functionOrExternalFunctionUnresolved, this);
 		if(resolved == null) {
 			functionOrExternalFunctionUnresolved.reportError("Unknown function called -- misspelled function name? Or procedure call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
