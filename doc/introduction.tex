@@ -16,7 +16,7 @@ or databases which ease the task of persistent data storage and querying.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{When to Use \GrG}
 You may be interested in using \GrG\ if you have to tackle the task of changing meshes of linked objects, i.e. \emph{graph-like data structures};
-anytime the focus is on the relationship in between your data entities,
+anytime the focus is on the \emph{relationship} in between your data entities,
 and esp. if your algorithms operate upon data entities that stand in multiple relations to each other.
 
 These tasks are traditionally handled by pointer structures and pointer structure navi\-gation-, search-, and replacement routines written by hand
@@ -36,22 +36,22 @@ Altogether, \GrG\ offers the highest combined speed of development and execution
 \section{An Example Graph-Based Representation}\label{sub:examplegraphrep}
 Let's have a look at an example of a graph-based representation \GrG\ is well suited for 
 -- a simplified version of the graph-based compiler intermediate representation \Firm\footnote{\url{www.libfirm.org}} that \textsc{GrGen} was originally developed for.
-Nodes represent basic operations, e.g.\ a \node{Load} fetches a value from an address or an \node{Add} sums two values.
+Nodes represent machine instructions, e.g.\ a \node{Load} fetches a value from an address or an \node{Add} sums two values.
 Edges indicate dependencies between nodes, e.g.\ an \node{Add} requires that its two operands are available before it can be executed.
-Each operation is located within a basic block,
-all nodes within the \node{Block} are executed if the \node{Block} is executed.
+Each instruction is located within a basic block,
+all nodes within the \node{Block} are executed if the \node{Block} is executed (in an order allowed by the dependencies).
 
 \begin{figure}[htbp]
-	\begin{minipage}[c]{0.4\textwidth}
+	\begin{minipage}[c]{0.43\textwidth}
 		\centering
-		\includegraphics[width=1.7in]{fig/MinPlus.png}
+		\includegraphics[width=2.3in]{fig/MinPlusNestedArguments.png}
 	\end{minipage}
 %
-	\begin{minipage}[c]{0.6\textwidth}
+	\begin{minipage}[c]{0.57\textwidth}
 		\centering
-		\includegraphics[width=2.7in]{fig/MinPlusPureGraph.png}
+		\includegraphics[width=3.3in]{fig/MinPlusPlainArguments.png}
 	\end{minipage}
-	\caption{Program graph of a minimum plus one function, with block containment visualized as containment left, and  the plain graph right.}
+	\caption{Program graph of a minimum plus one function, with block containment visualized as containment left, and the plain graph right.}
 	\label{fig:min}
 \end{figure}
 
@@ -64,7 +64,7 @@ all nodes within the \node{Block} are executed if the \node{Block} is executed.
 Program execution begins at the \node{Start} node, which also produces the initial memory state and the given \node{Argument}s.
 The \node{Start} and the \node{Argument}s belong to the special \node{StartBlock}.
 The \node{Cmp} compares the arguments, its result is used by the \node{Cond} to carry out a conditional jump depending on the result of the comparison.
-After following the \node{Jmp} of the then- or the else-\node{Block}, the program execution is continued at \node{Block} \$0.
+After following the \node{Jmp} of the then- or the else-\node{Block}, the program execution is continued at \node{Block} \$D.
 The \node{Phi}\footnote{a helper node from the static single assignment form~\cite{ssa} employed} 
 chooses one of its operands depending on the previously executed block,
 here \node{Argument} $1$ if the \node{Cond} was evaluated to \node{True},
@@ -79,7 +79,7 @@ The key points here are that
 	\item this is a mesh of objects (denoting operations),
 	\item that stand to each other in 3 relations (control flow (red), data flow (brown), and memory flow (blue) \footnote{we use dependencies, i.e. the direction is reversed compared to the flow}), 
 	\item and a major part of the information is encoded in the connection structure (topology),
-	which is explicitly represented with edges.
+	which is explicitly and directly represented with edges.
 \end{enumerate}
 
 You find such representations in other domains than \emph{programming languages} and \emph{compilers}, too.
@@ -87,8 +87,9 @@ The \emph{knowledge} of an agent about the exterior world can be \emph{represent
 \emph{Models} as understood by \emph{model driven engineering} are typically graphs, with \GrG\ you can implement a model transformation between models, or into a lower-level program representation.
 When working in \emph{computational linguistics} you may be interested in modeling an \emph{abstract syntax graph} in \GrG;
 the recursive and iterated patterns that allow to process tree-like data structures declaratively render \GrG\ an excellent match for such tasks.
-But also in \emph{mechanical engineering} or \emph{architecture} where you need to describe the buildup of the modeled system from components, here you can derive and simulate \emph{blueprints}.
-If you need not only to model one system, but want to derive all possible systems, in order to choose from them according to a performance metric, do you find help in the built-in support for a backtracking search through a search space or even the enumeration of a state space with isomorphic state pruning.
+But also in \emph{engineering} or \emph{architecture} where you need to describe the buildup of the modeled system from components, here you can derive system \emph{blueprints} or simulate their behaviour.
+You find help not only in modelling them, but also in deriving all interesting configurations or simulating all interesting execution traces. 
+In form of the built-in support for a backtracking search through a search space or even the enumeration of a state space with isomorphic state pruning, guided by match ordering and filtering.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,8 +107,9 @@ The graph rewrite generator is not the right tool for you if you're searching fo
 Simpler and less powerful languages like story diagrams\cite{storydiagrams} that can be learned quicker and understood more intuitively may be a better match here.
 Neither is it what you need if your graph structured data is to be interactively edited by an end user instead of being automatically transformed by rules (the editor generator DiaGen\cite{diagen} may be of interest in this case).
 
-Each object-oriented program contains a heap of objects pointing to each other that can be understood as a graph like representation, with objects being the nodes and the references being the edges.
-In contrast to object-oriented programming is the topology in graph-oriented programming as offered by \GrG\ not hidden and encapsulated in the objects, but globally open for inspection and modification, open and readily accessible for pattern matching and rewriting.
+Each object-oriented program contains a heap of objects pointing to each other that can be understood as a graph like representation, with objects being the nodes and the references being the (fixed) edges.
+In contrast to object-oriented programming is the topology in graph-oriented programming as offered by \GrG\ not hidden and encapsulated in the objects, but globally open for inspection and modification;
+open and readily accessible for pattern matching and rewriting.
 Prefer the closed heaps if you don't need a global view on the data, they are cheaper and the information hiding cuts dependencies.
 
 %If you don't need to map one complete representation to another complete representation,
@@ -172,7 +174,7 @@ The outcome of these steps is the resulting graph $H'$. In symbolic language: $H
 \label{ov:example}
 
 We'll have a look at a small example.
-Graph elements (nodes and edges) are labeled with and identifier.
+Graph elements (nodes and edges) are labeled with an identifier.
 If a type is necessary then it is stated after a colon.
 We start using a special case to construct our host graph: an \indexed{empty pattern} always produces exactly one\footnote{Because of the uniqueness of the total and totally undefined morphism.} match (independent of the host graph). So we construct an apple by applying
 \[
@@ -378,27 +380,29 @@ rule foldCond {
 }
 \end{grgen}
 
-The rule \texttt{foldCond} is used to replace a \node{Cond}itional jump (\texttt{\$B} in the example) by an unconditional \node{Jmp}, iff it depends just on a \node{Const}ant value (\texttt{\$10}).
-To this end, the \node{cond:Cond} is retyped to a \node{jmp:Jmp},
-and the dependency on the constant value is \texttt{delete}d.
+The rule \texttt{foldCond} is used to replace a conditional jump by an unconditional jump, iff it depends just on a constant value.
+To this end, the \texttt{cond} is retyped to \texttt{Jmp},
+and the dependency on the constant value \texttt{c0} is \texttt{delete}d.
 The syntax \texttt{name:type} declares a node of the given type.
 An edge is declared with the same syntax, just inscribed into an edge \texttt{-->} representation.
-A \texttt{<original>} suffix denotes retyping, specifying the original element to be retyped.
-The pattern matches furtheron the \node{trueBlock} (\texttt{\$2}) and the \node{falseBlock} (\texttt{\$1}) where execution continues.
-In the true case (\texttt{if \{ c0.value == 1; \}}), the \node{falseEdge} to the \node{falseBlock} is deleted and the \node{trueEdge} to the \node{trueBlock} retyped to a normal \node{Controlflow} edge; in the false case, the opposite is carried out.
+An \texttt{<original>} suffix denotes retyping, specifying the original element to be retyped.
+The pattern matches furtheron the blocks where execution continues: \texttt{trueBlock} and \texttt{falseBlock}.
+In the true case (\texttt{if \{ c0.value == 1; \}}), the \texttt{falseEdge} to the \texttt{falseBlock} is deleted and the \texttt{trueEdge} to the \texttt{trueBlock} retyped to a normal \texttt{Controlflow} edge; in the false case, the opposite is carried out.
 
-Blocks that become unreachable (without control flow predecessors) will be deleted in a later step.
-The example displays the effect of another helper rule, removing constants that are not used anymore.
-This is a pretty simple replacement that can be specified without much effort in a traditional programming language, too -- the more complex the patterns, the more do you gain from using \GrG.
+Here the true case applies as you can see from the value \texttt{1} inscribed in the matched constant \node{\$5}.
+The elements from the graph that were bound to the pattern elements are highlighted in light-brown, with their pattern name suffixed in double angles, e.g. the \texttt{cond} was matched to \node{\$7} .
+Blocks that become unreachable (without control flow predecessors) are assumed to get deleted in a later step of the transformation,
+as are duplicate constants.
+The benefits from using \GrG{ }can be already felt from this example, they become really outstanding as the patterns grow in size and complexity.
 
 \begin{figure}[htbp]
 	\centering
-	\subfloat[Before folding the Cond.]{\label{fig:cmpfold}
-		\includegraphics[width=2.0in]{fig/ConstPlusCmpFolded.png}
+	\subfloat[Before folding the Cond, match highlighted.]{\label{fig:cmpfold}
+		\includegraphics[width=2.89in]{fig/MinPlusCondMatched.png}
 	}
 	\qquad
 	\subfloat[After folding the Cond.]{\label{fig:condfold}
-		\includegraphics[width=2.0in]{fig/ConstPlusCondFolded.png}
+		\includegraphics[width=2.7in]{fig/MinPlusCondRewritten.png}
 	}
 	\caption{Situation reached during folding the program graph of the minimum plus one function when applied to constant arguments.}
 	\label{fig:cmpcondfold}

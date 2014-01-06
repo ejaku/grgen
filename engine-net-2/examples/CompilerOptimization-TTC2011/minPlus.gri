@@ -1,0 +1,95 @@
+// example graph from user manual
+
+rule initMinPlus {
+	replace {
+		/* Blocks */
+		startBlock:StartBlock;
+		condBlock:Block;
+		thenBlock:Block;
+		elseBlock:Block;
+		afterBlock:Block;
+		endBlock:EndBlock;
+
+		/* Operations */
+		start:Start -startBlockEdge:Dataflow-> startBlock;
+		arg1:Argument -arg1BlockEdge:Dataflow-> startBlock;
+		arg2:Argument -arg2BlockEdge:Dataflow-> startBlock;
+		one:Const -oneBlockEdge:Dataflow-> startBlock;
+		cmp:Cmp -cmpBlockEdge:Dataflow-> condBlock;
+		cond:Cond -condBlockEdge:Dataflow-> condBlock;
+		thenJmp:Jmp -thenJmpBlockEdge:Dataflow-> thenBlock;
+		elseJmp:Jmp -elseJmpBlockEdge:Dataflow-> elseBlock;
+		phi:Phi -phiBlockEdge:Dataflow-> afterBlock;
+		add:Add -addBlockEdge:Dataflow-> afterBlock;
+		ret:Return -retBlockEdge:Dataflow-> afterBlock;
+		end:End -endBlockEdge:Dataflow-> endBlock;
+
+		/* Memory dependencies */
+		ret -retStart:Memory-> start;
+
+		/* Data dependencies */
+		ret -retAdd:Dataflow-> add;
+		add -addPhi:Dataflow-> phi;
+		add -addConst:Dataflow-> one;
+		phi -phiArg1:Dataflow-> arg1;
+		phi -phiArg2:Dataflow-> arg2;
+		cond -condCmp:Dataflow-> cmp;
+		cmp -cmpArg1:Dataflow-> arg1;
+		cmp -cmpArg2:Dataflow-> arg2;
+		arg1 -arg1Start:Dataflow-> start;
+		arg2 -arg2Start:Dataflow-> start;
+
+		/* Control dependencies */
+		endBlock -endBlockRet:Controlflow-> ret;
+		afterBlock -afterBlockThenJmp:Controlflow-> thenJmp;
+		afterBlock -afterBlockElseJmp:Controlflow-> elseJmp;
+		thenBlock -thenBlockCond:True-> cond;
+		elseBlock -elseBlockCond:False-> cond;
+		condBlock -condBlockStart:Controlflow-> start;
+
+		eval {
+			arg1.position = 1;
+			arg2.position = 2;
+			
+			one.value = 1;
+
+			cmp.relation = Relation::LESS;
+
+			startBlockEdge.position = -1;
+			arg1BlockEdge.position = -1;
+			arg2BlockEdge.position = -1;
+			oneBlockEdge.position = -1;
+			cmpBlockEdge.position = -1;
+			condBlockEdge.position = -1;
+			thenJmpBlockEdge.position = -1;
+			elseJmpBlockEdge.position = -1;
+			phiBlockEdge.position = -1;
+			addBlockEdge.position = -1;
+			retBlockEdge.position = -1;
+			endBlockEdge.position = -1;
+
+			/* Memory dependencies */
+			retStart.position = 0;
+
+			/* Data dependencies */
+			retAdd.position = 1;
+			addPhi.position = 0;
+			addConst.position = 1;
+			phiArg1.position = 1;
+			phiArg2.position = 0;
+			condCmp.position = 0;
+			cmpArg1.position = 0;
+			cmpArg2.position = 1;
+			arg1Start.position = 0;
+			arg2Start.position = 0;
+
+			/* Control dependencies */
+			endBlockRet.position = 0;
+			afterBlockThenJmp.position = 1;
+			afterBlockElseJmp.position = 0;
+			thenBlockCond.position = 0;
+			elseBlockCond.position = 0;
+			condBlockStart.position = 0;
+		}
+	}
+}
