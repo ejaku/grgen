@@ -286,7 +286,7 @@ And some illegal graphlets:\\
 \label{ruledecls}
 The structure of a \indexed{rule set} file is as follows:
 \begin{rail}
-  RuleSet: FileHeader ((TestDeclaration | RuleDeclaration | SubpatternDeclaration | RewriteSequenceDefinition | FunctionDefinition | ProcedureDefinition | FilterFunctionDefinition)+) ;
+  RuleSet: FileHeader ((ActionDeclaration | SubpatternDeclaration | RewriteSequenceDefinition | FunctionDefinition | ProcedureDefinition | FilterFunctionDefinition | PackageDefinitionAction)+) ;
   FileHeader: ((ModelUsage)*()) ((RulesInclusion)*()) ((GlobalVarDecl)*());
   ModelUsage: '\#using' Filename;
   RulesInclusion: '\#include' Filename;
@@ -294,7 +294,7 @@ The structure of a \indexed{rule set} file is as follows:
 \end{rail}\ixkeyw{using}\ixkeyw{include}\ixnterm{RuleSet}\ixnterm{FileHeader}\ixnterm{ModelUsage}\ixnterm{RulesInclusion}\ixnterm{GlobalVarDecl}
 
 A rule set built on the \indexed{graph model}s you are \texttt{using}
-consists primarily of rewrite rules and tests,
+consists primarily of actions, i.e. rewrite rules and tests,
 plus further constructs that will be introduced in later chapters.
 %(subpatterns will be introduced in \ref{sec:subpattern}, rewrite sequence definitions in \ref{sec:sequencedefinition}, functions and procedures in \ref{}, and post-match filters in \ref{}).
 Additionally you may \texttt{include} further rule language files.
@@ -303,15 +303,16 @@ Additionally you may \texttt{include} further rule language files.
 Furthermore, you may declare \indexed{graph global variable}s; this is a pure declaration that they will exist with the given type during execution. It renders them accessible in the rules (esp. the attribute condition and attribute evaluation), but you must define and assign them  before rule execution outside of the rules. They are made available to allow for an easy parameterization of entire transformations, defining the environment; other uses are discouraged. See \ref{cha:xgrs} for more on this.
 (Use \texttt{ref} for container types and \texttt{var} for the other (non-node or edge) types.)
 
-In case of multiple graph models, \GrG\ uses the union of these models. In this case beware of conflicting declarations.
-There is no built-in name conflict resolution mechanism for models like packages or namespaces.
-If necessary you must use prefixes as you might do in C.
-\footnote{We doubt that graph rewriting kernels will be combined from the work of \emph{many} programmers or used to built large application suites, so the simple model modularization available as of now should be sufficient or even a better fit for the overwhelming majority of tasks.}
+In case of multiple graph models, \GrG\ uses the union of these models. 
+In case of multiple includes, \GrG\ uses the union of these actions. 
+In this case beware of conflicting declarations.
+You may use packages as a remedy, in the model for conflicting data units, or in the actions for conflicting computation units -- or you may use name prefixes as you would do in C.
 
 \begin{rail}
+  ActionDeclaration: TestDeclaration | RuleDeclaration;
   TestDeclaration: TestModifier 'test' ActionSignature lbrace Pattern rbrace FiltersDecl;
   RuleDeclaration: RuleModifier 'rule' ActionSignature lbrace Pattern Replace rbrace FiltersDecl;
-\end{rail}\ixkeyw{test}\ixkeyw{rule}\ixkeyw{exact}\ixkeyw{induced}\ixkeyw{dpo}\ixkeyw{dangling}\ixkeyw{identification}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}
+\end{rail}\ixkeyw{test}\ixkeyw{rule}\ixkeyw{exact}\ixkeyw{induced}\ixkeyw{dpo}\ixkeyw{dangling}\ixkeyw{identification}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}\ixnterm{ActionDeclaration}
 Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}.
 It consists of a pattern part (see Section~\ref{patternpart}) in conjunction with its rewrite/modify part (see Section~\ref{sec:replacemodify}).
 A \newterm{test} has no rewrite specification.
@@ -350,7 +351,7 @@ This way it is possible to specify \emph{where} a rule should be applied.
 \end{rail}\ixnterm{Parameter}\ixnterm{InputTypeSpecification}\ixkeyw{null}\ixkeyw{var}\ixkeyw{ref}
 
 Within a rule, graph element parameters are treated as graph elements of the pattern - just predefined.
-But in contrast to previous versions it is the task of the user to ensure the elements handed in satisfy the interface, i.e. parameters must not be null and must be of the type specified or a subtype of the type specified.
+It is your task to ensure the elements handed in satisfy the interface, i.e. parameters must not be null and must be of the type specified or a subtype of the type specified (in contrast to some old versions).
 If you need more flexibility and want to call the rule with parameters not fulfilling the interface you can append an input type specification to the relevant parameters, which consists of the type to accept at the action interface, or null, or both, enclosed in left and right angles.
 If the input type specification type is given, but the more specific pattern element type is not satisfied, matching simply fails.
 If null is declared in the input type specification and given at runtime, the element is searched in the host graph.

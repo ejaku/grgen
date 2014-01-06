@@ -1,0 +1,10 @@
+new graph Optimization
+exec initMinPlusConst
+#exec initMinPlus
+
+include FirmVisualization.grsi
+
+# real work done here
+include OptimizationDebug.grsi
+
+quit

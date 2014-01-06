@@ -1,5 +1,5 @@
 \chapter{Advanced Modelling (Object-Oriented and Graph-Oriented Programming)}\indexmain{methods}\indexmain{graph-oriented programming}\indexmain{object-oriented programming}
-\label{chapmodeladvanced}
+\label{cha:modeladvanced}
 
 In addition to the key features of \GrG\ \emph{graph models}\indexmain{graph model} as already described in Chapter~\ref{chapmodellang}, you may specify \emph{methods} in the node or edge classes.
 Methods are functions or procedures that are declared inside class scope.
@@ -16,11 +16,12 @@ Graph-oriented programming can be made scalable to large tasks with hierarchical
   									 | ExternalClassDeclaration
   									 | ExternalFunctionDeclaration
   									 | EmitParseDeclaration
-  									 | CopyCompareDeclaration);
+  									 | CopyCompareDeclaration
+										 | PackageDefinitionModel);
 \end{rail}\ixnterm{AdvancedModelDeclarations}
 
 The \emph{ExternalClassDeclaration} registers an \indexed{external class}, including its subtype hierarchy, excluding any attributes with \GrG~which can subsequently be used in attribute computations with \indexed{external function} calls; the \emph{EmitParseDeclaration} declares that the user defines emit and parse functions for external or object type values, whereas the \emph{CopyCompareDeclaration} declares that the user defines copy and compare functions for external or object type values.
-You find more on them in \ref{chapextensions}, here we will take a closer look on the \emph{FunctionMethodDefinition} and \emph{ProcedureMethodDefinition}.
+You find more on them in \ref{chapextensions}, here we will take a closer look on the \emph{FunctionMethodDefinition} and \emph{ProcedureMethodDefinition}, followed by the \emph{PackageDefinitionModel}.
 %Node/Edge typed attributes are possible.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -226,6 +227,159 @@ rule foo : (int)
 \end{example}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Packages}\label{sec:packages}
+
+Packages allow you to separate a project into namespaces that shield their content from name clashes when getting used (for models) or included (for actions) together.
+They incur some non-negligible notational overhead as every usage of a name from a package outside of that package \emph{must} be prefixed with the package name (in the form \verb#packagename::name#), so we recommend to use them only when needed.
+This holds esp. as we expect that a typical project will be limited to an algorithmic kernel written by a single programmer who has everything under control and can thus easily prevent name clashes.
+
+%-----------------------------------------------------------------------------------------------
+\subsection{Package Definition in the Model}\label{sub:packagemodel} 
+
+\begin{rail}
+  PackageDefinitionModel: 'package' IdentDecl lbrace
+	                   ((ClassDeclaration
+  									 | EnumDeclaration)+)
+										rbrace;
+\end{rail}\ixnterm{PackageDefinitionModel}
+
+A \indexed{package definition} in the model is similar to a model definition as such, just reduced in its content.
+It consists of \emph{ClassDeclaration}s, defining node or edge types, or \emph{EnumDeclaration}s defining enum types.
+The \emph{AdvancedModelDeclarations} allowed in the root model are \emph{not} available inside a package, \emph{neither} can other models be included inside a package with \texttt{using}.
+Package definitions \emph{cannot} be nested.
+
+\begin{rail}
+  PackageUsageModel: Ident '::' Ident;
+\end{rail}\ixnterm{PackageUsageModel}
+
+In every context where a node type, an edge type or an enum type can be referenced,
+by noting down its declared identifier, 
+can also a type from a package be referenced,
+by noting down its package as a prefix.
+The package prefix may be omitted inside the package for other entities from the same package.
+But only for them, outside that package you must always use the package prefixed form for referencing identifiers from the package.
+
+\begin{example}
+Types from a model defined like this:
+	\begin{grgen}
+package Foo {
+	node class N {
+		attr : Lol;
+	}
+	enum Lol {
+		Bla,
+		Blub
+	}
+}
+
+package Bar {
+	node class N {
+		attr : Foo::Lol;
+	}	
+}
+	\end{grgen}
+Can be used like this:
+	\begin{grgen}
+rule r(var inp : Foo::Lol) {
+	x : Foo::N --> y : Bar::N;
+	if{ x.attr==Foo::Lol::Bla; }
+
+	modify {
+		eval{ add(Foo::N); }
+		eval{ y.attr = Foo::Lol::Blub; }
+	}
+}	
+	\end{grgen}
+\end{example}
+	
+%-----------------------------------------------------------------------------------------------
+\subsection{Package Definition in the Actions}\label{sub:packageaction} 
+
+\begin{rail}
+  PackageDefinitionAction: 'package' IdentDecl lbrace ((ActionDeclaration | SubpatternDeclaration | RewriteSequenceDefinition | FunctionDefinition | ProcedureDefinition | FilterFunctionDefinition)+) rbrace;
+\end{rail}\ixnterm{PackageDefinitionAction}
+
+A \indexed{package definition} in the actions is similar to a rule set definition as such, just reduced in its content.
+It consists of \emph{ActionDeclaration}s, defining rules and tests, or \emph{SubpatternDeclaration}s to be used from the actions, or \emph{FilterFunctionDefinition}s, for filtering the matches of the actions.
+It furthermore consists of \emph{FunctionDefinition}s and \emph{ProcedureDefinition}s, or \emph{RewriteSequenceDefinition}s. 
+The file header constructs for using models, including other actions, or declaring global variables are \emph{not} available inside a package.
+\emph{Neither} can package definitions be nested.
+
+\begin{rail}
+  PackageUsageActions: Ident '::' Ident;
+\end{rail}\ixnterm{PackageUsageActions}
+
+In every context where a rule, a test, a subpattern type, a filter function, a function, a procedure, or a sequence can be referenced, by noting down its declared identifier, 
+can also an entity from a package be referenced,
+by noting down its package as a prefix.
+The package prefix may be omitted inside the package for other entities from the same package.
+But only for them, outside that package you must always use the package prefixed form for referencing identifiers from the package.
+
+The packages in the actions are declared with the same syntax as the packages in the model, but are otherwise separate. 
+You cannot extend a model package with an actions package, or vice versa.
+A package with a given name can only be tied once, either in the model or the actions.
+
+\begin{example}
+The example highlights how action packages can be used.
+	\begin{grgen}
+package Foo {
+	pattern P {
+		x:Node -e:Edge-> x;
+
+		modify {
+			delete(e);
+		}
+	}
+	
+	rule r {
+		p:P();
+
+		modify {
+			p();
+			eval { Bar::proc(true); }
+		}
+	}
+	
+	filter f<r> {
+		return;
+	}
+}
+
+package Bar {
+	rule r {
+		x:Node -e:Edge-> x;
+		if{ func(); }
+
+		modify {
+			delete(e);
+			exec(Foo::r\Foo::f);
+		}
+	} \ auto
+		
+	function func : boolean {
+		return(true);
+	}
+	
+	procedure proc(var b:boolean) {
+		return;
+	}	
+}
+
+rule r2 {
+	if{ Bar::func(); }
+	p:Foo::P();
+	
+	modify {
+		p();
+	}
+}
+
+sequence s2 {
+	Foo::r()\Foo::f ;> Bar::r\auto ;> { Bar::proc(Bar::func()); }
+}
+	\end{grgen}
+\end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Nesting}\label{sec:graphnesting}
