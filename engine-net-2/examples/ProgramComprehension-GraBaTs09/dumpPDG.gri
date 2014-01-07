@@ -9,7 +9,7 @@ rule PDG_number_dependencies {
 
 rule PDG_create_first_ordered_controlDependence {
 	n:Node;
-	n -e:org_amma_pdg_ExpressionNode_controlDependenceNodes-> .;
+	n -e:_org_amma_pdg::_ExpressionNode_controlDependenceNodes-> .;
 
 	negative {
 		n -:ordered_controlDependence->;
@@ -19,19 +19,19 @@ rule PDG_create_first_ordered_controlDependence {
 		-f:ordered_controlDependence<e>->;
 
 		eval {
-			f.index = 0;
+			f.order = 0;
 		}
 	}
 }
 
 rule PDG_add_ordered_controlDependence {
 	n:Node;
-	n -e:org_amma_pdg_ExpressionNode_controlDependenceNodes-> .;
+	n -e:_org_amma_pdg::_ExpressionNode_controlDependenceNodes-> .;
 	n -f:ordered_controlDependence->;
 
 
 	negative {
-		if { f.index < g.index; }
+		if { f.order < g.order; }
 		n -g:ordered_controlDependence->;
 	}
 
@@ -39,19 +39,19 @@ rule PDG_add_ordered_controlDependence {
 		-h:ordered_controlDependence<e>->;
 
 		eval {
-			h.index = f.index + 1;
+			h.order = f.order + 1;
 		}
 	}
 }
 
 rule PDG_create_first_named_controlDependence {
-	n:org_amma_pdg_EnterNode -e:ordered_controlDependence->;
+	n:_org_amma_pdg::_EnterNode -e:ordered_controlDependence->;
 
 	modify {
 		-f:named_controlDependence<e>->;
 
 		eval {
-			f.name = "//@node/@controlDependenceNodes." + e.index;
+			f.name = "//@node/@controlDependenceNodes." + e.order;
 		}
 	}
 }
@@ -64,7 +64,7 @@ rule PDG_add_named_controlDependence {
 		-g:named_controlDependence<f>->;
 
 		eval {
-			g.name = e.name + "/@controlDependenceNodes." + f.index;
+			g.name = e.name + "/@controlDependenceNodes." + f.order;
 		}
 	}
 }
@@ -76,7 +76,7 @@ rule PDG_XML_prefix {
 }
 
 rule PDG_dump {
-	n:org_amma_pdg_EnterNode;
+	n:_org_amma_pdg::_EnterNode;
 
 	modify {
 		emit("  <node name=\"Enter\">\n");
@@ -86,12 +86,12 @@ rule PDG_dump {
 }
 
 rule PDG_dump_ExpressionNode_Successor(n:Node) {
-	succ:org_amma_pdg_ExpressionNode;
+	succ:_org_amma_pdg::_ExpressionNode;
 	n -e:named_controlDependence\visited_named_controlDependence-> succ;
-	succ -:org_amma_pdg_ExpressionNode_expression-> expr:org_amma_pdg_Expression;
+	succ -:_org_amma_pdg::_ExpressionNode_expression-> expr:_org_amma_pdg::_Expression;
 
 	negative {
-		if { f.index < e.index; }
+		if { f.order < e.order; }
 		n -f:named_controlDependence\visited_named_controlDependence->;
 	}
 
@@ -107,9 +107,9 @@ rule PDG_dump_ExpressionNode_Successor(n:Node) {
 	}
 }
 
-rule PDG_dump_DataDependencies(n:org_amma_pdg_ExpressionNode) {
+rule PDG_dump_DataDependencies(n:_org_amma_pdg::_ExpressionNode) {
 	hom(n,succ);
-	n -:org_amma_pdg_ExpressionNode_dataDependenceNodes-> succ:org_amma_pdg_ExpressionNode;
+	n -:_org_amma_pdg::_ExpressionNode_dataDependenceNodes-> succ:_org_amma_pdg::_ExpressionNode;
 
 	modify {
 		emit(" dataDependenceNodes=\"");
@@ -118,9 +118,9 @@ rule PDG_dump_DataDependencies(n:org_amma_pdg_ExpressionNode) {
 	}
 }
 
-rule PDG_dump_DataDependence(n:org_amma_pdg_ExpressionNode) {
+rule PDG_dump_DataDependence(n:_org_amma_pdg::_ExpressionNode) {
 	hom(n,succ);
-	n -:org_amma_pdg_ExpressionNode_dataDependenceNodes-> succ:org_amma_pdg_ExpressionNode;
+	n -:_org_amma_pdg::_ExpressionNode_dataDependenceNodes-> succ:_org_amma_pdg::_ExpressionNode;
 	-e:named_controlDependence-> succ;
 
 	modify {
@@ -128,7 +128,7 @@ rule PDG_dump_DataDependence(n:org_amma_pdg_ExpressionNode) {
 	}
 }
 
-rule PDG_dump_expression(var tag:string, expr:org_amma_pdg_Expression) {
+rule PDG_dump_expression(var tag:string, expr:_org_amma_pdg::_Expression) {
 	modify {
 		exec(PDG_dump_binary_expression(tag, expr) ||
 		     PDG_dump_unary_expression(tag, expr) ||
@@ -136,11 +136,11 @@ rule PDG_dump_expression(var tag:string, expr:org_amma_pdg_Expression) {
 	}
 }
 
-rule PDG_dump_binary_expression(var tag:string, expr:org_amma_pdg_Expression) {
-	expr -lhs_edge:org_amma_pdg_Expression_innerExpressions-> lhs:org_amma_pdg_Expression;
-	expr -rhs_edge:org_amma_pdg_Expression_innerExpressions-> rhs:org_amma_pdg_Expression;
+rule PDG_dump_binary_expression(var tag:string, expr:_org_amma_pdg::_Expression) {
+	expr -lhs_edge:_org_amma_pdg::_Expression_innerExpressions-> lhs:_org_amma_pdg::_Expression;
+	expr -rhs_edge:_org_amma_pdg::_Expression_innerExpressions-> rhs:_org_amma_pdg::_Expression;
 
-	if { lhs_edge.index < rhs_edge.index; }
+	if { lhs_edge.ordering < rhs_edge.ordering; }
 
 	modify {
 		emit("      <" + tag + " name=\"" + expr._name + "\">\n");
@@ -150,8 +150,8 @@ rule PDG_dump_binary_expression(var tag:string, expr:org_amma_pdg_Expression) {
 	}
 }
 
-rule PDG_dump_unary_expression(var tag:string, expr:org_amma_pdg_Expression) {
-	expr -:org_amma_pdg_Expression_innerExpressions-> op:org_amma_pdg_Expression;
+rule PDG_dump_unary_expression(var tag:string, expr:_org_amma_pdg::_Expression) {
+	expr -:_org_amma_pdg::_Expression_innerExpressions-> op:_org_amma_pdg::_Expression;
 
 	modify {
 		emit("      <" + tag + " name=\"" + expr._name + "\">\n");
@@ -160,7 +160,7 @@ rule PDG_dump_unary_expression(var tag:string, expr:org_amma_pdg_Expression) {
 	}
 }
 
-rule PDG_dump_leaf_expression(var tag:string, expr:org_amma_pdg_Expression) {
+rule PDG_dump_leaf_expression(var tag:string, expr:_org_amma_pdg::_Expression) {
 	modify {
 		emit("      <" + tag + " name=\"" + expr._name + "\"/>\n");
 	}
@@ -182,6 +182,6 @@ rule PDG_revert_named_controlDependence {
 	-e:visited_named_controlDependence->;
 
 	modify {
-		-:org_amma_pdg_ExpressionNode_controlDependenceNodes<e>->;
+		-:_org_amma_pdg::_ExpressionNode_controlDependenceNodes<e>->;
 	}
 }

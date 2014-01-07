@@ -1,11 +1,13 @@
 import graph1.ecore Graph1.xmi Delete.grg
 
-show num nodes graph1_Node
+show num nodes _graph1::_Node
+
+include layout.grsi
 
 #exec deleteN1 && fixNodeIndex*
 exec deleteN1AndAllIncidentEdges && fixNodeIndex*
 
-show num nodes graph1_Node
+show num nodes _graph1::_Node
 
 show graph ycomp
 

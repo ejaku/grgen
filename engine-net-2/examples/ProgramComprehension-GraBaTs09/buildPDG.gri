@@ -7,7 +7,7 @@ rule PDG_init_post_dominance {
 }
 
 rule PDG_init_post_dominance_step1 {
-	a:org_amma_cfg_AbstractNode\(CFG_Enter + CFG_Exit);
+	a:_org_amma_cfg::_AbstractNode\(CFG_Enter + CFG_Exit);
 
 	negative {
 		a -:pdom-> a;
@@ -19,7 +19,7 @@ rule PDG_init_post_dominance_step1 {
 }
 
 rule PDG_init_post_dominance_step2 {
-	a:org_amma_cfg_AbstractNode -:Edge\pdom-> b:org_amma_cfg_AbstractNode;
+	a:_org_amma_cfg::_AbstractNode -:Edge\pdom-> b:_org_amma_cfg::_AbstractNode;
 
 	negative {
 		b -:pdom-> a;
@@ -31,9 +31,9 @@ rule PDG_init_post_dominance_step2 {
 }
 
 rule PDG_init_post_dominance_step3 {
-	a:org_amma_cfg_AbstractNode;
-	b:org_amma_cfg_AbstractNode;
-	c:org_amma_cfg_AbstractNode;
+	a:_org_amma_cfg::_AbstractNode;
+	b:_org_amma_cfg::_AbstractNode;
+	c:_org_amma_cfg::_AbstractNode;
 
 	hom(a,c);
 	c -:pdom-> b -:pdom-> a;
@@ -55,10 +55,10 @@ rule PDG_determine_post_dominance {
 }
 
 rule PDG_remove_wrong_post_dominance {
-	a:org_amma_cfg_AbstractNode;
-	a -:Edge\pdom-> b:org_amma_cfg_AbstractNode;
-	a -:Edge\pdom-> c:org_amma_cfg_AbstractNode;
-	d:org_amma_cfg_AbstractNode;
+	a:_org_amma_cfg::_AbstractNode;
+	a -:Edge\pdom-> b:_org_amma_cfg::_AbstractNode;
+	a -:Edge\pdom-> c:_org_amma_cfg::_AbstractNode;
+	d:_org_amma_cfg::_AbstractNode;
 
 	d -:pdom-> b;
 	d -e:pdom-> a;
@@ -73,9 +73,9 @@ rule PDG_remove_wrong_post_dominance {
 }
 
 rule PDG_propagate_wrong_post_dominance_removing {
-	a:org_amma_cfg_AbstractNode;
-	a -:Edge\pdom-> b:org_amma_cfg_AbstractNode;
-	d:org_amma_cfg_AbstractNode;
+	a:_org_amma_cfg::_AbstractNode;
+	a -:Edge\pdom-> b:_org_amma_cfg::_AbstractNode;
+	d:_org_amma_cfg::_AbstractNode;
 
 	d -e:pdom-> a;
 
@@ -89,9 +89,9 @@ rule PDG_propagate_wrong_post_dominance_removing {
 }
 
 rule PDG_mark_transitive_post_dominance {
-	a:org_amma_cfg_AbstractNode;
-	b:org_amma_cfg_AbstractNode;
-	c:org_amma_cfg_AbstractNode;
+	a:_org_amma_cfg::_AbstractNode;
+	b:_org_amma_cfg::_AbstractNode;
+	c:_org_amma_cfg::_AbstractNode;
 
 	hom(a,c);
 	c -:pdom-> b -:pdom-> a;
@@ -109,9 +109,9 @@ rule PDG_determine_post_dominance_frontiers {
 }
 
 rule PDG_determine_post_dominance_frontier {
-	a:org_amma_cfg_AbstractNode;
-	b:org_amma_cfg_AbstractNode;
-	c:org_amma_cfg_AbstractNode;
+	a:_org_amma_cfg::_AbstractNode;
+	b:_org_amma_cfg::_AbstractNode;
+	c:_org_amma_cfg::_AbstractNode;
 
 	hom(b, c);
 	c -:pdom-> b;
@@ -137,22 +137,22 @@ rule PDG_create_control_dependencies {
 }
 
 rule PDG_create_control_dependency {
-	a:org_amma_cfg_AbstractNode;
-	b:org_amma_cfg_AbstractNode;
+	a:_org_amma_cfg::_AbstractNode;
+	b:_org_amma_cfg::_AbstractNode;
 
 	a -e:pdom_frontier-> b;
 
 	modify {
 		delete(e);
-		b -:org_amma_pdg_ExpressionNode_controlDependenceNodes-> a;
+		b -:_org_amma_pdg::_ExpressionNode_controlDependenceNodes-> a;
 	}
 }
 
 rule PDG_add_reflexive_control_dependency {
-	a:org_amma_cfg_IterativeNode;
+	a:_org_amma_cfg::_IterativeNode;
 
 	modify {
-		a -:org_amma_pdg_ExpressionNode_controlDependenceNodes-> a;
+		a -:_org_amma_pdg::_ExpressionNode_controlDependenceNodes-> a;
 	}
 }
 
@@ -175,45 +175,45 @@ rule PDG_add_data_dependencies {
 }
 
 rule PDG_prepare_IterativeNode {
-	a:org_amma_cfg_IterativeNode;
-	a -e:org_amma_cfg_AbstractNode_expression-> expr:org_amma_cfg_Expression;
+	a:_org_amma_cfg::_IterativeNode;
+	a -e:_org_amma_cfg::_AbstractNode_expression-> expr:_org_amma_cfg::_Expression;
 
 	modify {
 		delete(e);
 
-		dummy:org_amma_cfg_Expression;
-		a -:org_amma_cfg_AbstractNode_expression-> dummy;
-		dummy -f:org_amma_cfg_Expression_innerExpression-> expr;
+		dummy:_org_amma_cfg::_Expression;
+		a -:_org_amma_cfg::_AbstractNode_expression-> dummy;
+		dummy -f:_org_amma_cfg::_Expression_innerExpression-> expr;
 
 		eval {
 			dummy._expressionName = "dummy";
-			f.index = 1;
+			f.ordering = 1;
 		}
 	}
 }
 
 rule PDG_prepare_ConditionalNode {
-	a:org_amma_cfg_ConditionalNode;
-	a -e:org_amma_cfg_AbstractNode_expression-> expr:org_amma_cfg_Expression;
+	a:_org_amma_cfg::_ConditionalNode;
+	a -e:_org_amma_cfg::_AbstractNode_expression-> expr:_org_amma_cfg::_Expression;
 
 	modify {
 		delete(e);
 
-		dummy:org_amma_cfg_Expression;
-		a -:org_amma_cfg_AbstractNode_expression-> dummy;
-		dummy -f:org_amma_cfg_Expression_innerExpression-> expr;
+		dummy:_org_amma_cfg::_Expression;
+		a -:_org_amma_cfg::_AbstractNode_expression-> dummy;
+		dummy -f:_org_amma_cfg::_Expression_innerExpression-> expr;
 
 		eval {
 			dummy._expressionName = "dummy";
-			f.index = 1;
+			f.ordering = 1;
 		}
 	}
 }
 
 rule PDG_init_valid_path {
-	a:org_amma_cfg_AbstractNode;
-	b:org_amma_cfg_AbstractNode;
-	a -e:Edge\org_amma_pdg_ExpressionNode_controlDependenceNodes-> b;
+	a:_org_amma_cfg::_AbstractNode;
+	b:_org_amma_cfg::_AbstractNode;
+	a -e:Edge\_org_amma_pdg::_ExpressionNode_controlDependenceNodes-> b;
 
 	modify {
 		a -:valid_path-> b;
@@ -221,27 +221,27 @@ rule PDG_init_valid_path {
 }
 
 rule add_transitive_valid_path {
-	a:org_amma_cfg_AbstractNode;
-	b:org_amma_cfg_AbstractNode;
-	c:org_amma_cfg_AbstractNode;
+	a:_org_amma_cfg::_AbstractNode;
+	b:_org_amma_cfg::_AbstractNode;
+	c:_org_amma_cfg::_AbstractNode;
 
 	hom(a,c);
 	a -:valid_path-> b;
-	b -:Edge\(org_amma_pdg_ExpressionNode_controlDependenceNodes + valid_path)-> c;
+	b -:Edge\(_org_amma_pdg::_ExpressionNode_controlDependenceNodes + valid_path)-> c;
 
 	negative {
 		a -:valid_path-> c;
 	}
 
 	negative {
-		a -:org_amma_cfg_AbstractNode_expression-> expr_a:org_amma_cfg_Expression;
-		b -:org_amma_cfg_AbstractNode_expression-> expr_b:org_amma_cfg_Expression;
+		a -:_org_amma_cfg::_AbstractNode_expression-> expr_a:_org_amma_cfg::_Expression;
+		b -:_org_amma_cfg::_AbstractNode_expression-> expr_b:_org_amma_cfg::_Expression;
 
-		expr_a -def_edge:org_amma_cfg_Expression_innerExpression-> def_:org_amma_cfg_Expression;
-		expr_b -redef_edge:org_amma_cfg_Expression_innerExpression-> redef:org_amma_cfg_Expression;
+		expr_a -def_edge:_org_amma_cfg::_Expression_innerExpression-> def_:_org_amma_cfg::_Expression;
+		expr_b -redef_edge:_org_amma_cfg::_Expression_innerExpression-> redef:_org_amma_cfg::_Expression;
 
-		if { def_edge.index == 0 && def_._isIdentifier &&
-		     redef_edge.index == 0 && redef._isIdentifier &&
+		if { def_edge.ordering == 0 && def_._isIdentifier &&
+		     redef_edge.ordering == 0 && redef._isIdentifier &&
 		     def_._expressionName == redef._expressionName;
 	   }
 	}
@@ -252,12 +252,12 @@ rule add_transitive_valid_path {
 }
 
 rule PDG_add_transitive_innerExpression {
-	a:org_amma_cfg_Expression;
-	b:org_amma_cfg_Expression;
-	c:org_amma_cfg_Expression;
+	a:_org_amma_cfg::_Expression;
+	b:_org_amma_cfg::_Expression;
+	c:_org_amma_cfg::_Expression;
 
-	a -e:org_amma_cfg_Expression_innerExpression-> b;
-	b -:org_amma_cfg_Expression_innerExpression-> c;
+	a -e:_org_amma_cfg::_Expression_innerExpression-> b;
+	b -:_org_amma_cfg::_Expression_innerExpression-> c;
 
 	negative {
 		a -:transitive_innerExpression-> c;
@@ -267,73 +267,73 @@ rule PDG_add_transitive_innerExpression {
 		a -trans:transitive_innerExpression-> c;
 
 		eval {
-			trans.index = e.index;
+			trans.ordering = e.ordering;
 		}
 	}
 }
 
 rule PDG_add_binary_data_dependency {
-	a:org_amma_cfg_AbstractNode;
-	b:org_amma_cfg_AbstractNode;
+	a:_org_amma_cfg::_AbstractNode;
+	b:_org_amma_cfg::_AbstractNode;
 
 	hom(a,b);
 	a -:valid_path-> b;
 
 	hom(expr_a, expr_b);
 	hom(ea, eb);
-	a -ea:org_amma_cfg_AbstractNode_expression-> expr_a:org_amma_cfg_Expression;
-	b -eb:org_amma_cfg_AbstractNode_expression-> expr_b:org_amma_cfg_Expression;
+	a -ea:_org_amma_cfg::_AbstractNode_expression-> expr_a:_org_amma_cfg::_Expression;
+	b -eb:_org_amma_cfg::_AbstractNode_expression-> expr_b:_org_amma_cfg::_Expression;
 
-	expr_a -def_edge:org_amma_cfg_Expression_innerExpression-> def_:org_amma_cfg_Expression;
-	expr_b -use_edge:org_amma_cfg_Expression_innerExpression-> use:org_amma_cfg_Expression;
+	expr_a -def_edge:_org_amma_cfg::_Expression_innerExpression-> def_:_org_amma_cfg::_Expression;
+	expr_b -use_edge:_org_amma_cfg::_Expression_innerExpression-> use:_org_amma_cfg::_Expression;
 
-	if { def_edge.index == 0 && def_._isIdentifier &&
-	     use_edge.index == 1 && use._isIdentifier &&
+	if { def_edge.ordering == 0 && def_._isIdentifier &&
+	     use_edge.ordering == 1 && use._isIdentifier &&
 	     def_._expressionName == use._expressionName;
 	   }
 
 	negative {
-		a -:org_amma_pdg_ExpressionNode_dataDependenceNodes-> b;
+		a -:_org_amma_pdg::_ExpressionNode_dataDependenceNodes-> b;
 	}
 
 	modify {
-		a -:org_amma_pdg_ExpressionNode_dataDependenceNodes-> b;
+		a -:_org_amma_pdg::_ExpressionNode_dataDependenceNodes-> b;
 	}
 }
 
 rule PDG_add_unary_data_dependency {
-	a:org_amma_cfg_AbstractNode;
-	b:org_amma_cfg_AbstractNode;
+	a:_org_amma_cfg::_AbstractNode;
+	b:_org_amma_cfg::_AbstractNode;
 
 	hom(a,b);
 	a -:valid_path-> b;
 
 	hom(expr_a, expr_b);
 	hom(ea, eb);
-	a -ea:org_amma_cfg_AbstractNode_expression-> expr_a:org_amma_cfg_Expression;
-	b -eb:org_amma_cfg_AbstractNode_expression-> expr_b:org_amma_cfg_Expression;
+	a -ea:_org_amma_cfg::_AbstractNode_expression-> expr_a:_org_amma_cfg::_Expression;
+	b -eb:_org_amma_cfg::_AbstractNode_expression-> expr_b:_org_amma_cfg::_Expression;
 
 	hom(def_, use);
 	hom(def_edge, use_edge);
-	expr_a -def_edge:org_amma_cfg_Expression_innerExpression-> def_:org_amma_cfg_Expression;
-	expr_b -use_edge:org_amma_cfg_Expression_innerExpression-> use:org_amma_cfg_Expression;
+	expr_a -def_edge:_org_amma_cfg::_Expression_innerExpression-> def_:_org_amma_cfg::_Expression;
+	expr_b -use_edge:_org_amma_cfg::_Expression_innerExpression-> use:_org_amma_cfg::_Expression;
 
-	if { def_edge.index == 0 && def_._isIdentifier &&
-	     use_edge.index == 0 && use._isIdentifier &&
+	if { def_edge.ordering == 0 && def_._isIdentifier &&
+	     use_edge.ordering == 0 && use._isIdentifier &&
 	     def_._expressionName == use._expressionName;
 	   }
 
 	negative {
 		-use_edge->;
-		expr_b -:org_amma_cfg_Expression_innerExpression\transitive_innerExpression->;
+		expr_b -:_org_amma_cfg::_Expression_innerExpression\transitive_innerExpression->;
 	}
 
 	negative {
-		a -:org_amma_pdg_ExpressionNode_dataDependenceNodes-> b;
+		a -:_org_amma_pdg::_ExpressionNode_dataDependenceNodes-> b;
 	}
 
 	modify {
-		a -:org_amma_pdg_ExpressionNode_dataDependenceNodes-> b;
+		a -:_org_amma_pdg::_ExpressionNode_dataDependenceNodes-> b;
 	}
 }
 
@@ -344,28 +344,28 @@ rule PDG_remove_transitive_innerExpression {
 }
 
 rule PDG_finish_IterativeNode {
-	a:org_amma_cfg_IterativeNode;
-	dummy:org_amma_cfg_Expression;
-	expr:org_amma_cfg_Expression;
-	a -:org_amma_cfg_AbstractNode_expression-> dummy;
-	dummy -:org_amma_cfg_Expression_innerExpression-> expr;
+	a:_org_amma_cfg::_IterativeNode;
+	dummy:_org_amma_cfg::_Expression;
+	expr:_org_amma_cfg::_Expression;
+	a -:_org_amma_cfg::_AbstractNode_expression-> dummy;
+	dummy -:_org_amma_cfg::_Expression_innerExpression-> expr;
 
 	modify {
 		delete(dummy);
-		a -e:org_amma_cfg_AbstractNode_expression-> expr;
+		a -e:_org_amma_cfg::_AbstractNode_expression-> expr;
 	}
 }
 
 rule PDG_finish_ConditionalNode {
-	a:org_amma_cfg_ConditionalNode;
-	dummy:org_amma_cfg_Expression;
-	expr:org_amma_cfg_Expression;
-	a -:org_amma_cfg_AbstractNode_expression-> dummy;
-	dummy -:org_amma_cfg_Expression_innerExpression-> expr;
+	a:_org_amma_cfg::_ConditionalNode;
+	dummy:_org_amma_cfg::_Expression;
+	expr:_org_amma_cfg::_Expression;
+	a -:_org_amma_cfg::_AbstractNode_expression-> dummy;
+	dummy -:_org_amma_cfg::_Expression_innerExpression-> expr;
 
 	modify {
 		delete(dummy);
-		a -e:org_amma_cfg_AbstractNode_expression-> expr;
+		a -e:_org_amma_cfg::_AbstractNode_expression-> expr;
 	}
 }
 
@@ -378,11 +378,11 @@ rule CFG_nodes_2_PDG {
 }
 
 rule PDG_remove_cfg_edges {
-	a:org_amma_cfg_AbstractNode;
-	b:org_amma_cfg_AbstractNode;
+	a:_org_amma_cfg::_AbstractNode;
+	b:_org_amma_cfg::_AbstractNode;
 
 	hom(a,b);
-	a -e:Edge\(org_amma_pdg_ExpressionNode_controlDependenceNodes + org_amma_pdg_ExpressionNode_dataDependenceNodes)-> b;
+	a -e:Edge\(_org_amma_pdg::_ExpressionNode_controlDependenceNodes + _org_amma_pdg::_ExpressionNode_dataDependenceNodes)-> b;
 
 	modify {
 		delete(e);
@@ -393,7 +393,7 @@ rule enter_2_PDG {
 	old:CFG_Enter;
 
 	modify {
-		new:org_amma_pdg_EnterNode<old>;
+		new:_org_amma_pdg::_EnterNode<old>;
 
 		eval {
 			new._name = "Enter";
@@ -408,12 +408,12 @@ rule exit_2_PDG {
 }
 
 rule IterativeNode_2_PDG {
-	old:org_amma_cfg_IterativeNode -e:org_amma_cfg_AbstractNode_expression-> old_expr:org_amma_cfg_Expression;
+	old:_org_amma_cfg::_IterativeNode -e:_org_amma_cfg::_AbstractNode_expression-> old_expr:_org_amma_cfg::_Expression;
 
 	modify {
-		new:org_amma_pdg_ExpressionNode<old>;
-		-:org_amma_pdg_ExpressionNode_expression<e>->;
-		new_expr:org_amma_pdg_Expression<old_expr>;
+		new:_org_amma_pdg::_ExpressionNode<old>;
+		-:_org_amma_pdg::_ExpressionNode_expression<e>->;
+		new_expr:_org_amma_pdg::_Expression<old_expr>;
 
 		eval {
 			new._name = old._name;
@@ -424,12 +424,12 @@ rule IterativeNode_2_PDG {
 }
 
 rule ConditionalNode_2_PDG {
-	old:org_amma_cfg_ConditionalNode -e:org_amma_cfg_AbstractNode_expression-> old_expr:org_amma_cfg_Expression;
+	old:_org_amma_cfg::_ConditionalNode -e:_org_amma_cfg::_AbstractNode_expression-> old_expr:_org_amma_cfg::_Expression;
 
 	modify {
-		new:org_amma_pdg_ExpressionNode<old>;
-		-:org_amma_pdg_ExpressionNode_expression<e>->;
-		new_expr:org_amma_pdg_Expression<old_expr>;
+		new:_org_amma_pdg::_ExpressionNode<old>;
+		-:_org_amma_pdg::_ExpressionNode_expression<e>->;
+		new_expr:_org_amma_pdg::_Expression<old_expr>;
 
 		eval {
 			new._name = old._name;
@@ -440,12 +440,12 @@ rule ConditionalNode_2_PDG {
 }
 
 rule Node_2_PDG {
-	old:org_amma_cfg_Node -e:org_amma_cfg_AbstractNode_expression-> old_expr:org_amma_cfg_Expression;
+	old:_org_amma_cfg::_Node -e:_org_amma_cfg::_AbstractNode_expression-> old_expr:_org_amma_cfg::_Expression;
 
 	modify {
-		new:org_amma_pdg_ExpressionNode<old>;
-		-:org_amma_pdg_ExpressionNode_expression<e>->;
-		new_expr:org_amma_pdg_Expression<old_expr>;
+		new:_org_amma_pdg::_ExpressionNode<old>;
+		-:_org_amma_pdg::_ExpressionNode_expression<e>->;
+		new_expr:_org_amma_pdg::_Expression<old_expr>;
 
 		eval {
 			new._name = old._name;
@@ -456,14 +456,14 @@ rule Node_2_PDG {
 }
 
 rule innerExpression_2_PDG {
-	-e:org_amma_cfg_Expression_innerExpression-> old_expr:org_amma_cfg_Expression;
+	-e:_org_amma_cfg::_Expression_innerExpression-> old_expr:_org_amma_cfg::_Expression;
 
 	modify {
-		-f:org_amma_pdg_Expression_innerExpressions<e>->;
-		new_expr:org_amma_pdg_Expression<old_expr>;
+		-f:_org_amma_pdg::_Expression_innerExpressions<e>->;
+		new_expr:_org_amma_pdg::_Expression<old_expr>;
 
 		eval {
-			f.index = e.index;
+			f.ordering = e.ordering;
 			new_expr._name = old_expr._expressionName;
 			new_expr._isIdentifier = old_expr._isIdentifier;
 		}

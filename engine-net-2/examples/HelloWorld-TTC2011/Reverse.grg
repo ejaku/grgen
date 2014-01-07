@@ -3,17 +3,17 @@
 rule reverseEdge {
 	alternative {
 		Src {
-			-src:graph1_Edge_src->;
+			-src:_graph1::_Edge_src->;
 
 			modify {
-				-:graph1_Edge_trg<src>->;
+				-:_graph1::_Edge_trg<src>->;
 			}
 		}
 		Trg {
-			-trg:graph1_Edge_trg->;
+			-trg:_graph1::_Edge_trg->;
 
 			modify {
-				-:graph1_Edge_src<trg>->;
+				-:_graph1::_Edge_src<trg>->;
 			}
 		}
 	}

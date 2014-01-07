@@ -1,5 +1,5 @@
 abstract edge class controlDependence {
-	index:int;
+	order:int;
 }
 
 edge class ordered_controlDependence extends controlDependence;

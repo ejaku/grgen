@@ -1,20 +1,20 @@
 #using "graph1__ecore.gm"
 
 rule insertTransitiveEdge {
-    n1:graph1_Node;
-    n3:graph1_Node;
+    n1:_graph1::_Node;
+    n3:_graph1::_Node;
     hom(n1,n3);
 
     independent {
         hom(n1,n2,n3);
-        n1 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n2:graph1_Node;
-        n2 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n3;
+        n1 <-:_graph1::_Edge_src- :_graph1::_Edge -:_graph1::_Edge_trg-> n2:_graph1::_Node;
+        n2 <-:_graph1::_Edge_src- :_graph1::_Edge -:_graph1::_Edge_trg-> n3;
     }
     negative {
-        n1 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n3;
+        n1 <-:_graph1::_Edge_src- :_graph1::_Edge -:_graph1::_Edge_trg-> n3;
     }
 
     modify {
-        n1 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n3;
+        n1 <-:_graph1::_Edge_src- :_graph1::_Edge -:_graph1::_Edge_trg-> n3;
     }
 }

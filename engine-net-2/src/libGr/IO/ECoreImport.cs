@@ -36,50 +36,16 @@ namespace de.unika.ipd.grGen.libGr
             public Dictionary<String, RefType> RefAttrToRefType = new Dictionary<String, RefType>();
         }
 
-        // document hierarchical structure with the entities neeed to parse references of the form
-        // /index of child referenced (zero based count over children)
-        // /@element of child referenced.index of such-typed child (zero based count over children of that element)
-        // /name of child referenced
-        class XMLTree
-        {
-            public string element; // the opening tag
-            public string elementName; // the name attribute
-            public INode elementNode; // the graph node this element corrsponds to
-
-            public List<XMLTree> children;
-        }
-
-        /// <summary>
-        /// no package name mangling into entities if true; requires names to be unique
-        /// </summary>
-        bool noPackageNamePrefix;
-
-        /// <summary>
-        /// the graph we build by importing
-        /// </summary>
-        IGraph graph;
-
         /// <summary>
         /// map of package prefixed type name to graph node type
         /// </summary>
         Dictionary<String, NodeType> typeMap = new Dictionary<String, NodeType>();
         
         /// <summary>
-        /// map of xmi:id to the graph node it denotes
-        /// might be empty for documents which don't use ids to reference elements but paths
-        /// </summary>
-        Dictionary<String, INode> nodeMap = new Dictionary<String, INode>();
-
-        /// <summary>
-        /// root of the xml tree hierarchy
-        /// needed to decode path references for documents not using xmi:id to reference elements
-        /// </summary>
-        XMLTree root;
-
-        /// <summary>
         /// enum type definitions
         /// </summary>
         Dictionary<String, Dictionary<String, int>> enumToLiteralToValue = new Dictionary<String, Dictionary<String, int>>();
+
 
         /// <summary>
         /// Creates a new graph from the given ECore metamodels.
@@ -97,7 +63,6 @@ namespace de.unika.ipd.grGen.libGr
         public static IGraph Import(IBackend backend, List<String> ecoreFilenames, String grgFilename, String xmiFilename, bool noPackageNamePrefix, out BaseActions actions)
         {
             ECoreImport imported = new ECoreImport();
-            imported.noPackageNamePrefix = noPackageNamePrefix;
             imported.graph = imported.ImportModels(ecoreFilenames, grgFilename, backend, out actions);
             if(xmiFilename != null)
             {
@@ -106,6 +71,8 @@ namespace de.unika.ipd.grGen.libGr
             }
             return imported.graph;
         }
+
+        /////////////////////////////////////////////////////////////////////////////////
 
         private IGraph ImportModels(List<String> ecoreFilenames, String grgFilename, IBackend backend, out BaseActions actions)
         {
@@ -193,6 +160,11 @@ namespace de.unika.ipd.grGen.libGr
 
         private void ParsePackageContent(XmlElement package, StringBuilder sb, XmlElement xmielem)
         {
+            String packageName = package.GetAttribute("nsPrefix");
+            if(packageName == "")
+                return;
+            sb.Append("package _" + packageName.Replace('.', '_') + "\n{\n");
+            
             foreach(XmlElement classifier in package.GetElementsByTagName("eClassifiers"))
             {
                 String classifierType = classifier.GetAttribute("xsi:type");
@@ -208,6 +180,8 @@ namespace de.unika.ipd.grGen.libGr
                     break;
                 }
             }
+
+            sb.Append("}\n\n");
         }
 
         private String GetGrGenTypeName(String xmitypename, XmlElement xmielem, XmlElement package, String packageDelim)
@@ -257,12 +231,8 @@ namespace de.unika.ipd.grGen.libGr
                         packageNode = (XmlElement)xmielem.ChildNodes[rootIndex];
                     }
 
-                    if(noPackageNamePrefix) {
-                        xmitypename = packageDelim + xmitypename;
-                    } else {
-                        String packageName = packageNode.GetAttribute("nsPrefix");
-                        xmitypename = packageName + packageDelim + xmitypename;
-                    }
+                    String packageName = packageNode.GetAttribute("nsPrefix");
+                    xmitypename = packageName.Replace('.', '_') + packageDelim + xmitypename;
                     break;
                 }
             }
@@ -270,23 +240,19 @@ namespace de.unika.ipd.grGen.libGr
             return xmitypename;
         }
 
-        private String GetGrGenTypeName(String xmitypename, XmlElement xmielem, XmlElement package)
-        {
-            return GetGrGenTypeName(xmitypename, xmielem, package, "_");
-        }
-
         private void ParseEClass(StringBuilder sb, XmlElement xmielem, XmlElement package, XmlElement classifier, String classifierName)
         {
             String packageName = package.GetAttribute("nsPrefix");
-            if(noPackageNamePrefix) packageName = "";
 
             bool first;
             NodeType nodeType = new NodeType();
 
             String abstractStr = classifier.GetAttribute("abstract");
             if(abstractStr == "true")
-                sb.Append("abstract ");
-            sb.Append("node class " + packageName.Replace('.', '_') + "_" + classifierName);
+                sb.Append("\tabstract ");
+            else
+                sb.Append("\t");
+            sb.Append("node class _" + classifierName);
 
             typeMap[packageName + ":" + classifierName] = nodeType;
 
@@ -304,7 +270,7 @@ namespace de.unika.ipd.grGen.libGr
 
                     String name = GetGrGenTypeName(superType, xmielem, package, ":");
                     nodeType.SuperTypes.Add(name);
-                    sb.Append(name.Replace(':', '_').Replace('.', '_'));
+                    sb.Append(GrGenTypeNameFromXmi(name));
                 }
             }
 
@@ -313,67 +279,65 @@ namespace de.unika.ipd.grGen.libGr
             foreach(XmlElement item in classifier.GetElementsByTagName("eStructuralFeatures"))
             {
                 String itemType = item.GetAttribute("xsi:type");
-                if(itemType == "ecore:EAttribute")
+                if(itemType != "ecore:EAttribute")
+                    continue;
+
+                if(first)
                 {
-                    if(first)
-                    {
-                        sb.Append(" {\n");
-                        first = false;
-                    }
-
-                    String attrName = item.GetAttribute("name");
-                    String attrType = item.GetAttribute("eType");
-                    if(attrType == "")
-                    {
-                        foreach(XmlElement typeItem in classifier.GetElementsByTagName("eType"))
-                        {
-                            attrType = typeItem.GetAttribute("href");
-                            break;
-                        }
-                    }
-                    attrType = GetGrGenTypeName(attrType, xmielem, package);
-
-                    sb.Append("\t_" + attrName + ":" + attrType + ";\n");
+                    sb.Append(" {\n");
+                    first = false;
                 }
+
+                String attrName = item.GetAttribute("name");
+                String attrType = item.GetAttribute("eType");
+                if(attrType == "")
+                {
+                    foreach(XmlElement typeItem in classifier.GetElementsByTagName("eType"))
+                    {
+                        attrType = typeItem.GetAttribute("href");
+                        break;
+                    }
+                }
+                attrType = GetGrGenTypeName(attrType, xmielem, package, ":");
+
+                sb.Append("\t\t_" + attrName + " : " + GrGenTypeNameFromXmi(attrType) + ";\n");
             }
             if(first) sb.Append(";\n\n");
-            else sb.Append("}\n\n");
+            else sb.Append("\t}\n\n");
 
             // Then iterate over all ecore:EReference structural features modelled as edge types
             foreach(XmlElement item in classifier.GetElementsByTagName("eStructuralFeatures"))
             {
                 String itemType = item.GetAttribute("xsi:type");
-                if(itemType == "ecore:EReference")
-                {
-                    String refName = item.GetAttribute("name");
-                    String refType = item.GetAttribute("eType");
+                if(itemType != "ecore:EReference")
+                    continue;
 
-                    String edgeTypeName = packageName + "_" + classifierName + "_" + refName;
-                    String typeName = GetGrGenTypeName(refType, xmielem, package, ":");
-                    bool ordered = item.GetAttribute("ordered") != "false";          // Default is ordered
+                String refName = item.GetAttribute("name");
+                String refType = item.GetAttribute("eType");
 
-                    sb.Append("edge class " + edgeTypeName.Replace('.', '_'));
-                    if(ordered)
-                        sb.Append(" {\n\tindex:int;\n}\n\n");
-                    else
-                        sb.Append(";\n\n");
+                String edgeTypeName = classifierName + "_" + refName;
+                String typeName = GetGrGenTypeName(refType, xmielem, package, ":");
+                bool ordered = item.GetAttribute("ordered") != "false";          // Default is ordered
+                bool containment = item.GetAttribute("containment") == "true";
 
-                    nodeType.RefAttrToRefType[refName] = new RefType(ordered, typeName);
-                }
+                sb.Append("\tedge class _" + edgeTypeName.Replace('.', '_'));
+                if(containment)
+                    sb.Append("[containment=true]");
+                if(ordered)
+                    sb.Append(" {\n\t\tordering : int;\n\t}\n\n");
+                else
+                    sb.Append(";\n\n");
+
+                nodeType.RefAttrToRefType[refName] = new RefType(ordered, typeName);
             }
         }
 
         private void ParseEEnum(StringBuilder sb, XmlElement xmielem, XmlElement package, XmlElement classifier, String classifierName)
         {
-            String packageName = package.GetAttribute("nsPrefix");
-            if(noPackageNamePrefix) packageName = "";
-
-            Dictionary<String, int> literalToValue = new Dictionary<String, int>();
-
-            String enumTypeName = packageName + "_" + classifierName;
-
-            sb.Append("enum " + enumTypeName.Replace('.', '_') + " {\n");
+            String enumTypeName = classifierName;
+            sb.Append("\tenum _" + enumTypeName.Replace('.', '_') + " {\n");
             bool first = true;
+            Dictionary<String, int> literalToValue = new Dictionary<String, int>();
             foreach(XmlElement item in classifier.GetElementsByTagName("eLiterals"))
             {
                 if(first) first = false;
@@ -384,7 +348,7 @@ namespace de.unika.ipd.grGen.libGr
 
                 if(value != "")
                 {
-                    sb.Append("\t_" + name + " = " + value);
+                    sb.Append("\t\t_" + name + " = " + value);
 
                     int val = int.Parse(value);
                     literalToValue[name] = val;
@@ -393,12 +357,57 @@ namespace de.unika.ipd.grGen.libGr
                     if(literal != "") literalToValue[literal] = val;
                 }
                 else
-                    sb.Append("\t_" + name);
+                    sb.Append("\t\t_" + name);
             }
-            sb.Append("\n}\n\n");
+            sb.Append("\n\t}\n\n");
 
-            enumToLiteralToValue[enumTypeName] = literalToValue;
+            String packageName = package.GetAttribute("nsPrefix");
+            enumToLiteralToValue[packageName + ":" + enumTypeName] = literalToValue;
         }
+
+
+        private string GrGenTypeNameFromXmi(string xmiName)
+        {
+            if(xmiName.IndexOf(':') == -1)
+                return xmiName;
+
+            String packageName = xmiName.Remove(xmiName.IndexOf(':'));
+            String typeName = xmiName.Substring(xmiName.IndexOf(':') + 1);
+            return "_" + packageName.Replace('.', '_') + "::" + "_" + typeName.Replace(".", "_");
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        // document hierarchical structure with the entities neeed to parse references of the form
+        // /index of child referenced (zero based count over children)
+        // /@element of child referenced.index of such-typed child (zero based count over children of that element)
+        // /name of child referenced
+        class XMLTree
+        {
+            public string element; // the opening tag
+            public string elementName; // the name attribute
+            public INode elementNode; // the graph node this element corrsponds to
+
+            public List<XMLTree> children;
+        }
+
+        /// <summary>
+        /// root of the xml tree hierarchy
+        /// needed to decode path references for documents not using xmi:id to reference elements
+        /// </summary>
+        XMLTree root;
+
+        /// <summary>
+        /// the graph we build by importing
+        /// </summary>
+        IGraph graph;
+
+        /// <summary>
+        /// map of xmi:id to the graph node it denotes
+        /// might be empty for documents which don't use ids to reference elements but paths
+        /// </summary>
+        Dictionary<String, INode> nodeMap = new Dictionary<String, INode>();
+
 
         private void ImportGraph(String importFilename)
         {
@@ -426,13 +435,10 @@ namespace de.unika.ipd.grGen.libGr
                             // create real graph node from it
                             XMLTree rootChild = new XMLTree();
                             String tagName = reader.Name;
-                            if(noPackageNamePrefix) 
-                                tagName = tagName.Substring(tagName.LastIndexOf(":"));
                             rootChild.element = tagName;
                             if(reader.MoveToAttribute("name"))
                                 rootChild.elementName = reader.Value;
-                            String grgenTypeName = tagName.Replace(':', '_').Replace(':', '_');
-                            INode gnode = graph.AddNode(graph.Model.NodeModel.GetType(grgenTypeName));
+                            INode gnode = graph.AddNode(graph.Model.NodeModel.GetType(GrGenTypeNameFromXmi(tagName)));
                             rootChild.elementNode = gnode;
                             rootChild.children = new List<XMLTree>();
                             root.children.Add(rootChild);
@@ -447,13 +453,10 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         // create real graph node from it
                         String tagName = reader.Name;
-                        if(noPackageNamePrefix)
-                            tagName = tagName.Substring(tagName.LastIndexOf(":"));
                         root.element = tagName;
                         if(reader.MoveToAttribute("name"))
                             root.elementName = reader.Value;
-                        String grgenTypeName = tagName.Replace(':', '_').Replace(':', '_');
-                        INode gnode = graph.AddNode(graph.Model.NodeModel.GetType(grgenTypeName));
+                        INode gnode = graph.AddNode(graph.Model.NodeModel.GetType(GrGenTypeNameFromXmi(tagName)));
                         root.elementNode = gnode;
                         root.children = new List<XMLTree>();
 
@@ -516,6 +519,13 @@ namespace de.unika.ipd.grGen.libGr
                 if(containingType != null) return containingType;
             }
             return null;
+        }
+
+        private string XmiFromGrGenTypeName(string grgenName)
+        {
+            String packageName = grgenName.Remove(grgenName.IndexOf(':'));
+            String typeName = grgenName.Substring(grgenName.IndexOf(':') + 1 + 1);
+            return packageName.Substring(1) + ":" + typeName.Substring(1);
         }
 
         INode GetNode(String name)
@@ -623,9 +633,7 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
 
-                if(noPackageNamePrefix) typeName = typeName.Substring(typeName.LastIndexOf(":"));
-                String grgenTypeName = typeName.Replace(':', '_').Replace('.', '_');
-                INode gnode = graph.AddNode(nodeModel.GetType(grgenTypeName));
+                INode gnode = graph.AddNode(nodeModel.GetType(GrGenTypeNameFromXmi(typeName)));
                 XMLTree child = new XMLTree();
                 child.elementNode = gnode;
                 child.elementName = elementName;
@@ -636,14 +644,13 @@ namespace de.unika.ipd.grGen.libGr
                     nodeMap[id] = gnode;
 
                 String edgeTypeName = FindContainingTypeName(parentTypeName, tagName);
-                if(noPackageNamePrefix) edgeTypeName = edgeTypeName.Substring(edgeTypeName.LastIndexOf(":"));
-                String grgenEdgeTypeName = edgeTypeName.Replace(':', '_').Replace('.', '_') + "_" + tagName;
+                String grgenEdgeTypeName = GrGenTypeNameFromXmi(edgeTypeName) + "_" + tagName;
                 IEdge parentEdge = graph.AddEdge(edgeModel.GetType(grgenEdgeTypeName), parentNode.elementNode, gnode);
                 if(IsRefOrdered(parentTypeName, tagName))
                 {
                     int nextIndex;
                     tagNameToNextIndex.TryGetValue(tagName, out nextIndex);
-                    parentEdge.SetAttribute("index", nextIndex);
+                    parentEdge.SetAttribute("ordering", nextIndex);
                     tagNameToNextIndex[tagName] = nextIndex + 1;
                 }
 
@@ -654,8 +661,6 @@ namespace de.unika.ipd.grGen.libGr
 
         private void ParseNodeSecondPass(XmlTextReader reader, XMLTree parentNode, String curTypeName)
         {
-            if(noPackageNamePrefix) curTypeName = curTypeName.Substring(curTypeName.LastIndexOf(":"));
-
             if(curTypeName != "xmi:XMI") // happens on/if first node is xmi:XMI
                 HandleAttributes(reader, curTypeName, parentNode.elementNode);
 
@@ -714,7 +719,7 @@ namespace de.unika.ipd.grGen.libGr
                     // List of references as in attribute separated by spaces
 
                     String refEdgeTypeName = FindContainingTypeName(curTypeName, name);
-                    String grgenRefEdgeTypeName = refEdgeTypeName.Replace(':', '_').Replace('.', '_') + "_" + name;
+                    String grgenRefEdgeTypeName = GrGenTypeNameFromXmi(refEdgeTypeName) + "_" + name;
 
                     IEdgeModel edgeModel = graph.Model.EdgeModel;
                     String[] destNodeNames = reader.Value.Split(' ');
@@ -724,7 +729,7 @@ namespace de.unika.ipd.grGen.libGr
                         foreach(String destNodeName in destNodeNames)
                         {
                             IEdge parentEdge = graph.AddEdge(edgeModel.GetType(grgenRefEdgeTypeName), curNode, GetNode(destNodeName));
-                            parentEdge.SetAttribute("index", i);
+                            parentEdge.SetAttribute("ordering", i);
                             i++;
                         }
                     }
@@ -764,7 +769,7 @@ namespace de.unika.ipd.grGen.libGr
                     // TODO: there might be literals without values, we must cope with them
                     int val;
                     if(Int32.TryParse(attrval, out val)) value = val;
-                    else value = enumToLiteralToValue[attrType.EnumType.Name][attrval];
+                    else value = enumToLiteralToValue[XmiFromGrGenTypeName(attrType.EnumType.PackagePrefixedName)][attrval];
                     break;
                 }
 

@@ -11,37 +11,37 @@ debug set layout Hierarchic
 dump set node HelperNode color grey
 dump set edge HelperEdge color grey
 
-dump set node org_amma_cfg_AbstractNode labels off
-dump add node org_amma_cfg_AbstractNode shortinfotag _name
-dump set edge org_amma_cfg_AbstractNode_toNode labels off
-dump set node org_amma_cfg_Expression color grey
-dump add node org_amma_cfg_Expression exclude
-dump set edge org_amma_cfg_ConditionalNode_trueConditionNode labels "true"
-dump set edge org_amma_cfg_ConditionalNode_falseConditionNode labels "false"
-dump set edge org_amma_cfg_IterativeNode_trueConditionNode labels "true"
-dump set edge org_amma_cfg_IterativeNode_falseConditionNode labels "false"
+dump set node _org_amma_cfg::_AbstractNode labels off
+dump add node _org_amma_cfg::_AbstractNode shortinfotag _name
+dump set edge _org_amma_cfg::_AbstractNode_toNode labels off
+dump set node _org_amma_cfg::_Expression color grey
+dump add node _org_amma_cfg::_Expression exclude
+dump set edge _org_amma_cfg::_ConditionalNode_trueConditionNode labels "true"
+dump set edge _org_amma_cfg::_ConditionalNode_falseConditionNode labels "false"
+dump set edge _org_amma_cfg::_IterativeNode_trueConditionNode labels "true"
+dump set edge _org_amma_cfg::_IterativeNode_falseConditionNode labels "false"
 
 dump set node CFG_Enter color green
 dump set node CFG_Exit color red
-dump set edge org_amma_cfg_Expression_innerExpression color grey
-dump set edge org_amma_cfg_AbstractNode_expression color grey
+dump set edge _org_amma_cfg::_Expression_innerExpression color grey
+dump set edge _org_amma_cfg::_AbstractNode_expression color grey
 
 dump set edge pdom color blue
 dump set edge pdom_frontier color orange
-dump set node org_amma_pdg_EnterNode labels off
-dump add node org_amma_pdg_EnterNode shortinfotag _name
-dump set edge org_amma_pdg_ExpressionNode_controlDependenceNodes color red
-dump set edge org_amma_pdg_ExpressionNode_controlDependenceNodes textcolor red
-dump set edge org_amma_pdg_ExpressionNode_controlDependenceNodes labels "controlDep"
-dump set edge org_amma_pdg_ExpressionNode_dataDependenceNodes color black
-dump set edge org_amma_pdg_ExpressionNode_dataDependenceNodes labels "dataDep"
-dump set node org_amma_pdg_EnterNode color green
-dump set node org_amma_pdg_Expression color grey
-dump add node org_amma_pdg_Expression exclude
-dump set edge org_amma_pdg_ExpressionNode_expression color grey
-dump set edge org_amma_pdg_Expression_innerExpressions color grey
-dump set node org_amma_pdg_ExpressionNode labels off
-dump add node org_amma_pdg_ExpressionNode shortinfotag _name
+dump set node _org_amma_pdg::_EnterNode labels off
+dump add node _org_amma_pdg::_EnterNode shortinfotag _name
+dump set edge _org_amma_pdg::_ExpressionNode_controlDependenceNodes color red
+dump set edge _org_amma_pdg::_ExpressionNode_controlDependenceNodes textcolor red
+dump set edge _org_amma_pdg::_ExpressionNode_controlDependenceNodes labels "controlDep"
+dump set edge _org_amma_pdg::_ExpressionNode_dataDependenceNodes color black
+dump set edge _org_amma_pdg::_ExpressionNode_dataDependenceNodes labels "dataDep"
+dump set node _org_amma_pdg::_EnterNode color green
+dump set node _org_amma_pdg::_Expression color grey
+dump add node _org_amma_pdg::_Expression exclude
+dump set edge _org_amma_pdg::_ExpressionNode_expression color grey
+dump set edge _org_amma_pdg::_Expression_innerExpressions color grey
+dump set node _org_amma_pdg::_ExpressionNode labels off
+dump add node _org_amma_pdg::_ExpressionNode shortinfotag _name
 
 # if-statement tests
 #exec WhileStatement_to_IfStatement_then
@@ -65,7 +65,7 @@ exec (id:int) = CFG_initial_id \
 		;> (id) = CFG_number_node(id)* \
 		;> CFG_XML_prefix \
 		;> (id) = CFG_initial_id \
-		;> ((n:org_amma_cfg_AbstractNode, id) = CFG_node_by_id(id) && CFG_dump_AbstractNode(n))* \
+		;> ((n:_org_amma_cfg::_AbstractNode, id) = CFG_node_by_id(id) && CFG_dump_AbstractNode(n))* \
 		;> CFG_XML_suffix \
 		;> CFG_finish_dump \
 		;> (CFG_add_Enter_and_Exit & CFG_connect_Enter* & CFG_connect_Exit*) \

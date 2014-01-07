@@ -1,48 +1,48 @@
 rule CFG_handle_statements
 {
-	block:dom_Block;
-	block -e1:dom_Block_statements-> st1:dom_Statement;
-	block -e2:dom_Block_statements-> st2:dom_Statement;
+	block:_dom::_Block;
+	block -e1:_dom::_Block_statements-> st1:_dom::_Statement;
+	block -e2:_dom::_Block_statements-> st2:_dom::_Statement;
 
-	if { e1.index + 1 == e2.index; }
+	if { e1.ordering + 1 == e2.ordering; }
 
 	modify {
-		st1 -:org_amma_cfg_AbstractNode_toNode-> st2;
+		st1 -:_org_amma_cfg::_AbstractNode_toNode-> st2;
 	}
 }
 
 rule CFG_handle_IfStatement
 {
-	iff:dom_IfStatement -:org_amma_cfg_AbstractNode_toNode->;
-	iff -then_edge:dom_IfStatement_thenStatement-> then:dom_Statement;
-	iff -else_edge:dom_IfStatement_elseStatement-> elsee:dom_Statement;
+	iff:_dom::_IfStatement -:_org_amma_cfg::_AbstractNode_toNode->;
+	iff -then_edge:_dom::_IfStatement_thenStatement-> then:_dom::_Statement;
+	iff -else_edge:_dom::_IfStatement_elseStatement-> elsee:_dom::_Statement;
 
 	modify {
 		delete(then_edge, else_edge);
 
-		iff -:org_amma_cfg_ConditionalNode_trueConditionNode-> then;
-		iff -:org_amma_cfg_ConditionalNode_falseConditionNode-> elsee;
-		then -:org_amma_cfg_AbstractNode_toNode-> iff;
-		elsee -:org_amma_cfg_AbstractNode_toNode-> iff;
+		iff -:_org_amma_cfg::_ConditionalNode_trueConditionNode-> then;
+		iff -:_org_amma_cfg::_ConditionalNode_falseConditionNode-> elsee;
+		then -:_org_amma_cfg::_AbstractNode_toNode-> iff;
+		elsee -:_org_amma_cfg::_AbstractNode_toNode-> iff;
 	}
 }
 
 rule CFG_handle_IfStatement_Block
 {
-	block:dom_Block;
-	block <-cfg:Edge- iff:dom_IfStatement;
-	block -endif:org_amma_cfg_AbstractNode_toNode-> iff;
-	iff -:org_amma_cfg_AbstractNode_toNode-> next:dom_Statement;
+	block:_dom::_Block;
+	block <-cfg:Edge- iff:_dom::_IfStatement;
+	block -endif:_org_amma_cfg::_AbstractNode_toNode-> iff;
+	iff -:_org_amma_cfg::_AbstractNode_toNode-> next:_dom::_Statement;
 
 	hom(first, last);
 	hom(st1, st2);
-	block -st1:dom_Block_statements-> first:dom_Statement;
-	block -st2:dom_Block_statements-> last:dom_Statement;
+	block -st1:_dom::_Block_statements-> first:_dom::_Statement;
+	block -st2:_dom::_Block_statements-> last:_dom::_Statement;
 
-	if { st1.index == 0; }
+	if { st1.ordering == 0; }
 	negative {
-		block -st:dom_Block_statements->;
-		if { st.index > st2.index; }
+		block -st:_dom::_Block_statements->;
+		if { st.ordering > st2.ordering; }
 	}
 
 	modify {
@@ -50,53 +50,53 @@ rule CFG_handle_IfStatement_Block
 		delete(endif);
 
 		iff -:typeof(cfg)-> first;
-		last -:org_amma_cfg_AbstractNode_toNode-> next;
+		last -:_org_amma_cfg::_AbstractNode_toNode-> next;
 	}
 }
 
 rule CFG_handle_WhileStatement
 {
-	whilee:dom_WhileStatement -cfgfalse:org_amma_cfg_AbstractNode_toNode->;
-	whilee -:dom_WhileStatement_body-> body:dom_Statement;
+	whilee:_dom::_WhileStatement -cfgfalse:_org_amma_cfg::_AbstractNode_toNode->;
+	whilee -:_dom::_WhileStatement_body-> body:_dom::_Statement;
 
 	modify {
-		-:org_amma_cfg_IterativeNode_falseConditionNode<cfgfalse>->;
-		whilee -:org_amma_cfg_IterativeNode_trueConditionNode-> body;
-		body -:org_amma_cfg_AbstractNode_toNode-> whilee;
+		-:_org_amma_cfg::_IterativeNode_falseConditionNode<cfgfalse>->;
+		whilee -:_org_amma_cfg::_IterativeNode_trueConditionNode-> body;
+		body -:_org_amma_cfg::_AbstractNode_toNode-> whilee;
 	}
 }
 
 rule CFG_handle_WhileStatement_Block
 {
-	block:dom_Block;
-	block <-cfgtrue:org_amma_cfg_IterativeNode_trueConditionNode- whilee:dom_WhileStatement;
-	block -endwhile:org_amma_cfg_AbstractNode_toNode-> whilee;
+	block:_dom::_Block;
+	block <-cfgtrue:_org_amma_cfg::_IterativeNode_trueConditionNode- whilee:_dom::_WhileStatement;
+	block -endwhile:_org_amma_cfg::_AbstractNode_toNode-> whilee;
 
 	hom(first, last);
 	hom(st1, st2);
-	block -st1:dom_Block_statements-> first:dom_Statement;
-	block -st2:dom_Block_statements-> last:dom_Statement;
+	block -st1:_dom::_Block_statements-> first:_dom::_Statement;
+	block -st2:_dom::_Block_statements-> last:_dom::_Statement;
 
-	if { st1.index == 0; }
+	if { st1.ordering == 0; }
 	negative {
-		block -st:dom_Block_statements->;
-		if { st.index > st2.index; }
+		block -st:_dom::_Block_statements->;
+		if { st.ordering > st2.ordering; }
 	}
 
 	modify {
 		delete(cfgtrue);
 		delete(endwhile);
 
-		whilee -:org_amma_cfg_IterativeNode_trueConditionNode-> first;
-		last -:org_amma_cfg_AbstractNode_toNode-> whilee;
+		whilee -:_org_amma_cfg::_IterativeNode_trueConditionNode-> first;
+		last -:_org_amma_cfg::_AbstractNode_toNode-> whilee;
 	}
 }
 
 rule CFG_handle_EmptyStatement {
-	a:dom_Statement;
-	b:dom_EmptyStatement;
-	c:dom_Statement;
-	a -e:Edge-> b -f:Edge-> a -g:org_amma_cfg_AbstractNode_toNode-> c;
+	a:_dom::_Statement;
+	b:_dom::_EmptyStatement;
+	c:_dom::_Statement;
+	a -e:Edge-> b -f:Edge-> a -g:_org_amma_cfg::_AbstractNode_toNode-> c;
 
 	modify {
 		delete(e, f, g);
@@ -115,13 +115,13 @@ rule CFG_sweep_graph_step1
 {
 	n:Node\HelperNode;
 	negative {
-		n <-:org_amma_cfg_AbstractNode_toNode->;
+		n <-:_org_amma_cfg::_AbstractNode_toNode->;
 	}
 	negative {
-		n <-:org_amma_cfg_ConditionalNode_trueConditionNode->;
+		n <-:_org_amma_cfg::_ConditionalNode_trueConditionNode->;
 	}
 	negative {
-		n <-:org_amma_cfg_ConditionalNode_falseConditionNode->;
+		n <-:_org_amma_cfg::_ConditionalNode_falseConditionNode->;
 	}
 
 	negative {
@@ -151,11 +151,11 @@ rule AST_nodes_2_CFG {
 }
 
 rule ExpressionStatement_2_CFG {
-	stmt:dom_ExpressionStatement -:dom_ExpressionStatement_expression-> expr:dom_Expression;
+	stmt:_dom::_ExpressionStatement -:_dom::_ExpressionStatement_expression-> expr:_dom::_Expression;
 	expr -:HelperEdge-> helper:HelperNode;
 
 	modify {
-		cfg_node:org_amma_cfg_Node<stmt>;
+		cfg_node:_org_amma_cfg::_Node<stmt>;
 
 		eval {
 			cfg_node._name = helper.name;
@@ -164,11 +164,11 @@ rule ExpressionStatement_2_CFG {
 }
 
 rule IfStatement_2_CFG {
-	stmt:dom_IfStatement -:dom_IfStatement_expression-> expr:dom_Expression;
+	stmt:_dom::_IfStatement -:_dom::_IfStatement_expression-> expr:_dom::_Expression;
 	expr -:HelperEdge-> helper:HelperNode;
 
 	modify {
-		cfg_node:org_amma_cfg_ConditionalNode<stmt>;
+		cfg_node:_org_amma_cfg::_ConditionalNode<stmt>;
 
 		eval {
 			cfg_node._name = "If(" + helper.name + ")";
@@ -177,11 +177,11 @@ rule IfStatement_2_CFG {
 }
 
 rule WhileStatement_2_CFG {
-	stmt:dom_WhileStatement -:dom_WhileStatement_expression-> expr:dom_Expression;
+	stmt:_dom::_WhileStatement -:_dom::_WhileStatement_expression-> expr:_dom::_Expression;
 	expr -:HelperEdge-> helper:HelperNode;
 
 	modify {
-		cfg_node:org_amma_cfg_IterativeNode<stmt>;
+		cfg_node:_org_amma_cfg::_IterativeNode<stmt>;
 
 		eval {
 			cfg_node._name = "While(" + helper.name + ")";
@@ -190,10 +190,10 @@ rule WhileStatement_2_CFG {
 }
 
 rule SimpleName_2_CFG {
-	expr:dom_SimpleName -:HelperEdge-> helper:HelperNode;
+	expr:_dom::_SimpleName -:HelperEdge-> helper:HelperNode;
 
 	replace {
-		cfg_expr:org_amma_cfg_Expression<expr>;
+		cfg_expr:_org_amma_cfg::_Expression<expr>;
 
 		eval {
 			cfg_expr._expressionName = helper.operator;
@@ -203,10 +203,10 @@ rule SimpleName_2_CFG {
 }
 
 rule NumberLiteral_2_CFG {
-	expr:dom_NumberLiteral -:HelperEdge-> helper:HelperNode;
+	expr:_dom::_NumberLiteral -:HelperEdge-> helper:HelperNode;
 
 	replace {
-		cfg_expr:org_amma_cfg_Expression<expr>;
+		cfg_expr:_org_amma_cfg::_Expression<expr>;
 
 		eval {
 			cfg_expr._expressionName = helper.operator;
@@ -216,109 +216,109 @@ rule NumberLiteral_2_CFG {
 }
 
 rule Assignment_2_CFG {
-	expr:dom_Assignment -:HelperEdge-> helper:HelperNode;
-	expr -lhs:dom_Assignment_leftHandSide->;
-	expr -rhs:dom_Assignment_rightHandSide->;
+	expr:_dom::_Assignment -:HelperEdge-> helper:HelperNode;
+	expr -lhs:_dom::_Assignment_leftHandSide->;
+	expr -rhs:_dom::_Assignment_rightHandSide->;
 
 	modify {
 		delete(helper);
 
-		cfg_expr:org_amma_cfg_Expression<expr>;
-		-cfg_lhs:org_amma_cfg_Expression_innerExpression<lhs>->;
-		-cfg_rhs:org_amma_cfg_Expression_innerExpression<rhs>->;
+		cfg_expr:_org_amma_cfg::_Expression<expr>;
+		-cfg_lhs:_org_amma_cfg::_Expression_innerExpression<lhs>->;
+		-cfg_rhs:_org_amma_cfg::_Expression_innerExpression<rhs>->;
 
 		eval {
 			cfg_expr._expressionName = helper.operator;
 			cfg_expr._isIdentifier = false;
-			cfg_lhs.index = 0;
-			cfg_rhs.index = 1;
+			cfg_lhs.ordering = 0;
+			cfg_rhs.ordering = 1;
 		}
 	}
 }
 
 rule InfixExpression_2_CFG {
-	expr:dom_InfixExpression -:HelperEdge-> helper:HelperNode;
-	expr -lhs:dom_InfixExpression_leftOperand->;
-	expr -rhs:dom_InfixExpression_rightOperand->;
+	expr:_dom::_InfixExpression -:HelperEdge-> helper:HelperNode;
+	expr -lhs:_dom::_InfixExpression_leftOperand->;
+	expr -rhs:_dom::_InfixExpression_rightOperand->;
 
 	modify {
 		delete(helper);
 
-		cfg_expr:org_amma_cfg_Expression<expr>;
-		-cfg_lhs:org_amma_cfg_Expression_innerExpression<lhs>->;
-		-cfg_rhs:org_amma_cfg_Expression_innerExpression<rhs>->;
+		cfg_expr:_org_amma_cfg::_Expression<expr>;
+		-cfg_lhs:_org_amma_cfg::_Expression_innerExpression<lhs>->;
+		-cfg_rhs:_org_amma_cfg::_Expression_innerExpression<rhs>->;
 
 		eval {
 			cfg_expr._expressionName = helper.operator;
 			cfg_expr._isIdentifier = false;
-			cfg_lhs.index = 0;
-			cfg_rhs.index = 1;
+			cfg_lhs.ordering = 0;
+			cfg_rhs.ordering = 1;
 		}
 	}
 }
 
 rule PrefixExpression_2_CFG {
-	expr:dom_PrefixExpression -:HelperEdge-> helper:HelperNode;
-	expr -op:dom_PrefixExpression_operand->;
+	expr:_dom::_PrefixExpression -:HelperEdge-> helper:HelperNode;
+	expr -op:_dom::_PrefixExpression_operand->;
 
 	modify {
 		delete(helper);
 
-		cfg_expr:org_amma_cfg_Expression<expr>;
-		-cfg_op:org_amma_cfg_Expression_innerExpression<op>->;
+		cfg_expr:_org_amma_cfg::_Expression<expr>;
+		-cfg_op:_org_amma_cfg::_Expression_innerExpression<op>->;
 
 		eval {
 			cfg_expr._expressionName = helper.operator;
 			cfg_expr._isIdentifier = false;
-			cfg_op.index = 0;
+			cfg_op.ordering = 0;
 		}
 	}
 }
 
 rule PostfixExpression_2_CFG {
-	expr:dom_PostfixExpression -:HelperEdge-> helper:HelperNode;
-	expr -op:dom_PostfixExpression_operand->;
+	expr:_dom::_PostfixExpression -:HelperEdge-> helper:HelperNode;
+	expr -op:_dom::_PostfixExpression_operand->;
 
 	modify {
 		delete(helper);
 
-		cfg_expr:org_amma_cfg_Expression<expr>;
-		-cfg_op:org_amma_cfg_Expression_innerExpression<op>->;
+		cfg_expr:_org_amma_cfg::_Expression<expr>;
+		-cfg_op:_org_amma_cfg::_Expression_innerExpression<op>->;
 
 		eval {
 			cfg_expr._expressionName = helper.operator;
 			cfg_expr._isIdentifier = false;
-			cfg_op.index = 0;
+			cfg_op.ordering = 0;
 		}
 	}
 }
 
 rule MethodInvocation_2_CFG {
-	expr:dom_MethodInvocation -:HelperEdge-> helper:HelperNode;
-	expr -arg:dom_MethodInvocation_arguments->;
+	expr:_dom::_MethodInvocation -:HelperEdge-> helper:HelperNode;
+	expr -arg:_dom::_MethodInvocation_arguments->;
 
 	// name is already transformed
-	expr -:dom_MethodInvocation_name-> name:org_amma_cfg_Expression;
+	expr -:_dom::_MethodInvocation_name-> name:_org_amma_cfg::_Expression;
 
 	modify {
 		delete(name, helper);
 
-		cfg_expr:org_amma_cfg_Expression<expr>;
-		-cfg_arg:org_amma_cfg_Expression_innerExpression<arg>->;
+		cfg_expr:_org_amma_cfg::_Expression<expr>;
+		-cfg_arg:_org_amma_cfg::_Expression_innerExpression<arg>->;
 
 		eval {
 			cfg_expr._expressionName = helper.operator;
 			cfg_expr._isIdentifier = false;
-			cfg_arg.index = 1;
+			cfg_arg.ordering = 1;
 		}
 	}
 }
 
 rule ExpressionEdge_2_CFG {
-	:org_amma_cfg_AbstractNode -e:Edge\org_amma_cfg_AbstractNode_expression-> :org_amma_cfg_Expression;
+	:_org_amma_cfg::_AbstractNode -e:Edge\_org_amma_cfg::_AbstractNode_expression-> :_org_amma_cfg::_Expression;
 
 	modify {
-		-cfg_edge:org_amma_cfg_AbstractNode_expression<e>->;
+		-cfg_edge:_org_amma_cfg::_AbstractNode_expression<e>->;
 	}
 }
 
@@ -336,26 +336,26 @@ rule CFG_add_Enter_and_Exit {
 
 rule CFG_connect_Enter {
 	enter:CFG_Enter;
-	n:org_amma_cfg_AbstractNode;
+	n:_org_amma_cfg::_AbstractNode;
 
 	negative {
 		--> n;
 	}
 
 	modify {
-		enter -:org_amma_cfg_AbstractNode_toNode-> n;
+		enter -:_org_amma_cfg::_AbstractNode_toNode-> n;
 	}
 }
 
 rule CFG_connect_Exit {
 	exit:CFG_Exit;
-	n:org_amma_cfg_AbstractNode;
+	n:_org_amma_cfg::_AbstractNode;
 
 	negative {
-		n -:Edge\org_amma_cfg_AbstractNode_expression->;
+		n -:Edge\_org_amma_cfg::_AbstractNode_expression->;
 	}
 
 	modify {
-		n -:org_amma_cfg_AbstractNode_toNode-> exit;
+		n -:_org_amma_cfg::_AbstractNode_toNode-> exit;
 	}
 }
