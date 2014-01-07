@@ -760,13 +760,13 @@ public class ActionsGen extends CSharpBase {
 				// alle verbotenen Typen und deren Untertypen
 				HashSet<Type> allForbiddenTypes = new HashSet<Type>();
 				for(Type forbiddenType : node.getConstraints())
-					for(Type type : model.getNodeTypes()) {
+					for(Type type : model.getAllNodeTypes()) {
 						if (type.isCastableTo(forbiddenType))
 							allForbiddenTypes.add(type);
 					}
 				sb.append("{ ");
 				aux.append("{ ");
-				for(Type type : model.getNodeTypes()) {
+				for(Type type : model.getAllNodeTypes()) {
 					boolean isAllowed = type.isCastableTo(node.getNodeType()) && !allForbiddenTypes.contains(type);
 					// all permitted nodes, aka nodes that are not forbidden
 					if( isAllowed )
@@ -801,13 +801,13 @@ public class ActionsGen extends CSharpBase {
 				// alle verbotenen Typen und deren Untertypen
 				HashSet<Type> allForbiddenTypes = new HashSet<Type>();
 				for(Type forbiddenType : edge.getConstraints())
-					for(Type type : model.getEdgeTypes()) {
+					for(Type type : model.getAllEdgeTypes()) {
 						if (type.isCastableTo(forbiddenType))
 							allForbiddenTypes.add(type);
 					}
 				sb.append("{ ");
 				aux.append("{ ");
-				for(Type type : model.getEdgeTypes()) {
+				for(Type type : model.getAllEdgeTypes()) {
 					boolean isAllowed = type.isCastableTo(edge.getEdgeType()) && !allForbiddenTypes.contains(type);
 					// all permitted nodes, aka node that are not forbidden
 					if( isAllowed )

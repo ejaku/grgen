@@ -13,6 +13,7 @@
 
 package de.unika.ipd.grgen.ir;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -38,6 +39,8 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 	private boolean isCopyClassDefined;
 	private boolean isEqualClassDefined;
 	private boolean isLowerClassDefined;
+	private Collection<NodeType> allNodeTypes;
+	private Collection<EdgeType> allEdgeTypes;
 
 
 	public Model(Ident ident, boolean isEmitClassDefined, boolean isCopyClassDefined, 
@@ -54,6 +57,8 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 		usedModels.add(model);
 		for(Type type : model.getTypes())
 			addType(type);
+		for(PackageType pack : model.getPackages())
+			addPackage(pack);
 		for(ExternalFunction externalFunc : model.getExternalFunctions())
 			addExternalFunction(externalFunc);
 	}
@@ -102,8 +107,42 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 		return Collections.unmodifiableCollection(nodeTypes);
 	}
 
+	public Collection<NodeType> getAllNodeTypes() {
+		if(allNodeTypes == null) {
+			Collection<NodeType> allNodeTypes = new ArrayList<NodeType>();
+			allNodeTypes.addAll(getNodeTypes());
+			for(PackageType pt : getPackages()) {
+				allNodeTypes.addAll(pt.getNodeTypes());
+			}
+			int typeID = 0;
+			for(NodeType nt : allNodeTypes) {
+				nt.setNodeOrEdgeTypeID(true, typeID);
+				++typeID;
+			}
+			this.allNodeTypes  = Collections.unmodifiableCollection(allNodeTypes);
+		}
+		return allNodeTypes;
+	}
+	
 	public Collection<EdgeType> getEdgeTypes() {
 		return Collections.unmodifiableCollection(edgeTypes);
+	}
+
+	public Collection<EdgeType> getAllEdgeTypes() {
+		if(allEdgeTypes == null) {
+			Collection<EdgeType> allEdgeTypes = new ArrayList<EdgeType>();
+			allEdgeTypes.addAll(getEdgeTypes());
+			for(PackageType pt : getPackages()) {
+				allEdgeTypes.addAll(pt.getEdgeTypes());
+			}
+			int typeID = 0;
+			for(EdgeType et : allEdgeTypes) {
+				et.setNodeOrEdgeTypeID(false, typeID);
+				++typeID;
+			}
+			this.allEdgeTypes = Collections.unmodifiableCollection(allEdgeTypes);
+		}
+		return allEdgeTypes;
 	}
 
 	public Collection<EnumType> getEnumTypes() {
