@@ -65,7 +65,7 @@ import de.unika.ipd.grgen.parser.Symbol;
 	}
 
 	public Symbol.Definition getOwnerSymDef() {
-		if(owningPackage.getDefinition()==null) {
+		if(owningPackage.getDefinition()==null || !owningPackage.getDefinition().isValid()) {
 			Symbol.Definition def = owningPackage.getScope().getCurrDef(getOwnerSymbol());
 			if(def.isValid())
 				setOwnerSymDef(def);

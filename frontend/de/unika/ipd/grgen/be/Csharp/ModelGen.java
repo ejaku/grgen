@@ -13,7 +13,6 @@
 package de.unika.ipd.grgen.be.Csharp;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.Comparator;
@@ -74,28 +73,6 @@ public class ModelGen extends CSharpBase {
 				+ "{\n"
 				+ "\tusing GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n");
 
-		Collection<NodeType> allNodeTypes = new ArrayList<NodeType>();
-		allNodeTypes.addAll(model.getNodeTypes());
-		for(PackageType pt : model.getPackages()) {
-			allNodeTypes.addAll(pt.getNodeTypes());
-		}
-		int typeID = 0;
-		for(NodeType nt : allNodeTypes) {
-			nt.setNodeOrEdgeTypeID(true, typeID);
-			++typeID;
-		}
-
-		Collection<EdgeType> allEdgeTypes = new ArrayList<EdgeType>();
-		allEdgeTypes.addAll(model.getEdgeTypes());
-		for(PackageType pt : model.getPackages()) {
-			allEdgeTypes.addAll(pt.getEdgeTypes());
-		}
-		typeID = 0;
-		for(EdgeType et : allEdgeTypes) {
-			et.setNodeOrEdgeTypeID(false, typeID);
-			++typeID;
-		}
-
 		for(PackageType pt : model.getPackages()) {
 			System.out.println("    generating package " + pt.getIdent() + "...");
 	
@@ -107,7 +84,8 @@ public class ModelGen extends CSharpBase {
 			sb.append("\t//-----------------------------------------------------------\n");
 			sb.append("\t{\n");
 	
-			genBearer(allNodeTypes, allEdgeTypes, pt, pt.getIdent().toString());
+			genBearer(model.getAllNodeTypes(), model.getAllEdgeTypes(),
+					pt, pt.getIdent().toString());
 	
 			sb.append("\n");
 			sb.append("\t//-----------------------------------------------------------\n");
@@ -115,17 +93,18 @@ public class ModelGen extends CSharpBase {
 			sb.append("\t//-----------------------------------------------------------\n");
 		}
 
-		genBearer(allNodeTypes, allEdgeTypes, model, null);
+		genBearer(model.getAllNodeTypes(), model.getAllEdgeTypes(),
+				model, null);
 
 		sb.append("\t//-----------------------------------------------------------\n");
 
 		System.out.println("    generating node model...");
 		sb.append("\n");
-		genModelClass(allNodeTypes, true);
+		genModelClass(model.getAllNodeTypes(), true);
 
 		System.out.println("    generating edge model...");
 		sb.append("\n");
-		genModelClass(allEdgeTypes, false);
+		genModelClass(model.getAllEdgeTypes(), false);
 
 		System.out.println("    generating graph model...");
 		sb.append("\n");
