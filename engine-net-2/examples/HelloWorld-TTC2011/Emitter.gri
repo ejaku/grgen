@@ -1,5 +1,5 @@
 rule emitInt {
-	int:result_IntResult;
+	int:_result::_IntResult;
 
 	replace {
 		emit("<?xml version=\"1.0\" encoding=\"ASCII\"?>\n");
@@ -12,7 +12,7 @@ rule emitInt {
 }
 
 rule emitString {
-	string:result_StringResult;
+	string:_result::_StringResult;
 
 	replace {
 		emit("<?xml version=\"1.0\" encoding=\"ASCII\"?>\n");

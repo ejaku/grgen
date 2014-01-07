@@ -2,18 +2,18 @@
 #using "graph3__ecore.gm"
 
 rule migrateGraph {
-	n:graph1_Graph;
+	n:_graph1::_Graph;
 
 	modify {
-		:graph3_Graph<n>;
+		:_graph3::_Graph<n>;
 	}
 }
 
 rule migrateNode {
-	n:graph1_Node;
+	n:_graph1::_Node;
 
 	modify {
-		migrated:graph3_Node<n>;
+		migrated:_graph3::_Node<n>;
 
 		eval {
 			migrated._text = n._name;
@@ -22,56 +22,56 @@ rule migrateNode {
 }
 
 rule migrateEdge {
-	e:graph1_Edge;
-	e <-graphEdge:graph1_Graph_edges-;
-	e -:graph1_Edge_src-> src:Node;
-	e -:graph1_Edge_trg-> trg:Node;
+	e:_graph1::_Edge;
+	e <-graphEdge:_graph1::_Graph_edges-;
+	e -:_graph1::_Edge_src-> src:Node;
+	e -:_graph1::_Edge_trg-> trg:Node;
 
 	modify {
 		delete(e);
 
-		src -migrated:graph3_Node_linksTo-> trg;
+		src -migrated:_graph3::_Node_linksTo-> trg;
 
 		eval {
-			migrated.index = graphEdge.index;
+			migrated.ordering = graphEdge.ordering;
 		}
 	}
 }
 
 rule fixEdgeIndex {
 	n:Node;
-	n -e:graph3_Node_linksTo->;
+	n -e:_graph3::_Node_linksTo->;
 
-	if {e.index > 0;}
+	if {e.ordering > 0;}
 
 	negative {
-		n -f:graph3_Node_linksTo->;
+		n -f:_graph3::_Node_linksTo->;
 
-		if { f.index == e.index - 1;}
+		if { f.ordering == e.ordering - 1;}
 	}
 
 	modify {
 		eval {
-			e.index = e.index - 1;
+			e.ordering = e.ordering - 1;
 		}
 	}
 }
 
 rule deleteDanglingEdge {
-	e:graph1_Edge;
+	e:_graph1::_Edge;
 
 	replace {
 	}
 }
 
 rule migrateGraphNodes {
-	-e:graph1_Graph_nodes->;
+	-e:_graph1::_Graph_nodes->;
 
 	modify {
-		-migrated:graph3_Graph_nodes<e>->;
+		-migrated:_graph3::_Graph_nodes<e>->;
 
 		eval {
-			migrated.index = e.index;
+			migrated.ordering = e.ordering;
 		}
 	}
 }

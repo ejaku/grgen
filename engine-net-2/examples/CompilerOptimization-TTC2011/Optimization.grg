@@ -2,6 +2,9 @@
 
 #include "Verifier.gri"
 
+#include "minPlus.gri"
+#include "minPlusConst.gri"
+
 rule foldCond
 {
 	startBlock:StartBlock;

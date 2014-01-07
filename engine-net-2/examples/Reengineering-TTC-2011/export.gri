@@ -2,7 +2,7 @@ rule assignId(var id:int, ref nodeToId:map<Node, int>) : (int)
 {
 	alternative {
 		State {
-			s:statemachine_State;
+			s:_statemachine::_State;
 			if { !(s in nodeToId); }
 
 			modify {
@@ -10,7 +10,7 @@ rule assignId(var id:int, ref nodeToId:map<Node, int>) : (int)
 			}
 		}
 		Transition {
-			t:statemachine_Transition;
+			t:_statemachine::_Transition;
 			if { !(t in nodeToId); }
 
 			modify {
@@ -35,17 +35,17 @@ rule emitPrefix
 
 rule emitState(ref nodeToId:map<Node, int>)
 {
-	s:statemachine_State;
+	s:_statemachine::_State;
 
 	iterated outgoing {
-		s -:statemachine_State_out-> t:statemachine_Transition;
+		s -:_statemachine::_State_out-> t:_statemachine::_Transition;
 
 		modify {
 			emithere(nodeToId[t] + " ");
 		}
 	}
 	iterated incoming {
-		s -:statemachine_State_in-> t:statemachine_Transition;
+		s -:_statemachine::_State_in-> t:_statemachine::_Transition;
 
 		modify {
 			emithere(nodeToId[t] + " ");
@@ -64,7 +64,7 @@ rule emitState(ref nodeToId:map<Node, int>)
 
 rule emitTransition(ref nodeToId:map<Node, int>)
 {
-	src:statemachine_State <-:statemachine_Transition_src- t:statemachine_Transition -:statemachine_Transition_dst-> dst:statemachine_State;
+	src:_statemachine::_State <-:_statemachine::_Transition_src- t:_statemachine::_Transition -:_statemachine::_Transition_dst-> dst:_statemachine::_State;
 
 	modify {
 		emit("    <transitions xmi:type=\"statemachine:Transition\" xmi:id=\"" + nodeToId[t] + "\" ");

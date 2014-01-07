@@ -2,7 +2,7 @@
 
 rule createHelloWorld {
 	replace {
-		greeting:helloworld_Greeting;
+		greeting:_helloworld::_Greeting;
 
 		eval {
 			greeting._text = "Hello World";

@@ -8,37 +8,37 @@
 rule createStates
 {
 	// find State class
-	stateClass:classifiers_Class;
-	stateClass -:modifiers_AnnotableAndModifiable_annotationsAndModifiers-> :modifiers_Abstract;
+	stateClass:_classifiers::_Class;
+	stateClass -:_modifiers::_AnnotableAndModifiable_annotationsAndModifiers-> :_modifiers::_Abstract;
 	if { stateClass._name == "State"; }
 
 	// from it recursively find all directly or indirectly extending non-abstract classes
 	es:CreateStates(stateClass);
 
 	modify {
-		sm:statemachine_StateMachine; // create state machine where to insert the new states/transitions
+		sm:_statemachine::_StateMachine; // create state machine where to insert the new states/transitions
 		es(sm); // add for each such found class a state to the state machine
 	}
 }
 
-pattern CreateStates(parentClass:classifiers_Class) modify(sm:statemachine_StateMachine)
+pattern CreateStates(parentClass:_classifiers::_Class) modify(sm:_statemachine::_StateMachine)
 {
 	iterated {
 		// find all classes directly extending the given parent class, match breadth by iterated
-		extendingClass:classifiers_Class -:classifiers_Class_extends-> r:types_NamespaceClassifierReference;
-		r -:types_NamespaceClassifierReference_classifierReferences-> cr:types_ClassifierReference;
-		cr -:types_ClassifierReference_target-> parentClass;
+		extendingClass:_classifiers::_Class -:_classifiers::_Class_extends-> r:_types::_NamespaceClassifierReference;
+		r -:_types::_NamespaceClassifierReference_classifierReferences-> cr:_types::_ClassifierReference;
+		cr -:_types::_ClassifierReference_target-> parentClass;
 		// do the same for all their children, match depth by recursive call
 		es:CreateStates(extendingClass);
 
 		optional {
 			negative { // must be non-abstract
-				extendingClass -:modifiers_AnnotableAndModifiable_annotationsAndModifiers-> :modifiers_Abstract;
+				extendingClass -:_modifiers::_AnnotableAndModifiable_annotationsAndModifiers-> :_modifiers::_Abstract;
 			}
 
 			modify {
 				// for every directly found class add a state to the state machine
-				sm -:statemachine_StateMachine_states-> s:statemachine_State;
+				sm -:_statemachine::_StateMachine_states-> s:_statemachine::_State;
 				s -:link-> extendingClass;
 				eval { s._name = extendingClass._name; }
 			}
@@ -55,36 +55,36 @@ pattern CreateStates(parentClass:classifiers_Class) modify(sm:statemachine_State
 rule createTransitions
 {
 	// find the class.Instance().activate() pattern
-	expressionStatement:statements_ExpressionStatement -:statements_ExpressionStatement_expression-> refTargetClass;
-	refTargetClass:references_IdentifierReference -:references_ElementReference_target-> targetClass:classifiers_Class;
-	refTargetClass -:references_Reference_next-> callInstance;
-	callInstance:references_MethodCall -:references_ElementReference_target-> instance:members_ClassMethod;
-	callInstance -:references_Reference_next-> callActivate;
-	callActivate:references_MethodCall -:references_ElementReference_target-> activate:members_ClassMethod;
+	expressionStatement:_statements::_ExpressionStatement -:_statements::_ExpressionStatement_expression-> refTargetClass;
+	refTargetClass:_references::_IdentifierReference -:_references::_ElementReference_target-> targetClass:_classifiers::_Class;
+	refTargetClass -:_references::_Reference_next-> callInstance;
+	callInstance:_references::_MethodCall -:_references::_ElementReference_target-> instance:_members::_ClassMethod;
+	callInstance -:_references::_Reference_next-> callActivate;
+	callActivate:_references::_MethodCall -:_references::_ElementReference_target-> activate:_members::_ClassMethod;
 	if { instance._name=="Instance" && activate._name=="activate"; }
 
 	// get the target state from the target class; find the source state via recursive depth walking outwards
-	targetClass <-:link- targetState:statemachine_State;
-	def sourceState:statemachine_State;
+	targetClass <-:link- targetState:_statemachine::_State;
+	def sourceState:_statemachine::_State;
 	fss:FindSourceState(expressionStatement, yield sourceState);
 
-	sm:statemachine_StateMachine;
+	sm:_statemachine::_StateMachine;
 
 	modify {
-		sm -:statemachine_StateMachine_transitions-> transition:statemachine_Transition;
-		sourceState <-:statemachine_Transition_src- transition -:statemachine_Transition_dst-> targetState;
-		sourceState -:statemachine_State_out-> transition <-:statemachine_State_in- targetState;
+		sm -:_statemachine::_StateMachine_transitions-> transition:_statemachine::_Transition;
+		sourceState <-:_statemachine::_Transition_src- transition -:_statemachine::_Transition_dst-> targetState;
+		sourceState -:_statemachine::_State_out-> transition <-:_statemachine::_State_in- targetState;
 		transition -:link-> expressionStatement;
 		fss(transition);
 	}
 }
 
-pattern FindSourceState(containedEntity:Node, def sourceState:statemachine_State) modify(transition:statemachine_Transition)
+pattern FindSourceState(containedEntity:Node, def sourceState:_statemachine::_State) modify(transition:_statemachine::_Transition)
 {
 	// move outwards from the contained entity till the class, return the State linked to the class
 	alternative {
 		StatementListContainer {
-			listContainer:statements_StatementListContainer -:statements_StatementListContainer_statements-> containedEntity;
+			listContainer:_statements::_StatementListContainer -:_statements::_StatementListContainer_statements-> containedEntity;
 			fss:FindSourceState(listContainer, yield sourceState);
 
 			modify {
@@ -93,7 +93,7 @@ pattern FindSourceState(containedEntity:Node, def sourceState:statemachine_State
 			}
 		}
 		StatementContainer {
-			container:statements_StatementContainer -:statements_StatementContainer_statement-> containedEntity;
+			container:_statements::_StatementContainer -:_statements::_StatementContainer_statement-> containedEntity;
 			fss:FindSourceState(container, yield sourceState);
 
 			modify {
@@ -102,7 +102,7 @@ pattern FindSourceState(containedEntity:Node, def sourceState:statemachine_State
 			}
 		}
 		StatementSwitch {
-			switch:statements_Switch -:statements_Switch_cases-> containedEntity;
+			switch:_statements::_Switch -:_statements::_Switch_cases-> containedEntity;
 			fss:FindSourceState(switch, yield sourceState);
 
 			modify {
@@ -111,7 +111,7 @@ pattern FindSourceState(containedEntity:Node, def sourceState:statemachine_State
 			}
 		}
 		StatementCondition {
-			condition:statements_Condition -:statements_Condition_elseStatement-> containedEntity;
+			condition:_statements::_Condition -:_statements::_Condition_elseStatement-> containedEntity;
 			fss:FindSourceState(condition, yield sourceState);
 
 			modify {
@@ -120,7 +120,7 @@ pattern FindSourceState(containedEntity:Node, def sourceState:statemachine_State
 			}
 		}
 		StatementTry {
-			try:statements_TryBlock -:statements_TryBlock_catcheBlocks-> containedEntity;
+			try:_statements::_TryBlock -:_statements::_TryBlock_catcheBlocks-> containedEntity;
 			fss:FindSourceState(try, yield sourceState);
 
 			modify {
@@ -129,8 +129,8 @@ pattern FindSourceState(containedEntity:Node, def sourceState:statemachine_State
 			}
 		}
 		Class {
-			cc:classifiers_Class -:members_MemberContainer_members-> containedEntity;
-			ss:statemachine_State -:link-> cc;
+			cc:_classifiers::_Class -:_members::_MemberContainer_members-> containedEntity;
+			ss:_statemachine::_State -:link-> cc;
 			yield { yield sourceState = ss; }
 
 			modify {
@@ -144,7 +144,7 @@ pattern FindSourceState(containedEntity:Node, def sourceState:statemachine_State
 
 rule addTriggerNonRunMethodName
 {
-	transition:statemachine_Transition -:link-> method:members_ClassMethod;
+	transition:_statemachine::_Transition -:link-> method:_members::_ClassMethod;
 	if { method._name != "run"; }
 
 	modify {
@@ -156,9 +156,9 @@ rule addTriggerNonRunMethodName
 
 rule addTriggerSwitchCaseEnumValueName
 {
-	transition:statemachine_Transition -:link-> case:statements_NormalSwitchCase;
-	case -:statements_Conditional_condition-> caseCondition:references_IdentifierReference;
-	caseCondition -:references_ElementReference_target-> value:members_EnumConstant;
+	transition:_statemachine::_Transition -:link-> case:_statements::_NormalSwitchCase;
+	case -:_statements::_Conditional_condition-> caseCondition:_references::_IdentifierReference;
+	caseCondition -:_references::_ElementReference_target-> value:_members::_EnumConstant;
 
 	modify {
 		eval {
@@ -169,11 +169,11 @@ rule addTriggerSwitchCaseEnumValueName
 
 rule addTriggerCatchBlockExceptionClassName
 {
-	transition:statemachine_Transition -:link-> catchBlock:statements_CatchBlock;
-	catchBlock -:statements_CatchBlock_parameter-> parameter:parameters_OrdinaryParameter;
-	parameter -:types_TypedElement_typeReference-> nspClassRef:types_NamespaceClassifierReference;
-	nspClassRef -:types_NamespaceClassifierReference_classifierReferences-> classRef:types_ClassifierReference;
-	classRef -:types_ClassifierReference_target-> exceptionClass:classifiers_Class;
+	transition:_statemachine::_Transition -:link-> catchBlock:_statements::_CatchBlock;
+	catchBlock -:_statements::_CatchBlock_parameter-> parameter:_parameters::_OrdinaryParameter;
+	parameter -:_types::_TypedElement_typeReference-> nspClassRef:_types::_NamespaceClassifierReference;
+	nspClassRef -:_types::_NamespaceClassifierReference_classifierReferences-> classRef:_types::_ClassifierReference;
+	classRef -:_types::_ClassifierReference_target-> exceptionClass:_classifiers::_Class;
 
 	modify {
 		eval {
@@ -184,7 +184,7 @@ rule addTriggerCatchBlockExceptionClassName
 
 rule addTriggerOtherwise
 {
-	transition:statemachine_Transition;
+	transition:_statemachine::_Transition;
 	if { transition._trigger == null || transition._trigger == ""; }
 
 	modify {
@@ -196,13 +196,13 @@ rule addTriggerOtherwise
 
 rule addActionSend
 {
-	transition:statemachine_Transition -:link-> block:statements_StatementListContainer;
-	block -:statements_StatementListContainer_statements-> exprStmt:statements_ExpressionStatement;
-	exprStmt -:statements_ExpressionStatement_expression-> callMethod:references_MethodCall;
-	callMethod -:references_ElementReference_target-> method:members_ClassMethod;
-	callMethod -:references_Argumentable_arguments-> enumClassRef:references_IdentifierReference;
-	enumClassRef -:references_Reference_next-> enumValueRef:references_IdentifierReference;
-	enumValueRef -:references_ElementReference_target-> enumValue:members_EnumConstant;
+	transition:_statemachine::_Transition -:link-> block:_statements::_StatementListContainer;
+	block -:_statements::_StatementListContainer_statements-> exprStmt:_statements::_ExpressionStatement;
+	exprStmt -:_statements::_ExpressionStatement_expression-> callMethod:_references::_MethodCall;
+	callMethod -:_references::_ElementReference_target-> method:_members::_ClassMethod;
+	callMethod -:_references::_Argumentable_arguments-> enumClassRef:_references::_IdentifierReference;
+	enumClassRef -:_references::_Reference_next-> enumValueRef:_references::_IdentifierReference;
+	enumValueRef -:_references::_ElementReference_target-> enumValue:_members::_EnumConstant;
 	if { method._name == "send"; }
 
 	modify {
@@ -214,7 +214,7 @@ rule addActionSend
 
 rule addActionOtherwise
 {
-	transition:statemachine_Transition;
+	transition:_statemachine::_Transition;
 	if { transition._action == null || transition._action == ""; }
 
 	modify {
@@ -226,9 +226,9 @@ rule addActionOtherwise
 
 rule beautify
 {
-	sourceState:statemachine_State;	targetState:statemachine_State; transition:statemachine_Transition;
-	sourceState <-:statemachine_Transition_src- transition -:statemachine_Transition_dst-> targetState;
-	sourceState -:statemachine_State_out-> transition <-:statemachine_State_in- targetState;
+	sourceState:_statemachine::_State; targetState:_statemachine::_State; transition:_statemachine::_Transition;
+	sourceState <-:_statemachine::_Transition_src- transition -:_statemachine::_Transition_dst-> targetState;
+	sourceState -:_statemachine::_State_out-> transition <-:_statemachine::_State_in- targetState;
 
 	replace {
 		sourceState -t:Transition-> targetState;
@@ -243,11 +243,11 @@ rule beautifyProgramGraph
 {
 	alternative {
 		ExpressionStatement {
-			es:statements_ExpressionStatement;
+			es:_statements::_ExpressionStatement;
 			if { !es.visited; }
 
 			multiple {
-				es --> e:expressions_Expression;
+				es --> e:_expressions::_Expression;
 				bpg:BeautifyProgramGraph(e, es);
 				negative {
 					es -:contains-> e;
@@ -263,11 +263,11 @@ rule beautifyProgramGraph
 			modify { }
 		}
 		Condition {
-			sc:statements_Condition;
+			sc:_statements::_Condition;
 			if { !sc.visited; }
 
 			multiple {
-				sc --> e:expressions_Expression;
+				sc --> e:_expressions::_Expression;
 				bpg:BeautifyProgramGraph(e, sc);
 				negative {
 					sc -:contains-> e;
@@ -283,11 +283,11 @@ rule beautifyProgramGraph
 			modify { }
 		}
 		Return {
-			sr:statements_Return;
+			sr:_statements::_Return;
 			if { !sr.visited; }
 
 			multiple {
-				sr --> e:expressions_Expression;
+				sr --> e:_expressions::_Expression;
 				bpg:BeautifyProgramGraph(e, sr);
 				negative {
 					sr -:contains-> e;
@@ -308,12 +308,12 @@ rule beautifyProgramGraph
 }
 
 // create a link from the enclosing statement to all expressions reachable (transitive closure)
-pattern BeautifyProgramGraph(e:expressions_Expression, es:Node)
+pattern BeautifyProgramGraph(e:_expressions::_Expression, es:Node)
 {
 	iterated {
 		alternative {
 			expression {
-				e --> next:expressions_Expression\instantiations_NewConstructorCall;
+				e --> next:_expressions::_Expression\_instantiations::_NewConstructorCall;
 				bpg:BeautifyProgramGraph(next, es);
 				negative {
 					es -:contains-> next;
@@ -325,7 +325,7 @@ pattern BeautifyProgramGraph(e:expressions_Expression, es:Node)
 				}
 			}
 			operators {
-				e --> op:operators_Operator;
+				e --> op:_operators::_Operator;
 				negative {
 					es -:contains-> op;
 				}
@@ -335,7 +335,7 @@ pattern BeautifyProgramGraph(e:expressions_Expression, es:Node)
 				}
 			}
 			literals {
-				e --> lit:literals_Literal;
+				e --> lit:_literals::_Literal;
 				negative {
 					es -:contains-> lit;
 				}
@@ -345,7 +345,7 @@ pattern BeautifyProgramGraph(e:expressions_Expression, es:Node)
 				}
 			}
 			identRef {
-				e --> refId:references_IdentifierReference;
+				e --> refId:_references::_IdentifierReference;
 				negative {
 					es -:contains-> refId;
 				}
@@ -355,7 +355,7 @@ pattern BeautifyProgramGraph(e:expressions_Expression, es:Node)
 				}
 			}
 			constructorCall {
-				e --> cc:instantiations_NewConstructorCall --> ncref:types_NamespaceClassifierReference;
+				e --> cc:_instantiations::_NewConstructorCall --> ncref:_types::_NamespaceClassifierReference;
 				negative {
 					es -:contains-> cc;
 				}

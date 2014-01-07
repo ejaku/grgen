@@ -11,10 +11,10 @@
 // Rules for node transformation
 
 rule transform_FinalState {
-	state:minuml1_FinalState;
+	state:_minuml1::_FinalState;
 
 	modify {
-		final:uml_ActivityFinalNode<state>;
+		final:_uml::_ActivityFinalNode<state>;
 
 		eval {
 			final._name = state._name;
@@ -23,10 +23,10 @@ rule transform_FinalState {
 }
 
 rule transform_ActionState {
-	state:minuml1_ActionState;
+	state:_minuml1::_ActionState;
 
 	modify {
-		opaque:uml_OpaqueAction<state>;
+		opaque:_uml::_OpaqueAction<state>;
 
 		eval {
 			opaque._name = state._name;
@@ -35,41 +35,41 @@ rule transform_ActionState {
 }
 
 rule transform_PseudoState {
-	state:minuml1_Pseudostate;
+	state:_minuml1::_Pseudostate;
 
 	alternative {
 		Initial {
-			if { state._kind == minuml1_PseudostateKind::_initial; }
+			if { state._kind == _minuml1::_PseudostateKind::_initial; }
 
 			modify {
-				initial:uml_InitialNode<state>;
+				initial:_uml::_InitialNode<state>;
 
 				eval { initial._name = state._name; }
 			}
 		}
 		Join {
-			if { state._kind == minuml1_PseudostateKind::_join; }
+			if { state._kind == _minuml1::_PseudostateKind::_join; }
 
 			modify {
-				join:uml_JoinNode<state>;
+				join:_uml::_JoinNode<state>;
 
 				eval { join._name = state._name; }
 			}
 		}
 		Fork {
-			if { state._kind == minuml1_PseudostateKind::_fork; }
+			if { state._kind == _minuml1::_PseudostateKind::_fork; }
 
 			modify {
-				fork:uml_ForkNode<state>;
+				fork:_uml::_ForkNode<state>;
 
 				eval { fork._name = state._name; }
 			}
 		}
 		Junction {
-			if { state._kind == minuml1_PseudostateKind::_junction; }
+			if { state._kind == _minuml1::_PseudostateKind::_junction; }
 
 			modify {
-				decision:uml_DecisionNode<state>;
+				decision:_uml::_DecisionNode<state>;
 
 				eval { decision._name = state._name; }
 			}
@@ -80,10 +80,10 @@ rule transform_PseudoState {
 }
 
 rule transform_ObjectFlowState {
-	state:minuml1_ObjectFlowState;
+	state:_minuml1::_ObjectFlowState;
 
 	modify {
-		pin:uml_Pin<state>;
+		pin:_uml::_Pin<state>;
 
 		eval { pin._name = state._name; }
 	}
@@ -91,26 +91,26 @@ rule transform_ObjectFlowState {
 
 // Alternative transformation
 rule transform_ObjectFlowState2 {
-	state:minuml1_ObjectFlowState;
-	s1:minuml1_StateVertex <-:minuml1_Transition_source- t1:minuml1_Transition -:minuml1_Transition_target-> state;
-	state <-:minuml1_Transition_source- t2:minuml1_Transition -:minuml1_Transition_target-> s2:minuml1_StateVertex;
-	state <-:minuml1_Partition_contents- p:minuml1_Partition;
+	state:_minuml1::_ObjectFlowState;
+	s1:_minuml1::_StateVertex <-:_minuml1::_Transition_source- t1:_minuml1::_Transition -:_minuml1::_Transition_target-> state;
+	state <-:_minuml1::_Transition_source- t2:_minuml1::_Transition -:_minuml1::_Transition_target-> s2:_minuml1::_StateVertex;
+	state <-:_minuml1::_Partition_contents- p:_minuml1::_Partition;
 
 	modify {
 		delete(state, t2);
 
-		flow:uml_ObjectFlow<t1>;
-		flow -:uml_ActivityEdge_target-> s2;
-		flow <-:uml_ActivityNode_incoming- s2;
-		flow -:uml_ActivityEdge_inPartition-> p;
-		flow <-:uml_ActivityPartition_edge- p;
+		flow:_uml::_ObjectFlow<t1>;
+		flow -:_uml::_ActivityEdge_target-> s2;
+		flow <-:_uml::_ActivityNode_incoming- s2;
+		flow -:_uml::_ActivityEdge_inPartition-> p;
+		flow <-:_uml::_ActivityPartition_edge- p;
 
 		eval { flow._name = state._name; }
 	}
 }
 
 rule transform_CompositeState {
-	state:minuml1_CompositeState;
+	state:_minuml1::_CompositeState;
 
 	modify {
 		delete(state);
@@ -118,47 +118,47 @@ rule transform_CompositeState {
 }
 
 rule transform_Partition {
-	partition:minuml1_Partition;
+	partition:_minuml1::_Partition;
 
 	modify {
-		ap:uml_ActivityPartition<partition>;
+		ap:_uml::_ActivityPartition<partition>;
 
 		eval { ap._name = partition._name; }
 	}
 }
 
 rule transform_Transition {
-	transition:minuml1_Transition;
+	transition:_minuml1::_Transition;
 
 	alternative {
 		incomingObjectFlow {
-			transition <-:minuml1_StateVertex_incoming- :uml_Pin;
+			transition <-:_minuml1::_StateVertex_incoming- :_uml::_Pin;
 
 			modify {
-				of:uml_ObjectFlow<transition>;
+				of:_uml::_ObjectFlow<transition>;
 
 				eval { of._name = transition._name; }
 			}
 		}
 		outgoingObjectFlow {
-			transition <-:minuml1_StateVertex_outgoing- :uml_Pin;
+			transition <-:_minuml1::_StateVertex_outgoing- :_uml::_Pin;
 
 			modify {
-				of:uml_ObjectFlow<transition>;
+				of:_uml::_ObjectFlow<transition>;
 
 				eval { of._name = transition._name; }
 			}
 		}
 		controlFlow {
 			negative {
-				transition <-:minuml1_StateVertex_incoming- :uml_Pin;
+				transition <-:_minuml1::_StateVertex_incoming- :_uml::_Pin;
 			}
 			negative {
-				transition <-:minuml1_StateVertex_outgoing- :uml_Pin;
+				transition <-:_minuml1::_StateVertex_outgoing- :_uml::_Pin;
 			}
 
 			modify {
-				cf:uml_ControlFlow<transition>;
+				cf:_uml::_ControlFlow<transition>;
 
 				eval { cf._name = transition._name; }
 			}
@@ -169,10 +169,10 @@ rule transform_Transition {
 }
 
 rule transform_Guard {
-	guard:minuml1_Guard -:minuml1_Guard_expression-> expr:minuml1_BooleanExpression;
+	guard:_minuml1::_Guard -:_minuml1::_Guard_expression-> expr:_minuml1::_BooleanExpression;
 
 	modify {
-		opaque:uml_OpaqueExpression<guard>;
+		opaque:_uml::_OpaqueExpression<guard>;
 		delete(expr);
 
 		eval {
@@ -184,10 +184,10 @@ rule transform_Guard {
 }
 
 rule transform_ActivityGraph {
-	graph:minuml1_ActivityGraph;
+	graph:_minuml1::_ActivityGraph;
 
 	modify {
-		activity:uml_Activity<graph>;
+		activity:_uml::_Activity<graph>;
 
 		eval {
 			activity._name = graph._name;
@@ -198,93 +198,93 @@ rule transform_ActivityGraph {
 // Rules for edge transformation
 
 rule transform_StateVertex_incoming {
-	-e:minuml1_StateVertex_incoming->;
+	-e:_minuml1::_StateVertex_incoming->;
 
 	modify {
-		-:uml_ActivityNode_incoming<e>->;
+		-:_uml::_ActivityNode_incoming<e>->;
 	}
 }
 
 rule transform_StateVertex_outgoing {
-	-e:minuml1_StateVertex_outgoing->;
+	-e:_minuml1::_StateVertex_outgoing->;
 
 	modify {
-		-:uml_ActivityNode_outgoing<e>->;
+		-:_uml::_ActivityNode_outgoing<e>->;
 	}
 }
 
 rule transform_StateMachine_transitions {
-	-e:minuml1_StateMachine_transitions->;
+	-e:_minuml1::_StateMachine_transitions->;
 
 	modify {
-		-:uml_Activity_edge<e>->;
+		-:_uml::_Activity_edge<e>->;
 	}
 }
 
 rule transform_CompositeState_subvertex {
-	state:minuml1_CompositeState;
-	activity:uml_Activity -:minuml1_StateMachine_top-> state;
-	state -e:minuml1_CompositeState_subvertex-> n:uml_ActivityNode;
+	state:_minuml1::_CompositeState;
+	activity:_uml::_Activity -:_minuml1::_StateMachine_top-> state;
+	state -e:_minuml1::_CompositeState_subvertex-> n:_uml::_ActivityNode;
 
 	modify {
-		activity -:uml_Activity_node-> n;
+		activity -:_uml::_Activity_node-> n;
 	}
 }
 
 rule transform_Transition_source {
-	-e:minuml1_Transition_source->;
+	-e:_minuml1::_Transition_source->;
 
 	modify {
-		-:uml_ActivityEdge_source<e>->;
+		-:_uml::_ActivityEdge_source<e>->;
 	}
 }
 
 rule transform_Transition_target {
-	-e:minuml1_Transition_target->;
+	-e:_minuml1::_Transition_target->;
 
 	modify {
-		-:uml_ActivityEdge_target<e>->;
+		-:_uml::_ActivityEdge_target<e>->;
 	}
 }
 
 rule transform_Transition_guard {
-	-e:minuml1_Transition_guard->;
+	-e:_minuml1::_Transition_guard->;
 
 	modify {
-		-:uml_ActivityEdge_guard<e>->;
+		-:_uml::_ActivityEdge_guard<e>->;
 	}
 }
 
 rule transform_ActivityGraph_partition {
-	-e:minuml1_ActivityGraph_partition->;
+	-e:_minuml1::_ActivityGraph_partition->;
 
 	modify {
-		-:uml_Activity_group<e>->;
+		-:_uml::_Activity_group<e>->;
 	}
 }
 
 rule transform_Partition_contents {
-	p: uml_ActivityPartition -e:minuml1_Partition_contents->;
+	p: _uml::_ActivityPartition -e:_minuml1::_Partition_contents->;
 
 	alternative {
 		ActivityNode {
-			-e-> n:uml_ActivityNode;
+			-e-> n:_uml::_ActivityNode;
 
 			modify {
-				p <-:uml_ActivityNode_inPartition- n;
+				p <-:_uml::_ActivityNode_inPartition- n;
 			}
 		}
 		ActivityEdge {
-			-e-> n:uml_ActivityEdge;
+			-e-> n:_uml::_ActivityEdge;
 
 			modify {
-				p <-:uml_ActivityEdge_inPartition- n;
+				p <-:_uml::_ActivityEdge_inPartition- n;
 			}
 		}
 	}
 
 	modify {
-		-:uml_ActivityPartition_node<e>->;
+		-:_uml::_ActivityPartition_node<e>->;
 	}
 }
 

@@ -39,7 +39,7 @@ rule node_by_id(var id:int) : (Node, int) {
 }
 
 rule emit_activity {
-	activity:uml_Activity;
+	activity:_uml::_Activity;
 	activity -:DumpEdge-> d:DumpNode;
 
 	modify {
@@ -51,21 +51,21 @@ rule emit_activity {
 	}
 }
 
-rule emit_activity_nodes(activity:uml_Activity) {
+rule emit_activity_nodes(activity:_uml::_Activity) {
 	modify {
 		exec((id:int)=initial_id && ((n:Node, id)=node_by_id(id) && (true | emit_activity_node(activity, n)))*);
 	}
 }
 
-rule emit_activity_node(activity:uml_Activity, n:uml_ActivityNode<Node>) {
-	activity -:uml_Activity_node-> n;
+rule emit_activity_node(activity:_uml::_Activity, n:_uml::_ActivityNode<Node>) {
+	activity -:_uml::_Activity_node-> n;
 
 	modify {
 		exec(emit_InitialNode(n) || emit_ForkNode(n) || emit_JoinNode(n) || emit_DecisionNode(n) || emit_ActivityFinalNode(n) || emit_OpaqueAction(n) || emit_Pin(n));
 	}
 }
 
-rule emit_InitialNode(n:uml_InitialNode<uml_ActivityNode>) {
+rule emit_InitialNode(n:_uml::_InitialNode<_uml::_ActivityNode>) {
 	modify {
 		emit("    <node xmi:type=\"uml:InitialNode\"");
 		exec(emit_node_attributes(n));
@@ -73,7 +73,7 @@ rule emit_InitialNode(n:uml_InitialNode<uml_ActivityNode>) {
 	}
 }
 
-rule emit_ForkNode(n:uml_ForkNode<uml_ActivityNode>) {
+rule emit_ForkNode(n:_uml::_ForkNode<_uml::_ActivityNode>) {
 	modify {
 		emit("    <node xmi:type=\"uml:ForkNode\"");
 		exec(emit_node_attributes(n));
@@ -81,7 +81,7 @@ rule emit_ForkNode(n:uml_ForkNode<uml_ActivityNode>) {
 	}
 }
 
-rule emit_JoinNode(n:uml_JoinNode<uml_ActivityNode>) {
+rule emit_JoinNode(n:_uml::_JoinNode<_uml::_ActivityNode>) {
 	modify {
 		emit("    <node xmi:type=\"uml:JoinNode\"");
 		exec(emit_node_attributes(n));
@@ -89,7 +89,7 @@ rule emit_JoinNode(n:uml_JoinNode<uml_ActivityNode>) {
 	}
 }
 
-rule emit_DecisionNode(n:uml_DecisionNode<uml_ActivityNode>) {
+rule emit_DecisionNode(n:_uml::_DecisionNode<_uml::_ActivityNode>) {
 	modify {
 		emit("    <node xmi:type=\"uml:DecisionNode\"");
 		exec(emit_node_attributes(n));
@@ -97,7 +97,7 @@ rule emit_DecisionNode(n:uml_DecisionNode<uml_ActivityNode>) {
 	}
 }
 
-rule emit_ActivityFinalNode(n:uml_ActivityFinalNode<uml_ActivityNode>) {
+rule emit_ActivityFinalNode(n:_uml::_ActivityFinalNode<_uml::_ActivityNode>) {
 	modify {
 		emit("    <node xmi:type=\"uml:ActivityFinalNode\"");
 		exec(emit_node_attributes(n));
@@ -105,7 +105,7 @@ rule emit_ActivityFinalNode(n:uml_ActivityFinalNode<uml_ActivityNode>) {
 	}
 }
 
-rule emit_OpaqueAction(n:uml_OpaqueAction<uml_ActivityNode>) {
+rule emit_OpaqueAction(n:_uml::_OpaqueAction<_uml::_ActivityNode>) {
 	modify {
 		emit("    <node xmi:type=\"uml:OpaqueAction\"");
 		exec(emit_node_attributes(n));
@@ -113,7 +113,7 @@ rule emit_OpaqueAction(n:uml_OpaqueAction<uml_ActivityNode>) {
 	}
 }
 
-rule emit_Pin(n:uml_Pin<uml_ActivityNode>) {
+rule emit_Pin(n:_uml::_Pin<_uml::_ActivityNode>) {
 	modify {
 		emit("    <node xmi:type=\"uml:Pin\"");
 		exec(emit_node_attributes(n));
@@ -121,7 +121,7 @@ rule emit_Pin(n:uml_Pin<uml_ActivityNode>) {
 	}
 }
 
-rule emit_node_attributes(n:uml_ActivityNode) {
+rule emit_node_attributes(n:_uml::_ActivityNode) {
 	n -:DumpEdge-> d:DumpNode;
 
 	modify {
@@ -132,8 +132,8 @@ rule emit_node_attributes(n:uml_ActivityNode) {
 	}
 }
 
-rule emit_incoming_attribute(n:uml_ActivityNode) {
-	n -:uml_ActivityNode_incoming->;
+rule emit_incoming_attribute(n:_uml::_ActivityNode) {
+	n -:_uml::_ActivityNode_incoming->;
 
 	modify {
 		emit(" incoming=\"");
@@ -142,8 +142,8 @@ rule emit_incoming_attribute(n:uml_ActivityNode) {
 	}
 }
 
-rule emit_incoming(n:uml_ActivityNode) {
-	n -:uml_ActivityNode_incoming-> e:uml_ActivityEdge;
+rule emit_incoming(n:_uml::_ActivityNode) {
+	n -:_uml::_ActivityNode_incoming-> e:_uml::_ActivityEdge;
 	e -:DumpEdge-> d:DumpNode;
 
 	modify {
@@ -151,8 +151,8 @@ rule emit_incoming(n:uml_ActivityNode) {
 	}
 }
 
-rule emit_outgoing_attribute(n:uml_ActivityNode) {
-	n -:uml_ActivityNode_outgoing->;
+rule emit_outgoing_attribute(n:_uml::_ActivityNode) {
+	n -:_uml::_ActivityNode_outgoing->;
 
 	modify {
 		emit(" outgoing=\"");
@@ -161,8 +161,8 @@ rule emit_outgoing_attribute(n:uml_ActivityNode) {
 	}
 }
 
-rule emit_outgoing(n:uml_ActivityNode) {
-	n -:uml_ActivityNode_outgoing-> e:uml_ActivityEdge;
+rule emit_outgoing(n:_uml::_ActivityNode) {
+	n -:_uml::_ActivityNode_outgoing-> e:_uml::_ActivityEdge;
 	e -:DumpEdge-> d:DumpNode;
 
 	modify {
@@ -170,8 +170,8 @@ rule emit_outgoing(n:uml_ActivityNode) {
 	}
 }
 
-rule emit_inPartition_attribute(n:uml_ActivityNode) {
-	n -:uml_ActivityNode_inPartition->;
+rule emit_inPartition_attribute(n:_uml::_ActivityNode) {
+	n -:_uml::_ActivityNode_inPartition->;
 
 	modify {
 		emit(" inPartition=\"");
@@ -180,8 +180,8 @@ rule emit_inPartition_attribute(n:uml_ActivityNode) {
 	}
 }
 
-rule emit_inPartition(n:uml_ActivityNode) {
-	n -:uml_ActivityNode_inPartition-> e:uml_ActivityPartition;
+rule emit_inPartition(n:_uml::_ActivityNode) {
+	n -:_uml::_ActivityNode_inPartition-> e:_uml::_ActivityPartition;
 	e -:DumpEdge-> d:DumpNode;
 
 	modify {
@@ -189,21 +189,21 @@ rule emit_inPartition(n:uml_ActivityNode) {
 	}
 }
 
-rule emit_activity_edges(activity:uml_Activity) {
+rule emit_activity_edges(activity:_uml::_Activity) {
 	modify {
 		exec((::id)=initial_id && ((::n, ::id)=node_by_id(::id) && (true | emit_activity_edge(activity, ::n)))*);
 	}
 }
 
-rule emit_activity_edge(activity:uml_Activity, n:uml_ActivityEdge<Node>) {
-	activity -:uml_Activity_edge-> n;
+rule emit_activity_edge(activity:_uml::_Activity, n:_uml::_ActivityEdge<Node>) {
+	activity -:_uml::_Activity_edge-> n;
 
 	modify {
 		exec(emit_ControlFlow(n) || emit_ObjectFlow(n));
 	}
 }
 
-rule emit_ControlFlow(n:uml_ControlFlow<uml_ActivityEdge>) {
+rule emit_ControlFlow(n:_uml::_ControlFlow<_uml::_ActivityEdge>) {
 	modify {
 		emit("    <edge xmi:type=\"uml:ControlFlow\"");
 		exec(emit_edge_attributes(n));
@@ -211,7 +211,7 @@ rule emit_ControlFlow(n:uml_ControlFlow<uml_ActivityEdge>) {
 	}
 }
 
-rule emit_ObjectFlow(n:uml_ObjectFlow<uml_ActivityEdge>) {
+rule emit_ObjectFlow(n:_uml::_ObjectFlow<_uml::_ActivityEdge>) {
 	modify {
 		emit("    <edge xmi:type=\"uml:ObjectFlow\"");
 		exec(emit_edge_attributes(n));
@@ -219,10 +219,10 @@ rule emit_ObjectFlow(n:uml_ObjectFlow<uml_ActivityEdge>) {
 	}
 }
 
-rule emit_edge_attributes(n:uml_ActivityEdge) {
+rule emit_edge_attributes(n:_uml::_ActivityEdge) {
 	n -:DumpEdge-> d:DumpNode;
-	n -:uml_ActivityEdge_source-> src:uml_ActivityNode;
-	n -:uml_ActivityEdge_target-> tgt:uml_ActivityNode;
+	n -:_uml::_ActivityEdge_source-> src:_uml::_ActivityNode;
+	n -:_uml::_ActivityEdge_target-> tgt:_uml::_ActivityNode;
 	src -:DumpEdge-> src_d:DumpNode;
 	tgt -:DumpEdge-> tgt_d:DumpNode;
 
@@ -231,8 +231,8 @@ rule emit_edge_attributes(n:uml_ActivityEdge) {
 	}
 }
 
-rule emit_guard(n:uml_ActivityEdge) {
-	n -:uml_ActivityEdge_guard-> expr:uml_OpaqueExpression;
+rule emit_guard(n:_uml::_ActivityEdge) {
+	n -:_uml::_ActivityEdge_guard-> expr:_uml::_OpaqueExpression;
 	expr -:DumpEdge-> expr_d:DumpNode;
 
 	modify {
@@ -244,20 +244,20 @@ rule emit_guard(n:uml_ActivityEdge) {
 	}
 }
 
-rule emit_no_guard(n:uml_ActivityEdge) {
+rule emit_no_guard(n:_uml::_ActivityEdge) {
 	modify {
 		emit("/>\n");
 	}
 }
 
-rule emit_activity_groups(activity:uml_Activity) {
+rule emit_activity_groups(activity:_uml::_Activity) {
 	modify {
 		exec((id:int)=initial_id && ((n:Node, id)=node_by_id(id) && (true | emit_activity_group(activity, n)))*);
 	}
 }
 
-rule emit_activity_group(activity:uml_Activity, n:uml_ActivityPartition<Node>) {
-	activity -:uml_Activity_group-> n;
+rule emit_activity_group(activity:_uml::_Activity, n:_uml::_ActivityPartition<Node>) {
+	activity -:_uml::_Activity_group-> n;
 
 	modify {
 		emit("    <group xmi:type=\"uml:ActivityPartition\"");
@@ -266,7 +266,7 @@ rule emit_activity_group(activity:uml_Activity, n:uml_ActivityPartition<Node>) {
 	}
 }
 
-rule emit_group_attributes(n:uml_ActivityPartition) {
+rule emit_group_attributes(n:_uml::_ActivityPartition) {
 	n -:DumpEdge-> d:DumpNode;
 
 	modify {
@@ -275,8 +275,8 @@ rule emit_group_attributes(n:uml_ActivityPartition) {
 	}
 }
 
-rule emit_contained_nodes(n:uml_ActivityPartition) {
-	n -:uml_ActivityPartition_node->;
+rule emit_contained_nodes(n:_uml::_ActivityPartition) {
+	n -:_uml::_ActivityPartition_node->;
 
 	modify {
 		emit(" node=\"");
@@ -285,8 +285,8 @@ rule emit_contained_nodes(n:uml_ActivityPartition) {
 	}
 }
 
-rule emit_contained_node(n:uml_ActivityPartition) {
-	n -:uml_ActivityPartition_node-> other:uml_ActivityNode;
+rule emit_contained_node(n:_uml::_ActivityPartition) {
+	n -:_uml::_ActivityPartition_node-> other:_uml::_ActivityNode;
 	other -:DumpEdge-> d:DumpNode;
 
 	modify {

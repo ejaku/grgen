@@ -2,18 +2,18 @@
 #using "graph2__ecore.gm"
 
 rule migrateGraph {
-	n:graph1_Graph;
+	n:_graph1::_Graph;
 
 	modify {
-		:graph2_Graph<n>;
+		:_graph2::_Graph<n>;
 	}
 }
 
 rule migrateNode {
-	n:graph1_Node;
+	n:_graph1::_Node;
 
 	modify {
-		migrated:graph2_Node<n>;
+		migrated:_graph2::_Node<n>;
 
 		eval {
 			migrated._text = n._name;
@@ -22,10 +22,10 @@ rule migrateNode {
 }
 
 rule migrateEdge {
-	e:graph1_Edge;
+	e:_graph1::_Edge;
 
 	modify {
-		migrated:graph2_Edge<e>;
+		migrated:_graph2::_Edge<e>;
 
 		eval {
 			migrated._text = "";
@@ -34,49 +34,49 @@ rule migrateEdge {
 }
 
 rule migrateEdgeSrc {
-	-e:graph1_Edge_src->;
+	-e:_graph1::_Edge_src->;
 
 	modify {
-		-migrated:graph2_Edge_src<e>->;
+		-migrated:_graph2::_Edge_src<e>->;
 
 		eval {
-			migrated.index = e.index;
+			migrated.ordering = e.ordering;
 		}
 	}
 }
 
 rule migrateEdgeTrg {
-	-e:graph1_Edge_trg->;
+	-e:_graph1::_Edge_trg->;
 
 	modify {
-		-migrated:graph2_Edge_trg<e>->;
+		-migrated:_graph2::_Edge_trg<e>->;
 
 		eval {
-			migrated.index = e.index;
+			migrated.ordering = e.ordering;
 		}
 	}
 }
 
 rule migrateGraphEdges {
-	-e:graph1_Graph_edges->;
+	-e:_graph1::_Graph_edges->;
 
 	modify {
-		-migrated:graph2_Graph_gcs<e>->;
+		-migrated:_graph2::_Graph_gcs<e>->;
 
 		eval {
-			migrated.index = e.index;
+			migrated.ordering = e.ordering;
 		}
 	}
 }
 
 rule migrateGraphNodes {
-	-e:graph1_Graph_nodes->;
+	-e:_graph1::_Graph_nodes->;
 
 	modify {
-		-migrated:graph2_Graph_gcs<e>->;
+		-migrated:_graph2::_Graph_gcs<e>->;
 
 		eval {
-			migrated.index = e.index;
+			migrated.ordering = e.ordering;
 		}
 	}
 }

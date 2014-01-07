@@ -8,7 +8,7 @@ rule CFG_name_expressions {
 }
 
 rule CFG_name_SimpleName {
-	expr:dom_SimpleName;
+	expr:_dom::_SimpleName;
 
 	negative {
 		expr -:HelperEdge->;
@@ -25,7 +25,7 @@ rule CFG_name_SimpleName {
 }
 
 rule CFG_name_NumberLiteral {
-	expr:dom_NumberLiteral;
+	expr:_dom::_NumberLiteral;
 
 	negative {
 		expr -:HelperEdge->;
@@ -42,7 +42,7 @@ rule CFG_name_NumberLiteral {
 }
 
 rule CFG_name_PrefixExpression {
-	expr:dom_PrefixExpression -:dom_PrefixExpression_operand-> op:dom_Expression;
+	expr:_dom::_PrefixExpression -:_dom::_PrefixExpression_operand-> op:_dom::_Expression;
 	op -:HelperEdge-> opHelper:HelperNode;
 
 	negative {
@@ -60,7 +60,7 @@ rule CFG_name_PrefixExpression {
 }
 
 rule CFG_name_PostfixExpression {
-	expr:dom_PostfixExpression -:dom_PostfixExpression_operand-> op:dom_Expression;
+	expr:_dom::_PostfixExpression -:_dom::_PostfixExpression_operand-> op:_dom::_Expression;
 	op -:HelperEdge-> opHelper:HelperNode;
 
 	negative {
@@ -78,8 +78,8 @@ rule CFG_name_PostfixExpression {
 }
 
 rule CFG_name_MethodInvocation {
-	expr:dom_MethodInvocation -:dom_MethodInvocation_name-> name:dom_SimpleName;
-	expr -:dom_MethodInvocation_arguments-> argument:dom_SimpleName;
+	expr:_dom::_MethodInvocation -:_dom::_MethodInvocation_name-> name:_dom::_SimpleName;
+	expr -:_dom::_MethodInvocation_arguments-> argument:_dom::_SimpleName;
 	argument -:HelperEdge-> argumentHelper:HelperNode;
 
 
@@ -98,8 +98,8 @@ rule CFG_name_MethodInvocation {
 }
 
 rule CFG_name_InfixExpression {
-	expr:dom_InfixExpression -:dom_InfixExpression_leftOperand-> lhs:dom_Expression;
-	expr -:dom_InfixExpression_rightOperand-> rhs:dom_Expression;
+	expr:_dom::_InfixExpression -:_dom::_InfixExpression_leftOperand-> lhs:_dom::_Expression;
+	expr -:_dom::_InfixExpression_rightOperand-> rhs:_dom::_Expression;
 	lhs -:HelperEdge-> lhsHelper:HelperNode;
 	rhs -:HelperEdge-> rhsHelper:HelperNode;
 
@@ -119,8 +119,8 @@ rule CFG_name_InfixExpression {
 }
 
 rule CFG_name_Assignment {
-	expr:dom_Assignment -:dom_Assignment_leftHandSide-> lhs:dom_Expression;
-	expr -:dom_Assignment_rightHandSide-> rhs:dom_Expression;
+	expr:_dom::_Assignment -:_dom::_Assignment_leftHandSide-> lhs:_dom::_Expression;
+	expr -:_dom::_Assignment_rightHandSide-> rhs:_dom::_Expression;
 	lhs -:HelperEdge-> lhsHelper:HelperNode;
 	rhs -:HelperEdge-> rhsHelper:HelperNode;
 

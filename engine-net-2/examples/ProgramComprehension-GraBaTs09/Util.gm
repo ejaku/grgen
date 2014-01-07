@@ -2,99 +2,99 @@ node class HelperNode {
 	count_:int;
 	name:string;
 	operator:string;
-	const operatorMap:map<dom_AssignmentOperatorKind, string> = {
-		dom_AssignmentOperatorKind::_right_shift_signed_assign -> ">>=",
-		dom_AssignmentOperatorKind::_bit_xor_assign -> "^=",
-		dom_AssignmentOperatorKind::_times_assign -> "*=",
-		dom_AssignmentOperatorKind::_divide_assign -> "/=",
-		dom_AssignmentOperatorKind::_minus_assign -> "-=",
-		dom_AssignmentOperatorKind::_bit_or_assign -> "|=",
-		dom_AssignmentOperatorKind::_plus_assign -> "+=",
-		dom_AssignmentOperatorKind::_assign -> "=",
-		dom_AssignmentOperatorKind::_right_shift_unsigned_assign -> ">>>=",
-		dom_AssignmentOperatorKind::_remainder_assign -> "%=",
-		dom_AssignmentOperatorKind::_bit_and_assign -> "&=",
-		dom_AssignmentOperatorKind::_left_shift_assign -> "<<="
+	const operatorMap:map<_dom::_AssignmentOperatorKind, string> = {
+		_dom::_AssignmentOperatorKind::_right_shift_signed_assign -> ">>=",
+		_dom::_AssignmentOperatorKind::_bit_xor_assign -> "^=",
+		_dom::_AssignmentOperatorKind::_times_assign -> "*=",
+		_dom::_AssignmentOperatorKind::_divide_assign -> "/=",
+		_dom::_AssignmentOperatorKind::_minus_assign -> "-=",
+		_dom::_AssignmentOperatorKind::_bit_or_assign -> "|=",
+		_dom::_AssignmentOperatorKind::_plus_assign -> "+=",
+		_dom::_AssignmentOperatorKind::_assign -> "=",
+		_dom::_AssignmentOperatorKind::_right_shift_unsigned_assign -> ">>>=",
+		_dom::_AssignmentOperatorKind::_remainder_assign -> "%=",
+		_dom::_AssignmentOperatorKind::_bit_and_assign -> "&=",
+		_dom::_AssignmentOperatorKind::_left_shift_assign -> "<<="
 	};
-	const operatorNameMap:map<dom_AssignmentOperatorKind, string> = {
-		dom_AssignmentOperatorKind::_right_shift_signed_assign -> "right_shift_signed_assign",
-		dom_AssignmentOperatorKind::_bit_xor_assign -> "bit_xor_assign",
-		dom_AssignmentOperatorKind::_times_assign -> "times_assign",
-		dom_AssignmentOperatorKind::_divide_assign -> "divide_assign",
-		dom_AssignmentOperatorKind::_minus_assign -> "minus_assign",
-		dom_AssignmentOperatorKind::_bit_or_assign -> "bit_or_assign",
-		dom_AssignmentOperatorKind::_plus_assign -> "plus_assign",
-		dom_AssignmentOperatorKind::_assign -> "assign",
-		dom_AssignmentOperatorKind::_right_shift_unsigned_assign -> "right_shift_unsigned_assign",
-		dom_AssignmentOperatorKind::_remainder_assign -> "remainder_assign",
-		dom_AssignmentOperatorKind::_bit_and_assign -> "bit_and_assign",
-		dom_AssignmentOperatorKind::_left_shift_assign -> "left_shift_assign"
+	const operatorNameMap:map<_dom::_AssignmentOperatorKind, string> = {
+		_dom::_AssignmentOperatorKind::_right_shift_signed_assign -> "right_shift_signed_assign",
+		_dom::_AssignmentOperatorKind::_bit_xor_assign -> "bit_xor_assign",
+		_dom::_AssignmentOperatorKind::_times_assign -> "times_assign",
+		_dom::_AssignmentOperatorKind::_divide_assign -> "divide_assign",
+		_dom::_AssignmentOperatorKind::_minus_assign -> "minus_assign",
+		_dom::_AssignmentOperatorKind::_bit_or_assign -> "bit_or_assign",
+		_dom::_AssignmentOperatorKind::_plus_assign -> "plus_assign",
+		_dom::_AssignmentOperatorKind::_assign -> "assign",
+		_dom::_AssignmentOperatorKind::_right_shift_unsigned_assign -> "right_shift_unsigned_assign",
+		_dom::_AssignmentOperatorKind::_remainder_assign -> "remainder_assign",
+		_dom::_AssignmentOperatorKind::_bit_and_assign -> "bit_and_assign",
+		_dom::_AssignmentOperatorKind::_left_shift_assign -> "left_shift_assign"
 	};
-	const infixMap:map<dom_InfixExpressionOperatorKind, string> = {
-		dom_InfixExpressionOperatorKind::_greater_equals -> ">=",
-		dom_InfixExpressionOperatorKind::_or -> "|",
-		dom_InfixExpressionOperatorKind::_right_shift_signed -> ">>",
-		dom_InfixExpressionOperatorKind::_minus -> "-",
-		dom_InfixExpressionOperatorKind::_xor -> "^",
-		dom_InfixExpressionOperatorKind::_less_equals -> "<=",
-		dom_InfixExpressionOperatorKind::_equals -> "==",
-		dom_InfixExpressionOperatorKind::_not_equals -> "!=",
-		dom_InfixExpressionOperatorKind::_and -> "&",
-		dom_InfixExpressionOperatorKind::_plus -> "+",
-		dom_InfixExpressionOperatorKind::_greater -> ">",
-		dom_InfixExpressionOperatorKind::_conditional_or -> "||",
-		dom_InfixExpressionOperatorKind::_remainder -> "%",
-		dom_InfixExpressionOperatorKind::_less -> "<",
-		dom_InfixExpressionOperatorKind::_left_shift -> "<<",
-		dom_InfixExpressionOperatorKind::_right_shift_unsigned -> ">>>",
-		dom_InfixExpressionOperatorKind::_conditional_and -> "&&",
-		dom_InfixExpressionOperatorKind::_times -> "*",
-		dom_InfixExpressionOperatorKind::_divide -> "/"
+	const infixMap:map<_dom::_InfixExpressionOperatorKind, string> = {
+		_dom::_InfixExpressionOperatorKind::_greater_equals -> ">=",
+		_dom::_InfixExpressionOperatorKind::_or -> "|",
+		_dom::_InfixExpressionOperatorKind::_right_shift_signed -> ">>",
+		_dom::_InfixExpressionOperatorKind::_minus -> "-",
+		_dom::_InfixExpressionOperatorKind::_xor -> "^",
+		_dom::_InfixExpressionOperatorKind::_less_equals -> "<=",
+		_dom::_InfixExpressionOperatorKind::_equals -> "==",
+		_dom::_InfixExpressionOperatorKind::_not_equals -> "!=",
+		_dom::_InfixExpressionOperatorKind::_and -> "&",
+		_dom::_InfixExpressionOperatorKind::_plus -> "+",
+		_dom::_InfixExpressionOperatorKind::_greater -> ">",
+		_dom::_InfixExpressionOperatorKind::_conditional_or -> "||",
+		_dom::_InfixExpressionOperatorKind::_remainder -> "%",
+		_dom::_InfixExpressionOperatorKind::_less -> "<",
+		_dom::_InfixExpressionOperatorKind::_left_shift -> "<<",
+		_dom::_InfixExpressionOperatorKind::_right_shift_unsigned -> ">>>",
+		_dom::_InfixExpressionOperatorKind::_conditional_and -> "&&",
+		_dom::_InfixExpressionOperatorKind::_times -> "*",
+		_dom::_InfixExpressionOperatorKind::_divide -> "/"
 	};
-	const infixNameMap:map<dom_InfixExpressionOperatorKind, string> = {
-		dom_InfixExpressionOperatorKind::_greater_equals -> "greater_equals",
-		dom_InfixExpressionOperatorKind::_or -> "or",
-		dom_InfixExpressionOperatorKind::_right_shift_signed -> "right_shift_signed",
-		dom_InfixExpressionOperatorKind::_minus -> "minus",
-		dom_InfixExpressionOperatorKind::_xor -> "xor",
-		dom_InfixExpressionOperatorKind::_less_equals -> "less_equals",
-		dom_InfixExpressionOperatorKind::_equals -> "equals",
-		dom_InfixExpressionOperatorKind::_not_equals -> "not_equals",
-		dom_InfixExpressionOperatorKind::_and -> "and",
-		dom_InfixExpressionOperatorKind::_plus -> "plus",
-		dom_InfixExpressionOperatorKind::_greater -> "greater",
-		dom_InfixExpressionOperatorKind::_conditional_or -> "conditional_or",
-		dom_InfixExpressionOperatorKind::_remainder -> "remainder",
-		dom_InfixExpressionOperatorKind::_less -> "less",
-		dom_InfixExpressionOperatorKind::_left_shift -> "left_shift",
-		dom_InfixExpressionOperatorKind::_right_shift_unsigned -> "right_shift_unsigned",
-		dom_InfixExpressionOperatorKind::_conditional_and -> "conditional_and",
-		dom_InfixExpressionOperatorKind::_times -> "times",
-		dom_InfixExpressionOperatorKind::_divide -> "divide"
+	const infixNameMap:map<_dom::_InfixExpressionOperatorKind, string> = {
+		_dom::_InfixExpressionOperatorKind::_greater_equals -> "greater_equals",
+		_dom::_InfixExpressionOperatorKind::_or -> "or",
+		_dom::_InfixExpressionOperatorKind::_right_shift_signed -> "right_shift_signed",
+		_dom::_InfixExpressionOperatorKind::_minus -> "minus",
+		_dom::_InfixExpressionOperatorKind::_xor -> "xor",
+		_dom::_InfixExpressionOperatorKind::_less_equals -> "less_equals",
+		_dom::_InfixExpressionOperatorKind::_equals -> "equals",
+		_dom::_InfixExpressionOperatorKind::_not_equals -> "not_equals",
+		_dom::_InfixExpressionOperatorKind::_and -> "and",
+		_dom::_InfixExpressionOperatorKind::_plus -> "plus",
+		_dom::_InfixExpressionOperatorKind::_greater -> "greater",
+		_dom::_InfixExpressionOperatorKind::_conditional_or -> "conditional_or",
+		_dom::_InfixExpressionOperatorKind::_remainder -> "remainder",
+		_dom::_InfixExpressionOperatorKind::_less -> "less",
+		_dom::_InfixExpressionOperatorKind::_left_shift -> "left_shift",
+		_dom::_InfixExpressionOperatorKind::_right_shift_unsigned -> "right_shift_unsigned",
+		_dom::_InfixExpressionOperatorKind::_conditional_and -> "conditional_and",
+		_dom::_InfixExpressionOperatorKind::_times -> "times",
+		_dom::_InfixExpressionOperatorKind::_divide -> "divide"
 	};
-	const prefixMap:map<dom_PrefixExpressionOperatorKind, string> = {
-		dom_PrefixExpressionOperatorKind::_minus -> "-",
-		dom_PrefixExpressionOperatorKind::_not -> "!",
-		dom_PrefixExpressionOperatorKind::_decrement -> "--",
-		dom_PrefixExpressionOperatorKind::_complement -> "~",
-		dom_PrefixExpressionOperatorKind::_increment -> "++",
-		dom_PrefixExpressionOperatorKind::_plus -> "+"
+	const prefixMap:map<_dom::_PrefixExpressionOperatorKind, string> = {
+		_dom::_PrefixExpressionOperatorKind::_minus -> "-",
+		_dom::_PrefixExpressionOperatorKind::_not -> "!",
+		_dom::_PrefixExpressionOperatorKind::_decrement -> "--",
+		_dom::_PrefixExpressionOperatorKind::_complement -> "~",
+		_dom::_PrefixExpressionOperatorKind::_increment -> "++",
+		_dom::_PrefixExpressionOperatorKind::_plus -> "+"
 	};
-	const prefixNameMap:map<dom_PrefixExpressionOperatorKind, string> = {
-		dom_PrefixExpressionOperatorKind::_minus -> "minus",
-		dom_PrefixExpressionOperatorKind::_not -> "not",
-		dom_PrefixExpressionOperatorKind::_decrement -> "decrement",
-		dom_PrefixExpressionOperatorKind::_complement -> "complement",
-		dom_PrefixExpressionOperatorKind::_increment -> "increment",
-		dom_PrefixExpressionOperatorKind::_plus -> "plus"
+	const prefixNameMap:map<_dom::_PrefixExpressionOperatorKind, string> = {
+		_dom::_PrefixExpressionOperatorKind::_minus -> "minus",
+		_dom::_PrefixExpressionOperatorKind::_not -> "not",
+		_dom::_PrefixExpressionOperatorKind::_decrement -> "decrement",
+		_dom::_PrefixExpressionOperatorKind::_complement -> "complement",
+		_dom::_PrefixExpressionOperatorKind::_increment -> "increment",
+		_dom::_PrefixExpressionOperatorKind::_plus -> "plus"
 	};
-	const postfixMap:map<dom_PostfixExpressionOperatorKind, string> = {
-		dom_PostfixExpressionOperatorKind::_increment -> "++",
-		dom_PostfixExpressionOperatorKind::_decrement -> "--"
+	const postfixMap:map<_dom::_PostfixExpressionOperatorKind, string> = {
+		_dom::_PostfixExpressionOperatorKind::_increment -> "++",
+		_dom::_PostfixExpressionOperatorKind::_decrement -> "--"
 	};
-	const postfixNameMap:map<dom_PostfixExpressionOperatorKind, string> = {
-		dom_PostfixExpressionOperatorKind::_increment -> "increment",
-		dom_PostfixExpressionOperatorKind::_decrement -> "decrement"
+	const postfixNameMap:map<_dom::_PostfixExpressionOperatorKind, string> = {
+		_dom::_PostfixExpressionOperatorKind::_increment -> "increment",
+		_dom::_PostfixExpressionOperatorKind::_decrement -> "decrement"
 	};
 }
 

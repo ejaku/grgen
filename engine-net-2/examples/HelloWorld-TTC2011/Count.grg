@@ -3,10 +3,10 @@
 
 #include "Emitter.gri"
 
-rule createIntResult : (result_IntResult) {
+rule createIntResult : (_result::_IntResult) {
 
 	modify {
-		res:result_IntResult;
+		res:_result::_IntResult;
 
 		eval {
 			res._result = 0;
@@ -16,8 +16,8 @@ rule createIntResult : (result_IntResult) {
 	}
 }
 
-rule countNode(res:result_IntResult) {
-	n:graph1_Node;
+rule countNode(res:_result::_IntResult) {
+	n:_graph1::_Node;
 
 	modify {
 		eval {
@@ -26,9 +26,9 @@ rule countNode(res:result_IntResult) {
 	}
 }
 
-rule countLoopingEdge(res:result_IntResult) {
-	e:graph1_Edge -:graph1_Edge_src-> n:graph1_Node;
-	e             -:graph1_Edge_trg-> n;
+rule countLoopingEdge(res:_result::_IntResult) {
+	e:_graph1::_Edge -:_graph1::_Edge_src-> n:_graph1::_Node;
+	e                -:_graph1::_Edge_trg-> n;
 
 	modify {
 		eval {
@@ -37,13 +37,13 @@ rule countLoopingEdge(res:result_IntResult) {
 	}
 }
 
-rule countIsolatedNode(res:result_IntResult) {
-	n:graph1_Node;
+rule countIsolatedNode(res:_result::_IntResult) {
+	n:_graph1::_Node;
 	negative {
-		n <-:graph1_Edge_src-;
+		n <-:_graph1::_Edge_src-;
 	}
 	negative {
-		n <-:graph1_Edge_trg-;
+		n <-:_graph1::_Edge_trg-;
 	}
 
 	modify {
@@ -53,10 +53,10 @@ rule countIsolatedNode(res:result_IntResult) {
 	}
 }
 
-rule countCycle(res:result_IntResult) {
-	n1:graph1_Node <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n2;
-	n2:graph1_Node <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n3;
-	n3:graph1_Node <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n1;
+rule countCycle(res:_result::_IntResult) {
+	n1:_graph1::_Node <-:_graph1::_Edge_src- :_graph1::_Edge -:_graph1::_Edge_trg-> n2;
+	n2:_graph1::_Node <-:_graph1::_Edge_src- :_graph1::_Edge -:_graph1::_Edge_trg-> n3;
+	n3:_graph1::_Node <-:_graph1::_Edge_src- :_graph1::_Edge -:_graph1::_Edge_trg-> n1;
 
 	modify {
 		eval {
@@ -65,22 +65,22 @@ rule countCycle(res:result_IntResult) {
 	}
 }
 
-rule countDanglingEdge(res:result_IntResult) {
-	e:graph1_Edge;
+rule countDanglingEdge(res:_result::_IntResult) {
+	e:_graph1::_Edge;
 
 	alternative {
 		missingTrg {
-			e -:graph1_Edge_src->;
+			e -:_graph1::_Edge_src->;
 			negative {
-				e -:graph1_Edge_trg->;
+				e -:_graph1::_Edge_trg->;
 			}
 
 			modify { }
 		}
 		missingSrc {
-			e -:graph1_Edge_trg->;
+			e -:_graph1::_Edge_trg->;
 			negative {
-				e -:graph1_Edge_src->;
+				e -:_graph1::_Edge_src->;
 			}
 
 			modify { }
