@@ -1390,5 +1390,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// All the procedure representations generated
         /// </summary>
         public abstract ProcedureInfo[] Procedures { get; }
+
+        /// <summary>
+        /// All the packages defined
+        /// </summary>
+        public abstract string[] Packages { get; }
     }
 }

@@ -253,6 +253,11 @@ namespace de.unika.ipd.grGen.libGr
         IEdgeModel EdgeModel { get; }
 
         /// <summary>
+        /// Enumerates all packages declared in this model.
+        /// </summary>
+        IEnumerable<String> Packages { get; }
+
+        /// <summary>
         /// Enumerates all enum attribute types declared for this model.
         /// </summary>
         IEnumerable<EnumAttributeType> EnumAttributeTypes { get; }

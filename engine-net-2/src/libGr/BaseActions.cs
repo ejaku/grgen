@@ -36,6 +36,11 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IGraph Graph { get; set; }
 
         /// <summary>
+        /// The packages defined in this BaseActions instance.
+        /// </summary>
+        public abstract string[] Packages { get; }
+
+        /// <summary>
         /// Enumerates all actions managed by this BaseActions instance.
         /// </summary>
         public abstract IEnumerable<IAction> Actions { get; }

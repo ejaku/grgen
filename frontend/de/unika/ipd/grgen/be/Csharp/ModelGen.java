@@ -2424,8 +2424,9 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\tprivate " + modelName + "NodeModel nodeModel = new " + modelName + "NodeModel();\n");
 		sb.append("\t\tprivate " + modelName + "EdgeModel edgeModel = new " + modelName + "EdgeModel();\n");
 
-		genValidates();
+		genPackages();
 		genEnumAttributeTypes();
+		genValidates();
 		sb.append("\n");
 
 		sb.append("\t\tpublic string ModelName { get { return \"" + modelName + "\"; } }\n");
@@ -2433,10 +2434,12 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\tpublic GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }\n");
 		sb.append("\t\tpublic GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }\n");
 		
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo "
-				+ "{ get { return validateInfos; } }\n");
+		sb.append("\t\tpublic IEnumerable<string> Packages "
+				+ "{ get { return packages; } }\n");
 		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes "
-				+ "{ get { return enumAttributeTypes; } }\n\n");
+				+ "{ get { return enumAttributeTypes; } }\n");
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo "
+				+ "{ get { return validateInfos; } }\n\n");
 
 		if(model.isEmitClassDefined()) {
 			sb.append("\t\tpublic object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
@@ -2523,6 +2526,14 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		}
 		
 		sb.append("\t\tpublic string MD5Hash { get { return \"" + be.unit.getTypeDigest() + "\"; } }\n");
+	}
+
+	private void genPackages() {
+		sb.append("\t\tprivate string[] packages = {\n");
+		for(PackageType pt : model.getPackages()) {
+			sb.append("\t\t\t\"" + pt.getIdent() + "\",\n");
+		}
+		sb.append("\t\t};\n");
 	}
 
 	private void genValidates() {

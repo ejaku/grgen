@@ -1201,6 +1201,13 @@ namespace de.unika.ipd.grGen.lgsp
             endSource.AppendFront("{\n");
             endSource.Indent();
 
+            endSource.AppendFrontFormat("packages = new string[{0}];\n", ruleAndMatchingPatterns.Packages.Length);
+            for(int i=0; i<ruleAndMatchingPatterns.Packages.Length; ++i)
+            {
+                String packageName = ruleAndMatchingPatterns.Packages[i];
+                endSource.AppendFrontFormat("packages[{0}] = \"{1}\";\n", i, packageName);
+            }
+
             // we generate analyzer calls, so the runtime structures needed for dynamic matcher (re-)generation
             // are prepared in the same way as the compile time structures were by the analyzer calls above
             endSource.AppendFront("GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();\n");
@@ -1334,9 +1341,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
             endSource.AppendFront("\n");
 
-            endSource.AppendFront("public override string StatisticsPath { get { return " + (statisticsPath!=null ? "@\"" + statisticsPath + "\"" : "null") + "; } }\n");
+            endSource.AppendFront("public override string[] Packages { get { return packages; } }\n");
+            endSource.AppendFront("private string[] packages;\n");
+            endSource.AppendFront("\n");
 
             endSource.AppendFront("public override string Name { get { return \"" + actionsName + "\"; } }\n");
+            endSource.AppendFront("public override string StatisticsPath { get { return " + (statisticsPath != null ? "@\"" + statisticsPath + "\"" : "null") + "; } }\n");
             endSource.AppendFront("public override string ModelMD5Hash { get { return \"" + model.MD5Hash + "\"; } }\n");
             endSource.Unindent();
             endSource.AppendFront("}\n");
