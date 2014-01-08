@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun Dec 15 22:31:04 CET 2013
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Wed Jan 08 16:09:53 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 using GRGEN_MODEL = de.unika.ipd.grGen.Model_ProgramGraphsOriginal;
+using GRGEN_ACTIONS = de.unika.ipd.grGen.Action_ProgramGraphsOriginal;
 
 namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 {
@@ -85,6 +86,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			Subclasses_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"Subclasses_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Subclasses_node_c, Subclasses_iter_0_node_sub }, 
 				new GRGEN_LGSP.PatternEdge[] { Subclasses_iter_0_edge__edge0 }, 
@@ -115,6 +117,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_Subclasses = new GRGEN_LGSP.PatternGraph(
 				"Subclasses",
 				"",
+				null, "Subclasses",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Subclasses_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -583,6 +586,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_Subclass = new GRGEN_LGSP.PatternGraph(
 				"Subclass",
 				"",
+				null, "Subclass",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Subclass_node_sub }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -870,6 +874,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			Features_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"Features_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Features_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -895,6 +900,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_Features = new GRGEN_LGSP.PatternGraph(
 				"Features",
 				"",
+				null, "Features",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Features_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -1416,6 +1422,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			FeaturePattern_alt_0_MethodBody = new GRGEN_LGSP.PatternGraph(
 				"MethodBody",
 				"FeaturePattern_alt_0_",
+				null, "MethodBody",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { FeaturePattern_node_c, FeaturePattern_alt_0_MethodBody_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] { FeaturePattern_alt_0_MethodBody_edge__edge0 }, 
@@ -1456,6 +1463,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			FeaturePattern_alt_0_MethodSignature = new GRGEN_LGSP.PatternGraph(
 				"MethodSignature",
 				"FeaturePattern_alt_0_",
+				null, "MethodSignature",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { FeaturePattern_node_c, FeaturePattern_alt_0_MethodSignature_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { FeaturePattern_alt_0_MethodSignature_edge__edge0 }, 
@@ -1496,6 +1504,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			FeaturePattern_alt_0_Variable = new GRGEN_LGSP.PatternGraph(
 				"Variable",
 				"FeaturePattern_alt_0_",
+				null, "Variable",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { FeaturePattern_node_c, FeaturePattern_alt_0_Variable_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { FeaturePattern_alt_0_Variable_edge__edge0 }, 
@@ -1536,6 +1545,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			FeaturePattern_alt_0_Konstante = new GRGEN_LGSP.PatternGraph(
 				"Konstante",
 				"FeaturePattern_alt_0_",
+				null, "Konstante",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { FeaturePattern_node_c, FeaturePattern_alt_0_Konstante_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { FeaturePattern_alt_0_Konstante_edge__edge0 }, 
@@ -1567,6 +1577,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_FeaturePattern = new GRGEN_LGSP.PatternGraph(
 				"FeaturePattern",
 				"",
+				null, "FeaturePattern",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { FeaturePattern_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -2630,6 +2641,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			Parameters_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"Parameters_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Parameters_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -2655,6 +2667,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_Parameters = new GRGEN_LGSP.PatternGraph(
 				"Parameters",
 				"",
+				null, "Parameters",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Parameters_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -3136,6 +3149,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			Parameter_alt_0_Variable = new GRGEN_LGSP.PatternGraph(
 				"Variable",
 				"Parameter_alt_0_",
+				null, "Variable",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Parameter_node_b, Parameter_alt_0_Variable_node_v }, 
 				new GRGEN_LGSP.PatternEdge[] { Parameter_alt_0_Variable_edge__edge0 }, 
@@ -3176,6 +3190,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			Parameter_alt_0_Konstante = new GRGEN_LGSP.PatternGraph(
 				"Konstante",
 				"Parameter_alt_0_",
+				null, "Konstante",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Parameter_node_b, Parameter_alt_0_Konstante_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] { Parameter_alt_0_Konstante_edge__edge0 }, 
@@ -3207,6 +3222,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_Parameter = new GRGEN_LGSP.PatternGraph(
 				"Parameter",
 				"",
+				null, "Parameter",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Parameter_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -3872,6 +3888,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			Statements_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"Statements_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Statements_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -3897,6 +3914,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_Statements = new GRGEN_LGSP.PatternGraph(
 				"Statements",
 				"",
+				null, "Statements",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Statements_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -4406,6 +4424,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			Statement_alt_0_Assignment = new GRGEN_LGSP.PatternGraph(
 				"Assignment",
 				"Statement_alt_0_",
+				null, "Assignment",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Statement_node_b, Statement_alt_0_Assignment_node_e }, 
 				new GRGEN_LGSP.PatternEdge[] { Statement_alt_0_Assignment_edge__edge0, Statement_alt_0_Assignment_edge__edge1 }, 
@@ -4455,6 +4474,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			Statement_alt_0_Call = new GRGEN_LGSP.PatternGraph(
 				"Call",
 				"Statement_alt_0_",
+				null, "Call",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Statement_node_b, Statement_alt_0_Call_node_e }, 
 				new GRGEN_LGSP.PatternEdge[] { Statement_alt_0_Call_edge__edge0, Statement_alt_0_Call_edge__edge1 }, 
@@ -4499,6 +4519,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			Statement_alt_0_Return = new GRGEN_LGSP.PatternGraph(
 				"Return",
 				"Statement_alt_0_",
+				null, "Return",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Statement_node_b, Statement_alt_0_Return_node_e }, 
 				new GRGEN_LGSP.PatternEdge[] { Statement_alt_0_Return_edge__edge0, Statement_alt_0_Return_edge__edge1 }, 
@@ -4532,6 +4553,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_Statement = new GRGEN_LGSP.PatternGraph(
 				"Statement",
 				"",
+				null, "Statement",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Statement_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -5432,6 +5454,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			Expressions_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"Expressions_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Expressions_node_e }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -5457,6 +5480,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_Expressions = new GRGEN_LGSP.PatternGraph(
 				"Expressions",
 				"",
+				null, "Expressions",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Expressions_node_e }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -5946,6 +5970,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			ExpressionPattern_alt_0_Call = new GRGEN_LGSP.PatternGraph(
 				"Call",
 				"ExpressionPattern_alt_0_",
+				null, "Call",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ExpressionPattern_node_sub }, 
 				new GRGEN_LGSP.PatternEdge[] { ExpressionPattern_alt_0_Call_edge__edge0 }, 
@@ -5982,6 +6007,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			ExpressionPattern_alt_0_Use = new GRGEN_LGSP.PatternGraph(
 				"Use",
 				"ExpressionPattern_alt_0_",
+				null, "Use",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ExpressionPattern_node_sub }, 
 				new GRGEN_LGSP.PatternEdge[] { ExpressionPattern_alt_0_Use_edge__edge0 }, 
@@ -6011,6 +6037,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_ExpressionPattern = new GRGEN_LGSP.PatternGraph(
 				"ExpressionPattern",
 				"",
+				null, "ExpressionPattern",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ExpressionPattern_node_e, ExpressionPattern_node_sub }, 
 				new GRGEN_LGSP.PatternEdge[] { ExpressionPattern_edge__edge0 }, 
@@ -6701,6 +6728,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			Bodies_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"Bodies_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Bodies_node_m5, Bodies_node_c1 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -6727,6 +6755,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_Bodies = new GRGEN_LGSP.PatternGraph(
 				"Bodies",
 				"",
+				null, "Bodies",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Bodies_node_m5, Bodies_node_c1 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -7253,6 +7282,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_Body = new GRGEN_LGSP.PatternGraph(
 				"Body",
 				"",
+				null, "Body",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Body_node_c1, Body_node_c2, Body_node_b, Body_node_m5 }, 
 				new GRGEN_LGSP.PatternEdge[] { Body_edge__edge0, Body_edge__edge1, Body_edge__edge2 }, 
@@ -7610,6 +7640,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_createProgramGraphExample = new GRGEN_LGSP.PatternGraph(
 				"createProgramGraphExample",
 				"",
+				null, "createProgramGraphExample",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -7904,6 +7935,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_createProgramGraphPullUp = new GRGEN_LGSP.PatternGraph(
 				"createProgramGraphPullUp",
 				"",
+				null, "createProgramGraphPullUp",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -8221,6 +8253,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_pullUpMethod = new GRGEN_LGSP.PatternGraph(
 				"pullUpMethod",
 				"",
+				null, "pullUpMethod",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { pullUpMethod_node_c1, pullUpMethod_node_c3, pullUpMethod_node_b4, pullUpMethod_node_m5 }, 
 				new GRGEN_LGSP.PatternEdge[] { pullUpMethod_edge__edge0, pullUpMethod_edge_m, pullUpMethod_edge__edge1 }, 
@@ -8541,6 +8574,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_matchAll = new GRGEN_LGSP.PatternGraph(
 				"matchAll",
 				"",
+				null, "matchAll",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { matchAll_node_c1 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -8787,6 +8821,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_InsertHelperEdgesForNestedLayout = new GRGEN_LGSP.PatternGraph(
 				"InsertHelperEdgesForNestedLayout",
 				"",
+				null, "InsertHelperEdgesForNestedLayout",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -9174,6 +9209,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			LinkMethodBodyToContainedEntity_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"LinkMethodBodyToContainedEntity_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { LinkMethodBodyToContainedEntity_node_mb, LinkMethodBodyToContainedEntity_node_e }, 
 				new GRGEN_LGSP.PatternEdge[] { LinkMethodBodyToContainedEntity_neg_0_edge__edge0 }, 
@@ -9203,6 +9239,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_LinkMethodBodyToContainedEntity = new GRGEN_LGSP.PatternGraph(
 				"LinkMethodBodyToContainedEntity",
 				"",
+				null, "LinkMethodBodyToContainedEntity",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { LinkMethodBodyToContainedEntity_node_mb, LinkMethodBodyToContainedEntity_node_e }, 
 				new GRGEN_LGSP.PatternEdge[] { LinkMethodBodyToContainedEntity_edge__edge0 }, 
@@ -9682,6 +9719,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			LinkMethodBodyToContainedExpressionTransitive_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"LinkMethodBodyToContainedExpressionTransitive_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { LinkMethodBodyToContainedExpressionTransitive_node_e1, LinkMethodBodyToContainedExpressionTransitive_node_e2 }, 
 				new GRGEN_LGSP.PatternEdge[] { LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0 }, 
@@ -9711,6 +9749,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_LinkMethodBodyToContainedExpressionTransitive = new GRGEN_LGSP.PatternGraph(
 				"LinkMethodBodyToContainedExpressionTransitive",
 				"",
+				null, "LinkMethodBodyToContainedExpressionTransitive",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { LinkMethodBodyToContainedExpressionTransitive_node_mb, LinkMethodBodyToContainedExpressionTransitive_node_e1, LinkMethodBodyToContainedExpressionTransitive_node_e2 }, 
 				new GRGEN_LGSP.PatternEdge[] { LinkMethodBodyToContainedExpressionTransitive_edge__edge0, LinkMethodBodyToContainedExpressionTransitive_edge__edge1 }, 
@@ -10180,6 +10219,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_RemoveMethodBodyContainsBetweenExpressions = new GRGEN_LGSP.PatternGraph(
 				"RemoveMethodBodyContainsBetweenExpressions",
 				"",
+				null, "RemoveMethodBodyContainsBetweenExpressions",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { RemoveMethodBodyContainsBetweenExpressions_node_e1, RemoveMethodBodyContainsBetweenExpressions_node_e2 }, 
 				new GRGEN_LGSP.PatternEdge[] { RemoveMethodBodyContainsBetweenExpressions_edge_mbc }, 
@@ -10456,6 +10496,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			pat_RetypeClassContainment = new GRGEN_LGSP.PatternGraph(
 				"RetypeClassContainment",
 				"",
+				null, "RetypeClassContainment",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { RetypeClassContainment_node_c1, RetypeClassContainment_node_c2 }, 
 				new GRGEN_LGSP.PatternEdge[] { RetypeClassContainment_edge_c }, 
@@ -10702,6 +10743,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 	}
 
+
+	//-----------------------------------------------------------
+
 	public class ProgramGraphsOriginal_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
 	{
 		public ProgramGraphsOriginal_RuleAndMatchingPatterns()
@@ -10712,6 +10756,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
 			functions = new GRGEN_LIBGR.FunctionInfo[0];
 			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
+			packages = new string[0];
 			subpatterns[0] = Pattern_Subclasses.Instance;
 			rulesAndSubpatterns[0] = Pattern_Subclasses.Instance;
 			subpatterns[1] = Pattern_Subclass.Instance;
@@ -10767,6 +10812,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 		private GRGEN_LIBGR.FunctionInfo[] functions;
 		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
 		private GRGEN_LIBGR.ProcedureInfo[] procedures;
+		public override string[] Packages { get { return packages; } }
+		private string[] packages;
 	}
 
 
@@ -10865,7 +10912,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
             return;
         }
     }
-
+    
     public class IteratedAction_Subclasses_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Subclasses_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -11060,7 +11107,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_Subclass : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Subclass(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -11193,7 +11240,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_Features_iter_0_inlined__sub0_1_in_Subclass : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Features_iter_0_inlined__sub0_1_in_Subclass(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -11323,7 +11370,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_Subclasses_iter_0_inlined__sub1_2_in_Subclass : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Subclasses_iter_0_inlined__sub1_2_in_Subclass(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -11497,7 +11544,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_Features : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Features(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -11593,7 +11640,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_Features_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Features_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -11732,7 +11779,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_Features_iter_0_alt_0_inlined__sub0_3_in_Features_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_Features_iter_0_alt_0_inlined__sub0_3_in_Features_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -12182,7 +12229,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_FeaturePattern : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_FeaturePattern(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -12273,7 +12320,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_FeaturePattern_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_FeaturePattern_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -12751,7 +12798,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_Parameters_iter_0_inlined__sub0_4_in_FeaturePattern_alt_0_MethodBody : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Parameters_iter_0_inlined__sub0_4_in_FeaturePattern_alt_0_MethodBody(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -12881,7 +12928,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_Statements_iter_0_inlined__sub1_5_in_FeaturePattern_alt_0_MethodBody : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Statements_iter_0_inlined__sub1_5_in_FeaturePattern_alt_0_MethodBody(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -13011,7 +13058,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_Parameters : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Parameters(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -13107,7 +13154,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_Parameters_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Parameters_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -13246,7 +13293,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_Parameters_iter_0_alt_0_inlined__sub0_6_in_Parameters_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_Parameters_iter_0_alt_0_inlined__sub0_6_in_Parameters_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -13488,7 +13535,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_Parameter : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Parameter(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -13579,7 +13626,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_Parameter_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_Parameter_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -13821,7 +13868,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_Statements : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Statements(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -13917,7 +13964,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_Statements_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Statements_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -14056,7 +14103,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_Statements_iter_0_alt_0_inlined__sub0_7_in_Statements_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_Statements_iter_0_alt_0_inlined__sub0_7_in_Statements_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -14460,7 +14507,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_Statement : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Statement(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -14551,7 +14598,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_Statement_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_Statement_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -15040,7 +15087,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_Statement_alt_0_Assignment_alt_0_inlined__sub0_8_in_Statement_alt_0_Assignment : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_Statement_alt_0_Assignment_alt_0_inlined__sub0_8_in_Statement_alt_0_Assignment(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -15243,7 +15290,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_Expressions_iter_0_inlined__sub0_9_in_Statement_alt_0_Call : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Expressions_iter_0_inlined__sub0_9_in_Statement_alt_0_Call(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -15373,7 +15420,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_Expressions : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Expressions(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -15469,7 +15516,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_Expressions_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Expressions_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -15652,7 +15699,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_Expressions_iter_0_alt_0_inlined__sub0_10_in_Expressions_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_Expressions_iter_0_alt_0_inlined__sub0_10_in_Expressions_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -15855,7 +15902,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_ExpressionPattern : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_ExpressionPattern(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -15989,7 +16036,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_ExpressionPattern_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_ExpressionPattern_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -16206,7 +16253,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_Expressions_iter_0_inlined__sub0_11_in_ExpressionPattern_alt_0_Call : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Expressions_iter_0_inlined__sub0_11_in_ExpressionPattern_alt_0_Call(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -16336,7 +16383,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_Bodies : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Bodies(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -16437,7 +16484,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_Bodies_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Bodies_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -16725,7 +16772,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_Body : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Body(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -16982,7 +17029,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_Parameters_iter_0_inlined_p_13_in_Body : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Parameters_iter_0_inlined_p_13_in_Body(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -17112,7 +17159,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_Statements_iter_0_inlined_s_14_in_Body : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Statements_iter_0_inlined_s_14_in_Body(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -17242,7 +17289,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -17456,7 +17503,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -17684,7 +17731,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -18070,7 +18117,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     public class IteratedAction_Bodies_iter_0_inlined_bs_15_in_pullUpMethod : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_Bodies_iter_0_inlined_bs_15_in_pullUpMethod(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -18205,7 +18252,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -18470,7 +18517,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -18684,7 +18731,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -18969,7 +19016,7 @@ label1: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -19275,7 +19322,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -19519,7 +19566,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -19763,7 +19810,7 @@ label3: ;
             }
         }
     }
-
+    
 
     // class which instantiates and stores all the compiled actions of the module,
     // dynamic regeneration and compilation causes the old action to be overwritten by the new one
@@ -19784,6 +19831,7 @@ label3: ;
 
         private void InitActions()
         {
+            packages = new string[0];
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
             analyzer.AnalyzeNestingOfPatternGraph(Pattern_Subclasses.Instance.patternGraph, false);
             GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Pattern_Subclasses.Instance.patternGraph);
@@ -19965,8 +20013,11 @@ label3: ;
         public IAction_RetypeClassContainment @RetypeClassContainment;
         
         
-        public override string StatisticsPath { get { return null; } }
+        public override string[] Packages { get { return packages; } }
+        private string[] packages;
+        
         public override string Name { get { return "ProgramGraphsOriginalActions"; } }
+        public override string StatisticsPath { get { return null; } }
         public override string ModelMD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }
     }
 }

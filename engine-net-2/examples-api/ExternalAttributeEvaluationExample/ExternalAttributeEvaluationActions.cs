@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Dec 15 22:30:37 CET 2013
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Wed Jan 08 16:09:21 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 using GRGEN_MODEL = de.unika.ipd.grGen.Model_ExternalAttributeEvaluation;
+using GRGEN_ACTIONS = de.unika.ipd.grGen.Action_ExternalAttributeEvaluation;
 
 namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 {
@@ -53,6 +54,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			pat_init = new GRGEN_LGSP.PatternGraph(
 				"init",
 				"",
+				null, "init",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -310,6 +312,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			pat_r = new GRGEN_LGSP.PatternGraph(
 				"r",
 				"",
+				null, "r",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { r_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] { r_edge_e }, 
@@ -591,6 +594,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			pat_rp = new GRGEN_LGSP.PatternGraph(
 				"rp",
 				"",
+				null, "rp",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { rp_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] { rp_edge_e }, 
@@ -882,6 +886,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			pat_testCopy = new GRGEN_LGSP.PatternGraph(
 				"testCopy",
 				"",
+				null, "testCopy",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { testCopy_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -1190,6 +1195,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			pat_testComparison = new GRGEN_LGSP.PatternGraph(
 				"testComparison",
 				"",
+				null, "testComparison",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -1430,6 +1436,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 	}
 
+
+	//-----------------------------------------------------------
+
 	public class ExternalAttributeEvaluation_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
 	{
 		public ExternalAttributeEvaluation_RuleAndMatchingPatterns()
@@ -1440,6 +1449,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
 			functions = new GRGEN_LIBGR.FunctionInfo[0];
 			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
+			packages = new string[0];
 			rules[0] = Rule_init.Instance;
 			rulesAndSubpatterns[0+0] = Rule_init.Instance;
 			rules[1] = Rule_r.Instance;
@@ -1463,6 +1473,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 		private GRGEN_LIBGR.FunctionInfo[] functions;
 		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
 		private GRGEN_LIBGR.ProcedureInfo[] procedures;
+		public override string[] Packages { get { return packages; } }
+		private string[] packages;
 	}
 
 
@@ -1679,7 +1691,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -1928,7 +1940,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -2161,7 +2173,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -2382,7 +2394,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -2691,7 +2703,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             }
         }
     }
-
+    
 
     // class which instantiates and stores all the compiled actions of the module,
     // dynamic regeneration and compilation causes the old action to be overwritten by the new one
@@ -2712,6 +2724,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
         private void InitActions()
         {
+            packages = new string[0];
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
             analyzer.AnalyzeNestingOfPatternGraph(Rule_init.Instance.patternGraph, false);
             GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_init.Instance.patternGraph);
@@ -2769,8 +2782,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         public IAction_testComparison @testComparison;
         
         
-        public override string StatisticsPath { get { return null; } }
+        public override string[] Packages { get { return packages; } }
+        private string[] packages;
+        
         public override string Name { get { return "ExternalAttributeEvaluationActions"; } }
+        public override string StatisticsPath { get { return null; } }
         public override string ModelMD5Hash { get { return "e608177495bee8e61f32fa984fb2126b"; } }
     }
 }

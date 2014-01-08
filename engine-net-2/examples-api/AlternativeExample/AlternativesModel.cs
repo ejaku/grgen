@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Dec 15 22:30:21 CET 2013
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Wed Jan 08 16:09:01 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 namespace de.unika.ipd.grGen.Model_Alternatives
 {
 	using GRGEN_MODEL = de.unika.ipd.grGen.Model_Alternatives;
+
 	//
 	// Enums
 	//
@@ -24,7 +25,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 	// Node types
 	//
 
-	public enum NodeTypes { @Node, @A, @B, @C };
+	public enum NodeTypes { @Node=0, @A=1, @B=2, @C=3 };
 
 	// *** Node Node ***
 
@@ -139,6 +140,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "Node"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Node"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -291,6 +294,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "A"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "A"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Alternatives.IA"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@A"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -443,6 +448,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "B"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "B"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Alternatives.IB"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@B"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -595,6 +602,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "C"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "C"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Alternatives.IC"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@C"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -626,109 +635,10 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 	}
 
 	//
-	// Node model
-	//
-
-	public sealed class AlternativesNodeModel : GRGEN_LIBGR.INodeModel
-	{
-		public AlternativesNodeModel()
-		{
-			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-				GRGEN_MODEL.NodeType_A.typeVar,
-				GRGEN_MODEL.NodeType_B.typeVar,
-				GRGEN_MODEL.NodeType_C.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_A.typeVar,
-				GRGEN_MODEL.NodeType_B.typeVar,
-				GRGEN_MODEL.NodeType_C.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_A.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_A.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_A.typeVar,
-			};
-			GRGEN_MODEL.NodeType_A.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_A.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_A.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_A.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_A.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_A.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_A.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_B.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_B.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_B.typeVar,
-			};
-			GRGEN_MODEL.NodeType_B.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_B.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_B.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_B.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_B.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_B.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_B.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_C.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_C.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_C.typeVar,
-			};
-			GRGEN_MODEL.NodeType_C.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_C.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_C.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_C.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_C.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_C.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_C.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-		}
-		public bool IsNodeModel { get { return true; } }
-		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
-		public GRGEN_LIBGR.NodeType GetType(string name)
-		{
-			switch(name)
-			{
-				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
-				case "A" : return GRGEN_MODEL.NodeType_A.typeVar;
-				case "B" : return GRGEN_MODEL.NodeType_B.typeVar;
-				case "C" : return GRGEN_MODEL.NodeType_C.typeVar;
-			}
-			return null;
-		}
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
-		{
-			return GetType(name);
-		}
-		private GRGEN_LIBGR.NodeType[] types = {
-			GRGEN_MODEL.NodeType_Node.typeVar,
-			GRGEN_MODEL.NodeType_A.typeVar,
-			GRGEN_MODEL.NodeType_B.typeVar,
-			GRGEN_MODEL.NodeType_C.typeVar,
-		};
-		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
-		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
-			typeof(GRGEN_MODEL.NodeType_Node),
-			typeof(GRGEN_MODEL.NodeType_A),
-			typeof(GRGEN_MODEL.NodeType_B),
-			typeof(GRGEN_MODEL.NodeType_C),
-		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
-		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
-		};
-		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
-	}
-
-	//
 	// Edge types
 	//
 
-	public enum EdgeTypes { @AEdge, @Edge, @UEdge };
+	public enum EdgeTypes { @AEdge=0, @Edge=1, @UEdge=2 };
 
 	// *** Edge AEdge ***
 
@@ -744,6 +654,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "AEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "AEdge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return null; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
@@ -895,6 +807,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "Edge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Edge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1047,6 +961,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "UEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "UEdge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
@@ -1081,6 +997,106 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+	}
+	//-----------------------------------------------------------
+
+	//
+	// Node model
+	//
+
+	public sealed class AlternativesNodeModel : GRGEN_LIBGR.INodeModel
+	{
+		public AlternativesNodeModel()
+		{
+			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A.typeVar,
+				GRGEN_MODEL.NodeType_B.typeVar,
+				GRGEN_MODEL.NodeType_C.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A.typeVar,
+				GRGEN_MODEL.NodeType_B.typeVar,
+				GRGEN_MODEL.NodeType_C.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_A.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_A.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_A.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_A.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_A.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_A.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_B.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_B.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_B.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_B.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_B.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_C.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_C.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_C.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_C.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_C.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+		}
+		public bool IsNodeModel { get { return true; } }
+		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		public GRGEN_LIBGR.NodeType GetType(string name)
+		{
+			switch(name)
+			{
+				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
+				case "A" : return GRGEN_MODEL.NodeType_A.typeVar;
+				case "B" : return GRGEN_MODEL.NodeType_B.typeVar;
+				case "C" : return GRGEN_MODEL.NodeType_C.typeVar;
+			}
+			return null;
+		}
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
+		{
+			return GetType(name);
+		}
+		private GRGEN_LIBGR.NodeType[] types = {
+			GRGEN_MODEL.NodeType_Node.typeVar,
+			GRGEN_MODEL.NodeType_A.typeVar,
+			GRGEN_MODEL.NodeType_B.typeVar,
+			GRGEN_MODEL.NodeType_C.typeVar,
+		};
+		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
+		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
+		private System.Type[] typeTypes = {
+			typeof(GRGEN_MODEL.NodeType_Node),
+			typeof(GRGEN_MODEL.NodeType_A),
+			typeof(GRGEN_MODEL.NodeType_B),
+			typeof(GRGEN_MODEL.NodeType_C),
+		};
+		public System.Type[] TypeTypes { get { return typeTypes; } }
+		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
+		};
+		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
 	}
 
 	//
@@ -1177,16 +1193,19 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 
 		private AlternativesNodeModel nodeModel = new AlternativesNodeModel();
 		private AlternativesEdgeModel edgeModel = new AlternativesEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 
 		public string ModelName { get { return "Alternatives"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -1269,16 +1288,19 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 
 		private AlternativesNodeModel nodeModel = new AlternativesNodeModel();
 		private AlternativesEdgeModel edgeModel = new AlternativesEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 
 		public string ModelName { get { return "Alternatives"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -1391,16 +1413,19 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 
 		private AlternativesNodeModel nodeModel = new AlternativesNodeModel();
 		private AlternativesEdgeModel edgeModel = new AlternativesEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 
 		public string ModelName { get { return "Alternatives"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{

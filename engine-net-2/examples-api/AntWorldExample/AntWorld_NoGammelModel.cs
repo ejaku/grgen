@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Dec 15 22:30:25 CET 2013
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Wed Jan 08 16:09:08 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 {
 	using GRGEN_MODEL = de.unika.ipd.grGen.Model_AntWorld_NoGammel;
+
 	//
 	// Enums
 	//
@@ -24,7 +25,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	// Node types
 	//
 
-	public enum NodeTypes { @Node, @GridNode, @GridCornerNode, @AntHill, @Ant };
+	public enum NodeTypes { @Node=0, @GridNode=1, @GridCornerNode=2, @AntHill=3, @Ant=4 };
 
 	// *** Node Node ***
 
@@ -139,6 +140,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		{
 		}
 		public override string Name { get { return "Node"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Node"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.@Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -327,10 +330,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public static GRGEN_LIBGR.AttributeType AttributeType_pheromones;
 		public NodeType_GridNode() : base((int) NodeTypes.@GridNode)
 		{
-			AttributeType_food = new GRGEN_LIBGR.AttributeType("food", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
-			AttributeType_pheromones = new GRGEN_LIBGR.AttributeType("pheromones", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_food = new GRGEN_LIBGR.AttributeType("food", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
+			AttributeType_pheromones = new GRGEN_LIBGR.AttributeType("pheromones", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "GridNode"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "GridNode"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.IGridNode"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.@GridNode"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -375,9 +380,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			GRGEN_MODEL.@GridNode newNode = new GRGEN_MODEL.@GridNode();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@GridNode:
-				case (int) NodeTypes.@GridCornerNode:
-				case (int) NodeTypes.@AntHill:
+				case (int) GRGEN_MODEL.NodeTypes.@GridNode:
+				case (int) GRGEN_MODEL.NodeTypes.@GridCornerNode:
+				case (int) GRGEN_MODEL.NodeTypes.@AntHill:
 					// copy attributes for: GridNode
 					{
 						GRGEN_MODEL.IGridNode old = (GRGEN_MODEL.IGridNode) oldNode;
@@ -553,6 +558,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		{
 		}
 		public override string Name { get { return "GridCornerNode"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "GridCornerNode"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.IGridCornerNode"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.@GridCornerNode"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -597,8 +604,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			GRGEN_MODEL.@GridCornerNode newNode = new GRGEN_MODEL.@GridCornerNode();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@GridNode:
-				case (int) NodeTypes.@AntHill:
+				case (int) GRGEN_MODEL.NodeTypes.@GridNode:
+				case (int) GRGEN_MODEL.NodeTypes.@AntHill:
 					// copy attributes for: GridNode
 					{
 						GRGEN_MODEL.IGridNode old = (GRGEN_MODEL.IGridNode) oldNode;
@@ -606,7 +613,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 						newNode.@pheromones = old.@pheromones;
 					}
 					break;
-				case (int) NodeTypes.@GridCornerNode:
+				case (int) GRGEN_MODEL.NodeTypes.@GridCornerNode:
 					// copy attributes for: GridCornerNode
 					{
 						GRGEN_MODEL.IGridCornerNode old = (GRGEN_MODEL.IGridCornerNode) oldNode;
@@ -800,9 +807,11 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public static GRGEN_LIBGR.AttributeType AttributeType_foodCountdown;
 		public NodeType_AntHill() : base((int) NodeTypes.@AntHill)
 		{
-			AttributeType_foodCountdown = new GRGEN_LIBGR.AttributeType("foodCountdown", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_foodCountdown = new GRGEN_LIBGR.AttributeType("foodCountdown", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "AntHill"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "AntHill"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.IAntHill"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.@AntHill"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -849,8 +858,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			GRGEN_MODEL.@AntHill newNode = new GRGEN_MODEL.@AntHill();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@GridNode:
-				case (int) NodeTypes.@GridCornerNode:
+				case (int) GRGEN_MODEL.NodeTypes.@GridNode:
+				case (int) GRGEN_MODEL.NodeTypes.@GridCornerNode:
 					// copy attributes for: GridNode
 					{
 						GRGEN_MODEL.IGridNode old = (GRGEN_MODEL.IGridNode) oldNode;
@@ -858,7 +867,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 						newNode.@pheromones = old.@pheromones;
 					}
 					break;
-				case (int) NodeTypes.@AntHill:
+				case (int) GRGEN_MODEL.NodeTypes.@AntHill:
 					// copy attributes for: AntHill
 					{
 						GRGEN_MODEL.IAntHill old = (GRGEN_MODEL.IAntHill) oldNode;
@@ -1015,9 +1024,11 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public static GRGEN_LIBGR.AttributeType AttributeType_hasFood;
 		public NodeType_Ant() : base((int) NodeTypes.@Ant)
 		{
-			AttributeType_hasFood = new GRGEN_LIBGR.AttributeType("hasFood", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_hasFood = new GRGEN_LIBGR.AttributeType("hasFood", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Ant"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Ant"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.IAnt"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.@Ant"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -1060,7 +1071,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			GRGEN_MODEL.@Ant newNode = new GRGEN_MODEL.@Ant();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@Ant:
+				case (int) GRGEN_MODEL.NodeTypes.@Ant:
 					// copy attributes for: Ant
 					{
 						GRGEN_MODEL.IAnt old = (GRGEN_MODEL.IAnt) oldNode;
@@ -1074,134 +1085,10 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	}
 
 	//
-	// Node model
-	//
-
-	public sealed class AntWorld_NoGammelNodeModel : GRGEN_LIBGR.INodeModel
-	{
-		public AntWorld_NoGammelNodeModel()
-		{
-			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-				GRGEN_MODEL.NodeType_GridNode.typeVar,
-				GRGEN_MODEL.NodeType_GridCornerNode.typeVar,
-				GRGEN_MODEL.NodeType_AntHill.typeVar,
-				GRGEN_MODEL.NodeType_Ant.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_GridNode.typeVar,
-				GRGEN_MODEL.NodeType_Ant.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_GridNode.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_GridNode.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_GridNode.typeVar,
-				GRGEN_MODEL.NodeType_GridCornerNode.typeVar,
-				GRGEN_MODEL.NodeType_AntHill.typeVar,
-			};
-			GRGEN_MODEL.NodeType_GridNode.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_GridNode.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_GridCornerNode.typeVar,
-				GRGEN_MODEL.NodeType_AntHill.typeVar,
-			};
-			GRGEN_MODEL.NodeType_GridNode.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_GridNode.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_GridNode.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_GridNode.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_GridNode.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_GridCornerNode.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_GridCornerNode.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_GridCornerNode.typeVar,
-			};
-			GRGEN_MODEL.NodeType_GridCornerNode.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_GridCornerNode.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_GridCornerNode.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_GridCornerNode.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_GridCornerNode.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-				GRGEN_MODEL.NodeType_GridNode.typeVar,
-			};
-			GRGEN_MODEL.NodeType_GridCornerNode.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_GridCornerNode.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_GridNode.typeVar,
-			};
-			GRGEN_MODEL.NodeType_AntHill.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_AntHill.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_AntHill.typeVar,
-			};
-			GRGEN_MODEL.NodeType_AntHill.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_AntHill.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_AntHill.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_AntHill.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_AntHill.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-				GRGEN_MODEL.NodeType_GridNode.typeVar,
-			};
-			GRGEN_MODEL.NodeType_AntHill.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_AntHill.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_GridNode.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Ant.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Ant.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Ant.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Ant.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Ant.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_Ant.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Ant.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Ant.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Ant.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Ant.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-		}
-		public bool IsNodeModel { get { return true; } }
-		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
-		public GRGEN_LIBGR.NodeType GetType(string name)
-		{
-			switch(name)
-			{
-				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
-				case "GridNode" : return GRGEN_MODEL.NodeType_GridNode.typeVar;
-				case "GridCornerNode" : return GRGEN_MODEL.NodeType_GridCornerNode.typeVar;
-				case "AntHill" : return GRGEN_MODEL.NodeType_AntHill.typeVar;
-				case "Ant" : return GRGEN_MODEL.NodeType_Ant.typeVar;
-			}
-			return null;
-		}
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
-		{
-			return GetType(name);
-		}
-		private GRGEN_LIBGR.NodeType[] types = {
-			GRGEN_MODEL.NodeType_Node.typeVar,
-			GRGEN_MODEL.NodeType_GridNode.typeVar,
-			GRGEN_MODEL.NodeType_GridCornerNode.typeVar,
-			GRGEN_MODEL.NodeType_AntHill.typeVar,
-			GRGEN_MODEL.NodeType_Ant.typeVar,
-		};
-		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
-		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
-			typeof(GRGEN_MODEL.NodeType_Node),
-			typeof(GRGEN_MODEL.NodeType_GridNode),
-			typeof(GRGEN_MODEL.NodeType_GridCornerNode),
-			typeof(GRGEN_MODEL.NodeType_AntHill),
-			typeof(GRGEN_MODEL.NodeType_Ant),
-		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
-		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
-			GRGEN_MODEL.NodeType_GridNode.AttributeType_food,
-			GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones,
-			GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown,
-			GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood,
-		};
-		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
-	}
-
-	//
 	// Edge types
 	//
 
-	public enum EdgeTypes { @AEdge, @Edge, @UEdge, @GridEdge, @PathToHill, @AntPosition, @NextAnt };
+	public enum EdgeTypes { @AEdge=0, @Edge=1, @UEdge=2, @GridEdge=3, @PathToHill=4, @AntPosition=5, @NextAnt=6 };
 
 	// *** Edge AEdge ***
 
@@ -1217,6 +1104,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		{
 		}
 		public override string Name { get { return "AEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "AEdge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return null; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
@@ -1368,6 +1257,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		{
 		}
 		public override string Name { get { return "Edge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Edge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1520,6 +1411,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		{
 		}
 		public override string Name { get { return "UEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "UEdge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
@@ -1681,6 +1574,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		{
 		}
 		public override string Name { get { return "GridEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "GridEdge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.IGridEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.@GridEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1848,6 +1743,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		{
 		}
 		public override string Name { get { return "PathToHill"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "PathToHill"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.IPathToHill"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.@PathToHill"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -2009,6 +1906,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		{
 		}
 		public override string Name { get { return "AntPosition"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "AntPosition"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.IAntPosition"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.@AntPosition"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -2170,6 +2069,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		{
 		}
 		public override string Name { get { return "NextAnt"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "NextAnt"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.INextAnt"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.@NextAnt"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -2204,6 +2105,131 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return new GRGEN_MODEL.@NextAnt((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+	}
+	//-----------------------------------------------------------
+
+	//
+	// Node model
+	//
+
+	public sealed class AntWorld_NoGammelNodeModel : GRGEN_LIBGR.INodeModel
+	{
+		public AntWorld_NoGammelNodeModel()
+		{
+			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_GridNode.typeVar,
+				GRGEN_MODEL.NodeType_GridCornerNode.typeVar,
+				GRGEN_MODEL.NodeType_AntHill.typeVar,
+				GRGEN_MODEL.NodeType_Ant.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_GridNode.typeVar,
+				GRGEN_MODEL.NodeType_Ant.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_GridNode.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_GridNode.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_GridNode.typeVar,
+				GRGEN_MODEL.NodeType_GridCornerNode.typeVar,
+				GRGEN_MODEL.NodeType_AntHill.typeVar,
+			};
+			GRGEN_MODEL.NodeType_GridNode.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_GridNode.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_GridCornerNode.typeVar,
+				GRGEN_MODEL.NodeType_AntHill.typeVar,
+			};
+			GRGEN_MODEL.NodeType_GridNode.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_GridNode.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_GridNode.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_GridNode.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_GridNode.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_GridCornerNode.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_GridCornerNode.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_GridCornerNode.typeVar,
+			};
+			GRGEN_MODEL.NodeType_GridCornerNode.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_GridCornerNode.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_GridCornerNode.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_GridCornerNode.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_GridCornerNode.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_GridNode.typeVar,
+			};
+			GRGEN_MODEL.NodeType_GridCornerNode.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_GridCornerNode.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_GridNode.typeVar,
+			};
+			GRGEN_MODEL.NodeType_AntHill.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_AntHill.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_AntHill.typeVar,
+			};
+			GRGEN_MODEL.NodeType_AntHill.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_AntHill.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_AntHill.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_AntHill.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_AntHill.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_GridNode.typeVar,
+			};
+			GRGEN_MODEL.NodeType_AntHill.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_AntHill.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_GridNode.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Ant.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Ant.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Ant.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Ant.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Ant.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_Ant.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Ant.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Ant.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Ant.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Ant.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+		}
+		public bool IsNodeModel { get { return true; } }
+		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		public GRGEN_LIBGR.NodeType GetType(string name)
+		{
+			switch(name)
+			{
+				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
+				case "GridNode" : return GRGEN_MODEL.NodeType_GridNode.typeVar;
+				case "GridCornerNode" : return GRGEN_MODEL.NodeType_GridCornerNode.typeVar;
+				case "AntHill" : return GRGEN_MODEL.NodeType_AntHill.typeVar;
+				case "Ant" : return GRGEN_MODEL.NodeType_Ant.typeVar;
+			}
+			return null;
+		}
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
+		{
+			return GetType(name);
+		}
+		private GRGEN_LIBGR.NodeType[] types = {
+			GRGEN_MODEL.NodeType_Node.typeVar,
+			GRGEN_MODEL.NodeType_GridNode.typeVar,
+			GRGEN_MODEL.NodeType_GridCornerNode.typeVar,
+			GRGEN_MODEL.NodeType_AntHill.typeVar,
+			GRGEN_MODEL.NodeType_Ant.typeVar,
+		};
+		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
+		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
+		private System.Type[] typeTypes = {
+			typeof(GRGEN_MODEL.NodeType_Node),
+			typeof(GRGEN_MODEL.NodeType_GridNode),
+			typeof(GRGEN_MODEL.NodeType_GridCornerNode),
+			typeof(GRGEN_MODEL.NodeType_AntHill),
+			typeof(GRGEN_MODEL.NodeType_Ant),
+		};
+		public System.Type[] TypeTypes { get { return typeTypes; } }
+		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
+			GRGEN_MODEL.NodeType_GridNode.AttributeType_food,
+			GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones,
+			GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown,
+			GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood,
+		};
+		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
 	}
 
 	//
@@ -2378,17 +2404,20 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		private AntWorld_NoGammelNodeModel nodeModel = new AntWorld_NoGammelNodeModel();
 		private AntWorld_NoGammelEdgeModel edgeModel = new AntWorld_NoGammelEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_GridEdge.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, 1, 1, 1, 1, false),
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_GridEdge.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, 1, 1, 1, 1, false),
 		};
 
 		public string ModelName { get { return "AntWorld_NoGammel"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -2496,17 +2525,20 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		private AntWorld_NoGammelNodeModel nodeModel = new AntWorld_NoGammelNodeModel();
 		private AntWorld_NoGammelEdgeModel edgeModel = new AntWorld_NoGammelEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_GridEdge.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, 1, 1, 1, 1, false),
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_GridEdge.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, 1, 1, 1, 1, false),
 		};
 
 		public string ModelName { get { return "AntWorld_NoGammel"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -2669,17 +2701,20 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		private AntWorld_NoGammelNodeModel nodeModel = new AntWorld_NoGammelNodeModel();
 		private AntWorld_NoGammelEdgeModel edgeModel = new AntWorld_NoGammelEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_GridEdge.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, 1, 1, 1, 1, false),
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_GridEdge.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, 1, 1, 1, 1, false),
 		};
 
 		public string ModelName { get { return "AntWorld_NoGammel"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{

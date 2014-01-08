@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Dec 15 22:31:01 CET 2013
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Wed Jan 08 16:09:49 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 using GRGEN_MODEL = de.unika.ipd.grGen.Model_Mutex;
+using GRGEN_ACTIONS = de.unika.ipd.grGen.Action_MutexPimped;
 
 namespace de.unika.ipd.grGen.Action_MutexPimped
 {
@@ -67,6 +68,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_newRule = new GRGEN_LGSP.PatternGraph(
 				"newRule",
 				"",
+				null, "newRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { newRule_node_p1, newRule_node_p2 }, 
 				new GRGEN_LGSP.PatternEdge[] { newRule_edge_n }, 
@@ -357,6 +359,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_killRule = new GRGEN_LGSP.PatternGraph(
 				"killRule",
 				"",
+				null, "killRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { killRule_node_p1, killRule_node_p, killRule_node_p2 }, 
 				new GRGEN_LGSP.PatternEdge[] { killRule_edge_n1, killRule_edge_n2 }, 
@@ -650,6 +653,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_mountRule = new GRGEN_LGSP.PatternGraph(
 				"mountRule",
 				"",
+				null, "mountRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { mountRule_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -908,6 +912,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_unmountRule = new GRGEN_LGSP.PatternGraph(
 				"unmountRule",
 				"",
+				null, "unmountRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { unmountRule_node_r, unmountRule_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] { unmountRule_edge_t }, 
@@ -1218,6 +1223,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			passRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"passRule_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { passRule_node_p1, passRule_node_r }, 
 				new GRGEN_LGSP.PatternEdge[] { passRule_neg_0_edge_req }, 
@@ -1247,6 +1253,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_passRule = new GRGEN_LGSP.PatternGraph(
 				"passRule",
 				"",
+				null, "passRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { passRule_node_r, passRule_node_p1, passRule_node_p2 }, 
 				new GRGEN_LGSP.PatternEdge[] { passRule_edge__edge0, passRule_edge_n }, 
@@ -1748,6 +1755,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			requestRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"requestRule_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { requestRule_node_r, requestRule_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] { requestRule_neg_0_edge_hb }, 
@@ -1788,6 +1796,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			requestRule_neg_1 = new GRGEN_LGSP.PatternGraph(
 				"neg_1",
 				"requestRule_",
+				null, "neg_1",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { requestRule_node_p, requestRule_neg_1_node_m }, 
 				new GRGEN_LGSP.PatternEdge[] { requestRule_neg_1_edge_req }, 
@@ -1817,6 +1826,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_requestRule = new GRGEN_LGSP.PatternGraph(
 				"requestRule",
 				"",
+				null, "requestRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { requestRule_node_p, requestRule_node_r }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -2433,6 +2443,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_takeRule = new GRGEN_LGSP.PatternGraph(
 				"takeRule",
 				"",
+				null, "takeRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { takeRule_node_r, takeRule_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] { takeRule_edge_t, takeRule_edge_req }, 
@@ -2750,6 +2761,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			releaseRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"releaseRule_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { releaseRule_node_p, releaseRule_neg_0_node_m }, 
 				new GRGEN_LGSP.PatternEdge[] { releaseRule_neg_0_edge_req }, 
@@ -2779,6 +2791,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_releaseRule = new GRGEN_LGSP.PatternGraph(
 				"releaseRule",
 				"",
+				null, "releaseRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { releaseRule_node_r, releaseRule_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] { releaseRule_edge_hb }, 
@@ -3240,6 +3253,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_giveRule = new GRGEN_LGSP.PatternGraph(
 				"giveRule",
 				"",
+				null, "giveRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { giveRule_node_r, giveRule_node_p1, giveRule_node_p2 }, 
 				new GRGEN_LGSP.PatternEdge[] { giveRule_edge_rel, giveRule_edge_n }, 
@@ -3546,6 +3560,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_blockedRule = new GRGEN_LGSP.PatternGraph(
 				"blockedRule",
 				"",
+				null, "blockedRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { blockedRule_node_p1, blockedRule_node_r, blockedRule_node_p2 }, 
 				new GRGEN_LGSP.PatternEdge[] { blockedRule_edge_req, blockedRule_edge_hb }, 
@@ -3862,6 +3877,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_waitingRule = new GRGEN_LGSP.PatternGraph(
 				"waitingRule",
 				"",
+				null, "waitingRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { waitingRule_node_r2, waitingRule_node_p1, waitingRule_node_r1, waitingRule_node_p2, waitingRule_node_r }, 
 				new GRGEN_LGSP.PatternEdge[] { waitingRule_edge_b, waitingRule_edge_hb, waitingRule_edge_req }, 
@@ -4214,6 +4230,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			ignoreRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ignoreRule_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ignoreRule_neg_0_node_m, ignoreRule_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] { ignoreRule_neg_0_edge_hb }, 
@@ -4243,6 +4260,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_ignoreRule = new GRGEN_LGSP.PatternGraph(
 				"ignoreRule",
 				"",
+				null, "ignoreRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ignoreRule_node_r, ignoreRule_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] { ignoreRule_edge_b }, 
@@ -4697,6 +4715,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_unlockRule = new GRGEN_LGSP.PatternGraph(
 				"unlockRule",
 				"",
+				null, "unlockRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { unlockRule_node_r, unlockRule_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] { unlockRule_edge_b, unlockRule_edge_hb }, 
@@ -5027,6 +5046,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			requestStarRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"requestStarRule_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { requestStarRule_node_p1, requestStarRule_node_r2 }, 
 				new GRGEN_LGSP.PatternEdge[] { requestStarRule_neg_0_edge_req }, 
@@ -5056,6 +5076,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_requestStarRule = new GRGEN_LGSP.PatternGraph(
 				"requestStarRule",
 				"",
+				null, "requestStarRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { requestStarRule_node_r1, requestStarRule_node_p1, requestStarRule_node_p2, requestStarRule_node_r2 }, 
 				new GRGEN_LGSP.PatternEdge[] { requestStarRule_edge_h1, requestStarRule_edge_n, requestStarRule_edge_h2 }, 
@@ -5557,6 +5578,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_releaseStarRule = new GRGEN_LGSP.PatternGraph(
 				"releaseStarRule",
 				"",
+				null, "releaseStarRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { releaseStarRule_node_p1, releaseStarRule_node_r1, releaseStarRule_node_p2, releaseStarRule_node_r2 }, 
 				new GRGEN_LGSP.PatternEdge[] { releaseStarRule_edge_rq, releaseStarRule_edge_h1, releaseStarRule_edge_h2 }, 
@@ -5894,6 +5916,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			requestSimpleRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"requestSimpleRule_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { requestSimpleRule_node_p, requestSimpleRule_node_r }, 
 				new GRGEN_LGSP.PatternEdge[] { requestSimpleRule_neg_0_edge_req }, 
@@ -5923,6 +5946,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_requestSimpleRule = new GRGEN_LGSP.PatternGraph(
 				"requestSimpleRule",
 				"",
+				null, "requestSimpleRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { requestSimpleRule_node_r, requestSimpleRule_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] { requestSimpleRule_edge_t }, 
@@ -6389,6 +6413,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			aux_attachResource_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"aux_attachResource_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { aux_attachResource_neg_0_node_r, aux_attachResource_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] { aux_attachResource_neg_0_edge__edge0 }, 
@@ -6418,6 +6443,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_aux_attachResource = new GRGEN_LGSP.PatternGraph(
 				"aux_attachResource",
 				"",
+				null, "aux_attachResource",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { aux_attachResource_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -6846,6 +6872,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_annotationTestRule = new GRGEN_LGSP.PatternGraph(
 				"annotationTestRule",
 				"",
+				null, "annotationTestRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { annotationTestRule_node_n1 }, 
 				new GRGEN_LGSP.PatternEdge[] { annotationTestRule_edge_e1 }, 
@@ -7084,6 +7111,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 	}
 
+
+	//-----------------------------------------------------------
+
 	public class MutexPimped_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
 	{
 		public MutexPimped_RuleAndMatchingPatterns()
@@ -7094,6 +7124,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
 			functions = new GRGEN_LIBGR.FunctionInfo[0];
 			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
+			packages = new string[0];
 			rules[0] = Rule_newRule.Instance;
 			rulesAndSubpatterns[0+0] = Rule_newRule.Instance;
 			rules[1] = Rule_killRule.Instance;
@@ -7143,6 +7174,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private GRGEN_LIBGR.FunctionInfo[] functions;
 		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
 		private GRGEN_LIBGR.ProcedureInfo[] procedures;
+		public override string[] Packages { get { return packages; } }
+		private string[] packages;
 	}
 
 
@@ -7389,7 +7422,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -7675,7 +7708,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -7896,7 +7929,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -8129,7 +8162,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -8419,7 +8452,7 @@ label0: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -8699,7 +8732,7 @@ label2: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -8950,7 +8983,7 @@ label2: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -9210,7 +9243,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -9473,7 +9506,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -9736,7 +9769,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -10046,7 +10079,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -10306,7 +10339,7 @@ label4: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -10557,7 +10590,7 @@ label4: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -10887,7 +10920,7 @@ label5: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -11192,7 +11225,7 @@ label5: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -11450,7 +11483,7 @@ label6: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -11698,7 +11731,7 @@ label7: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -11931,7 +11964,7 @@ label7: ;
             }
         }
     }
-
+    
 
     // class which instantiates and stores all the compiled actions of the module,
     // dynamic regeneration and compilation causes the old action to be overwritten by the new one
@@ -11952,6 +11985,7 @@ label7: ;
 
         private void InitActions()
         {
+            packages = new string[0];
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
             analyzer.AnalyzeNestingOfPatternGraph(Rule_newRule.Instance.patternGraph, false);
             GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_newRule.Instance.patternGraph);
@@ -12139,8 +12173,11 @@ label7: ;
         public IAction_annotationTestRule @annotationTestRule;
         
         
-        public override string StatisticsPath { get { return null; } }
+        public override string[] Packages { get { return packages; } }
+        private string[] packages;
+        
         public override string Name { get { return "MutexPimpedActions"; } }
+        public override string StatisticsPath { get { return null; } }
         public override string ModelMD5Hash { get { return "b75cc12d5d56ba550bb415bb40c4947f"; } }
     }
 }

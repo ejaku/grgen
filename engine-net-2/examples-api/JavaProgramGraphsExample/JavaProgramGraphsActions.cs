@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Dec 15 22:30:55 CET 2013
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Wed Jan 08 16:09:42 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 using GRGEN_MODEL = de.unika.ipd.grGen.Model_JavaProgramGraphs;
+using GRGEN_ACTIONS = de.unika.ipd.grGen.Action_JavaProgramGraphs;
 
 namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 {
@@ -106,6 +107,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MultipleContainedPackagesOrClasses_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MultipleContainedPackagesOrClasses_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleContainedPackagesOrClasses_iter_0_node_sub, MultipleContainedPackagesOrClasses_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] { MultipleContainedPackagesOrClasses_iter_0_edge__edge0 }, 
@@ -156,6 +158,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MultipleContainedPackagesOrClasses_iter_1 = new GRGEN_LGSP.PatternGraph(
 				"iter_1",
 				"MultipleContainedPackagesOrClasses_",
+				null, "iter_1",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleContainedPackagesOrClasses_iter_1_node_c, MultipleContainedPackagesOrClasses_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] { MultipleContainedPackagesOrClasses_iter_1_edge__edge0 }, 
@@ -187,6 +190,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_MultipleContainedPackagesOrClasses = new GRGEN_LGSP.PatternGraph(
 				"MultipleContainedPackagesOrClasses",
 				"",
+				null, "MultipleContainedPackagesOrClasses",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleContainedPackagesOrClasses_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -979,6 +983,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MultipleVariables_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MultipleVariables_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleVariables_iter_0_node_v, MultipleVariables_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] { MultipleVariables_iter_0_edge__edge0 }, 
@@ -1009,6 +1014,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_MultipleVariables = new GRGEN_LGSP.PatternGraph(
 				"MultipleVariables",
 				"",
+				null, "MultipleVariables",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleVariables_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -1530,6 +1536,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MultipleMethodBodies_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MultipleMethodBodies_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleMethodBodies_iter_0_node_mb, MultipleMethodBodies_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] { MultipleMethodBodies_iter_0_edge__edge0 }, 
@@ -1560,6 +1567,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_MultipleMethodBodies = new GRGEN_LGSP.PatternGraph(
 				"MultipleMethodBodies",
 				"",
+				null, "MultipleMethodBodies",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleMethodBodies_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -2110,6 +2118,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MethodBodyAndImplementation_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MethodBodyAndImplementation_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MethodBodyAndImplementation_iter_0_node_op, MethodBodyAndImplementation_node_mb }, 
 				new GRGEN_LGSP.PatternEdge[] { MethodBodyAndImplementation_iter_0_edge__edge0 }, 
@@ -2155,6 +2164,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MethodBodyAndImplementation_iter_1 = new GRGEN_LGSP.PatternGraph(
 				"iter_1",
 				"MethodBodyAndImplementation_",
+				null, "iter_1",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MethodBodyAndImplementation_iter_1_node_b, MethodBodyAndImplementation_node_mb }, 
 				new GRGEN_LGSP.PatternEdge[] { MethodBodyAndImplementation_iter_1_edge__edge0 }, 
@@ -2186,6 +2196,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_MethodBodyAndImplementation = new GRGEN_LGSP.PatternGraph(
 				"MethodBodyAndImplementation",
 				"",
+				null, "MethodBodyAndImplementation",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MethodBodyAndImplementation_node_mb }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -2948,6 +2959,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MultipleParameters_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MultipleParameters_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleParameters_node_op, MultipleParameters_iter_0_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { MultipleParameters_iter_0_edge__edge0 }, 
@@ -2978,6 +2990,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_MultipleParameters = new GRGEN_LGSP.PatternGraph(
 				"MultipleParameters",
 				"",
+				null, "MultipleParameters",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleParameters_node_op }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -3508,6 +3521,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MultipleExpressions_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MultipleExpressions_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleExpressions_node_b, MultipleExpressions_iter_0_node_next }, 
 				new GRGEN_LGSP.PatternEdge[] { MultipleExpressions_iter_0_edge__edge0 }, 
@@ -3558,6 +3572,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MultipleExpressions_iter_1 = new GRGEN_LGSP.PatternGraph(
 				"iter_1",
 				"MultipleExpressions_",
+				null, "iter_1",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleExpressions_node_b, MultipleExpressions_iter_1_node_call }, 
 				new GRGEN_LGSP.PatternEdge[] { MultipleExpressions_iter_1_edge__edge0 }, 
@@ -3589,6 +3604,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_MultipleExpressions = new GRGEN_LGSP.PatternGraph(
 				"MultipleExpressions",
 				"",
+				null, "MultipleExpressions",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleExpressions_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -4419,6 +4435,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			ExpressionChain_alt_0_ExprAndAgain = new GRGEN_LGSP.PatternGraph(
 				"ExprAndAgain",
 				"ExpressionChain_alt_0_",
+				null, "ExprAndAgain",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ExpressionChain_node_e, ExpressionChain_alt_0_ExprAndAgain_node_next }, 
 				new GRGEN_LGSP.PatternEdge[] { ExpressionChain_alt_0_ExprAndAgain_edge__edge0 }, 
@@ -4469,6 +4486,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			ExpressionChain_alt_0_CallAndAgain = new GRGEN_LGSP.PatternGraph(
 				"CallAndAgain",
 				"ExpressionChain_alt_0_",
+				null, "CallAndAgain",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ExpressionChain_node_e, ExpressionChain_alt_0_CallAndAgain_node_call }, 
 				new GRGEN_LGSP.PatternEdge[] { ExpressionChain_alt_0_CallAndAgain_edge__edge0 }, 
@@ -4513,6 +4531,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			ExpressionChain_alt_0_End_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ExpressionChain_alt_0_End_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ExpressionChain_node_e }, 
 				new GRGEN_LGSP.PatternEdge[] { ExpressionChain_alt_0_End_neg_0_edge__edge0 }, 
@@ -4540,6 +4559,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			ExpressionChain_alt_0_End = new GRGEN_LGSP.PatternGraph(
 				"End",
 				"ExpressionChain_alt_0_",
+				null, "End",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ExpressionChain_node_e }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -4567,6 +4587,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_ExpressionChain = new GRGEN_LGSP.PatternGraph(
 				"ExpressionChain",
 				"",
+				null, "ExpressionChain",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ExpressionChain_node_e }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -5704,6 +5725,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MultipleActualParameters_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MultipleActualParameters_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleActualParameters_node_c, MultipleActualParameters_iter_0_node_next }, 
 				new GRGEN_LGSP.PatternEdge[] { MultipleActualParameters_iter_0_edge__edge0 }, 
@@ -5754,6 +5776,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MultipleActualParameters_iter_1 = new GRGEN_LGSP.PatternGraph(
 				"iter_1",
 				"MultipleActualParameters_",
+				null, "iter_1",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleActualParameters_node_c, MultipleActualParameters_iter_1_node_call }, 
 				new GRGEN_LGSP.PatternEdge[] { MultipleActualParameters_iter_1_edge__edge0 }, 
@@ -5785,6 +5808,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_MultipleActualParameters = new GRGEN_LGSP.PatternGraph(
 				"MultipleActualParameters",
 				"",
+				null, "MultipleActualParameters",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleActualParameters_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -6553,6 +6577,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MultipleExtendingClasses_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MultipleExtendingClasses_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleExtendingClasses_iter_0_node_sub, MultipleExtendingClasses_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] { MultipleExtendingClasses_iter_0_edge__edge0 }, 
@@ -6583,6 +6608,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_MultipleExtendingClasses = new GRGEN_LGSP.PatternGraph(
 				"MultipleExtendingClasses",
 				"",
+				null, "MultipleExtendingClasses",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MultipleExtendingClasses_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -7133,6 +7159,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			InClass_alt_0_Previous = new GRGEN_LGSP.PatternGraph(
 				"Previous",
 				"InClass_alt_0_",
+				null, "Previous",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { InClass_alt_0_Previous_node_prev, InClass_node_e, InClass_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] { InClass_alt_0_Previous_edge__edge0 }, 
@@ -7183,6 +7210,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			InClass_alt_0_End = new GRGEN_LGSP.PatternGraph(
 				"End",
 				"InClass_alt_0_",
+				null, "End",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { InClass_alt_0_End_node_prev, InClass_node_e, InClass_alt_0_End_node_b, InClass_alt_0_End_node_mb, InClass_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] { InClass_alt_0_End_edge__edge0, InClass_alt_0_End_edge__edge1, InClass_alt_0_End_edge__edge2 }, 
@@ -7223,6 +7251,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_InClass = new GRGEN_LGSP.PatternGraph(
 				"InClass",
 				"",
+				null, "InClass",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { InClass_node_e, InClass_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -7989,6 +8018,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			methodNameExistsSuper_alt_0_here = new GRGEN_LGSP.PatternGraph(
 				"here",
 				"methodNameExistsSuper_alt_0_",
+				null, "here",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { methodNameExistsSuper_node_op, methodNameExistsSuper_node_opForName }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -8032,6 +8062,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			methodNameExistsSuper_alt_0_super = new GRGEN_LGSP.PatternGraph(
 				"super",
 				"methodNameExistsSuper_alt_0_",
+				null, "super",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { methodNameExistsSuper_node_cls, methodNameExistsSuper_alt_0_super_node_super, methodNameExistsSuper_node_opForName }, 
 				new GRGEN_LGSP.PatternEdge[] { methodNameExistsSuper_alt_0_super_edge__edge0 }, 
@@ -8064,6 +8095,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_methodNameExistsSuper = new GRGEN_LGSP.PatternGraph(
 				"methodNameExistsSuper",
 				"",
+				null, "methodNameExistsSuper",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { methodNameExistsSuper_node_op, methodNameExistsSuper_node_cls, methodNameExistsSuper_node_opForName }, 
 				new GRGEN_LGSP.PatternEdge[] { methodNameExistsSuper_edge__edge0 }, 
@@ -8749,6 +8781,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpGxl = new GRGEN_LGSP.PatternGraph(
 				"dumpGxl",
 				"",
+				null, "dumpGxl",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -9576,6 +9609,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodePackage = new GRGEN_LGSP.PatternGraph(
 				"dumpNodePackage",
 				"",
+				null, "dumpNodePackage",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodePackage_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -9850,6 +9884,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeClass = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeClass",
 				"",
+				null, "dumpNodeClass",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeClass_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -10136,6 +10171,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeInterface = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeInterface",
 				"",
+				null, "dumpNodeInterface",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeInterface_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -10418,6 +10454,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeVariable = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeVariable",
 				"",
+				null, "dumpNodeVariable",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeVariable_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -10704,6 +10741,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeOperation = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeOperation",
 				"",
+				null, "dumpNodeOperation",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeOperation_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -10994,6 +11032,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeMethodBody = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeMethodBody",
 				"",
+				null, "dumpNodeMethodBody",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeMethodBody_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -11263,6 +11302,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeAccess = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeAccess",
 				"",
+				null, "dumpNodeAccess",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeAccess_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -11537,6 +11577,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeUpdate = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeUpdate",
 				"",
+				null, "dumpNodeUpdate",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeUpdate_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -11811,6 +11852,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeCall = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeCall",
 				"",
+				null, "dumpNodeCall",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeCall_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -12089,6 +12131,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeIstantiation = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeIstantiation",
 				"",
+				null, "dumpNodeIstantiation",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeIstantiation_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -12358,6 +12401,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeOperator = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeOperator",
 				"",
+				null, "dumpNodeOperator",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeOperator_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -12632,6 +12676,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeReturn = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeReturn",
 				"",
+				null, "dumpNodeReturn",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeReturn_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -12901,6 +12946,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeBlock = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeBlock",
 				"",
+				null, "dumpNodeBlock",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeBlock_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -13170,6 +13216,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeLiteral = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeLiteral",
 				"",
+				null, "dumpNodeLiteral",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeLiteral_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -13444,6 +13491,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpNodeParameter = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeParameter",
 				"",
+				null, "dumpNodeParameter",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeParameter_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -13722,6 +13770,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeBelongsTo = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeBelongsTo",
 				"",
+				null, "dumpEdgeBelongsTo",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeBelongsTo_node_src, dumpEdgeBelongsTo_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeBelongsTo_edge_e }, 
@@ -14025,6 +14074,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeType = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeType",
 				"",
+				null, "dumpEdgeType",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeType_node_src, dumpEdgeType_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeType_edge_e }, 
@@ -14328,6 +14378,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeExtends = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeExtends",
 				"",
+				null, "dumpEdgeExtends",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeExtends_node_src, dumpEdgeExtends_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeExtends_edge_e }, 
@@ -14631,6 +14682,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeImports = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeImports",
 				"",
+				null, "dumpEdgeImports",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeImports_node_src, dumpEdgeImports_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeImports_edge_e }, 
@@ -14934,6 +14986,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeImplements = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeImplements",
 				"",
+				null, "dumpEdgeImplements",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeImplements_node_src, dumpEdgeImplements_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeImplements_edge_e }, 
@@ -15237,6 +15290,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeParameter = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeParameter",
 				"",
+				null, "dumpEdgeParameter",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeParameter_node_src, dumpEdgeParameter_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeParameter_edge_e }, 
@@ -15540,6 +15594,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeBinding = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeBinding",
 				"",
+				null, "dumpEdgeBinding",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeBinding_node_src, dumpEdgeBinding_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeBinding_edge_e }, 
@@ -15843,6 +15898,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeLink = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeLink",
 				"",
+				null, "dumpEdgeLink",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeLink_node_src, dumpEdgeLink_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeLink_edge_e }, 
@@ -16146,6 +16202,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeExpression = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeExpression",
 				"",
+				null, "dumpEdgeExpression",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeExpression_node_src, dumpEdgeExpression_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeExpression_edge_e }, 
@@ -16449,6 +16506,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeActualParameter = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeActualParameter",
 				"",
+				null, "dumpEdgeActualParameter",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeActualParameter_node_src, dumpEdgeActualParameter_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeActualParameter_edge_e }, 
@@ -16781,6 +16839,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			emitSpanningTree_iter_0_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"emitSpanningTree_iter_0_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { emitSpanningTree_iter_0_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] { emitSpanningTree_iter_0_neg_0_edge__edge0 }, 
@@ -16808,6 +16867,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			emitSpanningTree_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"emitSpanningTree_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { emitSpanningTree_iter_0_node_p }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -16834,6 +16894,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_emitSpanningTree = new GRGEN_LGSP.PatternGraph(
 				"emitSpanningTree",
 				"",
+				null, "emitSpanningTree",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -17447,6 +17508,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_InsertHelperEdgesForNestedLayout = new GRGEN_LGSP.PatternGraph(
 				"InsertHelperEdgesForNestedLayout",
 				"",
+				null, "InsertHelperEdgesForNestedLayout",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -17874,6 +17936,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			BindOperations_implneg_0 = new GRGEN_LGSP.PatternGraph(
 				"implneg_0",
 				"BindOperations_",
+				null, "implneg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { BindOperations_node_op }, 
 				new GRGEN_LGSP.PatternEdge[] { BindOperations_implneg_0_edge__edge3 }, 
@@ -17913,6 +17976,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			BindOperations_implneg_1 = new GRGEN_LGSP.PatternGraph(
 				"implneg_1",
 				"BindOperations_",
+				null, "implneg_1",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { BindOperations_node_op, BindOperations_node_body }, 
 				new GRGEN_LGSP.PatternEdge[] { BindOperations_edge__edge0, BindOperations_implneg_1_edge__edge4 }, 
@@ -17955,6 +18019,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			BindOperations_implneg_2 = new GRGEN_LGSP.PatternGraph(
 				"implneg_2",
 				"BindOperations_",
+				null, "implneg_2",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { BindOperations_node_op, BindOperations_node_cl }, 
 				new GRGEN_LGSP.PatternEdge[] { BindOperations_implneg_2_edge__edge5 }, 
@@ -17993,6 +18058,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			BindOperations_implneg_3 = new GRGEN_LGSP.PatternGraph(
 				"implneg_3",
 				"BindOperations_",
+				null, "implneg_3",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { BindOperations_node_body }, 
 				new GRGEN_LGSP.PatternEdge[] { BindOperations_implneg_3_edge__edge6 }, 
@@ -18032,6 +18098,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			BindOperations_implneg_4 = new GRGEN_LGSP.PatternGraph(
 				"implneg_4",
 				"BindOperations_",
+				null, "implneg_4",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { BindOperations_node_body, BindOperations_node_cl }, 
 				new GRGEN_LGSP.PatternEdge[] { BindOperations_edge__edge1, BindOperations_implneg_4_edge__edge7 }, 
@@ -18073,6 +18140,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			BindOperations_implneg_5 = new GRGEN_LGSP.PatternGraph(
 				"implneg_5",
 				"BindOperations_",
+				null, "implneg_5",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { BindOperations_node_cl }, 
 				new GRGEN_LGSP.PatternEdge[] { BindOperations_implneg_5_edge__edge8 }, 
@@ -18101,6 +18169,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_BindOperations = new GRGEN_LGSP.PatternGraph(
 				"BindOperations",
 				"",
+				null, "BindOperations",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { BindOperations_node_op, BindOperations_node_body, BindOperations_node_cl }, 
 				new GRGEN_LGSP.PatternEdge[] { BindOperations_edge__edge0, BindOperations_edge__edge1 }, 
@@ -19444,6 +19513,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			InitMoveIntoBlocks_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"InitMoveIntoBlocks_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { InitMoveIntoBlocks_node_exp, InitMoveIntoBlocks_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] { InitMoveIntoBlocks_neg_0_edge__edge0 }, 
@@ -19473,6 +19543,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_InitMoveIntoBlocks = new GRGEN_LGSP.PatternGraph(
 				"InitMoveIntoBlocks",
 				"",
+				null, "InitMoveIntoBlocks",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { InitMoveIntoBlocks_node_b, InitMoveIntoBlocks_node_exp }, 
 				new GRGEN_LGSP.PatternEdge[] { InitMoveIntoBlocks_edge__edge0 }, 
@@ -19955,6 +20026,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MoveIntoBlocks_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"MoveIntoBlocks_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MoveIntoBlocks_node_exp, MoveIntoBlocks_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] { MoveIntoBlocks_neg_0_edge__edge0 }, 
@@ -19984,6 +20056,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_MoveIntoBlocks = new GRGEN_LGSP.PatternGraph(
 				"MoveIntoBlocks",
 				"",
+				null, "MoveIntoBlocks",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { MoveIntoBlocks_node__node0, MoveIntoBlocks_node_b, MoveIntoBlocks_node_exp }, 
 				new GRGEN_LGSP.PatternEdge[] { MoveIntoBlocks_edge__edge0, MoveIntoBlocks_edge_e }, 
@@ -20444,6 +20517,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_getClassAndVariable = new GRGEN_LGSP.PatternGraph(
 				"getClassAndVariable",
 				"",
+				null, "getClassAndVariable",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { getClassAndVariable_node_c, getClassAndVariable_node_v }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -20713,6 +20787,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_variableInClass = new GRGEN_LGSP.PatternGraph(
 				"variableInClass",
 				"",
+				null, "variableInClass",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { variableInClass_node_v, variableInClass_node_c, variableInClass_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { variableInClass_edge__edge0, variableInClass_edge__edge1 }, 
@@ -21014,6 +21089,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_methodExists = new GRGEN_LGSP.PatternGraph(
 				"methodExists",
 				"",
+				null, "methodExists",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { methodExists_node_mb, methodExists_node_c, methodExists_node_op }, 
 				new GRGEN_LGSP.PatternEdge[] { methodExists_edge__edge0, methodExists_edge__edge1 }, 
@@ -21307,6 +21383,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_sameStaticness = new GRGEN_LGSP.PatternGraph(
 				"sameStaticness",
 				"",
+				null, "sameStaticness",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { sameStaticness_node_v, sameStaticness_node_op }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -21564,6 +21641,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_insertMethodGetter = new GRGEN_LGSP.PatternGraph(
 				"insertMethodGetter",
 				"",
+				null, "insertMethodGetter",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { insertMethodGetter_node_c, insertMethodGetter_node_v }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -21881,6 +21959,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_insertMethodSetter = new GRGEN_LGSP.PatternGraph(
 				"insertMethodSetter",
 				"",
+				null, "insertMethodSetter",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { insertMethodSetter_node_v, insertMethodSetter_node_type, insertMethodSetter_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] { insertMethodSetter_edge__edge0 }, 
@@ -22207,6 +22286,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_changeVisibility = new GRGEN_LGSP.PatternGraph(
 				"changeVisibility",
 				"",
+				null, "changeVisibility",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { changeVisibility_node_v }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -22500,6 +22580,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			adaptAccess_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"adaptAccess_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { adaptAccess_node_a, adaptAccess_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -22525,6 +22606,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_adaptAccess = new GRGEN_LGSP.PatternGraph(
 				"adaptAccess",
 				"",
+				null, "adaptAccess",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { adaptAccess_node_a, adaptAccess_node_v, adaptAccess_node_c, adaptAccess_node_getter }, 
 				new GRGEN_LGSP.PatternEdge[] { adaptAccess_edge_l }, 
@@ -23032,6 +23114,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			adaptUpdate_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"adaptUpdate_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { adaptUpdate_node_u, adaptUpdate_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -23057,6 +23140,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_adaptUpdate = new GRGEN_LGSP.PatternGraph(
 				"adaptUpdate",
 				"",
+				null, "adaptUpdate",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { adaptUpdate_node_u, adaptUpdate_node_v, adaptUpdate_node_exp, adaptUpdate_node_c, adaptUpdate_node_setter }, 
 				new GRGEN_LGSP.PatternEdge[] { adaptUpdate_edge_l, adaptUpdate_edge_e }, 
@@ -23555,6 +23639,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_adaptAccessUseAccessorsAlways = new GRGEN_LGSP.PatternGraph(
 				"adaptAccessUseAccessorsAlways",
 				"",
+				null, "adaptAccessUseAccessorsAlways",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { adaptAccessUseAccessorsAlways_node_a, adaptAccessUseAccessorsAlways_node_v, adaptAccessUseAccessorsAlways_node_c, adaptAccessUseAccessorsAlways_node_getter }, 
 				new GRGEN_LGSP.PatternEdge[] { adaptAccessUseAccessorsAlways_edge_l }, 
@@ -23867,6 +23952,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_adaptUpdateUseAccessorsAlways = new GRGEN_LGSP.PatternGraph(
 				"adaptUpdateUseAccessorsAlways",
 				"",
+				null, "adaptUpdateUseAccessorsAlways",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { adaptUpdateUseAccessorsAlways_node_u, adaptUpdateUseAccessorsAlways_node_v, adaptUpdateUseAccessorsAlways_node_exp, adaptUpdateUseAccessorsAlways_node_c, adaptUpdateUseAccessorsAlways_node_setter }, 
 				new GRGEN_LGSP.PatternEdge[] { adaptUpdateUseAccessorsAlways_edge_l, adaptUpdateUseAccessorsAlways_edge_e }, 
@@ -24182,6 +24268,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_getSourceAndTargetAndMethodBody = new GRGEN_LGSP.PatternGraph(
 				"getSourceAndTargetAndMethodBody",
 				"",
+				null, "getSourceAndTargetAndMethodBody",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { getSourceAndTargetAndMethodBody_node_src, getSourceAndTargetAndMethodBody_node_tgt, getSourceAndTargetAndMethodBody_node_mb }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -24453,6 +24540,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_getOperation = new GRGEN_LGSP.PatternGraph(
 				"getOperation",
 				"",
+				null, "getOperation",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { getOperation_node_op, getOperation_node_mb }, 
 				new GRGEN_LGSP.PatternEdge[] { getOperation_edge__edge0 }, 
@@ -24739,6 +24827,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_someInstanceVariableOfTargetType = new GRGEN_LGSP.PatternGraph(
 				"someInstanceVariableOfTargetType",
 				"",
+				null, "someInstanceVariableOfTargetType",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { someInstanceVariableOfTargetType_node_mb, someInstanceVariableOfTargetType_node_src, someInstanceVariableOfTargetType_node_v, someInstanceVariableOfTargetType_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { someInstanceVariableOfTargetType_edge__edge0, someInstanceVariableOfTargetType_edge__edge1, someInstanceVariableOfTargetType_edge__edge2 }, 
@@ -25061,6 +25150,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_someParameterOfTargetType = new GRGEN_LGSP.PatternGraph(
 				"someParameterOfTargetType",
 				"",
+				null, "someParameterOfTargetType",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { someParameterOfTargetType_node_op, someParameterOfTargetType_node_mb, someParameterOfTargetType_node_p, someParameterOfTargetType_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { someParameterOfTargetType_edge__edge0, someParameterOfTargetType_edge__edge1, someParameterOfTargetType_edge__edge2 }, 
@@ -25381,6 +25471,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_markExpressionOfBody = new GRGEN_LGSP.PatternGraph(
 				"markExpressionOfBody",
 				"",
+				null, "markExpressionOfBody",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { markExpressionOfBody_node__node0, markExpressionOfBody_node_mb, markExpressionOfBody_node_exp }, 
 				new GRGEN_LGSP.PatternEdge[] { markExpressionOfBody_edge__edge0, markExpressionOfBody_edge__edge1 }, 
@@ -25735,6 +25826,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_markExpressionFollowingExpression = new GRGEN_LGSP.PatternGraph(
 				"markExpressionFollowingExpression",
 				"",
+				null, "markExpressionFollowingExpression",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { markExpressionFollowingExpression_node_root, markExpressionFollowingExpression_node_exp }, 
 				new GRGEN_LGSP.PatternEdge[] { markExpressionFollowingExpression_edge__edge0 }, 
@@ -26071,6 +26163,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_markExpressionFollowingActualParameter = new GRGEN_LGSP.PatternGraph(
 				"markExpressionFollowingActualParameter",
 				"",
+				null, "markExpressionFollowingActualParameter",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { markExpressionFollowingActualParameter_node_root, markExpressionFollowingActualParameter_node_exp }, 
 				new GRGEN_LGSP.PatternEdge[] { markExpressionFollowingActualParameter_edge__edge0 }, 
@@ -26398,6 +26491,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_unmarkExpression = new GRGEN_LGSP.PatternGraph(
 				"unmarkExpression",
 				"",
+				null, "unmarkExpression",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { unmarkExpression_node_exp }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -26649,6 +26743,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_callToSuperExists = new GRGEN_LGSP.PatternGraph(
 				"callToSuperExists",
 				"",
+				null, "callToSuperExists",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { callToSuperExists_node_call }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -26901,6 +26996,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_isStatic = new GRGEN_LGSP.PatternGraph(
 				"isStatic",
 				"",
+				null, "isStatic",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { isStatic_node_op, isStatic_node_mb }, 
 				new GRGEN_LGSP.PatternEdge[] { isStatic_edge__edge0 }, 
@@ -27179,6 +27275,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_methodNameExists = new GRGEN_LGSP.PatternGraph(
 				"methodNameExists",
 				"",
+				null, "methodNameExists",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { methodNameExists_node_op, methodNameExists_node_mb, methodNameExists_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { methodNameExists_edge__edge0 }, 
@@ -27480,6 +27577,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			thisIsAccessed_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"thisIsAccessed_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { thisIsAccessed_node_access }, 
 				new GRGEN_LGSP.PatternEdge[] { thisIsAccessed_neg_0_edge__edge0 }, 
@@ -27507,6 +27605,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_thisIsAccessed = new GRGEN_LGSP.PatternGraph(
 				"thisIsAccessed",
 				"",
+				null, "thisIsAccessed",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { thisIsAccessed_node_access }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -27919,6 +28018,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_addSourceParameter = new GRGEN_LGSP.PatternGraph(
 				"addSourceParameter",
 				"",
+				null, "addSourceParameter",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { addSourceParameter_node_op, addSourceParameter_node_src }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -28207,6 +28307,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			useSourceParameter_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"useSourceParameter_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { useSourceParameter_node_access }, 
 				new GRGEN_LGSP.PatternEdge[] { useSourceParameter_neg_0_edge__edge0 }, 
@@ -28234,6 +28335,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_useSourceParameter = new GRGEN_LGSP.PatternGraph(
 				"useSourceParameter",
 				"",
+				null, "useSourceParameter",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { useSourceParameter_node_srcparam, useSourceParameter_node_access }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -28661,6 +28763,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_copyOperation = new GRGEN_LGSP.PatternGraph(
 				"copyOperation",
 				"",
+				null, "copyOperation",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { copyOperation_node_op, copyOperation_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -28932,6 +29035,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_copyOperationParameter = new GRGEN_LGSP.PatternGraph(
 				"copyOperationParameter",
 				"",
+				null, "copyOperationParameter",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { copyOperationParameter_node_op, copyOperationParameter_node_p, copyOperationParameter_node_newop }, 
 				new GRGEN_LGSP.PatternEdge[] { copyOperationParameter_edge__edge0 }, 
@@ -29233,6 +29337,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_relinkMethodBody = new GRGEN_LGSP.PatternGraph(
 				"relinkMethodBody",
 				"",
+				null, "relinkMethodBody",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { relinkMethodBody_node_mb, relinkMethodBody_node_src, relinkMethodBody_node_op, relinkMethodBody_node_tgt, relinkMethodBody_node_newop }, 
 				new GRGEN_LGSP.PatternEdge[] { relinkMethodBody_edge_b1, relinkMethodBody_edge_b }, 
@@ -29574,6 +29679,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_relinkParameter = new GRGEN_LGSP.PatternGraph(
 				"relinkParameter",
 				"",
+				null, "relinkParameter",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { relinkParameter_node_exp, relinkParameter_node_p, relinkParameter_node_op, relinkParameter_node_newop, relinkParameter_node_newp, relinkParameter_node_mb }, 
 				new GRGEN_LGSP.PatternEdge[] { relinkParameter_edge_l, relinkParameter_edge__edge0, relinkParameter_edge__edge1 }, 
@@ -29917,6 +30023,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_relinkOperationAndMethodBody = new GRGEN_LGSP.PatternGraph(
 				"relinkOperationAndMethodBody",
 				"",
+				null, "relinkOperationAndMethodBody",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { relinkOperationAndMethodBody_node_mb, relinkOperationAndMethodBody_node_src, relinkOperationAndMethodBody_node_op, relinkOperationAndMethodBody_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { relinkOperationAndMethodBody_edge_bc, relinkOperationAndMethodBody_edge_b }, 
@@ -30227,6 +30334,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_addDelegateBody = new GRGEN_LGSP.PatternGraph(
 				"addDelegateBody",
 				"",
+				null, "addDelegateBody",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { addDelegateBody_node_src, addDelegateBody_node_own, addDelegateBody_node_orig, addDelegateBody_node_vp }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -30528,6 +30636,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_linkDelegateBodyToOperation = new GRGEN_LGSP.PatternGraph(
 				"linkDelegateBodyToOperation",
 				"",
+				null, "linkDelegateBodyToOperation",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { linkDelegateBodyToOperation_node_op, linkDelegateBodyToOperation_node_param, linkDelegateBodyToOperation_node_call }, 
 				new GRGEN_LGSP.PatternEdge[] { linkDelegateBodyToOperation_edge__edge0 }, 
@@ -30835,6 +30944,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_replaceAccess_Variable = new GRGEN_LGSP.PatternGraph(
 				"replaceAccess_Variable",
 				"",
+				null, "replaceAccess_Variable",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { replaceAccess_Variable_node_a, replaceAccess_Variable_node_call, replaceAccess_Variable_node_movedOperation, replaceAccess_Variable_node_b, replaceAccess_Variable_node_v }, 
 				new GRGEN_LGSP.PatternEdge[] { replaceAccess_Variable_edge_e, replaceAccess_Variable_edge_l, replaceAccess_Variable_edge__edge0 }, 
@@ -31188,6 +31298,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_replaceAccess_Variable_WithSource = new GRGEN_LGSP.PatternGraph(
 				"replaceAccess_Variable_WithSource",
 				"",
+				null, "replaceAccess_Variable_WithSource",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { replaceAccess_Variable_WithSource_node_a, replaceAccess_Variable_WithSource_node_call, replaceAccess_Variable_WithSource_node_movedOperation, replaceAccess_Variable_WithSource_node_b, replaceAccess_Variable_WithSource_node_v, replaceAccess_Variable_WithSource_node_srcparam }, 
 				new GRGEN_LGSP.PatternEdge[] { replaceAccess_Variable_WithSource_edge_e, replaceAccess_Variable_WithSource_edge_l, replaceAccess_Variable_WithSource_edge__edge0 }, 
@@ -31522,6 +31633,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_addSourceToCall = new GRGEN_LGSP.PatternGraph(
 				"addSourceToCall",
 				"",
+				null, "addSourceToCall",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { addSourceToCall_node_call, addSourceToCall_node_srcparam }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -31832,6 +31944,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			getUnprocessedCallWithActualParameter_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"getUnprocessedCallWithActualParameter_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { getUnprocessedCallWithActualParameter_node_a, getUnprocessedCallWithActualParameter_node_pe }, 
 				new GRGEN_LGSP.PatternEdge[] { getUnprocessedCallWithActualParameter_neg_0_edge__edge0 }, 
@@ -31861,6 +31974,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_getUnprocessedCallWithActualParameter = new GRGEN_LGSP.PatternGraph(
 				"getUnprocessedCallWithActualParameter",
 				"",
+				null, "getUnprocessedCallWithActualParameter",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { getUnprocessedCallWithActualParameter_node_a, getUnprocessedCallWithActualParameter_node_c, getUnprocessedCallWithActualParameter_node_movedOperation, getUnprocessedCallWithActualParameter_node_p, getUnprocessedCallWithActualParameter_node_pe }, 
 				new GRGEN_LGSP.PatternEdge[] { getUnprocessedCallWithActualParameter_edge_e, getUnprocessedCallWithActualParameter_edge__edge0, getUnprocessedCallWithActualParameter_edge__edge1, getUnprocessedCallWithActualParameter_edge__edge2 }, 
@@ -32394,6 +32508,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			replaceAccess_Parameter_AccessWithoutLink_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"replaceAccess_Parameter_AccessWithoutLink_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { replaceAccess_Parameter_AccessWithoutLink_node_a, replaceAccess_Parameter_AccessWithoutLink_neg_0_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { replaceAccess_Parameter_AccessWithoutLink_neg_0_edge__edge0 }, 
@@ -32423,6 +32538,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_replaceAccess_Parameter_AccessWithoutLink = new GRGEN_LGSP.PatternGraph(
 				"replaceAccess_Parameter_AccessWithoutLink",
 				"",
+				null, "replaceAccess_Parameter_AccessWithoutLink",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { replaceAccess_Parameter_AccessWithoutLink_node_a, replaceAccess_Parameter_AccessWithoutLink_node_c, replaceAccess_Parameter_AccessWithoutLink_node_pe }, 
 				new GRGEN_LGSP.PatternEdge[] { replaceAccess_Parameter_AccessWithoutLink_edge_e, replaceAccess_Parameter_AccessWithoutLink_edge__edge0 }, 
@@ -32907,6 +33023,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_replaceAccess_Parameter_AccessWithLinkToExpression = new GRGEN_LGSP.PatternGraph(
 				"replaceAccess_Parameter_AccessWithLinkToExpression",
 				"",
+				null, "replaceAccess_Parameter_AccessWithLinkToExpression",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { replaceAccess_Parameter_AccessWithLinkToExpression_node_a, replaceAccess_Parameter_AccessWithLinkToExpression_node_c, replaceAccess_Parameter_AccessWithLinkToExpression_node_pe, replaceAccess_Parameter_AccessWithLinkToExpression_node_le }, 
 				new GRGEN_LGSP.PatternEdge[] { replaceAccess_Parameter_AccessWithLinkToExpression_edge_e, replaceAccess_Parameter_AccessWithLinkToExpression_edge__edge0, replaceAccess_Parameter_AccessWithLinkToExpression_edge_old }, 
@@ -33192,6 +33309,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 	}
 
+
+	//-----------------------------------------------------------
+
 	public class JavaProgramGraphs_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
 	{
 		public JavaProgramGraphs_RuleAndMatchingPatterns()
@@ -33202,6 +33322,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
 			functions = new GRGEN_LIBGR.FunctionInfo[0];
 			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
+			packages = new string[0];
 			subpatterns[0] = Pattern_MultipleContainedPackagesOrClasses.Instance;
 			rulesAndSubpatterns[0] = Pattern_MultipleContainedPackagesOrClasses.Instance;
 			subpatterns[1] = Pattern_MultipleVariables.Instance;
@@ -33375,6 +33496,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		private GRGEN_LIBGR.FunctionInfo[] functions;
 		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
 		private GRGEN_LIBGR.ProcedureInfo[] procedures;
+		public override string[] Packages { get { return packages; } }
+		private string[] packages;
 	}
 
 
@@ -33490,7 +33613,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleContainedPackagesOrClasses_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleContainedPackagesOrClasses_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -33695,7 +33818,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleContainedPackagesOrClasses_iter_0_inlined_mpc_0_in_MultipleContainedPackagesOrClasses_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleContainedPackagesOrClasses_iter_0_inlined_mpc_0_in_MultipleContainedPackagesOrClasses_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -33869,7 +33992,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleContainedPackagesOrClasses_iter_1_inlined_mpc_0_in_MultipleContainedPackagesOrClasses_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleContainedPackagesOrClasses_iter_1_inlined_mpc_0_in_MultipleContainedPackagesOrClasses_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -34051,7 +34174,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleContainedPackagesOrClasses_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleContainedPackagesOrClasses_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -34261,7 +34384,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleMethodBodies_iter_0_inlined_mm_1_in_MultipleContainedPackagesOrClasses_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleMethodBodies_iter_0_inlined_mm_1_in_MultipleContainedPackagesOrClasses_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -34431,7 +34554,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleVariables_iter_0_inlined_mv_2_in_MultipleContainedPackagesOrClasses_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleVariables_iter_0_inlined_mv_2_in_MultipleContainedPackagesOrClasses_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -34589,7 +34712,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_MultipleVariables : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_MultipleVariables(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -34685,7 +34808,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleVariables_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleVariables_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -34843,7 +34966,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_MultipleMethodBodies : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_MultipleMethodBodies(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -34939,7 +35062,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleMethodBodies_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleMethodBodies_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -35140,7 +35263,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MethodBodyAndImplementation_iter_0_inlined_bi_3_in_MultipleMethodBodies_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MethodBodyAndImplementation_iter_0_inlined_bi_3_in_MultipleMethodBodies_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -35310,7 +35433,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MethodBodyAndImplementation_iter_1_inlined_bi_3_in_MultipleMethodBodies_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MethodBodyAndImplementation_iter_1_inlined_bi_3_in_MultipleMethodBodies_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -35480,7 +35603,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_MethodBodyAndImplementation : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_MethodBodyAndImplementation(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -35593,7 +35716,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MethodBodyAndImplementation_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MethodBodyAndImplementation_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -35777,7 +35900,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleParameters_iter_0_inlined__sub0_4_in_MethodBodyAndImplementation_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleParameters_iter_0_inlined__sub0_4_in_MethodBodyAndImplementation_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -35935,7 +36058,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MethodBodyAndImplementation_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MethodBodyAndImplementation_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -36136,7 +36259,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleExpressions_iter_0_inlined_me_5_in_MethodBodyAndImplementation_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleExpressions_iter_0_inlined_me_5_in_MethodBodyAndImplementation_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -36310,7 +36433,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleExpressions_iter_1_inlined_me_5_in_MethodBodyAndImplementation_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleExpressions_iter_1_inlined_me_5_in_MethodBodyAndImplementation_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -36492,7 +36615,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_MultipleParameters : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_MultipleParameters(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -36588,7 +36711,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleParameters_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleParameters_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -36746,7 +36869,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_MultipleExpressions : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_MultipleExpressions(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -36859,7 +36982,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleExpressions_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleExpressions_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -37042,7 +37165,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_MultipleExpressions_iter_0_alt_0_inlined_ec_6_in_MultipleExpressions_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_MultipleExpressions_iter_0_alt_0_inlined_ec_6_in_MultipleExpressions_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -37379,7 +37502,7 @@ label2: ;
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleExpressions_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleExpressions_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -37601,7 +37724,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_MultipleExpressions_iter_1_alt_0_inlined_ec_7_in_MultipleExpressions_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_MultipleExpressions_iter_1_alt_0_inlined_ec_7_in_MultipleExpressions_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -37938,7 +38061,7 @@ label5: ;
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleActualParameters_iter_0_inlined__sub0_8_in_MultipleExpressions_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleActualParameters_iter_0_inlined__sub0_8_in_MultipleExpressions_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -38112,7 +38235,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleActualParameters_iter_1_inlined__sub0_8_in_MultipleExpressions_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleActualParameters_iter_1_inlined__sub0_8_in_MultipleExpressions_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -38298,7 +38421,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_ExpressionChain : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_ExpressionChain(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -38389,7 +38512,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_ExpressionChain_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_ExpressionChain_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -38775,7 +38898,7 @@ label8: ;
             return;
         }
     }
-
+    
     public class AlternativeAction_ExpressionChain_alt_0_ExprAndAgain_alt_0_inlined_ec_9_in_ExpressionChain_alt_0_ExprAndAgain : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_ExpressionChain_alt_0_ExprAndAgain_alt_0_inlined_ec_9_in_ExpressionChain_alt_0_ExprAndAgain(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -39112,7 +39235,7 @@ label11: ;
             return;
         }
     }
-
+    
     public class AlternativeAction_ExpressionChain_alt_0_CallAndAgain_alt_0_inlined_ec_10_in_ExpressionChain_alt_0_CallAndAgain : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_ExpressionChain_alt_0_CallAndAgain_alt_0_inlined_ec_10_in_ExpressionChain_alt_0_CallAndAgain(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -39449,7 +39572,7 @@ label14: ;
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleActualParameters_iter_0_inlined__sub0_11_in_ExpressionChain_alt_0_CallAndAgain : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleActualParameters_iter_0_inlined__sub0_11_in_ExpressionChain_alt_0_CallAndAgain(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -39623,7 +39746,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleActualParameters_iter_1_inlined__sub0_11_in_ExpressionChain_alt_0_CallAndAgain : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleActualParameters_iter_1_inlined__sub0_11_in_ExpressionChain_alt_0_CallAndAgain(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -39809,7 +39932,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_MultipleActualParameters : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_MultipleActualParameters(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -39922,7 +40045,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleActualParameters_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleActualParameters_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -40105,7 +40228,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_MultipleActualParameters_iter_0_alt_0_inlined__sub0_12_in_MultipleActualParameters_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_MultipleActualParameters_iter_0_alt_0_inlined__sub0_12_in_MultipleActualParameters_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -40442,7 +40565,7 @@ label17: ;
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleActualParameters_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleActualParameters_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -40668,7 +40791,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_MultipleActualParameters_iter_1_alt_0_inlined__sub0_13_in_MultipleActualParameters_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_MultipleActualParameters_iter_1_alt_0_inlined__sub0_13_in_MultipleActualParameters_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -41005,7 +41128,7 @@ label20: ;
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleActualParameters_iter_0_inlined__sub1_14_in_MultipleActualParameters_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleActualParameters_iter_0_inlined__sub1_14_in_MultipleActualParameters_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -41179,7 +41302,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleActualParameters_iter_1_inlined__sub1_14_in_MultipleActualParameters_iter_1 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleActualParameters_iter_1_inlined__sub1_14_in_MultipleActualParameters_iter_1(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -41365,7 +41488,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_MultipleExtendingClasses : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_MultipleExtendingClasses(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -41461,7 +41584,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleExtendingClasses_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleExtendingClasses_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -41649,7 +41772,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleExtendingClasses_iter_0_inlined__sub0_15_in_MultipleExtendingClasses_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleExtendingClasses_iter_0_inlined__sub0_15_in_MultipleExtendingClasses_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -41823,7 +41946,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_InClass : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_InClass(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -41919,7 +42042,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_InClass_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_InClass_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -42293,7 +42416,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_InClass_alt_0_Previous_alt_0_inlined__sub0_16_in_InClass_alt_0_Previous : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_InClass_alt_0_Previous_alt_0_inlined__sub0_16_in_InClass_alt_0_Previous(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -42652,7 +42775,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_methodNameExistsSuper : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_methodNameExistsSuper(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -42792,7 +42915,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_methodNameExistsSuper_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_methodNameExistsSuper_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -43064,7 +43187,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class AlternativeAction_methodNameExistsSuper_alt_0_super_alt_0_inlined__sub0_17_in_methodNameExistsSuper_alt_0_super : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_methodNameExistsSuper_alt_0_super_alt_0_inlined__sub0_17_in_methodNameExistsSuper_alt_0_super(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -43276,7 +43399,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -43484,7 +43607,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -43703,7 +43826,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -43922,7 +44045,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -44141,7 +44264,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -44360,7 +44483,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -44579,7 +44702,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -44798,7 +44921,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -45017,7 +45140,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -45236,7 +45359,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -45455,7 +45578,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -45674,7 +45797,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -45893,7 +46016,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -46112,7 +46235,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -46331,7 +46454,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -46550,7 +46673,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -46769,7 +46892,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -47004,7 +47127,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -47239,7 +47362,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -47474,7 +47597,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -47709,7 +47832,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -47944,7 +48067,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -48179,7 +48302,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -48414,7 +48537,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -48649,7 +48772,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -48884,7 +49007,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -49119,7 +49242,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -49363,7 +49486,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     public class IteratedAction_emitSpanningTree_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_emitSpanningTree_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -49567,7 +49690,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleContainedPackagesOrClasses_iter_0_inlined_mpc_18_in_emitSpanningTree_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleContainedPackagesOrClasses_iter_0_inlined_mpc_18_in_emitSpanningTree_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -49741,7 +49864,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_MultipleContainedPackagesOrClasses_iter_1_inlined_mpc_18_in_emitSpanningTree_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_MultipleContainedPackagesOrClasses_iter_1_inlined_mpc_18_in_emitSpanningTree_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -49923,7 +50046,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -50137,7 +50260,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -50554,7 +50677,7 @@ label26: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -50836,7 +50959,7 @@ label31: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -51163,7 +51286,7 @@ label33: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -51391,7 +51514,7 @@ label33: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -51662,7 +51785,7 @@ label33: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -51927,7 +52050,7 @@ label33: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -52149,7 +52272,7 @@ label33: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -52376,7 +52499,7 @@ label33: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -52633,7 +52756,7 @@ label33: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -52845,7 +52968,7 @@ label33: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -53138,7 +53261,7 @@ label36: ;
             }
         }
     }
-
+    
     public class AlternativeAction_adaptAccess_neg_0_alt_0_inlined__sub0_19_in_adaptAccess_neg_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_adaptAccess_neg_0_alt_0_inlined__sub0_19_in_adaptAccess_neg_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -53497,7 +53620,7 @@ label36: ;
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -53821,7 +53944,7 @@ label39: ;
             }
         }
     }
-
+    
     public class AlternativeAction_adaptUpdate_neg_0_alt_0_inlined__sub0_20_in_adaptUpdate_neg_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_adaptUpdate_neg_0_alt_0_inlined__sub0_20_in_adaptUpdate_neg_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -54180,7 +54303,7 @@ label39: ;
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -54425,7 +54548,7 @@ label39: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -54700,7 +54823,7 @@ label39: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -54951,7 +55074,7 @@ label39: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -55189,7 +55312,7 @@ label39: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -55492,7 +55615,7 @@ label39: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -55775,7 +55898,7 @@ label39: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -56042,7 +56165,7 @@ label39: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -56288,7 +56411,7 @@ label39: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -56534,7 +56657,7 @@ label39: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -56762,7 +56885,7 @@ label39: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -56987,7 +57110,7 @@ label39: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -57224,7 +57347,7 @@ label39: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -57582,7 +57705,7 @@ label39: ;
             }
         }
     }
-
+    
     public class AlternativeAction_methodNameExists_alt_0_inlined__sub0_21_in_methodNameExists : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_methodNameExists_alt_0_inlined__sub0_21_in_methodNameExists(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -57794,7 +57917,7 @@ label39: ;
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -58041,7 +58164,7 @@ label40: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -58264,7 +58387,7 @@ label40: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -58509,7 +58632,7 @@ label41: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -58732,7 +58855,7 @@ label41: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -58982,7 +59105,7 @@ label41: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -59281,7 +59404,7 @@ label41: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -59599,7 +59722,7 @@ label41: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -59877,7 +60000,7 @@ label41: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -60140,7 +60263,7 @@ label41: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -60379,7 +60502,7 @@ label41: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -60660,7 +60783,7 @@ label41: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -60947,7 +61070,7 @@ label41: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -61165,7 +61288,7 @@ label41: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -61525,7 +61648,7 @@ label43: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -61838,7 +61961,7 @@ label44: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -62145,7 +62268,7 @@ label44: ;
             }
         }
     }
-
+    
 
     // class which instantiates and stores all the compiled actions of the module,
     // dynamic regeneration and compilation causes the old action to be overwritten by the new one
@@ -62166,6 +62289,7 @@ label44: ;
 
         private void InitActions()
         {
+            packages = new string[0];
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
             analyzer.AnalyzeNestingOfPatternGraph(Pattern_MultipleContainedPackagesOrClasses.Instance.patternGraph, false);
             GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Pattern_MultipleContainedPackagesOrClasses.Instance.patternGraph);
@@ -62940,8 +63064,11 @@ label44: ;
         public IAction_replaceAccess_Parameter_AccessWithLinkToExpression @replaceAccess_Parameter_AccessWithLinkToExpression;
         
         
-        public override string StatisticsPath { get { return null; } }
+        public override string[] Packages { get { return packages; } }
+        private string[] packages;
+        
         public override string Name { get { return "JavaProgramGraphsActions"; } }
+        public override string StatisticsPath { get { return null; } }
         public override string ModelMD5Hash { get { return "9ed13ad8bc778f9123d81b2ebb16880c"; } }
     }
 }

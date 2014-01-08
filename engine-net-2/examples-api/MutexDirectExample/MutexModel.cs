@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Dec 15 22:31:01 CET 2013
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Wed Jan 08 16:09:49 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 namespace de.unika.ipd.grGen.Model_Mutex
 {
 	using GRGEN_MODEL = de.unika.ipd.grGen.Model_Mutex;
+
 	//
 	// Enums
 	//
@@ -24,7 +25,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	// Node types
 	//
 
-	public enum NodeTypes { @Node, @Process, @Resource, @AnnotationTestNode };
+	public enum NodeTypes { @Node=0, @Process=1, @Resource=2, @AnnotationTestNode=3 };
 
 	// *** Node Node ***
 
@@ -139,6 +140,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "Node"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Node"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -291,6 +294,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "Process"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Process"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.IProcess"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Process"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -443,6 +448,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "Resource"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Resource"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.IResource"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Resource"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -596,6 +603,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			annotations.Add("bla", "blubb");
 		}
 		public override string Name { get { return "AnnotationTestNode"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "AnnotationTestNode"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.IAnnotationTestNode"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@AnnotationTestNode"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -627,109 +636,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	}
 
 	//
-	// Node model
-	//
-
-	public sealed class MutexNodeModel : GRGEN_LIBGR.INodeModel
-	{
-		public MutexNodeModel()
-		{
-			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-				GRGEN_MODEL.NodeType_Process.typeVar,
-				GRGEN_MODEL.NodeType_Resource.typeVar,
-				GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Process.typeVar,
-				GRGEN_MODEL.NodeType_Resource.typeVar,
-				GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_Process.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Process.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Process.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Process.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Process.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_Process.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Process.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Process.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Process.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Process.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Resource.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Resource.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Resource.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Resource.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Resource.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_Resource.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Resource.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Resource.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Resource.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Resource.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
-			};
-			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-		}
-		public bool IsNodeModel { get { return true; } }
-		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
-		public GRGEN_LIBGR.NodeType GetType(string name)
-		{
-			switch(name)
-			{
-				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
-				case "Process" : return GRGEN_MODEL.NodeType_Process.typeVar;
-				case "Resource" : return GRGEN_MODEL.NodeType_Resource.typeVar;
-				case "AnnotationTestNode" : return GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar;
-			}
-			return null;
-		}
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
-		{
-			return GetType(name);
-		}
-		private GRGEN_LIBGR.NodeType[] types = {
-			GRGEN_MODEL.NodeType_Node.typeVar,
-			GRGEN_MODEL.NodeType_Process.typeVar,
-			GRGEN_MODEL.NodeType_Resource.typeVar,
-			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
-		};
-		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
-		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
-			typeof(GRGEN_MODEL.NodeType_Node),
-			typeof(GRGEN_MODEL.NodeType_Process),
-			typeof(GRGEN_MODEL.NodeType_Resource),
-			typeof(GRGEN_MODEL.NodeType_AnnotationTestNode),
-		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
-		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
-		};
-		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
-	}
-
-	//
 	// Edge types
 	//
 
-	public enum EdgeTypes { @AEdge, @Edge, @UEdge, @next, @blocked, @held_by, @token, @release, @request, @annotationTestEdge };
+	public enum EdgeTypes { @AEdge=0, @Edge=1, @UEdge=2, @next=3, @blocked=4, @held_by=5, @token=6, @release=7, @request=8, @annotationTestEdge=9 };
 
 	// *** Edge AEdge ***
 
@@ -745,6 +655,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "AEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "AEdge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return null; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
@@ -896,6 +808,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "Edge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Edge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1048,6 +962,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "UEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "UEdge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
@@ -1209,6 +1125,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "next"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "next"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Inext"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@next"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1370,6 +1288,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "blocked"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "blocked"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Iblocked"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@blocked"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1531,6 +1451,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "held_by"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "held_by"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Iheld_by"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@held_by"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1692,6 +1614,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "token"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "token"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Itoken"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@token"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1853,6 +1777,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "release"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "release"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Irelease"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@release"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -2014,6 +1940,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "request"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "request"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Irequest"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@request"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -2199,10 +2127,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public static GRGEN_LIBGR.AttributeType AttributeType_attrib;
 		public EdgeType_annotationTestEdge() : base((int) EdgeTypes.@annotationTestEdge)
 		{
-			AttributeType_attrib = new GRGEN_LIBGR.AttributeType("attrib", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_attrib = new GRGEN_LIBGR.AttributeType("attrib", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 			AttributeType_attrib.annotations.Add("special", "42");
 		}
 		public override string Name { get { return "annotationTestEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "annotationTestEdge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.IannotationTestEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@annotationTestEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -2251,7 +2181,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			GRGEN_MODEL.@annotationTestEdge newEdge = new GRGEN_MODEL.@annotationTestEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 			switch(oldEdge.Type.TypeID)
 			{
-				case (int) EdgeTypes.@annotationTestEdge:
+				case (int) GRGEN_MODEL.EdgeTypes.@annotationTestEdge:
 					// copy attributes for: annotationTestEdge
 					{
 						GRGEN_MODEL.IannotationTestEdge old = (GRGEN_MODEL.IannotationTestEdge) oldEdge;
@@ -2262,6 +2192,106 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return newEdge;
 		}
 
+	}
+	//-----------------------------------------------------------
+
+	//
+	// Node model
+	//
+
+	public sealed class MutexNodeModel : GRGEN_LIBGR.INodeModel
+	{
+		public MutexNodeModel()
+		{
+			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_Process.typeVar,
+				GRGEN_MODEL.NodeType_Resource.typeVar,
+				GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Process.typeVar,
+				GRGEN_MODEL.NodeType_Resource.typeVar,
+				GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_Process.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Process.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Process.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Process.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Process.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_Process.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Process.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Process.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Process.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Process.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Resource.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Resource.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Resource.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Resource.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Resource.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_Resource.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Resource.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Resource.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Resource.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Resource.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
+			};
+			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+		}
+		public bool IsNodeModel { get { return true; } }
+		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		public GRGEN_LIBGR.NodeType GetType(string name)
+		{
+			switch(name)
+			{
+				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
+				case "Process" : return GRGEN_MODEL.NodeType_Process.typeVar;
+				case "Resource" : return GRGEN_MODEL.NodeType_Resource.typeVar;
+				case "AnnotationTestNode" : return GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar;
+			}
+			return null;
+		}
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
+		{
+			return GetType(name);
+		}
+		private GRGEN_LIBGR.NodeType[] types = {
+			GRGEN_MODEL.NodeType_Node.typeVar,
+			GRGEN_MODEL.NodeType_Process.typeVar,
+			GRGEN_MODEL.NodeType_Resource.typeVar,
+			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
+		};
+		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
+		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
+		private System.Type[] typeTypes = {
+			typeof(GRGEN_MODEL.NodeType_Node),
+			typeof(GRGEN_MODEL.NodeType_Process),
+			typeof(GRGEN_MODEL.NodeType_Resource),
+			typeof(GRGEN_MODEL.NodeType_AnnotationTestNode),
+		};
+		public System.Type[] TypeTypes { get { return typeTypes; } }
+		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
+		};
+		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
 	}
 
 	//
@@ -2492,6 +2522,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		private MutexNodeModel nodeModel = new MutexNodeModel();
 		private MutexEdgeModel edgeModel = new MutexEdgeModel();
+		private string[] packages = {
+		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_next.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 1, 0, 1, false),
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_blocked.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 2147483647, 0, 2147483647, false),
@@ -2500,14 +2534,13 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_release.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, 2147483647, false),
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_request.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, 0, 2147483647, 0, 2147483647, false),
 		};
-		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
-		};
 
 		public string ModelName { get { return "Mutex"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -2625,6 +2658,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		private MutexNodeModel nodeModel = new MutexNodeModel();
 		private MutexEdgeModel edgeModel = new MutexEdgeModel();
+		private string[] packages = {
+		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_next.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 1, 0, 1, false),
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_blocked.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 2147483647, 0, 2147483647, false),
@@ -2633,14 +2670,13 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_release.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, 2147483647, false),
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_request.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, 0, 2147483647, 0, 2147483647, false),
 		};
-		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
-		};
 
 		public string ModelName { get { return "Mutex"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -2823,6 +2859,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		private MutexNodeModel nodeModel = new MutexNodeModel();
 		private MutexEdgeModel edgeModel = new MutexEdgeModel();
+		private string[] packages = {
+		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_next.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 1, 0, 1, false),
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_blocked.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 2147483647, 0, 2147483647, false),
@@ -2831,14 +2871,13 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_release.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, 2147483647, false),
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_request.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, 0, 2147483647, 0, 2147483647, false),
 		};
-		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
-		};
 
 		public string ModelName { get { return "Mutex"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{

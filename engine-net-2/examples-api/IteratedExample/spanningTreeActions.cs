@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Dec 15 22:30:51 CET 2013
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Wed Jan 08 16:09:37 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 using GRGEN_MODEL = de.unika.ipd.grGen.Model_Std;
+using GRGEN_ACTIONS = de.unika.ipd.grGen.Action_spanningTree;
 
 namespace de.unika.ipd.grGen.Action_spanningTree
 {
@@ -90,6 +91,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			SpanningTree_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"SpanningTree_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTree_node_root, SpanningTree_iter_0_node_next }, 
 				new GRGEN_LGSP.PatternEdge[] { SpanningTree_iter_0_edge_e }, 
@@ -120,6 +122,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_SpanningTree = new GRGEN_LGSP.PatternGraph(
 				"SpanningTree",
 				"",
+				null, "SpanningTree",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTree_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -652,6 +655,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			SpanningTreeReverse_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"SpanningTreeReverse_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeReverse_node_root, SpanningTreeReverse_iter_0_node_next }, 
 				new GRGEN_LGSP.PatternEdge[] { SpanningTreeReverse_iter_0_edge__edge0 }, 
@@ -682,6 +686,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_SpanningTreeReverse = new GRGEN_LGSP.PatternGraph(
 				"SpanningTreeReverse",
 				"",
+				null, "SpanningTreeReverse",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeReverse_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -1209,6 +1214,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			SpanningTreeOutgoing_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"SpanningTreeOutgoing_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeOutgoing_node_root, SpanningTreeOutgoing_iter_0_node_next }, 
 				new GRGEN_LGSP.PatternEdge[] { SpanningTreeOutgoing_iter_0_edge__edge0 }, 
@@ -1239,6 +1245,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_SpanningTreeOutgoing = new GRGEN_LGSP.PatternGraph(
 				"SpanningTreeOutgoing",
 				"",
+				null, "SpanningTreeOutgoing",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeOutgoing_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -1728,6 +1735,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			SpanningTreeIncoming_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"SpanningTreeIncoming_",
+				null, "iter_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeIncoming_iter_0_node_next, SpanningTreeIncoming_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] { SpanningTreeIncoming_iter_0_edge__edge0 }, 
@@ -1758,6 +1766,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_SpanningTreeIncoming = new GRGEN_LGSP.PatternGraph(
 				"SpanningTreeIncoming",
 				"",
+				null, "SpanningTreeIncoming",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeIncoming_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -2215,6 +2224,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_initTree = new GRGEN_LGSP.PatternGraph(
 				"initTree",
 				"",
+				null, "initTree",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -2469,6 +2479,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_initUndirected = new GRGEN_LGSP.PatternGraph(
 				"initUndirected",
 				"",
+				null, "initUndirected",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -2717,6 +2728,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_initDirected = new GRGEN_LGSP.PatternGraph(
 				"initDirected",
 				"",
+				null, "initDirected",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -2976,6 +2988,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_spanningTree = new GRGEN_LGSP.PatternGraph(
 				"spanningTree",
 				"",
+				null, "spanningTree",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { spanningTree_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -3238,6 +3251,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_edgesVisited = new GRGEN_LGSP.PatternGraph(
 				"edgesVisited",
 				"",
+				null, "edgesVisited",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] { edgesVisited_edge_e }, 
@@ -3481,6 +3495,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_nodesVisited = new GRGEN_LGSP.PatternGraph(
 				"nodesVisited",
 				"",
+				null, "nodesVisited",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { nodesVisited_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -3728,6 +3743,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_spanningTreeReverse = new GRGEN_LGSP.PatternGraph(
 				"spanningTreeReverse",
 				"",
+				null, "spanningTreeReverse",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { spanningTreeReverse_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -3988,6 +4004,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_spanningTreeOutgoing = new GRGEN_LGSP.PatternGraph(
 				"spanningTreeOutgoing",
 				"",
+				null, "spanningTreeOutgoing",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { spanningTreeOutgoing_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -4242,6 +4259,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_spanningTreeIncoming = new GRGEN_LGSP.PatternGraph(
 				"spanningTreeIncoming",
 				"",
+				null, "spanningTreeIncoming",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { spanningTreeIncoming_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -4472,6 +4490,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 	}
 
+
+	//-----------------------------------------------------------
+
 	public class spanningTree_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
 	{
 		public spanningTree_RuleAndMatchingPatterns()
@@ -4482,6 +4503,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
 			functions = new GRGEN_LIBGR.FunctionInfo[0];
 			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
+			packages = new string[0];
 			subpatterns[0] = Pattern_SpanningTree.Instance;
 			rulesAndSubpatterns[0] = Pattern_SpanningTree.Instance;
 			subpatterns[1] = Pattern_SpanningTreeReverse.Instance;
@@ -4521,6 +4543,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		private GRGEN_LIBGR.FunctionInfo[] functions;
 		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
 		private GRGEN_LIBGR.ProcedureInfo[] procedures;
+		public override string[] Packages { get { return packages; } }
+		private string[] packages;
 	}
 
 
@@ -4619,7 +4643,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
             return;
         }
     }
-
+    
     public class IteratedAction_SpanningTree_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_SpanningTree_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -4805,7 +4829,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_SpanningTree_iter_0_inlined_sptr_0_in_SpanningTree_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_SpanningTree_iter_0_inlined_sptr_0_in_SpanningTree_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -4980,7 +5004,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_SpanningTreeReverse : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_SpanningTreeReverse(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -5076,7 +5100,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_SpanningTreeReverse_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_SpanningTreeReverse_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -5258,7 +5282,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_SpanningTreeReverse_iter_0_inlined_sptrr_1_in_SpanningTreeReverse_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_SpanningTreeReverse_iter_0_inlined_sptrr_1_in_SpanningTreeReverse_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -5429,7 +5453,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_SpanningTreeOutgoing : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_SpanningTreeOutgoing(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -5525,7 +5549,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_SpanningTreeOutgoing_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_SpanningTreeOutgoing_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -5707,7 +5731,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_SpanningTreeOutgoing_iter_0_inlined__sub0_2_in_SpanningTreeOutgoing_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_SpanningTreeOutgoing_iter_0_inlined__sub0_2_in_SpanningTreeOutgoing_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -5878,7 +5902,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class PatternAction_SpanningTreeIncoming : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_SpanningTreeIncoming(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -5974,7 +5998,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_SpanningTreeIncoming_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_SpanningTreeIncoming_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -6156,7 +6180,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     public class IteratedAction_SpanningTreeIncoming_iter_0_inlined__sub0_3_in_SpanningTreeIncoming_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_SpanningTreeIncoming_iter_0_inlined__sub0_3_in_SpanningTreeIncoming_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -6327,7 +6351,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -6548,7 +6572,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -6769,7 +6793,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -6990,7 +7014,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -7242,7 +7266,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     public class IteratedAction_SpanningTree_iter_0_inlined_sptr_4_in_spanningTree : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_SpanningTree_iter_0_inlined_sptr_4_in_spanningTree(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -7417,7 +7441,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -7642,7 +7666,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -7867,7 +7891,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -8119,7 +8143,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     public class IteratedAction_SpanningTreeReverse_iter_0_inlined_sptrr_5_in_spanningTreeReverse : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_SpanningTreeReverse_iter_0_inlined_sptrr_5_in_spanningTreeReverse(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -8290,7 +8314,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -8542,7 +8566,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     public class IteratedAction_SpanningTreeOutgoing_iter_0_inlined__sub0_6_in_spanningTreeOutgoing : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_SpanningTreeOutgoing_iter_0_inlined__sub0_6_in_spanningTreeOutgoing(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -8713,7 +8737,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -8965,7 +8989,7 @@ maxMatchesIterReached:
             }
         }
     }
-
+    
     public class IteratedAction_SpanningTreeIncoming_iter_0_inlined__sub0_7_in_spanningTreeIncoming : GRGEN_LGSP.LGSPSubpatternAction
     {
         private IteratedAction_SpanningTreeIncoming_iter_0_inlined__sub0_7_in_spanningTreeIncoming(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -9136,7 +9160,7 @@ maxMatchesIterReached:
             return;
         }
     }
-
+    
 
     // class which instantiates and stores all the compiled actions of the module,
     // dynamic regeneration and compilation causes the old action to be overwritten by the new one
@@ -9157,6 +9181,7 @@ maxMatchesIterReached:
 
         private void InitActions()
         {
+            packages = new string[0];
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
             analyzer.AnalyzeNestingOfPatternGraph(Pattern_SpanningTree.Instance.patternGraph, false);
             GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Pattern_SpanningTree.Instance.patternGraph);
@@ -9282,8 +9307,11 @@ maxMatchesIterReached:
         public IAction_spanningTreeIncoming @spanningTreeIncoming;
         
         
-        public override string StatisticsPath { get { return null; } }
+        public override string[] Packages { get { return packages; } }
+        private string[] packages;
+        
         public override string Name { get { return "spanningTreeActions"; } }
+        public override string StatisticsPath { get { return null; } }
         public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
     }
 }

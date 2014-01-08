@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Sun Dec 15 22:30:48 CET 2013
+// Generated from "..\..\tests\independent\Independent.grg" on Wed Jan 08 16:09:33 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 using GRGEN_MODEL = de.unika.ipd.grGen.Model_Independent;
+using GRGEN_ACTIONS = de.unika.ipd.grGen.Action_Independent;
 
 namespace de.unika.ipd.grGen.Action_Independent
 {
@@ -97,6 +98,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			iteratedPath_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"iteratedPath_alt_0_",
+				null, "base",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { iteratedPath_node_beg, iteratedPath_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { iteratedPath_alt_0_base_edge__edge0 }, 
@@ -144,6 +146,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			iteratedPath_alt_0_recursive = new GRGEN_LGSP.PatternGraph(
 				"recursive",
 				"iteratedPath_alt_0_",
+				null, "recursive",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { iteratedPath_node_beg, iteratedPath_alt_0_recursive_node_intermediate, iteratedPath_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { iteratedPath_alt_0_recursive_edge__edge0 }, 
@@ -176,6 +179,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_iteratedPath = new GRGEN_LGSP.PatternGraph(
 				"iteratedPath",
 				"",
+				null, "iteratedPath",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { iteratedPath_node_beg, iteratedPath_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -886,6 +890,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			iteratedPathToIntNode_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"iteratedPathToIntNode_alt_0_",
+				null, "base",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { iteratedPathToIntNode_node_beg, iteratedPathToIntNode_alt_0_base_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { iteratedPathToIntNode_alt_0_base_edge__edge0 }, 
@@ -931,6 +936,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			iteratedPathToIntNode_alt_0_recursive = new GRGEN_LGSP.PatternGraph(
 				"recursive",
 				"iteratedPathToIntNode_alt_0_",
+				null, "recursive",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { iteratedPathToIntNode_node_beg, iteratedPathToIntNode_alt_0_recursive_node_intermediate }, 
 				new GRGEN_LGSP.PatternEdge[] { iteratedPathToIntNode_alt_0_recursive_edge__edge0 }, 
@@ -962,6 +968,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_iteratedPathToIntNode = new GRGEN_LGSP.PatternGraph(
 				"iteratedPathToIntNode",
 				"",
+				null, "iteratedPathToIntNode",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { iteratedPathToIntNode_node_beg }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -1613,6 +1620,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_create = new GRGEN_LGSP.PatternGraph(
 				"create",
 				"",
+				null, "create",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -1886,6 +1894,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_find = new GRGEN_LGSP.PatternGraph(
 				"find",
 				"",
+				null, "find",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { find_node_beg, find_node__node0, find_node_end, find_node__node1 }, 
 				new GRGEN_LGSP.PatternEdge[] { find_edge__edge0, find_edge__edge1, find_edge__edge2, find_edge__edge3 }, 
@@ -2238,6 +2247,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			findIndependent_idpt_0 = new GRGEN_LGSP.PatternGraph(
 				"idpt_0",
 				"findIndependent_",
+				null, "idpt_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findIndependent_idpt_0_node__node0, findIndependent_node_beg, findIndependent_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findIndependent_idpt_0_edge__edge0, findIndependent_idpt_0_edge__edge1 }, 
@@ -2271,6 +2281,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_findIndependent = new GRGEN_LGSP.PatternGraph(
 				"findIndependent",
 				"",
+				null, "findIndependent",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findIndependent_node_beg, findIndependent_node__node0, findIndependent_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findIndependent_edge__edge0, findIndependent_edge__edge1 }, 
@@ -2849,6 +2860,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			findMultiNested_idpt_0_idpt_1 = new GRGEN_LGSP.PatternGraph(
 				"idpt_1",
 				"findMultiNested_idpt_0_",
+				null, "idpt_1",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findMultiNested_node_beg, findMultiNested_idpt_0_idpt_1_node__node0, findMultiNested_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_0_idpt_1_edge__edge0, findMultiNested_idpt_0_idpt_1_edge__edge1 }, 
@@ -2882,6 +2894,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			findMultiNested_idpt_0 = new GRGEN_LGSP.PatternGraph(
 				"idpt_0",
 				"findMultiNested_",
+				null, "idpt_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findMultiNested_idpt_0_node__node0, findMultiNested_node_beg, findMultiNested_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_0_edge__edge0, findMultiNested_idpt_0_edge__edge1 }, 
@@ -2944,6 +2957,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			findMultiNested_idpt_2_idpt_3 = new GRGEN_LGSP.PatternGraph(
 				"idpt_3",
 				"findMultiNested_idpt_2_",
+				null, "idpt_3",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findMultiNested_idpt_2_idpt_3_node__node0, findMultiNested_node_beg, findMultiNested_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_2_idpt_3_edge__edge0, findMultiNested_idpt_2_idpt_3_edge__edge1 }, 
@@ -2977,6 +2991,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			findMultiNested_idpt_2 = new GRGEN_LGSP.PatternGraph(
 				"idpt_2",
 				"findMultiNested_",
+				null, "idpt_2",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findMultiNested_node_beg, findMultiNested_idpt_2_node__node0, findMultiNested_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_2_edge__edge0, findMultiNested_idpt_2_edge__edge1 }, 
@@ -3011,6 +3026,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_findMultiNested = new GRGEN_LGSP.PatternGraph(
 				"findMultiNested",
 				"",
+				null, "findMultiNested",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findMultiNested_node_beg, findMultiNested_node__node0, findMultiNested_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findMultiNested_edge__edge0, findMultiNested_edge__edge1 }, 
@@ -4051,6 +4067,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_createIterated = new GRGEN_LGSP.PatternGraph(
 				"createIterated",
 				"",
+				null, "createIterated",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -4317,6 +4334,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_findChainPlusChainToInt = new GRGEN_LGSP.PatternGraph(
 				"findChainPlusChainToInt",
 				"",
+				null, "findChainPlusChainToInt",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findChainPlusChainToInt_node_beg, findChainPlusChainToInt_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -4614,6 +4632,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			findChainPlusChainToIntIndependent_idpt_0 = new GRGEN_LGSP.PatternGraph(
 				"idpt_0",
 				"findChainPlusChainToIntIndependent_",
+				null, "idpt_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findChainPlusChainToIntIndependent_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -4638,6 +4657,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_findChainPlusChainToIntIndependent = new GRGEN_LGSP.PatternGraph(
 				"findChainPlusChainToIntIndependent",
 				"",
+				null, "findChainPlusChainToIntIndependent",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findChainPlusChainToIntIndependent_node_beg, findChainPlusChainToIntIndependent_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -5049,6 +5069,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 	}
 
+
+	//-----------------------------------------------------------
+
 	public class Independent_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
 	{
 		public Independent_RuleAndMatchingPatterns()
@@ -5059,6 +5082,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
 			functions = new GRGEN_LIBGR.FunctionInfo[0];
 			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
+			packages = new string[0];
 			subpatterns[0] = Pattern_iteratedPath.Instance;
 			rulesAndSubpatterns[0] = Pattern_iteratedPath.Instance;
 			subpatterns[1] = Pattern_iteratedPathToIntNode.Instance;
@@ -5090,6 +5114,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 		private GRGEN_LIBGR.FunctionInfo[] functions;
 		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
 		private GRGEN_LIBGR.ProcedureInfo[] procedures;
+		public override string[] Packages { get { return packages; } }
+		private string[] packages;
 	}
 
 
@@ -5188,7 +5214,7 @@ namespace de.unika.ipd.grGen.Action_Independent
             return;
         }
     }
-
+    
     public class AlternativeAction_iteratedPath_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_iteratedPath_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -5431,7 +5457,7 @@ namespace de.unika.ipd.grGen.Action_Independent
             return;
         }
     }
-
+    
     public class AlternativeAction_iteratedPath_alt_0_recursive_alt_0_inlined__sub0_0_in_iteratedPath_alt_0_recursive : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_iteratedPath_alt_0_recursive_alt_0_inlined__sub0_0_in_iteratedPath_alt_0_recursive(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -5665,7 +5691,7 @@ namespace de.unika.ipd.grGen.Action_Independent
             return;
         }
     }
-
+    
     public class PatternAction_iteratedPathToIntNode : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_iteratedPathToIntNode(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -5756,7 +5782,7 @@ namespace de.unika.ipd.grGen.Action_Independent
             return;
         }
     }
-
+    
     public class AlternativeAction_iteratedPathToIntNode_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_iteratedPathToIntNode_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -6006,7 +6032,7 @@ namespace de.unika.ipd.grGen.Action_Independent
             return;
         }
     }
-
+    
     public class AlternativeAction_iteratedPathToIntNode_alt_0_recursive_alt_0_inlined__sub0_1_in_iteratedPathToIntNode_alt_0_recursive : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_iteratedPathToIntNode_alt_0_recursive_alt_0_inlined__sub0_1_in_iteratedPathToIntNode_alt_0_recursive(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -6250,7 +6276,7 @@ namespace de.unika.ipd.grGen.Action_Independent
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -6478,7 +6504,7 @@ namespace de.unika.ipd.grGen.Action_Independent
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -6817,7 +6843,7 @@ namespace de.unika.ipd.grGen.Action_Independent
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -7172,7 +7198,7 @@ label2: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -7776,7 +7802,7 @@ label14: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -8004,7 +8030,7 @@ label14: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -8299,7 +8325,7 @@ label14: ;
             }
         }
     }
-
+    
     public class AlternativeAction_findChainPlusChainToInt_alt_0_inlined__sub0_2_in_findChainPlusChainToInt : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_findChainPlusChainToInt_alt_0_inlined__sub0_2_in_findChainPlusChainToInt(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -8533,7 +8559,7 @@ label14: ;
             return;
         }
     }
-
+    
     public class AlternativeAction_findChainPlusChainToInt_alt_0_inlined__sub1_3_in_findChainPlusChainToInt : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_findChainPlusChainToInt_alt_0_inlined__sub1_3_in_findChainPlusChainToInt(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -8777,7 +8803,7 @@ label14: ;
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -9103,7 +9129,7 @@ label15: ;
             }
         }
     }
-
+    
     public class AlternativeAction_findChainPlusChainToIntIndependent_alt_0_inlined__sub0_4_in_findChainPlusChainToIntIndependent : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_findChainPlusChainToIntIndependent_alt_0_inlined__sub0_4_in_findChainPlusChainToIntIndependent(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -9337,7 +9363,7 @@ label15: ;
             return;
         }
     }
-
+    
     public class AlternativeAction_findChainPlusChainToIntIndependent_idpt_0_alt_0_inlined__sub0_5_in_findChainPlusChainToIntIndependent_idpt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
         private AlternativeAction_findChainPlusChainToIntIndependent_idpt_0_alt_0_inlined__sub0_5_in_findChainPlusChainToIntIndependent_idpt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -9581,7 +9607,7 @@ label15: ;
             return;
         }
     }
-
+    
 
     // class which instantiates and stores all the compiled actions of the module,
     // dynamic regeneration and compilation causes the old action to be overwritten by the new one
@@ -9602,6 +9628,7 @@ label15: ;
 
         private void InitActions()
         {
+            packages = new string[0];
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
             analyzer.AnalyzeNestingOfPatternGraph(Pattern_iteratedPath.Instance.patternGraph, false);
             GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Pattern_iteratedPath.Instance.patternGraph);
@@ -9693,8 +9720,11 @@ label15: ;
         public IAction_findChainPlusChainToIntIndependent @findChainPlusChainToIntIndependent;
         
         
-        public override string StatisticsPath { get { return null; } }
+        public override string[] Packages { get { return packages; } }
+        private string[] packages;
+        
         public override string Name { get { return "IndependentActions"; } }
+        public override string StatisticsPath { get { return null; } }
         public override string ModelMD5Hash { get { return "a5b70deb49575f4d0997a3b831be3dfa"; } }
     }
 }
