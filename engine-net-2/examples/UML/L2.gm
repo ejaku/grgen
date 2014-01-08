@@ -77,7 +77,7 @@ enum VisibilityKind {
 	//A protected element is visible to elements that have a generalization relationship to the namespace that owns it.
 	protected,
 	//A package element is owned by a namespace that is not a package, and is visible to elements that are in the same package as its owning namespace. Only named elements that are not owned by packages can be marked as having package visibility. Any element marked as having package visibility is visible to all elements within the nearest enclosing package (given that other owning elements have proper visibility). Outside the nearest enclosing package, an element marked as having package visibility is not visible.
-	package
+	package_
 
 }
 
@@ -512,7 +512,7 @@ abstract node class Type extends PackageableElement {
 
 
 }
-edge class package extends attribute connect
+edge class package_ extends attribute connect
 		Type[0:1] --> Package[*];
 
 //An expression is a structured tree of symbols that denotes a (possibly empty) set of values when evaluated in a context.
