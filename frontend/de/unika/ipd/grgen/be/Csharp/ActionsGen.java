@@ -107,6 +107,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\tdefinedSequences = new GRGEN_LIBGR.DefinedSequenceInfo["+bearer.getSequences().size()+"];\n");
 		sb.append("\t\t\tfunctions = new GRGEN_LIBGR.FunctionInfo["+bearer.getFunctions().size()+"];\n");	
 		sb.append("\t\t\tprocedures = new GRGEN_LIBGR.ProcedureInfo["+bearer.getProcedures().size()+"];\n");	
+		sb.append("\t\t\tpackages = new string["+be.unit.getPackages().size()+"];\n");	
 		int i = 0;
 		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			sb.append("\t\t\tsubpatterns["+i+"] = " + getPackagePrefixDot(subpatternRule) + "Pattern_"+formatIdentifiable(subpatternRule)+".Instance;\n");
@@ -134,6 +135,11 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t\tprocedures["+i+"] = " + getPackagePrefixDot(procedure) + "ProcedureInfo_"+formatIdentifiable(procedure)+".Instance;\n");
 			++i;
 		}
+		i = 0;
+		for(PackageActionType pack : be.unit.getPackages()) {
+			sb.append("\t\t\tpackages["+i+"] = \"" + pack.getIdent() +"\";\n");
+			++i;
+		}
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic override GRGEN_LGSP.LGSPRulePattern[] Rules { get { return rules; } }\n");
 		sb.append("\t\tprivate GRGEN_LGSP.LGSPRulePattern[] rules;\n");
@@ -147,6 +153,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate GRGEN_LIBGR.FunctionInfo[] functions;\n");
 		sb.append("\t\tpublic override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }\n");
 		sb.append("\t\tprivate GRGEN_LIBGR.ProcedureInfo[] procedures;\n");
+		sb.append("\t\tpublic override string[] Packages { get { return packages; } }\n");
+		sb.append("\t\tprivate string[] packages;\n");
 		sb.append("\t}\n");
 		sb.append("\n");
 
