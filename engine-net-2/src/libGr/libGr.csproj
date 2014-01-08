@@ -89,6 +89,7 @@
     <Compile Include="IO\GrsImport.cs" />
     <Compile Include="IO\GXLExport.cs" />
     <Compile Include="IO\GXLImport.cs" />
+    <Compile Include="IO\XMIExport.cs" />
     <Compile Include="matchesInterface.cs" />
     <Compile Include="modelInterface.cs" />
     <Compile Include="ParseException.cs" />

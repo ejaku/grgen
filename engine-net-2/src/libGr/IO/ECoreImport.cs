@@ -433,6 +433,7 @@ namespace de.unika.ipd.grGen.libGr
                                 continue;
 
                             // create real graph node from it
+                            bool emptyElem = reader.IsEmptyElement; // retard API designer
                             XMLTree rootChild = new XMLTree();
                             String tagName = reader.Name;
                             rootChild.element = tagName;
@@ -446,7 +447,8 @@ namespace de.unika.ipd.grGen.libGr
                             if(reader.MoveToAttribute("xmi:id"))
                                 nodeMap[reader.Value] = gnode;
 
-                            ParseNodeFirstPass(reader, rootChild, tagName); // descend and munch subtree
+                            if(!emptyElem)
+                                ParseNodeFirstPass(reader, rootChild, tagName); // descend and munch subtree
                         }
                     }
                     else
@@ -601,7 +603,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(reader.NodeType == XmlNodeType.EndElement) break; // reached end of current nesting level
                 if(reader.NodeType != XmlNodeType.Element) continue;
 
-                bool emptyElem = reader.IsEmptyElement;
+                bool emptyElem = reader.IsEmptyElement; // retard API designer
                 String tagName = reader.Name;
                 String id = null;
                 if(reader.MoveToAttribute("xmi:id"))
@@ -648,7 +650,7 @@ namespace de.unika.ipd.grGen.libGr
                 IEdge parentEdge = graph.AddEdge(edgeModel.GetType(grgenEdgeTypeName), parentNode.elementNode, gnode);
                 if(IsRefOrdered(parentTypeName, tagName))
                 {
-                    int nextIndex;
+                    int nextIndex = 0;
                     tagNameToNextIndex.TryGetValue(tagName, out nextIndex);
                     parentEdge.SetAttribute("ordering", nextIndex);
                     tagNameToNextIndex[tagName] = nextIndex + 1;
@@ -670,7 +672,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(reader.NodeType == XmlNodeType.EndElement) break;
                 if(reader.NodeType != XmlNodeType.Element) continue;
 
-                bool emptyElem = reader.IsEmptyElement;
+                bool emptyElem = reader.IsEmptyElement; // retard API designer
                 String tagName = reader.Name;
 
                 XMLTree child = null;
