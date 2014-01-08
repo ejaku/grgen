@@ -81,7 +81,7 @@ abstract node class Type extends NamedElement {
 
 
 }
-edge class package extends attribute connect
+edge class package_ extends attribute connect
 		Type[0:1] --> Package[*];
 
 //A named element represents an element with a name.
