@@ -59,13 +59,14 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Exports the given named graph to a file with the given filename.
         /// The format is determined by the file extension. 
-        /// Currently available are: .grs/.grsi or .gxl.
+        /// Currently available are: .grs/.grsi or .gxl or .xmi.
         /// Optionally suffixed by .gz; in this case they are saved gzipped.
         /// Any errors will be reported by exception.
         /// </summary>
         /// <param name="graph">The named graph to export.
         /// The .grs/.grsi exporter is exporting the names/including the names; import will return a named graph again.
         /// The .gxl exporter is exporting without the names, which is equivalent of calling the non-named graph export.</param>
+        /// The .xmi exporter is using the names as xmi ids.</param>
         /// <param name="filenameParameters">The names of the files to be exported.
         /// The first must be a filename, the following may be used for giving export parameters
         /// (in fact currently no exporter supports multiple files).</param>
@@ -95,6 +96,10 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     GRSExport.Export(graph, writer);
                 }
+                else if(first.EndsWith(".xmi", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    XMIExport.Export(graph, writer);
+                }
                 else if(first.EndsWith(".grg", StringComparison.InvariantCultureIgnoreCase))
                 {
                     GRGExport.Export(graph, writer);
@@ -108,7 +113,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Imports a graph from the given files.
         /// If the filenames only specify a model, the graph is empty.
         /// The format is determined by the file extensions.
-        /// Currently available are: .grs/.grsi or .gxl or .ecore(/.xmi).
+        /// Currently available are: .grs/.grsi or .gxl or .ecore with .xmi.
         /// Optionally suffixed by .gz; in this case they are expected to be gzipped.
         /// Any error will be reported by exception.
         /// </summary>
