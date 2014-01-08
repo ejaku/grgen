@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Dec 15 22:30:55 CET 2013
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Wed Jan 08 16:09:42 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 {
 	using GRGEN_MODEL = de.unika.ipd.grGen.Model_JavaProgramGraphs;
+
 	//
 	// Enums
 	//
@@ -24,7 +25,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	// Node types
 	//
 
-	public enum NodeTypes { @Node, @Package, @Classifier, @Class, @Interface, @Variable, @Operation, @MethodBody, @Expression, @Access, @Update, @Call, @Instantiation, @Operator, @Return, @Block, @Literal, @Parameter };
+	public enum NodeTypes { @Node=0, @Package=1, @Classifier=2, @Class=3, @Interface=4, @Variable=5, @Operation=6, @MethodBody=7, @Expression=8, @Access=9, @Update=10, @Call=11, @Instantiation=12, @Operator=13, @Return=14, @Block=15, @Literal=16, @Parameter=17 };
 
 	// *** Node Node ***
 
@@ -139,6 +140,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Node"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Node"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -311,9 +314,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_name;
 		public NodeType_Package() : base((int) NodeTypes.@Package)
 		{
-			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
+			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, null, null, typeof(string));
 		}
 		public override string Name { get { return "Package"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Package"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IPackage"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Package"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -356,7 +361,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.@Package newNode = new GRGEN_MODEL.@Package();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@Package:
+				case (int) GRGEN_MODEL.NodeTypes.@Package:
 					// copy attributes for: Package
 					{
 						GRGEN_MODEL.IPackage old = (GRGEN_MODEL.IPackage) oldNode;
@@ -543,11 +548,13 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_isAbstract;
 		public NodeType_Classifier() : base((int) NodeTypes.@Classifier)
 		{
-			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
-			AttributeType_visibility = new GRGEN_LIBGR.AttributeType("visibility", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
-			AttributeType_isAbstract = new GRGEN_LIBGR.AttributeType("isAbstract", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, null, null, typeof(string));
+			AttributeType_visibility = new GRGEN_LIBGR.AttributeType("visibility", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, null, null, typeof(string));
+			AttributeType_isAbstract = new GRGEN_LIBGR.AttributeType("isAbstract", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Classifier"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Classifier"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IClassifier"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Classifier"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -594,9 +601,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.@Classifier newNode = new GRGEN_MODEL.@Classifier();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@Classifier:
-				case (int) NodeTypes.@Class:
-				case (int) NodeTypes.@Interface:
+				case (int) GRGEN_MODEL.NodeTypes.@Classifier:
+				case (int) GRGEN_MODEL.NodeTypes.@Class:
+				case (int) GRGEN_MODEL.NodeTypes.@Interface:
 					// copy attributes for: Classifier
 					{
 						GRGEN_MODEL.IClassifier old = (GRGEN_MODEL.IClassifier) oldNode;
@@ -801,9 +808,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_isFinal;
 		public NodeType_Class() : base((int) NodeTypes.@Class)
 		{
-			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Class"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Class"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IClass"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Class"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -852,8 +861,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.@Class newNode = new GRGEN_MODEL.@Class();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@Classifier:
-				case (int) NodeTypes.@Interface:
+				case (int) GRGEN_MODEL.NodeTypes.@Classifier:
+				case (int) GRGEN_MODEL.NodeTypes.@Interface:
 					// copy attributes for: Classifier
 					{
 						GRGEN_MODEL.IClassifier old = (GRGEN_MODEL.IClassifier) oldNode;
@@ -862,7 +871,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 						newNode.@isAbstract = old.@isAbstract;
 					}
 					break;
-				case (int) NodeTypes.@Class:
+				case (int) GRGEN_MODEL.NodeTypes.@Class:
 					// copy attributes for: Class
 					{
 						GRGEN_MODEL.IClass old = (GRGEN_MODEL.IClass) oldNode;
@@ -1054,6 +1063,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Interface"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Interface"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IInterface"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Interface"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -1100,8 +1111,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.@Interface newNode = new GRGEN_MODEL.@Interface();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@Classifier:
-				case (int) NodeTypes.@Class:
+				case (int) GRGEN_MODEL.NodeTypes.@Classifier:
+				case (int) GRGEN_MODEL.NodeTypes.@Class:
 					// copy attributes for: Classifier
 					{
 						GRGEN_MODEL.IClassifier old = (GRGEN_MODEL.IClassifier) oldNode;
@@ -1110,7 +1121,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 						newNode.@isAbstract = old.@isAbstract;
 					}
 					break;
-				case (int) NodeTypes.@Interface:
+				case (int) GRGEN_MODEL.NodeTypes.@Interface:
 					// copy attributes for: Interface
 					{
 						GRGEN_MODEL.IInterface old = (GRGEN_MODEL.IInterface) oldNode;
@@ -1315,12 +1326,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_isFinal;
 		public NodeType_Variable() : base((int) NodeTypes.@Variable)
 		{
-			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
-			AttributeType_visibility = new GRGEN_LIBGR.AttributeType("visibility", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
-			AttributeType_isStatic = new GRGEN_LIBGR.AttributeType("isStatic", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
-			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, null, null, typeof(string));
+			AttributeType_visibility = new GRGEN_LIBGR.AttributeType("visibility", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, null, null, typeof(string));
+			AttributeType_isStatic = new GRGEN_LIBGR.AttributeType("isStatic", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, null, null, typeof(bool));
+			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Variable"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Variable"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IVariable"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Variable"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -1369,7 +1382,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.@Variable newNode = new GRGEN_MODEL.@Variable();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@Variable:
+				case (int) GRGEN_MODEL.NodeTypes.@Variable:
 					// copy attributes for: Variable
 					{
 						GRGEN_MODEL.IVariable old = (GRGEN_MODEL.IVariable) oldNode;
@@ -1591,13 +1604,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_isFinal;
 		public NodeType_Operation() : base((int) NodeTypes.@Operation)
 		{
-			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
-			AttributeType_visibility = new GRGEN_LIBGR.AttributeType("visibility", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
-			AttributeType_isAbstract = new GRGEN_LIBGR.AttributeType("isAbstract", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
-			AttributeType_isStatic = new GRGEN_LIBGR.AttributeType("isStatic", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
-			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, null, null, typeof(string));
+			AttributeType_visibility = new GRGEN_LIBGR.AttributeType("visibility", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, null, null, typeof(string));
+			AttributeType_isAbstract = new GRGEN_LIBGR.AttributeType("isAbstract", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, null, null, typeof(bool));
+			AttributeType_isStatic = new GRGEN_LIBGR.AttributeType("isStatic", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, null, null, typeof(bool));
+			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Operation"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Operation"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IOperation"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Operation"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -1648,7 +1663,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.@Operation newNode = new GRGEN_MODEL.@Operation();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@Operation:
+				case (int) GRGEN_MODEL.NodeTypes.@Operation:
 					// copy attributes for: Operation
 					{
 						GRGEN_MODEL.IOperation old = (GRGEN_MODEL.IOperation) oldNode;
@@ -1787,6 +1802,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "MethodBody"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "MethodBody"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IMethodBody"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@MethodBody"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -1939,6 +1956,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Expression"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Expression"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IExpression"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Expression"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -2117,9 +2136,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_this_;
 		public NodeType_Access() : base((int) NodeTypes.@Access)
 		{
-			AttributeType_this_ = new GRGEN_LIBGR.AttributeType("this_", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_this_ = new GRGEN_LIBGR.AttributeType("this_", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Access"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Access"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IAccess"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Access"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -2162,7 +2183,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.@Access newNode = new GRGEN_MODEL.@Access();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@Access:
+				case (int) GRGEN_MODEL.NodeTypes.@Access:
 					// copy attributes for: Access
 					{
 						GRGEN_MODEL.IAccess old = (GRGEN_MODEL.IAccess) oldNode;
@@ -2323,9 +2344,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_this_;
 		public NodeType_Update() : base((int) NodeTypes.@Update)
 		{
-			AttributeType_this_ = new GRGEN_LIBGR.AttributeType("this_", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_this_ = new GRGEN_LIBGR.AttributeType("this_", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Update"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Update"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IUpdate"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Update"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -2368,7 +2391,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.@Update newNode = new GRGEN_MODEL.@Update();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@Update:
+				case (int) GRGEN_MODEL.NodeTypes.@Update:
 					// copy attributes for: Update
 					{
 						GRGEN_MODEL.IUpdate old = (GRGEN_MODEL.IUpdate) oldNode;
@@ -2545,10 +2568,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_super;
 		public NodeType_Call() : base((int) NodeTypes.@Call)
 		{
-			AttributeType_this_ = new GRGEN_LIBGR.AttributeType("this_", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
-			AttributeType_super = new GRGEN_LIBGR.AttributeType("super", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
+			AttributeType_this_ = new GRGEN_LIBGR.AttributeType("this_", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, null, null, typeof(bool));
+			AttributeType_super = new GRGEN_LIBGR.AttributeType("super", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, null, null, typeof(bool));
 		}
 		public override string Name { get { return "Call"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Call"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.ICall"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Call"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -2593,7 +2618,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.@Call newNode = new GRGEN_MODEL.@Call();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@Call:
+				case (int) GRGEN_MODEL.NodeTypes.@Call:
 					// copy attributes for: Call
 					{
 						GRGEN_MODEL.ICall old = (GRGEN_MODEL.ICall) oldNode;
@@ -2735,6 +2760,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Instantiation"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Instantiation"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IInstantiation"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Instantiation"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -2913,9 +2940,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_name;
 		public NodeType_Operator() : base((int) NodeTypes.@Operator)
 		{
-			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
+			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, null, null, typeof(string));
 		}
 		public override string Name { get { return "Operator"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Operator"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IOperator"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Operator"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -2958,7 +2987,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.@Operator newNode = new GRGEN_MODEL.@Operator();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@Operator:
+				case (int) GRGEN_MODEL.NodeTypes.@Operator:
 					// copy attributes for: Operator
 					{
 						GRGEN_MODEL.IOperator old = (GRGEN_MODEL.IOperator) oldNode;
@@ -3099,6 +3128,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Return"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Return"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IReturn"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Return"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -3257,6 +3288,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Block"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Block"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IBlock"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Block"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -3429,9 +3462,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_LIBGR.AttributeType AttributeType_value;
 		public NodeType_Literal() : base((int) NodeTypes.@Literal)
 		{
-			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
+			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, null, null, typeof(string));
 		}
 		public override string Name { get { return "Literal"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Literal"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.ILiteral"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Literal"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -3474,7 +3509,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.@Literal newNode = new GRGEN_MODEL.@Literal();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@Literal:
+				case (int) GRGEN_MODEL.NodeTypes.@Literal:
 					// copy attributes for: Literal
 					{
 						GRGEN_MODEL.ILiteral old = (GRGEN_MODEL.ILiteral) oldNode;
@@ -3609,6 +3644,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Parameter"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Parameter"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IParameter"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Parameter"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -3638,6 +3675,2424 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 	}
+
+	//
+	// Edge types
+	//
+
+	public enum EdgeTypes { @AEdge=0, @Edge=1, @UEdge=2, @belongsTo=3, @type_=4, @extends_=5, @imports=6, @implements=7, @parameter=8, @actualParameter=9, @binding=10, @link=11, @expression=12, @inBlock=13, @inClass=14 };
+
+	// *** Edge AEdge ***
+
+
+	public sealed class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
+		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_AEdge() : base((int) EdgeTypes.@AEdge)
+		{
+		}
+		public override string Name { get { return "AEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "AEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return null; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			throw new Exception("The abstract edge type AEdge does not support source and target setting!");
+		}
+		public override bool IsAbstract { get { return true; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			throw new Exception("Cannot retype to the abstract type AEdge!");
+		}
+	}
+
+	// *** Edge Edge ***
+
+
+	public sealed class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
+		
+		static @Edge() {
+		}
+		
+		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
+		{
+			// implicit initialization, container creation of Edge
+		}
+
+		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Edge)) return false;
+			@Edge that_ = (@Edge)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@Edge edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@Edge(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of Edge
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@Edge edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@Edge(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of Edge
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of Edge
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Edge does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Edge does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_Edge : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, true, false, true, true, true, true, true, true, true, true, true, true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
+		{
+		}
+		public override string Name { get { return "Edge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Edge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Edge"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+
+	// *** Edge UEdge ***
+
+
+	public sealed class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
+		
+		static @UEdge() {
+		}
+		
+		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
+		{
+			// implicit initialization, container creation of UEdge
+		}
+
+		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @UEdge)) return false;
+			@UEdge that_ = (@UEdge)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@UEdge edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@UEdge(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of UEdge
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@UEdge edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@UEdge(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of UEdge
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of UEdge
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("UEdge does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("UEdge does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
+		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_UEdge() : base((int) EdgeTypes.@UEdge)
+		{
+		}
+		public override string Name { get { return "UEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "UEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@UEdge"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+
+	// *** Edge belongsTo ***
+
+	public interface IbelongsTo : GRGEN_LIBGR.IEdge
+	{
+	}
+
+	public sealed class @belongsTo : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IbelongsTo
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@belongsTo[] pool = new GRGEN_MODEL.@belongsTo[10];
+		
+		// explicit initializations of belongsTo for target belongsTo
+		// implicit initializations of belongsTo for target belongsTo
+		static @belongsTo() {
+		}
+		
+		public @belongsTo(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_belongsTo.typeVar, source, target)
+		{
+			// implicit initialization, container creation of belongsTo
+			// explicit initializations of belongsTo for target belongsTo
+		}
+
+		public static GRGEN_MODEL.EdgeType_belongsTo TypeInstance { get { return GRGEN_MODEL.EdgeType_belongsTo.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@belongsTo(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @belongsTo(GRGEN_MODEL.@belongsTo oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_belongsTo.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @belongsTo)) return false;
+			@belongsTo that_ = (@belongsTo)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@belongsTo CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@belongsTo edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@belongsTo(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of belongsTo
+				// explicit initializations of belongsTo for target belongsTo
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@belongsTo CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@belongsTo edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@belongsTo(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of belongsTo
+				// explicit initializations of belongsTo for target belongsTo
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"belongsTo\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"belongsTo\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of belongsTo
+			// explicit initializations of belongsTo for target belongsTo
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("belongsTo does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("belongsTo does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_belongsTo : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_belongsTo typeVar = new GRGEN_MODEL.EdgeType_belongsTo();
+		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_belongsTo() : base((int) EdgeTypes.@belongsTo)
+		{
+		}
+		public override string Name { get { return "belongsTo"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "belongsTo"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IbelongsTo"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@belongsTo"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@belongsTo((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@belongsTo((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+
+	// *** Edge type_ ***
+
+	public interface Itype_ : GRGEN_LIBGR.IEdge
+	{
+	}
+
+	public sealed class @type_ : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Itype_
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@type_[] pool = new GRGEN_MODEL.@type_[10];
+		
+		// explicit initializations of type_ for target type_
+		// implicit initializations of type_ for target type_
+		static @type_() {
+		}
+		
+		public @type_(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_type_.typeVar, source, target)
+		{
+			// implicit initialization, container creation of type_
+			// explicit initializations of type_ for target type_
+		}
+
+		public static GRGEN_MODEL.EdgeType_type_ TypeInstance { get { return GRGEN_MODEL.EdgeType_type_.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@type_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @type_(GRGEN_MODEL.@type_ oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_type_.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @type_)) return false;
+			@type_ that_ = (@type_)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@type_ CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@type_ edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@type_(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of type_
+				// explicit initializations of type_ for target type_
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@type_ CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@type_ edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@type_(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of type_
+				// explicit initializations of type_ for target type_
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"type_\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"type_\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of type_
+			// explicit initializations of type_ for target type_
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("type_ does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("type_ does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_type_ : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_type_ typeVar = new GRGEN_MODEL.EdgeType_type_();
+		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_type_() : base((int) EdgeTypes.@type_)
+		{
+		}
+		public override string Name { get { return "type_"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "type_"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Itype_"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@type_"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@type_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@type_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+
+	// *** Edge extends_ ***
+
+	public interface Iextends_ : GRGEN_LIBGR.IEdge
+	{
+	}
+
+	public sealed class @extends_ : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iextends_
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@extends_[] pool = new GRGEN_MODEL.@extends_[10];
+		
+		// explicit initializations of extends_ for target extends_
+		// implicit initializations of extends_ for target extends_
+		static @extends_() {
+		}
+		
+		public @extends_(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_extends_.typeVar, source, target)
+		{
+			// implicit initialization, container creation of extends_
+			// explicit initializations of extends_ for target extends_
+		}
+
+		public static GRGEN_MODEL.EdgeType_extends_ TypeInstance { get { return GRGEN_MODEL.EdgeType_extends_.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@extends_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @extends_(GRGEN_MODEL.@extends_ oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_extends_.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @extends_)) return false;
+			@extends_ that_ = (@extends_)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@extends_ CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@extends_ edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@extends_(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of extends_
+				// explicit initializations of extends_ for target extends_
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@extends_ CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@extends_ edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@extends_(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of extends_
+				// explicit initializations of extends_ for target extends_
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"extends_\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"extends_\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of extends_
+			// explicit initializations of extends_ for target extends_
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("extends_ does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("extends_ does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_extends_ : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_extends_ typeVar = new GRGEN_MODEL.EdgeType_extends_();
+		public static bool[] isA = new bool[] { true, true, false, false, false, true, false, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_extends_() : base((int) EdgeTypes.@extends_)
+		{
+		}
+		public override string Name { get { return "extends_"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "extends_"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iextends_"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@extends_"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@extends_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@extends_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+
+	// *** Edge imports ***
+
+	public interface Iimports : GRGEN_LIBGR.IEdge
+	{
+	}
+
+	public sealed class @imports : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iimports
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@imports[] pool = new GRGEN_MODEL.@imports[10];
+		
+		// explicit initializations of imports for target imports
+		// implicit initializations of imports for target imports
+		static @imports() {
+		}
+		
+		public @imports(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_imports.typeVar, source, target)
+		{
+			// implicit initialization, container creation of imports
+			// explicit initializations of imports for target imports
+		}
+
+		public static GRGEN_MODEL.EdgeType_imports TypeInstance { get { return GRGEN_MODEL.EdgeType_imports.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@imports(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @imports(GRGEN_MODEL.@imports oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_imports.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @imports)) return false;
+			@imports that_ = (@imports)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@imports CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@imports edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@imports(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of imports
+				// explicit initializations of imports for target imports
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@imports CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@imports edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@imports(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of imports
+				// explicit initializations of imports for target imports
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"imports\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"imports\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of imports
+			// explicit initializations of imports for target imports
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("imports does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("imports does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_imports : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_imports typeVar = new GRGEN_MODEL.EdgeType_imports();
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, true, false, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_imports() : base((int) EdgeTypes.@imports)
+		{
+		}
+		public override string Name { get { return "imports"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "imports"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iimports"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@imports"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@imports((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@imports((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+
+	// *** Edge implements ***
+
+	public interface Iimplements : GRGEN_LIBGR.IEdge
+	{
+	}
+
+	public sealed class @implements : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iimplements
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@implements[] pool = new GRGEN_MODEL.@implements[10];
+		
+		// explicit initializations of implements for target implements
+		// implicit initializations of implements for target implements
+		static @implements() {
+		}
+		
+		public @implements(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_implements.typeVar, source, target)
+		{
+			// implicit initialization, container creation of implements
+			// explicit initializations of implements for target implements
+		}
+
+		public static GRGEN_MODEL.EdgeType_implements TypeInstance { get { return GRGEN_MODEL.EdgeType_implements.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@implements(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @implements(GRGEN_MODEL.@implements oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_implements.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @implements)) return false;
+			@implements that_ = (@implements)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@implements CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@implements edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@implements(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of implements
+				// explicit initializations of implements for target implements
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@implements CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@implements edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@implements(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of implements
+				// explicit initializations of implements for target implements
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"implements\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"implements\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of implements
+			// explicit initializations of implements for target implements
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("implements does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("implements does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_implements : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_implements typeVar = new GRGEN_MODEL.EdgeType_implements();
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, true, false, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_implements() : base((int) EdgeTypes.@implements)
+		{
+		}
+		public override string Name { get { return "implements"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "implements"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iimplements"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@implements"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@implements((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@implements((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+
+	// *** Edge parameter ***
+
+	public interface Iparameter : GRGEN_LIBGR.IEdge
+	{
+		int @order { get; set; }
+	}
+
+	public sealed class @parameter : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iparameter
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@parameter[] pool = new GRGEN_MODEL.@parameter[10];
+		
+		// explicit initializations of parameter for target parameter
+		// implicit initializations of parameter for target parameter
+		static @parameter() {
+		}
+		
+		public @parameter(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_parameter.typeVar, source, target)
+		{
+			// implicit initialization, container creation of parameter
+			// explicit initializations of parameter for target parameter
+		}
+
+		public static GRGEN_MODEL.EdgeType_parameter TypeInstance { get { return GRGEN_MODEL.EdgeType_parameter.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@parameter(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @parameter(GRGEN_MODEL.@parameter oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_parameter.typeVar, newSource, newTarget)
+		{
+			order_M0no_suXx_h4rD = oldElem.order_M0no_suXx_h4rD;
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @parameter)) return false;
+			@parameter that_ = (@parameter)that;
+			return true
+				&& order_M0no_suXx_h4rD == that_.order_M0no_suXx_h4rD
+			;
+		}
+
+		public static GRGEN_MODEL.@parameter CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@parameter edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@parameter(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of parameter
+				edge.@order = 0;
+				// explicit initializations of parameter for target parameter
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@parameter CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@parameter edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@parameter(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of parameter
+				edge.@order = 0;
+				// explicit initializations of parameter for target parameter
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+
+		private int order_M0no_suXx_h4rD;
+		public int @order
+		{
+			get { return order_M0no_suXx_h4rD; }
+			set { order_M0no_suXx_h4rD = value; }
+		}
+		public override object GetAttribute(string attrName)
+		{
+			switch(attrName)
+			{
+				case "order": return this.@order;
+			}
+			throw new NullReferenceException(
+				"The edge type \"parameter\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			switch(attrName)
+			{
+				case "order": this.@order = (int) value; return;
+			}
+			throw new NullReferenceException(
+				"The edge type \"parameter\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of parameter
+			this.@order = 0;
+			// explicit initializations of parameter for target parameter
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("parameter does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("parameter does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_parameter : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_parameter typeVar = new GRGEN_MODEL.EdgeType_parameter();
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, true, false, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public static GRGEN_LIBGR.AttributeType AttributeType_order;
+		public EdgeType_parameter() : base((int) EdgeTypes.@parameter)
+		{
+			AttributeType_order = new GRGEN_LIBGR.AttributeType("order", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
+		}
+		public override string Name { get { return "parameter"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "parameter"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iparameter"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@parameter"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@parameter((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 1; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
+		{
+			get
+			{
+				yield return AttributeType_order;
+			}
+		}
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
+		{
+			switch(name)
+			{
+				case "order" : return AttributeType_order;
+			}
+			return null;
+		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			GRGEN_LGSP.LGSPEdge oldEdge = (GRGEN_LGSP.LGSPEdge) oldIEdge;
+			GRGEN_MODEL.@parameter newEdge = new GRGEN_MODEL.@parameter((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			switch(oldEdge.Type.TypeID)
+			{
+				case (int) GRGEN_MODEL.EdgeTypes.@parameter:
+					// copy attributes for: parameter
+					{
+						GRGEN_MODEL.Iparameter old = (GRGEN_MODEL.Iparameter) oldEdge;
+						newEdge.@order = old.@order;
+					}
+					break;
+			}
+			return newEdge;
+		}
+
+	}
+
+	// *** Edge actualParameter ***
+
+	public interface IactualParameter : GRGEN_LIBGR.IEdge
+	{
+	}
+
+	public sealed class @actualParameter : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IactualParameter
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@actualParameter[] pool = new GRGEN_MODEL.@actualParameter[10];
+		
+		// explicit initializations of actualParameter for target actualParameter
+		// implicit initializations of actualParameter for target actualParameter
+		static @actualParameter() {
+		}
+		
+		public @actualParameter(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_actualParameter.typeVar, source, target)
+		{
+			// implicit initialization, container creation of actualParameter
+			// explicit initializations of actualParameter for target actualParameter
+		}
+
+		public static GRGEN_MODEL.EdgeType_actualParameter TypeInstance { get { return GRGEN_MODEL.EdgeType_actualParameter.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@actualParameter(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @actualParameter(GRGEN_MODEL.@actualParameter oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_actualParameter.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @actualParameter)) return false;
+			@actualParameter that_ = (@actualParameter)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@actualParameter CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@actualParameter edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@actualParameter(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of actualParameter
+				// explicit initializations of actualParameter for target actualParameter
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@actualParameter CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@actualParameter edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@actualParameter(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of actualParameter
+				// explicit initializations of actualParameter for target actualParameter
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"actualParameter\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"actualParameter\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of actualParameter
+			// explicit initializations of actualParameter for target actualParameter
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("actualParameter does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("actualParameter does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_actualParameter : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_actualParameter typeVar = new GRGEN_MODEL.EdgeType_actualParameter();
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, true, false, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_actualParameter() : base((int) EdgeTypes.@actualParameter)
+		{
+		}
+		public override string Name { get { return "actualParameter"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "actualParameter"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IactualParameter"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@actualParameter"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@actualParameter((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@actualParameter((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+
+	// *** Edge binding ***
+
+	public interface Ibinding : GRGEN_LIBGR.IEdge
+	{
+	}
+
+	public sealed class @binding : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Ibinding
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@binding[] pool = new GRGEN_MODEL.@binding[10];
+		
+		// explicit initializations of binding for target binding
+		// implicit initializations of binding for target binding
+		static @binding() {
+		}
+		
+		public @binding(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_binding.typeVar, source, target)
+		{
+			// implicit initialization, container creation of binding
+			// explicit initializations of binding for target binding
+		}
+
+		public static GRGEN_MODEL.EdgeType_binding TypeInstance { get { return GRGEN_MODEL.EdgeType_binding.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@binding(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @binding(GRGEN_MODEL.@binding oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_binding.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @binding)) return false;
+			@binding that_ = (@binding)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@binding CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@binding edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@binding(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of binding
+				// explicit initializations of binding for target binding
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@binding CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@binding edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@binding(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of binding
+				// explicit initializations of binding for target binding
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"binding\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"binding\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of binding
+			// explicit initializations of binding for target binding
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("binding does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("binding does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_binding : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_binding typeVar = new GRGEN_MODEL.EdgeType_binding();
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, true, false, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_binding() : base((int) EdgeTypes.@binding)
+		{
+		}
+		public override string Name { get { return "binding"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "binding"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Ibinding"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@binding"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@binding((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@binding((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+
+	// *** Edge link ***
+
+	public interface Ilink : GRGEN_LIBGR.IEdge
+	{
+	}
+
+	public sealed class @link : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Ilink
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@link[] pool = new GRGEN_MODEL.@link[10];
+		
+		// explicit initializations of link for target link
+		// implicit initializations of link for target link
+		static @link() {
+		}
+		
+		public @link(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_link.typeVar, source, target)
+		{
+			// implicit initialization, container creation of link
+			// explicit initializations of link for target link
+		}
+
+		public static GRGEN_MODEL.EdgeType_link TypeInstance { get { return GRGEN_MODEL.EdgeType_link.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@link(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @link(GRGEN_MODEL.@link oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_link.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @link)) return false;
+			@link that_ = (@link)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@link CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@link edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@link(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of link
+				// explicit initializations of link for target link
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@link CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@link edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@link(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of link
+				// explicit initializations of link for target link
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"link\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"link\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of link
+			// explicit initializations of link for target link
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("link does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("link does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_link : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_link typeVar = new GRGEN_MODEL.EdgeType_link();
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, true, false, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_link() : base((int) EdgeTypes.@link)
+		{
+		}
+		public override string Name { get { return "link"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "link"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Ilink"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@link"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@link((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@link((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+
+	// *** Edge expression ***
+
+	public interface Iexpression : GRGEN_LIBGR.IEdge
+	{
+		int @order { get; set; }
+	}
+
+	public sealed class @expression : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iexpression
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@expression[] pool = new GRGEN_MODEL.@expression[10];
+		
+		// explicit initializations of expression for target expression
+		// implicit initializations of expression for target expression
+		static @expression() {
+		}
+		
+		public @expression(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_expression.typeVar, source, target)
+		{
+			// implicit initialization, container creation of expression
+			// explicit initializations of expression for target expression
+		}
+
+		public static GRGEN_MODEL.EdgeType_expression TypeInstance { get { return GRGEN_MODEL.EdgeType_expression.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@expression(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @expression(GRGEN_MODEL.@expression oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_expression.typeVar, newSource, newTarget)
+		{
+			order_M0no_suXx_h4rD = oldElem.order_M0no_suXx_h4rD;
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @expression)) return false;
+			@expression that_ = (@expression)that;
+			return true
+				&& order_M0no_suXx_h4rD == that_.order_M0no_suXx_h4rD
+			;
+		}
+
+		public static GRGEN_MODEL.@expression CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@expression edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@expression(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of expression
+				edge.@order = 0;
+				// explicit initializations of expression for target expression
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@expression CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@expression edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@expression(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of expression
+				edge.@order = 0;
+				// explicit initializations of expression for target expression
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+
+		private int order_M0no_suXx_h4rD;
+		public int @order
+		{
+			get { return order_M0no_suXx_h4rD; }
+			set { order_M0no_suXx_h4rD = value; }
+		}
+		public override object GetAttribute(string attrName)
+		{
+			switch(attrName)
+			{
+				case "order": return this.@order;
+			}
+			throw new NullReferenceException(
+				"The edge type \"expression\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			switch(attrName)
+			{
+				case "order": this.@order = (int) value; return;
+			}
+			throw new NullReferenceException(
+				"The edge type \"expression\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of expression
+			this.@order = 0;
+			// explicit initializations of expression for target expression
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("expression does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("expression does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_expression : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_expression typeVar = new GRGEN_MODEL.EdgeType_expression();
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, true, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public static GRGEN_LIBGR.AttributeType AttributeType_order;
+		public EdgeType_expression() : base((int) EdgeTypes.@expression)
+		{
+			AttributeType_order = new GRGEN_LIBGR.AttributeType("order", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
+		}
+		public override string Name { get { return "expression"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "expression"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iexpression"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@expression"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@expression((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 1; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
+		{
+			get
+			{
+				yield return AttributeType_order;
+			}
+		}
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
+		{
+			switch(name)
+			{
+				case "order" : return AttributeType_order;
+			}
+			return null;
+		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			GRGEN_LGSP.LGSPEdge oldEdge = (GRGEN_LGSP.LGSPEdge) oldIEdge;
+			GRGEN_MODEL.@expression newEdge = new GRGEN_MODEL.@expression((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			switch(oldEdge.Type.TypeID)
+			{
+				case (int) GRGEN_MODEL.EdgeTypes.@expression:
+					// copy attributes for: expression
+					{
+						GRGEN_MODEL.Iexpression old = (GRGEN_MODEL.Iexpression) oldEdge;
+						newEdge.@order = old.@order;
+					}
+					break;
+			}
+			return newEdge;
+		}
+
+	}
+
+	// *** Edge inBlock ***
+
+	public interface IinBlock : GRGEN_LIBGR.IEdge
+	{
+	}
+
+	public sealed class @inBlock : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IinBlock
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@inBlock[] pool = new GRGEN_MODEL.@inBlock[10];
+		
+		// explicit initializations of inBlock for target inBlock
+		// implicit initializations of inBlock for target inBlock
+		static @inBlock() {
+		}
+		
+		public @inBlock(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_inBlock.typeVar, source, target)
+		{
+			// implicit initialization, container creation of inBlock
+			// explicit initializations of inBlock for target inBlock
+		}
+
+		public static GRGEN_MODEL.EdgeType_inBlock TypeInstance { get { return GRGEN_MODEL.EdgeType_inBlock.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@inBlock(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @inBlock(GRGEN_MODEL.@inBlock oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_inBlock.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @inBlock)) return false;
+			@inBlock that_ = (@inBlock)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@inBlock CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@inBlock edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@inBlock(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of inBlock
+				// explicit initializations of inBlock for target inBlock
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@inBlock CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@inBlock edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@inBlock(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of inBlock
+				// explicit initializations of inBlock for target inBlock
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"inBlock\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"inBlock\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of inBlock
+			// explicit initializations of inBlock for target inBlock
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("inBlock does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("inBlock does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_inBlock : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_inBlock typeVar = new GRGEN_MODEL.EdgeType_inBlock();
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, false, true, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_inBlock() : base((int) EdgeTypes.@inBlock)
+		{
+		}
+		public override string Name { get { return "inBlock"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "inBlock"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IinBlock"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@inBlock"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@inBlock((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@inBlock((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+
+	// *** Edge inClass ***
+
+	public interface IinClass : GRGEN_LIBGR.IEdge
+	{
+	}
+
+	public sealed class @inClass : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IinClass
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@inClass[] pool = new GRGEN_MODEL.@inClass[10];
+		
+		// explicit initializations of inClass for target inClass
+		// implicit initializations of inClass for target inClass
+		static @inClass() {
+		}
+		
+		public @inClass(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_inClass.typeVar, source, target)
+		{
+			// implicit initialization, container creation of inClass
+			// explicit initializations of inClass for target inClass
+		}
+
+		public static GRGEN_MODEL.EdgeType_inClass TypeInstance { get { return GRGEN_MODEL.EdgeType_inClass.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@inClass(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @inClass(GRGEN_MODEL.@inClass oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_inClass.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @inClass)) return false;
+			@inClass that_ = (@inClass)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@inClass CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@inClass edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@inClass(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of inClass
+				// explicit initializations of inClass for target inClass
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@inClass CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@inClass edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@inClass(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of inClass
+				// explicit initializations of inClass for target inClass
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"inClass\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"inClass\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of inClass
+			// explicit initializations of inClass for target inClass
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("inClass does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("inClass does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_inClass : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_inClass typeVar = new GRGEN_MODEL.EdgeType_inClass();
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, false, false, true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_inClass() : base((int) EdgeTypes.@inClass)
+		{
+		}
+		public override string Name { get { return "inClass"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "inClass"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IinClass"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@inClass"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@inClass((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@inClass((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+	//-----------------------------------------------------------
 
 	//
 	// Node model
@@ -4015,2393 +6470,6 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	}
 
 	//
-	// Edge types
-	//
-
-	public enum EdgeTypes { @AEdge, @Edge, @UEdge, @belongsTo, @type_, @extends_, @imports, @implements, @parameter, @actualParameter, @binding, @link, @expression, @inBlock, @inClass };
-
-	// *** Edge AEdge ***
-
-
-	public sealed class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
-		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_AEdge() : base((int) EdgeTypes.@AEdge)
-		{
-		}
-		public override string Name { get { return "AEdge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override string EdgeClassName { get { return null; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			throw new Exception("The abstract edge type AEdge does not support source and target setting!");
-		}
-		public override bool IsAbstract { get { return true; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			throw new Exception("Cannot retype to the abstract type AEdge!");
-		}
-	}
-
-	// *** Edge Edge ***
-
-
-	public sealed class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
-		static @Edge() {
-		}
-		
-		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
-		{
-			// implicit initialization, container creation of Edge
-		}
-
-		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @Edge)) return false;
-			@Edge that_ = (@Edge)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@Edge edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@Edge(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of Edge
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@Edge edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@Edge(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of Edge
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of Edge
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("Edge does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("Edge does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_Edge : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, true, false, true, true, true, true, true, true, true, true, true, true, true, true, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
-		{
-		}
-		public override string Name { get { return "Edge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Edge"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	// *** Edge UEdge ***
-
-
-	public sealed class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
-		static @UEdge() {
-		}
-		
-		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
-		{
-			// implicit initialization, container creation of UEdge
-		}
-
-		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @UEdge)) return false;
-			@UEdge that_ = (@UEdge)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@UEdge edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@UEdge(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of UEdge
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@UEdge edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@UEdge(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of UEdge
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of UEdge
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("UEdge does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("UEdge does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
-		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_UEdge() : base((int) EdgeTypes.@UEdge)
-		{
-		}
-		public override string Name { get { return "UEdge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@UEdge"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	// *** Edge belongsTo ***
-
-	public interface IbelongsTo : GRGEN_LIBGR.IEdge
-	{
-	}
-
-	public sealed class @belongsTo : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IbelongsTo
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@belongsTo[] pool = new GRGEN_MODEL.@belongsTo[10];
-		
-		// explicit initializations of belongsTo for target belongsTo
-		// implicit initializations of belongsTo for target belongsTo
-		static @belongsTo() {
-		}
-		
-		public @belongsTo(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_belongsTo.typeVar, source, target)
-		{
-			// implicit initialization, container creation of belongsTo
-			// explicit initializations of belongsTo for target belongsTo
-		}
-
-		public static GRGEN_MODEL.EdgeType_belongsTo TypeInstance { get { return GRGEN_MODEL.EdgeType_belongsTo.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@belongsTo(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @belongsTo(GRGEN_MODEL.@belongsTo oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_belongsTo.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @belongsTo)) return false;
-			@belongsTo that_ = (@belongsTo)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@belongsTo CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@belongsTo edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@belongsTo(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of belongsTo
-				// explicit initializations of belongsTo for target belongsTo
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@belongsTo CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@belongsTo edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@belongsTo(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of belongsTo
-				// explicit initializations of belongsTo for target belongsTo
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"belongsTo\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"belongsTo\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of belongsTo
-			// explicit initializations of belongsTo for target belongsTo
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("belongsTo does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("belongsTo does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_belongsTo : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_belongsTo typeVar = new GRGEN_MODEL.EdgeType_belongsTo();
-		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, false, false, false, false, false, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_belongsTo() : base((int) EdgeTypes.@belongsTo)
-		{
-		}
-		public override string Name { get { return "belongsTo"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IbelongsTo"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@belongsTo"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@belongsTo((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@belongsTo((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	// *** Edge type_ ***
-
-	public interface Itype_ : GRGEN_LIBGR.IEdge
-	{
-	}
-
-	public sealed class @type_ : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Itype_
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@type_[] pool = new GRGEN_MODEL.@type_[10];
-		
-		// explicit initializations of type_ for target type_
-		// implicit initializations of type_ for target type_
-		static @type_() {
-		}
-		
-		public @type_(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_type_.typeVar, source, target)
-		{
-			// implicit initialization, container creation of type_
-			// explicit initializations of type_ for target type_
-		}
-
-		public static GRGEN_MODEL.EdgeType_type_ TypeInstance { get { return GRGEN_MODEL.EdgeType_type_.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@type_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @type_(GRGEN_MODEL.@type_ oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_type_.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @type_)) return false;
-			@type_ that_ = (@type_)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@type_ CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@type_ edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@type_(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of type_
-				// explicit initializations of type_ for target type_
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@type_ CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@type_ edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@type_(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of type_
-				// explicit initializations of type_ for target type_
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"type_\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"type_\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of type_
-			// explicit initializations of type_ for target type_
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("type_ does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("type_ does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_type_ : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_type_ typeVar = new GRGEN_MODEL.EdgeType_type_();
-		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, false, false, false, false, false, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_type_() : base((int) EdgeTypes.@type_)
-		{
-		}
-		public override string Name { get { return "type_"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Itype_"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@type_"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@type_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@type_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	// *** Edge extends_ ***
-
-	public interface Iextends_ : GRGEN_LIBGR.IEdge
-	{
-	}
-
-	public sealed class @extends_ : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iextends_
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@extends_[] pool = new GRGEN_MODEL.@extends_[10];
-		
-		// explicit initializations of extends_ for target extends_
-		// implicit initializations of extends_ for target extends_
-		static @extends_() {
-		}
-		
-		public @extends_(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_extends_.typeVar, source, target)
-		{
-			// implicit initialization, container creation of extends_
-			// explicit initializations of extends_ for target extends_
-		}
-
-		public static GRGEN_MODEL.EdgeType_extends_ TypeInstance { get { return GRGEN_MODEL.EdgeType_extends_.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@extends_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @extends_(GRGEN_MODEL.@extends_ oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_extends_.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @extends_)) return false;
-			@extends_ that_ = (@extends_)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@extends_ CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@extends_ edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@extends_(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of extends_
-				// explicit initializations of extends_ for target extends_
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@extends_ CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@extends_ edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@extends_(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of extends_
-				// explicit initializations of extends_ for target extends_
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"extends_\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"extends_\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of extends_
-			// explicit initializations of extends_ for target extends_
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("extends_ does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("extends_ does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_extends_ : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_extends_ typeVar = new GRGEN_MODEL.EdgeType_extends_();
-		public static bool[] isA = new bool[] { true, true, false, false, false, true, false, false, false, false, false, false, false, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_extends_() : base((int) EdgeTypes.@extends_)
-		{
-		}
-		public override string Name { get { return "extends_"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iextends_"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@extends_"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@extends_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@extends_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	// *** Edge imports ***
-
-	public interface Iimports : GRGEN_LIBGR.IEdge
-	{
-	}
-
-	public sealed class @imports : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iimports
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@imports[] pool = new GRGEN_MODEL.@imports[10];
-		
-		// explicit initializations of imports for target imports
-		// implicit initializations of imports for target imports
-		static @imports() {
-		}
-		
-		public @imports(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_imports.typeVar, source, target)
-		{
-			// implicit initialization, container creation of imports
-			// explicit initializations of imports for target imports
-		}
-
-		public static GRGEN_MODEL.EdgeType_imports TypeInstance { get { return GRGEN_MODEL.EdgeType_imports.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@imports(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @imports(GRGEN_MODEL.@imports oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_imports.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @imports)) return false;
-			@imports that_ = (@imports)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@imports CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@imports edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@imports(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of imports
-				// explicit initializations of imports for target imports
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@imports CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@imports edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@imports(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of imports
-				// explicit initializations of imports for target imports
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"imports\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"imports\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of imports
-			// explicit initializations of imports for target imports
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("imports does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("imports does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_imports : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_imports typeVar = new GRGEN_MODEL.EdgeType_imports();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, true, false, false, false, false, false, false, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_imports() : base((int) EdgeTypes.@imports)
-		{
-		}
-		public override string Name { get { return "imports"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iimports"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@imports"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@imports((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@imports((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	// *** Edge implements ***
-
-	public interface Iimplements : GRGEN_LIBGR.IEdge
-	{
-	}
-
-	public sealed class @implements : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iimplements
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@implements[] pool = new GRGEN_MODEL.@implements[10];
-		
-		// explicit initializations of implements for target implements
-		// implicit initializations of implements for target implements
-		static @implements() {
-		}
-		
-		public @implements(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_implements.typeVar, source, target)
-		{
-			// implicit initialization, container creation of implements
-			// explicit initializations of implements for target implements
-		}
-
-		public static GRGEN_MODEL.EdgeType_implements TypeInstance { get { return GRGEN_MODEL.EdgeType_implements.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@implements(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @implements(GRGEN_MODEL.@implements oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_implements.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @implements)) return false;
-			@implements that_ = (@implements)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@implements CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@implements edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@implements(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of implements
-				// explicit initializations of implements for target implements
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@implements CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@implements edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@implements(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of implements
-				// explicit initializations of implements for target implements
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"implements\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"implements\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of implements
-			// explicit initializations of implements for target implements
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("implements does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("implements does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_implements : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_implements typeVar = new GRGEN_MODEL.EdgeType_implements();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, true, false, false, false, false, false, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_implements() : base((int) EdgeTypes.@implements)
-		{
-		}
-		public override string Name { get { return "implements"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iimplements"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@implements"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@implements((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@implements((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	// *** Edge parameter ***
-
-	public interface Iparameter : GRGEN_LIBGR.IEdge
-	{
-		int @order { get; set; }
-	}
-
-	public sealed class @parameter : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iparameter
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@parameter[] pool = new GRGEN_MODEL.@parameter[10];
-		
-		// explicit initializations of parameter for target parameter
-		// implicit initializations of parameter for target parameter
-		static @parameter() {
-		}
-		
-		public @parameter(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_parameter.typeVar, source, target)
-		{
-			// implicit initialization, container creation of parameter
-			// explicit initializations of parameter for target parameter
-		}
-
-		public static GRGEN_MODEL.EdgeType_parameter TypeInstance { get { return GRGEN_MODEL.EdgeType_parameter.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@parameter(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @parameter(GRGEN_MODEL.@parameter oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_parameter.typeVar, newSource, newTarget)
-		{
-			order_M0no_suXx_h4rD = oldElem.order_M0no_suXx_h4rD;
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @parameter)) return false;
-			@parameter that_ = (@parameter)that;
-			return true
-				&& order_M0no_suXx_h4rD == that_.order_M0no_suXx_h4rD
-			;
-		}
-
-		public static GRGEN_MODEL.@parameter CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@parameter edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@parameter(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of parameter
-				edge.@order = 0;
-				// explicit initializations of parameter for target parameter
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@parameter CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@parameter edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@parameter(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of parameter
-				edge.@order = 0;
-				// explicit initializations of parameter for target parameter
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-
-		private int order_M0no_suXx_h4rD;
-		public int @order
-		{
-			get { return order_M0no_suXx_h4rD; }
-			set { order_M0no_suXx_h4rD = value; }
-		}
-		public override object GetAttribute(string attrName)
-		{
-			switch(attrName)
-			{
-				case "order": return this.@order;
-			}
-			throw new NullReferenceException(
-				"The edge type \"parameter\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			switch(attrName)
-			{
-				case "order": this.@order = (int) value; return;
-			}
-			throw new NullReferenceException(
-				"The edge type \"parameter\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of parameter
-			this.@order = 0;
-			// explicit initializations of parameter for target parameter
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("parameter does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("parameter does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_parameter : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_parameter typeVar = new GRGEN_MODEL.EdgeType_parameter();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, true, false, false, false, false, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public static GRGEN_LIBGR.AttributeType AttributeType_order;
-		public EdgeType_parameter() : base((int) EdgeTypes.@parameter)
-		{
-			AttributeType_order = new GRGEN_LIBGR.AttributeType("order", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
-		}
-		public override string Name { get { return "parameter"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iparameter"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@parameter"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@parameter((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 1; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
-		{
-			get
-			{
-				yield return AttributeType_order;
-			}
-		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
-		{
-			switch(name)
-			{
-				case "order" : return AttributeType_order;
-			}
-			return null;
-		}
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			GRGEN_LGSP.LGSPEdge oldEdge = (GRGEN_LGSP.LGSPEdge) oldIEdge;
-			GRGEN_MODEL.@parameter newEdge = new GRGEN_MODEL.@parameter((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-			switch(oldEdge.Type.TypeID)
-			{
-				case (int) EdgeTypes.@parameter:
-					// copy attributes for: parameter
-					{
-						GRGEN_MODEL.Iparameter old = (GRGEN_MODEL.Iparameter) oldEdge;
-						newEdge.@order = old.@order;
-					}
-					break;
-			}
-			return newEdge;
-		}
-
-	}
-
-	// *** Edge actualParameter ***
-
-	public interface IactualParameter : GRGEN_LIBGR.IEdge
-	{
-	}
-
-	public sealed class @actualParameter : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IactualParameter
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@actualParameter[] pool = new GRGEN_MODEL.@actualParameter[10];
-		
-		// explicit initializations of actualParameter for target actualParameter
-		// implicit initializations of actualParameter for target actualParameter
-		static @actualParameter() {
-		}
-		
-		public @actualParameter(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_actualParameter.typeVar, source, target)
-		{
-			// implicit initialization, container creation of actualParameter
-			// explicit initializations of actualParameter for target actualParameter
-		}
-
-		public static GRGEN_MODEL.EdgeType_actualParameter TypeInstance { get { return GRGEN_MODEL.EdgeType_actualParameter.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@actualParameter(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @actualParameter(GRGEN_MODEL.@actualParameter oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_actualParameter.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @actualParameter)) return false;
-			@actualParameter that_ = (@actualParameter)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@actualParameter CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@actualParameter edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@actualParameter(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of actualParameter
-				// explicit initializations of actualParameter for target actualParameter
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@actualParameter CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@actualParameter edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@actualParameter(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of actualParameter
-				// explicit initializations of actualParameter for target actualParameter
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"actualParameter\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"actualParameter\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of actualParameter
-			// explicit initializations of actualParameter for target actualParameter
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("actualParameter does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("actualParameter does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_actualParameter : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_actualParameter typeVar = new GRGEN_MODEL.EdgeType_actualParameter();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, true, false, false, false, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_actualParameter() : base((int) EdgeTypes.@actualParameter)
-		{
-		}
-		public override string Name { get { return "actualParameter"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IactualParameter"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@actualParameter"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@actualParameter((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@actualParameter((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	// *** Edge binding ***
-
-	public interface Ibinding : GRGEN_LIBGR.IEdge
-	{
-	}
-
-	public sealed class @binding : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Ibinding
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@binding[] pool = new GRGEN_MODEL.@binding[10];
-		
-		// explicit initializations of binding for target binding
-		// implicit initializations of binding for target binding
-		static @binding() {
-		}
-		
-		public @binding(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_binding.typeVar, source, target)
-		{
-			// implicit initialization, container creation of binding
-			// explicit initializations of binding for target binding
-		}
-
-		public static GRGEN_MODEL.EdgeType_binding TypeInstance { get { return GRGEN_MODEL.EdgeType_binding.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@binding(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @binding(GRGEN_MODEL.@binding oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_binding.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @binding)) return false;
-			@binding that_ = (@binding)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@binding CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@binding edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@binding(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of binding
-				// explicit initializations of binding for target binding
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@binding CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@binding edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@binding(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of binding
-				// explicit initializations of binding for target binding
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"binding\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"binding\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of binding
-			// explicit initializations of binding for target binding
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("binding does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("binding does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_binding : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_binding typeVar = new GRGEN_MODEL.EdgeType_binding();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, true, false, false, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_binding() : base((int) EdgeTypes.@binding)
-		{
-		}
-		public override string Name { get { return "binding"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Ibinding"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@binding"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@binding((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@binding((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	// *** Edge link ***
-
-	public interface Ilink : GRGEN_LIBGR.IEdge
-	{
-	}
-
-	public sealed class @link : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Ilink
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@link[] pool = new GRGEN_MODEL.@link[10];
-		
-		// explicit initializations of link for target link
-		// implicit initializations of link for target link
-		static @link() {
-		}
-		
-		public @link(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_link.typeVar, source, target)
-		{
-			// implicit initialization, container creation of link
-			// explicit initializations of link for target link
-		}
-
-		public static GRGEN_MODEL.EdgeType_link TypeInstance { get { return GRGEN_MODEL.EdgeType_link.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@link(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @link(GRGEN_MODEL.@link oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_link.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @link)) return false;
-			@link that_ = (@link)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@link CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@link edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@link(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of link
-				// explicit initializations of link for target link
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@link CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@link edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@link(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of link
-				// explicit initializations of link for target link
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"link\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"link\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of link
-			// explicit initializations of link for target link
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("link does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("link does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_link : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_link typeVar = new GRGEN_MODEL.EdgeType_link();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, true, false, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_link() : base((int) EdgeTypes.@link)
-		{
-		}
-		public override string Name { get { return "link"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Ilink"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@link"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@link((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@link((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	// *** Edge expression ***
-
-	public interface Iexpression : GRGEN_LIBGR.IEdge
-	{
-		int @order { get; set; }
-	}
-
-	public sealed class @expression : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iexpression
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@expression[] pool = new GRGEN_MODEL.@expression[10];
-		
-		// explicit initializations of expression for target expression
-		// implicit initializations of expression for target expression
-		static @expression() {
-		}
-		
-		public @expression(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_expression.typeVar, source, target)
-		{
-			// implicit initialization, container creation of expression
-			// explicit initializations of expression for target expression
-		}
-
-		public static GRGEN_MODEL.EdgeType_expression TypeInstance { get { return GRGEN_MODEL.EdgeType_expression.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@expression(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @expression(GRGEN_MODEL.@expression oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_expression.typeVar, newSource, newTarget)
-		{
-			order_M0no_suXx_h4rD = oldElem.order_M0no_suXx_h4rD;
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @expression)) return false;
-			@expression that_ = (@expression)that;
-			return true
-				&& order_M0no_suXx_h4rD == that_.order_M0no_suXx_h4rD
-			;
-		}
-
-		public static GRGEN_MODEL.@expression CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@expression edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@expression(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of expression
-				edge.@order = 0;
-				// explicit initializations of expression for target expression
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@expression CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@expression edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@expression(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of expression
-				edge.@order = 0;
-				// explicit initializations of expression for target expression
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-
-		private int order_M0no_suXx_h4rD;
-		public int @order
-		{
-			get { return order_M0no_suXx_h4rD; }
-			set { order_M0no_suXx_h4rD = value; }
-		}
-		public override object GetAttribute(string attrName)
-		{
-			switch(attrName)
-			{
-				case "order": return this.@order;
-			}
-			throw new NullReferenceException(
-				"The edge type \"expression\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			switch(attrName)
-			{
-				case "order": this.@order = (int) value; return;
-			}
-			throw new NullReferenceException(
-				"The edge type \"expression\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of expression
-			this.@order = 0;
-			// explicit initializations of expression for target expression
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("expression does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("expression does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_expression : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_expression typeVar = new GRGEN_MODEL.EdgeType_expression();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, true, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public static GRGEN_LIBGR.AttributeType AttributeType_order;
-		public EdgeType_expression() : base((int) EdgeTypes.@expression)
-		{
-			AttributeType_order = new GRGEN_LIBGR.AttributeType("order", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
-		}
-		public override string Name { get { return "expression"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iexpression"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@expression"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@expression((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 1; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
-		{
-			get
-			{
-				yield return AttributeType_order;
-			}
-		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
-		{
-			switch(name)
-			{
-				case "order" : return AttributeType_order;
-			}
-			return null;
-		}
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			GRGEN_LGSP.LGSPEdge oldEdge = (GRGEN_LGSP.LGSPEdge) oldIEdge;
-			GRGEN_MODEL.@expression newEdge = new GRGEN_MODEL.@expression((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-			switch(oldEdge.Type.TypeID)
-			{
-				case (int) EdgeTypes.@expression:
-					// copy attributes for: expression
-					{
-						GRGEN_MODEL.Iexpression old = (GRGEN_MODEL.Iexpression) oldEdge;
-						newEdge.@order = old.@order;
-					}
-					break;
-			}
-			return newEdge;
-		}
-
-	}
-
-	// *** Edge inBlock ***
-
-	public interface IinBlock : GRGEN_LIBGR.IEdge
-	{
-	}
-
-	public sealed class @inBlock : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IinBlock
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@inBlock[] pool = new GRGEN_MODEL.@inBlock[10];
-		
-		// explicit initializations of inBlock for target inBlock
-		// implicit initializations of inBlock for target inBlock
-		static @inBlock() {
-		}
-		
-		public @inBlock(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_inBlock.typeVar, source, target)
-		{
-			// implicit initialization, container creation of inBlock
-			// explicit initializations of inBlock for target inBlock
-		}
-
-		public static GRGEN_MODEL.EdgeType_inBlock TypeInstance { get { return GRGEN_MODEL.EdgeType_inBlock.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@inBlock(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @inBlock(GRGEN_MODEL.@inBlock oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_inBlock.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @inBlock)) return false;
-			@inBlock that_ = (@inBlock)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@inBlock CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@inBlock edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@inBlock(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of inBlock
-				// explicit initializations of inBlock for target inBlock
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@inBlock CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@inBlock edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@inBlock(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of inBlock
-				// explicit initializations of inBlock for target inBlock
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"inBlock\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"inBlock\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of inBlock
-			// explicit initializations of inBlock for target inBlock
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("inBlock does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("inBlock does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_inBlock : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_inBlock typeVar = new GRGEN_MODEL.EdgeType_inBlock();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, false, true, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_inBlock() : base((int) EdgeTypes.@inBlock)
-		{
-		}
-		public override string Name { get { return "inBlock"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IinBlock"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@inBlock"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@inBlock((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@inBlock((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	// *** Edge inClass ***
-
-	public interface IinClass : GRGEN_LIBGR.IEdge
-	{
-	}
-
-	public sealed class @inClass : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IinClass
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@inClass[] pool = new GRGEN_MODEL.@inClass[10];
-		
-		// explicit initializations of inClass for target inClass
-		// implicit initializations of inClass for target inClass
-		static @inClass() {
-		}
-		
-		public @inClass(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_inClass.typeVar, source, target)
-		{
-			// implicit initialization, container creation of inClass
-			// explicit initializations of inClass for target inClass
-		}
-
-		public static GRGEN_MODEL.EdgeType_inClass TypeInstance { get { return GRGEN_MODEL.EdgeType_inClass.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@inClass(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @inClass(GRGEN_MODEL.@inClass oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_inClass.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @inClass)) return false;
-			@inClass that_ = (@inClass)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@inClass CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@inClass edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@inClass(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of inClass
-				// explicit initializations of inClass for target inClass
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@inClass CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@inClass edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@inClass(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of inClass
-				// explicit initializations of inClass for target inClass
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"inClass\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"inClass\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of inClass
-			// explicit initializations of inClass for target inClass
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("inClass does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("inClass does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_inClass : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_inClass typeVar = new GRGEN_MODEL.EdgeType_inClass();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, false, false, true, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_inClass() : base((int) EdgeTypes.@inClass)
-		{
-		}
-		public override string Name { get { return "inClass"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IinClass"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@inClass"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@inClass((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@inClass((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	//
 	// Edge model
 	//
 
@@ -6725,16 +6793,19 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private JavaProgramGraphsNodeModel nodeModel = new JavaProgramGraphsNodeModel();
 		private JavaProgramGraphsEdgeModel edgeModel = new JavaProgramGraphsEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 
 		public string ModelName { get { return "JavaProgramGraphs"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -6947,16 +7018,19 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private JavaProgramGraphsNodeModel nodeModel = new JavaProgramGraphsNodeModel();
 		private JavaProgramGraphsEdgeModel edgeModel = new JavaProgramGraphsEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 
 		public string ModelName { get { return "JavaProgramGraphs"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -7329,16 +7403,19 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private JavaProgramGraphsNodeModel nodeModel = new JavaProgramGraphsNodeModel();
 		private JavaProgramGraphsEdgeModel edgeModel = new JavaProgramGraphsEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 
 		public string ModelName { get { return "JavaProgramGraphs"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{

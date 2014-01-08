@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Sun Dec 15 22:30:34 CET 2013
+// Generated from "..\..\tests\edge1\edge1.grg" on Wed Jan 08 16:09:18 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 using GRGEN_MODEL = de.unika.ipd.grGen.Model_Std;
+using GRGEN_ACTIONS = de.unika.ipd.grGen.Action_edge1;
 
 namespace de.unika.ipd.grGen.Action_edge1
 {
@@ -53,6 +54,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_init = new GRGEN_LGSP.PatternGraph(
 				"init",
 				"",
+				null, "init",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -291,6 +293,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_init2 = new GRGEN_LGSP.PatternGraph(
 				"init2",
 				"",
+				null, "init2",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -528,6 +531,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_init3 = new GRGEN_LGSP.PatternGraph(
 				"init3",
 				"",
+				null, "init3",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -778,6 +782,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findUndirectedEdge = new GRGEN_LGSP.PatternGraph(
 				"findUndirectedEdge",
 				"",
+				null, "findUndirectedEdge",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findUndirectedEdge_node_x, findUndirectedEdge_node_y }, 
 				new GRGEN_LGSP.PatternEdge[] { findUndirectedEdge_edge__edge0 }, 
@@ -1046,6 +1051,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryEdge = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryEdge",
 				"",
+				null, "findArbitraryEdge",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findArbitraryEdge_node_x, findArbitraryEdge_node_y }, 
 				new GRGEN_LGSP.PatternEdge[] { findArbitraryEdge_edge__edge0 }, 
@@ -1314,6 +1320,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedEdge = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryDirectedEdge",
 				"",
+				null, "findArbitraryDirectedEdge",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findArbitraryDirectedEdge_node_x, findArbitraryDirectedEdge_node_y }, 
 				new GRGEN_LGSP.PatternEdge[] { findArbitraryDirectedEdge_edge__edge0 }, 
@@ -1578,6 +1585,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedReflexiveEdge = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryDirectedReflexiveEdge",
 				"",
+				null, "findArbitraryDirectedReflexiveEdge",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findArbitraryDirectedReflexiveEdge_node_x }, 
 				new GRGEN_LGSP.PatternEdge[] { findArbitraryDirectedReflexiveEdge_edge__edge0 }, 
@@ -1842,6 +1850,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryDirectedReflexiveEdgeAfterUndirectedOne",
 				"",
+				null, "findArbitraryDirectedReflexiveEdgeAfterUndirectedOne",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y }, 
 				new GRGEN_LGSP.PatternEdge[] { findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1 }, 
@@ -2128,6 +2137,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedTriple = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryDirectedTriple",
 				"",
+				null, "findArbitraryDirectedTriple",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findArbitraryDirectedTriple_node__node0, findArbitraryDirectedTriple_node__node1, findArbitraryDirectedTriple_node__node2 }, 
 				new GRGEN_LGSP.PatternEdge[] { findArbitraryDirectedTriple_edge__edge0, findArbitraryDirectedTriple_edge__edge1 }, 
@@ -2414,6 +2424,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findDirectedEdge = new GRGEN_LGSP.PatternGraph(
 				"findDirectedEdge",
 				"",
+				null, "findDirectedEdge",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findDirectedEdge_node_x, findDirectedEdge_node_y }, 
 				new GRGEN_LGSP.PatternEdge[] { findDirectedEdge_edge__edge0 }, 
@@ -2694,6 +2705,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findTripleCircle = new GRGEN_LGSP.PatternGraph(
 				"findTripleCircle",
 				"",
+				null, "findTripleCircle",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { findTripleCircle_node_x, findTripleCircle_node_y, findTripleCircle_node_z }, 
 				new GRGEN_LGSP.PatternEdge[] { findTripleCircle_edge__edge0, findTripleCircle_edge__edge1, findTripleCircle_edge__edge2 }, 
@@ -2962,6 +2974,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 	}
 
+
+	//-----------------------------------------------------------
+
 	public class edge1_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
 	{
 		public edge1_RuleAndMatchingPatterns()
@@ -2972,6 +2987,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
 			functions = new GRGEN_LIBGR.FunctionInfo[0];
 			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
+			packages = new string[0];
 			rules[0] = Rule_init.Instance;
 			rulesAndSubpatterns[0+0] = Rule_init.Instance;
 			rules[1] = Rule_init2.Instance;
@@ -3007,6 +3023,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		private GRGEN_LIBGR.FunctionInfo[] functions;
 		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
 		private GRGEN_LIBGR.ProcedureInfo[] procedures;
+		public override string[] Packages { get { return packages; } }
+		private string[] packages;
 	}
 
 
@@ -3223,7 +3241,7 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -3437,7 +3455,7 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -3651,7 +3669,7 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -3892,7 +3910,7 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -4136,7 +4154,7 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -4377,7 +4395,7 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -4607,7 +4625,7 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -4866,7 +4884,7 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -5151,7 +5169,7 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -5388,7 +5406,7 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -5709,7 +5727,7 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
         }
     }
-
+    
 
     // class which instantiates and stores all the compiled actions of the module,
     // dynamic regeneration and compilation causes the old action to be overwritten by the new one
@@ -5730,6 +5748,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
         private void InitActions()
         {
+            packages = new string[0];
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
             analyzer.AnalyzeNestingOfPatternGraph(Rule_init.Instance.patternGraph, false);
             GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_init.Instance.patternGraph);
@@ -5847,8 +5866,11 @@ namespace de.unika.ipd.grGen.Action_edge1
         public IAction_findTripleCircle @findTripleCircle;
         
         
-        public override string StatisticsPath { get { return null; } }
+        public override string[] Packages { get { return packages; } }
+        private string[] packages;
+        
         public override string Name { get { return "edge1Actions"; } }
+        public override string StatisticsPath { get { return null; } }
         public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
     }
 }

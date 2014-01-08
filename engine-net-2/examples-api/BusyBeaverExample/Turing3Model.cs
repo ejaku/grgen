@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Dec 15 22:30:30 CET 2013
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Wed Jan 08 16:09:13 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 namespace de.unika.ipd.grGen.Model_Turing3
 {
 	using GRGEN_MODEL = de.unika.ipd.grGen.Model_Turing3;
+
 	//
 	// Enums
 	//
@@ -24,7 +25,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	// Node types
 	//
 
-	public enum NodeTypes { @Node, @BandPosition, @State, @WriteValue };
+	public enum NodeTypes { @Node=0, @BandPosition=1, @State=2, @WriteValue=3 };
 
 	// *** Node Node ***
 
@@ -139,6 +140,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "Node"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Node"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -311,9 +314,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public static GRGEN_LIBGR.AttributeType AttributeType_value;
 		public NodeType_BandPosition() : base((int) NodeTypes.@BandPosition)
 		{
-			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "BandPosition"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "BandPosition"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IBandPosition"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@BandPosition"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -356,7 +361,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			GRGEN_MODEL.@BandPosition newNode = new GRGEN_MODEL.@BandPosition();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@BandPosition:
+				case (int) GRGEN_MODEL.NodeTypes.@BandPosition:
 					// copy attributes for: BandPosition
 					{
 						GRGEN_MODEL.IBandPosition old = (GRGEN_MODEL.IBandPosition) oldNode;
@@ -491,6 +496,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "State"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "State"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IState"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@State"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -663,9 +670,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public static GRGEN_LIBGR.AttributeType AttributeType_value;
 		public NodeType_WriteValue() : base((int) NodeTypes.@WriteValue)
 		{
-			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "WriteValue"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "WriteValue"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IWriteValue"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@WriteValue"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -708,7 +717,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			GRGEN_MODEL.@WriteValue newNode = new GRGEN_MODEL.@WriteValue();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@WriteValue:
+				case (int) GRGEN_MODEL.NodeTypes.@WriteValue:
 					// copy attributes for: WriteValue
 					{
 						GRGEN_MODEL.IWriteValue old = (GRGEN_MODEL.IWriteValue) oldNode;
@@ -722,111 +731,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	}
 
 	//
-	// Node model
-	//
-
-	public sealed class Turing3NodeModel : GRGEN_LIBGR.INodeModel
-	{
-		public Turing3NodeModel()
-		{
-			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-				GRGEN_MODEL.NodeType_BandPosition.typeVar,
-				GRGEN_MODEL.NodeType_State.typeVar,
-				GRGEN_MODEL.NodeType_WriteValue.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_BandPosition.typeVar,
-				GRGEN_MODEL.NodeType_State.typeVar,
-				GRGEN_MODEL.NodeType_WriteValue.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_BandPosition.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_BandPosition.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_BandPosition.typeVar,
-			};
-			GRGEN_MODEL.NodeType_BandPosition.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_BandPosition.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_BandPosition.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_BandPosition.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_BandPosition.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_BandPosition.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_BandPosition.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_State.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_State.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_State.typeVar,
-			};
-			GRGEN_MODEL.NodeType_State.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_State.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_State.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_State.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_State.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_State.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_State.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_WriteValue.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_WriteValue.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_WriteValue.typeVar,
-			};
-			GRGEN_MODEL.NodeType_WriteValue.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_WriteValue.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_WriteValue.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_WriteValue.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_WriteValue.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_WriteValue.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_WriteValue.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-		}
-		public bool IsNodeModel { get { return true; } }
-		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
-		public GRGEN_LIBGR.NodeType GetType(string name)
-		{
-			switch(name)
-			{
-				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
-				case "BandPosition" : return GRGEN_MODEL.NodeType_BandPosition.typeVar;
-				case "State" : return GRGEN_MODEL.NodeType_State.typeVar;
-				case "WriteValue" : return GRGEN_MODEL.NodeType_WriteValue.typeVar;
-			}
-			return null;
-		}
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
-		{
-			return GetType(name);
-		}
-		private GRGEN_LIBGR.NodeType[] types = {
-			GRGEN_MODEL.NodeType_Node.typeVar,
-			GRGEN_MODEL.NodeType_BandPosition.typeVar,
-			GRGEN_MODEL.NodeType_State.typeVar,
-			GRGEN_MODEL.NodeType_WriteValue.typeVar,
-		};
-		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
-		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
-			typeof(GRGEN_MODEL.NodeType_Node),
-			typeof(GRGEN_MODEL.NodeType_BandPosition),
-			typeof(GRGEN_MODEL.NodeType_State),
-			typeof(GRGEN_MODEL.NodeType_WriteValue),
-		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
-		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
-			GRGEN_MODEL.NodeType_BandPosition.AttributeType_value,
-			GRGEN_MODEL.NodeType_WriteValue.AttributeType_value,
-		};
-		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
-	}
-
-	//
 	// Edge types
 	//
 
-	public enum EdgeTypes { @AEdge, @Edge, @UEdge, @right, @readZero, @readOne, @moveLeft, @moveRight };
+	public enum EdgeTypes { @AEdge=0, @Edge=1, @UEdge=2, @right=3, @readZero=4, @readOne=5, @moveLeft=6, @moveRight=7 };
 
 	// *** Edge AEdge ***
 
@@ -842,6 +750,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "AEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "AEdge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return null; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
@@ -993,6 +903,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "Edge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Edge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1145,6 +1057,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "UEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "UEdge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
@@ -1306,6 +1220,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "right"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "right"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.Iright"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@right"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1467,6 +1383,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "readZero"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "readZero"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IreadZero"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@readZero"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1628,6 +1546,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "readOne"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "readOne"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IreadOne"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@readOne"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1789,6 +1709,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "moveLeft"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "moveLeft"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.ImoveLeft"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@moveLeft"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1950,6 +1872,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "moveRight"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "moveRight"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.ImoveRight"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@moveRight"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1984,6 +1908,108 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return new GRGEN_MODEL.@moveRight((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+	}
+	//-----------------------------------------------------------
+
+	//
+	// Node model
+	//
+
+	public sealed class Turing3NodeModel : GRGEN_LIBGR.INodeModel
+	{
+		public Turing3NodeModel()
+		{
+			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_BandPosition.typeVar,
+				GRGEN_MODEL.NodeType_State.typeVar,
+				GRGEN_MODEL.NodeType_WriteValue.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_BandPosition.typeVar,
+				GRGEN_MODEL.NodeType_State.typeVar,
+				GRGEN_MODEL.NodeType_WriteValue.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_BandPosition.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_BandPosition.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_BandPosition.typeVar,
+			};
+			GRGEN_MODEL.NodeType_BandPosition.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_BandPosition.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_BandPosition.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_BandPosition.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_BandPosition.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_BandPosition.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_BandPosition.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_State.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_State.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_State.typeVar,
+			};
+			GRGEN_MODEL.NodeType_State.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_State.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_State.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_State.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_State.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_State.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_State.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_WriteValue.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_WriteValue.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_WriteValue.typeVar,
+			};
+			GRGEN_MODEL.NodeType_WriteValue.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_WriteValue.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_WriteValue.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_WriteValue.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_WriteValue.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_WriteValue.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_WriteValue.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+		}
+		public bool IsNodeModel { get { return true; } }
+		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		public GRGEN_LIBGR.NodeType GetType(string name)
+		{
+			switch(name)
+			{
+				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
+				case "BandPosition" : return GRGEN_MODEL.NodeType_BandPosition.typeVar;
+				case "State" : return GRGEN_MODEL.NodeType_State.typeVar;
+				case "WriteValue" : return GRGEN_MODEL.NodeType_WriteValue.typeVar;
+			}
+			return null;
+		}
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
+		{
+			return GetType(name);
+		}
+		private GRGEN_LIBGR.NodeType[] types = {
+			GRGEN_MODEL.NodeType_Node.typeVar,
+			GRGEN_MODEL.NodeType_BandPosition.typeVar,
+			GRGEN_MODEL.NodeType_State.typeVar,
+			GRGEN_MODEL.NodeType_WriteValue.typeVar,
+		};
+		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
+		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
+		private System.Type[] typeTypes = {
+			typeof(GRGEN_MODEL.NodeType_Node),
+			typeof(GRGEN_MODEL.NodeType_BandPosition),
+			typeof(GRGEN_MODEL.NodeType_State),
+			typeof(GRGEN_MODEL.NodeType_WriteValue),
+		};
+		public System.Type[] TypeTypes { get { return typeTypes; } }
+		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
+			GRGEN_MODEL.NodeType_BandPosition.AttributeType_value,
+			GRGEN_MODEL.NodeType_WriteValue.AttributeType_value,
+		};
+		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
 	}
 
 	//
@@ -2175,17 +2201,20 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		private Turing3NodeModel nodeModel = new Turing3NodeModel();
 		private Turing3EdgeModel edgeModel = new Turing3EdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1, false),
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1, false),
 		};
 
 		public string ModelName { get { return "Turing3"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -2293,17 +2322,20 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		private Turing3NodeModel nodeModel = new Turing3NodeModel();
 		private Turing3EdgeModel edgeModel = new Turing3EdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1, false),
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1, false),
 		};
 
 		public string ModelName { get { return "Turing3"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -2466,17 +2498,20 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		private Turing3NodeModel nodeModel = new Turing3NodeModel();
 		private Turing3EdgeModel edgeModel = new Turing3EdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1, false),
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1, false),
 		};
 
 		public string ModelName { get { return "Turing3"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Dec 15 22:30:30 CET 2013
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Wed Jan 08 16:09:13 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 using GRGEN_MODEL = de.unika.ipd.grGen.Model_Turing3;
+using GRGEN_ACTIONS = de.unika.ipd.grGen.Action_Turing3;
 
 namespace de.unika.ipd.grGen.Action_Turing3
 {
@@ -75,6 +76,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_readZeroRule = new GRGEN_LGSP.PatternGraph(
 				"readZeroRule",
 				"",
+				null, "readZeroRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { readZeroRule_node_s, readZeroRule_node_wv, readZeroRule_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] { readZeroRule_edge_rv }, 
@@ -375,6 +377,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_readOneRule = new GRGEN_LGSP.PatternGraph(
 				"readOneRule",
 				"",
+				null, "readOneRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { readOneRule_node_s, readOneRule_node_wv, readOneRule_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] { readOneRule_edge_rv }, 
@@ -696,6 +699,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			ensureMoveLeftValidRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ensureMoveLeftValidRule_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ensureMoveLeftValidRule_neg_0_node__node0, ensureMoveLeftValidRule_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] { ensureMoveLeftValidRule_neg_0_edge__edge0 }, 
@@ -725,6 +729,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_ensureMoveLeftValidRule = new GRGEN_LGSP.PatternGraph(
 				"ensureMoveLeftValidRule",
 				"",
+				null, "ensureMoveLeftValidRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node__node0, ensureMoveLeftValidRule_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] { ensureMoveLeftValidRule_edge__edge0 }, 
@@ -1212,6 +1217,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			ensureMoveRightValidRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ensureMoveRightValidRule_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ensureMoveRightValidRule_node_bp, ensureMoveRightValidRule_neg_0_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { ensureMoveRightValidRule_neg_0_edge__edge0 }, 
@@ -1241,6 +1247,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_ensureMoveRightValidRule = new GRGEN_LGSP.PatternGraph(
 				"ensureMoveRightValidRule",
 				"",
+				null, "ensureMoveRightValidRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node__node0, ensureMoveRightValidRule_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] { ensureMoveRightValidRule_edge__edge0 }, 
@@ -1711,6 +1718,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_moveLeftRule = new GRGEN_LGSP.PatternGraph(
 				"moveLeftRule",
 				"",
+				null, "moveLeftRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { moveLeftRule_node_wv, moveLeftRule_node_s, moveLeftRule_node_lbp, moveLeftRule_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] { moveLeftRule_edge__edge0, moveLeftRule_edge__edge1 }, 
@@ -2027,6 +2035,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_moveRightRule = new GRGEN_LGSP.PatternGraph(
 				"moveRightRule",
 				"",
+				null, "moveRightRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { moveRightRule_node_wv, moveRightRule_node_s, moveRightRule_node_bp, moveRightRule_node_rbp }, 
 				new GRGEN_LGSP.PatternEdge[] { moveRightRule_edge__edge0, moveRightRule_edge__edge1 }, 
@@ -2325,6 +2334,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_countZeros = new GRGEN_LGSP.PatternGraph(
 				"countZeros",
 				"",
+				null, "countZeros",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { countZeros_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -2574,6 +2584,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_countOnes = new GRGEN_LGSP.PatternGraph(
 				"countOnes",
 				"",
+				null, "countOnes",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { countOnes_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -2799,6 +2810,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 	}
 
+
+	//-----------------------------------------------------------
+
 	public class Turing3_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
 	{
 		public Turing3_RuleAndMatchingPatterns()
@@ -2809,6 +2823,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
 			functions = new GRGEN_LIBGR.FunctionInfo[0];
 			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
+			packages = new string[0];
 			rules[0] = Rule_readZeroRule.Instance;
 			rulesAndSubpatterns[0+0] = Rule_readZeroRule.Instance;
 			rules[1] = Rule_readOneRule.Instance;
@@ -2838,6 +2853,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		private GRGEN_LIBGR.FunctionInfo[] functions;
 		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
 		private GRGEN_LIBGR.ProcedureInfo[] procedures;
+		public override string[] Packages { get { return packages; } }
+		private string[] packages;
 	}
 
 
@@ -3088,7 +3105,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -3336,7 +3353,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -3610,7 +3627,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -3884,7 +3901,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -4163,7 +4180,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -4442,7 +4459,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -4667,7 +4684,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -4892,7 +4909,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
         }
     }
-
+    
 
     // class which instantiates and stores all the compiled actions of the module,
     // dynamic regeneration and compilation causes the old action to be overwritten by the new one
@@ -4913,6 +4930,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
         private void InitActions()
         {
+            packages = new string[0];
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
             analyzer.AnalyzeNestingOfPatternGraph(Rule_readZeroRule.Instance.patternGraph, false);
             GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_readZeroRule.Instance.patternGraph);
@@ -5000,8 +5018,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public IAction_countOnes @countOnes;
         
         
-        public override string StatisticsPath { get { return null; } }
+        public override string[] Packages { get { return packages; } }
+        private string[] packages;
+        
         public override string Name { get { return "Turing3Actions"; } }
+        public override string StatisticsPath { get { return null; } }
         public override string ModelMD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
     }
 }

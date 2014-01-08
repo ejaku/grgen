@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sun Dec 15 22:30:40 CET 2013
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Wed Jan 08 16:09:24 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 {
 	using GRGEN_MODEL = de.unika.ipd.grGen.Model_ExternalFiltersAndSequences;
+
 	//
 	// Enums
 	//
@@ -20,7 +21,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 
 	public class Enums
 	{
-		public static GRGEN_LIBGR.EnumAttributeType @Enu = new GRGEN_LIBGR.EnumAttributeType("Enu", typeof(GRGEN_MODEL.ENUM_Enu), new GRGEN_LIBGR.EnumMember[] {
+		public static GRGEN_LIBGR.EnumAttributeType @Enu = new GRGEN_LIBGR.EnumAttributeType("Enu", null, "Enu", typeof(GRGEN_MODEL.ENUM_Enu), new GRGEN_LIBGR.EnumMember[] {
 			new GRGEN_LIBGR.EnumMember(0, "reh"),
 			new GRGEN_LIBGR.EnumMember(1, "lamm"),
 			new GRGEN_LIBGR.EnumMember(2, "hurz"),
@@ -31,7 +32,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	// Node types
 	//
 
-	public enum NodeTypes { @Node, @N };
+	public enum NodeTypes { @Node=0, @N=1 };
 
 	// *** Node Node ***
 
@@ -146,6 +147,8 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		{
 		}
 		public override string Name { get { return "Node"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Node"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ExternalFiltersAndSequences.@Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -491,24 +494,26 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		public static GRGEN_LIBGR.AttributeType AttributeType_de_deque_member_type;
 		public NodeType_N() : base((int) NodeTypes.@N)
 		{
-			AttributeType_i = new GRGEN_LIBGR.AttributeType("i", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
-			AttributeType_s = new GRGEN_LIBGR.AttributeType("s", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
-			AttributeType_o = new GRGEN_LIBGR.AttributeType("o", this, GRGEN_LIBGR.AttributeKind.ObjectAttr, null, null, null, null, typeof(object));
-			AttributeType_b = new GRGEN_LIBGR.AttributeType("b", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, typeof(bool));
-			AttributeType_f = new GRGEN_LIBGR.AttributeType("f", this, GRGEN_LIBGR.AttributeKind.FloatAttr, null, null, null, null, typeof(float));
-			AttributeType_d = new GRGEN_LIBGR.AttributeType("d", this, GRGEN_LIBGR.AttributeKind.DoubleAttr, null, null, null, null, typeof(double));
-			AttributeType_enu = new GRGEN_LIBGR.AttributeType("enu", this, GRGEN_LIBGR.AttributeKind.EnumAttr, GRGEN_MODEL.Enums.@Enu, null, null, null, typeof(GRGEN_MODEL.ENUM_Enu));
-			AttributeType_si_set_member_type = new GRGEN_LIBGR.AttributeType("si_set_member_type", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
-			AttributeType_si = new GRGEN_LIBGR.AttributeType("si", this, GRGEN_LIBGR.AttributeKind.SetAttr, null, AttributeType_si_set_member_type, null, null, typeof(Dictionary<int, GRGEN_LIBGR.SetValueType>));
-			AttributeType_mso_map_domain_type = new GRGEN_LIBGR.AttributeType("mso_map_domain_type", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, typeof(string));
-			AttributeType_mso_map_range_type = new GRGEN_LIBGR.AttributeType("mso_map_range_type", this, GRGEN_LIBGR.AttributeKind.ObjectAttr, null, null, null, null, typeof(object));
-			AttributeType_mso = new GRGEN_LIBGR.AttributeType("mso", this, GRGEN_LIBGR.AttributeKind.MapAttr, null, AttributeType_mso_map_range_type, AttributeType_mso_map_domain_type, null, typeof(Dictionary<string, object>));
-			AttributeType_a_array_member_type = new GRGEN_LIBGR.AttributeType("a_array_member_type", this, GRGEN_LIBGR.AttributeKind.DoubleAttr, null, null, null, null, typeof(double));
-			AttributeType_a = new GRGEN_LIBGR.AttributeType("a", this, GRGEN_LIBGR.AttributeKind.ArrayAttr, null, AttributeType_a_array_member_type, null, null, typeof(List<double>));
-			AttributeType_de_deque_member_type = new GRGEN_LIBGR.AttributeType("de_deque_member_type", this, GRGEN_LIBGR.AttributeKind.DoubleAttr, null, null, null, null, typeof(double));
-			AttributeType_de = new GRGEN_LIBGR.AttributeType("de", this, GRGEN_LIBGR.AttributeKind.DequeAttr, null, AttributeType_de_deque_member_type, null, null, typeof(GRGEN_LIBGR.Deque<double>));
+			AttributeType_i = new GRGEN_LIBGR.AttributeType("i", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
+			AttributeType_s = new GRGEN_LIBGR.AttributeType("s", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, null, null, typeof(string));
+			AttributeType_o = new GRGEN_LIBGR.AttributeType("o", this, GRGEN_LIBGR.AttributeKind.ObjectAttr, null, null, null, null, null, null, typeof(object));
+			AttributeType_b = new GRGEN_LIBGR.AttributeType("b", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null, null, null, typeof(bool));
+			AttributeType_f = new GRGEN_LIBGR.AttributeType("f", this, GRGEN_LIBGR.AttributeKind.FloatAttr, null, null, null, null, null, null, typeof(float));
+			AttributeType_d = new GRGEN_LIBGR.AttributeType("d", this, GRGEN_LIBGR.AttributeKind.DoubleAttr, null, null, null, null, null, null, typeof(double));
+			AttributeType_enu = new GRGEN_LIBGR.AttributeType("enu", this, GRGEN_LIBGR.AttributeKind.EnumAttr, GRGEN_MODEL.Enums.@Enu, null, null, null, null, null, typeof(GRGEN_MODEL.ENUM_Enu));
+			AttributeType_si_set_member_type = new GRGEN_LIBGR.AttributeType("si_set_member_type", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
+			AttributeType_si = new GRGEN_LIBGR.AttributeType("si", this, GRGEN_LIBGR.AttributeKind.SetAttr, null, AttributeType_si_set_member_type, null, null, null, null, typeof(Dictionary<int, GRGEN_LIBGR.SetValueType>));
+			AttributeType_mso_map_domain_type = new GRGEN_LIBGR.AttributeType("mso_map_domain_type", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, null, null, null, null, null, typeof(string));
+			AttributeType_mso_map_range_type = new GRGEN_LIBGR.AttributeType("mso_map_range_type", this, GRGEN_LIBGR.AttributeKind.ObjectAttr, null, null, null, null, null, null, typeof(object));
+			AttributeType_mso = new GRGEN_LIBGR.AttributeType("mso", this, GRGEN_LIBGR.AttributeKind.MapAttr, null, AttributeType_mso_map_range_type, AttributeType_mso_map_domain_type, null, null, null, typeof(Dictionary<string, object>));
+			AttributeType_a_array_member_type = new GRGEN_LIBGR.AttributeType("a_array_member_type", this, GRGEN_LIBGR.AttributeKind.DoubleAttr, null, null, null, null, null, null, typeof(double));
+			AttributeType_a = new GRGEN_LIBGR.AttributeType("a", this, GRGEN_LIBGR.AttributeKind.ArrayAttr, null, AttributeType_a_array_member_type, null, null, null, null, typeof(List<double>));
+			AttributeType_de_deque_member_type = new GRGEN_LIBGR.AttributeType("de_deque_member_type", this, GRGEN_LIBGR.AttributeKind.DoubleAttr, null, null, null, null, null, null, typeof(double));
+			AttributeType_de = new GRGEN_LIBGR.AttributeType("de", this, GRGEN_LIBGR.AttributeKind.DequeAttr, null, AttributeType_de_deque_member_type, null, null, null, null, typeof(GRGEN_LIBGR.Deque<double>));
 		}
 		public override string Name { get { return "N"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "N"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ExternalFiltersAndSequences.IN"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ExternalFiltersAndSequences.@N"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -571,7 +576,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			GRGEN_MODEL.@N newNode = new GRGEN_MODEL.@N();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@N:
+				case (int) GRGEN_MODEL.NodeTypes.@N:
 					// copy attributes for: N
 					{
 						GRGEN_MODEL.IN old = (GRGEN_MODEL.IN) oldNode;
@@ -595,86 +600,10 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	}
 
 	//
-	// Node model
-	//
-
-	public sealed class ExternalFiltersAndSequencesNodeModel : GRGEN_LIBGR.INodeModel
-	{
-		public ExternalFiltersAndSequencesNodeModel()
-		{
-			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-				GRGEN_MODEL.NodeType_N.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_N.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_Node.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_N.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_N.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_N.typeVar,
-			};
-			GRGEN_MODEL.NodeType_N.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_N.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			GRGEN_MODEL.NodeType_N.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_N.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_N.typeVar,
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-			GRGEN_MODEL.NodeType_N.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_N.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				GRGEN_MODEL.NodeType_Node.typeVar,
-			};
-		}
-		public bool IsNodeModel { get { return true; } }
-		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
-		public GRGEN_LIBGR.NodeType GetType(string name)
-		{
-			switch(name)
-			{
-				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
-				case "N" : return GRGEN_MODEL.NodeType_N.typeVar;
-			}
-			return null;
-		}
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
-		{
-			return GetType(name);
-		}
-		private GRGEN_LIBGR.NodeType[] types = {
-			GRGEN_MODEL.NodeType_Node.typeVar,
-			GRGEN_MODEL.NodeType_N.typeVar,
-		};
-		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
-		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
-			typeof(GRGEN_MODEL.NodeType_Node),
-			typeof(GRGEN_MODEL.NodeType_N),
-		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
-		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
-			GRGEN_MODEL.NodeType_N.AttributeType_i,
-			GRGEN_MODEL.NodeType_N.AttributeType_s,
-			GRGEN_MODEL.NodeType_N.AttributeType_o,
-			GRGEN_MODEL.NodeType_N.AttributeType_b,
-			GRGEN_MODEL.NodeType_N.AttributeType_f,
-			GRGEN_MODEL.NodeType_N.AttributeType_d,
-			GRGEN_MODEL.NodeType_N.AttributeType_enu,
-			GRGEN_MODEL.NodeType_N.AttributeType_si,
-			GRGEN_MODEL.NodeType_N.AttributeType_mso,
-			GRGEN_MODEL.NodeType_N.AttributeType_a,
-			GRGEN_MODEL.NodeType_N.AttributeType_de,
-		};
-		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
-	}
-
-	//
 	// Edge types
 	//
 
-	public enum EdgeTypes { @AEdge, @Edge, @UEdge, @E };
+	public enum EdgeTypes { @AEdge=0, @Edge=1, @UEdge=2, @E=3 };
 
 	// *** Edge AEdge ***
 
@@ -690,6 +619,8 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		{
 		}
 		public override string Name { get { return "AEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "AEdge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return null; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
@@ -841,6 +772,8 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		{
 		}
 		public override string Name { get { return "Edge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Edge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ExternalFiltersAndSequences.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -993,6 +926,8 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		{
 		}
 		public override string Name { get { return "UEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "UEdge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ExternalFiltersAndSequences.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
@@ -1154,6 +1089,8 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		{
 		}
 		public override string Name { get { return "E"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "E"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ExternalFiltersAndSequences.IE"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ExternalFiltersAndSequences.@E"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
@@ -1188,6 +1125,83 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			return new GRGEN_MODEL.@E((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+	}
+	//-----------------------------------------------------------
+
+	//
+	// Node model
+	//
+
+	public sealed class ExternalFiltersAndSequencesNodeModel : GRGEN_LIBGR.INodeModel
+	{
+		public ExternalFiltersAndSequencesNodeModel()
+		{
+			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_N.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_N.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_N.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_N.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_N.typeVar,
+			};
+			GRGEN_MODEL.NodeType_N.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_N.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_N.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_N.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_N.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_N.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_N.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+		}
+		public bool IsNodeModel { get { return true; } }
+		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		public GRGEN_LIBGR.NodeType GetType(string name)
+		{
+			switch(name)
+			{
+				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
+				case "N" : return GRGEN_MODEL.NodeType_N.typeVar;
+			}
+			return null;
+		}
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
+		{
+			return GetType(name);
+		}
+		private GRGEN_LIBGR.NodeType[] types = {
+			GRGEN_MODEL.NodeType_Node.typeVar,
+			GRGEN_MODEL.NodeType_N.typeVar,
+		};
+		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
+		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
+		private System.Type[] typeTypes = {
+			typeof(GRGEN_MODEL.NodeType_Node),
+			typeof(GRGEN_MODEL.NodeType_N),
+		};
+		public System.Type[] TypeTypes { get { return typeTypes; } }
+		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
+			GRGEN_MODEL.NodeType_N.AttributeType_i,
+			GRGEN_MODEL.NodeType_N.AttributeType_s,
+			GRGEN_MODEL.NodeType_N.AttributeType_o,
+			GRGEN_MODEL.NodeType_N.AttributeType_b,
+			GRGEN_MODEL.NodeType_N.AttributeType_f,
+			GRGEN_MODEL.NodeType_N.AttributeType_d,
+			GRGEN_MODEL.NodeType_N.AttributeType_enu,
+			GRGEN_MODEL.NodeType_N.AttributeType_si,
+			GRGEN_MODEL.NodeType_N.AttributeType_mso,
+			GRGEN_MODEL.NodeType_N.AttributeType_a,
+			GRGEN_MODEL.NodeType_N.AttributeType_de,
+		};
+		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
 	}
 
 	//
@@ -1303,17 +1317,20 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 
 		private ExternalFiltersAndSequencesNodeModel nodeModel = new ExternalFiltersAndSequencesNodeModel();
 		private ExternalFiltersAndSequencesEdgeModel edgeModel = new ExternalFiltersAndSequencesEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 			GRGEN_MODEL.Enums.@Enu,
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 
 		public string ModelName { get { return "ExternalFiltersAndSequences"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -1391,17 +1408,20 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 
 		private ExternalFiltersAndSequencesNodeModel nodeModel = new ExternalFiltersAndSequencesNodeModel();
 		private ExternalFiltersAndSequencesEdgeModel edgeModel = new ExternalFiltersAndSequencesEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 			GRGEN_MODEL.Enums.@Enu,
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 
 		public string ModelName { get { return "ExternalFiltersAndSequences"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -1504,17 +1524,20 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 
 		private ExternalFiltersAndSequencesNodeModel nodeModel = new ExternalFiltersAndSequencesNodeModel();
 		private ExternalFiltersAndSequencesEdgeModel edgeModel = new ExternalFiltersAndSequencesEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 			GRGEN_MODEL.Enums.@Enu,
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 
 		public string ModelName { get { return "ExternalFiltersAndSequences"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{

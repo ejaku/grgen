@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Dec 15 22:30:32 CET 2013
+// Generated from "test.grg" on Wed Jan 08 16:09:07 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 namespace de.unika.ipd.grGen.Model_complModel
 {
 	using GRGEN_MODEL = de.unika.ipd.grGen.Model_complModel;
+
 	//
 	// Enums
 	//
@@ -24,7 +25,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 	// Node types
 	//
 
-	public enum NodeTypes { @Node, @A1, @A2, @A3, @A4, @A5, @B21, @B22, @B23, @B41, @B42, @B43, @C221, @C222_411, @C412_421_431_51, @C432_422, @D11_2221, @D2211_2222_31, @D231_4121 };
+	public enum NodeTypes { @Node=0, @A1=1, @A2=2, @A3=3, @A4=4, @A5=5, @B21=6, @B22=7, @B23=8, @B41=9, @B42=10, @B43=11, @C221=12, @C222_411=13, @C412_421_431_51=14, @C432_422=15, @D11_2221=16, @D2211_2222_31=17, @D231_4121=18 };
 
 	// *** Node Node ***
 
@@ -139,6 +140,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 		}
 		public override string Name { get { return "Node"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Node"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -311,9 +314,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_a1;
 		public NodeType_A1() : base((int) NodeTypes.@A1)
 		{
-			AttributeType_a1 = new GRGEN_LIBGR.AttributeType("a1", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_a1 = new GRGEN_LIBGR.AttributeType("a1", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "A1"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "A1"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IA1"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@A1"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -356,8 +361,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@A1 newNode = new GRGEN_MODEL.@A1();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A1:
-				case (int) NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@A1:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
 					// copy attributes for: A1
 					{
 						GRGEN_MODEL.IA1 old = (GRGEN_MODEL.IA1) oldNode;
@@ -512,9 +517,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_a2;
 		public NodeType_A2() : base((int) NodeTypes.@A2)
 		{
-			AttributeType_a2 = new GRGEN_LIBGR.AttributeType("a2", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_a2 = new GRGEN_LIBGR.AttributeType("a2", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "A2"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "A2"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IA2"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@A2"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -557,15 +564,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@A2 newNode = new GRGEN_MODEL.@A2();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A2:
-				case (int) NodeTypes.@B21:
-				case (int) NodeTypes.@B22:
-				case (int) NodeTypes.@B23:
-				case (int) NodeTypes.@C221:
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@D11_2221:
-				case (int) NodeTypes.@D2211_2222_31:
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@A2:
+				case (int) GRGEN_MODEL.NodeTypes.@B21:
+				case (int) GRGEN_MODEL.NodeTypes.@B22:
+				case (int) GRGEN_MODEL.NodeTypes.@B23:
+				case (int) GRGEN_MODEL.NodeTypes.@C221:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
 						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
@@ -720,9 +727,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_a3;
 		public NodeType_A3() : base((int) NodeTypes.@A3)
 		{
-			AttributeType_a3 = new GRGEN_LIBGR.AttributeType("a3", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_a3 = new GRGEN_LIBGR.AttributeType("a3", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "A3"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "A3"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IA3"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@A3"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -765,8 +774,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@A3 newNode = new GRGEN_MODEL.@A3();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A3:
-				case (int) NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@A3:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
 					// copy attributes for: A3
 					{
 						GRGEN_MODEL.IA3 old = (GRGEN_MODEL.IA3) oldNode;
@@ -921,9 +930,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_a4;
 		public NodeType_A4() : base((int) NodeTypes.@A4)
 		{
-			AttributeType_a4 = new GRGEN_LIBGR.AttributeType("a4", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_a4 = new GRGEN_LIBGR.AttributeType("a4", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "A4"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "A4"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IA4"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@A4"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -966,16 +977,16 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@A4 newNode = new GRGEN_MODEL.@A4();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A4:
-				case (int) NodeTypes.@B41:
-				case (int) NodeTypes.@B42:
-				case (int) NodeTypes.@B43:
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@C412_421_431_51:
-				case (int) NodeTypes.@C432_422:
-				case (int) NodeTypes.@D11_2221:
-				case (int) NodeTypes.@D2211_2222_31:
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@A4:
+				case (int) GRGEN_MODEL.NodeTypes.@B41:
+				case (int) GRGEN_MODEL.NodeTypes.@B42:
+				case (int) GRGEN_MODEL.NodeTypes.@B43:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@C412_421_431_51:
+				case (int) GRGEN_MODEL.NodeTypes.@C432_422:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: A4
 					{
 						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
@@ -1130,9 +1141,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_a5;
 		public NodeType_A5() : base((int) NodeTypes.@A5)
 		{
-			AttributeType_a5 = new GRGEN_LIBGR.AttributeType("a5", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_a5 = new GRGEN_LIBGR.AttributeType("a5", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "A5"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "A5"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IA5"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@A5"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -1175,9 +1188,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@A5 newNode = new GRGEN_MODEL.@A5();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A5:
-				case (int) NodeTypes.@C412_421_431_51:
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@A5:
+				case (int) GRGEN_MODEL.NodeTypes.@C412_421_431_51:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: A5
 					{
 						GRGEN_MODEL.IA5 old = (GRGEN_MODEL.IA5) oldNode;
@@ -1352,9 +1365,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_b21;
 		public NodeType_B21() : base((int) NodeTypes.@B21)
 		{
-			AttributeType_b21 = new GRGEN_LIBGR.AttributeType("b21", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_b21 = new GRGEN_LIBGR.AttributeType("b21", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "B21"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "B21"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IB21"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@B21"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -1399,21 +1414,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@B21 newNode = new GRGEN_MODEL.@B21();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A2:
-				case (int) NodeTypes.@B22:
-				case (int) NodeTypes.@B23:
-				case (int) NodeTypes.@C221:
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@D11_2221:
-				case (int) NodeTypes.@D2211_2222_31:
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@A2:
+				case (int) GRGEN_MODEL.NodeTypes.@B22:
+				case (int) GRGEN_MODEL.NodeTypes.@B23:
+				case (int) GRGEN_MODEL.NodeTypes.@C221:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
 						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
-				case (int) NodeTypes.@B21:
+				case (int) GRGEN_MODEL.NodeTypes.@B21:
 					// copy attributes for: B21
 					{
 						GRGEN_MODEL.IB21 old = (GRGEN_MODEL.IB21) oldNode;
@@ -1589,9 +1604,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_b22;
 		public NodeType_B22() : base((int) NodeTypes.@B22)
 		{
-			AttributeType_b22 = new GRGEN_LIBGR.AttributeType("b22", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_b22 = new GRGEN_LIBGR.AttributeType("b22", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "B22"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "B22"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IB22"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@B22"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -1636,21 +1653,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@B22 newNode = new GRGEN_MODEL.@B22();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A2:
-				case (int) NodeTypes.@B21:
-				case (int) NodeTypes.@B23:
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@A2:
+				case (int) GRGEN_MODEL.NodeTypes.@B21:
+				case (int) GRGEN_MODEL.NodeTypes.@B23:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
 						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
-				case (int) NodeTypes.@B22:
-				case (int) NodeTypes.@C221:
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@D11_2221:
-				case (int) NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@B22:
+				case (int) GRGEN_MODEL.NodeTypes.@C221:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
 					// copy attributes for: B22
 					{
 						GRGEN_MODEL.IB22 old = (GRGEN_MODEL.IB22) oldNode;
@@ -1826,9 +1843,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_b23;
 		public NodeType_B23() : base((int) NodeTypes.@B23)
 		{
-			AttributeType_b23 = new GRGEN_LIBGR.AttributeType("b23", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_b23 = new GRGEN_LIBGR.AttributeType("b23", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "B23"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "B23"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IB23"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@B23"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -1873,21 +1892,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@B23 newNode = new GRGEN_MODEL.@B23();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A2:
-				case (int) NodeTypes.@B21:
-				case (int) NodeTypes.@B22:
-				case (int) NodeTypes.@C221:
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@D11_2221:
-				case (int) NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@A2:
+				case (int) GRGEN_MODEL.NodeTypes.@B21:
+				case (int) GRGEN_MODEL.NodeTypes.@B22:
+				case (int) GRGEN_MODEL.NodeTypes.@C221:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
 					// copy attributes for: A2
 					{
 						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
-				case (int) NodeTypes.@B23:
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@B23:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: B23
 					{
 						GRGEN_MODEL.IB23 old = (GRGEN_MODEL.IB23) oldNode;
@@ -2063,9 +2082,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_b41;
 		public NodeType_B41() : base((int) NodeTypes.@B41)
 		{
-			AttributeType_b41 = new GRGEN_LIBGR.AttributeType("b41", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_b41 = new GRGEN_LIBGR.AttributeType("b41", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "B41"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "B41"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IB41"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@B41"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -2110,22 +2131,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@B41 newNode = new GRGEN_MODEL.@B41();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A4:
-				case (int) NodeTypes.@B42:
-				case (int) NodeTypes.@B43:
-				case (int) NodeTypes.@C432_422:
+				case (int) GRGEN_MODEL.NodeTypes.@A4:
+				case (int) GRGEN_MODEL.NodeTypes.@B42:
+				case (int) GRGEN_MODEL.NodeTypes.@B43:
+				case (int) GRGEN_MODEL.NodeTypes.@C432_422:
 					// copy attributes for: A4
 					{
 						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
-				case (int) NodeTypes.@B41:
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@C412_421_431_51:
-				case (int) NodeTypes.@D11_2221:
-				case (int) NodeTypes.@D2211_2222_31:
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@B41:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@C412_421_431_51:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: B41
 					{
 						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
@@ -2301,9 +2322,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_b42;
 		public NodeType_B42() : base((int) NodeTypes.@B42)
 		{
-			AttributeType_b42 = new GRGEN_LIBGR.AttributeType("b42", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_b42 = new GRGEN_LIBGR.AttributeType("b42", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "B42"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "B42"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IB42"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@B42"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -2348,22 +2371,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@B42 newNode = new GRGEN_MODEL.@B42();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A4:
-				case (int) NodeTypes.@B41:
-				case (int) NodeTypes.@B43:
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@D11_2221:
-				case (int) NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@A4:
+				case (int) GRGEN_MODEL.NodeTypes.@B41:
+				case (int) GRGEN_MODEL.NodeTypes.@B43:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
 					// copy attributes for: A4
 					{
 						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
-				case (int) NodeTypes.@B42:
-				case (int) NodeTypes.@C412_421_431_51:
-				case (int) NodeTypes.@C432_422:
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@B42:
+				case (int) GRGEN_MODEL.NodeTypes.@C412_421_431_51:
+				case (int) GRGEN_MODEL.NodeTypes.@C432_422:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: B42
 					{
 						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
@@ -2525,6 +2548,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 		}
 		public override string Name { get { return "B43"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "B43"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IB43"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@B43"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -2567,22 +2592,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@B43 newNode = new GRGEN_MODEL.@B43();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A4:
-				case (int) NodeTypes.@B41:
-				case (int) NodeTypes.@B42:
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@D11_2221:
-				case (int) NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@A4:
+				case (int) GRGEN_MODEL.NodeTypes.@B41:
+				case (int) GRGEN_MODEL.NodeTypes.@B42:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
 					// copy attributes for: A4
 					{
 						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
-				case (int) NodeTypes.@B43:
-				case (int) NodeTypes.@C412_421_431_51:
-				case (int) NodeTypes.@C432_422:
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@B43:
+				case (int) GRGEN_MODEL.NodeTypes.@C412_421_431_51:
+				case (int) GRGEN_MODEL.NodeTypes.@C432_422:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: B43
 					{
 						GRGEN_MODEL.IB43 old = (GRGEN_MODEL.IB43) oldNode;
@@ -2777,9 +2802,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_c221;
 		public NodeType_C221() : base((int) NodeTypes.@C221)
 		{
-			AttributeType_c221 = new GRGEN_LIBGR.AttributeType("c221", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_c221 = new GRGEN_LIBGR.AttributeType("c221", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "C221"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "C221"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IC221"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@C221"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -2826,19 +2853,19 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@C221 newNode = new GRGEN_MODEL.@C221();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A2:
-				case (int) NodeTypes.@B21:
-				case (int) NodeTypes.@B23:
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@A2:
+				case (int) GRGEN_MODEL.NodeTypes.@B21:
+				case (int) GRGEN_MODEL.NodeTypes.@B23:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
 						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
-				case (int) NodeTypes.@B22:
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@B22:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
 					// copy attributes for: B22
 					{
 						GRGEN_MODEL.IB22 old = (GRGEN_MODEL.IB22) oldNode;
@@ -2846,8 +2873,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b22 = old.@b22;
 					}
 					break;
-				case (int) NodeTypes.@C221:
-				case (int) NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@C221:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
 					// copy attributes for: C221
 					{
 						GRGEN_MODEL.IC221 old = (GRGEN_MODEL.IC221) oldNode;
@@ -3084,9 +3111,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_c222_411;
 		public NodeType_C222_411() : base((int) NodeTypes.@C222_411)
 		{
-			AttributeType_c222_411 = new GRGEN_LIBGR.AttributeType("c222_411", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_c222_411 = new GRGEN_LIBGR.AttributeType("c222_411", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "C222_411"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "C222_411"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IC222_411"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@C222_411"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -3137,27 +3166,27 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@C222_411 newNode = new GRGEN_MODEL.@C222_411();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A2:
-				case (int) NodeTypes.@B21:
-				case (int) NodeTypes.@B23:
+				case (int) GRGEN_MODEL.NodeTypes.@A2:
+				case (int) GRGEN_MODEL.NodeTypes.@B21:
+				case (int) GRGEN_MODEL.NodeTypes.@B23:
 					// copy attributes for: A2
 					{
 						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
-				case (int) NodeTypes.@A4:
-				case (int) NodeTypes.@B42:
-				case (int) NodeTypes.@B43:
-				case (int) NodeTypes.@C432_422:
+				case (int) GRGEN_MODEL.NodeTypes.@A4:
+				case (int) GRGEN_MODEL.NodeTypes.@B42:
+				case (int) GRGEN_MODEL.NodeTypes.@B43:
+				case (int) GRGEN_MODEL.NodeTypes.@C432_422:
 					// copy attributes for: A4
 					{
 						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
-				case (int) NodeTypes.@B22:
-				case (int) NodeTypes.@C221:
+				case (int) GRGEN_MODEL.NodeTypes.@B22:
+				case (int) GRGEN_MODEL.NodeTypes.@C221:
 					// copy attributes for: B22
 					{
 						GRGEN_MODEL.IB22 old = (GRGEN_MODEL.IB22) oldNode;
@@ -3165,8 +3194,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b22 = old.@b22;
 					}
 					break;
-				case (int) NodeTypes.@B41:
-				case (int) NodeTypes.@C412_421_431_51:
+				case (int) GRGEN_MODEL.NodeTypes.@B41:
+				case (int) GRGEN_MODEL.NodeTypes.@C412_421_431_51:
 					// copy attributes for: B41
 					{
 						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
@@ -3174,9 +3203,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b41 = old.@b41;
 					}
 					break;
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@D11_2221:
-				case (int) NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
 					// copy attributes for: C222_411
 					{
 						GRGEN_MODEL.IC222_411 old = (GRGEN_MODEL.IC222_411) oldNode;
@@ -3187,7 +3216,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@c222_411 = old.@c222_411;
 					}
 					break;
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
 						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
@@ -3420,6 +3449,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 		}
 		public override string Name { get { return "C412_421_431_51"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "C412_421_431_51"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IC412_421_431_51"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@C412_421_431_51"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -3468,24 +3499,24 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@C412_421_431_51 newNode = new GRGEN_MODEL.@C412_421_431_51();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A4:
+				case (int) GRGEN_MODEL.NodeTypes.@A4:
 					// copy attributes for: A4
 					{
 						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
-				case (int) NodeTypes.@A5:
+				case (int) GRGEN_MODEL.NodeTypes.@A5:
 					// copy attributes for: A5
 					{
 						GRGEN_MODEL.IA5 old = (GRGEN_MODEL.IA5) oldNode;
 						newNode.@a5 = old.@a5;
 					}
 					break;
-				case (int) NodeTypes.@B41:
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@D11_2221:
-				case (int) NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@B41:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
 					// copy attributes for: B41
 					{
 						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
@@ -3493,7 +3524,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b41 = old.@b41;
 					}
 					break;
-				case (int) NodeTypes.@B42:
+				case (int) GRGEN_MODEL.NodeTypes.@B42:
 					// copy attributes for: B42
 					{
 						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
@@ -3501,15 +3532,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b42 = old.@b42;
 					}
 					break;
-				case (int) NodeTypes.@B43:
+				case (int) GRGEN_MODEL.NodeTypes.@B43:
 					// copy attributes for: B43
 					{
 						GRGEN_MODEL.IB43 old = (GRGEN_MODEL.IB43) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
-				case (int) NodeTypes.@C412_421_431_51:
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@C412_421_431_51:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: C412_421_431_51
 					{
 						GRGEN_MODEL.IC412_421_431_51 old = (GRGEN_MODEL.IC412_421_431_51) oldNode;
@@ -3519,7 +3550,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@a5 = old.@a5;
 					}
 					break;
-				case (int) NodeTypes.@C432_422:
+				case (int) GRGEN_MODEL.NodeTypes.@C432_422:
 					// copy attributes for: B42
 					{
 						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
@@ -3723,9 +3754,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_c432_422;
 		public NodeType_C432_422() : base((int) NodeTypes.@C432_422)
 		{
-			AttributeType_c432_422 = new GRGEN_LIBGR.AttributeType("c432_422", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_c432_422 = new GRGEN_LIBGR.AttributeType("c432_422", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "C432_422"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "C432_422"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IC432_422"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@C432_422"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -3772,18 +3805,18 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@C432_422 newNode = new GRGEN_MODEL.@C432_422();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A4:
-				case (int) NodeTypes.@B41:
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@D11_2221:
-				case (int) NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@A4:
+				case (int) GRGEN_MODEL.NodeTypes.@B41:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
 					// copy attributes for: A4
 					{
 						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
-				case (int) NodeTypes.@B42:
+				case (int) GRGEN_MODEL.NodeTypes.@B42:
 					// copy attributes for: B42
 					{
 						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
@@ -3791,15 +3824,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b42 = old.@b42;
 					}
 					break;
-				case (int) NodeTypes.@B43:
+				case (int) GRGEN_MODEL.NodeTypes.@B43:
 					// copy attributes for: B43
 					{
 						GRGEN_MODEL.IB43 old = (GRGEN_MODEL.IB43) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
-				case (int) NodeTypes.@C412_421_431_51:
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@C412_421_431_51:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: B42
 					{
 						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
@@ -3809,7 +3842,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 					// copy attributes for: B43
 						// already copied: a4
 					break;
-				case (int) NodeTypes.@C432_422:
+				case (int) GRGEN_MODEL.NodeTypes.@C432_422:
 					// copy attributes for: C432_422
 					{
 						GRGEN_MODEL.IC432_422 old = (GRGEN_MODEL.IC432_422) oldNode;
@@ -4086,9 +4119,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_d11_2221;
 		public NodeType_D11_2221() : base((int) NodeTypes.@D11_2221)
 		{
-			AttributeType_d11_2221 = new GRGEN_LIBGR.AttributeType("d11_2221", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_d11_2221 = new GRGEN_LIBGR.AttributeType("d11_2221", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "D11_2221"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "D11_2221"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.ID11_2221"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@D11_2221"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -4143,34 +4178,34 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@D11_2221 newNode = new GRGEN_MODEL.@D11_2221();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A1:
+				case (int) GRGEN_MODEL.NodeTypes.@A1:
 					// copy attributes for: A1
 					{
 						GRGEN_MODEL.IA1 old = (GRGEN_MODEL.IA1) oldNode;
 						newNode.@a1 = old.@a1;
 					}
 					break;
-				case (int) NodeTypes.@A2:
-				case (int) NodeTypes.@B21:
-				case (int) NodeTypes.@B23:
+				case (int) GRGEN_MODEL.NodeTypes.@A2:
+				case (int) GRGEN_MODEL.NodeTypes.@B21:
+				case (int) GRGEN_MODEL.NodeTypes.@B23:
 					// copy attributes for: A2
 					{
 						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
-				case (int) NodeTypes.@A4:
-				case (int) NodeTypes.@B42:
-				case (int) NodeTypes.@B43:
-				case (int) NodeTypes.@C432_422:
+				case (int) GRGEN_MODEL.NodeTypes.@A4:
+				case (int) GRGEN_MODEL.NodeTypes.@B42:
+				case (int) GRGEN_MODEL.NodeTypes.@B43:
+				case (int) GRGEN_MODEL.NodeTypes.@C432_422:
 					// copy attributes for: A4
 					{
 						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
-				case (int) NodeTypes.@B22:
-				case (int) NodeTypes.@C221:
+				case (int) GRGEN_MODEL.NodeTypes.@B22:
+				case (int) GRGEN_MODEL.NodeTypes.@C221:
 					// copy attributes for: B22
 					{
 						GRGEN_MODEL.IB22 old = (GRGEN_MODEL.IB22) oldNode;
@@ -4178,8 +4213,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b22 = old.@b22;
 					}
 					break;
-				case (int) NodeTypes.@B41:
-				case (int) NodeTypes.@C412_421_431_51:
+				case (int) GRGEN_MODEL.NodeTypes.@B41:
+				case (int) GRGEN_MODEL.NodeTypes.@C412_421_431_51:
 					// copy attributes for: B41
 					{
 						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
@@ -4187,8 +4222,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b41 = old.@b41;
 					}
 					break;
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
 					// copy attributes for: C222_411
 					{
 						GRGEN_MODEL.IC222_411 old = (GRGEN_MODEL.IC222_411) oldNode;
@@ -4199,7 +4234,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@c222_411 = old.@c222_411;
 					}
 					break;
-				case (int) NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
 					// copy attributes for: D11_2221
 					{
 						GRGEN_MODEL.ID11_2221 old = (GRGEN_MODEL.ID11_2221) oldNode;
@@ -4212,7 +4247,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@d11_2221 = old.@d11_2221;
 					}
 					break;
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
 						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
@@ -4513,9 +4548,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_d2211_2222_31;
 		public NodeType_D2211_2222_31() : base((int) NodeTypes.@D2211_2222_31)
 		{
-			AttributeType_d2211_2222_31 = new GRGEN_LIBGR.AttributeType("d2211_2222_31", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_d2211_2222_31 = new GRGEN_LIBGR.AttributeType("d2211_2222_31", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "D2211_2222_31"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "D2211_2222_31"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.ID2211_2222_31"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@D2211_2222_31"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -4572,33 +4609,33 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@D2211_2222_31 newNode = new GRGEN_MODEL.@D2211_2222_31();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A2:
-				case (int) NodeTypes.@B21:
-				case (int) NodeTypes.@B23:
+				case (int) GRGEN_MODEL.NodeTypes.@A2:
+				case (int) GRGEN_MODEL.NodeTypes.@B21:
+				case (int) GRGEN_MODEL.NodeTypes.@B23:
 					// copy attributes for: A2
 					{
 						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
-				case (int) NodeTypes.@A3:
+				case (int) GRGEN_MODEL.NodeTypes.@A3:
 					// copy attributes for: A3
 					{
 						GRGEN_MODEL.IA3 old = (GRGEN_MODEL.IA3) oldNode;
 						newNode.@a3 = old.@a3;
 					}
 					break;
-				case (int) NodeTypes.@A4:
-				case (int) NodeTypes.@B42:
-				case (int) NodeTypes.@B43:
-				case (int) NodeTypes.@C432_422:
+				case (int) GRGEN_MODEL.NodeTypes.@A4:
+				case (int) GRGEN_MODEL.NodeTypes.@B42:
+				case (int) GRGEN_MODEL.NodeTypes.@B43:
+				case (int) GRGEN_MODEL.NodeTypes.@C432_422:
 					// copy attributes for: A4
 					{
 						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
-				case (int) NodeTypes.@B22:
+				case (int) GRGEN_MODEL.NodeTypes.@B22:
 					// copy attributes for: B22
 					{
 						GRGEN_MODEL.IB22 old = (GRGEN_MODEL.IB22) oldNode;
@@ -4606,8 +4643,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b22 = old.@b22;
 					}
 					break;
-				case (int) NodeTypes.@B41:
-				case (int) NodeTypes.@C412_421_431_51:
+				case (int) GRGEN_MODEL.NodeTypes.@B41:
+				case (int) GRGEN_MODEL.NodeTypes.@C412_421_431_51:
 					// copy attributes for: B41
 					{
 						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
@@ -4615,7 +4652,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b41 = old.@b41;
 					}
 					break;
-				case (int) NodeTypes.@C221:
+				case (int) GRGEN_MODEL.NodeTypes.@C221:
 					// copy attributes for: C221
 					{
 						GRGEN_MODEL.IC221 old = (GRGEN_MODEL.IC221) oldNode;
@@ -4624,8 +4661,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@c221 = old.@c221;
 					}
 					break;
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
 					// copy attributes for: C222_411
 					{
 						GRGEN_MODEL.IC222_411 old = (GRGEN_MODEL.IC222_411) oldNode;
@@ -4636,7 +4673,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@c222_411 = old.@c222_411;
 					}
 					break;
-				case (int) NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
 					// copy attributes for: D2211_2222_31
 					{
 						GRGEN_MODEL.ID2211_2222_31 old = (GRGEN_MODEL.ID2211_2222_31) oldNode;
@@ -4650,7 +4687,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@d2211_2222_31 = old.@d2211_2222_31;
 					}
 					break;
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
 						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
@@ -4874,9 +4911,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_LIBGR.AttributeType AttributeType_d231_4121;
 		public NodeType_D231_4121() : base((int) NodeTypes.@D231_4121)
 		{
-			AttributeType_d231_4121 = new GRGEN_LIBGR.AttributeType("d231_4121", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, typeof(int));
+			AttributeType_d231_4121 = new GRGEN_LIBGR.AttributeType("d231_4121", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 		}
 		public override string Name { get { return "D231_4121"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "D231_4121"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.ID231_4121"; } }
 		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@D231_4121"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
@@ -4931,31 +4970,31 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.@D231_4121 newNode = new global::test.D231_4121_Impl();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A2:
-				case (int) NodeTypes.@B21:
-				case (int) NodeTypes.@B22:
-				case (int) NodeTypes.@C221:
+				case (int) GRGEN_MODEL.NodeTypes.@A2:
+				case (int) GRGEN_MODEL.NodeTypes.@B21:
+				case (int) GRGEN_MODEL.NodeTypes.@B22:
+				case (int) GRGEN_MODEL.NodeTypes.@C221:
 					// copy attributes for: A2
 					{
 						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
-				case (int) NodeTypes.@A4:
+				case (int) GRGEN_MODEL.NodeTypes.@A4:
 					// copy attributes for: A4
 					{
 						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
-				case (int) NodeTypes.@A5:
+				case (int) GRGEN_MODEL.NodeTypes.@A5:
 					// copy attributes for: A5
 					{
 						GRGEN_MODEL.IA5 old = (GRGEN_MODEL.IA5) oldNode;
 						newNode.@a5 = old.@a5;
 					}
 					break;
-				case (int) NodeTypes.@B23:
+				case (int) GRGEN_MODEL.NodeTypes.@B23:
 					// copy attributes for: B23
 					{
 						GRGEN_MODEL.IB23 old = (GRGEN_MODEL.IB23) oldNode;
@@ -4963,7 +5002,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b23 = old.@b23;
 					}
 					break;
-				case (int) NodeTypes.@B41:
+				case (int) GRGEN_MODEL.NodeTypes.@B41:
 					// copy attributes for: B41
 					{
 						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
@@ -4971,7 +5010,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b41 = old.@b41;
 					}
 					break;
-				case (int) NodeTypes.@B42:
+				case (int) GRGEN_MODEL.NodeTypes.@B42:
 					// copy attributes for: B42
 					{
 						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
@@ -4979,16 +5018,16 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b42 = old.@b42;
 					}
 					break;
-				case (int) NodeTypes.@B43:
+				case (int) GRGEN_MODEL.NodeTypes.@B43:
 					// copy attributes for: B43
 					{
 						GRGEN_MODEL.IB43 old = (GRGEN_MODEL.IB43) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
-				case (int) NodeTypes.@C222_411:
-				case (int) NodeTypes.@D11_2221:
-				case (int) NodeTypes.@D2211_2222_31:
+				case (int) GRGEN_MODEL.NodeTypes.@C222_411:
+				case (int) GRGEN_MODEL.NodeTypes.@D11_2221:
+				case (int) GRGEN_MODEL.NodeTypes.@D2211_2222_31:
 					// copy attributes for: A2
 					{
 						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
@@ -5001,7 +5040,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@b41 = old.@b41;
 					}
 					break;
-				case (int) NodeTypes.@C412_421_431_51:
+				case (int) GRGEN_MODEL.NodeTypes.@C412_421_431_51:
 					// copy attributes for: C412_421_431_51
 					{
 						GRGEN_MODEL.IC412_421_431_51 old = (GRGEN_MODEL.IC412_421_431_51) oldNode;
@@ -5011,7 +5050,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 						newNode.@a5 = old.@a5;
 					}
 					break;
-				case (int) NodeTypes.@C432_422:
+				case (int) GRGEN_MODEL.NodeTypes.@C432_422:
 					// copy attributes for: B42
 					{
 						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
@@ -5021,7 +5060,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 					// copy attributes for: B43
 						// already copied: a4
 					break;
-				case (int) NodeTypes.@D231_4121:
+				case (int) GRGEN_MODEL.NodeTypes.@D231_4121:
 					// copy attributes for: D231_4121
 					{
 						GRGEN_MODEL.ID231_4121 old = (GRGEN_MODEL.ID231_4121) oldNode;
@@ -5039,6 +5078,372 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 	}
+
+	//
+	// Edge types
+	//
+
+	public enum EdgeTypes { @AEdge=0, @Edge=1, @UEdge=2 };
+
+	// *** Edge AEdge ***
+
+
+	public sealed class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
+		public static bool[] isA = new bool[] { true, false, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { true, true, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_AEdge() : base((int) EdgeTypes.@AEdge)
+		{
+		}
+		public override string Name { get { return "AEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "AEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return null; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			throw new Exception("The abstract edge type AEdge does not support source and target setting!");
+		}
+		public override bool IsAbstract { get { return true; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			throw new Exception("Cannot retype to the abstract type AEdge!");
+		}
+	}
+
+	// *** Edge Edge ***
+
+
+	public sealed class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
+		
+		static @Edge() {
+		}
+		
+		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
+		{
+			// implicit initialization, container creation of Edge
+		}
+
+		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @Edge)) return false;
+			@Edge that_ = (@Edge)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@Edge edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@Edge(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of Edge
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@Edge edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@Edge(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of Edge
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of Edge
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Edge does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Edge does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_Edge : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
+		public static bool[] isA = new bool[] { true, true, false, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, true, false, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
+		{
+		}
+		public override string Name { get { return "Edge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Edge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@Edge"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+
+	// *** Edge UEdge ***
+
+
+	public sealed class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
+		
+		static @UEdge() {
+		}
+		
+		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
+		{
+			// implicit initialization, container creation of UEdge
+		}
+
+		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @UEdge)) return false;
+			@UEdge that_ = (@UEdge)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@UEdge edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@UEdge(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of UEdge
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		{
+			GRGEN_MODEL.@UEdge edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@UEdge(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, container creation of UEdge
+			}
+			graph.AddEdge(edge, edgeName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of UEdge
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("UEdge does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("UEdge does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
+		public static bool[] isA = new bool[] { true, false, true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public EdgeType_UEdge() : base((int) EdgeTypes.@UEdge)
+		{
+		}
+		public override string Name { get { return "UEdge"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "UEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@UEdge"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+	//-----------------------------------------------------------
 
 	//
 	// Node model
@@ -5511,365 +5916,6 @@ namespace de.unika.ipd.grGen.Model_complModel
 	}
 
 	//
-	// Edge types
-	//
-
-	public enum EdgeTypes { @AEdge, @Edge, @UEdge };
-
-	// *** Edge AEdge ***
-
-
-	public sealed class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
-		public static bool[] isA = new bool[] { true, false, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { true, true, true, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_AEdge() : base((int) EdgeTypes.@AEdge)
-		{
-		}
-		public override string Name { get { return "AEdge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override string EdgeClassName { get { return null; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			throw new Exception("The abstract edge type AEdge does not support source and target setting!");
-		}
-		public override bool IsAbstract { get { return true; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			throw new Exception("Cannot retype to the abstract type AEdge!");
-		}
-	}
-
-	// *** Edge Edge ***
-
-
-	public sealed class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
-		static @Edge() {
-		}
-		
-		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
-		{
-			// implicit initialization, container creation of Edge
-		}
-
-		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @Edge)) return false;
-			@Edge that_ = (@Edge)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@Edge edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@Edge(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of Edge
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@Edge edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@Edge(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of Edge
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of Edge
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("Edge does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("Edge does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_Edge : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
-		public static bool[] isA = new bool[] { true, true, false, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, true, false, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
-		{
-		}
-		public override string Name { get { return "Edge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@Edge"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	// *** Edge UEdge ***
-
-
-	public sealed class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
-	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
-		static @UEdge() {
-		}
-		
-		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
-		{
-			// implicit initialization, container creation of UEdge
-		}
-
-		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
-
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
-
-		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
-		{
-		}
-
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @UEdge)) return false;
-			@UEdge that_ = (@UEdge)that;
-			return true
-			;
-		}
-
-		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-		{
-			GRGEN_MODEL.@UEdge edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@UEdge(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of UEdge
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
-		{
-			GRGEN_MODEL.@UEdge edge;
-			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@UEdge(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.lgspSource = source;
-				edge.lgspTarget = target;
-				// implicit initialization, container creation of UEdge
-			}
-			graph.AddEdge(edge, edgeName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-			// implicit initialization, container creation of UEdge
-		}
-
-		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("UEdge does not have the function method " + name + "!");
-			}
-		}
-		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
-		{
-			switch(name)
-			{
-				default: throw new NullReferenceException("UEdge does not have the procedure method " + name + "!");
-			}
-		}
-	}
-
-	public sealed class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
-	{
-		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
-		public static bool[] isA = new bool[] { true, false, true, };
-		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, false, true, };
-		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_UEdge() : base((int) EdgeTypes.@UEdge)
-		{
-		}
-		public override string Name { get { return "UEdge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_complModel.@UEdge"; } }
-		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
-		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
-		{
-			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-		public override bool IsAbstract { get { return false; } }
-		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
-		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
-		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
-		public override bool IsA(GRGEN_LIBGR.GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
-		{
-			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
-		}
-
-	}
-
-	//
 	// Edge model
 	//
 
@@ -5963,16 +6009,19 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private complModelNodeModel nodeModel = new complModelNodeModel();
 		private complModelEdgeModel edgeModel = new complModelEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 
 		public string ModelName { get { return "complModel"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -6130,16 +6179,19 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private complModelNodeModel nodeModel = new complModelNodeModel();
 		private complModelEdgeModel edgeModel = new complModelEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 
 		public string ModelName { get { return "complModel"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -6402,16 +6454,19 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private complModelNodeModel nodeModel = new complModelNodeModel();
 		private complModelEdgeModel edgeModel = new complModelEdgeModel();
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 
 		public string ModelName { get { return "complModel"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{

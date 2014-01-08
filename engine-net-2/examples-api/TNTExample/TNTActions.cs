@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Dec 15 22:31:12 CET 2013
+// Generated from "..\..\tests\TNT\TNT.grg" on Wed Jan 08 16:10:03 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 using GRGEN_MODEL = de.unika.ipd.grGen.Model_TNT;
+using GRGEN_ACTIONS = de.unika.ipd.grGen.Action_TNT;
 
 namespace de.unika.ipd.grGen.Action_TNT
 {
@@ -111,6 +112,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRing = new GRGEN_LGSP.PatternGraph(
 				"BenzolRing",
 				"",
+				null, "BenzolRing",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { BenzolRing_node_c1, BenzolRing_node_c2, BenzolRing_node_c3, BenzolRing_node_c4, BenzolRing_node_c5, BenzolRing_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { BenzolRing_edge__edge0, BenzolRing_edge__edge1, BenzolRing_edge__edge2, BenzolRing_edge__edge3, BenzolRing_edge__edge4, BenzolRing_edge__edge5, BenzolRing_edge__edge6, BenzolRing_edge__edge7, BenzolRing_edge__edge8 }, 
@@ -595,6 +597,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRingC123456Exposed = new GRGEN_LGSP.PatternGraph(
 				"BenzolRingC123456Exposed",
 				"",
+				null, "BenzolRingC123456Exposed",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { BenzolRingC123456Exposed_node_c1, BenzolRingC123456Exposed_node_c2, BenzolRingC123456Exposed_node_c3, BenzolRingC123456Exposed_node_c4, BenzolRingC123456Exposed_node_c5, BenzolRingC123456Exposed_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { BenzolRingC123456Exposed_edge__edge0, BenzolRingC123456Exposed_edge__edge1, BenzolRingC123456Exposed_edge__edge2, BenzolRingC123456Exposed_edge__edge3, BenzolRingC123456Exposed_edge__edge4, BenzolRingC123456Exposed_edge__edge5, BenzolRingC123456Exposed_edge__edge6, BenzolRingC123456Exposed_edge__edge7, BenzolRingC123456Exposed_edge__edge8 }, 
@@ -1055,6 +1058,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRingC1Exposed = new GRGEN_LGSP.PatternGraph(
 				"BenzolRingC1Exposed",
 				"",
+				null, "BenzolRingC1Exposed",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { BenzolRingC1Exposed_node_c1, BenzolRingC1Exposed_node_c2, BenzolRingC1Exposed_node_c3, BenzolRingC1Exposed_node_c4, BenzolRingC1Exposed_node_c5, BenzolRingC1Exposed_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { BenzolRingC1Exposed_edge__edge0, BenzolRingC1Exposed_edge__edge1, BenzolRingC1Exposed_edge__edge2, BenzolRingC1Exposed_edge__edge3, BenzolRingC1Exposed_edge__edge4, BenzolRingC1Exposed_edge__edge5, BenzolRingC1Exposed_edge__edge6, BenzolRingC1Exposed_edge__edge7, BenzolRingC1Exposed_edge__edge8 }, 
@@ -1576,6 +1580,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			BenzolRingC1ExposedNotC6Nitro_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"BenzolRingC1ExposedNotC6Nitro_",
+				null, "neg_0",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { BenzolRingC1ExposedNotC6Nitro_node_c6, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 }, 
 				new GRGEN_LGSP.PatternEdge[] { BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 }, 
@@ -1613,6 +1618,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRingC1ExposedNotC6Nitro = new GRGEN_LGSP.PatternGraph(
 				"BenzolRingC1ExposedNotC6Nitro",
 				"",
+				null, "BenzolRingC1ExposedNotC6Nitro",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { BenzolRingC1ExposedNotC6Nitro_node_c1, BenzolRingC1ExposedNotC6Nitro_node_c2, BenzolRingC1ExposedNotC6Nitro_node_c3, BenzolRingC1ExposedNotC6Nitro_node_c4, BenzolRingC1ExposedNotC6Nitro_node_c5, BenzolRingC1ExposedNotC6Nitro_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { BenzolRingC1ExposedNotC6Nitro_edge__edge0, BenzolRingC1ExposedNotC6Nitro_edge__edge1, BenzolRingC1ExposedNotC6Nitro_edge__edge2, BenzolRingC1ExposedNotC6Nitro_edge__edge3, BenzolRingC1ExposedNotC6Nitro_edge__edge4, BenzolRingC1ExposedNotC6Nitro_edge__edge5, BenzolRingC1ExposedNotC6Nitro_edge__edge6, BenzolRingC1ExposedNotC6Nitro_edge__edge7, BenzolRingC1ExposedNotC6Nitro_edge__edge8 }, 
@@ -2250,6 +2256,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Oxygen = new GRGEN_LGSP.PatternGraph(
 				"Oxygen",
 				"",
+				null, "Oxygen",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Oxygen_node_o1, Oxygen_node_o2 }, 
 				new GRGEN_LGSP.PatternEdge[] { Oxygen_edge__edge0, Oxygen_edge__edge1 }, 
@@ -2547,6 +2554,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Hydrogen = new GRGEN_LGSP.PatternGraph(
 				"Hydrogen",
 				"",
+				null, "Hydrogen",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Hydrogen_node_anchor, Hydrogen_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { Hydrogen_edge__edge0 }, 
@@ -2835,6 +2843,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Hydroxyl = new GRGEN_LGSP.PatternGraph(
 				"Hydroxyl",
 				"",
+				null, "Hydroxyl",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Hydroxyl_node_anchor, Hydroxyl_node__node0, Hydroxyl_node__node1 }, 
 				new GRGEN_LGSP.PatternEdge[] { Hydroxyl_edge__edge0, Hydroxyl_edge__edge1 }, 
@@ -3164,6 +3173,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Methyl = new GRGEN_LGSP.PatternGraph(
 				"Methyl",
 				"",
+				null, "Methyl",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Methyl_node_anchor, Methyl_node_c, Methyl_node__node0, Methyl_node__node1, Methyl_node__node2 }, 
 				new GRGEN_LGSP.PatternEdge[] { Methyl_edge__edge0, Methyl_edge__edge1, Methyl_edge__edge2, Methyl_edge__edge3 }, 
@@ -3535,6 +3545,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Nitro = new GRGEN_LGSP.PatternGraph(
 				"Nitro",
 				"",
+				null, "Nitro",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Nitro_node_anchor, Nitro_node_n, Nitro_node__node0, Nitro_node__node1 }, 
 				new GRGEN_LGSP.PatternEdge[] { Nitro_edge__edge0, Nitro_edge__edge1, Nitro_edge__edge2 }, 
@@ -3879,6 +3890,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TriNitro = new GRGEN_LGSP.PatternGraph(
 				"TriNitro",
 				"",
+				null, "TriNitro",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { TriNitro_node_c2, TriNitro_node_c4, TriNitro_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -4212,6 +4224,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_ToluolCoreThenTriNitro = new GRGEN_LGSP.PatternGraph(
 				"ToluolCoreThenTriNitro",
 				"",
+				null, "ToluolCoreThenTriNitro",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ToluolCoreThenTriNitro_node_c1, ToluolCoreThenTriNitro_node_c2, ToluolCoreThenTriNitro_node_c3, ToluolCoreThenTriNitro_node_c4, ToluolCoreThenTriNitro_node_c5, ToluolCoreThenTriNitro_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -4538,6 +4551,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRing = new GRGEN_LGSP.PatternGraph(
 				"BenzolRing",
 				"",
+				null, "BenzolRing",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -4837,6 +4851,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNTTotallyFolded = new GRGEN_LGSP.PatternGraph(
 				"TNTTotallyFolded",
 				"",
+				null, "TNTTotallyFolded",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { TNTTotallyFolded_node_c1, TNTTotallyFolded_node_c2, TNTTotallyFolded_node_c3, TNTTotallyFolded_node_c4, TNTTotallyFolded_node_c5, TNTTotallyFolded_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -5219,6 +5234,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNTChain = new GRGEN_LGSP.PatternGraph(
 				"TNTChain",
 				"",
+				null, "TNTChain",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { TNTChain_node_c1, TNTChain_node_c2, TNTChain_node_c3, TNTChain_node_c4, TNTChain_node_c5, TNTChain_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -5531,6 +5547,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_ToluolCore = new GRGEN_LGSP.PatternGraph(
 				"ToluolCore",
 				"",
+				null, "ToluolCore",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ToluolCore_node_c1 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -5798,6 +5815,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_ToluolCoreNotC6Nitro = new GRGEN_LGSP.PatternGraph(
 				"ToluolCoreNotC6Nitro",
 				"",
+				null, "ToluolCoreNotC6Nitro",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { ToluolCoreNotC6Nitro_node_c1 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -6115,6 +6133,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Toluol = new GRGEN_LGSP.PatternGraph(
 				"Toluol",
 				"",
+				null, "Toluol",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { Toluol_node_c1, Toluol_node_c2, Toluol_node_c3, Toluol_node_c4, Toluol_node_c5, Toluol_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -6544,6 +6563,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNT = new GRGEN_LGSP.PatternGraph(
 				"TNT",
 				"",
+				null, "TNT",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { TNT_node_c1, TNT_node_c2, TNT_node_c3, TNT_node_c4, TNT_node_c5, TNT_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { TNT_edge__edge0, TNT_edge__edge1, TNT_edge__edge2, TNT_edge__edge3, TNT_edge__edge4, TNT_edge__edge5, TNT_edge__edge6, TNT_edge__edge7, TNT_edge__edge8 }, 
@@ -7146,6 +7166,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNTUnfolded = new GRGEN_LGSP.PatternGraph(
 				"TNTUnfolded",
 				"",
+				null, "TNTUnfolded",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { TNTUnfolded_node_c1, TNTUnfolded_node_c2, TNTUnfolded_node_c3, TNTUnfolded_node_c4, TNTUnfolded_node_c5, TNTUnfolded_node_c6, TNTUnfolded_node_c, TNTUnfolded_node__node0, TNTUnfolded_node__node1, TNTUnfolded_node__node2, TNTUnfolded_node_n2, TNTUnfolded_node__node3, TNTUnfolded_node__node4, TNTUnfolded_node__node5, TNTUnfolded_node_n4, TNTUnfolded_node__node6, TNTUnfolded_node__node7, TNTUnfolded_node__node8, TNTUnfolded_node_n6, TNTUnfolded_node__node9, TNTUnfolded_node__node10 }, 
 				new GRGEN_LGSP.PatternEdge[] { TNTUnfolded_edge__edge0, TNTUnfolded_edge__edge1, TNTUnfolded_edge__edge2, TNTUnfolded_edge__edge3, TNTUnfolded_edge__edge4, TNTUnfolded_edge__edge5, TNTUnfolded_edge__edge6, TNTUnfolded_edge__edge7, TNTUnfolded_edge__edge8, TNTUnfolded_edge__edge9, TNTUnfolded_edge__edge10, TNTUnfolded_edge__edge11, TNTUnfolded_edge__edge12, TNTUnfolded_edge__edge13, TNTUnfolded_edge__edge14, TNTUnfolded_edge__edge15, TNTUnfolded_edge__edge16, TNTUnfolded_edge__edge17, TNTUnfolded_edge__edge18, TNTUnfolded_edge__edge19, TNTUnfolded_edge__edge20, TNTUnfolded_edge__edge21, TNTUnfolded_edge__edge22, TNTUnfolded_edge__edge23 }, 
@@ -7784,6 +7805,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_createTNT = new GRGEN_LGSP.PatternGraph(
 				"createTNT",
 				"",
+				null, "createTNT",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -8151,6 +8173,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_DNT = new GRGEN_LGSP.PatternGraph(
 				"DNT",
 				"",
+				null, "DNT",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { DNT_node_c1, DNT_node_c2, DNT_node_c3, DNT_node_c4, DNT_node_c5, DNT_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { DNT_edge__edge0, DNT_edge__edge1, DNT_edge__edge2, DNT_edge__edge3, DNT_edge__edge4, DNT_edge__edge5, DNT_edge__edge6, DNT_edge__edge7, DNT_edge__edge8 }, 
@@ -8737,6 +8760,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_DNTUnfolded = new GRGEN_LGSP.PatternGraph(
 				"DNTUnfolded",
 				"",
+				null, "DNTUnfolded",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { DNTUnfolded_node_c1, DNTUnfolded_node_c2, DNTUnfolded_node_c3, DNTUnfolded_node_c4, DNTUnfolded_node_c5, DNTUnfolded_node_c6, DNTUnfolded_node_c, DNTUnfolded_node__node0, DNTUnfolded_node__node1, DNTUnfolded_node__node2, DNTUnfolded_node_n2, DNTUnfolded_node__node3, DNTUnfolded_node__node4, DNTUnfolded_node__node5, DNTUnfolded_node_n4, DNTUnfolded_node__node6, DNTUnfolded_node__node7, DNTUnfolded_node__node8, DNTUnfolded_node__node9 }, 
 				new GRGEN_LGSP.PatternEdge[] { DNTUnfolded_edge__edge0, DNTUnfolded_edge__edge1, DNTUnfolded_edge__edge2, DNTUnfolded_edge__edge3, DNTUnfolded_edge__edge4, DNTUnfolded_edge__edge5, DNTUnfolded_edge__edge6, DNTUnfolded_edge__edge7, DNTUnfolded_edge__edge8, DNTUnfolded_edge__edge9, DNTUnfolded_edge__edge10, DNTUnfolded_edge__edge11, DNTUnfolded_edge__edge12, DNTUnfolded_edge__edge13, DNTUnfolded_edge__edge14, DNTUnfolded_edge__edge15, DNTUnfolded_edge__edge16, DNTUnfolded_edge__edge17, DNTUnfolded_edge__edge18, DNTUnfolded_edge__edge19, DNTUnfolded_edge__edge20, DNTUnfolded_edge__edge21 }, 
@@ -9339,6 +9363,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_createDNT = new GRGEN_LGSP.PatternGraph(
 				"createDNT",
 				"",
+				null, "createDNT",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -9702,6 +9727,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNB = new GRGEN_LGSP.PatternGraph(
 				"TNB",
 				"",
+				null, "TNB",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { TNB_node_c1, TNB_node_c2, TNB_node_c3, TNB_node_c4, TNB_node_c5, TNB_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { TNB_edge__edge0, TNB_edge__edge1, TNB_edge__edge2, TNB_edge__edge3, TNB_edge__edge4, TNB_edge__edge5, TNB_edge__edge6, TNB_edge__edge7, TNB_edge__edge8 }, 
@@ -10280,6 +10306,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNBUnfolded = new GRGEN_LGSP.PatternGraph(
 				"TNBUnfolded",
 				"",
+				null, "TNBUnfolded",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { TNBUnfolded_node_c1, TNBUnfolded_node_c2, TNBUnfolded_node_c3, TNBUnfolded_node_c4, TNBUnfolded_node_c5, TNBUnfolded_node_c6, TNBUnfolded_node__node0, TNBUnfolded_node_n2, TNBUnfolded_node__node1, TNBUnfolded_node__node2, TNBUnfolded_node__node3, TNBUnfolded_node_n4, TNBUnfolded_node__node4, TNBUnfolded_node__node5, TNBUnfolded_node__node6, TNBUnfolded_node_n6, TNBUnfolded_node__node7, TNBUnfolded_node__node8 }, 
 				new GRGEN_LGSP.PatternEdge[] { TNBUnfolded_edge__edge0, TNBUnfolded_edge__edge1, TNBUnfolded_edge__edge2, TNBUnfolded_edge__edge3, TNBUnfolded_edge__edge4, TNBUnfolded_edge__edge5, TNBUnfolded_edge__edge6, TNBUnfolded_edge__edge7, TNBUnfolded_edge__edge8, TNBUnfolded_edge__edge9, TNBUnfolded_edge__edge10, TNBUnfolded_edge__edge11, TNBUnfolded_edge__edge12, TNBUnfolded_edge__edge13, TNBUnfolded_edge__edge14, TNBUnfolded_edge__edge15, TNBUnfolded_edge__edge16, TNBUnfolded_edge__edge17, TNBUnfolded_edge__edge18, TNBUnfolded_edge__edge19, TNBUnfolded_edge__edge20 }, 
@@ -10864,6 +10891,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_createTNB = new GRGEN_LGSP.PatternGraph(
 				"createTNB",
 				"",
+				null, "createTNB",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -11139,6 +11167,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_keepBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"keepBenzolRingPattern",
 				"",
+				null, "keepBenzolRingPattern",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -11379,6 +11408,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_createBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"createBenzolRingPattern",
 				"",
+				null, "createBenzolRingPattern",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -11616,6 +11646,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_deleteBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"deleteBenzolRingPattern",
 				"",
+				null, "deleteBenzolRingPattern",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -11861,6 +11892,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_deleteInModifyBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"deleteInModifyBenzolRingPattern",
 				"",
+				null, "deleteInModifyBenzolRingPattern",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
@@ -12086,6 +12118,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 	}
 
+
+	//-----------------------------------------------------------
+
 	public class TNT_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
 	{
 		public TNT_RuleAndMatchingPatterns()
@@ -12096,6 +12131,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
 			functions = new GRGEN_LIBGR.FunctionInfo[0];
 			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
+			packages = new string[0];
 			subpatterns[0] = Pattern_BenzolRing.Instance;
 			rulesAndSubpatterns[0] = Pattern_BenzolRing.Instance;
 			subpatterns[1] = Pattern_BenzolRingC123456Exposed.Instance;
@@ -12169,6 +12205,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		private GRGEN_LIBGR.FunctionInfo[] functions;
 		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
 		private GRGEN_LIBGR.ProcedureInfo[] procedures;
+		public override string[] Packages { get { return packages; } }
+		private string[] packages;
 	}
 
 
@@ -12741,7 +12779,7 @@ namespace de.unika.ipd.grGen.Action_TNT
             return;
         }
     }
-
+    
     public class PatternAction_BenzolRingC123456Exposed : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_BenzolRingC123456Exposed(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -13192,7 +13230,7 @@ namespace de.unika.ipd.grGen.Action_TNT
             return;
         }
     }
-
+    
     public class PatternAction_BenzolRingC1Exposed : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_BenzolRingC1Exposed(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -13747,7 +13785,7 @@ namespace de.unika.ipd.grGen.Action_TNT
             return;
         }
     }
-
+    
     public class PatternAction_BenzolRingC1ExposedNotC6Nitro : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_BenzolRingC1ExposedNotC6Nitro(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -14424,7 +14462,7 @@ label0: ;
             return;
         }
     }
-
+    
     public class PatternAction_Oxygen : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Oxygen(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -14620,7 +14658,7 @@ label0: ;
             return;
         }
     }
-
+    
     public class PatternAction_Hydrogen : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Hydrogen(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -14756,7 +14794,7 @@ label0: ;
             return;
         }
     }
-
+    
     public class PatternAction_Hydroxyl : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Hydroxyl(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -14946,7 +14984,7 @@ label0: ;
             return;
         }
     }
-
+    
     public class PatternAction_Methyl : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Methyl(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -15270,7 +15308,7 @@ label0: ;
             return;
         }
     }
-
+    
     public class PatternAction_Nitro : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_Nitro(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -15524,7 +15562,7 @@ label0: ;
             return;
         }
     }
-
+    
     public class PatternAction_TriNitro : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_TriNitro(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -16220,7 +16258,7 @@ label0: ;
             return;
         }
     }
-
+    
     public class PatternAction_ToluolCoreThenTriNitro : GRGEN_LGSP.LGSPSubpatternAction
     {
         private PatternAction_ToluolCoreThenTriNitro(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
@@ -16747,7 +16785,7 @@ label0: ;
             return;
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -16986,7 +17024,7 @@ label0: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -18217,7 +18255,7 @@ label0: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -18992,7 +19030,7 @@ label0: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -19692,7 +19730,7 @@ label0: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -20486,7 +20524,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -21491,7 +21529,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -22663,7 +22701,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -23765,7 +23803,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -23979,7 +24017,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -25069,7 +25107,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -26089,7 +26127,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -26303,7 +26341,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -27352,7 +27390,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -28331,7 +28369,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -28545,7 +28583,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -28784,7 +28822,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -28998,7 +29036,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -29237,7 +29275,7 @@ label3: ;
             }
         }
     }
-
+    
     /// <summary>
     /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
     /// </summary>
@@ -29476,7 +29514,7 @@ label3: ;
             }
         }
     }
-
+    
 
     // class which instantiates and stores all the compiled actions of the module,
     // dynamic regeneration and compilation causes the old action to be overwritten by the new one
@@ -29497,6 +29535,7 @@ label3: ;
 
         private void InitActions()
         {
+            packages = new string[0];
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
             analyzer.AnalyzeNestingOfPatternGraph(Pattern_BenzolRing.Instance.patternGraph, false);
             GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Pattern_BenzolRing.Instance.patternGraph);
@@ -29771,8 +29810,11 @@ label3: ;
         public IAction_deleteInModifyBenzolRingPattern @deleteInModifyBenzolRingPattern;
         
         
-        public override string StatisticsPath { get { return null; } }
+        public override string[] Packages { get { return packages; } }
+        private string[] packages;
+        
         public override string Name { get { return "TNTActions"; } }
+        public override string StatisticsPath { get { return null; } }
         public override string ModelMD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
     }
 }

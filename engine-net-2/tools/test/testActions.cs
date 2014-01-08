@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Dec 15 22:30:32 CET 2013
+// Generated from "test.grg" on Wed Jan 08 16:09:07 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
 using GRGEN_MODEL = de.unika.ipd.grGen.Model_complModel;
+using GRGEN_ACTIONS = de.unika.ipd.grGen.Action_test;
 
 namespace de.unika.ipd.grGen.Action_test
 {
@@ -76,6 +77,7 @@ namespace de.unika.ipd.grGen.Action_test
 			pat_testRule = new GRGEN_LGSP.PatternGraph(
 				"testRule",
 				"",
+				null, "testRule",
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { testRule_node_a, testRule_node_f, testRule_node_m }, 
 				new GRGEN_LGSP.PatternEdge[] { testRule_edge__edge0, testRule_edge__edge1 }, 
@@ -358,6 +360,9 @@ namespace de.unika.ipd.grGen.Action_test
 
 	}
 
+
+	//-----------------------------------------------------------
+
 	public class test_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
 	{
 		public test_RuleAndMatchingPatterns()
@@ -368,6 +373,7 @@ namespace de.unika.ipd.grGen.Action_test
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
 			functions = new GRGEN_LIBGR.FunctionInfo[0];
 			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
+			packages = new string[0];
 			rules[0] = Rule_testRule.Instance;
 			rulesAndSubpatterns[0+0] = Rule_testRule.Instance;
 		}
@@ -383,6 +389,8 @@ namespace de.unika.ipd.grGen.Action_test
 		private GRGEN_LIBGR.FunctionInfo[] functions;
 		public override GRGEN_LIBGR.ProcedureInfo[] Procedures { get { return procedures; } }
 		private GRGEN_LIBGR.ProcedureInfo[] procedures;
+		public override string[] Packages { get { return packages; } }
+		private string[] packages;
 	}
 
 
@@ -650,7 +658,7 @@ namespace de.unika.ipd.grGen.Action_test
             }
         }
     }
-
+    
 
     // class which instantiates and stores all the compiled actions of the module,
     // dynamic regeneration and compilation causes the old action to be overwritten by the new one
@@ -671,6 +679,7 @@ namespace de.unika.ipd.grGen.Action_test
 
         private void InitActions()
         {
+            packages = new string[0];
             GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
             analyzer.AnalyzeNestingOfPatternGraph(Rule_testRule.Instance.patternGraph, false);
             GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline(Rule_testRule.Instance.patternGraph);
@@ -688,8 +697,11 @@ namespace de.unika.ipd.grGen.Action_test
         public IAction_testRule @testRule;
         
         
-        public override string StatisticsPath { get { return null; } }
+        public override string[] Packages { get { return packages; } }
+        private string[] packages;
+        
         public override string Name { get { return "testActions"; } }
+        public override string StatisticsPath { get { return null; } }
         public override string ModelMD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
     }
 }
