@@ -426,6 +426,8 @@ OK     should_pass/node_from_storage.grg
 OK     should_pass/nodeedgeattr_001.grg
 OK     should_pass/object_001.grg
 OK     should_pass/object_002.grg
+OK     should_pass/package.grg
+OK     should_pass/packageactions.grg
 OK     should_pass/param_001.grg
 OK     should_pass/param_002.grg
 OK     should_pass/param_003.grg
