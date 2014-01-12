@@ -14,6 +14,7 @@ CompilerOptimization-TTC2011:
   InstructionSelectionDebug.grs -> 0
   Optimization.grs -> 0
   OptimizationDebug.grs -> 0
+  OptimizationDebugMinPlus.grs -> 0
 ConferenceScheduling-GraBaTs08-Live-Contest-Winning-Solution:
   conference.grs -> 0
   conferenceassignment4.grs -> 0
