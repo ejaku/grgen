@@ -1,4 +1,29 @@
-﻿v4.2beta (2013-12-15)
+﻿v4.2 (2014-01-12)
+ Added packages to the model:
+  - declared with package <pname> { <stuff> }
+    (stuff are node type declarations, edge type declarations, enum declarations)
+  - the stuff inside can be used with <pname>::name
+    (the pname prefix is mandatory outside of the very package)
+    so an enum value from a package must be referenced by <pname>::<enumname>::<enumvalue>
+
+ Added packages to the actions:
+  - declared with package <pname> { <stuff> }
+    (stuff are subpattern declarations, rule/test declarations, filter function declarations,
+     sequence declarations, function declarations, procedure declarations)
+  - the stuff inside can be used with <pname>::name
+    (the pname prefix is mandatory outside of the very package)
+
+ Adapted the ecore/XMI importer to model package,
+  it now maps packages to GrGen packages, instead of name mangling
+  (but still all names are prefixed with an underscore to prevent keyword-name clashes)
+
+ Added XMI exporter (assuming the model stems from a previous ecore/XMI import)
+ 
+ Fixed bugs in grs export regarding graph elements used as attributes
+ Fixed bugs in grs import regarding (attribute) names containing underscores
+ Some smaller improvements in user manual
+  
+v4.2beta (2013-12-15)
  Added path-based model inclusion statement #using "<path>" as new default:
   - it allows to reference a model file by a full path, so models can be organized in directories
   - in exchange it only allows for one model file per statement, similar to #include
