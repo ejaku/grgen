@@ -1,0 +1,29 @@
+new graph "package/packageactions"
+
+exec initFoo
+
+exec FOO::t\auto
+exec [FOO::t]
+exec BAR::t\auto
+
+exec FOO::r\FOO::f
+exec FOO::r\FOO::f
+
+new graph "package/packageactions"
+
+exec initFoo
+
+exec FOO::rP
+exec FOO::rP
+
+exec { FOO::proc(FOO::func()) }
+exec { BAR::proc(BAR::func()) }
+
+new graph "package/packageactions"
+
+exec initFoo
+
+exec BAR::s
+exec FOO::s
+
+quit

@@ -1,0 +1,73 @@
+new graph "package/packageactions"
+
+exec initFoo
+exec initBar
+
+show num edges Foo::E
+show num edges Bar::E
+exec s2
+show num edges Foo::E
+show num edges Bar::E
+exec s2
+
+new graph "package/packageactions"
+
+exec initFoo
+exec initBar
+
+show num edges Foo::E
+show num edges Bar::E
+exec s3
+show num edges Foo::E
+show num edges Bar::E
+exec s3
+
+new graph "package/packageactions"
+
+exec initFoo
+exec initBar
+
+show num edges Foo::E
+show num edges Bar::E
+exec s4
+show num edges Foo::E
+show num edges Bar::E
+exec s4
+
+new graph "package/packageactions"
+
+exec initFoo
+exec initBar
+
+show num edges Foo::E
+show num edges Bar::E
+exec FOO::t()\auto && FOO::r()\FOO::f && BAR::t()\auto && BAR::r()\BAR::f
+show num edges Foo::E
+show num edges Bar::E
+exec FOO::t()\auto || FOO::r()\FOO::f || BAR::t()\auto || BAR::r()\BAR::f
+
+new graph "package/packageactions"
+
+exec initFoo
+exec initBar
+
+show num edges Foo::E
+show num edges Bar::E
+exec FOO::rP() && BAR::rP()
+show num edges Foo::E
+show num edges Bar::E
+exec FOO::rP() && BAR::rP()
+
+new graph "package/packageactions"
+
+exec initFoo
+exec initBar
+
+show num edges Foo::E
+show num edges Bar::E
+exec FOO::s && BAR::s
+show num edges Foo::E
+show num edges Bar::E
+exec FOO::s && BAR::s
+
+quit

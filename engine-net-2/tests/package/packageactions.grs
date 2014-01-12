@@ -1,0 +1,46 @@
+new graph "package/packageactions"
+
+exec initFoo
+exec initBar
+
+exec FOO::t\auto
+exec [FOO::t]
+exec BAR::t\auto
+exec [BAR::t]
+
+exec FOO::r\FOO::f
+exec FOO::r\FOO::f
+exec BAR::r\BAR::f
+exec BAR::r\BAR::f
+
+new graph "package/packageactions"
+
+exec initFoo
+exec initBar
+
+exec r2
+exec r2
+
+new graph "package/packageactions"
+
+exec initFoo
+exec initBar
+
+show num edges
+exec r3
+show num edges
+exec r3
+
+new graph "package/packageactions"
+
+exec initFoo
+exec initBar
+
+show num edges
+exec r3P
+show num edges
+exec r3P
+
+exec { proc2(func2()) ; { func2() } }
+
+quit

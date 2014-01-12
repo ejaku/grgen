@@ -1,0 +1,24 @@
+new graph "package/package"
+
+exec (::n,::e,::lal)=initFoo
+exec (::n1,::e1,::lal1)=initFoo
+exec (::n2,::e2,::lal2)=initBar
+exec (::n3,::e3,::lal3)=initBar
+exec (::n4,::e4)=initFurchtbar
+exec (::n5,::e5)=initFurchtbar
+
+exec {::sub1=inducedSubgraph(set<Node>{::n}); ::sub2=inducedSubgraph(set<Node>{::n1})} ;> areStructEqual(::sub1,::sub2)
+exec {::sub3=inducedSubgraph(set<Node>{::n2})} ;> areStructEqual(::sub1,::sub3)
+exec {::sub4=inducedSubgraph(set<Node>{::n3})} ;> areStructEqual(::sub3,::sub4)
+exec {::sub5=inducedSubgraph(set<Node>{::n4})} ;> areStructEqual(::sub3,::sub5)
+exec {::sub6=inducedSubgraph(set<Node>{::n5})} ;> areStructEqual(::sub5,::sub6)
+exec areStructEqual(::sub5,::sub1) 
+
+exec areStructEqual(::sub1,::sub2)[1500] ;> areStructEqual(::sub1,::sub2)
+exec areStructEqual(::sub1,::sub3)[1500] ;> areStructEqual(::sub1,::sub3)
+exec areStructEqual(::sub3,::sub4)[1500] ;> areStructEqual(::sub3,::sub4)
+exec areStructEqual(::sub3,::sub5)[1500] ;> areStructEqual(::sub3,::sub5)
+exec areStructEqual(::sub5,::sub6)[1500] ;> areStructEqual(::sub5,::sub6)
+exec areStructEqual(::sub5,::sub1)[1500] ;> areStructEqual(::sub5,::sub1)
+
+quit
