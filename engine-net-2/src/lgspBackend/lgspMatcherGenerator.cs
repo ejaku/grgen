@@ -2255,13 +2255,24 @@ exitSecondLoop: ;
                 {
                     IFilterFunction filterFunction = (IFilterFunction)filter;
                     sb.AppendFrontFormat("case \"{0}\": GRGEN_ACTIONS.{1}MatchFilters.Filter_{2}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, ({3})matches",
-                        filterFunction.PackagePrefixedName, TypesHelper.GetPackagePrefixDot(filterFunction.Package), filterFunction.Name, matchesType);
+                        filterFunction.Name, TypesHelper.GetPackagePrefixDot(filterFunction.Package), filterFunction.Name, matchesType);
                     for(int i=0; i<filterFunction.Inputs.Length; ++i)
                     {
                         sb.AppendFormat(", ({0})(filter.ArgumentExpressions[{1}]!=null ? filter.ArgumentExpressions[{1}].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[{1}])", 
                             TypesHelper.TypeName(filterFunction.Inputs[i]), i);
                     }
                     sb.Append("); break;\n");
+                    if(filter.Package != null)
+                    {
+                        sb.AppendFrontFormat("case \"{4}{0}\": GRGEN_ACTIONS.{1}MatchFilters.Filter_{2}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, ({3})matches",
+                            filterFunction.Name, TypesHelper.GetPackagePrefixDot(filterFunction.Package), filterFunction.Name, matchesType, filter.Package + "::");
+                        for(int i = 0; i < filterFunction.Inputs.Length; ++i)
+                        {
+                            sb.AppendFormat(", ({0})(filter.ArgumentExpressions[{1}]!=null ? filter.ArgumentExpressions[{1}].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[{1}])",
+                                TypesHelper.TypeName(filterFunction.Inputs[i]), i);
+                        }
+                        sb.Append("); break;\n");
+                    }
                 }
             }
             sb.AppendFront("default: throw new Exception(\"Unknown filter name!\");\n");

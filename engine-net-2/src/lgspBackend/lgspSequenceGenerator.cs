@@ -4557,7 +4557,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFront("public static "+className+" Instance { get { if(instance==null) instance = new "+className+"(); return instance; } }\n");
 
-            source.AppendFront("private "+className+"() : base(\""+sequence.Name+"\", SequenceInfo_"+sequence.Name+".Instance) { }\n");
+            source.AppendFront("private "+className+"() : base(\""+sequence.PackagePrefixedName+"\", SequenceInfo_"+sequence.Name+".Instance) { }\n");
         }
 
         private void GenerateInternalDefinedSequenceApplicationMethod(SourceBuilder source, DefinedSequenceInfo sequence, Sequence seq)

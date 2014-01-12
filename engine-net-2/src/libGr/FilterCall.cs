@@ -149,6 +149,31 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public string PackagePrefixedFullName
+        {
+            get
+            {
+                if(Entity != null)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    if(Package != null)
+                    {
+                        sb.Append(Package);
+                        sb.Append("::");
+                    }
+                    sb.Append(Name);
+                    sb.Append("<");
+                    sb.Append(Entity);
+                    sb.Append(">");
+                    return sb.ToString();
+                }
+                else
+                {
+                    return PackagePrefixedName;
+                }
+            }
+        }
+
         public bool IsContainedIn(List<IFilter> filters)
         {
             return IsContainedIn(filters.ToArray());
