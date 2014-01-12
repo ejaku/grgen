@@ -1450,7 +1450,7 @@
             Generates memory pooling code for matching tasks of class given by it's name
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherClassTail(de.unika.ipd.grGen.lgsp.SourceBuilder)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherClassTail(de.unika.ipd.grGen.lgsp.SourceBuilder,System.Boolean)">
             <summary>
             Generates matcher class tail source code
             </summary>
@@ -2948,6 +2948,17 @@
             The name of the action (without prefixes)
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPAction.Package">
+            <summary>
+            null if this is a global type, otherwise the package the type is contained in.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPAction.PackagePrefixedName">
+            <summary>
+            The name of the type in case of a global type,
+            the name of the type prefixed by the name of the package otherwise.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPActions">
             <summary>
             A container of rules also managing some parts of rule application with sequences.
@@ -3306,7 +3317,7 @@
             Returns name of the type of the task variable
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.RulePatternClassName(System.String,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.RulePatternClassName(System.String,System.String,System.Boolean)">
             <summary>
             Returns name of the rule pattern class
             </summary>
@@ -3496,7 +3507,7 @@
             <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
-            <param name="defToBeYieldedTo">The initialization expression for the element if some was defined, 
+            <param name="initialization">The initialization expression for the element if some was defined, 
                 only possible for defToBeYieldedTo elements, otherwise null.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,de.unika.ipd.grGen.lgsp.PatternGraph,System.String)">
@@ -3589,7 +3600,7 @@
             <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
-            <param name="defToBeYieldedTo">The initialization expression for the node if some was defined, 
+            <param name="initialization">The initialization expression for the node if some was defined, 
                 only possible for defToBeYieldedTo nodes, otherwise null.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(de.unika.ipd.grGen.lgsp.PatternNode,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,de.unika.ipd.grGen.lgsp.PatternGraph,System.String)">
@@ -3658,7 +3669,7 @@
             <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
-            <param name="defToBeYieldedTo">The initialization expression for the edge if some was defined, 
+            <param name="initialization">The initialization expression for the edge if some was defined, 
                 only possible for defToBeYieldedTo edges, otherwise null.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(de.unika.ipd.grGen.lgsp.PatternEdge,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,de.unika.ipd.grGen.lgsp.PatternGraph,System.String)">
@@ -4570,6 +4581,17 @@
             Prefix for name from nesting path
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.package">
+            <summary>
+            null if this is a global pattern graph, otherwise the package the pattern graph is contained in.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.packagePrefixedName">
+            <summary>
+            The name of the pattern graph in case of a global type,
+            the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.isPatternpathLocked">
             <summary>
             Tells whether the elements from the parent patterns (but not sibling patterns)
@@ -4835,12 +4857,15 @@
             <param name="nameSuffix">The suffix to be added to the name of the pattern graph and its elements (to avoid name collisions).</param>
             Elements might have been already copied in the containing pattern(s), their copies have to be reused in this case.
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.Iterated[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],de.unika.ipd.grGen.lgsp.PatternYielding[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[],System.Boolean[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.Iterated[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],de.unika.ipd.grGen.lgsp.PatternYielding[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[],System.Boolean[])">
             <summary>
             Constructs a PatternGraph object.
             </summary>
             <param name="name">The name of the pattern graph.</param>
             <param name="pathPrefix">Prefix for name from nesting path.</param>
+            <param name="package">null if this is a global pattern graph, otherwise the package the pattern graph is contained in.</param>
+            <param name="packagePrefixedName">The name of the pattern graph in case of a global type,
+            the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).</param>
             <param name="isPatternpathLocked"> Tells whether the elements from the parent patterns (but not sibling patterns)
             should be isomorphy locked, i.e. not again matchable, even in negatives/independents,
             which are normally hom to all. This allows to match paths without a specified end,
@@ -4858,7 +4883,7 @@
             <param name="negativePatternGraphs">An array of negative pattern graphs which make the
             search fail if they get matched (NACs - Negative Application Conditions).</param>
             <param name="independentPatternGraphs">An array of independent pattern graphs which make the
-            search fail if they don't get matched (PACs - Positive sApplication Conditions).</param>
+            search fail if they don't get matched (PACs - Positive Application Conditions).</param>
             <param name="conditions">The conditions used in this pattern graph or its nested graphs.</param>
             <param name="yieldings">The yieldings used in this pattern graph or its nested graphs.</param>
             <param name="homomorphicNodes">A two-dimensional array describing which pattern node may
@@ -4960,6 +4985,17 @@
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.Name">
             <summary>
             The name of the pattern graph
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.Package">
+            <summary>
+            null if this is a global pattern graph, otherwise the package the pattern graph is contained in.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.PackagePrefixedName">
+            <summary>
+            The name of the pattern graph in case of a global type,
+            the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.Nodes">
@@ -5204,6 +5240,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPRuleAndMatchingPatterns.Procedures">
             <summary>
             All the procedure representations generated
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPRuleAndMatchingPatterns.Packages">
+            <summary>
+            All the packages defined
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchProgramType">

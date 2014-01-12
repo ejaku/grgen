@@ -252,6 +252,11 @@
             Returns type with correct namespace prefix for the type given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.XgrsTypeToCSharpTypeNodeEdge(System.String)">
+            <summary>
+            Returns type with correct namespace prefix for the node or edge type given
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.ScopeType">
             <summary>
             The possible scope opening types
@@ -298,6 +303,11 @@
             The output types of the functions used in the specification, set if parsing an xgrs to be compiled
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.filterFunctionNames">
+            <summary>
+            The names of the filter functions used in the specification, set if parsing an xgrs to be compiled
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.model">
             <summary>
             The model used in the specification
@@ -307,6 +317,11 @@
             <summary>
             Symbol table of the sequence variables, maps from name to the prefixed(by block nesting) name and the type;
             a graph-global variable maps to type "", a sequence-local to its type
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.packageContext">
+            <summary>
+            The name of the package the sequence is contained in (defining some context), null if it is not contained in a package. (Applies only to compiled sequences.)
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.warnings">
@@ -338,16 +353,18 @@
             <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserException">Thrown when a rule is used with the wrong number of arguments
             or return parameters.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,System.String[],System.String[],System.String[],System.String[],System.String[],System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.List{System.String})">
+        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,System.String,System.String[],System.String[],System.String[],System.String[],System.String[],System.String[],System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.List{System.String})">
             <summary>
             Parses a given string in xgrs syntax and builds a Sequence object. Used for the compiled xgrs.
             </summary>
             <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
+            <param name="packageContext">The name of the package the sequence is contained in (defining some context), null if it is not contained in a package.</param>
             <param name="ruleNames">An array containing the names of the rules used in the specification.</param>
             <param name="sequenceNames">An array containing the names of the sequences used in the specification.</param>
             <param name="procedureNames">An array containing the names of the procedures used in the specification.</param>
             <param name="functionNames">An array containing the names of the functions used in the specification.</param>
             <param name="functionOutputTypes">An array containing the output types of the functions used in the specification.</param>
+            <param name="filterFunctionNames">An array containing the names of the filter functions used in the specification.</param>
             <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
             <param name="model">The model used in the specification.</param>
             <param name="warnings">A list which receives the warnings generated during parsing.</param>
@@ -830,6 +847,28 @@
             The name of the filter.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCall.Package">
+            <summary>
+            null if this is a call of a global filter, otherwise the package the call target is contained in.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCall.PackagePrefixedName">
+            <summary>
+            The name of the filter, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCall.PrePackage">
+            <summary>
+            null if this is a call of a global filter, otherwise the package the call target is contained in.
+            May be even null for a call of a package target, if done from a context where the package is set.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCall.PrePackageContext">
+            <summary>
+            The package this invocation is contained in (the calling source, not the filter call target).
+            Needed to resolve names from the local package accessed without package prefix.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.FilterCall.Entity">
             <summary>
             The entity the filter is based on, in case of a def-variable based auto-generated filter, otherwise null.
@@ -857,18 +896,18 @@
             used by libGr to avoid unneccessary memory allocations.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.FilterCall.#ctor(System.String,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceExpression})">
+        <member name="M:de.unika.ipd.grGen.libGr.FilterCall.#ctor(System.String,System.String,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceExpression},System.String)">
             <summary>
             Instantiates a new FilterCall object for a filter function or auto
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.FilterCall.#ctor(System.String,System.String,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.libGr.FilterCall.#ctor(System.String,System.String,System.String,System.String,System.Boolean)">
             <summary>
             Instantiates a new FilterCall object for an auto-generated filter
-            dummy is only existing so that FilterCall("auto", null, true) can be resolved to this constructor
+            dummy is only existing so that FilterCall(null, "auto", null, null, true) can be resolved to this constructor
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.FilterCall.#ctor(System.String,de.unika.ipd.grGen.libGr.SequenceExpression)">
+        <member name="M:de.unika.ipd.grGen.libGr.FilterCall.#ctor(System.String,System.String,de.unika.ipd.grGen.libGr.SequenceExpression,System.String)">
             <summary>
             Instantiates a new FilterCall object for an auto-supplied filter (with sequence expression parameter)
             </summary>
@@ -949,7 +988,7 @@
             Represents an XGRS used in an exec statement.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmbeddedSequenceInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String,System.Int32)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmbeddedSequenceInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String,System.String,System.Int32)">
             <summary>
             Constructs an EmbeddedSequenceInfo object.
             </summary>
@@ -957,6 +996,7 @@
             <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
             <param name="outParameters">The names of the graph elements of the containing action yielded to.</param>
             <param name="outParameterTypes">The types of the graph elements of the containing action yielded to.</param>
+            <param name="package">null if this is a global embedded sequence, otherwise the package the embedded sequence is contained in.</param>
             <param name="xgrs">The XGRS string.</param>
             <param name="lineNr">The line number the sequence appears on in the source.</param>
         </member>
@@ -984,6 +1024,11 @@
             Or the types of the graph elements returned to the calling action in case of a defined sequence.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.EmbeddedSequenceInfo.Package">
+            <summary>
+            null if this is a global embedded sequence, otherwise the package the embedded sequence is contained in.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.EmbeddedSequenceInfo.XGRS">
             <summary>
             The XGRS string.
@@ -999,7 +1044,7 @@
             Represents a sequence definition.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DefinedSequenceInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String,System.String,System.Int32)">
+        <member name="M:de.unika.ipd.grGen.libGr.DefinedSequenceInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String,System.String,System.String,System.String,System.Int32)">
             <summary>
             Constructs an DefinedSequenceInfo object.
             </summary>
@@ -1008,12 +1053,21 @@
             <param name="outParameters">The names of the graph elements returned to the calling action.</param>
             <param name="outParameterTypes">The types of the graph elements returned to the calling action.</param>
             <param name="name">The name the sequence was defined with.</param>
+            <param name="package">null if this is a global sequence, otherwise the package the sequence is contained in.</param>
+            <param name="packagePrefixedName">The name of the type in case of a global type,
+            the name of the type prefixed by the name of the package otherwise.</param>
             <param name="xgrs">The XGRS string.</param>
             <param name="lineNr">The line number the sequence appears on in the source.</param>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.DefinedSequenceInfo.Name">
             <summary>
             The name the sequence was defined with
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.DefinedSequenceInfo.PackagePrefixedName">
+            <summary>
+            The name of the type in case of a global type,
+            the name of the type prefixed by the name of the package otherwise.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.ExternalDefinedSequenceInfo">
@@ -1809,7 +1863,33 @@
         <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.Name">
             <summary>
             The name of the rule or sequence or procedure or function.
-            Used for generation, where the rule or sequence or procedure or function representation objects do not exist yet.
+            Used for compilation, where the rule or sequence or procedure or function representation objects do not exist yet.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.Package">
+            <summary>
+            null if this is a call of a global rule/sequence/procedure/function, otherwise the package the call target is contained in.
+            Used for compilation, where the rule or sequence or procedure or function representation objects do not exist yet.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.PackagePrefixedName">
+            <summary>
+            The name of the rule or sequence or procedure or function, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
+            Used for compilation, where the rule or sequence or procedure or function representation objects do not exist yet.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.PrePackage">
+            <summary>
+            null if this is a call of a global rule/sequence/procedure/function, otherwise the package the call target is contained in.
+            May be even null for a call of a package target, if done from a context where the package is set.
+            Used for compilation, where the rule or sequence or procedure or function representation objects do not exist yet.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.PrePackageContext">
+            <summary>
+            The package this invocation is contained in (the calling source, not the rule/sequence/procedure/function call target).
+            Needed to resolve names from the local package accessed without package prefix.
+            Used for compilation, where the rule or sequence or procedure or function representation objects do not exist yet.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.InvocationParameterBindings.ArgumentExpressions">
@@ -3902,6 +3982,27 @@
             Returns the first match of exact type (null if no match exists).
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.XMIExport">
+            <summary>
+            Exports graphs to the XMI format (assuming a matching ecore exists).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.XMIExport.Export(de.unika.ipd.grGen.libGr.IGraph,System.String)">
+            <summary>
+            Exports the given graph to a XMI file with the given filename.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="graph">The graph to export.</param>
+            <param name="exportFilename">The filename for the exported file.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.XMIExport.Export(de.unika.ipd.grGen.libGr.IGraph,System.IO.TextWriter)">
+            <summary>
+            Exports the given graph in XMI format to the given text writer output stream.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="graph">The graph to export.</param>
+            <param name="streamWriter">The stream writer to export to.</param>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.GRGExport">
             <summary>
             Exports graphs in GRG format, i.e. as GrGen rules.
@@ -4460,6 +4561,11 @@
             The model of the edges.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.Packages">
+            <summary>
+            Enumerates all packages declared in this model.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.EnumAttributeTypes">
             <summary>
             Enumerates all enum attribute types declared for this model.
@@ -4594,6 +4700,16 @@
             The name of the attribute type, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeType.Package">
+            <summary>
+            The package name if this is a node or edge type that is contained in a package, otherwise null
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeType.PackagePrefixedTypeName">
+            <summary>
+            The name of the attribute type with the package as prefix if it is contained in a package, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeType.Type">
             <summary>
             The .NET type of the Attribute Type
@@ -4604,7 +4720,7 @@
             The annotations of the attribute
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.#ctor(System.String,de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeType,System.String,System.Type)">
+        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.#ctor(System.String,de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeType,System.String,System.String,System.String,System.Type)">
             <summary>
             Initializes an AttributeType instance.
             </summary>
@@ -4615,10 +4731,13 @@
             <param name="valueType">The attribute type of the value of the set, if Kind == AttributeKind.SetAttr; the attribute type of the value of the map, if Kind == AttributeKind.MapAttr; the attribute type of the value of the array, if Kind == AttributeKind.ArrayAttr; the attribute type of the value of the deque, if Kind == AttributeKind.DequeAttr; otherwise null. </param>
             <param name="keyType">The attribute type of the key of the map, if Kind == AttributeKind.MapAttr; otherwise null.</param>
             <param name="typeName">The name of the attribute type, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr; otherwise null.</param>
+            <param name="package">The package name if this is a node or edge type that is contained in a package, otherwise null.</param>
+            <param name="packagePrefixedTypeName">The name of the attribute type with the package as prefix if it is contained in a package, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr.</param>
+            <param name="type">The type of the attribute type.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.AttributeType.GetKindName(de.unika.ipd.grGen.libGr.AttributeKind)">
             <summary>
-            Returns the name of the given basic attribute kind (not enum,set,map)
+            Returns the name of the given basic attribute kind (enum,container not supported)
             </summary>
             <param name="attrKind">The AttributeKind value</param>
             <returns>The name of the attribute kind</returns>
@@ -4671,16 +4790,29 @@
             The name of the enum type.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.EnumAttributeType.Package">
+            <summary>
+            null if this is a global type, otherwise the package the type is contained in.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.EnumAttributeType.PackagePrefixedName">
+            <summary>
+            The name of the type in case of a global type,
+            the name of the type prefixed by the name of the package otherwise.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.EnumAttributeType.EnumType">
             <summary>
             The .NET type for the enum type.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EnumAttributeType.#ctor(System.String,System.Type,de.unika.ipd.grGen.libGr.EnumMember[])">
+        <member name="M:de.unika.ipd.grGen.libGr.EnumAttributeType.#ctor(System.String,System.String,System.String,System.Type,de.unika.ipd.grGen.libGr.EnumMember[])">
             <summary>
             Initializes an EnumAttributeType instance.
             </summary>
             <param name="name">The name of the enum type.</param>
+            <param name="name">The package the enum is contained in, or null if it is not contained in a package.</param>
+            <param name="name">The name of the enum type; prefixed by the package name plus a double colon, in case it is contain in a package.</param>
             <param name="enumType">The .NET type for the enum type.</param>
             <param name="memberArray">An array of all enum members.</param>
         </member>
@@ -4836,6 +4968,17 @@
         <member name="P:de.unika.ipd.grGen.libGr.GrGenType.Name">
             <summary>
             The name of the type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.Package">
+            <summary>
+            null if this is a global type, otherwise the package the type is contained in.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.PackagePrefixedName">
+            <summary>
+            The name of the type in case of a global type,
+            the name of the type prefixed by the name of the package otherwise.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.GrGenType.SubOrSameTypes">
@@ -5201,6 +5344,17 @@
             The name of the type.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.VarType.Package">
+            <summary>
+            null if this is a global type, otherwise the package the type is contained in.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.VarType.PackagePrefixedName">
+            <summary>
+            The name of the type in case of a global type,
+            the name of the type prefixed by the name of the package otherwise.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.VarType.Type">
             <summary>
             The .NET type of the variable.
@@ -5310,6 +5464,11 @@
             The associated graph.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.BaseActions.Packages">
+            <summary>
+            The packages defined in this BaseActions instance.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.BaseActions.Actions">
             <summary>
             Enumerates all actions managed by this BaseActions instance.
@@ -5335,11 +5494,14 @@
             A description of a GrGen procedure.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ProcedureInfo.#ctor(System.String,System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType[])">
+        <member name="M:de.unika.ipd.grGen.libGr.ProcedureInfo.#ctor(System.String,System.String,System.String,System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType[])">
             <summary>
             Constructs a ProcedureInfo object.
             </summary>
             <param name="name">The name the procedure was defined with.</param>
+            <param name="package">null if this is a global pattern graph, otherwise the package the pattern graph is contained in.</param>
+            <param name="packagePrefixedName">The name of the pattern graph in case of a global type,
+            the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).</param>
             <param name="inputNames">The names of the input parameters.</param>
             <param name="inputs">The types of the input parameters.</param>
             <param name="outputs">The types of the output parameters.</param>
@@ -5355,6 +5517,17 @@
         <member name="F:de.unika.ipd.grGen.libGr.ProcedureInfo.name">
             <summary>
             The name of the procedure.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ProcedureInfo.package">
+            <summary>
+            null if this is a global type, otherwise the package the type is contained in.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ProcedureInfo.packagePrefixedName">
+            <summary>
+            The name of the type in case of a global type,
+            the name of the type prefixed by the name of the package otherwise.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.ProcedureInfo.inputNames">
@@ -5395,27 +5568,13 @@
             The first must be a filename, the following may be used for giving export parameters
             (in fact currently no exporter supports multiple files).</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Porter.Export(de.unika.ipd.grGen.libGr.INamedGraph,System.Collections.Generic.List{System.String})">
-            <summary>
-            Exports the given named graph to a file with the given filename.
-            The format is determined by the file extension. 
-            Currently available are: .grs/.grsi or .gxl.
-            Optionally suffixed by .gz; in this case they are saved gzipped.
-            Any errors will be reported by exception.
-            </summary>
-            <param name="graph">The named graph to export.
-            The .grs/.grsi exporter is exporting the names/including the names; import will return a named graph again.
-            The .gxl exporter is exporting without the names, which is equivalent of calling the non-named graph export.</param>
-            <param name="filenameParameters">The names of the files to be exported.
-            The first must be a filename, the following may be used for giving export parameters
-            (in fact currently no exporter supports multiple files).</param>
-        </member>
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.Porter.Export(de.unika.ipd.grGen.libGr.INamedGraph,System.Collections.Generic.List{System.String})" ignoriert -->
         <member name="M:de.unika.ipd.grGen.libGr.Porter.Import(de.unika.ipd.grGen.libGr.IBackend,System.Collections.Generic.List{System.String},de.unika.ipd.grGen.libGr.BaseActions@)">
             <summary>
             Imports a graph from the given files.
             If the filenames only specify a model, the graph is empty.
             The format is determined by the file extensions.
-            Currently available are: .grs/.grsi or .gxl or .ecore(/.xmi).
+            Currently available are: .grs/.grsi or .gxl or .ecore with .xmi.
             Optionally suffixed by .gz; in this case they are expected to be gzipped.
             Any error will be reported by exception.
             </summary>
@@ -6422,6 +6581,17 @@
             The name of the pattern graph
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.Package">
+            <summary>
+            null if this is a global pattern graph, otherwise the package the pattern graph is contained in.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.PackagePrefixedName">
+            <summary>
+            The name of the pattern graph in case of a global type,
+            the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.Nodes">
             <summary>
             An array of all pattern nodes.
@@ -6603,6 +6773,17 @@
             A description of a filter of a rule
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IFilter.Package">
+            <summary>
+            null if this is a global type, otherwise the package the type is contained in.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IFilter.PackagePrefixedName">
+            <summary>
+            The name of the type in case of a global type,
+            the name of the type prefixed by the name of the package otherwise.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IFilterAutoGenerated">
             <summary>
             A description of an auto-generated filter
@@ -6750,11 +6931,14 @@
             A description of a GrGen attribute evaluation function.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.FunctionInfo.#ctor(System.String,System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType)">
+        <member name="M:de.unika.ipd.grGen.libGr.FunctionInfo.#ctor(System.String,System.String,System.String,System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType)">
             <summary>
             Constructs a FunctionInfo object.
             </summary>
             <param name="name">The name the function was defined with.</param>
+            <param name="package">null if this is a global pattern graph, otherwise the package the pattern graph is contained in.</param>
+            <param name="packagePrefixedName">The name of the pattern graph in case of a global type,
+            the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).</param>
             <param name="inputNames">The names of the input parameters.</param>
             <param name="inputs">The types of the input parameters.</param>
             <param name="output">The type of the output parameter.</param>
@@ -6769,6 +6953,17 @@
         <member name="F:de.unika.ipd.grGen.libGr.FunctionInfo.name">
             <summary>
             The name of the function.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FunctionInfo.package">
+            <summary>
+            null if this is a global type, otherwise the package the type is contained in.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FunctionInfo.packagePrefixedName">
+            <summary>
+            The name of the type in case of a global type,
+            the name of the type prefixed by the name of the package otherwise.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.FunctionInfo.inputNames">
@@ -7268,6 +7463,17 @@
             The name of the action
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IAction.Package">
+            <summary>
+            null if this is a global type, otherwise the package the type is contained in.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IAction.PackagePrefixedName">
+            <summary>
+            The name of the type in case of a global type,
+            the name of the type prefixed by the name of the package otherwise.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IAction.RulePattern">
             <summary>
             The RulePattern object from which this IAction object has been created.
@@ -7358,31 +7564,9 @@
             Imports a graph model from the ECore format.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.noPackageNamePrefix">
-            <summary>
-            no package name mangling into entities if true; requires names to be unique
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.graph">
-            <summary>
-            the graph we build by importing
-            </summary>
-        </member>
         <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.typeMap">
             <summary>
             map of package prefixed type name to graph node type
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.nodeMap">
-            <summary>
-            map of xmi:id to the graph node it denotes
-            might be empty for documents which don't use ids to reference elements but paths
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.root">
-            <summary>
-            root of the xml tree hierarchy
-            needed to decode path references for documents not using xmi:id to reference elements
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.enumToLiteralToValue">
@@ -7405,10 +7589,29 @@
             <param name="noPackageNamePrefix">Prefix the types with the name of the package? Can only be used if names from the packages are disjoint.</param>
             <param name="actions">Receives the actions object in case a .grg model is given.</param>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.root">
+            <summary>
+            root of the xml tree hierarchy
+            needed to decode path references for documents not using xmi:id to reference elements
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.graph">
+            <summary>
+            the graph we build by importing
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.nodeMap">
+            <summary>
+            map of xmi:id to the graph node it denotes
+            might be empty for documents which don't use ids to reference elements but paths
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment">
             <summary>
             Environment for sequence checking giving access to model and action signatures.
-            Abstract base class, there are two concrete subclasses, one for interpreted, one for compiled sequences
+            Abstract base class, there are two concrete subclasses, one for interpreted, one for compiled sequences.
+            The compiled version in addition resolves names that are given without package context but do not reference global names
+            because they are used from a sequence that is contained in a package (only possible for compiled sequences from rule language).
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckCall(de.unika.ipd.grGen.libGr.Sequence)">
@@ -7502,6 +7705,8 @@
             <summary>
             Environment for sequence checking giving access to model and action signatures.
             Concrete subclass for compiled sequences.
+            This environment in addition resolves names that are given without package context but do not reference global names
+            because they are used from a sequence that is contained in a package (only possible for compiled sequences from rule language).
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironmentCompiled.Model">
