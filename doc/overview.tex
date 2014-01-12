@@ -130,12 +130,13 @@ However, \GrShell\ does not provide the full power of the \LibGr; see also note~
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Tools}
 
-All the programs and libraries of \GrG\ are licensed under \indexed{LGPL}.
-Notice that the \yComp\ graph viewer is not a part of \GrG ; \yComp\ ships with its own license.
-Although \yComp\ is not free software, it's free for use in academic and non-commercial areas.
-This means above all that you are not allowed to ship it with a release of your own commercial software, in contrast to the \GrG libraries.
-You'll find the tools in the \texttt{bin} subdirectory of your \GrG\ installation.
+All the programs and libraries of \GrG\ are open source licensed under \indexed{LGPL}.
+Notice that the \yComp\ graph viewer is not a part of \GrG ; \yComp\ ships with its own license granted by \yFiles\ for academic use.
+\yComp\ is closed-source and only free for non-commercial use --
+this means above all that you are not allowed to ship it with a release of your own commercial software, in contrast to the \GrG\ libraries.
 
+Executing a generated graph rewrite system requires .NET 2.0 or later, compiling and debugging a graph rewrite system in addition requires JAVA 1.5 or later. 
+You find the tools in the \texttt{bin} subdirectory of your \GrG\ installation.
 %\pagebreak
 
 %-----------------------------------------------------------------------------------------------
@@ -267,12 +268,12 @@ We have organized the presentation of the features of the \GrG\ languages accord
 \begin{itemize}
   \item The graph model (meta-model) language supports:
   \begin{itemize}
-    \item Typed nodes and edges, with multiple inheritance on types
+    \item Typed nodes and edges, with \emph{multiple inheritance} on types
     \item Directed multigraphs (supporting multiple edges of the same type between two nodes)
     \item Undirected and arbitrarily directed edges
     \item Node and edge types can be equipped with typed attributes (like structs), of the commonly known elementary types or of some container types
     \item Connection assertions to restrict the ``shape'' of graphs
-    \item Turing complete language for checking complex conditions
+%    \item Turing complete language for checking complex conditions
   \end{itemize}
 
   \item The pattern language supports:
@@ -361,13 +362,13 @@ The development goals of \GrG\ were
 \begin{description}
 
 \item[Expressiveness]
-is achieved by powerful and declarative specification languages for pattern matching and rewriting by rewrite rules, building upon a rich graph model language.
-In addition to the unmatched expressiveness of the basic actions,
-the rule language now offers nested and subpatterns which allow to handle substructures of arbitrary depth and arbitrary breadth declaratively within the rules,
-by now even surpassing the capabilities of the VIATRA2\cite{viatra2,recursiveviatra} graph rewriting tool, the strongest competitor in rule expressiveness.
+is achieved by powerful and declarative specification languages for pattern matching and rewriting, building upon a rich graph model language.
+In addition to the unmatched expressiveness of the single-element operations offered by the rules,
+are now nested and subpatterns available, which allow to handle substructures of arbitrary depth and arbitrary breadth declaratively at rule level,
+surpassing the capabilities of the VIATRA2\cite{viatra2,recursiveviatra} and GROOVE \cite{Groove} tools, our strongest competitors regarding rule expressiveness.
 The rules can be combined by graph rewrite sequences, a rule application control language with variables and logical as well as iterative control flow;
 it was recently extended by storages as pioneered by the VMTS\cite{vmts} graph rewriting tool, allowing for more concise and faster solutions.
-You may have a look at the GrGen.NET solution of the Hello World! case \cite{HelloWorld} (or the other cases \cite{ProgramUnderstanding} and \cite{CompilerOptimization}) of TTC 2011 highlighting the conciseness achieved by the expressiveness of the many language constructs.
+You may have a look at the GrGen.NET solution of the Hello World! case \cite{HelloWorld} (or the other cases \cite{ProgramUnderstanding} and \cite{CompilerOptimization}) of TTC 2011 highlighting the conciseness achieved by the expressiveness of the language constructs.
 
 \item[Performance]
 i.e. high speed at modest memory consumption, is needed to tackle real world problems.
@@ -378,27 +379,30 @@ In order to accelerate the matching step, we internally introduce \newterm{searc
 to represent different \newterm{matching strategies} and equip these search plans with a cost model, taking the present host graph into account.
 The task of selecting a good search plan is then considered as an optimization problem~\cite{BKG:07,Bat:06}.
 In contrast to systems like Fujaba\cite{fujaba,fuj}, our strongest competitor regarding performance,
-our pattern matching algorithm is fully automatic and does not need to be tuned nor to be implemented in parts by hand.
+is our pattern matching algorithm fully automatic and neither needs to be tuned nor partly be implemented by hand.
 According to \indexed{Varr\'o's benchmark}\cite{varro_bench}, it is at least one order of magnitude faster than any other tool known to us.
 
 \item[Understandability and Learnability]
 was taken care by evaluating for each language construct several options,
 prefering constructs already known from programming languages ---
 the ones which seemed most clean and intuitive while satisfying the other constraints were chosen.
-This can be noted in comparison with the languages of the (otherwise well-engineered) graph rewrite/database system GReTL \cite{GReTL},
+This can be noted in comparison with the languages of the GReTL \cite{GReTL} tool, esp. with its powerful graph query language GReQL,
 which may be pleasing to someone from the realm of formal specification, but are not to the mind of a programmer.
 A programmer who just wants to process his graphs on a higher level of abstraction, with declarative pattern matching and rewriting on a visualization of the network of objects -- instead of low level pointer structure fiddling, chasing objects by following references in the debugger.
 As we know that even the best designed language is not self explaining we put an emphasize on the user manual currently read by you.
 
 \item[Development Convenience]
-is gained by interactive and graphical debugging of the rule application, capable of visualizing the matched pattern, the rewrite which will be applied, and the currently active rule out of the rewrite sequence.
+is gained especially by the offered interactive and graphical debugging of rule applications.
+The debugger visualizes the matched pattern and the changes carried out by rewriting in the graph where they apply,
+for the currently active rule in the sequence (which is highlighted).
 A further point easing development is the application programming interface of the generated code,
 which offers access to named, statically typed entities, catching most errors before runtime and allowing the code completion mechanisms of modern IDEs to excel.
 In addition a generic interface operating on name strings and .NET objects is available for applications where the rules may change at runtime (as e.g. the \GrShell).
 There's one convenience not offered you might expect: a visual rule language and an editor.
-This brings a clear benefit -- graph transformation specifications to be processed by \GrG\ can be easily generated --
-but especially is a good deal cheaper to implement. Given the limited resources of an university project this is an important point,
-as can be seen with the AGG\cite{agg} tool, offering a nice graphical editor but delivering performance only up to simple toy examples
+This brings a clear benefit -- graph transformation specifications to be processed by \GrG\ can be easily generated and textually diff'ed --
+but also is a good deal cheaper to implement.
+Given the limited resources of an university project this is an important point,
+as can be seen with the AGG\cite{agg} tool, offering a graphical editor but delivering performance only up to simple toy examples
 (causing the wrong impression that graph rewriting is notoriously inefficient).
 
 \item[Well Founded Semantics]
@@ -416,12 +420,14 @@ is achieved by using languages compiled to byte code for virtual machines backed
 This should prevent the fate of the grandfather of all graph rewrite systems, PROGRES\cite{schuerr99progres},
 which achieved a high level of sophistication, but is difficult to run by now, or simply: outdated.
 
-\item[General Purpose Graph Transformation]
-in contrast to special purpose graph transformation.
-A lot of other graph based tools are geared towards special purpose applications,
-e.g. verification (GROOVE \cite{Groove}), or biology (XL \cite{xl}, or model transformation (VIATRA2\cite{viatra2}).
-This means that design decisions were taken to ease uses in this application areas at the cost of rendering uses in other domains more difficult.
-And that features were added in a way which just satisfies the needs of the domain at hand instead of striving for a more general solution
+\pagebreak %improve layout
+\item[General-Purpose Graph Transformation]
+in contrast to \emph{model} transformation and \emph{special-purpose} graph transformation.
+Several model transformation tools offer graph pattern matching as their primary means of transforming the models they operate upon \cite{Jakumeit2013}, but are not meant to be used in a more general setting.
+Several graph based tools are geared towards special application domains,
+e.g. verification (GROOVE \cite{Groove}) or biology (XL \cite{xl}.
+This means that design decisions were taken that ease uses in these application areas at the cost of rendering uses in other domains more difficult.
+And that features were added in a way which just satisfy the needs of the domain at hand instead of striving for a more general solution
 (which would have caused higher costs at designing and implementing this features).
 While the old \textsc{GrGen} was built as a special purpose compiler construction tool for internal use
 (optimizations on the graph based compiler intermediate representation FIRM -- see \url{www.libfirm.org}),
@@ -431,4 +437,13 @@ for reasoning with semantic nets, transformation of natural language to UML mode
 model transformation, processing of program graphs, genome simulation, or pattern matching in social nets.
 Several of them are worked on, you may have a look at \cite{usecomputerlinguistics} or \cite{usemodeltransformation} or \cite{usegeneexpression}.
 
+And graph \emph{transformation} in contrast to graph \emph{databases}.
+The focus is on efficient \emph{rewriting} with complex queries and complex updates that are strongly coupled to the query results, 
+on an \emph{in-memory} graph-structure, by a \emph{single user} at a time.
+In contrast to e.g. Neo4J\cite{neo}, that offers complex \emph{queries} that are feeding loosely coupled simple updates,
+on a \emph{backing-store}, by \emph{multiple users} that are working concurrently at the same time, isolated by transactions.
+\GrG\ \emph{does} offer \emph{online} modification of an application-embedded graph-structured state
+-- in addition to \emph{batch-wise offline} mapping of a graph representation to another one, which defines the common and only usage of model transformation tools like ATL\cite{atl} --
+but persistence of online modifications is only offered via recording to a change log that needs to be replayed at the next start
+(besides writing a full dump from memory at session end, as it is common to batch-wise offline processing).
 \end{description}

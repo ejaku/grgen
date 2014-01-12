@@ -362,39 +362,50 @@ Such a script can be loaded and executed by the \texttt{include} command (see Se
   'export' Filename ('.grs' | '.grsi') ('.gz')?
 \end{rail}\ixkeyw{export}\indexmain{export}
 Exports an instance graph in GRS (.grs/.grsi) format, which is a reduced \GrShell\ script
-(it can get imported and exported on API level\ref{sub:imexport} without using the \GrShell).
-This is the recommended standard format.
-It contains the \texttt{new graph} command, followed by \texttt{new node} commands, followed by \texttt{new edge} commands.
+(it can get imported and exported on API level without using the \GrShell, see \ref{sub:imexport}).
+This is the recommended standard format (it is lightweight, human-readable and editable, and supported by an optimized importer).
+The file contains a \texttt{new graph} command, followed by \texttt{new node} commands, followed by \texttt{new edge} commands.
 If the \texttt{.gz} suffix is given the graph is saved zipped.
 The export is only complete with the model of the graph given in the \texttt{.gm} file.
-Exporting fails if the graph model contains attributes of \texttt{object}-type.
-The \texttt{save} command is for saving about a \GrShell\ session including graph global variables and visualization commands,
-the goal of the \texttt{export} command is basic graph rewrite system interoperability.
+Exporting fails if the graph model contains attributes of \texttt{object}-type; you may add support for storing them, too, see \ref{sub:extemitparse} for more on this.
+The \texttt{save} command is for saving a \GrShell\ session including graph global variables and visualization commands,
+the goal of the \texttt{export} command is simply persistent storing of graphs;
+esp. for applications that use \GrG{ }to get an algorithmic core, but are not built on the \GrShell.
 
 \begin{rail}
   'export' Filename '.gxl' ('.gz')?
-\end{rail}\ixkeyw{export}\indexmain{import}
+\end{rail}\ixkeyw{export}\indexmain{export}
 Exports an instance graph and a graph model in GXL format \cite{GXL,GXL2},
 which is somewhat of a standard format for graphs of graph rewrite systems,
-but suffers from the well-known XML problems -- it is barely human-readable and bloated.
-(Besides tools claiming to support it often can't import the export of the other.)
+but suffers from the well-known XML problems -- it is barely human-readable and editable, and bloated.
+It is supported by \GrG{} as exchange format for inter-tool operability.
 Exporting fails if the graph model contains attributes of container or \texttt{object}-type.
 If the \texttt{.gz} suffix is given the graph is saved zipped.
 
 \begin{rail}
-  'export' Filename '.grg' ('.gz')?
-\end{rail}\ixkeyw{export}\indexmain{import}
-Exports an instance graph in GRG format, i.e. as one GrGen rule with an empty pattern and a large modify part.
-There is no importer existing, this format is not for normal use!
+  'export' Filename '.xmi' ('.gz')?
+\end{rail}\ixkeyw{export}\indexmain{export}
+Exports an instance graph in .XMI format.
+XMI files as written by the Eclipse Modeling Framework (EMF) are a standard format in the model transformation community (together with ecore files for the model).
+It suffers from the XML problems explained above, in addition it can be even characterized as overly complex and baroque, and it requires some metamodel mapping.
+It is supported by \GrG{} as exchange format for inter-tool operability.
+The metamodel is assumed to stem from a previous import of an ecore file, with its specific way of mapping \texttt{.ecore} to \texttt{.gm}, i.e. with an underscore prefix, a node type prefix for the edge types, and the \verb#[containment=true]# annotation at the edges that express containment, which is needed so that they are written with XML node containment.
 If the \texttt{.gz} suffix is given the graph is saved zipped.
 
-\pagebreak %force better layout
+%\pagebreak %force better layout
+
+\begin{rail}
+  'export' Filename '.grg' ('.gz')?
+\end{rail}\ixkeyw{export}\indexmain{export}
+Exports an instance graph in GRG format, i.e. as one GrGen rule with an empty pattern and a large modify part.
+There is no importer existing, this format is not for normal use as storage format!
+If the \texttt{.gz} suffix is given the graph is saved zipped.
 
 \begin{rail}
   'import' Filename ('.grs' | '.grsi' ) ('.gz')? (ModelOverride)?
 \end{rail}\ixkeyw{import}
 Imports the specified graph instance in GRS (.grs/.grsi) format (the \emph{reduced} \GrShell\ script,
-a saved graph can only be imported by \texttt{include} (but an exported graph can be imported by \texttt{include}, too)).
+a \texttt{save}d graph can only be imported by \texttt{include} (but an exported graph can be imported by \texttt{include}, too)).
 The graph model referenced in the .grs/.grsi must be available as \texttt{.gm}-file.
 If a model override of the form \texttt{Filename.gm} is specified, the given model will be used instead of the model referenced in the GRS file.
 If a model override of the form \texttt{Filename.grg} is specified, the model(s) of the given rule file will be used instead of the model in the GRS file.
@@ -430,36 +441,38 @@ As of version 3.0beta you can specify a \texttt{.grg} as model override;
 basically it does what the given enumeration does.
 \end{note}
 
-\begin{note}\label{shellecoreexport}
-Further formats available for import are \texttt{.ecore} plus \texttt{.xmi} of Eclipse Modeling Framework (EMF).
-These are formats common to the model transformation community which are not directly geared towards graphs, so they can't be imported directly.
-Instead during the import process an intermediate \texttt{.gm} is written which is equivalent to the \texttt{.ecore} given -- you may inspect it to see how the content gets mapped
-(the importer maps classes to GrGen node classes, their attributes
-to corresponding GrGen attributes, and their references to GrGen
-edge classes; inheritance is transferred one-to-one, and enumerations are
-mapped to GrGen enums;
-class names are prefixed by the names of the packages they are contained in
-and edge type names are prefixed by the names of the node types they originate from,
-to prevent name clashes).
-After this metamodel transformation the instance graph XMI adhering to the Ecore model thus adhering to the just
-generated equivalent GrGen graph model gets imported.
-Furthermore you can give specify a \texttt{.grg} containing the rules to apply (using further rule and model files).
-An export is not available -- we coded the export we needed for the GraBaTs/TTC challenges the importer was written for with emit statements.
 \begin{rail}
   'import' ((Filename '.ecore')+( )) Filename '.xmi' (Filename '.grg')?
-\end{rail}\ixkeyw{import}
-\end{note}
+\end{rail}\ixkeyw{import}\label{shellecoreexport}
+Imports the specified graph instance in XMI format and the models in ecore format.
+They can't be imported directly, as \GrG{ } is not built on EMF.
+Instead, during the import process an intermediate \texttt{.gm} is written which is equivalent to the \texttt{.ecore} given -- you may inspect it to see how the content gets mapped.
+(The importer maps packages to GrGen packages, classes to GrGen node classes, their attributes to corresponding GrGen attributes, and their references to GrGen edge classes.
+Inheritance is transferred one-to-one, and enumerations are mapped to GrGen enums.
+Edge type names are prefixed by the names of the node types they originate from to prevent name clashes for references of same name,
+and all types are prefixed by an underscore to prevent name clashes with keywords of the rule language.
+Edge type declarations are annotated with a \verb#[containment=true]# annotation if they originate from a containment reference.)
+After this metamodel transformation the instance graph XMI adhering to the Ecore model thus adhering to the just
+generated equivalent GrGen graph model gets imported.
+Furthermore, you can specify a \texttt{.grg} containing the rules to apply (using further rule and model files).
+Some examples stemming from old GraBaTs/TTC challenges export XMI with emit statements, this is not needed anymore with the built-in XMI export.
 
 \begin{rail}
   'import' 'add' FileSpec
 \end{rail}\ixkeyw{import}\ixkeyw{add}
 Imports the graph in the specified file and adds it to the current graph
 (instead of overwriting the old graph with the new graph).
-The \texttt{FileSpec} is of the same format as the file specification in the other two imports.
+The \texttt{FileSpec} is of the same format as the file specification in the other import commands.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Graph Change Recording and Replaying}
 \label{recordnreplay}
+
+Graph change recording and replaying is available 
+\begin{itemize}
+	\item for one for post-problem debugging, you can execute your transformation, and after a problem occured inspect the changes that were leading to it
+	\item for the other for ensuring persistence of changes as they happen, in case you are using \GrG\ as an application-embedded in-memory graph-datebase
+\end{itemize}
 
 \begin{rail}
   'record' Filename ('.gz')? ('start' | 'stop')?

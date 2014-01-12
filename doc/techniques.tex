@@ -17,20 +17,20 @@ which allow to match and rewrite complex patterns built in a structured way piec
 With different pieces connected together, pieces to decide in between, and pieces which appear repeatedly.
 	\item[embedded graph rewrite sequences]
 for deferred rule execution to do work later on you can't do while executing the rule proper (e.g. because an element was already matched and is now locked due to the isomorphy constraint); or for splitting work into several parts, reusing already available functionality.
-	\item[storages and storagemaps]
+	\item[storages (container variables)]
 to store elements collected in one run and reuse them as input in another run, i.e. using multi-value variables to break up the transformation into passes. (This is the half point, as they are not a means to build a complex rule, but a means to communicate between rules building complex transformations.)
 \end{description}
 %Besides, sequences combining rules into more complex sequences.
 %Besides, programmed-direct graph manipulation from procedures, and programmed-direct graph querying from functions.
 
-\noindent In the following we'll employ them to merge and split nodes, emulate node replacement grammars, execute transformations in a narrow sense, copy substructures, compute flow equations over the graph structure with sets in the nodes, and enumerate state spaces.
+\noindent In the following we'll employ them to merge and split nodes, emulate node replacement grammars, execute transformations in the narrow sense, aka mappings, copy substructures, compute flow equations over the graph structure with sets in the nodes, and enumerate state spaces.
 Further examples can be found in \cite{CompilerOptimization} employing two storagesets switched in between for computing a wavefront running over a compiler graph and \cite{ProgramUnderstanding} using the nested and subpatterns for elegantly extracting a state machine model from a program graph.
 
 \begin{note}
-You should use the means to build complex transformations in the order given, first try to solve the problem with nested and subpatterns, if they don't get the job done (often because of the isomorphy constraint locking of already matched elements) or feel awkward then embedded graph rewrite sequences, and if these are still inadequate then storages and storagemaps; i.e. from declarative-local to imperative-global. This helps in keeping the code readable and easily adaptable. And don't forget the last resort if you must solve a task so complex that rules, control and storages are not sufficient: adding helper nodes, edges, or attributes to the graph model and the graph itself (with the visited flags being a light version of this tactic). Note: storages and storagemaps might be useful when you are experiencing performance problems, replacing a search in the graph by a lookup in a dictionary. But beware of elements already deleted from the graph still hanging out in your storage because you forgot to remove them.
+You should use the means to build complex transformations in the order given, first try to solve the problem with nested and subpatterns, if they don't get the job done (often because of the isomorphy constraint locking of already matched elements) or feel awkward then embedded graph rewrite sequences, and if these are still inadequate then storages and storagemaps; i.e. from declarative-local to imperative-global. This helps in keeping the code readable and easily adaptable. And don't forget the last resort if you must solve a task so complex that rules, control and storages are not sufficient: adding helper nodes, edges, or attributes to the graph model and the graph itself (with the visited flags being a light version of this tactic). Note: storages might be useful when you are experiencing performance problems, replacing a search in the graph by a lookup in a container. But beware of elements already deleted from the graph still hanging out in your storage because you forgot to remove them.
 \end{note}
 
-Furthermore we'll have a look at language constructs which allow to build transformations by introducing state as a communications means between several rule applications.
+Furthermore we'll have a look at language constructs which allow to build transformations by introducing state as a means of communication between several rule applications.
 
 Besides the normal scalar variables from the rule application control language there are container-valued storages available for communicating some information between rule applications;
 additionally there are several visited flags per graph element available for this means.
@@ -62,17 +62,14 @@ First let us have a look at T1 and T3, which are rather boring ... ehm, straight
 
   \begin{example}
     \begin{grgen}
-rule T1
-{
+rule T1 {
   n:BB -:cf-> n;
 
   replace {
     n; // delete relexive edges
   }
 }
-
-rule T3
-{
+rule T3 {
   pred:BB -first:cf-> succ:BB;
   pred    -other:cf-> succ;
 
@@ -87,8 +84,7 @@ The interesting part is T2, this is the first version using an iterated statemen
 
   \begin{example}
     \begin{grgen}
-rule T2
-{
+rule T2 {
   pred:BB -e:cf-> succ:BB;
   negative {
     -e->;
@@ -271,10 +267,10 @@ The examples can be found in the \texttt{tests/nodeReplacementGrammar} directory
 
 \section{Transformation in a Rewriting Tool}\label{sec:transfo}\indexmain{transformation in a narrow sense}
 \GrG{} is a \emph{rewrite} tool, i.e. you modify \emph{one} graph.
-This is in contrast to \emph{transformation} tools, which are used for specifying mappings in between \emph{two} (or more) graphs. (Graphs are typically called models in this kind of tools. Don't confuse this with the notion of graph model in \GrG as introduced in chapter \ref{chapmodellang}. In model transformation parlance our graph model denotes a meta model, with a model adhering to a meta model, which in turn adheres to a meta meta model, climbing a ladder of bullshit abstraction leading right into the land of the hot-air merchants, eh, real software engineers.))
+This is in contrast to \emph{transformation} or better \emph{mapping} tools, which are used for specifying mappings in between \emph{two} (or more) graphs. (Graphs are typically called models in this kind of tools. Don't confuse this with the notion of graph model in \GrG\ as introduced in chapter \ref{chapmodellang}. In model transformation parlance our graph model denotes a meta model, with a model adhering to a meta model, which in turn adheres to a meta meta model, climbing a ladder of bullshit abstraction leading right into the land of the hot-air merchants, eh..., consultants, ehhh..., the truthfully real software engineers. XML. Model. Meta. Meta-meta. Business-logic. Cloud. Bingo!))
 The graph model might be a union of multiple graph models, and the graph may consist of multiple unconnected components, so you don't loose anything regarding expressiveness here.
 
-What you loose is the automatic construction of the \indexed{traceability} links which allow to retrieve the source node from a mapped node or the mapped node from a source node, which is normally carried out by a real transformation tool in the background.
+What you loose is the automatic construction of the \indexed{traceability} links which allow to retrieve the source node from a mapped node or the mapped node from a source node, which is normally carried out by a mapping tool in the background.
 And there are no built-in annotations by which you specify the model in which to match the elements.
 But again neither means a loss in expressiveness.
 
@@ -283,20 +279,23 @@ Either by using simple edges between the nodes (this is not possible in a transf
 Or by using maps of node type to node type (or from edge type to edge type) which you must fill manually:
 when you map a source node to a target node (i.e. for a matched source node you create a target node), you fill a global map from source to target nodes with this pair, and/or a global map from target to source nodes.
 When you need this information, you look it up easily with \texttt{target=map[source]} or \texttt{source=map[target]}.
-The highlight command \ref{highlight} of the debugger can visualize this storage map neatly by marking the contained nodes and adding directed edges in between the source and domain elements.
+The highlight command \ref{tabdebug} of the debugger can visualize this storage map neatly by marking the contained nodes and adding directed edges in between the source and domain elements.
 In some situations you are even better off: if the retype operator is sufficient, you can easily transform the graph in-place. A given, named graph element then denotes the source and the target, just at different points in time.
 
-The lack of built-in model annotations can be overcome by several ways of partitioning the graph. 
+The lack of built-in model annotations can be overcome by several ways of partitioning the graph or its types. 
 Often the types of the source and the target model are disjoint.
 This is the most convenient case, as you save any extra notational effort, the types alone define the source and target.
-In cases they are not disjoint (because you are forced to use certain non-disjoint graph models),
+If you experience name-clashes, because while being basically disjoint they use same names, 
+you may use packages, to force disjointness for type names.
+This comes at the price of always having to specify the meta-model, similar to how you specify the model in mapping tool.
+
+In cases they are not disjoint but share certain parts/types,
 you can tell the elements from different graphs apart by either using visited flags --- then each ``graph'' is marked to be visited with its own flag.
 Or you may use anchor nodes representing subgraphs, with an edge from such an anchor node to all nodes contained in its subgraph.
 Thus all nodes of a subgraph are adjacent to an anchor node, and the subgraph consists exactly of the induced subgraph of these adjacent nodes (see \ref{builtingraphcopying} for more on this kind of modelling).
 
-
 \section{Comparing Structures}\label{subsub:comparestructure}\indexmain{subgraph comparison}\indexmainsee{compare structure}{subgraph comparison}
-Structures are compared in three steps, the first is to collect all nodes of interest in a storage set, the second is to compute an induced subgraph from that set, and the third is to compare the subgraphs with the built in graph comparison operators.
+Structures are compared in three steps, the first is to collect all nodes of interest in a storage set, the second is to compute an induced subgraph from that set, and the third is to compare the subgraphs with the built-in graph comparison operators.
 
 The first step typically consists of covering the nodes of the structure one wants to compare with iterated subpatterns,
 i.e. subpatterns which match from a root node on with iterateds along the incident edges into breadth,
@@ -330,9 +329,9 @@ pattern MatchSubgraph(root:Node, ref nodes:set<Node>)
     \end{grgen}
   \end{example}
 
-The second step is to compute an induced subgraph from the node set collected, that can be done easily with the \texttt{inducedSubgraph} subgraph operation introduced in \ref{subgraphoperations}:\\ \verb#exec sub:graph=inducedSubgraph(nodes)#.
+The second step is to compute an induced subgraph from the node set collected, that can be done easily with the \texttt{inducedSubgraph} subgraph operation introduced in \ref{sec:subgraphop}:\\ \verb#exec sub:graph=inducedSubgraph(nodes)#.
 
-The third step consists of comparing the subgraphs we filleted out of the common host graph with the graph comparison operators introduced in table \ref{compandgraph} (of section \ref{sec:relationalcontainer}):\\
+The third step consists of comparing the subgraphs we filleted out of the common host graph with the graph comparison operators introduced in table \ref{compandgraph}:\\
 \verb#exec if{sub1==sub2; doIso; doNonIso}#.
 
 In case each such subgraph needs to be compared more than once it is recommended to add an attribute of type \texttt{graph} (see chapter \ref{cha:container}) to the subgraph starting anchor nodes, to assign the induced subgraph to this attribute, and to compare the subgraphs stored in these attribute.
@@ -358,13 +357,6 @@ i.e. subpatterns which match from a root node on with iterateds along the incide
 employing a subpattern again on the node opposite to the root node to match into depth.
 In the example we match the entire subgraph from a root node on, if one wants to copy a more constrained subgraph one can simple constrain the types, directions, and structures in the iterated subpattern covering the nodes.
 The nodes are copied with the \texttt{copy} operators and a storagemap is filled, storing for every node copied its copy.
-
-The second pass is started after the structure matching ended by executing the deferred execs which were issued for every node handled.
-Each \texttt{exec} copies all outgoing edges (one could process all incoming edges instead) of a node:
-for each edge leaving the original node towards another original node a copy is created in between the copy of the original node and the copy of the other node.
-The copies are looked up with the original nodes from the storage map (which fails for target nodes outside of the subgraph of interest).
-Here too one could constrain the subgraph copied by filtering certain edges.
-In case of undirected edges one would have to prevent that edges get copied twice (once for every incident node). This would require a visited flag for marking the already copied edges or a storage receiving them, queried in the edge copying pattern and set/filled in the edge copying rewrite part.
 
   \begin{example}
 The example shows very generally how a subgraph reachable from a root node by incident edges can get copied, collecting and copying the nodes along a \indexed{spanning tree} from the root node on, then copying the edges in between the nodes in a second run afterwards. The edges get connected to the correct node copies via a mapping from the old to the new nodes remembered in a storage-map (\indexed{traceability} map).
@@ -401,12 +393,19 @@ rule CopyOutgoingEdge(n:Node, ref oldToNew:map<Node, Node>)
     \end{grgen}
   \end{example}
 
+The second pass is started after the structure matching ended by executing the deferred execs which were issued for every node handled.
+Each \texttt{exec} copies all outgoing edges (one could process all incoming edges instead) of a node:
+for each edge leaving the original node towards another original node a copy is created in between the copy of the original node and the copy of the other node.
+The copies are looked up with the original nodes from the storage map (which fails for target nodes outside of the subgraph of interest).
+Here too one could constrain the subgraph copied by filtering certain edges.
+In case of undirected edges one would have to prevent that edges get copied twice (once for every incident node). This would require a visited flag for marking the already copied edges or a storage receiving them, queried in the edge copying pattern and set/filled in the edge copying rewrite part.
+
 The example can be found in the \texttt{tests/copyStructure} directory.
 Without storagemaps one would have to pollute the graph model with helper edges linking the original to the copied nodes.
 
 \subsection{Built-In Graph Copying}\label{builtingraphcopying}
 In contrast to the just introduced general copying of an entire graph, you may choose a limited form of copying subgraphs.
-This is enabled by the \texttt{insertInduced} and \texttt{insertDefined} operations introduced in \ref{subgraphoperations}, which add a clone of the subgraph induced by the set of nodes or set of edges given as first argument to the host graph.
+This is enabled by the \texttt{insertInduced} and \texttt{insertDefined} operations introduced in \ref{sec:subgraphop}, which add a clone of the subgraph induced by the set of nodes or set of edges given as first argument to the host graph.
 The clone of the second argument node or edge which was inserted into the host graph is returned as anchor element for further operations.
 
 Before you can apply these operations you must collect the nodes or edges which are used to compute the induced subgraph.
