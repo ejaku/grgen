@@ -733,7 +733,8 @@ In addition to the already introduced syntax for the nested patterns with the ke
 \texttt{negative}, \texttt{independent}, \texttt{alternative}, \texttt{iterated}, \texttt{multiple} and \texttt{optional},
 there is a more lightweight syntax resembling regular expressions; 
 using it together with the subpatterns gives graph rewrite specifications which look like EBNF-grammars with embedded actions. 
-Exceeding the more verbose syntax they offer constructs for matching the pattern a bounded number of times (same notation as the one for the bounded iteration in the xgrs).
+Exceeding the more verbose syntax they offer constructs for matching the pattern a bounded number of times (same notation as the one for the bounded iteration in the sequences).
+
 %Table \ref{keywordregexpsyntax} lists the corresponding (/equivalent) language constructs; 
 %Example \ref{introexampleregexp} is a version of the introductory example \ref{introexample} modified to use the new syntax. commented out to get better layout
 
@@ -754,6 +755,11 @@ Exceeding the more verbose syntax they offer constructs for matching the pattern
   \label{keywordregexpsyntax}
 \end{table}
 
+Understanding \GrG-subpatterns may be easier given knowledge about EBNF-grammars when we compare them to those.
+We find then that rules resemble grammar axioms, subpatterns resemble nonterminals, and graphlets resemble terminal symbols; nested patterns are similar to EBNF operators, and the rewrite part corresponds to the semantic actions of syntax directed translation.
+Negative and independent patterns are used to explicitely check context constraints
+(every graphlet as such is already able to match pieces that one would or could classify as context, graph rewriting allows for derivations that are highly adaptable to the surrounding parts).
+See \cite{EBNFAGTIVE} for more on this.
 
   \begin{example}
     \begin{grgen}

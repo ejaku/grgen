@@ -65,7 +65,7 @@ Program execution begins at the \node{Start} node, which also produces the initi
 The \node{Start} and the \node{Argument}s belong to the special \node{StartBlock}.
 The \node{Cmp} compares the arguments, its result is used by the \node{Cond} to carry out a conditional jump depending on the result of the comparison.
 After following the \node{Jmp} of the then- or the else-\node{Block}, the program execution is continued at \node{Block} \$D.
-The \node{Phi}\footnote{a helper node from the static single assignment form~\cite{ssa} employed} 
+The \node{Phi}\footnote{a helper node from the static single assignment form employed, see \cite{braun13cc} for a simple algorithm for constructing it from an abstract syntax tree} 
 chooses one of its operands depending on the previously executed block,
 here \node{Argument} $1$ if the \node{Cond} was evaluated to \node{True},
 or \node{Argument} $2$ if \node{Cond} was evaluated to \node{False}.
@@ -87,7 +87,7 @@ The \emph{knowledge} of an agent about the exterior world can be \emph{represent
 \emph{Models} as understood by \emph{model driven engineering} are typically graphs, with \GrG\ you can implement a model transformation between models, or into a lower-level program representation.
 When working in \emph{computational linguistics} you may be interested in modeling an \emph{abstract syntax graph} in \GrG;
 the recursive and iterated patterns that allow to process tree-like data structures declaratively render \GrG\ an excellent match for such tasks.
-But also in \emph{engineering} or \emph{architecture} where you need to describe the buildup of the modeled system from components, here you can derive system \emph{blueprints} or simulate their behaviour.
+But also in \emph{engineering} or \emph{architecture} where you need to describe the buildup of the modeled system from components, here you can derive context-sensitively system \emph{blueprints} or simulate their behaviour.
 You find help not only in modelling them, but also in deriving all interesting configurations or simulating all interesting execution traces. 
 In form of the built-in support for a backtracking search through a search space or even the enumeration of a state space with isomorphic state pruning, guided by match ordering and filtering.
 
@@ -393,7 +393,7 @@ Here the true case applies as you can see from the value \texttt{1} inscribed in
 The elements from the graph that were bound to the pattern elements are highlighted in light-brown, with their pattern name suffixed in double angles, e.g. the \texttt{cond} was matched to \node{\$7} .
 Blocks that become unreachable (without control flow predecessors) are assumed to get deleted in a later step of the transformation,
 as are duplicate constants.
-The benefits from using \GrG{ }can be already felt from this example, they become really outstanding as the patterns grow in size and complexity.
+The benefits of using \GrG{ }can be already felt from this example, they increase at an accelerating speed as the patterns (and rewrites) grow in size and complexity.
 
 \begin{figure}[htbp]
 	\centering
