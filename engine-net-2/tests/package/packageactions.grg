@@ -1,0 +1,175 @@
+#using "packagemod.gm"
+
+package FOO
+{
+	pattern P {
+		x:Foo::N -e:Foo::E-> x;
+
+		modify {
+			delete(e);
+		}
+	}
+	
+	test t {
+		x:Foo::N -e:Foo::E-> x;
+	} \ auto
+	
+	rule r {
+		x:Foo::N -e:Foo::E-> x;
+
+		modify {
+			delete(e);
+		}
+	}
+
+	rule rP {
+		p:P();
+
+		modify {
+			p();
+		}
+	}
+	
+	filter f<r> {
+		return;
+	}
+	
+	function func : boolean {
+		return(true);
+	}
+	
+	procedure proc(var b:boolean) {
+		return;
+	}
+	
+	sequence s {
+		t\auto ;> r\f
+	}
+}
+
+package BAR 
+{
+	pattern P {
+		x:Bar::N -e:Bar::E-> x;
+
+		modify {
+			delete(e);
+		}
+	}
+	
+	test t {
+		x:Bar::N -e:Bar::E-> x;
+	} \ auto
+	
+	rule r {
+		x:Bar::N -e:Bar::E-> x;
+
+		modify {
+			delete(e);
+		}
+	}
+
+	rule rP {
+		p:P();
+
+		modify {
+			p();
+		}
+	}
+	
+	filter f<r> {
+		return;
+	}
+	
+	function func : boolean {
+		return(true);
+	}
+	
+	procedure proc(var b:boolean) {
+		return;
+	}
+	
+	sequence s {
+		t\auto ;> r\f
+	}
+}
+
+pattern P2 {
+	x:Node -e:Edge-> x;
+
+	modify {
+		delete(e);
+		eval{ FOO::proc(BAR::func()); }
+		eval{ BAR::proc(FOO::func()); }
+	}
+}
+
+rule r2 {
+	x:Node -e:Edge-> x;
+	p:P2();
+	
+	modify {
+		delete(e);
+		p();
+	}
+}
+
+rule r3 {
+	if{ FOO::func() && BAR::func(); }
+	
+	modify {
+		eval{ FOO::proc(BAR::func()); BAR::proc(FOO::func()); proc2(func2()); }
+		
+		exec(FOO::t()\auto && FOO::r()\FOO::f ;> BAR::t()\auto && BAR::r()\BAR::f ;> { FOO::proc(true); BAR::proc(true); proc2(true); { FOO::func() || BAR::func() || func2() } });
+	}
+}
+
+pattern P3 {
+	modify {
+		exec(FOO::t()\auto && FOO::r()\FOO::f ;> BAR::t()\auto && BAR::r()\BAR::f ;> { FOO::proc(true); BAR::proc(true); proc2(true); { FOO::func() || BAR::func() || func2() } });			
+	}
+}
+
+rule r3P {
+	p:P3();
+	
+	modify {
+		p();
+	}
+}
+
+function func2 : boolean {
+	return(FOO::func() || BAR::func());
+}
+
+procedure proc2(var b:boolean) {
+	FOO::proc(b);
+	BAR::proc(b);
+	return;
+}
+
+sequence s2 {
+	FOO::t()\auto && FOO::r()\FOO::f && BAR::t()\auto && BAR::r()\BAR::f
+}
+
+sequence s3 {
+	FOO::rP() && BAR::rP()
+}
+
+sequence s4 {
+	FOO::s && BAR::s
+}
+
+rule initFoo
+{
+	replace {
+		x:Foo::N -e:Foo::E-> x;
+	}
+}
+
+rule initBar
+{
+	replace {
+		x:Bar::N -e:Bar::E-> x;
+	}
+}
