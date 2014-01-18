@@ -329,6 +329,7 @@ TOKEN: {
 |   < OPTIONS: "options" >
 |   < PARSE: "parse" >
 |   < PARSER: "parser" >
+|   < PROFILE: "profile" >
 |   < PWD: "pwd" >
 |   < QUIT: "quit" >
 |   < RANDOMSEED: "randomseed" >
@@ -1469,9 +1470,14 @@ void NewCommand():
 			noError = impl.NewGraphSetLazyNIC(on);
 		}
 	|
-		"set" "noinline" ("on" { on = true; } | "off" { on = false; }) LineEnd()
+		LOOKAHEAD(2) "set" "noinline" ("on" { on = true; } | "off" { on = false; }) LineEnd()
 		{
 			noError = impl.NewGraphSetNoinline(on);
+		}
+	|
+		"set" "profile" ("on" { on = true; } | "off" { on = false; }) LineEnd()
+		{
+			noError = impl.NewGraphSetProfile(on);
 		}
 	|
 		LOOKAHEAD(3)

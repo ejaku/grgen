@@ -25,8 +25,6 @@ namespace TNT
             actions = new TNTActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
-            procEnv.PerformanceInfo = new PerformanceInfo();
-
             // use graph rewrite sequence
             procEnv.ApplyGraphRewriteSequence("createTNT");
 

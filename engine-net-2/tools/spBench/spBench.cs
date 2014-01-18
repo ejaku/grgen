@@ -694,16 +694,14 @@ namespace spBench
             Sequence seq = SequenceParser.ParseSequence(benchGRS, actions, new List<string>());
 
             LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
-            PerformanceInfo perfInfo = new PerformanceInfo();
-            procEnv.PerformanceInfo = perfInfo;
             procEnv.ApplyGraphRewriteSequence(seq);
             if(foundMatches != -1)
             {
-                if(perfInfo.MatchesFound != foundMatches)
-                    Console.WriteLine("INTERNAL ERROR: Expected " + foundMatches + " matches, but found " + perfInfo.MatchesFound);
+                if(procEnv.PerformanceInfo.MatchesFound != foundMatches)
+                    Console.WriteLine("INTERNAL ERROR: Expected " + foundMatches + " matches, but found " + procEnv.PerformanceInfo.MatchesFound);
             }
-            else foundMatches = perfInfo.MatchesFound;
-            return perfInfo.TotalTimeMS;
+            else foundMatches = procEnv.PerformanceInfo.MatchesFound;
+            return (int)(procEnv.PerformanceInfo.TimeNeeded/1000); // sec -> ms
         }
 
         class BenchObject

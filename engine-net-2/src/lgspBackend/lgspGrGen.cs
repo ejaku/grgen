@@ -43,7 +43,6 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         internal bool FireEvents { get { return (flags & ProcessSpecFlags.NoEvents) == 0; } }
-        internal bool UsePerfInfo { get { return (flags & ProcessSpecFlags.NoPerformanceInfoUpdates) == 0; } }
 
         /// <summary>
         /// Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system 
@@ -1041,6 +1040,7 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
             if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0) matcherGen.CommentSourceCode = true;
             if((flags & ProcessSpecFlags.LazyNIC) != 0) matcherGen.LazyNegativeIndependentConditionEvaluation = true;
+            if((flags & ProcessSpecFlags.Profile) != 0) matcherGen.Profile = true;
 
             foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
             {

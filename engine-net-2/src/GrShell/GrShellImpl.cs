@@ -5,8 +5,6 @@
  * www.grgen.net
  */
 
-//#define MATCHREWRITEDETAIL
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -211,20 +209,20 @@ namespace de.unika.ipd.grGen.grShell
 
     public class StatisticsSource
     {
-        public StatisticsSource(IGraph graph, PerformanceInfo performanceInfo)
+        public StatisticsSource(IGraph graph, IActionExecutionEnvironment actionEnv)
         {
             this.graph = graph;
-            this.performanceInfo = performanceInfo;
+            this.actionEnv = actionEnv;
         }
 
         public int MatchesFound
         {
-            get { return performanceInfo.MatchesFound; }
+            get { return actionEnv.PerformanceInfo.MatchesFound; }
         }
 
         public int RewritesPerformed
         {
-            get { return performanceInfo.RewritesPerformed; }
+            get { return actionEnv.PerformanceInfo.RewritesPerformed; }
         }
 
         public long GraphChanges
@@ -233,7 +231,7 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         IGraph graph;
-        PerformanceInfo performanceInfo;
+        IActionExecutionEnvironment actionEnv;
     }
 
 
@@ -269,6 +267,7 @@ namespace de.unika.ipd.grGen.grShell
         bool newGraphKeepDebug = false;
         bool newGraphLazyNIC = false;
         bool newGraphNoinline = false;
+        bool newGraphProfile = false;
 
         /// <summary>
         /// Maps layouts to layout option names to their values.
@@ -1291,6 +1290,12 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
+        public bool NewGraphSetProfile(bool on)
+        {
+            newGraphProfile = on;
+            return true;
+        }
+
         public bool NewGraph(String specFilename, String graphName)
         {
             if(!BackendExists()) return false;
@@ -1350,6 +1355,7 @@ namespace de.unika.ipd.grGen.grShell
                         ProcessSpecFlags flags = newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
                         if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
                         if(newGraphNoinline) flags |= ProcessSpecFlags.Noinline;
+                        if(newGraphProfile) flags |= ProcessSpecFlags.Profile;
                         graph = curGraphBackend.CreateNamedFromSpec(specFilename, graphName, null,
                             flags, newGraphExternalAssembliesReferenced, 0);
                     }
@@ -1381,6 +1387,7 @@ namespace de.unika.ipd.grGen.grShell
                         ProcessSpecFlags flags = newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
                         if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
                         if(newGraphNoinline) flags |= ProcessSpecFlags.Noinline;
+                        if(newGraphProfile) flags |= ProcessSpecFlags.Profile;
                         curGraphBackend.CreateNamedFromSpec(specFilename, graphName, newGraphStatistics,
                             flags, newGraphExternalAssembliesReferenced, 0,
                             out graph, out actions);
@@ -2972,9 +2979,8 @@ namespace de.unika.ipd.grGen.grShell
             debugOut.WriteLine("Executing Graph Rewrite Sequence (CTRL+C for abort) ...");
             cancelSequence = false;
             workaround.PreventComputerGoingIntoSleepMode(true);
-            PerformanceInfo perfInfo = new PerformanceInfo();
-            curShellProcEnv.ProcEnv.PerformanceInfo = perfInfo;
-            StatisticsSource statisticsSource = new StatisticsSource(curShellProcEnv.ProcEnv.NamedGraph, perfInfo);
+            curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
+            StatisticsSource statisticsSource = new StatisticsSource(curShellProcEnv.ProcEnv.NamedGraph, curShellProcEnv.ProcEnv);
             Timer timer = null;
             if(!debug && !silenceExec) timer = new Timer(new TimerCallback(PrintStatistics), statisticsSource, 1000, 1000);
 
@@ -2984,7 +2990,7 @@ namespace de.unika.ipd.grGen.grShell
                 if(timer != null) timer.Dispose();
 
                 seq.ResetExecutionState();
-                debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result {1}:", perfInfo.TotalTimeMS, result);
+                debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result {1}:", (curShellProcEnv.ProcEnv.PerformanceInfo.TimeNeeded * 1000).ToString("F1", System.Globalization.CultureInfo.InvariantCulture), result);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
                 debugOut.WriteLine(" - {0} matches found in {1} ms", perfInfo.MatchesFound, perfInfo.TotalMatchTimeMS);
                 debugOut.WriteLine(" - {0} rewrites performed in {1} ms", perfInfo.RewritesPerformed, perfInfo.TotalRewriteTimeMS);
@@ -2993,8 +2999,8 @@ namespace de.unika.ipd.grGen.grShell
                 ShowSequenceDetails(seq, perfInfo);
 #endif
 #else
-                debugOut.WriteLine(" - {0} matches found", perfInfo.MatchesFound);
-                debugOut.WriteLine(" - {0} rewrites performed", perfInfo.RewritesPerformed);
+                debugOut.WriteLine(" - {0} matches found", curShellProcEnv.ProcEnv.PerformanceInfo.MatchesFound);
+                debugOut.WriteLine(" - {0} rewrites performed", curShellProcEnv.ProcEnv.PerformanceInfo.RewritesPerformed);
 #endif
             }
             catch(OperationCanceledException)
@@ -3010,7 +3016,6 @@ namespace de.unika.ipd.grGen.grShell
                     errOut.WriteLine();
                 }
             }
-            curShellProcEnv.ProcEnv.PerformanceInfo = null;
             workaround.PreventComputerGoingIntoSleepMode(false);
             curRule = null;
             curGRS = null;

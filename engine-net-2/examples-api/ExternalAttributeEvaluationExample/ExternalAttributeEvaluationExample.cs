@@ -31,8 +31,6 @@ namespace EAE
             actions = new ExternalAttributeEvaluationActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
-            procEnv.PerformanceInfo = new PerformanceInfo();
-
             // use graph rewrite sequence
             procEnv.ApplyGraphRewriteSequence("init");
 

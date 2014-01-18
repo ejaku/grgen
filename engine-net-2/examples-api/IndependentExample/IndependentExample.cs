@@ -25,8 +25,6 @@ namespace Independent
             actions = new IndependentActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
-            procEnv.PerformanceInfo = new PerformanceInfo();
-
             procEnv.ApplyGraphRewriteSequence("create");
 
 			Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");

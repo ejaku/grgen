@@ -192,10 +192,6 @@ namespace de.unika.ipd.grGen.grGen
                             flags |= ProcessSpecFlags.NoEvents;
                             break;
 
-                        case "-noperfinfo":
-                            flags |= ProcessSpecFlags.NoPerformanceInfoUpdates;
-                            break;
-
                         case "-mission":
                             Console.WriteLine("The Graph Rewrite Generator GrGen.NET:");
                             Console.WriteLine("One tool to rule them all, one tool to find them.");
@@ -223,6 +219,10 @@ namespace de.unika.ipd.grGen.grGen
                                 Console.Error.WriteLine("Specified statistics file \"" + statisticsPath + "\" does not exist!");
                                 return 1;
                             }
+                            break;
+
+                        case "-profile":
+                            flags |= ProcessSpecFlags.Profile;
                             break;
 
                         default:

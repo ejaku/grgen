@@ -25,8 +25,6 @@ namespace ProgramGraphs
             actions = new ProgramGraphsOriginalActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
-            procEnv.PerformanceInfo = new PerformanceInfo();
-
             // use new exact 2.5 interface
             IClass cls = null; 
             IMethodBody mb = null;
@@ -37,7 +35,6 @@ namespace ProgramGraphs
             Console.WriteLine(matchesExact.FirstExact.node_m5.ToString());
 
             graph.Clear();
-            procEnv.PerformanceInfo = new PerformanceInfo();
             
             // and again with old inexact interface
             IMatches matchesInexact;

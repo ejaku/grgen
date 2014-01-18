@@ -188,106 +188,75 @@ namespace de.unika.ipd.grGen.libGr
     public class PerformanceInfo
     {
         /// <summary>
-        /// Accumulated number of matches found by any rule applied via an BaseActions object.
+        /// Accumulated number of matches found by any rule since last Reset.
         /// </summary>
         public int MatchesFound;
 
         /// <summary>
-        /// Accumulated number of rewrites performed by any rule applied via an BaseActions object.
+        /// Accumulated number of rewrites performed by any rule since last Reset.
         /// This differs from <see cref="MatchesFound"/> for test rules, tested rules, and undone rules.
         /// </summary>
         public int RewritesPerformed;
 
-#if USE_HIGHPERFORMANCE_COUNTER
+        /// <summary>
+        /// The accumulated time of rule and sequence applications in seconds since last Reset,
+        /// as defined by the intervals between Start and Stop.
+        /// </summary>
+        public double TimeNeeded { get { return ((double)totalTime) / Stopwatch.Frequency; } }
 
-        private long totalStart, totalEnd;
-        private long localStart;
-        private long totalMatchTime;
-        private long totalRewriteTime;
-
-        public long LastMatchTime;
-        public long LastRewriteTime;
-
-        public int TotalMatchTimeMS { get { return (int) (totalMatchTime * 1000 / perfFreq); } }
-        public int TotalRewriteTimeMS { get { return (int) (totalRewriteTime * 1000 / perfFreq); } }
-        public int TotalTimeMS { get { return (int) ((totalEnd - totalStart) * 1000 / perfFreq); } }
-
-        [DllImport("Kernel32.dll")]
-        private static extern bool QueryPerformanceCounter(out long perfCount);
-
-        [DllImport("Kernel32.dll")]
-        private static extern bool QueryPerformanceFrequency(out long freq);
-
-        private long perfFreq;
-
-        public PerformanceInfo()
-        {
-            if(!QueryPerformanceFrequency(out perfFreq))
-                throw new Win32Exception();
-            Console.WriteLine("Performance counter frequency: {0} Hz", perfFreq);
-        }
-
-
+        /// <summary>
+        /// Starts time measurement.
+        /// </summary>
         public void Start()
         {
-            QueryPerformanceCounter(out totalStart);
+            stopwatch.Start();
+            totalStart = stopwatch.ElapsedTicks;
         }
 
+        /// <summary>
+        /// Stops time measurement and increases the TimeNeeded by the elapsed time 
+        /// between this call and the last call to Start().
+        /// </summary>
         public void Stop()
         {
-            QueryPerformanceCounter(out totalEnd);
+            totalTime += stopwatch.ElapsedTicks - totalStart;
         }
 
-//        [Conditional("DEBUG")]
-        public void StartLocal()
-        {
-            QueryPerformanceCounter(out localStart);
-        }
+        private Stopwatch stopwatch = new Stopwatch();
+        private long totalStart;
+        private long totalTime;
 
-//        [Conditional("DEBUG")]
-        public void StopMatch()
+        /// <summary>
+        /// Resets all accumulated information.
+        /// </summary>
+        public void Reset()
         {
-            long counter;
-            QueryPerformanceCounter(out counter);
-            totalMatchTime += counter - localStart;
-            LastMatchTime = counter - localStart;
+            MatchesFound = 0;
+            RewritesPerformed = 0;
+            totalTime = 0;
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            localStart = 0;
+            totalMatchTime = 0;
+            totalRewriteTime = 0;
+            LastMatchTime = 0;
             LastRewriteTime = 0;
-        }
-
-//        [Conditional("DEBUG")]
-        public void StopRewrite()
-        {
-            long counter;
-            QueryPerformanceCounter(out counter);
-            totalRewriteTime += counter - localStart;
-            LastRewriteTime = counter - localStart;
-        }
-
-#if DEBUGACTIONS
-        public int TimeDiffToMS(long diff)
-        {
-            return (int) (diff * 1000 / perfFreq);
-        }
 #endif
+        }
 
-#else
-
-        private int totalStart;
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
         private int localStart;
         private int totalMatchTime;
         private int totalRewriteTime;
-        private int totalTime;
 
         /// <summary>
         /// The time needed for the last matching.
         /// </summary>
-        /// <remarks>Only updated if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
         public long LastMatchTime;
 
         /// <summary>
         /// The time needed for the last rewriting.
         /// </summary>
-        /// <remarks>Only updated if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
         public long LastRewriteTime;
 
         /// <summary>
@@ -303,41 +272,8 @@ namespace de.unika.ipd.grGen.libGr
         public int TotalRewriteTimeMS { get { return totalRewriteTime; } }
 
         /// <summary>
-        /// The accumulated time of rule and sequence applications.
-        /// </summary>
-        public int TotalTimeMS { get { return totalTime; } }
-
-        /// <summary>
-        /// Starts time measurement.
-        /// </summary>
-        public void Start()
-        {
-            totalStart = Environment.TickCount;
-        }
-
-        /// <summary>
-        /// Stops time measurement and increases the TotalTimeMS by the elapsed time between this call
-        /// and the last call to Start().
-        /// </summary>
-        public void Stop()
-        {
-            totalTime += Environment.TickCount - totalStart;
-        }
-
-        /// <summary>
-        /// Resets all accumulated information.
-        /// </summary>
-        public void Reset()
-        {
-            MatchesFound = totalStart = localStart = totalMatchTime = totalRewriteTime = totalTime = 0;
-            LastMatchTime = LastRewriteTime = 0;
-        }
-
-        /// <summary>
         /// Starts a local time measurement to be used with either StopMatch() or StopRewrite().
         /// </summary>
-        /// <remarks>Only usable if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
-        [Conditional("DEBUGACTIONS"), Conditional("MATCHREWRITEDETAIL")]
         public void StartLocal()
         {
             localStart = Environment.TickCount;
@@ -347,8 +283,6 @@ namespace de.unika.ipd.grGen.libGr
         /// Stops a local time measurement, sets LastMatchTime to the elapsed time between this call
         /// and the last call to StartLocal() and increases the TotalMatchTime by this amount.
         /// </summary>
-        /// <remarks>Only usable if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
-        [Conditional("DEBUGACTIONS"), Conditional("MATCHREWRITEDETAIL")]
         public void StopMatch()
         {
             int diff = Environment.TickCount - localStart;
@@ -361,8 +295,6 @@ namespace de.unika.ipd.grGen.libGr
         /// Stops a local time measurement, sets LastRewriteTime to the elapsed time between this call
         /// and the last call to StartLocal() and increases the TotalRewriteTime by this amount.
         /// </summary>
-        /// <remarks>Only usable if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
-        [Conditional("DEBUGACTIONS"), Conditional("MATCHREWRITEDETAIL")]
         public void StopRewrite()
         {
             int diff = Environment.TickCount - localStart;
@@ -370,12 +302,10 @@ namespace de.unika.ipd.grGen.libGr
             LastRewriteTime = diff;
         }
 
-#if DEBUGACTIONS
         public int TimeDiffToMS(long diff)
         {
             return (int) diff;
         }
-#endif
 #endif
     }
 
