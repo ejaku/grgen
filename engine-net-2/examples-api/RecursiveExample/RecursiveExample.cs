@@ -45,7 +45,6 @@ namespace Recursive
 
             graph.Clear();
 
-            procEnv.PerformanceInfo = new PerformanceInfo();
             matches = createChain.Match(procEnv, 0);
             returns = createChain.Modify(procEnv, matches.First);
             param[0] = (Node)returns[0];

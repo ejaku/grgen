@@ -62,6 +62,11 @@ namespace de.unika.ipd.grGen.lgsp
         public bool LazyNegativeIndependentConditionEvaluation = false;
 
         /// <summary>
+        /// If true, some profiling information is to be collected, i.e. some statistics about bindings
+        /// </summary>
+        public bool Profile = false;
+
+        /// <summary>
         /// Instantiates a new instance of LGSPMatcherGenerator with the given graph model.
         /// A PatternGraphAnalyzer must run before the matcher generator is used,
         /// so that the analysis data is written the pattern graphs of the matching patterns to generate code for.

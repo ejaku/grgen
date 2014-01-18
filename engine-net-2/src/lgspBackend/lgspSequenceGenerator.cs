@@ -591,8 +591,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("} else {\n");
             source.Indent();
             source.AppendFront(SetResultVar(seqRule, "true"));
-            if(gen.UsePerfInfo)
-                source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
+            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             if(gen.FireEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 
             String returnParameterDeclarations;
@@ -606,7 +605,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
                 source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
-                if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
+                source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
             }
             else if(seqRule.SequenceType == SequenceType.RuleCountAllCall || !((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
             {
@@ -621,7 +620,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                 source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
-                if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
+                source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                 source.Unindent();
                 source.AppendFront("}\n");
             }
@@ -639,7 +638,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                 source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
-                if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
+                source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                 source.Unindent();
                 source.AppendFront("}\n");
             }
@@ -1157,7 +1156,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
                     source.Indent();
                     source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
-                    if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
+                    source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
                     if(gen.FireEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 
                     String returnParameterDeclarations;
@@ -1429,7 +1428,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFront(SetResultVar(seq, "true")); // shut up compiler
             source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
-            if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
+            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             if(gen.FireEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 
             String returnParameterDeclarations;
@@ -1452,14 +1451,13 @@ namespace de.unika.ipd.grGen.lgsp
 
             // start a transaction
             source.AppendFront("int transID_" + seq.Id + " = procEnv.TransactionManager.Start();\n");
-            source.AppendFront("int oldRewritesPerformed_" + seq.Id + " = -1;\n");
-            source.AppendFront("if(procEnv.PerformanceInfo!=null) oldRewritesPerformed_"+seq.Id+" = procEnv.PerformanceInfo.RewritesPerformed;\n");
+            source.AppendFront("int oldRewritesPerformed_" + seq.Id + " = procEnv.PerformanceInfo.RewritesPerformed;\n");
             if(gen.FireEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + matchName + ", " + specialStr + ");\n");
             if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
 
             source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
-            if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
+            source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
             if(gen.FireEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
 
             // rule applied, now execute the sequence
@@ -1469,7 +1467,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("if(!" + GetResultVar(seq.Seq) + ") {\n");
             source.Indent();
             source.AppendFront("procEnv.TransactionManager.Rollback(transID_" + seq.Id + ");\n");
-            if(gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed_" + seq.Id + ";\n");
+            source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed_" + seq.Id + ";\n");
 
             source.AppendFront("if(" + matchesTriedName + " < " + matchesName + ".Count) {\n"); // further match available -> try it
             source.Indent();
@@ -1573,7 +1571,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     EmitFilterCall(source, seqRule.Filters[j], patternName, matchesName);
                 }
-                if (gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
+                source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
                 source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
                 source.Indent();
                 source.AppendFront(SetResultVar(seqSome, "true"));
@@ -1644,7 +1642,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                     source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                     if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
-                    if (gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
+                    source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                     source.AppendFront(firstRewrite + " = false;\n");
 
                     if (seqSome.Random) {
@@ -1674,7 +1672,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                     source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                     if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
-                    if (gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
+                    source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                     source.AppendFront(firstRewrite + " = false;\n");
                     source.Unindent();
                     source.AppendFront("}\n");
@@ -1710,7 +1708,7 @@ namespace de.unika.ipd.grGen.lgsp
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                         source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                         if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
-                        if (gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
+                        source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                         source.AppendFront(firstRewrite + " = false;\n");
                         source.Unindent();
                         source.AppendFront("}\n");
@@ -1728,7 +1726,7 @@ namespace de.unika.ipd.grGen.lgsp
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                         source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                         if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
-                        if (gen.UsePerfInfo) source.AppendFront("if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;\n");
+                        source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                         source.AppendFront(firstRewrite + " = false;\n");
                     }
                 }

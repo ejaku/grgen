@@ -67,8 +67,6 @@ namespace JavaProgramGraphs
                 actions.GetAction("markExpressionOfBody").Modify(procEnv, matchesInexact.First);
             }
 
-            procEnv.PerformanceInfo = new PerformanceInfo();
-
             // application of a graph rewrite sequence
             procEnv.SetVariableValue("src", src);
             procEnv.SetVariableValue("tgt", tgt);

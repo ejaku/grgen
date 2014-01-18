@@ -20,7 +20,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPActionExecutionEnvironment : IActionExecutionEnvironment
     {
-        private PerformanceInfo perfInfo = null;
+        private PerformanceInfo perfInfo = new PerformanceInfo();
         private int maxMatches = 0;
         private Dictionary<IAction, IAction> actionMapStaticToNewest = new Dictionary<IAction, IAction>();
         public LGSPGraph graph { get { return usedGraphs.Peek(); } }
@@ -69,7 +69,6 @@ namespace de.unika.ipd.grGen.lgsp
         public PerformanceInfo PerformanceInfo
         {
             get { return perfInfo; }
-            set { perfInfo = value; }
         }
 
         public int MaxMatches
@@ -126,7 +125,7 @@ namespace de.unika.ipd.grGen.lgsp
                     throw new ArgumentOutOfRangeException("\"which\" is out of range!");
 
                 retElems = matches.Producer.Modify(this, matches.GetMatch(which));
-                if(PerformanceInfo != null) PerformanceInfo.RewritesPerformed++;
+                PerformanceInfo.RewritesPerformed++;
             }
             else
             {
@@ -136,7 +135,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if(first) first = false;
                     else if(OnRewritingNextMatch != null) OnRewritingNextMatch();
                     retElems = matches.Producer.Modify(this, match);
-                    if(PerformanceInfo != null) PerformanceInfo.RewritesPerformed++;
+                    PerformanceInfo.RewritesPerformed++;
                 }
                 if(retElems == null) retElems = Sequence.NoElems;
             }

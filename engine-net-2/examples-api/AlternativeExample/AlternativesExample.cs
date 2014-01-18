@@ -25,8 +25,6 @@ namespace Alternatives
             actions = new AlternativesActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
-            procEnv.PerformanceInfo = new PerformanceInfo();
-
             // use graph rewrite sequence
             procEnv.ApplyGraphRewriteSequence("createComplex");
 

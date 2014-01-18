@@ -54,9 +54,6 @@ namespace BusyBeaver
             actions = new Turing3Actions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
-            // Enable step counting
-			procEnv.PerformanceInfo = new PerformanceInfo();
-
             // Initialize tape
             BandPosition bp = graph.CreateNodeBandPosition();
 

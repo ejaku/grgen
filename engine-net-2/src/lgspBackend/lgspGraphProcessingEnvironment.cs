@@ -274,10 +274,13 @@ namespace de.unika.ipd.grGen.lgsp
             if(paramBindings.Subgraph != null)
                 SwitchToSubgraph((IGraph)paramBindings.Subgraph.GetVariableValue(this));
 
-            if(PerformanceInfo != null) PerformanceInfo.StartLocal();
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            PerformanceInfo.StartLocal();
+#endif
             IMatches matches = paramBindings.Action.Match(this, curMaxMatches, parameters);
-            if(PerformanceInfo != null) PerformanceInfo.StopMatch();
-
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            PerformanceInfo.StopMatch();
+#endif
             for(int i=0; i<filters.Count; ++i)
                 paramBindings.Action.Filter(this, matches, filters[i]);
 
@@ -289,7 +292,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return 0;
             }
 
-            if(PerformanceInfo != null) PerformanceInfo.MatchesFound += matches.Count;
+            PerformanceInfo.MatchesFound += matches.Count;
 
             if(test)
             {
@@ -300,12 +303,15 @@ namespace de.unika.ipd.grGen.lgsp
 
             Finishing(matches, special);
 
-            if(PerformanceInfo != null) PerformanceInfo.StartLocal();
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            PerformanceInfo.StartLocal();
+#endif
             object[] retElems = Replace(matches, which);
             for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
                 paramBindings.ReturnVars[i].SetVariableValue(retElems[i], this);
-            if(PerformanceInfo != null) PerformanceInfo.StopRewrite();
-
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            PerformanceInfo.StopRewrite();
+#endif
             Finished(matches, special);
 
             if(paramBindings.Subgraph != null)
@@ -615,11 +621,11 @@ namespace de.unika.ipd.grGen.lgsp
 
         public bool ApplyGraphRewriteSequence(Sequence sequence)
         {
-            if(PerformanceInfo != null) PerformanceInfo.Start();
+            PerformanceInfo.Start();
 
             bool res = sequence.Apply(this);
 
-            if(PerformanceInfo != null) PerformanceInfo.Stop();
+            PerformanceInfo.Stop();
             return res;
         }
 

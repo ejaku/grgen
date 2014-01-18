@@ -71,11 +71,12 @@ namespace de.unika.ipd.grGen.libGr
         
 
         /// <summary>
-        /// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
-        /// By default it should be null.
+        /// PerformanceInfo is used to accumulate information about needed time, found matches and applied rewrites.
+        /// It must not be null.
         /// The user is responsible for resetting the PerformanceInfo object.
+        /// This is typically done at the start of a rewrite sequence, to measure its performance.
         /// </summary>
-        PerformanceInfo PerformanceInfo { get; set; }
+        PerformanceInfo PerformanceInfo { get; }
 
         /// <summary>
         /// The maximum number of matches to be returned for a RuleAll sequence element.

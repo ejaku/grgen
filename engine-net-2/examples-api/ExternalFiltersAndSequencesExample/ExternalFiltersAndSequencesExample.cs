@@ -31,8 +31,6 @@ namespace EFS
             actions = new ExternalFiltersAndSequencesActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
-            procEnv.PerformanceInfo = new PerformanceInfo();
-
             // use graph rewrite sequence
             procEnv.ApplyGraphRewriteSequence("(::n)=init");
 

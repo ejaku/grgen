@@ -765,19 +765,21 @@ namespace de.unika.ipd.grGen.libGr
 
             procEnv.Finishing(matches, Special);
 
-            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
-
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            procEnv.PerformanceInfo.StartLocal();
+#endif
             object[] retElems = null;
             retElems = matches.Producer.Modify(procEnv, match);
-            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+            procEnv.PerformanceInfo.RewritesPerformed++;
 
             if(retElems == null) retElems = NoElems;
 
             for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
                 ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], procEnv);
 
-            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
-
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            procEnv.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
+#endif
             procEnv.Finished(matches, Special);
 
 #if LOG_SEQUENCE_EXECUTION
@@ -971,7 +973,9 @@ namespace de.unika.ipd.grGen.libGr
                 if(ParamBindings.Subgraph!=null)
                     procEnv.SwitchToSubgraph((IGraph)ParamBindings.Subgraph.GetVariableValue(procEnv));
 
-                if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+                procEnv.PerformanceInfo.StartLocal();
+#endif
                 IMatches matches;
                 try
                 {
@@ -984,11 +988,10 @@ namespace de.unika.ipd.grGen.libGr
                     System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
                     throw;
                 }
-                if(procEnv.PerformanceInfo != null)
-                {
-                    procEnv.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
-                    procEnv.PerformanceInfo.MatchesFound += matches.Count;
-                }
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+                procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
+#endif
+                procEnv.PerformanceInfo.MatchesFound += matches.Count;
 
                 procEnv.Matched(matches, null, Special);
 
@@ -1016,8 +1019,9 @@ namespace de.unika.ipd.grGen.libGr
 
             procEnv.Finishing(matches, Special);
 
-            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
-
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            procEnv.PerformanceInfo.StartLocal();
+#endif
             object[] retElems = null;
             if (!ChooseRandom)
             {
@@ -1029,7 +1033,7 @@ namespace de.unika.ipd.grGen.libGr
                     IMatch match = matchesEnum.Current;
                     if (match != matches.First) procEnv.RewritingNextMatch();
                     retElems = matches.Producer.Modify(procEnv, match);
-                    if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.PerformanceInfo.RewritesPerformed++;
                 }
                 if (retElems == null) retElems = NoElems;
             }
@@ -1049,15 +1053,17 @@ namespace de.unika.ipd.grGen.libGr
                     IMatch match = matches.RemoveMatch(matchToApply);
                     if (chosenMatch != null) match = chosenMatch;
                     retElems = matches.Producer.Modify(procEnv, match);
-                    if (procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.PerformanceInfo.RewritesPerformed++;
                 }
                 if (retElems == null) retElems = NoElems;
             }
 
             for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
                 ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], procEnv);
-            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore
 
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            procEnv.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
+#endif
             procEnv.Finished(matches, Special);
 
 #if LOG_SEQUENCE_EXECUTION
@@ -1170,8 +1176,9 @@ namespace de.unika.ipd.grGen.libGr
 
             procEnv.Finishing(matches, Special);
 
-            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
-
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            procEnv.PerformanceInfo.StartLocal();
+#endif
             object[] retElems = null;
             IEnumerator<IMatch> matchesEnum = matches.GetEnumerator();
             while(matchesEnum.MoveNext())
@@ -1179,14 +1186,15 @@ namespace de.unika.ipd.grGen.libGr
                 IMatch match = matchesEnum.Current;
                 if(match != matches.First) procEnv.RewritingNextMatch();
                 retElems = matches.Producer.Modify(procEnv, match);
-                if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                procEnv.PerformanceInfo.RewritesPerformed++;
             }
             if(retElems == null) retElems = NoElems;
 
             for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
                 ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], procEnv);
-            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore
-
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            procEnv.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
+#endif
             procEnv.Finished(matches, Special);
 
 #if LOG_SEQUENCE_EXECUTION
@@ -1878,15 +1886,17 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 else parameters = null;
 
-                if (procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+                procEnv.PerformanceInfo.StartLocal();
+#endif
                 IMatches matches = rule.ParamBindings.Action.Match(procEnv, maxMatches, parameters);
                 for(int j=0; j<rule.Filters.Count; ++j)
                     rule.ParamBindings.Action.Filter(procEnv, matches, rule.Filters[j]);
-                if (procEnv.PerformanceInfo != null)
-                {
-                    procEnv.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
-                    procEnv.PerformanceInfo.MatchesFound += matches.Count;
-                }
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+                procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
+#endif
+                procEnv.PerformanceInfo.MatchesFound += matches.Count;
 
                 Matches[i] = matches;
             }
@@ -1923,10 +1933,7 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
             int transactionID = procEnv.TransactionManager.Start();
-            int oldRewritesPerformed;
-
-            if(procEnv.PerformanceInfo != null) oldRewritesPerformed = procEnv.PerformanceInfo.RewritesPerformed;
-            else oldRewritesPerformed = -1;
+            int oldRewritesPerformed = procEnv.PerformanceInfo.RewritesPerformed;
 
             bool res = Seq.Apply(procEnv);
 
@@ -1934,8 +1941,7 @@ namespace de.unika.ipd.grGen.libGr
             else
             {
                 procEnv.TransactionManager.Rollback(transactionID);
-                if(procEnv.PerformanceInfo != null)
-                    procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
+                procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
             }
 
             return res;
@@ -2002,15 +2008,17 @@ namespace de.unika.ipd.grGen.libGr
             procEnv.Recorder.WriteLine("Matching backtrack all " + Rule.GetRuleCallString(procEnv));
 #endif
 
-            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            procEnv.PerformanceInfo.StartLocal();
+#endif
             IMatches matches = Rule.ParamBindings.Action.Match(procEnv, procEnv.MaxMatches, parameters);
             for(int i=0; i<Rule.Filters.Count; ++i)
                 Rule.ParamBindings.Action.Filter(procEnv, matches, Rule.Filters[i]);
-            if(procEnv.PerformanceInfo != null)
-            {
-                procEnv.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
-                procEnv.PerformanceInfo.MatchesFound += matches.Count;
-            }
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
+#endif
+            procEnv.PerformanceInfo.MatchesFound += matches.Count;
 
             if(matches.Count == 0)
             {
@@ -2052,9 +2060,7 @@ namespace de.unika.ipd.grGen.libGr
 
                 // start a transaction
                 int transactionID = procEnv.TransactionManager.Start();
-                int oldRewritesPerformed = -1;
-
-                if(procEnv.PerformanceInfo != null) oldRewritesPerformed = procEnv.PerformanceInfo.RewritesPerformed;
+                int oldRewritesPerformed = procEnv.PerformanceInfo.RewritesPerformed;
 
                 procEnv.EnteringSequence(Rule);
                 Rule.executionState = SequenceExecutionState.Underway;
@@ -2076,8 +2082,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(!result)
                 {
                     procEnv.TransactionManager.Rollback(transactionID);
-                    if(procEnv.PerformanceInfo != null)
-                        procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
+                    procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
                     if(matchesTried < matches.Count)
                     {
                         procEnv.EndOfIteration(true, this);
@@ -2947,15 +2952,16 @@ namespace de.unika.ipd.grGen.libGr
             procEnv.Recorder.WriteLine("Matching for rule " + Rule.GetRuleCallString(procEnv));
 #endif
 
-            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.StartLocal();
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            procEnv.PerformanceInfo.StartLocal();
+#endif
             IMatches matches = Rule.ParamBindings.Action.Match(procEnv, procEnv.MaxMatches, parameters);
             for(int i=0; i<Rule.Filters.Count; ++i)
                 Rule.ParamBindings.Action.Filter(procEnv, matches, Rule.Filters[i]);
-            if(procEnv.PerformanceInfo != null)
-            {
-                procEnv.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
-                procEnv.PerformanceInfo.MatchesFound += matches.Count;
-            }
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
+#endif
+            procEnv.PerformanceInfo.MatchesFound += matches.Count;
 
             if(matches.Count == 0)
             {
