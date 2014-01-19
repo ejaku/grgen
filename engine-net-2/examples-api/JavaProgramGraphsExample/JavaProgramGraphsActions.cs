@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Wed Jan 08 16:09:42 CET 2014
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Jan 19 18:18:56 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -8919,11 +8919,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                     res_2 = (bool)(false);
                 } else {
                     res_2 = (bool)(true);
-                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_2.Count;
+                    procEnv.PerformanceInfo.MatchesFound += matches_2.Count;
                     procEnv.Finishing(matches_2, false);
                     Rule_dumpNodePackage.IMatch_dumpNodePackage match_2 = matches_2.FirstExact;
                     rule_dumpNodePackage.Modify(procEnv, match_2);
-                    if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.PerformanceInfo.RewritesPerformed++;
                     procEnv.Finished(matches_2, false);
                 }
                 if(res_2)
@@ -8936,11 +8936,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_5 = (bool)(false);
                     } else {
                         res_5 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_5.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_5.Count;
                         procEnv.Finishing(matches_5, false);
                         Rule_dumpNodeClass.IMatch_dumpNodeClass match_5 = matches_5.FirstExact;
                         rule_dumpNodeClass.Modify(procEnv, match_5);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_5, false);
                     }
                     res_6 = (bool)(res_5);
@@ -8955,11 +8955,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_9 = (bool)(false);
                     } else {
                         res_9 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_9.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_9.Count;
                         procEnv.Finishing(matches_9, false);
                         Rule_dumpNodeInterface.IMatch_dumpNodeInterface match_9 = matches_9.FirstExact;
                         rule_dumpNodeInterface.Modify(procEnv, match_9);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_9, false);
                     }
                     res_10 = (bool)(res_9);
@@ -8974,11 +8974,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_13 = (bool)(false);
                     } else {
                         res_13 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_13.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_13.Count;
                         procEnv.Finishing(matches_13, false);
                         Rule_dumpNodeVariable.IMatch_dumpNodeVariable match_13 = matches_13.FirstExact;
                         rule_dumpNodeVariable.Modify(procEnv, match_13);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_13, false);
                     }
                     res_14 = (bool)(res_13);
@@ -8993,11 +8993,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_17 = (bool)(false);
                     } else {
                         res_17 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_17.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_17.Count;
                         procEnv.Finishing(matches_17, false);
                         Rule_dumpNodeOperation.IMatch_dumpNodeOperation match_17 = matches_17.FirstExact;
                         rule_dumpNodeOperation.Modify(procEnv, match_17);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_17, false);
                     }
                     res_18 = (bool)(res_17);
@@ -9012,11 +9012,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_21 = (bool)(false);
                     } else {
                         res_21 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_21.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_21.Count;
                         procEnv.Finishing(matches_21, false);
                         Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody match_21 = matches_21.FirstExact;
                         rule_dumpNodeMethodBody.Modify(procEnv, match_21);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_21, false);
                     }
                     res_22 = (bool)(res_21);
@@ -9031,11 +9031,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_25 = (bool)(false);
                     } else {
                         res_25 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_25.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_25.Count;
                         procEnv.Finishing(matches_25, false);
                         Rule_dumpNodeAccess.IMatch_dumpNodeAccess match_25 = matches_25.FirstExact;
                         rule_dumpNodeAccess.Modify(procEnv, match_25);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_25, false);
                     }
                     res_26 = (bool)(res_25);
@@ -9050,11 +9050,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_29 = (bool)(false);
                     } else {
                         res_29 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_29.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_29.Count;
                         procEnv.Finishing(matches_29, false);
                         Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate match_29 = matches_29.FirstExact;
                         rule_dumpNodeUpdate.Modify(procEnv, match_29);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_29, false);
                     }
                     res_30 = (bool)(res_29);
@@ -9069,11 +9069,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_33 = (bool)(false);
                     } else {
                         res_33 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_33.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_33.Count;
                         procEnv.Finishing(matches_33, false);
                         Rule_dumpNodeCall.IMatch_dumpNodeCall match_33 = matches_33.FirstExact;
                         rule_dumpNodeCall.Modify(procEnv, match_33);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_33, false);
                     }
                     res_34 = (bool)(res_33);
@@ -9088,11 +9088,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_37 = (bool)(false);
                     } else {
                         res_37 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_37.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_37.Count;
                         procEnv.Finishing(matches_37, false);
                         Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation match_37 = matches_37.FirstExact;
                         rule_dumpNodeIstantiation.Modify(procEnv, match_37);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_37, false);
                     }
                     res_38 = (bool)(res_37);
@@ -9107,11 +9107,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_41 = (bool)(false);
                     } else {
                         res_41 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_41.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_41.Count;
                         procEnv.Finishing(matches_41, false);
                         Rule_dumpNodeOperator.IMatch_dumpNodeOperator match_41 = matches_41.FirstExact;
                         rule_dumpNodeOperator.Modify(procEnv, match_41);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_41, false);
                     }
                     res_42 = (bool)(res_41);
@@ -9126,11 +9126,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_45 = (bool)(false);
                     } else {
                         res_45 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_45.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_45.Count;
                         procEnv.Finishing(matches_45, false);
                         Rule_dumpNodeReturn.IMatch_dumpNodeReturn match_45 = matches_45.FirstExact;
                         rule_dumpNodeReturn.Modify(procEnv, match_45);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_45, false);
                     }
                     res_46 = (bool)(res_45);
@@ -9145,11 +9145,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_49 = (bool)(false);
                     } else {
                         res_49 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_49.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_49.Count;
                         procEnv.Finishing(matches_49, false);
                         Rule_dumpNodeBlock.IMatch_dumpNodeBlock match_49 = matches_49.FirstExact;
                         rule_dumpNodeBlock.Modify(procEnv, match_49);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_49, false);
                     }
                     res_50 = (bool)(res_49);
@@ -9164,11 +9164,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_53 = (bool)(false);
                     } else {
                         res_53 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_53.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_53.Count;
                         procEnv.Finishing(matches_53, false);
                         Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral match_53 = matches_53.FirstExact;
                         rule_dumpNodeLiteral.Modify(procEnv, match_53);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_53, false);
                     }
                     res_54 = (bool)(res_53);
@@ -9183,11 +9183,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_57 = (bool)(false);
                     } else {
                         res_57 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_57.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_57.Count;
                         procEnv.Finishing(matches_57, false);
                         Rule_dumpNodeParameter.IMatch_dumpNodeParameter match_57 = matches_57.FirstExact;
                         rule_dumpNodeParameter.Modify(procEnv, match_57);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_57, false);
                     }
                     res_58 = (bool)(res_57);
@@ -9209,11 +9209,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_62 = (bool)(false);
                     } else {
                         res_62 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_62.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_62.Count;
                         procEnv.Finishing(matches_62, false);
                         Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo match_62 = matches_62.FirstExact;
                         rule_dumpEdgeBelongsTo.Modify(procEnv, match_62);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_62, false);
                     }
                     if(res_62)
@@ -9226,11 +9226,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                             res_65 = (bool)(false);
                         } else {
                             res_65 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_65.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_65.Count;
                             procEnv.Finishing(matches_65, false);
                             Rule_dumpEdgeType.IMatch_dumpEdgeType match_65 = matches_65.FirstExact;
                             rule_dumpEdgeType.Modify(procEnv, match_65);
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_65, false);
                         }
                         res_66 = (bool)(res_65);
@@ -9245,11 +9245,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                             res_69 = (bool)(false);
                         } else {
                             res_69 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_69.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_69.Count;
                             procEnv.Finishing(matches_69, false);
                             Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends match_69 = matches_69.FirstExact;
                             rule_dumpEdgeExtends.Modify(procEnv, match_69);
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_69, false);
                         }
                         res_70 = (bool)(res_69);
@@ -9264,11 +9264,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                             res_73 = (bool)(false);
                         } else {
                             res_73 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_73.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_73.Count;
                             procEnv.Finishing(matches_73, false);
                             Rule_dumpEdgeImports.IMatch_dumpEdgeImports match_73 = matches_73.FirstExact;
                             rule_dumpEdgeImports.Modify(procEnv, match_73);
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_73, false);
                         }
                         res_74 = (bool)(res_73);
@@ -9283,11 +9283,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                             res_77 = (bool)(false);
                         } else {
                             res_77 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_77.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_77.Count;
                             procEnv.Finishing(matches_77, false);
                             Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements match_77 = matches_77.FirstExact;
                             rule_dumpEdgeImplements.Modify(procEnv, match_77);
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_77, false);
                         }
                         res_78 = (bool)(res_77);
@@ -9302,11 +9302,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                             res_81 = (bool)(false);
                         } else {
                             res_81 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_81.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_81.Count;
                             procEnv.Finishing(matches_81, false);
                             Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter match_81 = matches_81.FirstExact;
                             rule_dumpEdgeParameter.Modify(procEnv, match_81);
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_81, false);
                         }
                         res_82 = (bool)(res_81);
@@ -9321,11 +9321,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                             res_85 = (bool)(false);
                         } else {
                             res_85 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_85.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_85.Count;
                             procEnv.Finishing(matches_85, false);
                             Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding match_85 = matches_85.FirstExact;
                             rule_dumpEdgeBinding.Modify(procEnv, match_85);
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_85, false);
                         }
                         res_86 = (bool)(res_85);
@@ -9340,11 +9340,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                             res_89 = (bool)(false);
                         } else {
                             res_89 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_89.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_89.Count;
                             procEnv.Finishing(matches_89, false);
                             Rule_dumpEdgeLink.IMatch_dumpEdgeLink match_89 = matches_89.FirstExact;
                             rule_dumpEdgeLink.Modify(procEnv, match_89);
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_89, false);
                         }
                         res_90 = (bool)(res_89);
@@ -9359,11 +9359,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                             res_93 = (bool)(false);
                         } else {
                             res_93 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_93.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_93.Count;
                             procEnv.Finishing(matches_93, false);
                             Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression match_93 = matches_93.FirstExact;
                             rule_dumpEdgeExpression.Modify(procEnv, match_93);
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_93, false);
                         }
                         res_94 = (bool)(res_93);
@@ -9378,11 +9378,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                             res_97 = (bool)(false);
                         } else {
                             res_97 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_97.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_97.Count;
                             procEnv.Finishing(matches_97, false);
                             Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter match_97 = matches_97.FirstExact;
                             rule_dumpEdgeActualParameter.Modify(procEnv, match_97);
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_97, false);
                         }
                         res_98 = (bool)(res_97);
@@ -17570,11 +17570,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                     res_101 = (bool)(false);
                 } else {
                     res_101 = (bool)(true);
-                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_101.Count;
+                    procEnv.PerformanceInfo.MatchesFound += matches_101.Count;
                     procEnv.Finishing(matches_101, false);
                     Rule_BindOperations.IMatch_BindOperations match_101 = matches_101.FirstExact;
                     rule_BindOperations.Modify(procEnv, match_101);
-                    if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.PerformanceInfo.RewritesPerformed++;
                     procEnv.Finished(matches_101, false);
                 }
                 if(!res_101) break;
@@ -17594,11 +17594,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_103 = (bool)(false);
                     } else {
                         res_103 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_103.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_103.Count;
                         procEnv.Finishing(matches_103, false);
                         Rule_InitMoveIntoBlocks.IMatch_InitMoveIntoBlocks match_103 = matches_103.FirstExact;
                         rule_InitMoveIntoBlocks.Modify(procEnv, match_103);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_103, false);
                     }
                     if(!res_103) break;
@@ -17620,11 +17620,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_106 = (bool)(false);
                     } else {
                         res_106 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_106.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_106.Count;
                         procEnv.Finishing(matches_106, false);
                         Rule_MoveIntoBlocks.IMatch_MoveIntoBlocks match_106 = matches_106.FirstExact;
                         rule_MoveIntoBlocks.Modify(procEnv, match_106);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_106, false);
                     }
                     if(!res_106) break;
@@ -25548,11 +25548,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                     res_111 = (bool)(false);
                 } else {
                     res_111 = (bool)(true);
-                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_111.Count;
+                    procEnv.PerformanceInfo.MatchesFound += matches_111.Count;
                     procEnv.Finishing(matches_111, false);
                     Rule_markExpressionFollowingExpression.IMatch_markExpressionFollowingExpression match_111 = matches_111.FirstExact;
                     rule_markExpressionFollowingExpression.Modify(procEnv, match_111);
-                    if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.PerformanceInfo.RewritesPerformed++;
                     procEnv.Finished(matches_111, false);
                 }
                 if(res_111)
@@ -25565,11 +25565,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_114 = (bool)(false);
                     } else {
                         res_114 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_114.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_114.Count;
                         procEnv.Finishing(matches_114, false);
                         Rule_markExpressionFollowingActualParameter.IMatch_markExpressionFollowingActualParameter match_114 = matches_114.FirstExact;
                         rule_markExpressionFollowingActualParameter.Modify(procEnv, match_114);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_114, false);
                     }
                     res_115 = (bool)(res_114);
@@ -25897,11 +25897,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                     res_119 = (bool)(false);
                 } else {
                     res_119 = (bool)(true);
-                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_119.Count;
+                    procEnv.PerformanceInfo.MatchesFound += matches_119.Count;
                     procEnv.Finishing(matches_119, false);
                     Rule_markExpressionFollowingExpression.IMatch_markExpressionFollowingExpression match_119 = matches_119.FirstExact;
                     rule_markExpressionFollowingExpression.Modify(procEnv, match_119);
-                    if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.PerformanceInfo.RewritesPerformed++;
                     procEnv.Finished(matches_119, false);
                 }
                 if(res_119)
@@ -25914,11 +25914,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_122 = (bool)(false);
                     } else {
                         res_122 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_122.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_122.Count;
                         procEnv.Finishing(matches_122, false);
                         Rule_markExpressionFollowingActualParameter.IMatch_markExpressionFollowingActualParameter match_122 = matches_122.FirstExact;
                         rule_markExpressionFollowingActualParameter.Modify(procEnv, match_122);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_122, false);
                     }
                     res_123 = (bool)(res_122);
@@ -26234,11 +26234,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                     res_127 = (bool)(false);
                 } else {
                     res_127 = (bool)(true);
-                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_127.Count;
+                    procEnv.PerformanceInfo.MatchesFound += matches_127.Count;
                     procEnv.Finishing(matches_127, false);
                     Rule_markExpressionFollowingExpression.IMatch_markExpressionFollowingExpression match_127 = matches_127.FirstExact;
                     rule_markExpressionFollowingExpression.Modify(procEnv, match_127);
-                    if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.PerformanceInfo.RewritesPerformed++;
                     procEnv.Finished(matches_127, false);
                 }
                 if(res_127)
@@ -26251,11 +26251,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_130 = (bool)(false);
                     } else {
                         res_130 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_130.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_130.Count;
                         procEnv.Finishing(matches_130, false);
                         Rule_markExpressionFollowingActualParameter.IMatch_markExpressionFollowingActualParameter match_130 = matches_130.FirstExact;
                         rule_markExpressionFollowingActualParameter.Modify(procEnv, match_130);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_130, false);
                     }
                     res_131 = (bool)(res_130);
@@ -63069,6 +63069,9 @@ label44: ;
         
         public override string Name { get { return "JavaProgramGraphsActions"; } }
         public override string StatisticsPath { get { return null; } }
+        public override bool LazyNIC { get { return false; } }
+        public override bool Profile { get { return false; } }
+
         public override string ModelMD5Hash { get { return "9ed13ad8bc778f9123d81b2ebb16880c"; } }
     }
 }
