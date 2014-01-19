@@ -62,7 +62,7 @@ namespace de.unika.ipd.grGen.lgsp
         public bool LazyNegativeIndependentConditionEvaluation = false;
 
         /// <summary>
-        /// If true, some profiling information is to be collected, i.e. some statistics about bindings
+        /// If true, profiling information is to be collected, i.e. some statistics about search steps executed
         /// </summary>
         public bool Profile = false;
 
@@ -2316,7 +2316,7 @@ exitSecondLoop: ;
                 if(matchingPattern is LGSPRulePattern)
                 {
                     SearchProgram sp = searchProgramBuilder.BuildSearchProgram(model,
-                        (LGSPRulePattern)matchingPattern, i, null);
+                        (LGSPRulePattern)matchingPattern, i, null, Profile);
                     if(i==0) searchProgramRoot = searchProgramListEnd = sp;
                     else searchProgramListEnd = (SearchProgram)searchProgramListEnd.Append(sp);
                 }
@@ -2324,7 +2324,7 @@ exitSecondLoop: ;
                 {
                     Debug.Assert(searchProgramRoot==null);
                     searchProgramRoot = searchProgramListEnd = searchProgramBuilder.BuildSearchProgram(
-                        model, matchingPattern);
+                        model, matchingPattern, Profile);
                 }
             }
 
@@ -2367,7 +2367,7 @@ exitSecondLoop: ;
 
             // build pass: build nested program from scheduled search plans of the alternative cases
             SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
-            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, alt);
+            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, alt, Profile);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
@@ -2401,7 +2401,7 @@ exitSecondLoop: ;
         {
             // build pass: build nested program from scheduled search plan of the all pattern
             SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
-            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, iter);
+            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, iter, Profile);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging

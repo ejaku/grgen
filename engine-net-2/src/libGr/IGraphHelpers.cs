@@ -199,6 +199,13 @@ namespace de.unika.ipd.grGen.libGr
         public int RewritesPerformed;
 
         /// <summary>
+        /// Accumulated number of search steps carried out since last Reset.
+        /// (Number of bindings of a graph element to a pattern element, but bindings where only one choice is available don't count into this.)
+        /// Is normally only incremented if the actions were generated with the -profile command line option, otherwise it stays 0.
+        /// </summary>
+        public long SearchSteps;
+
+        /// <summary>
         /// The accumulated time of rule and sequence applications in seconds since last Reset,
         /// as defined by the intervals between Start and Stop.
         /// </summary>
@@ -233,6 +240,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             MatchesFound = 0;
             RewritesPerformed = 0;
+            SearchSteps = 0;
             totalTime = 0;
 
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
