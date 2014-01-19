@@ -72,6 +72,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// PerformanceInfo is used to accumulate information about needed time, found matches and applied rewrites.
+        /// And additionally search steps carried out if profiling instrumentation code was generated.
         /// It must not be null.
         /// The user is responsible for resetting the PerformanceInfo object.
         /// This is typically done at the start of a rewrite sequence, to measure its performance.

@@ -67,7 +67,7 @@ namespace de.unika.ipd.grGen.libGr
         LazyNIC = 128,
 
         /// <summary>
-        /// Forbids inlining of subpatterns (inlining has quite some potential for bugs, this gives the user a quick workaround in case there's a real bug).
+        /// Forbids inlining of subpatterns (allows quick disabling in case of a bug of for comparison).
         /// </summary>
         Noinline = 256,
 

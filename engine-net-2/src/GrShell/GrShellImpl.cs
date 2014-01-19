@@ -2992,7 +2992,7 @@ namespace de.unika.ipd.grGen.grShell
                 seq.ResetExecutionState();
                 debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result {1}:",
                     (curShellProcEnv.ProcEnv.PerformanceInfo.TimeNeeded * 1000).ToString("F1", System.Globalization.CultureInfo.InvariantCulture), result);
-                if(curShellProcEnv.ProcEnv.PerformanceInfo.SearchSteps != 0)
+                if(newGraphProfile)
                     debugOut.WriteLine(" - {0} search steps executed", curShellProcEnv.ProcEnv.PerformanceInfo.SearchSteps);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
                 debugOut.WriteLine(" - {0} matches found in {1} ms", perfInfo.MatchesFound, perfInfo.TotalMatchTimeMS);

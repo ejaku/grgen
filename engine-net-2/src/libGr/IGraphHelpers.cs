@@ -201,7 +201,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Accumulated number of search steps carried out since last Reset.
         /// (Number of bindings of a graph element to a pattern element, but bindings where only one choice is available don't count into this.)
-        /// Is normally only incremented if the actions were generated with the -profile command line option, otherwise it stays 0.
+        /// Only incremented if gathering of profiling information was requested ("-profile", "new set profile on").
         /// </summary>
         public long SearchSteps;
 

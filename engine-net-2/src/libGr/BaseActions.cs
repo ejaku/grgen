@@ -58,6 +58,18 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="args">Any kind of parameters for the stuff to do</param>
         public abstract void Custom(params object[] args);
 
+        /// <summary>
+        /// Tells whether lazy negative/independent/condition evaluation code was generated when the actions were generated.
+        /// (So we can regenerated matchers at runtime correctly, using the same setting.)
+        /// </summary>
+        public abstract bool LazyNIC { get; }
+
+        /// <summary>
+        /// Tells whether profiling instrumentation code (search step counting) was generated when the actions were generated.
+        /// (So we can regenerated matchers at runtime correctly, using the same setting.)
+        /// </summary>
+        public abstract bool Profile { get; }
+
         #endregion Abstract members
 
 

@@ -1059,7 +1059,8 @@ namespace de.unika.ipd.grGen.lgsp
             // the actions class referencing the generated stuff is generated now into 
             // a source builder which is appended at the end of the other generated stuff
             SourceBuilder endSource = GenerateActionsClass(model, actionsName, unitName,
-                statisticsPath, ruleAndMatchingPatterns);
+                statisticsPath, ruleAndMatchingPatterns, 
+                matcherGen.LazyNegativeIndependentConditionEvaluation, matcherGen.Profile);
             source.Append(endSource.ToString());
             source.Append("}");
         }
@@ -1173,7 +1174,8 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private SourceBuilder GenerateActionsClass(IGraphModel model, String actionsName, String unitName,
-            string statisticsPath, LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns)
+            string statisticsPath, LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, 
+            bool lazyNIC, bool profile)
         {
             SourceBuilder endSource = new SourceBuilder("\n");
             endSource.Indent();
@@ -1347,6 +1349,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             endSource.AppendFront("public override string Name { get { return \"" + actionsName + "\"; } }\n");
             endSource.AppendFront("public override string StatisticsPath { get { return " + (statisticsPath != null ? "@\"" + statisticsPath + "\"" : "null") + "; } }\n");
+            endSource.AppendFront("public override bool LazyNIC { get { return " + (lazyNIC ? "true" : "false") + "; } }\n");
+            endSource.AppendFront("public override bool Profile { get { return " + (profile ? "true" : "false") + "; } }\n\n");
             endSource.AppendFront("public override string ModelMD5Hash { get { return \"" + model.MD5Hash + "\"; } }\n");
             endSource.Unindent();
             endSource.AppendFront("}\n");
