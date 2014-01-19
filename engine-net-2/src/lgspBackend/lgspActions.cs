@@ -245,8 +245,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>The new action instance.</returns>
         public LGSPAction GenerateAction(LGSPAction action)
         {
-            LGSPAction newAction;
-            newAction = matcherGenerator.GenerateAction(graph, modelAssemblyName, actionsAssemblyName, (LGSPAction) action);
+            matcherGenerator.LazyNegativeIndependentConditionEvaluation = LazyNIC;
+            matcherGenerator.Profile = Profile;
+            LGSPAction newAction = matcherGenerator.GenerateAction(graph, modelAssemblyName, actionsAssemblyName, (LGSPAction) action);
             actions[action.Name] = newAction;
             return newAction;
         }
@@ -273,6 +274,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>An array with the new action instances.</returns>
         public LGSPAction[] GenerateActions(params LGSPAction[] oldActions)
         {
+            matcherGenerator.LazyNegativeIndependentConditionEvaluation = LazyNIC;
+            matcherGenerator.Profile = Profile;
             LGSPAction[] newActions = matcherGenerator.GenerateActions(graph, modelAssemblyName,
                 actionsAssemblyName, oldActions);
             for(int i = 0; i < oldActions.Length; i++)
@@ -347,6 +350,8 @@ namespace de.unika.ipd.grGen.lgsp
                     }
 
                     int startticks = Environment.TickCount;
+                    matcherGenerator.LazyNegativeIndependentConditionEvaluation = LazyNIC;
+                    matcherGenerator.Profile = Profile;
                     LGSPAction[] newActions = matcherGenerator.GenerateActions(graph, modelAssemblyName,
                         actionsAssemblyName, oldActions);
                     int stopticks = Environment.TickCount;
