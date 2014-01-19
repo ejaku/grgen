@@ -856,10 +856,10 @@ namespace de.unika.ipd.grGen.lgsp
         IncidentEdges, // incident edges
         StorageElements, // available elements of the storage variable
         StorageAttributeElements, // available elements of the storage attribute
-        GraphElementAttribute, // available graph element of the attribute
-        GlobalVariable, // available element of the global non-storage variable
-        GlobalVariableStorageElements // available elements of the storage global variable
-    } // TODO: letzte 4
+        //GraphElementAttribute, // available graph element of the attribute
+        //GlobalVariable, // available element of the global non-storage variable
+        //GlobalVariableStorageElements // available elements of the storage global variable
+    } // TODO: letzte 3
 
     /// <summary>
     /// The different possibilites an edge might be incident to some node
@@ -881,12 +881,14 @@ namespace de.unika.ipd.grGen.lgsp
         public GetCandidateByIteration(
             GetCandidateByIterationType type,
             string patternElementName,
-            bool isNode)
+            bool isNode,
+            bool emitProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.GraphElements);
             Type = type;
             PatternElementName = patternElementName;
             IsNode = isNode;
+            EmitProfiling = emitProfiling;
         }
 
         public GetCandidateByIteration(
@@ -895,7 +897,8 @@ namespace de.unika.ipd.grGen.lgsp
             string storageName,
             string storageIterationType,
             bool isDict,
-            bool isNode)
+            bool isNode,
+            bool emitProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageElements);
             Type = type;
@@ -904,6 +907,7 @@ namespace de.unika.ipd.grGen.lgsp
             StorageIterationType = storageIterationType;
             IsDict = isDict;
             IsNode = isNode;
+            EmitProfiling = emitProfiling;
         }
 
         public GetCandidateByIteration(
@@ -914,7 +918,8 @@ namespace de.unika.ipd.grGen.lgsp
             string storageAttributeName,
             string storageIterationType,
             bool isDict,
-            bool isNode)
+            bool isNode,
+            bool emitProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageAttributeElements);
             Type = type;
@@ -925,19 +930,22 @@ namespace de.unika.ipd.grGen.lgsp
             StorageIterationType = storageIterationType;
             IsDict = isDict;
             IsNode = isNode;
+            EmitProfiling = emitProfiling;
         }
 
         public GetCandidateByIteration(
             GetCandidateByIterationType type,
             string patternElementName,
             string startingPointNodeName,
-            IncidentEdgeType edgeType)
+            IncidentEdgeType edgeType,
+            bool emitProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.IncidentEdges);
             Type = type;
             PatternElementName = patternElementName;
             StartingPointNodeName = startingPointNodeName;
             EdgeType = edgeType;
+            EmitProfiling = emitProfiling;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -1010,6 +1018,9 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
+                if(EmitProfiling)
+                    sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.SearchSteps;\n");
+
                 // emit loop body
                 NestedOperationsList.Emit(sourceCode);
 
@@ -1046,6 +1057,9 @@ namespace de.unika.ipd.grGen.lgsp
                     typeOfVariableContainingCandidate, variableContainingCandidate, 
                     storageIterationVariable, IsDict?".Key":"");
 
+                if(EmitProfiling)
+                    sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.SearchSteps;\n");
+
                 // emit loop body
                 NestedOperationsList.Emit(sourceCode);
 
@@ -1081,6 +1095,9 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("{0} {1} = ({0}){2}{3};\n",
                     typeOfVariableContainingCandidate, variableContainingCandidate, 
                     storageIterationVariable, IsDict?".Key":"");
+
+                if(EmitProfiling)
+                    sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.SearchSteps;\n");
 
                 // emit loop body
                 NestedOperationsList.Emit(sourceCode);
@@ -1127,6 +1144,9 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.AppendFront("do\n");
                     sourceCode.AppendFront("{\n");
                     sourceCode.Indent();
+
+                    if(EmitProfiling)
+                        sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.SearchSteps;\n");
 
                     // emit loop body
                     NestedOperationsList.Emit(sourceCode);
@@ -1179,6 +1199,9 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.AppendFront("{\n");
                     sourceCode.Indent();
 
+                    if(EmitProfiling)
+                        sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                    
                     // emit loop body
                     NestedOperationsList.Emit(sourceCode);
 
@@ -1220,6 +1243,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string StorageIterationType; // only available if StorageElements|StorageAttributeElements
         public string StartingPointNodeName; // from pattern - only available if IncidentEdges
         public IncidentEdgeType EdgeType; // only available if IncidentEdges
+        public bool EmitProfiling;
 
         public SearchProgramList NestedOperationsList;
     }

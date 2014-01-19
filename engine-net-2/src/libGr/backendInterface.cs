@@ -72,7 +72,7 @@ namespace de.unika.ipd.grGen.libGr
         Noinline = 256,
 
         /// <summary>
-        /// Profiling information is collected, i.e. some statistics about bindings carried out
+        /// Profiling information is collected, i.e. some statistics about search steps carried out
         /// </summary>
         Profile = 512
     }

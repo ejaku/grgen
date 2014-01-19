@@ -40,7 +40,8 @@ namespace de.unika.ipd.grGen.lgsp
             IGraphModel model,
             LGSPRulePattern rulePattern,
             int index,
-            string nameOfSearchProgram)
+            string nameOfSearchProgram,
+            bool emitProfiling)
         {
             PatternGraph patternGraph = rulePattern.patternGraph;
             this.model = model;
@@ -50,6 +51,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNegative = false;
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.PatternGraph.Package, false);
+            this.emitProfiling = emitProfiling;
             
             // filter out parameters which are implemented by lookup due to maybe null unfolding
             // and suffix matcher method name by missing parameters which get computed by lookup here
@@ -145,7 +147,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public SearchProgram BuildSearchProgram(
             IGraphModel model,
-            LGSPMatchingPattern matchingPattern)
+            LGSPMatchingPattern matchingPattern,
+            bool emitProfiling)
         {
             Debug.Assert(!(matchingPattern is LGSPRulePattern));
 
@@ -158,6 +161,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNegative = false;
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, true);
+            this.emitProfiling = emitProfiling;
 
             // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfSubpattern(
@@ -196,13 +200,15 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchProgram BuildSearchProgram(
             IGraphModel model,
             LGSPMatchingPattern matchingPattern,
-            Alternative alternative)
+            Alternative alternative,
+            bool emitProfiling)
         {
             programType = SearchProgramType.AlternativeCase;
             this.model = model;
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             this.alternative = alternative;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, !(matchingPattern is LGSPRulePattern));
+            this.emitProfiling = emitProfiling;
 
             // build combined list of namesOfPatternGraphsOnPathToEnclosedPatternpath
             // from the namesOfPatternGraphsOnPathToEnclosedPatternpath of the alternative cases
@@ -297,7 +303,8 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchProgram BuildSearchProgram(
             IGraphModel model,
             LGSPMatchingPattern matchingPattern,
-            PatternGraph iter)
+            PatternGraph iter,
+            bool emitProfiling)
         {
             programType = SearchProgramType.Iterated;
             this.model = model;
@@ -307,6 +314,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNegative = false;
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, !(matchingPattern is LGSPRulePattern));
+            this.emitProfiling = emitProfiling;
 
             // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfIterated(
@@ -435,6 +443,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// The index of the currently built schedule
         /// </summary>
         private int indexOfSchedule;
+
+        /// <summary>
+        /// whether to emit code for gathering profiling information (about search steps executed)
+        /// </summary>
+        private bool emitProfiling;
 
         ///////////////////////////////////////////////////////////////////////////////////
 
@@ -937,7 +950,8 @@ namespace de.unika.ipd.grGen.lgsp
                 new GetCandidateByIteration(
                     GetCandidateByIterationType.GraphElements,
                     target.PatternElement.Name,
-                    isNode);
+                    isNode,
+                    emitProfiling);
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(elementsIteration);
             elementsIteration.NestedOperationsList =
@@ -1084,7 +1098,8 @@ namespace de.unika.ipd.grGen.lgsp
                     storage.Variable.Name,
                     iterationType,
                     isDict,
-                    isNode);
+                    isNode,
+                    emitProfiling);
 
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(elementsIteration);
@@ -1242,7 +1257,8 @@ namespace de.unika.ipd.grGen.lgsp
                     storage.Attribute.Attribute.Name,
                     iterationType,
                     isDict,
-                    isNode);
+                    isNode,
+                    emitProfiling);
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(elementsIteration);
             elementsIteration.NestedOperationsList =
@@ -2487,7 +2503,8 @@ namespace de.unika.ipd.grGen.lgsp
                     GetCandidateByIterationType.IncidentEdges,
                     currentEdge.PatternElement.Name,
                     node.PatternElement.Name,
-                    incidentType);
+                    incidentType,
+                    emitProfiling);
                 incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
                 continuationPoint = insertionPoint.Append(incidentIteration);
                 insertionPoint = incidentIteration.NestedOperationsList;
@@ -2501,7 +2518,8 @@ namespace de.unika.ipd.grGen.lgsp
                         GetCandidateByIterationType.IncidentEdges,
                         currentEdge.PatternElement.Name,
                         node.PatternElement.Name,
-                        IncidentEdgeType.Incoming);
+                        IncidentEdgeType.Incoming,
+                        emitProfiling);
                     incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
                     continuationPoint = insertionPoint.Append(incidentIteration);
                     insertionPoint = incidentIteration.NestedOperationsList;
@@ -2518,7 +2536,8 @@ namespace de.unika.ipd.grGen.lgsp
                         GetCandidateByIterationType.IncidentEdges,
                         currentEdge.PatternElement.Name,
                         node.PatternElement.Name,
-                        IncidentEdgeType.IncomingOrOutgoing);
+                        IncidentEdgeType.IncomingOrOutgoing,
+                        emitProfiling);
                     incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
                     insertionPoint = insertionPoint.Append(incidentIteration);
                     insertionPoint = incidentIteration.NestedOperationsList;
