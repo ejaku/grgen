@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Wed Jan 08 16:09:58 CET 2014
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Jan 19 18:19:14 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -23195,6 +23195,9 @@ label23: ;
         
         public override string Name { get { return "RecursiveActions"; } }
         public override string StatisticsPath { get { return null; } }
+        public override bool LazyNIC { get { return false; } }
+        public override bool Profile { get { return false; } }
+
         public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
     }
 }

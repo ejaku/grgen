@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Wed Jan 08 16:09:49 CET 2014
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Jan 19 18:19:05 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -12178,6 +12178,9 @@ label7: ;
         
         public override string Name { get { return "MutexPimpedActions"; } }
         public override string StatisticsPath { get { return null; } }
+        public override bool LazyNIC { get { return false; } }
+        public override bool Profile { get { return false; } }
+
         public override string ModelMD5Hash { get { return "b75cc12d5d56ba550bb415bb40c4947f"; } }
     }
 }

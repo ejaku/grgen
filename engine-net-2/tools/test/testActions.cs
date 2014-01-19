@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Wed Jan 08 16:09:07 CET 2014
+// Generated from "test.grg" on Sun Jan 19 18:17:49 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -702,6 +702,9 @@ namespace de.unika.ipd.grGen.Action_test
         
         public override string Name { get { return "testActions"; } }
         public override string StatisticsPath { get { return null; } }
+        public override bool LazyNIC { get { return false; } }
+        public override bool Profile { get { return false; } }
+
         public override string ModelMD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
     }
 }

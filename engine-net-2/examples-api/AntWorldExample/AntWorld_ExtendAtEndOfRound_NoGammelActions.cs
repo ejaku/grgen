@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Wed Jan 08 16:09:08 CET 2014
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Jan 19 18:17:49 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -3234,11 +3234,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                 res_4 = (bool)(false);
             } else {
                 res_4 = (bool)(true);
-                if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_4.Count;
+                procEnv.PerformanceInfo.MatchesFound += matches_4.Count;
                 procEnv.Finishing(matches_4, false);
                 Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_4 = matches_4.FirstExact;
                 rule_GrowFoodIfEqual.Modify(procEnv, match_4);
-                if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                procEnv.PerformanceInfo.RewritesPerformed++;
                 procEnv.Finished(matches_4, false);
             }
             if(res_4)
@@ -3251,11 +3251,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                     res_9 = (bool)(false);
                 } else {
                     res_9 = (bool)(true);
-                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_9.Count;
+                    procEnv.PerformanceInfo.MatchesFound += matches_9.Count;
                     procEnv.Finishing(matches_9, false);
                     Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_9 = matches_9.FirstExact;
                     rule_GrowFoodIfEqual.Modify(procEnv, match_9);
-                    if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.PerformanceInfo.RewritesPerformed++;
                     procEnv.Finished(matches_9, false);
                 }
                 res_10 = (bool)(res_9);
@@ -3270,11 +3270,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                     res_15 = (bool)(false);
                 } else {
                     res_15 = (bool)(true);
-                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_15.Count;
+                    procEnv.PerformanceInfo.MatchesFound += matches_15.Count;
                     procEnv.Finishing(matches_15, false);
                     Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_15 = matches_15.FirstExact;
                     rule_GrowFoodIfEqual.Modify(procEnv, match_15);
-                    if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.PerformanceInfo.RewritesPerformed++;
                     procEnv.Finished(matches_15, false);
                 }
                 res_16 = (bool)(res_15);
@@ -3597,11 +3597,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                 res_21 = (bool)(false);
             } else {
                 res_21 = (bool)(true);
-                if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_21.Count;
+                procEnv.PerformanceInfo.MatchesFound += matches_21.Count;
                 procEnv.Finishing(matches_21, false);
                 Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_21 = matches_21.FirstExact;
                 rule_GrowFoodIfEqual.Modify(procEnv, match_21);
-                if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                procEnv.PerformanceInfo.RewritesPerformed++;
                 procEnv.Finished(matches_21, false);
             }
             return res_21;
@@ -3991,11 +3991,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                 res_26 = (bool)(false);
             } else {
                 res_26 = (bool)(true);
-                if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_26.Count;
+                procEnv.PerformanceInfo.MatchesFound += matches_26.Count;
                 procEnv.Finishing(matches_26, false);
                 Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_26 = matches_26.FirstExact;
                 rule_GrowFoodIfEqual.Modify(procEnv, match_26);
-                if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                procEnv.PerformanceInfo.RewritesPerformed++;
                 procEnv.Finished(matches_26, false);
             }
             if(res_26)
@@ -4008,11 +4008,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                     res_31 = (bool)(false);
                 } else {
                     res_31 = (bool)(true);
-                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_31.Count;
+                    procEnv.PerformanceInfo.MatchesFound += matches_31.Count;
                     procEnv.Finishing(matches_31, false);
                     Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_31 = matches_31.FirstExact;
                     rule_GrowFoodIfEqual.Modify(procEnv, match_31);
-                    if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.PerformanceInfo.RewritesPerformed++;
                     procEnv.Finished(matches_31, false);
                 }
                 res_32 = (bool)(res_31);
@@ -4027,11 +4027,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                     res_37 = (bool)(false);
                 } else {
                     res_37 = (bool)(true);
-                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_37.Count;
+                    procEnv.PerformanceInfo.MatchesFound += matches_37.Count;
                     procEnv.Finishing(matches_37, false);
                     Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_37 = matches_37.FirstExact;
                     rule_GrowFoodIfEqual.Modify(procEnv, match_37);
-                    if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.PerformanceInfo.RewritesPerformed++;
                     procEnv.Finished(matches_37, false);
                 }
                 res_38 = (bool)(res_37);
@@ -4583,11 +4583,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                 res_43 = (bool)(false);
             } else {
                 res_43 = (bool)(true);
-                if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_43.Count;
+                procEnv.PerformanceInfo.MatchesFound += matches_43.Count;
                 procEnv.Finishing(matches_43, false);
                 Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_43 = matches_43.FirstExact;
                 rule_GrowFoodIfEqual.Modify(procEnv, match_43);
-                if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                procEnv.PerformanceInfo.RewritesPerformed++;
                 procEnv.Finished(matches_43, false);
             }
             return res_43;
@@ -6194,11 +6194,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                             res_47 = (bool)(false);
                         } else {
                             res_47 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_47.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_47.Count;
                             procEnv.Finishing(matches_47, false);
                             Rule_TakeFood.IMatch_TakeFood match_47 = matches_47.FirstExact;
                             rule_TakeFood.Modify(procEnv, match_47);
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_47, false);
                         }
                         GRGEN_LIBGR.IMatchesExact<Rule_GoHome.IMatch_GoHome> matches_50 = rule_GoHome.Match(procEnv, 1, (GRGEN_MODEL.IAnt)var_curAnt);
@@ -6207,11 +6207,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                             res_50 = (bool)(false);
                         } else {
                             res_50 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_50.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_50.Count;
                             procEnv.Finishing(matches_50, false);
                             Rule_GoHome.IMatch_GoHome match_50 = matches_50.FirstExact;
                             rule_GoHome.Modify(procEnv, match_50);
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_50, false);
                         }
                         res_51 = (bool)(res_47 | res_50);
@@ -6225,11 +6225,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                                 res_54 = (bool)(false);
                             } else {
                                 res_54 = (bool)(true);
-                                if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_54.Count;
+                                procEnv.PerformanceInfo.MatchesFound += matches_54.Count;
                                 procEnv.Finishing(matches_54, false);
                                 Rule_DropFood.IMatch_DropFood match_54 = matches_54.FirstExact;
                                 rule_DropFood.Modify(procEnv, match_54);
-                                if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                                procEnv.PerformanceInfo.RewritesPerformed++;
                                 procEnv.Finished(matches_54, false);
                             }
                             GRGEN_LIBGR.IMatchesExact<Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones> matches_57 = rule_SearchAlongPheromones.Match(procEnv, procEnv.MaxMatches, (GRGEN_MODEL.IAnt)var_curAnt);
@@ -6238,7 +6238,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                                 res_57 = (bool)(false);
                             } else {
                                 res_57 = (bool)(true);
-                                if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_57.Count;
+                                procEnv.PerformanceInfo.MatchesFound += matches_57.Count;
                                 procEnv.Finishing(matches_57, false);
                                 int numchooserandomvar_57 = (int)1;
                                 if(matches_57.Count < numchooserandomvar_57) numchooserandomvar_57 = matches_57.Count;
@@ -6247,7 +6247,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                                     if(i != 0) procEnv.RewritingNextMatch();
                                     Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones match_57 = matches_57.RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(matches_57.Count));
                                     rule_SearchAlongPheromones.Modify(procEnv, match_57);
-                                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;
+                                    procEnv.PerformanceInfo.RewritesPerformed++;
                                 }
                                 procEnv.Finished(matches_57, false);
                             }
@@ -6261,7 +6261,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                                     res_60 = (bool)(false);
                                 } else {
                                     res_60 = (bool)(true);
-                                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_60.Count;
+                                    procEnv.PerformanceInfo.MatchesFound += matches_60.Count;
                                     procEnv.Finishing(matches_60, false);
                                     int numchooserandomvar_60 = (int)1;
                                     if(matches_60.Count < numchooserandomvar_60) numchooserandomvar_60 = matches_60.Count;
@@ -6270,7 +6270,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                                         if(i != 0) procEnv.RewritingNextMatch();
                                         Rule_SearchAimless.IMatch_SearchAimless match_60 = matches_60.RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(matches_60.Count));
                                         rule_SearchAimless.Modify(procEnv, match_60);
-                                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;
+                                        procEnv.PerformanceInfo.RewritesPerformed++;
                                     }
                                     procEnv.Finished(matches_60, false);
                                 }
@@ -6289,14 +6289,14 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                                 res_66 = (bool)(false);
                             } else {
                                 res_66 = (bool)(true);
-                                if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_66.Count;
+                                procEnv.PerformanceInfo.MatchesFound += matches_66.Count;
                                 procEnv.Finishing(matches_66, false);
                                 Rule_GetNextAnt.IMatch_GetNextAnt match_66 = matches_66.FirstExact;
                                 GRGEN_MODEL.IAnt tmpvar_0curAnt; 
                                 rule_GetNextAnt.Modify(procEnv, match_66, out tmpvar_0curAnt);
                                 var_curAnt = (GRGEN_MODEL.IAnt)(tmpvar_0curAnt);
 
-                                if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                                procEnv.PerformanceInfo.RewritesPerformed++;
                                 procEnv.Finished(matches_66, false);
                             }
                             res_67 = (bool)(res_66);
@@ -6311,14 +6311,14 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                         res_69 = (bool)(false);
                     } else {
                         res_69 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_69.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_69.Count;
                         procEnv.Finishing(matches_69, false);
                         Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere match_69 = matches_69.FirstExact;
                         GRGEN_MODEL.IGridNode tmpvar_1cur; 
                         rule_ReachedEndOfWorldAnywhere.Modify(procEnv, match_69, out tmpvar_1cur);
                         var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_1cur);
 
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_69, false);
                     }
                     if(!res_69)
@@ -6331,7 +6331,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                             res_72 = (bool)(false);
                         } else {
                             res_72 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_72.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_72.Count;
                             procEnv.Finishing(matches_72, false);
                             Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner match_72 = matches_72.FirstExact;
                             GRGEN_MODEL.IGridNode tmpvar_2cur; GRGEN_MODEL.IGridNode tmpvar_3curOuter; 
@@ -6339,7 +6339,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                             var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_2cur);
 var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_3curOuter);
 
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_72, false);
                         }
                         if(res_72)
@@ -6352,7 +6352,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_3curOuter);
                                 res_75 = (bool)(false);
                             } else {
                                 res_75 = (bool)(true);
-                                if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_75.Count;
+                                procEnv.PerformanceInfo.MatchesFound += matches_75.Count;
                                 procEnv.Finishing(matches_75, false);
                                 Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner match_75 = matches_75.FirstExact;
                                 GRGEN_MODEL.IGridNode tmpvar_4cur; GRGEN_MODEL.IGridNode tmpvar_5curOuter; 
@@ -6360,7 +6360,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_3curOuter);
                                 var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_4cur);
 var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_5curOuter);
 
-                                if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                                procEnv.PerformanceInfo.RewritesPerformed++;
                                 procEnv.Finished(matches_75, false);
                             }
                             res_76 = (bool)(res_75);
@@ -6380,7 +6380,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_5curOuter);
                                 res_82 = (bool)(false);
                             } else {
                                 res_82 = (bool)(true);
-                                if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_82.Count;
+                                procEnv.PerformanceInfo.MatchesFound += matches_82.Count;
                                 procEnv.Finishing(matches_82, false);
                                 Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner match_82 = matches_82.FirstExact;
                                 GRGEN_MODEL.IGridNode tmpvar_6cur; GRGEN_MODEL.IGridNode tmpvar_7curOuter; 
@@ -6388,7 +6388,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_5curOuter);
                                 var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_6cur);
 var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_7curOuter);
 
-                                if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                                procEnv.PerformanceInfo.RewritesPerformed++;
                                 procEnv.Finished(matches_82, false);
                             }
                             if(res_82)
@@ -6401,7 +6401,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_7curOuter);
                                     res_87 = (bool)(false);
                                 } else {
                                     res_87 = (bool)(true);
-                                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_87.Count;
+                                    procEnv.PerformanceInfo.MatchesFound += matches_87.Count;
                                     procEnv.Finishing(matches_87, false);
                                     Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner match_87 = matches_87.FirstExact;
                                     GRGEN_MODEL.IGridNode tmpvar_8cur; GRGEN_MODEL.IGridNode tmpvar_9curOuter; 
@@ -6409,7 +6409,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_7curOuter);
                                     var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_8cur);
 var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
 
-                                    if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                                    procEnv.PerformanceInfo.RewritesPerformed++;
                                     procEnv.Finished(matches_87, false);
                                 }
                                 res_88 = (bool)(res_87);
@@ -6430,11 +6430,11 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                             res_95 = (bool)(false);
                         } else {
                             res_95 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_95.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_95.Count;
                             procEnv.Finishing(matches_95, false);
                             Rule_GrowWorldEnd.IMatch_GrowWorldEnd match_95 = matches_95.FirstExact;
                             rule_GrowWorldEnd.Modify(procEnv, match_95);
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_95, false);
                         }
                         res_96 = (bool)(res_95);
@@ -6449,14 +6449,14 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                             res_100 = (bool)(false);
                         } else {
                             res_100 = (bool)(true);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_100.Count;
+                            procEnv.PerformanceInfo.MatchesFound += matches_100.Count;
                             procEnv.Finishing(matches_100, false);
                             Rule_Food2Ant.IMatch_Food2Ant match_100 = matches_100.FirstExact;
                             GRGEN_MODEL.IAnt tmpvar_10curAnt; 
                             rule_Food2Ant.Modify(procEnv, match_100, out tmpvar_10curAnt);
                             var_curAnt = (GRGEN_MODEL.IAnt)(tmpvar_10curAnt);
 
-                            if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                             procEnv.Finished(matches_100, false);
                         }
                         if(!res_100) break;
@@ -6470,7 +6470,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                         res_103 = (bool)(false);
                     } else {
                         res_103 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_103.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_103.Count;
                         procEnv.Finishing(matches_103, false);
                         IEnumerator<Rule_EvaporateWorld.IMatch_EvaporateWorld> enum_103 = matches_103.GetEnumeratorExact();
                         while(enum_103.MoveNext())
@@ -6478,7 +6478,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                             Rule_EvaporateWorld.IMatch_EvaporateWorld match_103 = enum_103.Current;
                             if(match_103!=matches_103.FirstExact) procEnv.RewritingNextMatch();
                             rule_EvaporateWorld.Modify(procEnv, match_103);
-                            if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;
+                            procEnv.PerformanceInfo.RewritesPerformed++;
                         }
                         procEnv.Finished(matches_103, false);
                     }
@@ -11535,6 +11535,9 @@ label1: ;
         
         public override string Name { get { return "AntWorld_ExtendAtEndOfRound_NoGammelActions"; } }
         public override string StatisticsPath { get { return null; } }
+        public override bool LazyNIC { get { return false; } }
+        public override bool Profile { get { return false; } }
+
         public override string ModelMD5Hash { get { return "5efeccfb37eb4c2835fae110fe22d2e7"; } }
     }
 }

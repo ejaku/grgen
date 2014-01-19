@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Wed Jan 08 16:09:53 CET 2014
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun Jan 19 18:19:09 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -8886,11 +8886,11 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
                     res_0 = (bool)(false);
                 } else {
                     res_0 = (bool)(true);
-                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_0.Count;
+                    procEnv.PerformanceInfo.MatchesFound += matches_0.Count;
                     procEnv.Finishing(matches_0, false);
                     Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity match_0 = matches_0.FirstExact;
                     rule_LinkMethodBodyToContainedEntity.Modify(procEnv, match_0);
-                    if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.PerformanceInfo.RewritesPerformed++;
                     procEnv.Finished(matches_0, false);
                 }
                 if(!res_0) break;
@@ -8910,11 +8910,11 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
                         res_2 = (bool)(false);
                     } else {
                         res_2 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_2.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_2.Count;
                         procEnv.Finishing(matches_2, false);
                         Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive match_2 = matches_2.FirstExact;
                         rule_LinkMethodBodyToContainedExpressionTransitive.Modify(procEnv, match_2);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_2, false);
                     }
                     if(!res_2) break;
@@ -8933,7 +8933,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
                     res_5 = (bool)(false);
                 } else {
                     res_5 = (bool)(true);
-                    if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_5.Count;
+                    procEnv.PerformanceInfo.MatchesFound += matches_5.Count;
                     procEnv.Finishing(matches_5, false);
                     IEnumerator<Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> enum_5 = matches_5.GetEnumeratorExact();
                     while(enum_5.MoveNext())
@@ -8941,7 +8941,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
                         Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions match_5 = enum_5.Current;
                         if(match_5!=matches_5.FirstExact) procEnv.RewritingNextMatch();
                         rule_RemoveMethodBodyContainsBetweenExpressions.Modify(procEnv, match_5);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                     }
                     procEnv.Finished(matches_5, false);
                 }
@@ -8960,11 +8960,11 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
                         res_7 = (bool)(false);
                     } else {
                         res_7 = (bool)(true);
-                        if(procEnv.PerformanceInfo!=null) procEnv.PerformanceInfo.MatchesFound += matches_7.Count;
+                        procEnv.PerformanceInfo.MatchesFound += matches_7.Count;
                         procEnv.Finishing(matches_7, false);
                         Rule_RetypeClassContainment.IMatch_RetypeClassContainment match_7 = matches_7.FirstExact;
                         rule_RetypeClassContainment.Modify(procEnv, match_7);
-                        if(procEnv.PerformanceInfo != null) procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.PerformanceInfo.RewritesPerformed++;
                         procEnv.Finished(matches_7, false);
                     }
                     if(!res_7) break;
@@ -20018,6 +20018,9 @@ label3: ;
         
         public override string Name { get { return "ProgramGraphsOriginalActions"; } }
         public override string StatisticsPath { get { return null; } }
+        public override bool LazyNIC { get { return false; } }
+        public override bool Profile { get { return false; } }
+
         public override string ModelMD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }
     }
 }
