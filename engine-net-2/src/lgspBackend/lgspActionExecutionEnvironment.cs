@@ -37,6 +37,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.usedGraphs.Push(graph);
             this.namedGraphOnTop = graph as LGSPNamedGraph;
             this.curActions = actions;
+            InitActionsProfile(actions);
         }
 
         public IGraph Graph
@@ -62,7 +63,21 @@ namespace de.unika.ipd.grGen.lgsp
         public BaseActions Actions
         {
             get { return curActions; }
-            set { curActions = (LGSPActions)value; }
+            set { curActions = (LGSPActions)value; InitActionsProfile((LGSPActions)value); }
+        }
+
+        public void InitActionsProfile(LGSPActions actions)
+        {
+            if(actions == null)
+                return;
+            if(!actions.Profile)
+                return;
+
+            perfInfo.ActionProfiles.Clear();
+            foreach(IAction action in actions.Actions)
+            {
+                perfInfo.ActionProfiles.Add(action.Name, new ActionProfile());
+            }
         }
         
 
