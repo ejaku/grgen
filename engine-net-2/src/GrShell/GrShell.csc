@@ -1750,7 +1750,7 @@ void RedirectCommand():
 
 void ShowCommand():
 {
-	String str;
+	String str = null;
 	String args = null;
 	NodeType nodeType = null;
 	EdgeType edgeType = null;
@@ -1810,6 +1810,11 @@ void ShowCommand():
 		"backend" LineEnd()
 		{
 			impl.ShowBackend();
+		}
+	|
+		"profile" (str=WordOrText())? LineEnd()
+		{
+			impl.ShowProfile(str);
 		}
 	|
 		elem=GraphElement() "." str=AttributeName() LineEnd()

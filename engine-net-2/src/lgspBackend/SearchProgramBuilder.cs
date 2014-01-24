@@ -52,6 +52,8 @@ namespace de.unika.ipd.grGen.lgsp
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.PatternGraph.Package, false);
             this.emitProfiling = emitProfiling;
+            actionName = rulePattern.name;
+            firstLoopPassed = false;
             
             // filter out parameters which are implemented by lookup due to maybe null unfolding
             // and suffix matcher method name by missing parameters which get computed by lookup here
@@ -85,11 +87,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // build outermost search program operation, create the list anchor starting its program
+            bool containsSubpatterns = patternGraph.embeddedGraphsPlusInlined.Length > 0 || patternGraph.iteratedsPlusInlined.Length > 0 || patternGraph.alternativesPlusInlined.Length > 0;
             SearchProgram searchProgram = new SearchProgramOfAction(
                 rulePatternClassName,
                 patternGraph.name, parameterTypes, parameterNames, name,
                 rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
-                patternGraph.embeddedGraphsPlusInlined.Length > 0 || patternGraph.iteratedsPlusInlined.Length > 0 || patternGraph.alternativesPlusInlined.Length > 0,
+                containsSubpatterns, emitProfiling,
                 patternGraph.maybeNullElementNames, suffixedMatcherNameList, paramNamesList);
  
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
@@ -162,6 +165,8 @@ namespace de.unika.ipd.grGen.lgsp
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, true);
             this.emitProfiling = emitProfiling;
+            actionName = null;
+            firstLoopPassed = false;
 
             // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfSubpattern(
@@ -209,6 +214,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.alternative = alternative;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, !(matchingPattern is LGSPRulePattern));
             this.emitProfiling = emitProfiling;
+            actionName = null;
+            firstLoopPassed = false;
 
             // build combined list of namesOfPatternGraphsOnPathToEnclosedPatternpath
             // from the namesOfPatternGraphsOnPathToEnclosedPatternpath of the alternative cases
@@ -315,6 +322,8 @@ namespace de.unika.ipd.grGen.lgsp
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, !(matchingPattern is LGSPRulePattern));
             this.emitProfiling = emitProfiling;
+            actionName = null;
+            firstLoopPassed = false;
 
             // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfIterated(
@@ -448,6 +457,19 @@ namespace de.unika.ipd.grGen.lgsp
         /// whether to emit code for gathering profiling information (about search steps executed)
         /// </summary>
         private bool emitProfiling;
+
+        /// <summary>
+        /// the name of the action in case we're building a rule/test, otherwise null
+        /// </summary>
+        private string actionName;
+
+        /// <summary>
+        /// tells whether the first loop of the search programm was built, or not yet
+        /// needed for the profile that does special statistics for the first loop,
+        /// because this is the one that will get parallelized in case of action parallelization
+        /// only of relevance if programType == SearchProgramType.Action, otherwise the type pinns it to true
+        /// </summary>
+        private bool firstLoopPassed;
 
         ///////////////////////////////////////////////////////////////////////////////////
 
@@ -951,7 +973,10 @@ namespace de.unika.ipd.grGen.lgsp
                     GetCandidateByIterationType.GraphElements,
                     target.PatternElement.Name,
                     isNode,
-                    emitProfiling);
+                    emitProfiling,
+                    actionName,
+                    !firstLoopPassed);
+            firstLoopPassed = true;
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(elementsIteration);
             elementsIteration.NestedOperationsList =
@@ -1099,7 +1124,10 @@ namespace de.unika.ipd.grGen.lgsp
                     iterationType,
                     isDict,
                     isNode,
-                    emitProfiling);
+                    emitProfiling,
+                    actionName,
+                    !firstLoopPassed);
+            firstLoopPassed = true;
 
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(elementsIteration);
@@ -1258,7 +1286,10 @@ namespace de.unika.ipd.grGen.lgsp
                     iterationType,
                     isDict,
                     isNode,
-                    emitProfiling);
+                    emitProfiling,
+                    actionName,
+                    !firstLoopPassed);
+            firstLoopPassed = true;
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(elementsIteration);
             elementsIteration.NestedOperationsList =
@@ -2504,7 +2535,10 @@ namespace de.unika.ipd.grGen.lgsp
                     currentEdge.PatternElement.Name,
                     node.PatternElement.Name,
                     incidentType,
-                    emitProfiling);
+                    emitProfiling,
+                    actionName,
+                    !firstLoopPassed);
+                firstLoopPassed = true;
                 incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
                 continuationPoint = insertionPoint.Append(incidentIteration);
                 insertionPoint = incidentIteration.NestedOperationsList;
@@ -2519,7 +2553,10 @@ namespace de.unika.ipd.grGen.lgsp
                         currentEdge.PatternElement.Name,
                         node.PatternElement.Name,
                         IncidentEdgeType.Incoming,
-                        emitProfiling);
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+                    firstLoopPassed = true;
                     incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
                     continuationPoint = insertionPoint.Append(incidentIteration);
                     insertionPoint = incidentIteration.NestedOperationsList;
@@ -2537,7 +2574,10 @@ namespace de.unika.ipd.grGen.lgsp
                         currentEdge.PatternElement.Name,
                         node.PatternElement.Name,
                         IncidentEdgeType.IncomingOrOutgoing,
-                        emitProfiling);
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+                    firstLoopPassed = true;
                     incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
                     insertionPoint = insertionPoint.Append(incidentIteration);
                     insertionPoint = incidentIteration.NestedOperationsList;
@@ -3850,9 +3890,11 @@ namespace de.unika.ipd.grGen.lgsp
             // or abort because the maximum desired number of maches was reached
             CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
 #if NO_ADJUST_LIST_HEADS
-                new CheckContinueMatchingMaximumMatchesReached(CheckMaximumMatchesType.Action, false);
+                new CheckContinueMatchingMaximumMatchesReached(CheckMaximumMatchesType.Action, false,
+                    emitProfiling, actionName, firstLoopPassed);
 #else
-                new CheckContinueMatchingMaximumMatchesReached(CheckMaximumMatchesType.Action, true);
+                new CheckContinueMatchingMaximumMatchesReached(CheckMaximumMatchesType.Action, true,
+                    emitProfiling, actionName, firstLoopPassed);
 #endif
             insertionPoint = insertionPoint.Append(checkMaximumMatches);
 

@@ -119,6 +119,7 @@
     <Compile Include="TokenMgrError.cs" />
     <Compile Include="TypesHelper.cs" />
     <Compile Include="IO\VCGDumper.cs" />
+    <Compile Include="UberEstimator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SequenceParser.csc" />

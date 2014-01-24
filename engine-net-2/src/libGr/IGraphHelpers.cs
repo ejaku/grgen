@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.libGr
@@ -183,10 +184,49 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
+    /// A class for collecting an action profile, 
+    /// accumulating per-action statistics, over all applications of the corresponding rule or test
+    /// </summary>
+    public class ActionProfile
+    {
+        // counts how often the action was called in total
+        public long callsTotal;
+        // counts how many search steps were carried out over all calls
+        public long searchStepsTotal;
+        // counts how many loop steps were executed over all calls
+        public long loopStepsTotal;
+
+        /////////////////////////////////////////////////
+        // loop and search steps for the action when applied to find one match
+
+        // computes the average of the number of steps of the first loop until a match was found or matching failed
+        public UberEstimator loopStepsSingle = new UberEstimator();
+        // computes the average of the number of search steps until a match was found or matching failed
+        public UberEstimator searchStepsSingle = new UberEstimator();
+        // computes the average of the number of search steps per loop step of the first loop until a match was found or matching failed
+        public UberEstimator searchStepsPerLoopStepSingle = new UberEstimator();
+
+        /////////////////////////////////////////////////
+        // loop and search steps for the action when applied to find more than one match (most often match-all)
+
+        // computes the average of the number of steps of the first loop until the goal was achieved (equals count of all choices of first loop in case of match-all)
+        public UberEstimator loopStepsMultiple = new UberEstimator();
+        // computes the average of the number of search steps until the goal was achieved
+        public UberEstimator searchStepsMultiple = new UberEstimator();
+        // computes the average of the number of search steps per loop step of the first loop until the goal was achieved
+        public UberEstimator searchStepsPerLoopStepMultiple = new UberEstimator();
+    }
+
+    /// <summary>
     /// An object accumulating information about needed time, number of found matches and number of performed rewrites.
     /// </summary>
     public class PerformanceInfo
     {
+        /// <summary>
+        /// Stores a profile per action (given by name, that gives the average for the loop and search steps needed to achieve the goal or finally fail)
+        /// </summary>
+        public Dictionary<string, ActionProfile> ActionProfiles = new Dictionary<string,ActionProfile>();
+
         /// <summary>
         /// Accumulated number of matches found by any rule since last Reset.
         /// </summary>

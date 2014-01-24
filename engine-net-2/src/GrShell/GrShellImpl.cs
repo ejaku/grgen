@@ -833,6 +833,8 @@ namespace de.unika.ipd.grGen.grShell
                 + "   Lists the names of the currently loaded graphs.\n\n"
                 + " - show actions\n"
                 + "   Lists the available actions associated with the current graph.\n\n"
+                + " - show profile [actionname]\n"
+                + "   Lists the profile collected for actionname, or all actions.\n\n"
                 + " - show backend\n"
                 + "   Shows the name of the current backend and its parameters.\n");
         }
@@ -2469,6 +2471,64 @@ namespace de.unika.ipd.grGen.grShell
                 }
                 debugOut.WriteLine();
             }
+        }
+
+        public void ShowProfile(string action)
+        {
+            if(!ActionsExists()) return;
+
+            if(action != null)
+            {
+                if(curShellProcEnv.ProcEnv.PerformanceInfo.ActionProfiles.ContainsKey(action))
+                    ShowProfile(action, curShellProcEnv.ProcEnv.PerformanceInfo.ActionProfiles[action]);
+                else
+                    errOut.WriteLine("No profile available.");
+            }
+            else
+            {
+                foreach(KeyValuePair<string, ActionProfile> profile in curShellProcEnv.ProcEnv.PerformanceInfo.ActionProfiles)
+                {
+                    ShowProfile(profile.Key, profile.Value);
+                }
+            }
+        }
+
+        private void ShowProfile(string name, ActionProfile profile)
+        {
+            debugOut.WriteLine("profile for action " + name + ":");
+
+            debugOut.Write("  calls total: ");
+            debugOut.WriteLine(profile.callsTotal);
+            debugOut.Write("  search steps total: ");
+            debugOut.WriteLine(profile.searchStepsTotal);
+            debugOut.Write("  loop steps total: ");
+            debugOut.WriteLine(profile.loopStepsTotal);
+            
+            double searchStepsSingle = profile.searchStepsSingle.Get();
+            debugOut.Write("  search steps until one match: ");
+            debugOut.WriteLine(searchStepsSingle.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+            double loopStepsSingle = profile.loopStepsSingle.Get();
+            debugOut.Write("  loop steps until one match: ");
+            debugOut.WriteLine(loopStepsSingle.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+            double searchStepsPerLoopStepSingle = profile.searchStepsPerLoopStepSingle.Get();
+            debugOut.Write("  search steps per loop step (until one match): ");
+            debugOut.WriteLine(searchStepsPerLoopStepSingle.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+            
+            double searchStepsMultiple = profile.searchStepsMultiple.Get();
+            debugOut.Write("  search steps until more than one match: ");
+            debugOut.WriteLine(searchStepsMultiple.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+            double loopStepsMultiple = profile.loopStepsMultiple.Get();
+            debugOut.Write("  loop steps until more than one match: ");
+            debugOut.WriteLine(loopStepsMultiple.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+            double searchStepsPerLoopStepMultiple = profile.searchStepsPerLoopStepMultiple.Get();
+            debugOut.Write("  search steps per loop step (until more than one match): ");
+            debugOut.WriteLine(searchStepsPerLoopStepMultiple.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+            
+            double regularWorkAmountDistributionFactor = (1 + loopStepsSingle) * (1 + searchStepsPerLoopStepSingle) / (1 + searchStepsSingle) + (1 + loopStepsMultiple) * (1 + searchStepsPerLoopStepMultiple) / (1 + searchStepsMultiple);
+            double workAmountFactor = Math.Log(1 + loopStepsSingle, 2) * Math.Log(1 + loopStepsSingle, 2) * Math.Log(1 + searchStepsSingle, 2) / 10 + Math.Log(1 + loopStepsMultiple, 2) * Math.Log(1 + loopStepsMultiple, 2) * Math.Log(1 + searchStepsMultiple, 2) / 10;
+            debugOut.Write("  parallelization potential: ");
+            debugOut.WriteLine((regularWorkAmountDistributionFactor*workAmountFactor).ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+            debugOut.WriteLine();
         }
 
         public void ShowBackend()
