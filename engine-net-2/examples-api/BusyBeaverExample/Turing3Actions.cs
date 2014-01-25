@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Jan 19 18:18:06 CET 2014
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sat Jan 25 16:17:20 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -2903,7 +2903,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset readZeroRule_node_s 
             GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_s = (GRGEN_LGSP.LGSPNode)readZeroRule_node_s;
             if(candidate_readZeroRule_node_s.lgspType.TypeID!=2) {
@@ -3151,7 +3151,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset readOneRule_node_s 
             GRGEN_LGSP.LGSPNode candidate_readOneRule_node_s = (GRGEN_LGSP.LGSPNode)readOneRule_node_s;
             if(candidate_readOneRule_node_s.lgspType.TypeID!=2) {
@@ -3399,7 +3399,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset ensureMoveLeftValidRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_wv = (GRGEN_LGSP.LGSPNode)ensureMoveLeftValidRule_node_wv;
             if(candidate_ensureMoveLeftValidRule_node_wv.lgspType.TypeID!=3) {
@@ -3412,10 +3412,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             // NegativePattern 
             {
-                ++negLevel;
+                ++isoSpace;
                 uint prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
-                prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_ensureMoveLeftValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                candidate_ensureMoveLeftValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                 // Extend Incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
                 GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.lgspInhead;
                 if(head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
@@ -3431,19 +3431,19 @@ namespace de.unika.ipd.grGen.Action_Turing3
                         if(candidate_ensureMoveLeftValidRule_neg_0_node__node0.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                         {
                             continue;
                         }
                         // negative pattern found
-                        candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
-                        --negLevel;
+                        candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                        --isoSpace;
                         return matches;
                     }
                     while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspInNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
                 }
-                candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
-                --negLevel;
+                candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                --isoSpace;
             }
             // Extend Outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
             GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.lgspOuthead;
@@ -3673,7 +3673,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset ensureMoveRightValidRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_wv = (GRGEN_LGSP.LGSPNode)ensureMoveRightValidRule_node_wv;
             if(candidate_ensureMoveRightValidRule_node_wv.lgspType.TypeID!=3) {
@@ -3686,10 +3686,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             // NegativePattern 
             {
-                ++negLevel;
+                ++isoSpace;
                 uint prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
-                prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_ensureMoveRightValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                candidate_ensureMoveRightValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                 // Extend Outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
                 GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.lgspOuthead;
                 if(head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
@@ -3705,19 +3705,19 @@ namespace de.unika.ipd.grGen.Action_Turing3
                         if(candidate_ensureMoveRightValidRule_neg_0_node__node0.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ensureMoveRightValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        if((candidate_ensureMoveRightValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                         {
                             continue;
                         }
                         // negative pattern found
-                        candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
-                        --negLevel;
+                        candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                        --isoSpace;
                         return matches;
                     }
                     while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspOutNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
                 }
-                candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
-                --negLevel;
+                candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                --isoSpace;
             }
             // Extend Outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
             GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.lgspOuthead;
@@ -3947,7 +3947,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset moveLeftRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_wv = (GRGEN_LGSP.LGSPNode)moveLeftRule_node_wv;
             if(candidate_moveLeftRule_node_wv.lgspType.TypeID!=3) {
@@ -3959,8 +3959,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 return matches;
             }
             uint prev__candidate_moveLeftRule_node_bp;
-            prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_moveLeftRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_moveLeftRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
             GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.lgspOuthead;
             if(head_candidate_moveLeftRule_edge__edge0 != null)
@@ -3991,7 +3991,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                             if(candidate_moveLeftRule_node_lbp.lgspType.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_moveLeftRule_node_lbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                            if((candidate_moveLeftRule_node_lbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                             {
                                 continue;
                             }
@@ -4008,7 +4008,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                             {
                                 candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
                                 candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
-                                candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
+                                candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_moveLeftRule_node_bp;
                                 return matches;
                             }
                         }
@@ -4017,7 +4017,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.lgspOutNext) != head_candidate_moveLeftRule_edge__edge0 );
             }
-            candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
+            candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_moveLeftRule_node_bp;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -4226,7 +4226,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset moveRightRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_wv = (GRGEN_LGSP.LGSPNode)moveRightRule_node_wv;
             if(candidate_moveRightRule_node_wv.lgspType.TypeID!=3) {
@@ -4238,8 +4238,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 return matches;
             }
             uint prev__candidate_moveRightRule_node_bp;
-            prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_moveRightRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_moveRightRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
             GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.lgspOuthead;
             if(head_candidate_moveRightRule_edge__edge0 != null)
@@ -4270,7 +4270,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                             if(candidate_moveRightRule_node_rbp.lgspType.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_moveRightRule_node_rbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                            if((candidate_moveRightRule_node_rbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                             {
                                 continue;
                             }
@@ -4287,7 +4287,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                             {
                                 candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
                                 candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
-                                candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
+                                candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_moveRightRule_node_bp;
                                 return matches;
                             }
                         }
@@ -4296,7 +4296,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.lgspOutNext) != head_candidate_moveRightRule_edge__edge0 );
             }
-            candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
+            candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_moveRightRule_node_bp;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -4505,7 +4505,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup countZeros_node_bp 
             int type_id_candidate_countZeros_node_bp = 1;
             for(GRGEN_LGSP.LGSPNode head_candidate_countZeros_node_bp = graph.nodesByTypeHeads[type_id_candidate_countZeros_node_bp], candidate_countZeros_node_bp = head_candidate_countZeros_node_bp.lgspTypeNext; candidate_countZeros_node_bp != head_candidate_countZeros_node_bp; candidate_countZeros_node_bp = candidate_countZeros_node_bp.lgspTypeNext)
@@ -4730,7 +4730,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup countOnes_node_bp 
             int type_id_candidate_countOnes_node_bp = 1;
             for(GRGEN_LGSP.LGSPNode head_candidate_countOnes_node_bp = graph.nodesByTypeHeads[type_id_candidate_countOnes_node_bp], candidate_countOnes_node_bp = head_candidate_countOnes_node_bp.lgspTypeNext; candidate_countOnes_node_bp != head_candidate_countOnes_node_bp; candidate_countOnes_node_bp = candidate_countOnes_node_bp.lgspTypeNext)
@@ -4989,14 +4989,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
             analyzer.InlineSubpatternUsages(Rule_moveRightRule.Instance.patternGraph);
             analyzer.InlineSubpatternUsages(Rule_countZeros.Instance.patternGraph);
             analyzer.InlineSubpatternUsages(Rule_countOnes.Instance.patternGraph);
-            Rule_readZeroRule.Instance.patternGraph.maxNegLevel = 0;
-            Rule_readOneRule.Instance.patternGraph.maxNegLevel = 0;
-            Rule_ensureMoveLeftValidRule.Instance.patternGraph.maxNegLevel = 0;
-            Rule_ensureMoveRightValidRule.Instance.patternGraph.maxNegLevel = 0;
-            Rule_moveLeftRule.Instance.patternGraph.maxNegLevel = 0;
-            Rule_moveRightRule.Instance.patternGraph.maxNegLevel = 0;
-            Rule_countZeros.Instance.patternGraph.maxNegLevel = 0;
-            Rule_countOnes.Instance.patternGraph.maxNegLevel = 0;
+            Rule_readZeroRule.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_readOneRule.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_ensureMoveLeftValidRule.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_ensureMoveRightValidRule.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_moveLeftRule.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_moveRightRule.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_countZeros.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_countOnes.Instance.patternGraph.maxIsoSpace = 0;
             analyzer.AnalyzeNestingOfPatternGraph(Rule_readZeroRule.Instance.patternGraph, true);
             analyzer.AnalyzeNestingOfPatternGraph(Rule_readOneRule.Instance.patternGraph, true);
             analyzer.AnalyzeNestingOfPatternGraph(Rule_ensureMoveLeftValidRule.Instance.patternGraph, true);

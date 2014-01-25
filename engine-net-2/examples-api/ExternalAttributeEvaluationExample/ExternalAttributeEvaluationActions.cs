@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jan 19 18:18:27 CET 2014
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sat Jan 25 16:17:30 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -1523,7 +1523,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             Rule_init.Match_init match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
             // if enough matches were found, we leave
@@ -1737,7 +1737,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup r_edge_e 
             int type_id_candidate_r_edge_e = 3;
             for(GRGEN_LGSP.LGSPEdge head_candidate_r_edge_e = graph.edgesByTypeHeads[type_id_candidate_r_edge_e], candidate_r_edge_e = head_candidate_r_edge_e.lgspTypeNext; candidate_r_edge_e != head_candidate_r_edge_e; candidate_r_edge_e = candidate_r_edge_e.lgspTypeNext)
@@ -1986,7 +1986,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup rp_edge_e 
             int type_id_candidate_rp_edge_e = 3;
             for(GRGEN_LGSP.LGSPEdge head_candidate_rp_edge_e = graph.edgesByTypeHeads[type_id_candidate_rp_edge_e], candidate_rp_edge_e = head_candidate_rp_edge_e.lgspTypeNext; candidate_rp_edge_e != head_candidate_rp_edge_e; candidate_rp_edge_e = candidate_rp_edge_e.lgspTypeNext)
@@ -2219,7 +2219,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup testCopy_node_n 
             int type_id_candidate_testCopy_node_n = 1;
             for(GRGEN_LGSP.LGSPNode head_candidate_testCopy_node_n = graph.nodesByTypeHeads[type_id_candidate_testCopy_node_n], candidate_testCopy_node_n = head_candidate_testCopy_node_n.lgspTypeNext; candidate_testCopy_node_n != head_candidate_testCopy_node_n; candidate_testCopy_node_n = candidate_testCopy_node_n.lgspTypeNext)
@@ -2440,19 +2440,19 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup testComparison_node_m 
             int type_id_candidate_testComparison_node_m = 1;
             for(GRGEN_LGSP.LGSPNode head_candidate_testComparison_node_m = graph.nodesByTypeHeads[type_id_candidate_testComparison_node_m], candidate_testComparison_node_m = head_candidate_testComparison_node_m.lgspTypeNext; candidate_testComparison_node_m != head_candidate_testComparison_node_m; candidate_testComparison_node_m = candidate_testComparison_node_m.lgspTypeNext)
             {
                 uint prev__candidate_testComparison_node_m;
-                prev__candidate_testComparison_node_m = candidate_testComparison_node_m.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_testComparison_node_m.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                prev__candidate_testComparison_node_m = candidate_testComparison_node_m.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                candidate_testComparison_node_m.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                 // Lookup testComparison_node_n 
                 int type_id_candidate_testComparison_node_n = 1;
                 for(GRGEN_LGSP.LGSPNode head_candidate_testComparison_node_n = graph.nodesByTypeHeads[type_id_candidate_testComparison_node_n], candidate_testComparison_node_n = head_candidate_testComparison_node_n.lgspTypeNext; candidate_testComparison_node_n != head_candidate_testComparison_node_n; candidate_testComparison_node_n = candidate_testComparison_node_n.lgspTypeNext)
                 {
-                    if((candidate_testComparison_node_n.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                    if((candidate_testComparison_node_n.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
@@ -2537,11 +2537,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
                     {
                         graph.MoveHeadAfter(candidate_testComparison_node_n);
                         graph.MoveHeadAfter(candidate_testComparison_node_m);
-                        candidate_testComparison_node_m.lgspFlags = candidate_testComparison_node_m.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_testComparison_node_m;
+                        candidate_testComparison_node_m.lgspFlags = candidate_testComparison_node_m.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_testComparison_node_m;
                         return matches;
                     }
                 }
-                candidate_testComparison_node_m.lgspFlags = candidate_testComparison_node_m.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_testComparison_node_m;
+                candidate_testComparison_node_m.lgspFlags = candidate_testComparison_node_m.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_testComparison_node_m;
             }
             return matches;
         }
@@ -2762,11 +2762,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             analyzer.InlineSubpatternUsages(Rule_rp.Instance.patternGraph);
             analyzer.InlineSubpatternUsages(Rule_testCopy.Instance.patternGraph);
             analyzer.InlineSubpatternUsages(Rule_testComparison.Instance.patternGraph);
-            Rule_init.Instance.patternGraph.maxNegLevel = 0;
-            Rule_r.Instance.patternGraph.maxNegLevel = 0;
-            Rule_rp.Instance.patternGraph.maxNegLevel = 0;
-            Rule_testCopy.Instance.patternGraph.maxNegLevel = 0;
-            Rule_testComparison.Instance.patternGraph.maxNegLevel = 0;
+            Rule_init.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_r.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_rp.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_testCopy.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_testComparison.Instance.patternGraph.maxIsoSpace = 0;
             analyzer.AnalyzeNestingOfPatternGraph(Rule_init.Instance.patternGraph, true);
             analyzer.AnalyzeNestingOfPatternGraph(Rule_r.Instance.patternGraph, true);
             analyzer.AnalyzeNestingOfPatternGraph(Rule_rp.Instance.patternGraph, true);

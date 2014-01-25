@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sun Jan 19 18:18:35 CET 2014
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sat Jan 25 16:17:33 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -1916,7 +1916,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             Rule_filterBase.Match_filterBase match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
             // if enough matches were found, we leave
@@ -2133,7 +2133,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup filterBass_edge_e 
             int type_id_candidate_filterBass_edge_e = 3;
             for(GRGEN_LGSP.LGSPEdge head_candidate_filterBass_edge_e = graph.edgesByTypeHeads[type_id_candidate_filterBass_edge_e], candidate_filterBass_edge_e = head_candidate_filterBass_edge_e.lgspTypeNext; candidate_filterBass_edge_e != head_candidate_filterBass_edge_e; candidate_filterBass_edge_e = candidate_filterBass_edge_e.lgspTypeNext)
@@ -2369,7 +2369,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset filterHass_node_n 
             GRGEN_LGSP.LGSPNode candidate_filterHass_node_n = (GRGEN_LGSP.LGSPNode)filterHass_node_n;
             if(candidate_filterHass_node_n.lgspType.TypeID!=1) {
@@ -2605,7 +2605,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             Rule_init.Match_init match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
             // if enough matches were found, we leave
@@ -2826,7 +2826,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup r_edge_e 
             int type_id_candidate_r_edge_e = 3;
             for(GRGEN_LGSP.LGSPEdge head_candidate_r_edge_e = graph.edgesByTypeHeads[type_id_candidate_r_edge_e], candidate_r_edge_e = head_candidate_r_edge_e.lgspTypeNext; candidate_r_edge_e != head_candidate_r_edge_e; candidate_r_edge_e = candidate_r_edge_e.lgspTypeNext)
@@ -3164,11 +3164,11 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             analyzer.InlineSubpatternUsages(Rule_filterHass.Instance.patternGraph);
             analyzer.InlineSubpatternUsages(Rule_init.Instance.patternGraph);
             analyzer.InlineSubpatternUsages(Rule_r.Instance.patternGraph);
-            Rule_filterBase.Instance.patternGraph.maxNegLevel = 0;
-            Rule_filterBass.Instance.patternGraph.maxNegLevel = 0;
-            Rule_filterHass.Instance.patternGraph.maxNegLevel = 0;
-            Rule_init.Instance.patternGraph.maxNegLevel = 0;
-            Rule_r.Instance.patternGraph.maxNegLevel = 0;
+            Rule_filterBase.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_filterBass.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_filterHass.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_init.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_r.Instance.patternGraph.maxIsoSpace = 0;
             analyzer.AnalyzeNestingOfPatternGraph(Rule_filterBase.Instance.patternGraph, true);
             analyzer.AnalyzeNestingOfPatternGraph(Rule_filterBass.Instance.patternGraph, true);
             analyzer.AnalyzeNestingOfPatternGraph(Rule_filterHass.Instance.patternGraph, true);
