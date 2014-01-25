@@ -2148,7 +2148,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 sourceCode.Append(" : ");
                 sourceCode.AppendFormat("graph.inIsoSpaceMatchedElements[isoSpace-(int)GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE-1]"
-                    + ".{0}.ContainsKey({1}))", IsNode ? "fst" : "snd", variableContainingCandidate);
+                    + ".ContainsKey({0}))", variableContainingCandidate);
             }
 
             // but only if isomorphy is demanded (NamesOfPatternElementsToCheckAgainst empty)
@@ -2279,7 +2279,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 sourceCode.Append(" : ");
                 sourceCode.AppendFormat("graph.inIsoSpaceMatchedElementsGlobal[isoSpace-(int)GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE-1]"
-                    + ".{0}.ContainsKey({1}))", IsNode ? "fst" : "snd", variableContainingCandidate);
+                    + ".ContainsKey({0}))", variableContainingCandidate);
             }
 
             if (GloballyHomomorphElements != null)
@@ -2754,11 +2754,11 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.Indent();
 
                 sourceCode.AppendFrontFormat("{0} = graph.inIsoSpaceMatchedElements[isoSpace - (int) "
-                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].{1}.ContainsKey({2}) ? 1U : 0U;\n",
-                    variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
+                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].ContainsKey({1}) ? 1U : 0U;\n",
+                    variableContainingBackupOfMappedMember, variableContainingCandidate);
                 sourceCode.AppendFrontFormat("if({0} == 0) graph.inIsoSpaceMatchedElements[isoSpace - (int) "
-                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].{1}.Add({2},{2});\n",
-                    variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
+                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].Add({1},{1});\n",
+                    variableContainingBackupOfMappedMember, variableContainingCandidate);
 
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
@@ -2823,11 +2823,11 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.Indent();
 
                 sourceCode.AppendFrontFormat("{0} = graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) "
-                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].{1}.ContainsKey({2}) ? 1U : 0U;\n",
-                    variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
+                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].ContainsKey({1}) ? 1U : 0U;\n",
+                    variableContainingBackupOfMappedMember, variableContainingCandidate);
                 sourceCode.AppendFrontFormat("if({0} == 0) graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) "
-                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].{1}.Add({2},{2});\n",
-                    variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
+                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].Add({1},{1});\n",
+                    variableContainingBackupOfMappedMember, variableContainingCandidate);
 
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
@@ -2955,8 +2955,8 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat(
-                    "graph.inIsoSpaceMatchedElements[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].{0}.Remove({1});\n",
-                    IsNode ? "fst" : "snd", variableContainingCandidate);
+                    "graph.inIsoSpaceMatchedElements[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1]"
+                        + ".Remove({0});\n", variableContainingCandidate);
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
 
@@ -3021,8 +3021,8 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat(
-                    "graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].{0}.Remove({1});\n",
-                    IsNode ? "fst" : "snd", variableContainingCandidate);
+                    "graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1]"
+                        + ".Remove({0});\n", variableContainingCandidate);
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
 
@@ -4984,12 +4984,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("if(isoSpace > (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE && "
                     + "isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE > graph.inIsoSpaceMatchedElements.Count) {\n");
                 sourceCode.Indent();
-                sourceCode.AppendFront("graph.inIsoSpaceMatchedElements.Add(new GRGEN_LGSP.Pair<Dictionary<GRGEN_LGSP.LGSPNode, "
-                    + "GRGEN_LGSP.LGSPNode>, Dictionary<GRGEN_LGSP.LGSPEdge, GRGEN_LGSP.LGSPEdge>>());\n");
-                sourceCode.AppendFront("graph.inIsoSpaceMatchedElements[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1]"
-                    + ".fst = new Dictionary<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPNode>();\n");
-                sourceCode.AppendFront("graph.inIsoSpaceMatchedElements[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1]"
-                    + ".snd = new Dictionary<GRGEN_LGSP.LGSPEdge, GRGEN_LGSP.LGSPEdge>();\n");
+                sourceCode.AppendFront("graph.inIsoSpaceMatchedElements.Add(new Dictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement>());\n");
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
             }
@@ -5032,9 +5027,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("if(isoSpace > (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
                 sourceCode.Indent();
                 sourceCode.AppendFront("graph.inIsoSpaceMatchedElements[isoSpace - "
-                    + "(int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].fst.Clear();\n");
-                sourceCode.AppendFront("graph.inIsoSpaceMatchedElements[isoSpace - "
-                    + "(int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].snd.Clear();\n");
+                    + "(int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].Clear();\n");
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
             }
