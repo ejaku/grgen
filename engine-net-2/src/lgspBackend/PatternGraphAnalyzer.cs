@@ -48,7 +48,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(!inlined) // no inlining will occur in case the pattern is on a patternpath, so nothing to adapt to in the after-inline run
                 ComputePatternGraphsOnPathToEnclosedPatternpath(patternGraph);
 
-            ComputeMaxNegLevel(patternGraph, inlined);
+            ComputeMaxIsoSpace(patternGraph, inlined);
         }
 
         /// <summary>
@@ -83,17 +83,17 @@ namespace de.unika.ipd.grGen.lgsp
                 while(onPathFromEnclosingChanged);
             }
 
-            // fix point iteration in order to compute the max neg level
-            bool maxNegLevelChanged;
+            // fix point iteration in order to compute the max iso space number
+            bool maxIsoSpaceChanged;
             do
             {
-                maxNegLevelChanged = false;
+                maxIsoSpaceChanged = false;
                 foreach(LGSPMatchingPattern matchingPattern in matchingPatterns)
                 {
-                    maxNegLevelChanged |= ComputeMaxNegLevel(matchingPattern.patternGraph, inlined);
+                    maxIsoSpaceChanged |= ComputeMaxIsoSpace(matchingPattern.patternGraph, inlined);
                 }
             } // until nothing changes because transitive closure was found
-            while (maxNegLevelChanged);
+            while (maxIsoSpaceChanged);
         }
 
         /// <summary>
@@ -673,25 +673,25 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Computes the maximum negLevel of the pattern graph reached by negative/independent nesting,
-        /// clipped by LGSPElemFlags.MAX_NEG_LEVEL+1 which is the critical point of interest,
+        /// Computes the maximum isoSpace number of the pattern graph reached by negative/independent nesting,
+        /// clipped by LGSPElemFlags.MAX_ISO_SPACE+1 which is the critical point of interest,
         /// this might happen by heavy nesting or by a subpattern call path with
         /// direct or indirect recursion on it including a negative/independent which gets passed.
-        /// Returns if the max negLevel of a subpattern called was increased, causing a further run.
+        /// Returns true if the max isoSpace of a subpattern called was increased, causing a further run.
         /// </summary>
-        private bool ComputeMaxNegLevel(PatternGraph patternGraph, bool inlined)
+        private bool ComputeMaxIsoSpace(PatternGraph patternGraph, bool inlined)
         {
             PatternGraph[] negativePatternGraphs = inlined ? patternGraph.negativePatternGraphsPlusInlined : patternGraph.negativePatternGraphs;
             foreach(PatternGraph neg in negativePatternGraphs)
             {
-                neg.maxNegLevel = patternGraph.maxNegLevel + 1;
-                ComputeMaxNegLevel(neg, inlined);
+                neg.maxIsoSpace = patternGraph.maxIsoSpace + 1;
+                ComputeMaxIsoSpace(neg, inlined);
             }
             PatternGraph[] independentPatternGraphs = inlined ? patternGraph.independentPatternGraphsPlusInlined : patternGraph.independentPatternGraphs;
             foreach(PatternGraph idpt in independentPatternGraphs)
             {
-                idpt.maxNegLevel = patternGraph.maxNegLevel + 1;
-                ComputeMaxNegLevel(idpt, inlined);
+                idpt.maxIsoSpace = patternGraph.maxIsoSpace + 1;
+                ComputeMaxIsoSpace(idpt, inlined);
             }
 
             Alternative[] alternatives = inlined ? patternGraph.alternativesPlusInlined : patternGraph.alternatives;
@@ -699,15 +699,15 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 foreach(PatternGraph altCase in alt.alternativeCases)
                 {
-                    altCase.maxNegLevel = patternGraph.maxNegLevel;
-                    ComputeMaxNegLevel(altCase, inlined);
+                    altCase.maxIsoSpace = patternGraph.maxIsoSpace;
+                    ComputeMaxIsoSpace(altCase, inlined);
                 }
             }
             Iterated[] iterateds = inlined ? patternGraph.iteratedsPlusInlined : patternGraph.iterateds;
             foreach(Iterated iter in patternGraph.iterateds)
             {
-                iter.iteratedPattern.maxNegLevel = patternGraph.maxNegLevel;
-                ComputeMaxNegLevel(iter.iteratedPattern, inlined);
+                iter.iteratedPattern.maxIsoSpace = patternGraph.maxIsoSpace;
+                ComputeMaxIsoSpace(iter.iteratedPattern, inlined);
             }
 
             bool changed = false;
@@ -717,11 +717,11 @@ namespace de.unika.ipd.grGen.lgsp
                 if(embeddedGraphs[i].inlined) // skip inlined embeddings
                     continue;
                 PatternGraph embeddedPatternGraph = embeddedGraphs[i].matchingPatternOfEmbeddedGraph.patternGraph;
-                if(embeddedPatternGraph.maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL)
+                if(embeddedPatternGraph.maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE)
                 {
-                    int oldMaxNegLevel = embeddedPatternGraph.maxNegLevel;
-                    embeddedPatternGraph.maxNegLevel = Math.Max(patternGraph.maxNegLevel, embeddedPatternGraph.maxNegLevel);
-                    if(embeddedPatternGraph.maxNegLevel > oldMaxNegLevel)
+                    int oldMaxIsoSpace = embeddedPatternGraph.maxIsoSpace;
+                    embeddedPatternGraph.maxIsoSpace = Math.Max(patternGraph.maxIsoSpace, embeddedPatternGraph.maxIsoSpace);
+                    if(embeddedPatternGraph.maxIsoSpace > oldMaxIsoSpace)
                         changed = true;
                 }
             }
