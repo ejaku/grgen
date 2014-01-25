@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Jan 19 18:17:49 CET 2014
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sat Jan 25 16:17:16 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -6791,7 +6791,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             Rule_InitWorld.Match_InitWorld match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
             // if enough matches were found, we leave
@@ -7012,7 +7012,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset TakeFood_node_curAnt 
             GRGEN_LGSP.LGSPNode candidate_TakeFood_node_curAnt = (GRGEN_LGSP.LGSPNode)TakeFood_node_curAnt;
             if(candidate_TakeFood_node_curAnt.lgspType.TypeID!=4) {
@@ -7249,7 +7249,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset GoHome_node_curAnt 
             GRGEN_LGSP.LGSPNode candidate_GoHome_node_curAnt = (GRGEN_LGSP.LGSPNode)GoHome_node_curAnt;
             if(candidate_GoHome_node_curAnt.lgspType.TypeID!=4) {
@@ -7275,8 +7275,8 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                         continue;
                     }
                     uint prev__candidate_GoHome_node_old;
-                    prev__candidate_GoHome_node_old = candidate_GoHome_node_old.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_GoHome_node_old.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_GoHome_node_old = candidate_GoHome_node_old.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_GoHome_node_old.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Extend Outgoing GoHome_edge__edge0 from GoHome_node_old 
                     GRGEN_LGSP.LGSPEdge head_candidate_GoHome_edge__edge0 = candidate_GoHome_node_old.lgspOuthead;
                     if(head_candidate_GoHome_edge__edge0 != null)
@@ -7292,7 +7292,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                             if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GoHome_node_new.lgspType.TypeID]) {
                                 continue;
                             }
-                            if((candidate_GoHome_node_new.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                            if((candidate_GoHome_node_new.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                             {
                                 continue;
                             }
@@ -7308,13 +7308,13 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                             {
                                 candidate_GoHome_node_old.MoveOutHeadAfter(candidate_GoHome_edge__edge0);
                                 candidate_GoHome_node_curAnt.MoveOutHeadAfter(candidate_GoHome_edge_oldPos);
-                                candidate_GoHome_node_old.lgspFlags = candidate_GoHome_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GoHome_node_old;
+                                candidate_GoHome_node_old.lgspFlags = candidate_GoHome_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GoHome_node_old;
                                 return matches;
                             }
                         }
                         while( (candidate_GoHome_edge__edge0 = candidate_GoHome_edge__edge0.lgspOutNext) != head_candidate_GoHome_edge__edge0 );
                     }
-                    candidate_GoHome_node_old.lgspFlags = candidate_GoHome_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GoHome_node_old;
+                    candidate_GoHome_node_old.lgspFlags = candidate_GoHome_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GoHome_node_old;
                 }
                 while( (candidate_GoHome_edge_oldPos = candidate_GoHome_edge_oldPos.lgspOutNext) != head_candidate_GoHome_edge_oldPos );
             }
@@ -7516,7 +7516,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset DropFood_node_curAnt 
             GRGEN_LGSP.LGSPNode candidate_DropFood_node_curAnt = (GRGEN_LGSP.LGSPNode)DropFood_node_curAnt;
             if(candidate_DropFood_node_curAnt.lgspType.TypeID!=4) {
@@ -7753,7 +7753,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset SearchAlongPheromones_node_curAnt 
             GRGEN_LGSP.LGSPNode candidate_SearchAlongPheromones_node_curAnt = (GRGEN_LGSP.LGSPNode)SearchAlongPheromones_node_curAnt;
             if(candidate_SearchAlongPheromones_node_curAnt.lgspType.TypeID!=4) {
@@ -7775,8 +7775,8 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                         continue;
                     }
                     uint prev__candidate_SearchAlongPheromones_node_old;
-                    prev__candidate_SearchAlongPheromones_node_old = candidate_SearchAlongPheromones_node_old.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_SearchAlongPheromones_node_old.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_SearchAlongPheromones_node_old = candidate_SearchAlongPheromones_node_old.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_SearchAlongPheromones_node_old.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Extend Incoming SearchAlongPheromones_edge__edge0 from SearchAlongPheromones_node_old 
                     GRGEN_LGSP.LGSPEdge head_candidate_SearchAlongPheromones_edge__edge0 = candidate_SearchAlongPheromones_node_old.lgspInhead;
                     if(head_candidate_SearchAlongPheromones_edge__edge0 != null)
@@ -7792,7 +7792,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                             if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_SearchAlongPheromones_node_new.lgspType.TypeID]) {
                                 continue;
                             }
-                            if((candidate_SearchAlongPheromones_node_new.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                            if((candidate_SearchAlongPheromones_node_new.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                             {
                                 continue;
                             }
@@ -7812,13 +7812,13 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                             {
                                 candidate_SearchAlongPheromones_node_old.MoveInHeadAfter(candidate_SearchAlongPheromones_edge__edge0);
                                 candidate_SearchAlongPheromones_node_curAnt.MoveOutHeadAfter(candidate_SearchAlongPheromones_edge_oldPos);
-                                candidate_SearchAlongPheromones_node_old.lgspFlags = candidate_SearchAlongPheromones_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_SearchAlongPheromones_node_old;
+                                candidate_SearchAlongPheromones_node_old.lgspFlags = candidate_SearchAlongPheromones_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_SearchAlongPheromones_node_old;
                                 return matches;
                             }
                         }
                         while( (candidate_SearchAlongPheromones_edge__edge0 = candidate_SearchAlongPheromones_edge__edge0.lgspInNext) != head_candidate_SearchAlongPheromones_edge__edge0 );
                     }
-                    candidate_SearchAlongPheromones_node_old.lgspFlags = candidate_SearchAlongPheromones_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_SearchAlongPheromones_node_old;
+                    candidate_SearchAlongPheromones_node_old.lgspFlags = candidate_SearchAlongPheromones_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_SearchAlongPheromones_node_old;
                 }
                 while( (candidate_SearchAlongPheromones_edge_oldPos = candidate_SearchAlongPheromones_edge_oldPos.lgspOutNext) != head_candidate_SearchAlongPheromones_edge_oldPos );
             }
@@ -8020,7 +8020,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset SearchAimless_node_curAnt 
             GRGEN_LGSP.LGSPNode candidate_SearchAimless_node_curAnt = (GRGEN_LGSP.LGSPNode)SearchAimless_node_curAnt;
             if(candidate_SearchAimless_node_curAnt.lgspType.TypeID!=4) {
@@ -8042,8 +8042,8 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                         continue;
                     }
                     uint prev__candidate_SearchAimless_node_old;
-                    prev__candidate_SearchAimless_node_old = candidate_SearchAimless_node_old.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_SearchAimless_node_old.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_SearchAimless_node_old = candidate_SearchAimless_node_old.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_SearchAimless_node_old.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // both directions of SearchAimless_edge__edge0
                     for(int directionRunCounterOf_SearchAimless_edge__edge0 = 0; directionRunCounterOf_SearchAimless_edge__edge0 < 2; ++directionRunCounterOf_SearchAimless_edge__edge0)
                     {
@@ -8062,7 +8062,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                                 if(candidate_SearchAimless_node_new.lgspType.TypeID!=1 && candidate_SearchAimless_node_new.lgspType.TypeID!=2) {
                                     continue;
                                 }
-                                if((candidate_SearchAimless_node_new.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                if((candidate_SearchAimless_node_new.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                                 {
                                     continue;
                                 }
@@ -8082,14 +8082,14 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                                         candidate_SearchAimless_node_old.MoveOutHeadAfter(candidate_SearchAimless_edge__edge0);
                                     }
                                     candidate_SearchAimless_node_curAnt.MoveOutHeadAfter(candidate_SearchAimless_edge_oldPos);
-                                    candidate_SearchAimless_node_old.lgspFlags = candidate_SearchAimless_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_SearchAimless_node_old;
+                                    candidate_SearchAimless_node_old.lgspFlags = candidate_SearchAimless_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_SearchAimless_node_old;
                                     return matches;
                                 }
                             }
                             while( (directionRunCounterOf_SearchAimless_edge__edge0==0 ? candidate_SearchAimless_edge__edge0 = candidate_SearchAimless_edge__edge0.lgspInNext : candidate_SearchAimless_edge__edge0 = candidate_SearchAimless_edge__edge0.lgspOutNext) != head_candidate_SearchAimless_edge__edge0 );
                         }
                     }
-                    candidate_SearchAimless_node_old.lgspFlags = candidate_SearchAimless_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_SearchAimless_node_old;
+                    candidate_SearchAimless_node_old.lgspFlags = candidate_SearchAimless_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_SearchAimless_node_old;
                 }
                 while( (candidate_SearchAimless_edge_oldPos = candidate_SearchAimless_edge_oldPos.lgspOutNext) != head_candidate_SearchAimless_edge_oldPos );
             }
@@ -8291,7 +8291,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset ReachedEndOfWorld_node_curAnt 
             GRGEN_LGSP.LGSPNode candidate_ReachedEndOfWorld_node_curAnt = (GRGEN_LGSP.LGSPNode)ReachedEndOfWorld_node_curAnt;
             if(candidate_ReachedEndOfWorld_node_curAnt.lgspType.TypeID!=4) {
@@ -8314,7 +8314,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                     }
                     // NegativePattern 
                     {
-                        ++negLevel;
+                        ++isoSpace;
                         // Extend Incoming ReachedEndOfWorld_neg_0_edge__edge0 from ReachedEndOfWorld_node_n 
                         GRGEN_LGSP.LGSPEdge head_candidate_ReachedEndOfWorld_neg_0_edge__edge0 = candidate_ReachedEndOfWorld_node_n.lgspInhead;
                         if(head_candidate_ReachedEndOfWorld_neg_0_edge__edge0 != null)
@@ -8326,12 +8326,12 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                                     continue;
                                 }
                                 // negative pattern found
-                                --negLevel;
+                                --isoSpace;
                                 goto label0;
                             }
                             while( (candidate_ReachedEndOfWorld_neg_0_edge__edge0 = candidate_ReachedEndOfWorld_neg_0_edge__edge0.lgspInNext) != head_candidate_ReachedEndOfWorld_neg_0_edge__edge0 );
                         }
-                        --negLevel;
+                        --isoSpace;
                     }
                     Rule_ReachedEndOfWorld.Match_ReachedEndOfWorld match = matches.GetNextUnfilledPosition();
                     match._node_curAnt = candidate_ReachedEndOfWorld_node_curAnt;
@@ -8551,7 +8551,7 @@ label0: ;
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup ReachedEndOfWorldAnywhere_edge__edge0 
             int type_id_candidate_ReachedEndOfWorldAnywhere_edge__edge0 = 5;
             for(GRGEN_LGSP.LGSPEdge head_candidate_ReachedEndOfWorldAnywhere_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_ReachedEndOfWorldAnywhere_edge__edge0], candidate_ReachedEndOfWorldAnywhere_edge__edge0 = head_candidate_ReachedEndOfWorldAnywhere_edge__edge0.lgspTypeNext; candidate_ReachedEndOfWorldAnywhere_edge__edge0 != head_candidate_ReachedEndOfWorldAnywhere_edge__edge0; candidate_ReachedEndOfWorldAnywhere_edge__edge0 = candidate_ReachedEndOfWorldAnywhere_edge__edge0.lgspTypeNext)
@@ -8568,7 +8568,7 @@ label0: ;
                 }
                 // NegativePattern 
                 {
-                    ++negLevel;
+                    ++isoSpace;
                     // Extend Incoming ReachedEndOfWorldAnywhere_neg_0_edge__edge0 from ReachedEndOfWorldAnywhere_node_n 
                     GRGEN_LGSP.LGSPEdge head_candidate_ReachedEndOfWorldAnywhere_neg_0_edge__edge0 = candidate_ReachedEndOfWorldAnywhere_node_n.lgspInhead;
                     if(head_candidate_ReachedEndOfWorldAnywhere_neg_0_edge__edge0 != null)
@@ -8580,12 +8580,12 @@ label0: ;
                                 continue;
                             }
                             // negative pattern found
-                            --negLevel;
+                            --isoSpace;
                             goto label1;
                         }
                         while( (candidate_ReachedEndOfWorldAnywhere_neg_0_edge__edge0 = candidate_ReachedEndOfWorldAnywhere_neg_0_edge__edge0.lgspInNext) != head_candidate_ReachedEndOfWorldAnywhere_neg_0_edge__edge0 );
                     }
-                    --negLevel;
+                    --isoSpace;
                 }
                 Rule_ReachedEndOfWorldAnywhere.Match_ReachedEndOfWorldAnywhere match = matches.GetNextUnfilledPosition();
                 match._node__node0 = candidate_ReachedEndOfWorldAnywhere_node__node0;
@@ -8813,7 +8813,7 @@ label1: ;
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             System.Int32 var_GrowFoodIfEqual_var_val = (System.Int32)GrowFoodIfEqual_var_val;
             // Preset GrowFoodIfEqual_node_n 
             GRGEN_LGSP.LGSPNode candidate_GrowFoodIfEqual_node_n = (GRGEN_LGSP.LGSPNode)GrowFoodIfEqual_node_n;
@@ -8821,13 +8821,13 @@ label1: ;
                 return matches;
             }
             uint prev__candidate_GrowFoodIfEqual_node_n;
-            prev__candidate_GrowFoodIfEqual_node_n = candidate_GrowFoodIfEqual_node_n.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_GrowFoodIfEqual_node_n.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_GrowFoodIfEqual_node_n = candidate_GrowFoodIfEqual_node_n.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowFoodIfEqual_node_n.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Lookup GrowFoodIfEqual_node_hill 
             int type_id_candidate_GrowFoodIfEqual_node_hill = 3;
             for(GRGEN_LGSP.LGSPNode head_candidate_GrowFoodIfEqual_node_hill = graph.nodesByTypeHeads[type_id_candidate_GrowFoodIfEqual_node_hill], candidate_GrowFoodIfEqual_node_hill = head_candidate_GrowFoodIfEqual_node_hill.lgspTypeNext; candidate_GrowFoodIfEqual_node_hill != head_candidate_GrowFoodIfEqual_node_hill; candidate_GrowFoodIfEqual_node_hill = candidate_GrowFoodIfEqual_node_hill.lgspTypeNext)
             {
-                if((candidate_GrowFoodIfEqual_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                if((candidate_GrowFoodIfEqual_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                 {
                     continue;
                 }
@@ -8844,11 +8844,11 @@ label1: ;
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(candidate_GrowFoodIfEqual_node_hill);
-                    candidate_GrowFoodIfEqual_node_n.lgspFlags = candidate_GrowFoodIfEqual_node_n.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowFoodIfEqual_node_n;
+                    candidate_GrowFoodIfEqual_node_n.lgspFlags = candidate_GrowFoodIfEqual_node_n.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowFoodIfEqual_node_n;
                     return matches;
                 }
             }
-            candidate_GrowFoodIfEqual_node_n.lgspFlags = candidate_GrowFoodIfEqual_node_n.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowFoodIfEqual_node_n;
+            candidate_GrowFoodIfEqual_node_n.lgspFlags = candidate_GrowFoodIfEqual_node_n.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowFoodIfEqual_node_n;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -9047,15 +9047,15 @@ label1: ;
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset GrowWorldFirstAtCorner_node_cur 
             GRGEN_LGSP.LGSPNode candidate_GrowWorldFirstAtCorner_node_cur = (GRGEN_LGSP.LGSPNode)GrowWorldFirstAtCorner_node_cur;
             if(candidate_GrowWorldFirstAtCorner_node_cur.lgspType.TypeID!=2) {
                 return matches;
             }
             uint prev__candidate_GrowWorldFirstAtCorner_node_cur;
-            prev__candidate_GrowWorldFirstAtCorner_node_cur = candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_GrowWorldFirstAtCorner_node_cur = candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Outgoing GrowWorldFirstAtCorner_edge__edge0 from GrowWorldFirstAtCorner_node_cur 
             GRGEN_LGSP.LGSPEdge head_candidate_GrowWorldFirstAtCorner_edge__edge0 = candidate_GrowWorldFirstAtCorner_node_cur.lgspOuthead;
             if(head_candidate_GrowWorldFirstAtCorner_edge__edge0 != null)
@@ -9071,18 +9071,18 @@ label1: ;
                     if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldFirstAtCorner_node_next.lgspType.TypeID]) {
                         continue;
                     }
-                    if((candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                    if((candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
                     uint prev__candidate_GrowWorldFirstAtCorner_node_next;
-                    prev__candidate_GrowWorldFirstAtCorner_node_next = candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_GrowWorldFirstAtCorner_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_GrowWorldFirstAtCorner_node_next = candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_GrowWorldFirstAtCorner_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Lookup GrowWorldFirstAtCorner_node_hill 
                     int type_id_candidate_GrowWorldFirstAtCorner_node_hill = 3;
                     for(GRGEN_LGSP.LGSPNode head_candidate_GrowWorldFirstAtCorner_node_hill = graph.nodesByTypeHeads[type_id_candidate_GrowWorldFirstAtCorner_node_hill], candidate_GrowWorldFirstAtCorner_node_hill = head_candidate_GrowWorldFirstAtCorner_node_hill.lgspTypeNext; candidate_GrowWorldFirstAtCorner_node_hill != head_candidate_GrowWorldFirstAtCorner_node_hill; candidate_GrowWorldFirstAtCorner_node_hill = candidate_GrowWorldFirstAtCorner_node_hill.lgspTypeNext)
                     {
-                        if((candidate_GrowWorldFirstAtCorner_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        if((candidate_GrowWorldFirstAtCorner_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                         {
                             continue;
                         }
@@ -9097,16 +9097,16 @@ label1: ;
                         {
                             graph.MoveHeadAfter(candidate_GrowWorldFirstAtCorner_node_hill);
                             candidate_GrowWorldFirstAtCorner_node_cur.MoveOutHeadAfter(candidate_GrowWorldFirstAtCorner_edge__edge0);
-                            candidate_GrowWorldFirstAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldFirstAtCorner_node_next;
-                            candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldFirstAtCorner_node_cur;
+                            candidate_GrowWorldFirstAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstAtCorner_node_next;
+                            candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstAtCorner_node_cur;
                             return matches;
                         }
                     }
-                    candidate_GrowWorldFirstAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldFirstAtCorner_node_next;
+                    candidate_GrowWorldFirstAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstAtCorner_node_next;
                 }
                 while( (candidate_GrowWorldFirstAtCorner_edge__edge0 = candidate_GrowWorldFirstAtCorner_edge__edge0.lgspOutNext) != head_candidate_GrowWorldFirstAtCorner_edge__edge0 );
             }
-            candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldFirstAtCorner_node_cur;
+            candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstAtCorner_node_cur;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -9315,15 +9315,15 @@ label1: ;
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset GrowWorldFirstNotAtCorner_node_cur 
             GRGEN_LGSP.LGSPNode candidate_GrowWorldFirstNotAtCorner_node_cur = (GRGEN_LGSP.LGSPNode)GrowWorldFirstNotAtCorner_node_cur;
             if(candidate_GrowWorldFirstNotAtCorner_node_cur.lgspType.TypeID!=1 && candidate_GrowWorldFirstNotAtCorner_node_cur.lgspType.TypeID!=3) {
                 return matches;
             }
             uint prev__candidate_GrowWorldFirstNotAtCorner_node_cur;
-            prev__candidate_GrowWorldFirstNotAtCorner_node_cur = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_GrowWorldFirstNotAtCorner_node_cur = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Outgoing GrowWorldFirstNotAtCorner_edge__edge0 from GrowWorldFirstNotAtCorner_node_cur 
             GRGEN_LGSP.LGSPEdge head_candidate_GrowWorldFirstNotAtCorner_edge__edge0 = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspOuthead;
             if(head_candidate_GrowWorldFirstNotAtCorner_edge__edge0 != null)
@@ -9339,18 +9339,18 @@ label1: ;
                     if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldFirstNotAtCorner_node_next.lgspType.TypeID]) {
                         continue;
                     }
-                    if((candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                    if((candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
                     uint prev__candidate_GrowWorldFirstNotAtCorner_node_next;
-                    prev__candidate_GrowWorldFirstNotAtCorner_node_next = candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_GrowWorldFirstNotAtCorner_node_next = candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Lookup GrowWorldFirstNotAtCorner_node_hill 
                     int type_id_candidate_GrowWorldFirstNotAtCorner_node_hill = 3;
                     for(GRGEN_LGSP.LGSPNode head_candidate_GrowWorldFirstNotAtCorner_node_hill = graph.nodesByTypeHeads[type_id_candidate_GrowWorldFirstNotAtCorner_node_hill], candidate_GrowWorldFirstNotAtCorner_node_hill = head_candidate_GrowWorldFirstNotAtCorner_node_hill.lgspTypeNext; candidate_GrowWorldFirstNotAtCorner_node_hill != head_candidate_GrowWorldFirstNotAtCorner_node_hill; candidate_GrowWorldFirstNotAtCorner_node_hill = candidate_GrowWorldFirstNotAtCorner_node_hill.lgspTypeNext)
                     {
-                        if((candidate_GrowWorldFirstNotAtCorner_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        if((candidate_GrowWorldFirstNotAtCorner_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                         {
                             continue;
                         }
@@ -9365,16 +9365,16 @@ label1: ;
                         {
                             graph.MoveHeadAfter(candidate_GrowWorldFirstNotAtCorner_node_hill);
                             candidate_GrowWorldFirstNotAtCorner_node_cur.MoveOutHeadAfter(candidate_GrowWorldFirstNotAtCorner_edge__edge0);
-                            candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldFirstNotAtCorner_node_next;
-                            candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldFirstNotAtCorner_node_cur;
+                            candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstNotAtCorner_node_next;
+                            candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstNotAtCorner_node_cur;
                             return matches;
                         }
                     }
-                    candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldFirstNotAtCorner_node_next;
+                    candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstNotAtCorner_node_next;
                 }
                 while( (candidate_GrowWorldFirstNotAtCorner_edge__edge0 = candidate_GrowWorldFirstNotAtCorner_edge__edge0.lgspOutNext) != head_candidate_GrowWorldFirstNotAtCorner_edge__edge0 );
             }
-            candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldFirstNotAtCorner_node_cur;
+            candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstNotAtCorner_node_cur;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -9583,18 +9583,18 @@ label1: ;
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset GrowWorldNextAtCorner_node_cur 
             GRGEN_LGSP.LGSPNode candidate_GrowWorldNextAtCorner_node_cur = (GRGEN_LGSP.LGSPNode)GrowWorldNextAtCorner_node_cur;
             if(candidate_GrowWorldNextAtCorner_node_cur.lgspType.TypeID!=2) {
                 return matches;
             }
             uint prev__candidate_GrowWorldNextAtCorner_node_cur;
-            prev__candidate_GrowWorldNextAtCorner_node_cur = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_GrowWorldNextAtCorner_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_GrowWorldNextAtCorner_node_cur = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldNextAtCorner_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // NegativePattern 
             {
-                ++negLevel;
+                ++isoSpace;
                 // Extend Incoming GrowWorldNextAtCorner_neg_0_edge__edge0 from GrowWorldNextAtCorner_node_cur 
                 GRGEN_LGSP.LGSPEdge head_candidate_GrowWorldNextAtCorner_neg_0_edge__edge0 = candidate_GrowWorldNextAtCorner_node_cur.lgspInhead;
                 if(head_candidate_GrowWorldNextAtCorner_neg_0_edge__edge0 != null)
@@ -9606,28 +9606,28 @@ label1: ;
                             continue;
                         }
                         // negative pattern found
-                        --negLevel;
-                        candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextAtCorner_node_cur;
+                        --isoSpace;
+                        candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
                         return matches;
                     }
                     while( (candidate_GrowWorldNextAtCorner_neg_0_edge__edge0 = candidate_GrowWorldNextAtCorner_neg_0_edge__edge0.lgspInNext) != head_candidate_GrowWorldNextAtCorner_neg_0_edge__edge0 );
                 }
-                --negLevel;
+                --isoSpace;
             }
             // Preset GrowWorldNextAtCorner_node_curOuter 
             GRGEN_LGSP.LGSPNode candidate_GrowWorldNextAtCorner_node_curOuter = (GRGEN_LGSP.LGSPNode)GrowWorldNextAtCorner_node_curOuter;
             if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldNextAtCorner_node_curOuter.lgspType.TypeID]) {
-                candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextAtCorner_node_cur;
+                candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
                 return matches;
             }
-            if((candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+            if((candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
             {
-                candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextAtCorner_node_cur;
+                candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
                 return matches;
             }
             uint prev__candidate_GrowWorldNextAtCorner_node_curOuter;
-            prev__candidate_GrowWorldNextAtCorner_node_curOuter = candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_GrowWorldNextAtCorner_node_curOuter = candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Outgoing GrowWorldNextAtCorner_edge__edge0 from GrowWorldNextAtCorner_node_cur 
             GRGEN_LGSP.LGSPEdge head_candidate_GrowWorldNextAtCorner_edge__edge0 = candidate_GrowWorldNextAtCorner_node_cur.lgspOuthead;
             if(head_candidate_GrowWorldNextAtCorner_edge__edge0 != null)
@@ -9643,18 +9643,18 @@ label1: ;
                     if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldNextAtCorner_node_next.lgspType.TypeID]) {
                         continue;
                     }
-                    if((candidate_GrowWorldNextAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                    if((candidate_GrowWorldNextAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
                     uint prev__candidate_GrowWorldNextAtCorner_node_next;
-                    prev__candidate_GrowWorldNextAtCorner_node_next = candidate_GrowWorldNextAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_GrowWorldNextAtCorner_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_GrowWorldNextAtCorner_node_next = candidate_GrowWorldNextAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_GrowWorldNextAtCorner_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Lookup GrowWorldNextAtCorner_node_hill 
                     int type_id_candidate_GrowWorldNextAtCorner_node_hill = 3;
                     for(GRGEN_LGSP.LGSPNode head_candidate_GrowWorldNextAtCorner_node_hill = graph.nodesByTypeHeads[type_id_candidate_GrowWorldNextAtCorner_node_hill], candidate_GrowWorldNextAtCorner_node_hill = head_candidate_GrowWorldNextAtCorner_node_hill.lgspTypeNext; candidate_GrowWorldNextAtCorner_node_hill != head_candidate_GrowWorldNextAtCorner_node_hill; candidate_GrowWorldNextAtCorner_node_hill = candidate_GrowWorldNextAtCorner_node_hill.lgspTypeNext)
                     {
-                        if((candidate_GrowWorldNextAtCorner_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        if((candidate_GrowWorldNextAtCorner_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                         {
                             continue;
                         }
@@ -9670,18 +9670,18 @@ label1: ;
                         {
                             graph.MoveHeadAfter(candidate_GrowWorldNextAtCorner_node_hill);
                             candidate_GrowWorldNextAtCorner_node_cur.MoveOutHeadAfter(candidate_GrowWorldNextAtCorner_edge__edge0);
-                            candidate_GrowWorldNextAtCorner_node_next.lgspFlags = candidate_GrowWorldNextAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextAtCorner_node_next;
-                            candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextAtCorner_node_curOuter;
-                            candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextAtCorner_node_cur;
+                            candidate_GrowWorldNextAtCorner_node_next.lgspFlags = candidate_GrowWorldNextAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_next;
+                            candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_curOuter;
+                            candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
                             return matches;
                         }
                     }
-                    candidate_GrowWorldNextAtCorner_node_next.lgspFlags = candidate_GrowWorldNextAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextAtCorner_node_next;
+                    candidate_GrowWorldNextAtCorner_node_next.lgspFlags = candidate_GrowWorldNextAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_next;
                 }
                 while( (candidate_GrowWorldNextAtCorner_edge__edge0 = candidate_GrowWorldNextAtCorner_edge__edge0.lgspOutNext) != head_candidate_GrowWorldNextAtCorner_edge__edge0 );
             }
-            candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextAtCorner_node_curOuter;
-            candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextAtCorner_node_cur;
+            candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_curOuter;
+            candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -9890,18 +9890,18 @@ label1: ;
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset GrowWorldNextNotAtCorner_node_cur 
             GRGEN_LGSP.LGSPNode candidate_GrowWorldNextNotAtCorner_node_cur = (GRGEN_LGSP.LGSPNode)GrowWorldNextNotAtCorner_node_cur;
             if(candidate_GrowWorldNextNotAtCorner_node_cur.lgspType.TypeID!=1 && candidate_GrowWorldNextNotAtCorner_node_cur.lgspType.TypeID!=3) {
                 return matches;
             }
             uint prev__candidate_GrowWorldNextNotAtCorner_node_cur;
-            prev__candidate_GrowWorldNextNotAtCorner_node_cur = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_GrowWorldNextNotAtCorner_node_cur = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // NegativePattern 
             {
-                ++negLevel;
+                ++isoSpace;
                 // Extend Incoming GrowWorldNextNotAtCorner_neg_0_edge__edge0 from GrowWorldNextNotAtCorner_node_cur 
                 GRGEN_LGSP.LGSPEdge head_candidate_GrowWorldNextNotAtCorner_neg_0_edge__edge0 = candidate_GrowWorldNextNotAtCorner_node_cur.lgspInhead;
                 if(head_candidate_GrowWorldNextNotAtCorner_neg_0_edge__edge0 != null)
@@ -9913,28 +9913,28 @@ label1: ;
                             continue;
                         }
                         // negative pattern found
-                        --negLevel;
-                        candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
+                        --isoSpace;
+                        candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
                         return matches;
                     }
                     while( (candidate_GrowWorldNextNotAtCorner_neg_0_edge__edge0 = candidate_GrowWorldNextNotAtCorner_neg_0_edge__edge0.lgspInNext) != head_candidate_GrowWorldNextNotAtCorner_neg_0_edge__edge0 );
                 }
-                --negLevel;
+                --isoSpace;
             }
             // Preset GrowWorldNextNotAtCorner_node_curOuter 
             GRGEN_LGSP.LGSPNode candidate_GrowWorldNextNotAtCorner_node_curOuter = (GRGEN_LGSP.LGSPNode)GrowWorldNextNotAtCorner_node_curOuter;
             if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspType.TypeID]) {
-                candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
+                candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
                 return matches;
             }
-            if((candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+            if((candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
             {
-                candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
+                candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
                 return matches;
             }
             uint prev__candidate_GrowWorldNextNotAtCorner_node_curOuter;
-            prev__candidate_GrowWorldNextNotAtCorner_node_curOuter = candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_GrowWorldNextNotAtCorner_node_curOuter = candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Outgoing GrowWorldNextNotAtCorner_edge__edge0 from GrowWorldNextNotAtCorner_node_cur 
             GRGEN_LGSP.LGSPEdge head_candidate_GrowWorldNextNotAtCorner_edge__edge0 = candidate_GrowWorldNextNotAtCorner_node_cur.lgspOuthead;
             if(head_candidate_GrowWorldNextNotAtCorner_edge__edge0 != null)
@@ -9950,18 +9950,18 @@ label1: ;
                     if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldNextNotAtCorner_node_next.lgspType.TypeID]) {
                         continue;
                     }
-                    if((candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                    if((candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
                     uint prev__candidate_GrowWorldNextNotAtCorner_node_next;
-                    prev__candidate_GrowWorldNextNotAtCorner_node_next = candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_GrowWorldNextNotAtCorner_node_next = candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Lookup GrowWorldNextNotAtCorner_node_hill 
                     int type_id_candidate_GrowWorldNextNotAtCorner_node_hill = 3;
                     for(GRGEN_LGSP.LGSPNode head_candidate_GrowWorldNextNotAtCorner_node_hill = graph.nodesByTypeHeads[type_id_candidate_GrowWorldNextNotAtCorner_node_hill], candidate_GrowWorldNextNotAtCorner_node_hill = head_candidate_GrowWorldNextNotAtCorner_node_hill.lgspTypeNext; candidate_GrowWorldNextNotAtCorner_node_hill != head_candidate_GrowWorldNextNotAtCorner_node_hill; candidate_GrowWorldNextNotAtCorner_node_hill = candidate_GrowWorldNextNotAtCorner_node_hill.lgspTypeNext)
                     {
-                        if((candidate_GrowWorldNextNotAtCorner_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        if((candidate_GrowWorldNextNotAtCorner_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                         {
                             continue;
                         }
@@ -9977,18 +9977,18 @@ label1: ;
                         {
                             graph.MoveHeadAfter(candidate_GrowWorldNextNotAtCorner_node_hill);
                             candidate_GrowWorldNextNotAtCorner_node_cur.MoveOutHeadAfter(candidate_GrowWorldNextNotAtCorner_edge__edge0);
-                            candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextNotAtCorner_node_next;
-                            candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextNotAtCorner_node_curOuter;
-                            candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
+                            candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_next;
+                            candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_curOuter;
+                            candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
                             return matches;
                         }
                     }
-                    candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextNotAtCorner_node_next;
+                    candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_next;
                 }
                 while( (candidate_GrowWorldNextNotAtCorner_edge__edge0 = candidate_GrowWorldNextNotAtCorner_edge__edge0.lgspOutNext) != head_candidate_GrowWorldNextNotAtCorner_edge__edge0 );
             }
-            candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextNotAtCorner_node_curOuter;
-            candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
+            candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_curOuter;
+            candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -10197,29 +10197,29 @@ label1: ;
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset GrowWorldEnd_node_cur 
             GRGEN_LGSP.LGSPNode candidate_GrowWorldEnd_node_cur = (GRGEN_LGSP.LGSPNode)GrowWorldEnd_node_cur;
             if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldEnd_node_cur.lgspType.TypeID]) {
                 return matches;
             }
             uint prev__candidate_GrowWorldEnd_node_cur;
-            prev__candidate_GrowWorldEnd_node_cur = candidate_GrowWorldEnd_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_GrowWorldEnd_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_GrowWorldEnd_node_cur = candidate_GrowWorldEnd_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldEnd_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Preset GrowWorldEnd_node_curOuter 
             GRGEN_LGSP.LGSPNode candidate_GrowWorldEnd_node_curOuter = (GRGEN_LGSP.LGSPNode)GrowWorldEnd_node_curOuter;
             if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldEnd_node_curOuter.lgspType.TypeID]) {
-                candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldEnd_node_cur;
+                candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_cur;
                 return matches;
             }
-            if((candidate_GrowWorldEnd_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+            if((candidate_GrowWorldEnd_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
             {
-                candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldEnd_node_cur;
+                candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_cur;
                 return matches;
             }
             uint prev__candidate_GrowWorldEnd_node_curOuter;
-            prev__candidate_GrowWorldEnd_node_curOuter = candidate_GrowWorldEnd_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_GrowWorldEnd_node_curOuter.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_GrowWorldEnd_node_curOuter = candidate_GrowWorldEnd_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldEnd_node_curOuter.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Incoming GrowWorldEnd_edge__edge0 from GrowWorldEnd_node_cur 
             GRGEN_LGSP.LGSPEdge head_candidate_GrowWorldEnd_edge__edge0 = candidate_GrowWorldEnd_node_cur.lgspInhead;
             if(head_candidate_GrowWorldEnd_edge__edge0 != null)
@@ -10235,7 +10235,7 @@ label1: ;
                     if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldEnd_node_nextOuter.lgspType.TypeID]) {
                         continue;
                     }
-                    if((candidate_GrowWorldEnd_node_nextOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                    if((candidate_GrowWorldEnd_node_nextOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
@@ -10249,15 +10249,15 @@ label1: ;
                     if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         candidate_GrowWorldEnd_node_cur.MoveInHeadAfter(candidate_GrowWorldEnd_edge__edge0);
-                        candidate_GrowWorldEnd_node_curOuter.lgspFlags = candidate_GrowWorldEnd_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldEnd_node_curOuter;
-                        candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldEnd_node_cur;
+                        candidate_GrowWorldEnd_node_curOuter.lgspFlags = candidate_GrowWorldEnd_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_curOuter;
+                        candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_cur;
                         return matches;
                     }
                 }
                 while( (candidate_GrowWorldEnd_edge__edge0 = candidate_GrowWorldEnd_edge__edge0.lgspInNext) != head_candidate_GrowWorldEnd_edge__edge0 );
             }
-            candidate_GrowWorldEnd_node_curOuter.lgspFlags = candidate_GrowWorldEnd_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldEnd_node_curOuter;
-            candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GrowWorldEnd_node_cur;
+            candidate_GrowWorldEnd_node_curOuter.lgspFlags = candidate_GrowWorldEnd_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_curOuter;
+            candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_cur;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -10456,15 +10456,15 @@ label1: ;
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset GetNextAnt_node_curAnt 
             GRGEN_LGSP.LGSPNode candidate_GetNextAnt_node_curAnt = (GRGEN_LGSP.LGSPNode)GetNextAnt_node_curAnt;
             if(candidate_GetNextAnt_node_curAnt.lgspType.TypeID!=4) {
                 return matches;
             }
             uint prev__candidate_GetNextAnt_node_curAnt;
-            prev__candidate_GetNextAnt_node_curAnt = candidate_GetNextAnt_node_curAnt.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_GetNextAnt_node_curAnt.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_GetNextAnt_node_curAnt = candidate_GetNextAnt_node_curAnt.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GetNextAnt_node_curAnt.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Outgoing GetNextAnt_edge__edge0 from GetNextAnt_node_curAnt 
             GRGEN_LGSP.LGSPEdge head_candidate_GetNextAnt_edge__edge0 = candidate_GetNextAnt_node_curAnt.lgspOuthead;
             if(head_candidate_GetNextAnt_edge__edge0 != null)
@@ -10480,7 +10480,7 @@ label1: ;
                     if(candidate_GetNextAnt_node_next.lgspType.TypeID!=4) {
                         continue;
                     }
-                    if((candidate_GetNextAnt_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                    if((candidate_GetNextAnt_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
@@ -10493,13 +10493,13 @@ label1: ;
                     if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         candidate_GetNextAnt_node_curAnt.MoveOutHeadAfter(candidate_GetNextAnt_edge__edge0);
-                        candidate_GetNextAnt_node_curAnt.lgspFlags = candidate_GetNextAnt_node_curAnt.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GetNextAnt_node_curAnt;
+                        candidate_GetNextAnt_node_curAnt.lgspFlags = candidate_GetNextAnt_node_curAnt.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GetNextAnt_node_curAnt;
                         return matches;
                     }
                 }
                 while( (candidate_GetNextAnt_edge__edge0 = candidate_GetNextAnt_edge__edge0.lgspOutNext) != head_candidate_GetNextAnt_edge__edge0 );
             }
-            candidate_GetNextAnt_node_curAnt.lgspFlags = candidate_GetNextAnt_node_curAnt.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_GetNextAnt_node_curAnt;
+            candidate_GetNextAnt_node_curAnt.lgspFlags = candidate_GetNextAnt_node_curAnt.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GetNextAnt_node_curAnt;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -10703,7 +10703,7 @@ label1: ;
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset Food2Ant_node_lastAnt 
             GRGEN_LGSP.LGSPNode candidate_Food2Ant_node_lastAnt = (GRGEN_LGSP.LGSPNode)Food2Ant_node_lastAnt;
             if(candidate_Food2Ant_node_lastAnt.lgspType.TypeID!=4) {
@@ -10931,7 +10931,7 @@ label1: ;
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup EvaporateWorld_node_n 
             foreach(GRGEN_LIBGR.NodeType type_candidate_EvaporateWorld_node_n in Rule_EvaporateWorld.EvaporateWorld_node_n_AllowedTypes)
             {
@@ -11155,7 +11155,7 @@ label1: ;
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Preset doAntWorld_node_firstAnt 
             GRGEN_LGSP.LGSPNode candidate_doAntWorld_node_firstAnt = (GRGEN_LGSP.LGSPNode)doAntWorld_node_firstAnt;
             if(candidate_doAntWorld_node_firstAnt.lgspType.TypeID!=4) {
@@ -11471,24 +11471,24 @@ label1: ;
             analyzer.InlineSubpatternUsages(Rule_Food2Ant.Instance.patternGraph);
             analyzer.InlineSubpatternUsages(Rule_EvaporateWorld.Instance.patternGraph);
             analyzer.InlineSubpatternUsages(Rule_doAntWorld.Instance.patternGraph);
-            Rule_InitWorld.Instance.patternGraph.maxNegLevel = 0;
-            Rule_TakeFood.Instance.patternGraph.maxNegLevel = 0;
-            Rule_GoHome.Instance.patternGraph.maxNegLevel = 0;
-            Rule_DropFood.Instance.patternGraph.maxNegLevel = 0;
-            Rule_SearchAlongPheromones.Instance.patternGraph.maxNegLevel = 0;
-            Rule_SearchAimless.Instance.patternGraph.maxNegLevel = 0;
-            Rule_ReachedEndOfWorld.Instance.patternGraph.maxNegLevel = 0;
-            Rule_ReachedEndOfWorldAnywhere.Instance.patternGraph.maxNegLevel = 0;
-            Rule_GrowFoodIfEqual.Instance.patternGraph.maxNegLevel = 0;
-            Rule_GrowWorldFirstAtCorner.Instance.patternGraph.maxNegLevel = 0;
-            Rule_GrowWorldFirstNotAtCorner.Instance.patternGraph.maxNegLevel = 0;
-            Rule_GrowWorldNextAtCorner.Instance.patternGraph.maxNegLevel = 0;
-            Rule_GrowWorldNextNotAtCorner.Instance.patternGraph.maxNegLevel = 0;
-            Rule_GrowWorldEnd.Instance.patternGraph.maxNegLevel = 0;
-            Rule_GetNextAnt.Instance.patternGraph.maxNegLevel = 0;
-            Rule_Food2Ant.Instance.patternGraph.maxNegLevel = 0;
-            Rule_EvaporateWorld.Instance.patternGraph.maxNegLevel = 0;
-            Rule_doAntWorld.Instance.patternGraph.maxNegLevel = 0;
+            Rule_InitWorld.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_TakeFood.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_GoHome.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_DropFood.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_SearchAlongPheromones.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_SearchAimless.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_ReachedEndOfWorld.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_ReachedEndOfWorldAnywhere.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_GrowFoodIfEqual.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_GrowWorldFirstAtCorner.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_GrowWorldFirstNotAtCorner.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_GrowWorldNextAtCorner.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_GrowWorldNextNotAtCorner.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_GrowWorldEnd.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_GetNextAnt.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_Food2Ant.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_EvaporateWorld.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_doAntWorld.Instance.patternGraph.maxIsoSpace = 0;
             analyzer.AnalyzeNestingOfPatternGraph(Rule_InitWorld.Instance.patternGraph, true);
             analyzer.AnalyzeNestingOfPatternGraph(Rule_TakeFood.Instance.patternGraph, true);
             analyzer.AnalyzeNestingOfPatternGraph(Rule_GoHome.Instance.patternGraph, true);

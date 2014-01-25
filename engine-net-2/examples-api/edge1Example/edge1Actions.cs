@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Sun Jan 19 18:18:20 CET 2014
+// Generated from "..\..\tests\edge1\edge1.grg" on Sat Jan 25 16:17:26 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -3073,7 +3073,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             Rule_init.Match_init match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
             // if enough matches were found, we leave
@@ -3287,7 +3287,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             Rule_init2.Match_init2 match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
             // if enough matches were found, we leave
@@ -3501,7 +3501,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             Rule_init3.Match_init3 match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
             // if enough matches were found, we leave
@@ -3715,7 +3715,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup findUndirectedEdge_edge__edge0 
             int type_id_candidate_findUndirectedEdge_edge__edge0 = 2;
             for(GRGEN_LGSP.LGSPEdge head_candidate_findUndirectedEdge_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_findUndirectedEdge_edge__edge0], candidate_findUndirectedEdge_edge__edge0 = head_candidate_findUndirectedEdge_edge__edge0.lgspTypeNext; candidate_findUndirectedEdge_edge__edge0 != head_candidate_findUndirectedEdge_edge__edge0; candidate_findUndirectedEdge_edge__edge0 = candidate_findUndirectedEdge_edge__edge0.lgspTypeNext)
@@ -3726,13 +3726,13 @@ namespace de.unika.ipd.grGen.Action_edge1
                     // Implicit SourceOrTarget findUndirectedEdge_node_y from findUndirectedEdge_edge__edge0 
                     GRGEN_LGSP.LGSPNode candidate_findUndirectedEdge_node_y = directionRunCounterOf_findUndirectedEdge_edge__edge0==0 ? candidate_findUndirectedEdge_edge__edge0.lgspSource : candidate_findUndirectedEdge_edge__edge0.lgspTarget;
                     uint prev__candidate_findUndirectedEdge_node_y;
-                    prev__candidate_findUndirectedEdge_node_y = candidate_findUndirectedEdge_node_y.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_findUndirectedEdge_node_y.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_findUndirectedEdge_node_y = candidate_findUndirectedEdge_node_y.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_findUndirectedEdge_node_y.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Implicit TheOther findUndirectedEdge_node_x from findUndirectedEdge_edge__edge0 
                     GRGEN_LGSP.LGSPNode candidate_findUndirectedEdge_node_x = candidate_findUndirectedEdge_node_y==candidate_findUndirectedEdge_edge__edge0.lgspSource ? candidate_findUndirectedEdge_edge__edge0.lgspTarget : candidate_findUndirectedEdge_edge__edge0.lgspSource;
-                    if((candidate_findUndirectedEdge_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                    if((candidate_findUndirectedEdge_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
-                        candidate_findUndirectedEdge_node_y.lgspFlags = candidate_findUndirectedEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findUndirectedEdge_node_y;
+                        candidate_findUndirectedEdge_node_y.lgspFlags = candidate_findUndirectedEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findUndirectedEdge_node_y;
                         continue;
                     }
                     Rule_findUndirectedEdge.Match_findUndirectedEdge match = matches.GetNextUnfilledPosition();
@@ -3744,10 +3744,10 @@ namespace de.unika.ipd.grGen.Action_edge1
                     if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         graph.MoveHeadAfter(candidate_findUndirectedEdge_edge__edge0);
-                        candidate_findUndirectedEdge_node_y.lgspFlags = candidate_findUndirectedEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findUndirectedEdge_node_y;
+                        candidate_findUndirectedEdge_node_y.lgspFlags = candidate_findUndirectedEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findUndirectedEdge_node_y;
                         return matches;
                     }
-                    candidate_findUndirectedEdge_node_y.lgspFlags = candidate_findUndirectedEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findUndirectedEdge_node_y;
+                    candidate_findUndirectedEdge_node_y.lgspFlags = candidate_findUndirectedEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findUndirectedEdge_node_y;
                 }
             }
             return matches;
@@ -3956,7 +3956,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup findArbitraryEdge_edge__edge0 
             foreach(GRGEN_LIBGR.EdgeType type_candidate_findArbitraryEdge_edge__edge0 in GRGEN_MODEL.EdgeType_AEdge.typeVar.SubOrSameTypes)
             {
@@ -3969,13 +3969,13 @@ namespace de.unika.ipd.grGen.Action_edge1
                         // Implicit SourceOrTarget findArbitraryEdge_node_y from findArbitraryEdge_edge__edge0 
                         GRGEN_LGSP.LGSPNode candidate_findArbitraryEdge_node_y = directionRunCounterOf_findArbitraryEdge_edge__edge0==0 ? candidate_findArbitraryEdge_edge__edge0.lgspSource : candidate_findArbitraryEdge_edge__edge0.lgspTarget;
                         uint prev__candidate_findArbitraryEdge_node_y;
-                        prev__candidate_findArbitraryEdge_node_y = candidate_findArbitraryEdge_node_y.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        candidate_findArbitraryEdge_node_y.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                        prev__candidate_findArbitraryEdge_node_y = candidate_findArbitraryEdge_node_y.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                        candidate_findArbitraryEdge_node_y.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                         // Implicit TheOther findArbitraryEdge_node_x from findArbitraryEdge_edge__edge0 
                         GRGEN_LGSP.LGSPNode candidate_findArbitraryEdge_node_x = candidate_findArbitraryEdge_node_y==candidate_findArbitraryEdge_edge__edge0.lgspSource ? candidate_findArbitraryEdge_edge__edge0.lgspTarget : candidate_findArbitraryEdge_edge__edge0.lgspSource;
-                        if((candidate_findArbitraryEdge_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        if((candidate_findArbitraryEdge_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                         {
-                            candidate_findArbitraryEdge_node_y.lgspFlags = candidate_findArbitraryEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryEdge_node_y;
+                            candidate_findArbitraryEdge_node_y.lgspFlags = candidate_findArbitraryEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryEdge_node_y;
                             continue;
                         }
                         Rule_findArbitraryEdge.Match_findArbitraryEdge match = matches.GetNextUnfilledPosition();
@@ -3987,10 +3987,10 @@ namespace de.unika.ipd.grGen.Action_edge1
                         if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             graph.MoveHeadAfter(candidate_findArbitraryEdge_edge__edge0);
-                            candidate_findArbitraryEdge_node_y.lgspFlags = candidate_findArbitraryEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryEdge_node_y;
+                            candidate_findArbitraryEdge_node_y.lgspFlags = candidate_findArbitraryEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryEdge_node_y;
                             return matches;
                         }
-                        candidate_findArbitraryEdge_node_y.lgspFlags = candidate_findArbitraryEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryEdge_node_y;
+                        candidate_findArbitraryEdge_node_y.lgspFlags = candidate_findArbitraryEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryEdge_node_y;
                     }
                 }
             }
@@ -4200,7 +4200,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup findArbitraryDirectedEdge_edge__edge0 
             int type_id_candidate_findArbitraryDirectedEdge_edge__edge0 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_findArbitraryDirectedEdge_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_findArbitraryDirectedEdge_edge__edge0], candidate_findArbitraryDirectedEdge_edge__edge0 = head_candidate_findArbitraryDirectedEdge_edge__edge0.lgspTypeNext; candidate_findArbitraryDirectedEdge_edge__edge0 != head_candidate_findArbitraryDirectedEdge_edge__edge0; candidate_findArbitraryDirectedEdge_edge__edge0 = candidate_findArbitraryDirectedEdge_edge__edge0.lgspTypeNext)
@@ -4211,13 +4211,13 @@ namespace de.unika.ipd.grGen.Action_edge1
                     // Implicit SourceOrTarget findArbitraryDirectedEdge_node_y from findArbitraryDirectedEdge_edge__edge0 
                     GRGEN_LGSP.LGSPNode candidate_findArbitraryDirectedEdge_node_y = directionRunCounterOf_findArbitraryDirectedEdge_edge__edge0==0 ? candidate_findArbitraryDirectedEdge_edge__edge0.lgspSource : candidate_findArbitraryDirectedEdge_edge__edge0.lgspTarget;
                     uint prev__candidate_findArbitraryDirectedEdge_node_y;
-                    prev__candidate_findArbitraryDirectedEdge_node_y = candidate_findArbitraryDirectedEdge_node_y.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_findArbitraryDirectedEdge_node_y.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_findArbitraryDirectedEdge_node_y = candidate_findArbitraryDirectedEdge_node_y.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_findArbitraryDirectedEdge_node_y.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Implicit TheOther findArbitraryDirectedEdge_node_x from findArbitraryDirectedEdge_edge__edge0 
                     GRGEN_LGSP.LGSPNode candidate_findArbitraryDirectedEdge_node_x = candidate_findArbitraryDirectedEdge_node_y==candidate_findArbitraryDirectedEdge_edge__edge0.lgspSource ? candidate_findArbitraryDirectedEdge_edge__edge0.lgspTarget : candidate_findArbitraryDirectedEdge_edge__edge0.lgspSource;
-                    if((candidate_findArbitraryDirectedEdge_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                    if((candidate_findArbitraryDirectedEdge_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
-                        candidate_findArbitraryDirectedEdge_node_y.lgspFlags = candidate_findArbitraryDirectedEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryDirectedEdge_node_y;
+                        candidate_findArbitraryDirectedEdge_node_y.lgspFlags = candidate_findArbitraryDirectedEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryDirectedEdge_node_y;
                         continue;
                     }
                     Rule_findArbitraryDirectedEdge.Match_findArbitraryDirectedEdge match = matches.GetNextUnfilledPosition();
@@ -4229,10 +4229,10 @@ namespace de.unika.ipd.grGen.Action_edge1
                     if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         graph.MoveHeadAfter(candidate_findArbitraryDirectedEdge_edge__edge0);
-                        candidate_findArbitraryDirectedEdge_node_y.lgspFlags = candidate_findArbitraryDirectedEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryDirectedEdge_node_y;
+                        candidate_findArbitraryDirectedEdge_node_y.lgspFlags = candidate_findArbitraryDirectedEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryDirectedEdge_node_y;
                         return matches;
                     }
-                    candidate_findArbitraryDirectedEdge_node_y.lgspFlags = candidate_findArbitraryDirectedEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryDirectedEdge_node_y;
+                    candidate_findArbitraryDirectedEdge_node_y.lgspFlags = candidate_findArbitraryDirectedEdge_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryDirectedEdge_node_y;
                 }
             }
             return matches;
@@ -4441,7 +4441,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup findArbitraryDirectedReflexiveEdge_edge__edge0 
             int type_id_candidate_findArbitraryDirectedReflexiveEdge_edge__edge0 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_findArbitraryDirectedReflexiveEdge_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_findArbitraryDirectedReflexiveEdge_edge__edge0], candidate_findArbitraryDirectedReflexiveEdge_edge__edge0 = head_candidate_findArbitraryDirectedReflexiveEdge_edge__edge0.lgspTypeNext; candidate_findArbitraryDirectedReflexiveEdge_edge__edge0 != head_candidate_findArbitraryDirectedReflexiveEdge_edge__edge0; candidate_findArbitraryDirectedReflexiveEdge_edge__edge0 = candidate_findArbitraryDirectedReflexiveEdge_edge__edge0.lgspTypeNext)
@@ -4671,7 +4671,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0 
             int type_id_candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0 = 2;
             for(GRGEN_LGSP.LGSPEdge head_candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0], candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0 = head_candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0.lgspTypeNext; candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0 != head_candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0; candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0 = candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0.lgspTypeNext)
@@ -4682,13 +4682,13 @@ namespace de.unika.ipd.grGen.Action_edge1
                     // Implicit SourceOrTarget findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y from findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0 
                     GRGEN_LGSP.LGSPNode candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y = directionRunCounterOf_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0==0 ? candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0.lgspSource : candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0.lgspTarget;
                     uint prev__candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y;
-                    prev__candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y = candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y = candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Implicit TheOther findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x from findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0 
                     GRGEN_LGSP.LGSPNode candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x = candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y==candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0.lgspSource ? candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0.lgspTarget : candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0.lgspSource;
-                    if((candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                    if((candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
-                        candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags = candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y;
+                        candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags = candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y;
                         continue;
                     }
                     // Extend Incoming findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1 from findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y 
@@ -4715,13 +4715,13 @@ namespace de.unika.ipd.grGen.Action_edge1
                             {
                                 candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.MoveInHeadAfter(candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1);
                                 graph.MoveHeadAfter(candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0);
-                                candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags = candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y;
+                                candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags = candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y;
                                 return matches;
                             }
                         }
                         while( (candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1 = candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1.lgspInNext) != head_candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1 );
                     }
-                    candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags = candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y;
+                    candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags = candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y;
                 }
             }
             return matches;
@@ -4930,32 +4930,32 @@ namespace de.unika.ipd.grGen.Action_edge1
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup findArbitraryDirectedTriple_edge__edge1 
             int type_id_candidate_findArbitraryDirectedTriple_edge__edge1 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_findArbitraryDirectedTriple_edge__edge1 = graph.edgesByTypeHeads[type_id_candidate_findArbitraryDirectedTriple_edge__edge1], candidate_findArbitraryDirectedTriple_edge__edge1 = head_candidate_findArbitraryDirectedTriple_edge__edge1.lgspTypeNext; candidate_findArbitraryDirectedTriple_edge__edge1 != head_candidate_findArbitraryDirectedTriple_edge__edge1; candidate_findArbitraryDirectedTriple_edge__edge1 = candidate_findArbitraryDirectedTriple_edge__edge1.lgspTypeNext)
             {
                 uint prev__candidate_findArbitraryDirectedTriple_edge__edge1;
-                prev__candidate_findArbitraryDirectedTriple_edge__edge1 = candidate_findArbitraryDirectedTriple_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_findArbitraryDirectedTriple_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                prev__candidate_findArbitraryDirectedTriple_edge__edge1 = candidate_findArbitraryDirectedTriple_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                candidate_findArbitraryDirectedTriple_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                 // both directions of findArbitraryDirectedTriple_edge__edge1
                 for(int directionRunCounterOf_findArbitraryDirectedTriple_edge__edge1 = 0; directionRunCounterOf_findArbitraryDirectedTriple_edge__edge1 < 2; ++directionRunCounterOf_findArbitraryDirectedTriple_edge__edge1)
                 {
                     // Implicit SourceOrTarget findArbitraryDirectedTriple_node__node2 from findArbitraryDirectedTriple_edge__edge1 
                     GRGEN_LGSP.LGSPNode candidate_findArbitraryDirectedTriple_node__node2 = directionRunCounterOf_findArbitraryDirectedTriple_edge__edge1==0 ? candidate_findArbitraryDirectedTriple_edge__edge1.lgspSource : candidate_findArbitraryDirectedTriple_edge__edge1.lgspTarget;
                     uint prev__candidate_findArbitraryDirectedTriple_node__node2;
-                    prev__candidate_findArbitraryDirectedTriple_node__node2 = candidate_findArbitraryDirectedTriple_node__node2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_findArbitraryDirectedTriple_node__node2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_findArbitraryDirectedTriple_node__node2 = candidate_findArbitraryDirectedTriple_node__node2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_findArbitraryDirectedTriple_node__node2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Implicit TheOther findArbitraryDirectedTriple_node__node1 from findArbitraryDirectedTriple_edge__edge1 
                     GRGEN_LGSP.LGSPNode candidate_findArbitraryDirectedTriple_node__node1 = candidate_findArbitraryDirectedTriple_node__node2==candidate_findArbitraryDirectedTriple_edge__edge1.lgspSource ? candidate_findArbitraryDirectedTriple_edge__edge1.lgspTarget : candidate_findArbitraryDirectedTriple_edge__edge1.lgspSource;
-                    if((candidate_findArbitraryDirectedTriple_node__node1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                    if((candidate_findArbitraryDirectedTriple_node__node1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
-                        candidate_findArbitraryDirectedTriple_node__node2.lgspFlags = candidate_findArbitraryDirectedTriple_node__node2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryDirectedTriple_node__node2;
+                        candidate_findArbitraryDirectedTriple_node__node2.lgspFlags = candidate_findArbitraryDirectedTriple_node__node2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryDirectedTriple_node__node2;
                         continue;
                     }
                     uint prev__candidate_findArbitraryDirectedTriple_node__node1;
-                    prev__candidate_findArbitraryDirectedTriple_node__node1 = candidate_findArbitraryDirectedTriple_node__node1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_findArbitraryDirectedTriple_node__node1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_findArbitraryDirectedTriple_node__node1 = candidate_findArbitraryDirectedTriple_node__node1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_findArbitraryDirectedTriple_node__node1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // both directions of findArbitraryDirectedTriple_edge__edge0
                     for(int directionRunCounterOf_findArbitraryDirectedTriple_edge__edge0 = 0; directionRunCounterOf_findArbitraryDirectedTriple_edge__edge0 < 2; ++directionRunCounterOf_findArbitraryDirectedTriple_edge__edge0)
                     {
@@ -4969,13 +4969,13 @@ namespace de.unika.ipd.grGen.Action_edge1
                                 if(candidate_findArbitraryDirectedTriple_edge__edge0.lgspType.TypeID!=1) {
                                     continue;
                                 }
-                                if((candidate_findArbitraryDirectedTriple_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                if((candidate_findArbitraryDirectedTriple_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                                 {
                                     continue;
                                 }
                                 // Implicit TheOther findArbitraryDirectedTriple_node__node0 from findArbitraryDirectedTriple_edge__edge0 
                                 GRGEN_LGSP.LGSPNode candidate_findArbitraryDirectedTriple_node__node0 = candidate_findArbitraryDirectedTriple_node__node1==candidate_findArbitraryDirectedTriple_edge__edge0.lgspSource ? candidate_findArbitraryDirectedTriple_edge__edge0.lgspTarget : candidate_findArbitraryDirectedTriple_edge__edge0.lgspSource;
-                                if((candidate_findArbitraryDirectedTriple_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                if((candidate_findArbitraryDirectedTriple_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                                 {
                                     continue;
                                 }
@@ -4995,19 +4995,19 @@ namespace de.unika.ipd.grGen.Action_edge1
                                         candidate_findArbitraryDirectedTriple_node__node1.MoveOutHeadAfter(candidate_findArbitraryDirectedTriple_edge__edge0);
                                     }
                                     graph.MoveHeadAfter(candidate_findArbitraryDirectedTriple_edge__edge1);
-                                    candidate_findArbitraryDirectedTriple_node__node1.lgspFlags = candidate_findArbitraryDirectedTriple_node__node1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryDirectedTriple_node__node1;
-                                    candidate_findArbitraryDirectedTriple_node__node2.lgspFlags = candidate_findArbitraryDirectedTriple_node__node2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryDirectedTriple_node__node2;
-                                    candidate_findArbitraryDirectedTriple_edge__edge1.lgspFlags = candidate_findArbitraryDirectedTriple_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryDirectedTriple_edge__edge1;
+                                    candidate_findArbitraryDirectedTriple_node__node1.lgspFlags = candidate_findArbitraryDirectedTriple_node__node1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryDirectedTriple_node__node1;
+                                    candidate_findArbitraryDirectedTriple_node__node2.lgspFlags = candidate_findArbitraryDirectedTriple_node__node2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryDirectedTriple_node__node2;
+                                    candidate_findArbitraryDirectedTriple_edge__edge1.lgspFlags = candidate_findArbitraryDirectedTriple_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryDirectedTriple_edge__edge1;
                                     return matches;
                                 }
                             }
                             while( (directionRunCounterOf_findArbitraryDirectedTriple_edge__edge0==0 ? candidate_findArbitraryDirectedTriple_edge__edge0 = candidate_findArbitraryDirectedTriple_edge__edge0.lgspInNext : candidate_findArbitraryDirectedTriple_edge__edge0 = candidate_findArbitraryDirectedTriple_edge__edge0.lgspOutNext) != head_candidate_findArbitraryDirectedTriple_edge__edge0 );
                         }
                     }
-                    candidate_findArbitraryDirectedTriple_node__node1.lgspFlags = candidate_findArbitraryDirectedTriple_node__node1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryDirectedTriple_node__node1;
-                    candidate_findArbitraryDirectedTriple_node__node2.lgspFlags = candidate_findArbitraryDirectedTriple_node__node2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryDirectedTriple_node__node2;
+                    candidate_findArbitraryDirectedTriple_node__node1.lgspFlags = candidate_findArbitraryDirectedTriple_node__node1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryDirectedTriple_node__node1;
+                    candidate_findArbitraryDirectedTriple_node__node2.lgspFlags = candidate_findArbitraryDirectedTriple_node__node2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryDirectedTriple_node__node2;
                 }
-                candidate_findArbitraryDirectedTriple_edge__edge1.lgspFlags = candidate_findArbitraryDirectedTriple_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findArbitraryDirectedTriple_edge__edge1;
+                candidate_findArbitraryDirectedTriple_edge__edge1.lgspFlags = candidate_findArbitraryDirectedTriple_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findArbitraryDirectedTriple_edge__edge1;
             }
             return matches;
         }
@@ -5215,7 +5215,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup findDirectedEdge_edge__edge0 
             int type_id_candidate_findDirectedEdge_edge__edge0 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_findDirectedEdge_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_findDirectedEdge_edge__edge0], candidate_findDirectedEdge_edge__edge0 = head_candidate_findDirectedEdge_edge__edge0.lgspTypeNext; candidate_findDirectedEdge_edge__edge0 != head_candidate_findDirectedEdge_edge__edge0; candidate_findDirectedEdge_edge__edge0 = candidate_findDirectedEdge_edge__edge0.lgspTypeNext)
@@ -5223,13 +5223,13 @@ namespace de.unika.ipd.grGen.Action_edge1
                 // Implicit Source findDirectedEdge_node_x from findDirectedEdge_edge__edge0 
                 GRGEN_LGSP.LGSPNode candidate_findDirectedEdge_node_x = candidate_findDirectedEdge_edge__edge0.lgspSource;
                 uint prev__candidate_findDirectedEdge_node_x;
-                prev__candidate_findDirectedEdge_node_x = candidate_findDirectedEdge_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_findDirectedEdge_node_x.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                prev__candidate_findDirectedEdge_node_x = candidate_findDirectedEdge_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                candidate_findDirectedEdge_node_x.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                 // Implicit Target findDirectedEdge_node_y from findDirectedEdge_edge__edge0 
                 GRGEN_LGSP.LGSPNode candidate_findDirectedEdge_node_y = candidate_findDirectedEdge_edge__edge0.lgspTarget;
-                if((candidate_findDirectedEdge_node_y.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                if((candidate_findDirectedEdge_node_y.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                 {
-                    candidate_findDirectedEdge_node_x.lgspFlags = candidate_findDirectedEdge_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findDirectedEdge_node_x;
+                    candidate_findDirectedEdge_node_x.lgspFlags = candidate_findDirectedEdge_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findDirectedEdge_node_x;
                     continue;
                 }
                 Rule_findDirectedEdge.Match_findDirectedEdge match = matches.GetNextUnfilledPosition();
@@ -5241,10 +5241,10 @@ namespace de.unika.ipd.grGen.Action_edge1
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(candidate_findDirectedEdge_edge__edge0);
-                    candidate_findDirectedEdge_node_x.lgspFlags = candidate_findDirectedEdge_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findDirectedEdge_node_x;
+                    candidate_findDirectedEdge_node_x.lgspFlags = candidate_findDirectedEdge_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findDirectedEdge_node_x;
                     return matches;
                 }
-                candidate_findDirectedEdge_node_x.lgspFlags = candidate_findDirectedEdge_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findDirectedEdge_node_x;
+                candidate_findDirectedEdge_node_x.lgspFlags = candidate_findDirectedEdge_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findDirectedEdge_node_x;
             }
             return matches;
         }
@@ -5452,32 +5452,32 @@ namespace de.unika.ipd.grGen.Action_edge1
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
-            int negLevel = 0;
+            int isoSpace = 0;
             // Lookup findTripleCircle_edge__edge0 
             int type_id_candidate_findTripleCircle_edge__edge0 = 2;
             for(GRGEN_LGSP.LGSPEdge head_candidate_findTripleCircle_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_findTripleCircle_edge__edge0], candidate_findTripleCircle_edge__edge0 = head_candidate_findTripleCircle_edge__edge0.lgspTypeNext; candidate_findTripleCircle_edge__edge0 != head_candidate_findTripleCircle_edge__edge0; candidate_findTripleCircle_edge__edge0 = candidate_findTripleCircle_edge__edge0.lgspTypeNext)
             {
                 uint prev__candidate_findTripleCircle_edge__edge0;
-                prev__candidate_findTripleCircle_edge__edge0 = candidate_findTripleCircle_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_findTripleCircle_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                prev__candidate_findTripleCircle_edge__edge0 = candidate_findTripleCircle_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                candidate_findTripleCircle_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                 // both directions of findTripleCircle_edge__edge0
                 for(int directionRunCounterOf_findTripleCircle_edge__edge0 = 0; directionRunCounterOf_findTripleCircle_edge__edge0 < 2; ++directionRunCounterOf_findTripleCircle_edge__edge0)
                 {
                     // Implicit SourceOrTarget findTripleCircle_node_y from findTripleCircle_edge__edge0 
                     GRGEN_LGSP.LGSPNode candidate_findTripleCircle_node_y = directionRunCounterOf_findTripleCircle_edge__edge0==0 ? candidate_findTripleCircle_edge__edge0.lgspSource : candidate_findTripleCircle_edge__edge0.lgspTarget;
                     uint prev__candidate_findTripleCircle_node_y;
-                    prev__candidate_findTripleCircle_node_y = candidate_findTripleCircle_node_y.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_findTripleCircle_node_y.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_findTripleCircle_node_y = candidate_findTripleCircle_node_y.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_findTripleCircle_node_y.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Implicit TheOther findTripleCircle_node_x from findTripleCircle_edge__edge0 
                     GRGEN_LGSP.LGSPNode candidate_findTripleCircle_node_x = candidate_findTripleCircle_node_y==candidate_findTripleCircle_edge__edge0.lgspSource ? candidate_findTripleCircle_edge__edge0.lgspTarget : candidate_findTripleCircle_edge__edge0.lgspSource;
-                    if((candidate_findTripleCircle_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                    if((candidate_findTripleCircle_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
-                        candidate_findTripleCircle_node_y.lgspFlags = candidate_findTripleCircle_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findTripleCircle_node_y;
+                        candidate_findTripleCircle_node_y.lgspFlags = candidate_findTripleCircle_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findTripleCircle_node_y;
                         continue;
                     }
                     uint prev__candidate_findTripleCircle_node_x;
-                    prev__candidate_findTripleCircle_node_x = candidate_findTripleCircle_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_findTripleCircle_node_x.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev__candidate_findTripleCircle_node_x = candidate_findTripleCircle_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_findTripleCircle_node_x.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // both directions of findTripleCircle_edge__edge1
                     for(int directionRunCounterOf_findTripleCircle_edge__edge1 = 0; directionRunCounterOf_findTripleCircle_edge__edge1 < 2; ++directionRunCounterOf_findTripleCircle_edge__edge1)
                     {
@@ -5491,18 +5491,18 @@ namespace de.unika.ipd.grGen.Action_edge1
                                 if(candidate_findTripleCircle_edge__edge1.lgspType.TypeID!=2) {
                                     continue;
                                 }
-                                if((candidate_findTripleCircle_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                if((candidate_findTripleCircle_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                                 {
                                     continue;
                                 }
                                 uint prev__candidate_findTripleCircle_edge__edge1;
-                                prev__candidate_findTripleCircle_edge__edge1 = candidate_findTripleCircle_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                candidate_findTripleCircle_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                                prev__candidate_findTripleCircle_edge__edge1 = candidate_findTripleCircle_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                                candidate_findTripleCircle_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                                 // Implicit TheOther findTripleCircle_node_z from findTripleCircle_edge__edge1 
                                 GRGEN_LGSP.LGSPNode candidate_findTripleCircle_node_z = candidate_findTripleCircle_node_y==candidate_findTripleCircle_edge__edge1.lgspSource ? candidate_findTripleCircle_edge__edge1.lgspTarget : candidate_findTripleCircle_edge__edge1.lgspSource;
-                                if((candidate_findTripleCircle_node_z.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                if((candidate_findTripleCircle_node_z.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                                 {
-                                    candidate_findTripleCircle_edge__edge1.lgspFlags = candidate_findTripleCircle_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findTripleCircle_edge__edge1;
+                                    candidate_findTripleCircle_edge__edge1.lgspFlags = candidate_findTripleCircle_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findTripleCircle_edge__edge1;
                                     continue;
                                 }
                                 // both directions of findTripleCircle_edge__edge2
@@ -5521,7 +5521,7 @@ namespace de.unika.ipd.grGen.Action_edge1
                                             if( (candidate_findTripleCircle_node_z==candidate_findTripleCircle_edge__edge2.lgspSource ? candidate_findTripleCircle_edge__edge2.lgspTarget : candidate_findTripleCircle_edge__edge2.lgspSource) != candidate_findTripleCircle_node_x) {
                                                 continue;
                                             }
-                                            if((candidate_findTripleCircle_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                            if((candidate_findTripleCircle_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                                             {
                                                 continue;
                                             }
@@ -5547,25 +5547,25 @@ namespace de.unika.ipd.grGen.Action_edge1
                                                     candidate_findTripleCircle_node_y.MoveOutHeadAfter(candidate_findTripleCircle_edge__edge1);
                                                 }
                                                 graph.MoveHeadAfter(candidate_findTripleCircle_edge__edge0);
-                                                candidate_findTripleCircle_edge__edge1.lgspFlags = candidate_findTripleCircle_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findTripleCircle_edge__edge1;
-                                                candidate_findTripleCircle_node_x.lgspFlags = candidate_findTripleCircle_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findTripleCircle_node_x;
-                                                candidate_findTripleCircle_node_y.lgspFlags = candidate_findTripleCircle_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findTripleCircle_node_y;
-                                                candidate_findTripleCircle_edge__edge0.lgspFlags = candidate_findTripleCircle_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findTripleCircle_edge__edge0;
+                                                candidate_findTripleCircle_edge__edge1.lgspFlags = candidate_findTripleCircle_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findTripleCircle_edge__edge1;
+                                                candidate_findTripleCircle_node_x.lgspFlags = candidate_findTripleCircle_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findTripleCircle_node_x;
+                                                candidate_findTripleCircle_node_y.lgspFlags = candidate_findTripleCircle_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findTripleCircle_node_y;
+                                                candidate_findTripleCircle_edge__edge0.lgspFlags = candidate_findTripleCircle_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findTripleCircle_edge__edge0;
                                                 return matches;
                                             }
                                         }
                                         while( (directionRunCounterOf_findTripleCircle_edge__edge2==0 ? candidate_findTripleCircle_edge__edge2 = candidate_findTripleCircle_edge__edge2.lgspInNext : candidate_findTripleCircle_edge__edge2 = candidate_findTripleCircle_edge__edge2.lgspOutNext) != head_candidate_findTripleCircle_edge__edge2 );
                                     }
                                 }
-                                candidate_findTripleCircle_edge__edge1.lgspFlags = candidate_findTripleCircle_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findTripleCircle_edge__edge1;
+                                candidate_findTripleCircle_edge__edge1.lgspFlags = candidate_findTripleCircle_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findTripleCircle_edge__edge1;
                             }
                             while( (directionRunCounterOf_findTripleCircle_edge__edge1==0 ? candidate_findTripleCircle_edge__edge1 = candidate_findTripleCircle_edge__edge1.lgspInNext : candidate_findTripleCircle_edge__edge1 = candidate_findTripleCircle_edge__edge1.lgspOutNext) != head_candidate_findTripleCircle_edge__edge1 );
                         }
                     }
-                    candidate_findTripleCircle_node_x.lgspFlags = candidate_findTripleCircle_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findTripleCircle_node_x;
-                    candidate_findTripleCircle_node_y.lgspFlags = candidate_findTripleCircle_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findTripleCircle_node_y;
+                    candidate_findTripleCircle_node_x.lgspFlags = candidate_findTripleCircle_node_x.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findTripleCircle_node_x;
+                    candidate_findTripleCircle_node_y.lgspFlags = candidate_findTripleCircle_node_y.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findTripleCircle_node_y;
                 }
-                candidate_findTripleCircle_edge__edge0.lgspFlags = candidate_findTripleCircle_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findTripleCircle_edge__edge0;
+                candidate_findTripleCircle_edge__edge0.lgspFlags = candidate_findTripleCircle_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_findTripleCircle_edge__edge0;
             }
             return matches;
         }
@@ -5828,17 +5828,17 @@ namespace de.unika.ipd.grGen.Action_edge1
             analyzer.InlineSubpatternUsages(Rule_findArbitraryDirectedTriple.Instance.patternGraph);
             analyzer.InlineSubpatternUsages(Rule_findDirectedEdge.Instance.patternGraph);
             analyzer.InlineSubpatternUsages(Rule_findTripleCircle.Instance.patternGraph);
-            Rule_init.Instance.patternGraph.maxNegLevel = 0;
-            Rule_init2.Instance.patternGraph.maxNegLevel = 0;
-            Rule_init3.Instance.patternGraph.maxNegLevel = 0;
-            Rule_findUndirectedEdge.Instance.patternGraph.maxNegLevel = 0;
-            Rule_findArbitraryEdge.Instance.patternGraph.maxNegLevel = 0;
-            Rule_findArbitraryDirectedEdge.Instance.patternGraph.maxNegLevel = 0;
-            Rule_findArbitraryDirectedReflexiveEdge.Instance.patternGraph.maxNegLevel = 0;
-            Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Instance.patternGraph.maxNegLevel = 0;
-            Rule_findArbitraryDirectedTriple.Instance.patternGraph.maxNegLevel = 0;
-            Rule_findDirectedEdge.Instance.patternGraph.maxNegLevel = 0;
-            Rule_findTripleCircle.Instance.patternGraph.maxNegLevel = 0;
+            Rule_init.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_init2.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_init3.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_findUndirectedEdge.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_findArbitraryEdge.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_findArbitraryDirectedEdge.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_findArbitraryDirectedReflexiveEdge.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_findArbitraryDirectedTriple.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_findDirectedEdge.Instance.patternGraph.maxIsoSpace = 0;
+            Rule_findTripleCircle.Instance.patternGraph.maxIsoSpace = 0;
             analyzer.AnalyzeNestingOfPatternGraph(Rule_init.Instance.patternGraph, true);
             analyzer.AnalyzeNestingOfPatternGraph(Rule_init2.Instance.patternGraph, true);
             analyzer.AnalyzeNestingOfPatternGraph(Rule_init3.Instance.patternGraph, true);
