@@ -1110,7 +1110,7 @@ namespace de.unika.ipd.grGen.lgsp
             // hardcore/ugly parameterization for inlined case, working on inlined members in inlined pass, and original members on original pass
             // working with accessors encapsulating the inlined versions and the original version behind a common interface to keep the analyze code without case distinctions gets terribly extensive
             foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
-                matchingPattern.patternGraph.maxNegLevel = 0; // reset of max neg level for computation of max neg level of inlined patterns
+                matchingPattern.patternGraph.maxIsoSpace = 0; // reset of max iso space for computation of max iso space of inlined patterns
             foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
             {
                 analyzer.AnalyzeNestingOfPatternGraph(matchingPattern.patternGraph, true);
@@ -1275,12 +1275,12 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(matchingPattern is LGSPRulePattern) // normal rule
                 {
-                    endSource.AppendFrontFormat("{1}Rule_{0}.Instance.patternGraph.maxNegLevel = 0;\n",
+                    endSource.AppendFrontFormat("{1}Rule_{0}.Instance.patternGraph.maxIsoSpace = 0;\n",
                             matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                 }
                 else
                 {
-                    endSource.AppendFrontFormat("{1}Pattern_{0}.Instance.patternGraph.maxNegLevel = 0;\n",
+                    endSource.AppendFrontFormat("{1}Pattern_{0}.Instance.patternGraph.maxIsoSpace = 0;\n",
                             matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                 }
             }

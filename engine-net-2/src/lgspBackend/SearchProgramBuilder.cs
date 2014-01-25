@@ -47,7 +47,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             patternGraphWithNestingPatterns.Push(patternGraph);
-            negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
+            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
             isNegative = false;
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.PatternGraph.Package, false);
@@ -160,7 +160,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             patternGraphWithNestingPatterns.Push(patternGraph);
-            negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
+            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
             isNegative = false;
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, true);
@@ -271,7 +271,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertVariableDeclarations(insertionPoint, altCase);
 
                 patternGraphWithNestingPatterns.Push(altCase);
-                negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
+                isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
                 isNegative = false;
                 isNestedInNegative = false;
 
@@ -317,7 +317,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             patternGraphWithNestingPatterns.Push(iter);
-            negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
+            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
             isNegative = false;
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, !(matchingPattern is LGSPRulePattern));
@@ -438,10 +438,10 @@ namespace de.unika.ipd.grGen.lgsp
         private string[] parameterNames;
 
         /// <summary>
-        /// true if statically determined that the neg level of the pattern getting constructed 
-        /// is always below the maximum neg level
+        /// true if statically determined that the iso space number of the pattern getting constructed 
+        /// is always below the maximum iso space number (the maximum nesting level of the isomorphy spaces)
         /// </summary>
-        private bool negLevelNeverAboveMaxNegLevel;
+        private bool isoSpaceNeverAboveMaxIsoSpace;
 
         /// <summary>
         /// name says everything
@@ -702,7 +702,7 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -714,7 +714,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -739,7 +739,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -770,7 +770,7 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -782,7 +782,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -807,7 +807,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1005,7 +1005,7 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -1021,7 +1021,7 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             isNode,
-                            negLevelNeverAboveMaxNegLevel);
+                            isoSpaceNeverAboveMaxIsoSpace);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -1046,7 +1046,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -1071,7 +1071,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1160,7 +1160,7 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -1176,7 +1176,7 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             isNode,
-                            negLevelNeverAboveMaxNegLevel);
+                            isoSpaceNeverAboveMaxIsoSpace);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -1201,7 +1201,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -1226,7 +1226,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1321,7 +1321,7 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -1337,7 +1337,7 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             isNode,
-                            negLevelNeverAboveMaxNegLevel);
+                            isoSpaceNeverAboveMaxIsoSpace);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -1362,7 +1362,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -1387,7 +1387,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1451,7 +1451,7 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -1467,7 +1467,7 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             isNode,
-                            negLevelNeverAboveMaxNegLevel);
+                            isoSpaceNeverAboveMaxIsoSpace);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -1492,7 +1492,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -1517,7 +1517,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1752,7 +1752,7 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -1768,7 +1768,7 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             isNode,
-                            negLevelNeverAboveMaxNegLevel);
+                            isoSpaceNeverAboveMaxIsoSpace);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -1793,7 +1793,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -1818,7 +1818,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1873,7 +1873,7 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         true,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -1889,7 +1889,7 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             true,
-                            negLevelNeverAboveMaxNegLevel);
+                            isoSpaceNeverAboveMaxIsoSpace);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -1914,7 +1914,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         true,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -1939,7 +1939,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         true,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1997,7 +1997,7 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         false,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -2013,7 +2013,7 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             false,
-                            negLevelNeverAboveMaxNegLevel);
+                            isoSpaceNeverAboveMaxIsoSpace);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -2038,7 +2038,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         false,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -2063,7 +2063,7 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         false,
-                        negLevelNeverAboveMaxNegLevel);
+                        isoSpaceNeverAboveMaxIsoSpace);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -2101,7 +2101,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNestedInNegative = true;
             PatternGraph enclosingPatternGraph = patternGraphWithNestingPatterns.Peek();
             patternGraphWithNestingPatterns.Push(negativePatternGraph);
-            negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
+            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
 
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             bool negativeContainsSubpatterns = negativePatternGraph.embeddedGraphsPlusInlined.Length >= 1
@@ -2110,7 +2110,7 @@ namespace de.unika.ipd.grGen.lgsp
             InitializeNegativeIndependentMatching initNeg = new InitializeNegativeIndependentMatching(
                 negativeContainsSubpatterns, 
                 negativeIndependentNamePrefix, 
-                negLevelNeverAboveMaxNegLevel);
+                isoSpaceNeverAboveMaxIsoSpace);
             insertionPoint = insertionPoint.Append(initNeg);
             insertionPoint = insertVariableDeclarationsNegIdpt(insertionPoint, negativePatternGraph);
 
@@ -2121,7 +2121,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint);
             //---------------------------------------------------------------------------
 
-            FinalizeNegativeIndependentMatching finalize = new FinalizeNegativeIndependentMatching(negLevelNeverAboveMaxNegLevel);
+            FinalizeNegativeIndependentMatching finalize = new FinalizeNegativeIndependentMatching(isoSpaceNeverAboveMaxIsoSpace);
             insertionPoint = insertionPoint.Append(finalize);
 
             // negative pattern built by now
@@ -2166,7 +2166,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNegative = false;
             PatternGraph enclosingPatternGraph = patternGraphWithNestingPatterns.Peek();
             patternGraphWithNestingPatterns.Push(independentPatternGraph);
-            negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
+            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
 
             string independentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             bool independentContainsSubpatterns = independentPatternGraph.embeddedGraphsPlusInlined.Length >= 1
@@ -2175,7 +2175,7 @@ namespace de.unika.ipd.grGen.lgsp
             InitializeNegativeIndependentMatching initIdpt = new InitializeNegativeIndependentMatching(
                 independentContainsSubpatterns,
                 independentNamePrefix,
-                negLevelNeverAboveMaxNegLevel);
+                isoSpaceNeverAboveMaxIsoSpace);
             insertionPoint = insertionPoint.Append(initIdpt);
             insertionPoint = insertVariableDeclarationsNegIdpt(insertionPoint, independentPatternGraph);
 
@@ -2186,7 +2186,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint);
             //---------------------------------------------------------------------------
 
-            FinalizeNegativeIndependentMatching finalize = new FinalizeNegativeIndependentMatching(negLevelNeverAboveMaxNegLevel);
+            FinalizeNegativeIndependentMatching finalize = new FinalizeNegativeIndependentMatching(isoSpaceNeverAboveMaxIsoSpace);
             insertionPoint = insertionPoint.Append(finalize);
 
             // independent pattern built by now
@@ -3547,7 +3547,7 @@ namespace de.unika.ipd.grGen.lgsp
                             new AcceptCandidateGlobal(patternGraph.nodesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             true,
-                            negLevelNeverAboveMaxNegLevel);
+                            isoSpaceNeverAboveMaxIsoSpace);
                         insertionPoint = insertionPoint.Append(acceptGlobal);
                     }
                 }
@@ -3565,7 +3565,7 @@ namespace de.unika.ipd.grGen.lgsp
                             new AcceptCandidateGlobal(patternGraph.edgesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             false,
-                            negLevelNeverAboveMaxNegLevel);
+                            isoSpaceNeverAboveMaxIsoSpace);
                         insertionPoint = insertionPoint.Append(acceptGlobal);
                     }
                 }
@@ -3642,7 +3642,7 @@ namespace de.unika.ipd.grGen.lgsp
                             new AbandonCandidateGlobal(patternGraph.nodesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             true,
-                            negLevelNeverAboveMaxNegLevel);
+                            isoSpaceNeverAboveMaxIsoSpace);
                         insertionPoint = insertionPoint.Append(abandonGlobal);
                     }
                 }
@@ -3660,7 +3660,7 @@ namespace de.unika.ipd.grGen.lgsp
                             new AbandonCandidateGlobal(patternGraph.edgesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             false,
-                            negLevelNeverAboveMaxNegLevel);
+                            isoSpaceNeverAboveMaxIsoSpace);
                         insertionPoint = insertionPoint.Append(abandonGlobal);
                     }
                 }

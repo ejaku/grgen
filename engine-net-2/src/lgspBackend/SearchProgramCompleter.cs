@@ -561,7 +561,7 @@ namespace de.unika.ipd.grGen.lgsp
                             writeIsomorphy.PatternElementName,
                             writeIsomorphy.NegativeIndependentNamePrefix,
                             writeIsomorphy.IsNode,
-                            writeIsomorphy.NeverAboveMaxNegLevel);
+                            writeIsomorphy.NeverAboveMaxIsoSpace);
                     insertionPoint = insertionPoint.Append(restoreIsomorphy);
                 }
                 // insert code to clean up isomorphy information written by global candidate acceptance
@@ -575,7 +575,7 @@ namespace de.unika.ipd.grGen.lgsp
                             writeIsomorphy.PatternElementName,
                             writeIsomorphy.NegativeIndependentNamePrefix,
                             writeIsomorphy.IsNode,
-                            writeIsomorphy.NeverAboveMaxNegLevel);
+                            writeIsomorphy.NeverAboveMaxIsoSpace);
                     insertionPoint = insertionPoint.Append(removeIsomorphy);
                 }
                 // insert code to clean up isomorphy information written by patternpath candidate acceptance
@@ -615,7 +615,7 @@ namespace de.unika.ipd.grGen.lgsp
                     InitializeNegativeIndependentMatching initialize =
                         op as InitializeNegativeIndependentMatching;
                     FinalizeNegativeIndependentMatching finalize =
-                        new FinalizeNegativeIndependentMatching(initialize.NeverAboveMaxNegLevel);
+                        new FinalizeNegativeIndependentMatching(initialize.NeverAboveMaxIsoSpace);
                     insertionPoint = insertionPoint.Append(finalize);
                 }
 

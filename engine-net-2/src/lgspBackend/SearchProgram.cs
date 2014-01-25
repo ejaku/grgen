@@ -268,7 +268,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
             sourceCode.AppendFront("matches.Clear();\n");
-            sourceCode.AppendFront("int negLevel = 0;\n");
+            sourceCode.AppendFront("int isoSpace = 0;\n");
             
             if(NamesOfPatternGraphsOnPathToEnclosedPatternpath.Count > 0)
                 sourceCode.AppendFront("bool searchPatternpath = false;\n");
@@ -405,7 +405,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             sourceCode.AppendFront("public override void " + Name + "(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, "
-                + "int maxMatches, int negLevel)\n");
+                + "int maxMatches, int isoSpace)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -469,7 +469,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             sourceCode.AppendFront("public override void " + Name + "(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, "
-                + "int maxMatches, int negLevel)\n");
+                + "int maxMatches, int isoSpace)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -534,7 +534,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             sourceCode.AppendFront("public override void " + Name + "(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, "
-                + "int maxMatches, int negLevel)\n");
+                + "int maxMatches, int isoSpace)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -2085,7 +2085,7 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// Class representing "check whether candidate is not already mapped 
-    ///   to some other pattern element, to ensure required isomorphy" operation
+    ///   to some other local pattern element within this isomorphy space, to ensure required isomorphy" operation
     /// required graph element to pattern element mapping is written/removed by AcceptCandidate/AbandonCandidate
     /// </summary>
     class CheckCandidateForIsomorphy : CheckCandidate
@@ -2095,13 +2095,13 @@ namespace de.unika.ipd.grGen.lgsp
             List<string> namesOfPatternElementsToCheckAgainst,
             string negativeIndependentNamePrefix,
             bool isNode,
-            bool neverAboveMaxNegLevel)
+            bool neverAboveMaxIsoSpace)
         {
             PatternElementName = patternElementName;
             NamesOfPatternElementsToCheckAgainst = namesOfPatternElementsToCheckAgainst;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
-            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
+            NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2136,18 +2136,18 @@ namespace de.unika.ipd.grGen.lgsp
             // fail if graph element contained within candidate was already matched
             // (to another pattern element)
             // as this would cause a homomorphic match
-            if (!NeverAboveMaxNegLevel)
+            if (!NeverAboveMaxIsoSpace)
             {
-                sourceCode.Append("(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? ");
+                sourceCode.Append("(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE ? ");
             }
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel";
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
             sourceCode.AppendFormat("({0}.lgspFlags & {1}) != 0", variableContainingCandidate, isMatchedBit);
 
-            if (!NeverAboveMaxNegLevel)
+            if (!NeverAboveMaxIsoSpace)
             {
                 sourceCode.Append(" : ");
-                sourceCode.AppendFormat("graph.atNegLevelMatchedElements[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1]"
+                sourceCode.AppendFormat("graph.inIsoSpaceMatchedElements[isoSpace-(int)GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE-1]"
                     + ".{0}.ContainsKey({1}))", IsNode ? "fst" : "snd", variableContainingCandidate);
             }
 
@@ -2211,12 +2211,12 @@ namespace de.unika.ipd.grGen.lgsp
         public List<string> NamesOfPatternElementsToCheckAgainst;
         public string NegativeIndependentNamePrefix; // "" if top-level
         public bool IsNode; // node|edge
-        public bool NeverAboveMaxNegLevel;
+        public bool NeverAboveMaxIsoSpace;
     }
 
     /// <summary>
     /// Class representing "check whether candidate is not already mapped 
-    ///   to some other (non-local) pattern element within this isomorphy space, to ensure required isomorphy" operation
+    ///   to some other non-local pattern element within this isomorphy space, to ensure required isomorphy" operation
     /// required graph element to pattern element mapping is written by AcceptCandidateGlobal/AbandonCandidateGlobal
     /// </summary>
     class CheckCandidateForIsomorphyGlobal : CheckCandidate
@@ -2225,12 +2225,12 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             List<string> globallyHomomorphElements,
             bool isNode,
-            bool neverAboveMaxNegLevel)
+            bool neverAboveMaxIsoSpace)
         {
             PatternElementName = patternElementName;
             GloballyHomomorphElements = globallyHomomorphElements;
             IsNode = isNode;
-            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
+            NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2265,20 +2265,20 @@ namespace de.unika.ipd.grGen.lgsp
             // fail if graph element contained within candidate was already matched
             // (in another subpattern to another pattern element)
             // as this would cause a inter-pattern-homomorphic match
-            if (!NeverAboveMaxNegLevel)
+            if (!NeverAboveMaxIsoSpace)
             {
-                sourceCode.Append("(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? ");
+                sourceCode.Append("(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE ? ");
             }
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel";
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
 
             sourceCode.AppendFormat("({0}.lgspFlags & {1})=={1}",
                 variableContainingCandidate, isMatchedBit);
 
-            if (!NeverAboveMaxNegLevel)
+            if (!NeverAboveMaxIsoSpace)
             {
                 sourceCode.Append(" : ");
-                sourceCode.AppendFormat("graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1]"
+                sourceCode.AppendFormat("graph.inIsoSpaceMatchedElementsGlobal[isoSpace-(int)GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE-1]"
                     + ".{0}.ContainsKey({1}))", IsNode ? "fst" : "snd", variableContainingCandidate);
             }
 
@@ -2305,7 +2305,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public List<string> GloballyHomomorphElements;
         public bool IsNode; // node|edge
-        public bool NeverAboveMaxNegLevel;
+        public bool NeverAboveMaxIsoSpace;
     }
 
     /// <summary>
@@ -2711,12 +2711,12 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             string negativeIndependentNamePrefix,
             bool isNode,
-            bool neverAboveMaxNegLevel)
+            bool neverAboveMaxIsoSpace)
         {
             PatternElementName = patternElementName;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
-            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
+            NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2735,29 +2735,29 @@ namespace de.unika.ipd.grGen.lgsp
 
             sourceCode.AppendFrontFormat("uint {0};\n", variableContainingBackupOfMappedMember);
 
-            if (!NeverAboveMaxNegLevel)
+            if (!NeverAboveMaxIsoSpace)
             {
-                sourceCode.AppendFront("if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {\n");
+                sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
                 sourceCode.Indent();
             }
 
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel";
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
             sourceCode.AppendFrontFormat("{0} = {1}.lgspFlags & {2};\n",
                 variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
             sourceCode.AppendFrontFormat("{0}.lgspFlags |= {1};\n",
                 variableContainingCandidate, isMatchedBit);
 
-            if (!NeverAboveMaxNegLevel)
+            if (!NeverAboveMaxIsoSpace)
             {
                 sourceCode.Unindent();
                 sourceCode.AppendFront("} else {\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} = graph.atNegLevelMatchedElements[negLevel - (int) "
-                    + "GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].{1}.ContainsKey({2}) ? 1U : 0U;\n",
+                sourceCode.AppendFrontFormat("{0} = graph.inIsoSpaceMatchedElements[isoSpace - (int) "
+                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].{1}.ContainsKey({2}) ? 1U : 0U;\n",
                     variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
-                sourceCode.AppendFrontFormat("if({0} == 0) graph.atNegLevelMatchedElements[negLevel - (int) "
-                    + "GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].{1}.Add({2},{2});\n",
+                sourceCode.AppendFrontFormat("if({0} == 0) graph.inIsoSpaceMatchedElements[isoSpace - (int) "
+                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].{1}.Add({2},{2});\n",
                     variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
 
                 sourceCode.Unindent();
@@ -2768,7 +2768,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string PatternElementName;
         public string NegativeIndependentNamePrefix; // "" if top-level
         public bool IsNode; // node|edge
-        public bool NeverAboveMaxNegLevel;
+        public bool NeverAboveMaxIsoSpace;
     }
 
     /// <summary>
@@ -2781,12 +2781,12 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             string negativeIndependentNamePrefix,
             bool isNode,
-            bool neverAboveMaxNegLevel)
+            bool neverAboveMaxIsoSpace)
         {
             PatternElementName = patternElementName;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
-            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
+            NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2804,29 +2804,29 @@ namespace de.unika.ipd.grGen.lgsp
 
             sourceCode.AppendFrontFormat("uint {0};\n", variableContainingBackupOfMappedMember);
 
-            if (!NeverAboveMaxNegLevel)
+            if (!NeverAboveMaxIsoSpace)
             {
-                sourceCode.AppendFront("if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {\n");
+                sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
                 sourceCode.Indent();
             }
 
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel";
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
             sourceCode.AppendFrontFormat("{0} = {1}.lgspFlags & {2};\n",
                 variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
             sourceCode.AppendFrontFormat("{0}.lgspFlags |= {1};\n",
                 variableContainingCandidate, isMatchedBit);
 
-            if (!NeverAboveMaxNegLevel)
+            if (!NeverAboveMaxIsoSpace)
             {
                 sourceCode.Unindent();
                 sourceCode.AppendFront("} else {\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) "
-                    + "GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].{1}.ContainsKey({2}) ? 1U : 0U;\n",
+                sourceCode.AppendFrontFormat("{0} = graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) "
+                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].{1}.ContainsKey({2}) ? 1U : 0U;\n",
                     variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
-                sourceCode.AppendFrontFormat("if({0} == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) "
-                    + "GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].{1}.Add({2},{2});\n",
+                sourceCode.AppendFrontFormat("if({0} == 0) graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) "
+                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].{1}.Add({2},{2});\n",
                     variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
 
                 sourceCode.Unindent();
@@ -2837,7 +2837,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string PatternElementName;
         public string NegativeIndependentNamePrefix; // "" if top-level
         public bool IsNode; // node|edge
-        public bool NeverAboveMaxNegLevel;
+        public bool NeverAboveMaxIsoSpace;
     }
 
     /// <summary>
@@ -2914,12 +2914,12 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             string negativeIndependentNamePrefix,
             bool isNode,
-            bool neverAboveMaxNegLevel)
+            bool neverAboveMaxIsoSpace)
         {
             PatternElementName = patternElementName;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
-            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
+            NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2936,17 +2936,17 @@ namespace de.unika.ipd.grGen.lgsp
             string variableContainingCandidate =
                 NamesOfEntities.CandidateVariable(PatternElementName);
 
-            if (!NeverAboveMaxNegLevel)
+            if (!NeverAboveMaxIsoSpace)
             {
-                sourceCode.AppendFront("if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {\n");
+                sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
                 sourceCode.Indent();
             }
 
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel";
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
             sourceCode.AppendFrontFormat("{0}.lgspFlags = {0}.lgspFlags & ~({1}) | {2};\n",
                 variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
 
-            if (!NeverAboveMaxNegLevel)
+            if (!NeverAboveMaxIsoSpace)
             {
                 sourceCode.Unindent();
                 sourceCode.AppendFront("} else { \n");
@@ -2955,7 +2955,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat(
-                    "graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].{0}.Remove({1});\n",
+                    "graph.inIsoSpaceMatchedElements[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].{0}.Remove({1});\n",
                     IsNode ? "fst" : "snd", variableContainingCandidate);
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
@@ -2968,7 +2968,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string PatternElementName;
         public string NegativeIndependentNamePrefix; // "" if top-level
         public bool IsNode; // node|edge
-        public bool NeverAboveMaxNegLevel;
+        public bool NeverAboveMaxIsoSpace;
     }
 
     /// <summary>
@@ -2981,12 +2981,12 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             string negativeIndependentNamePrefix,
             bool isNode,
-            bool neverAboveMaxNegLevel)
+            bool neverAboveMaxIsoSpace)
         {
             PatternElementName = patternElementName;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
-            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
+            NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -3002,17 +3002,17 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternElementName, NegativeIndependentNamePrefix);
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
 
-            if (!NeverAboveMaxNegLevel)
+            if (!NeverAboveMaxIsoSpace)
             {
-                sourceCode.AppendFront("if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {\n");
+                sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
                 sourceCode.Indent();
             }
 
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel";
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
             sourceCode.AppendFrontFormat("{0}.lgspFlags = {0}.lgspFlags & ~({1}) | {2};\n",
                 variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
 
-            if (!NeverAboveMaxNegLevel)
+            if (!NeverAboveMaxIsoSpace)
             {
                 sourceCode.Unindent();
                 sourceCode.AppendFront("} else { \n");
@@ -3021,7 +3021,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat(
-                    "graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].{0}.Remove({1});\n",
+                    "graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].{0}.Remove({1});\n",
                     IsNode ? "fst" : "snd", variableContainingCandidate);
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
@@ -3034,7 +3034,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string PatternElementName;
         public string NegativeIndependentNamePrefix; // "" if positive
         public bool IsNode; // node|edge
-        public bool NeverAboveMaxNegLevel;
+        public bool NeverAboveMaxIsoSpace;
     }
 
     /// <summary>
@@ -4809,7 +4809,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("// Match subpatterns {0}\n", 
                     NegativeIndependentNamePrefix!="" ? "of "+NegativeIndependentNamePrefix : "");
 
-            sourceCode.AppendFrontFormat("{0}openTasks.Peek().myMatch({0}matchesList, {1}, negLevel);\n",
+            sourceCode.AppendFrontFormat("{0}openTasks.Peek().myMatch({0}matchesList, {1}, isoSpace);\n",
                 NegativeIndependentNamePrefix, NegativeIndependentNamePrefix=="" ? "maxMatches - foundPartialMatches.Count" : "1");
         }
 
@@ -4956,18 +4956,18 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// Class representing "initialize negative/independent matching" operation
-    /// it opens an isomorphy space at the next negLevel, finalizeXXX will close it
+    /// it opens an isomorphy space at the next isoSpace number, finalizeXXX will close it
     /// </summary>
     class InitializeNegativeIndependentMatching : SearchProgramOperation
     {
         public InitializeNegativeIndependentMatching(
             bool containsSubpatterns,
             string negativeIndependentNamePrefix,
-            bool neverAboveMaxNegLevel)
+            bool neverAboveMaxIsoSpace)
         {
             SetupSubpatternMatching = containsSubpatterns;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
-            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
+            NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -4978,17 +4978,17 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront("++negLevel;\n");
-            if (!NeverAboveMaxNegLevel)
+            sourceCode.AppendFront("++isoSpace;\n");
+            if (!NeverAboveMaxIsoSpace)
             {
-                sourceCode.AppendFront("if(negLevel > (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL && "
-                    + "negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {\n");
+                sourceCode.AppendFront("if(isoSpace > (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE && "
+                    + "isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE > graph.inIsoSpaceMatchedElements.Count) {\n");
                 sourceCode.Indent();
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements.Add(new GRGEN_LGSP.Pair<Dictionary<GRGEN_LGSP.LGSPNode, "
+                sourceCode.AppendFront("graph.inIsoSpaceMatchedElements.Add(new GRGEN_LGSP.Pair<Dictionary<GRGEN_LGSP.LGSPNode, "
                     + "GRGEN_LGSP.LGSPNode>, Dictionary<GRGEN_LGSP.LGSPEdge, GRGEN_LGSP.LGSPEdge>>());\n");
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1]"
+                sourceCode.AppendFront("graph.inIsoSpaceMatchedElements[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1]"
                     + ".fst = new Dictionary<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPNode>();\n");
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1]"
+                sourceCode.AppendFront("graph.inIsoSpaceMatchedElements[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1]"
                     + ".snd = new Dictionary<GRGEN_LGSP.LGSPEdge, GRGEN_LGSP.LGSPEdge>();\n");
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
@@ -5006,18 +5006,18 @@ namespace de.unika.ipd.grGen.lgsp
 
         public bool SetupSubpatternMatching;
         public string NegativeIndependentNamePrefix;
-        public bool NeverAboveMaxNegLevel;
+        public bool NeverAboveMaxIsoSpace;
     }
 
     /// <summary>
     /// Class representing "finalize negative/independent matching" operation
-    /// it closes an isomorphy space opened by initializeXXX, returning to the previous negLevel
+    /// it closes an isomorphy space opened by initializeXXX, returning to the previous isoSpace
     /// </summary>
     class FinalizeNegativeIndependentMatching : SearchProgramOperation
     {
-        public FinalizeNegativeIndependentMatching(bool neverAboveMaxNegLevel)
+        public FinalizeNegativeIndependentMatching(bool neverAboveMaxIsoSpace)
         {
-            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
+            NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -5027,21 +5027,21 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (!NeverAboveMaxNegLevel)
+            if (!NeverAboveMaxIsoSpace)
             {
-                sourceCode.AppendFront("if(negLevel > (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {\n");
+                sourceCode.AppendFront("if(isoSpace > (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
                 sourceCode.Indent();
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - "
-                    + "(int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Clear();\n");
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - "
-                    + "(int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Clear();\n");
+                sourceCode.AppendFront("graph.inIsoSpaceMatchedElements[isoSpace - "
+                    + "(int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].fst.Clear();\n");
+                sourceCode.AppendFront("graph.inIsoSpaceMatchedElements[isoSpace - "
+                    + "(int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].snd.Clear();\n");
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
             }
-            sourceCode.AppendFront("--negLevel;\n");
+            sourceCode.AppendFront("--isoSpace;\n");
         }
 
-        public bool NeverAboveMaxNegLevel;
+        public bool NeverAboveMaxIsoSpace;
     }
 
     /// <summary>

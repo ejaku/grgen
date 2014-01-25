@@ -502,11 +502,11 @@ invalidCommand:
 
         /// <summary>
         /// Searches for the subpattern as specified by RulePattern.
-        /// Takes care of search state as given by found partial matches, negLevel to search at
+        /// Takes care of search state as given by found partial matches, isoSpace to search in
         /// and maximum number of matches to search for (zero = find all matches)
         /// (and open tasks via this).
         /// </summary>
-        public abstract void myMatch(List<Stack<IMatch>> foundPartialMatches, int maxMatches, int negLevel);
+        public abstract void myMatch(List<Stack<IMatch>> foundPartialMatches, int maxMatches, int isoSpace);
     }
 
 
