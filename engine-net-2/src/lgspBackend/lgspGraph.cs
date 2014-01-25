@@ -115,9 +115,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public int[] edgesByTypeCounts;
 
-        
-        public List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>> inIsoSpaceMatchedElements;
-        public List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>> inIsoSpaceMatchedElementsGlobal;
+        // a list with the isomorphy spaces, each contains in a dictionary the elements matched locally
+        public List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElements;
+
+        // a list with the isomorphy spaces, each contains in a dictionary the elements matched globally
+        public List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElementsGlobal;
 
         public string[] nameOfSingleElementAdded = new string[1];
 
@@ -190,8 +192,8 @@ namespace de.unika.ipd.grGen.lgsp
             
             name = grname;
 
-            inIsoSpaceMatchedElements = new List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>>();
-            inIsoSpaceMatchedElementsGlobal = new List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>>();
+            inIsoSpaceMatchedElements = new List<Dictionary<IGraphElement, IGraphElement>>();
+            inIsoSpaceMatchedElementsGlobal = new List<Dictionary<IGraphElement, IGraphElement>>();
 
             statistics = new LGSPGraphStatistics(this.Model);
         }
