@@ -34,6 +34,9 @@ namespace de.unika.ipd.grGen.lgsp
         protected IGraphModel model;
         internal String modelAssemblyName;
 
+        // Used as storage space for the name for the SettingAddedEdgeNames event, in case of redirection
+        public string[] nameOfSingleElementAdded = new string[1];
+
 
         private bool reuseOptimization = true;
 
@@ -115,13 +118,43 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public int[] edgesByTypeCounts;
 
-        // a list with the isomorphy spaces, each contains in a dictionary the elements matched locally
-        public List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElements;
 
-        // a list with the isomorphy spaces, each contains in a dictionary the elements matched globally
-        public List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElementsGlobal;
+        /// <summary>
+        /// a list with the isomorphy spaces, each contains in a dictionary the elements matched locally 
+        /// used in case the is-matched-bits in the graph elements are not sufficient (during non-parallel matching)
+        /// </summary>
+        public List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElements
+            = new List<Dictionary<IGraphElement, IGraphElement>>();
 
-        public string[] nameOfSingleElementAdded = new string[1];
+        /// <summary>
+        /// a list with the isomorphy spaces, each contains in a dictionary the elements matched globally 
+        /// used in case the is-matched-bits in the graph elements are not sufficient (during non-parallel matching)
+        /// </summary>
+        public List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElementsGlobal
+            = new List<Dictionary<IGraphElement, IGraphElement>>();
+
+
+        /// <summary>
+        /// a list which stores for each matcher thread the isomorphy spaces, each contains in a dictionary the elements matched locally 
+        /// employed during parallelized matching, the is-matched-bits are not used then
+        /// the outermost list is read concurrently, so its dimension/content must be fixed before matching begins
+        /// </summary>
+        public List<List<Dictionary<IGraphElement, IGraphElement>>> perThreadInIsoSpaceMatchedElements;
+
+        /// <summary>
+        /// a list which stores for each matcher thread the isomorphy spaces, each contains in a dictionary the elements matched globally
+        /// employed during parallelized matching, the is-matched-bits are not used then
+        /// the outermost list is read concurrently, so its dimension/content must be fixed before matching begins
+        /// </summary>
+        public List<List<Dictionary<IGraphElement, IGraphElement>>> perThreadInIsoSpaceMatchedElementsGlobal;
+
+        /// <summary>
+        /// a list which stores for each matcher thread the accumulated isomorphy spaces containing in a dictionary the elements matched globally
+        /// the matched-in-any iso space information is needed for patternpath checking
+        /// employed during parallelized matching, the is-matched-bits are not used then
+        /// the outermost list is read concurrently, so its dimension/content must be fixed before matching begins
+        /// </summary>
+        public List<Dictionary<IGraphElement, IGraphElement>> perThreadInAnyIsoSpaceMatchedElementsGlobal;
 
 
         /// <summary>
@@ -191,9 +224,6 @@ namespace de.unika.ipd.grGen.lgsp
             ++graphID;
             
             name = grname;
-
-            inIsoSpaceMatchedElements = new List<Dictionary<IGraphElement, IGraphElement>>();
-            inIsoSpaceMatchedElementsGlobal = new List<Dictionary<IGraphElement, IGraphElement>>();
 
             statistics = new LGSPGraphStatistics(this.Model);
         }
@@ -318,6 +348,40 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(statistics != null) // may be null when called from Copy/copy-constructor
                statistics.ResetStatisticalData();
+        }
+
+        public void EnsureSufficientIsomorphySpacesForParallelizedMatchingAreAvailable(int numberOfThreads)
+        {
+            // we assume that all perThread members are initialized the same
+            if(perThreadInIsoSpaceMatchedElements == null)
+            {
+                perThreadInIsoSpaceMatchedElements = new List<List<Dictionary<IGraphElement, IGraphElement>>>(numberOfThreads);
+                perThreadInIsoSpaceMatchedElementsGlobal = new List<List<Dictionary<IGraphElement, IGraphElement>>>(numberOfThreads);
+                perThreadInAnyIsoSpaceMatchedElementsGlobal = new List<Dictionary<IGraphElement, IGraphElement>>(numberOfThreads);
+            }
+            if(perThreadInIsoSpaceMatchedElements.Count < numberOfThreads)
+            {
+                int additionalNumberOfThreads = numberOfThreads - perThreadInIsoSpaceMatchedElements.Count;
+                for(int i = 0; i < additionalNumberOfThreads; ++i)
+                {
+                    // ensure first iso space is available, it's taken for granted, nested iso spaces are created by the matchers as needed
+                    List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElements = new List<Dictionary<IGraphElement, IGraphElement>>();                    
+                    perThreadInIsoSpaceMatchedElements.Add(inIsoSpaceMatchedElements);
+                    inIsoSpaceMatchedElements.Add(new Dictionary<IGraphElement, IGraphElement>());
+                    List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElementsGlobal = new List<Dictionary<IGraphElement, IGraphElement>>();
+                    perThreadInIsoSpaceMatchedElementsGlobal.Add(inIsoSpaceMatchedElementsGlobal);
+                    inIsoSpaceMatchedElementsGlobal.Add(new Dictionary<IGraphElement, IGraphElement>());
+                    perThreadInAnyIsoSpaceMatchedElementsGlobal.Add(new Dictionary<IGraphElement, IGraphElement>());
+                }
+            }
+        }
+
+        public void AllocateFurtherIsomorphySpaceNestingLevelForParallelizedMatching(int threadId)
+        {
+            Dictionary<IGraphElement, IGraphElement> inIsoSpaceMatchedElements = new Dictionary<IGraphElement, IGraphElement>();
+            perThreadInIsoSpaceMatchedElements[threadId].Add(inIsoSpaceMatchedElements);
+            Dictionary<IGraphElement, IGraphElement> inIsoSpaceMatchedElementsGlobal = new Dictionary<IGraphElement, IGraphElement>();
+            perThreadInIsoSpaceMatchedElementsGlobal[threadId].Add(inIsoSpaceMatchedElementsGlobal);
         }
 
 		/// <summary>

@@ -80,6 +80,7 @@ rule randomdexec2
 	}
 }
 
+// the random number generator is queried differently when parallelized, here we get different results
 test getset : (int)
 {
 	a:A;
@@ -87,6 +88,7 @@ test getset : (int)
 	return ( a.s.peek( random(a.s.size()) ) );
 }
 
+// the random number generator is queried differently when parallelized, here we get different results
 test getmap : (string)
 {
 	a:A;

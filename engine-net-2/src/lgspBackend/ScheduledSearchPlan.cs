@@ -42,6 +42,19 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public bool TotallyHomomorph = false;
 
+        /// <summary>
+        /// if true the candidate must be locked for all threads of a parallelized action,
+        /// in addition to sequential locking, which is used for sequential checking in the header
+        /// this is the case for candidates bound in the head of a parallized action
+        /// </summary>
+        public bool LockForAllThreads = false;
+
+        /// <summary>
+        /// if true parallelized isomorphy setting/checking code needs to be emitted, for the current thread
+        /// this is the case for iso handling in the body of a parallelized action
+        /// </summary>
+        public bool Parallel = false;
+
 
         public Object Clone()
         {
@@ -53,7 +66,7 @@ namespace de.unika.ipd.grGen.lgsp
                 ii.PatternElementsToCheckAgainst = new List<SearchPlanNode>(PatternElementsToCheckAgainst.Count);
                 for(int i=0; i<PatternElementsToCheckAgainst.Count; ++i)
                 {
-                    ii.PatternElementsToCheckAgainst[i] = PatternElementsToCheckAgainst[i];
+                    ii.PatternElementsToCheckAgainst.Add(PatternElementsToCheckAgainst[i]);
                 }
             }
             if (GloballyHomomorphPatternElements != null)
@@ -61,10 +74,12 @@ namespace de.unika.ipd.grGen.lgsp
                 ii.GloballyHomomorphPatternElements = new List<SearchPlanNode>(GloballyHomomorphPatternElements.Count);
                 for (int i = 0; i < GloballyHomomorphPatternElements.Count; ++i)
                 {
-                    ii.GloballyHomomorphPatternElements[i] = GloballyHomomorphPatternElements[i];
+                    ii.GloballyHomomorphPatternElements.Add(GloballyHomomorphPatternElements[i]);
                 }
             }
             ii.TotallyHomomorph = TotallyHomomorph;
+            ii.LockForAllThreads = LockForAllThreads;
+            ii.Parallel = Parallel;
             return ii;
         }
 
@@ -206,6 +221,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sb.AppendFront("negative {\n");
                     sb.Indent();
                     ((ScheduledSearchPlan)Element).Explain(sb, model);
+                    sb.Append("\n");
                     ((ScheduledSearchPlan)Element).PatternGraph.ExplainNested(sb, model);
                     sb.Unindent();
                     sb.AppendFront("}");
@@ -214,6 +230,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sb.AppendFront("independent {\n");
                     sb.Indent();
                     ((ScheduledSearchPlan)Element).Explain(sb, model);
+                    sb.Append("\n");
                     ((ScheduledSearchPlan)Element).PatternGraph.ExplainNested(sb, model);
                     sb.Unindent();
                     sb.AppendFront("}");
@@ -247,6 +264,36 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         sb.AppendFront("def " + ((SearchPlanNode)Element).PatternElement.Name);
                     break;
+                case SearchOperationType.ParallelLookup:
+                    if(tgt.PatternElement is PatternNode)
+                        sb.AppendFront("parallelized lookup " + tgt.PatternElement.UnprefixedName + ":" + model.NodeModel.Types[tgt.PatternElement.TypeID].Name + " in graph");
+                    else
+                        sb.AppendFront("parallelized lookup -" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "-> in graph");
+                    break;
+                case SearchOperationType.ParallelPickFromStorage:
+                case SearchOperationType.ParallelPickFromStorageDependent:
+                    sb.AppendFront("parallelized " + tgt.PatternElement.UnprefixedName + "{" + Storage.ToString() + "}");
+                    break;
+                case SearchOperationType.ParallelOutgoing:
+                    sb.AppendFront("parallelized from " + src.PatternElement.UnprefixedName + " outgoing -" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "->");
+                    break;
+                case SearchOperationType.ParallelIncoming:
+                    sb.AppendFront("parallelized from " + src.PatternElement.UnprefixedName + " incoming <-" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "-");
+                    break;
+                case SearchOperationType.ParallelIncident:
+                    sb.AppendFront("parallelized from " + src.PatternElement.UnprefixedName + " incident <-" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "->");
+                    break;
+                case SearchOperationType.WriteParallelPreset:
+                case SearchOperationType.ParallelPreset:
+                case SearchOperationType.WriteParallelPresetVar:
+                case SearchOperationType.ParallelPresetVar:
+                case SearchOperationType.SetupParallelLookup:
+                case SearchOperationType.SetupParallelPickFromStorage:
+                case SearchOperationType.SetupParallelPickFromStorageDependent:
+                case SearchOperationType.SetupParallelOutgoing:
+                case SearchOperationType.SetupParallelIncoming:
+                case SearchOperationType.SetupParallelIncident:
+                    break; // uninteresting to the user
             }
         }
     }
@@ -290,7 +337,6 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(SearchOperation searchOp in Operations)
             {
                 searchOp.Explain(sb, model);
-                sb.Append("\n");
             }
         }
     }

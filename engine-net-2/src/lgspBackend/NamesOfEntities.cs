@@ -74,7 +74,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Returns name of the dictionary/list entry variable which will be created within the search program
         /// holding the dictionary entry (key-value-pair) or list entry of the storage to pick an element from
         /// </summary>
-        public static string CandidateIterationDictionaryOrListEntry(string patternElementName)
+        public static string CandidateIterationContainerEntry(string patternElementName)
         {
             return "storage_candidate_" + patternElementName;
         }
@@ -237,6 +237,31 @@ namespace de.unika.ipd.grGen.lgsp
                 case EntityType.Variable: return "Variable";
                 default: return "INTERNAL ERROR";
             }
+        }
+
+        public static string IterationParallelizationListHead(string patternElementName)
+        {
+            return "parallel_preset_head_candidate_" + patternElementName;
+        }
+
+        public static string IterationParallelizationNextCandidate(string patternElementName)
+        {
+            return "parallel_preset_candidate_" + patternElementName;
+        }
+
+        public static string IterationParallelizationIterator(string patternElementName)
+        {
+            return "parallel_preset_iterator_" + patternElementName;
+        }
+
+        public static string IterationParallelizationDirectionRunCounterVariable(string patternElementName)
+        {
+            return "parallel_preset_directionRunCounterOf_" + patternElementName;
+        }
+
+        public static string IterationParallelizationParallelPresetCandidate(string patternElementName)
+        {
+            return "parallel_preset_candidate_" + patternElementName;
         }
     }
 }

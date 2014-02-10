@@ -925,21 +925,35 @@ namespace de.unika.ipd.grGen.lgsp
         
         /// <summary>
         /// Names of the elements which may be null
-        /// The following members are ordered along it/generated along this order
+        /// The following members are ordered along it/generated along this order.
         /// </summary>
         public String[] maybeNullElementNames;
 
         /// <summary>
         /// The schedules for this pattern graph without any nested pattern graphs.
-        /// Normally one, but each maybe null action preset causes doubling of schedules
+        /// Normally one, but each maybe null action preset causes doubling of schedules.
         /// </summary>
         public ScheduledSearchPlan[] schedules;
 
         /// <summary>
-        /// The schedules for this pattern graph including negatives and independents (and subpatterns?).   TODO
-        /// Normally one, but each maybe null action preset causes doubling of schedules
+        /// The schedules for this pattern graph including negatives and independents.
+        /// Normally one, but each maybe null action preset causes doubling of schedules.
         /// </summary>
         public ScheduledSearchPlan[] schedulesIncludingNegativesAndIndependents;
+
+        /// <summary>
+        /// Larger than 1 if and only if this rule is to be parallelized, giving the branching factor to apply
+        /// </summary>
+        public int branchingFactor = 1;
+
+        /// <summary>
+        /// Not-null in case of parallelization. Contains then exactly 2 entries.
+        /// A parallelized matcher consists of a head (first, distributing and collecting work) and a body (following, doing real work).
+        /// A pattern with maybe null action presets is not parallelized.
+        /// The head and body schedules include negatives and independents, they are derived from
+        /// schedulesIncludingNegativesAndIndependents by splitting at the first candidate-binding loop.
+        /// </summary>
+        public ScheduledSearchPlan[] parallelizedSchedule;
 
         /// <summary>
         /// For each schedule the availability of the maybe null presets - true if is available, false if not
@@ -1127,8 +1141,20 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFrontFormat("{0}:\n", name);
             sb.Indent();
 
-            foreach(ScheduledSearchPlan ssp in schedulesIncludingNegativesAndIndependents)
-                ssp.Explain(sb, model);
+            if(parallelizedSchedule != null)
+            {
+                parallelizedSchedule[0].Explain(sb, model);
+                parallelizedSchedule[1].Explain(sb, model);
+                sb.Append("\n");
+            }
+            else
+            {
+                foreach(ScheduledSearchPlan ssp in schedulesIncludingNegativesAndIndependents)
+                {
+                    ssp.Explain(sb, model);
+                    sb.Append("\n");
+                }
+            }
 
             foreach(PatternGraphEmbedding sub in embeddedGraphsPlusInlined)
                 sb.AppendFrontFormat("subpattern usage {0}:{1}\n", sub.name, sub.EmbeddedGraph.Name);

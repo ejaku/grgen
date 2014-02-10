@@ -41,12 +41,14 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPRulePattern rulePattern,
             int index,
             string nameOfSearchProgram,
+            bool parallelized,
             bool emitProfiling)
         {
             PatternGraph patternGraph = rulePattern.patternGraph;
             this.model = model;
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             patternGraphWithNestingPatterns.Push(patternGraph);
+            this.parallelized = parallelized;
             isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
             isNegative = false;
             isNestedInNegative = false;
@@ -59,7 +61,7 @@ namespace de.unika.ipd.grGen.lgsp
             // and suffix matcher method name by missing parameters which get computed by lookup here
             String name;
             GetFilteredParametersAndSuffixedMatcherName(
-                rulePattern, patternGraph, index,
+                rulePattern, patternGraph, parallelized ? 0 : index,
                 out parameterTypes, out parameterNames, out name);
 
             // this is the all presets available method (index 0) and there are presets which may be null?
@@ -87,18 +89,42 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // build outermost search program operation, create the list anchor starting its program
-            bool containsSubpatterns = patternGraph.embeddedGraphsPlusInlined.Length > 0 || patternGraph.iteratedsPlusInlined.Length > 0 || patternGraph.alternativesPlusInlined.Length > 0;
-            SearchProgram searchProgram = new SearchProgramOfAction(
-                rulePatternClassName,
-                patternGraph.name, parameterTypes, parameterNames, name,
-                rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
-                containsSubpatterns, emitProfiling,
-                patternGraph.maybeNullElementNames, suffixedMatcherNameList, paramNamesList);
- 
+            bool containsSubpatterns = patternGraph.embeddedGraphsPlusInlined.Length > 0
+                || patternGraph.iteratedsPlusInlined.Length > 0
+                || patternGraph.alternativesPlusInlined.Length > 0;
+            SearchProgram searchProgram;
+            if(parallelized)
+            {
+                if(index == 1)
+                {
+                    searchProgram = new SearchProgramOfActionParallelizationBody(
+                        rulePatternClassName,
+                        patternGraph.name, name + "_parallelized_body",
+                        rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
+                        containsSubpatterns, emitProfiling);
+                }
+                else // index == 0
+                {
+                    searchProgram = new SearchProgramOfActionParallelizationHead(
+                        rulePatternClassName,
+                        patternGraph.name, parameterTypes, parameterNames, name + "_parallelized",
+                        emitProfiling);
+                }
+            }
+            else
+            {
+                searchProgram = new SearchProgramOfAction(
+                    rulePatternClassName,
+                    patternGraph.name, parameterTypes, parameterNames, name,
+                    rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
+                    containsSubpatterns, emitProfiling,
+                    patternGraph.maybeNullElementNames, suffixedMatcherNameList, paramNamesList);
+            } 
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
-            insertionPoint = insertVariableDeclarations(insertionPoint, patternGraph);
+            if(!parallelized || index == 0)
+                insertionPoint = insertVariableDeclarations(insertionPoint, patternGraph);
 
             // start building with first operation in scheduled search plan
             indexOfSchedule = index;
@@ -151,6 +177,7 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchProgram BuildSearchProgram(
             IGraphModel model,
             LGSPMatchingPattern matchingPattern,
+            bool parallelized,
             bool emitProfiling)
         {
             Debug.Assert(!(matchingPattern is LGSPRulePattern));
@@ -160,6 +187,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             patternGraphWithNestingPatterns.Push(patternGraph);
+            this.parallelized = parallelized;
             isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
             isNegative = false;
             isNestedInNegative = false;
@@ -172,7 +200,8 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgram searchProgram = new SearchProgramOfSubpattern(
                 rulePatternClassName,
                 matchingPattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
-                "myMatch");
+                "myMatch",
+                parallelized);
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
@@ -206,11 +235,13 @@ namespace de.unika.ipd.grGen.lgsp
             IGraphModel model,
             LGSPMatchingPattern matchingPattern,
             Alternative alternative,
+            bool parallelized,
             bool emitProfiling)
         {
             programType = SearchProgramType.AlternativeCase;
             this.model = model;
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
+            this.parallelized = parallelized;
             this.alternative = alternative;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, !(matchingPattern is LGSPRulePattern));
             this.emitProfiling = emitProfiling;
@@ -234,7 +265,8 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgram searchProgram = new SearchProgramOfAlternative(
                 rulePatternClassName,
                 namesOfPatternGraphsOnPathToEnclosedPatternpath,
-                "myMatch");
+                "myMatch",
+                parallelized);
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
@@ -311,12 +343,14 @@ namespace de.unika.ipd.grGen.lgsp
             IGraphModel model,
             LGSPMatchingPattern matchingPattern,
             PatternGraph iter,
+            bool parallelized,
             bool emitProfiling)
         {
             programType = SearchProgramType.Iterated;
             this.model = model;
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             patternGraphWithNestingPatterns.Push(iter);
+            this.parallelized = parallelized;
             isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
             isNegative = false;
             isNestedInNegative = false;
@@ -329,7 +363,8 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgram searchProgram = new SearchProgramOfIterated(
                 rulePatternClassName,
                 matchingPattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
-                "myMatch");
+                "myMatch",
+                parallelized);
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
@@ -454,6 +489,11 @@ namespace de.unika.ipd.grGen.lgsp
         private int indexOfSchedule;
 
         /// <summary>
+        /// whether to build the parallelized matcher from the parallelized schedule
+        /// </summary>
+        private bool parallelized;
+
+        /// <summary>
         /// whether to emit code for gathering profiling information (about search steps executed)
         /// </summary>
         private bool emitProfiling;
@@ -485,14 +525,27 @@ namespace de.unika.ipd.grGen.lgsp
         {
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
 
-            if(indexOfScheduledSearchPlanOperationToBuild >=
-                patternGraph.schedulesIncludingNegativesAndIndependents[indexOfSchedule].Operations.Length)
-            { // end of scheduled search plan reached, stop recursive iteration
-                return buildMatchComplete(insertionPointWithinSearchProgram);
+            SearchOperation op;
+            if(parallelized)
+            {
+                if(indexOfScheduledSearchPlanOperationToBuild >=
+                    patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length)
+                { // end of scheduled search plan reached, stop recursive iteration (of body, the head ends with a parallel setup operation)
+                    return buildMatchComplete(insertionPointWithinSearchProgram);
+                }
+                op = patternGraph.parallelizedSchedule[indexOfSchedule].
+                    Operations[indexOfScheduledSearchPlanOperationToBuild];
             }
-
-            SearchOperation op = patternGraph.schedulesIncludingNegativesAndIndependents[indexOfSchedule].
-                Operations[indexOfScheduledSearchPlanOperationToBuild];
+            else
+            {
+                if(indexOfScheduledSearchPlanOperationToBuild >=
+                    patternGraph.schedulesIncludingNegativesAndIndependents[indexOfSchedule].Operations.Length)
+                { // end of scheduled search plan reached, stop recursive iteration
+                    return buildMatchComplete(insertionPointWithinSearchProgram);
+                }
+                op = patternGraph.schedulesIncludingNegativesAndIndependents[indexOfSchedule].
+                    Operations[indexOfScheduledSearchPlanOperationToBuild];
+            }
 
             // for current scheduled search plan operation 
             // insert corresponding search program operations into search program
@@ -658,6 +711,110 @@ namespace de.unika.ipd.grGen.lgsp
                         indexOfScheduledSearchPlanOperationToBuild,
                         ((ScheduledSearchPlan)op.Element).PatternGraph);
 
+                case SearchOperationType.WriteParallelPreset:
+                    return buildWriteParallelPreset(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanNode)op.Element);
+
+                case SearchOperationType.WriteParallelPresetVar:
+                    return buildWriteParallelPresetVar(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (PatternVariable)op.Element);
+
+                case SearchOperationType.ParallelPreset:
+                    return buildParallelPreset(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanNode)op.Element);
+
+                case SearchOperationType.ParallelPresetVar:
+                    return buildParallelPresetVar(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (PatternVariable)op.Element);
+
+                case SearchOperationType.SetupParallelLookup:
+                    Debug.Assert(indexOfScheduledSearchPlanOperationToBuild >= patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length - 1, "Setup parallel must be last operation in schedule");
+                    return buildParallelLookupSetup(insertionPointWithinSearchProgram,
+                        (SearchPlanNode)op.Element);
+
+                case SearchOperationType.ParallelLookup:
+                    return buildParallelLookup(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanNode)op.Element,
+                        op.Isomorphy);
+
+                case SearchOperationType.SetupParallelPickFromStorage:
+                    Debug.Assert(indexOfScheduledSearchPlanOperationToBuild >= patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length - 1, "Setup parallel must be last operation in schedule");
+                    return buildParallelPickFromStorageSetup(insertionPointWithinSearchProgram,
+                        (SearchPlanNode)op.Element,
+                        op.Storage);
+
+                case SearchOperationType.ParallelPickFromStorage:
+                    return buildParallelPickFromStorage(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanNode)op.Element,
+                        op.Storage,
+                        op.Isomorphy);
+
+                case SearchOperationType.SetupParallelPickFromStorageDependent:
+                    Debug.Assert(indexOfScheduledSearchPlanOperationToBuild >= patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length - 1, "Setup parallel must be last operation in schedule");
+                    return buildParallelPickFromStorageDependentSetup(insertionPointWithinSearchProgram,
+                        op.SourceSPNode,
+                        (SearchPlanNode)op.Element,
+                        op.Storage);
+
+                case SearchOperationType.ParallelPickFromStorageDependent:
+                    return buildParallelPickFromStorageDependent(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        op.SourceSPNode,
+                        (SearchPlanNode)op.Element,
+                        op.Storage,
+                        op.Isomorphy);
+
+                case SearchOperationType.SetupParallelOutgoing:
+                    Debug.Assert(indexOfScheduledSearchPlanOperationToBuild >= patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length - 1, "Setup parallel must be last operation in schedule");
+                    return buildParallelIncidentSetup(insertionPointWithinSearchProgram,
+                        (SearchPlanNodeNode)op.SourceSPNode,
+                        (SearchPlanEdgeNode)op.Element,
+                        IncidentEdgeType.Outgoing);
+
+                case SearchOperationType.ParallelOutgoing:
+                    return buildParallelIncident(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanNodeNode)op.SourceSPNode,
+                        (SearchPlanEdgeNode)op.Element,
+                        op.Isomorphy,
+                        IncidentEdgeType.Outgoing);
+
+                case SearchOperationType.SetupParallelIncoming:
+                    Debug.Assert(indexOfScheduledSearchPlanOperationToBuild >= patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length - 1, "Setup parallel must be last operation in schedule");
+                    return buildParallelIncidentSetup(insertionPointWithinSearchProgram,
+                        (SearchPlanNodeNode)op.SourceSPNode,
+                        (SearchPlanEdgeNode)op.Element,
+                        IncidentEdgeType.Incoming);
+
+                case SearchOperationType.ParallelIncoming:
+                    return buildParallelIncident(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanNodeNode)op.SourceSPNode,
+                        (SearchPlanEdgeNode)op.Element,
+                        op.Isomorphy,
+                        IncidentEdgeType.Incoming);
+
+                case SearchOperationType.SetupParallelIncident:
+                    Debug.Assert(indexOfScheduledSearchPlanOperationToBuild >= patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length - 1, "Setup parallel must be last operation in schedule");
+                    return buildParallelIncidentSetup(insertionPointWithinSearchProgram,
+                        (SearchPlanNodeNode)op.SourceSPNode,
+                        (SearchPlanEdgeNode)op.Element,
+                        IncidentEdgeType.IncomingOrOutgoing);
+
+                case SearchOperationType.ParallelIncident:
+                    return buildParallelIncident(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanNodeNode)op.SourceSPNode,
+                        (SearchPlanEdgeNode)op.Element,
+                        op.Isomorphy,
+                        IncidentEdgeType.IncomingOrOutgoing);
+
                 default:
                     Debug.Assert(false, "Unknown search operation");
                     return insertionPointWithinSearchProgram;
@@ -702,7 +859,9 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -714,7 +873,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -739,7 +900,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -770,7 +933,9 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -782,7 +947,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -807,7 +974,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1005,7 +1174,9 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -1021,7 +1192,8 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             isNode,
-                            isoSpaceNeverAboveMaxIsoSpace);
+                            isoSpaceNeverAboveMaxIsoSpace,
+                            isomorphy.Parallel);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -1046,7 +1218,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -1071,7 +1245,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1160,7 +1336,9 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -1176,7 +1354,8 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             isNode,
-                            isoSpaceNeverAboveMaxIsoSpace);
+                            isoSpaceNeverAboveMaxIsoSpace,
+                            isomorphy.Parallel);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -1201,7 +1380,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -1226,7 +1407,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1321,7 +1504,9 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -1337,7 +1522,8 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             isNode,
-                            isoSpaceNeverAboveMaxIsoSpace);
+                            isoSpaceNeverAboveMaxIsoSpace,
+                            isomorphy.Parallel);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -1362,7 +1548,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -1387,7 +1575,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1451,7 +1641,9 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -1467,7 +1659,8 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             isNode,
-                            isoSpaceNeverAboveMaxIsoSpace);
+                            isoSpaceNeverAboveMaxIsoSpace,
+                            isomorphy.Parallel);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -1492,7 +1685,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -1517,7 +1712,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1752,7 +1949,9 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -1768,7 +1967,8 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             isNode,
-                            isoSpaceNeverAboveMaxIsoSpace);
+                            isoSpaceNeverAboveMaxIsoSpace,
+                            isomorphy.Parallel);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -1793,7 +1993,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -1818,7 +2020,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         isNode,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1873,7 +2077,9 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         true,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -1889,7 +2095,8 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             true,
-                            isoSpaceNeverAboveMaxIsoSpace);
+                            isoSpaceNeverAboveMaxIsoSpace,
+                            isomorphy.Parallel);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -1914,7 +2121,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         true,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -1939,7 +2148,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         true,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -1974,9 +2185,66 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             // iterate available incident edges
+            SearchPlanNodeNode node = source;
+            SearchPlanEdgeNode currentEdge = target;
+            IncidentEdgeType incidentType = edgeType;
+            GetCandidateByIteration incidentIteration;
             SearchProgramOperation continuationPoint;
-            insertionPoint = insertIncidentEdgeFromNode(insertionPoint, source, target, edgeType,
-                out continuationPoint);
+            if(incidentType == IncidentEdgeType.Incoming || incidentType == IncidentEdgeType.Outgoing)
+            {
+                incidentIteration = new GetCandidateByIteration(
+                    GetCandidateByIterationType.IncidentEdges,
+                    currentEdge.PatternElement.Name,
+                    node.PatternElement.Name,
+                    incidentType,
+                    emitProfiling,
+                    actionName,
+                    !firstLoopPassed);
+                firstLoopPassed = true;
+                incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
+                continuationPoint = insertionPoint.Append(incidentIteration);
+                insertionPoint = incidentIteration.NestedOperationsList;
+            }
+            else // IncidentEdgeType.IncomingOrOutgoing
+            {
+                if(currentEdge.PatternEdgeSource == currentEdge.PatternEdgeTarget)
+                {
+                    // reflexive edge without direction iteration as we don't want 2 matches 
+                    incidentIteration = new GetCandidateByIteration(
+                        GetCandidateByIterationType.IncidentEdges,
+                        currentEdge.PatternElement.Name,
+                        node.PatternElement.Name,
+                        IncidentEdgeType.Incoming,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+                    firstLoopPassed = true;
+                    incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
+                    continuationPoint = insertionPoint.Append(incidentIteration);
+                    insertionPoint = incidentIteration.NestedOperationsList;
+                }
+                else
+                {
+                    BothDirectionsIteration directionsIteration =
+                        new BothDirectionsIteration(currentEdge.PatternElement.Name);
+                    directionsIteration.NestedOperationsList = new SearchProgramList(directionsIteration);
+                    continuationPoint = insertionPoint.Append(directionsIteration);
+                    insertionPoint = directionsIteration.NestedOperationsList;
+
+                    incidentIteration = new GetCandidateByIteration(
+                        GetCandidateByIterationType.IncidentEdges,
+                        currentEdge.PatternElement.Name,
+                        node.PatternElement.Name,
+                        IncidentEdgeType.IncomingOrOutgoing,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+                    firstLoopPassed = true;
+                    incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
+                    insertionPoint = insertionPoint.Append(incidentIteration);
+                    insertionPoint = incidentIteration.NestedOperationsList;
+                }
+            }
 
             // check type of candidate
             insertionPoint = decideOnAndInsertCheckType(insertionPoint, target);
@@ -1997,7 +2265,9 @@ namespace de.unika.ipd.grGen.lgsp
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeIndependentNamePrefix,
                         false,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -2013,7 +2283,8 @@ namespace de.unika.ipd.grGen.lgsp
                             target.PatternElement.Name,
                             isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                             false,
-                            isoSpaceNeverAboveMaxIsoSpace);
+                            isoSpaceNeverAboveMaxIsoSpace,
+                            isomorphy.Parallel);
                     insertionPoint = insertionPoint.Append(checkIsomorphy);
                 }
             }
@@ -2038,7 +2309,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         false,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -2063,7 +2336,9 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         negativeIndependentNamePrefix,
                         false,
-                        isoSpaceNeverAboveMaxIsoSpace);
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -2102,6 +2377,10 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph enclosingPatternGraph = patternGraphWithNestingPatterns.Peek();
             patternGraphWithNestingPatterns.Push(negativePatternGraph);
             isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
+            bool parallelizedBak = parallelized;
+            parallelized &= patternGraphWithNestingPatterns.Peek().parallelizedSchedule != null; // the neg within a parallelized head may be non-parallelized
+            int indexOfScheduleBak = indexOfSchedule;
+            if(parallelized) indexOfSchedule = 0; // the neg of a parallelized body at index 1 is still only at index 0
 
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             bool negativeContainsSubpatterns = negativePatternGraph.embeddedGraphsPlusInlined.Length >= 1
@@ -2110,7 +2389,8 @@ namespace de.unika.ipd.grGen.lgsp
             InitializeNegativeIndependentMatching initNeg = new InitializeNegativeIndependentMatching(
                 negativeContainsSubpatterns, 
                 negativeIndependentNamePrefix, 
-                isoSpaceNeverAboveMaxIsoSpace);
+                isoSpaceNeverAboveMaxIsoSpace,
+                parallelized);
             insertionPoint = insertionPoint.Append(initNeg);
             insertionPoint = insertVariableDeclarationsNegIdpt(insertionPoint, negativePatternGraph);
 
@@ -2121,13 +2401,16 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint);
             //---------------------------------------------------------------------------
 
-            FinalizeNegativeIndependentMatching finalize = new FinalizeNegativeIndependentMatching(isoSpaceNeverAboveMaxIsoSpace);
+            FinalizeNegativeIndependentMatching finalize = new FinalizeNegativeIndependentMatching(
+                isoSpaceNeverAboveMaxIsoSpace, parallelized);
             insertionPoint = insertionPoint.Append(finalize);
 
             // negative pattern built by now
             // continue at the end of the list handed in
             insertionPoint = continuationPoint;
             patternGraphWithNestingPatterns.Pop();
+            parallelized = parallelizedBak;
+            indexOfSchedule = indexOfScheduleBak;
             isNegative = enclosingIsNegative;
             isNestedInNegative = enclosingIsNestedInNegative;
 
@@ -2167,6 +2450,10 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph enclosingPatternGraph = patternGraphWithNestingPatterns.Peek();
             patternGraphWithNestingPatterns.Push(independentPatternGraph);
             isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
+            bool parallelizedBak = parallelized;
+            parallelized &= patternGraphWithNestingPatterns.Peek().parallelizedSchedule != null; // the idpt within a parallelized head may be non-parallelized
+            int indexOfScheduleBak = indexOfSchedule;
+            if(parallelized) indexOfSchedule = 0; // the idpt of a parallelized body at index 1 is still only at index 0
 
             string independentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             bool independentContainsSubpatterns = independentPatternGraph.embeddedGraphsPlusInlined.Length >= 1
@@ -2175,7 +2462,8 @@ namespace de.unika.ipd.grGen.lgsp
             InitializeNegativeIndependentMatching initIdpt = new InitializeNegativeIndependentMatching(
                 independentContainsSubpatterns,
                 independentNamePrefix,
-                isoSpaceNeverAboveMaxIsoSpace);
+                isoSpaceNeverAboveMaxIsoSpace,
+                parallelized);
             insertionPoint = insertionPoint.Append(initIdpt);
             insertionPoint = insertVariableDeclarationsNegIdpt(insertionPoint, independentPatternGraph);
 
@@ -2186,7 +2474,8 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint);
             //---------------------------------------------------------------------------
 
-            FinalizeNegativeIndependentMatching finalize = new FinalizeNegativeIndependentMatching(isoSpaceNeverAboveMaxIsoSpace);
+            FinalizeNegativeIndependentMatching finalize = new FinalizeNegativeIndependentMatching(
+                isoSpaceNeverAboveMaxIsoSpace, parallelized);
             insertionPoint = insertionPoint.Append(finalize);
 
             // independent pattern built by now
@@ -2201,6 +2490,8 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = insertionPoint.Append(abortMatching);
 
             patternGraphWithNestingPatterns.Pop();
+            parallelized = parallelizedBak;
+            indexOfSchedule = indexOfScheduleBak;
             isNegative = enclosingIsNegative;
 
             //---------------------------------------------------------------------------
@@ -2354,6 +2645,855 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Search program operations implementing the
+        /// WriteParallelPreset search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildWriteParallelPreset(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNode target)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+
+            // write parallel preset
+            WriteParallelPreset writePreset =
+                new WriteParallelPreset(
+                    target.PatternElement.Name,
+                    isNode);
+            insertionPoint = insertionPoint.Append(writePreset);
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// WriteParallelPresetVar search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildWriteParallelPresetVar(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            PatternVariable target)
+        {
+            // write parallel preset var
+            WriteParallelPresetVar writePresetVar =
+                new WriteParallelPresetVar(
+                    target.Name,
+                    TypesHelper.TypeName(target.Type));
+            insertionPoint = insertionPoint.Append(writePresetVar);
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// ParallelPreset search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildParallelPreset(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNode target)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+
+            // get candidate from parallelization preset
+            GetCandidateByDrawing fromInputs =
+                new GetCandidateByDrawing(
+                    GetCandidateByDrawingType.FromParallelizationTask,
+                    target.PatternElement.Name,
+                    isNode);
+            insertionPoint = insertionPoint.Append(fromInputs);
+
+            // mark element as visited
+            target.Visited = true;
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            // unmark element for possibly following run
+            target.Visited = false;
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// ParallelPresetVar search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildParallelPresetVar(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            PatternVariable target)
+        {
+            // get candidate from parallelization preset
+            GetCandidateByDrawing fromInputs =
+                new GetCandidateByDrawing(
+                    GetCandidateByDrawingType.FromParallelizationTaskVar,
+                    target.Name,
+                    TypesHelper.TypeName(target.Type));
+            insertionPoint = insertionPoint.Append(fromInputs);
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// setup parallelized Lookup search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildParallelLookupSetup(
+            SearchProgramOperation insertionPoint,
+            SearchPlanNode target)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            string negativeIndependentNamePrefix = "";
+            PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
+
+            // decide on and insert operation determining type of candidate
+            SearchProgramOperation continuationPointAfterTypeIteration;
+            SearchProgramOperation insertionPointAfterTypeIteration =
+                decideOnAndInsertGetType(insertionPoint, target,
+                out continuationPointAfterTypeIteration);
+            insertionPoint = insertionPointAfterTypeIteration;
+
+            // iterate available graph elements
+            GetCandidateByIterationParallelSetup elementsIteration =
+                new GetCandidateByIterationParallelSetup(
+                    GetCandidateByIterationType.GraphElements,
+                    target.PatternElement.Name,
+                    isNode,
+                    rulePatternClassName,
+                    patternGraph.name,
+                    parameterNames,
+                    insertionPointAfterTypeIteration != continuationPointAfterTypeIteration,
+                    emitProfiling,
+                    actionName,
+                    !firstLoopPassed);
+            return insertionPoint.Append(elementsIteration);
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// parallelized Lookup search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildParallelLookup(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNode target,
+            IsomorphyInformation isomorphy)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            string negativeIndependentNamePrefix = "";
+
+#if RANDOM_LOOKUP_LIST_START
+            // insert list heads randomization, thus randomized lookup
+            RandomizeListHeads randomizeListHeads =
+                new RandomizeListHeads(
+                    RandomizeListHeadsTypes.GraphElements,
+                    target.PatternElement.Name,
+                    isNode);
+            insertionPoint = insertionPoint.Append(randomizeListHeads);
+#endif
+
+            // iterate available graph elements
+            GetCandidateByIterationParallel elementsIteration =
+                new GetCandidateByIterationParallel(
+                    GetCandidateByIterationType.GraphElements,
+                    target.PatternElement.Name,
+                    isNode,
+                    emitProfiling,
+                    actionName,
+                    !firstLoopPassed);
+            firstLoopPassed = true;
+            SearchProgramOperation continuationPoint =
+                insertionPoint.Append(elementsIteration);
+            elementsIteration.NestedOperationsList =
+                new SearchProgramList(elementsIteration);
+            insertionPoint = elementsIteration.NestedOperationsList;
+
+            // check connectedness of candidate
+            SearchProgramOperation continuationPointAfterConnectednessCheck;
+            if(isNode)
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+            else
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+
+            // check candidate for isomorphy 
+            if(isomorphy.CheckIsMatchedBit)
+            {
+                CheckCandidateForIsomorphy checkIsomorphy =
+                    new CheckCandidateForIsomorphy(
+                        target.PatternElement.Name,
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // accept candidate (write isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            {
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
+            }
+
+            // mark element as visited
+            target.Visited = true;
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            // unmark element for possibly following run
+            target.Visited = false;
+
+            // abandon candidate (restore isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            { // only if isomorphy information was previously written
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
+            }
+
+            // everything nested within candidate iteration built by now -
+            // continue at the end of the list after candidate iteration
+            insertionPoint = continuationPoint;
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// setup parallelized PickFromStorage search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildParallelPickFromStorageSetup(
+            SearchProgramOperation insertionPoint,
+            SearchPlanNode target,
+            StorageAccess storage)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            bool isDict = TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("set") || TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("map");
+            string negativeIndependentNamePrefix = "";
+            PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
+
+            // iterate available storage elements
+            string iterationType;
+            if(isDict) iterationType = "System.Collections.Generic.KeyValuePair<"
+                + TypesHelper.GetStorageKeyTypeName(storage.Variable.type) + ","
+                + TypesHelper.GetStorageValueTypeName(storage.Variable.type) + ">";
+            else
+                iterationType = TypesHelper.GetStorageKeyTypeName(storage.Variable.type);
+            GetCandidateByIterationParallelSetup elementsIteration =
+                new GetCandidateByIterationParallelSetup(
+                    GetCandidateByIterationType.StorageElements,
+                    target.PatternElement.Name,
+                    storage.Variable.Name,
+                    iterationType,
+                    isDict,
+                    isNode,
+                    rulePatternClassName,
+                    patternGraph.Name,
+                    parameterNames,
+                    emitProfiling,
+                    actionName,
+                    !firstLoopPassed);
+            return insertionPoint.Append(elementsIteration);
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// parallelized PickFromStorage search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildParallelPickFromStorage(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNode target,
+            StorageAccess storage,
+            IsomorphyInformation isomorphy)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            bool isDict = TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("set") || TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("map");
+            string negativeIndependentNamePrefix = "";
+
+            // iterate available storage elements
+            string iterationType;
+            if(isDict) iterationType = "System.Collections.Generic.KeyValuePair<"
+                + TypesHelper.GetStorageKeyTypeName(storage.Variable.type) + ","
+                + TypesHelper.GetStorageValueTypeName(storage.Variable.type) + ">";
+            else
+                iterationType = TypesHelper.GetStorageKeyTypeName(storage.Variable.type);
+            GetCandidateByIterationParallel elementsIteration =
+                new GetCandidateByIterationParallel(
+                    GetCandidateByIterationType.StorageElements,
+                    target.PatternElement.Name,
+                    storage.Variable.Name,
+                    iterationType,
+                    isDict,
+                    isNode,
+                    emitProfiling,
+                    actionName,
+                    !firstLoopPassed);
+            firstLoopPassed = true;
+
+            SearchProgramOperation continuationPoint =
+                insertionPoint.Append(elementsIteration);
+            elementsIteration.NestedOperationsList =
+                new SearchProgramList(elementsIteration);
+            insertionPoint = elementsIteration.NestedOperationsList;
+
+            // check type of candidate
+            insertionPoint = decideOnAndInsertCheckType(insertionPoint, target);
+
+            // check connectedness of candidate
+            SearchProgramOperation continuationPointAfterConnectednessCheck;
+            if(isNode)
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+            else
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+
+            // check candidate for isomorphy 
+            if(isomorphy.CheckIsMatchedBit)
+            {
+                CheckCandidateForIsomorphy checkIsomorphy =
+                    new CheckCandidateForIsomorphy(
+                        target.PatternElement.Name,
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // accept candidate (write isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            {
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
+            }
+
+            // mark element as visited
+            target.Visited = true;
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            // unmark element for possibly following run
+            target.Visited = false;
+
+            // abandon candidate (restore isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            { // only if isomorphy information was previously written
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
+            }
+
+            // everything nested within candidate iteration built by now -
+            // continue at the end of the list after storage iteration
+            insertionPoint = continuationPoint;
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// setup parallelized PickFromStorageDependent search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildParallelPickFromStorageDependentSetup(
+            SearchProgramOperation insertionPoint,
+            SearchPlanNode source,
+            SearchPlanNode target,
+            StorageAccess storage)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            bool isDict = storage.Attribute.Attribute.Kind == AttributeKind.SetAttr || storage.Attribute.Attribute.Kind == AttributeKind.MapAttr;
+            string negativeIndependentNamePrefix = "";
+            PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
+
+            // iterate available storage elements
+            string iterationType;
+            if(isDict)
+                if(storage.Attribute.Attribute.Kind == AttributeKind.SetAttr)
+                {
+                    iterationType = "System.Collections.Generic.KeyValuePair<"
+                        + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model) + ","
+                        + "de.unika.ipd.grGen.libGr.SetValueType" + ">";
+                }
+                else
+                {
+                    iterationType = "System.Collections.Generic.KeyValuePair<"
+                        + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.KeyType.GetKindName(), model) + ","
+                        + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model) + ">";
+                }
+            else
+                iterationType = TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model);
+
+            GetCandidateByIterationParallelSetup elementsIteration =
+                new GetCandidateByIterationParallelSetup(
+                    GetCandidateByIterationType.StorageAttributeElements,
+                    target.PatternElement.Name,
+                    source.PatternElement.Name,
+                    source.PatternElement.typeName,
+                    storage.Attribute.Attribute.Name,
+                    iterationType,
+                    isDict,
+                    isNode,
+                    rulePatternClassName,
+                    patternGraph.name,
+                    parameterNames,
+                    emitProfiling,
+                    actionName,
+                    !firstLoopPassed);
+            return insertionPoint.Append(elementsIteration);
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// parallelized PickFromStorageDependent search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildParallelPickFromStorageDependent(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNode source,
+            SearchPlanNode target,
+            StorageAccess storage,
+            IsomorphyInformation isomorphy)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            bool isDict = storage.Attribute.Attribute.Kind == AttributeKind.SetAttr || storage.Attribute.Attribute.Kind == AttributeKind.MapAttr;
+            string negativeIndependentNamePrefix = "";
+
+            // iterate available storage elements
+            string iterationType;
+            if(isDict)
+                if(storage.Attribute.Attribute.Kind == AttributeKind.SetAttr)
+                {
+                    iterationType = "System.Collections.Generic.KeyValuePair<"
+                        + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model) + ","
+                        + "de.unika.ipd.grGen.libGr.SetValueType" + ">";
+                }
+                else
+                {
+                    iterationType = "System.Collections.Generic.KeyValuePair<"
+                        + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.KeyType.GetKindName(), model) + ","
+                        + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model) + ">";
+                }
+            else
+                iterationType = TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model);
+
+            GetCandidateByIterationParallel elementsIteration =
+                new GetCandidateByIterationParallel(
+                    GetCandidateByIterationType.StorageAttributeElements,
+                    target.PatternElement.Name,
+                    source.PatternElement.Name,
+                    source.PatternElement.typeName,
+                    storage.Attribute.Attribute.Name,
+                    iterationType,
+                    isDict,
+                    isNode,
+                    emitProfiling,
+                    actionName,
+                    !firstLoopPassed);
+            firstLoopPassed = true;
+            SearchProgramOperation continuationPoint =
+                insertionPoint.Append(elementsIteration);
+            elementsIteration.NestedOperationsList =
+                new SearchProgramList(elementsIteration);
+            insertionPoint = elementsIteration.NestedOperationsList;
+
+            // check type of candidate
+            insertionPoint = decideOnAndInsertCheckType(insertionPoint, target);
+
+            // check connectedness of candidate
+            SearchProgramOperation continuationPointAfterConnectednessCheck;
+            if(isNode)
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+            else
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+
+            // check candidate for isomorphy 
+            if(isomorphy.CheckIsMatchedBit)
+            {
+                CheckCandidateForIsomorphy checkIsomorphy =
+                    new CheckCandidateForIsomorphy(
+                        target.PatternElement.Name,
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // accept candidate (write isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            {
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
+            }
+
+            // mark element as visited
+            target.Visited = true;
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            // unmark element for possibly following run
+            target.Visited = false;
+
+            // abandon candidate (restore isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            { // only if isomorphy information was previously written
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
+            }
+
+            // everything nested within candidate iteration built by now -
+            // continue at the end of the list after storage iteration nesting level
+            insertionPoint = continuationPoint;
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// setup parallelized Extend Incoming|Outgoing|IncomingOrOutgoing search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildParallelIncidentSetup(
+            SearchProgramOperation insertionPoint,
+            SearchPlanNodeNode source,
+            SearchPlanEdgeNode target,
+            IncidentEdgeType edgeType)
+        {
+            // iterate available incident edges
+            SearchPlanNodeNode node = source;
+            SearchPlanEdgeNode currentEdge = target;
+            IncidentEdgeType incidentType = edgeType;
+            GetCandidateByIterationParallelSetup incidentIteration;
+            PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
+            if(incidentType == IncidentEdgeType.Incoming || incidentType == IncidentEdgeType.Outgoing)
+            {
+                incidentIteration = new GetCandidateByIterationParallelSetup(
+                    GetCandidateByIterationType.IncidentEdges,
+                    currentEdge.PatternElement.Name,
+                    node.PatternElement.Name,
+                    incidentType,
+                    rulePatternClassName,
+                    patternGraph.name,
+                    parameterNames,
+                    false,
+                    emitProfiling,
+                    actionName,
+                    !firstLoopPassed);
+                return insertionPoint.Append(incidentIteration);
+            }
+            else // IncidentEdgeType.IncomingOrOutgoing
+            {
+                if(currentEdge.PatternEdgeSource == currentEdge.PatternEdgeTarget)
+                {
+                    // reflexive edge without direction iteration as we don't want 2 matches 
+                    incidentIteration = new GetCandidateByIterationParallelSetup(
+                        GetCandidateByIterationType.IncidentEdges,
+                        currentEdge.PatternElement.Name,
+                        node.PatternElement.Name,
+                        IncidentEdgeType.Incoming,
+                        rulePatternClassName,
+                        patternGraph.name,
+                        parameterNames,
+                        false,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+                    return insertionPoint.Append(incidentIteration);
+                }
+                else
+                {
+                    BothDirectionsIteration directionsIteration =
+                        new BothDirectionsIteration(currentEdge.PatternElement.Name);
+                    directionsIteration.NestedOperationsList = new SearchProgramList(directionsIteration);
+                    SearchProgramOperation continuationPoint = insertionPoint.Append(directionsIteration);
+                    insertionPoint = directionsIteration.NestedOperationsList;
+
+                    incidentIteration = new GetCandidateByIterationParallelSetup(
+                        GetCandidateByIterationType.IncidentEdges,
+                        currentEdge.PatternElement.Name,
+                        node.PatternElement.Name,
+                        IncidentEdgeType.IncomingOrOutgoing,
+                        rulePatternClassName,
+                        patternGraph.name,
+                        parameterNames,
+                        true,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+                    return insertionPoint.Append(incidentIteration);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// parallelized Extend Incoming|Outgoing|IncomingOrOutgoing search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildParallelIncident(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNodeNode source,
+            SearchPlanEdgeNode target,
+            IsomorphyInformation isomorphy,
+            IncidentEdgeType edgeType)
+        {
+#if RANDOM_LOOKUP_LIST_START
+            // insert list heads randomization, thus randomized extend
+            RandomizeListHeads randomizeListHeads =
+                new RandomizeListHeads(
+                    RandomizeListHeadsTypes.IncidentEdges,
+                    target.PatternElement.Name,
+                    source.PatternElement.Name,
+                    getIncoming);
+            insertionPoint = insertionPoint.Append(randomizeListHeads);
+#endif
+
+            // iterate available incident edges
+            SearchPlanNodeNode node = source;
+            SearchPlanEdgeNode currentEdge = target;
+            IncidentEdgeType incidentType = edgeType;
+            SearchProgramOperation continuationPoint;
+            GetCandidateByIterationParallel incidentIteration;
+            if(incidentType == IncidentEdgeType.Incoming || incidentType == IncidentEdgeType.Outgoing)
+            {
+                incidentIteration = new GetCandidateByIterationParallel(
+                    GetCandidateByIterationType.IncidentEdges,
+                    currentEdge.PatternElement.Name,
+                    node.PatternElement.Name,
+                    incidentType,
+                    emitProfiling,
+                    actionName,
+                    !firstLoopPassed);
+                firstLoopPassed = true;
+                incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
+                continuationPoint = insertionPoint.Append(incidentIteration);
+                insertionPoint = incidentIteration.NestedOperationsList;
+            }
+            else // IncidentEdgeType.IncomingOrOutgoing
+            {
+                if(currentEdge.PatternEdgeSource == currentEdge.PatternEdgeTarget)
+                {
+                    // reflexive edge without direction iteration as we don't want 2 matches 
+                    incidentIteration = new GetCandidateByIterationParallel(
+                        GetCandidateByIterationType.IncidentEdges,
+                        currentEdge.PatternElement.Name,
+                        node.PatternElement.Name,
+                        IncidentEdgeType.Incoming,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+                    firstLoopPassed = true;
+                    incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
+                    continuationPoint = insertionPoint.Append(incidentIteration);
+                    insertionPoint = incidentIteration.NestedOperationsList;
+                }
+                else
+                {
+                    incidentIteration = new GetCandidateByIterationParallel(
+                        GetCandidateByIterationType.IncidentEdges,
+                        currentEdge.PatternElement.Name,
+                        node.PatternElement.Name,
+                        IncidentEdgeType.IncomingOrOutgoing,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+                    firstLoopPassed = true;
+                    incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
+                    continuationPoint = insertionPoint.Append(incidentIteration);
+                    insertionPoint = incidentIteration.NestedOperationsList;
+                }
+            }
+
+            // check type of candidate
+            insertionPoint = decideOnAndInsertCheckType(insertionPoint, target);
+
+            // check connectedness of candidate
+            SearchProgramOperation continuationPointOfConnectednessCheck;
+            insertionPoint = decideOnAndInsertCheckConnectednessOfIncidentEdgeFromNode(
+                insertionPoint, target, source, edgeType == IncidentEdgeType.Incoming,
+                out continuationPointOfConnectednessCheck);
+
+            // check candidate for isomorphy 
+            string negativeIndependentNamePrefix = "";
+            if(isomorphy.CheckIsMatchedBit)
+            {
+                CheckCandidateForIsomorphy checkIsomorphy =
+                    new CheckCandidateForIsomorphy(
+                        target.PatternElement.Name,
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
+                        negativeIndependentNamePrefix,
+                        false,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // accept candidate (write isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            {
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        false,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
+            }
+
+            // mark element as visited
+            target.Visited = true;
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            // unmark element for possibly following run
+            target.Visited = false;
+
+            // abandon candidate (restore isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            { // only if isomorphy information was previously written
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        false,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
+            }
+
+            // everything nested within incident iteration built by now -
+            // continue at the end of the list after incident edges iteration
+            insertionPoint = continuationPoint;
+
+            return insertionPoint;
+        }
+
+        /// <summary>
         /// Search program operations completing the matching process
         /// after all pattern elements have been found are created and inserted into the program
         /// </summary>
@@ -2398,7 +3538,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertGlobalAccept(insertionPoint);
 
                 // and execute the open subpattern matching tasks
-                MatchSubpatterns matchSubpatterns = new MatchSubpatterns(negativeIndependentNamePrefix);
+                MatchSubpatterns matchSubpatterns = new MatchSubpatterns(negativeIndependentNamePrefix, parallelized);
                 insertionPoint = insertionPoint.Append(matchSubpatterns);
             }
 
@@ -2511,78 +3651,6 @@ namespace de.unika.ipd.grGen.lgsp
 
             if (continuationPoint == null)
                 continuationPoint = insertionPoint;
-
-            return insertionPoint;
-        }
-
-        /// <summary>
-        /// Inserts code to get an incident edge from some node
-        /// </summary>
-        private SearchProgramOperation insertIncidentEdgeFromNode(
-            SearchProgramOperation insertionPoint,
-            SearchPlanNodeNode node,
-            SearchPlanEdgeNode currentEdge,
-            IncidentEdgeType incidentType,
-            out SearchProgramOperation continuationPoint)
-        {
-            continuationPoint = null;
-
-            GetCandidateByIteration incidentIteration;
-            if (incidentType == IncidentEdgeType.Incoming || incidentType == IncidentEdgeType.Outgoing)
-            {
-                incidentIteration = new GetCandidateByIteration(
-                    GetCandidateByIterationType.IncidentEdges,
-                    currentEdge.PatternElement.Name,
-                    node.PatternElement.Name,
-                    incidentType,
-                    emitProfiling,
-                    actionName,
-                    !firstLoopPassed);
-                firstLoopPassed = true;
-                incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
-                continuationPoint = insertionPoint.Append(incidentIteration);
-                insertionPoint = incidentIteration.NestedOperationsList;
-            }
-            else // IncidentEdgeType.IncomingOrOutgoing
-            {
-                if (currentEdge.PatternEdgeSource == currentEdge.PatternEdgeTarget)
-                {
-                    // reflexive edge without direction iteration as we don't want 2 matches 
-                    incidentIteration = new GetCandidateByIteration(
-                        GetCandidateByIterationType.IncidentEdges,
-                        currentEdge.PatternElement.Name,
-                        node.PatternElement.Name,
-                        IncidentEdgeType.Incoming,
-                        emitProfiling,
-                        actionName,
-                        !firstLoopPassed);
-                    firstLoopPassed = true;
-                    incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
-                    continuationPoint = insertionPoint.Append(incidentIteration);
-                    insertionPoint = incidentIteration.NestedOperationsList;
-                }
-                else
-                {
-                    BothDirectionsIteration directionsIteration =
-                        new BothDirectionsIteration(currentEdge.PatternElement.Name);
-                    directionsIteration.NestedOperationsList = new SearchProgramList(directionsIteration);
-                    continuationPoint = insertionPoint.Append(directionsIteration);
-                    insertionPoint = directionsIteration.NestedOperationsList;
-
-                    incidentIteration = new GetCandidateByIteration(
-                        GetCandidateByIterationType.IncidentEdges,
-                        currentEdge.PatternElement.Name,
-                        node.PatternElement.Name,
-                        IncidentEdgeType.IncomingOrOutgoing,
-                        emitProfiling,
-                        actionName,
-                        !firstLoopPassed);
-                    firstLoopPassed = true;
-                    incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
-                    insertionPoint = insertionPoint.Append(incidentIteration);
-                    insertionPoint = incidentIteration.NestedOperationsList;
-                }
-            }
 
             return insertionPoint;
         }
@@ -3327,7 +4395,8 @@ namespace de.unika.ipd.grGen.lgsp
                         negativeIndependentNamePrefix,
                         searchPatternpath,
                         matchOfNestingPattern,
-                        lastMatchAtPreviousNestingLevel
+                        lastMatchAtPreviousNestingLevel,
+                        parallelized
                     );
                 insertionPoint = insertionPoint.Append(pushTask);
             }
@@ -3380,7 +4449,8 @@ namespace de.unika.ipd.grGen.lgsp
                         negativeIndependentNamePrefix,
                         searchPatternpath,
                         matchOfNestingPattern,
-                        lastMatchAtPreviousNestingLevel
+                        lastMatchAtPreviousNestingLevel,
+                        parallelized
                     );
                 insertionPoint = insertionPoint.Append(pushTask);
             }
@@ -3412,7 +4482,8 @@ namespace de.unika.ipd.grGen.lgsp
                         negativeIndependentNamePrefix,
                         searchPatternpath,
                         matchOfNestingPattern,
-                        lastMatchAtPreviousNestingLevel
+                        lastMatchAtPreviousNestingLevel,
+                        parallelized
                     );
                 insertionPoint = insertionPoint.Append(pushTask);
             }
@@ -3438,7 +4509,8 @@ namespace de.unika.ipd.grGen.lgsp
                         negativeIndependentNamePrefix,
                         PushAndPopSubpatternTaskTypes.Subpattern,
                         subpattern.matchingPatternOfEmbeddedGraph.name,
-                        subpattern.name
+                        subpattern.name,
+                        parallelized
                     );
                 insertionPoint = insertionPoint.Append(popTask);
             }
@@ -3450,7 +4522,8 @@ namespace de.unika.ipd.grGen.lgsp
                         negativeIndependentNamePrefix,
                         PushAndPopSubpatternTaskTypes.Iterated,
                         iterated.iteratedPattern.name,
-                        iterated.iteratedPattern.pathPrefix
+                        iterated.iteratedPattern.pathPrefix,
+                        parallelized
                     );
                 insertionPoint = insertionPoint.Append(popTask);
             }
@@ -3462,7 +4535,8 @@ namespace de.unika.ipd.grGen.lgsp
                         negativeIndependentNamePrefix,
                         PushAndPopSubpatternTaskTypes.Alternative,
                         alternative.name,
-                        alternative.pathPrefix
+                        alternative.pathPrefix,
+                        parallelized
                     );
                 insertionPoint = insertionPoint.Append(popTask);
             }
@@ -3547,7 +4621,8 @@ namespace de.unika.ipd.grGen.lgsp
                             new AcceptCandidateGlobal(patternGraph.nodesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             true,
-                            isoSpaceNeverAboveMaxIsoSpace);
+                            isoSpaceNeverAboveMaxIsoSpace,
+                            parallelized);
                         insertionPoint = insertionPoint.Append(acceptGlobal);
                     }
                 }
@@ -3565,7 +4640,8 @@ namespace de.unika.ipd.grGen.lgsp
                             new AcceptCandidateGlobal(patternGraph.edgesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             false,
-                            isoSpaceNeverAboveMaxIsoSpace);
+                            isoSpaceNeverAboveMaxIsoSpace,
+                            parallelized);
                         insertionPoint = insertionPoint.Append(acceptGlobal);
                     }
                 }
@@ -3642,7 +4718,8 @@ namespace de.unika.ipd.grGen.lgsp
                             new AbandonCandidateGlobal(patternGraph.nodesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             true,
-                            isoSpaceNeverAboveMaxIsoSpace);
+                            isoSpaceNeverAboveMaxIsoSpace,
+                            parallelized);
                         insertionPoint = insertionPoint.Append(abandonGlobal);
                     }
                 }
@@ -3660,7 +4737,8 @@ namespace de.unika.ipd.grGen.lgsp
                             new AbandonCandidateGlobal(patternGraph.edgesPlusInlined[i].name,
                             negativeIndependentNamePrefix,
                             false,
-                            isoSpaceNeverAboveMaxIsoSpace);
+                            isoSpaceNeverAboveMaxIsoSpace,
+                            parallelized);
                         insertionPoint = insertionPoint.Append(abandonGlobal);
                     }
                 }
@@ -3726,7 +4804,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check whether there were no subpattern matches found
             CheckPartialMatchForSubpatternsFound checkSubpatternsFound =
-                new CheckPartialMatchForSubpatternsFound(negativeIndependentNamePrefix, patternGraph.isIterationBreaking);
+                new CheckPartialMatchForSubpatternsFound(negativeIndependentNamePrefix);
             SearchProgramOperation continuationPointAfterSubpatternsFound =
                    insertionPoint.Append(checkSubpatternsFound);
             checkSubpatternsFound.CheckFailedOperations =
@@ -3752,7 +4830,8 @@ namespace de.unika.ipd.grGen.lgsp
                 unprefixedNameInInlinedPatternClass = patternGraph.originalPatternGraph.name;
             }
             PatternAndSubpatternsMatched patternAndSubpatternsMatched = new PatternAndSubpatternsMatched(
-                inlinedPatternClassName, pathPrefixInInlinedPatternClass + unprefixedNameInInlinedPatternClass, type);
+                inlinedPatternClassName, pathPrefixInInlinedPatternClass + unprefixedNameInInlinedPatternClass, 
+                parallelized && indexOfSchedule == 1, type);
             SearchProgramOperation continuationPointAfterPatternAndSubpatternsMatched =
                 insertionPoint.Append(patternAndSubpatternsMatched);
             patternAndSubpatternsMatched.MatchBuildingOperations =
@@ -3803,7 +4882,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check whether there were no subpattern matches found
             CheckPartialMatchForSubpatternsFound checkSubpatternsFound =
-                new CheckPartialMatchForSubpatternsFound(negativeIndependentNamePrefix, patternGraph.isIterationBreaking);
+                new CheckPartialMatchForSubpatternsFound(negativeIndependentNamePrefix);
             SearchProgramOperation continuationPointAfterSubpatternsFound =
                    insertionPoint.Append(checkSubpatternsFound);
             checkSubpatternsFound.CheckFailedOperations =
@@ -3866,7 +4945,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             // build the pattern was matched operation
             PositivePatternWithoutSubpatternsMatched patternMatched =
-                new PositivePatternWithoutSubpatternsMatched(rulePatternClassName, patternGraph.name);
+                new PositivePatternWithoutSubpatternsMatched(rulePatternClassName, 
+                    patternGraph.name, 
+                    parallelized && indexOfSchedule == 1);
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(patternMatched);
             patternMatched.MatchBuildingOperations =
@@ -3890,10 +4971,12 @@ namespace de.unika.ipd.grGen.lgsp
             // or abort because the maximum desired number of maches was reached
             CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
 #if NO_ADJUST_LIST_HEADS
-                new CheckContinueMatchingMaximumMatchesReached(CheckMaximumMatchesType.Action, false,
+                new CheckContinueMatchingMaximumMatchesReached(
+                    CheckMaximumMatchesType.Action, false, parallelized && indexOfSchedule == 1,
                     emitProfiling, actionName, firstLoopPassed);
 #else
-                new CheckContinueMatchingMaximumMatchesReached(CheckMaximumMatchesType.Action, true,
+                new CheckContinueMatchingMaximumMatchesReached(
+                    CheckMaximumMatchesType.Action, true, parallelized && indexOfSchedule == 1,
                     emitProfiling, actionName, firstLoopPassed);
 #endif
             insertionPoint = insertionPoint.Append(checkMaximumMatches);
@@ -4006,7 +5089,7 @@ namespace de.unika.ipd.grGen.lgsp
                 new FinalizeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Iteration);
             insertionPoint = insertionPoint.Append(finalizeIteration);
             ContinueOperation leave =
-                new ContinueOperation(ContinueOperationType.ByReturn, false);
+                new ContinueOperation(ContinueOperationType.ByReturn, false, parallelized && indexOfSchedule == 1);
             insertionPoint = insertionPoint.Append(leave);
 
             // ---- nesting level up
@@ -4014,7 +5097,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- we execute the open subpattern matching tasks
             MatchSubpatterns matchSubpatterns =
-                new MatchSubpatterns("");
+                new MatchSubpatterns("", parallelized);
             insertionPoint = insertionPoint.Append(matchSubpatterns);
 
             // ---- check whether the open subpattern matching task succeeded, with null match building
@@ -4028,7 +5111,7 @@ namespace de.unika.ipd.grGen.lgsp
                 new FinalizeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Iteration);
             insertionPoint = insertionPoint.Append(finalizeIteration);
             leave =
-               new ContinueOperation(ContinueOperationType.ByReturn, false);
+                new ContinueOperation(ContinueOperationType.ByReturn, false, parallelized && indexOfSchedule == 1);
             insertionPoint = insertionPoint.Append(leave);
 
             // ---- nesting level up

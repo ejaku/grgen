@@ -57,6 +57,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// the name of the type prefixed by the name of the package otherwise.
         /// </summary>
         public string PackagePrefixedName { get { return patternGraph.PackagePrefixedName; } }
+
+        /// <summary>
+        /// Tells current worker threads to terminate, in case the matcher is parallelized (otherwise this is a nop).
+        /// Prevents a resource leak in case a parallelized matcher is to be replaced by a new one (typically a statically replaced by a dynamically).
+        /// </summary>
+        public virtual void EndWorkerThreads() { }
     }
 
 
@@ -304,6 +310,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Replaces a given action by another one.
+        /// For internal use.
         /// </summary>
         /// <param name="actionName">The name of the action to be replaced.</param>
         /// <param name="newAction">The new action.</param>
@@ -507,6 +514,16 @@ invalidCommand:
         /// (and open tasks via this).
         /// </summary>
         public abstract void myMatch(List<Stack<IMatch>> foundPartialMatches, int maxMatches, int isoSpace);
+
+        /// <summary>
+        /// Searches for the subpattern as specified by RulePattern,
+        /// with a matcher that can be called from a parallelized rule matcher.
+        /// Maps to the normal matcher if the subpattern is not used from any parallelized rule.
+        /// </summary>
+        public virtual void myMatch_parallelized(List<Stack<IMatch>> foundPartialMatches, int maxMatches, int isoSpace, int threadId)
+        {
+            myMatch(foundPartialMatches, maxMatches, isoSpace);
+        }
     }
 
 

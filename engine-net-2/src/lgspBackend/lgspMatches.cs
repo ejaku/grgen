@@ -418,6 +418,19 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// removes the first match object from the the list
+        /// </summary>
+        public void RemoveFirst()
+        {
+            Match prevRoot = root;
+            root = root.next;
+            Match prevLastNext = last.next;
+            last.next = prevRoot;
+            prevRoot.next = prevLastNext;
+            --count;
+        }
+
+        /// <summary>
         /// The first match of this list.
         /// </summary>
         public IMatch First { get { return count > 0 ? root : null; } }
