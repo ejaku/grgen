@@ -94,6 +94,15 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             } // until nothing changes because transitive closure was found
             while (maxIsoSpaceChanged);
+
+            // parallelization occurs only after inlining
+            if(inlined)
+            {
+                foreach(LGSPMatchingPattern matchingPattern in matchingPatterns)
+                {
+                    SetNeedForParallelizedVersion(matchingPattern);
+                }
+            }
         }
 
         /// <summary>
@@ -727,6 +736,115 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             return changed;
+        }
+
+        /// <summary>
+        /// Sets branchingFactor to >1 for actions with a parallelize annotation,
+        /// but especially for subpatterns used by them, and the nested patterns of both,
+        /// they require an additional version with non- is-matched-flag-based isomorphy checking 
+        /// the action needs furtheron a very different setup with a work distributing head and a parallelized body
+        /// </summary>
+        public void SetNeedForParallelizedVersion(LGSPMatchingPattern matchingPattern)
+        {
+            /*bool parallelizePassed = false;
+            foreach(KeyValuePair<string, string> annotation in matchingPattern.Annotations)
+            {
+                if(annotation.Key != "parallelize")
+                    continue;
+
+                if(parallelizePassed)
+                {
+                    Console.Error.WriteLine("Warning: Ignoring further parallelize annotation at " + matchingPattern.patternGraph.Name);
+                    continue;
+                }
+                parallelizePassed = true;
+                int value;
+                bool success = Int32.TryParse(annotation.Value, out value);
+                if(!success)
+                {
+                    Console.Error.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " not parallelized as the branching factor is not a valid integer.");
+                    continue;
+                }
+                if(value < 2)
+                {
+                    Console.Error.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " not parallelized as the branching factor is below 2.");
+                    continue;
+                }
+                if(ContainsMaybeNullElement(matchingPattern.patternGraph))
+                {
+                    Console.Error.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " not parallelized because of the maybe null parameter(s), actions using them cannot be parallelized.");
+                    continue;
+                }
+
+                // checks passed, this action is to be parallelized
+                if(value > 16)
+                {
+                    value = 16;
+                    Console.Error.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " reduced the branching factor of parallelization to the supported maximum 16.");
+                }
+                matchingPattern.patternGraph.branchingFactor = value;
+                SetNeedForParallelizedVersion(matchingPattern.patternGraph);
+                // used subpatterns are to be parallelized, too
+                foreach(KeyValuePair<LGSPMatchingPattern,LGSPMatchingPattern> usedSubpattern in matchingPattern.patternGraph.usedSubpatterns)
+                {
+                    usedSubpattern.Key.patternGraph.branchingFactor = 2;
+                    SetNeedForParallelizedVersion(usedSubpattern.Key.patternGraph);
+                }
+            }*/
+
+            if(ContainsMaybeNullElement(matchingPattern.patternGraph))
+            {
+                Console.Error.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " not parallelized because of the maybe null parameter(s), actions using them cannot be parallelized.");
+                return;
+            }
+
+            matchingPattern.patternGraph.branchingFactor = 2;
+            SetNeedForParallelizedVersion(matchingPattern.patternGraph);
+            // used subpatterns are to be parallelized, too
+            foreach(KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern in matchingPattern.patternGraph.usedSubpatterns)
+            {
+                usedSubpattern.Key.patternGraph.branchingFactor = 2;
+                SetNeedForParallelizedVersion(usedSubpattern.Key.patternGraph);
+            }
+        }
+
+        public static bool ContainsMaybeNullElement(PatternGraph patternGraph)
+        {
+            foreach(PatternNode node in patternGraph.nodes)
+                if(node.MaybeNull)
+                    return true;
+            foreach(PatternEdge edge in patternGraph.edges)
+                if(edge.MaybeNull)
+                    return true;
+            return false;
+        }
+
+        public static void SetNeedForParallelizedVersion(PatternGraph patternGraph)
+        {
+            foreach(PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
+            {
+                idpt.branchingFactor = 2;
+                SetNeedForParallelizedVersion(idpt);
+            }
+            foreach(PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
+            {
+                neg.branchingFactor = 2;
+                SetNeedForParallelizedVersion(neg);
+            }
+
+            foreach(Alternative alt in patternGraph.alternativesPlusInlined)
+            {
+                foreach(PatternGraph altCase in alt.alternativeCases)
+                {
+                    altCase.branchingFactor = 2;
+                    SetNeedForParallelizedVersion(altCase);
+                }
+            }
+            foreach(Iterated iter in patternGraph.iteratedsPlusInlined)
+            {
+                iter.iteratedPattern.branchingFactor = 2;
+                SetNeedForParallelizedVersion(iter.iteratedPattern);
+            }
         }
 
         public static void PrepareInline(PatternGraph patternGraph)

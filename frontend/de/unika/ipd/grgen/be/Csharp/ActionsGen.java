@@ -60,6 +60,7 @@ public class ActionsGen extends CSharpBase {
 				+ "using System.Collections.Generic;\n"
 				+ "using System.Collections;\n"
 				+ "using System.Text;\n"
+                + "using System.Threading;\n"
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
                 + "using GRGEN_EXPR = de.unika.ipd.grGen.expression;\n"
@@ -3240,12 +3241,18 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\tpublic bool _flag;\n");
 		sb.append("\t\t\tpublic void Mark(bool flag) { _flag = flag; }\n");
 		sb.append("\t\t\tpublic bool IsMarked() { return _flag; }\n");
+		sb.append("\t\t\tpublic int _iterationNumber;\n");
+		sb.append("\t\t\tpublic int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }\n");
 
-		sb.append("\n\t\t\tpublic "+className+"("+className +" that)\n");
+		sb.append("\n\t\t\tpublic void CopyMatchContent("+className +" that)\n");
 		sb.append("\t\t\t{\n");
 		for(int i=MATCH_PART_NODES; i<MATCH_PART_END; ++i) {
 			genCopyMatchedEntities(sb, pattern, name, i, pathPrefixForElements);
 		}
+		sb.append("\t\t\t}\n");
+		sb.append("\n\t\t\tpublic "+className+"("+className +" that)\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tCopyMatchContent(that);\n");
 		sb.append("\t\t\t}\n");
 		sb.append("\t\t\tpublic "+className+"()\n");
 		sb.append("\t\t\t{\n");

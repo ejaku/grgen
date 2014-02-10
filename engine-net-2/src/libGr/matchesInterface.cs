@@ -47,6 +47,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns></returns>
         bool IsMarked();
 
+        /// <summary>
+        /// Helper for parallelized matching, for building the matches list as if it was matched sequentially
+        /// </summary>
+        int IterationNumber { get; set; }
 
         //////////////////////////////////////////////////////////////////////////
         // Nodes

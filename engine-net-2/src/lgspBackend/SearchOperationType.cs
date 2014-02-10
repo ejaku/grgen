@@ -115,5 +115,71 @@ namespace de.unika.ipd.grGen.lgsp
         /// Try to match independent pattern.
         /// </summary>
         IndependentPattern,
+        /// <summary>
+        /// Write the preset (node or edge) for the body of a parallelized action, in the head of the parallelized action.
+        /// </summary>
+        WriteParallelPreset,
+        /// <summary>
+        /// Preset (node or edge) handed in to the body of a parallelized action.
+        /// </summary>
+        ParallelPreset,
+        /// <summary>
+        /// Write the preset of variable type for the body of a parallelized action, in the head of the parallelized action.
+        /// To forward var parameters normally only available as parameters outside schedule from head to body.
+        /// </summary>
+        WriteParallelPresetVar,
+        /// <summary>
+        /// Preset of variable type handed in to the body of a parallelized action.
+        /// To forward var parameters normally only available as parameters outside schedule from head to body.
+        /// </summary>
+        ParallelPresetVar,
+        /// <summary>
+        /// Setup a parallelized lookup element in graph operation, in the head of a parallelized action matcher.
+        /// </summary>
+        SetupParallelLookup,
+        /// <summary>
+        /// A parallelized lookup element in graph operation, in the body of a parallelized action matcher.
+        /// </summary>
+        ParallelLookup,
+        /// <summary>
+        /// Setup a parallelized pick element from storage operation, in the head of a parallelized action matcher.
+        /// </summary>
+        SetupParallelPickFromStorage,
+        /// <summary>
+        /// A parallelized pick element from storage operation, in the body of a parallelized action matcher.
+        /// </summary>
+        ParallelPickFromStorage,
+        /// <summary>
+        /// Setup a parallelized pick element from storage operation, depending on a previously matched element (e.g. an attribute owner), in the head of a parallelized action matcher.
+        /// </summary>
+        SetupParallelPickFromStorageDependent,
+        /// <summary>
+        /// A parallelized pick element from storage operation, depending on a previously matched element (e.g. an attribute owner), in the body of a parallelized action matcher.
+        /// </summary>
+        ParallelPickFromStorageDependent,
+        /// <summary>
+        /// Setup a parallelized follow outgoing edges of given node operation, in the head of a parallelized action matcher.
+        /// </summary>
+        SetupParallelOutgoing,
+        /// <summary>
+        /// A parallelized follow outgoing edges of given node operation, in the body of a parallelized action matcher.
+        /// </summary>
+        ParallelOutgoing,
+        /// <summary>
+        /// Setup a parallelized follow incoming edges of given node operation, in the head of a parallelized action matcher.
+        /// </summary>
+        SetupParallelIncoming,
+        /// <summary>
+        /// A parallelized follow incoming edges of given node operation, in the body of a parallelized action matcher.
+        /// </summary>
+        ParallelIncoming,
+        /// <summary>
+        /// Setup a parallelized follow outgoing and incoming edges of given node operation, in the head of a parallelized action matcher.
+        /// </summary>
+        SetupParallelIncident,
+        /// <summary>
+        /// A parallelized follow outgoing and incoming edges of given node operation, in the body of a parallelized action matcher.
+        /// </summary>
+        ParallelIncident
     };
 }

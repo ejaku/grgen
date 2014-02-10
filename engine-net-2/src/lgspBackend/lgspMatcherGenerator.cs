@@ -868,6 +868,7 @@ exitSecondLoop: ;
             StreamWriter sw = new StreamWriter(dumpname + "-scheduledsp.txt", false);
             SourceBuilder sb = new SourceBuilder();
             ssp.Explain(sb, model);
+            sb.Append("\n");
             sw.WriteLine(sb.ToString());
             sw.Close();
 
@@ -1707,6 +1708,278 @@ exitSecondLoop: ;
         }
 
         /// <summary>
+        /// Parallelize the scheduled search plan if it is to be parallelized.
+        /// An action to be parallelized is split at the first loop into a header part and a body part,
+        /// all subpatterns and nested patterns to be parallelized are switched to non- is-matched-flag-based isomorphy checking.
+        /// </summary>
+        public void ParallelizeAsNeeded(LGSPMatchingPattern matchingPattern)
+        {
+            if(matchingPattern.patternGraph.branchingFactor < 2)
+                return;
+
+            if(matchingPattern is LGSPRulePattern)
+            {
+                bool parallelizableLoopFound = false;
+                foreach(SearchOperation so in matchingPattern.patternGraph.schedulesIncludingNegativesAndIndependents[0].Operations)
+                {
+                    if(so.Type == SearchOperationType.Lookup || so.Type == SearchOperationType.Incident
+                        || so.Type == SearchOperationType.Incoming || so.Type == SearchOperationType.Outgoing
+                        || so.Type == SearchOperationType.PickFromStorage || so.Type == SearchOperationType.PickFromStorageDependent)
+                    {
+                        parallelizableLoopFound = true;
+                        break;
+                    }
+                }
+                if(parallelizableLoopFound)
+                    ParallelizeHeadBody((LGSPRulePattern)matchingPattern);
+                else {
+                    matchingPattern.patternGraph.branchingFactor = 1;
+                    Console.Error.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " not parallelized as no parallelizable loop was found.");
+                }
+            }
+            else
+            {
+                Parallelize(matchingPattern);
+            }
+        }
+
+        /// <summary>
+        /// Parallelize the scheduled search plan to the branching factor,
+        /// splitting it at the first loop into a header part and a body part
+        /// </summary>
+        public void ParallelizeHeadBody(LGSPRulePattern rulePattern)
+        {
+            Debug.Assert(rulePattern.patternGraph.schedulesIncludingNegativesAndIndependents.Length == 1);
+            ScheduledSearchPlan ssp = rulePattern.patternGraph.schedulesIncludingNegativesAndIndependents[0];
+            
+            int indexToSplitAt = 0;
+            for(int i = 0; i < ssp.Operations.Length; ++i)
+            {
+                SearchOperation so = ssp.Operations[i];
+                if(so.Type == SearchOperationType.Lookup || so.Type == SearchOperationType.Incident
+                    || so.Type == SearchOperationType.Incoming || so.Type == SearchOperationType.Outgoing
+                    || so.Type == SearchOperationType.PickFromStorage || so.Type == SearchOperationType.PickFromStorageDependent)
+                {
+                    indexToSplitAt = i;
+                    break;
+                }
+            }
+
+            rulePattern.patternGraph.parallelizedSchedule = new ScheduledSearchPlan[2];
+            List<SearchOperation> headOperations = new List<SearchOperation>();
+            List<SearchOperation> bodyOperations = new List<SearchOperation>();
+            for(int i = 0; i < rulePattern.Inputs.Length; ++i)
+            {
+                if(rulePattern.Inputs[i] is VarType) // those don't appear in the schedule, they are only extracted into the search program
+                {
+                    VarType varType = (VarType)rulePattern.Inputs[i];
+                    String varName = rulePattern.InputNames[i];
+                    PatternVariable dummy = new PatternVariable(varType, varName, varName, i, false, null);
+                    headOperations.Add(new SearchOperation(SearchOperationType.WriteParallelPresetVar,
+                        dummy, null, 0));
+                    bodyOperations.Add(new SearchOperation(SearchOperationType.ParallelPresetVar,
+                        dummy, null, 0));
+                }
+            }
+            for(int i = 0; i < ssp.Operations.Length; ++i)
+            {
+                SearchOperation so = ssp.Operations[i];
+                if(i < indexToSplitAt)
+                {
+                    SearchOperation clone = (SearchOperation)so.Clone();
+                    clone.Isomorphy.Parallel = true;
+                    clone.Isomorphy.LockForAllThreads = true;
+                    headOperations.Add(clone);
+                    switch(so.Type)
+                    {
+                            // the target binding looping operations can't appear in the header, so we don't treat them here
+                            // the non-target binding operations are completely handled by just adding them, happended already above
+                            // the target binding non-looping operations are handled below,
+                            // by parallel preset writing in the header and reading in the body
+                            // with exception of def, its declaration and initializion is just re-executed in the body
+                            // some presets can't appear in an action header, they are thus not taken care of
+                        case SearchOperationType.ActionPreset:
+                        case SearchOperationType.MapWithStorage:
+                        case SearchOperationType.MapWithStorageDependent:
+                        case SearchOperationType.Cast:
+                        case SearchOperationType.Assign:
+                        case SearchOperationType.Identity:
+                        case SearchOperationType.ImplicitSource:
+                        case SearchOperationType.ImplicitTarget:
+                        case SearchOperationType.Implicit:
+                            headOperations.Add(new SearchOperation(SearchOperationType.WriteParallelPreset,
+                                (SearchPlanNode)so.Element, so.SourceSPNode, 0));
+                            bodyOperations.Add(new SearchOperation(SearchOperationType.ParallelPreset, 
+                                (SearchPlanNode)so.Element, so.SourceSPNode, 0));
+                            break;
+                        case SearchOperationType.AssignVar:
+                            headOperations.Add(new SearchOperation(SearchOperationType.WriteParallelPresetVar,
+                                (PatternVariable)so.Element, so.SourceSPNode, 0));
+                            bodyOperations.Add(new SearchOperation(SearchOperationType.ParallelPresetVar,
+                                (PatternVariable)so.Element, so.SourceSPNode, 0));
+                            break;
+                        case SearchOperationType.DefToBeYieldedTo:
+                            bodyOperations.Add((SearchOperation)so.Clone());
+                            break;
+                    }                    
+                }
+                else if(i == indexToSplitAt)
+                {
+                    SearchOperation cloneHead = (SearchOperation)so.Clone();
+                    headOperations.Add(cloneHead);
+                    SearchOperation cloneBody = (SearchOperation)so.Clone();
+                    cloneBody.Isomorphy.Parallel = true;
+                    bodyOperations.Add(cloneBody);
+                    switch(so.Type)
+                    {
+                        case SearchOperationType.Lookup:
+                            cloneHead.Type = SearchOperationType.SetupParallelLookup;
+                            cloneBody.Type = SearchOperationType.ParallelLookup;
+                            break;
+                        case SearchOperationType.Incident:
+                            cloneHead.Type = SearchOperationType.SetupParallelIncident;
+                            cloneBody.Type = SearchOperationType.ParallelIncident;
+                            break;
+                        case SearchOperationType.Incoming:
+                            cloneHead.Type = SearchOperationType.SetupParallelIncoming;
+                            cloneBody.Type = SearchOperationType.ParallelIncoming;
+                            break;
+                        case SearchOperationType.Outgoing:
+                            cloneHead.Type = SearchOperationType.SetupParallelOutgoing;
+                            cloneBody.Type = SearchOperationType.ParallelOutgoing;
+                            break;
+                        case SearchOperationType.PickFromStorage:
+                            cloneHead.Type = SearchOperationType.SetupParallelPickFromStorage;
+                            cloneBody.Type = SearchOperationType.ParallelPickFromStorage;
+                            break;
+                        case SearchOperationType.PickFromStorageDependent:
+                            cloneHead.Type = SearchOperationType.SetupParallelPickFromStorageDependent;
+                            cloneBody.Type = SearchOperationType.ParallelPickFromStorageDependent;
+                            break;
+                    }
+                }
+                else
+                {
+                    SearchOperation clone = (SearchOperation)so.Clone();
+                    clone.Isomorphy.Parallel = true;
+                    bodyOperations.Add(clone);
+                }
+            }
+            ScheduledSearchPlan headSsp = new ScheduledSearchPlan(
+                rulePattern.patternGraph, headOperations.ToArray(), headOperations.Count > 0 ? headOperations[0].CostToEnd : 0);
+            rulePattern.patternGraph.parallelizedSchedule[0] = headSsp;
+            ScheduledSearchPlan bodySsp = new ScheduledSearchPlan(
+                rulePattern.patternGraph, bodyOperations.ToArray(), bodyOperations.Count > 0 ? bodyOperations[0].CostToEnd : 0);
+            rulePattern.patternGraph.parallelizedSchedule[1] = bodySsp;
+            ParallelizeNegativeIndependent(bodySsp);
+            ParallelizeAlternativeIterated(rulePattern.patternGraph);
+        }
+
+        /// <summary>
+        /// Parallelize the scheduled search plan for usage from a parallelized matcher
+        /// (non- is-matched-flag-based isomorphy checking)
+        /// </summary>
+        public void Parallelize(LGSPMatchingPattern matchingPattern)
+        {
+            Debug.Assert(matchingPattern.patternGraph.schedulesIncludingNegativesAndIndependents.Length == 1);
+            ScheduledSearchPlan ssp = matchingPattern.patternGraph.schedulesIncludingNegativesAndIndependents[0];
+            matchingPattern.patternGraph.parallelizedSchedule = new ScheduledSearchPlan[1];
+            List<SearchOperation> operations = new List<SearchOperation>(ssp.Operations.Length);
+            for(int i = 0; i < ssp.Operations.Length; ++i)
+            {
+                SearchOperation so = ssp.Operations[i];
+                SearchOperation clone = (SearchOperation)so.Clone();
+                clone.Isomorphy.Parallel = true;
+                operations.Add(clone);
+            }
+            ScheduledSearchPlan clonedSsp = new ScheduledSearchPlan(
+                matchingPattern.patternGraph, operations.ToArray(), operations.Count > 0 ? operations[0].CostToEnd : 0);
+            matchingPattern.patternGraph.parallelizedSchedule[0] = clonedSsp;
+            ParallelizeNegativeIndependent(clonedSsp);
+            ParallelizeAlternativeIterated(matchingPattern.patternGraph);
+        }
+
+        /// <summary>
+        /// Non- is-matched-flag-based isomorphy checking for nested alternative cases/iterateds
+        /// </summary>
+        public void ParallelizeAlternativeIterated(PatternGraph patternGraph)
+        {
+            foreach(Alternative alt in patternGraph.alternativesPlusInlined)
+            {
+                foreach(PatternGraph altCase in alt.alternativeCases)
+                {
+                    ScheduledSearchPlan ssp = altCase.schedulesIncludingNegativesAndIndependents[0];
+                    altCase.parallelizedSchedule = new ScheduledSearchPlan[1];
+                    List<SearchOperation> operations = new List<SearchOperation>(ssp.Operations.Length);
+                    for(int i = 0; i < ssp.Operations.Length; ++i)
+                    {
+                        SearchOperation so = ssp.Operations[i];
+                        SearchOperation clone = (SearchOperation)so.Clone();
+                        clone.Isomorphy.Parallel = true;
+                        operations.Add(clone);
+                    }
+                    ScheduledSearchPlan clonedSsp = new ScheduledSearchPlan(
+                        altCase, operations.ToArray(), operations.Count > 0 ? operations[0].CostToEnd : 0);
+                    altCase.parallelizedSchedule[0] = clonedSsp;
+
+                    ParallelizeNegativeIndependent(clonedSsp);
+                    ParallelizeAlternativeIterated(altCase);
+                }
+            }
+            foreach(Iterated iter in patternGraph.iteratedsPlusInlined)
+            {
+                ScheduledSearchPlan ssp = iter.iteratedPattern.schedulesIncludingNegativesAndIndependents[0];
+                iter.iteratedPattern.parallelizedSchedule = new ScheduledSearchPlan[1];
+                List<SearchOperation> operations = new List<SearchOperation>(ssp.Operations.Length);
+                for(int i = 0; i < ssp.Operations.Length; ++i)
+                {
+                    SearchOperation so = ssp.Operations[i];
+                    SearchOperation clone = (SearchOperation)so.Clone();
+                    clone.Isomorphy.Parallel = true;
+                    operations.Add(clone);
+                }
+                ScheduledSearchPlan clonedSsp = new ScheduledSearchPlan(
+                        iter.iteratedPattern, operations.ToArray(), operations.Count > 0 ? operations[0].CostToEnd : 0);
+                iter.iteratedPattern.parallelizedSchedule[0] = clonedSsp;
+
+                ParallelizeNegativeIndependent(clonedSsp);
+                ParallelizeAlternativeIterated(iter.iteratedPattern);
+            }
+        }
+
+        /// <summary>
+        /// Non- is-matched-flag-based isomorphy checking for nested negatives/independents, 
+        /// patch into already cloned parallel ssp
+        /// </summary>
+        public void ParallelizeNegativeIndependent(ScheduledSearchPlan ssp)
+        {
+            foreach(SearchOperation so in ssp.Operations)
+            {
+                so.Isomorphy.Parallel = true;
+
+                if(so.Type == SearchOperationType.NegativePattern
+                    || so.Type == SearchOperationType.IndependentPattern)
+                {
+                    ScheduledSearchPlan nestedSsp = (ScheduledSearchPlan)so.Element;
+                    List<SearchOperation> operations = new List<SearchOperation>(nestedSsp.Operations.Length);
+                    for(int i = 0; i < nestedSsp.Operations.Length; ++i)
+                    {
+                        operations.Add((SearchOperation)nestedSsp.Operations[i].Clone());
+                    }
+                    Debug.Assert(nestedSsp.PatternGraph.parallelizedSchedule == null);
+                    nestedSsp.PatternGraph.parallelizedSchedule = new ScheduledSearchPlan[1];
+                    ScheduledSearchPlan clonedSsp = new ScheduledSearchPlan(
+                        nestedSsp.PatternGraph, operations.ToArray(), operations.Count > 0 ? operations[0].CostToEnd : 0);
+                    nestedSsp.PatternGraph.parallelizedSchedule[0] = clonedSsp;
+                    so.Element = clonedSsp;
+
+                    ParallelizeNegativeIndependent(clonedSsp);
+                    ParallelizeAlternativeIterated(nestedSsp.PatternGraph);
+                }
+            }
+        }
+
+        /// <summary>
         /// Generates the action interface plus action implementation including the matcher source code 
         /// for the given rule pattern into the given source builder
         /// </summary>
@@ -1716,17 +1989,24 @@ exitSecondLoop: ;
             // generate the search program out of the schedule(s) within the pattern graph of the rule
             SearchProgram searchProgram = GenerateSearchProgram(matchingPattern);
 
+            // generate the parallelized search program out of the parallelized schedule(s) within the pattern graph of the rule
+            SearchProgram searchProgramParallelized = GenerateParallelizedSearchProgramAsNeeded(matchingPattern);
+
             // emit matcher class head, body, tail; body is source code representing search program
             if(matchingPattern is LGSPRulePattern) {
                 GenerateActionInterface(sb, (LGSPRulePattern)matchingPattern); // generate the exact action interface
-                GenerateMatcherClassHeadAction(sb, (LGSPRulePattern)matchingPattern, isInitialStatic);
+                GenerateMatcherClassHeadAction(sb, (LGSPRulePattern)matchingPattern, isInitialStatic, searchProgram);
                 searchProgram.Emit(sb);
+                if(searchProgramParallelized != null)
+                    searchProgramParallelized.Emit(sb);
                 GenerateActionImplementation(sb, (LGSPRulePattern)matchingPattern);
-                GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package!=null);
+                GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package != null);
             } else {
                 GenerateMatcherClassHeadSubpattern(sb, matchingPattern, isInitialStatic);
                 searchProgram.Emit(sb);
-                GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package!=null);
+                if(searchProgramParallelized != null)
+                    searchProgramParallelized.Emit(sb);
+                GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package != null);
             }
 
             // finally generate matcher source for all the nested alternatives or iterateds of the pattern graph
@@ -1759,10 +2039,15 @@ exitSecondLoop: ;
             // generate the search program out of the schedules within the pattern graphs of the alternative cases
             SearchProgram searchProgram = GenerateSearchProgramAlternative(matchingPattern, alt);
 
+            // generate the parallelized search program out of the parallelized schedules within the pattern graphs of the alternative cases
+            SearchProgram searchProgramParallelized = GenerateParallelizedSearchProgramAlternativeAsNeeded(matchingPattern, alt);
+
             // emit matcher class head, body, tail; body is source code representing search program
             GenerateMatcherClassHeadAlternative(sb, matchingPattern, alt, isInitialStatic);
             searchProgram.Emit(sb);
-            GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package!=null);
+            if(searchProgramParallelized != null)
+                searchProgramParallelized.Emit(sb);
+            GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package != null);
 
             // handle alternatives or iterateds nested in the alternative cases
             foreach (PatternGraph altCase in alt.alternativeCases)
@@ -1797,10 +2082,15 @@ exitSecondLoop: ;
             // generate the search program out of the schedule within the pattern graph of the iterated pattern
             SearchProgram searchProgram = GenerateSearchProgramIterated(matchingPattern, iter);
 
+            // generate the parallelized search program out of the parallelized schedule within the pattern graph of the iterated pattern
+            SearchProgram searchProgramParallelized = GenerateParallelizedSearchProgramIteratedAsNeeded(matchingPattern, iter);
+
             // emit matcher class head, body, tail; body is source code representing search program
             GenerateMatcherClassHeadIterated(sb, matchingPattern, iter, isInitialStatic);
             searchProgram.Emit(sb);
-            GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package!=null);
+            if(searchProgramParallelized != null)
+                searchProgramParallelized.Emit(sb);
+            GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package != null);
 
             // finally generate matcher source for all the nested alternatives or iterateds of the iterated pattern graph
             // nested inside the alternatives,iterateds,negatives,independents
@@ -2316,7 +2606,7 @@ exitSecondLoop: ;
                 if(matchingPattern is LGSPRulePattern)
                 {
                     SearchProgram sp = searchProgramBuilder.BuildSearchProgram(model,
-                        (LGSPRulePattern)matchingPattern, i, null, Profile);
+                        (LGSPRulePattern)matchingPattern, i, null, false, Profile);
                     if(i==0) searchProgramRoot = searchProgramListEnd = sp;
                     else searchProgramListEnd = (SearchProgram)searchProgramListEnd.Append(sp);
                 }
@@ -2324,7 +2614,7 @@ exitSecondLoop: ;
                 {
                     Debug.Assert(searchProgramRoot==null);
                     searchProgramRoot = searchProgramListEnd = searchProgramBuilder.BuildSearchProgram(
-                        model, matchingPattern, Profile);
+                        model, matchingPattern, false, Profile);
                 }
             }
 
@@ -2354,20 +2644,80 @@ exitSecondLoop: ;
         }
 
         /// <summary>
+        /// Generates the parallelized search program(s) for the pattern graph of the given rule
+        /// </summary>
+        SearchProgram GenerateParallelizedSearchProgramAsNeeded(LGSPMatchingPattern matchingPattern)
+        {
+            PatternGraph patternGraph = matchingPattern.patternGraph;
+            if(patternGraph.parallelizedSchedule == null)
+                return null;
+
+            SearchProgram searchProgramRoot = null;
+            SearchProgram searchProgramListEnd = null;
+
+            for(int i = 0; i < patternGraph.parallelizedSchedule.Length; ++i) // 2 for actions, 1 for subpatterns
+            {
+                ScheduledSearchPlan scheduledSearchPlan = patternGraph.parallelizedSchedule[i];
+
+#if DUMP_SCHEDULED_SEARCH_PLAN
+                StreamWriter sspwriter = new StreamWriter(matchingPattern.name + (i==1 ? "_parallelized_body" : "_parallelized") + "_ssp_dump.txt");
+                float prevCostToEnd = scheduledSearchPlan.Operations.Length > 0 ? scheduledSearchPlan.Operations[0].CostToEnd : 0f;
+                foreach(SearchOperation so in scheduledSearchPlan.Operations)
+                {
+                    sspwriter.Write(SearchOpToString(so) + " ; " + so.CostToEnd + " (+" + (prevCostToEnd-so.CostToEnd) + ")" + "\n");
+                    prevCostToEnd = so.CostToEnd;
+                }
+                sspwriter.Close();
+#endif
+
+                // build pass: build nested program from scheduled search plan
+                SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
+                if(matchingPattern is LGSPRulePattern)
+                {
+                    SearchProgram sp = searchProgramBuilder.BuildSearchProgram(model, (LGSPRulePattern)matchingPattern, i, null, true, Profile);
+                    if(i == 0) searchProgramRoot = searchProgramListEnd = sp;
+                    else searchProgramListEnd = (SearchProgram)searchProgramListEnd.Append(sp);
+                }
+                else
+                {
+                    Debug.Assert(searchProgramRoot == null);
+                    searchProgramRoot = searchProgramListEnd = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, true, Profile);
+                }
+            }
+
+#if DUMP_SEARCHPROGRAMS
+            // dump built search program for debugging
+            SourceBuilder builder = new SourceBuilder(CommentSourceCode);
+            searchProgramRoot.Dump(builder);
+            StreamWriter writer = new StreamWriter(matchingPattern.name + (i==1 ? "_parallelized_body" : "_parallelized") + "_" + searchProgramRoot.Name + "_built_dump.txt");
+            writer.Write(builder.ToString());
+            writer.Close();
+#endif
+
+            // complete pass: complete check operations in all search programs
+            SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
+            searchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgramRoot);
+
+#if DUMP_SEARCHPROGRAMS
+            // dump completed search program for debugging
+            builder = new SourceBuilder(CommentSourceCode);
+            searchProgramRoot.Dump(builder);
+            writer = new StreamWriter(matchingPattern.name + (i==1 ? "_parallelized_body" : "_parallelized") + "_" + searchProgramRoot.Name + "_completed_dump.txt");
+            writer.Write(builder.ToString());
+            writer.Close();
+#endif
+
+            return searchProgramRoot;
+        }
+
+        /// <summary>
         /// Generates the search program for the given alternative 
         /// </summary>
         SearchProgram GenerateSearchProgramAlternative(LGSPMatchingPattern matchingPattern, Alternative alt)
         {
-            /*ScheduledSearchPlan[] scheduledSearchPlans = new ScheduledSearchPlan[alt.alternativeCases.Length];
-            int i=0;
-            foreach (PatternGraph altCase in alt.alternativeCases) {
-                scheduledSearchPlans[i] = altCase.scheduleIncludingNegativesAndIndependents;
-                ++i;
-            }*/ // todo: needed?
-
             // build pass: build nested program from scheduled search plans of the alternative cases
             SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
-            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, alt, Profile);
+            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, alt, false, Profile);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
@@ -2395,13 +2745,50 @@ exitSecondLoop: ;
         }
 
         /// <summary>
+        /// Generates the parallelized search program for the given alternative 
+        /// </summary>
+        SearchProgram GenerateParallelizedSearchProgramAlternativeAsNeeded(LGSPMatchingPattern matchingPattern, Alternative alt)
+        {
+            if(matchingPattern.patternGraph.parallelizedSchedule == null)
+                return null;
+
+            // build pass: build nested program from scheduled search plans of the alternative cases
+            SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
+            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, alt, true, Profile);
+
+#if DUMP_SEARCHPROGRAMS
+            // dump built search program for debugging
+            SourceBuilder builder = new SourceBuilder(CommentSourceCode);
+            searchProgram.Dump(builder);
+            StreamWriter writer = new StreamWriter(matchingPattern.name + "_parallelized_" + alt.name + "_" + searchProgram.Name + "_built_dump.txt");
+            writer.Write(builder.ToString());
+            writer.Close();
+#endif
+
+            // complete pass: complete check operations in all search programs
+            SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
+            searchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
+
+#if DUMP_SEARCHPROGRAMS
+            // dump completed search program for debugging
+            builder = new SourceBuilder(CommentSourceCode);
+            searchProgram.Dump(builder);
+            writer = new StreamWriter(matchingPattern.name + "_parallelized_" + alt.name + "_" + searchProgram.Name + "_completed_dump.txt");
+            writer.Write(builder.ToString());
+            writer.Close();
+#endif
+
+            return searchProgram;
+        }
+
+        /// <summary>
         /// Generates the search program for the given iterated pattern
         /// </summary>
         SearchProgram GenerateSearchProgramIterated(LGSPMatchingPattern matchingPattern, PatternGraph iter)
         {
             // build pass: build nested program from scheduled search plan of the all pattern
             SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
-            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, iter, Profile);
+            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, iter, false, Profile);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
@@ -2429,6 +2816,43 @@ exitSecondLoop: ;
         }
 
         /// <summary>
+        /// Generates the parallelized search program for the given iterated pattern
+        /// </summary>
+        SearchProgram GenerateParallelizedSearchProgramIteratedAsNeeded(LGSPMatchingPattern matchingPattern, PatternGraph iter)
+        {
+            if(matchingPattern.patternGraph.parallelizedSchedule == null)
+                return null;
+
+            // build pass: build nested program from scheduled search plan of the all pattern
+            SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
+            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, iter, true, Profile);
+
+#if DUMP_SEARCHPROGRAMS
+            // dump built search program for debugging
+            SourceBuilder builder = new SourceBuilder(CommentSourceCode);
+            searchProgram.Dump(builder);
+            StreamWriter writer = new StreamWriter(matchingPattern.name + "_parallelized_" + iter.name + "_" + searchProgram.Name + "_built_dump.txt");
+            writer.Write(builder.ToString());
+            writer.Close();
+#endif
+
+            // complete pass: complete check operations in all search programs
+            SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
+            searchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
+
+#if DUMP_SEARCHPROGRAMS
+            // dump completed search program for debugging
+            builder = new SourceBuilder(CommentSourceCode);
+            searchProgram.Dump(builder);
+            writer = new StreamWriter(matchingPattern.name + "_parallelized_" + iter.name + "_" + searchProgram.Name + "_completed_dump.txt");
+            writer.Write(builder.ToString());
+            writer.Close();
+#endif
+
+            return searchProgram;
+        }
+
+        /// <summary>
         /// Generates file header for actions file into given source builer
         /// </summary>
         public void GenerateFileHeaderForActionsFile(SourceBuilder sb,
@@ -2438,6 +2862,7 @@ exitSecondLoop: ;
                 + "using System.Collections.Generic;\n"
                 + "using System.Collections;\n"
                 + "using System.Text;\n"
+                + "using System.Threading;\n"
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
                 + "using GRGEN_EXPR = de.unika.ipd.grGen.expression;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
@@ -2453,8 +2878,8 @@ exitSecondLoop: ;
         /// Generates matcher class head source code for the pattern of the rulePattern into given source builder
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
-        public void GenerateMatcherClassHeadAction(SourceBuilder sb,
-            LGSPRulePattern rulePattern, bool isInitialStatic)
+        void GenerateMatcherClassHeadAction(SourceBuilder sb, LGSPRulePattern rulePattern, 
+            bool isInitialStatic, SearchProgram searchProgram)
         {
             PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
                 
@@ -2481,16 +2906,72 @@ exitSecondLoop: ;
             sb.Indent(); // method body level
             sb.AppendFront("_rulePattern = " + rulePatternClassName + ".Instance;\n");
             sb.AppendFront("patternGraph = _rulePattern.patternGraph;\n");
-            sb.AppendFront("DynamicMatch = myMatch;\n");
+            if(rulePattern.patternGraph.branchingFactor < 2)
+                sb.AppendFront("DynamicMatch = myMatch;\n");
+            else
+            {
+                sb.AppendFront("if(Environment.ProcessorCount == 1)\n");
+                sb.AppendFront("\tDynamicMatch = myMatch;\n");
+                sb.AppendFront("else\n");
+                sb.AppendFront("{\n");
+                sb.Indent();
+                sb.AppendFront("DynamicMatch = myMatch_parallelized;\n");
+                sb.AppendFrontFormat("executeParallelTask = new AutoResetEvent[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
+                sb.AppendFront("for(int i=0; i<executeParallelTask.Length; ++i) executeParallelTask[i] = new AutoResetEvent(false);\n");
+                sb.AppendFrontFormat("parallelTaskExecuted = new ManualResetEvent[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
+                sb.AppendFront("for(int i=0; i<parallelTaskExecuted.Length; ++i) parallelTaskExecuted[i] = new ManualResetEvent(false);\n");
+                sb.AppendFrontFormat("parallelTaskMatches = new GRGEN_LGSP.LGSPMatchesList<{1}, {2}>[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor, matchClassName, matchInterfaceName);
+
+                sb.AppendFrontFormat("moveHeadAfterNodes = new List<GRGEN_LGSP.LGSPNode>[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
+                sb.AppendFrontFormat("moveHeadAfterEdges = new List<GRGEN_LGSP.LGSPEdge>[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
+                sb.AppendFrontFormat("moveOutHeadAfter = new List<KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>>[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
+                sb.AppendFrontFormat("moveInHeadAfter = new List<KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>>[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
+                sb.AppendFrontFormat("for(int i=0; i<Math.Min({0}, Environment.ProcessorCount); ++i)\n", rulePattern.patternGraph.branchingFactor);
+                sb.AppendFront("{\n");
+                sb.Indent();
+                sb.AppendFront("moveHeadAfterNodes[i] = new List<GRGEN_LGSP.LGSPNode>();\n");
+                sb.AppendFront("moveHeadAfterEdges[i] = new List<GRGEN_LGSP.LGSPEdge>();\n");
+                sb.AppendFront("moveOutHeadAfter[i] = new List<KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>>();\n");
+                sb.AppendFront("moveInHeadAfter[i] = new List<KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>>();\n");
+                sb.Unindent();
+                sb.AppendFront("}\n");
+
+                sb.AppendFrontFormat("for(int i=0; i<parallelTaskMatches.Length; ++i) parallelTaskMatches[i] = new GRGEN_LGSP.LGSPMatchesList<{0}, {1}>(this);\n", matchClassName, matchInterfaceName);
+                sb.AppendFront("\n");
+                sb.AppendFrontFormat("workerThreads = new Thread[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
+                sb.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
+                sb.AppendFront("{\n");
+                sb.Indent();
+                sb.AppendFront("workerThreads[i] = new Thread(new ThreadStart(myMatch_parallelized_body));\n");
+                sb.AppendFront("workerThreads[i].IsBackground = true;\n");
+                sb.Unindent();
+                sb.AppendFront("}\n");
+                sb.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
+                sb.AppendFront("\tworkerThreads[i].Start();\n");
+                sb.Unindent();
+                sb.AppendFront("}\n");
+            }
             sb.AppendFrontFormat("ReturnArray = new object[{0}];\n", rulePattern.Outputs.Length);
             sb.AppendFront("matches = new GRGEN_LGSP.LGSPMatchesList<" + matchClassName +", " + matchInterfaceName + ">(this);\n");
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
+            if(rulePattern.patternGraph.branchingFactor >= 2)
+            {
+                sb.AppendFront("public override void EndWorkerThreads() {\n");
+                sb.Indent(); // method body level
+                sb.AppendFront("endWorkerThreads = true;\n");
+                sb.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
+                sb.AppendFront("\texecuteParallelTask[i].Set();\n");
+                sb.Unindent(); // class level
+                sb.AppendFront("}\n\n");
+            }
+
             sb.AppendFront("public " + rulePatternClassName + " _rulePattern;\n");
             sb.AppendFront("public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }\n");
             sb.AppendFront("public override string Name { get { return \"" + rulePattern.name + "\"; } }\n");
             sb.AppendFront("private GRGEN_LGSP.LGSPMatchesList<" + matchClassName + ", " + matchInterfaceName + "> matches;\n\n");
+
             if (isInitialStatic)
             {
                 sb.AppendFront("public static " + className + " Instance { get { return instance; } }\n");
@@ -2500,14 +2981,114 @@ exitSecondLoop: ;
             GenerateIndependentsMatchObjects(sb, rulePattern, patternGraph);
 
             sb.AppendFront("\n");
+
+            GenerateParallelizationSetupAsNeeded(sb, rulePattern, searchProgram);
+        }
+
+        void GenerateParallelizationSetupAsNeeded(SourceBuilder sb, LGSPRulePattern rulePattern, SearchProgram searchProgram)
+        {
+            if(rulePattern.patternGraph.branchingFactor < 2)
+                return;
+
+            foreach(SearchOperation so in rulePattern.patternGraph.parallelizedSchedule[0].Operations)
+            {
+                switch(so.Type)
+                {
+                    case SearchOperationType.WriteParallelPreset:
+                        if(so.Element is SearchPlanNodeNode)
+                            sb.AppendFrontFormat("GRGEN_LGSP.LGSPNode {0};\n", NamesOfEntities.IterationParallelizationParallelPresetCandidate(((SearchPlanNodeNode)so.Element).PatternElement.Name));
+                        else //SearchPlanEdgeNode
+                            sb.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0};\n", NamesOfEntities.IterationParallelizationParallelPresetCandidate(((SearchPlanEdgeNode)so.Element).PatternElement.Name));
+                        break;
+                    case SearchOperationType.WriteParallelPresetVar:
+                        sb.AppendFrontFormat("{0} {1};\n",
+                            TypesHelper.TypeName(((PatternVariable)so.Element).Type),
+                            NamesOfEntities.IterationParallelizationParallelPresetCandidate(((PatternVariable)so.Element).Name));
+                        break;
+                    case SearchOperationType.SetupParallelLookup:
+                        if(so.Element is SearchPlanNodeNode)
+                        {
+                            sb.AppendFrontFormat("GRGEN_LGSP.LGSPNode {0};\n", NamesOfEntities.IterationParallelizationListHead(((SearchPlanNodeNode)so.Element).PatternElement.Name));
+                            sb.AppendFrontFormat("GRGEN_LGSP.LGSPNode {0};\n", NamesOfEntities.IterationParallelizationNextCandidate(((SearchPlanNodeNode)so.Element).PatternElement.Name));
+                        }
+                        else
+                        {
+                            sb.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0};\n", NamesOfEntities.IterationParallelizationListHead(((SearchPlanEdgeNode)so.Element).PatternElement.Name));
+                            sb.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0};\n", NamesOfEntities.IterationParallelizationNextCandidate(((SearchPlanEdgeNode)so.Element).PatternElement.Name));
+                        }
+                        break;
+                    case SearchOperationType.SetupParallelPickFromStorage:
+                        if(TypesHelper.DotNetTypeToXgrsType(so.Storage.Variable.type).StartsWith("set") || TypesHelper.DotNetTypeToXgrsType(so.Storage.Variable.type).StartsWith("map"))
+                        {
+                            sb.AppendFrontFormat("IEnumerator<KeyValuePair<{0},{1}>> {2};\n",
+                                TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(TypesHelper.DotNetTypeToXgrsType(so.Storage.Variable.Type)), model),
+                                TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractDst(TypesHelper.DotNetTypeToXgrsType(so.Storage.Variable.Type)), model),
+                                NamesOfEntities.IterationParallelizationIterator(((SearchPlanNode)so.Element).PatternElement.Name));
+                        }
+                        else
+                        {
+                            sb.AppendFrontFormat("IEnumerator<{0}> {1};\n",
+                                TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(TypesHelper.DotNetTypeToXgrsType(so.Storage.Variable.Type)), model),
+                                NamesOfEntities.IterationParallelizationIterator(((SearchPlanNode)so.Element).PatternElement.Name));
+                        }
+                        break;
+                    case SearchOperationType.SetupParallelPickFromStorageDependent:
+                        if(TypesHelper.AttributeTypeToXgrsType(so.Storage.Attribute.Attribute).StartsWith("set") || TypesHelper.AttributeTypeToXgrsType(so.Storage.Attribute.Attribute).StartsWith("map"))
+                        {
+                            sb.AppendFrontFormat("IEnumerator<KeyValuePair<{0},{1}>> {2};\n",
+                               TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(TypesHelper.AttributeTypeToXgrsType(so.Storage.Attribute.Attribute)), model),
+                               TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractDst(TypesHelper.AttributeTypeToXgrsType(so.Storage.Attribute.Attribute)), model),
+                               NamesOfEntities.IterationParallelizationIterator(((SearchPlanNode)so.Element).PatternElement.Name));
+                        }
+                        else
+                        {
+                            sb.AppendFrontFormat("IEnumerator<{0}> {1};\n",
+                               TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(TypesHelper.AttributeTypeToXgrsType(so.Storage.Attribute.Attribute)), model),
+                               NamesOfEntities.IterationParallelizationIterator(((SearchPlanNode)so.Element).PatternElement.Name));
+                        }
+                        break;
+                    case SearchOperationType.SetupParallelIncoming:
+                    case SearchOperationType.SetupParallelOutgoing:
+                        sb.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0};\n", NamesOfEntities.IterationParallelizationListHead(((SearchPlanEdgeNode)so.Element).PatternElement.Name));
+                        sb.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0};\n", NamesOfEntities.IterationParallelizationNextCandidate(((SearchPlanEdgeNode)so.Element).PatternElement.Name));
+                        break;
+                    case SearchOperationType.SetupParallelIncident:
+                        sb.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0};\n", NamesOfEntities.IterationParallelizationListHead(((SearchPlanEdgeNode)so.Element).PatternElement.Name));
+                        sb.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0};\n", NamesOfEntities.IterationParallelizationNextCandidate(((SearchPlanEdgeNode)so.Element).PatternElement.Name));
+                        sb.AppendFrontFormat("int {0};\n", NamesOfEntities.IterationParallelizationDirectionRunCounterVariable(((SearchPlanEdgeNode)so.Element).PatternElement.Name));
+                        break;
+                }
+            }
+            sb.AppendFront("\n");
+
+            String rulePatternClassName = rulePattern.GetType().Name;
+            String matchClassName = rulePatternClassName + "." + "Match_" + rulePattern.name;
+            String matchInterfaceName = rulePatternClassName + "." + "IMatch_" + rulePattern.name;
+            sb.AppendFront("private static AutoResetEvent[] executeParallelTask;\n");
+            sb.AppendFront("private static ManualResetEvent[] parallelTaskExecuted;\n");
+            sb.AppendFront("private static GRGEN_LGSP.LGSPMatchesList<" + matchClassName + ", " + matchInterfaceName + ">[] parallelTaskMatches;\n");
+            sb.AppendFront("private static Thread[] workerThreads;\n");
+            sb.AppendFront("private static int iterationNumber;\n");
+            sb.AppendFront("[ThreadStatic] private static int currentIterationNumber;\n");
+            sb.AppendFront("[ThreadStatic] private static int threadId;\n");
+            sb.AppendFront("private static GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnvParallel;\n");
+            sb.AppendFront("private static int maxMatchesParallel;\n");
+            sb.AppendFront("private static bool maxMatchesFound = false;\n");
+            sb.AppendFront("private static bool endWorkerThreads = false;\n");
+
+            sb.AppendFront("private static List<GRGEN_LGSP.LGSPNode>[] moveHeadAfterNodes;\n");
+            sb.AppendFront("private static List<GRGEN_LGSP.LGSPEdge>[] moveHeadAfterEdges;\n");
+            sb.AppendFront("private static List<KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>>[] moveOutHeadAfter;\n");
+            sb.AppendFront("private static List<KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>>[] moveInHeadAfter;\n");
+            sb.AppendFront("\n");
         }
 
         /// <summary>
         /// Generates matcher class head source code for the subpattern of the rulePattern into given source builder
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
-        public void GenerateMatcherClassHeadSubpattern(SourceBuilder sb,
-            LGSPMatchingPattern matchingPattern, bool isInitialStatic)
+        public void GenerateMatcherClassHeadSubpattern(SourceBuilder sb, LGSPMatchingPattern matchingPattern,
+            bool isInitialStatic)
         {
             Debug.Assert(!(matchingPattern is LGSPRulePattern));
             PatternGraph patternGraph = (PatternGraph)matchingPattern.PatternGraph;
@@ -2535,7 +3116,7 @@ exitSecondLoop: ;
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
-            GenerateTasksMemoryPool(sb, className, false, false);
+            GenerateTasksMemoryPool(sb, className, false, false, matchingPattern.patternGraph.branchingFactor);
 
             for (int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
@@ -2568,8 +3149,8 @@ exitSecondLoop: ;
         /// Generates matcher class head source code for the given alternative into given source builder
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
-        public void GenerateMatcherClassHeadAlternative(SourceBuilder sb,
-            LGSPMatchingPattern matchingPattern, Alternative alternative, bool isInitialStatic)
+        public void GenerateMatcherClassHeadAlternative(SourceBuilder sb, LGSPMatchingPattern matchingPattern, 
+            Alternative alternative, bool isInitialStatic)
         {
             PatternGraph patternGraph = (PatternGraph)matchingPattern.PatternGraph;
 
@@ -2597,7 +3178,7 @@ exitSecondLoop: ;
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
-            GenerateTasksMemoryPool(sb, className, true, false);
+            GenerateTasksMemoryPool(sb, className, true, false, matchingPattern.patternGraph.branchingFactor);
 
             Dictionary<string, bool> neededNodes = new Dictionary<string,bool>();
             Dictionary<string, bool> neededEdges = new Dictionary<string,bool>();
@@ -2636,8 +3217,8 @@ exitSecondLoop: ;
         /// Generates matcher class head source code for the given iterated pattern into given source builder
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
-        public void GenerateMatcherClassHeadIterated(SourceBuilder sb,
-            LGSPMatchingPattern matchingPattern, PatternGraph iter, bool isInitialStatic)
+        public void GenerateMatcherClassHeadIterated(SourceBuilder sb, LGSPMatchingPattern matchingPattern,
+            PatternGraph iter, bool isInitialStatic)
         {
             PatternGraph patternGraph = (PatternGraph)matchingPattern.PatternGraph;
 
@@ -2680,7 +3261,7 @@ exitSecondLoop: ;
                 sb.AppendFront("bool breakIteration;\n");
             sb.Append("\n");
 
-            GenerateTasksMemoryPool(sb, className, false, iter.isIterationBreaking);
+            GenerateTasksMemoryPool(sb, className, false, iter.isIterationBreaking, matchingPattern.patternGraph.branchingFactor);
 
             Dictionary<string, bool> neededNodes = new Dictionary<string, bool>();
             Dictionary<string, bool> neededEdges = new Dictionary<string, bool>();
@@ -2743,10 +3324,10 @@ exitSecondLoop: ;
         /// <summary>
         /// Generates memory pooling code for matching tasks of class given by it's name
         /// </summary>
-        private void GenerateTasksMemoryPool(SourceBuilder sb, String className, bool isAlternative, bool isIterationBreaking)
+        private void GenerateTasksMemoryPool(SourceBuilder sb, String className, bool isAlternative, bool isIterationBreaking, int branchingFactor)
         {
             // getNewTask method handing out new task from pool or creating task if pool is empty
-            if (isAlternative)
+            if(isAlternative)
                 sb.AppendFront("public static " + className + " getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, "
                     + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {\n");
             else
@@ -2768,7 +3349,7 @@ exitSecondLoop: ;
             sb.Unindent();
             sb.AppendFront("} else {\n");
             sb.Indent();
-            if (isAlternative)
+            if(isAlternative)
                 sb.AppendFront("newTask = new " + className + "(actionEnv_, openTasks_, patternGraphs_);\n");
             else
                 sb.AppendFront("newTask = new " + className + "(actionEnv_, openTasks_);\n");
@@ -2798,6 +3379,61 @@ exitSecondLoop: ;
             sb.AppendFront("private const int MAX_NUM_FREE_TASKS = 100;\n\n"); // todo: compute antiproportional to pattern size
 
             sb.AppendFront("private " + className + " next = null;\n\n");
+
+            // for parallelized subpatterns/alternatives/iterateds we need a freelist per thread
+            if(branchingFactor > 1)
+            {
+                // getNewTask method handing out new task from pool or creating task if pool is empty
+                if(isAlternative)
+                    sb.AppendFront("public static " + className + " getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, "
+                        + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_, int threadId) {\n");
+                else
+                    sb.AppendFront("public static " + className + " getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, "
+                        + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, int threadId) {\n");
+                sb.Indent();
+                sb.AppendFront(className + " newTask;\n");
+                sb.AppendFront("if(numFreeTasks_perWorker[threadId]>0) {\n");
+                sb.Indent();
+                sb.AppendFront("newTask = freeListHead_perWorker[threadId];\n");
+                sb.AppendFront("newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;\n");
+                if(isAlternative)
+                    sb.AppendFront("newTask.patternGraphs = patternGraphs_;\n");
+                else if(isIterationBreaking)
+                    sb.AppendFront("newTask.breakIteration = false;\n");
+                sb.AppendFront("freeListHead_perWorker[threadId] = newTask.next;\n");
+                sb.AppendFront("newTask.next = null;\n");
+                sb.AppendFront("--numFreeTasks_perWorker[threadId];\n");
+                sb.Unindent();
+                sb.AppendFront("} else {\n");
+                sb.Indent();
+                if(isAlternative)
+                    sb.AppendFront("newTask = new " + className + "(actionEnv_, openTasks_, patternGraphs_);\n");
+                else
+                    sb.AppendFront("newTask = new " + className + "(actionEnv_, openTasks_);\n");
+                sb.Unindent();
+                sb.AppendFront("}\n");
+                sb.AppendFront("return newTask;\n");
+                sb.Unindent();
+                sb.AppendFront("}\n\n");
+
+                // releaseTask method recycling task into pool if pool is not full
+                sb.AppendFront("public static void releaseTask(" + className + " oldTask, int threadId) {\n");
+                sb.Indent();
+                sb.AppendFront("if(numFreeTasks_perWorker[threadId]<MAX_NUM_FREE_TASKS/2) {\n");
+                sb.Indent();
+                sb.AppendFront("oldTask.next = freeListHead_perWorker[threadId];\n");
+                sb.AppendFront("oldTask.actionEnv = null; oldTask.openTasks = null;\n");
+                sb.AppendFront("freeListHead_perWorker[threadId] = oldTask;\n");
+                sb.AppendFront("++numFreeTasks_perWorker[threadId];\n");
+                sb.Unindent();
+                sb.AppendFront("}\n");
+                sb.Unindent();
+                sb.AppendFront("}\n\n");
+
+                // tasks pool administration data
+                sb.AppendFront("private static " + className + "[] freeListHead_perWorker = new " + className + "[Math.Min(" + branchingFactor + ", Environment.ProcessorCount)];\n");
+                sb.AppendFront("private static int[] numFreeTasks_perWorker = new int[Math.Min(" + branchingFactor + ", Environment.ProcessorCount)];\n");
+            }
         }
 
         /// <summary>
@@ -2978,6 +3614,9 @@ exitSecondLoop: ;
         {
             if(actions.Length == 0) throw new ArgumentException("No actions provided!");
 
+            foreach(LGSPAction action in actions)
+                action.EndWorkerThreads();
+
             SourceBuilder sourceCode = new SourceBuilder(CommentSourceCode);
             GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, actions[0].rulePattern.GetType().Namespace);
 
@@ -3002,6 +3641,8 @@ exitSecondLoop: ;
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph);
 
+                ParallelizeAsNeeded(smp);
+
                 GenerateActionAndMatcher(sourceCode, smp, false);
             }
 
@@ -3011,6 +3652,8 @@ exitSecondLoop: ;
                 GenerateScheduledSearchPlans(action.rulePattern.patternGraph, graph, false, false);
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph);
+
+                ParallelizeAsNeeded(action.rulePattern);
 
                 GenerateActionAndMatcher(sourceCode, action.rulePattern, false);
             }

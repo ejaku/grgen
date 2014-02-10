@@ -7,6 +7,7 @@
 
 //#define ENSURE_FLAGS_IN_GRAPH_ARE_EMPTY_AT_LEAVING_TOP_LEVEL_MATCHING_ACTION
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -182,6 +183,7 @@ namespace de.unika.ipd.grGen.lgsp
         protected string RulePatternClassName;
         protected List<string> NamesOfPatternGraphsOnPathToEnclosedPatternpath;
         public string Name;
+        public bool Parallel;
 
         public SearchProgramList OperationsList;
     }
@@ -202,6 +204,7 @@ namespace de.unika.ipd.grGen.lgsp
             NamesOfPatternGraphsOnPathToEnclosedPatternpath =
                 namesOfPatternGraphsOnPathToEnclosedPatternpath;
             Name = name;
+            Parallel = false;
 
             PatternName = patternName;
             Parameters = "";
@@ -362,18 +365,265 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Class representing the search program of the head of a parallelized matching action, i.e. some test or rule
+    /// </summary>
+    class SearchProgramOfActionParallelizationHead : SearchProgram
+    {
+        public SearchProgramOfActionParallelizationHead(string rulePatternClassName,
+            string patternName, string[] parameterTypes, string[] parameterNames, string name,
+            bool emitProfiling)
+        {
+            RulePatternClassName = rulePatternClassName;
+            Name = name;
+            Parallel = true;
+
+            PatternName = patternName;
+            Parameters = "";
+            for(int i = 0; i < parameterTypes.Length; ++i)
+            {
+                Parameters += ", " + parameterTypes[i] + " " + parameterNames[i];
+            }
+            EmitProfiling = emitProfiling;
+        }
+
+        /// <summary>
+        /// Dumps search program followed by missing preset search subprograms
+        /// </summary>
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump local content
+            builder.AppendFrontFormat("Search program {0} of action \n", Name);
+
+            // then nested content
+            if(OperationsList != null)
+            {
+                builder.Indent();
+                OperationsList.Dump(builder);
+                builder.Unindent();
+            }
+
+            // then next missing preset search subprogram
+            if(Next != null)
+            {
+                Next.Dump(builder);
+            }
+        }
+
+        /// <summary>
+        /// Emits the matcher source code for all search programs
+        /// first head of matching function of the current search program
+        /// then the search program operations list in depth first walk over search program operations list
+        /// then tail of matching function of the current search program
+        /// and finally continues in missing preset search program list by emitting following search program
+        /// </summary>
+        public override void Emit(SourceBuilder sourceCode)
+        {
+#if RANDOM_LOOKUP_LIST_START
+            sourceCode.AppendFront("private Random random = new Random(13795661);\n");
+#endif
+            string matchType = RulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(PatternName);
+            string matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
+            sourceCode.AppendFront("\n");
+            sourceCode.AppendFrontFormat("public {0} {1}("
+                    + "GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches{2})\n", matchesType, Name, Parameters);
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            sourceCode.AppendFront("matches.Clear();\n");
+            sourceCode.AppendFront("int isoSpace = 0;\n");
+            sourceCode.AppendFront("actionEnvParallel = actionEnv;\n");
+            sourceCode.AppendFront("maxMatchesParallel = maxMatches;\n");
+            sourceCode.AppendFront("graph.EnsureSufficientIsomorphySpacesForParallelizedMatchingAreAvailable(workerThreads.Length);\n");
+
+            if(EmitProfiling)
+            {
+                sourceCode.AppendFront("long searchStepsAtBegin = actionEnv.PerformanceInfo.SearchSteps;\n");
+                sourceCode.AppendFront("int loopSteps = 0;\n");
+            }
+
+            OperationsList.Emit(sourceCode);
+
+            if(EmitProfiling)
+            {
+                sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].callsTotal;\n", PatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin;\n", PatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].loopStepsTotal += loopSteps;\n", PatternName);
+
+                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin);\n", PatternName);
+                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin);\n", PatternName);
+                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].loopStepsSingle.Add(loopSteps);\n", PatternName);
+                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].loopStepsMultiple.Add(loopSteps);\n", PatternName);
+            }
+
+#if ENSURE_FLAGS_IN_GRAPH_ARE_EMPTY_AT_LEAVING_TOP_LEVEL_MATCHING_ACTION
+            sourceCode.AppendFront("graph.CheckEmptyFlags();\n");
+#endif
+            sourceCode.AppendFront("return matches;\n");
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            // emit search subprograms
+            if(Next != null)
+            {
+                Next.Emit(sourceCode);
+            }
+        }
+
+        public string PatternName;
+        public string Parameters;
+        public bool EmitProfiling;
+    }
+
+    /// <summary>
+    /// Class representing the search program of the body of a parallelized matching action, i.e. some test or rule
+    /// </summary>
+    class SearchProgramOfActionParallelizationBody : SearchProgram
+    {
+        public SearchProgramOfActionParallelizationBody(string rulePatternClassName,
+            string patternName, string name,
+            List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath,
+            bool containsSubpatterns, bool emitProfiling)
+        {
+            RulePatternClassName = rulePatternClassName;
+            NamesOfPatternGraphsOnPathToEnclosedPatternpath =
+                namesOfPatternGraphsOnPathToEnclosedPatternpath;
+            Name = name;
+            Parallel = true;
+
+            PatternName = patternName;
+            SetupSubpatternMatching = containsSubpatterns;
+            EmitProfiling = emitProfiling;
+        }
+
+        /// <summary>
+        /// Dumps search program followed by missing preset search subprograms
+        /// </summary>
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump local content
+            builder.AppendFrontFormat("Search program {0} of action {1}",
+                Name, SetupSubpatternMatching ? "with subpattern matching setup\n" : "\n");
+
+            // then nested content
+            if(OperationsList != null)
+            {
+                builder.Indent();
+                OperationsList.Dump(builder);
+                builder.Unindent();
+            }
+
+            // then next missing preset search subprogram
+            if(Next != null)
+            {
+                Next.Dump(builder);
+            }
+        }
+
+        /// <summary>
+        /// Emits the matcher source code for all search programs
+        /// first head of matching function of the current search program
+        /// then the search program operations list in depth first walk over search program operations list
+        /// then tail of matching function of the current search program
+        /// and finally continues in missing preset search program list by emitting following search program
+        /// </summary>
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            string matchType = RulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(PatternName);
+            string matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
+            sourceCode.AppendFront("\n");
+            sourceCode.AppendFrontFormat("private void {0}()\n", Name);
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            if(sourceCode.CommentSourceCode)
+                sourceCode.AppendFront("//parallelized body setup: await work available, work, signal work done, repeat\n");
+            sourceCode.AppendFront("threadId = Array.IndexOf<Thread>(workerThreads, Thread.CurrentThread);\n");
+            sourceCode.AppendFront("while(true)\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+            sourceCode.AppendFront("executeParallelTask[threadId].WaitOne();\n");
+            sourceCode.AppendFront("if(endWorkerThreads) {\n");
+            sourceCode.AppendFront("\tparallelTaskExecuted[threadId].Set();\n");
+            sourceCode.AppendFront("\treturn;\n");
+            sourceCode.AppendFront("}\n");
+            sourceCode.Append("\n");
+
+            sourceCode.AppendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = actionEnvParallel;\n");
+            sourceCode.AppendFront("int maxMatches = maxMatchesParallel;\n");
+            sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            sourceCode.AppendFront("int isoSpace = 0;\n");
+
+            if(NamesOfPatternGraphsOnPathToEnclosedPatternpath.Count > 0)
+                sourceCode.AppendFront("bool searchPatternpath = false;\n");
+            foreach(string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
+            {
+                sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
+                    RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
+                    NamesOfEntities.PatternpathMatch(graphsOnPath));
+            }
+
+            if(SetupSubpatternMatching)
+            {
+                sourceCode.AppendFront("Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<"
+                        + "GRGEN_LGSP.LGSPSubpatternAction>();\n");
+                sourceCode.AppendFront("List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<"
+                        + "GRGEN_LIBGR.IMatch>>();\n");
+                sourceCode.AppendFront("List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;\n");
+            }
+
+            if(EmitProfiling)
+            {
+                sourceCode.AppendFront("long searchStepsAtBegin = actionEnv.PerformanceInfo.SearchSteps;\n");
+                sourceCode.AppendFront("int loopSteps = 0;\n");
+            }
+
+            OperationsList.Emit(sourceCode);
+
+            if(EmitProfiling)
+            {
+                sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].callsTotal;\n", PatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin;\n", PatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].loopStepsTotal += loopSteps;\n", PatternName);
+
+                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin);\n", PatternName);
+                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin);\n", PatternName);
+                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].loopStepsSingle.Add(loopSteps);\n", PatternName);
+                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].loopStepsMultiple.Add(loopSteps);\n", PatternName);
+            }
+
+            sourceCode.Append("\nworkDoneWaitForNewWork:\n");
+            sourceCode.AppendFront("parallelTaskExecuted[threadId].Set();\n");
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            sourceCode.AppendFront("return;\n");
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            Debug.Assert(Next == null);
+        }
+
+        public string PatternName;
+        public bool SetupSubpatternMatching;
+        public bool EmitProfiling;
+    }
+
+    /// <summary>
     /// Class representing the search program of a subpattern
     /// </summary>
     class SearchProgramOfSubpattern : SearchProgram
     {
         public SearchProgramOfSubpattern(string rulePatternClassName,
             List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath,
-            string name)
+            string name,
+            bool parallel)
         {
             RulePatternClassName = rulePatternClassName;
             NamesOfPatternGraphsOnPathToEnclosedPatternpath =
                 namesOfPatternGraphsOnPathToEnclosedPatternpath;
             Name = name;
+            Parallel = parallel;
         }
 
         /// <summary>
@@ -382,7 +632,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             // first dump local content
-            builder.AppendFrontFormat("Search program {0} of subpattern\n", Name);
+            builder.AppendFrontFormat("Search program {0} of subpattern\n", Parallel ? Name + "_parallelized" : Name);
             builder.Append("\n");
 
             // then nested content
@@ -404,8 +654,18 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("private Random random = new Random(13795661);\n");
 #endif
 
-            sourceCode.AppendFront("public override void " + Name + "(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, "
-                + "int maxMatches, int isoSpace)\n");
+            if(Parallel)
+            {
+                sourceCode.AppendFront("public override void " + Name + "_parallelized"
+                    + "(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, "
+                    + "int maxMatches, int isoSpace, int threadId)\n");
+            }
+            else
+            {
+                sourceCode.AppendFront("public override void " + Name
+                    + "(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, "
+                    + "int maxMatches, int isoSpace)\n");
+            }
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -433,12 +693,14 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public SearchProgramOfAlternative(string rulePatternClassName,
             List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath,
-            string name)
+            string name,
+            bool parallel)
         {
             RulePatternClassName = rulePatternClassName;
             NamesOfPatternGraphsOnPathToEnclosedPatternpath =
                 namesOfPatternGraphsOnPathToEnclosedPatternpath;
             Name = name;
+            Parallel = parallel;
         }
 
         /// <summary>
@@ -447,7 +709,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             // first dump local content
-            builder.AppendFrontFormat("Search program {0} of alternative case\n", Name);
+            builder.AppendFrontFormat("Search program {0} of alternative case\n", Parallel ? Name + "_parallelized" : Name);
 
             // then nested content
             if (OperationsList != null)
@@ -468,8 +730,18 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("private Random random = new Random(13795661);\n");
 #endif
 
-            sourceCode.AppendFront("public override void " + Name + "(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, "
-                + "int maxMatches, int isoSpace)\n");
+            if(Parallel)
+            {
+                sourceCode.AppendFront("public override void " + Name + "_parallelized"
+                    + "(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, "
+                    + "int maxMatches, int isoSpace, int threadId)\n");
+            }
+            else
+            {
+                sourceCode.AppendFront("public override void " + Name
+                    + "(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, "
+                    + "int maxMatches, int isoSpace)\n");
+            }
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -497,12 +769,14 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public SearchProgramOfIterated(string rulePatternClassName,
             List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath,
-            string name)
+            string name,
+            bool parallel)
         {
             RulePatternClassName = rulePatternClassName;
             NamesOfPatternGraphsOnPathToEnclosedPatternpath =
                 namesOfPatternGraphsOnPathToEnclosedPatternpath;
             Name = name;
+            Parallel = parallel;
         }
 
         /// <summary>
@@ -511,7 +785,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             // first dump local content
-            builder.AppendFrontFormat("Search program {0} of iterated\n", Name);
+            builder.AppendFrontFormat("Search program {0} of iterated\n", Parallel ? Name + "_parallelized" : Name);
             builder.Append("\n");
 
             // then nested content
@@ -533,8 +807,18 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("private Random random = new Random(13795661);\n");
 #endif
 
-            sourceCode.AppendFront("public override void " + Name + "(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, "
-                + "int maxMatches, int isoSpace)\n");
+            if(Parallel)
+            {
+                sourceCode.AppendFront("public override void " + Name + "_parallelized"
+                    + "(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, "
+                    + "int maxMatches, int isoSpace, int threadId)\n");
+            }
+            else
+            {
+                sourceCode.AppendFront("public override void " + Name
+                    + "(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, "
+                    + "int maxMatches, int isoSpace)\n");
+            }
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -1085,11 +1369,11 @@ namespace de.unika.ipd.grGen.lgsp
                         IsNode ? "node" : "edge", PatternElementName, IsDict?"Dictionary":"List/Deque", StorageName);
                 }
 
-                // emit loop header with variable containing dictionary entry
+                // emit loop header with variable containing container entry
                 string variableContainingStorage =
                     NamesOfEntities.Variable(StorageName);
                 string storageIterationVariable = 
-                    NamesOfEntities.CandidateIterationDictionaryOrListEntry(PatternElementName);
+                    NamesOfEntities.CandidateIterationContainerEntry(PatternElementName);
                 sourceCode.AppendFrontFormat("foreach({0} {1} in {2})\n",
                     StorageIterationType, storageIterationVariable, variableContainingStorage);
                 
@@ -1097,7 +1381,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                // emit candidate variable, initialized with key from dictionary entry
+                // emit candidate variable, initialized with container entry
                 string typeOfVariableContainingCandidate = "GRGEN_LGSP."
                     + (IsNode ? "LGSPNode" : "LGSPEdge");
                 string variableContainingCandidate =
@@ -1137,11 +1421,11 @@ namespace de.unika.ipd.grGen.lgsp
                         IsNode ? "node" : "edge", PatternElementName, IsDict?"Dictionary":"List/Deque", StorageOwnerName, StorageAttributeName);
                 }
 
-                // emit loop header with variable containing dictionary entry
+                // emit loop header with variable containing container entry
                 string variableContainingStorage =
                     "((" + StorageOwnerTypeName + ")" + NamesOfEntities.CandidateVariable(StorageOwnerName) + ")." + StorageAttributeName;
                 string storageIterationVariable =
-                    NamesOfEntities.CandidateIterationDictionaryOrListEntry(PatternElementName);
+                    NamesOfEntities.CandidateIterationContainerEntry(PatternElementName);
                 sourceCode.AppendFrontFormat("foreach({0} {1} in {2})\n",
                     StorageIterationType, storageIterationVariable, variableContainingStorage);
 
@@ -1149,7 +1433,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                // emit candidate variable, initialized with key from dictionary entry
+                // emit candidate variable, initialized with container entry
                 string typeOfVariableContainingCandidate = "GRGEN_LGSP."
                     + (IsNode ? "LGSPNode" : "LGSPEdge");
                 string variableContainingCandidate =
@@ -1352,6 +1636,983 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Class representing parallelized "get candidate by iteration" operations,
+    /// setting current candidate for following check candidate operation
+    /// </summary>
+    class GetCandidateByIterationParallel : GetCandidate
+    {
+        public GetCandidateByIterationParallel(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            bool isNode,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.GraphElements);
+            Type = type;
+            PatternElementName = patternElementName;
+            IsNode = isNode;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIterationParallel(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string storageName,
+            string storageIterationType,
+            bool isDict,
+            bool isNode,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.StorageElements);
+            Type = type;
+            PatternElementName = patternElementName;
+            StorageName = storageName;
+            StorageIterationType = storageIterationType;
+            IsDict = isDict;
+            IsNode = isNode;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIterationParallel(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string storageOwnerName,
+            string storageOwnerTypeName,
+            string storageAttributeName,
+            string storageIterationType,
+            bool isDict,
+            bool isNode,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.StorageAttributeElements);
+            Type = type;
+            PatternElementName = patternElementName;
+            StorageOwnerName = storageOwnerName;
+            StorageOwnerTypeName = storageOwnerTypeName;
+            StorageAttributeName = storageAttributeName;
+            StorageIterationType = storageIterationType;
+            IsDict = isDict;
+            IsNode = isNode;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIterationParallel(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string startingPointNodeName,
+            IncidentEdgeType edgeType,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.IncidentEdges);
+            Type = type;
+            PatternElementName = patternElementName;
+            StartingPointNodeName = startingPointNodeName;
+            EdgeType = edgeType;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump local content
+            builder.AppendFront("GetCandidate ByIteration Parallel");
+            if(Type == GetCandidateByIterationType.GraphElements)
+            {
+                builder.Append("GraphElements ");
+                builder.AppendFormat("on {0} node:{1}\n",
+                    PatternElementName, IsNode);
+            }
+            else if(Type == GetCandidateByIterationType.StorageElements)
+            {
+                builder.Append("StorageElements ");
+                builder.AppendFormat("on {0} from {1} node:{2} {3}\n",
+                    PatternElementName, StorageName, IsNode, IsDict ? "Dictionary" : "List/Deque");
+            }
+            else if(Type == GetCandidateByIterationType.StorageAttributeElements)
+            {
+                builder.Append("StorageAttributeElements ");
+                builder.AppendFormat("on {0} from {1}.{2} node:{3} {4}\n",
+                    PatternElementName, StorageOwnerName, StorageAttributeName, IsNode, IsDict ? "Dictionary" : "List/Deque");
+            }
+            else
+            { //Type==GetCandidateByIterationType.IncidentEdges
+                builder.Append("IncidentEdges ");
+                builder.AppendFormat("on {0} from {1} edge type:{2}\n",
+                    PatternElementName, StartingPointNodeName, EdgeType.ToString());
+            }
+            // then nested content
+            if(NestedOperationsList != null)
+            {
+                builder.Indent();
+                NestedOperationsList.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(Type == GetCandidateByIterationType.GraphElements)
+            {
+                if(sourceCode.CommentSourceCode)
+                    sourceCode.AppendFrontFormat("// Parallelized Lookup {0} \n", PatternElementName);
+
+                // get iteration parallelization lock
+                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+
+                string variableContainingParallelizedCandidate =
+                    NamesOfEntities.IterationParallelizationNextCandidate(PatternElementName);
+                string variableContainingParallelizedListHead =
+                    NamesOfEntities.IterationParallelizationListHead(PatternElementName);
+
+                // open loop header, and emit early out condition: another thread already found the required amount of matches 
+                sourceCode.AppendFront("while(!maxMatchesFound && (");
+                // emit loop condition: check for head reached again 
+                sourceCode.AppendFormat("{0} != {1}",
+                    variableContainingParallelizedCandidate, variableContainingParallelizedListHead);
+                // close loop header
+                sourceCode.Append("))\n");
+
+                // open loop
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                // emit declaration and initialization of variable containing candidates from parallelized next candidate
+                string typeOfVariableContainingCandidate = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
+                string variableContainingCandidate =
+                    NamesOfEntities.CandidateVariable(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
+                    typeOfVariableContainingCandidate, variableContainingCandidate, variableContainingParallelizedCandidate);
+                sourceCode.AppendFront("currentIterationNumber = iterationNumber;\n");
+
+                // emit loop increment: switch to next element of same type
+                sourceCode.AppendFrontFormat("{0} = {0}.lgspTypeNext;\n",
+                    variableContainingParallelizedCandidate);
+                sourceCode.AppendFront("++iterationNumber;\n");
+
+                // release iteration parallelization lock
+                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+
+                if(EmitProfiling)
+                {
+                    if(ActionName != null && EmitFirstLoopProfiling)
+                    {
+                        sourceCode.AppendFront("++loopSteps;\n");
+                        sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchSteps;\n");
+                    }
+                    sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
+                // emit loop body
+                NestedOperationsList.Emit(sourceCode);
+
+                if(EmitProfiling && ActionName != null && EmitFirstLoopProfiling)
+                {
+                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
+                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
+                }
+
+                // get iteration parallelization lock
+                sourceCode.Append("\n");
+                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+
+                // close loop
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+
+                // release iteration parallelization lock
+                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+            }
+            else if(Type == GetCandidateByIterationType.StorageElements)
+            {
+                if(sourceCode.CommentSourceCode)
+                {
+                    sourceCode.AppendFrontFormat("// Parallelized Pick {0} {1} from {2} {3}\n",
+                        IsNode ? "node" : "edge", PatternElementName, IsDict ? "Dictionary" : "List/Deque", StorageName);
+                }
+
+                // get iteration parallelization lock
+                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                // variable containing candidates from parallelized next candidate
+                string variableContainingParallelizedIterator =
+                    NamesOfEntities.IterationParallelizationIterator(PatternElementName);
+
+                // open loop header, and emit early out condition: another thread already found the required amount of matches 
+                sourceCode.AppendFront("while(!maxMatchesFound && (");
+                // emit loop condition: check for iteration end 
+                sourceCode.AppendFormat("{0}.MoveNext()",
+                    variableContainingParallelizedIterator);
+                // close loop header
+                sourceCode.Append("))\n");
+
+                // open loop
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                // emit candidate variable, initialized with container entry
+                string typeOfVariableContainingCandidate = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
+                string variableContainingCandidate =
+                    NamesOfEntities.CandidateVariable(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0}){2}.Current{3};\n",
+                    typeOfVariableContainingCandidate, variableContainingCandidate,
+                    variableContainingParallelizedIterator, IsDict ? ".Key" : "");
+                sourceCode.AppendFront("currentIterationNumber = iterationNumber;\n");
+                sourceCode.AppendFront("++iterationNumber;\n");
+                // release iteration parallelization lock
+                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+
+                if(EmitProfiling)
+                {
+                    if(ActionName != null && EmitFirstLoopProfiling)
+                    {
+                        sourceCode.AppendFront("++loopSteps;\n");
+                        sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchSteps;\n");
+                    }
+                    sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
+                // emit loop body
+                NestedOperationsList.Emit(sourceCode);
+
+                if(EmitProfiling && ActionName != null && EmitFirstLoopProfiling)
+                {
+                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
+                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
+                }
+
+                // get iteration parallelization lock
+                sourceCode.Append("\n");
+                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+
+                // close loop
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+
+                // release iteration parallelization lock
+                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+            }
+            else if(Type == GetCandidateByIterationType.StorageAttributeElements)
+            {
+                if(sourceCode.CommentSourceCode)
+                {
+                    sourceCode.AppendFrontFormat("// Parallelized Pick {0} {1} from {2} {3}.{4}\n",
+                        IsNode ? "node" : "edge", PatternElementName, IsDict ? "Dictionary" : "List/Deque", StorageOwnerName, StorageAttributeName);
+                }
+
+                // get iteration parallelization lock
+                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                // variable containing candidates from parallelized next candidate
+                string variableContainingParallelizedIterator =
+                    NamesOfEntities.IterationParallelizationIterator(PatternElementName);
+
+                // open loop header, and emit early out condition: another thread already found the required amount of matches 
+                sourceCode.AppendFront("while(!maxMatchesFound && (");
+                // emit loop condition: check for iteration end 
+                sourceCode.AppendFormat("{0}.MoveNext()",
+                    variableContainingParallelizedIterator);
+                // close loop header
+                sourceCode.Append("))\n");
+
+                // open loop
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                // emit candidate variable, initialized with container entry
+                string typeOfVariableContainingCandidate = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
+                string variableContainingCandidate =
+                    NamesOfEntities.CandidateVariable(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0}){2}.Current{3};\n",
+                    typeOfVariableContainingCandidate, variableContainingCandidate,
+                    variableContainingParallelizedIterator, IsDict ? ".Key" : "");
+                sourceCode.AppendFront("currentIterationNumber = iterationNumber;\n");
+                sourceCode.AppendFront("++iterationNumber;\n");
+                // release iteration parallelization lock
+                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+
+                if(EmitProfiling)
+                {
+                    if(ActionName != null && EmitFirstLoopProfiling)
+                    {
+                        sourceCode.AppendFront("++loopSteps;\n");
+                        sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchSteps;\n");
+                    }
+                    sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
+                // emit loop body
+                NestedOperationsList.Emit(sourceCode);
+
+                if(EmitProfiling && ActionName != null && EmitFirstLoopProfiling)
+                {
+                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
+                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
+                }
+
+                // get iteration parallelization lock
+                sourceCode.Append("\n");
+                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+
+                // close loop
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+
+                // release iteration parallelization lock
+                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+            }
+            else //Type==GetCandidateByIterationType.IncidentEdges
+            {
+                if(sourceCode.CommentSourceCode)
+                {
+                    sourceCode.AppendFrontFormat("// Parallelized Extend {0} {1} from {2} \n",
+                            EdgeType.ToString(), PatternElementName, StartingPointNodeName);
+                }
+
+                if(EdgeType != IncidentEdgeType.IncomingOrOutgoing)
+                {
+                    // get iteration parallelization lock
+                    sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+
+                    string variableContainingParallelizedListHead =
+                        NamesOfEntities.IterationParallelizationListHead(PatternElementName);
+                    string variableContainingParallelizedCandidate =
+                        NamesOfEntities.IterationParallelizationNextCandidate(PatternElementName);
+
+                    // open loop header, and emit early out condition: another thread already found the required amount of matches 
+                    sourceCode.AppendFront("while(!maxMatchesFound && (");
+                    // emit loop condition: check whether head has been reached again 
+                    sourceCode.AppendFormat("{0} != {1} || iterationNumber==0",
+                        variableContainingParallelizedCandidate, variableContainingParallelizedListHead);
+                    // close loop header
+                    sourceCode.Append("))\n");
+
+                    // open loop
+                    sourceCode.AppendFront("{\n");
+                    sourceCode.Indent();
+
+                    // emit declaration and initialization of variable containing candidates from parallelized next candidate
+                    string variableContainingCandidate =
+                        NamesOfEntities.CandidateVariable(PatternElementName);
+                    sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0} = {1};\n",
+                        variableContainingCandidate, variableContainingParallelizedCandidate);
+                    sourceCode.AppendFront("currentIterationNumber = iterationNumber;\n");
+
+                    // emit loop increment: switch to next edge in list
+                    string memberOfEdgeContainingNextEdge =
+                        EdgeType == IncidentEdgeType.Incoming ? "lgspInNext" : "lgspOutNext";
+                    sourceCode.AppendFrontFormat("{0} = {0}.{1};\n",
+                        variableContainingParallelizedCandidate, memberOfEdgeContainingNextEdge);
+                    sourceCode.AppendFront("++iterationNumber;\n");
+
+                    // release iteration parallelization lock
+                    sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+
+                    if(EmitProfiling)
+                    {
+                        if(ActionName != null && EmitFirstLoopProfiling)
+                        {
+                            sourceCode.AppendFront("++loopSteps;\n");
+                            sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchSteps;\n");
+                        }
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                    }
+
+                    // emit loop body
+                    NestedOperationsList.Emit(sourceCode);
+
+                    if(EmitProfiling && ActionName != null && EmitFirstLoopProfiling)
+                    {
+                        sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
+                        sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
+                    }
+
+                    // get iteration parallelization lock
+                    sourceCode.Append("\n");
+                    sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+
+                    // close loop
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+
+                    // release iteration parallelization lock
+                    sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+                }
+                else //EdgeType == IncidentEdgeType.IncomingOrOutgoing
+                {
+                    // get iteration parallelization lock
+                    sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+
+                    string directionRunCounterParallelized =
+                        NamesOfEntities.IterationParallelizationDirectionRunCounterVariable(PatternElementName);
+                    string variableContainingParallelizedListHead =
+                        NamesOfEntities.IterationParallelizationListHead(PatternElementName);
+                    string variableContainingParallelizedCandidate =
+                        NamesOfEntities.IterationParallelizationNextCandidate(PatternElementName);
+
+                    // open loop header, and emit early out condition: another thread already found the required amount of matches 
+                    sourceCode.AppendFront("while(!maxMatchesFound && (");
+                    // emit loop condition: check whether head has been reached again 
+                    sourceCode.AppendFormat("{0} != {1} || iterationNumber==0",
+                        variableContainingParallelizedCandidate, variableContainingParallelizedListHead);
+                    // close loop header
+                    sourceCode.Append("))\n");
+
+                    // open loop
+                    sourceCode.AppendFront("{\n");
+                    sourceCode.Indent();
+
+                    // emit declaration and initialization of variable containing candidates from parallelized next candidate
+                    string variableContainingCandidate =
+                        NamesOfEntities.CandidateVariable(PatternElementName);
+                    sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0} = {1};\n",
+                        variableContainingCandidate, variableContainingParallelizedCandidate);
+                    sourceCode.AppendFront("currentIterationNumber = iterationNumber;\n");
+
+                    // emit loop increment: switch to next edge in list
+                    sourceCode.AppendFrontFormat("{0} = {1}==0 ? {0}.lgspInNext : {0}.lgspOutNext;\n",
+                        variableContainingParallelizedCandidate, directionRunCounterParallelized);
+                    sourceCode.AppendFront("++iterationNumber;\n");
+                    
+                    // release iteration parallelization lock
+                    sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+
+                    if(EmitProfiling)
+                    {
+                        if(ActionName != null && EmitFirstLoopProfiling)
+                        {
+                            sourceCode.AppendFront("++loopSteps;\n");
+                            sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchSteps;\n");
+                        }
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                    }
+
+                    // emit loop body
+                    NestedOperationsList.Emit(sourceCode);
+
+                    if(EmitProfiling && ActionName != null && EmitFirstLoopProfiling)
+                    {
+                        sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
+                        sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
+                    }
+
+                    // close loop
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+
+                    // get iteration parallelization lock
+                    sourceCode.Append("\n");
+                    sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+
+                    // close loop
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+
+                    // release iteration parallelization lock
+                    sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+                } //EdgeType 
+            } //Type
+        }
+
+        public override bool IsSearchNestingOperation()
+        {
+            return true;
+        }
+
+        public override SearchProgramOperation GetNestedSearchOperationsList()
+        {
+            return NestedOperationsList;
+        }
+
+        public GetCandidateByIterationType Type;
+        public bool IsNode; // node|edge - only available if GraphElements|StorageElements|StorageAttributeElements
+        public bool IsDict; // Dictionary(set/map)|List/Deque(array/deque) - only available if StorageElements|StorageAttributeElements
+        public string StorageName; // only available if StorageElements
+        public string StorageOwnerName; // only available if StorageAttributeElements
+        public string StorageOwnerTypeName; // only available if StorageAttributeElements
+        public string StorageAttributeName; // only available if StorageAttributeElements
+        public string StorageIterationType; // only available if StorageElements|StorageAttributeElements
+        public string StartingPointNodeName; // from pattern - only available if IncidentEdges
+        public IncidentEdgeType EdgeType; // only available if IncidentEdges
+        public bool EmitProfiling;
+        public string ActionName;
+        public bool EmitFirstLoopProfiling;
+
+        public SearchProgramList NestedOperationsList;
+    }
+
+    /// <summary>
+    /// Class representing setup of parallelized "get candidate by iteration" operations,
+    /// distributing work to worker threads, collecting their results
+    /// </summary>
+    class GetCandidateByIterationParallelSetup : GetCandidate
+    {
+        public GetCandidateByIterationParallelSetup(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            bool isNode,
+            string rulePatternClassName,
+            string patternName,
+            string[] parameterNames,
+            bool enclosingLoop,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.GraphElements);
+            Type = type;
+            PatternElementName = patternElementName;
+            IsNode = isNode;
+            RulePatternClassName = rulePatternClassName;
+            PatternName = patternName;
+            ParameterNames = parameterNames;
+            EnclosingLoop = enclosingLoop;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIterationParallelSetup(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string storageName,
+            string storageIterationType,
+            bool isDict,
+            bool isNode,
+            string rulePatternClassName,
+            string patternName,
+            string[] parameterNames,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.StorageElements);
+            Type = type;
+            PatternElementName = patternElementName;
+            StorageName = storageName;
+            StorageIterationType = storageIterationType;
+            IsDict = isDict;
+            IsNode = isNode;
+            RulePatternClassName = rulePatternClassName;
+            PatternName = patternName;
+            ParameterNames = parameterNames;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIterationParallelSetup(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string storageOwnerName,
+            string storageOwnerTypeName,
+            string storageAttributeName,
+            string storageIterationType,
+            bool isDict,
+            bool isNode,
+            string rulePatternClassName,
+            string patternName,
+            string[] parameterNames,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.StorageAttributeElements);
+            Type = type;
+            PatternElementName = patternElementName;
+            StorageOwnerName = storageOwnerName;
+            StorageOwnerTypeName = storageOwnerTypeName;
+            StorageAttributeName = storageAttributeName;
+            StorageIterationType = storageIterationType;
+            IsDict = isDict;
+            IsNode = isNode;
+            RulePatternClassName = rulePatternClassName;
+            PatternName = patternName;
+            ParameterNames = parameterNames;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIterationParallelSetup(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string startingPointNodeName,
+            IncidentEdgeType edgeType,
+            string rulePatternClassName,
+            string patternName,
+            string[] parameterNames,
+            bool enclosingLoop,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.IncidentEdges);
+            Type = type;
+            PatternElementName = patternElementName;
+            StartingPointNodeName = startingPointNodeName;
+            EdgeType = edgeType;
+            RulePatternClassName = rulePatternClassName;
+            PatternName = patternName;
+            ParameterNames = parameterNames;
+            EnclosingLoop = enclosingLoop;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // dump local content
+            builder.AppendFront("GetCandidate ByIteration ParallelSetup");
+            if(Type == GetCandidateByIterationType.GraphElements)
+            {
+                builder.Append("GraphElements ");
+                builder.AppendFormat("on {0} node:{1}\n",
+                    PatternElementName, IsNode);
+            }
+            else if(Type == GetCandidateByIterationType.StorageElements)
+            {
+                builder.Append("StorageElements ");
+                builder.AppendFormat("on {0} from {1} node:{2} {3}\n",
+                    PatternElementName, StorageName, IsNode, IsDict ? "Dictionary" : "List/Deque");
+            }
+            else if(Type == GetCandidateByIterationType.StorageAttributeElements)
+            {
+                builder.Append("StorageAttributeElements ");
+                builder.AppendFormat("on {0} from {1}.{2} node:{3} {4}\n",
+                    PatternElementName, StorageOwnerName, StorageAttributeName, IsNode, IsDict ? "Dictionary" : "List/Deque");
+            }
+            else
+            { //Type==GetCandidateByIterationType.IncidentEdges
+                builder.Append("IncidentEdges ");
+                builder.AppendFormat("on {0} from {1} edge type:{2}\n",
+                    PatternElementName, StartingPointNodeName, EdgeType.ToString());
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("iterationNumber = 0;\n");
+            sourceCode.AppendFront("int numThreadsSignaled = 0;\n");
+
+            if(Type == GetCandidateByIterationType.GraphElements)
+            {
+                // code comments: lookup comment was already emitted with type iteration/drawing
+
+                // emit initialization of variable containing graph elements list head
+                string variableContainingParallelizedListHead =
+                    NamesOfEntities.IterationParallelizationListHead(PatternElementName);
+                string graphMemberContainingListHeadByType =
+                    IsNode ? "nodesByTypeHeads" : "edgesByTypeHeads";
+                string variableContainingTypeIDForCandidate =
+                    NamesOfEntities.TypeIdForCandidateVariable(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} = graph.{1}[{2}];\n",
+                    variableContainingParallelizedListHead, graphMemberContainingListHeadByType, variableContainingTypeIDForCandidate);
+                // emit initialization of variable containing candidates
+                string variableContainingParallelizedCandidate =
+                    NamesOfEntities.IterationParallelizationNextCandidate(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} = {1}.lgspTypeNext;\n",
+                    variableContainingParallelizedCandidate, variableContainingParallelizedListHead);
+
+                // emit declaration and initialization of variable containing candidates from next candidate, for pre-run
+                string typeOfVariableContainingCandidate = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
+                string variableContainingCandidate =
+                    NamesOfEntities.CandidateVariable(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
+                    typeOfVariableContainingCandidate, variableContainingCandidate, variableContainingParallelizedCandidate);
+ 
+                // emit prerun determining the number of threads to wake up
+                sourceCode.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+                sourceCode.AppendFrontFormat("if({0} == {1})\n",
+                    variableContainingCandidate, variableContainingParallelizedListHead);
+                sourceCode.AppendFront("\tbreak;\n");
+                sourceCode.AppendFrontFormat("{0} = {0}.lgspTypeNext;\n",
+                    variableContainingCandidate);
+                sourceCode.AppendFront("++numThreadsSignaled;\n");
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+                sourceCode.AppendFront("\n");
+            }
+            else if(Type == GetCandidateByIterationType.StorageElements)
+            {
+                if(sourceCode.CommentSourceCode)
+                {
+                    sourceCode.AppendFrontFormat("// Pick {0} {1} from {2} {3}\n",
+                        IsNode ? "node" : "edge", PatternElementName, IsDict ? "Dictionary" : "List/Deque", StorageName);
+                }
+
+                // initialize variable containing candidates from parallelized next candidate
+                string variableContainingParallelizedIterator =
+                    NamesOfEntities.IterationParallelizationIterator(PatternElementName);
+                string variableContainingStorage =
+                    NamesOfEntities.Variable(StorageName);
+                sourceCode.AppendFrontFormat("{0} = {1}.GetEnumerator();\n",
+                    variableContainingParallelizedIterator, variableContainingStorage);
+
+                // emit prerun determining the number of threads to wake up
+                sourceCode.AppendFrontFormat("numThreadsSignaled = Math.Min(workerThreads.Length, {0}.Count);\n",
+                    variableContainingStorage);
+                sourceCode.AppendFront("\n");
+            }
+            else if(Type == GetCandidateByIterationType.StorageAttributeElements)
+            {
+                if(sourceCode.CommentSourceCode)
+                {
+                    sourceCode.AppendFrontFormat("// Pick {0} {1} from {2} {3}.{4}\n",
+                        IsNode ? "node" : "edge", PatternElementName, IsDict ? "Dictionary" : "List/Deque", StorageOwnerName, StorageAttributeName);
+                }
+
+                // initialize variable containing candidates from parallelized next candidate
+                string variableContainingParallelizedIterator =
+                    NamesOfEntities.IterationParallelizationIterator(PatternElementName);
+                string variableContainingStorage =
+                    "((" + StorageOwnerTypeName + ")" + NamesOfEntities.CandidateVariable(StorageOwnerName) + ")." + StorageAttributeName;
+                sourceCode.AppendFrontFormat("{0} = {1}.GetEnumerator();\n",
+                    variableContainingParallelizedIterator, variableContainingStorage);
+
+                // emit prerun determining the number of threads to wake up
+                sourceCode.AppendFrontFormat("numThreadsSignaled = Math.Min(workerThreads.Length, {0}.Count);\n",
+                    variableContainingStorage);
+                sourceCode.AppendFront("\n");
+            }
+            else //Type==GetCandidateByIterationType.IncidentEdges
+            {
+                if(sourceCode.CommentSourceCode)
+                {
+                    sourceCode.AppendFrontFormat("// Extend {0} {1} from {2} \n",
+                            EdgeType.ToString(), PatternElementName, StartingPointNodeName);
+                }
+
+                if(EdgeType != IncidentEdgeType.IncomingOrOutgoing)
+                {
+                    // emit initialization of variable containing incident edges list head
+                    string variableContainingParallelizedListHead =
+                        NamesOfEntities.IterationParallelizationListHead(PatternElementName);
+                    string variableContainingStartingPointNode =
+                        NamesOfEntities.CandidateVariable(StartingPointNodeName);
+                    string memberOfNodeContainingListHead =
+                        EdgeType == IncidentEdgeType.Incoming ? "lgspInhead" : "lgspOuthead";
+                    sourceCode.AppendFrontFormat("{0} = {1}.{2};\n",
+                        variableContainingParallelizedListHead, variableContainingStartingPointNode, memberOfNodeContainingListHead);
+                    // emit initialization of variable containing incident edges
+                    string variableContainingParallelizedCandidate =
+                        NamesOfEntities.IterationParallelizationNextCandidate(PatternElementName);
+                    sourceCode.AppendFrontFormat("{0} = {1};\n",
+                        variableContainingParallelizedCandidate, variableContainingParallelizedListHead);
+
+                    // emit declaration and initialization of variable containing candidates from next candidate, for pre-run
+                    string variableContainingCandidate =
+                        NamesOfEntities.CandidateVariable(PatternElementName);
+                    sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0} = {1};\n",
+                        variableContainingCandidate, variableContainingParallelizedCandidate);
+                    string memberOfEdgeContainingNextEdge =
+                        EdgeType == IncidentEdgeType.Incoming ? "lgspInNext" : "lgspOutNext";
+
+                    // emit prerun determining the number of threads to wake up
+                    sourceCode.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
+                    sourceCode.AppendFront("{\n");
+                    sourceCode.Indent();
+                    sourceCode.AppendFrontFormat("if({0} == null || ({0} == {1} && numThreadsSignaled>0))\n",
+                        variableContainingCandidate, variableContainingParallelizedListHead);
+                    sourceCode.AppendFront("\tbreak;\n");
+                    sourceCode.AppendFrontFormat("{0} = {0}.{1};\n",
+                        variableContainingCandidate, memberOfEdgeContainingNextEdge);
+                    sourceCode.AppendFront("++numThreadsSignaled;\n");
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                    sourceCode.AppendFront("\n");
+                }
+                else //EdgeType == IncidentEdgeType.IncomingOrOutgoing
+                {
+                    // emit initialization of direction run counter, to search first incoming, then outgoing
+                    string directionRunCounter = NamesOfEntities.DirectionRunCounterVariable(PatternElementName);
+                    // emit initialization of variable containing incident edges list head
+                    string variableContainingParallelizedListHead =
+                        NamesOfEntities.IterationParallelizationListHead(PatternElementName);
+                    string variableContainingStartingPointNode =
+                        NamesOfEntities.CandidateVariable(StartingPointNodeName);
+                    sourceCode.AppendFrontFormat("{0} = {1}==0 ? {2}.lgspInhead : {2}.lgspOuthead;\n",
+                        variableContainingParallelizedListHead, directionRunCounter, variableContainingStartingPointNode);
+                    // emit initialization of variable containing incident edges
+                    string variableContainingParallelizedCandidate =
+                        NamesOfEntities.IterationParallelizationNextCandidate(PatternElementName);
+                    sourceCode.AppendFrontFormat("{0} = {1};\n",
+                        variableContainingParallelizedCandidate, variableContainingParallelizedListHead);
+
+                    // emit declaration and initialization of variable containing candidates from next candidate, for pre-run
+                    string variableContainingCandidate =
+                        NamesOfEntities.CandidateVariable(PatternElementName);
+                    sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0} = {1};\n",
+                        variableContainingCandidate, variableContainingParallelizedCandidate);
+
+                    // emit prerun determining the number of threads to wake up
+                    sourceCode.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
+                    sourceCode.AppendFront("{\n");
+                    sourceCode.Indent();
+                    sourceCode.AppendFrontFormat("if({0} == null || ({0} == {1} && numThreadsSignaled>0))\n",
+                        variableContainingCandidate, variableContainingParallelizedListHead);
+                    sourceCode.AppendFront("\tbreak;\n");
+                    sourceCode.AppendFrontFormat("{0} = {1}==0 ? {0}.lgspInNext : {0}.lgspOutNext;\n",
+                        variableContainingCandidate, directionRunCounter);
+                    sourceCode.AppendFront("++numThreadsSignaled;\n");
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                    sourceCode.AppendFront("\n");
+                } //EdgeType 
+            } //Type
+
+            // only use parallelized body if there are at least one or two iterations available
+            if(EnclosingLoop)
+                sourceCode.AppendFront("if(numThreadsSignaled>0)\n"); // if no iteration is available we don't use the parallelized body
+            else
+                sourceCode.AppendFront("if(numThreadsSignaled>1)\n"); // if one iteration is available we use the normal matcher
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            // emit signaling
+            sourceCode.AppendFront("maxMatchesFound = false;\n");
+            sourceCode.AppendFront("for(int i=0; i<numThreadsSignaled; ++i)\n");
+            sourceCode.AppendFront("\texecuteParallelTask[i].Set();\n");
+            sourceCode.AppendFront("for(int j=numThreadsSignaled; j<workerThreads.Length; ++j)\n");
+            sourceCode.AppendFront("\tparallelTaskExecuted[j].Set();\n");
+            
+            // emit wait for matching completed and reset for next run
+            sourceCode.AppendFront("ManualResetEvent.WaitAll(parallelTaskExecuted);\n");
+            sourceCode.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
+            sourceCode.AppendFront("\tparallelTaskExecuted[i].Reset();\n");
+            
+            // emit matches list building from matches lists of the matcher threads (obeying order of sequential iteration)
+            sourceCode.AppendFront("int threadOfLastlyChosenMatch = 0;\n");
+            sourceCode.AppendFront("while(matches.Count<maxMatches || maxMatches<=0)\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+            sourceCode.AppendFront("int minIterationValue = Int32.MaxValue;\n");
+            sourceCode.AppendFront("int minIterationValueIndex = Int32.MaxValue;\n");
+            sourceCode.AppendFront("for(int i=0; i<numThreadsSignaled; ++i)\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+            sourceCode.AppendFront("if(parallelTaskMatches[i].Count == 0)\n");
+            sourceCode.AppendFront("\tcontinue;\n");
+            sourceCode.AppendFront("if(parallelTaskMatches[i].First.IterationNumber < minIterationValue)\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+            sourceCode.AppendFront("minIterationValue = parallelTaskMatches[i].First.IterationNumber;\n");
+            sourceCode.AppendFront("minIterationValueIndex = i;\n");
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+            sourceCode.AppendFront("if(minIterationValueIndex<Int32.MaxValue)\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+            string matchType = RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName);
+            sourceCode.AppendFrontFormat("{0} match = matches.GetNextUnfilledPosition();\n", matchType);
+            sourceCode.AppendFrontFormat("match.CopyMatchContent(({0})parallelTaskMatches[minIterationValueIndex].First);\n", matchType);
+            sourceCode.AppendFront("parallelTaskMatches[minIterationValueIndex].RemoveFirst();\n");
+            sourceCode.AppendFront("matches.PositionWasFilledFixIt();\n");
+            sourceCode.AppendFront("threadOfLastlyChosenMatch = minIterationValueIndex;\n");
+            sourceCode.AppendFront("continue;\n");
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+            sourceCode.AppendFront("else\n");
+            sourceCode.AppendFront("\tbreak;\n");
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            // emit adjust list heads
+            sourceCode.AppendFront("for(int i=0; i<moveHeadAfterNodes[threadOfLastlyChosenMatch].Count; ++i)\n");
+            sourceCode.AppendFront("\tgraph.MoveHeadAfter(moveHeadAfterNodes[threadOfLastlyChosenMatch][i]);\n");
+            sourceCode.AppendFront("for(int i=0; i<moveHeadAfterEdges[threadOfLastlyChosenMatch].Count; ++i)\n");
+            sourceCode.AppendFront("\tgraph.MoveHeadAfter(moveHeadAfterEdges[threadOfLastlyChosenMatch][i]);\n");
+            sourceCode.AppendFront("for(int i=0; i<moveOutHeadAfter[threadOfLastlyChosenMatch].Count; ++i)\n");
+            sourceCode.AppendFront("\tmoveOutHeadAfter[threadOfLastlyChosenMatch][i].Key.MoveOutHeadAfter(moveOutHeadAfter[threadOfLastlyChosenMatch][i].Value);\n");
+            sourceCode.AppendFront("for(int i=0; i<moveInHeadAfter[threadOfLastlyChosenMatch].Count; ++i)\n");
+            sourceCode.AppendFront("\tmoveInHeadAfter[threadOfLastlyChosenMatch][i].Key.MoveInHeadAfter(moveInHeadAfter[threadOfLastlyChosenMatch][i].Value);\n");
+
+            // emit cleaning of variables that must be empty for next run
+            sourceCode.AppendFront("for(int i=0; i<numThreadsSignaled; ++i)\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+            sourceCode.AppendFront("parallelTaskMatches[i].Clear();\n");
+            sourceCode.AppendFront("moveHeadAfterNodes[i].Clear();\n");
+            sourceCode.AppendFront("moveHeadAfterEdges[i].Clear();\n");
+            sourceCode.AppendFront("moveOutHeadAfter[i].Clear();\n");
+            sourceCode.AppendFront("moveInHeadAfter[i].Clear();\n");
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            // use normal matcher if there is only one iteration available and no enclosing loop around us
+            // this re-executes the head stuff before the first iteration,
+            // but that's most of the times cheaper than starting the parallel workers
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+            if(!EnclosingLoop)
+            {
+                sourceCode.AppendFront("else if(numThreadsSignaled==1)\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+                sourceCode.AppendFront("myMatch(actionEnv, maxMatches");
+                foreach(string parameterName in ParameterNames)
+                {
+                    sourceCode.Append(", ");
+                    sourceCode.Append(parameterName);
+                }
+                sourceCode.Append(");\n");
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
+            // just continue matching/with cleaning code if there were zero iterations
+        }
+
+        public override bool IsSearchNestingOperation()
+        {
+            return false;
+        }
+
+        public override SearchProgramOperation GetNestedSearchOperationsList()
+        {
+            return null;
+        }
+
+        public GetCandidateByIterationType Type;
+        public bool IsNode; // node|edge - only available if GraphElements|StorageElements|StorageAttributeElements
+        public bool IsDict; // Dictionary(set/map)|List/Deque(array/deque) - only available if StorageElements|StorageAttributeElements
+        public string StorageName; // only available if StorageElements
+        public string StorageOwnerName; // only available if StorageAttributeElements
+        public string StorageOwnerTypeName; // only available if StorageAttributeElements
+        public string StorageAttributeName; // only available if StorageAttributeElements
+        public string StorageIterationType; // only available if StorageElements|StorageAttributeElements
+        public string StartingPointNodeName; // from pattern - only available if IncidentEdges
+        public IncidentEdgeType EdgeType; // only available if IncidentEdges
+        public string RulePatternClassName;
+        public string PatternName;
+        public string[] ParameterNames; // the parameters to forward to the normal matcher in case that is to be used because there's only a single iteration
+        public bool EnclosingLoop; // in case of an enclosing loop we can't forward to the normal matcher
+        public bool EmitProfiling;
+        public string ActionName;
+        public bool EmitFirstLoopProfiling;
+    }
+
+    /// <summary>
     /// Available types of GetCandidateByDrawing operations
     /// </summary>
     enum GetCandidateByDrawingType
@@ -1360,6 +2621,8 @@ namespace de.unika.ipd.grGen.lgsp
         MapWithStorage, // map element by storage map lookup
         FromInputs, // draw element from action inputs
         FromSubpatternConnections, // draw element from subpattern connections
+        FromParallelizationTask, // draw element from parallelization preset
+        FromParallelizationTaskVar, // draw variable from parallelization preset
         FromOtherElementForCast, // draw element from other element for type cast
         FromOtherElementForAssign, // draw element from other element for assignment
     }
@@ -1378,7 +2641,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing "get node by drawing" operation,
+    /// Class representing "get node (or edge) by drawing" operation,
     /// setting current candidate for following check candidate operations
     /// </summary>
     class GetCandidateByDrawing : GetCandidate
@@ -1424,11 +2687,25 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             bool isNode)
         {
-            Debug.Assert(type == GetCandidateByDrawingType.FromInputs || type == GetCandidateByDrawingType.FromSubpatternConnections);
+            Debug.Assert(type == GetCandidateByDrawingType.FromInputs 
+                || type == GetCandidateByDrawingType.FromSubpatternConnections
+                || type == GetCandidateByDrawingType.FromParallelizationTask);
             
             Type = type;
             PatternElementName = patternElementName;
             IsNode = isNode;
+        }
+
+        public GetCandidateByDrawing(
+            GetCandidateByDrawingType type,
+            string patternElementName,
+            string typeName)
+        {
+            Debug.Assert(type == GetCandidateByDrawingType.FromParallelizationTaskVar);
+
+            Type = type;
+            PatternElementName = patternElementName;
+            TypeName = typeName;
         }
 
         public GetCandidateByDrawing(
@@ -1484,7 +2761,15 @@ namespace de.unika.ipd.grGen.lgsp
                 builder.Append("FromSubpatternConnections ");
                 builder.AppendFormat("on {0} node:{1}\n",
                     PatternElementName, IsNode);
-            } else if(Type==GetCandidateByDrawingType.FromOtherElementForCast) {
+            } else if(Type == GetCandidateByDrawingType.FromParallelizationTask) {
+                builder.Append("FromParallelizationTask ");
+                builder.AppendFormat("on {0} node:{1} \n",
+                    PatternElementName, IsNode);
+            } else if(Type == GetCandidateByDrawingType.FromParallelizationTaskVar) {
+                builder.Append("FromParallelizationTaskVar ");
+                builder.AppendFormat("on {0} \n",
+                    PatternElementName);
+            } else if(Type == GetCandidateByDrawingType.FromOtherElementForCast) {
                 builder.Append("FromOtherElementForCast ");
                 builder.AppendFormat("on {0} from {1} node:{2}\n",
                     PatternElementName, SourcePatternElementName, IsNode);
@@ -1592,6 +2877,32 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
                     typeOfVariableContainingCandidate, variableContainingCandidate, PatternElementName);
             }
+            else if(Type == GetCandidateByDrawingType.FromParallelizationTask)
+            {
+                if(sourceCode.CommentSourceCode)
+                    sourceCode.AppendFrontFormat("// ParallelizationPreset {0} \n", PatternElementName);
+
+                // emit declaration of variable containing candidate node or edge
+                // and initialization with element from parallelization task
+                string typeOfVariableContainingCandidate = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
+                string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
+                string variableContainingParallelPreset = NamesOfEntities.IterationParallelizationParallelPresetCandidate(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
+                    typeOfVariableContainingCandidate, variableContainingCandidate, variableContainingParallelPreset);
+            }
+            else if(Type == GetCandidateByDrawingType.FromParallelizationTaskVar)
+            {
+                if(sourceCode.CommentSourceCode)
+                    sourceCode.AppendFrontFormat("// ParallelizationPresetVar {0} \n", PatternElementName);
+
+                // emit declaration of variable containing parameter forwarded
+                // and initialization with element from parallelization task
+                string variableContainingVariable = NamesOfEntities.Variable(PatternElementName);
+                string variableContainingParallelPreset = NamesOfEntities.IterationParallelizationParallelPresetCandidate(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
+                    TypeName, variableContainingVariable, variableContainingParallelPreset);
+            }
             else if(Type == GetCandidateByDrawingType.FromOtherElementForCast)
             {
                 if(sourceCode.CommentSourceCode)
@@ -1635,6 +2946,78 @@ namespace de.unika.ipd.grGen.lgsp
         public string SourcePatternElementName; // only valid if MapWithStorage|FromOtherElementForCast|FromOtherElementForAssign
         public string StorageName; // only valid if MapWithStorage
         public string StorageValueTypeName; // only valid if MapWithStorage
+        public string TypeName; // only valid if FromParallelizationTaskVar
+    }
+
+    /// <summary>
+    /// Class representing "get node or edge by drawing" operation,
+    /// setting current candidate for following check candidate operations
+    /// </summary>
+    class WriteParallelPreset : GetCandidate
+    {
+        public WriteParallelPreset(
+            string patternElementName,
+            bool isNode)
+        {
+            PatternElementName = patternElementName;
+            IsNode = isNode;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("WriteParallelPreset ");
+            builder.AppendFormat("on {0} node:{1} \n",
+                PatternElementName, IsNode);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(sourceCode.CommentSourceCode)
+                sourceCode.AppendFrontFormat("// WriteParallelizationPreset {0} \n", PatternElementName);
+
+            // initialize parallelization task with variable containing candidate node
+            string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
+            string variableContainingParallelPreset = NamesOfEntities.IterationParallelizationParallelPresetCandidate(PatternElementName);
+            sourceCode.AppendFrontFormat("{0} = {1};\n",
+                variableContainingParallelPreset, variableContainingCandidate);
+        }
+
+        public bool IsNode; // node|edge
+    }
+
+    /// <summary>
+    /// Class representing "get variable by drawing" operation,
+    /// setting current candidate for following check candidate operations
+    /// </summary>
+    class WriteParallelPresetVar : GetCandidate
+    {
+        public WriteParallelPresetVar(
+            string varName,
+            string varType)
+        {
+            PatternElementName = varName;
+            VarType = varType;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("WriteParallelPreset ");
+            builder.AppendFormat("on {0} of type:{1}\n",
+                PatternElementName, VarType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(sourceCode.CommentSourceCode)
+                sourceCode.AppendFrontFormat("// WriteParallelizationPresetVar {0} \n", PatternElementName);
+
+            string variableContainingParallelPreset = NamesOfEntities.IterationParallelizationParallelPresetCandidate(PatternElementName);
+            string variableContainingVariable = NamesOfEntities.Variable(PatternElementName);
+            sourceCode.AppendFrontFormat("{0} = {1};\n",
+                variableContainingParallelPreset, variableContainingVariable);
+        }
+
+        public string VarType;
     }
 
     /// <summary>
@@ -2095,13 +3478,17 @@ namespace de.unika.ipd.grGen.lgsp
             List<string> namesOfPatternElementsToCheckAgainst,
             string negativeIndependentNamePrefix,
             bool isNode,
-            bool neverAboveMaxIsoSpace)
+            bool neverAboveMaxIsoSpace,
+            bool parallel,
+            bool lockForAllThreads)
         {
             PatternElementName = patternElementName;
             NamesOfPatternElementsToCheckAgainst = namesOfPatternElementsToCheckAgainst;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
             NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
+            Parallel = parallel;
+            LockForAllThreads = lockForAllThreads;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2118,6 +3505,8 @@ namespace de.unika.ipd.grGen.lgsp
                     builder.AppendFormat("{0} ", name);
                 }
             }
+            builder.AppendFormat("parallel:{0} first for all:{1} ",
+                Parallel, LockForAllThreads);
             builder.Append("\n");
             // then operations for case check failed
             if (CheckFailedOperations != null)
@@ -2133,22 +3522,34 @@ namespace de.unika.ipd.grGen.lgsp
             // open decision whether to fail
             sourceCode.AppendFront("if(");
 
-            // fail if graph element contained within candidate was already matched
-            // (to another pattern element)
-            // as this would cause a homomorphic match
-            if (!NeverAboveMaxIsoSpace)
-            {
-                sourceCode.Append("(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE ? ");
-            }
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
-            sourceCode.AppendFormat("({0}.lgspFlags & {1}) != 0", variableContainingCandidate, isMatchedBit);
-
-            if (!NeverAboveMaxIsoSpace)
+            if(Parallel)
             {
-                sourceCode.Append(" : ");
-                sourceCode.AppendFormat("graph.inIsoSpaceMatchedElements[isoSpace-(int)GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE-1]"
-                    + ".ContainsKey({0}))", variableContainingCandidate);
+                if(LockForAllThreads)
+                    sourceCode.AppendFormat("graph.perThreadInIsoSpaceMatchedElements[0][isoSpace]"
+                        + ".ContainsKey({0})", variableContainingCandidate);
+                else
+                    sourceCode.AppendFormat("graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace]"
+                        + ".ContainsKey({0})", variableContainingCandidate);
+            }
+            else
+            {
+                // fail if graph element contained within candidate was already matched
+                // (to another pattern element)
+                // as this would cause a homomorphic match
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Append("(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE ? ");
+                }
+                string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
+                sourceCode.AppendFormat("({0}.lgspFlags & {1}) != 0", variableContainingCandidate, isMatchedBit);
+
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Append(" : ");
+                    sourceCode.AppendFormat("graph.inIsoSpaceMatchedElements[isoSpace-(int)GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE-1]"
+                        + ".ContainsKey({0}))", variableContainingCandidate);
+                }
             }
 
             // but only if isomorphy is demanded (NamesOfPatternElementsToCheckAgainst empty)
@@ -2212,6 +3613,8 @@ namespace de.unika.ipd.grGen.lgsp
         public string NegativeIndependentNamePrefix; // "" if top-level
         public bool IsNode; // node|edge
         public bool NeverAboveMaxIsoSpace;
+        public bool Parallel;
+        public bool LockForAllThreads;
     }
 
     /// <summary>
@@ -2225,12 +3628,14 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             List<string> globallyHomomorphElements,
             bool isNode,
-            bool neverAboveMaxIsoSpace)
+            bool neverAboveMaxIsoSpace,
+            bool parallel)
         {
             PatternElementName = patternElementName;
             GloballyHomomorphElements = globallyHomomorphElements;
             IsNode = isNode;
             NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
+            Parallel = parallel;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2262,24 +3667,32 @@ namespace de.unika.ipd.grGen.lgsp
             // open decision whether to fail
             sourceCode.AppendFront("if(");
 
-            // fail if graph element contained within candidate was already matched
-            // (in another subpattern to another pattern element)
-            // as this would cause a inter-pattern-homomorphic match
-            if (!NeverAboveMaxIsoSpace)
-            {
-                sourceCode.Append("(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE ? ");
-            }
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
-
-            sourceCode.AppendFormat("({0}.lgspFlags & {1})=={1}",
-                variableContainingCandidate, isMatchedBit);
-
-            if (!NeverAboveMaxIsoSpace)
+            if(Parallel)
             {
-                sourceCode.Append(" : ");
-                sourceCode.AppendFormat("graph.inIsoSpaceMatchedElementsGlobal[isoSpace-(int)GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE-1]"
-                    + ".ContainsKey({0}))", variableContainingCandidate);
+                sourceCode.AppendFormat("graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace]"
+                    + ".ContainsKey({0})", variableContainingCandidate);
+            }
+            else
+            {
+                // fail if graph element contained within candidate was already matched
+                // (in another subpattern to another pattern element)
+                // as this would cause a inter-pattern-homomorphic match
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Append("(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE ? ");
+                }
+                string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
+
+                sourceCode.AppendFormat("({0}.lgspFlags & {1})=={1}",
+                    variableContainingCandidate, isMatchedBit);
+
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Append(" : ");
+                    sourceCode.AppendFormat("graph.inIsoSpaceMatchedElementsGlobal[isoSpace-(int)GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE-1]"
+                        + ".ContainsKey({0}))", variableContainingCandidate);
+                }
             }
 
             if (GloballyHomomorphElements != null)
@@ -2306,6 +3719,7 @@ namespace de.unika.ipd.grGen.lgsp
         public List<string> GloballyHomomorphElements;
         public bool IsNode; // node|edge
         public bool NeverAboveMaxIsoSpace;
+        public bool Parallel;
     }
 
     /// <summary>
@@ -2662,7 +4076,8 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class CheckPartialMatchForSubpatternsFound : CheckPartialMatch
     {
-        public CheckPartialMatchForSubpatternsFound(string negativeIndependentNamePrefix, bool isIterationBreaking)
+        public CheckPartialMatchForSubpatternsFound(
+            string negativeIndependentNamePrefix)
         {
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
         }
@@ -2711,19 +4126,26 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             string negativeIndependentNamePrefix,
             bool isNode,
-            bool neverAboveMaxIsoSpace)
+            bool neverAboveMaxIsoSpace,
+            bool parallel,
+            bool lockForAllThreads)
         {
             PatternElementName = patternElementName;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
             NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
+            Parallel = parallel;
+            LockForAllThreads = lockForAllThreads;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("AcceptCandidate ");
-            builder.AppendFormat("on {0} negNamePrefix:{1} node:{2}\n",
+            builder.AppendFormat("on {0} negNamePrefix:{1} node:{2}",
                 PatternElementName, NegativeIndependentNamePrefix, IsNode);
+            builder.AppendFormat("parallel:{0} all:{1} ",
+                Parallel, LockForAllThreads);
+            builder.Append("\n");
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2735,33 +4157,53 @@ namespace de.unika.ipd.grGen.lgsp
 
             sourceCode.AppendFrontFormat("uint {0};\n", variableContainingBackupOfMappedMember);
 
-            if (!NeverAboveMaxIsoSpace)
+            if(Parallel)
             {
-                sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
-                sourceCode.Indent();
+                if(LockForAllThreads)
+                {
+                    sourceCode.AppendFrontFormat("{0} = graph.perThreadInIsoSpaceMatchedElements[0][isoSpace].ContainsKey({1}) ? 1U : 0U;\n",
+                        variableContainingBackupOfMappedMember, variableContainingCandidate);
+                    sourceCode.AppendFrontFormat("if({0} == 0) for(int i=0; i<workerThreads.Length; ++i) graph.perThreadInIsoSpaceMatchedElements[i][isoSpace].Add({1},{1});\n",
+                        variableContainingBackupOfMappedMember, variableContainingCandidate);
+                }
+                else
+                {
+                    sourceCode.AppendFrontFormat("{0} = graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace].ContainsKey({1}) ? 1U : 0U;\n",
+                        variableContainingBackupOfMappedMember, variableContainingCandidate);
+                    sourceCode.AppendFrontFormat("if({0} == 0) graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace].Add({1},{1});\n",
+                        variableContainingBackupOfMappedMember, variableContainingCandidate);
+                }
             }
-
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
-            sourceCode.AppendFrontFormat("{0} = {1}.lgspFlags & {2};\n",
-                variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
-            sourceCode.AppendFrontFormat("{0}.lgspFlags |= {1};\n",
-                variableContainingCandidate, isMatchedBit);
-
-            if (!NeverAboveMaxIsoSpace)
+            else
             {
-                sourceCode.Unindent();
-                sourceCode.AppendFront("} else {\n");
-                sourceCode.Indent();
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
+                    sourceCode.Indent();
+                }
 
-                sourceCode.AppendFrontFormat("{0} = graph.inIsoSpaceMatchedElements[isoSpace - (int) "
-                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].ContainsKey({1}) ? 1U : 0U;\n",
-                    variableContainingBackupOfMappedMember, variableContainingCandidate);
-                sourceCode.AppendFrontFormat("if({0} == 0) graph.inIsoSpaceMatchedElements[isoSpace - (int) "
-                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].Add({1},{1});\n",
-                    variableContainingBackupOfMappedMember, variableContainingCandidate);
+                string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
+                sourceCode.AppendFrontFormat("{0} = {1}.lgspFlags & {2};\n",
+                    variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
+                sourceCode.AppendFrontFormat("{0}.lgspFlags |= {1};\n",
+                    variableContainingCandidate, isMatchedBit);
 
-                sourceCode.Unindent();
-                sourceCode.AppendFront("}\n");
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("} else {\n");
+                    sourceCode.Indent();
+
+                    sourceCode.AppendFrontFormat("{0} = graph.inIsoSpaceMatchedElements[isoSpace - (int) "
+                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].ContainsKey({1}) ? 1U : 0U;\n",
+                        variableContainingBackupOfMappedMember, variableContainingCandidate);
+                    sourceCode.AppendFrontFormat("if({0} == 0) graph.inIsoSpaceMatchedElements[isoSpace - (int) "
+                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].Add({1},{1});\n",
+                        variableContainingBackupOfMappedMember, variableContainingCandidate);
+
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                }
             }
         }
 
@@ -2769,6 +4211,8 @@ namespace de.unika.ipd.grGen.lgsp
         public string NegativeIndependentNamePrefix; // "" if top-level
         public bool IsNode; // node|edge
         public bool NeverAboveMaxIsoSpace;
+        public bool Parallel;
+        public bool LockForAllThreads;
     }
 
     /// <summary>
@@ -2781,12 +4225,14 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             string negativeIndependentNamePrefix,
             bool isNode,
-            bool neverAboveMaxIsoSpace)
+            bool neverAboveMaxIsoSpace,
+            bool parallel)
         {
             PatternElementName = patternElementName;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
             NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
+            Parallel = parallel;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2804,33 +4250,43 @@ namespace de.unika.ipd.grGen.lgsp
 
             sourceCode.AppendFrontFormat("uint {0};\n", variableContainingBackupOfMappedMember);
 
-            if (!NeverAboveMaxIsoSpace)
+            if(Parallel)
             {
-                sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
-                sourceCode.Indent();
+                sourceCode.AppendFrontFormat("{0} = graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace].ContainsKey({1}) ? 1U : 0U;\n",
+                    variableContainingBackupOfMappedMember, variableContainingCandidate);
+                sourceCode.AppendFrontFormat("if({0} == 0) graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace].Add({1},{1});\n",
+                    variableContainingBackupOfMappedMember, variableContainingCandidate);
             }
-
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
-            sourceCode.AppendFrontFormat("{0} = {1}.lgspFlags & {2};\n",
-                variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
-            sourceCode.AppendFrontFormat("{0}.lgspFlags |= {1};\n",
-                variableContainingCandidate, isMatchedBit);
-
-            if (!NeverAboveMaxIsoSpace)
+            else
             {
-                sourceCode.Unindent();
-                sourceCode.AppendFront("} else {\n");
-                sourceCode.Indent();
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
+                    sourceCode.Indent();
+                }
 
-                sourceCode.AppendFrontFormat("{0} = graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) "
-                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].ContainsKey({1}) ? 1U : 0U;\n",
-                    variableContainingBackupOfMappedMember, variableContainingCandidate);
-                sourceCode.AppendFrontFormat("if({0} == 0) graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) "
-                    + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].Add({1},{1});\n",
-                    variableContainingBackupOfMappedMember, variableContainingCandidate);
+                string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
+                sourceCode.AppendFrontFormat("{0} = {1}.lgspFlags & {2};\n",
+                    variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
+                sourceCode.AppendFrontFormat("{0}.lgspFlags |= {1};\n",
+                    variableContainingCandidate, isMatchedBit);
 
-                sourceCode.Unindent();
-                sourceCode.AppendFront("}\n");
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("} else {\n");
+                    sourceCode.Indent();
+
+                    sourceCode.AppendFrontFormat("{0} = graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) "
+                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].ContainsKey({1}) ? 1U : 0U;\n",
+                        variableContainingBackupOfMappedMember, variableContainingCandidate);
+                    sourceCode.AppendFrontFormat("if({0} == 0) graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) "
+                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].Add({1},{1});\n",
+                        variableContainingBackupOfMappedMember, variableContainingCandidate);
+
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                }
             }
         }
 
@@ -2838,6 +4294,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string NegativeIndependentNamePrefix; // "" if top-level
         public bool IsNode; // node|edge
         public bool NeverAboveMaxIsoSpace;
+        public bool Parallel;
     }
 
     /// <summary>
@@ -2914,19 +4371,26 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             string negativeIndependentNamePrefix,
             bool isNode,
-            bool neverAboveMaxIsoSpace)
+            bool neverAboveMaxIsoSpace,
+            bool parallel,
+            bool lockForAllThreads)
         {
             PatternElementName = patternElementName;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
             NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
+            Parallel = parallel;
+            LockForAllThreads = lockForAllThreads;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("AbandonCandidate ");
-            builder.AppendFormat("on {0} negNamePrefix:{1} node:{2}\n",
+            builder.AppendFormat("on {0} negNamePrefix:{1} node:{2}",
                 PatternElementName, NegativeIndependentNamePrefix, IsNode);
+            builder.AppendFormat("parallel:{0} all:{1} ",
+                Parallel, LockForAllThreads);
+            builder.AppendFormat("\n");
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2936,32 +4400,58 @@ namespace de.unika.ipd.grGen.lgsp
             string variableContainingCandidate =
                 NamesOfEntities.CandidateVariable(PatternElementName);
 
-            if (!NeverAboveMaxIsoSpace)
+            if(Parallel)
             {
-                sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
-                sourceCode.Indent();
+                if(LockForAllThreads)
+                {
+                    sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
+                    sourceCode.Indent();
+                    sourceCode.AppendFrontFormat(
+                        "for(int i=0; i<workerThreads.Length; ++i) graph.perThreadInIsoSpaceMatchedElements[i][isoSpace]"
+                            + ".Remove({0});\n", variableContainingCandidate);
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                }
+                else
+                {
+                    sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
+                    sourceCode.Indent();
+                    sourceCode.AppendFrontFormat(
+                        "graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace]"
+                            + ".Remove({0});\n", variableContainingCandidate);
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                }
             }
-
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
-            sourceCode.AppendFrontFormat("{0}.lgspFlags = {0}.lgspFlags & ~({1}) | {2};\n",
-                variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
-
-            if (!NeverAboveMaxIsoSpace)
+            else
             {
-                sourceCode.Unindent();
-                sourceCode.AppendFront("} else { \n");
-                sourceCode.Indent();
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
+                    sourceCode.Indent();
+                }
 
-                sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
-                sourceCode.Indent();
-                sourceCode.AppendFrontFormat(
-                    "graph.inIsoSpaceMatchedElements[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1]"
-                        + ".Remove({0});\n", variableContainingCandidate);
-                sourceCode.Unindent();
-                sourceCode.AppendFront("}\n");
+                string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
+                sourceCode.AppendFrontFormat("{0}.lgspFlags = {0}.lgspFlags & ~({1}) | {2};\n",
+                    variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
 
-                sourceCode.Unindent();
-                sourceCode.AppendFront("}\n");
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("} else { \n");
+                    sourceCode.Indent();
+
+                    sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
+                    sourceCode.Indent();
+                    sourceCode.AppendFrontFormat(
+                        "graph.inIsoSpaceMatchedElements[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1]"
+                            + ".Remove({0});\n", variableContainingCandidate);
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                }
             }
         }
 
@@ -2969,6 +4459,8 @@ namespace de.unika.ipd.grGen.lgsp
         public string NegativeIndependentNamePrefix; // "" if top-level
         public bool IsNode; // node|edge
         public bool NeverAboveMaxIsoSpace;
+        public bool Parallel;
+        public bool LockForAllThreads;
     }
 
     /// <summary>
@@ -2981,12 +4473,14 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             string negativeIndependentNamePrefix,
             bool isNode,
-            bool neverAboveMaxIsoSpace)
+            bool neverAboveMaxIsoSpace,
+            bool parallel)
         {
             PatternElementName = patternElementName;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
             NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
+            Parallel = parallel;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -3002,32 +4496,45 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternElementName, NegativeIndependentNamePrefix);
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
 
-            if (!NeverAboveMaxIsoSpace)
+            if(Parallel)
             {
-                sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
-                sourceCode.Indent();
-            }
-
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
-            sourceCode.AppendFrontFormat("{0}.lgspFlags = {0}.lgspFlags & ~({1}) | {2};\n",
-                variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
-
-            if (!NeverAboveMaxIsoSpace)
-            {
-                sourceCode.Unindent();
-                sourceCode.AppendFront("} else { \n");
-                sourceCode.Indent();
-
                 sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat(
-                    "graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1]"
+                    "graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace]"
                         + ".Remove({0});\n", variableContainingCandidate);
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
+            }
+            else
+            {
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
+                    sourceCode.Indent();
+                }
 
-                sourceCode.Unindent();
-                sourceCode.AppendFront("}\n");
+                string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
+                sourceCode.AppendFrontFormat("{0}.lgspFlags = {0}.lgspFlags & ~({1}) | {2};\n",
+                    variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
+
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("} else { \n");
+                    sourceCode.Indent();
+
+                    sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
+                    sourceCode.Indent();
+                    sourceCode.AppendFrontFormat(
+                        "graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1]"
+                            + ".Remove({0});\n", variableContainingCandidate);
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                }
             }
         }
 
@@ -3035,6 +4542,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string NegativeIndependentNamePrefix; // "" if positive
         public bool IsNode; // node|edge
         public bool NeverAboveMaxIsoSpace;
+        public bool Parallel;
     }
 
     /// <summary>
@@ -3139,15 +4647,19 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public PositivePatternWithoutSubpatternsMatched(
             string rulePatternClassName,
-            string patternName)
+            string patternName,
+            bool inParallelizedBody)
         {
             RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
+            InParallelizedBody = inParallelizedBody;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("PositivePatternMatched \n");
+            if(InParallelizedBody)
+                builder.AppendFront("InParallelizedBody \n");
 
             if (MatchBuildingOperations != null)
             {
@@ -3159,17 +4671,28 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("{0}.{1} match = matches.GetNextUnfilledPosition();\n",
-                RulePatternClassName, NamesOfEntities.MatchClassName(PatternName));
+            if(InParallelizedBody)
+                sourceCode.AppendFrontFormat("{0}.{1} match = parallelTaskMatches[threadId].GetNextUnfilledPosition();\n",
+                    RulePatternClassName, NamesOfEntities.MatchClassName(PatternName));
+            else
+                sourceCode.AppendFrontFormat("{0}.{1} match = matches.GetNextUnfilledPosition();\n",
+                    RulePatternClassName, NamesOfEntities.MatchClassName(PatternName));
 
             // emit match building operations
             MatchBuildingOperations.Emit(sourceCode);
 
-            sourceCode.AppendFront("matches.PositionWasFilledFixIt();\n");
+            if(InParallelizedBody)
+            {
+                sourceCode.AppendFront("match.IterationNumber = currentIterationNumber;\n");
+                sourceCode.AppendFront("parallelTaskMatches[threadId].PositionWasFilledFixIt();\n");
+            }
+            else
+                sourceCode.AppendFront("matches.PositionWasFilledFixIt();\n");
         }
 
         string RulePatternClassName;
         string PatternName;
+        bool InParallelizedBody;
 
         public SearchProgramList MatchBuildingOperations;
     }
@@ -3244,16 +4767,20 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternAndSubpatternsMatched(
             string rulePatternClassName,
             string patternName,
+            bool inParallelizedBody,
             PatternAndSubpatternsMatchedType type)
         {
             RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
+            InParallelizedBody = inParallelizedBody;
             Type = type;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("PatternAndSubpatternsMatched ");
+            if(InParallelizedBody)
+                builder.Append("InParallelizedBody ");
             switch (Type)
             {
                 case PatternAndSubpatternsMatchedType.Action: builder.Append("Action \n"); break;
@@ -3306,11 +4833,21 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0}.{1} match = matches.GetNextUnfilledPosition();\n",
-                    RulePatternClassName, NamesOfEntities.MatchClassName(PatternName));
+                if(InParallelizedBody)
+                    sourceCode.AppendFrontFormat("{0}.{1} match = parallelTaskMatches[threadId].GetNextUnfilledPosition();\n",
+                        RulePatternClassName, NamesOfEntities.MatchClassName(PatternName));
+                else
+                    sourceCode.AppendFrontFormat("{0}.{1} match = matches.GetNextUnfilledPosition();\n",
+                        RulePatternClassName, NamesOfEntities.MatchClassName(PatternName));
                 MatchBuildingOperations.Emit(sourceCode); // emit match building operations
-                sourceCode.AppendFront("matches.PositionWasFilledFixIt();\n");
-
+                if(InParallelizedBody)
+                {
+                    sourceCode.AppendFront("match.IterationNumber = currentIterationNumber;\n");
+                    sourceCode.AppendFront("parallelTaskMatches[threadId].PositionWasFilledFixIt();\n");
+                }
+                else
+                    sourceCode.AppendFront("matches.PositionWasFilledFixIt();\n");
+                
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
                 sourceCode.AppendFront("matchesList.Clear();\n");
@@ -3319,6 +4856,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         string RulePatternClassName;
         string PatternName;
+        bool InParallelizedBody; 
         PatternAndSubpatternsMatchedType Type;
 
         public SearchProgramList MatchBuildingOperations;
@@ -3868,25 +5406,29 @@ namespace de.unika.ipd.grGen.lgsp
         public AdjustListHeads(
             AdjustListHeadsTypes type,
             string patternElementName,
-            bool isNode)
+            bool isNode,
+            bool parallel)
         {
             Debug.Assert(type == AdjustListHeadsTypes.GraphElements);
             Type = type;
             PatternElementName = patternElementName;
             IsNode = isNode;
+            Parallel = parallel;
         }
 
         public AdjustListHeads(
             AdjustListHeadsTypes type,
             string patternElementName,
             string startingPointNodeName,
-            IncidentEdgeType incidentType)
+            IncidentEdgeType incidentType,
+            bool parallel)
         {
             Debug.Assert(type == AdjustListHeadsTypes.IncidentEdges);
             Type = type;
             PatternElementName = patternElementName;
             StartingPointNodeName = startingPointNodeName;
             IncidentType = incidentType;
+            Parallel = parallel;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -3894,12 +5436,12 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFront("AdjustListHeads ");
             if(Type==AdjustListHeadsTypes.GraphElements) {
                 builder.Append("GraphElements ");
-                builder.AppendFormat("on {0} node:{1}\n",
-                    PatternElementName, IsNode);
+                builder.AppendFormat("on {0} node:{1} {2}\n",
+                    PatternElementName, IsNode, Parallel ? "Parallel " : "");
             } else { // Type==AdjustListHeadsTypes.IncidentEdges
                 builder.Append("IncidentEdges ");
-                builder.AppendFormat("on {0} from:{1} incident type:{2}\n",
-                    PatternElementName, StartingPointNodeName, IncidentType.ToString());
+                builder.AppendFormat("on {0} from:{1} incident type:{2} {3}\n",
+                    PatternElementName, StartingPointNodeName, IncidentType.ToString(), Parallel ? "Parallel " : "");
             }
         }
 
@@ -3907,22 +5449,42 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if (Type == AdjustListHeadsTypes.GraphElements)
             {
-                sourceCode.AppendFrontFormat("graph.MoveHeadAfter({0});\n",
-                    NamesOfEntities.CandidateVariable(PatternElementName));
+                if(Parallel)
+                {
+                    if(IsNode)
+                        sourceCode.AppendFrontFormat("moveHeadAfterNodes[threadId].Add({0});\n",
+                            NamesOfEntities.CandidateVariable(PatternElementName));
+                    else
+                        sourceCode.AppendFrontFormat("moveHeadAfterEdges[threadId].Add({0});\n",
+                            NamesOfEntities.CandidateVariable(PatternElementName));
+                }
+                else
+                    sourceCode.AppendFrontFormat("graph.MoveHeadAfter({0});\n",
+                         NamesOfEntities.CandidateVariable(PatternElementName));
             }
             else //Type == AdjustListHeadsTypes.IncidentEdges
             {
                 if (IncidentType == IncidentEdgeType.Incoming)
                 {
-                    sourceCode.AppendFrontFormat("{0}.MoveInHeadAfter({1});\n",
-                        NamesOfEntities.CandidateVariable(StartingPointNodeName),
-                        NamesOfEntities.CandidateVariable(PatternElementName));
+                    if(Parallel)
+                        sourceCode.AppendFrontFormat("moveInHeadAfter[threadId].Add(new KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>({0}, {1}));\n",
+                            NamesOfEntities.CandidateVariable(StartingPointNodeName),
+                            NamesOfEntities.CandidateVariable(PatternElementName));
+                    else
+                        sourceCode.AppendFrontFormat("{0}.MoveInHeadAfter({1});\n",
+                            NamesOfEntities.CandidateVariable(StartingPointNodeName),
+                            NamesOfEntities.CandidateVariable(PatternElementName));
                 }
                 else if (IncidentType == IncidentEdgeType.Outgoing)
                 {
-                    sourceCode.AppendFrontFormat("{0}.MoveOutHeadAfter({1});\n",
-                        NamesOfEntities.CandidateVariable(StartingPointNodeName),
-                        NamesOfEntities.CandidateVariable(PatternElementName));
+                    if(Parallel)
+                        sourceCode.AppendFrontFormat("moveOutHeadAfter[threadId].Add(new KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>({0}, {1}));\n",
+                            NamesOfEntities.CandidateVariable(StartingPointNodeName),
+                            NamesOfEntities.CandidateVariable(PatternElementName));
+                    else
+                        sourceCode.AppendFrontFormat("{0}.MoveOutHeadAfter({1});\n",
+                            NamesOfEntities.CandidateVariable(StartingPointNodeName),
+                            NamesOfEntities.CandidateVariable(PatternElementName));
                 }
                 else // IncidentType == IncidentEdgeType.IncomingOrOutgoing
                 {
@@ -3930,15 +5492,25 @@ namespace de.unika.ipd.grGen.lgsp
                         NamesOfEntities.DirectionRunCounterVariable(PatternElementName));
                     sourceCode.Append(" {\n");
                     sourceCode.Indent();
-                    sourceCode.AppendFrontFormat("{0}.MoveInHeadAfter({1});\n",
-                         NamesOfEntities.CandidateVariable(StartingPointNodeName),
-                         NamesOfEntities.CandidateVariable(PatternElementName));
+                    if(Parallel)
+                        sourceCode.AppendFrontFormat("moveInHeadAfter[threadId].Add(new KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>({0}, {1}));\n",
+                            NamesOfEntities.CandidateVariable(StartingPointNodeName),
+                            NamesOfEntities.CandidateVariable(PatternElementName));
+                    else
+                        sourceCode.AppendFrontFormat("{0}.MoveInHeadAfter({1});\n",
+                            NamesOfEntities.CandidateVariable(StartingPointNodeName),
+                            NamesOfEntities.CandidateVariable(PatternElementName));
                     sourceCode.Unindent();
                     sourceCode.AppendFront("} else {\n");
                     sourceCode.Indent();
-                    sourceCode.AppendFrontFormat("{0}.MoveOutHeadAfter({1});\n",
-                        NamesOfEntities.CandidateVariable(StartingPointNodeName),
-                        NamesOfEntities.CandidateVariable(PatternElementName));
+                    if(Parallel)
+                        sourceCode.AppendFrontFormat("moveOutHeadAfter[threadId].Add(new KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>({0}, {1}));\n",
+                            NamesOfEntities.CandidateVariable(StartingPointNodeName),
+                            NamesOfEntities.CandidateVariable(PatternElementName));
+                    else
+                        sourceCode.AppendFrontFormat("{0}.MoveOutHeadAfter({1});\n",
+                            NamesOfEntities.CandidateVariable(StartingPointNodeName),
+                            NamesOfEntities.CandidateVariable(PatternElementName));
                     sourceCode.Unindent();
                     sourceCode.AppendFront("}\n");
                 }
@@ -3950,6 +5522,7 @@ namespace de.unika.ipd.grGen.lgsp
         public bool IsNode; // node|edge - only valid if GraphElements
         public string StartingPointNodeName; // only valid if IncidentEdges
         public IncidentEdgeType IncidentType; // only valid if IncidentEdges
+        public bool Parallel;
     }
 
     /// <summary>
@@ -4017,20 +5590,24 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class CheckContinueMatchingMaximumMatchesReached : CheckContinueMatching
     {
-        public CheckContinueMatchingMaximumMatchesReached(CheckMaximumMatchesType type, bool listHeadAdjustment,
+        public CheckContinueMatchingMaximumMatchesReached(
+            CheckMaximumMatchesType type, bool listHeadAdjustment, bool inParallelizedBody,
             bool emitProfiling, string actionName, bool emitFirstLoopProfiling)
         {
             Type = type;
             ListHeadAdjustment = listHeadAdjustment;
+            InParallelizedBody = inParallelizedBody;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
-        public CheckContinueMatchingMaximumMatchesReached(CheckMaximumMatchesType type, bool listHeadAdjustment)
+        public CheckContinueMatchingMaximumMatchesReached(
+            CheckMaximumMatchesType type, bool listHeadAdjustment, bool inParallelizedBody)
         {
             Type = type;
             ListHeadAdjustment = listHeadAdjustment;
+            InParallelizedBody = inParallelizedBody;
             EmitProfiling = false;
             ActionName = null;
             EmitFirstLoopProfiling = false;
@@ -4048,6 +5625,7 @@ namespace de.unika.ipd.grGen.lgsp
                 builder.AppendFront("CheckContinueMatching MaximumMatchesReached if Iterated ");
             }
             if (ListHeadAdjustment) builder.Append("ListHeadAdjustment ");
+            if (InParallelizedBody) builder.Append("InParallelizedBody ");
             builder.Append("\n");
 
             // then operations for case check failed
@@ -4065,7 +5643,10 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("// if enough matches were found, we leave\n");
 
             if (Type == CheckMaximumMatchesType.Action) {
-                sourceCode.AppendFront("if(maxMatches > 0 && matches.Count >= maxMatches)\n");
+                if(InParallelizedBody)
+                    sourceCode.AppendFront("if(maxMatches > 0 && parallelTaskMatches[threadId].Count >= maxMatches)\n");
+                else
+                    sourceCode.AppendFront("if(maxMatches > 0 && matches.Count >= maxMatches)\n");
             } else if (Type == CheckMaximumMatchesType.Subpattern) {
                 sourceCode.AppendFront("if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)\n");
             } else if (Type == CheckMaximumMatchesType.Iterated) {
@@ -4074,6 +5655,9 @@ namespace de.unika.ipd.grGen.lgsp
     
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
+
+            if(Type == CheckMaximumMatchesType.Action && InParallelizedBody)
+                sourceCode.AppendFront("maxMatchesFound = true;\n");
 
             // insert here
             if(EmitProfiling)
@@ -4101,6 +5685,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public CheckMaximumMatchesType Type;
         public bool ListHeadAdjustment;
+        public bool InParallelizedBody;
         public bool EmitProfiling;
         public string ActionName;
         public bool EmitFirstLoopProfiling;
@@ -4277,17 +5862,21 @@ namespace de.unika.ipd.grGen.lgsp
     class ContinueOperation : SearchProgramOperation
     {
         public ContinueOperation(ContinueOperationType type,
-            bool returnMatches)
+            bool returnMatches, 
+            bool inParallelizedBody)
         {
             Debug.Assert(type == ContinueOperationType.ByReturn);
             Type = type;
             ReturnMatches = returnMatches;
+            InParallelizedBody = inParallelizedBody;
         }
 
-        public ContinueOperation(ContinueOperationType type)
+        public ContinueOperation(ContinueOperationType type,
+            bool continueAtParllelizedLoop)
         {
             Debug.Assert(type == ContinueOperationType.ByContinue);
             Type = type;
+            ContinueAtParallelizedLoop = continueAtParllelizedLoop;
         }
 
         public ContinueOperation(ContinueOperationType type,
@@ -4303,9 +5892,11 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFront("ContinueOperation ");
             if(Type==ContinueOperationType.ByReturn) {
                 builder.Append("ByReturn ");
+                if(InParallelizedBody)
+                builder.Append("InParallelizedBody ");
                 builder.AppendFormat("return matches:{0}\n", ReturnMatches);
             } else if(Type==ContinueOperationType.ByContinue) {
-                builder.Append("ByContinue\n");
+                builder.AppendFormat("ByContinue {0}\n", ContinueAtParallelizedLoop ? "AtParallelizedLoop" : "");
             } else { // Type==ContinueOperationType.ByGoto
                 builder.Append("ByGoto ");
                 builder.AppendFormat("{0}\n", LabelName);
@@ -4314,22 +5905,29 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (Type == ContinueOperationType.ByReturn)
+            if(Type == ContinueOperationType.ByReturn)
             {
-                if (ReturnMatches)
-                {
-#if ENSURE_FLAGS_IN_GRAPH_ARE_EMPTY_AT_LEAVING_TOP_LEVEL_MATCHING_ACTION
-                    sourceCode.AppendFront("graph.CheckEmptyFlags();\n");
-#endif
-                    sourceCode.AppendFront("return matches;\n");
-                }
+                if(InParallelizedBody)
+                    sourceCode.AppendFrontFormat("goto workDoneWaitForNewWork;\n");
                 else
                 {
-                    sourceCode.AppendFront("return;\n");
+                    if(ReturnMatches)
+                    {
+#if ENSURE_FLAGS_IN_GRAPH_ARE_EMPTY_AT_LEAVING_TOP_LEVEL_MATCHING_ACTION
+                        sourceCode.AppendFront("graph.CheckEmptyFlags();\n");
+#endif
+                        sourceCode.AppendFront("return matches;\n");
+                    }
+                    else
+                    {
+                        sourceCode.AppendFront("return;\n");
+                    }
                 }
             }
-            else if (Type == ContinueOperationType.ByContinue)
+            else if(Type == ContinueOperationType.ByContinue)
             {
+                if(ContinueAtParallelizedLoop) //re-aquire parallel matching enumeration lock before entering loop header
+                    sourceCode.AppendFront("Monitor.Enter(this);\n");
                 sourceCode.AppendFront("continue;\n");
             }
             else //Type == ContinueOperationType.ByGoto
@@ -4340,7 +5938,9 @@ namespace de.unika.ipd.grGen.lgsp
 
         public ContinueOperationType Type;
         public bool ReturnMatches; // only valid if ByReturn
+        public bool InParallelizedBody; // only valid if ByReturn
         public string LabelName; // only valid if ByGoto
+        public bool ContinueAtParallelizedLoop; // only valid if ByContinue
     }
 
     /// <summary>
@@ -4561,7 +6161,8 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeIndependentNamePrefix,
             string searchPatternpath,
             string matchOfNestingPattern,
-            string lastMatchAtPreviousNestingLevel)
+            string lastMatchAtPreviousNestingLevel,
+            bool parallel)
         {
             Debug.Assert(connectionName.Length == argumentExpressions.Length);
             Debug.Assert(type == PushAndPopSubpatternTaskTypes.Subpattern);
@@ -4577,6 +6178,8 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPatternpath = searchPatternpath;
             MatchOfNestingPattern = matchOfNestingPattern;
             LastMatchAtPreviousNestingLevel = lastMatchAtPreviousNestingLevel;
+
+            Parallel = parallel;
         }
 
         public PushSubpatternTask(
@@ -4591,7 +6194,8 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeIndependentNamePrefix,
             string searchPatternpath,
             string matchOfNestingPattern,
-            string lastMatchAtPreviousNestingLevel)
+            string lastMatchAtPreviousNestingLevel,
+            bool parallel)
         {
             Debug.Assert(connectionName.Length == argumentExpressions.Length);
             Debug.Assert(type == PushAndPopSubpatternTaskTypes.Alternative
@@ -4611,6 +6215,8 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPatternpath = searchPatternpath;
             MatchOfNestingPattern = matchOfNestingPattern;
             LastMatchAtPreviousNestingLevel = lastMatchAtPreviousNestingLevel;
+
+            Parallel = parallel;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -4628,6 +6234,9 @@ namespace de.unika.ipd.grGen.lgsp
             } else {
                 builder.AppendFormat("{0}/{1} ", PathPrefix, AlternativeOrIteratedName);
             }
+
+            if(Parallel)
+                builder.Append("Parallel ");
 
             builder.Append("with ");
             for (int i = 0; i < ConnectionName.Length; ++i)
@@ -4651,13 +6260,14 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             string variableContainingTask;
+            string parallelizationThreadId = Parallel ? ", threadId" : "";
             if (Type == PushAndPopSubpatternTaskTypes.Subpattern)
             {
                 // create matching task for subpattern
                 variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName, NegativeIndependentNamePrefix);
                 string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(SubpatternName, false, false);
-                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(actionEnv, {2}openTasks);\n",
-                    typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix);
+                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(actionEnv, {2}openTasks{3});\n",
+                    typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix, parallelizationThreadId);
             }
             else if (Type == PushAndPopSubpatternTaskTypes.Alternative)
             {
@@ -4671,16 +6281,16 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraphPath += PathPrefixInRulePatternClass.Substring(0, PathPrefixInRulePatternClass.Length - 1);
                 string alternativeCases = patternGraphPath + ".alternatives[(int)" + RulePatternClassName + "."
                     + PathPrefixInRulePatternClass + "AltNums.@" + AlternativeNameInRulePatternClass + "].alternativeCases";
-                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(actionEnv, {2}openTasks, {3});\n",
-                    typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix, alternativeCases);
+                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(actionEnv, {2}openTasks, {3}{4});\n",
+                    typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix, alternativeCases, parallelizationThreadId);
             }
             else // if(Type == PushAndPopSubpatternTaskTypes.Iterated)
             {
                 // create matching task for iterated
                 variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
                 string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, false, true);
-                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(actionEnv, {2}openTasks);\n",
-                    typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix);
+                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(actionEnv, {2}openTasks{3});\n",
+                    typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix, parallelizationThreadId);
             }
             
             // fill in connections
@@ -4716,6 +6326,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string SearchPatternpath;
         public string MatchOfNestingPattern;
         public string LastMatchAtPreviousNestingLevel;
+        public bool Parallel;
     }
 
     /// <summary>
@@ -4723,8 +6334,11 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class PopSubpatternTask : SearchProgramOperation
     {
-        public PopSubpatternTask(string negativeIndependentNamePrefix, PushAndPopSubpatternTaskTypes type,
-            string subpatternOrAlternativeOrIteratedName, string subpatternElementNameOrPathPrefix)
+        public PopSubpatternTask(string negativeIndependentNamePrefix,
+            PushAndPopSubpatternTaskTypes type,
+            string subpatternOrAlternativeOrIteratedName, 
+            string subpatternElementNameOrPathPrefix,
+            bool parallel)
         {
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             Type = type;
@@ -4738,16 +6352,20 @@ namespace de.unika.ipd.grGen.lgsp
                 AlternativeOrIteratedName = subpatternOrAlternativeOrIteratedName;
                 PathPrefix = subpatternElementNameOrPathPrefix;
             }
+            Parallel = parallel;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             if (Type == PushAndPopSubpatternTaskTypes.Subpattern) {
-                builder.AppendFrontFormat("PopSubpatternTask Subpattern {0}\n", SubpatternElementName);
+                builder.AppendFrontFormat("PopSubpatternTask Subpattern {0} {1}\n",
+                    SubpatternElementName, Parallel ? "Parallel" : "");
             } else if (Type == PushAndPopSubpatternTaskTypes.Alternative) {
-                builder.AppendFrontFormat("PopSubpatternTask Alternative {0}\n", AlternativeOrIteratedName);
+                builder.AppendFrontFormat("PopSubpatternTask Alternative {0} {1}\n",
+                    AlternativeOrIteratedName, Parallel ? "Parallel" : "");
             } else { // Type==PushAndPopSubpatternTaskTypes.Iterated
-                builder.AppendFrontFormat("PopSubpatternTask Iterated {0}\n", AlternativeOrIteratedName);
+                builder.AppendFrontFormat("PopSubpatternTask Iterated {0} {1}\n",
+                    AlternativeOrIteratedName, Parallel ? "Parallel" : "");
             }
         }
 
@@ -4777,7 +6395,9 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
                 typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, false, true);
             }
-            sourceCode.AppendFrontFormat("{0}.releaseTask({1});\n", typeOfVariableContainingTask, variableContainingTask);
+            string parallelizationThreadId = Parallel ? ", threadId" : "";
+            sourceCode.AppendFrontFormat("{0}.releaseTask({1}{2});\n", 
+                typeOfVariableContainingTask, variableContainingTask, parallelizationThreadId);
         }
 
         public PushAndPopSubpatternTaskTypes Type;
@@ -4786,6 +6406,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string PathPrefix; // only valid if Type==Alternative|Iterated
         public string AlternativeOrIteratedName; // only valid if Type==Alternative|Iterated
         public string NegativeIndependentNamePrefix;
+        public bool Parallel;
     }
 
     /// <summary>
@@ -4793,9 +6414,10 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class MatchSubpatterns : SearchProgramOperation
     {
-        public MatchSubpatterns(string negativeIndependentNamePrefix)
+        public MatchSubpatterns(string negativeIndependentNamePrefix, bool parallelized)
         {
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
+            Parallelized = parallelized;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -4809,11 +6431,22 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("// Match subpatterns {0}\n", 
                     NegativeIndependentNamePrefix!="" ? "of "+NegativeIndependentNamePrefix : "");
 
-            sourceCode.AppendFrontFormat("{0}openTasks.Peek().myMatch({0}matchesList, {1}, isoSpace);\n",
-                NegativeIndependentNamePrefix, NegativeIndependentNamePrefix=="" ? "maxMatches - foundPartialMatches.Count" : "1");
+            if(Parallelized)
+            {
+                sourceCode.AppendFrontFormat("{0}openTasks.Peek().myMatch_parallelized({0}matchesList, {1}, isoSpace, threadId);\n",
+                    NegativeIndependentNamePrefix,
+                    NegativeIndependentNamePrefix == "" ? "maxMatches - foundPartialMatches.Count" : "1");
+            }
+            else
+            {
+                sourceCode.AppendFrontFormat("{0}openTasks.Peek().myMatch({0}matchesList, {1}, isoSpace);\n",
+                    NegativeIndependentNamePrefix,
+                    NegativeIndependentNamePrefix == "" ? "maxMatches - foundPartialMatches.Count" : "1");
+            }
         }
 
         public string NegativeIndependentNamePrefix;
+        public bool Parallelized;
     }
 
     /// <summary>
@@ -4963,23 +6596,34 @@ namespace de.unika.ipd.grGen.lgsp
         public InitializeNegativeIndependentMatching(
             bool containsSubpatterns,
             string negativeIndependentNamePrefix,
-            bool neverAboveMaxIsoSpace)
+            bool neverAboveMaxIsoSpace,
+            bool parallel)
         {
             SetupSubpatternMatching = containsSubpatterns;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
+            Parallel = parallel;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFrontFormat("InitializeNegativeIndependentMatching {0}\n", 
-                SetupSubpatternMatching ? "SetupSubpatternMatching" : "");
+            builder.AppendFront("InitializeNegativeIndependentMatching "); 
+            if(SetupSubpatternMatching)
+                builder.AppendFront("SetupSubpatternMatching ");
+            if(Parallel)
+                builder.AppendFront("Parallel ");
+            builder.Append("\n"); 
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.AppendFront("++isoSpace;\n");
-            if (!NeverAboveMaxIsoSpace)
+            if(Parallel)
+            {
+                sourceCode.AppendFront("if(graph.perThreadInIsoSpaceMatchedElements[threadId].Count-1 < isoSpace)\n");
+                sourceCode.AppendFront("\tgraph.AllocateFurtherIsomorphySpaceNestingLevelForParallelizedMatching(threadId);\n");
+            }
+            else if(!NeverAboveMaxIsoSpace)
             {
                 sourceCode.AppendFront("if(isoSpace > (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE && "
                     + "isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE > graph.inIsoSpaceMatchedElements.Count) {\n");
@@ -4988,7 +6632,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
             }
-            if (SetupSubpatternMatching)
+            if(SetupSubpatternMatching)
             {
                 sourceCode.AppendFrontFormat("Stack<GRGEN_LGSP.LGSPSubpatternAction> {0}openTasks ="
                     + " new Stack<GRGEN_LGSP.LGSPSubpatternAction>();\n", NegativeIndependentNamePrefix);
@@ -5002,6 +6646,7 @@ namespace de.unika.ipd.grGen.lgsp
         public bool SetupSubpatternMatching;
         public string NegativeIndependentNamePrefix;
         public bool NeverAboveMaxIsoSpace;
+        public bool Parallel;
     }
 
     /// <summary>
@@ -5010,19 +6655,29 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class FinalizeNegativeIndependentMatching : SearchProgramOperation
     {
-        public FinalizeNegativeIndependentMatching(bool neverAboveMaxIsoSpace)
+        public FinalizeNegativeIndependentMatching(bool neverAboveMaxIsoSpace, bool parallel)
         {
             NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
+            Parallel = parallel;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("FinalizeNegativeIndependentMatching\n");
+            builder.AppendFront("FinalizeNegativeIndependentMatching ");
+            if(Parallel)
+                builder.AppendFront("Parallel ");
+            builder.Append("\n");
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (!NeverAboveMaxIsoSpace)
+            // TODO: why is the clear needed? is it needed at all? the set being empty must be ensured at this point.
+            if(Parallel)
+            {
+                sourceCode.AppendFront("graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace].Clear();\n");
+                sourceCode.AppendFront("graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace].Clear();\n");
+            }
+            else if(!NeverAboveMaxIsoSpace)
             {
                 sourceCode.AppendFront("if(isoSpace > (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
                 sourceCode.Indent();
@@ -5035,6 +6690,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public bool NeverAboveMaxIsoSpace;
+        public bool Parallel;
     }
 
     /// <summary>

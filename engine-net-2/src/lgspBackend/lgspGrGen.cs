@@ -1049,6 +1049,8 @@ namespace de.unika.ipd.grGen.lgsp
 
                 matcherGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(matchingPattern.patternGraph);
 
+                matcherGen.ParallelizeAsNeeded(matchingPattern);
+
                 matcherGen.GenerateActionAndMatcher(source, matchingPattern, true);
             }
 
