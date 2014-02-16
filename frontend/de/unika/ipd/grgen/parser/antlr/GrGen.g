@@ -38,6 +38,7 @@ tokens {
 	package de.unika.ipd.grgen.parser.antlr;
 
 	import java.io.File;
+	import java.io.IOException;
 }
 
 @lexer::members {
@@ -4221,9 +4222,26 @@ STRING_LITERAL
 
 INCLUDE
   : '#include' WS s=STRING_LITERAL {
-	String file = s.getText();
-	file = file.substring(1,file.length()-1);
-	env.pushFile(this, new File(file));
+	String filename = s.getText();
+	filename = filename.substring(1,filename.length()-1);
+	
+	//Instead of making includes relative to the main grg file
+	//we try to interpret the included path as relative to the including file
+	File file = new File(filename);
+	if(!file.isAbsolute())
+	{
+		try
+		{
+			//Get the parent folder of the including file
+			File dir = new File(env.getFilename()).getCanonicalFile().getParentFile();
+			file = new File(dir, filename);
+		}
+		catch(IOException e)
+		{
+			//getCanonicalFile can throw an IOException if that happens we just return to the old behaviour
+		}
+	}
+	env.pushFile(this, file);
   }
   ;
 
