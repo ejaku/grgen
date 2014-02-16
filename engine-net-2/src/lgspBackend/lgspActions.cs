@@ -57,12 +57,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// the name of the type prefixed by the name of the package otherwise.
         /// </summary>
         public string PackagePrefixedName { get { return patternGraph.PackagePrefixedName; } }
-
-        /// <summary>
-        /// Tells current worker threads to terminate, in case the matcher is parallelized (otherwise this is a nop).
-        /// Prevents a resource leak in case a parallelized matcher is to be replaced by a new one (typically a statically replaced by a dynamically).
-        /// </summary>
-        public virtual void EndWorkerThreads() { }
     }
 
 

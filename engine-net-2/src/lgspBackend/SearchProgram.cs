@@ -437,11 +437,11 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("int isoSpace = 0;\n");
             sourceCode.AppendFront("actionEnvParallel = actionEnv;\n");
             sourceCode.AppendFront("maxMatchesParallel = maxMatches;\n");
-            sourceCode.AppendFront("graph.EnsureSufficientIsomorphySpacesForParallelizedMatchingAreAvailable(workerThreads.Length);\n");
+            sourceCode.AppendFront("graph.EnsureSufficientIsomorphySpacesForParallelizedMatchingAreAvailable(numWorkerThreads);\n");
 
             if(EmitProfiling)
             {
-                sourceCode.AppendFront("actionEnv.PerformanceInfo.ResetStepsPerThread(workerThreads.Length);\n");
+                sourceCode.AppendFront("actionEnv.PerformanceInfo.ResetStepsPerThread(numWorkerThreads);\n");
                 sourceCode.AppendFront("bool parallelMatcherUsed = false;\n");
             }
 
@@ -546,23 +546,9 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFrontFormat("private void {0}()\n", Name);
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
-            if(sourceCode.CommentSourceCode)
-                sourceCode.AppendFront("//parallelized body setup: await work available, work, signal work done, repeat\n");
-            sourceCode.AppendFront("threadId = Array.IndexOf<Thread>(workerThreads, Thread.CurrentThread);\n");
-            //sourceCode.AppendFrontFormat("Console.WriteLine(\"entered parallel matcher for {0} at threadId \" + threadId);\n", PatternName);
-            sourceCode.AppendFront("while(true)\n");
-            sourceCode.AppendFront("{\n");
-            sourceCode.Indent();
-            //sourceCode.AppendFrontFormat("Console.WriteLine(\"fall to sleep of parallel matcher for {0} at threadId \" + threadId);\n", PatternName);
-            sourceCode.AppendFront("executeParallelTask[threadId].WaitOne();\n");
-            //sourceCode.AppendFrontFormat("Console.WriteLine(\"wakeup of parallel matcher for {0} at threadId \" + threadId);\n", PatternName);
-            sourceCode.AppendFront("if(endWorkerThreads) {\n");
-            //sourceCode.AppendFrontFormat("Console.WriteLine(\"leave parallel matcher for {0} at threadId \" + threadId);\n", PatternName);
-            sourceCode.AppendFront("\tparallelTaskExecuted[threadId].Set();\n");
-            sourceCode.AppendFront("\treturn;\n");
-            sourceCode.AppendFront("}\n");
-            sourceCode.Append("\n");
 
+            sourceCode.AppendFront("threadId = GRGEN_LGSP.WorkerPool.ThreadId;\n");
+            //sourceCode.AppendFrontFormat("Console.WriteLine(\"start work for {0} at threadId \" + threadId);\n", PatternName);
             sourceCode.AppendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = actionEnvParallel;\n");
             sourceCode.AppendFront("int maxMatches = maxMatchesParallel;\n");
             sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
@@ -588,7 +574,6 @@ namespace de.unika.ipd.grGen.lgsp
 
             OperationsList.Emit(sourceCode);
 
-            sourceCode.Append("\nworkDoneWaitForNewWork:\n");
             //sourceCode.AppendFrontFormat("Console.WriteLine(\"work done for {0} at threadId \" + threadId);\n", PatternName);
             if(EmitProfiling)
             {
@@ -599,9 +584,6 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PatternName);
                 sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PatternName);
             }
-            sourceCode.AppendFront("parallelTaskExecuted[threadId].Set();\n");
-            sourceCode.Unindent();
-            sourceCode.AppendFront("}\n");
 
             sourceCode.AppendFront("return;\n");
             sourceCode.Unindent();
@@ -2315,7 +2297,7 @@ namespace de.unika.ipd.grGen.lgsp
                     typeOfVariableContainingCandidate, variableContainingCandidate, variableContainingParallelizedCandidate);
  
                 // emit prerun determining the number of threads to wake up
-                sourceCode.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
+                sourceCode.AppendFront("for(int i=0; i<numWorkerThreads; ++i)\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat("if({0} == {1})\n",
@@ -2345,7 +2327,7 @@ namespace de.unika.ipd.grGen.lgsp
                     variableContainingParallelizedIterator, variableContainingStorage);
 
                 // emit prerun determining the number of threads to wake up
-                sourceCode.AppendFrontFormat("numThreadsSignaled = Math.Min(workerThreads.Length, {0}.Count);\n",
+                sourceCode.AppendFrontFormat("numThreadsSignaled = Math.Min(numWorkerThreads, {0}.Count);\n",
                     variableContainingStorage);
                 sourceCode.AppendFront("\n");
             }
@@ -2366,7 +2348,7 @@ namespace de.unika.ipd.grGen.lgsp
                     variableContainingParallelizedIterator, variableContainingStorage);
 
                 // emit prerun determining the number of threads to wake up
-                sourceCode.AppendFrontFormat("numThreadsSignaled = Math.Min(workerThreads.Length, {0}.Count);\n",
+                sourceCode.AppendFrontFormat("numThreadsSignaled = Math.Min(numWorkerThreads, {0}.Count);\n",
                     variableContainingStorage);
                 sourceCode.AppendFront("\n");
             }
@@ -2404,7 +2386,7 @@ namespace de.unika.ipd.grGen.lgsp
                         EdgeType == IncidentEdgeType.Incoming ? "lgspInNext" : "lgspOutNext";
 
                     // emit prerun determining the number of threads to wake up
-                    sourceCode.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
+                    sourceCode.AppendFront("for(int i=0; i<numWorkerThreads; ++i)\n");
                     sourceCode.AppendFront("{\n");
                     sourceCode.Indent();
                     sourceCode.AppendFrontFormat("if({0} == null || ({0} == {1} && numThreadsSignaled>0))\n",
@@ -2441,7 +2423,7 @@ namespace de.unika.ipd.grGen.lgsp
                         variableContainingCandidate, variableContainingParallelizedCandidate);
 
                     // emit prerun determining the number of threads to wake up
-                    sourceCode.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
+                    sourceCode.AppendFront("for(int i=0; i<numWorkerThreads; ++i)\n");
                     sourceCode.AppendFront("{\n");
                     sourceCode.Indent();
                     sourceCode.AppendFrontFormat("if({0} == null || ({0} == {1} && numThreadsSignaled>0))\n",
@@ -2464,19 +2446,13 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
-            // emit signaling
-            sourceCode.AppendFront("maxMatchesFound = false;\n");
+            // emit matcher assignment, worker signaling, and waiting for completion
             //sourceCode.AppendFrontFormat("Console.WriteLine(\"signaling of parallel matchers for {0}\");\n", RulePatternClassName);
-            sourceCode.AppendFront("for(int i=0; i<numThreadsSignaled; ++i)\n");
-            sourceCode.AppendFront("\texecuteParallelTask[i].Set();\n");
-            sourceCode.AppendFront("for(int j=numThreadsSignaled; j<workerThreads.Length; ++j)\n");
-            sourceCode.AppendFront("\tparallelTaskExecuted[j].Set();\n");
-            
-            // emit wait for matching completed and reset for next run
+            sourceCode.AppendFront("maxMatchesFound = false;\n");
+            sourceCode.AppendFront("GRGEN_LGSP.WorkerPool.Task = myMatch_parallelized_body;\n");
+            sourceCode.AppendFront("GRGEN_LGSP.WorkerPool.StartWork(numThreadsSignaled);\n");
             //sourceCode.AppendFrontFormat("Console.WriteLine(\"awaiting of parallel matchers for {0}\");\n", RulePatternClassName);
-            sourceCode.AppendFront("ManualResetEvent.WaitAll(parallelTaskExecuted);\n");
-            sourceCode.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
-            sourceCode.AppendFront("\tparallelTaskExecuted[i].Reset();\n");
+            sourceCode.AppendFront("GRGEN_LGSP.WorkerPool.WaitForWorkDone();\n");
             
             // emit matches list building from matches lists of the matcher threads (obeying order of sequential iteration)
             sourceCode.AppendFront("int threadOfLastlyChosenMatch = 0;\n");
@@ -4144,7 +4120,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     sourceCode.AppendFrontFormat("{0} = graph.perThreadInIsoSpaceMatchedElements[0][isoSpace].ContainsKey({1}) ? 1U : 0U;\n",
                         variableContainingBackupOfMappedMember, variableContainingCandidate);
-                    sourceCode.AppendFrontFormat("if({0} == 0) for(int i=0; i<workerThreads.Length; ++i) graph.perThreadInIsoSpaceMatchedElements[i][isoSpace].Add({1},{1});\n",
+                    sourceCode.AppendFrontFormat("if({0} == 0) for(int i=0; i<numWorkerThreads; ++i) graph.perThreadInIsoSpaceMatchedElements[i][isoSpace].Add({1},{1});\n",
                         variableContainingBackupOfMappedMember, variableContainingCandidate);
                 }
                 else
@@ -4388,7 +4364,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
                     sourceCode.Indent();
                     sourceCode.AppendFrontFormat(
-                        "for(int i=0; i<workerThreads.Length; ++i) graph.perThreadInIsoSpaceMatchedElements[i][isoSpace]"
+                        "for(int i=0; i<numWorkerThreads; ++i) graph.perThreadInIsoSpaceMatchedElements[i][isoSpace]"
                             + ".Remove({0});\n", variableContainingCandidate);
                     sourceCode.Unindent();
                     sourceCode.AppendFront("}\n");
@@ -5642,7 +5618,16 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(EmitProfiling)
             {
-                if(!InParallelizedBody)
+                if(InParallelizedBody)
+                {
+                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId]);\n", ActionName);
+                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId]);\n", ActionName);
+                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].loopStepsSingle.Add(actionEnv.PerformanceInfo.LoopStepsPerThread[threadId]);\n", ActionName);
+                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].loopStepsMultiple.Add(actionEnv.PerformanceInfo.LoopStepsPerThread[threadId]);\n", ActionName);
+                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", ActionName);
+                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", ActionName);
+                }
+                else
                 {
                     sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].callsTotal;\n", ActionName);
                     sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin;\n", ActionName);
@@ -5894,7 +5879,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(Type == ContinueOperationType.ByReturn)
             {
                 if(InParallelizedBody)
-                    sourceCode.AppendFrontFormat("goto workDoneWaitForNewWork;\n");
+                    sourceCode.AppendFrontFormat("return;\n");
                 else
                 {
                     if(ReturnMatches)

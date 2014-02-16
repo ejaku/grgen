@@ -2926,17 +2926,13 @@ exitSecondLoop: ;
                 sb.AppendFront("DynamicMatch = myMatch_parallelized;\n");
                 if(!isInitialStatic)
                     sb.AppendFrontFormat("GRGEN_ACTIONS.Action_{0}.Instance.DynamicMatch = myMatch_parallelized;\n", rulePattern.name);
-                sb.AppendFrontFormat("executeParallelTask = new AutoResetEvent[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
-                sb.AppendFront("for(int i=0; i<executeParallelTask.Length; ++i) executeParallelTask[i] = new AutoResetEvent(false);\n");
-                sb.AppendFrontFormat("parallelTaskExecuted = new ManualResetEvent[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
-                sb.AppendFront("for(int i=0; i<parallelTaskExecuted.Length; ++i) parallelTaskExecuted[i] = new ManualResetEvent(false);\n");
-                sb.AppendFrontFormat("parallelTaskMatches = new GRGEN_LGSP.LGSPMatchesList<{1}, {2}>[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor, matchClassName, matchInterfaceName);
-
-                sb.AppendFrontFormat("moveHeadAfterNodes = new List<GRGEN_LGSP.LGSPNode>[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
-                sb.AppendFrontFormat("moveHeadAfterEdges = new List<GRGEN_LGSP.LGSPEdge>[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
-                sb.AppendFrontFormat("moveOutHeadAfter = new List<KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>>[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
-                sb.AppendFrontFormat("moveInHeadAfter = new List<KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>>[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
-                sb.AppendFrontFormat("for(int i=0; i<Math.Min({0}, Environment.ProcessorCount); ++i)\n", rulePattern.patternGraph.branchingFactor);
+                sb.AppendFrontFormat("numWorkerThreads = GRGEN_LGSP.WorkerPool.EnsurePoolSize({0});\n", rulePattern.patternGraph.branchingFactor);
+                sb.AppendFrontFormat("parallelTaskMatches = new GRGEN_LGSP.LGSPMatchesList<{0}, {1}>[numWorkerThreads];\n", matchClassName, matchInterfaceName);
+                sb.AppendFront("moveHeadAfterNodes = new List<GRGEN_LGSP.LGSPNode>[numWorkerThreads];\n");
+                sb.AppendFront("moveHeadAfterEdges = new List<GRGEN_LGSP.LGSPEdge>[numWorkerThreads];\n");
+                sb.AppendFront("moveOutHeadAfter = new List<KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>>[numWorkerThreads];\n");
+                sb.AppendFront("moveInHeadAfter = new List<KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>>[numWorkerThreads];\n");
+                sb.AppendFront("for(int i=0; i<numWorkerThreads; ++i)\n");
                 sb.AppendFront("{\n");
                 sb.Indent();
                 sb.AppendFront("moveHeadAfterNodes[i] = new List<GRGEN_LGSP.LGSPNode>();\n");
@@ -2946,18 +2942,8 @@ exitSecondLoop: ;
                 sb.Unindent();
                 sb.AppendFront("}\n");
 
-                sb.AppendFrontFormat("for(int i=0; i<parallelTaskMatches.Length; ++i) parallelTaskMatches[i] = new GRGEN_LGSP.LGSPMatchesList<{0}, {1}>(this);\n", matchClassName, matchInterfaceName);
-                sb.AppendFront("\n");
-                sb.AppendFrontFormat("workerThreads = new Thread[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
-                sb.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
-                sb.AppendFront("{\n");
-                sb.Indent();
-                sb.AppendFront("workerThreads[i] = new Thread(new ThreadStart(myMatch_parallelized_body));\n");
-                sb.AppendFront("workerThreads[i].IsBackground = true;\n");
-                sb.Unindent();
-                sb.AppendFront("}\n");
-                sb.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
-                sb.AppendFront("\tworkerThreads[i].Start();\n");
+                sb.AppendFront("for(int i=0; i<parallelTaskMatches.Length; ++i)\n");
+                sb.AppendFrontFormat("\tparallelTaskMatches[i] = new GRGEN_LGSP.LGSPMatchesList<{0}, {1}>(this);\n", matchClassName, matchInterfaceName);
                 sb.Unindent();
                 sb.AppendFront("}\n");
             }
@@ -2965,18 +2951,6 @@ exitSecondLoop: ;
             sb.AppendFront("matches = new GRGEN_LGSP.LGSPMatchesList<" + matchClassName +", " + matchInterfaceName + ">(this);\n");
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
-
-            if(rulePattern.patternGraph.branchingFactor >= 2)
-            {
-                sb.AppendFront("public override void EndWorkerThreads() {\n");
-                sb.Indent(); // method body level
-                sb.AppendFront("endWorkerThreads = true;\n");
-                //sb.AppendFrontFormat("Console.WriteLine(\"signal end of parallel matchers for {0}\");\n", rulePatternClassName);
-                sb.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
-                sb.AppendFront("\texecuteParallelTask[i].Set();\n");
-                sb.Unindent(); // class level
-                sb.AppendFront("}\n\n");
-            }
 
             sb.AppendFront("public " + rulePatternClassName + " _rulePattern;\n");
             sb.AppendFront("public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }\n");
@@ -3075,17 +3049,14 @@ exitSecondLoop: ;
             String rulePatternClassName = rulePattern.GetType().Name;
             String matchClassName = rulePatternClassName + "." + "Match_" + rulePattern.name;
             String matchInterfaceName = rulePatternClassName + "." + "IMatch_" + rulePattern.name;
-            sb.AppendFront("private static AutoResetEvent[] executeParallelTask;\n");
-            sb.AppendFront("private static ManualResetEvent[] parallelTaskExecuted;\n");
             sb.AppendFront("private static GRGEN_LGSP.LGSPMatchesList<" + matchClassName + ", " + matchInterfaceName + ">[] parallelTaskMatches;\n");
-            sb.AppendFront("private static Thread[] workerThreads;\n");
+            sb.AppendFront("private static int numWorkerThreads;\n");
             sb.AppendFront("private static int iterationNumber;\n");
             sb.AppendFront("[ThreadStatic] private static int currentIterationNumber;\n");
             sb.AppendFront("[ThreadStatic] private static int threadId;\n");
             sb.AppendFront("private static GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnvParallel;\n");
             sb.AppendFront("private static int maxMatchesParallel;\n");
             sb.AppendFront("private static bool maxMatchesFound = false;\n");
-            sb.AppendFront("private static bool endWorkerThreads = false;\n");
 
             sb.AppendFront("private static List<GRGEN_LGSP.LGSPNode>[] moveHeadAfterNodes;\n");
             sb.AppendFront("private static List<GRGEN_LGSP.LGSPEdge>[] moveHeadAfterEdges;\n");
@@ -3624,9 +3595,6 @@ exitSecondLoop: ;
             params LGSPAction[] actions)
         {
             if(actions.Length == 0) throw new ArgumentException("No actions provided!");
-
-            foreach(LGSPAction action in actions)
-                action.EndWorkerThreads();
 
             SourceBuilder sourceCode = new SourceBuilder(CommentSourceCode);
             GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, actions[0].rulePattern.GetType().Namespace);
