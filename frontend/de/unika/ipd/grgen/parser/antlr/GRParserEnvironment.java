@@ -68,7 +68,9 @@ public class GRParserEnvironment extends ParserEnvironment {
 	        filename = file.getPath();
     	}
     	catch (IOException e) {
-			System.out.println("could not find file: " + file);
+			System.err.println("GrGen: [ERROR at " + getFilename() + ":" + lexer.getLine()
+					+ "," + lexer.getCharPositionInLine() + "] included file could not be found: \""
+					+ filePath + "\"");
 			System.exit(1);
 	  	}
 	}
