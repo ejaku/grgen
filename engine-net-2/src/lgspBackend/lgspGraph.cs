@@ -1746,26 +1746,29 @@ invalidCommand:
         /// <returns>true if that is isomorph to this, false otherwise</returns>
         public override bool IsIsomorph(IGraph that)
         {
-            if(this.matchingState == null)
-                this.matchingState = new GraphMatchingState(this);
-            if(((LGSPGraph)that).matchingState == null)
-                ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
-
-            bool result = matchingState.IsIsomorph(this, (LGSPGraph)that, true);
-#if CHECK_ISOCOMPARE_CANONIZATION_AGREE
-            bool otherResult = this.Canonize() == that.Canonize();
-            if(result != otherResult)
+            lock(this)
             {
-                List<string> thisArg = new List<string>();
-                thisArg.Add("this.grs");
-                Porter.Export((INamedGraph)this, thisArg);
-                List<string> thatArg = new List<string>();
-                thatArg.Add("that.grs");
-                Porter.Export((INamedGraph)that, thatArg);
-                throw new Exception("Potential internal error: Isomorphy and Canonization disagree");
-            }
+                if(this.matchingState == null)
+                    this.matchingState = new GraphMatchingState(this);
+                if(((LGSPGraph)that).matchingState == null)
+                    ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
+
+                bool result = matchingState.IsIsomorph(this, (LGSPGraph)that, true);
+#if CHECK_ISOCOMPARE_CANONIZATION_AGREE
+                bool otherResult = this.Canonize() == that.Canonize();
+                if(result != otherResult)
+                {
+                    List<string> thisArg = new List<string>();
+                    thisArg.Add("this.grs");
+                    Porter.Export((INamedGraph)this, thisArg);
+                    List<string> thatArg = new List<string>();
+                    thatArg.Add("that.grs");
+                    Porter.Export((INamedGraph)that, thatArg);
+                    throw new Exception("Potential internal error: Isomorphy and Canonization disagree");
+                }
 #endif
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -1775,26 +1778,29 @@ invalidCommand:
         /// <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
         public override bool HasSameStructure(IGraph that)
         {
-            if(this.matchingState == null)
-                this.matchingState = new GraphMatchingState(this);
-            if(((LGSPGraph)that).matchingState == null)
-                ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
-
-            bool result = matchingState.IsIsomorph(this, (LGSPGraph)that, false);
-#if CHECK_ISOCOMPARE_CANONIZATION_AGREE
-            bool otherResult = this.Canonize() == that.Canonize();
-            if(result != otherResult)
+            lock(this)
             {
-                List<string> thisArg = new List<string>();
-                thisArg.Add("this.grs");
-                Porter.Export((INamedGraph)this, thisArg);
-                List<string> thatArg = new List<string>();
-                thatArg.Add("that.grs");
-                Porter.Export((INamedGraph)that, thatArg);
-                throw new Exception("Potential internal error: Isomorphy (without attributes) and Canonization disagree");
-            }
+                if(this.matchingState == null)
+                    this.matchingState = new GraphMatchingState(this);
+                if(((LGSPGraph)that).matchingState == null)
+                    ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
+
+                bool result = matchingState.IsIsomorph(this, (LGSPGraph)that, false);
+#if CHECK_ISOCOMPARE_CANONIZATION_AGREE
+                bool otherResult = this.Canonize() == that.Canonize();
+                if(result != otherResult)
+                {
+                    List<string> thisArg = new List<string>();
+                    thisArg.Add("this.grs");
+                    Porter.Export((INamedGraph)this, thisArg);
+                    List<string> thatArg = new List<string>();
+                    thatArg.Add("that.grs");
+                    Porter.Export((INamedGraph)that, thatArg);
+                    throw new Exception("Potential internal error: Isomorphy (without attributes) and Canonization disagree");
+                }
 #endif
-            return result;
+                return result;
+            }
         }
 
         /// <summary>

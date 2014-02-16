@@ -101,6 +101,7 @@
     <Compile Include="SourceBuilder.cs" />
     <Compile Include="GraphCanonizer.cs" />
     <Compile Include="SimpleGraphCanonizer.cs" />
+    <Compile Include="WorkerPool.cs" />
     <Compile Include="Yielding.cs" />
   </ItemGroup>
   <ItemGroup>
