@@ -2907,15 +2907,25 @@ exitSecondLoop: ;
             sb.AppendFront("_rulePattern = " + rulePatternClassName + ".Instance;\n");
             sb.AppendFront("patternGraph = _rulePattern.patternGraph;\n");
             if(rulePattern.patternGraph.branchingFactor < 2)
+            {
                 sb.AppendFront("DynamicMatch = myMatch;\n");
+                if(!isInitialStatic)
+                    sb.AppendFrontFormat("GRGEN_ACTIONS.Action_{0}.Instance.DynamicMatch = myMatch;\n", rulePattern.name);
+            }
             else
             {
                 sb.AppendFront("if(Environment.ProcessorCount == 1)\n");
+                sb.AppendFront("{\n");
                 sb.AppendFront("\tDynamicMatch = myMatch;\n");
+                if(!isInitialStatic)
+                    sb.AppendFrontFormat("\tGRGEN_ACTIONS.Action_{0}.Instance.DynamicMatch = myMatch;\n", rulePattern.name);
+                sb.AppendFront("}\n");
                 sb.AppendFront("else\n");
                 sb.AppendFront("{\n");
                 sb.Indent();
                 sb.AppendFront("DynamicMatch = myMatch_parallelized;\n");
+                if(!isInitialStatic)
+                    sb.AppendFrontFormat("GRGEN_ACTIONS.Action_{0}.Instance.DynamicMatch = myMatch_parallelized;\n", rulePattern.name);
                 sb.AppendFrontFormat("executeParallelTask = new AutoResetEvent[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
                 sb.AppendFront("for(int i=0; i<executeParallelTask.Length; ++i) executeParallelTask[i] = new AutoResetEvent(false);\n");
                 sb.AppendFrontFormat("parallelTaskExecuted = new ManualResetEvent[Math.Min({0}, Environment.ProcessorCount)];\n", rulePattern.patternGraph.branchingFactor);
@@ -2961,6 +2971,7 @@ exitSecondLoop: ;
                 sb.AppendFront("public override void EndWorkerThreads() {\n");
                 sb.Indent(); // method body level
                 sb.AppendFront("endWorkerThreads = true;\n");
+                //sb.AppendFrontFormat("Console.WriteLine(\"signal end of parallel matchers for {0}\");\n", rulePatternClassName);
                 sb.AppendFront("for(int i=0; i<workerThreads.Length; ++i)\n");
                 sb.AppendFront("\texecuteParallelTask[i].Set();\n");
                 sb.Unindent(); // class level
@@ -2974,7 +2985,7 @@ exitSecondLoop: ;
 
             if (isInitialStatic)
             {
-                sb.AppendFront("public static " + className + " Instance { get { return instance; } }\n");
+                sb.AppendFront("public static " + className + " Instance { get { return instance; } set { instance = value; } }\n");
                 sb.AppendFront("private static " + className + " instance = new " + className + "();\n");
             }
 
