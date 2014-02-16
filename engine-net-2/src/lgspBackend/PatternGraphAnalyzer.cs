@@ -769,7 +769,7 @@ namespace de.unika.ipd.grGen.lgsp
                 branchingFactor = value;
             }
 
-            branchingFactor = 2; // uncomment to parallelize everything as possible, for testing
+            //branchingFactor = 2; // uncomment to parallelize everything as possible, for testing
 
             // user wants this action to be parallelized
             if(branchingFactor > 1)
