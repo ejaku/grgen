@@ -1142,6 +1142,7 @@ namespace de.unika.ipd.grGen.lgsp
                     GetCandidateByIterationType.GraphElements,
                     target.PatternElement.Name,
                     isNode,
+                    parallelized,
                     emitProfiling,
                     actionName,
                     !firstLoopPassed);
@@ -1300,6 +1301,7 @@ namespace de.unika.ipd.grGen.lgsp
                     iterationType,
                     isDict,
                     isNode,
+                    parallelized,
                     emitProfiling,
                     actionName,
                     !firstLoopPassed);
@@ -1469,6 +1471,7 @@ namespace de.unika.ipd.grGen.lgsp
                     iterationType,
                     isDict,
                     isNode,
+                    parallelized,
                     emitProfiling,
                     actionName,
                     !firstLoopPassed);
@@ -2197,6 +2200,7 @@ namespace de.unika.ipd.grGen.lgsp
                     currentEdge.PatternElement.Name,
                     node.PatternElement.Name,
                     incidentType,
+                    parallelized,
                     emitProfiling,
                     actionName,
                     !firstLoopPassed);
@@ -2215,6 +2219,7 @@ namespace de.unika.ipd.grGen.lgsp
                         currentEdge.PatternElement.Name,
                         node.PatternElement.Name,
                         IncidentEdgeType.Incoming,
+                        parallelized,
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);
@@ -2236,6 +2241,7 @@ namespace de.unika.ipd.grGen.lgsp
                         currentEdge.PatternElement.Name,
                         node.PatternElement.Name,
                         IncidentEdgeType.IncomingOrOutgoing,
+                        parallelized,
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);

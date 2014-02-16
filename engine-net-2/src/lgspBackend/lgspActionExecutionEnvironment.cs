@@ -76,7 +76,12 @@ namespace de.unika.ipd.grGen.lgsp
             perfInfo.ActionProfiles.Clear();
             foreach(IAction action in actions.Actions)
             {
-                perfInfo.ActionProfiles.Add(action.Name, new ActionProfile());
+                ActionProfile actionProfile = new ActionProfile();
+                int branchingFactor = ((LGSPAction)action).patternGraph.branchingFactor;
+                actionProfile.averagesPerThread = new ProfileAverages[branchingFactor];
+                for(int i = 0; i < branchingFactor; ++i)
+                    actionProfile.averagesPerThread[i] = new ProfileAverages();
+                perfInfo.ActionProfiles.Add(action.Name, actionProfile);
             }
         }
         

@@ -184,40 +184,6 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// A class for collecting an action profile, 
-    /// accumulating per-action statistics, over all applications of the corresponding rule or test
-    /// </summary>
-    public class ActionProfile
-    {
-        // counts how often the action was called in total
-        public long callsTotal;
-        // counts how many search steps were carried out over all calls
-        public long searchStepsTotal;
-        // counts how many loop steps were executed over all calls
-        public long loopStepsTotal;
-
-        /////////////////////////////////////////////////
-        // loop and search steps for the action when applied to find one match
-
-        // computes the average of the number of steps of the first loop until a match was found or matching failed
-        public UberEstimator loopStepsSingle = new UberEstimator();
-        // computes the average of the number of search steps until a match was found or matching failed
-        public UberEstimator searchStepsSingle = new UberEstimator();
-        // computes the average of the number of search steps per loop step of the first loop until a match was found or matching failed
-        public UberEstimator searchStepsPerLoopStepSingle = new UberEstimator();
-
-        /////////////////////////////////////////////////
-        // loop and search steps for the action when applied to find more than one match (most often match-all)
-
-        // computes the average of the number of steps of the first loop until the goal was achieved (equals count of all choices of first loop in case of match-all)
-        public UberEstimator loopStepsMultiple = new UberEstimator();
-        // computes the average of the number of search steps until the goal was achieved
-        public UberEstimator searchStepsMultiple = new UberEstimator();
-        // computes the average of the number of search steps per loop step of the first loop until the goal was achieved
-        public UberEstimator searchStepsPerLoopStepMultiple = new UberEstimator();
-    }
-
-    /// <summary>
     /// An object accumulating information about needed time, number of found matches and number of performed rewrites.
     /// </summary>
     public class PerformanceInfo
@@ -225,7 +191,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Stores a profile per action (given by name, that gives the average for the loop and search steps needed to achieve the goal or finally fail)
         /// </summary>
-        public Dictionary<string, ActionProfile> ActionProfiles = new Dictionary<string,ActionProfile>();
+        public Dictionary<string, ActionProfile> ActionProfiles = new Dictionary<string, ActionProfile>();
 
         /// <summary>
         /// Accumulated number of matches found by any rule since last Reset.
@@ -242,8 +208,39 @@ namespace de.unika.ipd.grGen.libGr
         /// Accumulated number of search steps carried out since last Reset.
         /// (Number of bindings of a graph element to a pattern element, but bindings where only one choice is available don't count into this.)
         /// Only incremented if gathering of profiling information was requested ("-profile", "new set profile on").
+        /// (The per-thread steps are added here after each action call when the threads completed.)
         /// </summary>
         public long SearchSteps;
+
+        /// <summary>
+        /// Number of search steps carried out for the current/last action call, per thread (in case a multithreaded matcher is/was used).
+        /// </summary>
+        public long[] SearchStepsPerThread;
+
+        /// <summary>
+        /// Number of loop steps of the first loop executed for the current/last action call, per thread (in case a multithreaded matcher is/was used)
+        /// </summary>
+        public long[] LoopStepsPerThread;
+
+        public void ResetStepsPerThread(int numberOfThreads)
+        {
+            if(SearchStepsPerThread == null || SearchStepsPerThread.Length < numberOfThreads)
+            {
+                SearchStepsPerThread = new long[numberOfThreads];
+            }
+            for(int i = 0; i < numberOfThreads; ++i)
+            {
+                SearchStepsPerThread[i] = 0;
+            }
+            if(LoopStepsPerThread == null || LoopStepsPerThread.Length < numberOfThreads)
+            {
+                LoopStepsPerThread = new long[numberOfThreads];
+            }
+            for(int i = 0; i < numberOfThreads; ++i)
+            {
+                LoopStepsPerThread[i] = 0;
+            }
+        }
 
         /// <summary>
         /// The accumulated time of rule and sequence applications in seconds since last Reset,
@@ -355,6 +352,58 @@ namespace de.unika.ipd.grGen.libGr
             return (int) diff;
         }
 #endif
+    }
+
+    /// <summary>
+    /// A class for collecting an action profile, 
+    /// accumulating per-action statistics, over all applications of the corresponding rule or test
+    /// </summary>
+    public class ActionProfile
+    {
+        // counts how often the action was called in total
+        public long callsTotal = 0;
+        // counts how many search steps were carried out over all calls
+        public long searchStepsTotal = 0;
+        // counts how many loop steps of the first loop were executed over all calls
+        public long loopStepsTotal = 0;
+
+        // gives the averages, which are collected per thread, 
+        // as synchronization to collect them accumulated would be overly expensive,
+        // and most often, we are interested in the per-thread values anyway
+        public ProfileAverages[] averagesPerThread;
+    }
+
+    /// <summary>
+    /// A class for collecting average information, for profiling,
+    /// per thread that was used in matching
+    /// (so in case of a normal single threaded action the values characterize the action)
+    /// </summary>
+    public class ProfileAverages
+    {
+        // counts how many search steps were carried out over all calls of this thread (same as in action profile in case of a single thread)
+        public long searchStepsTotal = 0;
+        // counts how many loop steps of the first loop were executed over all calls of this thread (same as in action profile in case of a single thread)
+        public long loopStepsTotal = 0;
+
+        /////////////////////////////////////////////////
+        // loop and search steps for the action when applied to find one match
+
+        // computes the average of the number of steps of the first loop until a match was found or matching failed
+        public UberEstimator loopStepsSingle = new UberEstimator();
+        // computes the average of the number of search steps until a match was found or matching failed
+        public UberEstimator searchStepsSingle = new UberEstimator();
+        // computes the average of the number of search steps per loop step of the first loop until a match was found or matching failed
+        public UberEstimator searchStepsPerLoopStepSingle = new UberEstimator();
+
+        /////////////////////////////////////////////////
+        // loop and search steps for the action when applied to find more than one match (most often match-all)
+
+        // computes the average of the number of steps of the first loop until the goal was achieved (equals count of all choices of first loop in case of match-all)
+        public UberEstimator loopStepsMultiple = new UberEstimator();
+        // computes the average of the number of search steps until the goal was achieved
+        public UberEstimator searchStepsMultiple = new UberEstimator();
+        // computes the average of the number of search steps per loop step of the first loop until the goal was achieved
+        public UberEstimator searchStepsPerLoopStepMultiple = new UberEstimator();
     }
 
     /// <summary>

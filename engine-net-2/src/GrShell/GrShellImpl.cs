@@ -1363,7 +1363,7 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     catch(Exception e)
                     {
-                        errOut.WriteLine("Unable to create graph from specification file \"{0}\":\n{1}", specFilename, e.Message);
+                        errOut.WriteLine("Unable to create graph from specification file \"{0}\":\n{1}\nStack:\n({2})\n", specFilename, e.Message, e.StackTrace);
                         return false;
                     }
                     try
@@ -1396,7 +1396,7 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     catch(Exception e)
                     {
-                        errOut.WriteLine("Unable to create graph from specification file \"{0}\":\n{1}", specFilename, e.Message);
+                        errOut.WriteLine("Unable to create graph from specification file \"{0}\":\n{1}\nStack:\n({2})\n", specFilename, e.Message, e.StackTrace);
                         return false;
                     }
 
@@ -2503,32 +2503,50 @@ namespace de.unika.ipd.grGen.grShell
             debugOut.WriteLine(profile.searchStepsTotal);
             debugOut.Write("  loop steps total: ");
             debugOut.WriteLine(profile.loopStepsTotal);
-            
-            double searchStepsSingle = profile.searchStepsSingle.Get();
-            debugOut.Write("  search steps until one match: ");
-            debugOut.WriteLine(searchStepsSingle.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
-            double loopStepsSingle = profile.loopStepsSingle.Get();
-            debugOut.Write("  loop steps until one match: ");
-            debugOut.WriteLine(loopStepsSingle.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
-            double searchStepsPerLoopStepSingle = profile.searchStepsPerLoopStepSingle.Get();
-            debugOut.Write("  search steps per loop step (until one match): ");
-            debugOut.WriteLine(searchStepsPerLoopStepSingle.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
-            
-            double searchStepsMultiple = profile.searchStepsMultiple.Get();
-            debugOut.Write("  search steps until more than one match: ");
-            debugOut.WriteLine(searchStepsMultiple.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
-            double loopStepsMultiple = profile.loopStepsMultiple.Get();
-            debugOut.Write("  loop steps until more than one match: ");
-            debugOut.WriteLine(loopStepsMultiple.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
-            double searchStepsPerLoopStepMultiple = profile.searchStepsPerLoopStepMultiple.Get();
-            debugOut.Write("  search steps per loop step (until more than one match): ");
-            debugOut.WriteLine(searchStepsPerLoopStepMultiple.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
-            
-            double regularWorkAmountDistributionFactor = (1 + loopStepsSingle) * (1 + searchStepsPerLoopStepSingle) / (1 + searchStepsSingle) + (1 + loopStepsMultiple) * (1 + searchStepsPerLoopStepMultiple) / (1 + searchStepsMultiple);
-            double workAmountFactor = Math.Log(1 + loopStepsSingle, 2) * Math.Log(1 + loopStepsSingle, 2) * Math.Log(1 + searchStepsSingle, 2) / 10 + Math.Log(1 + loopStepsMultiple, 2) * Math.Log(1 + loopStepsMultiple, 2) * Math.Log(1 + searchStepsMultiple, 2) / 10;
-            debugOut.Write("  parallelization potential: ");
-            debugOut.WriteLine((regularWorkAmountDistributionFactor*workAmountFactor).ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
-            debugOut.WriteLine();
+
+            for(int i = 0; i < profile.averagesPerThread.Length; ++i)
+            {
+                ProfileAverages profileAverages = profile.averagesPerThread[i];
+
+                if(profile.averagesPerThread.Length > 1)
+                {
+                    debugOut.WriteLine("for thread " + i + ":");
+                    debugOut.Write("  search steps total: ");
+                    debugOut.WriteLine(profileAverages.searchStepsTotal);
+                    debugOut.Write("  loop steps total: ");
+                    debugOut.WriteLine(profileAverages.loopStepsTotal);
+                }
+
+                double searchStepsSingle = profileAverages.searchStepsSingle.Get();
+                debugOut.Write("  search steps until one match: ");
+                debugOut.WriteLine(searchStepsSingle.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+                double loopStepsSingle = profileAverages.loopStepsSingle.Get();
+                debugOut.Write("  loop steps until one match: ");
+                debugOut.WriteLine(loopStepsSingle.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+                double searchStepsPerLoopStepSingle = profileAverages.searchStepsPerLoopStepSingle.Get();
+                debugOut.Write("  search steps per loop step (until one match): ");
+                debugOut.WriteLine(searchStepsPerLoopStepSingle.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+
+                double searchStepsMultiple = profileAverages.searchStepsMultiple.Get();
+                debugOut.Write("  search steps until more than one match: ");
+                debugOut.WriteLine(searchStepsMultiple.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+                double loopStepsMultiple = profileAverages.loopStepsMultiple.Get();
+                debugOut.Write("  loop steps until more than one match: ");
+                debugOut.WriteLine(loopStepsMultiple.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+                double searchStepsPerLoopStepMultiple = profileAverages.searchStepsPerLoopStepMultiple.Get();
+                debugOut.Write("  search steps per loop step (until more than one match): ");
+                debugOut.WriteLine(searchStepsPerLoopStepMultiple.ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+
+                if(profile.averagesPerThread.Length == 1)
+                {
+                    double regularWorkAmountDistributionFactor = (1 + loopStepsSingle) * (1 + searchStepsPerLoopStepSingle) / (1 + searchStepsSingle) + (1 + loopStepsMultiple) * (1 + searchStepsPerLoopStepMultiple) / (1 + searchStepsMultiple);
+                    double workAmountFactor = Math.Log(1 + loopStepsSingle, 2) * Math.Log(1 + loopStepsSingle, 2) * Math.Log(1 + searchStepsSingle, 2) / 10 + Math.Log(1 + loopStepsMultiple, 2) * Math.Log(1 + loopStepsMultiple, 2) * Math.Log(1 + searchStepsMultiple, 2) / 10;
+                    debugOut.Write("  parallelization potential: ");
+                    debugOut.WriteLine((regularWorkAmountDistributionFactor * workAmountFactor).ToString("F2", System.Globalization.CultureInfo.InvariantCulture));
+                }
+
+                debugOut.WriteLine();
+            }
         }
 
         public void ShowBackend()

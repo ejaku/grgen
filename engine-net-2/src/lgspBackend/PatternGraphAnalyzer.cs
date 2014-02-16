@@ -746,65 +746,56 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public void SetNeedForParallelizedVersion(LGSPMatchingPattern matchingPattern)
         {
-            /*bool parallelizePassed = false;
+            int branchingFactor = 1;
             foreach(KeyValuePair<string, string> annotation in matchingPattern.Annotations)
             {
                 if(annotation.Key != "parallelize")
                     continue;
 
-                if(parallelizePassed)
-                {
-                    Console.Error.WriteLine("Warning: Ignoring further parallelize annotation at " + matchingPattern.patternGraph.Name);
-                    continue;
-                }
-                parallelizePassed = true;
+                if(branchingFactor > 1)
+                    Console.Error.WriteLine("Warning: Further parallelize annotation at " + matchingPattern.patternGraph.Name + " found.");
+                
                 int value;
-                bool success = Int32.TryParse(annotation.Value, out value);
-                if(!success)
+                if(!Int32.TryParse(annotation.Value, out value))
                 {
-                    Console.Error.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " not parallelized as the branching factor is not a valid integer.");
+                    Console.Error.WriteLine("Warning: Branching factor at " + matchingPattern.patternGraph.Name + " of parallelize annotation is not a valid integer.");
                     continue;
                 }
                 if(value < 2)
                 {
-                    Console.Error.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " not parallelized as the branching factor is below 2.");
+                    Console.Error.WriteLine("Warning: Branching factor at " + matchingPattern.patternGraph.Name + " of parallelize annotation is below 2.");
                     continue;
                 }
+                branchingFactor = value;
+            }
+
+            branchingFactor = 2; // uncomment to parallelize everything as possible, for testing
+
+            // user wants this action to be parallelized
+            if(branchingFactor > 1)
+            {
+                if(branchingFactor > 32)
+                {
+                    branchingFactor = 32;
+                    Console.Error.WriteLine("Warning: Branching factor at " + matchingPattern.patternGraph.Name + " of parallelize annotation reduced to the supported maximum of 32.");
+                }
+
                 if(ContainsMaybeNullElement(matchingPattern.patternGraph))
                 {
                     Console.Error.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " not parallelized because of the maybe null parameter(s), actions using them cannot be parallelized.");
-                    continue;
+                    branchingFactor = 1;
+                    return;
                 }
 
                 // checks passed, this action is to be parallelized
-                if(value > 16)
-                {
-                    value = 16;
-                    Console.Error.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " reduced the branching factor of parallelization to the supported maximum 16.");
-                }
-                matchingPattern.patternGraph.branchingFactor = value;
+                matchingPattern.patternGraph.branchingFactor = branchingFactor;
                 SetNeedForParallelizedVersion(matchingPattern.patternGraph);
                 // used subpatterns are to be parallelized, too
-                foreach(KeyValuePair<LGSPMatchingPattern,LGSPMatchingPattern> usedSubpattern in matchingPattern.patternGraph.usedSubpatterns)
+                foreach(KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern in matchingPattern.patternGraph.usedSubpatterns)
                 {
-                    usedSubpattern.Key.patternGraph.branchingFactor = 2;
+                    usedSubpattern.Key.patternGraph.branchingFactor = branchingFactor;
                     SetNeedForParallelizedVersion(usedSubpattern.Key.patternGraph);
                 }
-            }*/
-
-            if(ContainsMaybeNullElement(matchingPattern.patternGraph))
-            {
-                Console.Error.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " not parallelized because of the maybe null parameter(s), actions using them cannot be parallelized.");
-                return;
-            }
-
-            matchingPattern.patternGraph.branchingFactor = 2;
-            SetNeedForParallelizedVersion(matchingPattern.patternGraph);
-            // used subpatterns are to be parallelized, too
-            foreach(KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern in matchingPattern.patternGraph.usedSubpatterns)
-            {
-                usedSubpattern.Key.patternGraph.branchingFactor = 2;
-                SetNeedForParallelizedVersion(usedSubpattern.Key.patternGraph);
             }
         }
 
