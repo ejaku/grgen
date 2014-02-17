@@ -42,6 +42,9 @@ public abstract class GraphEntity extends Entity {
 	/** The index to the storage from which to get the node or edge, if any (i.e. not null)*/
 	public StorageAccessIndex storageAccessIndex = null;
 
+	/** The index from which to get the node or edge, if any (i.e. not null)*/
+	public IndexAccess indexAccess = null;
+
 	protected Collection<? extends InheritanceType> constraints = Collections.emptySet();
 
 	private boolean maybeDeleted;
@@ -178,6 +181,10 @@ public abstract class GraphEntity extends Entity {
 
 	public void setStorageIndex(StorageAccessIndex storageAccessIndex) {
 		this.storageAccessIndex = storageAccessIndex;
+	}
+	
+	public void setIndex(IndexAccess indexAccess) {
+		this.indexAccess = indexAccess;
 	}
 
 	public void setInitialization(Expression initialization) {
