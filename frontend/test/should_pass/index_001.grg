@@ -1,0 +1,41 @@
+#using "index_model_001.gm"
+
+test t {
+	n:N{foo==42} -e:E{bar==42}-> n;
+}
+
+rule r {
+	n:N{ascending(foo>=42)} -e:E{ascending(bar<42)}-> n;
+	
+	replace {
+	}
+}
+
+rule s {
+	n:N{ascending(foo>=42, foo<1000)};
+	-e:E{descending(bar<42, bar>0)}->;
+	
+	modify {
+	}
+}
+
+/////////////////////////////
+
+test tp(var x:int) {
+	n:N{foo==x} -e:E{bar==x}-> n;
+}
+
+rule rp(var x:int) {
+	n:N{ascending(foo>=x)} -e:E{ascending(bar<x)}-> n;
+	
+	replace {
+	}
+}
+
+rule sp(var x:int, var y:int, var z:int) {
+	n:N{ascending(foo>=x, foo<y)};
+	-e:E{descending(bar<x, bar>z)}->;
+	
+	modify {
+	}
+}

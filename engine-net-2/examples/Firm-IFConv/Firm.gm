@@ -240,7 +240,7 @@ edge class belong_to extends FIRM_edge
 	connect Block --> Method_IRG;
 
 node class IR_node extends FIRM_node {
-	index : int; //quickfix for using vprojs
+	index_ : int; //quickfix for using vprojs
 }
 
 

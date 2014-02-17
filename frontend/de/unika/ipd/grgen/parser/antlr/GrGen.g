@@ -882,14 +882,9 @@ firstNodeOrSubpatternDeclaration [ IdentNode id, CollectNode<BaseNode> conn, Col
 			{
 				n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
-		| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
+		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, context, directlyNestingLHSGraph ] RBRACE
 			{
-				if(mapAccess==null)
-					n = new MatchNodeFromStorageNode(id, type, context, 
-						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
-				else
-					n = new MatchNodeByStorageAccessNode(id, type, context, 
-						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+				n = nsic;
 			}
 		)
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
@@ -916,6 +911,44 @@ firstNodeOrSubpatternDeclaration [ IdentNode id, CollectNode<BaseNode> conn, Col
 		{ subpatterns.addChild(new SubpatternUsageNode(id, type, context, subpatternConn)); }
 	;
 
+nodeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, PatternGraphNode directlyNestingLHSGraph ]
+					returns [ NodeDeclNode n = null ]
+	: (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)?
+		{
+			if(mapAccess==null)
+				n = new MatchNodeFromStorageNode(id, type, context, 
+					attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
+			else
+				n = new MatchNodeByStorageAccessNode(id, type, context, 
+					attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+		}
+	| idx=indexIdentUse EQUAL e=expr[false]
+		{
+			n = new MatchNodeByIndexAccessEqualityNode(id, type, context, 
+						idx, e, directlyNestingLHSGraph);
+		}
+	| i=IDENT LPAREN idx=indexIdentUse os=relOS e=expr[false] (COMMA idx2=indexIdentUse os2=relOS e2=expr[false])? RPAREN
+		{
+			if(i.getText().equals("ascending")) 
+				n = new MatchNodeByIndexAccessOrderingNode(id, type, context, 
+						true, idx, os, e, os2, e2, directlyNestingLHSGraph);
+			else if(i.getText().equals("descending"))
+				n = new MatchNodeByIndexAccessOrderingNode(id, type, context, 
+						false, idx, os, e, os2, e2, directlyNestingLHSGraph);
+			else
+				reportError(getCoords(i), "ordered index access expression must start with ascending or descending");
+			if(idx2!=null && !idx.toString().equals(idx2.toString()))
+				reportError(idx2.getCoords(), "the same index must be used in an ordered index access expression with two constraints");
+		}
+	;
+
+relOS returns [ int os = OperatorSignature.ERROR ]
+	: lt=LT { os = OperatorSignature.LT; }
+	| le=LE { os = OperatorSignature.LE; }
+	| gt=GT { os = OperatorSignature.GT; }
+	| ge=GE { os = OperatorSignature.GE; }
+	;
+
 anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, 
 			int context, PatternGraphNode directlyNestingLHSGraph ] returns [ IdentNode id = env.getDummyIdent() ]
 	options { k = 4; }
@@ -940,14 +973,9 @@ anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn,
 			{
 				n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
-		| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
+		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, context, directlyNestingLHSGraph ] RBRACE
 			{
-				if(mapAccess==null)
-					n = new MatchNodeFromStorageNode(id, type, context, 
-						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
-				else
-					n = new MatchNodeByStorageAccessNode(id, type, context,
-						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+				n = nsic;
 			}
 		)
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
@@ -1184,14 +1212,9 @@ nodeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 			{
 				res = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
-		| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
+		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, context, directlyNestingLHSGraph ] RBRACE
 			{
-				if(mapAccess==null)
-					res = new MatchNodeFromStorageNode(id, type, context, 
-						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
-				else
-					res = new MatchNodeByStorageAccessNode(id, type, context,
-						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+				res = nsic;
 			}
 		)
 	| COPY LT type=entIdentUse GT
@@ -1220,14 +1243,9 @@ nodeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Bas
 			{
 				res = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
-		| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
+		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, context, directlyNestingLHSGraph ] RBRACE
 			{
-				if(mapAccess==null)
-					res = new MatchNodeFromStorageNode(id, type, context,
-						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
-				else
-					res = new MatchNodeByStorageAccessNode(id, type, context, 
-						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+				res = nsic;
 			}
 		)
 	| COPY LT type=entIdentUse GT
@@ -1414,19 +1432,45 @@ edgeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 			{
 				res = new EdgeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 			}
-		| LBRACE (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)? RBRACE
+		| LBRACE esic=edgeStorageIndexContinuation [ id, type, context, directlyNestingLHSGraph ] RBRACE
 			{
-				if(mapAccess==null)
-					res = new MatchEdgeFromStorageNode(id, type, context, 
-						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
-				else
-					res = new MatchEdgeByStorageAccessNode(id, type, context, 
-						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+				res = esic;
 			}
 		)
 	| COPY LT type=entIdentUse GT
 		{
 			res = new EdgeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
+		}
+	;
+
+edgeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, PatternGraphNode directlyNestingLHSGraph ]
+					returns [ EdgeDeclNode res = null ]
+	: (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)?
+		{
+			if(mapAccess==null)
+				res = new MatchEdgeFromStorageNode(id, type, context, 
+					attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
+			else
+				res = new MatchEdgeByStorageAccessNode(id, type, context, 
+					attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+		}
+	| idx=indexIdentUse EQUAL e=expr[false]
+		{
+			res = new MatchEdgeByIndexAccessEqualityNode(id, type, context, 
+						idx, e, directlyNestingLHSGraph);
+		}
+	| i=IDENT LPAREN idx=indexIdentUse os=relOS e=expr[false] (COMMA idx2=indexIdentUse os2=relOS e2=expr[false])? RPAREN
+		{
+			if(i.getText().equals("ascending")) 
+				res = new MatchEdgeByIndexAccessOrderingNode(id, type, context, 
+						true, idx, os, e, os2, e2, directlyNestingLHSGraph);
+			else if(i.getText().equals("descending"))
+				res = new MatchEdgeByIndexAccessOrderingNode(id, type, context, 
+						false, idx, os, e, os2, e2, directlyNestingLHSGraph);
+			else
+				reportError(getCoords(i), "ordered index access expression must start with ascending or descending");
+			if(idx2!=null && !idx.toString().equals(idx2.toString()))
+				reportError(idx2.getCoords(), "the same index must be used in an ordered index access expression with two constraints");
 		}
 	;
 
@@ -2479,6 +2523,7 @@ textTypes returns [ ModelNode model = null ]
 		CollectNode<IdentNode> packages = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> externalFuncs = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> externalProcs = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> indices = new CollectNode<IdentNode>();
 		IdentNode id = env.getDummyIdent();
 
 		String modelName = Util.removeFileSuffix(Util.removePathPrefix(getFilename()), "gm");
@@ -2494,7 +2539,7 @@ textTypes returns [ ModelNode model = null ]
 
 	( usingDecl[modelChilds] )*
 	
-	specialClasses = typeDecls[types, packages, externalFuncs, externalProcs] EOF
+	specialClasses = typeDecls[types, packages, externalFuncs, externalProcs, indices] EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
@@ -2505,7 +2550,8 @@ textTypes returns [ ModelNode model = null ]
 	;
 
 typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
-            CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs ]
+            CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
+			CollectNode<IdentNode> indices ]
 		returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false, boolean isEqualClassDefined = false, boolean isLowerClassDefined = false; ]
 	@init{
 		boolean isExternal = false;
@@ -2524,11 +2570,22 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 	    (EXTERNAL { isExternal = true; })? EQUAL c=CLASS SEMI { $isEqualClassDefined = true; if(!isExternal) reportWarning(getCoords(c), "== class must start with \"external\""); }
 	  |
 	    (EXTERNAL { isExternal = true; })? LT c=CLASS SEMI { $isLowerClassDefined = true; if(!isExternal) reportWarning(getCoords(c), "< class must start with \"external\""); }
+	  |
+		indexDecl[indices]
 	  )*
 	;
 
+indexDecl [ CollectNode<IdentNode> indices ]
+	@init{
+	}
+	: i=INDEX id=indexIdentDecl LBRACE type=typeIdentUse DOT member=memberIdentUse RBRACE
+		{
+			id.setDecl(new AttributeIndexDeclNode(id, type, member));
+			indices.addChild(id);
+		}
+	;
+
 externalFunctionOrProcedureDecl [ CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs ]
-									returns [ IdentNode res = env.getDummyIdent() ]
 	@init{
 		CollectNode<BaseNode> returnTypes = new CollectNode<BaseNode>();
 		boolean isExternal = false;
@@ -3212,6 +3269,12 @@ methodOrExtMethodIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
+	
+indexIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+	: i=IDENT 
+		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.INDICES, i.getText(), getCoords(i))); }
+		( annots=annotations { res.setAnnotations(annots); } )?
+	;
 
 /////////////////////////////////////////////////////////
 // Identifier usages, it is checked, whether the identifier is declared.
@@ -3278,6 +3341,11 @@ options { k = 3; }
 funcOrExtFuncIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: i=IDENT 
 	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))); }
+	;
+
+indexIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+	: i=IDENT 
+	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.INDICES, i.getText(), getCoords(i))); }
 	;
 
 	
@@ -4283,6 +4351,7 @@ HOM : 'hom';
 IF : 'if';
 IN : 'in';
 INDEPENDENT : 'independent';
+INDEX : 'index';
 INDUCED : 'induced';
 ITERATED : 'iterated';
 MAP : 'map';

@@ -39,7 +39,8 @@ public abstract class ParserEnvironment extends Base {
 	public static final int MODELS = 7;
 	public static final int FUNCTIONS_AND_EXTERNAL_FUNCTIONS = 8;
 	public static final int COMPUTATION_BLOCKS = 9;
-	public static final int PACKAGES = 10;
+	public static final int INDICES = 10;
+	public static final int PACKAGES = 11;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
 		new SymbolTable("types", TYPES),        // types and patterns
@@ -52,6 +53,7 @@ public abstract class ParserEnvironment extends Base {
 		new SymbolTable("models", MODELS),
 		new SymbolTable("functions and external functions", FUNCTIONS_AND_EXTERNAL_FUNCTIONS),
 		new SymbolTable("computation blocks", COMPUTATION_BLOCKS),
+		new SymbolTable("indices", INDICES),
 		new SymbolTable("packages", PACKAGES)
 	};
 
@@ -348,15 +350,20 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("alternative");
 		keywords.add("arbitrary");
 		keywords.add("array");
+		keywords.add("auto");
 		keywords.add("break");
 		keywords.add("class");
 		keywords.add("copy");
 		keywords.add("connect");
 		keywords.add("const");
+		keywords.add("continue");
+		keywords.add("count");
 		keywords.add("def");
 		keywords.add("delete");
 		keywords.add("directed");
+		keywords.add("do");
 		keywords.add("edge");
+		keywords.add("else");
 		keywords.add("emit");
 		keywords.add("emithere");
 		keywords.add("enum");
@@ -365,16 +372,20 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("exact");
 		keywords.add("exec");
 		keywords.add("extends");
+		keywords.add("external");
 		keywords.add("false");
+		keywords.add("filter");
 		keywords.add("for");
-		keywords.add("graph");
+		keywords.add("function");
 		keywords.add("hom");
 		keywords.add("if");
 		keywords.add("in");
 		keywords.add("independent");
+		keywords.add("index");
 		keywords.add("induced");
 		keywords.add("iterated");
 		keywords.add("map");
+		keywords.add("match");
 		keywords.add("model");
 		keywords.add("modify");
 		keywords.add("multiple");
@@ -383,10 +394,11 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("node");
 		keywords.add("null");
 		keywords.add("optional");
+		keywords.add("package");
 		keywords.add("pattern");
 		keywords.add("patternpath");
-		keywords.add("random");
-		keywords.add("record");
+		keywords.add("procedure");
+		keywords.add("deque");
 		keywords.add("replace");
 		keywords.add("return");
 		keywords.add("rule");
@@ -397,10 +409,8 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("typeof");
 		keywords.add("undirected");
 		keywords.add("using");
-		keywords.add("valloc");
-		keywords.add("vfree");
 		keywords.add("visited");
-		keywords.add("vreset");
+		keywords.add("while");
 		keywords.add("yield");
 	}
 
