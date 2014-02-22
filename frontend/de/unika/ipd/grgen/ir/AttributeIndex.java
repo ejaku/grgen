@@ -15,8 +15,8 @@ package de.unika.ipd.grgen.ir;
  * An attribute index.
  */
 public class AttributeIndex extends Identifiable {
-	InheritanceType type;
-	Entity entity;
+	public InheritanceType type;
+	public Entity entity;
 	
 	/**
 	 * @param name The name of the attribute index.

@@ -70,6 +70,7 @@
     <Compile Include="InterpretationPlanBuilder.cs" />
     <Compile Include="lgspActionExecutionEnvironment.cs" />
     <Compile Include="lgspDeferredSequencesManager.cs" />
+    <Compile Include="lgspGraphModel.cs" />
     <Compile Include="lgspGraphProcessingEnvironment.cs" />
     <Compile Include="lgspGraphStatistics.cs" />
     <Compile Include="lgspGrGen.cs" />

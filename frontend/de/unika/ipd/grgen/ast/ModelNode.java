@@ -21,6 +21,7 @@ import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ir.AttributeIndex;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.PackageType;
@@ -45,6 +46,8 @@ public class ModelNode extends DeclNode {
 	protected CollectNode<ExternalFunctionDeclNode> externalFuncDecls;
 	private CollectNode<IdentNode> externalProcDeclsUnresolved;
 	protected CollectNode<ExternalProcedureDeclNode> externalProcDecls;
+	private CollectNode<IdentNode> indicesUnresolved;
+	protected CollectNode<AttributeIndexDeclNode> indices;
 	private ModelTypeNode type;
 	private boolean isEmitClassDefined;
 	private boolean isCopyClassDefined;
@@ -53,7 +56,7 @@ public class ModelNode extends DeclNode {
 
 	public ModelNode(IdentNode id, CollectNode<IdentNode> packages, CollectNode<IdentNode> decls, 
 			CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
-			CollectNode<ModelNode> usedModels, 
+			CollectNode<IdentNode> indices, CollectNode<ModelNode> usedModels, 
 			boolean isEmitClassDefined, boolean isCopyClassDefined,
 			boolean isEqualClassDefined, boolean isLowerClassDefined) {
 		super(id, modelType);
@@ -66,6 +69,8 @@ public class ModelNode extends DeclNode {
 		becomeParent(this.externalFuncDeclsUnresolved);
 		this.externalProcDeclsUnresolved = externalProcs;
 		becomeParent(this.externalProcDeclsUnresolved);
+		this.indicesUnresolved = indices;
+		becomeParent(this.indicesUnresolved);
 		this.usedModels = usedModels;
 		becomeParent(this.usedModels);
 		this.isEmitClassDefined = isEmitClassDefined;
@@ -84,6 +89,7 @@ public class ModelNode extends DeclNode {
 		children.add(getValidVersion(declsUnresolved, decls));
 		children.add(getValidVersion(externalFuncDeclsUnresolved, externalFuncDecls));
 		children.add(getValidVersion(externalProcDeclsUnresolved, externalProcDecls));
+		children.add(getValidVersion(indicesUnresolved, indices));
 		children.add(usedModels);
 		return children;
 	}
@@ -98,6 +104,7 @@ public class ModelNode extends DeclNode {
 		childrenNames.add("decls");
 		childrenNames.add("externalFuncDecls");
 		childrenNames.add("externalProcDecls");
+		childrenNames.add("indices");
 		childrenNames.add("usedModels");
 		return childrenNames;
 	}
@@ -105,13 +112,16 @@ public class ModelNode extends DeclNode {
 	private static CollectResolver<TypeDeclNode> packagesResolver = new CollectResolver<TypeDeclNode>(
 			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
 	private static CollectResolver<TypeDeclNode> declsResolver = new CollectResolver<TypeDeclNode>(
-		new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
+			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
+	private static CollectResolver<AttributeIndexDeclNode> indicesResolver = new CollectResolver<AttributeIndexDeclNode>(
+			new DeclarationResolver<AttributeIndexDeclNode>(AttributeIndexDeclNode.class));
 	private static CollectResolver<ExternalFunctionDeclNode> externalFunctionsResolver = new CollectResolver<ExternalFunctionDeclNode>(
 			new DeclarationResolver<ExternalFunctionDeclNode>(ExternalFunctionDeclNode.class));
 	private static CollectResolver<ExternalProcedureDeclNode> externalProceduresResolver = new CollectResolver<ExternalProcedureDeclNode>(
 			new DeclarationResolver<ExternalProcedureDeclNode>(ExternalProcedureDeclNode.class));
 
-	private static DeclarationTypeResolver<ModelTypeNode> typeResolver = new DeclarationTypeResolver<ModelTypeNode>(ModelTypeNode.class);
+	private static DeclarationTypeResolver<ModelTypeNode> typeResolver = 
+			new DeclarationTypeResolver<ModelTypeNode>(ModelTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
@@ -125,6 +135,7 @@ public class ModelNode extends DeclNode {
 		
 		packages = packagesResolver.resolve(packagesUnresolved, this);
 		decls = declsResolver.resolve(declsUnresolved, this);
+		indices = indicesResolver.resolve(indicesUnresolved, this);
 		externalFuncDecls = externalFunctionsResolver.resolve(externalFuncDeclsUnresolved, this);
 		externalProcDecls = externalProceduresResolver.resolve(externalProcDeclsUnresolved, this);
 		type = typeResolver.resolve(typeUnresolved, this);
@@ -164,7 +175,11 @@ public class ModelNode extends DeclNode {
 	public CollectNode<TypeDeclNode> getTypeDecls() {
 		return decls;
 	}
-	
+
+	public CollectNode<AttributeIndexDeclNode> getIndices() {
+		return indices;
+	}
+
 	public CollectNode<ModelNode> getUsedModels() {
 		return usedModels;
 	}
@@ -193,6 +208,9 @@ public class ModelNode extends DeclNode {
 		}
 		for(TypeDeclNode typeDecl : decls.getChildren()) {
 			res.addType(typeDecl.getDeclType().getType());
+		}
+		for(AttributeIndexDeclNode indexDecl : indices.getChildren()) {
+			res.addIndex(indexDecl.checkIR(AttributeIndex.class));
 		}
 		for(ExternalFunctionDeclNode externalFunctionDecl : externalFuncDecls.getChildren()) {
 			res.addExternalFunction(externalFunctionDecl.checkIR(ExternalFunction.class));

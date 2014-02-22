@@ -148,6 +148,11 @@ namespace de.unika.ipd.grGen.libGr
         IGraphModel Model { get; }
 
         /// <summary>
+        /// The indices associated with the graph.
+        /// </summary>
+        IIndexSet Indices { get; }
+
+        /// <summary>
         /// If true (the default case), elements deleted during a rewrite
         /// may be reused in the same rewrite.
         /// As a result new elements may not be discriminable anymore from

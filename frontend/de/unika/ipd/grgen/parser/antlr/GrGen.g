@@ -250,7 +250,8 @@ textActions returns [ UnitNode main = null ]
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isLowerClassDefined |= modelChild.IsLowerClassDefined();
 				}				
-				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(), new CollectNode<IdentNode>(),
+				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(),
+						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), 
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds, 
 						isEmitClassDefined, isCopyClassDefined, isEqualClassDefined, isLowerClassDefined);
 				modelChilds = new CollectNode<ModelNode>();
@@ -2543,7 +2544,7 @@ textTypes returns [ ModelNode model = null ]
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
-			model = new ModelNode(id, packages, types, externalFuncs, externalProcs, modelChilds,
+			model = new ModelNode(id, packages, types, externalFuncs, externalProcs, indices, modelChilds,
 				$specialClasses.isEmitClassDefined, $specialClasses.isCopyClassDefined, 
 				$specialClasses.isEqualClassDefined, $specialClasses.isLowerClassDefined);
 		}
