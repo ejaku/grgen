@@ -233,6 +233,48 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
+    /// The description of a single index, base for all kinds of index descriptions.
+    /// (You must typecheck and cast to the concrete description type for more information).
+    /// </summary>
+    public abstract class IndexDescription
+    {
+        /// <summary>
+        /// The name the index was declared with
+        /// </summary>
+        public readonly String Name;
+
+        public IndexDescription(string name)
+        {
+            Name = name;
+        }
+    }
+
+    /// <summary>
+    /// The description of a single attribute index.
+    /// </summary>
+    public class AttributeIndexDescription : IndexDescription
+    {
+        /// <summary>
+        /// The node or edge type the index is defined for.
+        /// (May be a subtype of the type the attribute was defined for first.)
+        /// </summary>
+        public readonly GrGenType GraphElementType;
+
+        /// <summary>
+        /// The attribute type the index is declared on.
+        /// </summary>
+        public readonly AttributeType AttributeType;
+
+        public AttributeIndexDescription(string name,
+            GrGenType graphElementType, AttributeType attributeType)
+            : base(name)
+        {
+            GraphElementType = graphElementType;
+            AttributeType = attributeType;
+        }
+    }
+
+    /// <summary>
     /// A model of a GrGen graph.
     /// </summary>
     public interface IGraphModel
@@ -266,6 +308,11 @@ namespace de.unika.ipd.grGen.libGr
         /// Enumerates all ValidateInfo objects describing constraints on the graph structure.
         /// </summary>
         IEnumerable<ValidateInfo> ValidateInfo { get; }
+
+        /// <summary>
+        /// Enumerates the descriptions of all indices declared in this model.
+        /// </summary>
+        IEnumerable<IndexDescription> IndexDescriptions { get; }
 
 
         #region Emitting and parsing of attributes of object or a user defined type
