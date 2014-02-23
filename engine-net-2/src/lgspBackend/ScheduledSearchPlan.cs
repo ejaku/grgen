@@ -138,6 +138,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public StorageAccess Storage; // set for storage access
         public StorageAccessIndex StorageIndex; // set for storage access with index
+        public IndexAccess IndexAccess; // set for index access
 
         public expression.Expression Expression; // set for inlined assignments, for initializations of defs
 
@@ -242,6 +243,10 @@ namespace de.unika.ipd.grGen.lgsp
                 case SearchOperationType.MapWithStorage:
                 case SearchOperationType.MapWithStorageDependent:
                     sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + Storage.ToString() + "[" + StorageIndex.ToString() + "]}");
+                    break;
+                case SearchOperationType.PickFromIndex:
+                case SearchOperationType.PickFromIndexDependent:
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + IndexAccess.ToString() + "}");
                     break;
                 case SearchOperationType.Cast:
                     sb.AppendFront(tgt.PatternElement.UnprefixedName + "<" + src.PatternElement.UnprefixedName + ">");

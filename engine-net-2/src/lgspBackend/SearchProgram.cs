@@ -1148,6 +1148,7 @@ namespace de.unika.ipd.grGen.lgsp
         IncidentEdges, // incident edges
         StorageElements, // available elements of the storage variable
         StorageAttributeElements, // available elements of the storage attribute
+        IndexElements, // available elements of the index
         //GraphElementAttribute, // available graph element of the attribute
         //GlobalVariable, // available element of the global non-storage variable
         //GlobalVariableStorageElements // available elements of the storage global variable
@@ -1162,6 +1163,16 @@ namespace de.unika.ipd.grGen.lgsp
         Incoming,
         Outgoing,
         IncomingOrOutgoing
+    }
+
+    /// <summary>
+    /// The different possibilties an index might be accessed
+    /// </summary>
+    enum IndexAccessType
+    {
+        Equality,
+        Ascending,
+        Descending
     }
 
     /// <summary>
@@ -1205,7 +1216,7 @@ namespace de.unika.ipd.grGen.lgsp
             Type = type;
             PatternElementName = patternElementName;
             StorageName = storageName;
-            StorageIterationType = storageIterationType;
+            IterationType = storageIterationType;
             IsDict = isDict;
             IsNode = isNode;
             Parallel = parallel;
@@ -1234,8 +1245,74 @@ namespace de.unika.ipd.grGen.lgsp
             StorageOwnerName = storageOwnerName;
             StorageOwnerTypeName = storageOwnerTypeName;
             StorageAttributeName = storageAttributeName;
-            StorageIterationType = storageIterationType;
+            IterationType = storageIterationType;
             IsDict = isDict;
+            IsNode = isNode;
+            Parallel = parallel;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIteration(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string indexName,
+            string indexIterationType,
+            string indexSetType,
+            IndexAccessType indexAccessType,
+            string equality,
+            bool isNode,
+            bool parallel,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.IndexElements);
+            Type = type;
+            PatternElementName = patternElementName;
+            IndexName = indexName;
+            IterationType = indexIterationType;
+            IndexSetType = indexSetType;
+            Debug.Assert(indexAccessType == IndexAccessType.Equality);
+            IndexAccessType = indexAccessType;
+            IndexEqual = equality;
+            IsNode = isNode;
+            Parallel = parallel;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIteration(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string indexName,
+            string indexIterationType,
+            string indexSetType,
+            IndexAccessType indexAccessType,
+            string from,
+            string fromIncluded,
+            string to,
+            string toIncluded,
+            bool isNode,
+            bool parallel,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.IndexElements);
+            Type = type;
+            PatternElementName = patternElementName;
+            IndexName = indexName;
+            IterationType = indexIterationType;
+            IndexSetType = indexSetType;
+            Debug.Assert(indexAccessType == IndexAccessType.Ascending || indexAccessType == IndexAccessType.Descending);
+            IndexAccessType = indexAccessType;
+            IndexFrom = from;
+            IndexFromIncluded = fromIncluded;
+            IndexTo = to;
+            IndexToIncluded = toIncluded;
             IsNode = isNode;
             Parallel = parallel;
             EmitProfiling = emitProfiling;
@@ -1280,6 +1357,10 @@ namespace de.unika.ipd.grGen.lgsp
                 builder.Append("StorageAttributeElements ");
                 builder.AppendFormat("on {0} from {1}.{2} node:{3} {4}\n",
                     PatternElementName, StorageOwnerName, StorageAttributeName, IsNode, IsDict?"Dictionary":"List/Deque");
+            } else if(Type == GetCandidateByIterationType.IndexElements) {
+                builder.Append("IndexElements ");
+                builder.AppendFormat("on {0} from {1} node:{2}\n",
+                    PatternElementName, IndexName, IsNode);
             } else { //Type==GetCandidateByIterationType.IncidentEdges
                 builder.Append("IncidentEdges ");
                 builder.AppendFormat("on {0} from {1} edge type:{2}\n",
@@ -1359,7 +1440,7 @@ namespace de.unika.ipd.grGen.lgsp
                 string storageIterationVariable = 
                     NamesOfEntities.CandidateIterationContainerEntry(PatternElementName);
                 sourceCode.AppendFrontFormat("foreach({0} {1} in {2})\n",
-                    StorageIterationType, storageIterationVariable, variableContainingStorage);
+                    IterationType, storageIterationVariable, variableContainingStorage);
                 
                 // open loop
                 sourceCode.AppendFront("{\n");
@@ -1399,7 +1480,7 @@ namespace de.unika.ipd.grGen.lgsp
                 string storageIterationVariable =
                     NamesOfEntities.CandidateIterationContainerEntry(PatternElementName);
                 sourceCode.AppendFrontFormat("foreach({0} {1} in {2})\n",
-                    StorageIterationType, storageIterationVariable, variableContainingStorage);
+                    IterationType, storageIterationVariable, variableContainingStorage);
 
                 // open loop
                 sourceCode.AppendFront("{\n");
@@ -1413,6 +1494,64 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("{0} {1} = ({0}){2}{3};\n",
                     typeOfVariableContainingCandidate, variableContainingCandidate, 
                     storageIterationVariable, IsDict?".Key":"");
+
+                EmitProfilingAsNeededPre(sourceCode);
+
+                // emit loop body
+                NestedOperationsList.Emit(sourceCode);
+
+                EmitProfilingAsNeededPost(sourceCode);
+
+                // close loop
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
+            else if(Type == GetCandidateByIterationType.IndexElements)
+            {
+                if(sourceCode.CommentSourceCode)
+                {
+                    sourceCode.AppendFrontFormat("// Pick {0} {1} from index {2}\n",
+                        IsNode ? "node" : "edge", PatternElementName, IndexName);
+                }
+
+                // emit loop header with variable containing container entry
+                string indexIterationVariable =
+                    NamesOfEntities.CandidateIterationIndexEntry(PatternElementName);
+                sourceCode.AppendFrontFormat("foreach({0} {1} in (({2})graph.indices).{3}.",
+                        IterationType, indexIterationVariable, IndexSetType, IndexName);
+                if(IndexAccessType==IndexAccessType.Equality)
+                {
+                    sourceCode.AppendFormat("Lookup({0}))\n", IndexEqual);
+                }
+                else
+                {
+                    String accessType = IndexAccessType == IndexAccessType.Ascending ? "Ascending" : "Descending";
+                    if(IndexFrom != null && IndexTo != null)
+                        sourceCode.AppendFormat("Lookup{0}FromTo({1}, {2}, {3}, {4}))\n",
+                            accessType, IndexFrom, IndexFromIncluded, IndexTo, IndexToIncluded);
+                    else if(IndexFrom != null)
+                        sourceCode.AppendFormat("Lookup{0}From({1}, {2}))\n",
+                            accessType, IndexFrom, IndexFromIncluded);
+                    else if(IndexTo != null)
+                        sourceCode.AppendFormat("Lookup{0}To({1}, {2}))\n",
+                            accessType, IndexTo, IndexToIncluded);
+                    else
+                        sourceCode.AppendFormat("Lookup{0}())\n",
+                            accessType);
+                }
+
+                // open loop
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                // emit candidate variable, initialized with container entry
+                string typeOfVariableContainingCandidate = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
+                string variableContainingCandidate =
+                    NamesOfEntities.CandidateVariable(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0}){2};\n",
+                    typeOfVariableContainingCandidate, variableContainingCandidate,
+                    indexIterationVariable);
 
                 EmitProfilingAsNeededPre(sourceCode);
 
@@ -1599,13 +1738,21 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public GetCandidateByIterationType Type;
-        public bool IsNode; // node|edge - only available if GraphElements|StorageElements|StorageAttributeElements
+        public bool IsNode; // node|edge - only available if GraphElements|StorageElements|StorageAttributeElements|IndexElements
         public bool IsDict; // Dictionary(set/map)|List/Deque(array/deque) - only available if StorageElements|StorageAttributeElements
         public string StorageName; // only available if StorageElements
         public string StorageOwnerName; // only available if StorageAttributeElements
         public string StorageOwnerTypeName; // only available if StorageAttributeElements
         public string StorageAttributeName; // only available if StorageAttributeElements
-        public string StorageIterationType; // only available if StorageElements|StorageAttributeElements
+        public string IterationType; // only available if StorageElements|StorageAttributeElements|IndexElements
+        public string IndexName; // only available if IndexElements
+        public string IndexSetType; // only available if IndexElements
+        public IndexAccessType IndexAccessType; // only available if IndexElements
+        public string IndexEqual; // only available if IndexElements
+        public string IndexFrom; // only available if IndexElements
+        public string IndexFromIncluded; // only available if IndexElements
+        public string IndexTo; // only available if IndexElements
+        public string IndexToIncluded; // only available if IndexElements
         public string StartingPointNodeName; // from pattern - only available if IncidentEdges
         public IncidentEdgeType EdgeType; // only available if IncidentEdges
         public bool Parallel;
@@ -1654,7 +1801,7 @@ namespace de.unika.ipd.grGen.lgsp
             Type = type;
             PatternElementName = patternElementName;
             StorageName = storageName;
-            StorageIterationType = storageIterationType;
+            IterationType = storageIterationType;
             IsDict = isDict;
             IsNode = isNode;
             EmitProfiling = emitProfiling;
@@ -1681,8 +1828,70 @@ namespace de.unika.ipd.grGen.lgsp
             StorageOwnerName = storageOwnerName;
             StorageOwnerTypeName = storageOwnerTypeName;
             StorageAttributeName = storageAttributeName;
-            StorageIterationType = storageIterationType;
+            IterationType = storageIterationType;
             IsDict = isDict;
+            IsNode = isNode;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIterationParallel(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string indexName,
+            string indexIterationType,
+            string indexSetType,
+            IndexAccessType indexAccessType,
+            string equality,
+            bool isNode,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.IndexElements);
+            Type = type;
+            PatternElementName = patternElementName;
+            IndexName = indexName;
+            IterationType = indexIterationType;
+            IndexSetType = indexSetType;
+            Debug.Assert(indexAccessType == IndexAccessType.Equality);
+            IndexAccessType = indexAccessType;
+            IndexEqual = equality;
+            IsNode = isNode;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIterationParallel(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string indexName,
+            string indexIterationType,
+            string indexSetType,
+            IndexAccessType indexAccessType,
+            string from,
+            string fromIncluded,
+            string to,
+            string toIncluded,
+            bool isNode,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.IndexElements);
+            Type = type;
+            PatternElementName = patternElementName;
+            IndexName = indexName;
+            IterationType = indexIterationType;
+            IndexSetType = indexSetType;
+            Debug.Assert(indexAccessType == IndexAccessType.Ascending || indexAccessType == IndexAccessType.Descending);
+            IndexAccessType = indexAccessType;
+            IndexFrom = from;
+            IndexFromIncluded = fromIncluded;
+            IndexTo = to;
+            IndexToIncluded = toIncluded;
             IsNode = isNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
@@ -1729,6 +1938,12 @@ namespace de.unika.ipd.grGen.lgsp
                 builder.Append("StorageAttributeElements ");
                 builder.AppendFormat("on {0} from {1}.{2} node:{3} {4}\n",
                     PatternElementName, StorageOwnerName, StorageAttributeName, IsNode, IsDict ? "Dictionary" : "List/Deque");
+            }
+            else if(Type == GetCandidateByIterationType.IndexElements)
+            {
+                builder.Append("IndexElements ");
+                builder.AppendFormat("on {0} from {1} node:{2}\n",
+                    PatternElementName, IndexName, IsNode);
             }
             else
             { //Type==GetCandidateByIterationType.IncidentEdges
@@ -1930,6 +2145,66 @@ namespace de.unika.ipd.grGen.lgsp
                 // release iteration parallelization lock
                 sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
             }
+            else if(Type == GetCandidateByIterationType.IndexElements)
+            {
+                if(sourceCode.CommentSourceCode)
+                {
+                    sourceCode.AppendFrontFormat("// Parallelized Pick {0} {1} from index {2}\n",
+                        IsNode ? "node" : "edge", PatternElementName, IndexName);
+                }
+
+                if(EmitProfiling)
+                    sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+
+                // get iteration parallelization lock
+                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                // variable containing candidates from parallelized next candidate
+                string variableContainingParallelizedIterator =
+                    NamesOfEntities.IterationParallelizationIterator(PatternElementName);
+
+                // open loop header, and emit early out condition: another thread already found the required amount of matches 
+                sourceCode.AppendFront("while(!maxMatchesFound && (");
+                // emit loop condition: check for iteration end 
+                sourceCode.AppendFormat("{0}.MoveNext()",
+                    variableContainingParallelizedIterator);
+                // close loop header
+                sourceCode.Append("))\n");
+
+                // open loop
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                // emit candidate variable, initialized with container entry
+                string typeOfVariableContainingCandidate = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
+                string variableContainingCandidate =
+                    NamesOfEntities.CandidateVariable(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0}){2}.Current;\n",
+                    typeOfVariableContainingCandidate, variableContainingCandidate,
+                    variableContainingParallelizedIterator);
+                sourceCode.AppendFront("currentIterationNumber = iterationNumber;\n");
+                sourceCode.AppendFront("++iterationNumber;\n");
+                // release iteration parallelization lock
+                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+
+                EmitProfilingAsNeededPre(sourceCode);
+
+                // emit loop body
+                NestedOperationsList.Emit(sourceCode);
+
+                EmitProfilingAsNeededPost(sourceCode);
+
+                // get iteration parallelization lock
+                sourceCode.Append("\n");
+                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+
+                // close loop
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+
+                // release iteration parallelization lock
+                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+            }
             else //Type==GetCandidateByIterationType.IncidentEdges
             {
                 if(sourceCode.CommentSourceCode)
@@ -2104,7 +2379,15 @@ namespace de.unika.ipd.grGen.lgsp
         public string StorageOwnerName; // only available if StorageAttributeElements
         public string StorageOwnerTypeName; // only available if StorageAttributeElements
         public string StorageAttributeName; // only available if StorageAttributeElements
-        public string StorageIterationType; // only available if StorageElements|StorageAttributeElements
+        public string IterationType; // only available if StorageElements|StorageAttributeElements
+        public string IndexName; // only available if IndexElements
+        public string IndexSetType; // only available if IndexElements
+        public IndexAccessType IndexAccessType; // only available if IndexElements
+        public string IndexEqual; // only available if IndexElements
+        public string IndexFrom; // only available if IndexElements
+        public string IndexFromIncluded; // only available if IndexElements
+        public string IndexTo; // only available if IndexElements
+        public string IndexToIncluded; // only available if IndexElements
         public string StartingPointNodeName; // from pattern - only available if IncidentEdges
         public IncidentEdgeType EdgeType; // only available if IncidentEdges
         public bool EmitProfiling;
@@ -2163,7 +2446,7 @@ namespace de.unika.ipd.grGen.lgsp
             Type = type;
             PatternElementName = patternElementName;
             StorageName = storageName;
-            StorageIterationType = storageIterationType;
+            IterationType = storageIterationType;
             IsDict = isDict;
             IsNode = isNode;
             RulePatternClassName = rulePatternClassName;
@@ -2196,12 +2479,74 @@ namespace de.unika.ipd.grGen.lgsp
             StorageOwnerName = storageOwnerName;
             StorageOwnerTypeName = storageOwnerTypeName;
             StorageAttributeName = storageAttributeName;
-            StorageIterationType = storageIterationType;
+            IterationType = storageIterationType;
             IsDict = isDict;
             IsNode = isNode;
             RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
             ParameterNames = parameterNames;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIterationParallelSetup(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string indexName,
+            string indexIterationType,
+            string indexSetType,
+            IndexAccessType indexAccessType,
+            string equality,
+            bool isNode,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.IndexElements);
+            Type = type;
+            PatternElementName = patternElementName;
+            IndexName = indexName;
+            IterationType = indexIterationType;
+            IndexSetType = indexSetType;
+            Debug.Assert(indexAccessType == IndexAccessType.Equality);
+            IndexAccessType = indexAccessType;
+            IndexEqual = equality;
+            IsNode = isNode;
+            EmitProfiling = emitProfiling;
+            ActionName = actionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIterationParallelSetup(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string indexName,
+            string indexIterationType,
+            string indexSetType,
+            IndexAccessType indexAccessType,
+            string from,
+            string fromIncluded,
+            string to,
+            string toIncluded,
+            bool isNode,
+            bool emitProfiling,
+            string actionName,
+            bool emitFirstLoopProfiling)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.IndexElements);
+            Type = type;
+            PatternElementName = patternElementName;
+            IndexName = indexName;
+            IterationType = indexIterationType;
+            IndexSetType = indexSetType;
+            Debug.Assert(indexAccessType == IndexAccessType.Ascending || indexAccessType == IndexAccessType.Descending);
+            IndexAccessType = indexAccessType;
+            IndexFrom = from;
+            IndexFromIncluded = fromIncluded;
+            IndexTo = to;
+            IndexToIncluded = toIncluded;
+            IsNode = isNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2255,6 +2600,12 @@ namespace de.unika.ipd.grGen.lgsp
                 builder.Append("StorageAttributeElements ");
                 builder.AppendFormat("on {0} from {1}.{2} node:{3} {4}\n",
                     PatternElementName, StorageOwnerName, StorageAttributeName, IsNode, IsDict ? "Dictionary" : "List/Deque");
+            }
+            else if(Type == GetCandidateByIterationType.IndexElements)
+            {
+                builder.Append("IndexElements ");
+                builder.AppendFormat("on {0} from {1} node:{2}\n",
+                    PatternElementName, IndexName, IsNode);
             }
             else
             { //Type==GetCandidateByIterationType.IncidentEdges
@@ -2350,6 +2701,46 @@ namespace de.unika.ipd.grGen.lgsp
                 // emit prerun determining the number of threads to wake up
                 sourceCode.AppendFrontFormat("numThreadsSignaled = Math.Min(numWorkerThreads, {0}.Count);\n",
                     variableContainingStorage);
+                sourceCode.AppendFront("\n");
+            }
+            else if(Type == GetCandidateByIterationType.IndexElements)
+            {
+                if(sourceCode.CommentSourceCode)
+                {
+                    sourceCode.AppendFrontFormat("// Pick {0} {1} from index {2}\n",
+                        IsNode ? "node" : "edge", PatternElementName, IndexName);
+                }
+
+                // initialize variable containing candidates from parallelized next candidate
+                string variableContainingParallelizedIterator =
+                    NamesOfEntities.IterationParallelizationIterator(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} = (({1})graph.indices).{2}.",
+                    variableContainingParallelizedIterator, IndexSetType, IndexName);
+
+                if(IndexAccessType == IndexAccessType.Equality)
+                {
+                    sourceCode.AppendFormat("Lookup({0});\n", IndexEqual);
+                }
+                else
+                {
+                    String accessType = IndexAccessType == IndexAccessType.Ascending ? "Ascending" : "Descending";
+                    if(IndexFrom != null && IndexTo != null)
+                        sourceCode.AppendFormat("Lookup{0}FromTo({1}, {2}, {3}, {4});\n",
+                            accessType, IndexFrom, IndexFromIncluded, IndexTo, IndexToIncluded);
+                    else if(IndexFrom != null)
+                        sourceCode.AppendFormat("Lookup{0}From({1}, {2});\n",
+                            accessType, IndexFrom, IndexFromIncluded);
+                    else if(IndexTo != null)
+                        sourceCode.AppendFormat("Lookup{0}To({1}, {2});\n",
+                            accessType, IndexTo, IndexToIncluded);
+                    else
+                        sourceCode.AppendFormat("Lookup{0}();\n",
+                            accessType);
+                }
+
+                // emit prerun determining the number of threads to wake up
+                sourceCode.AppendFrontFormat("numThreadsSignaled = Math.Min(numWorkerThreads, (({0})graph.indices).{1}.Count);\n",
+                    IndexSetType, IndexName);
                 sourceCode.AppendFront("\n");
             }
             else //Type==GetCandidateByIterationType.IncidentEdges
@@ -2557,7 +2948,15 @@ namespace de.unika.ipd.grGen.lgsp
         public string StorageOwnerName; // only available if StorageAttributeElements
         public string StorageOwnerTypeName; // only available if StorageAttributeElements
         public string StorageAttributeName; // only available if StorageAttributeElements
-        public string StorageIterationType; // only available if StorageElements|StorageAttributeElements
+        public string IterationType; // only available if StorageElements|StorageAttributeElements
+        public string IndexName; // only available if IndexElements
+        public string IndexSetType; // only available if IndexElements
+        public IndexAccessType IndexAccessType; // only available if IndexElements
+        public string IndexEqual; // only available if IndexElements
+        public string IndexFrom; // only available if IndexElements
+        public string IndexFromIncluded; // only available if IndexElements
+        public string IndexTo; // only available if IndexElements
+        public string IndexToIncluded; // only available if IndexElements
         public string StartingPointNodeName; // from pattern - only available if IncidentEdges
         public IncidentEdgeType EdgeType; // only available if IncidentEdges
         public string RulePatternClassName;

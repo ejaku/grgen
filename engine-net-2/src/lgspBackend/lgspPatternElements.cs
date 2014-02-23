@@ -143,6 +143,12 @@ namespace de.unika.ipd.grGen.lgsp
         public StorageAccessIndex StorageIndex;
 
         /// <summary>
+        /// If not null this pattern element is to be determined by an index lookup,
+        /// with details specified by the concrete index access type contained in this field.
+        /// </summary>
+        public IndexAccess IndexAccess;
+
+        /// <summary>
         /// If not null this pattern element is to be bound by casting the given ElementBeforeCasting to the pattern element type or causing matching to fail.
         /// </summary>
         public PatternElement ElementBeforeCasting;
@@ -199,6 +205,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="storage">If not null this pattern element is to be bound by iterating the given storage.</param>
         /// <param name="storageIndex">If not null this pattern element is to be determined by a storage lookup,
         ///     with the accessor given here applied as index into the storage given in the storage parameter.</param>
+        /// <param name="indexAccess">If not null this pattern element is to be determined by an index lookup, with details specified by the concrete index access type contained in this field.</param>
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -209,7 +216,7 @@ namespace de.unika.ipd.grGen.lgsp
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
             StorageAccess storage, StorageAccessIndex storageIndex,
-            PatternElement elementBeforeCasting,
+            IndexAccess indexAccess, PatternElement elementBeforeCasting,
             bool defToBeYieldedTo, Expression initialization)
         {
             this.TypeID = typeID;
@@ -223,6 +230,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.MaybeNull = maybeNull;
             this.Storage = storage;
             this.StorageIndex = storageIndex;
+            this.IndexAccess = indexAccess;
             this.ElementBeforeCasting = elementBeforeCasting;
             this.defToBeYieldedTo = defToBeYieldedTo;
             this.initialization = initialization;
@@ -256,6 +264,7 @@ namespace de.unika.ipd.grGen.lgsp
             MaybeNull = original.MaybeNull;
             Storage = original.Storage != null ? new StorageAccess(original.Storage) : null;
             StorageIndex = original.StorageIndex != null ? new StorageAccessIndex(original.StorageIndex) : null;
+            IndexAccess = original.IndexAccess != null ? original.IndexAccess.Copy(nameSuffix) : null;
             ElementBeforeCasting = original.ElementBeforeCasting;
             AssignmentSource = original.AssignmentSource;
             originalElement = original;
@@ -272,14 +281,15 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns the pattern element the storage (which must be not null) depends on (or the storage index depends on)
+        /// Returns the pattern element we depend on,
+        /// for a storage lookup, or an indexed storage lookup, or an index lookup
         /// </summary>
-        public PatternElement GetPatternElementTheStorageDependsOn()
+        public PatternElement GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness()
         {
-            // there is at most one pattern element the storage depends on, that is ensured by the frontend
+            // there is at most one pattern element the storage or index depends on, that is ensured by the frontend
             // it needs to be ensured because the scheduler can only cope with one dependency, better: the search plan graph can only model that
 
-            if(Storage.Attribute != null)
+            if(Storage != null && Storage.Attribute != null)
                 return Storage.Attribute.Owner; // need the graph element owning the attribute
             if(StorageIndex != null)
             {
@@ -287,6 +297,10 @@ namespace de.unika.ipd.grGen.lgsp
                     return StorageIndex.Attribute.Owner; // need the graph element owning the attribute
                 if(StorageIndex.GraphElement != null)
                     return StorageIndex.GraphElement; // need the graph element
+            }
+            if(IndexAccess != null)
+            {
+                return IndexAccess.NeededElement;
             }
 
             return null; // only local variables or global variables required
@@ -323,6 +337,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="storage">If not null this node is to be bound by iterating the given storage.</param>
         /// <param name="storageIndex">If not null this node is to be determined by a storage lookup,
         ///     with the accessor given here applied as index into the storage given in the storage parameter.</param>
+        /// <param name="indexAccess">If not null this pattern element is to be determined by an index lookup, with details specified by the concrete index access type contained in this field.</param>
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -333,10 +348,10 @@ namespace de.unika.ipd.grGen.lgsp
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
             StorageAccess storage, StorageAccessIndex storageIndex,
-            PatternElement elementBeforeCasting,
+            IndexAccess indexAccess, PatternElement elementBeforeCasting,
             bool defToBeYieldedTo, Expression initialization)
             : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, 
-                cost, parameterIndex, maybeNull, storage, storageIndex,
+                cost, parameterIndex, maybeNull, storage, storageIndex, indexAccess,
                 elementBeforeCasting, defToBeYieldedTo, initialization)
         {
             this.type = type;
@@ -412,6 +427,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="storage">If not null this edge is to be bound by iterating the given storage.</param>
         /// <param name="storageIndex">If not null this edge is to be determined by a storage lookup,
         ///     with the accessor given here applied as index into the storage given in the storage parameter.</param>
+        /// <param name="indexAccess">If not null this pattern element is to be determined by an index lookup, with details specified by the concrete index access type contained in this field.</param>
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -423,10 +439,10 @@ namespace de.unika.ipd.grGen.lgsp
             GrGenType[] allowedTypes, bool[] isAllowedType,
             float cost, int parameterIndex, bool maybeNull,
             StorageAccess storage, StorageAccessIndex storageIndex,
-            PatternElement elementBeforeCasting,
+            IndexAccess indexAccess, PatternElement elementBeforeCasting,
             bool defToBeYieldedTo, Expression initialization)
             : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType,
-                cost, parameterIndex, maybeNull, storage, storageIndex,
+                cost, parameterIndex, maybeNull, storage, storageIndex, indexAccess,
                 elementBeforeCasting, defToBeYieldedTo, initialization)
         {
             this.fixedDirection = fixedDirection;
@@ -809,6 +825,264 @@ namespace de.unika.ipd.grGen.lgsp
                         Attribute.Owner = edgeToCopy[(PatternEdge)Attribute.Owner];
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// Base class for index accesses, used to bind a pattern element from an index.
+    /// </summary>
+    public abstract class IndexAccess
+    {
+        /// <summary>
+        /// The index accessed
+        /// </summary>
+        public IndexDescription Index;
+
+        /// <summary>
+        /// The pattern element that must be bound before the index can be accessed.
+        /// null if the index can be accessed straight from the beginning, does not depend on other nodes/edges.
+        /// </summary>
+        public PatternElement NeededElement;
+
+        /// <summary>
+        /// Tells whether variables are needed for the expressions used in accessing the index.
+        /// This defines a constraint on scheduling.
+        /// </summary>
+        public bool VariablesNeeded;
+
+        public abstract IndexAccess Copy(string nameSuffix);
+
+        public abstract void PatchUsersOfCopiedElements(string renameSuffix, 
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy);
+
+        protected IndexAccess(IndexDescription index, 
+            PatternElement neededElement, bool variablesNeeded)
+        {
+            Index = index;
+            NeededElement = neededElement;
+            VariablesNeeded = variablesNeeded;
+        }
+    }
+
+    /// <summary>
+    /// Representation of an index access, accessed by enumerating equal keys.
+    /// </summary>
+    public class IndexAccessEquality : IndexAccess
+    {
+        public Expression Expr;
+
+        public IndexAccessEquality(IndexDescription index, 
+            PatternElement neededElement, bool variablesNeeded,
+            Expression expr)
+            : base(index, neededElement, variablesNeeded)
+        {
+            Expr = expr;
+        }
+
+        public override IndexAccess Copy(string nameSuffix)
+        {
+            return new IndexAccessEquality(Index, NeededElement, VariablesNeeded, Expr.Copy(nameSuffix));
+        }
+
+        public override void PatchUsersOfCopiedElements(string renameSuffix,
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy)
+        {
+            Expr = Expr.Copy(renameSuffix);
+
+            if(NeededElement != null)
+            {
+                if(NeededElement is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)NeededElement))
+                        NeededElement = nodeToCopy[(PatternNode)NeededElement];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)NeededElement))
+                        NeededElement = edgeToCopy[(PatternEdge)NeededElement];
+                }
+            }
+        }
+
+        public override string ToString()
+        {
+            SourceBuilder sb = new SourceBuilder();
+            Expr.Emit(sb);
+            return Index.Name + "==" + sb.ToString();
+        }
+    }
+
+    /// <summary>
+    /// Representation of an index access, accessed by enumerating ascendingly.
+    /// </summary>
+    public class IndexAccessAscending : IndexAccess
+    {
+        public Expression From;
+        public bool IncludingFrom;
+        public Expression To;
+        public bool IncludingTo;
+
+        public IndexAccessAscending(IndexDescription index, 
+            PatternElement neededElement, bool variablesNeeded,
+            Expression from, bool includingFrom,
+            Expression to, bool includingTo)
+            : base(index, neededElement, variablesNeeded)
+        {
+            From = from;
+            IncludingFrom = includingFrom;
+            To = to;
+            IncludingTo = includingTo;
+        }
+
+        public override IndexAccess Copy(string nameSuffix)
+        {
+            return new IndexAccessAscending(Index, NeededElement, VariablesNeeded,
+                From != null ? From.Copy(nameSuffix) : null, IncludingFrom, 
+                To != null ? To.Copy(nameSuffix) : null, IncludingTo);
+        }
+
+        public override void PatchUsersOfCopiedElements(string renameSuffix,
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy)
+        {
+            if(From != null)
+                From = From.Copy(renameSuffix);
+            if(To != null)
+                To = To.Copy(renameSuffix);
+
+            if(NeededElement != null)
+            {
+                if(NeededElement is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)NeededElement))
+                        NeededElement = nodeToCopy[(PatternNode)NeededElement];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)NeededElement))
+                        NeededElement = edgeToCopy[(PatternEdge)NeededElement];
+                }
+            }
+        }
+
+        public override string ToString()
+        {
+            String fromStr = "";
+            SourceBuilder sbFrom = new SourceBuilder();
+            if(From != null)
+            {
+                sbFrom.Append(Index.Name);
+                if(IncludingFrom)
+                    sbFrom.Append(">=");
+                else
+                    sbFrom.Append(">");
+                From.Emit(sbFrom);
+                fromStr = sbFrom.ToString();
+            }
+            String toStr = "";
+            SourceBuilder sbTo = new SourceBuilder();
+            if(To != null)
+            {
+                sbTo.Append(Index.Name);
+                if(IncludingTo)
+                    sbTo.Append("<=");
+                else
+                    sbTo.Append("<");
+                To.Emit(sbTo);
+                toStr = sbTo.ToString();
+            }
+            if(From == null && To == null)
+                return "ascending(" + Index.Name + ")";
+            else
+                return "ascending(" + fromStr + " " + toStr + ")";
+        }
+    }
+
+    /// <summary>
+    /// Representation of an index access, accessed by enumerating descendingly.
+    /// </summary>
+    public class IndexAccessDescending : IndexAccess
+    {
+        public Expression From;
+        public bool IncludingFrom;
+        public Expression To;
+        public bool IncludingTo;
+
+        public IndexAccessDescending(IndexDescription index, 
+            PatternElement neededElement, bool variablesNeeded,
+            Expression from, bool includingFrom,
+            Expression to, bool includingTo)
+            : base(index, neededElement, variablesNeeded)
+        {
+            From = from;
+            IncludingFrom = includingFrom;
+            To = to;
+            IncludingTo = includingTo;
+        }
+
+        public override IndexAccess Copy(string nameSuffix)
+        {
+            return new IndexAccessDescending(Index, NeededElement, VariablesNeeded,
+                From != null ? From.Copy(nameSuffix) : null, IncludingFrom,
+                To != null ? To.Copy(nameSuffix) : null, IncludingTo);
+        }
+
+        public override void PatchUsersOfCopiedElements(string renameSuffix,
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy)
+        {
+            if(From != null)
+                From = From.Copy(renameSuffix);
+            if(To != null)
+                To = To.Copy(renameSuffix);
+
+            if(NeededElement != null)
+            {
+                if(NeededElement is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)NeededElement))
+                        NeededElement = nodeToCopy[(PatternNode)NeededElement];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)NeededElement))
+                        NeededElement = edgeToCopy[(PatternEdge)NeededElement];
+                }
+            }
+        }
+
+        public override string ToString()
+        {
+            String fromStr = "";
+            SourceBuilder sbFrom = new SourceBuilder();
+            if(From != null)
+            {
+                sbFrom.Append(Index.Name);
+                if(IncludingFrom)
+                    sbFrom.Append("<=");
+                else
+                    sbFrom.Append("<");
+                From.Emit(sbFrom);
+                fromStr = sbFrom.ToString();
+            }
+            String toStr = "";
+            SourceBuilder sbTo = new SourceBuilder();
+            if(To != null)
+            {
+                sbTo.Append(Index.Name);
+                if(IncludingTo)
+                    sbTo.Append(">=");
+                else
+                    sbTo.Append(">");
+                To.Emit(sbTo);
+                toStr = sbTo.ToString();
+            }
+            if(From == null && To == null)
+                return "descending(" + Index.Name + ")";
+            else
+                return "descending(" + fromStr + " " + toStr + ")";
         }
     }
 

@@ -59,6 +59,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         MapWithStorageDependent,
         /// <summary>
+        /// Pick element from index, independent from previously matched elements.
+        /// </summary>
+        PickFromIndex,
+        /// <summary>
+        /// Pick element from index, depending on a previously matched element (e.g. an attribute owner).
+        /// </summary>
+        PickFromIndexDependent,
+        /// <summary>
         /// Cast to new type (i.e. check if type is correct and uncover attributes of that type), needs old element.
         /// </summary>
         Cast,
@@ -157,6 +165,22 @@ namespace de.unika.ipd.grGen.lgsp
         /// A parallelized pick element from storage operation, depending on a previously matched element (e.g. an attribute owner), in the body of a parallelized action matcher.
         /// </summary>
         ParallelPickFromStorageDependent,
+        /// <summary>
+        /// Setup a parallelized pick element from index operation, in the head of a parallelized action matcher.
+        /// </summary>
+        SetupParallelPickFromIndex,
+        /// <summary>
+        /// A parallelized pick element from index operation, in the body of a parallelized action matcher.
+        /// </summary>
+        ParallelPickFromIndex,
+        /// <summary>
+        /// Setup a parallelized pick element from index operation, depending on a previously matched element (e.g. an attribute owner).
+        /// </summary>
+        SetupParallelPickFromIndexDependent,
+        /// <summary>
+        /// A parallelized pick element from index operation, depending on a previously matched element (e.g. an attribute owner).
+        /// </summary>
+        ParallelPickFromIndexDependent,
         /// <summary>
         /// Setup a parallelized follow outgoing edges of given node operation, in the head of a parallelized action matcher.
         /// </summary>

@@ -1110,7 +1110,7 @@ namespace de.unika.ipd.grGen.lgsp
             CopyNodesEdgesVariablesOfSubpattern(patternGraph, embedding, renameSuffix, 
                 nodeToCopy, edgeToCopy, variableToCopy);
 
-            patternGraph.PatchUsersOfCopiedElements(nodeToCopy, edgeToCopy, variableToCopy);
+            patternGraph.PatchUsersOfCopiedElements(renameSuffix, nodeToCopy, edgeToCopy, variableToCopy);
 
             foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndSource in embeddedGraph.edgeToSourceNode)
                 patternGraph.edgeToSourceNodePlusInlined.Add(edgeToCopy[edgeAndSource.Key], nodeToCopy[edgeAndSource.Value]);

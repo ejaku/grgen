@@ -600,6 +600,21 @@ namespace de.unika.ipd.grGen.lgsp
                         op.Storage,
                         op.Isomorphy);
 
+                case SearchOperationType.PickFromIndex:
+                    return buildPickFromIndex(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanNode)op.Element,
+                        op.IndexAccess,
+                        op.Isomorphy);
+
+                case SearchOperationType.PickFromIndexDependent:
+                    return buildPickFromIndex(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        //op.SourceSPNode,
+                        (SearchPlanNode)op.Element,
+                        op.IndexAccess,
+                        op.Isomorphy);
+
                 case SearchOperationType.Cast:
                     return buildCast(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
@@ -768,6 +783,34 @@ namespace de.unika.ipd.grGen.lgsp
                         op.SourceSPNode,
                         (SearchPlanNode)op.Element,
                         op.Storage,
+                        op.Isomorphy);
+
+                case SearchOperationType.SetupParallelPickFromIndex:
+                    Debug.Assert(indexOfScheduledSearchPlanOperationToBuild >= patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length - 1, "Setup parallel must be last operation in schedule");
+                    return buildParallelPickFromIndexSetup(insertionPointWithinSearchProgram,
+                        (SearchPlanNode)op.Element,
+                        op.IndexAccess);
+
+                case SearchOperationType.ParallelPickFromIndex:
+                    return buildParallelPickFromIndex(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanNode)op.Element,
+                        op.IndexAccess,
+                        op.Isomorphy);
+
+                case SearchOperationType.SetupParallelPickFromIndexDependent:
+                    Debug.Assert(indexOfScheduledSearchPlanOperationToBuild >= patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length - 1, "Setup parallel must be last operation in schedule");
+                    return buildParallelPickFromIndexSetup(insertionPointWithinSearchProgram,
+                        //op.SourceSPNode,
+                        (SearchPlanNode)op.Element,
+                        op.IndexAccess);
+
+                case SearchOperationType.ParallelPickFromIndexDependent:
+                    return buildParallelPickFromIndex(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        //op.SourceSPNode,
+                        (SearchPlanNode)op.Element,
+                        op.IndexAccess,
                         op.Isomorphy);
 
                 case SearchOperationType.SetupParallelOutgoing:
@@ -1591,6 +1634,216 @@ namespace de.unika.ipd.grGen.lgsp
             if(storage.Variable != null) ; // das kann hier nicht auftreten
             if(storage.GlobalVariable != null) ; // das kann hier nicht auftreten
             if(storage.Attribute != null) ; // alt, siehe oben
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// PickFromIndex search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildPickFromIndex(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNode target,
+            IndexAccess index,
+            IsomorphyInformation isomorphy)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
+            string iterationType = TypesHelper.TypeName(((AttributeIndexDescription)index.Index).GraphElementType);
+            string indexSetType = NamesOfEntities.IndexSetType(model.ModelName);
+
+            // iterate available index elements
+            GetCandidateByIteration elementsIteration;
+            if(index is IndexAccessEquality)
+            {
+                IndexAccessEquality indexEquality = (IndexAccessEquality)index;
+                SourceBuilder equalityExpression = new SourceBuilder();
+                indexEquality.Expr.Emit(equalityExpression);
+                elementsIteration =
+                    new GetCandidateByIteration(
+                        GetCandidateByIterationType.IndexElements,
+                        target.PatternElement.Name,
+                        index.Index.Name,
+                        iterationType,
+                        indexSetType,
+                        IndexAccessType.Equality,
+                        equalityExpression.ToString(),
+                        isNode,
+                        parallelized,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+            }
+            else if(index is IndexAccessAscending)
+            {
+                IndexAccessAscending indexAscending = (IndexAccessAscending)index;
+                SourceBuilder fromExpression = new SourceBuilder();
+                if(indexAscending.From!=null)
+                    indexAscending.From.Emit(fromExpression);
+                SourceBuilder toExpression = new SourceBuilder();
+                if(indexAscending.To!=null)
+                    indexAscending.To.Emit(toExpression);
+                elementsIteration =
+                    new GetCandidateByIteration(
+                        GetCandidateByIterationType.IndexElements,
+                        target.PatternElement.Name,
+                        index.Index.Name,
+                        iterationType,
+                        indexSetType,
+                        IndexAccessType.Ascending,
+                        indexAscending.From != null ? fromExpression.ToString() : null,
+                        indexAscending.IncludingFrom ? "true" : "false",
+                        indexAscending.To != null ? toExpression.ToString() : null,
+                        indexAscending.IncludingTo ? "true" : "false",
+                        isNode,
+                        parallelized,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+            }
+            else //if(index is IndexAccessDescending)
+            {
+                IndexAccessDescending indexDescending = (IndexAccessDescending)index;
+                SourceBuilder fromExpression = new SourceBuilder();
+                if(indexDescending.From != null)
+                    indexDescending.From.Emit(fromExpression);
+                SourceBuilder toExpression = new SourceBuilder();
+                if(indexDescending.To != null)
+                    indexDescending.To.Emit(toExpression);
+                elementsIteration =
+                    new GetCandidateByIteration(
+                        GetCandidateByIterationType.IndexElements,
+                        target.PatternElement.Name,
+                        index.Index.Name,
+                        iterationType,
+                        indexSetType,
+                        IndexAccessType.Descending,
+                        indexDescending.From != null ? fromExpression.ToString() : null,
+                        indexDescending.IncludingFrom ? "true" : "false",
+                        indexDescending.To != null ? toExpression.ToString() : null,
+                        indexDescending.IncludingTo ? "true" : "false",
+                        isNode,
+                        parallelized,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+            }
+            firstLoopPassed = true;
+
+            SearchProgramOperation continuationPoint =
+                insertionPoint.Append(elementsIteration);
+            elementsIteration.NestedOperationsList =
+                new SearchProgramList(elementsIteration);
+            insertionPoint = elementsIteration.NestedOperationsList;
+
+            // check type of candidate
+            insertionPoint = decideOnAndInsertCheckType(insertionPoint, target);
+
+            // check connectedness of candidate
+            SearchProgramOperation continuationPointAfterConnectednessCheck;
+            if(isNode)
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+            else
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+
+            // check candidate for isomorphy 
+            if(isomorphy.CheckIsMatchedBit)
+            {
+                CheckCandidateForIsomorphy checkIsomorphy =
+                    new CheckCandidateForIsomorphy(
+                        target.PatternElement.Name,
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // check candidate for global isomorphy 
+            if(programType == SearchProgramType.Subpattern
+                || programType == SearchProgramType.AlternativeCase
+                || programType == SearchProgramType.Iterated)
+            {
+                if(!isomorphy.TotallyHomomorph)
+                {
+                    CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                        new CheckCandidateForIsomorphyGlobal(
+                            target.PatternElement.Name,
+                            isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
+                            isNode,
+                            isoSpaceNeverAboveMaxIsoSpace,
+                            isomorphy.Parallel);
+                    insertionPoint = insertionPoint.Append(checkIsomorphy);
+                }
+            }
+
+            // check candidate for pattern path isomorphy
+            if(patternGraphWithNestingPatterns.Peek().isPatternGraphOnPathFromEnclosingPatternpath)
+            {
+                CheckCandidateForIsomorphyPatternPath checkIsomorphy =
+                    new CheckCandidateForIsomorphyPatternPath(
+                        target.PatternElement.Name,
+                        isNode,
+                        patternGraphWithNestingPatterns.Peek().isPatternpathLocked,
+                        getCurrentLastMatchAtPreviousNestingLevel());
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // accept candidate (write isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            {
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
+            }
+
+            // mark element as visited
+            target.Visited = true;
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            // unmark element for possibly following run
+            target.Visited = false;
+
+            // abandon candidate (restore isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            { // only if isomorphy information was previously written
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
+            }
+
+            // everything nested within candidate iteration built by now -
+            // continue at the end of the list after storage iteration nesting level
+            insertionPoint = continuationPoint;
 
             return insertionPoint;
         }
@@ -3264,6 +3517,275 @@ namespace de.unika.ipd.grGen.lgsp
 
             // everything nested within candidate iteration built by now -
             // continue at the end of the list after storage iteration nesting level
+            insertionPoint = continuationPoint;
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// setup parallelized PickFromIndex search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildParallelPickFromIndexSetup(
+            SearchProgramOperation insertionPoint,
+            SearchPlanNode target,
+            IndexAccess index)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            string negativeIndependentNamePrefix = "";
+            PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
+            string iterationType = TypesHelper.TypeName(((AttributeIndexDescription)index.Index).GraphElementType);
+            string indexSetType = NamesOfEntities.IndexSetType(model.ModelName);
+
+            // iterate available index elements
+            GetCandidateByIterationParallelSetup elementsIteration;
+            if(index is IndexAccessEquality)
+            {
+                IndexAccessEquality indexEquality = (IndexAccessEquality)index;
+                SourceBuilder equalityExpression = new SourceBuilder();
+                indexEquality.Expr.Emit(equalityExpression);
+                elementsIteration =
+                    new GetCandidateByIterationParallelSetup(
+                        GetCandidateByIterationType.IndexElements,
+                        target.PatternElement.Name,
+                        index.Index.Name,
+                        iterationType,
+                        indexSetType,
+                        IndexAccessType.Equality,
+                        equalityExpression.ToString(),
+                        isNode,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+            }
+            else if(index is IndexAccessAscending)
+            {
+                IndexAccessAscending indexAscending = (IndexAccessAscending)index;
+                SourceBuilder fromExpression = new SourceBuilder();
+                if(indexAscending.From != null)
+                    indexAscending.From.Emit(fromExpression);
+                SourceBuilder toExpression = new SourceBuilder();
+                if(indexAscending.To != null)
+                    indexAscending.To.Emit(toExpression);
+                elementsIteration =
+                    new GetCandidateByIterationParallelSetup(
+                        GetCandidateByIterationType.IndexElements,
+                        target.PatternElement.Name,
+                        index.Index.Name,
+                        iterationType,
+                        indexSetType,
+                        IndexAccessType.Ascending,
+                        indexAscending.From != null ? fromExpression.ToString() : null,
+                        indexAscending.IncludingFrom ? "true" : "false",
+                        indexAscending.To != null ? toExpression.ToString() : null,
+                        indexAscending.IncludingTo ? "true" : "false",
+                        isNode,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+            }
+            else //if(index is IndexAccessDescending)
+            {
+                IndexAccessDescending indexDescending = (IndexAccessDescending)index;
+                SourceBuilder fromExpression = new SourceBuilder();
+                if(indexDescending.From != null)
+                    indexDescending.From.Emit(fromExpression);
+                SourceBuilder toExpression = new SourceBuilder();
+                if(indexDescending.To != null)
+                    indexDescending.To.Emit(toExpression);
+                elementsIteration =
+                    new GetCandidateByIterationParallelSetup(
+                        GetCandidateByIterationType.IndexElements,
+                        target.PatternElement.Name,
+                        index.Index.Name,
+                        iterationType,
+                        indexSetType,
+                        IndexAccessType.Descending,
+                        indexDescending.From != null ? fromExpression.ToString() : null,
+                        indexDescending.IncludingFrom ? "true" : "false",
+                        indexDescending.To != null ? toExpression.ToString() : null,
+                        indexDescending.IncludingTo ? "true" : "false",
+                        isNode,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+            }
+            return insertionPoint.Append(elementsIteration);
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// parallelized PickFromIndex search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildParallelPickFromIndex(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNode target,
+            IndexAccess index,
+            IsomorphyInformation isomorphy)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            string negativeIndependentNamePrefix = "";
+            string iterationType = TypesHelper.TypeName(((AttributeIndexDescription)index.Index).GraphElementType);
+            string indexSetType = NamesOfEntities.IndexSetType(model.ModelName);
+
+            // iterate available index elements
+            GetCandidateByIterationParallel elementsIteration;
+            if(index is IndexAccessEquality)
+            {
+                IndexAccessEquality indexEquality = (IndexAccessEquality)index;
+                SourceBuilder equalityExpression = new SourceBuilder();
+                indexEquality.Expr.Emit(equalityExpression);
+                elementsIteration =
+                    new GetCandidateByIterationParallel(
+                        GetCandidateByIterationType.IndexElements,
+                        target.PatternElement.Name,
+                        index.Index.Name,
+                        iterationType,
+                        indexSetType,
+                        IndexAccessType.Equality,
+                        equalityExpression.ToString(),
+                        isNode,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+            }
+            else if(index is IndexAccessAscending)
+            {
+                IndexAccessAscending indexAscending = (IndexAccessAscending)index;
+                SourceBuilder fromExpression = new SourceBuilder();
+                if(indexAscending.From != null)
+                    indexAscending.From.Emit(fromExpression);
+                SourceBuilder toExpression = new SourceBuilder();
+                if(indexAscending.To != null)
+                    indexAscending.To.Emit(toExpression);
+                elementsIteration =
+                    new GetCandidateByIterationParallel(
+                        GetCandidateByIterationType.IndexElements,
+                        target.PatternElement.Name,
+                        index.Index.Name,
+                        iterationType,
+                        indexSetType,
+                        IndexAccessType.Ascending,
+                        indexAscending.From != null ? fromExpression.ToString() : null,
+                        indexAscending.IncludingFrom ? "true" : "false",
+                        indexAscending.To != null ? toExpression.ToString() : null,
+                        indexAscending.IncludingTo ? "true" : "false",
+                        isNode,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+            }
+            else //if(index is IndexAccessDescending)
+            {
+                IndexAccessDescending indexDescending = (IndexAccessDescending)index;
+                SourceBuilder fromExpression = new SourceBuilder();
+                if(indexDescending.From != null)
+                    indexDescending.From.Emit(fromExpression);
+                SourceBuilder toExpression = new SourceBuilder();
+                if(indexDescending.To != null)
+                    indexDescending.To.Emit(toExpression);
+                elementsIteration =
+                    new GetCandidateByIterationParallel(
+                        GetCandidateByIterationType.IndexElements,
+                        target.PatternElement.Name,
+                        index.Index.Name,
+                        iterationType,
+                        indexSetType,
+                        IndexAccessType.Descending,
+                        indexDescending.From != null ? fromExpression.ToString() : null,
+                        indexDescending.IncludingFrom ? "true" : "false",
+                        indexDescending.To != null ? toExpression.ToString() : null,
+                        indexDescending.IncludingTo ? "true" : "false",
+                        isNode,
+                        emitProfiling,
+                        actionName,
+                        !firstLoopPassed);
+            }
+            firstLoopPassed = true;
+
+            SearchProgramOperation continuationPoint =
+                insertionPoint.Append(elementsIteration);
+            elementsIteration.NestedOperationsList =
+                new SearchProgramList(elementsIteration);
+            insertionPoint = elementsIteration.NestedOperationsList;
+
+            // check type of candidate
+            insertionPoint = decideOnAndInsertCheckType(insertionPoint, target);
+
+            // check connectedness of candidate
+            SearchProgramOperation continuationPointAfterConnectednessCheck;
+            if(isNode)
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+            else
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+
+            // check candidate for isomorphy 
+            if(isomorphy.CheckIsMatchedBit)
+            {
+                CheckCandidateForIsomorphy checkIsomorphy =
+                    new CheckCandidateForIsomorphy(
+                        target.PatternElement.Name,
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // accept candidate (write isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            {
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
+            }
+
+            // mark element as visited
+            target.Visited = true;
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            // unmark element for possibly following run
+            target.Visited = false;
+
+            // abandon candidate (restore isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            { // only if isomorphy information was previously written
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        isoSpaceNeverAboveMaxIsoSpace,
+                        isomorphy.Parallel,
+                        isomorphy.LockForAllThreads);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
+            }
+
+            // everything nested within candidate iteration built by now -
+            // continue at the end of the list after storage iteration
             insertionPoint = continuationPoint;
 
             return insertionPoint;

@@ -71,8 +71,8 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns name of the dictionary/list entry variable which will be created within the search program
-        /// holding the dictionary entry (key-value-pair) or list entry of the storage to pick an element from
+        /// Returns name of the container entry variable which will be created within the search program
+        /// holding the dictionary entry (key-value-pair) or list/deque entry of the storage to pick an element from
         /// </summary>
         public static string CandidateIterationContainerEntry(string patternElementName)
         {
@@ -86,6 +86,15 @@ namespace de.unika.ipd.grGen.lgsp
         public static string MapWithStorageTemporary(string patternElementName)
         {
             return "map_with_storage_temporary_" + patternElementName;
+        }
+
+        /// <summary>
+        /// Returns name of the entry variable which will be created within the search program
+        /// holding the entry of the index to pick an element from
+        /// </summary>
+        public static string CandidateIterationIndexEntry(string patternElementName)
+        {
+            return "index_candidate_" + patternElementName;
         }
 
         /// <summary>
@@ -149,6 +158,14 @@ namespace de.unika.ipd.grGen.lgsp
         public static string RulePatternClassName(string rulePatternName, string packageName, bool isSubpattern)
         {
             return (packageName!=null ? packageName + "." : "") + (isSubpattern ? "Pattern_" : "Rule_") + rulePatternName;
+        }
+
+        /// <summary>
+        /// Returns name of the exact index set type
+        /// </summary>
+        public static string IndexSetType(string modelName)
+        {
+            return "GRGEN_MODEL." + modelName + "IndexSet";
         }
 
         /// <summary>
