@@ -31,7 +31,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Lookup all graph elements in the index whose indexed attribute value is equal to the value given.
         /// </summary>
-        IEnumerable<IGraphElement> Lookup(object value);
+        IEnumerable<IGraphElement> LookupElements(object value);
 
         /// <summary>
         /// Lookup all graph elements in the index whose indexed attribute value is:
@@ -39,7 +39,7 @@ namespace de.unika.ipd.grGen.libGr
         /// lower than the to value specified, or also equal in case of toEqual,
         /// in ascending order.
         /// </summary>
-        IEnumerable<IGraphElement> LookupAscendingFromTo(object from, bool fromEqual, object to, bool toEqual);
+        IEnumerable<IGraphElement> LookupElementsAscendingFromTo(object from, bool fromEqual, object to, bool toEqual);
 
         /// <summary>
         /// Lookup all graph elements in the index whose indexed attribute value is:
@@ -47,7 +47,7 @@ namespace de.unika.ipd.grGen.libGr
         /// in ascending order.
         /// Index lookup ends at the graph element with the maximum attribute value.
         /// </summary>
-        IEnumerable<IGraphElement> LookupAscendingFrom(object from, bool fromEqual);
+        IEnumerable<IGraphElement> LookupElementsAscendingFrom(object from, bool fromEqual);
 
         /// <summary>
         /// Lookup all graph elements in the index whose indexed attribute value is:
@@ -55,7 +55,14 @@ namespace de.unika.ipd.grGen.libGr
         /// in ascending order.
         /// Index lookup begins at the graph element with the minimum attribute value.
         /// </summary>
-        IEnumerable<IGraphElement> LookupAscendingTo(object to, bool toEqual);
+        IEnumerable<IGraphElement> LookupElementsAscendingTo(object to, bool toEqual);
+
+        /// <summary>
+        /// Lookup all graph elements in the index in ascending order.
+        /// Index lookup begins at the graph element with the minimum attribute value.
+        /// Index lookup ends at the graph element with the maximum attribute value.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsAscending();
 
         /// <summary>
         /// Lookup all graph elements in the index whose indexed attribute value is:
@@ -63,7 +70,7 @@ namespace de.unika.ipd.grGen.libGr
         /// higher than the to value specified, or also equal in case of toEqual
         /// in descending order.
         /// </summary>
-        IEnumerable<IGraphElement> LookupDescendingFromTo(object from, bool fromEqual, object to, bool toEqual);
+        IEnumerable<IGraphElement> LookupElementsDescendingFromTo(object from, bool fromEqual, object to, bool toEqual);
 
         /// <summary>
         /// Lookup all graph elements in the index whose indexed attribute value is:
@@ -71,7 +78,7 @@ namespace de.unika.ipd.grGen.libGr
         /// in descending order.
         /// Index lookup ends at the graph element with the minimum attribute value.
         /// </summary>
-        IEnumerable<IGraphElement> LookupDescendingFrom(object from, bool fromEqual);
+        IEnumerable<IGraphElement> LookupElementsDescendingFrom(object from, bool fromEqual);
 
         /// <summary>
         /// Lookup all graph elements in the index whose indexed attribute value is:
@@ -79,7 +86,14 @@ namespace de.unika.ipd.grGen.libGr
         /// in descending order.
         /// Index lookup begins at the graph element with the maximum attribute value.
         /// </summary>
-        IEnumerable<IGraphElement> LookupDescendingTo(object to, bool toEqual);
+        IEnumerable<IGraphElement> LookupElementsDescendingTo(object to, bool toEqual);
+
+        /// <summary>
+        /// Lookup all graph elements in the index in descending order.
+        /// Index lookup begins at the graph element with the maximum attribute value.
+        /// Index lookup ends at the graph element with the minimum attribute value.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsDescending();
     }
 
     /// <summary>

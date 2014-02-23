@@ -1492,6 +1492,8 @@ public class ActionsGen extends CSharpBase {
 				sb.append(node.getMaybeNull() ? "true, " : "false, ");
 				genStorageAccess(sb, pathPrefix, alreadyDefinedEntityToName,
 						pathPrefixForElements, node);
+				genIndexAccess(sb, pathPrefix, className, alreadyDefinedEntityToName,
+						pathPrefixForElements, node);
 				sb.append((node instanceof RetypedNode ? formatEntity(((RetypedNode)node).getOldNode(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
 				sb.append(node.isDefToBeYieldedTo() ? "true," : "false,");
 				if(node.initialization!=null) {
@@ -1529,6 +1531,8 @@ public class ActionsGen extends CSharpBase {
 				sb.append(parameters.indexOf(edge)+", ");
 				sb.append(edge.getMaybeNull()?"true, ":"false, ");
 				genStorageAccess(sb, pathPrefix, alreadyDefinedEntityToName,
+						pathPrefixForElements, edge);
+				genIndexAccess(sb, pathPrefix, className, alreadyDefinedEntityToName,
 						pathPrefixForElements, edge);
 				sb.append((edge instanceof RetypedEdge ? formatEntity(((RetypedEdge)edge).getOldEdge(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
 				sb.append(edge.isDefToBeYieldedTo() ? "true," : "false,");
@@ -1738,6 +1742,54 @@ public class ActionsGen extends CSharpBase {
 		} else {
 			sb.append("null, ");
 		}
+	}
+
+	private void genIndexAccess(StringBuffer sb, String pathPrefix, 
+			String className, HashMap<Entity, String> alreadyDefinedEntityToName,
+			String pathPrefixForElements, GraphEntity entity) {
+		if(entity.indexAccess!=null) {
+			if(entity.indexAccess instanceof IndexAccessEquality) {
+				IndexAccessEquality indexAccess = (IndexAccessEquality)entity.indexAccess;
+				NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+				indexAccess.expr.collectNeededEntities(needs);
+				Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs);
+				sb.append("new GRGEN_LGSP.IndexAccessEquality(");
+				sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\"" + indexAccess.index.getIdent() + "\"), ");
+				sb.append(neededEntity!=null ? formatEntity(neededEntity, pathPrefix, alreadyDefinedEntityToName) + ", " : "null, ");
+				sb.append(!needs.variables.isEmpty() ? "true, " : "false, ");
+				genExpressionTree(sb, indexAccess.expr, className, pathPrefixForElements, alreadyDefinedEntityToName);
+				sb.append("), ");
+			} else if(entity.indexAccess instanceof IndexAccessOrdering) {
+				IndexAccessOrdering indexAccess = (IndexAccessOrdering)entity.indexAccess;
+				NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+				if(indexAccess.from()!=null)
+					indexAccess.from().collectNeededEntities(needs);
+				if(indexAccess.to()!=null)
+					indexAccess.to().collectNeededEntities(needs);
+				Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs);
+				if(indexAccess.ascending) {
+					sb.append("new GRGEN_LGSP.IndexAccessAscending(");
+				} else {
+					sb.append("new GRGEN_LGSP.IndexAccessDescending(");
+				}
+				sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\"" + indexAccess.index.getIdent() + "\"), ");
+				sb.append(neededEntity!=null ? formatEntity(neededEntity, pathPrefix, alreadyDefinedEntityToName) + ", " : "null, ");
+				sb.append(!needs.variables.isEmpty() ? "true, " : "false, ");
+				if(indexAccess.from()!=null)
+					genExpressionTree(sb, indexAccess.from(), className, pathPrefixForElements, alreadyDefinedEntityToName);
+				else
+					sb.append("null");
+				sb.append(", " + (indexAccess.includingFrom() ? "true, " : "false, "));
+				if(indexAccess.to()!=null)
+					genExpressionTree(sb, indexAccess.to(), className, pathPrefixForElements, alreadyDefinedEntityToName);
+				else
+					sb.append("null");
+				sb.append(", " + (indexAccess.includingTo() ? "true" : "false"));
+				sb.append("), ");
+			}
+		} else {
+			sb.append("null, ");
+		}		
 	}
 
 	private void genRuleParamResult(StringBuffer sb, MatchingAction action, String packageName, boolean isSubpattern) {

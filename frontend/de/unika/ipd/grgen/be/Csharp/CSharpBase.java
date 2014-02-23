@@ -413,6 +413,16 @@ public abstract class CSharpBase {
 	public String formatLong(long l) {
 		return (l == Long.MAX_VALUE) ? "long.MaxValue" : new Long(l).toString();
 	}
+	
+	public Entity getAtMostOneNeededNodeOrEdge(NeededEntities needs) {
+		if(needs.nodes.size() + needs.edges.size() > 1)
+			throw new UnsupportedOperationException("INTERNAL ERROR, more than one needed entity for index access!");
+		if(!needs.nodes.isEmpty())
+			return needs.nodes.iterator().next();
+		if(!needs.edges.isEmpty())
+			return needs.edges.iterator().next();
+		return null;
+	}
 
 	public void genBinOpDefault(StringBuffer sb, Operator op, ExpressionGenerationState modifyGenerationState) {
 		if(op.getOpCode()==Operator.BIT_SHR)

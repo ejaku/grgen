@@ -7,17 +7,18 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ast.exprevals.OperatorSignature;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 
 /**
  * Class for accessing an index by ordering, binding a pattern element
  */
 public class IndexAccessOrdering extends IndexAccess {
-	boolean ascending;
+	public boolean ascending;
 	int comp;
-	public Expression expr;
+	Expression expr;
 	int comp2;
-	public Expression expr2;
+	Expression expr2;
 	
 	public IndexAccessOrdering(AttributeIndex index, boolean ascending,
 			int comp, Expression expr, int comp2, Expression expr2) {
@@ -27,5 +28,85 @@ public class IndexAccessOrdering extends IndexAccess {
 		this.expr = expr;
 		this.comp2 = comp2;
 		this.expr2 = expr2;
+	}
+	
+	public Expression from() {
+		if(ascending) {
+			if(comp==OperatorSignature.GT || comp==OperatorSignature.GE)
+				return expr;
+			if(expr2!=null) {
+				if(comp2==OperatorSignature.GT || comp2==OperatorSignature.GE)
+					return expr2;
+			}
+			return null;
+		} else {
+			if(comp==OperatorSignature.LT || comp==OperatorSignature.LE)
+				return expr;
+			if(expr2!=null) {
+				if(comp2==OperatorSignature.LT || comp2==OperatorSignature.LE)
+					return expr2;
+			}
+			return null;
+		}
+	}
+
+	public Expression to() {
+		if(ascending) {
+			if(comp==OperatorSignature.LT || comp==OperatorSignature.LE)
+				return expr;
+			if(expr2!=null) {
+				if(comp2==OperatorSignature.LT || comp2==OperatorSignature.LE)
+					return expr2;
+			}
+			return null;
+		} else {
+			if(comp==OperatorSignature.GT || comp==OperatorSignature.GE)
+				return expr;
+			if(expr2!=null) {
+				if(comp2==OperatorSignature.GT || comp2==OperatorSignature.GE)
+					return expr2;
+			}
+			return null;
+		}
+	}
+	
+	public boolean includingFrom() {
+		if(ascending) {
+			if(comp==OperatorSignature.GT || comp==OperatorSignature.GE)
+				return comp==OperatorSignature.GE;
+			if(expr2!=null) {
+				if(comp2==OperatorSignature.GT || comp2==OperatorSignature.GE)
+					return comp2==OperatorSignature.GE;
+			}
+			return false; // dummy/don't care
+		} else {
+			if(comp==OperatorSignature.LT || comp==OperatorSignature.LE)
+				return comp==OperatorSignature.LE;
+			if(expr2!=null) {
+				if(comp2==OperatorSignature.LT || comp2==OperatorSignature.LE)
+					return comp2==OperatorSignature.LE;
+			}
+			return false; // dummy/don't care
+		}
+	}
+	
+	public boolean includingTo() {
+		if(ascending) {
+			if(comp==OperatorSignature.LT || comp==OperatorSignature.LE)
+				return comp==OperatorSignature.LE;
+			if(expr2!=null) {
+				if(comp2==OperatorSignature.LT || comp2==OperatorSignature.LE)
+					return comp2==OperatorSignature.LE;
+			}
+			return false; // dummy/don't care
+		} else {
+			if(comp==OperatorSignature.GT || comp==OperatorSignature.GE)
+				return comp==OperatorSignature.GE;
+			if(expr2!=null) {
+				if(comp2==OperatorSignature.GT || comp2==OperatorSignature.GE)
+					return comp2==OperatorSignature.GE;
+			}
+			return false; // dummy/don't care
+		}
 	}
 }

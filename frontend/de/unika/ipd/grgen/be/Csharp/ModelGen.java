@@ -2169,16 +2169,18 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	void genIndexType(AttributeIndex index) {
 		String indexName = index.getIdent().toString();
 		String attributeType = formatAttributeType(index.entity);
-		String graphElementType = formatTypeClassRef(index.type);
+		String graphElementType = formatElementInterfaceRef(index.type);
 		sb.append("\tinterface Index" + indexName + " : GRGEN_LIBGR.IAttributeIndex\n");
 		sb.append("\t{\n");
 		sb.append("\t\tIEnumerable<" + graphElementType + "> Lookup(" + attributeType + " value);\n");
 		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFromTo(" + attributeType + " from, bool fromEqual, " + attributeType + " to, bool toEqual);\n");
 		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFrom(" + attributeType + " from, bool fromEqual);\n");
 		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingTo(" + attributeType + " to, bool toEqual);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscending();\n");
 		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromTo(" + attributeType + " from, bool fromEqual, " + attributeType + " to, bool toEqual);\n");
 		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFrom(" + attributeType + " from, bool fromEqual);\n");
 		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingTo(" + attributeType + " to, bool toEqual);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescending();\n");
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
@@ -2194,7 +2196,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	void genIndexImplementation(AttributeIndex index, int indexNum) {
 		String indexName = index.getIdent().toString();
 		String attributeType = formatAttributeType(index.entity);
-		String graphElementType = formatTypeClassRef(index.type);
+		String graphElementType = formatElementInterfaceRef(index.type);
 		String modelName = model.getIdent().toString() + "GraphModel";
 		sb.append("\tpublic class Index" + indexName + "Impl : Index" + indexName + "\n");
 		sb.append("\t{\n");
@@ -2205,16 +2207,18 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t}\n");
 		sb.append("\n");
 
-		sb.append("\t\tpublic GRGEN_LIBGR.IndexDescription Description { get { return ((" + modelName + ")graph.Model).GetIndexDescription(" + indexNum + "); } }\n");
+		sb.append("\t\tpublic GRGEN_LIBGR.IndexDescription Description { get { return " + modelName + ".GetIndexDescription(" + indexNum + "); } }\n");
 		sb.append("\n");
 		
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> Lookup(object value) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupAscendingFromTo(object from, bool fromEqual, object to, bool toEqual) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupAscendingFrom(object from, bool fromEqual) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupAscendingTo(object to, bool toEqual) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupDescendingFromTo(object from, bool fromEqual, object to, bool toEqual) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupDescendingFrom(object from, bool fromEqual) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupDescendingTo(object to, bool toEqual) { return null; }\n");
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements(object value) { return null; }\n");
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsAscendingFromTo(object from, bool fromEqual, object to, bool toEqual) { return null; }\n");
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsAscendingFrom(object from, bool fromEqual) { return null; }\n");
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsAscendingTo(object to, bool toEqual) { return null; }\n");
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsAscending() { return null; }\n");
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsDescendingFromTo(object from, bool fromEqual, object to, bool toEqual) { return null; }\n");
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsDescendingFrom(object from, bool fromEqual) { return null; }\n");
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsDescendingTo(object to, bool toEqual) { return null; }\n");
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsDescending() { return null; }\n");
 		sb.append("\n");
 
 		// TODO: implementierungen für exaktes, möglicherweise muss ich für generisches das gleiche tun, mit code-duplikation, wegen invarianz
@@ -2234,6 +2238,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tyield break;\n");
 		sb.append("\t\t}\n");
+		sb.append("\t\tpublic IEnumerable<" + graphElementType + "> LookupAscending()\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tyield break;\n");
+		sb.append("\t\t}\n");
 		sb.append("\t\tpublic IEnumerable<" + graphElementType + "> LookupDescendingFromTo(" + attributeType + " from, bool fromEqual, " + attributeType + " to, bool toEqual)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tyield break;\n");
@@ -2243,6 +2251,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\tyield break;\n");
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic IEnumerable<" + graphElementType + "> LookupDescendingTo(" + attributeType + " to, bool toEqual)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tyield break;\n");
+		sb.append("\t\t}\n");
+		sb.append("\t\tpublic IEnumerable<" + graphElementType + "> LookupDescending()\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tyield break;\n");
 		sb.append("\t\t}\n");
@@ -2587,8 +2599,15 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				+ "{ get { return validateInfos; } }\n");
 		sb.append("\t\tpublic " + override + "IEnumerable<GRGEN_LIBGR.IndexDescription> IndexDescriptions "
 				+ "{ get { return indexDescriptions; } }\n");
-		sb.append("\t\tpublic GRGEN_LIBGR.IndexDescription GetIndexDescription(int i) "
-				+ "{ return indexDescriptions[i]; }\n\n");
+		sb.append("\t\tpublic static GRGEN_LIBGR.IndexDescription GetIndexDescription(int i) "
+				+ "{ return indexDescriptions[i]; }\n");
+		sb.append("\t\tpublic static GRGEN_LIBGR.IndexDescription GetIndexDescription(string indexName)\n ");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tfor(int i=0; i<indexDescriptions.Length; ++i)\n");
+		sb.append("\t\t\t\tif(indexDescriptions[i].Name==indexName)\n");
+		sb.append("\t\t\t\t\treturn indexDescriptions[i];\n");
+		sb.append("\t\t\treturn null;\n");
+		sb.append("\t\t}\n\n");
 
 		if(model.isEmitClassDefined()) {
 			sb.append("\t\tpublic " + override + "object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
@@ -2723,7 +2742,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	}
 
 	private void genIndexDescriptions() {
-		sb.append("\t\tprivate GRGEN_LIBGR.IndexDescription[] indexDescriptions = {\n");
+		sb.append("\t\tprivate static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {\n");
 
 		for(AttributeIndex index : model.getIndices()) {
 			genIndexDescription(index);
