@@ -34,59 +34,75 @@ namespace de.unika.ipd.grGen.libGr
         IEnumerable<IGraphElement> LookupElements(object value);
 
         /// <summary>
-        /// Lookup all graph elements in the index whose indexed attribute value is:
-        /// higher than the from value specified, or also equal in case of fromEqual, but
-        /// lower than the to value specified, or also equal in case of toEqual,
-        /// in ascending order.
-        /// </summary>
-        IEnumerable<IGraphElement> LookupElementsAscendingFromTo(object from, bool fromEqual, object to, bool toEqual);
-
-        /// <summary>
-        /// Lookup all graph elements in the index whose indexed attribute value is:
-        /// higher than the from value specified, or also equal in case of fromEqual, 
-        /// in ascending order.
-        /// Index lookup ends at the graph element with the maximum attribute value.
-        /// </summary>
-        IEnumerable<IGraphElement> LookupElementsAscendingFrom(object from, bool fromEqual);
-
-        /// <summary>
-        /// Lookup all graph elements in the index whose indexed attribute value is:
-        /// lower than the to value specified, or also equal in case of toEqual,
-        /// in ascending order.
-        /// Index lookup begins at the graph element with the minimum attribute value.
-        /// </summary>
-        IEnumerable<IGraphElement> LookupElementsAscendingTo(object to, bool toEqual);
-
-        /// <summary>
         /// Lookup all graph elements in the index in ascending order.
         /// Index lookup begins at the graph element with the minimum attribute value.
         /// Index lookup ends at the graph element with the maximum attribute value.
         /// </summary>
         IEnumerable<IGraphElement> LookupElementsAscending();
+        
+        /// <summary>
+        /// Lookup all graph elements in the index whose indexed attribute value is:
+        /// higher or equal than the from value specified,
+        /// in ascending order.
+        /// Index lookup ends at the graph element with the maximum attribute value.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsAscendingFromInclusive(object from);
 
         /// <summary>
         /// Lookup all graph elements in the index whose indexed attribute value is:
-        /// lower than the from value specified, or also equal in case of fromEqual, but
-        /// higher than the to value specified, or also equal in case of toEqual
-        /// in descending order.
+        /// higher than the from value specified,
+        /// in ascending order.
+        /// Index lookup ends at the graph element with the maximum attribute value.
         /// </summary>
-        IEnumerable<IGraphElement> LookupElementsDescendingFromTo(object from, bool fromEqual, object to, bool toEqual);
+        IEnumerable<IGraphElement> LookupElementsAscendingFromExclusive(object from);
 
         /// <summary>
         /// Lookup all graph elements in the index whose indexed attribute value is:
-        /// lower than the from value specified, or also equal in case of fromEqual, 
-        /// in descending order.
-        /// Index lookup ends at the graph element with the minimum attribute value.
+        /// lower or equal than the to value specified,
+        /// in ascending order.
+        /// Index lookup begins at the graph element with the minimum attribute value.
         /// </summary>
-        IEnumerable<IGraphElement> LookupElementsDescendingFrom(object from, bool fromEqual);
+        IEnumerable<IGraphElement> LookupElementsAscendingToInclusive(object to);
 
         /// <summary>
         /// Lookup all graph elements in the index whose indexed attribute value is:
-        /// higher than the to value specified, or also equal in case of toEqual
-        /// in descending order.
-        /// Index lookup begins at the graph element with the maximum attribute value.
+        /// lower than the to value specified, 
+        /// in ascending order.
+        /// Index lookup begins at the graph element with the minimum attribute value.
         /// </summary>
-        IEnumerable<IGraphElement> LookupElementsDescendingTo(object to, bool toEqual);
+        IEnumerable<IGraphElement> LookupElementsAscendingToExclusive(object to);
+
+        /// <summary>
+        /// Lookup all graph elements in the index whose indexed attribute value is:
+        /// higher or equal than the from value specified, and
+        /// lower or equal than the to value specified, 
+        /// in ascending order.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsAscendingFromInclusiveToInclusive(object from, object to);
+
+        /// <summary>
+        /// Lookup all graph elements in the index whose indexed attribute value is:
+        /// higher or equal than the from value specified, and
+        /// lower than the to value specified,
+        /// in ascending order.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsAscendingFromInclusiveToExclusive(object from, object to);
+
+        /// <summary>
+        /// Lookup all graph elements in the index whose indexed attribute value is:
+        /// higher than the from value specified, and
+        /// lower or equal than the to value specified, 
+        /// in ascending order.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsAscendingFromExclusiveToInclusive(object from, object to);
+
+        /// <summary>
+        /// Lookup all graph elements in the index whose indexed attribute value is:
+        /// higher than the from value specified, and
+        /// lower than the to value specified, 
+        /// in ascending order.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsAscendingFromExclusiveToExclusive(object from, object to);
 
         /// <summary>
         /// Lookup all graph elements in the index in descending order.
@@ -94,6 +110,70 @@ namespace de.unika.ipd.grGen.libGr
         /// Index lookup ends at the graph element with the minimum attribute value.
         /// </summary>
         IEnumerable<IGraphElement> LookupElementsDescending();
+
+        /// <summary>
+        /// Lookup all graph elements in the index whose indexed attribute value is:
+        /// lower or equal than the from value specified, 
+        /// in descending order.
+        /// Index lookup ends at the graph element with the minimum attribute value.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsDescendingFromInclusive(object from);
+
+        /// <summary>
+        /// Lookup all graph elements in the index whose indexed attribute value is:
+        /// lower than the from value specified, 
+        /// in descending order.
+        /// Index lookup ends at the graph element with the minimum attribute value.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsDescendingFromExclusive(object from);
+
+        /// <summary>
+        /// Lookup all graph elements in the index whose indexed attribute value is:
+        /// higher or equal than the to value specified, 
+        /// in descending order.
+        /// Index lookup begins at the graph element with the maximum attribute value.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsDescendingToInclusive(object to);
+
+        /// <summary>
+        /// Lookup all graph elements in the index whose indexed attribute value is:
+        /// higher than the to value specified, 
+        /// in descending order.
+        /// Index lookup begins at the graph element with the maximum attribute value.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsDescendingToExclusive(object to);
+
+        /// <summary>
+        /// Lookup all graph elements in the index whose indexed attribute value is:
+        /// lower or equal than the from value specified, and
+        /// higher or equal than the to value specified, 
+        /// in descending order.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsDescendingFromInclusiveToInclusive(object from, object to);
+
+        /// <summary>
+        /// Lookup all graph elements in the index whose indexed attribute value is:
+        /// lower or equal than the from value specified, and
+        /// higher than the to value specified, 
+        /// in descending order.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsDescendingFromInclusiveToExclusive(object from, object to);
+
+        /// <summary>
+        /// Lookup all graph elements in the index whose indexed attribute value is:
+        /// lower than the from value specified, and
+        /// higher or equal than the to value specified, 
+        /// in descending order.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsDescendingFromExclusiveToInclusive(object from, object to);
+
+        /// <summary>
+        /// Lookup all graph elements in the index whose indexed attribute value is:
+        /// lower than the from value specified, and
+        /// higher than the to value specified, 
+        /// in descending order.
+        /// </summary>
+        IEnumerable<IGraphElement> LookupElementsDescendingFromExclusiveToExclusive(object from, object to);
     }
 
     /// <summary>

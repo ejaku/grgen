@@ -1292,9 +1292,9 @@ namespace de.unika.ipd.grGen.lgsp
             string indexSetType,
             IndexAccessType indexAccessType,
             string from,
-            string fromIncluded,
+            bool fromIncluded,
             string to,
-            string toIncluded,
+            bool toIncluded,
             bool isNode,
             bool parallel,
             bool emitProfiling,
@@ -1526,15 +1526,17 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                 {
                     String accessType = IndexAccessType == IndexAccessType.Ascending ? "Ascending" : "Descending";
+                    String indexFromIncluded = IndexFromIncluded ? "Inclusive" : "Exclusive";
+                    String indexToIncluded = IndexToIncluded ? "Inclusive" : "Exclusive";
                     if(IndexFrom != null && IndexTo != null)
-                        sourceCode.AppendFormat("Lookup{0}FromTo({1}, {2}, {3}, {4}))\n",
-                            accessType, IndexFrom, IndexFromIncluded, IndexTo, IndexToIncluded);
+                        sourceCode.AppendFormat("Lookup{0}From{1}To{2}({3}, {4}))\n",
+                            accessType, indexFromIncluded, indexToIncluded, IndexFrom, IndexTo);
                     else if(IndexFrom != null)
-                        sourceCode.AppendFormat("Lookup{0}From({1}, {2}))\n",
-                            accessType, IndexFrom, IndexFromIncluded);
+                        sourceCode.AppendFormat("Lookup{0}From{1}({2}))\n",
+                            accessType, indexFromIncluded, IndexFrom);
                     else if(IndexTo != null)
-                        sourceCode.AppendFormat("Lookup{0}To({1}, {2}))\n",
-                            accessType, IndexTo, IndexToIncluded);
+                        sourceCode.AppendFormat("Lookup{0}To{1}({2}))\n",
+                            accessType, indexToIncluded, IndexTo);
                     else
                         sourceCode.AppendFormat("Lookup{0}())\n",
                             accessType);
@@ -1750,9 +1752,9 @@ namespace de.unika.ipd.grGen.lgsp
         public IndexAccessType IndexAccessType; // only available if IndexElements
         public string IndexEqual; // only available if IndexElements
         public string IndexFrom; // only available if IndexElements
-        public string IndexFromIncluded; // only available if IndexElements
+        public bool IndexFromIncluded; // only available if IndexElements
         public string IndexTo; // only available if IndexElements
-        public string IndexToIncluded; // only available if IndexElements
+        public bool IndexToIncluded; // only available if IndexElements
         public string StartingPointNodeName; // from pattern - only available if IncidentEdges
         public IncidentEdgeType EdgeType; // only available if IncidentEdges
         public bool Parallel;
@@ -1872,9 +1874,9 @@ namespace de.unika.ipd.grGen.lgsp
             string indexSetType,
             IndexAccessType indexAccessType,
             string from,
-            string fromIncluded,
+            bool fromIncluded,
             string to,
-            string toIncluded,
+            bool toIncluded,
             bool isNode,
             bool emitProfiling,
             string actionName,
@@ -2385,9 +2387,9 @@ namespace de.unika.ipd.grGen.lgsp
         public IndexAccessType IndexAccessType; // only available if IndexElements
         public string IndexEqual; // only available if IndexElements
         public string IndexFrom; // only available if IndexElements
-        public string IndexFromIncluded; // only available if IndexElements
+        public bool IndexFromIncluded; // only available if IndexElements
         public string IndexTo; // only available if IndexElements
-        public string IndexToIncluded; // only available if IndexElements
+        public bool IndexToIncluded; // only available if IndexElements
         public string StartingPointNodeName; // from pattern - only available if IncidentEdges
         public IncidentEdgeType EdgeType; // only available if IncidentEdges
         public bool EmitProfiling;
@@ -2526,9 +2528,9 @@ namespace de.unika.ipd.grGen.lgsp
             string indexSetType,
             IndexAccessType indexAccessType,
             string from,
-            string fromIncluded,
+            bool fromIncluded,
             string to,
-            string toIncluded,
+            bool toIncluded,
             bool isNode,
             bool emitProfiling,
             string actionName,
@@ -2724,17 +2726,19 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                 {
                     String accessType = IndexAccessType == IndexAccessType.Ascending ? "Ascending" : "Descending";
+                    String indexFromIncluded = IndexFromIncluded ? "Inclusive" : "Exclusive";
+                    String indexToIncluded = IndexToIncluded ? "Inclusive" : "Exclusive";
                     if(IndexFrom != null && IndexTo != null)
-                        sourceCode.AppendFormat("Lookup{0}FromTo({1}, {2}, {3}, {4});\n",
-                            accessType, IndexFrom, IndexFromIncluded, IndexTo, IndexToIncluded);
+                        sourceCode.AppendFormat("Lookup{0}From{1}To{2}({3}, {4}))\n",
+                            accessType, indexFromIncluded, indexToIncluded, IndexFrom, IndexTo);
                     else if(IndexFrom != null)
-                        sourceCode.AppendFormat("Lookup{0}From({1}, {2});\n",
-                            accessType, IndexFrom, IndexFromIncluded);
+                        sourceCode.AppendFormat("Lookup{0}From{1}({2}))\n",
+                            accessType, indexFromIncluded, IndexFrom);
                     else if(IndexTo != null)
-                        sourceCode.AppendFormat("Lookup{0}To({1}, {2});\n",
-                            accessType, IndexTo, IndexToIncluded);
+                        sourceCode.AppendFormat("Lookup{0}To{1}({2}))\n",
+                            accessType, indexToIncluded, IndexTo);
                     else
-                        sourceCode.AppendFormat("Lookup{0}();\n",
+                        sourceCode.AppendFormat("Lookup{0}())\n",
                             accessType);
                 }
 
@@ -2954,9 +2958,9 @@ namespace de.unika.ipd.grGen.lgsp
         public IndexAccessType IndexAccessType; // only available if IndexElements
         public string IndexEqual; // only available if IndexElements
         public string IndexFrom; // only available if IndexElements
-        public string IndexFromIncluded; // only available if IndexElements
+        public bool IndexFromIncluded; // only available if IndexElements
         public string IndexTo; // only available if IndexElements
-        public string IndexToIncluded; // only available if IndexElements
+        public bool IndexToIncluded; // only available if IndexElements
         public string StartingPointNodeName; // from pattern - only available if IncidentEdges
         public IncidentEdgeType EdgeType; // only available if IncidentEdges
         public string RulePatternClassName;
