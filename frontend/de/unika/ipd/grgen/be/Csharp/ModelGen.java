@@ -2252,85 +2252,103 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\tprotected int count;\n");
 		sb.append("\t\tprotected int version;\n");
 		sb.append("\n");
-
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements(object fromto) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsAscending() { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsAscendingFromInclusive(object from) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsAscendingFromExclusive(object from) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsAscendingToInclusive(object to) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsAscendingToExclusive(object to) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsAscendingFromInclusiveToInclusive(object from, object to) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsAscendingFromInclusiveToExclusive(object from, object to) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsAscendingFromExclusiveToInclusive(object from, object to) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsAscendingFromExclusiveToExclusive(object from, object to) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsDescending() { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsDescendingFromInclusive(object from) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsDescendingFromExclusive(object from) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsDescendingToInclusive(object to) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsDescendingToExclusive(object to) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsDescendingFromInclusiveToInclusive(object from, object to) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsDescendingFromInclusiveToExclusive(object from, object to) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsDescendingFromExclusiveToInclusive(object from, object to) { return null; }\n");
-		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElementsDescendingFromExclusiveToExclusive(object from, object to) { return null; }\n");
-		sb.append("\n");
-
+		
+		genEqualElementEntry(index);
 		genEqualEntry(index);
+
+		genAscendingElementEntry(index, false, true, false, true);
+		genAscendingEntry(index, false, true, false, true);
+		genAscendingElementEntry(index, true, true, false, true);
+		genAscendingEntry(index, true, true, false, true);
+		genAscendingElementEntry(index, true, false, false, true);
+		genAscendingEntry(index, true, false, false, true);
+		genAscendingElementEntry(index, false, true, true, true);
+		genAscendingEntry(index, false, true, true, true);
+		genAscendingElementEntry(index, false, true, true, false);
+		genAscendingEntry(index, false, true, true, false);
+		genAscendingElementEntry(index, true, true, true, true);
+		genAscendingEntry(index, true, true, true, true);
+		genAscendingElementEntry(index, true, true, true, false);
+		genAscendingEntry(index, true, true, true, false);
+		genAscendingElementEntry(index, true, false, true, true);
+		genAscendingEntry(index, true, false, true, true);
+		genAscendingElementEntry(index, true, false, true, false);
+		genAscendingEntry(index, true, false, true, false);
+
+		genDescendingElementEntry(index, false, true, false, true);
+		genDescendingEntry(index, false, true, false, true);
+		genDescendingElementEntry(index, true, true, false, true);
+		genDescendingEntry(index, true, true, false, true);
+		genDescendingElementEntry(index, true, false, false, true);
+		genDescendingEntry(index, true, false, false, true);
+		genDescendingElementEntry(index, false, true, true, true);
+		genDescendingEntry(index, false, true, true, true);
+		genDescendingElementEntry(index, false, true, true, false);
+		genDescendingEntry(index, false, true, true, false);
+		genDescendingElementEntry(index, true, true, true, true);
+		genDescendingEntry(index, true, true, true, true);
+		genDescendingElementEntry(index, true, true, true, false);
+		genDescendingEntry(index, true, true, true, false);
+		genDescendingElementEntry(index, true, false, true, true);
+		genDescendingEntry(index, true, false, true, true);
+		genDescendingElementEntry(index, true, false, true, false);
+		genDescendingEntry(index, true, false, true, false);
+
 		genEqual(index);
 
-		genAscendingEntry(index, false, true, false, true);
 		genAscending(index, false, true, false, true);
-		genAscendingEntry(index, true, true, false, true);
 		genAscending(index, true, true, false, true);
-		genAscendingEntry(index, true, false, false, true);
 		genAscending(index, true, false, false, true);
-		genAscendingEntry(index, false, true, true, true);
 		genAscending(index, false, true, true, true);
-		genAscendingEntry(index, false, true, true, false);
 		genAscending(index, false, true, true, false);
-		genAscendingEntry(index, true, true, true, true);
 		genAscending(index, true, true, true, true);
-		genAscendingEntry(index, true, true, true, false);
 		genAscending(index, true, true, true, false);
-		genAscendingEntry(index, true, false, true, true);
 		genAscending(index, true, false, true, true);
-		genAscendingEntry(index, true, false, true, false);
 		genAscending(index, true, false, true, false);
 
-		genDescendingEntry(index, false, true, false, true);
 		genDescending(index, false, true, false, true);
-		genDescendingEntry(index, true, true, false, true);
 		genDescending(index, true, true, false, true);
-		genDescendingEntry(index, true, false, false, true);
 		genDescending(index, true, false, false, true);
-		genDescendingEntry(index, false, true, true, true);
 		genDescending(index, false, true, true, true);
-		genDescendingEntry(index, false, true, true, false);
 		genDescending(index, false, true, true, false);
-		genDescendingEntry(index, true, true, true, true);
 		genDescending(index, true, true, true, true);
-		genDescendingEntry(index, true, true, true, false);
 		genDescending(index, true, true, true, false);
-		genDescendingEntry(index, true, false, true, true);
 		genDescending(index, true, false, true, true);
-		genDescendingEntry(index, true, false, true, false);
 		genDescending(index, true, false, true, false);
 
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
 
+	void genEqualElementEntry(AttributeIndex index)
+	{
+		String attributeType = formatAttributeType(index.entity);
+		
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements(object fromto)\n");
+		sb.append("\t\t{\n");
+
+		sb.append("\t\t\tint versionAtIterationBegin = version;\n");
+		sb.append("\t\t\tforeach(GRGEN_LIBGR.IGraphElement value in Lookup(root, (" + attributeType + ")fromto))\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tyield return value;\n");
+		sb.append("\t\t\t\tif(version != versionAtIterationBegin)\n");
+		sb.append("\t\t\t\t\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.append("\t\t\t}\n");
+
+		sb.append("\t\t}\n");
+		sb.append("\t\t\n");
+	}
+
 	void genEqualEntry(AttributeIndex index)
 	{
 		String attributeType = formatAttributeType(index.entity);
 		String graphElementType = formatElementInterfaceRef(index.type);
-
-		String lookupMethodName = "Lookup";
 		
-		sb.append("\t\tpublic IEnumerable<" + graphElementType + "> " + lookupMethodName + "(" + attributeType + " fromto)\n");
+		sb.append("\t\tpublic IEnumerable<" + graphElementType + "> Lookup(" + attributeType + " fromto)\n");
 		sb.append("\t\t{\n");
 
 		sb.append("\t\t\tint versionAtIterationBegin = version;\n");
-		sb.append("\t\t\tforeach(" + graphElementType + " value in " + lookupMethodName + "(root, fromto))\n");
+		sb.append("\t\t\tforeach(" + graphElementType + " value in Lookup(root, fromto))\n");
 		sb.append("\t\t\t{\n");
 		sb.append("\t\t\t\tyield return value;\n");
 		sb.append("\t\t\t\tif(version != versionAtIterationBegin)\n");
@@ -2346,10 +2364,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		String attributeType = formatAttributeType(index.entity);
 		String attributeName = index.entity.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(index.type);
-
-		String lookupMethodName = "Lookup";
 		
-		sb.append("\t\tprivate IEnumerable<" + graphElementType + "> " + lookupMethodName + "(TreeNode current, " + attributeType + " fromto)\n");
+		sb.append("\t\tprivate IEnumerable<" + graphElementType + "> Lookup(TreeNode current, " + attributeType + " fromto)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tif(current == bottom)\n");
 		sb.append("\t\t\t\tyield break;\n");
@@ -2359,7 +2375,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t// don't go left if the value is already lower than fromto\n");
 		sb.append("\t\t\tif(current.value." + attributeName + " >= fromto)\n");
 		sb.append("\t\t\t{\n");
-		sb.append("\t\t\t\tforeach(" + graphElementType + " value in " + lookupMethodName + "(current.left, fromto))\n");
+		sb.append("\t\t\t\tforeach(" + graphElementType + " value in Lookup(current.left, fromto))\n");
 		sb.append("\t\t\t\t{\n");
 		sb.append("\t\t\t\t\tyield return value;\n");
 		sb.append("\t\t\t\t\tif(version != versionAtIterationBegin)\n");
@@ -2379,9 +2395,9 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t\n");
 		
 		sb.append("\t\t\t// don't go right if the value is already higher than fromto\n");
-		sb.append("\t\t\tif(current.value." + attributeName + " == fromto)\n");
+		sb.append("\t\t\tif(current.value." + attributeName + " <= fromto)\n");
 		sb.append("\t\t\t{\n");
-		sb.append("\t\t\t\tforeach(" + graphElementType + " value in " + lookupMethodName + "(current.right, fromto))\n");
+		sb.append("\t\t\t\tforeach(" + graphElementType + " value in Lookup(current.right, fromto))\n");
 		sb.append("\t\t\t\t{\n");
 		sb.append("\t\t\t\t\tyield return value;\n");
 		sb.append("\t\t\t\t\tif(version != versionAtIterationBegin)\n");
@@ -2392,28 +2408,75 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\n");
 	}
 
+	void genAscendingElementEntry(AttributeIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	{
+		String attributeType = formatAttributeType(index.entity);
+
+		String lookupMethodNameAppendix = "Ascending";
+		if(fromConstrained) {
+			lookupMethodNameAppendix += "From";
+			if(fromInclusive)
+				lookupMethodNameAppendix += "Inclusive";
+			else
+				lookupMethodNameAppendix += "Exclusive";
+		}
+		if(toConstrained) {
+			lookupMethodNameAppendix += "To";
+			if(toInclusive)
+				lookupMethodNameAppendix += "Inclusive";
+			else
+				lookupMethodNameAppendix += "Exclusive";
+		}
+		
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements" + lookupMethodNameAppendix + "(");
+		if(fromConstrained)
+			sb.append("object from");
+		if(fromConstrained && toConstrained)
+			sb.append(", ");
+		if(toConstrained)
+			sb.append("object to");
+		sb.append(")\n");
+		sb.append("\t\t{\n");
+
+		sb.append("\t\t\tint versionAtIterationBegin = version;\n");
+		sb.append("\t\t\tforeach(GRGEN_LIBGR.IGraphElement value in Lookup" + lookupMethodNameAppendix + "(root");
+		if(fromConstrained)
+			sb.append(", (" + attributeType + ")from");
+		if(toConstrained)
+			sb.append(", (" + attributeType + ")to");
+		sb.append("))\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tyield return value;\n");
+		sb.append("\t\t\t\tif(version != versionAtIterationBegin)\n");
+		sb.append("\t\t\t\t\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.append("\t\t\t}\n");
+
+		sb.append("\t\t}\n");
+		sb.append("\t\t\n");
+	}
+
 	void genAscendingEntry(AttributeIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
 	{
 		String attributeType = formatAttributeType(index.entity);
 		String graphElementType = formatElementInterfaceRef(index.type);
 
-		String lookupMethodName = "LookupAscending";
+		String lookupMethodNameAppendix = "Ascending";
 		if(fromConstrained) {
-			lookupMethodName += "From";
+			lookupMethodNameAppendix += "From";
 			if(fromInclusive)
-				lookupMethodName += "Inclusive";
+				lookupMethodNameAppendix += "Inclusive";
 			else
-				lookupMethodName += "Exclusive";
+				lookupMethodNameAppendix += "Exclusive";
 		}
 		if(toConstrained) {
-			lookupMethodName += "To";
+			lookupMethodNameAppendix += "To";
 			if(toInclusive)
-				lookupMethodName += "Inclusive";
+				lookupMethodNameAppendix += "Inclusive";
 			else
-				lookupMethodName += "Exclusive";
+				lookupMethodNameAppendix += "Exclusive";
 		}
 		
-		sb.append("\t\tpublic IEnumerable<" + graphElementType + "> " + lookupMethodName + "(");
+		sb.append("\t\tpublic IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(");
 		if(fromConstrained)
 			sb.append(attributeType + " from");
 		if(fromConstrained && toConstrained)
@@ -2424,7 +2487,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t{\n");
 
 		sb.append("\t\t\tint versionAtIterationBegin = version;\n");
-		sb.append("\t\t\tforeach(" + graphElementType + " value in " + lookupMethodName + "(root");
+		sb.append("\t\t\tforeach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(root");
 		if(fromConstrained)
 			sb.append(", from");
 		if(toConstrained)
@@ -2446,23 +2509,23 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		String attributeName = index.entity.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(index.type);
 
-		String lookupMethodName = "LookupAscending";
+		String lookupMethodNameAppendix = "Ascending";
 		if(fromConstrained) {
-			lookupMethodName += "From";
+			lookupMethodNameAppendix += "From";
 			if(fromInclusive)
-				lookupMethodName += "Inclusive";
+				lookupMethodNameAppendix += "Inclusive";
 			else
-				lookupMethodName += "Exclusive";
+				lookupMethodNameAppendix += "Exclusive";
 		}
 		if(toConstrained) {
-			lookupMethodName += "To";
+			lookupMethodNameAppendix += "To";
 			if(toInclusive)
-				lookupMethodName += "Inclusive";
+				lookupMethodNameAppendix += "Inclusive";
 			else
-				lookupMethodName += "Exclusive";
+				lookupMethodNameAppendix += "Exclusive";
 		}
 		
-		sb.append("\t\tprivate IEnumerable<" + graphElementType + "> " + lookupMethodName + "(TreeNode current");
+		sb.append("\t\tprivate IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(TreeNode current");
 		if(fromConstrained)
 			sb.append(", " + attributeType + " from");
 		if(toConstrained)
@@ -2481,7 +2544,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("from)\n");
 		}
 		sb.append("\t\t\t{\n");
-		sb.append("\t\t\t\tforeach(" + graphElementType + " value in " + lookupMethodName + "(current.left");
+		sb.append("\t\t\t\tforeach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.left");
 		if(fromConstrained)
 			sb.append(", from");
 		if(toConstrained)
@@ -2527,7 +2590,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("to)\n");
 		}
 		sb.append("\t\t\t{\n");
-		sb.append("\t\t\t\tforeach(" + graphElementType + " value in " + lookupMethodName + "(current.right");
+		sb.append("\t\t\t\tforeach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.right");
 		if(fromConstrained)
 			sb.append(", from");
 		if(toConstrained)
@@ -2543,28 +2606,75 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\n");
 	}
 
+	void genDescendingElementEntry(AttributeIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	{
+		String attributeType = formatAttributeType(index.entity);
+
+		String lookupMethodNameAppendix = "Descending";
+		if(fromConstrained) {
+			lookupMethodNameAppendix += "From";
+			if(fromInclusive)
+				lookupMethodNameAppendix += "Inclusive";
+			else
+				lookupMethodNameAppendix += "Exclusive";
+		}
+		if(toConstrained) {
+			lookupMethodNameAppendix += "To";
+			if(toInclusive)
+				lookupMethodNameAppendix += "Inclusive";
+			else
+				lookupMethodNameAppendix += "Exclusive";
+		}
+		
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements" + lookupMethodNameAppendix + "(");
+		if(fromConstrained)
+			sb.append("object from");
+		if(fromConstrained && toConstrained)
+			sb.append(", ");
+		if(toConstrained)
+			sb.append("object to");
+		sb.append(")\n");
+		sb.append("\t\t{\n");
+
+		sb.append("\t\t\tint versionAtIterationBegin = version;\n");
+		sb.append("\t\t\tforeach(GRGEN_LIBGR.IGraphElement value in Lookup" + lookupMethodNameAppendix + "(root");
+		if(fromConstrained)
+			sb.append(", (" + attributeType + ")from");
+		if(toConstrained)
+			sb.append(", (" + attributeType + ")to");
+		sb.append("))\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tyield return value;\n");
+		sb.append("\t\t\t\tif(version != versionAtIterationBegin)\n");
+		sb.append("\t\t\t\t\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.append("\t\t\t}\n");
+
+		sb.append("\t\t}\n");
+		sb.append("\t\t\n");
+	}
+
 	void genDescendingEntry(AttributeIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
 	{
 		String attributeType = formatAttributeType(index.entity);
 		String graphElementType = formatElementInterfaceRef(index.type);
 
-		String lookupMethodName = "LookupDescending";
+		String lookupMethodNameAppendix = "Descending";
 		if(fromConstrained) {
-			lookupMethodName += "From";
+			lookupMethodNameAppendix += "From";
 			if(fromInclusive)
-				lookupMethodName += "Inclusive";
+				lookupMethodNameAppendix += "Inclusive";
 			else
-				lookupMethodName += "Exclusive";
+				lookupMethodNameAppendix += "Exclusive";
 		}
 		if(toConstrained) {
-			lookupMethodName += "To";
+			lookupMethodNameAppendix += "To";
 			if(toInclusive)
-				lookupMethodName += "Inclusive";
+				lookupMethodNameAppendix += "Inclusive";
 			else
-				lookupMethodName += "Exclusive";
+				lookupMethodNameAppendix += "Exclusive";
 		}
 		
-		sb.append("\t\tpublic IEnumerable<" + graphElementType + "> " + lookupMethodName + "(");
+		sb.append("\t\tpublic IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(");
 		if(fromConstrained)
 			sb.append(attributeType + " from");
 		if(fromConstrained && toConstrained)
@@ -2575,7 +2685,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t{\n");
 
 		sb.append("\t\t\tint versionAtIterationBegin = version;\n");
-		sb.append("\t\t\tforeach(" + graphElementType + " value in " + lookupMethodName + "(root");
+		sb.append("\t\t\tforeach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(root");
 		if(fromConstrained)
 			sb.append(", from");
 		if(toConstrained)
@@ -2597,23 +2707,23 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		String attributeName = index.entity.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(index.type);
 
-		String lookupMethodName = "LookupDescending";
+		String lookupMethodNameAppendix = "Descending";
 		if(fromConstrained) {
-			lookupMethodName += "From";
+			lookupMethodNameAppendix += "From";
 			if(fromInclusive)
-				lookupMethodName += "Inclusive";
+				lookupMethodNameAppendix += "Inclusive";
 			else
-				lookupMethodName += "Exclusive";
+				lookupMethodNameAppendix += "Exclusive";
 		}
 		if(toConstrained) {
-			lookupMethodName += "To";
+			lookupMethodNameAppendix += "To";
 			if(toInclusive)
-				lookupMethodName += "Inclusive";
+				lookupMethodNameAppendix += "Inclusive";
 			else
-				lookupMethodName += "Exclusive";
+				lookupMethodNameAppendix += "Exclusive";
 		}
 		
-		sb.append("\t\tprivate IEnumerable<" + graphElementType + "> " + lookupMethodName + "(TreeNode current");
+		sb.append("\t\tprivate IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(TreeNode current");
 		if(fromConstrained)
 			sb.append(", " + attributeType + " from");
 		if(toConstrained)
@@ -2632,7 +2742,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("from)\n");
 		}
 		sb.append("\t\t\t{\n");
-		sb.append("\t\t\t\tforeach(" + graphElementType + " value in " + lookupMethodName + "(current.right");
+		sb.append("\t\t\t\tforeach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.right");
 		if(fromConstrained)
 			sb.append(", from");
 		if(toConstrained)
@@ -2678,7 +2788,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("to)\n");
 		}
 		sb.append("\t\t\t{\n");
-		sb.append("\t\t\t\tforeach(" + graphElementType + " value in " + lookupMethodName + "(current.left");
+		sb.append("\t\t\t\tforeach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.left");
 		if(fromConstrained)
 			sb.append(", from");
 		if(toConstrained)
@@ -2692,6 +2802,39 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t}\n");
 		sb.append("\t\t}\n");
 		sb.append("\t\t\n");
+	}
+
+	void genIndexMaintainingEventHandlers(AttributeIndex index)
+	{
+		String attributeType = formatAttributeType(index.entity);
+		String attributeName = index.entity.getIdent().toString();
+		String graphElementType = formatElementInterfaceRef(index.type);
+		
+		sb.append("\t\tvoid Added(GRGEN_LIBGR.IGraphElement elem)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(elem is " + graphElementType + ")\n");
+		sb.append("\t\t\t\tInsert(ref root, (" + graphElementType + ")elem, ((" + graphElementType + ")elem)." + attributeName + ");\n");
+		sb.append("\t\t}\n\n");
+		sb.append("\t\tvoid Removing(GRGEN_LIBGR.IGraphElement elem)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(elem is " + graphElementType + ")\n");
+		sb.append("\t\t\t\tDelete(ref root, (" + graphElementType + ")elem);\n");
+		sb.append("\t\t}\n\n");
+		sb.append("\t\tvoid ChangingAttribute(GRGEN_LIBGR.IGraphElement elem, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.AttributeChangeType changeType, Object newValue, Object keyValue)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(elem is " + graphElementType + ")\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tDelete(ref root, (" + graphElementType + ")elem);\n");
+		sb.append("\t\t\t\tInsert(ref root, (" + graphElementType + ")elem, (" + attributeType + ")newValue);\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t}\n\n");
+		sb.append("\t\tvoid Retyping(GRGEN_LIBGR.IGraphElement oldElem, GRGEN_LIBGR.IGraphElement newElem)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(oldElem is " + graphElementType + ")\n");
+		sb.append("\t\t\t\tDelete(ref root, (" + graphElementType + ")oldElem);\n");
+		sb.append("\t\t\tif(newElem is " + graphElementType + ")\n");
+		sb.append("\t\t\t\tInsert(ref root, (" + graphElementType + ")newElem, ((" + graphElementType + ")newElem)." + attributeName + ");\n");
+		sb.append("\t\t}\n\n");
 	}
 
 	void genIndexImplementationPlain(AttributeIndex index, int indexNum) {
@@ -2709,9 +2852,23 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\tdeleted = bottom;\n");
 		sb.append("\t\t\tcount = 0;\n");
 		sb.append("\t\t\tversion = 0;\n");
+		sb.append("\t\t\t\n");
+		if(index.type instanceof NodeType) {
+			sb.append("\t\t\tgraph.OnNodeAdded += Added;\n");
+			sb.append("\t\t\tgraph.OnRemovingNode += Removing;\n");
+			sb.append("\t\t\tgraph.OnChangingNodeAttribute += ChangingAttribute;\n");
+			sb.append("\t\t\tgraph.OnRetypingNode += Retyping;\n");
+		} else {
+			sb.append("\t\t\tgraph.OnEdgeAdded += Added;\n");
+			sb.append("\t\t\tgraph.OnRemovingEdge += Removing;\n");
+			sb.append("\t\t\tgraph.OnChangingEdgeAttribute += ChangingAttribute;\n");
+			sb.append("\t\t\tgraph.OnRetypingEdge += Retyping;\n");
+		}
 		sb.append("\t\t}\n");
 		sb.append("\n");
 		
+		genIndexMaintainingEventHandlers(index);
+
 		genIndexAATreeBalancingInsertionDeletion(index, false);
 
 		sb.append("\t\tprivate GRGEN_LGSP.LGSPGraph graph;\n");
@@ -2735,8 +2892,22 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\tdeleted = bottom;\n");
 		sb.append("\t\t\tcount = 0;\n");
 		sb.append("\t\t\tversion = 0;\n");
+		sb.append("\t\t\t\n");
+		if(index.type instanceof NodeType) {
+			sb.append("\t\t\tgraph.OnNodeAdded += Added;\n");
+			sb.append("\t\t\tgraph.OnRemovingNode += Removing;\n");
+			sb.append("\t\t\tgraph.OnChangingNodeAttribute += ChangingAttribute;\n");
+			sb.append("\t\t\tgraph.OnRetypingNode += Retyping;\n");
+		} else {
+			sb.append("\t\t\tgraph.OnEdgeAdded += Added;\n");
+			sb.append("\t\t\tgraph.OnRemovingEdge += Removing;\n");
+			sb.append("\t\t\tgraph.OnChangingEdgeAttribute += ChangingAttribute;\n");
+			sb.append("\t\t\tgraph.OnRetypingEdge += Retyping;\n");
+		}
 		sb.append("\t\t}\n");
 		sb.append("\n");
+
+		genIndexMaintainingEventHandlers(index);
 
 		genIndexAATreeBalancingInsertionDeletion(index, true);
 
@@ -2747,6 +2918,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	}
 
 	void genIndexAATreeBalancingInsertionDeletion(AttributeIndex index, boolean named) {
+		String attributeType = formatAttributeType(index.entity);
 		String attributeName = index.entity.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(index.type);
 
@@ -2777,7 +2949,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t}\n");
 		sb.append("\n");
 		
-		sb.append("\t\tprivate void Insert(ref TreeNode current, " + graphElementType + " value)\n");
+		sb.append("\t\tprivate void Insert(ref TreeNode current, " + graphElementType + " value, " + attributeType + " attributeValue)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tif(current == bottom)\n");
 		sb.append("\t\t\t{\n");
@@ -2787,10 +2959,18 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t\treturn;\n");
 		sb.append("\t\t\t}\n");
 		sb.append("\t\t\t\n");
-		sb.append("\t\t\tif(value." + attributeName + " < current.value." + attributeName + ")\n");
-		sb.append("\t\t\t\tInsert(ref current.left, value);\n");
-		sb.append("\t\t\telse if(value." + attributeName + " > current.value." + attributeName + ")\n");
-		sb.append("\t\t\t\tInsert(ref current.right, value);\n");
+		sb.append("\t\t\tif(attributeValue < current.value." + attributeName);
+		if(named)
+			sb.append(" || ( attributeValue == current.value." + attributeName + " && String.CompareOrdinal(graph.GetElementName(value), graph.GetElementName(current.value))<0 ) )\n");
+		else
+			sb.append(")\n");
+		sb.append("\t\t\t\tInsert(ref current.left, value, attributeValue);\n");
+		sb.append("\t\t\telse if(attributeValue > current.value." + attributeName);
+		if(named)
+			sb.append(" || ( attributeValue == current.value." + attributeName + " && String.CompareOrdinal(graph.GetElementName(value), graph.GetElementName(current.value))>0 ) )\n");
+		else
+			sb.append(")\n");
+		sb.append("\t\t\t\tInsert(ref current.right, value, attributeValue);\n");
 		sb.append("\t\t\telse\n");
 		sb.append("\t\t\t\tthrow new Exception(\"Insertion of already available element\");\n");
 		sb.append("\t\t\t\n");
@@ -2806,7 +2986,11 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t\n");
 		sb.append("\t\t\t// search down the tree (and set pointer last and deleted)\n");
 		sb.append("\t\t\tlast = current;\n");
-		sb.append("\t\t\tif(value." + attributeName + " < current.value." + attributeName + ")\n");
+		sb.append("\t\t\tif(value." + attributeName + " < current.value." + attributeName);
+		if(named)
+			sb.append(" || ( value." + attributeName + " == current.value." + attributeName + " && String.CompareOrdinal(graph.GetElementName(value), graph.GetElementName(current.value))<0 ) )\n");
+		else
+			sb.append(")\n");			
 		sb.append("\t\t\t\tDelete(ref current.left, value);\n");
 		sb.append("\t\t\telse\n");
 		sb.append("\t\t\t{\n");
@@ -2815,7 +2999,11 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t}\n");
 		sb.append("\t\t\t\n");
 		sb.append("\t\t\t// at the bottom of the tree we remove the element (if present)\n");
-		sb.append("\t\t\tif(current == last && deleted != bottom && value." + attributeName + " == deleted.value." + attributeName + ")\n");
+		sb.append("\t\t\tif(current == last && deleted != bottom && value." + attributeName + " == deleted.value." + attributeName);
+		if(named)
+			sb.append(" && graph.GetElementName(value) == graph.GetElementName(deleted.value) )\n");
+		else
+			sb.append(")\n");
 		sb.append("\t\t\t{\n");
 		sb.append("\t\t\t\tdeleted.value = current.value;\n");
 		sb.append("\t\t\t\tdeleted = bottom;\n");
