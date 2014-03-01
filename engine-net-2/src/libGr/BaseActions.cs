@@ -13,32 +13,19 @@ using de.unika.ipd.grGen.libGr.sequenceParser;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A container of rules.
+    /// A partial implementation of the interface to the actions. 
     /// </summary>
-    public abstract class BaseActions
+    public abstract class BaseActions : IActions
     {
-        #region Abstract members
-
-        /// <summary>
-        /// An associated name.
-        /// </summary>
         public abstract String Name { get; }
 
-        /// <summary>
-        /// An MD5 hash of the used IGraphModel.
-        /// Probably useless...
-        /// </summary>
-        public abstract String ModelMD5Hash { get; }
-
-        /// <summary>
-        /// The associated graph.
-        /// </summary>
         public abstract IGraph Graph { get; set; }
 
-        /// <summary>
-        /// The packages defined in this BaseActions instance.
-        /// </summary>
         public abstract string[] Packages { get; }
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         /// <summary>
         /// Enumerates all actions managed by this BaseActions instance.
@@ -52,28 +39,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The action with the given name, or null, if no such action exists.</returns>
         public abstract IAction GetAction(String name);
 
-        /// <summary>
-        /// Does action-backend dependent stuff.
-        /// </summary>
-        /// <param name="args">Any kind of parameters for the stuff to do</param>
-        public abstract void Custom(params object[] args);
 
-        /// <summary>
-        /// Tells whether lazy negative/independent/condition evaluation code was generated when the actions were generated.
-        /// (So we can regenerated matchers at runtime correctly, using the same setting.)
-        /// </summary>
-        public abstract bool LazyNIC { get; }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        /// <summary>
-        /// Tells whether profiling instrumentation code (search step counting) was generated when the actions were generated.
-        /// (So we can regenerated matchers at runtime correctly, using the same setting.)
-        /// </summary>
-        public abstract bool Profile { get; }
-
-        #endregion Abstract members
-
-
-        #region Sequence handling
 
         private Dictionary<String, SequenceDefinition> namesToSequenceDefinitions = new Dictionary<string, SequenceDefinition>();
 
@@ -146,9 +114,9 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        #endregion Sequence handling
 
-        #region Functions handling
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         protected Dictionary<String, FunctionInfo> namesToFunctionDefinitions = new Dictionary<string, FunctionInfo>();
 
@@ -176,6 +144,9 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        /// <summary>
+        /// returns a comma separated list of the names of the functions known 
+        /// </summary>
         public string FunctionNames
         {
             get
@@ -194,10 +165,10 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        #endregion Functions handling
 
-        #region Procedures handling
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        
         protected Dictionary<String, ProcedureInfo> namesToProcedureDefinitions = new Dictionary<string, ProcedureInfo>();
 
         /// <summary>
@@ -224,6 +195,9 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        /// <summary>
+        /// returns a comma separated list of the names of the procedures known 
+        /// </summary>
         public string ProcedureNames
         {
             get
@@ -242,6 +216,16 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        #endregion Procedures handling
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        public abstract String ModelMD5Hash { get; }
+
+        public abstract void Custom(params object[] args);
+
+        public abstract bool LazyNIC { get; }
+
+        public abstract bool Profile { get; }
     }
 }

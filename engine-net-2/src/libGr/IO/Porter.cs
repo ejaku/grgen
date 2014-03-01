@@ -123,7 +123,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The imported graph. 
         /// The .grs/.grsi importer returns an INamedGraph. If you don't need it: create an LGSPGraph from it and throw the named graph away.
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
-        public static IGraph Import(IBackend backend, List<String> filenameParameters, out BaseActions actions)
+        public static IGraph Import(IBackend backend, List<String> filenameParameters, out IActions actions)
         {
             String first = ListGet(filenameParameters, 0);
             FileInfo fi = new FileInfo(first);
@@ -191,7 +191,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The imported graph. 
         /// The .grs/.grsi importer returns an INamedGraph. If you don't need it: create an LGSPGraph from it and throw the named graph away.
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
-        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel, out BaseActions actions)
+        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel, out IActions actions)
         {
             if(importFilename.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
                 return GXLImport.Import(importFilename, backend, graphModel, out actions);

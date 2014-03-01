@@ -60,7 +60,7 @@ namespace de.unika.ipd.grGen.lgsp
             get { return namedGraph; }
         }
 
-        public BaseActions Actions
+        public IActions Actions
         {
             get { return curActions; }
             set { curActions = (LGSPActions)value; InitActionsProfile((LGSPActions)value); }
