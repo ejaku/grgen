@@ -32,19 +32,23 @@ public class IndexAccessOrdering extends IndexAccess {
 	
 	public Expression from() {
 		if(ascending) {
-			if(comp==OperatorSignature.GT || comp==OperatorSignature.GE)
-				return expr;
-			if(expr2!=null) {
-				if(comp2==OperatorSignature.GT || comp2==OperatorSignature.GE)
-					return expr2;
+			if(expr!=null) {
+				if(comp==OperatorSignature.GT || comp==OperatorSignature.GE)
+					return expr;
+				if(expr2!=null) {
+					if(comp2==OperatorSignature.GT || comp2==OperatorSignature.GE)
+						return expr2;
+				}
 			}
 			return null;
 		} else {
-			if(comp==OperatorSignature.LT || comp==OperatorSignature.LE)
-				return expr;
-			if(expr2!=null) {
-				if(comp2==OperatorSignature.LT || comp2==OperatorSignature.LE)
-					return expr2;
+			if(expr!=null) {
+				if(comp==OperatorSignature.LT || comp==OperatorSignature.LE)
+					return expr;
+				if(expr2!=null) {
+					if(comp2==OperatorSignature.LT || comp2==OperatorSignature.LE)
+						return expr2;
+				}
 			}
 			return null;
 		}
@@ -52,19 +56,23 @@ public class IndexAccessOrdering extends IndexAccess {
 
 	public Expression to() {
 		if(ascending) {
-			if(comp==OperatorSignature.LT || comp==OperatorSignature.LE)
-				return expr;
-			if(expr2!=null) {
-				if(comp2==OperatorSignature.LT || comp2==OperatorSignature.LE)
-					return expr2;
+			if(expr!=null) {
+				if(comp==OperatorSignature.LT || comp==OperatorSignature.LE)
+					return expr;
+				if(expr2!=null) {
+					if(comp2==OperatorSignature.LT || comp2==OperatorSignature.LE)
+						return expr2;
+				}
 			}
 			return null;
 		} else {
-			if(comp==OperatorSignature.GT || comp==OperatorSignature.GE)
-				return expr;
-			if(expr2!=null) {
-				if(comp2==OperatorSignature.GT || comp2==OperatorSignature.GE)
-					return expr2;
+			if(expr!=null) {
+				if(comp==OperatorSignature.GT || comp==OperatorSignature.GE)
+					return expr;
+				if(expr2!=null) {
+					if(comp2==OperatorSignature.GT || comp2==OperatorSignature.GE)
+						return expr2;
+				}
 			}
 			return null;
 		}
@@ -72,19 +80,23 @@ public class IndexAccessOrdering extends IndexAccess {
 	
 	public boolean includingFrom() {
 		if(ascending) {
-			if(comp==OperatorSignature.GT || comp==OperatorSignature.GE)
-				return comp==OperatorSignature.GE;
-			if(expr2!=null) {
-				if(comp2==OperatorSignature.GT || comp2==OperatorSignature.GE)
-					return comp2==OperatorSignature.GE;
+			if(expr!=null) {
+				if(comp==OperatorSignature.GT || comp==OperatorSignature.GE)
+					return comp==OperatorSignature.GE;
+				if(expr2!=null) {
+					if(comp2==OperatorSignature.GT || comp2==OperatorSignature.GE)
+						return comp2==OperatorSignature.GE;
+				}
 			}
 			return false; // dummy/don't care
 		} else {
-			if(comp==OperatorSignature.LT || comp==OperatorSignature.LE)
-				return comp==OperatorSignature.LE;
-			if(expr2!=null) {
-				if(comp2==OperatorSignature.LT || comp2==OperatorSignature.LE)
-					return comp2==OperatorSignature.LE;
+			if(expr!=null) {
+				if(comp==OperatorSignature.LT || comp==OperatorSignature.LE)
+					return comp==OperatorSignature.LE;
+				if(expr2!=null) {
+					if(comp2==OperatorSignature.LT || comp2==OperatorSignature.LE)
+						return comp2==OperatorSignature.LE;
+				}
 			}
 			return false; // dummy/don't care
 		}
@@ -92,19 +104,23 @@ public class IndexAccessOrdering extends IndexAccess {
 	
 	public boolean includingTo() {
 		if(ascending) {
-			if(comp==OperatorSignature.LT || comp==OperatorSignature.LE)
-				return comp==OperatorSignature.LE;
-			if(expr2!=null) {
-				if(comp2==OperatorSignature.LT || comp2==OperatorSignature.LE)
-					return comp2==OperatorSignature.LE;
+			if(expr!=null) {
+				if(comp==OperatorSignature.LT || comp==OperatorSignature.LE)
+					return comp==OperatorSignature.LE;
+				if(expr2!=null) {
+					if(comp2==OperatorSignature.LT || comp2==OperatorSignature.LE)
+						return comp2==OperatorSignature.LE;
+				}
 			}
 			return false; // dummy/don't care
 		} else {
-			if(comp==OperatorSignature.GT || comp==OperatorSignature.GE)
-				return comp==OperatorSignature.GE;
-			if(expr2!=null) {
-				if(comp2==OperatorSignature.GT || comp2==OperatorSignature.GE)
-					return comp2==OperatorSignature.GE;
+			if(expr!=null) {
+				if(comp==OperatorSignature.GT || comp==OperatorSignature.GE)
+					return comp==OperatorSignature.GE;
+				if(expr2!=null) {
+					if(comp2==OperatorSignature.GT || comp2==OperatorSignature.GE)
+						return comp2==OperatorSignature.GE;
+				}
 			}
 			return false; // dummy/don't care
 		}

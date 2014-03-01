@@ -39,3 +39,7 @@ rule sp(var x:int, var y:int, var z:int) {
 	modify {
 	}
 }
+
+test u {
+	n:N{ascending(foo)} -e:E{descending(bar)}-> n;
+}

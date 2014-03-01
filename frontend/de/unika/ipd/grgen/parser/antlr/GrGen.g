@@ -928,7 +928,7 @@ nodeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, Patter
 			n = new MatchNodeByIndexAccessEqualityNode(id, type, context, 
 						idx, e, directlyNestingLHSGraph);
 		}
-	| i=IDENT LPAREN idx=indexIdentUse os=relOS e=expr[false] (COMMA idx2=indexIdentUse os2=relOS e2=expr[false])? RPAREN
+	| i=IDENT LPAREN idx=indexIdentUse (os=relOS e=expr[false] (COMMA idx2=indexIdentUse os2=relOS e2=expr[false])?)? RPAREN
 		{
 			if(i.getText().equals("ascending")) 
 				n = new MatchNodeByIndexAccessOrderingNode(id, type, context, 
@@ -1460,7 +1460,7 @@ edgeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, Patter
 			res = new MatchEdgeByIndexAccessEqualityNode(id, type, context, 
 						idx, e, directlyNestingLHSGraph);
 		}
-	| i=IDENT LPAREN idx=indexIdentUse os=relOS e=expr[false] (COMMA idx2=indexIdentUse os2=relOS e2=expr[false])? RPAREN
+	| i=IDENT LPAREN idx=indexIdentUse (os=relOS e=expr[false] (COMMA idx2=indexIdentUse os2=relOS e2=expr[false])?)? RPAREN
 		{
 			if(i.getText().equals("ascending")) 
 				res = new MatchEdgeByIndexAccessOrderingNode(id, type, context, 

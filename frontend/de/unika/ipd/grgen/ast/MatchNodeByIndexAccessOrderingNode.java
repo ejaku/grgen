@@ -60,7 +60,8 @@ public class MatchNodeByIndexAccessOrderingNode extends NodeDeclNode implements 
 		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
 		children.add(constraints);
 		children.add(getValidVersion(indexUnresolved, index));
-		children.add(expr);
+		if(expr!=null)
+			children.add(expr);
 		if(expr2!=null)
 			children.add(expr2);
 		return children;
@@ -74,7 +75,8 @@ public class MatchNodeByIndexAccessOrderingNode extends NodeDeclNode implements 
 		childrenNames.add("type");
 		childrenNames.add("constraints");
 		childrenNames.add("index");
-		childrenNames.add("expression");
+		if(expr!=null)
+			childrenNames.add("expression");
 		if(expr2!=null)
 			childrenNames.add("expression2");
 		return childrenNames;
@@ -89,7 +91,8 @@ public class MatchNodeByIndexAccessOrderingNode extends NodeDeclNode implements 
 		boolean successfullyResolved = super.resolveLocal();
 		index = indexResolver.resolve(indexUnresolved, this);
 		successfullyResolved &= index!=null;
-		successfullyResolved &= expr.resolve();
+		if(expr!=null)
+			successfullyResolved &= expr.resolve();
 		if(expr2!=null)
 			successfullyResolved &= expr2.resolve();
 		return successfullyResolved;
@@ -103,23 +106,25 @@ public class MatchNodeByIndexAccessOrderingNode extends NodeDeclNode implements 
 			reportError("Can't employ match node by index on RHS");
 			return false;
 		}
-		TypeNode expectedIndexAccessType = index.member.getDeclType();
-		TypeNode indexAccessType = expr.getType();
-		if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
-			String expTypeName = expectedIndexAccessType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)expectedIndexAccessType).getIdentNode().toString() : expectedIndexAccessType.toString();
-			String typeName = indexAccessType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)indexAccessType).getIdentNode().toString() : indexAccessType.toString();
-			ident.reportError("Cannot convert type used in accessing index from \""
-					+ typeName + "\" to \"" + expTypeName + "\" in match node by index access");
-			return false;
-		}
-		if(expr2!=null) {
-			TypeNode indexAccessType2 = expr2.getType();
+		if(expr!=null) {
+			TypeNode expectedIndexAccessType = index.member.getDeclType();
+			TypeNode indexAccessType = expr.getType();
 			if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 				String expTypeName = expectedIndexAccessType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)expectedIndexAccessType).getIdentNode().toString() : expectedIndexAccessType.toString();
-				String typeName = indexAccessType2 instanceof DeclaredTypeNode ? ((DeclaredTypeNode)indexAccessType2).getIdentNode().toString() : indexAccessType2.toString();
+				String typeName = indexAccessType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)indexAccessType).getIdentNode().toString() : indexAccessType.toString();
 				ident.reportError("Cannot convert type used in accessing index from \""
 						+ typeName + "\" to \"" + expTypeName + "\" in match node by index access");
 				return false;
+			}
+			if(expr2!=null) {
+				TypeNode indexAccessType2 = expr2.getType();
+				if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
+					String expTypeName = expectedIndexAccessType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)expectedIndexAccessType).getIdentNode().toString() : expectedIndexAccessType.toString();
+					String typeName = indexAccessType2 instanceof DeclaredTypeNode ? ((DeclaredTypeNode)indexAccessType2).getIdentNode().toString() : indexAccessType2.toString();
+					ident.reportError("Cannot convert type used in accessing index from \""
+							+ typeName + "\" to \"" + expTypeName + "\" in match node by index access");
+					return false;
+				}
 			}
 		}
 		TypeNode expectedEntityType = getDeclType();
@@ -156,7 +161,7 @@ public class MatchNodeByIndexAccessOrderingNode extends NodeDeclNode implements 
 			setIR(node);
 		}
 		node.setIndex(new IndexAccessOrdering(index.checkIR(AttributeIndex.class), ascending,
-				comp, expr.checkIR(Expression.class), 
+				comp, expr!=null ? expr.checkIR(Expression.class) : null, 
 				comp2, expr2!=null ? expr2.checkIR(Expression.class) : null));
 		return node;
 	}
