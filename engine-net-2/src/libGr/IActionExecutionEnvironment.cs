@@ -67,7 +67,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The actions employed by this graph processing environment
         /// </summary>
-        BaseActions Actions { get; set; }
+        IActions Actions { get; set; }
         
 
         /// <summary>

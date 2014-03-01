@@ -56,7 +56,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="modelOverride">If not null, overrides the filename of the graph model to be used.</param>
         /// <param name="backend">The backend to use to create the graph.</param>
         /// <param name="actions">Receives the actions object in case a .grg model is given.</param>
-        public static IGraph Import(String importFilename, String modelOverride, IBackend backend, out BaseActions actions)
+        public static IGraph Import(String importFilename, String modelOverride, IBackend backend, out IActions actions)
         {
             return Import(new StreamReader(importFilename), modelOverride, backend, out actions);
         }
@@ -69,7 +69,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="modelOverride">If not null, overrides the filename of the graph model to be used.</param>
         /// <param name="backend">The backend to use to create the graph.</param>
         /// <param name="actions">Receives the actions object in case a .grg model is given.</param>
-        public static IGraph Import(TextReader inStream, String modelOverride, IBackend backend, out BaseActions actions)
+        public static IGraph Import(TextReader inStream, String modelOverride, IBackend backend, out IActions actions)
         {
             XmlDocument doc = new XmlDocument();
             doc.XmlResolver = null;
@@ -156,7 +156,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graphModel">The graph model to be used, 
         ///     it must be conformant to the model used in the file to be imported.</param>
         /// <param name="actions">Receives the actions object in case a .grg model is given.</param>
-        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel, out BaseActions actions)
+        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel, out IActions actions)
         {
             return Import(new StreamReader(importFilename), backend, graphModel, out actions);
         }
@@ -170,7 +170,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graphModel">The graph model to be used, 
         ///     it must be conformant to the model used in the file to be imported.</param>
         /// <param name="actions">Receives the actions object in case a .grg model is given.</param>
-        public static IGraph Import(TextReader inStream, IBackend backend, IGraphModel graphModel, out BaseActions actions)
+        public static IGraph Import(TextReader inStream, IBackend backend, IGraphModel graphModel, out IActions actions)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(inStream);

@@ -1112,7 +1112,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static IGraph Import(object path, IGraph graph)
         {
-            BaseActions actions;
+            IActions actions;
             return Porter.Import((string)path, graph.Backend, graph.Model, out actions);
         }
 

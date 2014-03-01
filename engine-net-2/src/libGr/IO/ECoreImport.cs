@@ -60,7 +60,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="xmiFilename">The filename of the model instance to be imported, or null.</param>
         /// <param name="noPackageNamePrefix">Prefix the types with the name of the package? Can only be used if names from the packages are disjoint.</param>
         /// <param name="actions">Receives the actions object in case a .grg model is given.</param>
-        public static IGraph Import(IBackend backend, List<String> ecoreFilenames, String grgFilename, String xmiFilename, bool noPackageNamePrefix, out BaseActions actions)
+        public static IGraph Import(IBackend backend, List<String> ecoreFilenames, String grgFilename, String xmiFilename, bool noPackageNamePrefix, out IActions actions)
         {
             ECoreImport imported = new ECoreImport();
             imported.graph = imported.ImportModels(ecoreFilenames, grgFilename, backend, out actions);
@@ -74,7 +74,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /////////////////////////////////////////////////////////////////////////////////
 
-        private IGraph ImportModels(List<String> ecoreFilenames, String grgFilename, IBackend backend, out BaseActions actions)
+        private IGraph ImportModels(List<String> ecoreFilenames, String grgFilename, IBackend backend, out IActions actions)
         {
             foreach(String ecoreFilename in ecoreFilenames)
             {

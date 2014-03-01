@@ -334,7 +334,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public BaseActions CurrentActions
+        public IActions CurrentActions
         {
             get
             {
@@ -1382,7 +1382,7 @@ namespace de.unika.ipd.grGen.grShell
                 else if(specFilename.EndsWith(".grg", StringComparison.OrdinalIgnoreCase))
                 {
                     INamedGraph graph;
-                    BaseActions actions;
+                    IActions actions;
                     
                     try
                     {
@@ -3021,7 +3021,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public void DefineRewriteSequence(SequenceDefinition seqDef)
         {
-            bool overwritten = CurrentActions.RegisterGraphRewriteSequenceDefinition(seqDef);
+            bool overwritten = ((BaseActions)CurrentActions).RegisterGraphRewriteSequenceDefinition(seqDef);
             if(overwritten)
                 debugOut.WriteLine("Replaced old sequence definition by new one for " + seqDef.SequenceName);
             else
@@ -4418,7 +4418,7 @@ showavail:
             try
             {
                 int startTime = Environment.TickCount;
-                BaseActions actions;
+                IActions actions;
                 graph = Porter.Import(curGraphBackend, filenameParameters, out actions);
                 debugOut.WriteLine("import done after: " + (Environment.TickCount - startTime) + " ms");
                 debugOut.WriteLine("graph size after import: " + System.GC.GetTotalMemory(true) + " bytes");
@@ -4431,7 +4431,7 @@ showavail:
                 if(InDebugMode)
                     debugger.ShellProcEnv = curShellProcEnv;
                 INamedGraph importedNamedGraph = (INamedGraph)curShellProcEnv.ProcEnv.NamedGraph;
-                if(actions!=null) actions.Graph = importedNamedGraph;
+                if(actions!=null) ((BaseActions)actions).Graph = importedNamedGraph;
                 debugOut.WriteLine("shell import done after: " + (Environment.TickCount - startTime) + " ms");
                 debugOut.WriteLine("shell graph size after import: " + System.GC.GetTotalMemory(true) + " bytes");
                 curShellProcEnv.ProcEnv.Actions = actions;
@@ -4454,7 +4454,7 @@ showavail:
             if (!BackendExists()) return false;
 
             IGraph graph;
-            BaseActions actions;
+            IActions actions;
             try
             {
                 graph = Porter.Import(curGraphBackend, filenameParameters, out actions);

@@ -20,7 +20,7 @@ PARSER_BEGIN(SequenceParser)
 		/// <summary>
 		/// The rules and sequences used in the specification, set if parsing an xgrs to be interpreted
 		/// </summary>
-		BaseActions actions;
+		IActions actions;
 
 		/// <summary>
 		/// The names of the rules used in the specification, set if parsing an xgrs to be compiled
@@ -77,13 +77,13 @@ PARSER_BEGIN(SequenceParser)
         /// Parses a given string in xgrs syntax and builds a Sequence object. Used for the interpreted xgrs.
         /// </summary>
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
-        /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
+        /// <param name="actions">The IActions object containing the rules used in the string.</param>
         /// <param name="warnings">A list which receives the warnings generated during parsing.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static Sequence ParseSequence(String sequenceStr, BaseActions actions, List<String> warnings)
+		public static Sequence ParseSequence(String sequenceStr, IActions actions, List<String> warnings)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
@@ -102,13 +102,13 @@ PARSER_BEGIN(SequenceParser)
         /// Parses a given string in sequence definition syntax and builds a SequenceDefinition object. Used for the interpreted xgrs.
         /// </summary>
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
-        /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
+        /// <param name="actions">The IActions object containing the rules used in the string.</param>
         /// <param name="warnings">A list which receives the warnings generated during parsing.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static SequenceDefinition ParseSequenceDefinition(String sequenceStr, BaseActions actions, List<String> warnings)
+		public static SequenceDefinition ParseSequenceDefinition(String sequenceStr, IActions actions, List<String> warnings)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
@@ -2075,7 +2075,7 @@ CSHARPCODE
 string GetFunctionNames()
 {
 	if(actions != null) {
-		return actions.FunctionNames;
+		return ((BaseActions)actions).FunctionNames;
 	} else {
 		StringBuilder sb = new StringBuilder();
 		bool first = true;
@@ -2133,7 +2133,7 @@ CSHARPCODE
 string GetProcedureNames()
 {
 	if(actions != null) {
-		return actions.ProcedureNames;
+		return ((BaseActions)actions).ProcedureNames;
 	} else {
 		StringBuilder sb = new StringBuilder();
 		bool first = true;

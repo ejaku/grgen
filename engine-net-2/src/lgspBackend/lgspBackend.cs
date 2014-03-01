@@ -758,7 +758,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public void CreateFromSpec(string grgFilename, string graphName, String statisticsPath, ProcessSpecFlags flags, List<String> externalAssemblies, 
-            out IGraph newGraph, out BaseActions newActions)
+            out IGraph newGraph, out IActions newActions)
         {
             LGSPGraph graph;
             LGSPActions actions;
@@ -769,7 +769,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void CreateNamedFromSpec(string grgFilename, string graphName, String statisticsPath, 
             ProcessSpecFlags flags, List<String> externalAssemblies, int capacity,
-            out INamedGraph newGraph, out BaseActions newActions)
+            out INamedGraph newGraph, out IActions newActions)
         {
             LGSPGraph graph;
             LGSPActions actions;

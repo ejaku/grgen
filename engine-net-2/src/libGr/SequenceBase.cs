@@ -393,14 +393,14 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceCheckingEnvironmentInterpreted : SequenceCheckingEnvironment
     {
         // constructor for interpreted sequences
-        public SequenceCheckingEnvironmentInterpreted(BaseActions actions)
+        public SequenceCheckingEnvironmentInterpreted(IActions actions)
         {
             this.actions = actions;
         }
 
         // the information available if this is an interpreted sequence 
 
-        private BaseActions actions;
+        private IActions actions;
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 

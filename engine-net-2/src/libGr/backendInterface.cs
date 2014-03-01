@@ -130,7 +130,7 @@ namespace de.unika.ipd.grGen.libGr
         INamedGraph CreateNamedGraph(String modelFilename, String graphName, params String[] parameters);
 
         /// <summary>
-        /// Creates a new IGraph and BaseActions backend instance from the specified specification file.
+        /// Creates a new IGraph and IActions backend instance from the specified specification file.
         /// If neccessary, any processing steps are performed automatically.
         /// </summary>
         /// <param name="grgFilename">Filename of the rule specification file (.grg).</param>
@@ -139,14 +139,14 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
         /// <param name="externalAssemblies">List of external assemblies to reference.</param>
         /// <param name="newGraph">Returns the new graph.</param>
-        /// <param name="newActions">Returns the new BaseActions object.</param>
+        /// <param name="newActions">Returns the new IActions object.</param>
         /// <exception cref="System.Exception">Thrown when something goes wrong.</exception>
         void CreateFromSpec(String grgFilename, String graphName, String statisticsPath,
             ProcessSpecFlags flags, List<String> externalAssemblies,
-            out IGraph newGraph, out BaseActions newActions);
+            out IGraph newGraph, out IActions newActions);
 
         /// <summary>
-        /// Creates a new INamedGraph and BaseActions backend instance from the specified specification file.
+        /// Creates a new INamedGraph and IActions backend instance from the specified specification file.
         /// If neccessary, any processing steps are performed automatically.
         /// </summary>
         /// <param name="grgFilename">Filename of the rule specification file (.grg).</param>
@@ -156,11 +156,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="externalAssemblies">List of external assemblies to reference.</param>
         /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         /// <param name="newGraph">Returns the new named graph.</param>
-        /// <param name="newActions">Returns the new BaseActions object.</param>
+        /// <param name="newActions">Returns the new IActions object.</param>
         /// <exception cref="System.Exception">Thrown when something goes wrong.</exception>
         void CreateNamedFromSpec(String grgFilename, String graphName, String statisticsPath, 
             ProcessSpecFlags flags, List<String> externalAssemblies, int capacity,
-            out INamedGraph newGraph, out BaseActions newActions);
+            out INamedGraph newGraph, out IActions newActions);
 
         /// <summary>
         /// Creates a new IGraph instance from the specified specification file.

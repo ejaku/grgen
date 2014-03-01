@@ -73,7 +73,7 @@ namespace de.unika.ipd.grGen.libGr
         IBackend backend;
         IGraphModel model;
         String modelOverride;
-        BaseActions actions;
+        IActions actions;
         TextReader reader; // the text reader containing the grs contents to import
         long fileSize; // the size of the grs file, used to initialize the capacity of the name maps of the named graph
         int line; // the current line reached during parsing/lexing, for error messages
@@ -95,7 +95,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The imported graph. 
         /// An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
-        public static INamedGraph Import(String importFilename, String modelOverride, IBackend backend, out BaseActions actions)
+        public static INamedGraph Import(String importFilename, String modelOverride, IBackend backend, out IActions actions)
         {
             FileInfo fi = new FileInfo(importFilename);
             long fileSize = fi.Length;
@@ -115,7 +115,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The imported graph. 
         /// An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
-        public static INamedGraph Import(TextReader reader, long fileSize, String modelOverride, IBackend backend, out BaseActions actions)
+        public static INamedGraph Import(TextReader reader, long fileSize, String modelOverride, IBackend backend, out IActions actions)
         {
             GRSImport importer = new GRSImport(reader, fileSize);
             importer.backend = backend;
@@ -136,7 +136,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The imported graph. 
         /// An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
-        public static INamedGraph Import(String importFilename, IBackend backend, out BaseActions actions)
+        public static INamedGraph Import(String importFilename, IBackend backend, out IActions actions)
         {
             return Import(importFilename, null, backend, out actions);
         }
@@ -152,7 +152,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The imported graph. 
         /// An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
-        public static INamedGraph Import(String importFilename, IBackend backend, IGraphModel graphModel, out BaseActions actions)
+        public static INamedGraph Import(String importFilename, IBackend backend, IGraphModel graphModel, out IActions actions)
         {
             FileInfo fi = new FileInfo(importFilename);
             long fileSize = fi.Length;
@@ -171,7 +171,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The imported graph. 
         /// An INamedGraph is returned. If you don't need it: create an LGSPGraph from it and throw the named graph away.
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
-        public static INamedGraph Import(TextReader reader, long fileSize, IBackend backend, IGraphModel graphModel, out BaseActions actions)
+        public static INamedGraph Import(TextReader reader, long fileSize, IBackend backend, IGraphModel graphModel, out IActions actions)
         {
             GRSImport importer = new GRSImport(reader, fileSize);
             importer.backend = backend;
