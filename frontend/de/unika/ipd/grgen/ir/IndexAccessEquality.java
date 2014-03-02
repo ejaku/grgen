@@ -8,6 +8,7 @@
 package de.unika.ipd.grgen.ir;
 
 import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
 
 /**
  * Class for accessing an index by equality comparison, binding a pattern element
@@ -18,5 +19,10 @@ public class IndexAccessEquality extends IndexAccess {
 	public IndexAccessEquality(AttributeIndex index, Expression expr) {
 		super(index);
 		this.expr = expr;
+	}
+	
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		expr.collectNeededEntities(needs);
 	}
 }

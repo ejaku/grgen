@@ -43,3 +43,24 @@ rule sp(var x:int, var y:int, var z:int) {
 test u {
 	n:N{ascending(foo)} -e:E{descending(bar)}-> n;
 }
+
+/////////////////////////////
+
+test te(x:N) {
+	n:N{foo==x.i} -e:E{bar==n.i}-> n;
+}
+
+rule re(x:N) {
+	n:N{ascending(foo>=e.i)} -e:E{ascending(bar<x.i)}-> n;
+	
+	replace {
+	}
+}
+
+rule se(x:N) {
+	n:N{ascending(foo>=x.i, foo<x.i)};
+	-e:E{descending(bar<n.i-x.i, bar>n.i+x.i)}->;
+	
+	modify {
+	}
+}

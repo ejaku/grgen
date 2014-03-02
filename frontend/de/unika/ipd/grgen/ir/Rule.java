@@ -375,6 +375,18 @@ public class Rule extends MatchingAction implements ContainedInPackage {
 						somethingChanged = true;
 					}
 				}
+				if(node.indexAccess!=null) {
+					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false);
+					node.indexAccess.collectNeededEntities(needs);
+					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, node);
+					if(indexGraphEntity!=null) {
+						if(node.getDependencyLevel()<=indexGraphEntity.getDependencyLevel()) {
+							node.incrementDependencyLevel();
+							dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
+							somethingChanged = true;
+						}
+					}
+				}
 				if(node instanceof RetypedNode) {
 					if(node.getDependencyLevel()<=((RetypedNode)node).getCombinedDependencyLevel()) {
 						node.incrementDependencyLevel();
@@ -400,6 +412,18 @@ public class Rule extends MatchingAction implements ContainedInPackage {
 						somethingChanged = true;
 					}
 				}
+				if(edge.indexAccess!=null) {
+					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false);
+					edge.indexAccess.collectNeededEntities(needs);
+					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, edge);
+					if(indexGraphEntity!=null) {
+						if(edge.getDependencyLevel()<=indexGraphEntity.getDependencyLevel()) {
+							edge.incrementDependencyLevel();
+							dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
+							somethingChanged = true;
+						}
+					}
+				}
 				if(edge instanceof RetypedEdge) {
 					if(edge.getDependencyLevel()<=((RetypedEdge)edge).oldEdge.getDependencyLevel()) {
 						edge.incrementDependencyLevel();
@@ -423,5 +447,28 @@ public class Rule extends MatchingAction implements ContainedInPackage {
 		for(Rule iterated : pattern.getIters()) {
 			iterated.setDependencyLevelOfInterElementDependencies();
 		}
+	}
+	
+	public GraphEntity getAtMostOneNeededNodeOrEdge(NeededEntities needs, GraphEntity entity) {
+		HashSet<GraphEntity> neededEntities = new HashSet<GraphEntity>();
+		for(Node node : needs.nodes) {
+			if(getParameters().indexOf(node)!=-1)
+				continue;
+			if(node.isDefToBeYieldedTo())
+				error.error(entity.getIdent().getCoords(), "Cannot use a def to be yielded to node for index access of " + entity.getIdent().toString());
+			neededEntities.add(node);
+		}
+		for(Edge edge : needs.edges) {
+			if(getParameters().indexOf(edge)!=-1)
+				continue;
+			if(edge.isDefToBeYieldedTo())
+				error.error(entity.getIdent().getCoords(), "Cannot use a def to be yielded to edge for index access of " + entity.getIdent().toString());
+			neededEntities.add(edge);
+		}
+		if(neededEntities.size() == 1)
+			return neededEntities.iterator().next();
+		else if(neededEntities.size() > 1)
+			error.error(entity.getIdent().getCoords(), "More than one needed entity for index access of " + entity.getIdent().toString());
+		return null;
 	}
 }

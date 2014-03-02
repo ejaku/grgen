@@ -9,6 +9,7 @@ package de.unika.ipd.grgen.ir;
 
 import de.unika.ipd.grgen.ast.exprevals.OperatorSignature;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
 
 /**
  * Class for accessing an index by ordering, binding a pattern element
@@ -124,5 +125,13 @@ public class IndexAccessOrdering extends IndexAccess {
 			}
 			return false; // dummy/don't care
 		}
+	}
+	
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		if(expr!=null)
+			expr.collectNeededEntities(needs);
+		if(expr2!=null)
+			expr2.collectNeededEntities(needs);
 	}
 }

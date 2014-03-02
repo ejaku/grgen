@@ -7,6 +7,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
+
 /**
  * Base class for the different kinds of accessing an index, binding a pattern element
  */
@@ -16,4 +18,6 @@ public abstract class IndexAccess {
 	public IndexAccess(AttributeIndex index) {
 		this.index = index;
 	}
+	
+	public abstract void collectNeededEntities(NeededEntities needs);
 }
