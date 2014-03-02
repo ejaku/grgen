@@ -1496,7 +1496,7 @@ public class ActionsGen extends CSharpBase {
 				genStorageAccess(sb, pathPrefix, alreadyDefinedEntityToName,
 						pathPrefixForElements, node);
 				genIndexAccess(sb, pathPrefix, className, alreadyDefinedEntityToName,
-						pathPrefixForElements, node);
+						pathPrefixForElements, node, parameters);
 				sb.append((node instanceof RetypedNode ? formatEntity(((RetypedNode)node).getOldNode(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
 				sb.append(node.isDefToBeYieldedTo() ? "true," : "false,");
 				if(node.initialization!=null) {
@@ -1536,7 +1536,7 @@ public class ActionsGen extends CSharpBase {
 				genStorageAccess(sb, pathPrefix, alreadyDefinedEntityToName,
 						pathPrefixForElements, edge);
 				genIndexAccess(sb, pathPrefix, className, alreadyDefinedEntityToName,
-						pathPrefixForElements, edge);
+						pathPrefixForElements, edge, parameters);
 				sb.append((edge instanceof RetypedEdge ? formatEntity(((RetypedEdge)edge).getOldEdge(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
 				sb.append(edge.isDefToBeYieldedTo() ? "true," : "false,");
 				if(edge.initialization!=null) {
@@ -1749,13 +1749,13 @@ public class ActionsGen extends CSharpBase {
 
 	private void genIndexAccess(StringBuffer sb, String pathPrefix, 
 			String className, HashMap<Entity, String> alreadyDefinedEntityToName,
-			String pathPrefixForElements, GraphEntity entity) {
+			String pathPrefixForElements, GraphEntity entity, List<Entity> parameters) {
 		if(entity.indexAccess!=null) {
 			if(entity.indexAccess instanceof IndexAccessEquality) {
 				IndexAccessEquality indexAccess = (IndexAccessEquality)entity.indexAccess;
 				NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
 				indexAccess.expr.collectNeededEntities(needs);
-				Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs);
+				Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs, parameters);
 				sb.append("new GRGEN_LGSP.IndexAccessEquality(");
 				sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\"" + indexAccess.index.getIdent() + "\"), ");
 				sb.append(neededEntity!=null ? formatEntity(neededEntity, pathPrefix, alreadyDefinedEntityToName) + ", " : "null, ");
@@ -1769,7 +1769,7 @@ public class ActionsGen extends CSharpBase {
 					indexAccess.from().collectNeededEntities(needs);
 				if(indexAccess.to()!=null)
 					indexAccess.to().collectNeededEntities(needs);
-				Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs);
+				Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs, parameters);
 				if(indexAccess.ascending) {
 					sb.append("new GRGEN_LGSP.IndexAccessAscending(");
 				} else {

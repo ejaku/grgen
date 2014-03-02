@@ -17,7 +17,9 @@ import java.io.IOException;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.*;
@@ -414,13 +416,22 @@ public abstract class CSharpBase {
 		return (l == Long.MAX_VALUE) ? "long.MaxValue" : new Long(l).toString();
 	}
 	
-	public Entity getAtMostOneNeededNodeOrEdge(NeededEntities needs) {
-		if(needs.nodes.size() + needs.edges.size() > 1)
+	public Entity getAtMostOneNeededNodeOrEdge(NeededEntities needs, List<Entity> parameters) {
+		HashSet<GraphEntity> neededEntities = new HashSet<GraphEntity>();
+		for(Node node : needs.nodes) {
+			if(parameters.indexOf(node)!=-1)
+				continue;
+			neededEntities.add(node);
+		}
+		for(Edge edge : needs.edges) {
+			if(parameters.indexOf(edge)!=-1)
+				continue;
+			neededEntities.add(edge);
+		}
+		if(neededEntities.size() == 1)
+			return neededEntities.iterator().next();
+		else if(neededEntities.size() > 1)
 			throw new UnsupportedOperationException("INTERNAL ERROR, more than one needed entity for index access!");
-		if(!needs.nodes.isEmpty())
-			return needs.nodes.iterator().next();
-		if(!needs.edges.isEmpty())
-			return needs.edges.iterator().next();
 		return null;
 	}
 
