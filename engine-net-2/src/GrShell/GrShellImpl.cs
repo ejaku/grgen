@@ -3019,13 +3019,13 @@ namespace de.unika.ipd.grGen.grShell
             return false;
         }
 
-        public void DefineRewriteSequence(SequenceDefinition seqDef)
+        public void DefineRewriteSequence(ISequenceDefinition seqDef)
         {
-            bool overwritten = ((BaseActions)CurrentActions).RegisterGraphRewriteSequenceDefinition(seqDef);
+            bool overwritten = ((BaseActions)CurrentActions).RegisterGraphRewriteSequenceDefinition((SequenceDefinition)seqDef);
             if(overwritten)
-                debugOut.WriteLine("Replaced old sequence definition by new one for " + seqDef.SequenceName);
+                debugOut.WriteLine("Replaced old sequence definition by new one for " + seqDef.Name);
             else
-                debugOut.WriteLine("Registered sequence definition for " + seqDef.SequenceName);
+                debugOut.WriteLine("Registered sequence definition for " + seqDef.Name);
         }
 
         Sequence curGRS;

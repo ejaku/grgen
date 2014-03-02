@@ -56,12 +56,12 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="name">The name of the defined sequence to retrieve</param>
         /// <returns>The defined sequence or null if no such sequence exists.</returns>
-        SequenceDefinition RetrieveGraphRewriteSequenceDefinition(String name);
+        ISequenceDefinition GetSequenceDefinition(String name);
 
         /// <summary>
         /// Enumerates all graph rewrite sequence definitions.
         /// </summary>
-        IEnumerable<SequenceDefinition> GraphRewriteSequenceDefinitions { get; }
+        IEnumerable<ISequenceDefinition> SequenceDefinitions { get; }
 
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,12 +72,12 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="name">The name of the function to retrieve</param>
         /// <returns>The function or null if no such function exists.</returns>
-        FunctionInfo RetrieveFunctionDefinition(String name);
+        IFunctionDefinition GetFunctionDefinition(String name);
 
         /// <summary>
         /// Enumerates all function definitions.
         /// </summary>
-        IEnumerable<FunctionInfo> FunctionDefinitions { get; }
+        IEnumerable<IFunctionDefinition> FunctionDefinitions { get; }
 
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,12 +88,12 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="name">The name of the procedure to retrieve</param>
         /// <returns>The procedure or null if no such procedure exists.</returns>
-        ProcedureInfo RetrieveProcedureDefinition(String name);
+        IProcedureDefinition GetProcedureDefinition(String name);
 
         /// <summary>
         /// Enumerates all procedure definitions.
         /// </summary>
-        IEnumerable<ProcedureInfo> ProcedureDefinitions { get; }
+        IEnumerable<IProcedureDefinition> ProcedureDefinitions { get; }
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////

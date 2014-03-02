@@ -2065,7 +2065,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            ProcedureInfo procedureDef = ParamBindings.ProcedureDef;
+            IProcedureDefinition procedureDef = ParamBindings.ProcedureDef;
             for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; i++)
             {
                 if(ParamBindings.ArgumentExpressions[i] != null)
@@ -2102,7 +2102,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 sb.Append(")=");
             }
-            sb.Append(ParamBindings.ProcedureDef.name);
+            sb.Append(ParamBindings.ProcedureDef.Name);
             if(ParamBindings.ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");
@@ -2203,7 +2203,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             if(TargetExpr != null) sb.Append(TargetExpr.Symbol + ".");
             if(TargetVar != null) sb.Append(TargetVar.ToString() + ".");
-            sb.Append(ParamBindings.ProcedureDef.name);
+            sb.Append(ParamBindings.ProcedureDef.Name);
             if(ParamBindings.ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");

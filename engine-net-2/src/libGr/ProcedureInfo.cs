@@ -12,9 +12,9 @@ using System.Text;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A description of a GrGen procedure.
+    /// A description of a GrGen (attribute evaluation) procedure.
     /// </summary>
-    public abstract class ProcedureInfo
+    public abstract class ProcedureInfo : IProcedureDefinition
     {
         /// <summary>
         /// Constructs a ProcedureInfo object.
@@ -36,21 +36,28 @@ namespace de.unika.ipd.grGen.libGr
             this.inputs = inputs;
             this.outputs = outputs;
 
+            this.annotations = new Dictionary<String, String>();
+
             this.ReturnArray = new object[outputs.Length];
         }
 
-        /// <summary>
-        /// Applies this procedure with the given action environment on the given graph.
-        /// Takes the parameters from paramBindings as inputs.
-        /// Returns an array of output values.
-        /// Attention: at the next call of Apply, the array returned from previous call is overwritten with the new return values.
-        /// </summary>
-        public abstract object[] Apply(IActionExecutionEnvironment actionEnv, IGraph graph, ProcedureInvocationParameterBindings paramBindings);
+        public string Name { get { return name; } }
+        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+        public string Package { get { return package; } }
+        public string PackagePrefixedName { get { return packagePrefixedName; } }
+        public string[] InputNames { get { return inputNames; } }
+        public GrGenType[] Inputs { get { return inputs; } }
+        public GrGenType[] Outputs { get { return outputs; } }
 
         /// <summary>
         /// The name of the procedure.
         /// </summary>
         public string name;
+
+        /// <summary>
+        /// The annotations of the procedure
+        /// </summary>
+        public IDictionary<String, String> annotations;
 
         /// <summary>
         /// null if this is a global type, otherwise the package the type is contained in.
@@ -82,5 +89,13 @@ namespace de.unika.ipd.grGen.libGr
         /// Performance optimization: saves us usage of new in implementing the Apply method for returning an array.
         /// </summary>
         protected object[] ReturnArray;
+
+        /// <summary>
+        /// Applies this procedure with the given action environment on the given graph.
+        /// Takes the parameters from paramBindings as inputs.
+        /// Returns an array of output values.
+        /// Attention: at the next call of Apply, the array returned from previous call is overwritten with the new return values.
+        /// </summary>
+        public abstract object[] Apply(IActionExecutionEnvironment actionEnv, IGraph graph, ProcedureInvocationParameterBindings paramBindings);
     }
 }

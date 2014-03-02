@@ -896,15 +896,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Enumerates all function methods of this type.
         /// </summary>
-        public abstract IEnumerable<FunctionInfo> FunctionMethods { get; }
+        public abstract IEnumerable<IFunctionDefinition> FunctionMethods { get; }
 
         /// <summary>
-        /// Returns a FunctionInfo object for the given function method name.
+        /// Returns a function definition object for the given function method name.
         /// If this type does not have a function method with this name, null is returned.
         /// </summary>
         /// <param name="name">Name of the function method</param>
-        /// <returns>The FunctionInfo of the function method matching the name, or null if there is no such</returns>
-        public abstract FunctionInfo GetFunctionMethod(String name);
+        /// <returns>The function definition of the function method matching the name, or null if there is no such</returns>
+        public abstract IFunctionDefinition GetFunctionMethod(String name);
 
         /// <summary>
         /// The number of procedure methods of this type.
@@ -914,15 +914,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Enumerates all procedure methods of this type.
         /// </summary>
-        public abstract IEnumerable<ProcedureInfo> ProcedureMethods { get; }
+        public abstract IEnumerable<IProcedureDefinition> ProcedureMethods { get; }
 
         /// <summary>
-        /// Returns a ProcedureInfo object for the given procedure method name.
+        /// Returns a procedure definition object for the given procedure method name.
         /// If this type does not have a procedure method with this name, null is returned.
         /// </summary>
         /// <param name="name">Name of the procedure method</param>
-        /// <returns>The ProcedureInfo of the procedure method matching the name, or null if there is no such</returns>
-        public abstract ProcedureInfo GetProcedureMethod(String name);
+        /// <returns>The procedure definition of the procedure method matching the name, or null if there is no such</returns>
+        public abstract IProcedureDefinition GetProcedureMethod(String name);
 
         /// <summary>
         /// Checks, whether this type is compatible to the given type, i.e. this type is the same type as the given type
@@ -1338,12 +1338,12 @@ namespace de.unika.ipd.grGen.libGr
             get { throw new Exception("The method or operation is not implemented."); }
         }
 
-        public override IEnumerable<FunctionInfo> FunctionMethods
+        public override IEnumerable<IFunctionDefinition> FunctionMethods
         {
             get { throw new Exception("The method or operation is not implemented."); }
         }
 
-        public override FunctionInfo GetFunctionMethod(String name)
+        public override IFunctionDefinition GetFunctionMethod(String name)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -1353,12 +1353,12 @@ namespace de.unika.ipd.grGen.libGr
             get { throw new Exception("The method or operation is not implemented."); }
         }
 
-        public override IEnumerable<ProcedureInfo> ProcedureMethods
+        public override IEnumerable<IProcedureDefinition> ProcedureMethods
         {
             get { throw new Exception("The method or operation is not implemented."); }
         }
 
-        public override ProcedureInfo GetProcedureMethod(String name)
+        public override IProcedureDefinition GetProcedureMethod(String name)
         {
             throw new Exception("The method or operation is not implemented.");
         }

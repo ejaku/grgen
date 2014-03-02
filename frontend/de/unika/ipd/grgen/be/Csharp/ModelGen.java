@@ -1802,7 +1802,7 @@ deque_init_loop:
 
 	private void genFunctionMethodsEnumerator(InheritanceType type) {
 		Collection<FunctionMethod> allFunctionMethods = type.getAllFunctionMethods();
-		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods");
+		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods");
 
 		if(allFunctionMethods.isEmpty())
 			sb.append(" { get { yield break; } }\n");
@@ -1820,7 +1820,7 @@ deque_init_loop:
 
 	private void genGetFunctionMethod(InheritanceType type) {
 		Collection<FunctionMethod> allFunctionMethods = type.getAllFunctionMethods();
-		sb.append("\t\tpublic override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name)");
+		sb.append("\t\tpublic override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name)");
 
 		if(allFunctionMethods.isEmpty())
 			sb.append(" { return null; }\n");
@@ -1840,7 +1840,7 @@ deque_init_loop:
 
 	private void genProcedureMethodsEnumerator(InheritanceType type) {
 		Collection<ProcedureMethod> allProcedureMethods = type.getAllProcedureMethods();
-		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods");
+		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods");
 
 		if(allProcedureMethods.isEmpty())
 			sb.append(" { get { yield break; } }\n");
@@ -1858,7 +1858,7 @@ deque_init_loop:
 
 	private void genGetProcedureMethod(InheritanceType type) {
 		Collection<ProcedureMethod> allProcedureMethods = type.getAllProcedureMethods();
-		sb.append("\t\tpublic override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name)");
+		sb.append("\t\tpublic override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name)");
 
 		if(allProcedureMethods.isEmpty())
 			sb.append(" { return null; }\n");

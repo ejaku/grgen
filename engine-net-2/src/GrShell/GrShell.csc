@@ -1045,7 +1045,7 @@ void ShellCommand():
 	IEdge edge1, edge2;
 	ShellGraphProcessingEnvironment shellGraph = null;
 	Sequence seq;
-	SequenceDefinition seqDef;
+	ISequenceDefinition seqDef;
 	bool shellGraphSpecified = false, boolVal = false, boolVal2 = false;
 	bool strict = false, exitOnFailure = false, validated = false, onlySpecified = false;
 	int num;
