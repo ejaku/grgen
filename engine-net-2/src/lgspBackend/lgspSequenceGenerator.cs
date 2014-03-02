@@ -3087,14 +3087,14 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters;
         }
 
-        private String BuildParameters(InvocationParameterBindings paramBindings, FunctionInfo functionMethod)
+        private String BuildParameters(InvocationParameterBindings paramBindings, IFunctionDefinition functionMethod)
         {
             String parameters = "";
             for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
             {
                 if(paramBindings.ArgumentExpressions[i] != null)
                 {
-                    String typeName = TypesHelper.DotNetTypeToXgrsType(functionMethod.inputs[i]);
+                    String typeName = TypesHelper.DotNetTypeToXgrsType(functionMethod.Inputs[i]);
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
                     parameters += ", " + cast + GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
                 }
@@ -3107,14 +3107,14 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters;
         }
 
-        private String BuildParameters(InvocationParameterBindings paramBindings, ProcedureInfo procedureMethod)
+        private String BuildParameters(InvocationParameterBindings paramBindings, IProcedureDefinition procedureMethod)
         {
             String parameters = "";
             for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
             {
                 if(paramBindings.ArgumentExpressions[i] != null)
                 {
-                    String typeName = TypesHelper.DotNetTypeToXgrsType(procedureMethod.inputs[i]);
+                    String typeName = TypesHelper.DotNetTypeToXgrsType(procedureMethod.Inputs[i]);
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
                     parameters += ", " + cast + GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
                 }
@@ -3257,7 +3257,7 @@ namespace de.unika.ipd.grGen.lgsp
             returnParameterDeclarations = "";
             returnArguments = "";
             returnAssignments = "";
-            for(int i = 0; i < ownerType.GetProcedureMethod(paramBindings.Name).outputs.Length; i++)
+            for(int i = 0; i < ownerType.GetProcedureMethod(paramBindings.Name).Outputs.Length; i++)
             {
                 String varName;
                 if(paramBindings.ReturnVars.Length != 0)
@@ -3265,7 +3265,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     varName = tmpVarCtr.ToString();
                 ++tmpVarCtr;
-                String typeName = TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(paramBindings.Name).outputs[i]);
+                String typeName = TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(paramBindings.Name).Outputs[i]);
                 returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
                 if(paramBindings.ReturnVars.Length != 0)

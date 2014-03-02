@@ -483,17 +483,17 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
                 if(ownerType != null)
-                    return ownerType.GetProcedureMethod(procParamBindings.Name).inputs.Length;
+                    return ownerType.GetProcedureMethod(procParamBindings.Name).Inputs.Length;
                 else
-                    return procParamBindings.ProcedureDef.inputs.Length;
+                    return procParamBindings.ProcedureDef.Inputs.Length;
             }
             else if(paramBindings is FunctionInvocationParameterBindings)
             {
                 FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
                 if(ownerType != null)
-                    return ownerType.GetFunctionMethod(funcParamBindings.Name).inputs.Length;
+                    return ownerType.GetFunctionMethod(funcParamBindings.Name).Inputs.Length;
                 else
-                    return funcParamBindings.FunctionDef.inputs.Length;
+                    return funcParamBindings.FunctionDef.Inputs.Length;
             }
             throw new Exception("Internal error");
         }
@@ -523,9 +523,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
                 if(ownerType != null)
-                    return ownerType.GetProcedureMethod(procParamBindings.Name).outputs.Length;
+                    return ownerType.GetProcedureMethod(procParamBindings.Name).Outputs.Length;
                 else
-                    return procParamBindings.ProcedureDef.outputs.Length;
+                    return procParamBindings.ProcedureDef.Outputs.Length;
             }
             throw new Exception("Internal error");
         }
@@ -555,17 +555,17 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).inputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).Inputs[i]);
                 else
-                    return TypesHelper.DotNetTypeToXgrsType(procParamBindings.ProcedureDef.inputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(procParamBindings.ProcedureDef.Inputs[i]);
             }
             else if(paramBindings is FunctionInvocationParameterBindings)
             {
                 FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetFunctionMethod(funcParamBindings.Name).inputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetFunctionMethod(funcParamBindings.Name).Inputs[i]);
                 else
-                    return TypesHelper.DotNetTypeToXgrsType(funcParamBindings.FunctionDef.inputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(funcParamBindings.FunctionDef.Inputs[i]);
             }
             throw new Exception("Internal error");
         }
@@ -595,9 +595,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).outputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).Outputs[i]);
                 else
-                    return TypesHelper.DotNetTypeToXgrsType(procParamBindings.ProcedureDef.outputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(procParamBindings.ProcedureDef.Outputs[i]);
             }
             throw new Exception("Internal error");
         }
@@ -922,7 +922,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
                 if(ownerType != null)
-                    return ownerType.GetProcedureMethod(procParamBindings.Name).inputs.Length;
+                    return ownerType.GetProcedureMethod(procParamBindings.Name).Inputs.Length;
                 else
                     return proceduresToInputTypes[procParamBindings.PackagePrefixedName].Count;
             }
@@ -930,7 +930,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
                 if(ownerType != null)
-                    return ownerType.GetFunctionMethod(funcParamBindings.Name).inputs.Length;
+                    return ownerType.GetFunctionMethod(funcParamBindings.Name).Inputs.Length;
                 else
                     return functionsToInputTypes[funcParamBindings.PackagePrefixedName].Count;
             }
@@ -953,7 +953,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
                 if(ownerType != null)
-                    return ownerType.GetProcedureMethod(procParamBindings.Name).outputs.Length;
+                    return ownerType.GetProcedureMethod(procParamBindings.Name).Outputs.Length;
                 else
                     return proceduresToOutputTypes[procParamBindings.PackagePrefixedName].Count;
             }
@@ -976,7 +976,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).inputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).Inputs[i]);
                 else
                     return proceduresToInputTypes[procParamBindings.PackagePrefixedName][i];
             }
@@ -984,7 +984,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetFunctionMethod(funcParamBindings.Name).inputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetFunctionMethod(funcParamBindings.Name).Inputs[i]);
                 else
                     return functionsToInputTypes[funcParamBindings.PackagePrefixedName][i];
             }
@@ -1007,7 +1007,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).outputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).Outputs[i]);
                 else
                     return proceduresToOutputTypes[procParamBindings.PackagePrefixedName][i];
             }

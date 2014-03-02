@@ -311,6 +311,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\t\t\t" + sequence.getExec().getLineNr() + "\n");
 		sb.append("\t\t\t\t\t  )\n");
 		sb.append("\t\t{\n");
+		addAnnotations(sb, sequence, "annotations");
 		sb.append("\t\t}\n");
 
 		sb.append("\t}\n");
@@ -407,6 +408,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append("\t\t\t\t\t  )\n");
 		sb.append("\t\t{\n");
+		addAnnotations(sb, function, "annotations");
 		sb.append("\t\t}\n");
 		
 		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)\n");
@@ -533,6 +535,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append(" }\n");
 		sb.append("\t\t\t\t\t  )\n");
 		sb.append("\t\t{\n");
+		addAnnotations(sb, procedure, "annotations");
 		sb.append("\t\t}\n");
 		
 		sb.append("\t\tpublic override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)\n");

@@ -12,9 +12,9 @@ using System.Text;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A description of a GrGen attribute evaluation function.
+    /// A description of a GrGen (attribute evaluation) function.
     /// </summary>
-    public abstract class FunctionInfo
+    public abstract class FunctionInfo : IFunctionDefinition
     {
         /// <summary>
         /// Constructs a FunctionInfo object.
@@ -35,19 +35,27 @@ namespace de.unika.ipd.grGen.libGr
             this.inputNames = inputNames;
             this.inputs = inputs;
             this.output = output;
+
+            this.annotations = new Dictionary<String, String>();
         }
 
-        /// <summary>
-        /// Applies this function with the given action environment on the given graph.
-        /// Takes the parameters from paramBindings as inputs.
-        /// Returns the one output value.
-        /// </summary>
-        public abstract object Apply(IActionExecutionEnvironment actionEnv, IGraph graph, FunctionInvocationParameterBindings paramBindings);
+        public string Name { get { return name; } }
+        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+        public string Package { get { return package; } }
+        public string PackagePrefixedName { get { return packagePrefixedName; } }
+        public string[] InputNames { get { return inputNames; } }
+        public GrGenType[] Inputs { get { return inputs; } }
+        public GrGenType Output { get { return output; } }
 
         /// <summary>
         /// The name of the function.
         /// </summary>
         public string name;
+
+        /// <summary>
+        /// The annotations of the function
+        /// </summary>
+        public IDictionary<String, String> annotations;
 
         /// <summary>
         /// null if this is a global type, otherwise the package the type is contained in.
@@ -74,5 +82,12 @@ namespace de.unika.ipd.grGen.libGr
         /// The GrGen type of the function return value.
         /// </summary>
         public GrGenType output;
+
+        /// <summary>
+        /// Applies this function with the given action environment on the given graph.
+        /// Takes the parameters from paramBindings as inputs.
+        /// Returns the one output value.
+        /// </summary>
+        public abstract object Apply(IActionExecutionEnvironment actionEnv, IGraph graph, FunctionInvocationParameterBindings paramBindings);
     }
 }

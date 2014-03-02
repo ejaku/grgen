@@ -3029,17 +3029,19 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// An sequence representing a sequence definition.
+    /// A sequence representing a sequence definition.
     /// It must be applied with a different method than the other sequences because it requires the parameter information.
     /// </summary>
-    public abstract class SequenceDefinition : Sequence
+    public abstract class SequenceDefinition : Sequence, ISequenceDefinition
     {
         public String SequenceName;
+        public IDictionary<String, String> SequenceAnnotations;
 
         public SequenceDefinition(SequenceType seqType, String sequenceName)
             : base(seqType)
         {
             SequenceName = sequenceName;
+            SequenceAnnotations = new Dictionary<String, String>();
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -3060,6 +3062,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>True, iff the sequence succeeded</returns>
         public abstract bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
             IGraphProcessingEnvironment procEnv);
+
+        public String Name { get { return SequenceName; } }
+
+        /// <summary>
+        /// The annotations of the sequence
+        /// </summary>
+        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return SequenceAnnotations; } }
 
         public override int Precedence { get { return -1; } }
         public override string Symbol { get { return SequenceName; } }
@@ -3290,6 +3299,8 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceType.SequenceDefinitionCompiled, sequenceName)
         {
             SeqInfo = seqInfo;
+            foreach(KeyValuePair<string, string> annotation in seqInfo.annotations)
+                SequenceAnnotations.Add(annotation.Key, annotation.Value);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3355,7 +3366,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            SequenceDefinition seqDef = ParamBindings.SequenceDef;
+            ISequenceDefinition seqDef = ParamBindings.SequenceDef;
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Applying sequence " + GetSequenceCallString(procEnv));
 #endif
@@ -3385,7 +3396,7 @@ namespace de.unika.ipd.grGen.libGr
         public String GetSequenceCallString(IGraphProcessingEnvironment procEnv)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(ParamBindings.SequenceDef.SequenceName);
+            sb.Append(ParamBindings.SequenceDef.Name);
             if(ParamBindings.ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");
@@ -3417,7 +3428,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             if(ParamBindings.Subgraph != null)
                 sb.Append(ParamBindings.Subgraph.Name + ".");
-            sb.Append(ParamBindings.SequenceDef.SequenceName);
+            sb.Append(ParamBindings.SequenceDef.Name);
             if(ParamBindings.ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");

@@ -108,7 +108,7 @@ PARSER_BEGIN(SequenceParser)
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static SequenceDefinition ParseSequenceDefinition(String sequenceStr, IActions actions, List<String> warnings)
+		public static ISequenceDefinition ParseSequenceDefinition(String sequenceStr, IActions actions, List<String> warnings)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
@@ -1883,17 +1883,17 @@ CSHARPCODE
 SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(String sequenceName, String packagePrefix,
 				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph)
 {
-	SequenceDefinition sequenceDef = null;
+	ISequenceDefinition sequenceDef = null;
 	if(actions != null)
 	{
 		if(packagePrefix != null) {
-			sequenceDef = actions.RetrieveGraphRewriteSequenceDefinition(packagePrefix + "::" + sequenceName);
+			sequenceDef = actions.GetSequenceDefinition(packagePrefix + "::" + sequenceName);
 			if(sequenceDef == null)
 				throw new Exception("Unknown sequence: " + packagePrefix + "::" + sequenceName);
 		} else {
-			sequenceDef = actions.RetrieveGraphRewriteSequenceDefinition(sequenceName);
+			sequenceDef = actions.GetSequenceDefinition(sequenceName);
 			if(sequenceDef == null && packageContext != null)
-				sequenceDef = actions.RetrieveGraphRewriteSequenceDefinition(packageContext + "::" + sequenceName);
+				sequenceDef = actions.GetSequenceDefinition(packageContext + "::" + sequenceName);
 			if(sequenceDef == null)
 				throw new Exception("Unknown sequence: " + sequenceName);
 		}
@@ -1916,15 +1916,15 @@ CSHARPCODE
 ProcedureInvocationParameterBindings CreateProcedureInvocationParameterBindings(String procedureName, String packagePrefix,
 				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
 {
-	ProcedureInfo procedureDef = null;
+	IProcedureDefinition procedureDef = null;
 	if(actions != null)
 	{
 		if(packagePrefix != null) {
-			procedureDef = actions.RetrieveProcedureDefinition(packagePrefix + "::" + procedureName);
+			procedureDef = actions.GetProcedureDefinition(packagePrefix + "::" + procedureName);
 		} else {
-			procedureDef = actions.RetrieveProcedureDefinition(procedureName);
+			procedureDef = actions.GetProcedureDefinition(procedureName);
 			if(procedureDef == null && packageContext != null)
-				procedureDef = actions.RetrieveProcedureDefinition(packageContext + "::" + procedureName);
+				procedureDef = actions.GetProcedureDefinition(packageContext + "::" + procedureName);
 		}
 	}
 
@@ -1957,15 +1957,15 @@ CSHARPCODE
 FunctionInvocationParameterBindings CreateFunctionInvocationParameterBindings(String functionName, String packagePrefix,
 				List<SequenceExpression> argExprs)
 {
-	FunctionInfo functionDef = null;
+	IFunctionDefinition functionDef = null;
 	if(actions != null)
 	{
 		if(packagePrefix != null) {
-			functionDef = actions.RetrieveFunctionDefinition(packagePrefix + "::" + functionName);
+			functionDef = actions.GetFunctionDefinition(packagePrefix + "::" + functionName);
 		} else {
-			functionDef = actions.RetrieveFunctionDefinition(functionName);
+			functionDef = actions.GetFunctionDefinition(functionName);
 			if(functionDef == null && packageContext != null)
-				functionDef = actions.RetrieveFunctionDefinition(packageContext + "::" + functionName);
+				functionDef = actions.GetFunctionDefinition(packageContext + "::" + functionName);
 		}
 	}
 
@@ -2003,13 +2003,13 @@ bool IsSequenceName(String ruleOrSequenceName, String package)
 {
 	if(actions != null) {
 		if(package != null) {
-			return actions.RetrieveGraphRewriteSequenceDefinition(package + "::" + ruleOrSequenceName) != null;
+			return actions.GetSequenceDefinition(package + "::" + ruleOrSequenceName) != null;
 		} else {
-			SequenceDefinition seqDef = actions.RetrieveGraphRewriteSequenceDefinition(ruleOrSequenceName);
+			ISequenceDefinition seqDef = actions.GetSequenceDefinition(ruleOrSequenceName);
 			if(seqDef != null)
 				return true;
 			if(packageContext != null)
-				seqDef = actions.RetrieveGraphRewriteSequenceDefinition(packageContext + "::" + ruleOrSequenceName);
+				seqDef = actions.GetSequenceDefinition(packageContext + "::" + ruleOrSequenceName);
 			return seqDef != null;
 		}
 	} else {
@@ -2039,13 +2039,13 @@ bool IsFunctionName(String functionName, String package)
 	if(actions != null)
 	{
 		if(package != null) {
-			return actions.RetrieveFunctionDefinition(package + "::" + functionName) != null;
+			return actions.GetFunctionDefinition(package + "::" + functionName) != null;
 		} else {
-			FunctionInfo funcInfo = actions.RetrieveFunctionDefinition(functionName);
+			IFunctionDefinition funcInfo = actions.GetFunctionDefinition(functionName);
 			if(funcInfo != null)
 				return true;
 			if(packageContext != null)
-				funcInfo = actions.RetrieveFunctionDefinition(packageContext + "::" + functionName);
+				funcInfo = actions.GetFunctionDefinition(packageContext + "::" + functionName);
 			return funcInfo != null;
 		}
 	}
@@ -2097,13 +2097,13 @@ bool IsProcedureName(String procedureName, String package)
 	if(actions != null)
 	{
 		if(package != null) {
-			return actions.RetrieveProcedureDefinition(package + "::" + procedureName) != null;
+			return actions.GetProcedureDefinition(package + "::" + procedureName) != null;
 		} else {
-			ProcedureInfo procInfo = actions.RetrieveProcedureDefinition(procedureName);
+			IProcedureDefinition procInfo = actions.GetProcedureDefinition(procedureName);
 			if(procInfo != null)
 				return true;
 			if(packageContext != null)
-				procInfo = actions.RetrieveProcedureDefinition(packageContext + "::" + procedureName);
+				procInfo = actions.GetProcedureDefinition(packageContext + "::" + procedureName);
 			return procInfo != null;
 		}
 	}

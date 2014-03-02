@@ -3455,7 +3455,7 @@ namespace de.unika.ipd.grGen.libGr
         public override String Type(SequenceCheckingEnvironment env)
         {
             if(ParamBindings.FunctionDef != null)
-               return TypesHelper.DotNetTypeToXgrsType(ParamBindings.FunctionDef.output);
+               return TypesHelper.DotNetTypeToXgrsType(ParamBindings.FunctionDef.Output);
             else // compiled sequence
                return ParamBindings.ReturnType;
         }
@@ -3469,7 +3469,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            FunctionInfo funcDef = ParamBindings.FunctionDef;
+            IFunctionDefinition funcDef = ParamBindings.FunctionDef;
             for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; i++)
             {
                 if(ParamBindings.ArgumentExpressions[i] != null)
@@ -3511,7 +3511,7 @@ namespace de.unika.ipd.grGen.libGr
         public override String Type(SequenceCheckingEnvironment env)
         {
             if(ParamBindings.FunctionDef != null)
-                return TypesHelper.DotNetTypeToXgrsType(ParamBindings.FunctionDef.output);
+                return TypesHelper.DotNetTypeToXgrsType(ParamBindings.FunctionDef.Output);
             else // compiled sequence
                 return ParamBindings.ReturnType;
         }

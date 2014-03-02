@@ -8,6 +8,7 @@
 //#define USE_HIGHPERFORMANCE_COUNTER
 
 using System;
+using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -185,5 +186,134 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="matches">The matches to inspect and filter</param>
         /// <param name="filter">The filter to apply</param>
         void Filter(IActionExecutionEnvironment actionEnv, IMatches matches, FilterCall filter);
+    }
+
+    /// <summary>
+    /// An object representing an executable sequence.
+    /// </summary>
+    public interface ISequenceDefinition
+    {
+        /// <summary>
+        /// The name of the sequence
+        /// </summary>
+        String Name { get; }
+
+        /// <summary>
+        /// The annotations of the sequence
+        /// </summary>
+        IEnumerable<KeyValuePair<string, string>> Annotations { get; }
+
+        /// <summary>
+        /// Applies this sequence.
+        /// </summary>
+        /// <param name="sequenceInvocation">Sequence invocation object for this sequence application,
+        ///     containing the input parameter sources and output parameter targets</param>
+        /// <param name="procEnv">The graph processing environment on which this sequence is to be applied.
+        ///     Contains especially the graph on which this sequence is to be applied.
+        ///     The rules will only be chosen during the Sequence object instantiation, so
+        ///     exchanging rules will have no effect for already existing Sequence objects.</param>
+        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
+        /// <returns>True, iff the sequence succeeded</returns>
+        bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
+            IGraphProcessingEnvironment procEnv);
+    }
+
+    /// <summary>
+    /// An object representing an executable procedure.
+    /// </summary>
+    public interface IProcedureDefinition
+    {
+        /// <summary>
+        /// The name of the procedure
+        /// </summary>
+        String Name { get; }
+
+        /// <summary>
+        /// The annotations of the procedure
+        /// </summary>
+        IEnumerable<KeyValuePair<string, string>> Annotations { get; }
+
+        /// <summary>
+        /// null if this is a global type, otherwise the package the type is contained in.
+        /// </summary>
+        string Package { get; }
+
+        /// <summary>
+        /// The name of the type in case of a global type,
+        /// the name of the type prefixed by the name of the package otherwise.
+        /// </summary>
+        string PackagePrefixedName { get; }
+
+        /// <summary>
+        /// Names of the procedure parameters.
+        /// </summary>
+        string[] InputNames { get; }
+
+        /// <summary>
+        /// The GrGen types of the procedure parameters.
+        /// </summary>
+        GrGenType[] Inputs { get; }
+
+        /// <summary>
+        /// The GrGen types of the procedure return values.
+        /// </summary>
+        GrGenType[] Outputs { get; }
+
+        /// <summary>
+        /// Applies this procedure with the given action environment on the given graph.
+        /// Takes the parameters from paramBindings as inputs.
+        /// Returns an array of output values.
+        /// Attention: at the next call of Apply, the array returned from previous call is overwritten with the new return values.
+        /// </summary>
+        object[] Apply(IActionExecutionEnvironment actionEnv, IGraph graph, ProcedureInvocationParameterBindings paramBindings);
+    }
+
+    /// <summary>
+    /// An object representing an executable function.
+    /// </summary>
+    public interface IFunctionDefinition
+    {
+        /// <summary>
+        /// The name of the function.
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
+        /// The annotations of the function
+        /// </summary>
+        IEnumerable<KeyValuePair<string, string>> Annotations { get; }
+
+        /// <summary>
+        /// null if this is a global type, otherwise the package the type is contained in.
+        /// </summary>
+        string Package { get; }
+
+        /// <summary>
+        /// The name of the type in case of a global type,
+        /// the name of the type prefixed by the name of the package otherwise.
+        /// </summary>
+        string PackagePrefixedName { get; }
+
+        /// <summary>
+        /// Names of the function parameters.
+        /// </summary>
+        string[] InputNames { get; }
+
+        /// <summary>
+        /// The GrGen types of the function parameters.
+        /// </summary>
+        GrGenType[] Inputs { get; }
+
+        /// <summary>
+        /// The GrGen type of the function return value.
+        /// </summary>
+        GrGenType Output { get; }
+
+        /// <summary>
+        /// Applies this function with the given action environment on the given graph.
+        /// Takes the parameters from paramBindings as inputs.
+        /// Returns the one output value.
+        /// </summary>
+        object Apply(IActionExecutionEnvironment actionEnv, IGraph graph, FunctionInvocationParameterBindings paramBindings);
     }
 }

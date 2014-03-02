@@ -65,11 +65,11 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
         public override AttributeType GetAttributeType(String name) { return null; }
         public override int NumFunctionMethods { get { return 0; } }
-        public override IEnumerable<FunctionInfo> FunctionMethods { get { yield break; } }
-        public override FunctionInfo GetFunctionMethod(String name) { return null; }
+        public override IEnumerable<IFunctionDefinition> FunctionMethods { get { yield break; } }
+        public override IFunctionDefinition GetFunctionMethod(String name) { return null; }
         public override int NumProcedureMethods { get { return 0; } }
-        public override IEnumerable<ProcedureInfo> ProcedureMethods { get { yield break;} }
-        public override ProcedureInfo GetProcedureMethod(String name) { return null; }
+        public override IEnumerable<IProcedureDefinition> ProcedureMethods { get { yield break;} }
+        public override IProcedureDefinition GetProcedureMethod(String name) { return null; }
 
         public override INode CreateNode()
         {

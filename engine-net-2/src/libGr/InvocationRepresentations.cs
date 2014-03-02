@@ -202,7 +202,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The defined sequence to be used
         /// </summary>
-        public SequenceDefinition SequenceDef;
+        public ISequenceDefinition SequenceDef;
 
         /// <summary>
         /// The subgraph to be switched to for sequence execution
@@ -216,14 +216,14 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="argExprs">An array of expressions used to compute the arguments</param>
         /// <param name="arguments">An array of arguments.</param>
         /// <param name="returnVars">An array of variables used for the return values</param>
-        public SequenceInvocationParameterBindings(SequenceDefinition sequenceDef,
+        public SequenceInvocationParameterBindings(ISequenceDefinition sequenceDef,
             SequenceExpression[] argExprs, object[] arguments, SequenceVariable[] returnVars, SequenceVariable subgraph)
             : base(argExprs, arguments, returnVars)
         {
             SequenceDef = sequenceDef;
             if(sequenceDef != null)
             {
-                Name = sequenceDef.SequenceName;
+                Name = sequenceDef.Name;
                 PrePackage = sequenceDef is SequenceDefinitionCompiled ?  ((SequenceDefinitionCompiled)sequenceDef).SeqInfo.Package : null;
                 Package = PrePackage;
                 PackagePrefixedName = Package != null ? Package + "::" + Name : Name;
@@ -268,7 +268,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The procedure to be used
         /// </summary>
-        public ProcedureInfo ProcedureDef;
+        public IProcedureDefinition ProcedureDef;
 
         /// <summary>
         /// Instantiates a new ProcedureInvocationParameterBindings object
@@ -277,15 +277,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="argExprs">An array of expressions used to compute the arguments</param>
         /// <param name="arguments">An array of arguments.</param>
         /// <param name="returnVars">An array of variables used for the return values</param>
-        public ProcedureInvocationParameterBindings(ProcedureInfo procedureDef,
+        public ProcedureInvocationParameterBindings(IProcedureDefinition procedureDef,
             SequenceExpression[] argExprs, object[] arguments, SequenceVariable[] returnVars)
             : base(argExprs, arguments, returnVars)
         {
             ProcedureDef = procedureDef;
             if(procedureDef != null)
             {
-                Name = procedureDef.name;
-                PrePackage = procedureDef.package;
+                Name = procedureDef.Name;
+                PrePackage = procedureDef.Package;
                 Package = PrePackage;
                 PackagePrefixedName = Package != null ? Package + "::" + Name : Name;
             }
@@ -317,7 +317,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The function to be used
         /// </summary>
-        public FunctionInfo FunctionDef;
+        public IFunctionDefinition FunctionDef;
 
         /// <summary>
         /// The type returned
@@ -330,15 +330,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="functionDef">The defined function to be used</param>
         /// <param name="argExprs">An array of expressions used to compute the arguments</param>
         /// <param name="arguments">An array of arguments.</param>
-        public FunctionInvocationParameterBindings(FunctionInfo functionDef,
+        public FunctionInvocationParameterBindings(IFunctionDefinition functionDef,
             SequenceExpression[] argExprs, object[] arguments)
             : base(argExprs, arguments)
         {
             FunctionDef = functionDef;
             if(functionDef != null)
             {
-                Name = functionDef.name;
-                PrePackage = functionDef.package;
+                Name = functionDef.Name;
+                PrePackage = functionDef.Package;
                 Package = PrePackage;
                 PackagePrefixedName = Package != null ? Package + "::" + Name : Name;
             }

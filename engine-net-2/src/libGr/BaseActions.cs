@@ -95,7 +95,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="name">The name of the defined sequence to retrieve</param>
         /// <returns>The defined sequence or null if no such sequence exists.</returns>
-        public SequenceDefinition RetrieveGraphRewriteSequenceDefinition(String name)
+        public ISequenceDefinition GetSequenceDefinition(String name)
         {
             SequenceDefinition seqDef;
             namesToSequenceDefinitions.TryGetValue(name, out seqDef);
@@ -105,7 +105,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Enumerates all graph rewrite sequence definitions.
         /// </summary>
-        public IEnumerable<SequenceDefinition> GraphRewriteSequenceDefinitions
+        public IEnumerable<ISequenceDefinition> SequenceDefinitions
         {
             get
             {
@@ -125,7 +125,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="name">The name of the function to retrieve</param>
         /// <returns>The function or null if no such function exists.</returns>
-        public FunctionInfo RetrieveFunctionDefinition(String name)
+        public IFunctionDefinition GetFunctionDefinition(String name)
         {
             FunctionInfo functionDef;
             namesToFunctionDefinitions.TryGetValue(name, out functionDef);
@@ -135,7 +135,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Enumerates all function definitions.
         /// </summary>
-        public IEnumerable<FunctionInfo> FunctionDefinitions
+        public IEnumerable<IFunctionDefinition> FunctionDefinitions
         {
             get
             {
@@ -176,7 +176,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="name">The name of the procedure to retrieve</param>
         /// <returns>The procedure or null if no such procedure exists.</returns>
-        public ProcedureInfo RetrieveProcedureDefinition(String name)
+        public IProcedureDefinition GetProcedureDefinition(String name)
         {
             ProcedureInfo procedureDef;
             namesToProcedureDefinitions.TryGetValue(name, out procedureDef);
@@ -186,7 +186,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Enumerates all procedure definitions.
         /// </summary>
-        public IEnumerable<ProcedureInfo> ProcedureDefinitions
+        public IEnumerable<IProcedureDefinition> ProcedureDefinitions
         {
             get
             {

@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace de.unika.ipd.grGen.libGr
@@ -104,6 +105,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             Name = name;
             PackagePrefixedName = packagePrefixedName;
+
+            annotations = new Dictionary<String, String>();
         }
 
         /// <summary>
@@ -116,6 +119,11 @@ namespace de.unika.ipd.grGen.libGr
         /// the name of the type prefixed by the name of the package otherwise.
         /// </summary>
         public string PackagePrefixedName;
+
+        /// <summary>
+        /// The annotations of the sequence definition
+        /// </summary>
+        public IDictionary<String, String> annotations;
     }
 
     /// <summary>
