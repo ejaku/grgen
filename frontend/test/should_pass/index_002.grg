@@ -1,0 +1,134 @@
+#using "index_model_002.gm"
+
+rule i {
+	n:N{ascending(fooi>=42, fooi<1000)};
+	-e:E{descending(bari<42, bari>0)}->;
+	m:N{fooi==42};
+	
+	modify {
+	}
+}
+
+rule ip(var x:int, var y:int, var z:int) {
+	n:N{ascending(fooi>=x, fooi<y)};
+	-e:E{descending(bari<x, bari>z)}->;
+	
+	modify {
+	}
+}
+
+rule ie(x:N) {
+	n:N{ascending(fooi>=x.i, fooi<x.i)};
+	-e:E{descending(bari<n.i-x.i, bari>n.i+x.i)}->;
+	
+	modify {
+	}
+}
+
+//////////////////////////////////////////////////////////////////
+
+rule d {
+	n:N{ascending(food>=42.0, food<1000)};
+	-e:E{descending(bard<42.0, bard>0)}->;
+	m:N{food==42};
+	
+	modify {
+	}
+}
+
+rule dp(var x:double, var y:double, var z:double) {
+	n:N{ascending(food>=x, food<y)};
+	-e:E{descending(bard<x, bard>z)}->;
+	
+	modify {
+	}
+}
+
+rule de(x:N) {
+	n:N{ascending(food>=x.d, food<x.d)};
+	-e:E{descending(bard<n.d-x.d, bard>n.d+x.d)}->;
+	
+	modify {
+	}
+}
+
+//////////////////////////////////////////////////////////////////
+
+rule b {
+	n:N{ascending(foob>=false, foob<true)};
+	-e:E{descending(barb<true, barb>false)}->;
+	m:N{foob==true};
+	
+	modify {
+	}
+}
+
+rule bp(var x:boolean, var y:boolean, var z:boolean) {
+	n:N{ascending(foob>=x, foob<y)};
+	-e:E{descending(barb<x, barb>z)}->;
+	
+	modify {
+	}
+}
+
+rule be(x:N) {
+	n:N{ascending(foob>=x.b, foob<x.b)};
+	-e:E{descending(barb<n.b&&x.b, barb>n.b||x.b)}->;
+	
+	modify {
+	}
+}
+
+//////////////////////////////////////////////////////////////////
+
+rule s {
+	n:N{ascending(foos>="42", foos<"zzz")};
+	-e:E{descending(bars<"42", bars>"a")}->;
+	m:N{foos=="abba"};
+	
+	modify {
+	}
+}
+
+rule sp(var x:string, var y:string, var z:string) {
+	n:N{ascending(foos>=x, foos<y)};
+	-e:E{descending(bars<x, bars>z)}->;
+	
+	modify {
+	}
+}
+
+rule se(x:N) {
+	n:N{ascending(foos>=x.s, foos<x.s)};
+	-e:E{descending(bars<n.s+x.s, bars>n.s+x.s)}->;
+	
+	modify {
+	}
+}
+
+//////////////////////////////////////////////////////////////////
+
+rule re {
+	n:N{ascending(fooe>=ENU::bar, fooe<ENU::qux)};
+	-e:E{descending(bare<ENU::baz, bare>ENU::foo)}->;
+	m:N{fooe==ENU::bar};
+	
+	modify {
+	}
+}
+
+rule ep(var x:ENU, var y:ENU, var z:ENU) {
+	n:N{ascending(fooe>=x, fooe<y)};
+	-e:E{descending(bare<x, bare>z)}->;
+	
+	modify {
+	}
+}
+
+rule ee(x:N) {
+	n:N{ascending(fooe>=x.e, fooe<x.e)};
+	-e:E{descending(bare<n.e>=ENU::bar?n.e:x.e, bare>n.e>ENU::bar?n.e:x.e)}->;
+	
+	modify {
+	}
+}
