@@ -1,0 +1,46 @@
+#using "index_model_smoke.gm"
+
+rule ri {
+	n:N{ascending(fooi>1, fooi<3)} -e:E{bari==n.i}-> n;
+	
+	modify {
+		emit("The value of attribute i is " + n.i + "\n");
+		emit("The value of attribute i is " + e.i + "\n");
+	}
+}
+
+rule rd {
+	n:N{ascending(food>1.0, food<3.0)} -e:E{bard==n.d}-> n;
+	
+	modify {
+		emit("The value of attribute d is " + n.d + "\n");
+		emit("The value of attribute d is " + e.d + "\n");
+	}
+}
+
+rule rb {
+	n:N{ascending(foob>false, foob<=true)} -e:E{barb==n.b}-> n;
+	
+	modify {
+		emit("The value of attribute b is " + n.b + "\n");
+		emit("The value of attribute b is " + e.b + "\n");
+	}
+}
+
+rule rs {
+	n:N{ascending(foos>"a", foos<"ZZZ")} -e:E{bars==n.s}-> n;
+	
+	modify {
+		emit("The value of attribute s is " + n.s + "\n");
+		emit("The value of attribute s is " + e.s + "\n");
+	}
+}
+
+rule re {
+	n:N{ascending(fooe>ENU::foo, fooe<ENU::baz)} -e:E{bare==n.e}-> n;
+	
+	modify {
+		emit("The value of attribute e is " + n.e + "\n");
+		emit("The value of attribute e is " + e.e + "\n");
+	}
+}

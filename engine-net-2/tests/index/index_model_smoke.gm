@@ -1,0 +1,36 @@
+enum ENU
+{
+	foo,
+	bar,
+	baz,
+	qux
+}
+
+node class N
+{
+	i : int;
+	d : double;
+	b : boolean;
+	s : string;
+	e : ENU;
+}
+
+edge class E
+{
+	i : int;
+	d : double;
+	b : boolean;
+	s : string;
+	e : ENU;
+}
+
+index fooi { N.i }
+index bari { E.i }
+index food { N.d }
+index bard { E.d }
+index foob { N.b }
+index barb { E.b }
+index foos { N.s }
+index bars { E.s }
+index fooe { N.e }
+index bare { E.e }
