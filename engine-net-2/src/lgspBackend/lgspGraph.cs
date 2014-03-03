@@ -324,6 +324,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             modelAssemblyName = Assembly.GetAssembly(grmodel.GetType()).Location;
 
+            ((LGSPGraphModel)grmodel).CreateAndBindIndexSet(this);
+
             InitializeGraph();
         }
 

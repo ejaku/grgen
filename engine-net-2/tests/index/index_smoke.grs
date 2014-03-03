@@ -1,0 +1,28 @@
+new graph "index/index_smoke"
+
+new :N($="1", i=1, d=1.0, b=false, s="a", e=ENU::foo)
+new :N($="2", i=2, d=2.0, b=true, s="toll", e=ENU::bar)
+new :N($="3", i=3, d=3.0, b=true, s="ZZZ", e=ENU::baz)
+new :N($="4", i=3, d=3.0, b=true, s="ZZZ", e=ENU::baz)
+new @("1") -:E($="e1", i=1, d=1.0, b=false, s="a", e=ENU::foo)-> @("1")
+new @("2") -:E($="e2", i=2, d=2.0, b=true, s="toll", e=ENU::bar)-> @("2")
+new @("3") -:E($="e3", i=3, d=3.0, b=true, s="ZZZ", e=ENU::baz)-> @("3")
+new @("4") -:E($="e4", i=3, d=3.0, b=true, s="ZZZ", e=ENU::baz)-> @("4")
+
+exec ri
+exec rd
+exec rb
+exec rs
+exec re
+
+delete node @("1")
+delete node @("3")
+delete node @("4")
+
+exec ri
+exec rd
+exec rb
+exec rs
+exec re
+
+quit
