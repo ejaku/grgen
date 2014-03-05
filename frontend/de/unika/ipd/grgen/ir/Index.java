@@ -12,19 +12,14 @@
 package de.unika.ipd.grgen.ir;
 
 /**
- * An attribute index.
+ * An index, base class for attribute index and incidence index.
  */
-public class AttributeIndex extends Index {
-	public InheritanceType type;
-	public Entity entity;
-	
+public abstract class Index extends Identifiable {
 	/**
 	 * @param name The name of the attribute index.
 	 * @param ident The identifier that identifies this object.
 	 */
-	public AttributeIndex(String name, Ident ident, InheritanceType type, Entity entity) {
+	public Index(String name, Ident ident) {
 		super(name, ident);
-		this.type = type;
-		this.entity = entity;
 	}
 }

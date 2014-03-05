@@ -1,0 +1,159 @@
+#using "index_model_incidence.gm"
+
+rule rfoo {
+	n:Node{descending(foo)};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule rbar {
+	n:Node{descending(bar)};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule rbaz {
+	n:Node{descending(baz)};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule rqux {
+	n:N{descending(qux)};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule rpix {
+	n:N{descending(pix)};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule rxom {
+	n:N{descending(xom)};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+
+rule sfoo {
+	n:N{foo==2};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule sbar {
+	n:N{bar==2};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule sbaz {
+	n:N{baz==2};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule squx {
+	n:Node{qux==2};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule spix {
+	n:Node{pix==2};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule sxom {
+	n:Node{xom==2};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+
+rule tfoo {
+	m:N -e1:Edge->; m -e2:Edge->; m -e3:Edge->;
+	if { nameof(e1)=="e1" && nameof(e2)=="e2" && nameof(e3)=="e3"; }
+	n:Node{ascending(foo>m.i, foo<=2)};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule tbar {
+	m:N -e1:Edge->; m -e2:Edge->; m -e3:Edge->;
+	if { nameof(e1)=="e1" && nameof(e2)=="e2" && nameof(e3)=="e3"; }
+	n:Node{ascending(bar>m.i, bar<=2)};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule tbaz {
+	m:N -e1:Edge->; m -e2:Edge->; m -e3:Edge->;
+	if { nameof(e1)=="e1" && nameof(e2)=="e2" && nameof(e3)=="e3"; }
+	n:Node{ascending(baz>m.i, baz<=2)};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule tqux {
+	m:N -e1:Edge->; m -e2:Edge->; m -e3:Edge->;
+	if { nameof(e1)=="e1" && nameof(e2)=="e2" && nameof(e3)=="e3"; }
+	n:N{ascending(qux>m.i, qux<=2)};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule tpix {
+	m:N -e1:Edge->; m -e2:Edge->; m -e3:Edge->;
+	if { nameof(e1)=="e1" && nameof(e2)=="e2" && nameof(e3)=="e3"; }
+	n:N{ascending(pix>m.i, pix<=2)};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}
+
+rule txom {
+	m:N -e1:Edge->; m -e2:Edge->; m -e3:Edge->;
+	if { nameof(e1)=="e1" && nameof(e2)=="e2" && nameof(e3)=="e3"; }
+	n:N{ascending(xom>m.i, xom<=2)};
+
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+	}
+}

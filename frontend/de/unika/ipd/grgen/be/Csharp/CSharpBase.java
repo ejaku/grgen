@@ -244,6 +244,10 @@ public abstract class CSharpBase {
 		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatTypeClassName(type);
 	}
 
+	public String formatTypeClassRefInstance(Type type) {
+		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatTypeClassName(type) + ".typeVar";
+	}
+
 	public String formatElementClassRaw(Type type) {
 		return getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
 	}

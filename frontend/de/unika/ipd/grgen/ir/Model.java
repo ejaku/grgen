@@ -32,7 +32,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 	private Set<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
 	private Set<EdgeType> edgeTypes = new LinkedHashSet<EdgeType>();
 	private Set<EnumType> enumTypes = new LinkedHashSet<EnumType>();
-	private Set<AttributeIndex> indices = new LinkedHashSet<AttributeIndex>();
+	private Set<Index> indices = new LinkedHashSet<Index>();
 	private Set<ExternalType> externalTypes = new LinkedHashSet<ExternalType>();
 	private Set<ExternalFunction> externalFuncs = new LinkedHashSet<ExternalFunction>();
 	private Set<ExternalProcedure> externalProcs = new LinkedHashSet<ExternalProcedure>();
@@ -83,11 +83,11 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 			assert false : "Unexpected type added to model: " + type;
 	}
 
-	public void addIndex(AttributeIndex index) {
+	public void addIndex(Index index) {
 		indices.add(index);
 	}
 
-	public Collection<AttributeIndex> getIndices() {
+	public Collection<Index> getIndices() {
 		return Collections.unmodifiableCollection(indices);
 	}
 

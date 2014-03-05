@@ -21,8 +21,8 @@ import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.AttributeIndex;
 import de.unika.ipd.grgen.ir.Ident;
+import de.unika.ipd.grgen.ir.Index;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.PackageType;
 import de.unika.ipd.grgen.ir.exprevals.ExternalFunction;
@@ -47,7 +47,7 @@ public class ModelNode extends DeclNode {
 	private CollectNode<IdentNode> externalProcDeclsUnresolved;
 	protected CollectNode<ExternalProcedureDeclNode> externalProcDecls;
 	private CollectNode<IdentNode> indicesUnresolved;
-	protected CollectNode<AttributeIndexDeclNode> indices;
+	protected CollectNode<IndexDeclNode> indices;
 	private ModelTypeNode type;
 	private boolean isEmitClassDefined;
 	private boolean isCopyClassDefined;
@@ -113,8 +113,8 @@ public class ModelNode extends DeclNode {
 			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
 	private static CollectResolver<TypeDeclNode> declsResolver = new CollectResolver<TypeDeclNode>(
 			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
-	private static CollectResolver<AttributeIndexDeclNode> indicesResolver = new CollectResolver<AttributeIndexDeclNode>(
-			new DeclarationResolver<AttributeIndexDeclNode>(AttributeIndexDeclNode.class));
+	private static CollectResolver<IndexDeclNode> indicesResolver = new CollectResolver<IndexDeclNode>(
+			new DeclarationResolver<IndexDeclNode>(IndexDeclNode.class));
 	private static CollectResolver<ExternalFunctionDeclNode> externalFunctionsResolver = new CollectResolver<ExternalFunctionDeclNode>(
 			new DeclarationResolver<ExternalFunctionDeclNode>(ExternalFunctionDeclNode.class));
 	private static CollectResolver<ExternalProcedureDeclNode> externalProceduresResolver = new CollectResolver<ExternalProcedureDeclNode>(
@@ -176,7 +176,7 @@ public class ModelNode extends DeclNode {
 		return decls;
 	}
 
-	public CollectNode<AttributeIndexDeclNode> getIndices() {
+	public CollectNode<IndexDeclNode> getIndices() {
 		return indices;
 	}
 
@@ -209,8 +209,8 @@ public class ModelNode extends DeclNode {
 		for(TypeDeclNode typeDecl : decls.getChildren()) {
 			res.addType(typeDecl.getDeclType().getType());
 		}
-		for(AttributeIndexDeclNode indexDecl : indices.getChildren()) {
-			res.addIndex(indexDecl.checkIR(AttributeIndex.class));
+		for(IndexDeclNode indexDecl : indices.getChildren()) {
+			res.addIndex(indexDecl.checkIR(Index.class));
 		}
 		for(ExternalFunctionDeclNode externalFunctionDecl : externalFuncDecls.getChildren()) {
 			res.addExternalFunction(externalFunctionDecl.checkIR(ExternalFunction.class));
