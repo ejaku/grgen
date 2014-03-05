@@ -106,12 +106,12 @@ rule addToArray(ref st:array<Node>)
 	}
 }
 
-rule insertAtIndex(ref st:array<Node>, var index:int)
+rule insertAtIndex(ref st:array<Node>, var index_:int)
 {
 	nn:NN;
 	modify {
 		eval {
-			st.add(nn, index);
+			st.add(nn, index_);
 		}
 	}
 }
@@ -158,12 +158,12 @@ rule addToDeque(ref st:deque<Node>)
 	}
 }
 
-rule insertAtIndexDeque(ref st:deque<Node>, var index:int)
+rule insertAtIndexDeque(ref st:deque<Node>, var index_:int)
 {
 	nn:NN;
 	modify {
 		eval {
-			st.add(nn, index);
+			st.add(nn, index_);
 		}
 	}
 }

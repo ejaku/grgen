@@ -2577,12 +2577,20 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 	;
 
 indexDecl [ CollectNode<IdentNode> indices ]
-	@init{
-	}
-	: i=INDEX id=indexIdentDecl LBRACE type=typeIdentUse DOT member=memberIdentUse RBRACE
+	: INDEX id=indexIdentDecl LBRACE indexDeclBody[id] RBRACE
+		{
+			indices.addChild(id);
+		}
+	;
+
+indexDeclBody [ IdentNode id ]
+	: type=typeIdentUse DOT member=memberIdentUse
 		{
 			id.setDecl(new AttributeIndexDeclNode(id, type, member));
-			indices.addChild(id);
+		}
+	| i=IDENT LPAREN startNodeType=typeIdentUse (COMMA incidentEdgeType=typeIdentUse (COMMA adjacentNodeType=typeIdentUse)?)? RPAREN 
+		{
+			id.setDecl(new IncidenceIndexDeclNode(id, i.getText(), startNodeType, incidentEdgeType, adjacentNodeType, env));
 		}
 	;
 

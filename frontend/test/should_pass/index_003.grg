@@ -1,0 +1,171 @@
+#using "index_model_003.gm"
+
+test t(var x:int) {
+	:Node{foo==42};
+	:Node{bar==42};
+	:Node{baz==42};
+
+	n:N{ascending(foo)};
+	:N{ascending(bar)};
+	:N{ascending(baz)};
+
+	:N{descending(foo)};
+	:N{descending(bar)};
+	:N{descending(baz)};
+	
+	:Node{ascending(foo>=42)};
+	:Node{ascending(bar>=42)};
+	:Node{ascending(baz>=42)};
+	
+	:Node{descending(foo<42)};
+	:Node{descending(bar<42)};
+	:Node{descending(baz<42)};
+	
+	:Node{ascending(foo>=42, foo<1000)};
+	:Node{ascending(bar>=42, bar<1000)};
+	:Node{ascending(baz>=42, baz<1000)};
+
+	:Node{descending(foo>x-42, foo<=x)};
+	:Node{descending(bar>x-42, bar<=x)};
+	:Node{descending(baz>x-42, baz<=x)};	
+
+	:Node{descending(foo>n.i-42, foo<=n.i)};
+	:Node{descending(bar>n.i-42, bar<=n.i)};
+	:Node{descending(baz>n.i-42, baz<=n.i)};	
+}
+
+test t2(var x:int) {
+	:Node{foo2==42};
+	:Node{bar2==42};
+	:Node{baz2==42};
+
+	n:N{ascending(foo2)};
+	:N{ascending(bar2)};
+	:N{ascending(baz2)};
+
+	:N{descending(foo2)};
+	:N{descending(bar2)};
+	:N{descending(baz2)};
+	
+	:Node{ascending(foo2>=42)};
+	:Node{ascending(bar2>=42)};
+	:Node{ascending(baz2>=42)};
+	
+	:Node{descending(foo2<42)};
+	:Node{descending(bar2<42)};
+	:Node{descending(baz2<42)};
+	
+	:Node{ascending(foo2>=42, foo2<1000)};
+	:Node{ascending(bar2>=42, bar2<1000)};
+	:Node{ascending(baz2>=42, baz2<1000)};
+
+	:Node{descending(foo2>x-42, foo2<=x)};
+	:Node{descending(bar2>x-42, bar2<=x)};
+	:Node{descending(baz2>x-42, baz2<=x)};	
+
+	:Node{descending(foo2>n.i-42, foo2<=n.i)};
+	:Node{descending(bar2>n.i-42, bar2<=n.i)};
+	:Node{descending(baz2>n.i-42, baz2<=n.i)};	
+}
+
+test t3(var x:int) {
+	:Node{foo3==42};
+	:Node{bar3==42};
+	:Node{baz3==42};
+
+	n:N{ascending(foo3)};
+	:N{ascending(bar3)};
+	:N{ascending(baz3)};
+
+	:N{descending(foo3)};
+	:N{descending(bar3)};
+	:N{descending(baz3)};
+	
+	:Node{ascending(foo3>=42)};
+	:Node{ascending(bar3>=42)};
+	:Node{ascending(baz3>=42)};
+	
+	:Node{descending(foo3<42)};
+	:Node{descending(bar3<42)};
+	:Node{descending(baz3<42)};
+	
+	:Node{ascending(foo3>=42, foo3<1000)};
+	:Node{ascending(bar3>=42, bar3<1000)};
+	:Node{ascending(baz3>=42, baz3<1000)};
+
+	:Node{descending(foo3>x-42, foo3<=x)};
+	:Node{descending(bar3>x-42, bar3<=x)};
+	:Node{descending(baz3>x-42, baz3<=x)};	
+
+	:Node{descending(foo3>n.i-42, foo3<=n.i)};
+	:Node{descending(bar3>n.i-42, bar3<=n.i)};
+	:Node{descending(baz3>n.i-42, baz3<=n.i)};	
+}
+
+test t4(var x:int) {
+	:Node{foo4==42};
+	:Node{bar4==42};
+	:Node{baz4==42};
+
+	n:N{ascending(foo4)};
+	:N{ascending(bar4)};
+	:N{ascending(baz4)};
+
+	:N{descending(foo4)};
+	:N{descending(bar4)};
+	:N{descending(baz4)};
+	
+	:Node{ascending(foo4>=42)};
+	:Node{ascending(bar4>=42)};
+	:Node{ascending(baz4>=42)};
+	
+	:Node{descending(foo4<42)};
+	:Node{descending(bar4<42)};
+	:Node{descending(baz4<42)};
+	
+	:Node{ascending(foo4>=42, foo4<1000)};
+	:Node{ascending(bar4>=42, bar4<1000)};
+	:Node{ascending(baz4>=42, baz4<1000)};
+
+	:Node{descending(foo4>x-42, foo4<=x)};
+	:Node{descending(bar4>x-42, bar4<=x)};
+	:Node{descending(baz4>x-42, baz4<=x)};	
+
+	:Node{descending(foo4>n.i-42, foo4<=n.i)};
+	:Node{descending(bar4>n.i-42, bar4<=n.i)};
+	:Node{descending(baz4>n.i-42, baz4<=n.i)};	
+}
+
+test t5(var x:int) {
+	:Node{foo5==42};
+	:Node{bar5==42};
+	:Node{baz5==42};
+
+	n:N{ascending(foo5)};
+	:N{ascending(bar5)};
+	:N{ascending(baz5)};
+
+	:N{descending(foo5)};
+	:N{descending(bar5)};
+	:N{descending(baz5)};
+	
+	:Node{ascending(foo5>=42)};
+	:Node{ascending(bar5>=42)};
+	:Node{ascending(baz5>=42)};
+	
+	:Node{descending(foo5<42)};
+	:Node{descending(bar5<42)};
+	:Node{descending(baz5<42)};
+	
+	:Node{ascending(foo5>=42, foo5<1000)};
+	:Node{ascending(bar5>=42, bar5<1000)};
+	:Node{ascending(baz5>=42, baz5<1000)};
+
+	:Node{descending(foo5>x-42, foo5<=x)};
+	:Node{descending(bar5>x-42, bar5<=x)};
+	:Node{descending(baz5>x-42, baz5<=x)};	
+
+	:Node{descending(foo5>n.i-42, foo5<=n.i)};
+	:Node{descending(bar5>n.i-42, bar5<=n.i)};
+	:Node{descending(baz5>n.i-42, baz5<=n.i)};	
+}

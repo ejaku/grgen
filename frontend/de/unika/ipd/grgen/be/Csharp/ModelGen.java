@@ -2161,46 +2161,51 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	////////////////////////////
 
 	void genIndexTypes() {
-		for(AttributeIndex index : model.getIndices()) {
+		for(Index index : model.getIndices()) {
 			genIndexType(index);
 		}
 	}
 
-	void genIndexType(AttributeIndex index) {
+	void genIndexType(Index index) {
 		String indexName = index.getIdent().toString();
-		String attributeType = formatAttributeType(index.entity);
-		String graphElementType = formatElementInterfaceRef(index.type);
+		String lookupType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
+		String graphElementType = index instanceof AttributeIndex ? formatElementInterfaceRef(((AttributeIndex)index).type) : formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
 		sb.append("\tinterface Index" + indexName + " : GRGEN_LIBGR.IAttributeIndex\n");
 		sb.append("\t{\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> Lookup(" + attributeType + " fromto);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> Lookup(" + lookupType + " fromto);\n");
 		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscending();\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFromInclusive(" + attributeType + " from);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFromExclusive(" + attributeType + " from);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingToInclusive(" + attributeType + " to);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingToExclusive(" + attributeType + " to);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFromInclusiveToInclusive(" + attributeType + " from, " + attributeType + " to);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFromInclusiveToExclusive(" + attributeType + " from, " + attributeType + " to);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFromExclusiveToInclusive(" + attributeType + " from, " + attributeType + " to);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFromExclusiveToExclusive(" + attributeType + " from, " + attributeType + " to);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFromInclusive(" + lookupType + " from);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFromExclusive(" + lookupType + " from);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingToInclusive(" + lookupType + " to);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingToExclusive(" + lookupType + " to);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFromInclusiveToInclusive(" + lookupType + " from, " + lookupType + " to);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFromInclusiveToExclusive(" + lookupType + " from, " + lookupType + " to);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFromExclusiveToInclusive(" + lookupType + " from, " + lookupType + " to);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscendingFromExclusiveToExclusive(" + lookupType + " from, " + lookupType + " to);\n");
 		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescending();\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromInclusive(" + attributeType + " from);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromExclusive(" + attributeType + " from);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingToInclusive(" + attributeType + " to);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingToExclusive(" + attributeType + " to);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromInclusiveToInclusive(" + attributeType + " from, " + attributeType + " to);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromInclusiveToExclusive(" + attributeType + " from, " + attributeType + " to);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToInclusive(" + attributeType + " from, " + attributeType + " to);\n");
-		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToExclusive(" + attributeType + " from, " + attributeType + " to);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromInclusive(" + lookupType + " from);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromExclusive(" + lookupType + " from);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingToInclusive(" + lookupType + " to);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingToExclusive(" + lookupType + " to);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromInclusiveToInclusive(" + lookupType + " from, " + lookupType + " to);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromInclusiveToExclusive(" + lookupType + " from, " + lookupType + " to);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToInclusive(" + lookupType + " from, " + lookupType + " to);\n");
+		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToExclusive(" + lookupType + " from, " + lookupType + " to);\n");
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
 
 	void genIndexImplementations() {
 		int i=0;
-		for(AttributeIndex index : model.getIndices()) {
-			genIndexImplementationBase(index, i);
-			genIndexImplementationPlain(index, i);
-			genIndexImplementationNamed(index, i);
+		for(Index index : model.getIndices()) {
+			if(index instanceof AttributeIndex) {
+				genIndexImplementationBase((AttributeIndex)index, i);
+				genIndexImplementationPlain((AttributeIndex)index, i);
+				genIndexImplementationNamed((AttributeIndex)index, i);
+			} else {
+				genIndexImplementationBase((IncidenceIndex)index, i);
+				genIndexImplementationNamed((IncidenceIndex)index, i);
+			}
 			++i;
 		}
 	}
@@ -2320,9 +2325,9 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\n");
 	}
 
-	void genEqualElementEntry(AttributeIndex index)
+	void genEqualElementEntry(Index index)
 	{
-		String attributeType = formatAttributeType(index.entity);
+		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
 		
 		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements(object fromto)\n");
 		sb.append("\t\t{\n");
@@ -2339,10 +2344,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\n");
 	}
 
-	void genEqualEntry(AttributeIndex index)
+	void genEqualEntry(Index index)
 	{
-		String attributeType = formatAttributeType(index.entity);
-		String graphElementType = formatElementInterfaceRef(index.type);
+		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
+		String graphElementType = index instanceof AttributeIndex ? formatElementInterfaceRef(((AttributeIndex)index).type) : formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
 		
 		sb.append("\t\tpublic IEnumerable<" + graphElementType + "> Lookup(" + attributeType + " fromto)\n");
 		sb.append("\t\t{\n");
@@ -2418,9 +2423,9 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\n");
 	}
 
-	void genAscendingElementEntry(AttributeIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	void genAscendingElementEntry(Index index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
 	{
-		String attributeType = formatAttributeType(index.entity);
+		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
 
 		String lookupMethodNameAppendix = "Ascending";
 		if(fromConstrained) {
@@ -2465,10 +2470,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\n");
 	}
 
-	void genAscendingEntry(AttributeIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	void genAscendingEntry(Index index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
 	{
-		String attributeType = formatAttributeType(index.entity);
-		String graphElementType = formatElementInterfaceRef(index.type);
+		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
+		String graphElementType = index instanceof AttributeIndex ? formatElementInterfaceRef(((AttributeIndex)index).type) : formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
 
 		String lookupMethodNameAppendix = "Ascending";
 		if(fromConstrained) {
@@ -2628,9 +2633,9 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\n");
 	}
 
-	void genDescendingElementEntry(AttributeIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	void genDescendingElementEntry(Index index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
 	{
-		String attributeType = formatAttributeType(index.entity);
+		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
 
 		String lookupMethodNameAppendix = "Descending";
 		if(fromConstrained) {
@@ -2675,10 +2680,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\n");
 	}
 
-	void genDescendingEntry(AttributeIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	void genDescendingEntry(Index index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
 	{
-		String attributeType = formatAttributeType(index.entity);
-		String graphElementType = formatElementInterfaceRef(index.type);
+		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
+		String graphElementType = index instanceof AttributeIndex ? formatElementInterfaceRef(((AttributeIndex)index).type) : formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
 
 		String lookupMethodNameAppendix = "Descending";
 		if(fromConstrained) {
@@ -3082,23 +3087,27 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t{\n");
 		sb.append("\t\tpublic " + model.getIdent() + "IndexSet(GRGEN_LGSP.LGSPGraph graph)\n");
 		sb.append("\t\t{\n");
-		for(AttributeIndex index : model.getIndices()) {
+		for(Index index : model.getIndices()) {
 			String indexName = index.getIdent().toString();
-			sb.append("\t\t\t" + indexName + " = new Index" + indexName + "ImplPlain(graph);\n");
+			if(index instanceof AttributeIndex) {
+				sb.append("\t\t\t" + indexName + " = new Index" + indexName + "ImplPlain(graph);\n");
+			} else {
+				sb.append("\t\t\t//" + indexName + " = new Index" + indexName + "ImplPlain(graph); --- an incidence index is only available for a named graph, as nodes with the same number of incident edges will be common (thus duplicate index entries) \n");
+			}
 		}
 		sb.append("\t\t}\n");
 		sb.append("\n");
 		
 		sb.append("\t\tpublic " + model.getIdent() + "IndexSet(GRGEN_LGSP.LGSPNamedGraph graph)\n");
 		sb.append("\t\t{\n");
-		for(AttributeIndex index : model.getIndices()) {
+		for(Index index : model.getIndices()) {
 			String indexName = index.getIdent().toString();
 			sb.append("\t\t\t" + indexName + " = new Index" + indexName + "ImplNamed(graph);\n");
 		}
 		sb.append("\t\t}\n");
 		sb.append("\n");
 		
-		for(AttributeIndex index : model.getIndices()) {
+		for(Index index : model.getIndices()) {
 			String indexName = index.getIdent().toString();
 			sb.append("\t\tpublic Index" + indexName + "Impl " + indexName +";\n");
 		}
@@ -3108,7 +3117,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tswitch(indexName)\n");
 		sb.append("\t\t\t{\n");
-		for(AttributeIndex index : model.getIndices()) {
+		for(Index index : model.getIndices()) {
 			String indexName = index.getIdent().toString();
 			sb.append("\t\t\t\tcase \"" + indexName + "\": return " + indexName + ";\n");
 		}
@@ -3118,7 +3127,682 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		
 		sb.append("\t}\n");
 	}
+	
+	void genIndexImplementationBase(IncidenceIndex index, int indexNum) {
+		String indexName = index.getIdent().toString();
+		String graphElementType = formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
+		String modelName = model.getIdent().toString() + "GraphModel";
+		sb.append("\tpublic abstract class Index" + indexName + "Impl : Index" + indexName + "\n");
+		sb.append("\t{\n");
+		
+		sb.append("\t\tpublic GRGEN_LIBGR.IndexDescription Description { get { return " + modelName + ".GetIndexDescription(" + indexNum + "); } }\n");
+		sb.append("\n");
 
+		sb.append("\t\tprotected class TreeNode\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\t// search tree structure\n");
+		sb.append("\t\t\tpublic TreeNode left;\n");
+		sb.append("\t\t\tpublic TreeNode right;\n");
+		sb.append("\t\t\tpublic int level;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\t// user data\n");
+		sb.append("\t\t\tpublic int key;\n");
+		sb.append("\t\t\tpublic " + graphElementType + " value;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\t// for the bottom node, operating as sentinel\n");
+		sb.append("\t\t\tpublic TreeNode()\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tleft = this;\n");
+		sb.append("\t\t\t\tright = this;\n");
+		sb.append("\t\t\t\tlevel = 0;\n");
+	    sb.append("\t\t\t}\n");
+	    sb.append("\t\t\t\n");
+	    sb.append("\t\t\t// for regular nodes (that are born as leaf nodes)\n");
+	    sb.append("\t\t\tpublic TreeNode(int key, " + graphElementType + " value, TreeNode bottom)\n");
+	    sb.append("\t\t\t{\n");
+	    sb.append("\t\t\t\tleft = bottom;\n");
+	    sb.append("\t\t\t\tright = bottom;\n");
+	    sb.append("\t\t\t\tlevel = 1;\n");
+	    sb.append("\t\t\t\t\n");
+	    sb.append("\t\t\t\tthis.key = key;\n");
+	    sb.append("\t\t\t\tthis.value = value;\n");
+	    sb.append("\t\t\t}\n");
+	    sb.append("\t\t}\n");
+		sb.append("\n");
+
+		sb.append("\t\tprotected TreeNode root;\n");
+		sb.append("\t\tprotected TreeNode bottom;\n");
+		sb.append("\t\tprotected TreeNode deleted;\n");
+		sb.append("\t\tprotected TreeNode last;\n");
+		sb.append("\t\tprotected int count;\n");
+		sb.append("\t\tprotected int version;\n");
+		sb.append("\n");
+		sb.append("\t\tprotected IDictionary<" + graphElementType + ", int> nodeToIncidenceCount = new Dictionary<" + graphElementType + ", int>();\n");
+		sb.append("\n");
+
+		genEqualElementEntry(index);
+		genEqualEntry(index);
+
+		genAscendingElementEntry(index, false, true, false, true);
+		genAscendingEntry(index, false, true, false, true);
+		genAscendingElementEntry(index, true, true, false, true);
+		genAscendingEntry(index, true, true, false, true);
+		genAscendingElementEntry(index, true, false, false, true);
+		genAscendingEntry(index, true, false, false, true);
+		genAscendingElementEntry(index, false, true, true, true);
+		genAscendingEntry(index, false, true, true, true);
+		genAscendingElementEntry(index, false, true, true, false);
+		genAscendingEntry(index, false, true, true, false);
+		genAscendingElementEntry(index, true, true, true, true);
+		genAscendingEntry(index, true, true, true, true);
+		genAscendingElementEntry(index, true, true, true, false);
+		genAscendingEntry(index, true, true, true, false);
+		genAscendingElementEntry(index, true, false, true, true);
+		genAscendingEntry(index, true, false, true, true);
+		genAscendingElementEntry(index, true, false, true, false);
+		genAscendingEntry(index, true, false, true, false);
+
+		genDescendingElementEntry(index, false, true, false, true);
+		genDescendingEntry(index, false, true, false, true);
+		genDescendingElementEntry(index, true, true, false, true);
+		genDescendingEntry(index, true, true, false, true);
+		genDescendingElementEntry(index, true, false, false, true);
+		genDescendingEntry(index, true, false, false, true);
+		genDescendingElementEntry(index, false, true, true, true);
+		genDescendingEntry(index, false, true, true, true);
+		genDescendingElementEntry(index, false, true, true, false);
+		genDescendingEntry(index, false, true, true, false);
+		genDescendingElementEntry(index, true, true, true, true);
+		genDescendingEntry(index, true, true, true, true);
+		genDescendingElementEntry(index, true, true, true, false);
+		genDescendingEntry(index, true, true, true, false);
+		genDescendingElementEntry(index, true, false, true, true);
+		genDescendingEntry(index, true, false, true, true);
+		genDescendingElementEntry(index, true, false, true, false);
+		genDescendingEntry(index, true, false, true, false);
+
+		genEqual(index);
+
+		genAscending(index, false, true, false, true);
+		genAscending(index, true, true, false, true);
+		genAscending(index, true, false, false, true);
+		genAscending(index, false, true, true, true);
+		genAscending(index, false, true, true, false);
+		genAscending(index, true, true, true, true);
+		genAscending(index, true, true, true, false);
+		genAscending(index, true, false, true, true);
+		genAscending(index, true, false, true, false);
+
+		genDescending(index, false, true, false, true);
+		genDescending(index, true, true, false, true);
+		genDescending(index, true, false, false, true);
+		genDescending(index, false, true, true, true);
+		genDescending(index, false, true, true, false);
+		genDescending(index, true, true, true, true);
+		genDescending(index, true, true, true, false);
+		genDescending(index, true, false, true, true);
+		genDescending(index, true, false, true, false);
+
+		sb.append("\t}\n");
+		sb.append("\n");
+	}
+
+	void genEqual(IncidenceIndex index)
+	{
+		String graphElementType = formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
+		
+		sb.append("\t\tprivate IEnumerable<" + graphElementType + "> Lookup(TreeNode current, int fromto)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(current == bottom)\n");
+		sb.append("\t\t\t\tyield break;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\tint versionAtIterationBegin = version;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\t// don't go left if the value is already lower than fromto\n");
+		sb.append("\t\t\tif(current.key >= fromto)\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tforeach(" + graphElementType + " value in Lookup(current.left, fromto))\n");
+		sb.append("\t\t\t\t{\n");
+		sb.append("\t\t\t\t\tyield return value;\n");
+		sb.append("\t\t\t\t\tif(version != versionAtIterationBegin)\n");
+		sb.append("\t\t\t\t\t\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.append("\t\t\t\t}\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t\t\n");
+		
+		sb.append("\t\t\t// (only) yield a value that is equal to fromto\n");
+		sb.append("\t\t\tif(current.key == fromto)\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\t// the value is within range.\n");
+		sb.append("\t\t\t\tyield return current.value;\n");
+		sb.append("\t\t\t\tif(version != versionAtIterationBegin)\n");
+		sb.append("\t\t\t\t\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t\t\n");
+		
+		sb.append("\t\t\t// don't go right if the value is already higher than fromto\n");
+		sb.append("\t\t\tif(current.key <= fromto)\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tforeach(" + graphElementType + " value in Lookup(current.right, fromto))\n");
+		sb.append("\t\t\t\t{\n");
+		sb.append("\t\t\t\t\tyield return value;\n");
+		sb.append("\t\t\t\t\tif(version != versionAtIterationBegin)\n");
+		sb.append("\t\t\t\t\t\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.append("\t\t\t\t}\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t}\n");
+		sb.append("\t\t\n");
+	}
+
+	void genAscending(IncidenceIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	{
+		String attributeType = "int";
+		String graphElementType = formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
+
+		String lookupMethodNameAppendix = "Ascending";
+		if(fromConstrained) {
+			lookupMethodNameAppendix += "From";
+			if(fromInclusive)
+				lookupMethodNameAppendix += "Inclusive";
+			else
+				lookupMethodNameAppendix += "Exclusive";
+		}
+		if(toConstrained) {
+			lookupMethodNameAppendix += "To";
+			if(toInclusive)
+				lookupMethodNameAppendix += "Inclusive";
+			else
+				lookupMethodNameAppendix += "Exclusive";
+		}
+		
+		sb.append("\t\tprivate IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(TreeNode current");
+		if(fromConstrained)
+			sb.append(", " + attributeType + " from");
+		if(toConstrained)
+			sb.append(", " + attributeType + " to");
+		sb.append(")\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(current == bottom)\n");
+		sb.append("\t\t\t\tyield break;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\tint versionAtIterationBegin = version;\n");
+		sb.append("\t\t\t\n");
+		if(fromConstrained) {
+			sb.append("\t\t\t// don't go left if the value is already lower than from\n");
+			sb.append("\t\t\tif(current.key" + (fromInclusive ? " >= " : " > ") + "from)\n");
+		}
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tforeach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.left");
+		if(fromConstrained)
+			sb.append(", from");
+		if(toConstrained)
+			sb.append(", to");
+		sb.append("))\n");
+		sb.append("\t\t\t\t{\n");
+		sb.append("\t\t\t\t\tyield return value;\n");
+		sb.append("\t\t\t\t\tif(version != versionAtIterationBegin)\n");
+		sb.append("\t\t\t\t\t\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.append("\t\t\t\t}\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t\t\n");
+		
+		if(fromConstrained || toConstrained) {
+			sb.append("\t\t\t// (only) yield a value that is within bounds\n");
+			sb.append("\t\t\tif(");
+			if(fromConstrained) {
+				sb.append("current.key" + (fromInclusive ? " >= " : " > ") + "from");
+			}
+			if(fromConstrained && toConstrained)
+				sb.append(" && ");
+			if(toConstrained) {
+				sb.append("current.key" + (toInclusive ? " <= " : " < ") + "to");
+			}
+			sb.append(")\n");
+		}
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\t// the value is within range.\n");
+		sb.append("\t\t\t\tyield return current.value;\n");
+		sb.append("\t\t\t\tif(version != versionAtIterationBegin)\n");
+		sb.append("\t\t\t\t\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t\t\n");
+		
+		if(toConstrained) {
+			sb.append("\t\t\t// don't go right if the value is already higher than to\n");
+			sb.append("\t\t\tif(current.key" + (toInclusive ? " <= " : " < ") + "to)\n");
+		}
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tforeach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.right");
+		if(fromConstrained)
+			sb.append(", from");
+		if(toConstrained)
+			sb.append(", to");
+		sb.append("))\n");
+		sb.append("\t\t\t\t{\n");
+		sb.append("\t\t\t\t\tyield return value;\n");
+		sb.append("\t\t\t\t\tif(version != versionAtIterationBegin)\n");
+		sb.append("\t\t\t\t\t\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.append("\t\t\t\t}\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t}\n");
+		sb.append("\t\t\n");
+	}
+
+	void genDescending(IncidenceIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	{
+		String attributeType = "int";
+		String graphElementType = formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
+
+		String lookupMethodNameAppendix = "Descending";
+		if(fromConstrained) {
+			lookupMethodNameAppendix += "From";
+			if(fromInclusive)
+				lookupMethodNameAppendix += "Inclusive";
+			else
+				lookupMethodNameAppendix += "Exclusive";
+		}
+		if(toConstrained) {
+			lookupMethodNameAppendix += "To";
+			if(toInclusive)
+				lookupMethodNameAppendix += "Inclusive";
+			else
+				lookupMethodNameAppendix += "Exclusive";
+		}
+		
+		sb.append("\t\tprivate IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(TreeNode current");
+		if(fromConstrained)
+			sb.append(", " + attributeType + " from");
+		if(toConstrained)
+			sb.append(", " + attributeType + " to");
+		sb.append(")\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(current == bottom)\n");
+		sb.append("\t\t\t\tyield break;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\tint versionAtIterationBegin = version;\n");
+		sb.append("\t\t\t\n");
+		if(fromConstrained) {
+			sb.append("\t\t\t// don't go left if the value is already lower than from\n");
+			sb.append("\t\t\tif(current.key" + (fromInclusive ? " <= " : " < ") + "from)\n");
+		}
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tforeach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.right");
+		if(fromConstrained)
+			sb.append(", from");
+		if(toConstrained)
+			sb.append(", to");
+		sb.append("))\n");
+		sb.append("\t\t\t\t{\n");
+		sb.append("\t\t\t\t\tyield return value;\n");
+		sb.append("\t\t\t\t\tif(version != versionAtIterationBegin)\n");
+		sb.append("\t\t\t\t\t\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.append("\t\t\t\t}\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t\t\n");
+		
+		if(fromConstrained || toConstrained) {
+			sb.append("\t\t\t// (only) yield a value that is within bounds\n");
+			sb.append("\t\t\tif(");
+			if(fromConstrained) {
+				sb.append("current.key" + (fromInclusive ? " <= " : " < ") + "from");
+			}
+			if(fromConstrained && toConstrained)
+				sb.append(" && ");
+			if(toConstrained) {
+				sb.append("current.key" + (toInclusive ? " >= " : " > ") + "to");
+			}
+			sb.append(")\n");
+		}
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\t// the value is within range.\n");
+		sb.append("\t\t\t\tyield return current.value;\n");
+		sb.append("\t\t\t\tif(version != versionAtIterationBegin)\n");
+		sb.append("\t\t\t\t\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t\t\n");
+		
+		if(toConstrained) {
+			sb.append("\t\t\t// don't go right if the value is already higher than to\n");
+			sb.append("\t\t\tif(current.key" + (toInclusive ? " >= " : " > ") + "to)\n");
+		}
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tforeach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.left");
+		if(fromConstrained)
+			sb.append(", from");
+		if(toConstrained)
+			sb.append(", to");
+		sb.append("))\n");
+		sb.append("\t\t\t\t{\n");
+		sb.append("\t\t\t\t\tyield return value;\n");
+		sb.append("\t\t\t\t\tif(version != versionAtIterationBegin)\n");
+		sb.append("\t\t\t\t\t\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.append("\t\t\t\t}\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t}\n");
+		sb.append("\t\t\n");
+	}
+
+	void genCheckDump(IncidenceIndex index)
+	{
+		String startNodeType = formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
+
+		sb.append("\t\tprotected void Check(TreeNode current)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(current == bottom)\n");
+		sb.append("\t\t\t\treturn;\n");
+		sb.append("\t\t\tCheck(current.left);\n");
+		sb.append("\t\t\tif(!nodeToIncidenceCount.ContainsKey(current.value)) {\n");
+		sb.append("\t\t\t\tDump(root);\n");		
+		sb.append("\t\t\t\tDump();\n");
+		sb.append("\t\t\t\tthrow new Exception(\"Missing node\");\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t\tif(nodeToIncidenceCount[current.value]!=current.key) {\n");
+		sb.append("\t\t\t\tDump(root);\n");		
+		sb.append("\t\t\t\tDump();\n");
+		sb.append("\t\t\t\tthrow new Exception(\"Incidence values differ\");\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t\tCheck(current.right);\n");				
+		sb.append("\t\t}\n");
+		sb.append("\t\t\n");
+
+		sb.append("\t\tprotected void Dump(TreeNode current)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(current == bottom)\n");
+		sb.append("\t\t\t\treturn;\n");
+		sb.append("\t\t\tDump(current.left);\n");
+		sb.append("\t\t\tConsole.Write(current.key);\n");
+		sb.append("\t\t\tConsole.Write(\" -> \");\n");
+		sb.append("\t\t\tConsole.WriteLine(graph.GetElementName(current.value));\n");
+		sb.append("\t\t\tDump(current.right);\n");				
+		sb.append("\t\t}\n");
+		sb.append("\t\t\n");
+		
+		sb.append("\t\tprotected void Dump()\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tforeach(KeyValuePair<" + startNodeType + ",int> kvp in nodeToIncidenceCount) {\n");
+		sb.append("\t\t\t\tConsole.Write(graph.GetElementName(kvp.Key));\n");
+		sb.append("\t\t\t\tConsole.Write(\" => \");\n");
+		sb.append("\t\t\t\tConsole.WriteLine(kvp.Value);\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t}\n");
+		sb.append("\t\t\n");
+	}
+
+	void genIndexMaintainingEventHandlers(IncidenceIndex index)
+	{
+		String startNodeType = formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
+		String incidentEdgeType = formatElementInterfaceRef(((IncidenceIndex)index).getIncidentEdgeType());
+		String incidentEdgeTypeType = formatTypeClassRefInstance(((IncidenceIndex)index).getIncidentEdgeType());
+
+		sb.append("\t\tvoid EdgeAdded(GRGEN_LIBGR.IEdge edge)\n");
+		sb.append("\t\t{\n");
+		//sb.append("Check(root);\n");
+		sb.append("\t\t\tif(!(edge is " + incidentEdgeType + "))\n");
+		sb.append("\t\t\t\treturn;\n");
+		sb.append("\t\t\tGRGEN_LIBGR.INode source = edge.Source;\n");
+		sb.append("\t\t\tGRGEN_LIBGR.INode target = edge.Target;\n");
+		genIndexMaintainingEdgeAdded(index);
+		//sb.append("Check(root);\n");
+		sb.append("\t\t}\n\n");
+		
+		sb.append("\t\tvoid NodeAdded(GRGEN_LIBGR.INode node)\n");
+		sb.append("\t\t{\n");
+		//sb.append("Check(root);\n");
+		sb.append("\t\t\tif(node is " + startNodeType + ") {\n");
+		sb.append("\t\t\t\tnodeToIncidenceCount.Add((" + startNodeType + ")node, 0);\n");
+		sb.append("\t\t\t\tInsert(ref root, 0, (" + startNodeType + ")node);\n");
+		sb.append("\t\t\t}\n");
+		//sb.append("Check(root);\n");
+		sb.append("\t\t}\n\n");
+	
+		sb.append("\t\tvoid RemovingEdge(GRGEN_LIBGR.IEdge edge)\n");
+		sb.append("\t\t{\n");
+		//sb.append("Check(root);\n");
+		sb.append("\t\t\tif(!(edge is " + incidentEdgeType + "))\n");
+		sb.append("\t\t\t\treturn;\n");
+		sb.append("\t\t\tGRGEN_LIBGR.INode source = edge.Source;\n");
+		sb.append("\t\t\tGRGEN_LIBGR.INode target = edge.Target;\n");
+		genIndexMaintainingRemovingEdge(index);
+		//sb.append("Check(root);\n");
+		sb.append("\t\t}\n\n");
+		
+		sb.append("\t\tvoid RemovingNode(GRGEN_LIBGR.INode node)\n");
+		sb.append("\t\t{\n");
+		//sb.append("Check(root);\n");
+		sb.append("\t\t\tif(node is " + startNodeType + ") {\n");
+		sb.append("\t\t\t\tnodeToIncidenceCount.Remove((" + startNodeType + ")node);\n");
+		sb.append("\t\t\t\tDelete(ref root, 0, (" + startNodeType + ")node);\n");
+		sb.append("\t\t\t}\n");
+		//sb.append("Check(root);\n");
+		sb.append("\t\t}\n\n");
+	
+		sb.append("\t\tvoid RetypingEdge(GRGEN_LIBGR.IEdge oldEdge, GRGEN_LIBGR.IEdge newEdge)\n");
+		sb.append("\t\t{\n");
+		//sb.append("Check(root);\n");
+		sb.append("\t\t\tRemovingEdge(oldEdge);\n");
+		sb.append("\t\t\tEdgeAdded(newEdge);\n");
+		//sb.append("Check(root);\n");
+		sb.append("\t\t}\n\n");
+	
+		sb.append("\t\tvoid RetypingNode(GRGEN_LIBGR.INode oldNode, GRGEN_LIBGR.INode newNode)\n");
+		sb.append("\t\t{\n");
+		//sb.append("Check(root);\n");
+		sb.append("\t\t\tIDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType> incidentEdges = GRGEN_LIBGR.GraphHelper.Incident(oldNode, " + incidentEdgeTypeType + ", graph.Model.NodeModel.RootType);\n");
+		sb.append("\t\t\tforeach(KeyValuePair<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType> edgeKVP in incidentEdges)\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tGRGEN_LIBGR.IEdge edge = edgeKVP.Key;\n");
+		sb.append("\t\t\t\tGRGEN_LIBGR.INode source = edge.Source;\n");
+		sb.append("\t\t\t\tGRGEN_LIBGR.INode target = edge.Target;\n");
+		genIndexMaintainingEdgeAdded(index);
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t\tforeach(KeyValuePair<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType> edgeKVP in incidentEdges)\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tGRGEN_LIBGR.IEdge edge = edgeKVP.Key;\n");
+		sb.append("\t\t\t\tGRGEN_LIBGR.INode source = edge.Source==oldNode ? newNode : edge.Source;\n");
+		sb.append("\t\t\t\tGRGEN_LIBGR.INode target = edge.Target==oldNode ? newNode : edge.Target;\n");
+		genIndexMaintainingRemovingEdge(index);
+		sb.append("\t\t\t}\n");
+		//sb.append("Check(root);\n");
+		sb.append("\t\t}\n\n");
+	}
+
+	void genIndexMaintainingEdgeAdded(IncidenceIndex index)
+	{
+		String startNodeType = formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
+		String adjacentNodeType = formatElementInterfaceRef(((IncidenceIndex)index).getAdjacentNodeType());
+
+		if(index.Direction()==IncidentEdgeExpr.OUTGOING) {
+			sb.append("\t\t\t\tif(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
+			sb.append("\t\t\t\t\tDelete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
+			sb.append("\t\t\t\t\tnodeToIncidenceCount[(" + startNodeType + ")source] = nodeToIncidenceCount[(" + startNodeType + ")source] + 1;\n");
+			sb.append("\t\t\t\t\tInsert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
+			sb.append("\t\t\t\t}\n");
+		} else if(index.Direction()==IncidentEdgeExpr.INCOMING) {
+			sb.append("\t\t\t\tif(target is " + startNodeType + " && source is " + adjacentNodeType + ") {\n");
+			sb.append("\t\t\t\t\tDelete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
+			sb.append("\t\t\t\t\tnodeToIncidenceCount[(" + startNodeType + ")target] = nodeToIncidenceCount[(" + startNodeType + ")target] + 1;\n");
+			sb.append("\t\t\t\t\tInsert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
+			sb.append("\t\t\t\t}\n");
+		} else {
+			sb.append("\t\t\t\tif(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
+			sb.append("\t\t\t\t\tDelete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
+			sb.append("\t\t\t\t\tnodeToIncidenceCount[(" + startNodeType + ")source] = nodeToIncidenceCount[(" + startNodeType + ")source] + 1;\n");
+			sb.append("\t\t\t\t\tInsert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
+			sb.append("\t\t\t\t}\n");
+			sb.append("\t\t\t\tif(target is " + startNodeType + " && source is " + adjacentNodeType + " && source!=target) {\n");
+			sb.append("\t\t\t\t\tDelete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
+			sb.append("\t\t\t\t\tnodeToIncidenceCount[(" + startNodeType + ")target] = nodeToIncidenceCount[(" + startNodeType + ")target] + 1;\n");
+			sb.append("\t\t\t\t\tInsert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
+			sb.append("\t\t\t\t}\n");
+		}		
+	}
+
+	void genIndexMaintainingRemovingEdge(IncidenceIndex index)
+	{
+		String startNodeType = formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
+		String adjacentNodeType = formatElementInterfaceRef(((IncidenceIndex)index).getAdjacentNodeType());
+	
+		if(index.Direction()==IncidentEdgeExpr.OUTGOING) {
+			sb.append("\t\t\t\tif(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
+			sb.append("\t\t\t\t\tDelete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
+			sb.append("\t\t\t\t\tnodeToIncidenceCount[(" + startNodeType + ")source] = nodeToIncidenceCount[(" + startNodeType + ")source] - 1;\n");
+			sb.append("\t\t\t\t\tInsert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
+			sb.append("\t\t\t\t}\n");
+		} else if(index.Direction()==IncidentEdgeExpr.INCOMING) {
+			sb.append("\t\t\t\tif(target is " + startNodeType + " && source is " + adjacentNodeType + ") {\n");
+			sb.append("\t\t\t\t\tDelete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
+			sb.append("\t\t\t\t\tnodeToIncidenceCount[(" + startNodeType + ")target] = nodeToIncidenceCount[(" + startNodeType + ")target] - 1;\n");
+			sb.append("\t\t\t\t\tInsert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
+			sb.append("\t\t\t\t}\n");
+		} else {
+			sb.append("\t\t\t\tif(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
+			sb.append("\t\t\t\t\tDelete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
+			sb.append("\t\t\t\t\tnodeToIncidenceCount[(" + startNodeType + ")source] = nodeToIncidenceCount[(" + startNodeType + ")source] - 1;\n");
+			sb.append("\t\t\t\t\tInsert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
+			sb.append("\t\t\t\t}\n");
+			sb.append("\t\t\t\tif(target is " + startNodeType + " && source is " + adjacentNodeType + " && source!=target) {\n");
+			sb.append("\t\t\t\t\tDelete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
+			sb.append("\t\t\t\t\tnodeToIncidenceCount[(" + startNodeType + ")target] = nodeToIncidenceCount[(" + startNodeType + ")target] - 1;\n");
+			sb.append("\t\t\t\t\tInsert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
+			sb.append("\t\t\t\t}\n");
+		}
+	}
+
+	void genIndexImplementationNamed(IncidenceIndex index, int indexNum) {
+		String indexName = index.getIdent().toString();
+		sb.append("\tpublic class Index" + indexName + "ImplNamed : Index" + indexName + "Impl\n");
+		sb.append("\t{\n");
+		
+		sb.append("\t\tpublic Index" + indexName + "ImplNamed(GRGEN_LGSP.LGSPNamedGraph graph)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tthis.graph = graph;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\t// initialize AA tree used to implement the index\n");
+		sb.append("\t\t\tbottom = new TreeNode();\n");
+		sb.append("\t\t\troot = bottom;\n");
+		sb.append("\t\t\tdeleted = bottom;\n");
+		sb.append("\t\t\tcount = 0;\n");
+		sb.append("\t\t\tversion = 0;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\tgraph.OnEdgeAdded += EdgeAdded;\n");
+		sb.append("\t\t\tgraph.OnNodeAdded += NodeAdded;\n");
+		sb.append("\t\t\tgraph.OnRemovingEdge += RemovingEdge;\n");
+		sb.append("\t\t\tgraph.OnRemovingNode += RemovingNode;\n");
+		sb.append("\t\t\tgraph.OnRetypingEdge += RetypingEdge;\n");
+		sb.append("\t\t\tgraph.OnRetypingNode += RetypingNode;\n");
+		sb.append("\t\t}\n");
+		sb.append("\n");
+
+		genIndexMaintainingEventHandlers(index);
+
+		genIndexAATreeBalancingInsertionDeletion(index, true);
+
+		//genCheckDump(index);
+
+		sb.append("\t\tprivate GRGEN_LGSP.LGSPNamedGraph graph;\n");
+
+		sb.append("\t}\n");
+		sb.append("\n");
+	}
+
+	void genIndexAATreeBalancingInsertionDeletion(IncidenceIndex index, boolean named) {
+		String graphElementType = formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
+
+		sb.append("\t\tprivate void Skew(ref TreeNode current)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(current.level != current.left.level)\n");
+		sb.append("\t\t\t\treturn;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\t// rotate right\n");
+		sb.append("\t\t\tTreeNode left = current.left;\n");
+		sb.append("\t\t\tcurrent.left = left.right;\n");
+		sb.append("\t\t\tleft.right = current;\n");
+		sb.append("\t\t\tcurrent = left;\n");
+		sb.append("\t\t}\n");
+		sb.append("\n");
+
+		sb.append("\t\tprivate void Split(ref TreeNode current)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(current.right.right.level != current.level)\n");
+		sb.append("\t\t\t\treturn;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\t// rotate left\n");
+		sb.append("\t\t\tTreeNode right = current.right;\n");
+		sb.append("\t\t\tcurrent.right = right.left;\n");
+		sb.append("\t\t\tright.left = current;\n");
+		sb.append("\t\t\tcurrent = right;\n");
+		sb.append("\t\t\t++current.level;\n");
+		sb.append("\t\t}\n");
+		sb.append("\n");
+		
+		sb.append("\t\tprivate void Insert(ref TreeNode current, int key, " + graphElementType + " value)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(current == bottom)\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tcurrent = new TreeNode(key, value, bottom);\n");
+		sb.append("\t\t\t\t++count;\n");
+		sb.append("\t\t\t\t++version;\n");
+		sb.append("\t\t\t\treturn;\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\tif(key < current.key");
+		sb.append(" || ( key == current.key && String.CompareOrdinal(graph.GetElementName(value), graph.GetElementName(current.value))<0 ) )\n");
+		sb.append("\t\t\t\tInsert(ref current.left, key, value);\n");
+		sb.append("\t\t\telse if(key > current.key");
+		sb.append(" || ( key == current.key && String.CompareOrdinal(graph.GetElementName(value), graph.GetElementName(current.value))>0 ) )\n");
+		sb.append("\t\t\t\tInsert(ref current.right, key, value);\n");
+		sb.append("\t\t\telse\n");
+		sb.append("\t\t\t\tthrow new Exception(\"Insertion of already available element\");\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\tSkew(ref current);\n");
+		sb.append("\t\t\tSplit(ref current);\n");
+		sb.append("\t\t}\n");
+		sb.append("\n");
+		
+		sb.append("\t\tprivate void Delete(ref TreeNode current, int key, " + graphElementType + " value)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(current == bottom)\n");
+		sb.append("\t\t\t\treturn;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\t// search down the tree (and set pointer last and deleted)\n");
+		sb.append("\t\t\tlast = current;\n");
+		sb.append("\t\t\tif(key < current.key");
+		sb.append(" || ( key == current.key && String.CompareOrdinal(graph.GetElementName(value), graph.GetElementName(current.value))<0 ) )\n");
+		sb.append("\t\t\t\tDelete(ref current.left, key, value);\n");
+		sb.append("\t\t\telse\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tdeleted = current;\n");
+		sb.append("\t\t\t\tDelete(ref current.right, key, value);\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\t// at the bottom of the tree we remove the element (if present)\n");
+		sb.append("\t\t\tif(current == last && deleted != bottom && key == deleted.key");
+		sb.append(" && graph.GetElementName(value) == graph.GetElementName(deleted.value) )\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tdeleted.value = current.value;\n");
+		sb.append("\t\t\t\tdeleted.key = current.key;\n");
+		sb.append("\t\t\t\tdeleted = bottom;\n");
+		sb.append("\t\t\t\tcurrent = current.right;\n");
+		sb.append("\t\t\t\t--count;\n");
+		sb.append("\t\t\t\t++version;\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t\t// on the way back, we rebalance\n");
+		sb.append("\t\t\telse if(current.left.level < current.level - 1\n");
+		sb.append("\t\t\t\t|| current.right.level < current.level - 1)\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\t--current.level;\n");
+		sb.append("\t\t\t\tif(current.right.level > current.level)\n");
+		sb.append("\t\t\t\t\tcurrent.right.level = current.level;\n");
+		sb.append("\t\t\t\tSkew(ref current);\n");
+		sb.append("\t\t\t\tSkew(ref current.right);\n");
+		sb.append("\t\t\t\tSkew(ref current.right.right);\n");
+		sb.append("\t\t\t\tSplit(ref current);\n");
+		sb.append("\t\t\t\tSplit(ref current.right);\n");
+		sb.append("\t\t\t}\n");
+		sb.append("\t\t}\n");
+		sb.append("\n");
+	}
+	
 	////////////////////////////
 	// Model class generation //
 	////////////////////////////
@@ -3564,8 +4248,11 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private void genIndexDescriptions() {
 		sb.append("\t\tprivate static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {\n");
 
-		for(AttributeIndex index : model.getIndices()) {
-			genIndexDescription(index);
+		for(Index index : model.getIndices()) {
+			if(index instanceof AttributeIndex)
+				genIndexDescription((AttributeIndex)index);
+			else
+				genIndexDescription((IncidenceIndex)index);
 		}
 		
 		/*for(PackageType pt : model.getPackages()) {
@@ -3582,6 +4269,26 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\"" + index.getIdent() + "\", ");
 		sb.append(formatTypeClassName(index.type) + ".typeVar, ");
 		sb.append(formatTypeClassName(index.type) + "." + formatAttributeTypeName(index.entity));
+		sb.append("),\n");
+	}
+
+	private void genIndexDescription(IncidenceIndex index) {
+		sb.append("\t\t\tnew GRGEN_LIBGR.IncidenceIndexDescription(");
+		sb.append("\"" + index.getIdent() + "\", ");
+		switch(index.Direction()) {
+		case IncidentEdgeExpr.OUTGOING:
+			sb.append("GRGEN_LIBGR.IncidenceDirection.OUTGOING, ");
+			break;
+		case IncidentEdgeExpr.INCOMING:
+			sb.append("GRGEN_LIBGR.IncidenceDirection.INCOMING, ");
+			break;
+		case IncidentEdgeExpr.INCIDENT:
+			sb.append("GRGEN_LIBGR.IncidenceDirection.INCIDENT, ");
+			break;
+		}
+		sb.append(formatTypeClassRefInstance(((IncidenceIndex)index).getStartNodeType()) + ", ");
+		sb.append(formatTypeClassRefInstance(((IncidenceIndex)index).getIncidentEdgeType()) + ", ");
+		sb.append(formatTypeClassRefInstance(((IncidenceIndex)index).getAdjacentNodeType()));
 		sb.append("),\n");
 	}
 

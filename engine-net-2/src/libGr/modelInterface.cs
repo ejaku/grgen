@@ -274,6 +274,49 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public enum IncidenceDirection
+    {
+        OUTGOING,
+        INCOMING,
+        INCIDENT
+    }
+
+    /// <summary>
+    /// The description of a single incidence index.
+    /// </summary>
+    public class IncidenceIndexDescription : IndexDescription
+    {
+        /// <summary>
+        /// The direction of incidence followed.
+        /// </summary>
+        public readonly IncidenceDirection Direction;
+
+        /// <summary>
+        /// The type of the start node that is taken into account for the incidence count.
+        /// </summary>
+        public readonly NodeType StartNodeType;
+
+        /// <summary>
+        /// The type of the incident edge that is taken into account for the incidence count.
+        /// </summary>
+        public readonly EdgeType IncidentEdgeType;
+
+        /// <summary>
+        /// The type of the adjacent node that is taken into account for the incidence count.
+        /// </summary>
+        public readonly NodeType AdjacentNodeType;
+
+        public IncidenceIndexDescription(string name, IncidenceDirection direction,
+            NodeType startNodeType, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+            : base(name)
+        {
+            Direction = direction;
+            StartNodeType = startNodeType;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+    }
+
     /// <summary>
     /// A model of a GrGen graph.
     /// </summary>

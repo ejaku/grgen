@@ -21,7 +21,7 @@ public class IndexAccessOrdering extends IndexAccess {
 	int comp2;
 	Expression expr2;
 	
-	public IndexAccessOrdering(AttributeIndex index, boolean ascending,
+	public IndexAccessOrdering(Index index, boolean ascending,
 			int comp, Expression expr, int comp2, Expression expr2) {
 		super(index);
 		this.ascending = ascending;

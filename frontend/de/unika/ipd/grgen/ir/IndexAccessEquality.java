@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
 public class IndexAccessEquality extends IndexAccess {
 	public Expression expr;
 	
-	public IndexAccessEquality(AttributeIndex index, Expression expr) {
+	public IndexAccessEquality(Index index, Expression expr) {
 		super(index);
 		this.expr = expr;
 	}

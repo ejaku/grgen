@@ -24,7 +24,7 @@ import java.util.Vector;
 /**
  * AST node class representing attribute index declarations
  */
-public class AttributeIndexDeclNode extends DeclNode {
+public class AttributeIndexDeclNode extends IndexDeclNode {
 	static {
 		setName(AttributeIndexDeclNode.class, "attribute index declaration");
 	}

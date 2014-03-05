@@ -13,9 +13,9 @@ import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
  * Base class for the different kinds of accessing an index, binding a pattern element
  */
 public abstract class IndexAccess {
-	public AttributeIndex index = null;
+	public Index index = null;
 
-	public IndexAccess(AttributeIndex index) {
+	public IndexAccess(Index index) {
 		this.index = index;
 	}
 	

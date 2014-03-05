@@ -1,0 +1,15 @@
+node class N
+{
+	i:int = 0;
+}
+
+edge class E;
+
+index foo { incident(Node) }
+index bar { incoming(Node) }
+index baz { outgoing(Node) }
+
+index qux { incident(N, E, N) }
+index pix { incoming(N, E, N) }
+index xom { outgoing(N, E, N) }
+

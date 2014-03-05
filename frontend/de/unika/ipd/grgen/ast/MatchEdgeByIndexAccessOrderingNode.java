@@ -15,9 +15,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.AttributeIndex;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Index;
 import de.unika.ipd.grgen.ir.IndexAccessOrdering;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 
@@ -29,7 +29,7 @@ public class MatchEdgeByIndexAccessOrderingNode extends EdgeDeclNode implements 
 
 	private boolean ascending;
 	private IdentNode indexUnresolved;
-	private AttributeIndexDeclNode index;
+	private IndexDeclNode index;
 	private int comp;
 	private ExprNode expr;
 	private int comp2;
@@ -82,8 +82,8 @@ public class MatchEdgeByIndexAccessOrderingNode extends EdgeDeclNode implements 
 		return childrenNames;
 	}
 
-	private static DeclarationResolver<AttributeIndexDeclNode> indexResolver =
-		new DeclarationResolver<AttributeIndexDeclNode>(AttributeIndexDeclNode.class);
+	private static DeclarationResolver<IndexDeclNode> indexResolver =
+		new DeclarationResolver<IndexDeclNode>(IndexDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
@@ -106,8 +106,10 @@ public class MatchEdgeByIndexAccessOrderingNode extends EdgeDeclNode implements 
 			reportError("Can't employ match edge by index on RHS");
 			return false;
 		}
+		AttributeIndexDeclNode attributeIndex = index instanceof AttributeIndexDeclNode ? (AttributeIndexDeclNode)index : null;
+		IncidenceIndexDeclNode incidenceIndex = index instanceof IncidenceIndexDeclNode ? (IncidenceIndexDeclNode)index : null;
 		if(expr!=null) {
-			TypeNode expectedIndexAccessType = index.member.getDeclType();
+			TypeNode expectedIndexAccessType = attributeIndex!=null ? attributeIndex.member.getDeclType() : IntTypeNode.intType;
 			TypeNode indexAccessType = expr.getType();
 			if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 				String expTypeName = expectedIndexAccessType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)expectedIndexAccessType).getIdentNode().toString() : expectedIndexAccessType.toString();
@@ -128,8 +130,8 @@ public class MatchEdgeByIndexAccessOrderingNode extends EdgeDeclNode implements 
 			}
 		}
 		TypeNode expectedEntityType = getDeclType();
-		TypeNode entityType = index.type;
-		if(!entityType.isCompatibleTo(expectedEntityType)) {
+		TypeNode entityType = attributeIndex!=null ? attributeIndex.type : incidenceIndex.getType();
+		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
 			String expTypeName = expectedEntityType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)expectedEntityType).getIdentNode().toString() : expectedEntityType.toString();
 			String typeName = entityType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)entityType).getIdentNode().toString() : entityType.toString();
 			ident.reportError("Cannot convert index type from \""
@@ -160,7 +162,7 @@ public class MatchEdgeByIndexAccessOrderingNode extends EdgeDeclNode implements 
 		} else{
 			setIR(edge);
 		}
-		edge.setIndex(new IndexAccessOrdering(index.checkIR(AttributeIndex.class), ascending, 
+		edge.setIndex(new IndexAccessOrdering(index.checkIR(Index.class), ascending, 
 				comp, expr!=null ? expr.checkIR(Expression.class) : null, 
 				comp2, expr2!=null ? expr2.checkIR(Expression.class) : null));
 		return edge;

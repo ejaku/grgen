@@ -15,8 +15,8 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.AttributeIndex;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Index;
 import de.unika.ipd.grgen.ir.IndexAccessEquality;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
@@ -28,7 +28,7 @@ public class MatchNodeByIndexAccessEqualityNode extends NodeDeclNode implements 
 	}
 
 	private IdentNode indexUnresolved;
-	private AttributeIndexDeclNode index;
+	private IndexDeclNode index;
 	private ExprNode expr;
 
 	public MatchNodeByIndexAccessEqualityNode(IdentNode id, BaseNode type, int context,
@@ -64,8 +64,8 @@ public class MatchNodeByIndexAccessEqualityNode extends NodeDeclNode implements 
 		return childrenNames;
 	}
 
-	private static DeclarationResolver<AttributeIndexDeclNode> indexResolver =
-		new DeclarationResolver<AttributeIndexDeclNode>(AttributeIndexDeclNode.class);
+	private static DeclarationResolver<IndexDeclNode> indexResolver =
+		new DeclarationResolver<IndexDeclNode>(IndexDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
@@ -85,7 +85,9 @@ public class MatchNodeByIndexAccessEqualityNode extends NodeDeclNode implements 
 			reportError("Can't employ match node by index on RHS");
 			return false;
 		}
-		TypeNode expectedIndexAccessType = index.member.getDeclType();
+		AttributeIndexDeclNode attributeIndex = index instanceof AttributeIndexDeclNode ? (AttributeIndexDeclNode)index : null;
+		IncidenceIndexDeclNode incidenceIndex = index instanceof IncidenceIndexDeclNode ? (IncidenceIndexDeclNode)index : null;
+		TypeNode expectedIndexAccessType = attributeIndex!=null ? attributeIndex.member.getDeclType() : IntTypeNode.intType;
 		TypeNode indexAccessType = expr.getType();
 		if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 			String expTypeName = expectedIndexAccessType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)expectedIndexAccessType).getIdentNode().toString() : expectedIndexAccessType.toString();
@@ -95,8 +97,8 @@ public class MatchNodeByIndexAccessEqualityNode extends NodeDeclNode implements 
 			return false;
 		}
 		TypeNode expectedEntityType = getDeclType();
-		TypeNode entityType = index.type;
-		if(!entityType.isCompatibleTo(expectedEntityType)) {
+		TypeNode entityType = attributeIndex!=null ? attributeIndex.type : incidenceIndex.getType();
+		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
 			String expTypeName = expectedEntityType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)expectedEntityType).getIdentNode().toString() : expectedEntityType.toString();
 			String typeName = entityType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)entityType).getIdentNode().toString() : entityType.toString();
 			ident.reportError("Cannot convert index type from \""
@@ -115,7 +117,7 @@ public class MatchNodeByIndexAccessEqualityNode extends NodeDeclNode implements 
 		} else{
 			setIR(node);
 		}
-		node.setIndex(new IndexAccessEquality(index.checkIR(AttributeIndex.class), 
+		node.setIndex(new IndexAccessEquality(index.checkIR(Index.class), 
 				expr.checkIR(Expression.class)));
 		return node;
 	}
