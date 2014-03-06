@@ -1,5 +1,5 @@
 ﻿/*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 4.2
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 4.3
  * Copyright (C) 2003-2014 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
@@ -39,6 +39,6 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("4.2.0.0")]
-[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 4.2")]
-[assembly: AssemblyFileVersion("4.2.0.0")]
+[assembly: AssemblyVersion("4.3.0.0")]
+[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 4.3")]
+[assembly: AssemblyFileVersion("4.3.0.0")]
