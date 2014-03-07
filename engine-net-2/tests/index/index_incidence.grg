@@ -157,3 +157,20 @@ rule txom {
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
+
+rule fooincidencecount(n:Node, m:N) : (int,int,int,int) {
+	def var i1a:int;
+	def var i1b:int;
+	yield { yield i1a = foo[n]; }
+	yield { yield i1b = qux[m]; }
+
+	modify {
+		def var i2a:int;
+		def var i2b:int;
+		eval {
+			yield i2a = foo[n];
+			yield i2b = qux[m];
+		}
+		return(i1a, i1b, i2a, i2b);
+	}
+}

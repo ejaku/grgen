@@ -2429,13 +2429,23 @@ public class ActionsGen extends CSharpBase {
 			IndexedAccessExpr ia = (IndexedAccessExpr)expr;
 			if(ia.getTargetExpr().getType() instanceof MapType)
 				sb.append("new GRGEN_EXPR.MapAccess(");
-			else //if(ia.getTargetExpr().getType() instanceof ArrayType)
+			else if(ia.getTargetExpr().getType() instanceof ArrayType)
 				sb.append("new GRGEN_EXPR.ArrayAccess(");
+			else
+				sb.append("new GRGEN_EXPR.DequeAccess(");
 			genExpressionTree(sb, ia.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, ia.getKeyExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			if(ia.getKeyExpr() instanceof GraphEntityExpression)
 				sb.append(", \"" + formatElementInterfaceRef(ia.getKeyExpr().getType()) + "\"");
+			sb.append(")");
+		}
+		else if (expr instanceof IndexedIncidenceIndexAccessExpr) {
+			IndexedIncidenceIndexAccessExpr ia = (IndexedIncidenceIndexAccessExpr)expr;
+			sb.append("new GRGEN_EXPR.IncidenceIndexAccess(");
+			sb.append("\"" + ia.getTarget().getIdent() + "\", ");
+			genExpressionTree(sb, ia.getKeyExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", \"" + formatElementInterfaceRef(ia.getKeyExpr().getType()) + "\"");
 			sb.append(")");
 		}
 		else if (expr instanceof MapSizeExpr) {

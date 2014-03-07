@@ -2110,6 +2110,76 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a deque access expression.
+    /// </summary>
+    public class DequeAccess : Expression
+    {
+        public DequeAccess(Expression target, Expression keyExpr)
+        {
+            Target = target;
+            KeyExpr = keyExpr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new DequeAccess(Target.Copy(renameSuffix), KeyExpr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            Target.Emit(sourceCode);
+            sourceCode.Append("[");
+            KeyExpr.Emit(sourceCode);
+            sourceCode.Append("])");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return KeyExpr;
+        }
+
+        Expression Target;
+        Expression KeyExpr;
+    }
+
+    /// <summary>
+    /// Class representing an incidence index access expression.
+    /// </summary>
+    public class IncidenceIndexAccess : Expression
+    {
+        public IncidenceIndexAccess(String target, Expression keyExpr, String type)
+        {
+            Target = target;
+            KeyExpr = keyExpr;
+            Type = type;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IncidenceIndexAccess(Target, KeyExpr.Copy(renameSuffix), Type);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((GRGEN_LIBGR.IIncidenceIndex)graph.Indices.GetIndex(\"" + Target + "\")).GetIncidenceCount(");
+            sourceCode.Append("(" + Type + ")");
+            KeyExpr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return KeyExpr;
+        }
+
+        String Target;
+        Expression KeyExpr;
+        String Type;
+    }
+
+    /// <summary>
     /// Class representing a map size expression.
     /// </summary>
     public class MapSize : Expression

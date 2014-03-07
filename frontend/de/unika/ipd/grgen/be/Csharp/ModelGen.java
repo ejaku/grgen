@@ -2170,7 +2170,11 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		String indexName = index.getIdent().toString();
 		String lookupType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
 		String graphElementType = index instanceof AttributeIndex ? formatElementInterfaceRef(((AttributeIndex)index).type) : formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
-		sb.append("\tinterface Index" + indexName + " : GRGEN_LIBGR.IAttributeIndex\n");
+		if(index instanceof AttributeIndex) {
+			sb.append("\tinterface Index" + indexName + " : GRGEN_LIBGR.IAttributeIndex\n");
+		} else if(index instanceof IncidenceIndex) {
+			sb.append("\tinterface Index" + indexName + " : GRGEN_LIBGR.IIncidenceIndex\n");
+		}
 		sb.append("\t{\n");
 		sb.append("\t\tIEnumerable<" + graphElementType + "> Lookup(" + lookupType + " fromto);\n");
 		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupAscending();\n");
@@ -2191,6 +2195,9 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromInclusiveToExclusive(" + lookupType + " from, " + lookupType + " to);\n");
 		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToInclusive(" + lookupType + " from, " + lookupType + " to);\n");
 		sb.append("\t\tIEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToExclusive(" + lookupType + " from, " + lookupType + " to);\n");
+		if(index instanceof IncidenceIndex) {
+			sb.append("\t\tint GetIncidenceCount(" + graphElementType + " element);\n");
+		}
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
@@ -3243,6 +3250,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		genDescending(index, true, false, true, true);
 		genDescending(index, true, false, true, false);
 
+		genGetIncidenceCount(index);
+		
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
@@ -3482,6 +3491,20 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\n");
 	}
 
+	void genGetIncidenceCount(IncidenceIndex index)
+	{
+		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
+		sb.append("\t\tpublic int GetIncidenceCount(GRGEN_LIBGR.IGraphElement element)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\treturn GetIncidenceCount((" + graphElementType + ") element);\n");
+		sb.append("\t\t}\n\n");
+
+		sb.append("\t\tpublic int GetIncidenceCount(" + graphElementType + " element)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\treturn nodeToIncidenceCount[element];\n");
+		sb.append("\t\t}\n");
+	}
+	
 	void genCheckDump(IncidenceIndex index)
 	{
 		String startNodeType = formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
