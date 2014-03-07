@@ -41,6 +41,12 @@ exec [tqux]
 exec [tpix]
 exec [txom]
 
+exec (::a,::b,::c,::d)=fooincidencecount(@("1"), @("7"))
+show var a
+show var b
+show var c
+show var d
+
 delete node @("9")
 delete node @("5")
 delete edge @("e9")

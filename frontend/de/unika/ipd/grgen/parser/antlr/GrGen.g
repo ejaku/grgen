@@ -3868,6 +3868,9 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 		{
 			res = new CastNode(getCoords(p), id, op);
 		}
+	| { env.test(ParserEnvironment.INDICES, input.LT(1).getText()) }?
+		i=IDENT l=LBRACK key=expr[inEnumInit] RBRACK
+			{ res = new IndexedIncidenceIndexAccessExprNode(getCoords(l), new IdentNode(env.occurs(ParserEnvironment.INDICES, i.getText(), getCoords(i))), key); }
 	| e=primaryExpr[inEnumInit] ((LBRACK ~PLUS | DOT) => e=selectorExpr[e, inEnumInit])* { res = e; }
 	; 
 

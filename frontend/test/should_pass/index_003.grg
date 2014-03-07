@@ -169,3 +169,52 @@ test t5(var x:int) {
 	:Node{descending(bar5>n.i-42, bar5<=n.i)};
 	:Node{descending(baz5>n.i-42, baz5<=n.i)};	
 }
+
+rule indexaccess {
+	n:N;
+	
+	if{foo[n]==42;}
+	if{bar[n]==42;}
+	if{baz[n]==42;}
+
+	if{foo2[n]==42;}
+	if{bar2[n]==42;}
+	if{baz2[n]==42;}
+
+	if{foo3[n]==42;}
+	if{bar3[n]==42;}
+	if{baz3[n]==42;}
+
+	if{foo4[n]==42;}
+	if{bar4[n]==42;}
+	if{baz4[n]==42;}
+
+	if{foo5[n]==42;}
+	if{bar5[n]==42;}
+	if{baz5[n]==42;}
+	
+	modify {
+		def var i:int;
+		eval {
+			yield i = foo[n];
+			yield i = bar[n];
+			yield i = baz[n];
+
+			yield i = foo2[n];
+			yield i = bar2[n];
+			yield i = baz2[n];
+
+			yield i = foo3[n];
+			yield i = bar3[n];
+			yield i = baz3[n];
+
+			yield i = foo4[n];
+			yield i = bar4[n];
+			yield i = baz4[n];
+
+			yield i = foo5[n];
+			yield i = bar5[n];
+			yield i = baz5[n];
+		}
+	}
+}
