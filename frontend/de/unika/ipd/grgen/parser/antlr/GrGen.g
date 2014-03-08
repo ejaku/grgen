@@ -941,6 +941,11 @@ nodeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, Patter
 			if(idx2!=null && !idx.toString().equals(idx2.toString()))
 				reportError(idx2.getCoords(), "the same index must be used in an ordered index access expression with two constraints");
 		}
+	| AT LPAREN e=expr[false] RPAREN
+		{
+			n = new MatchNodeByNameLookupNode(id, type, context, 
+						e, directlyNestingLHSGraph);
+		}
 	;
 
 relOS returns [ int os = OperatorSignature.ERROR ]
@@ -1472,6 +1477,11 @@ edgeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, Patter
 				reportError(getCoords(i), "ordered index access expression must start with ascending or descending");
 			if(idx2!=null && !idx.toString().equals(idx2.toString()))
 				reportError(idx2.getCoords(), "the same index must be used in an ordered index access expression with two constraints");
+		}
+	| AT LPAREN e=expr[false] RPAREN
+		{
+			res = new MatchEdgeByNameLookupNode(id, type, context, 
+						e, directlyNestingLHSGraph);
 		}
 	;
 

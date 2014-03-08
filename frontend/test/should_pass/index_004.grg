@@ -1,0 +1,45 @@
+#using "index_model_004.gm"
+
+test t {
+	n:N{@("foo")} -e:E{@("bar")}-> n;
+}
+
+rule r {
+	n:Node{@("foo")} -e:Edge{@("bar")}-> n;
+	
+	modify {
+	}
+}
+
+/////////////////////////////
+
+test tp(var x:string) {
+	n:N{@(x)} -e:E{@(x)}-> n;
+}
+
+rule rp(var x:string) {
+	n:Node{@(x)} -e:Edge{@(x)}-> n;
+	
+	modify {
+	}
+}
+
+rule rp2(var x:int) {
+	n:Node{@(x)} -e:Edge{@(x)}-> n; // implicit cast to string
+	
+	modify {
+	}
+}
+
+/////////////////////////////
+
+test ta {
+	n:N{@("foo")} -e:E{@(n.s)}-> n;
+}
+
+rule ra {
+	n:Node{@(e.s)} -e:E{@("bar")}-> n;
+	
+	modify {
+	}
+}

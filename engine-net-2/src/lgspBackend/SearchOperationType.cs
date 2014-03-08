@@ -67,6 +67,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         PickFromIndexDependent,
         /// <summary>
+        /// Pick element by name, independent from previously matched elements.
+        /// </summary>
+        PickByName,
+        /// <summary>
+        /// Pick element by name, depending on a previously matched element (e.g. an attribute owner).
+        /// </summary>
+        PickByNameDependent,
+        /// <summary>
         /// Cast to new type (i.e. check if type is correct and uncover attributes of that type), needs old element.
         /// </summary>
         Cast,
