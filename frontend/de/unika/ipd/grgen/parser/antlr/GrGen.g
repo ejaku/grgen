@@ -848,10 +848,10 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 		  curOrderedRepl.addChild(new SubpatternReplNode(id, subpatternReplConn));
 		}
 	| id=entIdentDecl cc=COLON // node or subpattern declaration
-		firstNodeOrSubpatternDeclaration [ id, conn, subpatterns, context, directlyNestingLHSGraph ]
+		firstNodeOrSubpatternDeclaration [ id, null, conn, subpatterns, context, directlyNestingLHSGraph ]
 	| ( annots=annotations { hasAnnots = true; } )?
 		c=COLON // anonymous node or subpattern declaration
-		anonymousFirstNodeOrSubpatternDeclaration [ c, conn, subpatterns, context, directlyNestingLHSGraph ]
+		firstNodeOrSubpatternDeclaration [ null, c, conn, subpatterns, context, directlyNestingLHSGraph ]
 		{ if (hasAnnots) { id.setAnnotations(annots); } }
 	| d=DOT // anonymous node declaration of type node
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
@@ -860,7 +860,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 	;
 
-firstNodeOrSubpatternDeclaration [ IdentNode id, CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, 
+firstNodeOrSubpatternDeclaration [ IdentNode id, Token c, CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, 
 			int context, PatternGraphNode directlyNestingLHSGraph ]
 	options { k = 4; }
 	@init{
@@ -873,6 +873,7 @@ firstNodeOrSubpatternDeclaration [ IdentNode id, CollectNode<BaseNode> conn, Col
 	}
 
 	: // node declaration
+		{ if(id==null) id = env.defineAnonymousEntity("node", getCoords(c)); }
 		type=typeIdentUse
 		( constr=typeConstraint )?
 		( 
@@ -890,6 +891,7 @@ firstNodeOrSubpatternDeclaration [ IdentNode id, CollectNode<BaseNode> conn, Col
 		)
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // node typeof declaration
+		{ if(id==null) id = env.defineAnonymousEntity("node", getCoords(c)); }
 		TYPEOF LPAREN type=entIdentUse RPAREN
 		( constr=typeConstraint )?
 		( LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT )?
@@ -902,12 +904,14 @@ firstNodeOrSubpatternDeclaration [ IdentNode id, CollectNode<BaseNode> conn, Col
 		}
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // node copy declaration
+		{ if(id==null) id = env.defineAnonymousEntity("node", getCoords(c)); }
 		COPY LT type=entIdentUse GT 
 		{
 			n = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
 		}
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // subpattern declaration
+		{ if(id==null) id = env.defineAnonymousEntity("sub", getCoords(c)); }
 		type=patIdentUse LPAREN arguments[subpatternConn] RPAREN
 		{ subpatterns.addChild(new SubpatternUsageNode(id, type, context, subpatternConn)); }
 	;
@@ -953,61 +957,6 @@ relOS returns [ int os = OperatorSignature.ERROR ]
 	| le=LE { os = OperatorSignature.LE; }
 	| gt=GT { os = OperatorSignature.GT; }
 	| ge=GE { os = OperatorSignature.GE; }
-	;
-
-anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, 
-			int context, PatternGraphNode directlyNestingLHSGraph ] returns [ IdentNode id = env.getDummyIdent() ]
-	options { k = 4; }
-	@init{
-		type = env.getNodeRoot();
-		constr = TypeExprNode.getEmpty();
-		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
-		curId = env.getDummyIdent();
-		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
-		BaseNode n = null;
-	}
-
-	:  // node declaration
-		{ id = env.defineAnonymousEntity("node", getCoords(c)); }
-		type=typeIdentUse
-		( constr=typeConstraint )?
-		(
-			{
-				n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
-			}
-		| LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT
-			{
-				n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
-			}
-		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, context, directlyNestingLHSGraph ] RBRACE
-			{
-				n = nsic;
-			}
-		)
-		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
-	| // node typeof declaration
-		{ id = env.defineAnonymousEntity("node", getCoords(c)); }
-		TYPEOF LPAREN type=entIdentUse RPAREN
-		( constr=typeConstraint )?
-		( LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT )?
-		{
-			if(oldid==null) {
-				n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
-			} else {
-				n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
-			}
-		}
-		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
-	| // node copy declaration
-		COPY LT type=entIdentUse GT 
-		{
-			n = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
-		}
-		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
-	| // subpattern declaration
-		{ id = env.defineAnonymousEntity("sub", getCoords(c)); }
-		type=patIdentUse LPAREN arguments[subpatternConn] RPAREN
-		{ subpatterns.addChild(new SubpatternUsageNode(id, type, context, subpatternConn)); }
 	;
 
 defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
@@ -1215,37 +1164,6 @@ nodeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 				res = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 			}
 		| LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT
-			{
-				res = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
-			}
-		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, context, directlyNestingLHSGraph ] RBRACE
-			{
-				res = nsic;
-			}
-		)
-	| COPY LT type=entIdentUse GT
-		{
-			res = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
-		}
-	;
-
-nodeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
-	@init{
-		constr = TypeExprNode.getEmpty();
-		curId = env.getDummyIdent();
-		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
-	}
-
-	: id=entIdentDecl COLON
-		( type=typeIdentUse
-		| TYPEOF LPAREN type=entIdentUse RPAREN
-		)
-		( constr=typeConstraint )?
-		( 
-			{
-				res = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
-			}
-		| LT oldid=entIdentUse (COMMA curId=entIdentUse { mergees.addChild(curId); })* GT 
 			{
 				res = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
