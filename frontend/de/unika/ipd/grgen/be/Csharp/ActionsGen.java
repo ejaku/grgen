@@ -1497,6 +1497,8 @@ public class ActionsGen extends CSharpBase {
 						pathPrefixForElements, node);
 				genIndexAccess(sb, pathPrefix, className, alreadyDefinedEntityToName,
 						pathPrefixForElements, node, parameters);
+				genNameLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
+						pathPrefixForElements, node, parameters);
 				sb.append((node instanceof RetypedNode ? formatEntity(((RetypedNode)node).getOldNode(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
 				sb.append(node.isDefToBeYieldedTo() ? "true," : "false,");
 				if(node.initialization!=null) {
@@ -1536,6 +1538,8 @@ public class ActionsGen extends CSharpBase {
 				genStorageAccess(sb, pathPrefix, alreadyDefinedEntityToName,
 						pathPrefixForElements, edge);
 				genIndexAccess(sb, pathPrefix, className, alreadyDefinedEntityToName,
+						pathPrefixForElements, edge, parameters);
+				genNameLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
 						pathPrefixForElements, edge, parameters);
 				sb.append((edge instanceof RetypedEdge ? formatEntity(((RetypedEdge)edge).getOldEdge(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
 				sb.append(edge.isDefToBeYieldedTo() ? "true," : "false,");
@@ -1790,6 +1794,24 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", " + (indexAccess.includingTo() ? "true" : "false"));
 				sb.append("), ");
 			}
+		} else {
+			sb.append("null, ");
+		}		
+	}
+
+	private void genNameLookup(StringBuffer sb, String pathPrefix, 
+			String className, HashMap<Entity, String> alreadyDefinedEntityToName,
+			String pathPrefixForElements, GraphEntity entity, List<Entity> parameters) {
+		if(entity.nameMapAccess!=null) {
+			NameLookup nameMapAccess = entity.nameMapAccess;
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+			nameMapAccess.expr.collectNeededEntities(needs);
+			Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs, parameters);
+			sb.append("new GRGEN_LGSP.NameLookup(");
+			sb.append(neededEntity!=null ? formatEntity(neededEntity, pathPrefix, alreadyDefinedEntityToName) + ", " : "null, ");
+			sb.append(!needs.variables.isEmpty() ? "true, " : "false, ");
+			genExpressionTree(sb, nameMapAccess.expr, className, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append("), ");
 		} else {
 			sb.append("null, ");
 		}		

@@ -2979,6 +2979,7 @@ namespace de.unika.ipd.grGen.lgsp
     {
         NodeFromEdge, // draw node from given edge
         MapWithStorage, // map element by storage map lookup
+        MapByName, // map element by name map lookup
         FromInputs, // draw element from action inputs
         FromSubpatternConnections, // draw element from subpattern connections
         FromParallelizationTask, // draw element from parallelization preset
@@ -3089,14 +3090,19 @@ namespace de.unika.ipd.grGen.lgsp
         public GetCandidateByDrawing(
             GetCandidateByDrawingType type,
             string patternElementName,
-            string sourcePatternElementName,
+            string source,
             bool isNode)
         {
-            Debug.Assert(type == GetCandidateByDrawingType.FromOtherElementForCast || type == GetCandidateByDrawingType.FromOtherElementForAssign);
+            Debug.Assert(type == GetCandidateByDrawingType.FromOtherElementForCast 
+                || type == GetCandidateByDrawingType.FromOtherElementForAssign
+                || type == GetCandidateByDrawingType.MapByName);
 
             Type = type;
             PatternElementName = patternElementName;
-            SourcePatternElementName = sourcePatternElementName;
+            if(type == GetCandidateByDrawingType.MapByName)
+                SourceExpression = source;
+            else
+                SourcePatternElementName = source;
             IsNode = isNode;
         }
 
@@ -3113,6 +3119,10 @@ namespace de.unika.ipd.grGen.lgsp
                 builder.AppendFormat("on {0} by {1} from {2} node:{3}\n",
                     PatternElementName, SourcePatternElementName, 
                     StorageName, IsNode);
+            } else if(Type==GetCandidateByDrawingType.MapByName) {
+                builder.Append("MapByName ");
+                builder.AppendFormat("on {0} from name map by {1} node:{2}\n",
+                    PatternElementName, SourceExpression, IsNode);
             } else if(Type==GetCandidateByDrawingType.FromInputs) {
                 builder.Append("FromInputs ");
                 builder.AppendFormat("on {0} node:{1}\n",
@@ -3202,6 +3212,25 @@ namespace de.unika.ipd.grGen.lgsp
                 string tempVariableForMapResult = NamesOfEntities.MapWithStorageTemporary(PatternElementName);
                 sourceCode.AppendFrontFormat("{0} {1};\n",
                     typeOfTempVariableForMapResult, tempVariableForMapResult);
+                // emit declaration of variable containing candidate node
+                string typeOfVariableContainingCandidate = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
+                string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} {1};\n",
+                    typeOfVariableContainingCandidate, variableContainingCandidate);
+            }
+            else if(Type == GetCandidateByDrawingType.MapByName)
+            {
+                if(sourceCode.CommentSourceCode)
+                    sourceCode.AppendFrontFormat("// Map {0} by name map with {1} \n",
+                        PatternElementName, SourceExpression);
+
+                // emit declaration of variable to hold element mapped from storage
+                // emit initialization with element from name map lookup
+                string typeOfTempVariableForMapResult = "GRGEN_LIBGR.IGraphElement";
+                string tempVariableForMapResult = NamesOfEntities.MapByNameTemporary(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} {1} = ((GRGEN_LGSP.LGSPNamedGraph)graph).GetGraphElement(({2}).ToString());\n",
+                    typeOfTempVariableForMapResult, tempVariableForMapResult, SourceExpression);
                 // emit declaration of variable containing candidate node
                 string typeOfVariableContainingCandidate = "GRGEN_LGSP."
                     + (IsNode ? "LGSPNode" : "LGSPEdge");
@@ -3304,6 +3333,7 @@ namespace de.unika.ipd.grGen.lgsp
         ImplicitNodeType NodeType; // only valid if NodeFromEdge
         public bool IsNode; // node|edge
         public string SourcePatternElementName; // only valid if MapWithStorage|FromOtherElementForCast|FromOtherElementForAssign
+        public string SourceExpression; // only valid if MapByName
         public string StorageName; // only valid if MapWithStorage
         public string StorageValueTypeName; // only valid if MapWithStorage
         public string TypeName; // only valid if FromParallelizationTaskVar
@@ -4213,6 +4243,60 @@ namespace de.unika.ipd.grGen.lgsp
         public string SourcePatternElementName;
         public string StorageName;
         public string StorageKeyTypeName;
+        bool IsNode;
+    }
+
+    /// <summary>
+    /// Class representing "check whether candidate is contained in the name map" operation
+    /// </summary>
+    class CheckCandidateMapByName : CheckCandidate
+    {
+        public CheckCandidateMapByName(
+            string patternElementName,
+            bool isNode)
+        {
+            PatternElementName = patternElementName;
+            IsNode = isNode;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump check
+            builder.AppendFront("CheckCandidate MapByName ");
+            builder.AppendFormat("on {0} node:{1}\n",
+                PatternElementName, IsNode);
+            // then operations for case check failed
+            if(CheckFailedOperations != null)
+            {
+                builder.Indent();
+                CheckFailedOperations.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            // emit initialization with element mapped from storage
+            string tempVariableForMapResult = NamesOfEntities.MapByNameTemporary(PatternElementName);
+            sourceCode.AppendFrontFormat("if({0}==null || !({0} is {1}))", 
+                tempVariableForMapResult, IsNode ? "GRGEN_LIBGR.INode" : "GRGEN_LIBGR.IEdge");
+
+            // emit check failed code
+            sourceCode.Append("{\n");
+            sourceCode.Indent();
+            CheckFailedOperations.Emit(sourceCode);
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            // assign the value to the candidate variable, cast it to the variable type
+            string typeOfVariableContainingCandidate = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
+            string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
+
+            sourceCode.AppendFrontFormat("{0} = ({1}){2};\n",
+                variableContainingCandidate, typeOfVariableContainingCandidate, tempVariableForMapResult);
+        }
+
         bool IsNode;
     }
 

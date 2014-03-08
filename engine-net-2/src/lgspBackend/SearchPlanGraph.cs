@@ -28,7 +28,7 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchPlanNode(String rootName)
         {
             NodeType = PlanNodeType.Root;
-            PatternElement = new PatternNode(-1, null, "", rootName, rootName, null, null, 0.0f, -1, false, null, null, null, null, false, null);
+            PatternElement = new PatternNode(-1, null, "", rootName, rootName, null, null, 0.0f, -1, false, null, null, null, null, null, false, null);
         }
 
         protected SearchPlanNode(PlanNode planNode)
@@ -195,7 +195,8 @@ namespace de.unika.ipd.grGen.lgsp
             foreach (SearchPlanEdge edge in edges)
                 if (edge.Type == SearchOperationType.PickFromStorage 
                     || edge.Type == SearchOperationType.MapWithStorage
-                    || edge.Type == SearchOperationType.PickFromIndex)
+                    || edge.Type == SearchOperationType.PickFromIndex
+                    || edge.Type == SearchOperationType.PickByName)
                     ++NumIndependentStorageIndexElements;
         }
     }

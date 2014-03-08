@@ -1,0 +1,25 @@
+new graph "index/index_name_lookup"
+
+new :N($="foo", s="bar")
+new :N($="0", s="e0")
+new :N($="1", s="e1")
+new :Node($="2")
+new @("foo") -:E($="bar", s="foo")-> @("foo")
+new @("0") -:E($="e0", s="0")-> @("0")
+new @("1") -:E($="e1", s="1")-> @("1")
+new @("2") -:Edge($="e2")-> @("2")
+
+exec [t]
+exec [r]
+
+exec [tp("foo", "bar")]
+exec [rp("foo", "bar")]
+exec [sp(0, "e0")]
+
+exec [tp("foo", "foo")]
+exec [sp(1, "e0")]
+
+exec [ta]
+exec [ra]
+
+quit
