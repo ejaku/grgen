@@ -22,6 +22,7 @@ import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
+import de.unika.ipd.grgen.ir.NameOrAttributeInitialization;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 
@@ -85,6 +86,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
 		children.add(constraints);
+		children.add(nameOrAttributeInits);
 		if(initialization!=null) children.add(initialization);
 		return children;
 	}
@@ -96,6 +98,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("constraints");
+		childrenNames.add("nameOrAttributeInits");
 		if(initialization!=null) childrenNames.add("initialization expression");
 		return childrenNames;
 	}
@@ -173,9 +176,32 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 			}
 		}
 
+		boolean noLhsNameOrAttributeInit = true;
+		if((context & CONTEXT_LHS_OR_RHS)==CONTEXT_LHS) {
+			if(nameOrAttributeInits.children.size()>0) {
+				reportError("A name or attribute initialization is not allowed in the pattern");
+				noLhsNameOrAttributeInit = false;
+			}
+		}
+		
+		boolean atMostOneNameInit = true;
+		boolean nameInitFound = false;
+		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.children) {
+			if(nain.attributeUnresolved == null) {
+				if(!nameInitFound)
+					nameInitFound = true;
+				else {
+					reportError("Only one name initialization allowed");
+					atMostOneNameInit = false;
+				}
+			}
+		}
+
 		return super.checkLocal()
 			& typeChecker.check(getValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error)
-			& noLhsCopy;
+			& noLhsCopy
+			& noLhsNameOrAttributeInit
+			& atMostOneNameInit;
 	}
 
 	/**
@@ -230,6 +256,11 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		if(initialization!=null) {
 			initialization = initialization.evaluate();
 			edge.setInitialization(initialization.checkIR(Expression.class));
+		}
+
+		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.children) {
+			nain.ownerIR = edge;
+			edge.addNameOrAttributeInitialization(nain.checkIR(NameOrAttributeInitialization.class));
 		}
 
 		return edge;

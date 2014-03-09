@@ -857,6 +857,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
 		( annots=annotations { id.setAnnotations(annots); } )?
 		{ n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph); }
+		//( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 	;
 
@@ -889,6 +890,7 @@ firstNodeOrSubpatternDeclaration [ IdentNode id, Token c, CollectNode<BaseNode> 
 				n = nsic;
 			}
 		)
+		( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // node typeof declaration
 		{ if(id==null) id = env.defineAnonymousEntity("node", getCoords(c)); }
@@ -902,6 +904,7 @@ firstNodeOrSubpatternDeclaration [ IdentNode id, Token c, CollectNode<BaseNode> 
 				n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
 		}
+		( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // node copy declaration
 		{ if(id==null) id = env.defineAnonymousEntity("node", getCoords(c)); }
@@ -909,6 +912,7 @@ firstNodeOrSubpatternDeclaration [ IdentNode id, Token c, CollectNode<BaseNode> 
 		{
 			n = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
 		}
+		( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // subpattern declaration
 		{ if(id==null) id = env.defineAnonymousEntity("sub", getCoords(c)); }
@@ -1144,6 +1148,7 @@ nodeOcc [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Base
 	| d=DOT // anonymous node declaration of type node
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
 		( annots=annotations { id.setAnnotations(annots); } )?
+		//( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 		{ res = new NodeDeclNode(id, env.getNodeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph); }
 	;
 
@@ -1172,10 +1177,12 @@ nodeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 				res = nsic;
 			}
 		)
+		( AT LPAREN nameAndAttributesInitializationList[res] RPAREN )?
 	| COPY LT type=entIdentUse GT
 		{
 			res = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
 		}
+		( AT LPAREN nameAndAttributesInitializationList[res] RPAREN )?
 	;
 
 nodeDeclParam [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
@@ -1248,12 +1255,14 @@ forwardOrUndirectedEdgeOcc [int context, MutableInteger direction, MutableIntege
 			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.DIRECTED);
 		}
+		//( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 	| mm=MINUSMINUS
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
 			res = new EdgeDeclNode(id, env.getUndirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.UNDIRECTED);
 		}
+		//( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 	;
 
 forwardOrUndirectedEdgeOccContinuation [MutableInteger direction, MutableInteger redirection]
@@ -1272,12 +1281,14 @@ backwardOrArbitraryDirectedEdgeOcc [ int context, MutableInteger direction, Muta
 			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.DIRECTED);
 		}
+		//( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 	| lr=LRARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(lr));
 			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.ARBITRARY_DIRECTED);
 		}
+		//( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 	;
 
 backwardOrArbitraryDirectedEdgeOccContinuation [MutableInteger direction, MutableInteger redirection]
@@ -1295,6 +1306,7 @@ arbitraryEdgeOcc [int context, PatternGraphNode directlyNestingLHSGraph] returns
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(q));
 			res = new EdgeDeclNode(id, env.getArbitraryEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		}
+		//( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 	;
 
 edgeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EdgeDeclNode res = null ]
@@ -1310,6 +1322,7 @@ edgeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Edg
 				co=edgeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; } 
 			|   { id = env.defineAnonymousEntity("edge", atCo.second); }
 				{ res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph); }
+				//( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 			)
 				{ id.setAnnotations(atCo.first); }
 		| cc=COLON
@@ -1361,10 +1374,12 @@ edgeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 				res = esic;
 			}
 		)
+		( AT LPAREN nameAndAttributesInitializationList[res] RPAREN )?
 	| COPY LT type=entIdentUse GT
 		{
 			res = new EdgeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
 		}
+		( AT LPAREN nameAndAttributesInitializationList[res] RPAREN )?
 	;
 
 edgeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, PatternGraphNode directlyNestingLHSGraph ]
@@ -1403,6 +1418,18 @@ edgeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, Patter
 		}
 	;
 
+nameAndAttributesInitializationList[BaseNode n]
+	@init{ ConstraintDeclNode cdl = (ConstraintDeclNode)n; }
+	: nameOrAttributeInitialization[cdl] (COMMA nameOrAttributeInitialization[cdl])*
+	;
+
+nameOrAttributeInitialization[ConstraintDeclNode n]
+	: DOLLAR ASSIGN arg=expr[false]
+		{ n.addNameOrAttributeInitialization(new NameOrAttributeInitializationNode(n, arg)); }
+	| attr=memberIdentUse ASSIGN arg=expr[false]
+		{ n.addNameOrAttributeInitialization(new NameOrAttributeInitializationNode(n, attr, arg)); }
+	;
+	
 arguments[CollectNode<ExprNode> args]
 	: ( arg=argument[args] ( COMMA argument[args] )* )?
 	;

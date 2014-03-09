@@ -1,0 +1,27 @@
+#using "name_attribute_init.gm"
+
+rule r {
+	modify {
+		n:Node@($="foo") -e:Edge@($="bar")-> n;
+		n2:N@($="foo", s="foo", i=42) -e2:E@($="bar", s="bar", i=42)-> n;
+		n3:N@(s="foo", i=42) -e3:E@(s="bar", i=42)-> n;
+	}
+}
+
+rule rp(var x:string) {
+	modify {
+		n:Node@($=x) -e:Edge@($=x+"+")-> n;
+		n2:N@($=x, s=x, i=42) -e2:E@($=x, s=x, i=42)-> n;
+		n3:N@(s=x, i=42) -e3:E@(s=x, i=42)-> n;
+	}
+}
+
+rule ra {
+	np:N;
+	
+	modify {
+		n:Node@($=np.s) -e:Edge@($=np.s+"+")-> n;
+		n2:N@($=np.s, s=np.s, i=np.i) -e2:E@($=np.s, s=np.s, i=np.i)-> n;
+		n3:N@(s=np.s, i=np.i) -e3:E@(s=np.s, i=np.i)-> n;
+	}
+}

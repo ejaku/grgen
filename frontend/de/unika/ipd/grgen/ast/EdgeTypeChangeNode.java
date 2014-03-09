@@ -93,6 +93,11 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 			return false;
 		}
 
+		if(nameOrAttributeInits.children.size()>0) {
+			reportError("A name or attribute initialization is not allowed for a retyped edge");
+			return false;
+		}
+
 		// check if source edge of retype is declared in replace/modify part
 		BaseNode curr = old;
 		BaseNode prev = null;

@@ -1,0 +1,35 @@
+new graph "index/name_attribute_init"
+
+exec r
+
+show node @("foo")
+show edge @("bar")
+show node @("n2")
+show edge @("e2")
+show node @("$0")
+show edge @("$1")
+
+clear graph
+
+exec rp("foo")
+
+show node @("foo")
+show edge @("fooe")
+show node @("foon2")
+show edge @("fooe2")
+show node @("$2")
+show edge @("$3")
+
+clear graph
+
+exec initra ;> ra
+
+show node @("$4")
+show node @("foo")
+show edge @("fooe")
+show node @("foon2")
+show edge @("fooe2")
+show node @("$5")
+show edge @("$6")
+
+quit

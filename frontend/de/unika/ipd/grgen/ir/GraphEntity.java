@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.util.Annotations;
@@ -55,6 +56,8 @@ public abstract class GraphEntity extends Entity {
 
 	// null or an expression used to initialize the node
 	public Expression initialization;
+	
+	public Vector<NameOrAttributeInitialization> nameOrAttributeInitialization = new Vector<NameOrAttributeInitialization>();
 
 	/** Dependencies because of match by storage access (element must be matched before storage map access with it)*/
 	protected int dependencyLevel = 0;
@@ -196,6 +199,34 @@ public abstract class GraphEntity extends Entity {
 
 	public void setInitialization(Expression initialization) {
 		this.initialization = initialization;
+	}
+	
+	public void addNameOrAttributeInitialization(NameOrAttributeInitialization nai) {
+		this.nameOrAttributeInitialization.add(nai);
+	}
+	
+	public boolean hasNameInitialization() {
+		for(NameOrAttributeInitialization nai : nameOrAttributeInitialization) {
+			if(nai.attribute==null)
+				return true;
+		}
+		return false;
+	}
+	
+	public NameOrAttributeInitialization getNameInitialization() {
+		for(NameOrAttributeInitialization nai : nameOrAttributeInitialization) {
+			if(nai.attribute==null)
+				return nai;
+		}
+		return null;
+	}
+
+	public boolean hasAttributeInitialization() {
+		for(NameOrAttributeInitialization nai : nameOrAttributeInitialization) {
+			if(nai.attribute!=null)
+				return true;
+		}
+		return false;
 	}
 
 	public void incrementDependencyLevel() {

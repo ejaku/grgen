@@ -37,6 +37,9 @@ public abstract class ConstraintDeclNode extends DeclNode
 	protected boolean maybeNull = false;
 
 	ExprNode initialization = null;
+	
+	CollectNode<NameOrAttributeInitializationNode> nameOrAttributeInits = 
+		new CollectNode<NameOrAttributeInitializationNode>();
 
 
 	protected ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints,
@@ -51,9 +54,12 @@ public abstract class ConstraintDeclNode extends DeclNode
 	}
 
 	/** sets an expression to be used to initialize the graph entity, only used for local variables, not pattern elements */
-	public void setInitialization(ExprNode initialization)
-	{
+	public void setInitialization(ExprNode initialization) {
 		this.initialization = initialization;
+	}
+	
+	public void addNameOrAttributeInitialization(NameOrAttributeInitializationNode nameOrAttributeInit) {
+		this.nameOrAttributeInits.addChild(nameOrAttributeInit);
 	}
 
 	@Override
