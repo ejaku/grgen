@@ -1,0 +1,51 @@
+#using "nameoftest.gm"
+
+rule t {
+	n:N -e:E-> n;
+	
+	def var oldnodename:string;
+	def var oldedgename:string;
+	def var oldgraphname:string;
+	
+	yield {
+		yield oldnodename = nameof(n);
+		yield oldedgename = nameof(e);
+		yield oldgraphname = nameof();
+	}
+	
+	modify {
+		eval {
+			nameof(n) = "fool";
+			nameof(e) = "barz";
+			nameof() = "hurz";
+		}
+
+		emit("The value of attribute noattribute is " + oldnodename + "\n");
+		emit("The value of attribute noattribute is " + oldedgename + "\n");
+		emit("The value of attribute noattribute is " + oldgraphname + "\n");
+		
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+		emit("The value of attribute noattribute is " + nameof(e) + "\n");
+		emit("The value of attribute noattribute is " + nameof() + "\n");
+	}
+}
+
+rule r {
+	n:N -e:E-> n;
+
+	def var oldsubgraph:graph;
+	def var oldsubgraphname:string;
+
+	yield {
+		yield oldsubgraph = inducedSubgraph(set<Node>{n});
+		yield oldsubgraphname = nameof(oldsubgraph);
+	}
+	
+	modify {
+		eval { nameof(oldsubgraph) = "harr harr harr"; }
+		
+		emit("The value of attribute noattribute is " + oldsubgraphname + "\n");
+		emit("The value of attribute noattribute is " + nameof(oldsubgraph) + "\n");
+	}
+}
+

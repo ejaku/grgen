@@ -1,0 +1,13 @@
+using stringnode;
+
+rule r {
+	x : StringNode;
+
+	modify {
+		eval {
+			nameof(x) = "foo" + nameof(x);
+			nameof() = "foo" + nameof();
+		}
+	}
+}
+

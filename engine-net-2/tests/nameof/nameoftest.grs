@@ -1,0 +1,10 @@
+new graph "nameof/nameoftest" "hu"
+
+new :N($="foo", s="bar")
+new @("foo") -:E($="bar", s="foo")-> @("foo")
+
+exec t
+
+exec r
+
+quit
