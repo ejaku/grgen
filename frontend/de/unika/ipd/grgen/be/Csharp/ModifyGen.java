@@ -1905,6 +1905,9 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof AssignmentVisited) {
 			genAssignmentVisited(sb, state, (AssignmentVisited) evalStmt);
 		}
+		else if(evalStmt instanceof AssignmentNameof) {
+			genAssignmentNameof(sb, state, (AssignmentNameof) evalStmt);
+		}
 		else if(evalStmt instanceof AssignmentIdentical) {
 			//nothing to generate, was assignment . = . optimized away;
 		}
@@ -2303,7 +2306,27 @@ public class ModifyGen extends CSharpBase {
 		genExpression(sb, ass.getExpression(), state);
 		sb.append(");\n");
 	}
-	
+
+	private void genAssignmentNameof(StringBuffer sb, ModifyGenerationStateConst state, AssignmentNameof ass) {
+		if(ass.getTarget()==null || ass.getTarget().getType() instanceof GraphType) {
+			if(ass.getTarget()==null)
+				sb.append("\t\t\tgraph.Name = ");
+			else {
+				sb.append("\t\t\t(");
+				genExpression(sb, ass.getTarget(), state);
+				sb.append(").Name = ");
+			}
+			genExpression(sb, ass.getExpression(), state);
+			sb.append(";\n");
+		} else {
+			sb.append("\t\t\t((GRGEN_LGSP.LGSPNamedGraph)graph).SetElementName(");
+			genExpression(sb, ass.getTarget(), state);
+			sb.append(", ");
+			genExpression(sb, ass.getExpression(), state);
+			sb.append(");\n");
+		}
+	}
+
 	private void genCompoundAssignmentChanged(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignmentChanged cass)
 	{
 		Qualification changedTarget = cass.getChangedTarget();

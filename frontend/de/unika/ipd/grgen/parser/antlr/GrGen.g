@@ -3388,7 +3388,11 @@ options { k = 5; }
 	  vis=visited a=ASSIGN e=expr[false] SEMI
 		{ res = new AssignVisitedNode(getCoords(a), vis, e, context); }
 		{ if(onLHS) reportError(getCoords(a), "Assignment to a visited flag is forbidden in LHS eval."); }
-	| 
+	|
+	  n=NAMEOF LPAREN (id=expr[false])? RPAREN a=ASSIGN e=expr[false] SEMI
+	    { res = new AssignNameofNode(getCoords(a), id, e, context); }
+		{ if(onLHS) reportError(getCoords(d), "Name assignment is forbidden in LHS eval."); }
+	|
 	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false] SEMI //'false' because this rule is not used for the assignments in enum item decls
 		{ res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx, context); }
 		{ if(onLHS) reportError(getCoords(d), "Indexed assignment to an attribute is forbidden in LHS eval, only yield indexed assignment to a def variable allowed."); }

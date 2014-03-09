@@ -6,7 +6,7 @@
  */
 
 /**
- * @author Moritz Kroll, Edgar Jakumeit
+ * @author Edgar Jakumeit
  */
 
 package de.unika.ipd.grgen.ast.exprevals;
@@ -15,21 +15,20 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.exprevals.AssignmentVisited;
+import de.unika.ipd.grgen.ir.exprevals.AssignmentNameof;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.Visited;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * AST node representing an assignment to a visited flag.
+ * AST node representing a name assignment.
  */
-public class AssignVisitedNode extends EvalStatementNode {
+public class AssignNameofNode extends EvalStatementNode {
 	static {
-		setName(AssignVisitedNode.class, "Assign visited");
+		setName(AssignNameofNode.class, "Assign name");
 	}
 
-	VisitedNode lhs;
+	ExprNode lhs;
 	ExprNode rhs;
 	
 	int context;
@@ -39,7 +38,7 @@ public class AssignVisitedNode extends EvalStatementNode {
 	 * @param target The left hand side.
 	 * @param expr The expression, that is assigned.
 	 */
-	public AssignVisitedNode(Coords coords, VisitedNode target, ExprNode expr, int context) {
+	public AssignNameofNode(Coords coords, ExprNode target, ExprNode expr, int context) {
 		super(coords);
 		this.lhs = target;
 		becomeParent(this.lhs);
@@ -52,7 +51,8 @@ public class AssignVisitedNode extends EvalStatementNode {
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(lhs);
+		if(lhs!=null)
+			children.add(lhs);
 		children.add(rhs);
 		return children;
 	}
@@ -61,7 +61,8 @@ public class AssignVisitedNode extends EvalStatementNode {
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("lhs");
+		if(lhs!=null)
+			childrenNames.add("lhs");
 		childrenNames.add("rhs");
 		return childrenNames;
 	}
@@ -76,14 +77,30 @@ public class AssignVisitedNode extends EvalStatementNode {
 	@Override
 	protected boolean checkLocal() {
 		if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION) {
-			reportError("assignment to visited flag not allowed in function or lhs context");
+			reportError("assignment to name not allowed in function or lhs context");
 			return false;
 		}
 
-		if(rhs.getType() != BasicTypeNode.booleanType) {
-			error.error(getCoords(), "Visited flags may only be assigned boolean values");
+		if(rhs.getType() != BasicTypeNode.stringType) {
+			error.error(getCoords(), "The name to be assigned must be a string value");
 			return false;
 		}
+		
+		if(lhs != null) {
+			if(lhs.getType().isEqual(BasicTypeNode.graphType)) {
+				return true;
+			} 
+			if(lhs.getType() instanceof EdgeTypeNode) {
+				return true;
+			}
+			if(lhs.getType() instanceof NodeTypeNode) {
+				return true;
+			}
+
+			reportError("nameof() assignment expects an entity of node or edge or subgraph type");
+			return false;
+		}
+
 		return true;
 	}
 
@@ -97,8 +114,10 @@ public class AssignVisitedNode extends EvalStatementNode {
 	 */
 	@Override
 	protected IR constructIR() {
-		Visited vis = lhs.checkIR(Visited.class);
+		Expression lhsExpr = null;
+		if(lhs!=null)
+			lhsExpr = lhs.checkIR(Expression.class);
 		ExprNode rhsEvaluated = rhs.evaluate();
-		return new AssignmentVisited(vis, rhsEvaluated.checkIR(Expression.class));
+		return new AssignmentNameof(lhsExpr, rhsEvaluated.checkIR(Expression.class));
 	}
 }
