@@ -1,0 +1,61 @@
+new graph "index/index_001"
+
+new :N($="1", i=1)
+new :N($="2", i=2)
+new :N($="3", i=3)
+new :N($="4", i=4)
+new :N($="5", i=5)
+new :N($="6", i=6)
+new :N($="7", i=7)
+new :N($="8", i=8)
+new :N($="9", i=9)
+new :N($="10", i=10)
+new :N($="20", i=20)
+new :N($="19", i=19)
+new :N($="18", i=18)
+new :N($="17", i=17)
+new :N($="16", i=16)
+new :N($="15", i=15)
+new :N($="14", i=14)
+new :N($="13", i=13)
+new :N($="12", i=12)
+new :N($="11", i=11)
+
+exec [r13]
+exec [rascending]
+exec [rdescending]
+exec [rascendinglargerthan5lowerequal13]
+exec [rascendinglargerequal5]
+exec [rascendinglowerthan13]
+exec [rdescendinglowerthan13largerequal5]
+exec [rdescendinglowerequal13]
+exec [rdescendinglargerthan5]
+
+exec (::n2, ::val2)=retypeNode(@("2")) ;> retypeBack(::n2, ::val2)
+exec (::n4, ::val4)=retypeNode(@("4")) ;> retypeBack(::n4, ::val4)
+exec (::n6, ::val6)=retypeNode(@("6")) ;> retypeBack(::n6, ::val6)
+exec (::n7, ::val7)=retypeNode(@("7")) ;> retypeBack(::n7, ::val7)
+exec (::n8, ::val8)=retypeNode(@("8")) ;> retypeBack(::n8, ::val8)
+
+exec (::n9, ::val9)=retypeNode(@("9"))
+exec (::n10, ::val10)=retypeNode(@("10"))
+exec (::n12, ::val12)=retypeNode(@("12"))
+exec (::n15, ::val15)=retypeNode(@("15"))
+exec (::n20, ::val20)=retypeNode(@("20"))
+exec retypeBack(::n9, ::val9)
+exec retypeBack(::n10, ::val10)
+exec retypeBack(::n12, ::val12)
+exec retypeBack(::n15, ::val15)
+exec retypeBack(::n20, ::val20)
+
+exec [r13]
+exec [rascending]
+exec [rdescending]
+exec [rascendinglargerthan5lowerequal13]
+exec [rascendinglargerequal5]
+exec [rascendinglowerthan13]
+exec [rdescendinglowerthan13largerequal5]
+exec [rdescendinglowerequal13]
+exec [rdescendinglargerthan5]
+
+quit

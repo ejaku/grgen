@@ -174,3 +174,35 @@ rule fooincidencecount(n:Node, m:N) : (int,int,int,int) {
 		return(i1a, i1b, i2a, i2b);
 	}
 }
+
+rule retypeNToNode(n:N) : (Node)
+{
+	modify {
+		m:Node<n>;
+		return(m);
+	}
+}
+
+rule retypeNodeToN(n:Node) : (N)
+{
+	modify {
+		m:N<n>;
+		return(m);
+	}
+}
+
+rule retypeEToEdge(-e:E->) : (Edge)
+{
+	modify {
+		-i:Edge<e>->;
+		return(i);
+	}
+}
+
+rule retypeEdgeToE(-e:Edge->) : (E)
+{
+	modify {
+		-i:E<e>->;
+		return(i);
+	}
+}

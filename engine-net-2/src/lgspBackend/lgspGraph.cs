@@ -34,8 +34,6 @@ namespace de.unika.ipd.grGen.lgsp
         protected IGraphModel model;
         internal String modelAssemblyName;
 
-        public IIndexSet indices;
-
         // Used as storage space for the name for the SettingAddedEdgeNames event, in case of redirection
         public string[] nameOfSingleElementAdded = new string[1];
 
@@ -324,8 +322,6 @@ namespace de.unika.ipd.grGen.lgsp
 
             modelAssemblyName = Assembly.GetAssembly(grmodel.GetType()).Location;
 
-            ((LGSPGraphModel)grmodel).CreateAndBindIndexSet(this);
-
             InitializeGraph();
         }
 
@@ -402,10 +398,6 @@ namespace de.unika.ipd.grGen.lgsp
 		/// </summary>
         public override IGraphModel Model { get { return model; } }
 
-        /// <summary>
-        /// The indices associated with the graph.
-        /// </summary>
-        public override IIndexSet Indices { get { return indices; } }
 
         /// <summary>
         /// Returns the number of nodes with the exact given node type.

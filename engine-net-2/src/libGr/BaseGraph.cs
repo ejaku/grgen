@@ -20,7 +20,6 @@ namespace de.unika.ipd.grGen.libGr
     {
         public abstract String Name { get; set; }
         public abstract IGraphModel Model { get; }
-        public abstract IIndexSet Indices { get; }
         public abstract bool ReuseOptimization { get; set; }
         public abstract long ChangesCounter{ get; }
 
