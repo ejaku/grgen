@@ -1,0 +1,11 @@
+node class N
+{
+	i : int;
+	s : string;
+}
+
+edge class E
+{
+	i : int;
+	s : string;
+}

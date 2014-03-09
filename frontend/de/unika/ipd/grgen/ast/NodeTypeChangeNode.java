@@ -107,6 +107,11 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 			return false;
 		}
 
+		if(nameOrAttributeInits.children.size()>0) {
+			reportError("A name or attribute initialization is not allowed for a retyped node");
+			return false;
+		}
+
 		// check if source node of retype is declared in replace/modify part
 		BaseNode curr = old;
 		BaseNode prev = null;
