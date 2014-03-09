@@ -2,10 +2,12 @@
 
 This chapter describes the inner workings of \GrG~to allow external developers
 \begin{itemize}
-\item to understand how \GrG~works, maybe just out of curiosity, but especially in order to write more efficient graph rewrite specifications
-\item extend \GrG~with new features, maybe being of general interest, maybe being only special extensions not of interest to other users
+\item to understand how \GrG~works
+\item esp. in order to extend it with new features
+\footnote{which may be special extensions for a dedicated task, but also may be of general interest to other users}
 \end{itemize}
-It starts with a section on describing how to build \GrG, followed by a section giving an introduction into the generated code, then an introduction into the mechanism of search planning, followed by a section giving some details of the structure of, and the data flow in the \GrG-code generator, ending in a discussion of performance optimizations.
+It starts with a section on describing how to build \GrG, followed by a section giving an introduction into the generated code, then an introduction into the mechanism of search planning, ending with a section giving some details of the structure of, and the data flow in the \GrG-code generator.
+Here we repeat some content from chapter \ref{sec:performance}, refining it with more detail.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{How to Build}\label{sub:building}\indexmain{building GrGen}
@@ -77,9 +79,11 @@ The figure \ref{figincidenceexampleringlists} gives the ringlist implementation 
   \label{figincidenceexampleringlists}
 \end{figure}
 
-
+In case attribute indices were declared, a balanced search tree (an AA-tree) is created for each of them.
+The tree is maintained by event handlers that listen to graph element creation and deletion, but esp. for attribute assignment.
+ 
 \subsection*{Pattern Matching and Search Programs}\indexmain{pattern matching implementation}\indexmain{search program}
-The pattern of a rule (or test) is matched with a backtracking algorithm binding one pattern element after another to a graph element, checking if it fits to the already bound parts. If it does fit search continues trying to bind the next pattern element (or succeeds building the match object from all the elements bound if the last check succeeds), if if does not fit search continues with the next graph element; if all graph element candidates for this pattern element are exhausted, search backtracks to the previous decision point and continues there with the next element.
+The pattern of a rule (or test) is matched with a backtracking algorithm binding one pattern element after another to a graph element, checking if it fits to the already bound parts. If it does fit search continues trying to bind the next pattern element (or succeeds building the match object from all the elements bound if the last check succeeds), if it does not fit search continues with the next graph element; if all graph element candidates for this pattern element are exhausted, search backtracks to the previous decision point and continues there with the next element.
 For every pattern to match a search program implementing this algorithm is generated, basically consisting of nested loops iterating the available graph elements for each pattern element and condition checking code continuing search with the next element to investigate.
 Figure \ref{figpatterntosearchfirst} shows a pattern and a search program generated for it.
 
@@ -602,63 +606,3 @@ In case you want to contribute and got further questions don't hesitate to conta
 (via email to \texttt{grgen} at the host given by \texttt{ipd.info.uni-karlsruhe.de}).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Performance Optimization}\label{sec:performance} \indexmain{performance}\indexmain{optimization}
-
-The most important point to understand when optimizing for speed is that the expensive task is the search carried out during pattern matching. The effort for rewriting, the dominant theme in graph rewriting literature, is negligible.
-
-\subsubsection*{Use Types}
-A corollary from what you've seen especially in section \ref{searchplanning} is: \emph{Use types!}\\
-The more fine grain a graph is typed, the better are the statistics regarding the splitting structures (V-Structures) and the number of elements of a certain type, yielding better search plans evading splitting structures and employing least-cost lookups, pruning non-matches earlier in the search.
-Even if only the initial static schedules are used which do not know about the splitting factors or the type weights, fine grain types cause a quicker search pruning with the type checks.
-You may improve the static schedules by explicitly giving search priorities.
-Using fine-grain types is easy in GrGen, for multiple inheritance on node and edge types (cf. \ref{nodeandedgetypes}) is supported.
-
-\begin{warning}
-Search planning is only carried out on request!
-You must analyze the graph and then re-generate the matchers at runtime,
-with \texttt{custom graph analyze} and \texttt{custom actions gen\_searchplans} (issued on the command line or to the \texttt{Custom} methods of the graph and the actions objects);
-you may have a look at the effects of replanning with the \texttt{custom actions explain <actionname>} command.
-See subsection \ref{custom} for more on this.
-\end{warning}
-
-\subsubsection*{Memorize, Don't Search}
-Often in a transformation you know the location you want to process from a previous step.
-In this case, store these locations in variables of node (or edge) type, and hand them in as parameters to the rules and return them out from the rules.
-In case of a statically not known number of locations as they appear e.g. in wavefront algorithm, you may store the locations in storages (cf. chapter \ref{cha:container}), i.e. collection valued variables (which are iterated over in the sequences or passed to the rules as \texttt{ref} parameters).
-Search will then start from these parameters, instead of a looking up a value in the graph by type (unless search planning taking the statistics about the graph into account comes to the conclusion  that a lookup on a very seldom type is still the better approach).
-
-A sophisticated way of remembering facts about non-local properties is to computed them with data flow analyses (see section \ref{subsub:flow}) and store them as attributes in the graph elements.
-This allows to replace searching for distant values, or global properties like reachability, by checking a local property, at the price of re-running an analysis every time the graph changes in an important way.
-
-Speaking in database parlance, with storages you can build indices into the graph, indices which are more selective than the automatically built indices by graph element type; but in contrast to the automatically built ones, you must maintain them by hand.
-
-The approach of remembering state instead of searching when needed has a clear caveat: the code becomes less readable and more brittle. As in normal programming, you must balance performance optimizations against maintainability.
-
-\subsubsection*{Use Compiled Sequences}
-The compiled sequences given in the rules file are executed a good deal faster than the interpreted sequences given in the shell.
-So if you need speed, replace interpreted sequences by compiled ones.
-The price you pay is a loss of debuggability, a compiled sequence can only be executed as one big step.
-
-\subsubsection*{Beware of Disconnected Patterns}
-Subpatterns are searched top-down (cf. \ref{pushdownmachine}), from the input parameters on.
-If the input arguments are disconnected in the pattern containing the subpattern, the containing pattern enumerates the cross product of the matches of the disconnected parts, which is then later on filtered in the subpattern called for the ones which are connected.
-This will likely wreak havoc on the search performance.
-It might be more efficient to just search from a start parameter a connected end location, and yield the found one out (cf. \ref{sec:localvarorderedevalyield}), or to search from a start parameter all connected end locations, collecting the found ones in a result set; and to check the ones found alongside connectedness in a second step.
-
-The same holds for the nested patterns, just that parameter passing is implicit there, the elements from the containing pattern which are referenced in the nested pattern are passed in automatically as arguments.
-The holds especially for the \texttt{alternative} and \texttt{iterated} constructs which are matched with the pushdown machine (cf. \ref{pushdownmachine}), too, but also for the \texttt{negative} and \texttt{independent} constructs which are matched with nested local code embedded into the matcher code of their containing pattern.
-
-Just as a side remark: the performance issue is raised by the local disconnected pattern and the caused multiplication of the part matches.
-This combinatorial explosions appears even within a single local pattern, only that it is more obvious there what is going on compared to the case that you disconnected a pattern later on by factoring out a common part into a subpattern.
-Luckily in this situation a performance hit is unlikely due to the subpattern \indexed{inlining} supported by GrGen; which in addition to connecting disconnected patterns removes the pushdown machine overhead.
-
-But take into account that the \emph{subpattern inlining} implemented in GrGen is limited to depth one.
-If a pattern is disconnected over two or more levels of subpattern usage (which might happen statically with one subpattern using another subpattern, and will for sure dynamically on a subpattern recursion path), it will hit performance.
-You may have a look at the output of the \texttt{explain} command (cf. \ref{custom}) to see  if the subpatterns are disconnected; this is indicated by multiple lookups in the containing pattern, and the fact that the starting points passed as preset parameters to the nested or subpatterns get connected only there with search commands.
-
-\subsubsection*{Miscellaneous Things}
-\begin{itemize}
-  \item Visited flags are the most efficient way of marking elements, if a large number of the elements gets marked. Otherwise they are inefficient, cause a lot of elements need to be iterated, just to filter the visited ones out. Storages which give quick access to their contained elements are better then. Or even reflexive marker edges of a special type in the graph.
-	\item Prefer all-bracketing (cf. \ref{sec:ruleapplication}) over iteration for rule application. This is only possible if the parts of the matches which are to be modified, e.g. retyped, are disjoint.
-\end{itemize}
