@@ -1,0 +1,46 @@
+new graph "index/index_incidence"
+
+new :N($="1")
+new :N($="2")
+new :N($="3")
+new :N($="4")
+new :N($="5")
+new :N($="6")
+new :N($="7")
+new :N($="8")
+new :Node($="9")
+new :Node($="A")
+new @("1") -:E($="e1")-> @("2")
+new @("1") -:E($="e2")-> @("3")
+new @("1") -:E($="e3")-> @("4")
+new @("2") -:E($="e4")-> @("5")
+new @("3") -:E($="e5")-> @("5")
+new @("4") -:E($="e6")-> @("6")
+new @("7") -:E($="e7")-> @("7")
+new @("9") -:E($="e8")-> @("A")
+new @("A") -:E($="e9")-> @("A")
+
+exec [rfoo]
+exec [rbar]
+exec [rbaz]
+exec [rqux]
+exec [rpix]
+exec [rxom]
+
+exec (::n1)=retypeNToNode(@("1")) ;> retypeNodeToN(::n1)
+exec (::n7)=retypeNToNode(@("7")) ;> retypeNodeToN(::n7)
+exec (::e1)=retypeEToEdge(@("e1"))
+exec (::e4)=retypeEToEdge(@("e4"))
+exec (::e7)=retypeEToEdge(@("e7"))
+exec retypeEdgeToE(::e1)
+exec retypeEdgeToE(::e4)
+exec retypeEdgeToE(::e7)
+
+exec [rfoo]
+exec [rbar]
+exec [rbaz]
+exec [rqux]
+exec [rpix]
+exec [rxom]
+
+quit

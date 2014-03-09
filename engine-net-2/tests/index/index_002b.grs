@@ -1,0 +1,66 @@
+new graph "index/index_001b"
+
+new :Node($="0")
+
+new @("0") -:E($="1", i=1)-> @("0")
+new @("0") -:E($="2", i=2)-> @("0")
+new @("0") -:E($="3", i=3)-> @("0")
+new @("0") -:E($="4", i=4)-> @("0")
+new @("0") -:E($="5", i=5)-> @("0")
+new @("0") -:E($="6", i=6)-> @("0")
+new @("0") -:E($="7", i=7)-> @("0")
+new @("0") -:E($="8", i=8)-> @("0")
+new @("0") -:E($="9", i=9)-> @("0")
+new @("0") -:E($="10", i=10)-> @("0")
+new @("0") -:E($="20", i=20)-> @("0")
+new @("0") -:E($="19", i=19)-> @("0")
+new @("0") -:E($="18", i=18)-> @("0")
+new @("0") -:E($="17", i=17)-> @("0")
+new @("0") -:E($="16", i=16)-> @("0")
+new @("0") -:E($="15", i=15)-> @("0")
+new @("0") -:E($="14", i=14)-> @("0")
+new @("0") -:E($="13", i=13)-> @("0")
+new @("0") -:E($="12", i=12)-> @("0")
+new @("0") -:E($="11", i=11)-> @("0")
+
+exec [r13]
+exec [rascending]
+exec [rdescending]
+exec [rascendinglargerthan5lowerequal13]
+exec [rascendinglargerequal5]
+exec [rascendinglowerthan13]
+exec [rdescendinglowerthan13largerequal5]
+exec [rdescendinglowerequal13]
+exec [rdescendinglargerthan5]
+
+exec (::n2, ::val2)=retypeEdge(@("2")) ;> retypeBack(::n2, ::val2)
+exec (::n4, ::val4)=retypeEdge(@("4")) ;> retypeBack(::n4, ::val4)
+exec (::n6, ::val6)=retypeEdge(@("6")) ;> retypeBack(::n6, ::val6)
+exec (::n7, ::val7)=retypeEdge(@("7")) ;> retypeBack(::n7, ::val7)
+exec (::n8, ::val8)=retypeEdge(@("8")) ;> retypeBack(::n8, ::val8)
+
+exec (::n9, ::val9)=retypeEdge(@("9"))
+exec (::n10, ::val10)=retypeEdge(@("10"))
+exec (::n12, ::val12)=retypeEdge(@("12"))
+exec (::n15, ::val15)=retypeEdge(@("15"))
+exec (::n20, ::val20)=retypeEdge(@("20"))
+
+exec (::nn)=retypeNode(@("0")) ;> (::nn)=retypeNodeBack(::nn) ;> retypeNode(::nn)
+
+exec retypeBack(::n9, ::val9)
+exec retypeBack(::n10, ::val10)
+exec retypeBack(::n12, ::val12)
+exec retypeBack(::n15, ::val15)
+exec retypeBack(::n20, ::val20)
+
+exec [r13]
+exec [rascending]
+exec [rdescending]
+exec [rascendinglargerthan5lowerequal13]
+exec [rascendinglargerequal5]
+exec [rascendinglowerthan13]
+exec [rdescendinglowerthan13largerequal5]
+exec [rdescendinglowerequal13]
+exec [rdescendinglargerthan5]
+
+quit

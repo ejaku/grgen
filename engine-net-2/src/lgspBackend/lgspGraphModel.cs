@@ -30,9 +30,9 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract IEnumerable<IndexDescription> IndexDescriptions { get; }
 
         /// <summary>
-        /// Called by the graph (generic implementation) to create and bind its index set (generated code).
+        /// Called by the named graph (generic implementation) to create and bind its index set (generated code).
         /// </summary>
-        public abstract void CreateAndBindIndexSet(LGSPGraph graph);
+        public abstract void CreateAndBindIndexSet(LGSPNamedGraph graph);
 
 
         #region Emitting and parsing of attributes of object or a user defined type

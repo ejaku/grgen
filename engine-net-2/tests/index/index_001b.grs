@@ -1,0 +1,77 @@
+new graph "index/index_001b"
+
+new :Node($="0")
+
+new @("0") -:E($="1", i=1)-> @("0")
+new @("0") -:E($="2", i=2)-> @("0")
+new @("0") -:E($="3", i=3)-> @("0")
+new @("0") -:E($="4", i=4)-> @("0")
+new @("0") -:E($="5", i=5)-> @("0")
+new @("0") -:E($="6", i=6)-> @("0")
+new @("0") -:E($="7", i=7)-> @("0")
+new @("0") -:E($="8", i=8)-> @("0")
+new @("0") -:E($="9", i=9)-> @("0")
+new @("0") -:E($="10", i=10)-> @("0")
+new @("0") -:E($="20", i=20)-> @("0")
+new @("0") -:E($="19", i=19)-> @("0")
+new @("0") -:E($="18", i=18)-> @("0")
+new @("0") -:E($="17", i=17)-> @("0")
+new @("0") -:E($="16", i=16)-> @("0")
+new @("0") -:E($="15", i=15)-> @("0")
+new @("0") -:E($="14", i=14)-> @("0")
+new @("0") -:E($="13", i=13)-> @("0")
+new @("0") -:E($="12", i=12)-> @("0")
+new @("0") -:E($="11", i=11)-> @("0")
+
+exec r13
+exec rascending
+exec rdescending
+exec rascendinglargerthan5lowerequal13
+exec rascendinglargerequal5
+exec rascendinglowerthan13
+exec rdescendinglowerthan13largerequal5
+exec rdescendinglowerequal13
+exec rdescendinglargerthan5
+
+exec [r13]
+exec [rascending]
+exec [rdescending]
+exec [rascendinglargerthan5lowerequal13]
+exec [rascendinglargerequal5]
+exec [rascendinglowerthan13]
+exec [rdescendinglowerthan13largerequal5]
+exec [rdescendinglowerequal13]
+exec [rdescendinglargerthan5]
+
+delete edge @("2")
+delete edge @("4")
+delete edge @("6")
+delete edge @("8")
+delete edge @("10")
+delete edge @("12")
+delete edge @("14")
+delete edge @("16")
+delete edge @("18")
+delete edge @("20")
+
+exec r13
+exec rascending
+exec rdescending
+exec rascendinglargerthan5lowerequal13
+exec rascendinglargerequal5
+exec rascendinglowerthan13
+exec rdescendinglowerthan13largerequal5
+exec rdescendinglowerequal13
+exec rdescendinglargerthan5
+
+exec [r13]
+exec [rascending]
+exec [rdescending]
+exec [rascendinglargerthan5lowerequal13]
+exec [rascendinglargerequal5]
+exec [rascendinglowerthan13]
+exec [rdescendinglowerthan13largerequal5]
+exec [rdescendinglowerequal13]
+exec [rdescendinglargerthan5]
+
+quit

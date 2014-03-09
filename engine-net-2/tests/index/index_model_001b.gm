@@ -1,0 +1,8 @@
+edge class E
+{
+	i : int;
+}
+
+index foo { E.i }
+
+node class N;

@@ -147,10 +147,6 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IGraphModel Model { get; }
 
-        /// <summary>
-        /// The indices associated with the graph.
-        /// </summary>
-        IIndexSet Indices { get; }
 
         /// <summary>
         /// If true (the default case), elements deleted during a rewrite

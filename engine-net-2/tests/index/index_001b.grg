@@ -1,7 +1,7 @@
-#using "index_model_001.gm"
+#using "index_model_001b.gm"
 
 rule r13 {
-	n:N{foo==13};
+	-n:E{foo==13}->;
 	
 	modify {
 		emit("The value of attribute i is " + n.i + "\n");
@@ -9,7 +9,7 @@ rule r13 {
 }
 
 rule rascending {
-	n:N{ascending(foo)};
+	-n:E{ascending(foo)}->;
 
 	modify {
 		emit("The value of attribute i is " + n.i + "\n");
@@ -17,7 +17,7 @@ rule rascending {
 }
 
 rule rdescending {
-	n:N{descending(foo)};
+	-n:E{descending(foo)}->;
 
 	modify {
 		emit("The value of attribute i is " + n.i + "\n");
@@ -25,7 +25,7 @@ rule rdescending {
 }
 
 rule rascendinglargerthan5lowerequal13 {
-	n:N{ascending(foo>5, foo<=13)};
+	-n:E{ascending(foo>5, foo<=13)}->;
 
 	modify {
 		emit("The value of attribute i is " + n.i + "\n");
@@ -33,7 +33,7 @@ rule rascendinglargerthan5lowerequal13 {
 }
 
 rule rascendinglargerequal5 {
-	n:N{ascending(foo>=5)};
+	-n:E{ascending(foo>=5)}->;
 
 	modify {
 		emit("The value of attribute i is " + n.i + "\n");
@@ -41,7 +41,7 @@ rule rascendinglargerequal5 {
 }
 
 rule rascendinglowerthan13 {
-	n:N{ascending(foo<13)};
+	-n:E{ascending(foo<13)}->;
 
 	modify {
 		emit("The value of attribute i is " + n.i + "\n");
@@ -49,7 +49,7 @@ rule rascendinglowerthan13 {
 }
 
 rule rdescendinglowerthan13largerequal5 {
-	n:N{descending(foo<13, foo>=5)};
+	-n:E{descending(foo<13, foo>=5)}->;
 
 	modify {
 		emit("The value of attribute i is " + n.i + "\n");
@@ -57,7 +57,7 @@ rule rdescendinglowerthan13largerequal5 {
 }
 
 rule rdescendinglowerequal13 {
-	n:N{descending(foo<=13)};
+	-n:E{descending(foo<=13)}->;
 
 	modify {
 		emit("The value of attribute i is " + n.i + "\n");
@@ -65,23 +65,37 @@ rule rdescendinglowerequal13 {
 }
 
 rule rdescendinglargerthan5 {
-	n:N{descending(foo>5)};
+	-n:E{descending(foo>5)}->;
 
 	modify {
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
 
-rule retypeNode(n:N) : (Node, int) {
+rule retypeEdge(-n:E->) : (Edge, int) {
 	modify {
-		m:Node<n>;
+		-m:Edge<n>->;
 		return(m, n.i);
 	}
 }
 
-rule retypeBack(n:Node, var i:int) {
+rule retypeBack(-n:Edge->, var i:int) {
+	modify {
+		-m:E<n>->;
+		eval { m.i = i; }
+	}
+}
+
+rule retypeNode(n:Node) : (N) {
 	modify {
 		m:N<n>;
-		eval { m.i = i; }
+		return(m);
+	}
+}
+
+rule retypeNodeBack(n:N) : (Node) {
+	modify {
+		m:Node<n>;
+		return(m);
 	}
 }

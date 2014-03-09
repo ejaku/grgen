@@ -2163,7 +2163,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("((GRGEN_LIBGR.IIncidenceIndex)graph.Indices.GetIndex(\"" + Target + "\")).GetIncidenceCount(");
+            sourceCode.Append("((GRGEN_LIBGR.IIncidenceIndex)((GRGEN_LIBGR.INamedGraph)graph).Indices.GetIndex(\"" + Target + "\")).GetIncidenceCount(");
             sourceCode.Append("(" + Type + ")");
             KeyExpr.Emit(sourceCode);
             sourceCode.Append(")");
