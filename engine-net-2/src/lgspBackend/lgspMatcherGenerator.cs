@@ -3220,6 +3220,7 @@ exitSecondLoop: ;
             sb.AppendFront("private static GRGEN_LGSP.LGSPMatchesList<" + matchClassName + ", " + matchInterfaceName + ">[] parallelTaskMatches;\n");
             sb.AppendFront("private static int numWorkerThreads;\n");
             sb.AppendFront("private static int iterationNumber;\n");
+            sb.AppendFront("private static int iterationLock;\n");
             sb.AppendFront("[ThreadStatic] private static int currentIterationNumber;\n");
             sb.AppendFront("[ThreadStatic] private static int threadId;\n");
             sb.AppendFront("private static GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnvParallel;\n");
