@@ -1972,8 +1972,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(EmitProfiling)
                     sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 
-                // get iteration parallelization lock
-                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                EmitIterationParallelizationLockAquire(sourceCode);
 
                 string variableContainingParallelizedCandidate =
                     NamesOfEntities.IterationParallelizationNextCandidate(PatternElementName);
@@ -2006,8 +2005,7 @@ namespace de.unika.ipd.grGen.lgsp
                     variableContainingParallelizedCandidate);
                 sourceCode.AppendFront("++iterationNumber;\n");
 
-                // release iteration parallelization lock
-                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+                EmitIterationParallelizationLockRelease(sourceCode);
 
                 EmitProfilingAsNeededPre(sourceCode);
 
@@ -2016,16 +2014,14 @@ namespace de.unika.ipd.grGen.lgsp
 
                 EmitProfilingAsNeededPost(sourceCode);
 
-                // get iteration parallelization lock
                 sourceCode.Append("\n");
-                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                EmitIterationParallelizationLockAquire(sourceCode);
 
                 // close loop
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
 
-                // release iteration parallelization lock
-                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+                EmitIterationParallelizationLockRelease(sourceCode);
             }
             else if(Type == GetCandidateByIterationType.StorageElements)
             {
@@ -2038,8 +2034,8 @@ namespace de.unika.ipd.grGen.lgsp
                 if(EmitProfiling)
                     sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 
-                // get iteration parallelization lock
-                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                EmitIterationParallelizationLockAquire(sourceCode);
+
                 // variable containing candidates from parallelized next candidate
                 string variableContainingParallelizedIterator =
                     NamesOfEntities.IterationParallelizationIterator(PatternElementName);
@@ -2066,8 +2062,8 @@ namespace de.unika.ipd.grGen.lgsp
                     variableContainingParallelizedIterator, IsDict ? ".Key" : "");
                 sourceCode.AppendFront("currentIterationNumber = iterationNumber;\n");
                 sourceCode.AppendFront("++iterationNumber;\n");
-                // release iteration parallelization lock
-                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+
+                EmitIterationParallelizationLockRelease(sourceCode);
 
                 EmitProfilingAsNeededPre(sourceCode);
 
@@ -2076,16 +2072,14 @@ namespace de.unika.ipd.grGen.lgsp
 
                 EmitProfilingAsNeededPost(sourceCode);
 
-                // get iteration parallelization lock
                 sourceCode.Append("\n");
-                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                EmitIterationParallelizationLockAquire(sourceCode);
 
                 // close loop
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
 
-                // release iteration parallelization lock
-                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+                EmitIterationParallelizationLockRelease(sourceCode);
             }
             else if(Type == GetCandidateByIterationType.StorageAttributeElements)
             {
@@ -2098,8 +2092,8 @@ namespace de.unika.ipd.grGen.lgsp
                 if(EmitProfiling)
                     sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 
-                // get iteration parallelization lock
-                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                EmitIterationParallelizationLockAquire(sourceCode);
+
                 // variable containing candidates from parallelized next candidate
                 string variableContainingParallelizedIterator =
                     NamesOfEntities.IterationParallelizationIterator(PatternElementName);
@@ -2126,8 +2120,8 @@ namespace de.unika.ipd.grGen.lgsp
                     variableContainingParallelizedIterator, IsDict ? ".Key" : "");
                 sourceCode.AppendFront("currentIterationNumber = iterationNumber;\n");
                 sourceCode.AppendFront("++iterationNumber;\n");
-                // release iteration parallelization lock
-                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+
+                EmitIterationParallelizationLockRelease(sourceCode);
 
                 EmitProfilingAsNeededPre(sourceCode);
 
@@ -2136,16 +2130,14 @@ namespace de.unika.ipd.grGen.lgsp
 
                 EmitProfilingAsNeededPost(sourceCode);
 
-                // get iteration parallelization lock
                 sourceCode.Append("\n");
-                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                EmitIterationParallelizationLockAquire(sourceCode);
 
                 // close loop
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
 
-                // release iteration parallelization lock
-                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+                EmitIterationParallelizationLockRelease(sourceCode);
             }
             else if(Type == GetCandidateByIterationType.IndexElements)
             {
@@ -2158,8 +2150,8 @@ namespace de.unika.ipd.grGen.lgsp
                 if(EmitProfiling)
                     sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 
-                // get iteration parallelization lock
-                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                EmitIterationParallelizationLockAquire(sourceCode);
+
                 // variable containing candidates from parallelized next candidate
                 string variableContainingParallelizedIterator =
                     NamesOfEntities.IterationParallelizationIterator(PatternElementName);
@@ -2186,8 +2178,8 @@ namespace de.unika.ipd.grGen.lgsp
                     variableContainingParallelizedIterator);
                 sourceCode.AppendFront("currentIterationNumber = iterationNumber;\n");
                 sourceCode.AppendFront("++iterationNumber;\n");
-                // release iteration parallelization lock
-                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+
+                EmitIterationParallelizationLockRelease(sourceCode);
 
                 EmitProfilingAsNeededPre(sourceCode);
 
@@ -2196,16 +2188,14 @@ namespace de.unika.ipd.grGen.lgsp
 
                 EmitProfilingAsNeededPost(sourceCode);
 
-                // get iteration parallelization lock
                 sourceCode.Append("\n");
-                sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                EmitIterationParallelizationLockAquire(sourceCode);
 
                 // close loop
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
 
-                // release iteration parallelization lock
-                sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+                EmitIterationParallelizationLockRelease(sourceCode);
             }
             else //Type==GetCandidateByIterationType.IncidentEdges
             {
@@ -2220,8 +2210,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 if(EdgeType != IncidentEdgeType.IncomingOrOutgoing)
                 {
-                    // get iteration parallelization lock
-                    sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                    EmitIterationParallelizationLockAquire(sourceCode);
 
                     string variableContainingParallelizedListHead =
                         NamesOfEntities.IterationParallelizationListHead(PatternElementName);
@@ -2254,8 +2243,7 @@ namespace de.unika.ipd.grGen.lgsp
                         variableContainingParallelizedCandidate, memberOfEdgeContainingNextEdge);
                     sourceCode.AppendFront("++iterationNumber;\n");
 
-                    // release iteration parallelization lock
-                    sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+                    EmitIterationParallelizationLockRelease(sourceCode);
 
                     EmitProfilingAsNeededPre(sourceCode);
 
@@ -2264,21 +2252,18 @@ namespace de.unika.ipd.grGen.lgsp
 
                     EmitProfilingAsNeededPost(sourceCode);
 
-                    // get iteration parallelization lock
                     sourceCode.Append("\n");
-                    sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                    EmitIterationParallelizationLockAquire(sourceCode);
 
                     // close loop
                     sourceCode.Unindent();
                     sourceCode.AppendFront("}\n");
 
-                    // release iteration parallelization lock
-                    sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+                    EmitIterationParallelizationLockRelease(sourceCode);
                 }
                 else //EdgeType == IncidentEdgeType.IncomingOrOutgoing
                 {
-                    // get iteration parallelization lock
-                    sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                    EmitIterationParallelizationLockAquire(sourceCode);
 
                     string directionRunCounterParallelized =
                         NamesOfEntities.IterationParallelizationDirectionRunCounterVariable(PatternElementName);
@@ -2311,8 +2296,7 @@ namespace de.unika.ipd.grGen.lgsp
                         variableContainingParallelizedCandidate, directionRunCounterParallelized);
                     sourceCode.AppendFront("++iterationNumber;\n");
                     
-                    // release iteration parallelization lock
-                    sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+                    EmitIterationParallelizationLockRelease(sourceCode);
 
                     EmitProfilingAsNeededPre(sourceCode);
 
@@ -2327,14 +2311,13 @@ namespace de.unika.ipd.grGen.lgsp
 
                     // get iteration parallelization lock
                     sourceCode.Append("\n");
-                    sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+                    EmitIterationParallelizationLockAquire(sourceCode);
 
                     // close loop
                     sourceCode.Unindent();
                     sourceCode.AppendFront("}\n");
 
-                    // release iteration parallelization lock
-                    sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+                    EmitIterationParallelizationLockRelease(sourceCode);
                 } //EdgeType 
             } //Type
         }
@@ -2362,6 +2345,18 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", ActionName);
                 sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", ActionName);
             }
+        }
+
+        private void EmitIterationParallelizationLockAquire(SourceBuilder sourceCode)
+        {
+            //sourceCode.AppendFront("Monitor.Enter(this);//lock parallel matching enumeration with action object\n");
+            sourceCode.AppendFront("while(Interlocked.CompareExchange(ref iterationLock, 1, 0) != 0) Thread.SpinWait(10);//lock parallel matching enumeration with iteration lock\n");
+        }
+
+        private void EmitIterationParallelizationLockRelease(SourceBuilder sourceCode)
+        {
+            //sourceCode.AppendFront("Monitor.Exit(this);//unlock parallel matching enumeration with action object\n\n");
+            sourceCode.AppendFront("Interlocked.Exchange(ref iterationLock, 0);//unlock parallel matching enumeration with iteration lock\n\n");
         }
 
         public override bool IsSearchNestingOperation()
@@ -6384,8 +6379,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(Type == ContinueOperationType.ByContinue)
             {
-                if(ContinueAtParallelizedLoop) //re-aquire parallel matching enumeration lock before entering loop header
-                    sourceCode.AppendFront("Monitor.Enter(this);\n");
+                if(ContinueAtParallelizedLoop) { //re-aquire parallel matching enumeration lock before entering loop header
+                    //sourceCode.AppendFront("Monitor.Enter(this);\n");
+                    sourceCode.AppendFront("while(Interlocked.CompareExchange(ref iterationLock, 1, 0) != 0) Thread.SpinWait(10);//lock parallel matching enumeration with iteration lock\n");
+                }
                 sourceCode.AppendFront("continue;\n");
             }
             else //Type == ContinueOperationType.ByGoto
