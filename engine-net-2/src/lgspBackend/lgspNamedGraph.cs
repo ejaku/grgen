@@ -42,17 +42,6 @@ namespace de.unika.ipd.grGen.lgsp
 
 
         /// <summary>
-        /// The indices associated with the graph.
-        /// </summary>
-        public IIndexSet Indices { get { return indices; } }
-
-        /// <summary>
-        /// The index set of the additional attribute and incidence count indices associated with the named graph
-        /// </summary>
-        public IIndexSet indices;
-
-
-        /// <summary>
         /// Constructs an LGSPNamedGraph object with the given model and capacity, and an automatically generated name.
         /// </summary>
         /// <param name="grmodel">The graph model.</param>
@@ -62,7 +51,6 @@ namespace de.unika.ipd.grGen.lgsp
         {
             NameToElem = new Dictionary<String, IGraphElement>(capacity);
             ElemToName = new Dictionary<IGraphElement, String>(capacity);
-            ((LGSPGraphModel)model).CreateAndBindIndexSet(this);
         }
 
         /// <summary>
@@ -76,7 +64,6 @@ namespace de.unika.ipd.grGen.lgsp
         {
             NameToElem = new Dictionary<String, IGraphElement>(capacity);
             ElemToName = new Dictionary<IGraphElement, String>(capacity);
-            ((LGSPGraphModel)model).CreateAndBindIndexSet(this);
         }
 
         /// <summary>
@@ -90,7 +77,6 @@ namespace de.unika.ipd.grGen.lgsp
         {
             NameToElem = new Dictionary<String, IGraphElement>(capacity);
             ElemToName = new Dictionary<IGraphElement, String>(capacity);
-            ((LGSPGraphModel)model).CreateAndBindIndexSet(this);
         }
 
         /// <summary>
@@ -105,7 +91,6 @@ namespace de.unika.ipd.grGen.lgsp
         {
             NameToElem = new Dictionary<String, IGraphElement>(capacity);
             ElemToName = new Dictionary<IGraphElement, String>(capacity);
-            ((LGSPGraphModel)model).CreateAndBindIndexSet(this);
         }
 
         /// <summary>
@@ -122,7 +107,6 @@ namespace de.unika.ipd.grGen.lgsp
         {
             NameToElem = new Dictionary<String, IGraphElement>(capacity);
             ElemToName = new Dictionary<IGraphElement, String>(capacity);
-            ((LGSPGraphModel)model).CreateAndBindIndexSet(this);
         }
 
         /// <summary>
@@ -148,7 +132,6 @@ namespace de.unika.ipd.grGen.lgsp
             NameToElem = new Dictionary<String, IGraphElement>(dataSource.NumNodes + dataSource.NumEdges);
             ElemToName = new Dictionary<IGraphElement, String>(dataSource.NumNodes + dataSource.NumEdges);
             CopyNames(dataSource, oldToNewMap);
-            ((LGSPGraphModel)model).CreateAndBindIndexSet(this);
         }
 
         /// <summary>
@@ -163,7 +146,6 @@ namespace de.unika.ipd.grGen.lgsp
             ElemToName = new Dictionary<IGraphElement, String>(dataSource.NumNodes + dataSource.NumEdges);
             CopyNames(dataSource, tmpOldToNewMap);
             tmpOldToNewMap = null;
-            ((LGSPGraphModel)model).CreateAndBindIndexSet(this);
         }
 
         /// <summary>
@@ -206,7 +188,6 @@ namespace de.unika.ipd.grGen.lgsp
             NameToElem = new Dictionary<String, IGraphElement>(graph.NumNodes + graph.NumEdges);
             ElemToName = new Dictionary<IGraphElement, String>(graph.NumNodes + graph.NumEdges);
             DoName();
-            ((LGSPGraphModel)model).CreateAndBindIndexSet(this);
         }
 
         /// <summary>
@@ -221,7 +202,6 @@ namespace de.unika.ipd.grGen.lgsp
             ElemToName = new Dictionary<IGraphElement, String>(graph.NumNodes + graph.NumEdges);
             tmpOldToNewMap = null;
             DoName();
-            ((LGSPGraphModel)model).CreateAndBindIndexSet(this);
         }
 
         /// <summary>
@@ -258,7 +238,6 @@ namespace de.unika.ipd.grGen.lgsp
             NameToElem = new Dictionary<String, IGraphElement>(graph.NumNodes + graph.NumEdges);
             ElemToName = new Dictionary<IGraphElement, String>(graph.NumNodes + graph.NumEdges);
             DoName(nameAttributeName);
-            ((LGSPGraphModel)model).CreateAndBindIndexSet(this);
         }
 
         /// <summary>
@@ -274,7 +253,6 @@ namespace de.unika.ipd.grGen.lgsp
             ElemToName = new Dictionary<IGraphElement, String>(graph.NumNodes + graph.NumEdges);
             tmpOldToNewMap = null;
             DoName(nameAttributeName);
-            ((LGSPGraphModel)model).CreateAndBindIndexSet(this);
         }
 
         /// <summary>
