@@ -26,7 +26,7 @@ namespace JavaProgramGraphs
             JavaProgramGraphsGraphModel model = new JavaProgramGraphsGraphModel();
 
             // the actions object for the rules we'll to use
-            BaseActions ba;
+            IActions ba;
 
             // import the instance graph we created with gxl2grs, using the the .gm we created by hand
             // (can't use import gxl for the program graph, because the given .gxl is severly rotten)
