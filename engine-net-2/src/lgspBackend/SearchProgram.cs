@@ -1517,7 +1517,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // emit loop header with variable containing container entry
                 string indexIterationVariable =
                     NamesOfEntities.CandidateIterationIndexEntry(PatternElementName);
-                sourceCode.AppendFrontFormat("foreach({0} {1} in (({2})((GRGEN_LGSP.LGSPNamedGraph)graph).indices).{3}.",
+                sourceCode.AppendFrontFormat("foreach({0} {1} in (({2})graph.indices).{3}.",
                         IterationType, indexIterationVariable, IndexSetType, IndexName);
                 if(IndexAccessType==IndexAccessType.Equality)
                 {
@@ -2711,7 +2711,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // initialize variable containing candidates from parallelized next candidate
                 string variableContainingParallelizedIterator =
                     NamesOfEntities.IterationParallelizationIterator(PatternElementName);
-                sourceCode.AppendFrontFormat("{0} = (({1})((GRGEN_LGSP.LGSPNamedGraph)graph).indices).{2}.",
+                sourceCode.AppendFrontFormat("{0} = (({1})graph.indices).{2}.",
                     variableContainingParallelizedIterator, IndexSetType, IndexName);
 
                 if(IndexAccessType == IndexAccessType.Equality)
@@ -2738,7 +2738,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 
                 // emit prerun determining the number of threads to wake up
-                sourceCode.AppendFrontFormat("numThreadsSignaled = Math.Min(numWorkerThreads, (({0})((GRGEN_LGSP.LGSPNamedGraph)graph).indices).{1}.Count);\n",
+                sourceCode.AppendFrontFormat("numThreadsSignaled = Math.Min(numWorkerThreads, (({0})graph.indices).{1}.Count);\n",
                     IndexSetType, IndexName);
                 sourceCode.AppendFront("\n");
             }

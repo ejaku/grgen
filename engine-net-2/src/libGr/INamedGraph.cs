@@ -12,19 +12,11 @@ using System.IO;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A named IGraph (which is an attributed, typed and directed multigraph with multiple inheritance on node and edge types),
+    /// An named IGraph (which is an attributed, typed and directed multigraph with multiple inheritance on node and edge types),
     /// with a unique name assigned to each node and edge; allowing to access an element by name and a name by element.
-    /// Gives access to further attribute or incidence count indices, as declared in the model.
     /// </summary>
     public interface INamedGraph : IGraph
     {
-        /// <summary>
-        /// The indices associated with the graph.
-        /// I.e. the attribute or incidence count indeces declared in addition to the name map. 
-        /// </summary>
-        IIndexSet Indices { get; }
-
-
         /// <summary>
         /// Sets the name for a graph element. Any previous name will be overwritten.
         /// </summary>
