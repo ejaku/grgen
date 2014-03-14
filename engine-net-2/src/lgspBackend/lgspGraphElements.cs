@@ -551,6 +551,26 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Class implementing nodes enriched with a unique id in the libGr search plan backend
+    /// </summary>
+    public abstract class LGSPNodeUnique : LGSPNode
+    {
+        /// <summary>
+        /// The unique id of the node.
+        /// </summary>
+        public int uniqueId;
+
+        /// <summary>
+        /// Instantiates an LGSPNodeUnique object.
+        /// </summary>
+        /// <param name="nodeType">The node type.</param>
+        protected LGSPNodeUnique(NodeType nodeType)
+            : base(nodeType)
+        {
+        }
+    }
+
+    /// <summary>
     /// Special head node of the lists containing all the nodes of one type
     /// </summary>
     [DebuggerDisplay("LGSPNodeHead")]
@@ -814,6 +834,28 @@ namespace de.unika.ipd.grGen.lgsp
         public override string ToString()
         {
             return Type.ToString();
+        }
+    }
+
+    /// <summary>
+    /// Class implementing edges enriched with a unique id in the libGr search plan backend
+    /// </summary>
+    public abstract class LGSPEdgeUnique : LGSPEdge
+    {
+        /// <summary>
+        /// The unique id of the edge.
+        /// </summary>
+        public int uniqueId;
+
+        /// <summary>
+        /// Instantiates an LGSPEdgeUnique object.
+        /// </summary>
+        /// <param name="edgeType">The edge type.</param>
+        /// <param name="sourceNode">The source node.</param>
+        /// <param name="targetNode">The target node.</param>
+        protected LGSPEdgeUnique(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
+            : base(edgeType, sourceNode, targetNode)
+        {
         }
     }
 

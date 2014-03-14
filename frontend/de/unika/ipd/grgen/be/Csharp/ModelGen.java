@@ -464,6 +464,7 @@ public class ModelGen extends CSharpBase {
 	private void genElementImplementation(InheritanceType type) {
 		boolean isNode = type instanceof NodeType;
 		String kindStr = isNode ? "Node" : "Edge";
+		String uniqueSuffix = model.isUniqueDefined() ? "Unique" : "";
 		String elemname = formatElementClassName(type);
 		String elemref = formatElementClassRef(type);
 		String extName = type.getExternalName();
@@ -477,7 +478,7 @@ public class ModelGen extends CSharpBase {
 
 		if(extName == null) {
 			sb.append("\n\tpublic sealed class " + elemname + " : GRGEN_LGSP.LGSP"
-					+ kindStr + ", " + ielemref + "\n\t{\n");
+					+ kindStr + uniqueSuffix + ", " + ielemref + "\n\t{\n");
 		}
 		else { // what's that?
 			routedSB = getStubBuffer();
@@ -4333,6 +4334,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t\tgraph.indices = new " + model.getIdent() + "IndexSet((GRGEN_LGSP.LGSPNamedGraph)graph);\n");
 		sb.append("\t\t\telse\n");
 		sb.append("\t\t\t\tgraph.indices = new " + model.getIdent() + "IndexSet(graph);\n");
+		if(model.isUniqueDefined())
+			sb.append("\t\t\tnew GRGEN_LGSP.LGSPUniquenessEnsurer(graph);\n");
 		sb.append("\t\t}\n");
 	}
 	

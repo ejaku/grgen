@@ -1,0 +1,15 @@
+#using "unique_model.gm"
+
+rule r(n:Node) {
+	modify {
+		emit("The value of attribute noattribute is " + nameof(n) + "\n");
+		emit("The value of attribute noattribute is " + uniqueof(n) + "\n");
+	}
+}
+
+rule s(-e:Edge->) {
+	modify {
+		emit("The value of attribute noattribute is " + nameof(e) + "\n");
+		emit("The value of attribute noattribute is " + uniqueof(e) + "\n");
+	}
+}

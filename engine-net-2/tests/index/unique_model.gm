@@ -1,0 +1,4 @@
+node class N;
+edge class E;
+
+node edge unique;

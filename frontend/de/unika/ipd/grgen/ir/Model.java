@@ -40,18 +40,20 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 	private boolean isCopyClassDefined;
 	private boolean isEqualClassDefined;
 	private boolean isLowerClassDefined;
+	private boolean isUniqueDefined;
 	private Collection<NodeType> allNodeTypes;
 	private Collection<EdgeType> allEdgeTypes;
 
 
 	public Model(Ident ident, boolean isEmitClassDefined, boolean isCopyClassDefined, 
-			boolean isEqualClassDefined, boolean isLowerClassDefined) {
+			boolean isEqualClassDefined, boolean isLowerClassDefined, boolean isUniqueDefined) {
 		super("model", ident);
 		
 		this.isEmitClassDefined = isEmitClassDefined;
 		this.isCopyClassDefined = isCopyClassDefined;
 		this.isEqualClassDefined = isEqualClassDefined;
 		this.isLowerClassDefined = isLowerClassDefined;
+		this.isUniqueDefined = isUniqueDefined;
 	}
 
 	public void addUsedModel(Model model) {
@@ -180,6 +182,10 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 
 	public boolean isLowerClassDefined() {
 		return isLowerClassDefined;
+	}
+
+	public boolean isUniqueDefined() {
+		return isUniqueDefined;
 	}
 
 	/** Canonicalize the type model. */
