@@ -250,10 +250,16 @@ textActions returns [ UnitNode main = null ]
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isLowerClassDefined |= modelChild.IsLowerClassDefined();
 				}				
+				boolean isUniqueDefined = false;
+				for(ModelNode modelChild : modelChilds.getChildren()) {
+					isUniqueDefined |= modelChild.IsUniqueDefined();
+				}				
 				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(),
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), 
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds, 
-						isEmitClassDefined, isCopyClassDefined, isEqualClassDefined, isLowerClassDefined);
+						isEmitClassDefined, isCopyClassDefined, 
+						isEqualClassDefined, isLowerClassDefined,
+						isUniqueDefined);
 				modelChilds = new CollectNode<ModelNode>();
 				modelChilds.addChild(model);
 			}
@@ -2501,14 +2507,17 @@ textTypes returns [ ModelNode model = null ]
 				modelChilds.addChild(env.getStdModel());
 			model = new ModelNode(id, packages, types, externalFuncs, externalProcs, indices, modelChilds,
 				$specialClasses.isEmitClassDefined, $specialClasses.isCopyClassDefined, 
-				$specialClasses.isEqualClassDefined, $specialClasses.isLowerClassDefined);
+				$specialClasses.isEqualClassDefined, $specialClasses.isLowerClassDefined,
+				$specialClasses.isUniqueDefined);
 		}
 	;
 
 typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
             CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
 			CollectNode<IdentNode> indices ]
-		returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false, boolean isEqualClassDefined = false, boolean isLowerClassDefined = false; ]
+		returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false, 
+				  boolean isEqualClassDefined = false, boolean isLowerClassDefined = false,
+				  boolean isUniqueDefined = false; ]
 	@init{
 		boolean isExternal = false;
 	}	
@@ -2518,6 +2527,8 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
   		pack=packageDecl { packages.addChild(pack); }
 	  |
 		externalFunctionOrProcedureDecl[externalFuncs, externalProcs]
+	  |
+	    NODE EDGE i=IDENT SEMI { if(!i.getText().equals("unique")) reportError(getCoords(i), "malformed \"node edge unique;\""); else $isUniqueDefined = true; }
 	  |
 	    (EXTERNAL { isExternal = true; })? EMIT c=CLASS SEMI { $isEmitClassDefined = true; if(!isExternal) reportWarning(getCoords(c), "Emit class must start with \"external\""); }
 	  |
@@ -4014,6 +4025,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
 				|| (i.getText().equals("existsFile") || i.getText().equals("import")) && params.getChildren().size()==1
 				|| i.getText().equals("copy") && params.getChildren().size()==1
+				|| i.getText().equals("uniqueof") && params.getChildren().size()==1
 			  )
 			{
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));

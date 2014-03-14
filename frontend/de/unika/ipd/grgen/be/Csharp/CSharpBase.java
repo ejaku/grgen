@@ -860,6 +860,16 @@ public abstract class CSharpBase {
 				sb.append(", graph)");
 			}
 		}
+		else if(expr instanceof Uniqueof) {
+			Uniqueof no = (Uniqueof) expr;
+        	sb.append("(");
+        	if(no.getEntity().getType() instanceof NodeType)
+        		sb.append("(GRGEN_LGSP.LGSPNodeUnique)");
+        	else
+        		sb.append("(GRGEN_LGSP.LGSPEdgeUnique)");
+			genExpression(sb, no.getEntity(), modifyGenerationState); // unique id of entity
+			sb.append(").uniqueId");
+		}
 		else if(expr instanceof ExistsFileExpr) {
 			ExistsFileExpr efe = (ExistsFileExpr) expr;
         	sb.append("System.IO.File.Exists((string)");

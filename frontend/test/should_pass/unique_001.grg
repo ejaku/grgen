@@ -1,0 +1,18 @@
+#using "unique_model.gm"
+
+rule r {
+	n:N -e:E-> n;
+	if{ uniqueof(n)==42 && uniqueof(e)!=42; }
+
+	def var i:int;
+	yield {
+		yield i = uniqueof(n);
+	}
+	
+	modify {
+		def var j:int;
+		eval {
+			yield j = uniqueof(n) + uniqueof(e);
+		}
+	}
+}

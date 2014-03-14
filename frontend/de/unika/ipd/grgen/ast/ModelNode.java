@@ -53,12 +53,14 @@ public class ModelNode extends DeclNode {
 	private boolean isCopyClassDefined;
 	private boolean isEqualClassDefined;
 	private boolean isLowerClassDefined;
+	private boolean isUniqueDefined;
 
 	public ModelNode(IdentNode id, CollectNode<IdentNode> packages, CollectNode<IdentNode> decls, 
 			CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
 			CollectNode<IdentNode> indices, CollectNode<ModelNode> usedModels, 
 			boolean isEmitClassDefined, boolean isCopyClassDefined,
-			boolean isEqualClassDefined, boolean isLowerClassDefined) {
+			boolean isEqualClassDefined, boolean isLowerClassDefined,
+			boolean isUniqueDefined) {
 		super(id, modelType);
 
 		this.packagesUnresolved = packages;
@@ -77,6 +79,7 @@ public class ModelNode extends DeclNode {
 		this.isCopyClassDefined = isCopyClassDefined;
 		this.isEqualClassDefined = isEqualClassDefined;
 		this.isLowerClassDefined = isLowerClassDefined;
+		this.isUniqueDefined = isUniqueDefined;
 	}
 
 	/** returns children of this node */
@@ -172,6 +175,10 @@ public class ModelNode extends DeclNode {
 		return isLowerClassDefined;
 	}
 	
+	public boolean IsUniqueDefined() {
+		return isUniqueDefined;
+	}
+	
 	public CollectNode<TypeDeclNode> getTypeDecls() {
 		return decls;
 	}
@@ -200,7 +207,8 @@ public class ModelNode extends DeclNode {
 	@Override
 	protected Model constructIR() {
 		Ident id = ident.checkIR(Ident.class);
-		Model res = new Model(id, isEmitClassDefined, isCopyClassDefined, isEqualClassDefined, isLowerClassDefined);
+		Model res = new Model(id, isEmitClassDefined, isCopyClassDefined, 
+				isEqualClassDefined, isLowerClassDefined, isUniqueDefined);
 		for(ModelNode model : usedModels.getChildren())
 			res.addUsedModel(model.getModel());
 		for(TypeDeclNode typeDecl : packages.getChildren()) {

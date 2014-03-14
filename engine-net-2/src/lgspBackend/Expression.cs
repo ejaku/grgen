@@ -1485,6 +1485,42 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing unique id expression
+    /// </summary>
+    public class Uniqueof : Expression
+    {
+        public Uniqueof(Expression entity, bool isNode)
+        {
+            Entity = entity;
+            IsNode = isNode;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Uniqueof(Entity.Copy(renameSuffix), IsNode);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            if(IsNode)
+                sourceCode.Append("(GRGEN_LGSP.LGSPNodeUnique)");
+            else
+                sourceCode.Append("(GRGEN_LGSP.LGSPEdgeUnique)");
+            Entity.Emit(sourceCode);
+            sourceCode.Append(").uniqueId");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Entity;
+        }
+
+        Expression Entity;
+        bool IsNode;
+    }
+
+    /// <summary>
     /// Class representing exists file expression
     /// </summary>
     public class ExistsFileExpression : Expression

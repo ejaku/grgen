@@ -1,0 +1,98 @@
+new graph "index/unique_001"
+
+new :N($="0")
+new :N($="1")
+new :N($="2")
+new :N($="3")
+new :Node($="4")
+new @("0") -:E($="e0")-> @("0")
+new @("1") -:E($="e1")-> @("1")
+new @("2") -:E($="e2")-> @("2")
+new @("3") -:E($="e3")-> @("3")
+new @("4") -:Edge($="e4")-> @("4")
+
+exec r(@("0"))
+exec s(@("e0"))
+
+exec r(@("1"))
+exec s(@("e1"))
+
+exec r(@("2"))
+exec s(@("e2"))
+
+exec r(@("3"))
+exec s(@("e3"))
+
+exec r(@("4"))
+exec s(@("e4"))
+
+delete edge @("e0")
+delete node @("2")
+delete node @("0")
+
+exec r(@("1"))
+exec s(@("e1"))
+
+exec r(@("3"))
+exec s(@("e3"))
+
+exec r(@("4"))
+exec s(@("e4"))
+
+new :N($="0")
+new :N($="2")
+
+new @("0") -:E($="e0")-> @("0")
+new @("2") -:E($="e2")-> @("2")
+
+new :Node($="5")
+new @("5") -:Edge($="e5")-> @("5")
+
+exec r(@("0"))
+exec s(@("e0"))
+
+exec r(@("1"))
+exec s(@("e1"))
+
+exec r(@("2"))
+exec s(@("e2"))
+
+exec r(@("3"))
+exec s(@("e3"))
+
+exec r(@("4"))
+exec s(@("e4"))
+
+exec r(@("5"))
+exec s(@("e5"))
+
+retype @("3")<Node>
+retype -@("e3")<Edge>->
+
+retype @("5")<N>
+retype -@("e5")<E>->
+
+exec r(@("0"))
+exec s(@("e0"))
+
+exec r(@("1"))
+exec s(@("e1"))
+
+exec r(@("2"))
+exec s(@("e2"))
+
+exec r(@("3"))
+exec s(@("e3"))
+
+exec r(@("4"))
+exec s(@("e4"))
+
+exec r(@("5"))
+exec s(@("e5"))
+
+delete edge @("e5")
+new :N($="6")
+
+exec r(@("6"))
+
+quit

@@ -2323,6 +2323,16 @@ public class ActionsGen extends CSharpBase {
 				genExpressionTree(sb, no.getNamedEntity(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if(expr instanceof Uniqueof) {
+			Uniqueof uo = (Uniqueof) expr;
+			sb.append("new GRGEN_EXPR.Uniqueof(");
+			genExpressionTree(sb, uo.getEntity(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(uo.getEntity().getType() instanceof NodeType)
+				sb.append(", true");
+			else
+				sb.append(", false");	
+			sb.append(")");
+		}
 		else if(expr instanceof ExistsFileExpr) {
 			ExistsFileExpr efe = (ExistsFileExpr) expr;
 			sb.append("new GRGEN_EXPR.ExistsFileExpression(");

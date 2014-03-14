@@ -476,6 +476,14 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new CanonizeExprNode(getCoords(), params.get(0));
 		}
+		else if(functionName.equals("uniqueof")) {
+			if(params.size() != 1) {
+				reportError("uniqueof(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new UniqueofExprNode(getCoords(), params.get(0));
+		}
 		else {
 			reportError("no function " +functionName + " known");
 			return false;
