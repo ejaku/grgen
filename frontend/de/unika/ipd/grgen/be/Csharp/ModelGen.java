@@ -3616,14 +3616,25 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t\tGRGEN_LIBGR.IEdge edge = edgeKVP.Key;\n");
 		sb.append("\t\t\t\tGRGEN_LIBGR.INode source = edge.Source;\n");
 		sb.append("\t\t\t\tGRGEN_LIBGR.INode target = edge.Target;\n");
-		genIndexMaintainingEdgeAdded(index);
+		genIndexMaintainingRemovingEdge(index);
 		sb.append("\t\t\t}\n");
+
+		sb.append("\t\t\tif(oldNode is " + startNodeType + ") {\n");
+		sb.append("\t\t\t\tnodeToIncidenceCount.Remove((" + startNodeType + ")oldNode);\n");
+		sb.append("\t\t\t\tDelete(ref root, 0, (" + startNodeType + ")oldNode);\n");
+		sb.append("\t\t\t}\n");
+
+		sb.append("\t\t\tif(newNode is " + startNodeType + ") {\n");
+		sb.append("\t\t\t\tnodeToIncidenceCount.Add((" + startNodeType + ")newNode, 0);\n");
+		sb.append("\t\t\t\tInsert(ref root, 0, (" + startNodeType + ")newNode);\n");
+		sb.append("\t\t\t}\n");
+
 		sb.append("\t\t\tforeach(KeyValuePair<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType> edgeKVP in incidentEdges)\n");
 		sb.append("\t\t\t{\n");
 		sb.append("\t\t\t\tGRGEN_LIBGR.IEdge edge = edgeKVP.Key;\n");
 		sb.append("\t\t\t\tGRGEN_LIBGR.INode source = edge.Source==oldNode ? newNode : edge.Source;\n");
 		sb.append("\t\t\t\tGRGEN_LIBGR.INode target = edge.Target==oldNode ? newNode : edge.Target;\n");
-		genIndexMaintainingRemovingEdge(index);
+		genIndexMaintainingEdgeAdded(index);
 		sb.append("\t\t\t}\n");
 		//sb.append("Check(root);\n");
 		sb.append("\t\t}\n\n");
