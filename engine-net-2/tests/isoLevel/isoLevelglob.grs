@@ -1,0 +1,23 @@
+new graph "isoLevel/isoLevel"
+
+new :Node($="1")
+new :Node($="2")
+new :Node($="3")
+new @("1") -:Edge($="e12")-> @("2")
+new @("2") -:Edge($="e23")-> @("3")
+new @("3") -:Edge($="e31")-> @("1")
+
+
+exec t1glob
+exec [t1glob]
+
+exec t1globpar
+exec [t1globpar]
+
+exec t1globdeep
+exec [t1globdeep]
+
+exec t1globdeeppar
+exec [t1globdeeppar]
+
+quit
