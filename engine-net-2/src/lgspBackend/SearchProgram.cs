@@ -438,6 +438,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("actionEnvParallel = actionEnv;\n");
             sourceCode.AppendFront("maxMatchesParallel = maxMatches;\n");
             sourceCode.AppendFront("graph.EnsureSufficientIsomorphySpacesForParallelizedMatchingAreAvailable(numWorkerThreads);\n");
+            sourceCode.AppendFront("List<ushort> flagsPerElement0 = graph.flagsPerThreadPerElement[0];\n");
 
             if(EmitProfiling)
             {
