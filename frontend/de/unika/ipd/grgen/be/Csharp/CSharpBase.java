@@ -864,9 +864,9 @@ public abstract class CSharpBase {
 			Uniqueof no = (Uniqueof) expr;
         	sb.append("(");
         	if(no.getEntity().getType() instanceof NodeType)
-        		sb.append("(GRGEN_LGSP.LGSPNodeUnique)");
+        		sb.append("(GRGEN_LGSP.LGSPNode)");
         	else
-        		sb.append("(GRGEN_LGSP.LGSPEdgeUnique)");
+        		sb.append("(GRGEN_LGSP.LGSPEdge)");
 			genExpression(sb, no.getEntity(), modifyGenerationState); // unique id of entity
 			sb.append(").uniqueId");
 		}

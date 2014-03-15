@@ -552,6 +552,9 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = actionEnvParallel;\n");
             sourceCode.AppendFront("int maxMatches = maxMatchesParallel;\n");
             sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            sourceCode.AppendFront("List<ushort> flagsPerElement = graph.flagsPerThreadPerElement[threadId];\n");
+            sourceCode.AppendFront("List<ushort> flagsPerElement0 = graph.flagsPerThreadPerElement[0];\n");
+            sourceCode.AppendFront("List<ushort> flagsPerElementGlobal = graph.flagsPerThreadPerElement[threadId];\n");
             sourceCode.AppendFront("int isoSpace = 0;\n");
 
             if(NamesOfPatternGraphsOnPathToEnclosedPatternpath.Count > 0)
@@ -657,7 +660,13 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
-            sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            if(Parallel)
+            {
+                sourceCode.AppendFront("List<ushort> flagsPerElement = graph.flagsPerThreadPerElement[threadId];\n");
+                sourceCode.AppendFront("List<ushort> flagsPerElement0 = graph.flagsPerThreadPerElement[0];\n");
+                sourceCode.AppendFront("List<ushort> flagsPerElementGlobal = graph.flagsPerThreadPerElement[threadId];\n");
+            }
 
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
             {
@@ -733,7 +742,13 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
-            sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            if(Parallel)
+            {
+                sourceCode.AppendFront("List<ushort> flagsPerElement = graph.flagsPerThreadPerElement[threadId];\n");
+                sourceCode.AppendFront("List<ushort> flagsPerElement0 = graph.flagsPerThreadPerElement[0];\n");
+                sourceCode.AppendFront("List<ushort> flagsPerElementGlobal = graph.flagsPerThreadPerElement[threadId];\n");
+            }
 
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
             {
@@ -811,7 +826,13 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Indent();
 
             sourceCode.AppendFront("bool patternFound = false;\n");
-            sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            if(Parallel)
+            {
+                sourceCode.AppendFront("List<ushort> flagsPerElement = graph.flagsPerThreadPerElement[threadId];\n");
+                sourceCode.AppendFront("List<ushort> flagsPerElement0 = graph.flagsPerThreadPerElement[0];\n");
+                sourceCode.AppendFront("List<ushort> flagsPerElementGlobal = graph.flagsPerThreadPerElement[threadId];\n");
+            }
 
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
             {
@@ -3907,32 +3928,50 @@ namespace de.unika.ipd.grGen.lgsp
             // open decision whether to fail
             sourceCode.AppendFront("if(");
 
+            // fail if graph element contained within candidate was already matched
+            // (to another pattern element)
+            // as this would cause a homomorphic match
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
             if(Parallel)
             {
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Append("(isoSpace < (int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE ? ");
+                }
+
+                string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED << isoSpace";
                 if(LockForAllThreads)
-                    sourceCode.AppendFormat("graph.perThreadInIsoSpaceMatchedElements[0][isoSpace]"
-                        + ".ContainsKey({0})", variableContainingCandidate);
+                    sourceCode.AppendFormat("( flagsPerElement0[{0}.uniqueId] & {1} ) != 0",
+                        variableContainingCandidate, isMatchedBit);
                 else
-                    sourceCode.AppendFormat("graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace]"
-                        + ".ContainsKey({0})", variableContainingCandidate);
+                    sourceCode.AppendFormat("( flagsPerElement[{0}.uniqueId] & {1} ) != 0",
+                        variableContainingCandidate, isMatchedBit);
+
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Append(" : ");
+                    sourceCode.AppendFormat("graph.perThreadInIsoSpaceMatchedElements[{0}][isoSpace - (int)"
+                        + "GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE]"
+                        + ".ContainsKey({1}))", 
+                        LockForAllThreads ? "0" : "threadId",
+                        variableContainingCandidate);
+                }
             }
             else
             {
-                // fail if graph element contained within candidate was already matched
-                // (to another pattern element)
-                // as this would cause a homomorphic match
                 if(!NeverAboveMaxIsoSpace)
                 {
-                    sourceCode.Append("(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE ? ");
+                    sourceCode.Append("(isoSpace < (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE ? ");
                 }
-                string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
+
+                string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
                 sourceCode.AppendFormat("({0}.lgspFlags & {1}) != 0", variableContainingCandidate, isMatchedBit);
 
                 if(!NeverAboveMaxIsoSpace)
                 {
                     sourceCode.Append(" : ");
-                    sourceCode.AppendFormat("graph.inIsoSpaceMatchedElements[isoSpace-(int)GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE-1]"
+                    sourceCode.AppendFormat("graph.inIsoSpaceMatchedElements[isoSpace - (int)"
+                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE]"
                         + ".ContainsKey({0}))", variableContainingCandidate);
                 }
             }
@@ -4052,30 +4091,46 @@ namespace de.unika.ipd.grGen.lgsp
             // open decision whether to fail
             sourceCode.AppendFront("if(");
 
+            // fail if graph element contained within candidate was already matched
+            // (in another subpattern to another pattern element)
+            // as this would cause a inter-pattern-homomorphic match
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
             if(Parallel)
             {
-                sourceCode.AppendFormat("graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace]"
-                    + ".ContainsKey({0})", variableContainingCandidate);
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Append("(isoSpace < (int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE ? ");
+                }
+
+                string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
+                sourceCode.AppendFormat("( flagsPerElementGlobal[{0}.uniqueId] & {1} ) == {1}",
+                    variableContainingCandidate,
+                    isMatchedBit);
+
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Append(" : ");
+                    sourceCode.AppendFormat("graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace - (int)"
+                        + "GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE]"
+                        + ".ContainsKey({0}))", variableContainingCandidate);
+                }
             }
             else
             {
-                // fail if graph element contained within candidate was already matched
-                // (in another subpattern to another pattern element)
-                // as this would cause a inter-pattern-homomorphic match
                 if(!NeverAboveMaxIsoSpace)
                 {
-                    sourceCode.Append("(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE ? ");
+                    sourceCode.Append("(isoSpace < (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE ? ");
                 }
-                string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
 
+                string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
                 sourceCode.AppendFormat("({0}.lgspFlags & {1})=={1}",
                     variableContainingCandidate, isMatchedBit);
 
                 if(!NeverAboveMaxIsoSpace)
                 {
                     sourceCode.Append(" : ");
-                    sourceCode.AppendFormat("graph.inIsoSpaceMatchedElementsGlobal[isoSpace-(int)GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE-1]"
+                    sourceCode.AppendFormat("graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int)"
+                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE]"
                         + ".ContainsKey({0}))", variableContainingCandidate);
                 }
             }
@@ -4150,7 +4205,7 @@ namespace de.unika.ipd.grGen.lgsp
             // (previously on the pattern derivation path to another pattern element)
             // as this would cause a inter-pattern-homomorphic match
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-            string isMatchedBySomeBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN";
+            string isMatchedBySomeBit = "(uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN";
 
             if (!Always) {
                 sourceCode.Append("searchPatternpath && ");
@@ -4598,30 +4653,72 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(Parallel)
             {
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.AppendFront("if(isoSpace < (int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE) {\n");
+                    sourceCode.Indent();
+                }
+
+                string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED << isoSpace";
                 if(LockForAllThreads)
                 {
-                    sourceCode.AppendFrontFormat("{0} = graph.perThreadInIsoSpaceMatchedElements[0][isoSpace].ContainsKey({1}) ? 1U : 0U;\n",
-                        variableContainingBackupOfMappedMember, variableContainingCandidate);
-                    sourceCode.AppendFrontFormat("if({0} == 0) for(int i=0; i<numWorkerThreads; ++i) graph.perThreadInIsoSpaceMatchedElements[i][isoSpace].Add({1},{1});\n",
-                        variableContainingBackupOfMappedMember, variableContainingCandidate);
+                    sourceCode.AppendFrontFormat("{0} = flagsPerElement0[{1}.uniqueId] & {2};\n",
+                        variableContainingBackupOfMappedMember,
+                        variableContainingCandidate,
+                        isMatchedBit);
+                    sourceCode.AppendFrontFormat("for(int i=0; i<numWorkerThreads; ++i) graph.flagsPerThreadPerElement[i][{0}.uniqueId] |= (ushort)({1});\n",
+                        variableContainingCandidate,
+                        isMatchedBit);
                 }
                 else
                 {
-                    sourceCode.AppendFrontFormat("{0} = graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace].ContainsKey({1}) ? 1U : 0U;\n",
-                        variableContainingBackupOfMappedMember, variableContainingCandidate);
-                    sourceCode.AppendFrontFormat("if({0} == 0) graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace].Add({1},{1});\n",
-                        variableContainingBackupOfMappedMember, variableContainingCandidate);
+                    sourceCode.AppendFrontFormat("{0} = flagsPerElement[{1}.uniqueId] & {2};\n",
+                        variableContainingBackupOfMappedMember,
+                        variableContainingCandidate,
+                        isMatchedBit);
+                    sourceCode.AppendFrontFormat("flagsPerElement[{0}.uniqueId] |= (ushort)({1});\n",
+                        variableContainingCandidate,
+                        isMatchedBit);
+                }
+
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("} else {\n");
+                    sourceCode.Indent();
+
+                    if(LockForAllThreads)
+                    {
+                        sourceCode.AppendFrontFormat("{0} = graph.perThreadInIsoSpaceMatchedElements[0][isoSpace - (int)"
+                            + "GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE].ContainsKey({1}) ? 1U : 0U;\n",
+                            variableContainingBackupOfMappedMember, variableContainingCandidate);
+                        sourceCode.AppendFrontFormat("if({0} == 0) for(int i=0; i<numWorkerThreads; ++i) graph.perThreadInIsoSpaceMatchedElements[i][isoSpace - (int)"
+                            + "GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE].Add({1},{1});\n",
+                            variableContainingBackupOfMappedMember, variableContainingCandidate);
+                    }
+                    else
+                    {
+                        sourceCode.AppendFrontFormat("{0} = graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace - (int)"
+                            + "GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE].ContainsKey({1}) ? 1U : 0U;\n",
+                            variableContainingBackupOfMappedMember, variableContainingCandidate);
+                        sourceCode.AppendFrontFormat("if({0} == 0) graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace - (int)"
+                            + "GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE].Add({1},{1});\n",
+                            variableContainingBackupOfMappedMember, variableContainingCandidate);
+                    }
+
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
                 }
             }
             else
             {
                 if(!NeverAboveMaxIsoSpace)
                 {
-                    sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
+                    sourceCode.AppendFront("if(isoSpace < (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
                     sourceCode.Indent();
                 }
 
-                string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
+                string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
                 sourceCode.AppendFrontFormat("{0} = {1}.lgspFlags & {2};\n",
                     variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
                 sourceCode.AppendFrontFormat("{0}.lgspFlags |= {1};\n",
@@ -4634,10 +4731,10 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.Indent();
 
                     sourceCode.AppendFrontFormat("{0} = graph.inIsoSpaceMatchedElements[isoSpace - (int) "
-                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].ContainsKey({1}) ? 1U : 0U;\n",
+                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE].ContainsKey({1}) ? 1U : 0U;\n",
                         variableContainingBackupOfMappedMember, variableContainingCandidate);
                     sourceCode.AppendFrontFormat("if({0} == 0) graph.inIsoSpaceMatchedElements[isoSpace - (int) "
-                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].Add({1},{1});\n",
+                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE].Add({1},{1});\n",
                         variableContainingBackupOfMappedMember, variableContainingCandidate);
 
                     sourceCode.Unindent();
@@ -4691,20 +4788,47 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(Parallel)
             {
-                sourceCode.AppendFrontFormat("{0} = graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace].ContainsKey({1}) ? 1U : 0U;\n",
-                    variableContainingBackupOfMappedMember, variableContainingCandidate);
-                sourceCode.AppendFrontFormat("if({0} == 0) graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace].Add({1},{1});\n",
-                    variableContainingBackupOfMappedMember, variableContainingCandidate);
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.AppendFront("if(isoSpace < (int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE) {\n");
+                    sourceCode.Indent();
+                }
+
+                string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
+                sourceCode.AppendFrontFormat("{0} = flagsPerElementGlobal[{1}.uniqueId] & {2};\n",
+                    variableContainingBackupOfMappedMember,
+                    variableContainingCandidate,
+                    isMatchedBit);
+                sourceCode.AppendFrontFormat("flagsPerElementGlobal[{0}.uniqueId] |= (ushort)({1});\n",
+                    variableContainingCandidate,
+                    isMatchedBit);
+
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("} else {\n");
+                    sourceCode.Indent();
+
+                    sourceCode.AppendFrontFormat("{0} = graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace - (int)"
+                        + "GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE].ContainsKey({1}) ? 1U : 0U;\n",
+                        variableContainingBackupOfMappedMember, variableContainingCandidate);
+                    sourceCode.AppendFrontFormat("if({0} == 0) graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace - (int)"
+                        + "GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE].Add({1},{1});\n",
+                        variableContainingBackupOfMappedMember, variableContainingCandidate);
+
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                }
             }
             else
             {
                 if(!NeverAboveMaxIsoSpace)
                 {
-                    sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
+                    sourceCode.AppendFront("if(isoSpace < (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
                     sourceCode.Indent();
                 }
 
-                string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
+                string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
                 sourceCode.AppendFrontFormat("{0} = {1}.lgspFlags & {2};\n",
                     variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
                 sourceCode.AppendFrontFormat("{0}.lgspFlags |= {1};\n",
@@ -4717,10 +4841,10 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.Indent();
 
                     sourceCode.AppendFrontFormat("{0} = graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) "
-                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].ContainsKey({1}) ? 1U : 0U;\n",
+                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE].ContainsKey({1}) ? 1U : 0U;\n",
                         variableContainingBackupOfMappedMember, variableContainingCandidate);
                     sourceCode.AppendFrontFormat("if({0} == 0) graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) "
-                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].Add({1},{1});\n",
+                        + "GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE].Add({1},{1});\n",
                         variableContainingBackupOfMappedMember, variableContainingCandidate);
 
                     sourceCode.Unindent();
@@ -4765,7 +4889,7 @@ namespace de.unika.ipd.grGen.lgsp
             string variableContainingBackupOfMappedMemberGlobalSome =
                 NamesOfEntities.VariableWithBackupOfIsMatchedGlobalInSomePatternBit(PatternElementName, NegativeIndependentNamePrefix);
             sourceCode.AppendFrontFormat("uint {0};\n", variableContainingBackupOfMappedMemberGlobalSome);
-            string isMatchedInSomePatternBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN";
+            string isMatchedInSomePatternBit = "(uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN";
             sourceCode.AppendFrontFormat("{0} = {1}.lgspFlags & {2};\n",
                 variableContainingBackupOfMappedMemberGlobalSome, variableContainingCandidate, isMatchedInSomePatternBit);
             sourceCode.AppendFrontFormat("{0}.lgspFlags |= {1};\n",
@@ -4841,23 +4965,55 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(Parallel)
             {
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.AppendFront("if(isoSpace < (int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE) {\n");
+                    sourceCode.Indent();
+                }
+
+                string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED << isoSpace";
                 if(LockForAllThreads)
                 {
-                    sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
-                    sourceCode.Indent();
-                    sourceCode.AppendFrontFormat(
-                        "for(int i=0; i<numWorkerThreads; ++i) graph.perThreadInIsoSpaceMatchedElements[i][isoSpace]"
-                            + ".Remove({0});\n", variableContainingCandidate);
-                    sourceCode.Unindent();
-                    sourceCode.AppendFront("}\n");
+                    sourceCode.AppendFrontFormat("for(int i=0; i<numWorkerThreads; ++i) graph.flagsPerThreadPerElement[i][{0}.uniqueId] &= (ushort)(~({1}) | {2});\n",
+                        variableContainingCandidate,
+                        isMatchedBit,
+                        variableContainingBackupOfMappedMember);
                 }
                 else
                 {
-                    sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
+                    sourceCode.AppendFrontFormat("flagsPerElement[{0}.uniqueId] &= (ushort)(~({1}) | {2});\n",
+                        variableContainingCandidate,
+                        isMatchedBit, 
+                        variableContainingBackupOfMappedMember);
+                }
+
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("} else { \n");
                     sourceCode.Indent();
-                    sourceCode.AppendFrontFormat(
-                        "graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace]"
-                            + ".Remove({0});\n", variableContainingCandidate);
+
+                    if(LockForAllThreads)
+                    {
+                        sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
+                        sourceCode.Indent();
+                        sourceCode.AppendFrontFormat(
+                            "for(int i=0; i<numWorkerThreads; ++i) graph.perThreadInIsoSpaceMatchedElements[i][isoSpace - (int)GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE]"
+                                + ".Remove({0});\n", variableContainingCandidate);
+                        sourceCode.Unindent();
+                        sourceCode.AppendFront("}\n");
+                    }
+                    else
+                    {
+                        sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
+                        sourceCode.Indent();
+                        sourceCode.AppendFrontFormat(
+                            "graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace - (int)GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE]"
+                                + ".Remove({0});\n", variableContainingCandidate);
+                        sourceCode.Unindent();
+                        sourceCode.AppendFront("}\n");
+                    }
+
                     sourceCode.Unindent();
                     sourceCode.AppendFront("}\n");
                 }
@@ -4866,11 +5022,11 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(!NeverAboveMaxIsoSpace)
                 {
-                    sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
+                    sourceCode.AppendFront("if(isoSpace < (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
                     sourceCode.Indent();
                 }
 
-                string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
+                string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
                 sourceCode.AppendFrontFormat("{0}.lgspFlags = {0}.lgspFlags & ~({1}) | {2};\n",
                     variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
 
@@ -4883,7 +5039,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
                     sourceCode.Indent();
                     sourceCode.AppendFrontFormat(
-                        "graph.inIsoSpaceMatchedElements[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1]"
+                        "graph.inIsoSpaceMatchedElements[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE]"
                             + ".Remove({0});\n", variableContainingCandidate);
                     sourceCode.Unindent();
                     sourceCode.AppendFront("}\n");
@@ -4937,23 +5093,45 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(Parallel)
             {
-                sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
-                sourceCode.Indent();
-                sourceCode.AppendFrontFormat(
-                    "graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace]"
-                        + ".Remove({0});\n", variableContainingCandidate);
-                sourceCode.Unindent();
-                sourceCode.AppendFront("}\n");
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.AppendFront("if(isoSpace < (int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE) {\n");
+                    sourceCode.Indent();
+                }
+
+                string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
+                sourceCode.AppendFrontFormat("flagsPerElementGlobal[{0}.uniqueId] &= (ushort)(~({1}) | {2});\n",
+                    variableContainingCandidate,
+                    isMatchedBit,
+                    variableContainingBackupOfMappedMember);
+
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("} else { \n");
+                    sourceCode.Indent();
+
+                    sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
+                    sourceCode.Indent();
+                    sourceCode.AppendFrontFormat(
+                        "graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace - (int)GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE]"
+                            + ".Remove({0});\n", variableContainingCandidate);
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                }
             }
             else
             {
                 if(!NeverAboveMaxIsoSpace)
                 {
-                    sourceCode.AppendFront("if(isoSpace <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
+                    sourceCode.AppendFront("if(isoSpace < (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
                     sourceCode.Indent();
                 }
 
-                string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
+                string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
                 sourceCode.AppendFrontFormat("{0}.lgspFlags = {0}.lgspFlags & ~({1}) | {2};\n",
                     variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
 
@@ -4966,7 +5144,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
                     sourceCode.Indent();
                     sourceCode.AppendFrontFormat(
-                        "graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1]"
+                        "graph.inIsoSpaceMatchedElementsGlobal[isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE]"
                             + ".Remove({0});\n", variableContainingCandidate);
                     sourceCode.Unindent();
                     sourceCode.AppendFront("}\n");
@@ -5012,7 +5190,7 @@ namespace de.unika.ipd.grGen.lgsp
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
             string variableContainingBackupOfMappedMemberGlobalSome =
                 NamesOfEntities.VariableWithBackupOfIsMatchedGlobalInSomePatternBit(PatternElementName, NegativeIndependentNamePrefix);
-            string isMatchedInSomePatternBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN";
+            string isMatchedInSomePatternBit = "(uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN";
             sourceCode.AppendFrontFormat("{0}.lgspFlags = {0}.lgspFlags & ~({1}) | {2};\n",
                 variableContainingCandidate, isMatchedInSomePatternBit, variableContainingBackupOfMappedMemberGlobalSome);
         }
@@ -7075,18 +7253,30 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("++isoSpace;\n");
             if(Parallel)
             {
-                sourceCode.AppendFront("if(graph.perThreadInIsoSpaceMatchedElements[threadId].Count-1 < isoSpace)\n");
-                sourceCode.AppendFront("\tgraph.AllocateFurtherIsomorphySpaceNestingLevelForParallelizedMatching(threadId);\n");
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.AppendFront("if(isoSpace >= (int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE && "+
+                        "isoSpace - (int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE + 1 > graph.perThreadInIsoSpaceMatchedElements[threadId].Count) {\n");
+                    sourceCode.Indent();
+                    sourceCode.AppendFront("graph.AllocateFurtherIsomorphySpaceNestingLevelForParallelizedMatching(threadId);\n");
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                }
             }
-            else if(!NeverAboveMaxIsoSpace)
+            else
             {
-                sourceCode.AppendFront("if(isoSpace > (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE && "
-                    + "isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE > graph.inIsoSpaceMatchedElements.Count) {\n");
-                sourceCode.Indent();
-                sourceCode.AppendFront("graph.inIsoSpaceMatchedElements.Add(new Dictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement>());\n");
-                sourceCode.Unindent();
-                sourceCode.AppendFront("}\n");
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.AppendFront("if(isoSpace >= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE && "
+                        + "isoSpace - (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE + 1 > graph.inIsoSpaceMatchedElements.Count) {\n");
+                    sourceCode.Indent();
+                    sourceCode.AppendFront("graph.inIsoSpaceMatchedElements.Add(new Dictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement>());\n");
+                    sourceCode.AppendFront("graph.inIsoSpaceMatchedElementsGlobal.Add(new Dictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement>());\n");
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                }
             }
+
             if(SetupSubpatternMatching)
             {
                 sourceCode.AppendFrontFormat("Stack<GRGEN_LGSP.LGSPSubpatternAction> {0}openTasks ="
@@ -7129,17 +7319,31 @@ namespace de.unika.ipd.grGen.lgsp
             // TODO: why is the clear needed? is it needed at all? the set being empty must be ensured at this point.
             if(Parallel)
             {
-                sourceCode.AppendFront("graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace].Clear();\n");
-                sourceCode.AppendFront("graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace].Clear();\n");
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.AppendFront("if(isoSpace >= (int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE) {\n");
+                    sourceCode.Indent();
+                    sourceCode.AppendFront("graph.perThreadInIsoSpaceMatchedElements[threadId][isoSpace - "
+                        + "(int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE].Clear();\n");
+                    sourceCode.AppendFront("graph.perThreadInIsoSpaceMatchedElementsGlobal[threadId][isoSpace - "
+                        + "(int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE].Clear();\n");
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                }
             }
-            else if(!NeverAboveMaxIsoSpace)
+            else
             {
-                sourceCode.AppendFront("if(isoSpace > (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
-                sourceCode.Indent();
-                sourceCode.AppendFront("graph.inIsoSpaceMatchedElements[isoSpace - "
-                    + "(int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE - 1].Clear();\n");
-                sourceCode.Unindent();
-                sourceCode.AppendFront("}\n");
+                if(!NeverAboveMaxIsoSpace)
+                {
+                    sourceCode.AppendFront("if(isoSpace >= (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE) {\n");
+                    sourceCode.Indent();
+                    sourceCode.AppendFront("graph.inIsoSpaceMatchedElements[isoSpace - "
+                        + "(int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE].Clear();\n");
+                    sourceCode.AppendFront("graph.inIsoSpaceMatchedElementsGlobal[isoSpace - "
+                        + "(int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE].Clear();\n");
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                }
             }
             sourceCode.AppendFront("--isoSpace;\n");
         }

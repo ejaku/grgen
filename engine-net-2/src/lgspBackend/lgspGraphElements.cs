@@ -13,54 +13,6 @@ using System.Diagnostics;
 namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
-    /// Flags for graph elements.
-    /// </summary>
-    [Flags]
-    public enum LGSPElemFlags : uint
-    {
-        /// <summary>
-        /// Some variable contains this element.
-        /// </summary>
-        HAS_VARIABLES = 1 << 0,
-
-        /// <summary>
-        /// This element has already been matched within some enclosing pattern
-        /// during the current matching process, needed for patternpath checks.
-        /// </summary>
-        IS_MATCHED_BY_SOME_ENCLOSING_PATTERN = 1 << 1,
-
-        /// <summary>
-        /// This element has already been matched within an pattern
-        /// of this iso space during the current matching process.
-        /// This mask must be shifted left by the current iso space/level.
-        /// </summary>
-        IS_MATCHED_BY_ENCLOSING_PATTERN = 1 << 2,
-
-        /// <summary>
-        /// This element has already been matched within the local pattern
-        /// during the current matching process.
-        /// This mask must be shifted left by the current iso space/level.
-        /// </summary>
-        IS_MATCHED = IS_MATCHED_BY_ENCLOSING_PATTERN << (int) (MAX_ISO_SPACE + 1),
-
-        /// <summary>
-        /// Maximum iso space number which can be handled by the flags (i.e. max. number of independent isomorphy spaces).
-        /// </summary>
-        MAX_ISO_SPACE = 8,
-
-        /// <summary>
-        /// This element has already been visited by a visitor.
-        /// This mask must be shifted left by the according visitor ID.
-        /// </summary>
-        IS_VISITED = IS_MATCHED << (int) (MAX_ISO_SPACE + 1),
-
-        /// <summary>
-        /// Number of visitors which can be handled by the flags.
-        /// </summary>
-        NUM_SUPPORTED_VISITOR_IDS = 8
-    }
-
-    /// <summary>
     /// Class implementing nodes in the libGr search plan backend
     /// </summary>
     [DebuggerDisplay("LGSPNode ({Type})")]
@@ -75,6 +27,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// contains some booleans coded as bitvector
         /// </summary>
         public uint lgspFlags;
+
+        /// <summary>
+        /// contains a unique id if uniqueness was declared
+        /// </summary>
+        public int uniqueId;
 
         /// <summary>
         /// Previous and next node in the list containing all the nodes of one type.
@@ -551,26 +508,6 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class implementing nodes enriched with a unique id in the libGr search plan backend
-    /// </summary>
-    public abstract class LGSPNodeUnique : LGSPNode
-    {
-        /// <summary>
-        /// The unique id of the node.
-        /// </summary>
-        public int uniqueId;
-
-        /// <summary>
-        /// Instantiates an LGSPNodeUnique object.
-        /// </summary>
-        /// <param name="nodeType">The node type.</param>
-        protected LGSPNodeUnique(NodeType nodeType)
-            : base(nodeType)
-        {
-        }
-    }
-
-    /// <summary>
     /// Special head node of the lists containing all the nodes of one type
     /// </summary>
     [DebuggerDisplay("LGSPNodeHead")]
@@ -634,6 +571,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// contains some booleans coded as bitvector
         /// </summary>
         public uint lgspFlags;
+
+        /// <summary>
+        /// contains a unique id if uniqueness was declared
+        /// </summary>
+        public int uniqueId;
 
         /// <summary>
         /// Previous and next edge in the list containing all the edges of one type.
@@ -834,28 +776,6 @@ namespace de.unika.ipd.grGen.lgsp
         public override string ToString()
         {
             return Type.ToString();
-        }
-    }
-
-    /// <summary>
-    /// Class implementing edges enriched with a unique id in the libGr search plan backend
-    /// </summary>
-    public abstract class LGSPEdgeUnique : LGSPEdge
-    {
-        /// <summary>
-        /// The unique id of the edge.
-        /// </summary>
-        public int uniqueId;
-
-        /// <summary>
-        /// Instantiates an LGSPEdgeUnique object.
-        /// </summary>
-        /// <param name="edgeType">The edge type.</param>
-        /// <param name="sourceNode">The source node.</param>
-        /// <param name="targetNode">The target node.</param>
-        protected LGSPEdgeUnique(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
-            : base(edgeType, sourceNode, targetNode)
-        {
         }
     }
 

@@ -464,7 +464,6 @@ public class ModelGen extends CSharpBase {
 	private void genElementImplementation(InheritanceType type) {
 		boolean isNode = type instanceof NodeType;
 		String kindStr = isNode ? "Node" : "Edge";
-		String uniqueSuffix = model.isUniqueDefined() ? "Unique" : "";
 		String elemname = formatElementClassName(type);
 		String elemref = formatElementClassRef(type);
 		String extName = type.getExternalName();
@@ -478,7 +477,7 @@ public class ModelGen extends CSharpBase {
 
 		if(extName == null) {
 			sb.append("\n\tpublic sealed class " + elemname + " : GRGEN_LGSP.LGSP"
-					+ kindStr + uniqueSuffix + ", " + ielemref + "\n\t{\n");
+					+ kindStr + ", " + ielemref + "\n\t{\n");
 		}
 		else { // what's that?
 			routedSB = getStubBuffer();

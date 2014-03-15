@@ -1027,7 +1027,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Gives the maximum isoSpace number of the pattern reached by negative/independent nesting,
-        /// clipped by LGSPElemFlags.MAX_ISO_SPACE+1 which is the critical point of interest,
+        /// clipped by LGSPElemFlags.MAX_ISO_SPACE which is the critical point of interest,
         /// this might happen by heavy nesting or by a subpattern call path with
         /// direct or indirect recursion on it including a negative/independent which gets passed.
         /// </summary>
