@@ -1816,8 +1816,9 @@ public class ModifyGen extends CSharpBase {
 	private void genNewSubpatternCalls(StringBuffer sb, ModifyGenerationStateConst state)
 	{
 		for(SubpatternUsage subUsage : state.newSubpatternUsages()) {
-			if(hasAbstractElements(subUsage.getSubpatternAction().getPattern()))
-				continue;
+			if(hasAbstractElements(subUsage.getSubpatternAction().getPattern()) 
+				|| hasDanglingEdges(subUsage.getSubpatternAction().getPattern()))
+				continue; // pattern creation code was not generated, can't call it
 
 			sb.append("\t\t\t" + getPackagePrefixDot(subUsage.getSubpatternAction()) + "Pattern_" + formatIdentifiable(subUsage.getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
