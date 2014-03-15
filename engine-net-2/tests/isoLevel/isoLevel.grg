@@ -1,0 +1,399 @@
+test t1
+{
+	n:Node;
+	negative {
+		negative {
+			negative {
+				negative {
+					m:Node; 		
+					negative {
+						negative {
+							negative {
+								negative {
+									n --> m --> l:Node --> n;
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}
+
+test t1par[parallelize=2]
+{
+	n:Node;
+	negative {
+		negative {
+			negative {
+				negative {
+					m:Node; 		
+					negative {
+						negative {
+							negative {
+								negative {
+									n --> m --> l:Node --> n;
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}
+
+
+test t1deep
+{
+	n:Node;
+	negative {
+		negative {
+			negative {
+				negative {
+					negative {
+						negative {
+							negative {
+								negative {
+									m:Node; 		
+									negative {
+										negative {
+											negative {
+												negative {
+													negative {
+														negative {
+															negative {
+																negative {
+																	n --> m --> l:Node --> n;
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}
+
+test t1deeppar[parallelize=2]
+{
+	n:Node;
+	negative {
+		negative {
+			negative {
+				negative {
+					negative {
+						negative {
+							negative {
+								negative {
+									m:Node; 		
+									negative {
+										negative {
+											negative {
+												negative {
+													negative {
+														negative {
+															negative {
+																negative {
+																	n --> m --> l:Node --> n;
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}
+
+// ----------------------------------------------------------------------
+
+pattern P()
+{
+	--> l:Node -->;
+}
+
+test t1glob
+{
+	n:Node;
+	negative {
+		negative {
+			negative {
+				negative {
+					m:Node; 		
+					negative {
+						negative {
+							negative {
+								negative {
+									n --> m;
+									p:P();
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}
+
+test t1globpar[parallelize=2]
+{
+	n:Node;
+	negative {
+		negative {
+			negative {
+				negative {
+					m:Node; 		
+					negative {
+						negative {
+							negative {
+								negative {
+									n --> m;
+									p:P();
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}
+
+test t1globdeep
+{
+	n:Node;
+	negative {
+		negative {
+			negative {
+				negative {
+					negative {
+						negative {
+							negative {
+								negative {
+									m:Node; 		
+									negative {
+										negative {
+											negative {
+												negative {
+													negative {
+														negative {
+															negative {
+																negative {
+																	n --> m;
+																	p:P();
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}
+
+test t1globdeeppar[parallelize=2]
+{
+	n:Node;
+	negative {
+		negative {
+			negative {
+				negative {
+					negative {
+						negative {
+							negative {
+								negative {
+									m:Node; 		
+									negative {
+										negative {
+											negative {
+												negative {
+													negative {
+														negative {
+															negative {
+																negative {
+																	n --> m;
+																	p:P();
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}
+
+// ----------------------------------------------------------------------
+
+pattern PInl()
+{
+	:S();
+}
+
+pattern S()
+{
+	--> l:Node -->;
+}
+
+test t1globinl
+{
+	n:Node;
+	negative {
+		negative {
+			negative {
+				negative {
+					m:Node; 		
+					negative {
+						negative {
+							negative {
+								negative {
+									n --> m;
+									p:PInl();
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}
+
+test t1globinlpar[parallelize=2]
+{
+	n:Node;
+	negative {
+		negative {
+			negative {
+				negative {
+					m:Node; 		
+					negative {
+						negative {
+							negative {
+								negative {
+									n --> m;
+									p:PInl();
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}
+
+test t1globinldeep
+{
+	n:Node;
+	negative {
+		negative {
+			negative {
+				negative {
+					negative {
+						negative {
+							negative {
+								negative {
+									m:Node; 		
+									negative {
+										negative {
+											negative {
+												negative {
+													negative {
+														negative {
+															negative {
+																negative {
+																	n --> m;
+																	p:PInl();
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}
+
+test t1globinldeeppar[parallelize=2]
+{
+	n:Node;
+	negative {
+		negative {
+			negative {
+				negative {
+					negative {
+						negative {
+							negative {
+								negative {
+									m:Node; 		
+									negative {
+										negative {
+											negative {
+												negative {
+													negative {
+														negative {
+															negative {
+																negative {
+																	n --> m;
+																	p:PInl();
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}
