@@ -35,6 +35,7 @@ namespace de.unika.ipd.grGen.lgsp
         internal String modelAssemblyName;
 
         public IIndexSet indices;
+        public LGSPUniquenessEnsurer uniquenessEnsurer; // not null if unique ids for nodes/edges were requested
 
         // Used as storage space for the name for the SettingAddedEdgeNames event, in case of redirection
         public string[] nameOfSingleElementAdded = new string[1];
@@ -137,26 +138,26 @@ namespace de.unika.ipd.grGen.lgsp
 
 
         /// <summary>
+        /// a list which stores for each parallel matcher thread, per graph element the flags with the matching state
+        /// each flag encodes a bounded amount of the is-matched-bits for the lowest isomorphy spaces,
+        /// the flag is a reduced version of the flags bitvector available in each graph element in case of single threaded matching
+        /// (the unique id of the graph elements is used as index into the flags array)
+        /// </summary>
+        public List<List<ushort>> flagsPerThreadPerElement;
+        
+        /// <summary>
         /// a list which stores for each matcher thread the isomorphy spaces, each contains in a dictionary the elements matched locally 
-        /// employed during parallelized matching, the is-matched-bits are not used then
+        /// used in case the is-matched-bits in the per-thread flags array are not sufficient, employed during parallelized matching
         /// the outermost list is read concurrently, so its dimension/content must be fixed before matching begins
         /// </summary>
         public List<List<Dictionary<IGraphElement, IGraphElement>>> perThreadInIsoSpaceMatchedElements;
 
         /// <summary>
         /// a list which stores for each matcher thread the isomorphy spaces, each contains in a dictionary the elements matched globally
-        /// employed during parallelized matching, the is-matched-bits are not used then
+        /// used in case the is-matched-bits in the per-thread flags array are not sufficient, employed during parallelized matching
         /// the outermost list is read concurrently, so its dimension/content must be fixed before matching begins
         /// </summary>
         public List<List<Dictionary<IGraphElement, IGraphElement>>> perThreadInIsoSpaceMatchedElementsGlobal;
-
-        /// <summary>
-        /// a list which stores for each matcher thread the accumulated isomorphy spaces containing in a dictionary the elements matched globally
-        /// the matched-in-any iso space information is needed for patternpath checking
-        /// employed during parallelized matching, the is-matched-bits are not used then
-        /// the outermost list is read concurrently, so its dimension/content must be fixed before matching begins
-        /// </summary>
-        public List<Dictionary<IGraphElement, IGraphElement>> perThreadInAnyIsoSpaceMatchedElementsGlobal;
 
 
         /// <summary>
@@ -357,26 +358,25 @@ namespace de.unika.ipd.grGen.lgsp
         public void EnsureSufficientIsomorphySpacesForParallelizedMatchingAreAvailable(int numberOfThreads)
         {
             // we assume that all perThread members are initialized the same
-            if(perThreadInIsoSpaceMatchedElements == null)
+            if(flagsPerThreadPerElement == null)
             {
+                flagsPerThreadPerElement = new List<List<ushort>>(numberOfThreads);
                 perThreadInIsoSpaceMatchedElements = new List<List<Dictionary<IGraphElement, IGraphElement>>>(numberOfThreads);
                 perThreadInIsoSpaceMatchedElementsGlobal = new List<List<Dictionary<IGraphElement, IGraphElement>>>(numberOfThreads);
-                perThreadInAnyIsoSpaceMatchedElementsGlobal = new List<Dictionary<IGraphElement, IGraphElement>>(numberOfThreads);
             }
-            if(perThreadInIsoSpaceMatchedElements.Count < numberOfThreads)
+            if(flagsPerThreadPerElement.Count < numberOfThreads)
             {
-                int additionalNumberOfThreads = numberOfThreads - perThreadInIsoSpaceMatchedElements.Count;
+                int additionalNumberOfThreads = numberOfThreads - flagsPerThreadPerElement.Count;
                 for(int i = 0; i < additionalNumberOfThreads; ++i)
                 {
-                    // ensure first iso space is available, it's taken for granted, nested iso spaces are created by the matchers as needed
-                    List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElements = new List<Dictionary<IGraphElement, IGraphElement>>();                    
+                    List<ushort> flags = new List<ushort>();
+                    flagsPerThreadPerElement.Add(flags);
+                    List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElements = new List<Dictionary<IGraphElement, IGraphElement>>();
                     perThreadInIsoSpaceMatchedElements.Add(inIsoSpaceMatchedElements);
-                    inIsoSpaceMatchedElements.Add(new Dictionary<IGraphElement, IGraphElement>());
                     List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElementsGlobal = new List<Dictionary<IGraphElement, IGraphElement>>();
                     perThreadInIsoSpaceMatchedElementsGlobal.Add(inIsoSpaceMatchedElementsGlobal);
-                    inIsoSpaceMatchedElementsGlobal.Add(new Dictionary<IGraphElement, IGraphElement>());
-                    perThreadInAnyIsoSpaceMatchedElementsGlobal.Add(new Dictionary<IGraphElement, IGraphElement>());
                 }
+                uniquenessEnsurer.InitialFillFlags(additionalNumberOfThreads, numberOfThreads);
             }
         }
 

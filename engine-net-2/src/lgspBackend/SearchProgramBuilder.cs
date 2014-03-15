@@ -49,7 +49,7 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             patternGraphWithNestingPatterns.Push(patternGraph);
             this.parallelized = parallelized;
-            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
+            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace < (int)LGSPElemFlags.MAX_ISO_SPACE;
             isNegative = false;
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.PatternGraph.Package, false);
@@ -188,7 +188,7 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             patternGraphWithNestingPatterns.Push(patternGraph);
             this.parallelized = parallelized;
-            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
+            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace < (int)LGSPElemFlags.MAX_ISO_SPACE;
             isNegative = false;
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, true);
@@ -303,7 +303,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertVariableDeclarations(insertionPoint, altCase);
 
                 patternGraphWithNestingPatterns.Push(altCase);
-                isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
+                isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace < (int)LGSPElemFlags.MAX_ISO_SPACE;
                 isNegative = false;
                 isNestedInNegative = false;
 
@@ -351,7 +351,7 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             patternGraphWithNestingPatterns.Push(iter);
             this.parallelized = parallelized;
-            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
+            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace < (int)LGSPElemFlags.MAX_ISO_SPACE;
             isNegative = false;
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, !(matchingPattern is LGSPRulePattern));
@@ -2796,7 +2796,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNestedInNegative = true;
             PatternGraph enclosingPatternGraph = patternGraphWithNestingPatterns.Peek();
             patternGraphWithNestingPatterns.Push(negativePatternGraph);
-            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
+            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace < (int)LGSPElemFlags.MAX_ISO_SPACE;
             bool parallelizedBak = parallelized;
             parallelized &= patternGraphWithNestingPatterns.Peek().parallelizedSchedule != null; // the neg within a parallelized head may be non-parallelized
             int indexOfScheduleBak = indexOfSchedule;
@@ -2869,7 +2869,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNegative = false;
             PatternGraph enclosingPatternGraph = patternGraphWithNestingPatterns.Peek();
             patternGraphWithNestingPatterns.Push(independentPatternGraph);
-            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE;
+            isoSpaceNeverAboveMaxIsoSpace = patternGraphWithNestingPatterns.Peek().maxIsoSpace < (int)LGSPElemFlags.MAX_ISO_SPACE;
             bool parallelizedBak = parallelized;
             parallelized &= patternGraphWithNestingPatterns.Peek().parallelizedSchedule != null; // the idpt within a parallelized head may be non-parallelized
             int indexOfScheduleBak = indexOfSchedule;

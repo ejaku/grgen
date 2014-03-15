@@ -1504,9 +1504,9 @@ namespace de.unika.ipd.grGen.expression
         {
             sourceCode.Append("(");
             if(IsNode)
-                sourceCode.Append("(GRGEN_LGSP.LGSPNodeUnique)");
+                sourceCode.Append("(GRGEN_LGSP.LGSPNode)");
             else
-                sourceCode.Append("(GRGEN_LGSP.LGSPEdgeUnique)");
+                sourceCode.Append("(GRGEN_LGSP.LGSPEdge)");
             Entity.Emit(sourceCode);
             sourceCode.Append(").uniqueId");
         }

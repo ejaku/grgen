@@ -23,6 +23,7 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPUniquenessEnsurer(LGSPGraph graph)
         {
             this.graph = graph;
+            graph.uniquenessEnsurer = this;
 
             // global counter for fetching a new unique id
             nextNewId = 0;
@@ -41,11 +42,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void NodeAdded(INode node)
         {
-            LGSPNodeUnique nodeUnique = (LGSPNodeUnique)node;
+            LGSPNode nodeUnique = (LGSPNode)node;
             if(heap.Count == 1) // empty (one dummy needed for simpler arithmetic)
             {
                 nodeUnique.uniqueId = nextNewId;
                 ++nextNewId;
+
+                if(graph.flagsPerThreadPerElement != null) // if not null there's some parallel matcher existing
+                    EnlargeFlagsOfParallelizedMatcherAsNeeded();
             }
             else
             {
@@ -55,11 +59,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EdgeAdded(IEdge edge)
         {
-            LGSPEdgeUnique edgeUnique = (LGSPEdgeUnique)edge;
+            LGSPEdge edgeUnique = (LGSPEdge)edge;
             if(heap.Count == 1) // empty (one dummy needed for simpler arithmetic)
             {
                 edgeUnique.uniqueId = nextNewId;
                 ++nextNewId;
+                
+                if(graph.flagsPerThreadPerElement != null) // if not null there's some parallel matcher existing
+                    EnlargeFlagsOfParallelizedMatcherAsNeeded();
             }
             else
             {
@@ -69,30 +76,30 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void RemovingNode(INode node)
         {
-            LGSPNodeUnique nodeUnique = (LGSPNodeUnique)node;
+            LGSPNode nodeUnique = (LGSPNode)node;
             Insert(nodeUnique.uniqueId);
             nodeUnique.uniqueId = -1;
         }
 
         public void RemovingEdge(IEdge edge)
         {
-            LGSPEdgeUnique edgeUnique = (LGSPEdgeUnique)edge;
+            LGSPEdge edgeUnique = (LGSPEdge)edge;
             Insert(edgeUnique.uniqueId);
             edgeUnique.uniqueId = -1;
         }
 
         public void RetypingNode(INode oldNode, INode newNode)
         {
-            LGSPNodeUnique oldNodeUnique = (LGSPNodeUnique)oldNode;
-            LGSPNodeUnique newNodeUnique = (LGSPNodeUnique)newNode;
+            LGSPNode oldNodeUnique = (LGSPNode)oldNode;
+            LGSPNode newNodeUnique = (LGSPNode)newNode;
             newNodeUnique.uniqueId = oldNodeUnique.uniqueId;
             oldNodeUnique.uniqueId = -1;
         }
 
         public void RetypingEdge(IEdge oldEdge, IEdge newEdge)
         {
-            LGSPEdgeUnique oldEdgeUnique = (LGSPEdgeUnique)oldEdge;
-            LGSPEdgeUnique newEdgeUnique = (LGSPEdgeUnique)newEdge;
+            LGSPEdge oldEdgeUnique = (LGSPEdge)oldEdge;
+            LGSPEdge newEdgeUnique = (LGSPEdge)newEdge;
             newEdgeUnique.uniqueId = oldEdgeUnique.uniqueId;
             oldEdgeUnique.uniqueId = -1;
         }
@@ -151,6 +158,57 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             heap[pos] = value; // finally write value to the position where it belongs, space was freed in loop before
+        }
+
+        // maintain the flags array used by the parallel matchers, that is indexed by the unique ids
+        void EnlargeFlagsOfParallelizedMatcherAsNeeded()
+        {
+            if(graph.flagsPerThreadPerElement[0].Count == graph.flagsPerThreadPerElement[0].Capacity)
+            {
+                // we need more space be able to store the flags for the element currently added
+                // we do this in parallel, each worker pool thread enlarges its own flags array
+                if(WorkerPool.GetPoolSize() != graph.flagsPerThreadPerElement.Count)
+                    throw new Exception("Internal error, number of flags arrays different from number of worker pool threads");
+                WorkerPool.Task = EnlargeFlags;
+                WorkerPool.StartWork(WorkerPool.GetPoolSize());
+                WorkerPool.WaitForWorkDone();
+            }
+            else
+            {
+                for(int i = 0; i < graph.flagsPerThreadPerElement.Count; ++i)
+                {
+                    graph.flagsPerThreadPerElement[i].Add(0);
+                }
+            }
+        }
+
+        void EnlargeFlags()
+        {
+            // capacity limit reached, doubles array in size and copies all elements from old array
+            graph.flagsPerThreadPerElement[WorkerPool.ThreadId].Add(0);
+        }
+
+        // maintain the flags array used by the parallel matchers, that is indexed by the unique ids
+        public void InitialFillFlags(int additionalNumberOfThreads, int numberOfThreads)
+        {
+            if(additionalNumberOfThreads != numberOfThreads)
+                throw new Exception("Different additional number of threads and number of threads currently not supported");
+            if(numberOfThreads != WorkerPool.GetPoolSize())
+                throw new Exception("Number of threads different from number of worker pool threads not supported");
+            if(numberOfThreads != graph.flagsPerThreadPerElement.Count)
+                throw new Exception("Number of threads different from number of flags arrays");
+            WorkerPool.Task = InitialFillFlags;
+            WorkerPool.StartWork(WorkerPool.GetPoolSize());
+            WorkerPool.WaitForWorkDone();
+        }
+
+        void InitialFillFlags()
+        {
+            graph.flagsPerThreadPerElement[WorkerPool.ThreadId].Capacity = (graph.NumNodes + graph.NumEdges)*2;
+            for(int i=0; i < graph.NumNodes+graph.NumEdges; ++i)
+            {
+                graph.flagsPerThreadPerElement[WorkerPool.ThreadId].Add(0);
+            }
         }
 
         LGSPGraph graph;

@@ -683,10 +683,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Computes the maximum isoSpace number of the pattern graph reached by negative/independent nesting,
-        /// clipped by LGSPElemFlags.MAX_ISO_SPACE+1 which is the critical point of interest,
+        /// clipped by LGSPElemFlags.MAX_ISO_SPACE/LGSPElemFlagsParallel.MAX_ISO_SPACE which is the critical point of interest,
         /// this might happen by heavy nesting or by a subpattern call path with
         /// direct or indirect recursion on it including a negative/independent which gets passed.
         /// Returns true if the max isoSpace of a subpattern called was increased, causing a further run.
+        /// Note: If you want to use a higher MAX_ISO_SPACE in either parallel or non-parallel matching, you must split the maxIsoSpace field and this computation into two parts.
+        /// Currently the lower one of both is used, which causes insertion of superfluous runtime checks for the higher one. 
+        /// (This is not an issue at the time of writing, because both values are set to the same value.)
         /// </summary>
         private bool ComputeMaxIsoSpace(PatternGraph patternGraph, bool inlined)
         {
@@ -726,7 +729,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(embeddedGraphs[i].inlined) // skip inlined embeddings
                     continue;
                 PatternGraph embeddedPatternGraph = embeddedGraphs[i].matchingPatternOfEmbeddedGraph.patternGraph;
-                if(embeddedPatternGraph.maxIsoSpace <= (int)LGSPElemFlags.MAX_ISO_SPACE)
+                if(embeddedPatternGraph.maxIsoSpace <= Math.Min((int)LGSPElemFlags.MAX_ISO_SPACE, (int)LGSPElemFlagsParallel.MAX_ISO_SPACE))
                 {
                     int oldMaxIsoSpace = embeddedPatternGraph.maxIsoSpace;
                     embeddedPatternGraph.maxIsoSpace = Math.Max(patternGraph.maxIsoSpace, embeddedPatternGraph.maxIsoSpace);

@@ -68,9 +68,20 @@ namespace de.unika.ipd.grGen.lgsp
             return newNumThreads;
         }
 
-        public static ThreadStart Task { set { task = value; } }
+        public static int GetPoolSize()
+        {
+            return workerThreads.Length;
+        }
 
-        public static int ThreadId { get { return threadId; } }
+        public static ThreadStart Task
+        {
+            set { task = value; }
+        }
+
+        public static int ThreadId
+        {
+            get { return threadId; }
+        }
 
         /// <summary>
         /// Executes the work inside task with numThreads
