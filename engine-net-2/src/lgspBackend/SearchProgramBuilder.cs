@@ -3718,6 +3718,9 @@ namespace de.unika.ipd.grGen.lgsp
                         IndexAccessType.Equality,
                         equalityExpression.ToString(),
                         isNode,
+                        rulePatternClassName,
+                        patternGraph.name,
+                        parameterNames,
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);
@@ -3744,6 +3747,9 @@ namespace de.unika.ipd.grGen.lgsp
                         indexAscending.To != null ? toExpression.ToString() : null,
                         indexAscending.IncludingTo,
                         isNode,
+                        rulePatternClassName,
+                        patternGraph.name,
+                        parameterNames,
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);
@@ -3770,6 +3776,9 @@ namespace de.unika.ipd.grGen.lgsp
                         indexDescending.To != null ? toExpression.ToString() : null,
                         indexDescending.IncludingTo,
                         isNode,
+                        rulePatternClassName,
+                        patternGraph.name,
+                        parameterNames,
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);

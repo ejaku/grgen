@@ -2518,6 +2518,9 @@ namespace de.unika.ipd.grGen.lgsp
             IndexAccessType indexAccessType,
             string equality,
             bool isNode,
+            string rulePatternClassName,
+            string patternName,
+            string[] parameterNames,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2532,6 +2535,9 @@ namespace de.unika.ipd.grGen.lgsp
             IndexAccessType = indexAccessType;
             IndexEqual = equality;
             IsNode = isNode;
+            RulePatternClassName = rulePatternClassName;
+            PatternName = patternName;
+            ParameterNames = parameterNames;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2549,6 +2555,9 @@ namespace de.unika.ipd.grGen.lgsp
             string to,
             bool toIncluded,
             bool isNode,
+            string rulePatternClassName,
+            string patternName,
+            string[] parameterNames,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2566,6 +2575,9 @@ namespace de.unika.ipd.grGen.lgsp
             IndexTo = to;
             IndexToIncluded = toIncluded;
             IsNode = isNode;
+            RulePatternClassName = rulePatternClassName;
+            PatternName = patternName;
+            ParameterNames = parameterNames;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2738,7 +2750,33 @@ namespace de.unika.ipd.grGen.lgsp
 
                 if(IndexAccessType == IndexAccessType.Equality)
                 {
-                    sourceCode.AppendFormat("Lookup({0});\n", IndexEqual);
+                    sourceCode.AppendFormat("Lookup({0}).GetEnumerator();\n", IndexEqual);
+                }
+                else
+                {
+                    String accessType = IndexAccessType == IndexAccessType.Ascending ? "Ascending" : "Descending";
+                    String indexFromIncluded = IndexFromIncluded ? "Inclusive" : "Exclusive";
+                    String indexToIncluded = IndexToIncluded ? "Inclusive" : "Exclusive";
+                    if(IndexFrom != null && IndexTo != null)
+                        sourceCode.AppendFormat("Lookup{0}From{1}To{2}({3}, {4}).GetEnumerator();\n",
+                            accessType, indexFromIncluded, indexToIncluded, IndexFrom, IndexTo);
+                    else if(IndexFrom != null)
+                        sourceCode.AppendFormat("Lookup{0}From{1}({2}).GetEnumerator();\n",
+                            accessType, indexFromIncluded, IndexFrom);
+                    else if(IndexTo != null)
+                        sourceCode.AppendFormat("Lookup{0}To{1}({2}).GetEnumerator();\n",
+                            accessType, indexToIncluded, IndexTo);
+                    else
+                        sourceCode.AppendFormat("Lookup{0}().GetEnumerator();\n",
+                            accessType);
+                }
+
+                // emit prerun determining the number of threads to wake up             
+                sourceCode.AppendFrontFormat("foreach({0} indexPreIteration in (({1})graph.indices).{2}.",
+                        IterationType, IndexSetType, IndexName);
+                if(IndexAccessType == IndexAccessType.Equality)
+                {
+                    sourceCode.AppendFormat("Lookup({0}))\n", IndexEqual);
                 }
                 else
                 {
@@ -2758,10 +2796,13 @@ namespace de.unika.ipd.grGen.lgsp
                         sourceCode.AppendFormat("Lookup{0}())\n",
                             accessType);
                 }
-
-                // emit prerun determining the number of threads to wake up
-                sourceCode.AppendFrontFormat("numThreadsSignaled = Math.Min(numWorkerThreads, (({0})graph.indices).{1}.Count);\n",
-                    IndexSetType, IndexName);
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+                sourceCode.AppendFront("++numThreadsSignaled;\n");
+                sourceCode.AppendFront("if(numThreadsSignaled >= numWorkerThreads)\n");
+                sourceCode.AppendFront("\tbreak;\n");
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
                 sourceCode.AppendFront("\n");
             }
             else //Type==GetCandidateByIterationType.IncidentEdges

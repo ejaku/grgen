@@ -273,6 +273,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             InitializeGraph();
 
+            ((LGSPGraphModel)model).CreateAndBindIndexSet(this);
+
             if(dataSource.backend != null)
             {
                 backend = dataSource.backend;
@@ -309,6 +311,8 @@ namespace de.unika.ipd.grGen.lgsp
                     SetVariableValue(var.Name, newElem);
             }*/
 
+            ((LGSPGraphModel)model).FillIndexSetAsClone(this, dataSource, oldToNewMap);
+
             statistics = new LGSPGraphStatistics(this.Model);
             statistics.Copy(dataSource);
         }
@@ -325,9 +329,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             modelAssemblyName = Assembly.GetAssembly(grmodel.GetType()).Location;
 
-            ((LGSPGraphModel)grmodel).CreateAndBindIndexSet(this);
-
             InitializeGraph();
+
+            ((LGSPGraphModel)grmodel).CreateAndBindIndexSet(this);
         }
 
         private void InitializeGraph()

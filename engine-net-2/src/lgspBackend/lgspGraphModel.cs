@@ -31,8 +31,16 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Called by the graph (generic implementation) to create and bind its index set (generated code).
+        /// Always called by an empty graph just constructed.
         /// </summary>
         public abstract void CreateAndBindIndexSet(LGSPGraph graph);
+
+        /// <summary>
+        /// Called on an index set that was created and bound,
+        /// when the graph was copy constructed from an original graph,
+        /// to fill in the already available cloned content from the original graph.
+        /// </summary>
+        public abstract void FillIndexSetAsClone(LGSPGraph graph, LGSPGraph originalGraph, IDictionary<IGraphElement, IGraphElement> oldToNewMap);
 
 
         #region Emitting and parsing of attributes of object or a user defined type

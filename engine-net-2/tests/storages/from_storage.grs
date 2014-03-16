@@ -8,13 +8,21 @@ new n2 -e2:Edge-> n3
 
 xgrs ::s=set<Node>{} | ::t=set<Edge>{} | {::s.add(::n1)} | {::s.add(::n2)} | {::s.add(::n3)} | {::t.add(::e2)}
 xgrs t1(::s,::t)
+#application fails, only n2-e2->n3 possible, but type of n3 must be N to match
 show num nodes
 show num edges
 
+#remove e2 that otherwise would hang out as zombies in t, removed from graph by the removal of n2
+xgrs {::t.rem(::e2)}
+
 xgrs {::t.add(::e1)}
 xgrs t1(::s,::t)
+#application succeeds, n1-e1->n2 matches, n1,n2,e1 are deleted from graph and storages, 
 show num nodes
 show num edges
+
+#remove n3 that otherwise would hang out as zombies in s
+xgrs {::s.rem(::n3)}
 
 delete node n3
 new n1:Node
