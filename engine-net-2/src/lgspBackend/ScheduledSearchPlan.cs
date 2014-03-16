@@ -164,6 +164,8 @@ namespace de.unika.ipd.grGen.lgsp
             so.Isomorphy = (IsomorphyInformation)Isomorphy.Clone();
             so.Storage = Storage;
             so.StorageIndex = StorageIndex;
+            so.IndexAccess = IndexAccess;
+            so.NameLookup = NameLookup;
             so.Expression = Expression;
             return so;
         }

@@ -25,6 +25,9 @@ namespace de.unika.ipd.grGen.lgsp
             this.graph = graph;
             graph.uniquenessEnsurer = this;
 
+            if(graph.NumNodes > 0 || graph.NumEdges > 0)
+                throw new Exception("Graph must be empty!");
+            
             // global counter for fetching a new unique id
             nextNewId = 0;
 
@@ -38,6 +41,15 @@ namespace de.unika.ipd.grGen.lgsp
             graph.OnRemovingEdge += RemovingEdge;
             graph.OnRetypingNode += RetypingNode;
             graph.OnRetypingEdge += RetypingEdge;
+        }
+
+        public void FillAsClone(LGSPGraph originalGraph)
+        {
+            nextNewId = originalGraph.uniquenessEnsurer.nextNewId;
+
+            heap.Clear(); // remove the -1
+            heap.Capacity = originalGraph.uniquenessEnsurer.heap.Capacity;
+            heap.AddRange(originalGraph.uniquenessEnsurer.heap);
         }
 
         public void NodeAdded(INode node)
@@ -78,14 +90,14 @@ namespace de.unika.ipd.grGen.lgsp
         {
             LGSPNode nodeUnique = (LGSPNode)node;
             Insert(nodeUnique.uniqueId);
-            nodeUnique.uniqueId = -1;
+            //nodeUnique.uniqueId = -1; an index needs to access the old id
         }
 
         public void RemovingEdge(IEdge edge)
         {
             LGSPEdge edgeUnique = (LGSPEdge)edge;
             Insert(edgeUnique.uniqueId);
-            edgeUnique.uniqueId = -1;
+            //edgeUnique.uniqueId = -1; an index needs to access the old id
         }
 
         public void RetypingNode(INode oldNode, INode newNode)
@@ -93,7 +105,7 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPNode oldNodeUnique = (LGSPNode)oldNode;
             LGSPNode newNodeUnique = (LGSPNode)newNode;
             newNodeUnique.uniqueId = oldNodeUnique.uniqueId;
-            oldNodeUnique.uniqueId = -1;
+            //oldNodeUnique.uniqueId = -1; an index needs to access the old id
         }
 
         public void RetypingEdge(IEdge oldEdge, IEdge newEdge)
@@ -101,7 +113,7 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPEdge oldEdgeUnique = (LGSPEdge)oldEdge;
             LGSPEdge newEdgeUnique = (LGSPEdge)newEdge;
             newEdgeUnique.uniqueId = oldEdgeUnique.uniqueId;
-            oldEdgeUnique.uniqueId = -1;
+            //oldEdgeUnique.uniqueId = -1; an index needs to access the old id
         }
 
         int FetchAndRemoveMinimum()
@@ -204,8 +216,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         void InitialFillFlags()
         {
-            graph.flagsPerThreadPerElement[WorkerPool.ThreadId].Capacity = (graph.NumNodes + graph.NumEdges)*2;
-            for(int i=0; i < graph.NumNodes+graph.NumEdges; ++i)
+            graph.flagsPerThreadPerElement[WorkerPool.ThreadId].Capacity = Math.Max(nextNewId, 2) * 2;
+            for(int i=0; i < nextNewId; ++i)
             {
                 graph.flagsPerThreadPerElement[WorkerPool.ThreadId].Add(0);
             }

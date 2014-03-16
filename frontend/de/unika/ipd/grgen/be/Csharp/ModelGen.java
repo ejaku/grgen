@@ -544,6 +544,8 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t: base("
 					+ (extName == null ? typeref + ".typeVar, " : "") + "newSource, newTarget)\n");
 		routedSB.append("\t\t{\n");
+		if(model.isUniqueDefined())
+			routedSB.append("\t\t\tuniqueId = oldElem.uniqueId;\n");
 		for(Entity member : type.getAllMembers()) {
 			if(member.isConst())
 				continue;
@@ -2206,22 +2208,19 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		int i=0;
 		for(Index index : model.getIndices()) {
 			if(index instanceof AttributeIndex) {
-				genIndexImplementationBase((AttributeIndex)index, i);
-				genIndexImplementationPlain((AttributeIndex)index, i);
-				genIndexImplementationNamed((AttributeIndex)index, i);
+				genIndexImplementation((AttributeIndex)index, i);
 			} else {
-				genIndexImplementationBase((IncidenceIndex)index, i);
-				genIndexImplementationNamed((IncidenceIndex)index, i);
+				genIndexImplementation((IncidenceIndex)index, i);
 			}
 			++i;
 		}
 	}
 
-	void genIndexImplementationBase(AttributeIndex index, int indexNum) {
+	void genIndexImplementation(AttributeIndex index, int indexNum) {
 		String indexName = index.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(index.type);
 		String modelName = model.getIdent().toString() + "GraphModel";
-		sb.append("\tpublic abstract class Index" + indexName + "Impl : Index" + indexName + "\n");
+		sb.append("\tpublic class Index" + indexName + "Impl : Index" + indexName + "\n");
 		sb.append("\t{\n");
 		
 		sb.append("\t\tpublic GRGEN_LIBGR.IndexDescription Description { get { return " + modelName + ".GetIndexDescription(" + indexNum + "); } }\n");
@@ -2254,8 +2253,18 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	    sb.append("\t\t\t\t\n");
 	    sb.append("\t\t\t\tthis.value = value;\n");
 	    sb.append("\t\t\t}\n");
+	    sb.append("\t\t\t\n");
+	    sb.append("\t\t\t// for copy constructing from other index\n");
+	    sb.append("\t\t\tpublic TreeNode(TreeNode left, TreeNode right, int level, " + graphElementType + " value)\n");
+	    sb.append("\t\t\t{\n");
+	    sb.append("\t\t\t\tthis.left = left;\n");
+	    sb.append("\t\t\t\tthis.right = right;\n");
+	    sb.append("\t\t\t\tthis.level = level;\n");
+	    sb.append("\t\t\t\t\n");
+	    sb.append("\t\t\t\tthis.value = value;\n");
+	    sb.append("\t\t\t}\n");
 	    sb.append("\t\t}\n");
-		sb.append("\n");
+	    sb.append("\n");
 
 		sb.append("\t\tprotected TreeNode root;\n");
 		sb.append("\t\tprotected TreeNode bottom;\n");
@@ -2327,6 +2336,58 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		genDescending(index, true, true, true, false);
 		genDescending(index, true, false, true, true);
 		genDescending(index, true, false, true, false);
+
+		sb.append("\t\tpublic Index" + indexName + "Impl(GRGEN_LGSP.LGSPGraph graph)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tthis.graph = graph;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\t// initialize AA tree used to implement the index\n");
+		sb.append("\t\t\tbottom = new TreeNode();\n");
+		sb.append("\t\t\troot = bottom;\n");
+		sb.append("\t\t\tdeleted = bottom;\n");
+		sb.append("\t\t\tcount = 0;\n");
+		sb.append("\t\t\tversion = 0;\n");
+		sb.append("\t\t\t\n");
+		if(index.type instanceof NodeType) {
+			sb.append("\t\t\tgraph.OnNodeAdded += Added;\n");
+			sb.append("\t\t\tgraph.OnRemovingNode += Removing;\n");
+			sb.append("\t\t\tgraph.OnChangingNodeAttribute += ChangingAttribute;\n");
+			sb.append("\t\t\tgraph.OnRetypingNode += Retyping;\n");
+		} else {
+			sb.append("\t\t\tgraph.OnEdgeAdded += Added;\n");
+			sb.append("\t\t\tgraph.OnRemovingEdge += Removing;\n");
+			sb.append("\t\t\tgraph.OnChangingEdgeAttribute += ChangingAttribute;\n");
+			sb.append("\t\t\tgraph.OnRetypingEdge += Retyping;\n");
+		}
+		sb.append("\t\t}\n");
+		sb.append("\n");
+		
+		sb.append("\t\tpublic void FillAsClone(Index" + indexName + "Impl that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\troot = FillAsClone(that.root, that.bottom, oldToNewMap);\n");
+		sb.append("\t\t\tcount = that.count;\n");
+		sb.append("\t\t}\n");
+		sb.append("\n");
+		
+		sb.append("\t\tprotected TreeNode FillAsClone(TreeNode that, TreeNode otherBottom, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(that == otherBottom)\n");
+		sb.append("\t\t\t\treturn bottom;\n");
+		sb.append("\t\t\telse\n");
+		sb.append("\t\t\t\treturn new TreeNode(\n");
+		sb.append("\t\t\t\t\tFillAsClone(that.left, otherBottom, oldToNewMap),\n");
+		sb.append("\t\t\t\t\tFillAsClone(that.right, otherBottom, oldToNewMap),\n");
+		sb.append("\t\t\t\t\tthat.level,\n");
+		sb.append("\t\t\t\t\t(" + graphElementType + ")oldToNewMap[that.value]\n");
+        sb.append("\t\t\t\t);\n");
+        sb.append("\t\t}\n");
+		sb.append("\n");
+
+		genIndexMaintainingEventHandlers(index);
+
+		genIndexAATreeBalancingInsertionDeletion(index);
+
+		sb.append("\t\tprivate GRGEN_LGSP.LGSPGraph graph;\n");
 
 		sb.append("\t}\n");
 		sb.append("\n");
@@ -2883,90 +2944,11 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t}\n\n");
 	}
 
-	void genIndexImplementationPlain(AttributeIndex index, int indexNum) {
-		String indexName = index.getIdent().toString();
-		sb.append("\tpublic class Index" + indexName + "ImplPlain : Index" + indexName + "Impl\n");
-		sb.append("\t{\n");
-		
-		sb.append("\t\tpublic Index" + indexName + "ImplPlain(GRGEN_LGSP.LGSPGraph graph)\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\t\tthis.graph = graph;\n");
-		sb.append("\t\t\t\n");
-		sb.append("\t\t\t// initialize AA tree used to implement the index\n");
-		sb.append("\t\t\tbottom = new TreeNode();\n");
-		sb.append("\t\t\troot = bottom;\n");
-		sb.append("\t\t\tdeleted = bottom;\n");
-		sb.append("\t\t\tcount = 0;\n");
-		sb.append("\t\t\tversion = 0;\n");
-		sb.append("\t\t\t\n");
-		if(index.type instanceof NodeType) {
-			sb.append("\t\t\tgraph.OnNodeAdded += Added;\n");
-			sb.append("\t\t\tgraph.OnRemovingNode += Removing;\n");
-			sb.append("\t\t\tgraph.OnChangingNodeAttribute += ChangingAttribute;\n");
-			sb.append("\t\t\tgraph.OnRetypingNode += Retyping;\n");
-		} else {
-			sb.append("\t\t\tgraph.OnEdgeAdded += Added;\n");
-			sb.append("\t\t\tgraph.OnRemovingEdge += Removing;\n");
-			sb.append("\t\t\tgraph.OnChangingEdgeAttribute += ChangingAttribute;\n");
-			sb.append("\t\t\tgraph.OnRetypingEdge += Retyping;\n");
-		}
-		sb.append("\t\t}\n");
-		sb.append("\n");
-		
-		genIndexMaintainingEventHandlers(index);
-
-		genIndexAATreeBalancingInsertionDeletion(index, false);
-
-		sb.append("\t\tprivate GRGEN_LGSP.LGSPGraph graph;\n");
-
-		sb.append("\t}\n");
-		sb.append("\n");
-	}
-
-	void genIndexImplementationNamed(AttributeIndex index, int indexNum) {
-		String indexName = index.getIdent().toString();
-		sb.append("\tpublic class Index" + indexName + "ImplNamed : Index" + indexName + "Impl\n");
-		sb.append("\t{\n");
-		
-		sb.append("\t\tpublic Index" + indexName + "ImplNamed(GRGEN_LGSP.LGSPNamedGraph graph)\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\t\tthis.graph = graph;\n");
-		sb.append("\t\t\t\n");
-		sb.append("\t\t\t// initialize AA tree used to implement the index\n");
-		sb.append("\t\t\tbottom = new TreeNode();\n");
-		sb.append("\t\t\troot = bottom;\n");
-		sb.append("\t\t\tdeleted = bottom;\n");
-		sb.append("\t\t\tcount = 0;\n");
-		sb.append("\t\t\tversion = 0;\n");
-		sb.append("\t\t\t\n");
-		if(index.type instanceof NodeType) {
-			sb.append("\t\t\tgraph.OnNodeAdded += Added;\n");
-			sb.append("\t\t\tgraph.OnRemovingNode += Removing;\n");
-			sb.append("\t\t\tgraph.OnChangingNodeAttribute += ChangingAttribute;\n");
-			sb.append("\t\t\tgraph.OnRetypingNode += Retyping;\n");
-		} else {
-			sb.append("\t\t\tgraph.OnEdgeAdded += Added;\n");
-			sb.append("\t\t\tgraph.OnRemovingEdge += Removing;\n");
-			sb.append("\t\t\tgraph.OnChangingEdgeAttribute += ChangingAttribute;\n");
-			sb.append("\t\t\tgraph.OnRetypingEdge += Retyping;\n");
-		}
-		sb.append("\t\t}\n");
-		sb.append("\n");
-
-		genIndexMaintainingEventHandlers(index);
-
-		genIndexAATreeBalancingInsertionDeletion(index, true);
-
-		sb.append("\t\tprivate GRGEN_LGSP.LGSPNamedGraph graph;\n");
-
-		sb.append("\t}\n");
-		sb.append("\n");
-	}
-
-	void genIndexAATreeBalancingInsertionDeletion(AttributeIndex index, boolean named) {
+	void genIndexAATreeBalancingInsertionDeletion(AttributeIndex index) {
 		String attributeType = formatAttributeType(index.entity);
 		String attributeName = index.entity.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(index.type);
+		String castForUnique = index.type instanceof NodeType ? " as GRGEN_LGSP.LGSPNode" : " as GRGEN_LGSP.LGSPEdge";
 
 		sb.append("\t\tprivate void Skew(ref TreeNode current)\n");
 		sb.append("\t\t{\n");
@@ -3011,10 +2993,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\t\tif(String.Compare(attributeValue, current.value." + attributeName + ")<0");
 		else
 			sb.append("\t\t\tif(attributeValue < current.value." + attributeName);
-		if(named)
-			sb.append(" || ( attributeValue == current.value." + attributeName + " && String.CompareOrdinal(graph.GetElementName(value), graph.GetElementName(current.value))<0 ) )\n");
-		else
-			sb.append(")\n");
+		sb.append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique + ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
 		sb.append("\t\t\t\tInsert(ref current.left, value, attributeValue);\n");
 		if(index.entity.getType() instanceof BooleanType)
 			sb.append("\t\t\telse if(attributeValue.CompareTo(current.value." + attributeName + ")>0");
@@ -3022,10 +3001,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\t\telse if(String.Compare(attributeValue, current.value." + attributeName + ")>0");
 		else
 			sb.append("\t\t\telse if(attributeValue > current.value." + attributeName);
-		if(named)
-			sb.append(" || ( attributeValue == current.value." + attributeName + " && String.CompareOrdinal(graph.GetElementName(value), graph.GetElementName(current.value))>0 ) )\n");
-		else
-			sb.append(")\n");
+		sb.append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique + ").uniqueId > (current.value" + castForUnique + ").uniqueId ) )\n");
 		sb.append("\t\t\t\tInsert(ref current.right, value, attributeValue);\n");
 		sb.append("\t\t\telse\n");
 		sb.append("\t\t\t\tthrow new Exception(\"Insertion of already available element\");\n");
@@ -3048,10 +3024,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\t\tif(String.Compare(value." + attributeName + ", current.value." + attributeName + ")<0");
 		else
 			sb.append("\t\t\tif(value." + attributeName + " < current.value." + attributeName);
-		if(named)
-			sb.append(" || ( value." + attributeName + " == current.value." + attributeName + " && String.CompareOrdinal(graph.GetElementName(value), graph.GetElementName(current.value))<0 ) )\n");
-		else
-			sb.append(")\n");			
+		sb.append(" || ( value." + attributeName + " == current.value." + attributeName + " && (value" + castForUnique + ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
 		sb.append("\t\t\t\tDelete(ref current.left, value);\n");
 		sb.append("\t\t\telse\n");
 		sb.append("\t\t\t{\n");
@@ -3061,10 +3034,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t\n");
 		sb.append("\t\t\t// at the bottom of the tree we remove the element (if present)\n");
 		sb.append("\t\t\tif(current == last && deleted != bottom && value." + attributeName + " == deleted.value." + attributeName);
-		if(named)
-			sb.append(" && graph.GetElementName(value) == graph.GetElementName(deleted.value) )\n");
-		else
-			sb.append(")\n");
+		sb.append(" && (value" + castForUnique + ").uniqueId == (deleted.value" + castForUnique + ").uniqueId )\n");
 		sb.append("\t\t\t{\n");
 		sb.append("\t\t\t\tdeleted.value = current.value;\n");
 		sb.append("\t\t\t\tdeleted = bottom;\n");
@@ -3096,24 +3066,11 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t{\n");
 		for(Index index : model.getIndices()) {
 			String indexName = index.getIdent().toString();
-			if(index instanceof AttributeIndex) {
-				sb.append("\t\t\t" + indexName + " = new Index" + indexName + "ImplPlain(graph);\n");
-			} else {
-				sb.append("\t\t\t//" + indexName + " = new Index" + indexName + "ImplPlain(graph); --- an incidence index is only available for a named graph, as nodes with the same number of incident edges will be common (thus duplicate index entries) \n");
-			}
+			sb.append("\t\t\t" + indexName + " = new Index" + indexName + "Impl(graph);\n");
 		}
 		sb.append("\t\t}\n");
 		sb.append("\n");
-		
-		sb.append("\t\tpublic " + model.getIdent() + "IndexSet(GRGEN_LGSP.LGSPNamedGraph graph)\n");
-		sb.append("\t\t{\n");
-		for(Index index : model.getIndices()) {
-			String indexName = index.getIdent().toString();
-			sb.append("\t\t\t" + indexName + " = new Index" + indexName + "ImplNamed(graph);\n");
-		}
-		sb.append("\t\t}\n");
-		sb.append("\n");
-		
+				
 		for(Index index : model.getIndices()) {
 			String indexName = index.getIdent().toString();
 			sb.append("\t\tpublic Index" + indexName + "Impl " + indexName +";\n");
@@ -3131,15 +3088,24 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t}\n");
 		sb.append("\t\t\treturn null;\n");
 		sb.append("\t\t}\n");
+		sb.append("\n");
+		
+		sb.append("\t\tpublic void FillAsClone(GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
+		sb.append("\t\t{\n");
+		for(Index index : model.getIndices()) {
+			String indexName = index.getIdent().toString();
+			sb.append("\t\t\t" + indexName + ".FillAsClone((Index" + indexName + "Impl)originalGraph.indices.GetIndex(\"" + indexName + "\"), oldToNewMap);\n");
+		}
+		sb.append("\t\t}\n");
 		
 		sb.append("\t}\n");
 	}
 	
-	void genIndexImplementationBase(IncidenceIndex index, int indexNum) {
+	void genIndexImplementation(IncidenceIndex index, int indexNum) {
 		String indexName = index.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
 		String modelName = model.getIdent().toString() + "GraphModel";
-		sb.append("\tpublic abstract class Index" + indexName + "Impl : Index" + indexName + "\n");
+		sb.append("\tpublic class Index" + indexName + "Impl : Index" + indexName + "\n");
 		sb.append("\t{\n");
 		
 		sb.append("\t\tpublic GRGEN_LIBGR.IndexDescription Description { get { return " + modelName + ".GetIndexDescription(" + indexNum + "); } }\n");
@@ -3174,8 +3140,19 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	    sb.append("\t\t\t\tthis.key = key;\n");
 	    sb.append("\t\t\t\tthis.value = value;\n");
 	    sb.append("\t\t\t}\n");
+	    sb.append("\t\t\t\n");
+	    sb.append("\t\t\t// for copy constructing from other index\n");
+	    sb.append("\t\t\tpublic TreeNode(TreeNode left, TreeNode right, int level, int key, " + graphElementType + " value)\n");
+	    sb.append("\t\t\t{\n");
+	    sb.append("\t\t\t\tthis.left = left;\n");
+	    sb.append("\t\t\t\tthis.right = right;\n");
+	    sb.append("\t\t\t\tthis.level = level;\n");
+	    sb.append("\t\t\t\t\n");
+	    sb.append("\t\t\t\tthis.key = key;\n");
+	    sb.append("\t\t\t\tthis.value = value;\n");
+	    sb.append("\t\t\t}\n");
 	    sb.append("\t\t}\n");
-		sb.append("\n");
+	    sb.append("\n");
 
 		sb.append("\t\tprotected TreeNode root;\n");
 		sb.append("\t\tprotected TreeNode bottom;\n");
@@ -3252,6 +3229,56 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 		genGetIncidenceCount(index);
 		
+		sb.append("\t\tpublic Index" + indexName + "Impl(GRGEN_LGSP.LGSPGraph graph)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tthis.graph = graph;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\t// initialize AA tree used to implement the index\n");
+		sb.append("\t\t\tbottom = new TreeNode();\n");
+		sb.append("\t\t\troot = bottom;\n");
+		sb.append("\t\t\tdeleted = bottom;\n");
+		sb.append("\t\t\tcount = 0;\n");
+		sb.append("\t\t\tversion = 0;\n");
+		sb.append("\t\t\t\n");
+		sb.append("\t\t\tgraph.OnEdgeAdded += EdgeAdded;\n");
+		sb.append("\t\t\tgraph.OnNodeAdded += NodeAdded;\n");
+		sb.append("\t\t\tgraph.OnRemovingEdge += RemovingEdge;\n");
+		sb.append("\t\t\tgraph.OnRemovingNode += RemovingNode;\n");
+		sb.append("\t\t\tgraph.OnRetypingEdge += RetypingEdge;\n");
+		sb.append("\t\t\tgraph.OnRetypingNode += RetypingNode;\n");
+		sb.append("\t\t}\n");
+		sb.append("\n");
+
+		sb.append("\t\tpublic void FillAsClone(Index" + indexName + "Impl that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\troot = FillAsClone(that.root, that.bottom, oldToNewMap);\n");
+		sb.append("\t\t\tcount = that.count;\n");
+		sb.append("\t\t}\n");
+		sb.append("\n");
+
+		sb.append("\t\tprotected TreeNode FillAsClone(TreeNode that, TreeNode otherBottom, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tif(that == otherBottom)\n");
+		sb.append("\t\t\t\treturn bottom;\n");
+		sb.append("\t\t\telse\n");
+		sb.append("\t\t\t\treturn new TreeNode(\n");
+		sb.append("\t\t\t\t\tFillAsClone(that.left, otherBottom, oldToNewMap),\n");
+		sb.append("\t\t\t\t\tFillAsClone(that.right, otherBottom, oldToNewMap),\n");
+		sb.append("\t\t\t\t\tthat.level,\n");
+		sb.append("\t\t\t\t\tthat.key,\n");
+		sb.append("\t\t\t\t\t(" + graphElementType + ")oldToNewMap[that.value]\n");
+        sb.append("\t\t\t\t);\n");
+        sb.append("\t\t}\n");
+		sb.append("\n");
+
+		genIndexMaintainingEventHandlers(index);
+
+		genIndexAATreeBalancingInsertionDeletion(index);
+
+		//genCheckDump(index);
+
+		sb.append("\t\tprivate GRGEN_LGSP.LGSPGraph graph;\n");
+
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
@@ -3702,45 +3729,9 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		}
 	}
 
-	void genIndexImplementationNamed(IncidenceIndex index, int indexNum) {
-		String indexName = index.getIdent().toString();
-		sb.append("\tpublic class Index" + indexName + "ImplNamed : Index" + indexName + "Impl\n");
-		sb.append("\t{\n");
-		
-		sb.append("\t\tpublic Index" + indexName + "ImplNamed(GRGEN_LGSP.LGSPNamedGraph graph)\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\t\tthis.graph = graph;\n");
-		sb.append("\t\t\t\n");
-		sb.append("\t\t\t// initialize AA tree used to implement the index\n");
-		sb.append("\t\t\tbottom = new TreeNode();\n");
-		sb.append("\t\t\troot = bottom;\n");
-		sb.append("\t\t\tdeleted = bottom;\n");
-		sb.append("\t\t\tcount = 0;\n");
-		sb.append("\t\t\tversion = 0;\n");
-		sb.append("\t\t\t\n");
-		sb.append("\t\t\tgraph.OnEdgeAdded += EdgeAdded;\n");
-		sb.append("\t\t\tgraph.OnNodeAdded += NodeAdded;\n");
-		sb.append("\t\t\tgraph.OnRemovingEdge += RemovingEdge;\n");
-		sb.append("\t\t\tgraph.OnRemovingNode += RemovingNode;\n");
-		sb.append("\t\t\tgraph.OnRetypingEdge += RetypingEdge;\n");
-		sb.append("\t\t\tgraph.OnRetypingNode += RetypingNode;\n");
-		sb.append("\t\t}\n");
-		sb.append("\n");
-
-		genIndexMaintainingEventHandlers(index);
-
-		genIndexAATreeBalancingInsertionDeletion(index, true);
-
-		//genCheckDump(index);
-
-		sb.append("\t\tprivate GRGEN_LGSP.LGSPNamedGraph graph;\n");
-
-		sb.append("\t}\n");
-		sb.append("\n");
-	}
-
-	void genIndexAATreeBalancingInsertionDeletion(IncidenceIndex index, boolean named) {
+	void genIndexAATreeBalancingInsertionDeletion(IncidenceIndex index) {
 		String graphElementType = formatElementInterfaceRef(((IncidenceIndex)index).getStartNodeType());
+		String castForUnique = " as GRGEN_LGSP.LGSPNode";
 
 		sb.append("\t\tprivate void Skew(ref TreeNode current)\n");
 		sb.append("\t\t{\n");
@@ -3780,10 +3771,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t}\n");
 		sb.append("\t\t\t\n");
 		sb.append("\t\t\tif(key < current.key");
-		sb.append(" || ( key == current.key && String.CompareOrdinal(graph.GetElementName(value), graph.GetElementName(current.value))<0 ) )\n");
+		sb.append(" || ( key == current.key && (value" + castForUnique + ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
 		sb.append("\t\t\t\tInsert(ref current.left, key, value);\n");
 		sb.append("\t\t\telse if(key > current.key");
-		sb.append(" || ( key == current.key && String.CompareOrdinal(graph.GetElementName(value), graph.GetElementName(current.value))>0 ) )\n");
+		sb.append(" || ( key == current.key && (value" + castForUnique + ").uniqueId > (current.value" + castForUnique + ").uniqueId ) )\n");
 		sb.append("\t\t\t\tInsert(ref current.right, key, value);\n");
 		sb.append("\t\t\telse\n");
 		sb.append("\t\t\t\tthrow new Exception(\"Insertion of already available element\");\n");
@@ -3801,7 +3792,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t// search down the tree (and set pointer last and deleted)\n");
 		sb.append("\t\t\tlast = current;\n");
 		sb.append("\t\t\tif(key < current.key");
-		sb.append(" || ( key == current.key && String.CompareOrdinal(graph.GetElementName(value), graph.GetElementName(current.value))<0 ) )\n");
+		sb.append(" || ( key == current.key && (value" + castForUnique + ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
 		sb.append("\t\t\t\tDelete(ref current.left, key, value);\n");
 		sb.append("\t\t\telse\n");
 		sb.append("\t\t\t{\n");
@@ -3811,7 +3802,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t\n");
 		sb.append("\t\t\t// at the bottom of the tree we remove the element (if present)\n");
 		sb.append("\t\t\tif(current == last && deleted != bottom && key == deleted.key");
-		sb.append(" && graph.GetElementName(value) == graph.GetElementName(deleted.value) )\n");
+		sb.append(" && (value" + castForUnique + ").uniqueId == (deleted.value" + castForUnique + ").uniqueId )\n");
 		sb.append("\t\t\t{\n");
 		sb.append("\t\t\t\tdeleted.value = current.value;\n");
 		sb.append("\t\t\t\tdeleted.key = current.key;\n");
@@ -4329,12 +4320,15 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private void genIndicesGraphBinding(boolean inPureGraphModel) {
 		String override = inPureGraphModel ? "override " : "";
 		sb.append("\t\tpublic " + override + "void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {\n");
-		sb.append("\t\t\tif(graph is GRGEN_LGSP.LGSPNamedGraph)\n");
-		sb.append("\t\t\t\tgraph.indices = new " + model.getIdent() + "IndexSet((GRGEN_LGSP.LGSPNamedGraph)graph);\n");
-		sb.append("\t\t\telse\n");
-		sb.append("\t\t\t\tgraph.indices = new " + model.getIdent() + "IndexSet(graph);\n");
 		if(model.isUniqueDefined())
-			sb.append("\t\t\tnew GRGEN_LGSP.LGSPUniquenessEnsurer(graph);\n");
+			sb.append("\t\t\tnew GRGEN_LGSP.LGSPUniquenessEnsurer(graph); // must be called before the indices so that its event handler is registered first, doing the unique id computation the indices depend upon\n");
+		sb.append("\t\t\tgraph.indices = new " + model.getIdent() + "IndexSet(graph);\n");
+		sb.append("\t\t}\n");
+		
+		sb.append("\t\tpublic " + override + "void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {\n");
+		if(model.isUniqueDefined())
+			sb.append("\t\t\tgraph.uniquenessEnsurer.FillAsClone(originalGraph);\n");
+		sb.append("\t\t\t((" + model.getIdent() + "IndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);\n");
 		sb.append("\t\t}\n");
 	}
 	
