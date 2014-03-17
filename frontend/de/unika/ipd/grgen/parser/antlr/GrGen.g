@@ -249,17 +249,21 @@ textActions returns [ UnitNode main = null ]
 				boolean isLowerClassDefined = false;
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isLowerClassDefined |= modelChild.IsLowerClassDefined();
-				}				
+				}
 				boolean isUniqueDefined = false;
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isUniqueDefined |= modelChild.IsUniqueDefined();
+				}				
+				boolean isUniqueIndexDefined = false;
+				for(ModelNode modelChild : modelChilds.getChildren()) {
+					isUniqueIndexDefined |= modelChild.IsUniqueIndexDefined();
 				}				
 				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(),
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), 
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds, 
 						isEmitClassDefined, isCopyClassDefined, 
 						isEqualClassDefined, isLowerClassDefined,
-						isUniqueDefined);
+						isUniqueDefined, isUniqueIndexDefined);
 				modelChilds = new CollectNode<ModelNode>();
 				modelChilds.addChild(model);
 			}
@@ -960,6 +964,11 @@ nodeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, Patter
 			n = new MatchNodeByNameLookupNode(id, type, context, 
 						e, directlyNestingLHSGraph);
 		}
+	| {input.LT(1).getText().equals("unique")}? i=IDENT LBRACK e=expr[false] RBRACK
+		{
+			n = new MatchNodeByUniqueLookupNode(id, type, context,
+						e, directlyNestingLHSGraph);
+		}
 	;
 
 relOS returns [ int os = OperatorSignature.ERROR ]
@@ -1420,6 +1429,11 @@ edgeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, Patter
 	| AT LPAREN e=expr[false] RPAREN
 		{
 			res = new MatchEdgeByNameLookupNode(id, type, context, 
+						e, directlyNestingLHSGraph);
+		}
+	| {input.LT(1).getText().equals("unique")}? i=IDENT LBRACK e=expr[false] RBRACK
+		{
+			res = new MatchEdgeByUniqueLookupNode(id, type, context,
 						e, directlyNestingLHSGraph);
 		}
 	;
@@ -2508,7 +2522,7 @@ textTypes returns [ ModelNode model = null ]
 			model = new ModelNode(id, packages, types, externalFuncs, externalProcs, indices, modelChilds,
 				$specialClasses.isEmitClassDefined, $specialClasses.isCopyClassDefined, 
 				$specialClasses.isEqualClassDefined, $specialClasses.isLowerClassDefined,
-				$specialClasses.isUniqueDefined);
+				$specialClasses.isUniqueDefined, $specialClasses.isUniqueIndexDefined);
 		}
 	;
 
@@ -2517,7 +2531,7 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 			CollectNode<IdentNode> indices ]
 		returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false, 
 				  boolean isEqualClassDefined = false, boolean isLowerClassDefined = false,
-				  boolean isUniqueDefined = false; ]
+				  boolean isUniqueDefined = false, boolean isUniqueIndexDefined = false;]
 	@init{
 		boolean isExternal = false;
 	}	
@@ -2538,18 +2552,21 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 	  |
 	    (EXTERNAL { isExternal = true; })? LT c=CLASS SEMI { $isLowerClassDefined = true; if(!isExternal) reportWarning(getCoords(c), "< class must start with \"external\""); }
 	  |
-		indexDecl[indices]
+		res = indexDecl[indices] { $isUniqueIndexDefined = res; }
 	  )*
 	;
 
-indexDecl [ CollectNode<IdentNode> indices ]
-	: INDEX id=indexIdentDecl LBRACE indexDeclBody[id] RBRACE
+indexDecl [ CollectNode<IdentNode> indices ] returns [ boolean res = false ]
+	: INDEX id=indexIdentDecl LBRACE isUniqueIndexDefined=indexDeclBody[id] RBRACE
 		{
-			indices.addChild(id);
+			if(isUniqueIndexDefined)
+				res = true;
+			else
+				indices.addChild(id);
 		}
 	;
 
-indexDeclBody [ IdentNode id ]
+indexDeclBody [ IdentNode id ] returns [ boolean res = false ]
 	: type=typeIdentUse DOT member=memberIdentUse
 		{
 			id.setDecl(new AttributeIndexDeclNode(id, type, member));
@@ -2557,6 +2574,11 @@ indexDeclBody [ IdentNode id ]
 	| i=IDENT LPAREN startNodeType=typeIdentUse (COMMA incidentEdgeType=typeIdentUse (COMMA adjacentNodeType=typeIdentUse)?)? RPAREN 
 		{
 			id.setDecl(new IncidenceIndexDeclNode(id, i.getText(), startNodeType, incidentEdgeType, adjacentNodeType, env));
+		}
+	| i=IDENT
+		{
+			if(i.getText().equals("unique"))
+				res = true;
 		}
 	;
 
@@ -4013,6 +4035,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| (i.getText().equals("source") || i.getText().equals("target")) && params.getChildren().size()==1
 				|| i.getText().equals("opposite") && params.getChildren().size()==2
 				|| (i.getText().equals("nodeByName") || i.getText().equals("edgeByName")) && params.getChildren().size()==1
+				|| (i.getText().equals("nodeByUnique") || i.getText().equals("edgeByUnique")) && params.getChildren().size()==1
 				|| (i.getText().equals("incoming") || i.getText().equals("outgoing") || i.getText().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (i.getText().equals("adjacentIncoming") || i.getText().equals("adjacentOutgoing") || i.getText().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (i.getText().equals("reachableIncoming") || i.getText().equals("reachableOutgoing") || i.getText().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
@@ -4026,7 +4049,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
 				|| (i.getText().equals("existsFile") || i.getText().equals("import")) && params.getChildren().size()==1
 				|| i.getText().equals("copy") && params.getChildren().size()==1
-				|| i.getText().equals("uniqueof") && params.getChildren().size()==1
+				|| i.getText().equals("uniqueof") && (params.getChildren().size()==1 || params.getChildren().size()==0)
 			  )
 			{
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));

@@ -36,7 +36,8 @@ public class NameofNode extends ExprNode {
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		if(namedEntity!=null) children.add(namedEntity);
+		if(namedEntity!=null)
+			children.add(namedEntity);
 		return children;
 	}
 
@@ -44,7 +45,8 @@ public class NameofNode extends ExprNode {
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		if(namedEntity!=null) childrenNames.add("named entity");
+		if(namedEntity!=null)
+			childrenNames.add("named entity");
 		return childrenNames;
 	}
 
@@ -75,7 +77,6 @@ public class NameofNode extends ExprNode {
 		if(namedEntity==null) {
 			return new Nameof(null, getType().getType());
 		}
-
 		return new Nameof(namedEntity.checkIR(Expression.class), getType().getType());
 	}
 

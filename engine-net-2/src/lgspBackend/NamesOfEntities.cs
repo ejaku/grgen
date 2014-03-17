@@ -90,11 +90,20 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Returns name of the temporary variable which will be created within the search program
-        /// for retrieving the element from the named graph; must be casted to the needed type afterwards
+        /// for retrieving the element from the name map of the named graph; must be casted to the needed type afterwards
         /// </summary>
         public static string MapByNameTemporary(string patternElementName)
         {
             return "map_by_name_temporary_" + patternElementName;
+        }
+
+        /// <summary>
+        /// Returns name of the temporary variable which will be created within the search program
+        /// for retrieving the element from the unique index of the graph; must be casted to the needed type afterwards
+        /// </summary>
+        public static string MapByUniqueTemporary(string patternElementName)
+        {
+            return "map_by_unique_temporary_" + patternElementName;
         }
 
         /// <summary>

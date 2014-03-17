@@ -54,6 +54,10 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IEnumerable<INode> GetCompatibleNodes(NodeType nodeType);
         public abstract IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType);
 
+        public abstract IGraphElement GetGraphElement(int unique);
+        public abstract INode GetNode(int unique);
+        public abstract IEdge GetEdge(int unique);
+
         public abstract void AddNode(INode node);
         public abstract INode AddNode(NodeType nodeType);
 

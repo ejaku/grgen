@@ -154,6 +154,11 @@ namespace de.unika.ipd.grGen.lgsp
         public NameLookup NameLookup;
 
         /// <summary>
+        /// If not null this pattern element is to be determined by a unique index lookup
+        /// </summary>
+        public UniqueLookup UniqueLookup;
+
+        /// <summary>
         /// If not null this pattern element is to be bound by casting the given ElementBeforeCasting to the pattern element type or causing matching to fail.
         /// </summary>
         public PatternElement ElementBeforeCasting;
@@ -212,6 +217,7 @@ namespace de.unika.ipd.grGen.lgsp
         ///     with the accessor given here applied as index into the storage given in the storage parameter.</param>
         /// <param name="indexAccess">If not null this pattern element is to be determined by an index lookup, with details specified by the concrete index access type contained in this field.</param>
         /// <param name="nameLookup">If not null this pattern element is to be determined by a name map lookup.</param>
+        /// <param name="uniqueLookup">If not null this pattern element is to be determined by a unique index lookup.</param>
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -222,7 +228,7 @@ namespace de.unika.ipd.grGen.lgsp
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
             StorageAccess storage, StorageAccessIndex storageIndex,
-            IndexAccess indexAccess, NameLookup nameLookup,
+            IndexAccess indexAccess, NameLookup nameLookup, UniqueLookup uniqueLookup,
             PatternElement elementBeforeCasting,
             bool defToBeYieldedTo, Expression initialization)
         {
@@ -239,6 +245,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.StorageIndex = storageIndex;
             this.IndexAccess = indexAccess;
             this.NameLookup = nameLookup;
+            this.UniqueLookup = uniqueLookup;
             this.ElementBeforeCasting = elementBeforeCasting;
             this.defToBeYieldedTo = defToBeYieldedTo;
             this.initialization = initialization;
@@ -274,6 +281,7 @@ namespace de.unika.ipd.grGen.lgsp
             StorageIndex = original.StorageIndex != null ? new StorageAccessIndex(original.StorageIndex) : null;
             IndexAccess = original.IndexAccess != null ? original.IndexAccess.Copy(nameSuffix) : null;
             NameLookup = original.NameLookup != null ? original.NameLookup.Copy(nameSuffix) : null;
+            UniqueLookup = original.UniqueLookup != null ? original.UniqueLookup.Copy(nameSuffix) : null;
             ElementBeforeCasting = original.ElementBeforeCasting;
             AssignmentSource = original.AssignmentSource;
             originalElement = original;
@@ -315,6 +323,10 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 return NameLookup.NeededElement;
             }
+            if(UniqueLookup != null)
+            {
+                return UniqueLookup.NeededElement;
+            }
 
             return null; // only local variables or global variables required
         }
@@ -352,6 +364,7 @@ namespace de.unika.ipd.grGen.lgsp
         ///     with the accessor given here applied as index into the storage given in the storage parameter.</param>
         /// <param name="indexAccess">If not null this pattern element is to be determined by an index lookup, with details specified by the concrete index access type contained in this field.</param>
         /// <param name="nameLookup">If not null this pattern element is to be determined by a name map lookup.</param>
+        /// <param name="uniqueLookup">If not null this pattern element is to be determined by a unique index lookup.</param>
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -362,11 +375,11 @@ namespace de.unika.ipd.grGen.lgsp
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
             StorageAccess storage, StorageAccessIndex storageIndex,
-            IndexAccess indexAccess, NameLookup nameLookup,
+            IndexAccess indexAccess, NameLookup nameLookup, UniqueLookup uniqueLookup,
             PatternElement elementBeforeCasting,
             bool defToBeYieldedTo, Expression initialization)
             : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, 
-                cost, parameterIndex, maybeNull, storage, storageIndex, indexAccess, nameLookup,
+                cost, parameterIndex, maybeNull, storage, storageIndex, indexAccess, nameLookup, uniqueLookup,
                 elementBeforeCasting, defToBeYieldedTo, initialization)
         {
             this.type = type;
@@ -444,6 +457,7 @@ namespace de.unika.ipd.grGen.lgsp
         ///     with the accessor given here applied as index into the storage given in the storage parameter.</param>
         /// <param name="indexAccess">If not null this pattern element is to be determined by an index lookup, with details specified by the concrete index access type contained in this field.</param>
         /// <param name="nameLookup">If not null this pattern element is to be determined by a name map lookup.</param>
+        /// <param name="uniqueLookup">If not null this pattern element is to be determined by a unique index lookup.</param>
         /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -455,11 +469,11 @@ namespace de.unika.ipd.grGen.lgsp
             GrGenType[] allowedTypes, bool[] isAllowedType,
             float cost, int parameterIndex, bool maybeNull,
             StorageAccess storage, StorageAccessIndex storageIndex,
-            IndexAccess indexAccess, NameLookup nameLookup,
+            IndexAccess indexAccess, NameLookup nameLookup, UniqueLookup uniqueLookup,
             PatternElement elementBeforeCasting,
             bool defToBeYieldedTo, Expression initialization)
             : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType,
-                cost, parameterIndex, maybeNull, storage, storageIndex, indexAccess, nameLookup,
+                cost, parameterIndex, maybeNull, storage, storageIndex, indexAccess, nameLookup, uniqueLookup,
                 elementBeforeCasting, defToBeYieldedTo, initialization)
         {
             this.fixedDirection = fixedDirection;
@@ -1164,6 +1178,70 @@ namespace de.unika.ipd.grGen.lgsp
             SourceBuilder sb = new SourceBuilder();
             Expr.Emit(sb);
             return "@(" + sb.ToString() + ")";
+        }
+    }
+
+    /// <summary>
+    /// Representation of a unique index lookup.
+    /// </summary>
+    public class UniqueLookup
+    {
+        /// <summary>
+        /// The pattern element that must be bound before the unique index can be accessed.
+        /// null if the unique index can be accessed straight from the beginning, does not depend on other nodes/edges.
+        /// </summary>
+        public PatternElement NeededElement;
+
+        /// <summary>
+        /// Tells whether variables are needed for the expressions used in accessing the index.
+        /// This defines a constraint on scheduling.
+        /// </summary>
+        public bool VariablesNeeded;
+
+        /// <summary>
+        /// The expression for computing the unique id with which the unique index will be accessed
+        /// </summary>
+        public Expression Expr;
+
+
+        public UniqueLookup(PatternElement neededElement, bool variablesNeeded, Expression expr)
+        {
+            NeededElement = neededElement;
+            VariablesNeeded = variablesNeeded;
+            Expr = expr;
+        }
+
+        public UniqueLookup Copy(string nameSuffix)
+        {
+            return new UniqueLookup(NeededElement, VariablesNeeded, Expr.Copy(nameSuffix));
+        }
+
+        public void PatchUsersOfCopiedElements(string renameSuffix,
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy)
+        {
+            Expr = Expr.Copy(renameSuffix);
+
+            if(NeededElement != null)
+            {
+                if(NeededElement is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)NeededElement))
+                        NeededElement = nodeToCopy[(PatternNode)NeededElement];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)NeededElement))
+                        NeededElement = edgeToCopy[(PatternEdge)NeededElement];
+                }
+            }
+        }
+
+        public override string ToString()
+        {
+            SourceBuilder sb = new SourceBuilder();
+            Expr.Emit(sb);
+            return "unique[" + sb.ToString() + "]";
         }
     }
 

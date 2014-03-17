@@ -521,6 +521,45 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+
+        /// <summary>
+        /// Gets the graph element for the given unique id.
+        /// Only available if the unique index was declared in the model.
+        /// </summary>
+        /// <param name="unique">The unique if of a graph element.</param>
+        /// <returns>The graph element for the given unique id or null, if there is no graph element with this unique id.</returns>
+        public override IGraphElement GetGraphElement(int unique)
+        {
+            LGSPUniquenessIndex index = uniquenessEnsurer as LGSPUniquenessIndex;
+            if(index==null)
+                return null;
+            else
+                return index.index[unique];
+        }
+
+        /// <summary>
+        /// Gets the node for the given unique id.
+        /// Only available if the unique index was declared in the model.
+        /// </summary>
+        /// <param name="unique">The unique if of a node.</param>
+        /// <returns>The node for the given unique id or null, if there is no node with this unique id.</returns>
+        public override INode GetNode(int unique)
+        {
+            return GetGraphElement(unique) as INode;
+        }
+
+        /// <summary>
+        /// Gets the edge for the given id.
+        /// Only available if the unique index was declared in the model.
+        /// </summary>
+        /// <param name="unique">The unique if of a edge.</param>
+        /// <returns>The edge for the given unique id or null, if there is no edge with this unique id.</returns>
+        public override IEdge GetEdge(int unique)
+        {
+            return GetGraphElement(unique) as IEdge;
+        }
+
+
         /// <summary>
         /// Moves the type list head of the given node after the given node.
         /// Part of the "list trick".

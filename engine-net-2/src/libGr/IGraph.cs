@@ -231,7 +231,32 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType);
 
-        
+
+        /// <summary>
+        /// Gets the graph element for the given unique id.
+        /// Only available if the unique index was declared in the model.
+        /// </summary>
+        /// <param name="unique">The unique id of a graph element.</param>
+        /// <returns>The graph element for the given unique id or null, if there is no graph element with this unique id.</returns>
+        IGraphElement GetGraphElement(int unique);
+
+        /// <summary>
+        /// Gets the node for the given unique id.
+        /// Only available if the unique index was declared in the model.
+        /// </summary>
+        /// <param name="unique">The unique id of a node.</param>
+        /// <returns>The node for the given unique id or null, if there is no node with this unique id.</returns>
+        INode GetNode(int unique);
+
+        /// <summary>
+        /// Gets the edge for the given id.
+        /// Only available if the unique index was declared in the model.
+        /// </summary>
+        /// <param name="unique">The unique id of a edge.</param>
+        /// <returns>The edge for the given unique id or null, if there is no edge with this unique id.</returns>
+        IEdge GetEdge(int unique);
+
+
         /// <summary>
         /// Adds an existing INode object to the graph.
         /// The node must not be part of any graph, yet!

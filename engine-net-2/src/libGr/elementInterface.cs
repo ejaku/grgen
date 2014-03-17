@@ -37,6 +37,14 @@ namespace de.unika.ipd.grGen.libGr
         bool InstanceOf(GrGenType type);
 
         /// <summary>
+        /// Gets the unique id of the graph element.
+        /// Only available if unique ids for nodes and edges were declared in the model
+        /// (or implicitely switched on by parallelization or the declaration of some index).
+        /// </summary>
+        /// <returns>The unique id of the graph element (an arbitrary number in case uniqueness was not requested).</returns>
+        int GetUniqueId();
+
+        /// <summary>
         /// Returns the graph element attribute with the given attribute name.
         /// If the graph element type doesn't have an attribute with this name, a NullReferenceException is thrown.
         /// </summary>

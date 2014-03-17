@@ -22,11 +22,14 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public LGSPUniquenessEnsurer(LGSPGraph graph)
         {
-            this.graph = graph;
-            graph.uniquenessEnsurer = this;
+            if(!graph.Model.GraphElementUniquenessIsEnsured)
+                throw new Exception("Internal error, uniqueness ensurer constructed although uniqueness was not requested");
 
             if(graph.NumNodes > 0 || graph.NumEdges > 0)
                 throw new Exception("Graph must be empty!");
+
+            this.graph = graph;
+            graph.uniquenessEnsurer = this;
             
             // global counter for fetching a new unique id
             nextNewId = 0;
@@ -43,16 +46,18 @@ namespace de.unika.ipd.grGen.lgsp
             graph.OnRetypingEdge += RetypingEdge;
         }
 
-        public void FillAsClone(LGSPGraph originalGraph)
+        public virtual void FillAsClone(LGSPGraph originalGraph, IDictionary<IGraphElement, IGraphElement> oldToNewMap)
         {
-            nextNewId = originalGraph.uniquenessEnsurer.nextNewId;
+            LGSPUniquenessEnsurer original = originalGraph.uniquenessEnsurer;
+
+            nextNewId = original.nextNewId;
 
             heap.Clear(); // remove the -1
-            heap.Capacity = originalGraph.uniquenessEnsurer.heap.Capacity;
-            heap.AddRange(originalGraph.uniquenessEnsurer.heap);
+            heap.Capacity = original.heap.Capacity;
+            heap.AddRange(original.heap);
         }
 
-        public void NodeAdded(INode node)
+        public virtual void NodeAdded(INode node)
         {
             LGSPNode nodeUnique = (LGSPNode)node;
             if(heap.Count == 1) // empty (one dummy needed for simpler arithmetic)
@@ -69,14 +74,14 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public void EdgeAdded(IEdge edge)
+        public virtual void EdgeAdded(IEdge edge)
         {
             LGSPEdge edgeUnique = (LGSPEdge)edge;
             if(heap.Count == 1) // empty (one dummy needed for simpler arithmetic)
             {
                 edgeUnique.uniqueId = nextNewId;
                 ++nextNewId;
-                
+
                 if(graph.flagsPerThreadPerElement != null) // if not null there's some parallel matcher existing
                     EnlargeFlagsOfParallelizedMatcherAsNeeded();
             }
@@ -86,21 +91,21 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public void RemovingNode(INode node)
+        public virtual void RemovingNode(INode node)
         {
             LGSPNode nodeUnique = (LGSPNode)node;
             Insert(nodeUnique.uniqueId);
             //nodeUnique.uniqueId = -1; an index needs to access the old id
         }
 
-        public void RemovingEdge(IEdge edge)
+        public virtual void RemovingEdge(IEdge edge)
         {
             LGSPEdge edgeUnique = (LGSPEdge)edge;
             Insert(edgeUnique.uniqueId);
             //edgeUnique.uniqueId = -1; an index needs to access the old id
         }
 
-        public void RetypingNode(INode oldNode, INode newNode)
+        public virtual void RetypingNode(INode oldNode, INode newNode)
         {
             LGSPNode oldNodeUnique = (LGSPNode)oldNode;
             LGSPNode newNodeUnique = (LGSPNode)newNode;
@@ -108,7 +113,7 @@ namespace de.unika.ipd.grGen.lgsp
             //oldNodeUnique.uniqueId = -1; an index needs to access the old id
         }
 
-        public void RetypingEdge(IEdge oldEdge, IEdge newEdge)
+        public virtual void RetypingEdge(IEdge oldEdge, IEdge newEdge)
         {
             LGSPEdge oldEdgeUnique = (LGSPEdge)oldEdge;
             LGSPEdge newEdgeUnique = (LGSPEdge)newEdge;
@@ -116,7 +121,7 @@ namespace de.unika.ipd.grGen.lgsp
             //oldEdgeUnique.uniqueId = -1; an index needs to access the old id
         }
 
-        int FetchAndRemoveMinimum()
+        protected int FetchAndRemoveMinimum()
         {
             // replace minimum with the last value
             int min = heap[1]; // position 0 is a dummy, we start at 1
@@ -173,7 +178,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         // maintain the flags array used by the parallel matchers, that is indexed by the unique ids
-        void EnlargeFlagsOfParallelizedMatcherAsNeeded()
+        protected void EnlargeFlagsOfParallelizedMatcherAsNeeded()
         {
             if(graph.flagsPerThreadPerElement[0].Count == graph.flagsPerThreadPerElement[0].Capacity)
             {
@@ -223,10 +228,118 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        LGSPGraph graph;
+        protected LGSPGraph graph;
 
-        int nextNewId;
+        protected int nextNewId;
 
-        List<int> heap = new List<int>();
+        protected List<int> heap = new List<int>();
+    }
+
+    /// <summary>
+    /// A class ensuring unique ids for nodes and edges with a minimum amount of gaps,
+    /// and allowing to access them by their unique id, similar to an index (and esp. the name map).
+    /// Gets instantiated in case support for unique nodes/edges was declared in the model,
+    /// and support for accessing nodes/edges by a unique id.
+    /// </summary>
+    public class LGSPUniquenessIndex : LGSPUniquenessEnsurer
+    {
+        public LGSPUniquenessIndex(LGSPGraph graph)
+            : base(graph)
+        {
+            if(!graph.Model.GraphElementsAreAccessibleByUniqueId)
+                throw new Exception("Internal error, uniqueness index constructed although access by unique id was not requested");
+
+            index = new List<IGraphElement>();
+        }
+
+        public override void FillAsClone(LGSPGraph originalGraph, IDictionary<IGraphElement, IGraphElement> oldToNewMap)
+        {
+            base.FillAsClone(originalGraph, oldToNewMap);
+ 
+            LGSPUniquenessIndex original = (LGSPUniquenessIndex)originalGraph.uniquenessEnsurer;
+
+            if(original.index != null)
+            {
+                index = new List<IGraphElement>(original.index.Capacity);
+                for(int i = 0; i < original.index.Count; ++i)
+                {
+                    index.Add(oldToNewMap[original.index[i]]);
+                }
+            }
+        }
+
+        public override void NodeAdded(INode node)
+        {
+            LGSPNode nodeUnique = (LGSPNode)node;
+            if(heap.Count == 1) // empty (one dummy needed for simpler arithmetic)
+            {
+                nodeUnique.uniqueId = nextNewId;
+                ++nextNewId;
+
+                index.Add(node);
+                if(graph.flagsPerThreadPerElement != null) // if not null there's some parallel matcher existing
+                    EnlargeFlagsOfParallelizedMatcherAsNeeded();
+            }
+            else
+            {
+                nodeUnique.uniqueId = FetchAndRemoveMinimum();
+                index[nodeUnique.uniqueId] = nodeUnique;
+            }
+        }
+
+        public override void EdgeAdded(IEdge edge)
+        {
+            LGSPEdge edgeUnique = (LGSPEdge)edge;
+            if(heap.Count == 1) // empty (one dummy needed for simpler arithmetic)
+            {
+                edgeUnique.uniqueId = nextNewId;
+                ++nextNewId;
+
+                index.Add(edge);
+                if(graph.flagsPerThreadPerElement != null) // if not null there's some parallel matcher existing
+                    EnlargeFlagsOfParallelizedMatcherAsNeeded();
+            }
+            else
+            {
+                edgeUnique.uniqueId = FetchAndRemoveMinimum();
+                index[edgeUnique.uniqueId] = edgeUnique;
+            }
+        }
+
+        public override void RemovingNode(INode node)
+        {
+            LGSPNode nodeUnique = (LGSPNode)node;
+            Insert(nodeUnique.uniqueId);
+            //nodeUnique.uniqueId = -1; an index needs to access the old id
+            index[nodeUnique.uniqueId] = null;
+        }
+
+        public override void RemovingEdge(IEdge edge)
+        {
+            LGSPEdge edgeUnique = (LGSPEdge)edge;
+            Insert(edgeUnique.uniqueId);
+            //edgeUnique.uniqueId = -1; an index needs to access the old id
+            index[edgeUnique.uniqueId] = null;
+        }
+
+        public override void RetypingNode(INode oldNode, INode newNode)
+        {
+            LGSPNode oldNodeUnique = (LGSPNode)oldNode;
+            LGSPNode newNodeUnique = (LGSPNode)newNode;
+            newNodeUnique.uniqueId = oldNodeUnique.uniqueId;
+            //oldNodeUnique.uniqueId = -1; an index needs to access the old id
+            index[newNodeUnique.uniqueId] = newNode;
+        }
+
+        public override void RetypingEdge(IEdge oldEdge, IEdge newEdge)
+        {
+            LGSPEdge oldEdgeUnique = (LGSPEdge)oldEdge;
+            LGSPEdge newEdgeUnique = (LGSPEdge)newEdge;
+            newEdgeUnique.uniqueId = oldEdgeUnique.uniqueId;
+            //oldEdgeUnique.uniqueId = -1; an index needs to access the old id
+            index[newEdgeUnique.uniqueId] = newEdge;
+        }
+
+        public List<IGraphElement> index;
     }
 }

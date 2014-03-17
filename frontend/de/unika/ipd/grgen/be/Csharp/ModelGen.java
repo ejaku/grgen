@@ -4136,8 +4136,11 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t\tif(indexDescriptions[i].Name==indexName)\n");
 		sb.append("\t\t\t\t\treturn indexDescriptions[i];\n");
 		sb.append("\t\t\treturn null;\n");
-		sb.append("\t\t}\n\n");
-
+		sb.append("\t\t}\n");
+		sb.append("\t\tpublic " + override + "bool GraphElementUniquenessIsEnsured { get { return " + (model.isUniqueDefined() ? "true" : "false") + "; } }\n");
+		sb.append("\t\tpublic " + override + "bool GraphElementsAreAccessibleByUniqueId { get { return " + (model.isUniqueIndexDefined() ? "true" : "false") + "; } }\n");
+		sb.append("\n");
+        
 		if(model.isEmitClassDefined()) {
 			sb.append("\t\tpublic " + override + "object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
 			sb.append("\t\t{\n");
@@ -4320,14 +4323,16 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private void genIndicesGraphBinding(boolean inPureGraphModel) {
 		String override = inPureGraphModel ? "override " : "";
 		sb.append("\t\tpublic " + override + "void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {\n");
-		if(model.isUniqueDefined())
+		if(model.isUniqueIndexDefined())
+			sb.append("\t\t\tnew GRGEN_LGSP.LGSPUniquenessIndex(graph); // must be called before the indices so that its event handler is registered first, doing the unique id computation the indices depend upon\n");
+		else if(model.isUniqueDefined())
 			sb.append("\t\t\tnew GRGEN_LGSP.LGSPUniquenessEnsurer(graph); // must be called before the indices so that its event handler is registered first, doing the unique id computation the indices depend upon\n");
 		sb.append("\t\t\tgraph.indices = new " + model.getIdent() + "IndexSet(graph);\n");
 		sb.append("\t\t}\n");
 		
 		sb.append("\t\tpublic " + override + "void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {\n");
 		if(model.isUniqueDefined())
-			sb.append("\t\t\tgraph.uniquenessEnsurer.FillAsClone(originalGraph);\n");
+			sb.append("\t\t\tgraph.uniquenessEnsurer.FillAsClone(originalGraph, oldToNewMap);\n");
 		sb.append("\t\t\t((" + model.getIdent() + "IndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);\n");
 		sb.append("\t\t}\n");
 	}
