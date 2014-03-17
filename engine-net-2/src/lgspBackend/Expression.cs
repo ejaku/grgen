@@ -3653,6 +3653,56 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the node for a name (or null)
+    /// </summary>
+    public class NodeByName : Expression
+    {
+        public NodeByName(Expression name)
+        {
+            Name = name;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new NodeByName(Name.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((GRGEN_LIBGR.INamedGraph)graph).GetNode(");
+            Name.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Name;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the edge for a name (or null)
+    /// </summary>
+    public class EdgeByName : Expression
+    {
+        public EdgeByName(Expression name)
+        {
+            Name = name;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new EdgeByName(Name.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((GRGEN_LIBGR.INamedGraph)graph).GetEdge(");
+            Name.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Name;
+    }
+
+    /// <summary>
     /// Class representing expression returning the outgoing edges of a node (as set)
     /// </summary>
     public class Outgoing : Expression

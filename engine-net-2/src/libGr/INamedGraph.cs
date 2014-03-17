@@ -38,11 +38,25 @@ namespace de.unika.ipd.grGen.libGr
         String GetElementName(IGraphElement elem);
 
         /// <summary>
-        /// Gets the graph element for a given name.
+        /// Gets the graph element for the given name.
         /// </summary>
         /// <param name="name">The name of a graph element.</param>
         /// <returns>The graph element for the given name or null, if there is no graph element with this name.</returns>
         IGraphElement GetGraphElement(String name);
+
+        /// <summary>
+        /// Gets the node for the given name.
+        /// </summary>
+        /// <param name="name">The name of a node.</param>
+        /// <returns>The node for the given name or null, if there is no node with this name.</returns>
+        INode GetNode(String name);
+
+        /// <summary>
+        /// Gets the graph element for the given name.
+        /// </summary>
+        /// <param name="name">The name of an edge.</param>
+        /// <returns>The edge for the given name or null, if there is no edge with this name.</returns>
+        IEdge GetEdge(String name);
 
 
         /// <summary>

@@ -1,0 +1,30 @@
+rule rn : (Node)
+{
+	-e:Edge->;
+	if { nodeByName("$0")==source(e); }
+	if { nameof(nodeByName("$0"))=="$0"; }
+	
+	modify {
+		def n:Node;
+		eval {
+			yield n = nodeByName("$42");
+		}
+		return(nodeByName("$0"));
+	}
+}
+
+rule re : (Edge)
+{
+	-e:Edge->;
+	if { edgeByName("$0")==e; }
+	if { nameof(edgeByName("$0"))=="$0"; }
+	
+	modify {
+		def -n:Edge->;
+		eval {
+			yield n = edgeByName("$42");
+		}
+		return(edgeByName("$0"));
+	}
+}
+

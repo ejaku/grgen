@@ -2856,6 +2856,18 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, o.getNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof NodeByNameExpr) {
+			NodeByNameExpr nbn = (NodeByNameExpr) expr;
+			sb.append("new GRGEN_EXPR.NodeByName(");
+			genExpressionTree(sb, nbn.getNameExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof EdgeByNameExpr) {
+			EdgeByNameExpr ebn = (EdgeByNameExpr) expr;
+			sb.append("new GRGEN_EXPR.EdgeByName(");
+			genExpressionTree(sb, ebn.getNameExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr ie = (IncidentEdgeExpr) expr;
 			if(ie.Direction()==IncidentEdgeExpr.OUTGOING) {
