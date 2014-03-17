@@ -353,9 +353,19 @@ namespace de.unika.ipd.grGen.libGr
         IEnumerable<ValidateInfo> ValidateInfo { get; }
 
         /// <summary>
-        /// Enumerates the descriptions of all indices declared in this model.
+        /// Enumerates the descriptions of all attribute and incidence count indices declared in this model.
         /// </summary>
         IEnumerable<IndexDescription> IndexDescriptions { get; }
+
+        /// <summary>
+        /// If true you may query the graph elements with GetUniqueId for their unique id
+        /// </summary>
+        bool GraphElementUniquenessIsEnsured { get; }
+
+        /// <summary>
+        /// If true you may query the graph with GetGraphElement for a graph element of a given unique id
+        /// </summary>
+        bool GraphElementsAreAccessibleByUniqueId { get; }
 
 
         #region Emitting and parsing of attributes of object or a user defined type

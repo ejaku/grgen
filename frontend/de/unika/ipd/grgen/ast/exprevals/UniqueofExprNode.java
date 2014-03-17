@@ -36,7 +36,8 @@ public class UniqueofExprNode extends ExprNode {
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(entity);
+		if(entity!=null) 
+			children.add(entity);
 		return children;
 	}
 
@@ -44,7 +45,8 @@ public class UniqueofExprNode extends ExprNode {
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("entity");
+		if(entity!=null) 
+			childrenNames.add("entity");
 		return childrenNames;
 	}
 
@@ -54,6 +56,9 @@ public class UniqueofExprNode extends ExprNode {
 	@Override
 	protected boolean checkLocal() {
 		if(entity != null) {
+			if(entity.getType().isEqual(BasicTypeNode.graphType)) {
+				return true;
+			} 
 			if(entity.getType() instanceof EdgeTypeNode) {
 				return true;
 			}
@@ -61,7 +66,7 @@ public class UniqueofExprNode extends ExprNode {
 				return true;
 			}
 
-			reportError("uniqueof(.) expects an entity of node or edge type");
+			reportError("uniqueof(.) expects an entity of node or edge or subgraph type");
 			return false;
 		}
 		return true;
@@ -69,6 +74,9 @@ public class UniqueofExprNode extends ExprNode {
 
 	@Override
 	protected IR constructIR() {
+		if(entity==null) {
+			return new Uniqueof(null, getType().getType());
+		}
 		return new Uniqueof(entity.checkIR(Expression.class), getType().getType());
 	}
 
@@ -78,6 +86,9 @@ public class UniqueofExprNode extends ExprNode {
 	}
 	
 	public boolean noDefElementInCondition() {
-		return entity.noDefElementInCondition();
+		if(entity!=null)
+			return entity.noDefElementInCondition();
+		else
+			return true;
 	}
 }

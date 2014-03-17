@@ -862,13 +862,23 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof Uniqueof) {
 			Uniqueof no = (Uniqueof) expr;
-        	sb.append("(");
-        	if(no.getEntity().getType() instanceof NodeType)
-        		sb.append("(GRGEN_LGSP.LGSPNode)");
-        	else
-        		sb.append("(GRGEN_LGSP.LGSPEdge)");
-			genExpression(sb, no.getEntity(), modifyGenerationState); // unique id of entity
-			sb.append(").uniqueId");
+			if(no.getEntity()==null)
+				sb.append("((GRGEN_LGSP.LGSPGraph)graph).GraphID");
+			else
+			{
+	        	sb.append("(");
+	        	if(no.getEntity().getType() instanceof NodeType)
+	        		sb.append("(GRGEN_LGSP.LGSPNode)");
+	        	else if(no.getEntity().getType() instanceof EdgeType)
+	        		sb.append("(GRGEN_LGSP.LGSPEdge)");
+	        	else
+	        		sb.append("(GRGEN_LGSP.LGSPGraph)");
+				genExpression(sb, no.getEntity(), modifyGenerationState); // unique id of entity
+				if(no.getEntity().getType() instanceof GraphType)
+					sb.append(").GraphID");
+				else
+					sb.append(").uniqueId");
+			}
 		}
 		else if(expr instanceof ExistsFileExpr) {
 			ExistsFileExpr efe = (ExistsFileExpr) expr;
@@ -1511,6 +1521,18 @@ public abstract class CSharpBase {
 			EdgeByNameExpr ebn = (EdgeByNameExpr) expr;
 			sb.append("((GRGEN_LIBGR.INamedGraph)graph).GetEdge(");
 			genExpression(sb, ebn.getNameExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof NodeByUniqueExpr) {
+			NodeByUniqueExpr nbu = (NodeByUniqueExpr) expr;
+			sb.append("graph.GetNode(");
+			genExpression(sb, nbu.getUniqueExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof EdgeByUniqueExpr) {
+			EdgeByUniqueExpr ebu = (EdgeByUniqueExpr) expr;
+			sb.append("graph.GetEdge(");
+			genExpression(sb, ebu.getUniqueExpr(), modifyGenerationState);
 			sb.append(")");
 		}
 		else if (expr instanceof IncidentEdgeExpr) {

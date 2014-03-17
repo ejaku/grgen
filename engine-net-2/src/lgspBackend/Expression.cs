@@ -1489,26 +1489,42 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Uniqueof : Expression
     {
-        public Uniqueof(Expression entity, bool isNode)
+        public Uniqueof(Expression entity, bool isNode, bool isGraph)
         {
             Entity = entity;
             IsNode = isNode;
+            IsGraph = isGraph;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Uniqueof(Entity.Copy(renameSuffix), IsNode);
+            if(Entity != null)
+                return new Uniqueof(Entity.Copy(renameSuffix), IsNode, IsGraph);
+            else
+                return new Uniqueof(null, IsNode, IsGraph);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("(");
-            if(IsNode)
-                sourceCode.Append("(GRGEN_LGSP.LGSPNode)");
+            if(Entity == null)
+            {
+                sourceCode.Append("((GRGEN_LGSP.LGSPGraph)graph).GraphID");
+            }
             else
-                sourceCode.Append("(GRGEN_LGSP.LGSPEdge)");
-            Entity.Emit(sourceCode);
-            sourceCode.Append(").uniqueId");
+            {
+                sourceCode.Append("(");
+                if(IsNode && !IsGraph)
+                    sourceCode.Append("(GRGEN_LGSP.LGSPNode)");
+                else if(!IsNode && !IsGraph)
+                    sourceCode.Append("(GRGEN_LGSP.LGSPEdge)");
+                else
+                    sourceCode.Append("(GRGEN_LGSP.LGSPGraph)");
+                Entity.Emit(sourceCode);
+                if(IsGraph)
+                    sourceCode.Append(").GraphID");
+                else
+                    sourceCode.Append(").uniqueId");
+            }
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -1518,6 +1534,7 @@ namespace de.unika.ipd.grGen.expression
 
         Expression Entity;
         bool IsNode;
+        bool IsGraph;
     }
 
     /// <summary>
@@ -3700,6 +3717,56 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Name;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the node for a unique id(or null)
+    /// </summary>
+    public class NodeByUnique : Expression
+    {
+        public NodeByUnique(Expression unique)
+        {
+            Unique = unique;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new NodeByUnique(Unique.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("graph.GetNode(");
+            Unique.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Unique;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the edge for a unique id(or null)
+    /// </summary>
+    public class EdgeByUnique : Expression
+    {
+        public EdgeByUnique(Expression unique)
+        {
+            Unique = unique;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new EdgeByUnique(Unique.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("graph.GetEdge(");
+            Unique.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Unique;
     }
 
     /// <summary>

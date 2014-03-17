@@ -1499,6 +1499,8 @@ public class ActionsGen extends CSharpBase {
 						pathPrefixForElements, node, parameters);
 				genNameLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
 						pathPrefixForElements, node, parameters);
+				genUniqueLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
+						pathPrefixForElements, node, parameters);
 				sb.append((node instanceof RetypedNode ? formatEntity(((RetypedNode)node).getOldNode(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
 				sb.append(node.isDefToBeYieldedTo() ? "true," : "false,");
 				if(node.initialization!=null) {
@@ -1540,6 +1542,8 @@ public class ActionsGen extends CSharpBase {
 				genIndexAccess(sb, pathPrefix, className, alreadyDefinedEntityToName,
 						pathPrefixForElements, edge, parameters);
 				genNameLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
+						pathPrefixForElements, edge, parameters);
+				genUniqueLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
 						pathPrefixForElements, edge, parameters);
 				sb.append((edge instanceof RetypedEdge ? formatEntity(((RetypedEdge)edge).getOldEdge(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
 				sb.append(edge.isDefToBeYieldedTo() ? "true," : "false,");
@@ -1811,6 +1815,24 @@ public class ActionsGen extends CSharpBase {
 			sb.append(neededEntity!=null ? formatEntity(neededEntity, pathPrefix, alreadyDefinedEntityToName) + ", " : "null, ");
 			sb.append(!needs.variables.isEmpty() ? "true, " : "false, ");
 			genExpressionTree(sb, nameMapAccess.expr, className, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append("), ");
+		} else {
+			sb.append("null, ");
+		}		
+	}
+
+	private void genUniqueLookup(StringBuffer sb, String pathPrefix, 
+			String className, HashMap<Entity, String> alreadyDefinedEntityToName,
+			String pathPrefixForElements, GraphEntity entity, List<Entity> parameters) {
+		if(entity.uniqueIndexAccess!=null) {
+			UniqueLookup uniqueIndexAccess = entity.uniqueIndexAccess;
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+			uniqueIndexAccess.expr.collectNeededEntities(needs);
+			Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs, parameters);
+			sb.append("new GRGEN_LGSP.UniqueLookup(");
+			sb.append(neededEntity!=null ? formatEntity(neededEntity, pathPrefix, alreadyDefinedEntityToName) + ", " : "null, ");
+			sb.append(!needs.variables.isEmpty() ? "true, " : "false, ");
+			genExpressionTree(sb, uniqueIndexAccess.expr, className, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append("), ");
 		} else {
 			sb.append("null, ");
@@ -2326,11 +2348,16 @@ public class ActionsGen extends CSharpBase {
 		else if(expr instanceof Uniqueof) {
 			Uniqueof uo = (Uniqueof) expr;
 			sb.append("new GRGEN_EXPR.Uniqueof(");
-			genExpressionTree(sb, uo.getEntity(), className, pathPrefix, alreadyDefinedEntityToName);
-			if(uo.getEntity().getType() instanceof NodeType)
-				sb.append(", true");
+			if(uo.getEntity()!=null)
+				genExpressionTree(sb, uo.getEntity(), className, pathPrefix, alreadyDefinedEntityToName);
 			else
-				sb.append(", false");	
+				sb.append("null");
+			if(uo.getEntity().getType() instanceof NodeType)
+				sb.append(", true, false");
+			else if(uo.getEntity().getType() instanceof EdgeType)
+				sb.append(", false, false");	
+			else
+				sb.append(", false, true");					
 			sb.append(")");
 		}
 		else if(expr instanceof ExistsFileExpr) {
@@ -2863,6 +2890,18 @@ public class ActionsGen extends CSharpBase {
 			sb.append(")");
 		}
 		else if (expr instanceof EdgeByNameExpr) {
+			EdgeByUniqueExpr ebu = (EdgeByUniqueExpr) expr;
+			sb.append("new GRGEN_EXPR.EdgeByUnique(");
+			genExpressionTree(sb, ebu.getUniqueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof NodeByUniqueExpr) {
+			NodeByUniqueExpr nbu = (NodeByUniqueExpr) expr;
+			sb.append("new GRGEN_EXPR.NodeByUnique(");
+			genExpressionTree(sb, nbu.getUniqueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof EdgeByUniqueExpr) {
 			EdgeByNameExpr ebn = (EdgeByNameExpr) expr;
 			sb.append("new GRGEN_EXPR.EdgeByName(");
 			genExpressionTree(sb, ebn.getNameExpr(), className, pathPrefix, alreadyDefinedEntityToName);

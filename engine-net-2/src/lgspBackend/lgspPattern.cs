@@ -709,6 +709,8 @@ namespace de.unika.ipd.grGen.lgsp
                     node.IndexAccess.PatchUsersOfCopiedElements(renameSuffix, nodeToCopy, edgeToCopy);
                 if(node.NameLookup != null)
                     node.NameLookup.PatchUsersOfCopiedElements(renameSuffix, nodeToCopy, edgeToCopy);
+                if(node.UniqueLookup != null)
+                    node.UniqueLookup.PatchUsersOfCopiedElements(renameSuffix, nodeToCopy, edgeToCopy);
                 if(node.ElementBeforeCasting is PatternNode)
                 {
                     if(node.ElementBeforeCasting!=null && nodeToCopy.ContainsKey((PatternNode)node.ElementBeforeCasting))
@@ -730,6 +732,8 @@ namespace de.unika.ipd.grGen.lgsp
                     edge.IndexAccess.PatchUsersOfCopiedElements(renameSuffix, nodeToCopy, edgeToCopy);
                 if(edge.NameLookup != null)
                     edge.NameLookup.PatchUsersOfCopiedElements(renameSuffix, nodeToCopy, edgeToCopy);
+                if(edge.UniqueLookup != null)
+                    edge.UniqueLookup.PatchUsersOfCopiedElements(renameSuffix, nodeToCopy, edgeToCopy);
                 if(edge.ElementBeforeCasting is PatternNode)
                 {
                     if(edge.ElementBeforeCasting!=null && nodeToCopy.ContainsKey((PatternNode)edge.ElementBeforeCasting))

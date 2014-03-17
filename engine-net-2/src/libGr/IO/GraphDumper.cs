@@ -100,6 +100,7 @@ namespace de.unika.ipd.grGen.libGr
         public NodeType Type { get { return VirtualNodeType.Instance; } }
         GrGenType IGraphElement.Type { get { return VirtualNodeType.Instance; } }
         public bool InstanceOf(GrGenType type) { return type is VirtualNodeType; }
+        public int GetUniqueId() { return 0; }
 
         public object GetAttribute(String attrName)
         { throw new NotSupportedException("Get attribute not supported on virtual node!"); }

@@ -28,6 +28,8 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract IEnumerable<EnumAttributeType> EnumAttributeTypes { get; }
         public abstract IEnumerable<ValidateInfo> ValidateInfo { get; }
         public abstract IEnumerable<IndexDescription> IndexDescriptions { get; }
+        public abstract bool GraphElementUniquenessIsEnsured { get; }
+        public abstract bool GraphElementsAreAccessibleByUniqueId { get; }
 
         /// <summary>
         /// Called by the graph (generic implementation) to create and bind its index set (generated code).

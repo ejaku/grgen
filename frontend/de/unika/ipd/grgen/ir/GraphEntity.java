@@ -49,6 +49,9 @@ public abstract class GraphEntity extends Entity {
 	/** The name map access used to get the node or edge, if any (i.e. not null)*/
 	public NameLookup nameMapAccess = null;
 
+	/** The unique index access used to get the node or edge, if any (i.e. not null)*/
+	public UniqueLookup uniqueIndexAccess = null;
+
 	protected Collection<? extends InheritanceType> constraints = Collections.emptySet();
 
 	private boolean maybeDeleted;
@@ -195,6 +198,10 @@ public abstract class GraphEntity extends Entity {
 
 	public void setNameMapAccess(NameLookup nameMapAccess) {
 		this.nameMapAccess = nameMapAccess;
+	}
+
+	public void setUniqueIndexAccess(UniqueLookup uniqueIndexAccess) {
+		this.uniqueIndexAccess = uniqueIndexAccess;
 	}
 
 	public void setInitialization(Expression initialization) {

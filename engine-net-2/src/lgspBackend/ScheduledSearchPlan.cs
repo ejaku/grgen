@@ -140,6 +140,7 @@ namespace de.unika.ipd.grGen.lgsp
         public StorageAccessIndex StorageIndex; // set for storage access with index
         public IndexAccess IndexAccess; // set for index access
         public NameLookup NameLookup; // set for name lookup
+        public UniqueLookup UniqueLookup; // set for unique lookup
 
         public expression.Expression Expression; // set for inlined assignments, for initializations of defs
 
@@ -166,6 +167,7 @@ namespace de.unika.ipd.grGen.lgsp
             so.StorageIndex = StorageIndex;
             so.IndexAccess = IndexAccess;
             so.NameLookup = NameLookup;
+            so.UniqueLookup = UniqueLookup;
             so.Expression = Expression;
             return so;
         }
@@ -254,6 +256,10 @@ namespace de.unika.ipd.grGen.lgsp
                 case SearchOperationType.PickByName:
                 case SearchOperationType.PickByNameDependent:
                     sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + NameLookup.ToString() + "}");
+                    break;
+                case SearchOperationType.PickByUnique:
+                case SearchOperationType.PickByUniqueDependent:
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + UniqueLookup.ToString() + "}");
                     break;
                 case SearchOperationType.Cast:
                     sb.AppendFront(tgt.PatternElement.UnprefixedName + "<" + src.PatternElement.UnprefixedName + ">");
