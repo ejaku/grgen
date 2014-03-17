@@ -228,6 +228,24 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 		}
+		else if(functionName.equals("nodeByName")) {			
+			if(params.size() == 1) {
+				result = new NodeByNameExprNode(getCoords(), params.get(0), env.getNodeRoot());
+			}
+			else {
+				reportError(functionName + "() takes 1 parameter.");
+				return false;
+			}
+		}
+		else if(functionName.equals("edgeByName")) {			
+			if(params.size() == 1) {
+				result = new EdgeByNameExprNode(getCoords(), params.get(0), env.getDirectedEdgeRoot());
+			}
+			else {
+				reportError(functionName + "() takes 1 parameter.");
+				return false;
+			}
+		}
 		else if(functionName.equals("incoming")
 				|| functionName.equals("outgoing")
 				|| functionName.equals("incident")) {

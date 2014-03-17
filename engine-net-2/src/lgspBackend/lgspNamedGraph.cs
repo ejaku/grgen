@@ -360,6 +360,20 @@ namespace de.unika.ipd.grGen.lgsp
             return elem;
         }
 
+        public INode GetNode(String name)
+        {
+            IGraphElement elem;
+            if(!NameToElem.TryGetValue(name, out elem)) return null;
+            return elem as INode;
+        }
+
+        public IEdge GetEdge(String name)
+        {
+            IGraphElement elem;
+            if(!NameToElem.TryGetValue(name, out elem)) return null;
+            return elem as IEdge;
+        }
+
         /// <summary>
         /// Tries to set the name of an element.
         /// If the name is already used by another element, the element is removed from the graph and

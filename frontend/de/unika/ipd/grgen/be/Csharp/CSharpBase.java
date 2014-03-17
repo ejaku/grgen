@@ -1501,6 +1501,18 @@ public abstract class CSharpBase {
 			genExpression(sb, o.getNodeExpr(), modifyGenerationState);
 			sb.append("))");
 		}
+		else if (expr instanceof NodeByNameExpr) {
+			NodeByNameExpr nbn = (NodeByNameExpr) expr;
+			sb.append("((GRGEN_LIBGR.INamedGraph)graph).GetNode(");
+			genExpression(sb, nbn.getNameExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof EdgeByNameExpr) {
+			EdgeByNameExpr ebn = (EdgeByNameExpr) expr;
+			sb.append("((GRGEN_LIBGR.INamedGraph)graph).GetEdge(");
+			genExpression(sb, ebn.getNameExpr(), modifyGenerationState);
+			sb.append(")");
+		}
 		else if (expr instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr ie = (IncidentEdgeExpr) expr;
 			if(ie.Direction()==IncidentEdgeExpr.OUTGOING) {
