@@ -492,6 +492,45 @@ namespace de.unika.ipd.grGen.libGr
         #endregion Visited flags management
 
 
+        #region Visited flag for internal use management
+
+        /// <summary>
+        /// Sets the internal-use visited flag of the given graph element.
+        /// (Used for computing reachability.)
+        /// </summary>
+        /// <param name="elem">The graph element whose flag is to be set.</param>
+        /// <param name="visited">True for visited, false for not visited.</param>
+        void SetInternallyVisited(IGraphElement elem, bool visited);
+
+        /// <summary>
+        /// Returns whether the given graph element has been internally visited.
+        /// (Used for computing reachability.)
+        /// </summary>
+        /// <param name="elem">The graph element whose flag is to be retrieved.</param>
+        /// <returns>True for visited, false for not visited.</returns>
+        bool IsInternallyVisited(IGraphElement elem);
+
+        /// <summary>
+        /// Sets the internal-use visited flag of the given graph element.
+        /// (Used for computing reachability when employed from a parallelized matcher executed by the thread pool.)
+        /// </summary>
+        /// <param name="elem">The graph element whose flag is to be set.</param>
+        /// <param name="visited">True for visited, false for not visited.</param>
+        /// <param name="threadId">The id of the thread which marks the graph element.</param>
+        void SetInternallyVisited(IGraphElement elem, bool visited, int threadId);
+
+        /// <summary>
+        /// Returns whether the given graph element has been internally visited.
+        /// (Used for computing reachability when employed from a parallelized matcher executed by the thread pool.)
+        /// </summary>
+        /// <param name="elem">The graph element whose flag is to be retrieved.</param>
+        /// <param name="threadId">The id of the thread which queries the marking of the graph element.</param>
+        /// <returns>True for visited, false for not visited.</returns>
+        bool IsInternallyVisited(IGraphElement elem, int threadId);
+
+        #endregion Visited flag for internal use management
+
+
         #region Events
 
         /// <summary>

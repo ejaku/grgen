@@ -104,6 +104,11 @@ namespace de.unika.ipd.grGen.libGr
         public abstract bool IsVisited(IGraphElement elem, int visitorID);
         public abstract List<int> GetAllocatedVisitedFlags();
 
+        public abstract void SetInternallyVisited(IGraphElement elem, bool visited);
+        public abstract bool IsInternallyVisited(IGraphElement elem);
+        public abstract void SetInternallyVisited(IGraphElement elem, bool visited, int threadId);
+        public abstract bool IsInternallyVisited(IGraphElement elem, int threadId);
+
 
         #region Events
 

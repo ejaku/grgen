@@ -103,9 +103,9 @@ namespace de.unika.ipd.grGen.libGr
         public int GetUniqueId() { return 0; }
 
         public object GetAttribute(String attrName)
-        { throw new NotSupportedException("Get attribute not supported on virtual node!"); }
+        { throw new NotImplementedException("Get attribute not supported on virtual node!"); }
         public void SetAttribute(String attrName, object value)
-        { throw new NotSupportedException("Set attribute not supported on virtual node!"); }
+        { throw new NotImplementedException("Set attribute not supported on virtual node!"); }
 
         // TODO: Do we need to support this for other dumpers???
         public IEnumerable<IEdge> Outgoing { get { yield break; } }
@@ -119,44 +119,28 @@ namespace de.unika.ipd.grGen.libGr
         public IEnumerable<IEdge> GetExactIncident(EdgeType edgeType) { yield break; }
 
         public INode Clone()
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
+        { throw new NotImplementedException("The method or operation is not implemented."); }
 
         public bool AreAttributesEqual(IGraphElement that)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
+        { throw new NotImplementedException("The method or operation is not implemented."); }
 
         public void ResetAllAttributes()
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
+        { throw new NotImplementedException("The method or operation is not implemented."); }
 
         public INode ReplacedByNode
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
+        { get { throw new NotImplementedException("The method or operation is not implemented."); } }
 
         public bool Valid
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
+        { get { throw new NotImplementedException("The method or operation is not implemented."); } }
 
 		public IGraphElement ReplacedByElement
-		{
-			get { throw new Exception("The method or operation is not implemented."); }
-		}
+		{ get { throw new NotImplementedException("The method or operation is not implemented."); } }
 
         public object ApplyFunctionMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments)
-		{
-			throw new Exception("The method or operation is not implemented.");
-		}
+		{ throw new NotImplementedException("The method or operation is not implemented."); }
 
         public object[] ApplyProcedureMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments)
-		{
-			throw new Exception("The method or operation is not implemented.");
-		}
+		{ throw new NotImplementedException("The method or operation is not implemented."); }
     }
 
     internal class DumpContext

@@ -1474,6 +1474,97 @@ namespace de.unika.ipd.grGen.lgsp
         #endregion Visited flags management
 
 
+        #region Visited flag for internal use management
+
+        /// <summary>
+        /// Sets the internal-use visited flag of the given graph element.
+        /// (Used for computing reachability.)
+        /// </summary>
+        /// <param name="elem">The graph element whose flag is to be set.</param>
+        /// <param name="visited">True for visited, false for not visited.</param>
+        public override void SetInternallyVisited(IGraphElement elem, bool visited)
+        {
+            LGSPNode node = elem as LGSPNode;
+            if(visited)
+            {
+                if(node != null)
+                    node.lgspFlags |= (uint)LGSPElemFlags.IS_VISITED_INTERNALLY;
+                else
+                    (elem as LGSPEdge).lgspFlags |= (uint)LGSPElemFlags.IS_VISITED_INTERNALLY;
+            }
+            else
+            {
+                if(node != null)
+                    node.lgspFlags &= ~(uint)LGSPElemFlags.IS_VISITED_INTERNALLY;
+                else
+                    (elem as LGSPEdge).lgspFlags &= ~(uint)LGSPElemFlags.IS_VISITED_INTERNALLY;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the given graph element has been internally visited.
+        /// (Used for computing reachability.)
+        /// </summary>
+        /// <param name="elem">The graph element whose flag is to be retrieved.</param>
+        /// <returns>True for visited, false for not visited.</returns>
+        public override bool IsInternallyVisited(IGraphElement elem)
+        {
+            LGSPNode node = elem as LGSPNode;
+            if(node != null)
+                return (node.lgspFlags & (uint)LGSPElemFlags.IS_VISITED_INTERNALLY) == (uint)LGSPElemFlags.IS_VISITED_INTERNALLY;
+            else
+                return ((elem as LGSPEdge).lgspFlags & (uint)LGSPElemFlags.IS_VISITED_INTERNALLY) == (uint)LGSPElemFlags.IS_VISITED_INTERNALLY;
+        }
+
+        /// <summary>
+        /// Sets the internal-use visited flag of the given graph element.
+        /// (Used for computing reachability when employed from a parallelized matcher executed by the thread pool.)
+        /// </summary>
+        /// <param name="elem">The graph element whose flag is to be set.</param>
+        /// <param name="visited">True for visited, false for not visited.</param>
+        /// <param name="threadId">The id of the thread which marks the graph element.</param>
+        public override void SetInternallyVisited(IGraphElement elem, bool visited, int threadId)
+        {
+            List<ushort> flagsPerElement = flagsPerThreadPerElement[threadId];
+            LGSPNode node = elem as LGSPNode;
+            if(visited)
+            {
+                if(node != null)
+                    flagsPerElement[node.uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
+                else
+                    flagsPerElement[(elem as LGSPEdge).uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
+            }
+            else
+            {
+                if(node != null)
+                    flagsPerElement[node.uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
+                else
+                {
+                    flagsPerElement[(elem as LGSPEdge).uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the given graph element has been internally visited.
+        /// (Used for computing reachability when employed from a parallelized matcher executed by the thread pool.)
+        /// </summary>
+        /// <param name="elem">The graph element whose flag is to be retrieved.</param>
+        /// <param name="threadId">The id of the thread which queries the marking of the graph element.</param>
+        /// <returns>True for visited, false for not visited.</returns>
+        public override bool IsInternallyVisited(IGraphElement elem, int threadId)
+        {
+            List<ushort> flagsPerElement = flagsPerThreadPerElement[threadId];
+            LGSPNode node = elem as LGSPNode;
+            if(node != null)
+                return (flagsPerElement[node.uniqueId] & (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY) == (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
+            else
+                return (flagsPerElement[(elem as LGSPEdge).uniqueId] & (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY) == (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
+        }
+
+        #endregion Visited flag for internal use management
+
+
         /// <summary>
         /// Checks if the matching state flags in the graph are not set, as they should be in case no matching is undereway
         /// </summary>
