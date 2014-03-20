@@ -2890,9 +2890,9 @@ public class ActionsGen extends CSharpBase {
 			sb.append(")");
 		}
 		else if (expr instanceof EdgeByNameExpr) {
-			EdgeByUniqueExpr ebu = (EdgeByUniqueExpr) expr;
-			sb.append("new GRGEN_EXPR.EdgeByUnique(");
-			genExpressionTree(sb, ebu.getUniqueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			EdgeByNameExpr ebn = (EdgeByNameExpr) expr;
+			sb.append("new GRGEN_EXPR.EdgeByName(");
+			genExpressionTree(sb, ebn.getNameExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof NodeByUniqueExpr) {
@@ -2902,9 +2902,9 @@ public class ActionsGen extends CSharpBase {
 			sb.append(")");
 		}
 		else if (expr instanceof EdgeByUniqueExpr) {
-			EdgeByNameExpr ebn = (EdgeByNameExpr) expr;
-			sb.append("new GRGEN_EXPR.EdgeByName(");
-			genExpressionTree(sb, ebn.getNameExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			EdgeByUniqueExpr ebu = (EdgeByUniqueExpr) expr;
+			sb.append("new GRGEN_EXPR.EdgeByUnique(");
+			genExpressionTree(sb, ebu.getUniqueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof IncidentEdgeExpr) {
