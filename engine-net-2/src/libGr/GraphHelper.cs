@@ -254,45 +254,43 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static Dictionary<IEdge, SetValueType> ReachableEdges(IGraph graph, INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
         {
-            int flag = graph.AllocateVisitedFlag();
             Dictionary<IEdge, SetValueType> incidentEdgesSet = new Dictionary<IEdge, SetValueType>();
-            ReachableEdges(startNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, flag);
+            ReachableEdges(startNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph);
             foreach(KeyValuePair<IEdge, SetValueType> kvp in incidentEdgesSet)
             {
                 IEdge edge = kvp.Key;
-                graph.SetVisited(edge.Source, flag, false);
-                graph.SetVisited(edge.Target, flag, false);
+                graph.SetInternallyVisited(edge.Source, false);
+                graph.SetInternallyVisited(edge.Target, false);
             }
-            graph.FreeVisitedFlagNonReset(flag);
             return incidentEdgesSet;
         }
 
         /// <summary>
         /// Fills set of edges reachable from the start node, under the type constraints given, in a depth-first walk
         /// </summary>
-        private static void ReachableEdges(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<IEdge, SetValueType> incidentEdgesSet, IGraph graph, int flag)
+        private static void ReachableEdges(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<IEdge, SetValueType> incidentEdgesSet, IGraph graph)
         {
             foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
             {
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 incidentEdgesSet[edge] = null;
-                ReachableEdges(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, flag);
+                ReachableEdges(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph);
             }
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 incidentEdgesSet[edge] = null;
-                ReachableEdges(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, flag);
+                ReachableEdges(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph);
             }
         }
 
@@ -301,34 +299,32 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static Dictionary<IEdge, SetValueType> ReachableEdgesOutgoing(IGraph graph, INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
         {
-            int flag = graph.AllocateVisitedFlag();
             Dictionary<IEdge, SetValueType> outgoingEdgesSet = new Dictionary<IEdge, SetValueType>();
-            ReachableEdgesOutgoing(startNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, flag);
+            ReachableEdgesOutgoing(startNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph);
             foreach(KeyValuePair<IEdge, SetValueType> kvp in outgoingEdgesSet)
             {
                 IEdge edge = kvp.Key;
-                graph.SetVisited(edge.Source, flag, false);
-                graph.SetVisited(edge.Target, flag, false);
+                graph.SetInternallyVisited(edge.Source, false);
+                graph.SetInternallyVisited(edge.Target, false);
             }
-            graph.FreeVisitedFlagNonReset(flag);
             return outgoingEdgesSet;
         }
 
         /// <summary>
         /// Fills set of outgoing edges reachable from the start node, under the type constraints given, in a depth-first walk
         /// </summary>
-        private static void ReachableEdgesOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, Dictionary<IEdge, SetValueType> outgoingEdgesSet, IGraph graph, int flag)
+        private static void ReachableEdgesOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, Dictionary<IEdge, SetValueType> outgoingEdgesSet, IGraph graph)
         {
             foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
             {
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 outgoingEdgesSet[edge] = null;
-                ReachableEdgesOutgoing(adjacentNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, flag);
+                ReachableEdgesOutgoing(adjacentNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph);
             }
         }
 
@@ -337,34 +333,32 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static Dictionary<IEdge, SetValueType> ReachableEdgesIncoming(IGraph graph, INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
         {
-            int flag = graph.AllocateVisitedFlag();
             Dictionary<IEdge, SetValueType> incomingEdgesSet = new Dictionary<IEdge, SetValueType>();
-            ReachableEdgesIncoming(startNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, flag);
+            ReachableEdgesIncoming(startNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph);
             foreach(KeyValuePair<IEdge, SetValueType> kvp in incomingEdgesSet)
             {
                 IEdge edge = kvp.Key;
-                graph.SetVisited(edge.Source, flag, false);
-                graph.SetVisited(edge.Target, flag, false);
+                graph.SetInternallyVisited(edge.Source, false);
+                graph.SetInternallyVisited(edge.Target, false);
             }
-            graph.FreeVisitedFlagNonReset(flag);
             return incomingEdgesSet;
         }
 
         /// <summary>
         /// Fills set of incoming edges reachable from the start node, under the type constraints given, in a depth-first walk
         /// </summary>
-        private static void ReachableEdgesIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<IEdge, SetValueType> incomingEdgesSet, IGraph graph, int flag)
+        private static void ReachableEdgesIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<IEdge, SetValueType> incomingEdgesSet, IGraph graph)
         {
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
             {
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 incomingEdgesSet[edge] = null;
-                ReachableEdgesIncoming(adjacentNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, flag);
+                ReachableEdgesIncoming(adjacentNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph);
             }
         }
 
@@ -491,19 +485,17 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static bool IsReachable(IGraph graph, INode startNode, INode endNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
         {
-            int flag = graph.AllocateVisitedFlag();
             List<INode> visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
-            bool result = IsReachable(startNode, endNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes);
+            bool result = IsReachable(startNode, endNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes);
             for(int i = 0; i < visitedNodes.Count; ++i)
-                graph.SetVisited(visitedNodes[i], flag, false);
-            graph.FreeVisitedFlagNonReset(flag);
+                graph.SetInternallyVisited(visitedNodes[i], false);
             return result;
         }
 
         /// <summary>
         /// Returns whether the end node is reachable from the start node, under the type constraints given
         /// </summary>
-        private static bool IsReachable(INode startNode, INode endNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int flag, List<INode> visitedNodes)
+        private static bool IsReachable(INode startNode, INode endNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, List<INode> visitedNodes)
         {
             bool result = false;
 
@@ -512,13 +504,13 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
                 if(edge.Target == endNode)
                     return true;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedNodes.Add(adjacentNode);
-                result = IsReachable(adjacentNode, endNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes);
+                result = IsReachable(adjacentNode, endNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes);
                 if(result == true)
                     break;
             }
@@ -530,13 +522,13 @@ namespace de.unika.ipd.grGen.libGr
                     INode adjacentNode = edge.Source;
                     if(!adjacentNode.InstanceOf(adjacentNodeType))
                         continue;
-                    if(graph.IsVisited(adjacentNode, flag))
+                    if(graph.IsInternallyVisited(adjacentNode))
                         continue;
                     if(edge.Source == endNode)
                         return true;
-                    graph.SetVisited(adjacentNode, flag, true);
+                    graph.SetInternallyVisited(adjacentNode, true);
                     visitedNodes.Add(adjacentNode);
-                    result = IsReachable(adjacentNode, endNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes);
+                    result = IsReachable(adjacentNode, endNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes);
                     if(result == true)
                         break;
                 }
@@ -550,19 +542,17 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static bool IsReachableOutgoing(IGraph graph, INode startNode, INode endNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
         {
-            int flag = graph.AllocateVisitedFlag();
             List<INode> visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
-            bool result = IsReachableOutgoing(startNode, endNode, outgoingEdgeType, targetNodeType, graph, flag, visitedNodes);
+            bool result = IsReachableOutgoing(startNode, endNode, outgoingEdgeType, targetNodeType, graph, visitedNodes);
             for(int i = 0; i < visitedNodes.Count; ++i)
-                graph.SetVisited(visitedNodes[i], flag, false);
-            graph.FreeVisitedFlagNonReset(flag);
+                graph.SetInternallyVisited(visitedNodes[i], false);
             return result;
         }
 
         /// <summary>
         /// Returns whether the end node is reachable from the start node, via outgoing edges, under the type constraints given
         /// </summary>
-        private static bool IsReachableOutgoing(INode startNode, INode endNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IGraph graph, int flag, List<INode> visitedNodes)
+        private static bool IsReachableOutgoing(INode startNode, INode endNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IGraph graph, List<INode> visitedNodes)
         {
             bool result = false;
 
@@ -571,13 +561,13 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
                 if(edge.Target == endNode)
                     return true;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedNodes.Add(adjacentNode);
-                result = IsReachableOutgoing(adjacentNode, endNode, outgoingEdgeType, targetNodeType, graph, flag, visitedNodes);
+                result = IsReachableOutgoing(adjacentNode, endNode, outgoingEdgeType, targetNodeType, graph, visitedNodes);
                 if(result == true)
                     break;
             }
@@ -590,19 +580,17 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static bool IsReachableIncoming(IGraph graph, INode startNode, INode endNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
         {
-            int flag = graph.AllocateVisitedFlag();
             List<INode> visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
-            bool result = IsReachableIncoming(startNode, endNode, incomingEdgeType, sourceNodeType, graph, flag, visitedNodes);
+            bool result = IsReachableIncoming(startNode, endNode, incomingEdgeType, sourceNodeType, graph, visitedNodes);
             for(int i = 0; i < visitedNodes.Count; ++i)
-                graph.SetVisited(visitedNodes[i], flag, false);
-            graph.FreeVisitedFlagNonReset(flag);
+                graph.SetInternallyVisited(visitedNodes[i], false);
             return result;
         }
 
         /// <summary>
         /// Returns whether the end node is reachable from the start node, via incoming edges, under the type constraints given
         /// </summary>
-        private static bool IsReachableIncoming(INode startNode, INode endNode, EdgeType incomingEdgeType, NodeType sourceNodeType, IGraph graph, int flag, List<INode> visitedNodes)
+        private static bool IsReachableIncoming(INode startNode, INode endNode, EdgeType incomingEdgeType, NodeType sourceNodeType, IGraph graph, List<INode> visitedNodes)
         {
             bool result = false;
 
@@ -611,13 +599,13 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
                 if(edge.Source == endNode)
                     return true;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedNodes.Add(adjacentNode);
-                result = IsReachableIncoming(adjacentNode, endNode, incomingEdgeType, sourceNodeType, graph, flag, visitedNodes);
+                result = IsReachableIncoming(adjacentNode, endNode, incomingEdgeType, sourceNodeType, graph, visitedNodes);
                 if(result == true)
                     break;
             }
@@ -632,19 +620,17 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static bool IsReachableEdges(IGraph graph, INode startNode, IEdge endEdge, EdgeType incidentEdgeType, NodeType adjacentNodeType)
         {
-            int flag = graph.AllocateVisitedFlag();
             List<IGraphElement> visitedElems = new List<IGraphElement>((int)Math.Sqrt(graph.NumNodes));
-            bool result = IsReachableEdges(startNode, endEdge, incidentEdgeType, adjacentNodeType, graph, flag, visitedElems);
+            bool result = IsReachableEdges(startNode, endEdge, incidentEdgeType, adjacentNodeType, graph, visitedElems);
             for(int i = 0; i < visitedElems.Count; ++i)
-                graph.SetVisited(visitedElems[i], flag, false);
-            graph.FreeVisitedFlagNonReset(flag);
+                graph.SetInternallyVisited(visitedElems[i], false);
             return result;
         }
 
         /// <summary>
         /// Returns whether the end edge is reachable from the start node, under the type constraints given
         /// </summary>
-        private static bool IsReachableEdges(INode startNode, IEdge endEdge, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int flag, List<IGraphElement> visitedElems)
+        private static bool IsReachableEdges(INode startNode, IEdge endEdge, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, List<IGraphElement> visitedElems)
         {
             bool result = false;
 
@@ -653,18 +639,18 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
-                if(graph.IsVisited(edge, flag))
+                if(graph.IsInternallyVisited(edge))
                     continue;
-                graph.SetVisited(edge, flag, true);
+                graph.SetInternallyVisited(edge, true);
                 visitedElems.Add(edge);
                 if(edge.Target == endEdge)
                     return true;
 
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedElems.Add(adjacentNode);
-                result = IsReachableEdges(adjacentNode, endEdge, incidentEdgeType, adjacentNodeType, graph, flag, visitedElems);
+                result = IsReachableEdges(adjacentNode, endEdge, incidentEdgeType, adjacentNodeType, graph, visitedElems);
                 if(result == true)
                     break;
             }
@@ -676,18 +662,18 @@ namespace de.unika.ipd.grGen.libGr
                     INode adjacentNode = edge.Source;
                     if(!adjacentNode.InstanceOf(adjacentNodeType))
                         continue;
-                    if(graph.IsVisited(edge, flag))
+                    if(graph.IsInternallyVisited(edge))
                         continue;
-                    graph.SetVisited(edge, flag, true);
+                    graph.SetInternallyVisited(edge, true);
                     visitedElems.Add(edge);
                     if(edge.Source == endEdge)
                         return true;
 
-                    if(graph.IsVisited(adjacentNode, flag))
+                    if(graph.IsInternallyVisited(adjacentNode))
                         continue;
-                    graph.SetVisited(adjacentNode, flag, true);
+                    graph.SetInternallyVisited(adjacentNode, true);
                     visitedElems.Add(adjacentNode);
-                    result = IsReachableEdges(adjacentNode, endEdge, incidentEdgeType, adjacentNodeType, graph, flag, visitedElems);
+                    result = IsReachableEdges(adjacentNode, endEdge, incidentEdgeType, adjacentNodeType, graph, visitedElems);
                     if(result == true)
                         break;
                 }
@@ -701,19 +687,17 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static bool IsReachableEdgesOutgoing(IGraph graph, INode startNode, IEdge endEdge, EdgeType outgoingEdgeType, NodeType targetNodeType)
         {
-            int flag = graph.AllocateVisitedFlag();
             List<IGraphElement> visitedElems = new List<IGraphElement>((int)Math.Sqrt(graph.NumNodes));
-            bool result = IsReachableEdgesOutgoing(startNode, endEdge, outgoingEdgeType, targetNodeType, graph, flag, visitedElems);
+            bool result = IsReachableEdgesOutgoing(startNode, endEdge, outgoingEdgeType, targetNodeType, graph, visitedElems);
             for(int i = 0; i < visitedElems.Count; ++i)
-                graph.SetVisited(visitedElems[i], flag, false);
-            graph.FreeVisitedFlagNonReset(flag);
+                graph.SetInternallyVisited(visitedElems[i], false);
             return result;
         }
 
         /// <summary>
         /// Returns whether the end edge is reachable from the start node, via outgoing edges, under the type constraints given
         /// </summary>
-        private static bool IsReachableEdgesOutgoing(INode startNode, IEdge endEdge, EdgeType outgoingEdgeType, NodeType targetNodeType, IGraph graph, int flag, List<IGraphElement> visitedElems)
+        private static bool IsReachableEdgesOutgoing(INode startNode, IEdge endEdge, EdgeType outgoingEdgeType, NodeType targetNodeType, IGraph graph, List<IGraphElement> visitedElems)
         {
             bool result = false;
 
@@ -722,18 +706,18 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
-                if(graph.IsVisited(edge, flag))
+                if(graph.IsInternallyVisited(edge))
                     continue;
-                graph.SetVisited(edge, flag, true);
+                graph.SetInternallyVisited(edge, true);
                 visitedElems.Add(edge);
                 if(edge.Target == endEdge)
                     return true;
 
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedElems.Add(adjacentNode);
-                result = IsReachableEdgesOutgoing(adjacentNode, endEdge, outgoingEdgeType, targetNodeType, graph, flag, visitedElems);
+                result = IsReachableEdgesOutgoing(adjacentNode, endEdge, outgoingEdgeType, targetNodeType, graph, visitedElems);
                 if(result == true)
                     break;
             }
@@ -746,19 +730,17 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static bool IsReachableEdgesIncoming(IGraph graph, INode startNode, IEdge endEdge, EdgeType incomingEdgeType, NodeType sourceNodeType)
         {
-            int flag = graph.AllocateVisitedFlag();
             List<IGraphElement> visitedElems = new List<IGraphElement>((int)Math.Sqrt(graph.NumNodes));
-            bool result = IsReachableEdgesIncoming(startNode, endEdge, incomingEdgeType, sourceNodeType, graph, flag, visitedElems);
+            bool result = IsReachableEdgesIncoming(startNode, endEdge, incomingEdgeType, sourceNodeType, graph, visitedElems);
             for(int i = 0; i < visitedElems.Count; ++i)
-                graph.SetVisited(visitedElems[i], flag, false);
-            graph.FreeVisitedFlagNonReset(flag);
+                graph.SetInternallyVisited(visitedElems[i], false);
             return result;
         }
 
         /// <summary>
         /// Returns whether the end edge is reachable from the start node, via incoming edges, under the type constraints given
         /// </summary>
-        private static bool IsReachableEdgesIncoming(INode startNode, IEdge endEdge, EdgeType incomingEdgeType, NodeType sourceNodeType, IGraph graph, int flag, List<IGraphElement> visitedElems)
+        private static bool IsReachableEdgesIncoming(INode startNode, IEdge endEdge, EdgeType incomingEdgeType, NodeType sourceNodeType, IGraph graph, List<IGraphElement> visitedElems)
         {
             bool result = false;
 
@@ -767,18 +749,18 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
-                if(graph.IsVisited(edge, flag))
+                if(graph.IsInternallyVisited(edge))
                     continue;
-                graph.SetVisited(edge, flag, true);
+                graph.SetInternallyVisited(edge, true);
                 visitedElems.Add(edge);
                 if(edge.Source == endEdge)
                     return true;
 
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedElems.Add(adjacentNode);
-                result = IsReachableEdgesIncoming(adjacentNode, endEdge, incomingEdgeType, sourceNodeType, graph, flag, visitedElems);
+                result = IsReachableEdgesIncoming(adjacentNode, endEdge, incomingEdgeType, sourceNodeType, graph, visitedElems);
                 if(result == true)
                     break;
             }
@@ -1209,36 +1191,34 @@ namespace de.unika.ipd.grGen.libGr
 
         public static IEnumerable<INode> Reachable(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph)
         {
-            int flag = -1;
             List<INode> visitedNodes = null;
             try
             {
-                flag = graph.AllocateVisitedFlag();
                 visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
-                foreach(INode node in ReachableRec(startNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+                foreach(INode node in ReachableRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return node;
             }
             finally
             {
                 for(int i = 0; i < visitedNodes.Count; ++i)
-                    graph.SetVisited(visitedNodes[i], flag, false);
-                graph.FreeVisitedFlagNonReset(flag);
+                    graph.SetInternallyVisited(visitedNodes[i], false);
             }
         }
 
-        private static IEnumerable<INode> ReachableRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int flag, List<INode> visitedNodes)
+        private static IEnumerable<INode> ReachableRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, List<INode> visitedNodes)
         {
             foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
             {
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedNodes.Add(adjacentNode);
                 yield return adjacentNode;
-                foreach(INode node in ReachableRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+
+                foreach(INode node in ReachableRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return node;
             }
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
@@ -1246,87 +1226,81 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedNodes.Add(adjacentNode);
                 yield return adjacentNode;
 
-                foreach(INode node in ReachableRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+                foreach(INode node in ReachableRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return node;
             }
         }
 
         public static IEnumerable<INode> ReachableIncoming(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph)
         {
-            int flag = -1;
             List<INode> visitedNodes = null;
             try
             {
-                flag = graph.AllocateVisitedFlag();
                 visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
-                foreach(INode node in ReachableIncomingRec(startNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+                foreach(INode node in ReachableIncomingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return node;
             }
             finally
             {
                 for(int i = 0; i < visitedNodes.Count; ++i)
-                    graph.SetVisited(visitedNodes[i], flag, false);
-                graph.FreeVisitedFlagNonReset(flag);
+                    graph.SetInternallyVisited(visitedNodes[i], false);
             }
         }
 
-        private static IEnumerable<INode> ReachableIncomingRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int flag, List<INode> visitedNodes)
+        private static IEnumerable<INode> ReachableIncomingRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, List<INode> visitedNodes)
         {
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedNodes.Add(adjacentNode);
                 yield return adjacentNode;
 
-                foreach(INode node in ReachableIncomingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+                foreach(INode node in ReachableIncomingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return node;
             }
         }
 
         public static IEnumerable<INode> ReachableOutgoing(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph)
         {
-            int flag = -1;
             List<INode> visitedNodes = null;
             try
             {
-                flag = graph.AllocateVisitedFlag();
                 visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
-                foreach(INode node in ReachableOutgoingRec(startNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+                foreach(INode node in ReachableOutgoingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return node;
             }
             finally
             {
                 for(int i = 0; i < visitedNodes.Count; ++i)
-                    graph.SetVisited(visitedNodes[i], flag, false);
-                graph.FreeVisitedFlagNonReset(flag);
+                    graph.SetInternallyVisited(visitedNodes[i], false);
             }
         }
 
-        private static IEnumerable<INode> ReachableOutgoingRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int flag, List<INode> visitedNodes)
+        private static IEnumerable<INode> ReachableOutgoingRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, List<INode> visitedNodes)
         {
             foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
             {
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedNodes.Add(adjacentNode);
                 yield return adjacentNode;
 
-                foreach(INode node in ReachableOutgoingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+                foreach(INode node in ReachableOutgoingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return node;
             }
         }
@@ -1335,24 +1309,21 @@ namespace de.unika.ipd.grGen.libGr
 
         public static IEnumerable<IEdge> ReachableEdges(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph)
         {
-            int flag = -1;
             List<INode> visitedNodes = null;
             try
             {
-                flag = graph.AllocateVisitedFlag();
                 visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
-                foreach(IEdge edge in ReachableEdgesRec(startNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+                foreach(IEdge edge in ReachableEdgesRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return edge;
             }
             finally
             {
                 for(int i = 0; i < visitedNodes.Count; ++i)
-                    graph.SetVisited(visitedNodes[i], flag, false);
-                graph.FreeVisitedFlagNonReset(flag);
+                    graph.SetInternallyVisited(visitedNodes[i], false);
             }
         }
 
-        private static IEnumerable<IEdge> ReachableEdgesRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int flag, List<INode> visitedNodes)
+        private static IEnumerable<IEdge> ReachableEdgesRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, List<INode> visitedNodes)
         {
             foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
             {
@@ -1361,11 +1332,11 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 yield return edge;
 
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedNodes.Add(adjacentNode);
-                foreach(IEdge reachableEdge in ReachableEdgesRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+                foreach(IEdge reachableEdge in ReachableEdgesRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return reachableEdge;
             }
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
@@ -1375,35 +1346,32 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 yield return edge;
 
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedNodes.Add(adjacentNode);
-                foreach(IEdge reachableEdge in ReachableEdgesRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+                foreach(IEdge reachableEdge in ReachableEdgesRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return reachableEdge;
             }
         }
 
         public static IEnumerable<IEdge> ReachableEdgesIncoming(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph)
         {
-            int flag = -1;
             List<INode> visitedNodes = null;
             try
             {
-                flag = graph.AllocateVisitedFlag();
                 visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
-                foreach(IEdge edge in ReachableEdgesIncomingRec(startNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+                foreach(IEdge edge in ReachableEdgesIncomingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return edge;
             }
             finally
             {
                 for(int i = 0; i < visitedNodes.Count; ++i)
-                    graph.SetVisited(visitedNodes[i], flag, false);
-                graph.FreeVisitedFlagNonReset(flag);
+                    graph.SetInternallyVisited(visitedNodes[i], false);
             }
         }
 
-        private static IEnumerable<IEdge> ReachableEdgesIncomingRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int flag, List<INode> visitedNodes)
+        private static IEnumerable<IEdge> ReachableEdgesIncomingRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, List<INode> visitedNodes)
         {
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
@@ -1412,35 +1380,32 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 yield return edge;
 
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedNodes.Add(adjacentNode);
-                foreach(IEdge reachableEdge in ReachableEdgesIncomingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+                foreach(IEdge reachableEdge in ReachableEdgesIncomingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return reachableEdge;
             }
         }
 
         public static IEnumerable<IEdge> ReachableEdgesOutgoing(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph)
         {
-            int flag = -1;
             List<INode> visitedNodes = null;
             try
             {
-                flag = graph.AllocateVisitedFlag();
                 visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
-                foreach(IEdge edge in ReachableEdgesOutgoingRec(startNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+                foreach(IEdge edge in ReachableEdgesOutgoingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return edge;
             }
             finally
             {
                 for(int i = 0; i < visitedNodes.Count; ++i)
-                    graph.SetVisited(visitedNodes[i], flag, false);
-                graph.FreeVisitedFlagNonReset(flag);
+                    graph.SetInternallyVisited(visitedNodes[i], false);
             }
         }
 
-        private static IEnumerable<IEdge> ReachableEdgesOutgoingRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int flag, List<INode> visitedNodes)
+        private static IEnumerable<IEdge> ReachableEdgesOutgoingRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, List<INode> visitedNodes)
         {
             foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
             {
@@ -1449,11 +1414,11 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 yield return edge;
 
-                if(graph.IsVisited(adjacentNode, flag))
+                if(graph.IsInternallyVisited(adjacentNode))
                     continue;
-                graph.SetVisited(adjacentNode, flag, true);
+                graph.SetInternallyVisited(adjacentNode, true);
                 visitedNodes.Add(adjacentNode);
-                foreach(IEdge reachableEdge in ReachableEdgesOutgoingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
+                foreach(IEdge reachableEdge in ReachableEdgesOutgoingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes))
                     yield return reachableEdge;
             }
         }
