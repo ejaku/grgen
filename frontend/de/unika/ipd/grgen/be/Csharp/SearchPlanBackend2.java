@@ -19,8 +19,12 @@ import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendFactory;
+import de.unika.ipd.grgen.ir.ActionsBearer;
+import de.unika.ipd.grgen.ir.ComposedActionsBearer;
+import de.unika.ipd.grgen.ir.Index;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.Model;
+import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Unit;
 
@@ -76,7 +80,8 @@ public class SearchPlanBackend2 implements Backend, BackendFactory {
 
 		// Check whether type prefixes are needed because type names
 		// use one of the names from reservedWords (results in a warning)
-		String nodeTypePrefix = "", edgeTypePrefix = "";
+		String nodeTypePrefix = "";
+		String edgeTypePrefix = "";
 modloop:for(Model model : unit.getModels()) {
 			for(Type type : model.getTypes()) {
 				if(!(type instanceof InheritanceType)) continue;
@@ -94,10 +99,33 @@ modloop:for(Model model : unit.getModels()) {
 			}
 		}
 
+		boolean forceUnique = false;
+		for(Model model : unit.getModels()) {
+			if(model.isUniqueIndexDefined())
+				forceUnique = true;
+			for(@SuppressWarnings("unused") Index index : model.getIndices())
+				forceUnique = true;
+		}
+		ActionsBearer bearer = new ComposedActionsBearer(unit);
+		for(Rule actionRule : bearer.getActionRules()) {
+			if(actionRule.getAnnotations().containsKey("parallelize"))
+				forceUnique = true;
+		}
+
 		// Generate graph models for all top level models
 		ModelGen modelGen = new ModelGen(this, nodeTypePrefix, edgeTypePrefix);
-		for(Model model : unit.getModels())
+		boolean modelGenerated = false;
+		for(Model model : unit.getModels()) {
+			if(forceUnique)
+				model.forceUniqueDefined();
+			
 			modelGen.genModel(model);
+			
+			if(modelGenerated)
+				throw new UnsupportedOperationException("Internal error: Only one model supported, and that was already generated");
+			else
+				modelGenerated = true;
+		}
 
 		modelGen = null; // throw away model generator (including filled output buffer) not needed any more -> reduce memory requirements
 
