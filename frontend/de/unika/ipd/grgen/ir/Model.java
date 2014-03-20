@@ -191,6 +191,10 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 		return isUniqueDefined;
 	}
 
+	public void forceUniqueDefined() {
+		isUniqueDefined = true;
+	}
+
 	public boolean isUniqueIndexDefined() {
 		return isUniqueIndexDefined;
 	}
