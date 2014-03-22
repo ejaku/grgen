@@ -775,10 +775,10 @@ namespace de.unika.ipd.grGen.lgsp
             // user wants this action to be parallelized
             if(branchingFactor > 1)
             {
-                if(branchingFactor > 32)
+                if(branchingFactor > 64)
                 {
-                    branchingFactor = 32;
-                    Console.Error.WriteLine("Warning: Branching factor at " + matchingPattern.patternGraph.Name + " of parallelize annotation reduced to the supported maximum of 32.");
+                    branchingFactor = 64;
+                    Console.Error.WriteLine("Warning: Branching factor at " + matchingPattern.patternGraph.Name + " of parallelize annotation reduced to the supported maximum of 64.");
                 }
 
                 if(ContainsMaybeNullElement(matchingPattern.patternGraph))
