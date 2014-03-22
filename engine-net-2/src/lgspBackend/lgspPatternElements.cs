@@ -1395,7 +1395,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Representation of some yielding (a list of elementary yieldings, to be executed after matching completed)
     /// </summary>
-    public class PatternYielding
+    public class PatternYielding : ICloneable
     {
         /// <summary>
         /// The name of the pattern yielding.
@@ -1485,6 +1485,22 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < original.NeededVariables.Length; ++i)
                 NeededVariables[i] = original.NeededVariables[i] + renameSuffix;
             NeededVariableTypes = (VarType[])original.NeededVariableTypes.Clone();
+        }
+
+        /// <summary>
+        /// Instantiates a new PatternYielding object as a copy from the original yielding; for parallelization.
+        /// </summary>
+        public Object Clone()
+        {
+            PatternYielding yielding = new PatternYielding(Name, null, NeededNodes, NeededEdges, NeededVariables, NeededVariableTypes);
+            yielding.originalYielding = originalYielding;
+            yielding.originalSubpatternEmbedding = originalSubpatternEmbedding;
+            yielding.ElementaryYieldings = new Yielding[ElementaryYieldings.Length];
+            for(int i = 0; i < ElementaryYieldings.Length; ++i)
+            {
+                yielding.ElementaryYieldings[i] = ElementaryYieldings[i].Copy("");
+            }
+            return yielding;
         }
     }
 

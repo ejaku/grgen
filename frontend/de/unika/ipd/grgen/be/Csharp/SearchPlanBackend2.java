@@ -108,8 +108,10 @@ modloop:for(Model model : unit.getModels()) {
 		}
 		ActionsBearer bearer = new ComposedActionsBearer(unit);
 		for(Rule actionRule : bearer.getActionRules()) {
-			if(actionRule.getAnnotations().containsKey("parallelize"))
+			if(actionRule.getAnnotations().containsKey("parallelize")) { // comment out to parallelize everything as possible, for testing
+				unit.toBeParallelizedActionIsExisting();
 				forceUnique = true;
+			}
 		}
 
 		// Generate graph models for all top level models

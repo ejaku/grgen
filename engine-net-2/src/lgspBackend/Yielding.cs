@@ -297,7 +297,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            if(Right==null) yield return Right;
+            if(Right != null) yield return Right;
             yield break;
         }
     }
@@ -338,7 +338,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            if(Right == null) yield return Right;
+            if(Right != null) yield return Right;
             yield break;
         }
     }
@@ -524,6 +524,12 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append(")");
                 sourceCode.Append(";\n");
             }
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            if(Index != null) yield return Index;
+            yield return Right;
         }
 
         Expression Index;
@@ -934,7 +940,9 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append(", ");
-                sourceCode.Append("graph))\n");
+                sourceCode.Append("graph");
+                if(Parallel) sourceCode.Append(", threadId"); 
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
@@ -950,7 +958,9 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append(", ");
-                sourceCode.Append("graph))\n");
+                sourceCode.Append("graph");
+                if(Parallel) sourceCode.Append(", threadId");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
@@ -966,7 +976,9 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append(", ");
-                sourceCode.Append("graph))\n");
+                sourceCode.Append("graph");
+                if(Parallel) sourceCode.Append(", threadId");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
@@ -982,7 +994,9 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append(", ");
-                sourceCode.Append("graph))\n");
+                sourceCode.Append("graph");
+                if(Parallel) sourceCode.Append(", threadId");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
@@ -998,7 +1012,9 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append(", ");
-                sourceCode.Append("graph))\n");
+                sourceCode.Append("graph");
+                if(Parallel) sourceCode.Append(", threadId");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
@@ -1014,7 +1030,9 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append(", ");
-                sourceCode.Append("graph))\n");
+                sourceCode.Append("graph");
+                if(Parallel) sourceCode.Append(", threadId");
+                sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
@@ -1049,8 +1067,14 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
+            // the Function is not an independent child, it's just simpler/more consistent to reuse some parts of it here
             foreach(Yielding statement in Statements)
                 yield return statement;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         public String Variable;
@@ -1058,6 +1082,7 @@ namespace de.unika.ipd.grGen.expression
         public String VariableType;
         public Expression Function;
         Yielding[] Statements;
+        bool Parallel;
     }
     
     /// <summary>
@@ -1105,6 +1130,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
+            yield return Condition;
             foreach(Yielding statement in TrueCaseStatements)
                 yield return statement;
             if(FalseCaseStatements!=null)
@@ -1148,6 +1174,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
+            yield return Condition;
             foreach(Yielding statement in LoopedStatements)
                 yield return statement;
         }
@@ -1189,6 +1216,7 @@ namespace de.unika.ipd.grGen.expression
         {
             foreach(Yielding statement in LoopedStatements)
                 yield return statement;
+            yield return Condition;
         }
 
         Yielding[] LoopedStatements;
@@ -1258,7 +1286,8 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return Initialization;
+            if(Initialization != null)
+                yield return Initialization;
         }
 
         String Name;
@@ -1338,7 +1367,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield break;
+            yield return ToEmitExpression;
         }
 
         Expression ToEmitExpression;
@@ -1430,7 +1459,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield break;
+            yield return ToRecordExpression;
         }
 
         Expression ToRecordExpression;

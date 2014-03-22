@@ -169,6 +169,12 @@ namespace de.unika.ipd.grGen.lgsp
             so.NameLookup = NameLookup;
             so.UniqueLookup = UniqueLookup;
             so.Expression = Expression;
+            if(so.Element is PatternCondition)
+            {
+                // clone the expression as we may need to set the parallelized flag for it, while the original must stay untouched
+                PatternCondition cond = so.Element as PatternCondition;
+                cond.ConditionExpression = cond.ConditionExpression.Copy("");
+            }
             return so;
         }
 

@@ -772,8 +772,6 @@ namespace de.unika.ipd.grGen.lgsp
                 branchingFactor = value;
             }
 
-            //branchingFactor = 2; // uncomment to parallelize everything as possible, for testing
-
             // user wants this action to be parallelized
             if(branchingFactor > 1)
             {
@@ -791,14 +789,38 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 
                 // checks passed, this action is to be parallelized
-                matchingPattern.patternGraph.branchingFactor = branchingFactor;
-                SetNeedForParallelizedVersion(matchingPattern.patternGraph);
+                SetNeedForParallelizedVersion(matchingPattern.patternGraph, branchingFactor);
                 // used subpatterns are to be parallelized, too
                 foreach(KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern in matchingPattern.patternGraph.usedSubpatterns)
                 {
-                    usedSubpattern.Key.patternGraph.branchingFactor = branchingFactor;
-                    SetNeedForParallelizedVersion(usedSubpattern.Key.patternGraph);
+                    SetNeedForParallelizedVersion(usedSubpattern.Key.patternGraph, branchingFactor);
                 }
+            }
+        }
+
+        public static void SetNeedForParallelizedVersion(PatternGraph patternGraph, int branchingFactor)
+        {
+            patternGraph.branchingFactor = branchingFactor;
+
+            foreach(PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
+            {
+                SetNeedForParallelizedVersion(idpt, branchingFactor);
+            }
+            foreach(PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
+            {
+                SetNeedForParallelizedVersion(neg, branchingFactor);
+            }
+
+            foreach(Alternative alt in patternGraph.alternativesPlusInlined)
+            {
+                foreach(PatternGraph altCase in alt.alternativeCases)
+                {
+                    SetNeedForParallelizedVersion(altCase, branchingFactor);
+                }
+            }
+            foreach(Iterated iter in patternGraph.iteratedsPlusInlined)
+            {
+                SetNeedForParallelizedVersion(iter.iteratedPattern, branchingFactor);
             }
         }
 
@@ -811,34 +833,6 @@ namespace de.unika.ipd.grGen.lgsp
                 if(edge.MaybeNull)
                     return true;
             return false;
-        }
-
-        public static void SetNeedForParallelizedVersion(PatternGraph patternGraph)
-        {
-            foreach(PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
-            {
-                idpt.branchingFactor = 2;
-                SetNeedForParallelizedVersion(idpt);
-            }
-            foreach(PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
-            {
-                neg.branchingFactor = 2;
-                SetNeedForParallelizedVersion(neg);
-            }
-
-            foreach(Alternative alt in patternGraph.alternativesPlusInlined)
-            {
-                foreach(PatternGraph altCase in alt.alternativeCases)
-                {
-                    altCase.branchingFactor = 2;
-                    SetNeedForParallelizedVersion(altCase);
-                }
-            }
-            foreach(Iterated iter in patternGraph.iteratedsPlusInlined)
-            {
-                iter.iteratedPattern.branchingFactor = 2;
-                SetNeedForParallelizedVersion(iter.iteratedPattern);
-            }
         }
 
         public static void PrepareInline(PatternGraph patternGraph)

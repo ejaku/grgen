@@ -34,6 +34,16 @@ namespace de.unika.ipd.grGen.expression
         {
             yield break;
         }
+
+        /// <summary>
+        /// sets for the very node the parallelized flag (does not recurse)
+        /// </summary>
+        public virtual void SetNeedForParallelizedVersion(bool parallel)
+        {
+            // NOP, sufficient for most expressions and yieldings,
+            // only the reachable-constructs and the user defined functions need to call a special version
+            // that prevents issues due to the shared use of visited flags
+        }
     }
 
 
@@ -1297,10 +1307,10 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            if(Type != null)
-                return new IN(Left.Copy(renameSuffix), Right.Copy(renameSuffix), Type, IsDictionary);
+            if(Type != null) // the constructor is reversing left and right so it fits for emit, reverse twice to keep order of already constructed object
+                return new IN(Right.Copy(renameSuffix), Left.Copy(renameSuffix), Type, IsDictionary);
             else
-                return new IN(Left.Copy(renameSuffix), Right.Copy(renameSuffix), IsDictionary);
+                return new IN(Right.Copy(renameSuffix), Left.Copy(renameSuffix), IsDictionary);
         }
 
         public override string GetInfixOperator()
@@ -1478,7 +1488,8 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return Entity;
+            if(Entity != null)
+                yield return Entity;
         }
 
         Expression Entity;
@@ -1529,7 +1540,8 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return Entity;
+            if(Entity != null)
+                yield return Entity;
         }
 
         Expression Entity;
@@ -3026,19 +3038,19 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new MapConstructor(ClassName, MapName, (MapItem)First.Copy(renameSuffix));
+            return new MapConstructor(ClassName, MapName, First!=null ? (MapItem)First.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(ClassName + ".fill_" + MapName + "(");
-            First.Emit(sourceCode);
+            if(First!=null) First.Emit(sourceCode);
             sourceCode.Append(")");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return First;
+            if(First!=null) yield return First;
         }
 
         String ClassName;
@@ -3095,7 +3107,8 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return Key;
             yield return Value;
-            yield return Next;
+            if(Next!=null)
+                yield return Next;
         }
 
         Expression Key;
@@ -3119,19 +3132,19 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new SetConstructor(ClassName, SetName, (SetItem)First.Copy(renameSuffix));
+            return new SetConstructor(ClassName, SetName, First!=null ? (SetItem)First.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(ClassName + ".fill_" + SetName + "(");
-            First.Emit(sourceCode);
+            if(First!=null) First.Emit(sourceCode);
             sourceCode.Append(")");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return First;
+            if(First!=null) yield return First;
         }
 
         String ClassName;
@@ -3174,7 +3187,7 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Value;
-            yield return Next;
+            if(Next!=null) yield return Next;
         }
 
         Expression Value;
@@ -3196,19 +3209,19 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayConstructor(ClassName, ArrayName, (ArrayItem)First.Copy(renameSuffix));
+            return new ArrayConstructor(ClassName, ArrayName, First!=null ? (ArrayItem)First.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(ClassName + ".fill_" + ArrayName + "(");
-            First.Emit(sourceCode);
+            if(First!=null) First.Emit(sourceCode);
             sourceCode.Append(")");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return First;
+            if(First!=null) yield return First;
         }
 
         String ClassName;
@@ -3251,7 +3264,7 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Value;
-            yield return Next;
+            if(Next!=null) yield return Next;
         }
 
         Expression Value;
@@ -3273,19 +3286,19 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new DequeConstructor(ClassName, DequeName, (DequeItem)First.Copy(renameSuffix));
+            return new DequeConstructor(ClassName, DequeName, First!=null ? (DequeItem)First.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(ClassName + ".fill_" + DequeName + "(");
-            First.Emit(sourceCode);
+            if(First!=null) First.Emit(sourceCode);
             sourceCode.Append(")");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return First;
+            if(First!=null) yield return First;
         }
 
         String ClassName;
@@ -3328,7 +3341,7 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Value;
-            yield return Next;
+            if(Next!=null) yield return Next;
         }
 
         Expression Value;
@@ -3375,10 +3388,16 @@ namespace de.unika.ipd.grGen.expression
                 yield return argument;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
         public String PackageName;
         public String FunctionName;
         public Expression[] Arguments;
         public String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
+        public bool Parallel;
     }
 
     /// <summary>
@@ -3420,9 +3439,15 @@ namespace de.unika.ipd.grGen.expression
                 yield return argument;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
         public String FunctionName;
         public Expression[] Arguments;
         public String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
+        public bool Parallel;
     }
 
     /// <summary>
@@ -3522,6 +3547,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return NodeType;
+        }
+
         public Expression NodeType;
     }
 
@@ -3545,6 +3575,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.Edges(graph, ");
             EdgeType.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return EdgeType;
         }
 
         public Expression EdgeType;
@@ -3612,6 +3647,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(").Source)");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Edge;
+        }
+
         Expression Edge;
     }
 
@@ -3635,6 +3675,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("((");
             Edge.Emit(sourceCode);
             sourceCode.Append(").Target)");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Edge;
         }
 
         Expression Edge;
@@ -3665,6 +3710,12 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("))");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Edge;
+            yield return Node;
+        }
+
         Expression Edge;
         Expression Node;
     }
@@ -3689,6 +3740,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("((GRGEN_LIBGR.INamedGraph)graph).GetNode(");
             Name.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Name;
         }
 
         Expression Name;
@@ -3716,6 +3772,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Name;
+        }
+
         Expression Name;
     }
 
@@ -3741,6 +3802,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Unique;
+        }
+
         Expression Unique;
     }
 
@@ -3764,6 +3830,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("graph.GetEdge(");
             Unique.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Unique;
         }
 
         Expression Unique;
@@ -3795,6 +3866,13 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
         }
 
         public Expression Node;
@@ -3830,6 +3908,13 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
@@ -3861,6 +3946,13 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
         }
 
         public Expression Node;
@@ -3896,6 +3988,13 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
@@ -3929,6 +4028,13 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
@@ -3960,6 +4066,13 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
         }
 
         public Expression Node;
@@ -3999,6 +4112,14 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndNode;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
         }
 
         Expression StartNode;
@@ -4041,6 +4162,14 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndNode;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
         Expression StartNode;
         Expression EndNode;
         Expression IncidentEdgeType;
@@ -4079,6 +4208,14 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+        
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndNode;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
         }
 
         Expression StartNode;
@@ -4121,6 +4258,14 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndEdge;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
         Expression StartNode;
         Expression EndEdge;
         Expression IncidentEdgeType;
@@ -4161,6 +4306,14 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndEdge;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
         Expression StartNode;
         Expression EndEdge;
         Expression IncidentEdgeType;
@@ -4183,7 +4336,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new IsReachableEdges(StartNode.Copy(renameSuffix), EndEdge.Copy(renameSuffix),
+            return new IsIncident(StartNode.Copy(renameSuffix), EndEdge.Copy(renameSuffix),
                 IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
@@ -4199,6 +4352,14 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndEdge;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
         }
 
         Expression StartNode;
@@ -4232,12 +4393,26 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
+            if(Parallel) sourceCode.Append(", threadId");
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public bool Parallel;
     }
 
     /// <summary>
@@ -4265,12 +4440,26 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
+            if(Parallel) sourceCode.Append(", threadId");
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public bool Parallel;
     }
 
     /// <summary>
@@ -4298,12 +4487,26 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
+            if(Parallel) sourceCode.Append(", threadId");
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public bool Parallel;
     }
 
     /// <summary>
@@ -4331,12 +4534,26 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
+            if(Parallel) sourceCode.Append(", threadId");
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public bool Parallel;
     }
 
     /// <summary>
@@ -4364,12 +4581,26 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
+            if(Parallel) sourceCode.Append(", threadId");
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public bool Parallel;
     }
 
     /// <summary>
@@ -4397,12 +4628,26 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
+            if(Parallel) sourceCode.Append(", threadId");
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public bool Parallel;
     }
 
     /// <summary>
@@ -4436,13 +4681,28 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
+            if(Parallel) sourceCode.Append(", threadId");
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndNode;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         Expression StartNode;
         Expression EndNode;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
+        bool Parallel;
     }
 
     /// <summary>
@@ -4476,13 +4736,28 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
+            if(Parallel) sourceCode.Append(", threadId");
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndNode;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         Expression StartNode;
         Expression EndNode;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
+        bool Parallel;
     }
 
     /// <summary>
@@ -4505,6 +4780,14 @@ namespace de.unika.ipd.grGen.expression
                 IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndNode;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsReachable(graph, ");
@@ -4516,13 +4799,20 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
+            if(Parallel) sourceCode.Append(", threadId");
             sourceCode.Append(")");
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         Expression StartNode;
         Expression EndNode;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
+        bool Parallel;
     }
 
     /// <summary>
@@ -4556,13 +4846,28 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
+            if(Parallel) sourceCode.Append(", threadId");
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndEdge;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         Expression StartNode;
         Expression EndEdge;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
+        bool Parallel;
     }
 
     /// <summary>
@@ -4596,13 +4901,28 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
+            if(Parallel) sourceCode.Append(", threadId");
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndEdge;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         Expression StartNode;
         Expression EndEdge;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
+        bool Parallel;
     }
 
     /// <summary>
@@ -4636,13 +4956,28 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
+            if(Parallel) sourceCode.Append(", threadId");
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndEdge;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         Expression StartNode;
         Expression EndEdge;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
+        bool Parallel;
     }
 
     /// <summary>
@@ -4665,6 +5000,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.InducedSubgraph((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)");
             NodeSet.Emit(sourceCode);
             sourceCode.Append(", graph)");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return NodeSet;
         }
 
         Expression NodeSet;
@@ -4690,6 +5030,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
             EdgeSet.Emit(sourceCode);
             sourceCode.Append(", graph)");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return EdgeSet;
         }
 
         Expression EdgeSet;
@@ -4753,6 +5098,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
+        }
+
         Expression Expr;
     }
 
@@ -4776,6 +5126,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("Math.Sin(");
             Expr.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
         }
 
         Expression Expr;
@@ -4803,6 +5158,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
+        }
+
         Expression Expr;
     }
 
@@ -4826,6 +5186,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("Math.Tan(");
             Expr.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
         }
 
         Expression Expr;
@@ -4853,6 +5218,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
+        }
+
         Expression Expr;
     }
 
@@ -4876,6 +5246,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("Math.Acos(");
             Expr.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
         }
 
         Expression Expr;
@@ -4903,6 +5278,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
+        }
+
         Expression Expr;
     }
 
@@ -4926,6 +5306,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("(");
             Expr.Emit(sourceCode);
             sourceCode.Append(").Canonize()");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
         }
 
         Expression Expr;
@@ -4970,7 +5355,7 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Left;
-            if(Right != null) yield return Right; else yield break;
+            if(Right != null) yield return Right;
         }
 
         public Expression Left;

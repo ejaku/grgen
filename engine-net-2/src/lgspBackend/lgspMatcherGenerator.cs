@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using de.unika.ipd.grGen.lgsp;
+using de.unika.ipd.grGen.expression;
 using System.IO;
 using de.unika.ipd.grGen.libGr;
 using System.Diagnostics;
@@ -2083,6 +2084,8 @@ exitSecondLoop: ;
                     SearchOperation clone = (SearchOperation)so.Clone();
                     clone.Isomorphy.Parallel = true;
                     bodyOperations.Add(clone);
+                    if(clone.Element is PatternCondition)
+                        SetNeedForParallelizedVersion((clone.Element as PatternCondition).ConditionExpression);
                 }
             }
             ScheduledSearchPlan headSsp = new ScheduledSearchPlan(
@@ -2093,6 +2096,7 @@ exitSecondLoop: ;
             rulePattern.patternGraph.parallelizedSchedule[1] = bodySsp;
             ParallelizeNegativeIndependent(bodySsp);
             ParallelizeAlternativeIterated(rulePattern.patternGraph);
+            ParallelizeYielding(rulePattern.patternGraph);
         }
 
         /// <summary>
@@ -2111,12 +2115,15 @@ exitSecondLoop: ;
                 SearchOperation clone = (SearchOperation)so.Clone();
                 clone.Isomorphy.Parallel = true;
                 operations.Add(clone);
+                if(clone.Element is PatternCondition)
+                    SetNeedForParallelizedVersion((clone.Element as PatternCondition).ConditionExpression);
             }
             ScheduledSearchPlan clonedSsp = new ScheduledSearchPlan(
                 matchingPattern.patternGraph, operations.ToArray(), operations.Count > 0 ? operations[0].CostToEnd : 0);
             matchingPattern.patternGraph.parallelizedSchedule[0] = clonedSsp;
             ParallelizeNegativeIndependent(clonedSsp);
             ParallelizeAlternativeIterated(matchingPattern.patternGraph);
+            ParallelizeYielding(matchingPattern.patternGraph);
         }
 
         /// <summary>
@@ -2137,6 +2144,8 @@ exitSecondLoop: ;
                         SearchOperation clone = (SearchOperation)so.Clone();
                         clone.Isomorphy.Parallel = true;
                         operations.Add(clone);
+                        if(clone.Element is PatternCondition)
+                            SetNeedForParallelizedVersion((clone.Element as PatternCondition).ConditionExpression);
                     }
                     ScheduledSearchPlan clonedSsp = new ScheduledSearchPlan(
                         altCase, operations.ToArray(), operations.Count > 0 ? operations[0].CostToEnd : 0);
@@ -2144,6 +2153,7 @@ exitSecondLoop: ;
 
                     ParallelizeNegativeIndependent(clonedSsp);
                     ParallelizeAlternativeIterated(altCase);
+                    ParallelizeYielding(altCase);
                 }
             }
             foreach(Iterated iter in patternGraph.iteratedsPlusInlined)
@@ -2157,6 +2167,8 @@ exitSecondLoop: ;
                     SearchOperation clone = (SearchOperation)so.Clone();
                     clone.Isomorphy.Parallel = true;
                     operations.Add(clone);
+                    if(clone.Element is PatternCondition)
+                        SetNeedForParallelizedVersion((clone.Element as PatternCondition).ConditionExpression);
                 }
                 ScheduledSearchPlan clonedSsp = new ScheduledSearchPlan(
                         iter.iteratedPattern, operations.ToArray(), operations.Count > 0 ? operations[0].CostToEnd : 0);
@@ -2164,6 +2176,7 @@ exitSecondLoop: ;
 
                 ParallelizeNegativeIndependent(clonedSsp);
                 ParallelizeAlternativeIterated(iter.iteratedPattern);
+                ParallelizeYielding(iter.iteratedPattern);
             }
         }
 
@@ -2184,7 +2197,11 @@ exitSecondLoop: ;
                     List<SearchOperation> operations = new List<SearchOperation>(nestedSsp.Operations.Length);
                     for(int i = 0; i < nestedSsp.Operations.Length; ++i)
                     {
-                        operations.Add((SearchOperation)nestedSsp.Operations[i].Clone());
+                        SearchOperation nestedSo = nestedSsp.Operations[i];
+                        SearchOperation clone = (SearchOperation)nestedSo.Clone();
+                        operations.Add(clone);
+                        if(clone.Element is PatternCondition)
+                            SetNeedForParallelizedVersion((clone.Element as PatternCondition).ConditionExpression);
                     }
                     Debug.Assert(nestedSsp.PatternGraph.parallelizedSchedule == null);
                     nestedSsp.PatternGraph.parallelizedSchedule = new ScheduledSearchPlan[1];
@@ -2195,7 +2212,31 @@ exitSecondLoop: ;
 
                     ParallelizeNegativeIndependent(clonedSsp);
                     ParallelizeAlternativeIterated(nestedSsp.PatternGraph);
+                    if(so.Type == SearchOperationType.IndependentPattern)
+                        ParallelizeYielding(nestedSsp.PatternGraph);
                 }
+            }
+        }
+
+        public void ParallelizeYielding(PatternGraph patternGraph)
+        {
+            patternGraph.parallelizedYieldings = new PatternYielding[patternGraph.YieldingsPlusInlined.Length];
+            for(int i = 0; i < patternGraph.YieldingsPlusInlined.Length; ++i)
+            {
+                patternGraph.parallelizedYieldings[i] = (PatternYielding)patternGraph.YieldingsPlusInlined[i].Clone();
+                for(int j = 0; j < patternGraph.parallelizedYieldings[i].ElementaryYieldings.Length; ++j)
+                {
+                    SetNeedForParallelizedVersion(patternGraph.parallelizedYieldings[i].ElementaryYieldings[j]);
+                }
+            }
+        }
+
+        public void SetNeedForParallelizedVersion(ExpressionOrYielding expyield)
+        {
+            expyield.SetNeedForParallelizedVersion(true);
+            foreach(ExpressionOrYielding child in expyield)
+            {
+                SetNeedForParallelizedVersion(child);
             }
         }
 

@@ -55,7 +55,10 @@ public class Unit extends IR implements ActionsBearer {
 
 	/** The source filename of this unit. */
 	private String filename;
+	
+	private boolean isToBeParallelizedActionExisting = false;
 
+	
 	public Unit(String unitName, String filename) {
 		super("unit");
 		this.unitName = unitName;
@@ -90,7 +93,7 @@ public class Unit extends IR implements ActionsBearer {
 	public Collection<Rule> getActionRules() {
 		return Collections.unmodifiableCollection(actionRules);
 	}
-
+	
 	/** Add a filter function to the unit. */
 	public void addFilterFunction(FilterFunction filterFunction) {
 		filterFunctions.add(filterFunction);
@@ -152,6 +155,14 @@ public class Unit extends IR implements ActionsBearer {
 	/** @return The source filename corresponding to this unit. */
 	public String getFilename() {
 		return filename;
+	}
+
+	public void toBeParallelizedActionIsExisting() {
+		isToBeParallelizedActionExisting = true;
+	}
+
+	public boolean isToBeParallelizedActionExisting() {
+		return isToBeParallelizedActionExisting;
 	}
 
 	public void addFields(Map<String, Object> fields) {
