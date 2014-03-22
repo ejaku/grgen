@@ -969,6 +969,12 @@ namespace de.unika.ipd.grGen.lgsp
         public ScheduledSearchPlan[] parallelizedSchedule;
 
         /// <summary>
+        /// The yielding assignments used in this pattern graph or it's nested graphs, after parallelization
+        /// Not-null in case of parallelization.
+        /// </summary>
+        public PatternYielding[] parallelizedYieldings;
+
+        /// <summary>
         /// For each schedule the availability of the maybe null presets - true if is available, false if not
         /// Empty dictionary if there are no maybe null action preset elements
         /// </summary>

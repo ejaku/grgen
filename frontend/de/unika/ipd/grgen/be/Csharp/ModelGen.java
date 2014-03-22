@@ -432,6 +432,19 @@ public class ModelGen extends CSharpBase {
 				sb.append(formatEntity(inParam));
 			}
 			sb.append(");\n");
+			
+			if(be.unit.isToBeParallelizedActionExisting()) {
+				sb.append("\t\t" + formatType(fm.getReturnType()) + " ");
+				sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph");
+				for(Entity inParam : fm.getParameters()) {
+					sb.append(", ");
+					sb.append(formatType(inParam.getType()));
+					sb.append(" ");
+					sb.append(formatEntity(inParam));
+				}
+				sb.append(", int threadId");
+				sb.append(");\n");
+			}
 		}
 		for(ProcedureMethod pm : procedureMethods) {
 			sb.append("\t\tvoid ");
@@ -1381,12 +1394,35 @@ deque_init_loop:
 			sb.append("\t\t{\n");
 			sb.append("\t\t\tGRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 			sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
-			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model);
+			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false);
 			for(EvalStatement evalStmt : fm.getComputationStatements()) {
 				modifyGenState.functionOrProcedureName = fm.getIdent().toString();
 				mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
 			}
 			sb.append("\t\t}\n");
+
+			if(be.unit.isToBeParallelizedActionExisting())
+			{
+				sb.append("\t\tpublic " + formatType(fm.getReturnType()) + " ");
+				sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
+				for(Entity inParam : fm.getParameters()) {
+					sb.append(", ");
+					sb.append(formatType(inParam.getType()));
+					sb.append(" ");
+					sb.append(formatEntity(inParam));
+				}
+				sb.append(", int threadId");
+				sb.append(")\n");
+				sb.append("\t\t{\n");
+				sb.append("\t\t\tGRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
+				sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
+				modifyGenState = mgFuncComp.new ModifyGenerationState(model, true);
+				for(EvalStatement evalStmt : fm.getComputationStatements()) {
+					modifyGenState.functionOrProcedureName = fm.getIdent().toString();
+					mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
+				}
+				sb.append("\t\t}\n");
+			}
 		}
 
 		//////////////////////////////////////////////////////////////
@@ -1426,7 +1462,7 @@ deque_init_loop:
 			sb.append("\t\t{\n");
 			sb.append("\t\t\tGRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 			sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
-			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model);
+			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false);
 			mgFuncComp.initEvalGen();
 			for(EvalStatement evalStmt : pm.getComputationStatements()) {
 				modifyGenState.functionOrProcedureName = pm.getIdent().toString();
@@ -4501,6 +4537,17 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				sb.append(formatType(paramType));
 			}
 			sb.append(");\n");
+
+			if(be.unit.isToBeParallelizedActionExisting())
+			{
+				sb.append("\t\t//public static " + formatType(returnType) + " " + ef.getName() + "(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph");
+				for(Type paramType : ef.getParameterTypes()) {
+					sb.append(", ");
+					sb.append(formatType(paramType));
+				}
+				sb.append(", int threadId");
+				sb.append(");\n");
+			}
 		}
 	}
 

@@ -323,7 +323,12 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t{\n");
 		
 		for(Function function : bearer.getFunctions()) {
-			genFunction(sb, function);
+			genFunction(sb, function, false);
+		}
+		if(be.unit.isToBeParallelizedActionExisting()) {
+			for(Function function : bearer.getFunctions()) {
+				genFunction(sb, function, true);
+			}
 		}
 
 		List<String> staticInitializers = new LinkedList<String>();
@@ -348,7 +353,7 @@ public class ActionsGen extends CSharpBase {
 	/**
 	 * Generates the function representation sourcecode for the given function
 	 */
-	private void genFunction(StringBuffer sb, Function function) {
+	private void genFunction(StringBuffer sb, Function function, boolean isToBeParallelizedActionExisting) {
 		sb.append("\t\tpublic static " + formatType(function.getReturnType()) + " ");
 		sb.append(function.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
 		for(Entity inParam : function.getParameters()) {
@@ -357,9 +362,11 @@ public class ActionsGen extends CSharpBase {
 			sb.append(" ");
 			sb.append(formatEntity(inParam));
 		}
+		if(isToBeParallelizedActionExisting)
+			sb.append(", int threadId");
 		sb.append(")\n");
 		sb.append("\t\t{\n");
-		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model);
+		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, isToBeParallelizedActionExisting);
 		for(EvalStatement evalStmt : function.getComputationStatements()) {
 			modifyGenState.functionOrProcedureName = function.getIdent().toString();
 			mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
@@ -482,7 +489,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(")\n");
 		sb.append("\t\t{\n");
-		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model);
+		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false);
 		mgFuncComp.initEvalGen();
 		for(EvalStatement evalStmt : procedure.getComputationStatements()) {
 			modifyGenState.functionOrProcedureName = procedure.getIdent().toString();
@@ -620,7 +627,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tGRGEN_LIBGR.IActionExecutionEnvironment actionEnv = procEnv;\n");
 		sb.append("\t\t\tGRGEN_LIBGR.IGraph graph = procEnv.Graph;\n");
-		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model);
+		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false);
 		EvalStatement lastEvalStmt = null;
 		for(EvalStatement evalStmt : filter.getComputationStatements()) {
 			modifyGenState.functionOrProcedureName = filter.getIdent().toString();
@@ -1192,6 +1199,8 @@ public class ActionsGen extends CSharpBase {
 		genRuleParamResult(sb, action, packageName, isSubpattern);
 		sb.append("\n");
 		addAnnotations(sb, action, "annotations");
+		//if(!action.getAnnotations().containsKey("parallelize")) // uncomment to parallelize everything as possible, for testing
+		//	sb.append("\t\t\tannotations.Add(\"parallelize\", \"2\");\n");
 		sb.append("\t\t}\n");
 
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();

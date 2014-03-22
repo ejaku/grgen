@@ -137,6 +137,7 @@ public class ModifyGen extends CSharpBase {
 		public Map<Expression, String> mapExprToTempVar() { return Collections.unmodifiableMap(mapExprToTempVar); }
 		public boolean useVarForResult() { return useVarForResult; }
 		public Model model() { return model; }
+		public boolean isToBeParallelizedActionExisting() { return isToBeParallelizedActionExisting; }
 
 		// --------------------
 
@@ -181,7 +182,9 @@ public class ModifyGen extends CSharpBase {
 
 		public HashMap<Expression, String> mapExprToTempVar = new LinkedHashMap<Expression, String>();
 		public boolean useVarForResult;
+
 		public Model model;
+		public boolean isToBeParallelizedActionExisting;
 
 
 		public void InitNeeds(NeededEntities needs) {
@@ -202,8 +205,9 @@ public class ModifyGen extends CSharpBase {
 			}
 		}
 		
-		public ModifyGenerationState(Model model) {
+		public ModifyGenerationState(Model model, boolean isToBeParallelizedActionExisting) {
 			this.model = model;
+			this.isToBeParallelizedActionExisting = isToBeParallelizedActionExisting;
 		}
 	}
 
@@ -584,7 +588,7 @@ public class ModifyGen extends CSharpBase {
 		//  - Check returned elements for deletion and retyping due to homomorphy
 		//  - Return
 
-		ModifyGenerationState state = new ModifyGenerationState(model);
+		ModifyGenerationState state = new ModifyGenerationState(model, false);
 		ModifyGenerationStateConst stateConst = state;
 
 		collectYieldedElements(task, stateConst, state.yieldedNodes, state.yieldedEdges, state.yieldedVariables);
@@ -3388,7 +3392,10 @@ public class ModifyGen extends CSharpBase {
 		        sb.append(",");
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
-				sb.append("graph))\n");
+				sb.append("graph");
+				if(state.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
+				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
@@ -3402,7 +3409,10 @@ public class ModifyGen extends CSharpBase {
 		        sb.append(",");
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
-				sb.append("graph))\n");
+				sb.append("graph");
+				if(state.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
+				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
@@ -3416,7 +3426,10 @@ public class ModifyGen extends CSharpBase {
 		        sb.append(",");
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
-				sb.append("graph))\n");
+				sb.append("graph");
+				if(state.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
+				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
@@ -3433,7 +3446,10 @@ public class ModifyGen extends CSharpBase {
 		        sb.append(",");
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
-				sb.append("graph))\n");
+				sb.append("graph");
+				if(state.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
+				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
@@ -3447,7 +3463,10 @@ public class ModifyGen extends CSharpBase {
 		        sb.append(",");
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
-				sb.append("graph))\n");
+				sb.append("graph");
+				if(state.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
+				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
@@ -3461,7 +3480,10 @@ public class ModifyGen extends CSharpBase {
 		        sb.append(",");
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
-				sb.append("graph))\n");
+				sb.append("graph");
+				if(state.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
+				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}

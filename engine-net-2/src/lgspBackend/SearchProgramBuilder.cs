@@ -4979,7 +4979,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             //////////////////////////////////////////////////////
             // then 2. compute all local yields
-            foreach(PatternYielding patternYielding in patternGraph.YieldingsPlusInlined)
+            PatternYielding[] patternYieldings;
+            if(patternGraph.parallelizedSchedule != null) // in case of parallelization we've to use the parallelized yieldings
+                patternYieldings = patternGraph.parallelizedYieldings;
+            else
+                patternYieldings = patternGraph.YieldingsPlusInlined;
+            foreach(PatternYielding patternYielding in patternYieldings)
             {
                 // in the inlined pass only the elements which were inlined into this pattern, in the non-inlined pass the original elements
                 bool wasInlined = patternYielding.originalYielding != null;

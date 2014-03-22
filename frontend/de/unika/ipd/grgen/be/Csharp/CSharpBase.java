@@ -34,6 +34,8 @@ public abstract class CSharpBase {
 		Map<Expression, String> mapExprToTempVar();
 		boolean useVarForResult();
 		Model model();
+		boolean isToBeParallelizedActionExisting();
+
 	}
 
 	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix) {
@@ -1424,6 +1426,8 @@ public abstract class CSharpBase {
 				}
 				genExpression(sb, argument, modifyGenerationState);
 			}
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof ExternalFunctionInvocationExpr) {
@@ -1437,6 +1441,8 @@ public abstract class CSharpBase {
 				}
 				genExpression(sb, argument, modifyGenerationState);
 			}
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof FunctionMethodInvocationExpr) {
@@ -1453,6 +1459,8 @@ public abstract class CSharpBase {
 				}
 				genExpression(sb, argument, modifyGenerationState);
 			}
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof ExternalFunctionMethodInvocationExpr) {
@@ -1469,6 +1477,8 @@ public abstract class CSharpBase {
 				}
 				genExpression(sb, argument, modifyGenerationState);
 			}
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof EdgesExpr) {
@@ -1617,6 +1627,8 @@ public abstract class CSharpBase {
 			genExpression(sb, re.getIncidentEdgeTypeExpr(), modifyGenerationState);
 			sb.append(", ");
 			genExpression(sb, re.getAdjacentNodeTypeExpr(), modifyGenerationState);
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof ReachableNodeExpr) {
@@ -1633,6 +1645,8 @@ public abstract class CSharpBase {
 			genExpression(sb, rn.getIncidentEdgeTypeExpr(), modifyGenerationState);
 			sb.append(", ");
 			genExpression(sb, rn.getAdjacentNodeTypeExpr(), modifyGenerationState);
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof IsReachableNodeExpr) {
@@ -1651,6 +1665,8 @@ public abstract class CSharpBase {
 			genExpression(sb, irn.getIncidentEdgeTypeExpr(), modifyGenerationState);
 			sb.append(", ");
 			genExpression(sb, irn.getAdjacentNodeTypeExpr(), modifyGenerationState);
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof IsReachableEdgeExpr) {
@@ -1669,6 +1685,8 @@ public abstract class CSharpBase {
 			genExpression(sb, ire.getIncidentEdgeTypeExpr(), modifyGenerationState);
 			sb.append(", ");
 			genExpression(sb, ire.getAdjacentNodeTypeExpr(), modifyGenerationState);
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof InducedSubgraphExpr) {
