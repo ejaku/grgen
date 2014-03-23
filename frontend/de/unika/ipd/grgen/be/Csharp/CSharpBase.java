@@ -1493,6 +1493,10 @@ public abstract class CSharpBase {
 			genExpression(sb, n.getNodeTypeExpr(), modifyGenerationState);
 			sb.append(")");
 		}
+		else if (expr instanceof NowExpr) {
+			//NowExpr n = (NowExpr)expr;
+			sb.append("DateTime.UtcNow.ToFileTime()");
+		}
 		else if (expr instanceof EmptyExpr) {
 			//EmptyExpr e = (EmptyExpr)expr;
 			sb.append("(graph.NumNodes+graph.NumEdges == 0)");
@@ -1721,6 +1725,36 @@ public abstract class CSharpBase {
 			AbsExpr a = (AbsExpr)expr;
 			sb.append("Math.Abs(");
 			genExpression(sb, a.getExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof SgnExpr) {
+			SgnExpr s = (SgnExpr)expr;
+			sb.append("Math.Sign(");
+			genExpression(sb, s.getExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof CeilExpr) {
+			CeilExpr c = (CeilExpr)expr;
+			sb.append("Math.Ceiling(");
+			genExpression(sb, c.getExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof FloorExpr) {
+			FloorExpr f = (FloorExpr)expr;
+			sb.append("Math.Floor(");
+			genExpression(sb, f.getExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof RoundExpr) {
+			RoundExpr r = (RoundExpr)expr;
+			sb.append("Math.Round(");
+			genExpression(sb, r.getExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof TruncateExpr) {
+			TruncateExpr t = (TruncateExpr)expr;
+			sb.append("Math.Truncate(");
+			genExpression(sb, t.getExpr(), modifyGenerationState);
 			sb.append(")");
 		}
 		else if (expr instanceof SinCosTanExpr) {

@@ -106,7 +106,7 @@ procedure lengthOfLongestPath(start:Node, var lengthReached:int, var flag:int) :
 		if(!child.visited[flag]) {
 			def var lengthOfLongestPathStartingAtChild:int;
 			(lengthOfLongestPathStartingAtChild)=lengthOfLongestPath(child, lengthReached+1, flag);
-			maxLength = max(maxLength, lengthOfLongestPathStartingAtChild);
+			maxLength = Math::max(maxLength, lengthOfLongestPathStartingAtChild);
 		}
 	}
 	start.visited[flag] = false;

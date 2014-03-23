@@ -2862,6 +2862,11 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, n.getNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof NowExpr) {
+			//NowExpr n = (NowExpr) expr;
+			sb.append("new GRGEN_EXPR.Now(");
+			sb.append(")");
+		}
 		else if (expr instanceof EmptyExpr) {
 			//EmptyExpr e = (EmptyExpr) expr;
 			sb.append("new GRGEN_EXPR.Empty(");
@@ -3084,6 +3089,36 @@ public class ActionsGen extends CSharpBase {
 			AbsExpr a = (AbsExpr) expr;
 			sb.append("new GRGEN_EXPR.Abs(");
 			genExpressionTree(sb, a.getExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof SgnExpr) {
+			SgnExpr s = (SgnExpr) expr;
+			sb.append("new GRGEN_EXPR.Sgn(");
+			genExpressionTree(sb, s.getExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof CeilExpr) {
+			CeilExpr c = (CeilExpr) expr;
+			sb.append("new GRGEN_EXPR.Ceil(");
+			genExpressionTree(sb, c.getExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof FloorExpr) {
+			FloorExpr f = (FloorExpr) expr;
+			sb.append("new GRGEN_EXPR.Floor(");
+			genExpressionTree(sb, f.getExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof RoundExpr) {
+			RoundExpr r = (RoundExpr) expr;
+			sb.append("new GRGEN_EXPR.Round(");
+			genExpressionTree(sb, r.getExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof TruncateExpr) {
+			TruncateExpr t = (TruncateExpr) expr;
+			sb.append("new GRGEN_EXPR.Truncate(");
+			genExpressionTree(sb, t.getExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof SinCosTanExpr) {

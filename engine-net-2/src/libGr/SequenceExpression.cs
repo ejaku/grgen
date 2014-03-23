@@ -36,6 +36,7 @@ namespace de.unika.ipd.grGen.libGr
         GraphElementAttribute,
         ElementOfMatch,
         Nodes, Edges,
+        Now,
         Empty, Size,
         AdjacentNodes, AdjacentNodesViaIncoming, AdjacentNodesViaOutgoing,
         IncidentEdges, IncomingEdges, OutgoingEdges,
@@ -2310,6 +2311,43 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "empty()"; } }
     }
 
+    public class SequenceExpressionNow : SequenceExpression
+    {
+        public SequenceExpressionNow()
+            : base(SequenceExpressionType.Now)
+        {
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "long";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionNow copy = (SequenceExpressionNow)MemberwiseClone();
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return DateTime.UtcNow.ToFileTime();
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "Time::now()"; } }
+    }
+
     public class SequenceExpressionSize : SequenceExpression
     {
         public SequenceExpressionSize()
@@ -3324,7 +3362,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Path; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "existsFile(" + Path.Symbol + ")"; } }
+        public override string Symbol { get { return "File::existsFile(" + Path.Symbol + ")"; } }
     }
 
     public class SequenceExpressionImport : SequenceExpression
@@ -3376,7 +3414,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Path; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "import(" + Path.Symbol + ")"; } }
+        public override string Symbol { get { return "File::import(" + Path.Symbol + ")"; } }
     }
 
     public class SequenceExpressionCopy : SequenceExpression

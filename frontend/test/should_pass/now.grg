@@ -1,0 +1,12 @@
+rule r {
+	if { Time::now()==42L; }
+
+	modify {
+		eval {
+			def var x:long = Time::now();
+		}
+		
+		exec({{ Time::now()==42L}} && r);
+	}
+}
+

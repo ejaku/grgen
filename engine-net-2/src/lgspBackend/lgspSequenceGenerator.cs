@@ -3589,6 +3589,12 @@ namespace de.unika.ipd.grGen.lgsp
                     return "GRGEN_LIBGR.GraphHelper.Edges(graph, (GRGEN_LIBGR.EdgeType)" + edgeType + ")";
                 }
 
+                case SequenceExpressionType.Now:
+                {
+                    SequenceExpressionNow seqNow = (SequenceExpressionNow)expr;
+                    return "DateTime.UtcNow.ToFileTime()";
+                }
+
                 case SequenceExpressionType.Empty:
                 {
                     SequenceExpressionEmpty seqEmpty = (SequenceExpressionEmpty)expr;

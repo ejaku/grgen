@@ -2159,7 +2159,9 @@ functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 				|| (i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")) && params.getChildren().size()==1
 				|| (i.getText().equals("arcsin") || i.getText().equals("arccos") || i.getText().equals("arctan")) && params.getChildren().size()==1
 				|| (i.getText().equals("pow") || i.getText().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
-				|| i.getText().equals("abs") && params.getChildren().size()==1
+				|| (i.getText().equals("ceil") || i.getText().equals("floor") || i.getText().equals("round") || i.getText().equals("truncate")) && params.getChildren().size()==1
+				|| (i.getText().equals("abs") || i.getText().equals("sgn")) && params.getChildren().size()==1
+				|| (i.getText().equals("now")) && params.getChildren().size()==0
 				|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
 				|| (i.getText().equals("empty") || i.getText().equals("size")) && params.getChildren().size()==0
 				|| (i.getText().equals("source") || i.getText().equals("target")) && params.getChildren().size()==1
@@ -3485,7 +3487,12 @@ options { k = 5; }
 			{ 
 				if(!methodCall)
 				{
-					if(	i.getText().equals("valloc") && params.getChildren().size()==0
+					if(	( pack!=null && pack.getText().equals("File") &&
+							( i.getText().equals("export") && (params.getChildren().size()==1 || params.getChildren().size()==2)
+							|| i.getText().equals("deleteFile") && (params.getChildren().size()==1)
+							)
+						)
+						|| i.getText().equals("valloc") && params.getChildren().size()==0
 						|| i.getText().equals("vfree") || i.getText().equals("vfreenonreset") || i.getText().equals("vreset") 
 						|| i.getText().equals("record") || i.getText().equals("emit") || i.getText().equals("highlight") 
 						|| i.getText().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()==3)
@@ -3501,9 +3508,7 @@ options { k = 5; }
 						|| i.getText().equals("insert") && params.getChildren().size()==1
 						|| i.getText().equals("insertCopy") && params.getChildren().size()==2
 						|| (i.getText().equals("insertInduced") || i.getText().equals("insertDefined")) && params.getChildren().size()==2
-						|| i.getText().equals("export") && (params.getChildren().size()==1 || params.getChildren().size()==2)
-						|| i.getText().equals("deleteFile") && (params.getChildren().size()==1)
-						)
+					)
 					{
 						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 						ProcedureInvocationNode proc = new ProcedureInvocationNode(procIdent, params, context, env);
@@ -4025,11 +4030,20 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 	}
 	: (pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=COPY) params=paramExprs[inEnumInit]
 		{
-			if( (i.getText().equals("min") || i.getText().equals("max")) && params.getChildren().size()==2
-				|| (i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")) && params.getChildren().size()==1
-				|| (i.getText().equals("arcsin") || i.getText().equals("arccos") || i.getText().equals("arctan")) && params.getChildren().size()==1
-				|| (i.getText().equals("pow") || i.getText().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
-				|| i.getText().equals("abs") && params.getChildren().size()==1
+			if( ( pack!=null && pack.getText().equals("Math") && 
+					( (i.getText().equals("min") || i.getText().equals("max")) && params.getChildren().size()==2
+					|| (i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")) && params.getChildren().size()==1
+					|| (i.getText().equals("arcsin") || i.getText().equals("arccos") || i.getText().equals("arctan")) && params.getChildren().size()==1
+					|| (i.getText().equals("pow") || i.getText().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
+					|| (i.getText().equals("ceil") || i.getText().equals("floor") || i.getText().equals("round") || i.getText().equals("truncate")) && params.getChildren().size()==1
+					|| (i.getText().equals("abs") || i.getText().equals("sgn")) && params.getChildren().size()==1 )
+				)
+				|| ( pack!=null && pack.getText().equals("File") &&
+					( (i.getText().equals("existsFile") || i.getText().equals("import")) && params.getChildren().size()==1 )
+				)
+				|| ( pack!=null && pack.getText().equals("Time") &&
+					( (i.getText().equals("now")) && params.getChildren().size()==0 )
+				)
 				|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
 				|| (i.getText().equals("empty") || i.getText().equals("size")) && params.getChildren().size()==0
 				|| (i.getText().equals("source") || i.getText().equals("target")) && params.getChildren().size()==1
@@ -4047,10 +4061,9 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
 				|| i.getText().equals("canonize") && params.getChildren().size()==1
 				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
-				|| (i.getText().equals("existsFile") || i.getText().equals("import")) && params.getChildren().size()==1
 				|| i.getText().equals("copy") && params.getChildren().size()==1
 				|| i.getText().equals("uniqueof") && (params.getChildren().size()==1 || params.getChildren().size()==0)
-			  )
+			)
 			{
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 				res = new FunctionInvocationExprNode(funcIdent, params, env);

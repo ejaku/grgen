@@ -1,15 +1,15 @@
 rule r {
-	if(existsFile("foo.grs"));
+	if(File::existsFile("foo.grs"));
 	
 	replace {
 		eval {
-			def var b:boolean = existsFile("foo.grs");
+			def var b:boolean = File::existsFile("foo.grs");
 			if(b) {
-				deleteFile("foo.grs");
+				File::deleteFile("foo.grs");
 			}
 		}
 		
-		exec(if{ {{existsFile("foo.grs")}} ; {deleteFile("foo.grs")} });
+		exec(if{ {{File::existsFile("foo.grs")}} ; {File::deleteFile("foo.grs")} });
 	}
 }
 

@@ -4,13 +4,13 @@ include nestedGraphs/nestedlayout.grsi
 
 # build rgb-triangle graph, use induced and export/import to fill sub in all of the nodes with the same subgraph
 exec (gr:set<Node>)=init ;> (r:RedGraph)=red ;> (g:GreenGraph)=green ;> (b:BlueGraph)=blue ;> {\
-export("redgreenblue.grs");\
+File::export("redgreenblue.grs");\
 sub:graph = inducedSubgraph(gr);\
-export(sub, "redgreenblue2.grs");\
-r.sub = import("redgreenblue.grs");\
+File::export(sub, "redgreenblue2.grs");\
+r.sub = File::import("redgreenblue.grs");\
 g.sub = sub;\
-b.sub=import("redgreenblue2.grs");\
-export("redgreenbluefull.grs");\
+b.sub=File::import("redgreenblue2.grs");\
+File::export("redgreenbluefull.grs");\
 {r.sub==g.sub && g.sub==b.sub}\
 }
 
@@ -23,7 +23,7 @@ gsub.remGreen() ;>\
 bsub.remGreenSeq() ;>\
 rsub.green() ;>\
 rsub.red() ;>\
-{ export("redbluefull.grs");\
+{ File::export("redbluefull.grs");\
 {rsub == gsub && gsub == bsub && bsub == rsub} }
 
 exit

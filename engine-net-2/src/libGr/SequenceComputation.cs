@@ -977,7 +977,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceComputation> Children { get { yield return Name; if(Graph != null) yield return Graph; else yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "export(" + (Graph!=null ? Graph.Symbol + ", " : "") + Name.Symbol + ")"; } }
+        public override string Symbol { get { return "File::export(" + (Graph!=null ? Graph.Symbol + ", " : "") + Name.Symbol + ")"; } }
     }
 
     public class SequenceComputationDeleteFile : SequenceComputation
@@ -1012,7 +1012,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceComputation> Children { get { yield return Name; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "deleteFile(" + Name.Symbol + ")"; } }
+        public override string Symbol { get { return "File::deleteFile(" + Name.Symbol + ")"; } }
     }
 
 
