@@ -1,12 +1,13 @@
 function foo() : double
 {
-	def var temp1:double = pow(1.0, 1.0);
-	def var temp1b:double = pow(1.0);
-	def var temp2:double = log(1.0, 1.0);
-	def var temp2b:double = log(1.0);
-	def var temp3:double = abs(-1.0);
-	def var temp3b:long = abs(-1);
-	return(temp1+temp2+temp3);
+	def var temp1:double = Math::pow(1.0, 1.0);
+	def var temp1b:double = Math::pow(1.0);
+	def var temp2:double = Math::log(1.0, 1.0);
+	def var temp2b:double = Math::log(1.0);
+	def var temp3:double = Math::abs(-1.0);
+	def var temp3b:long = Math::abs(-1);
+	def var temp4:double = Math::sgn(-1.0);
+	return(temp1+temp2+temp3+temp4);
 }
 
 test t : (double)
@@ -15,13 +16,14 @@ test t : (double)
 	
 	independent {
 		yield {
-			def var temp1:double = pow(1.0, 1.0);
-			def var temp1b:double = pow(1.0);
-			def var temp2:double = log(1.0, 1.0);
-			def var temp2b:double = log(1.0);
-			def var temp3:double = abs(-1.0);
-			def var temp3b:long = abs(-1);
-			yield res = temp1+temp2+temp3;
+			def var temp1:double = Math::pow(1.0, 1.0);
+			def var temp1b:double = Math::pow(1.0);
+			def var temp2:double = Math::log(1.0, 1.0);
+			def var temp2b:double = Math::log(1.0);
+			def var temp3:double = Math::abs(-1.0);
+			def var temp3b:long = Math::abs(-1);
+			def var temp4:double = Math::sgn(-1.0);
+			yield res = temp1+temp2+temp3+temp4;
 		}
 	}
 	
@@ -30,20 +32,22 @@ test t : (double)
 
 rule r : (double)
 {	
-	if(pow(0.0)+log(0.0) == pow(0.0,0.0)+log(0.0,0.0));
-	if(abs(-1)<abs(-1.0));
+	if(Math::pow(0.0)+Math::log(0.0) == Math::pow(0.0,0.0)+Math::log(0.0,0.0));
+	if(Math::abs(-1)<Math::abs(-1.0));
+	if(Math::sgn(-1.0)<Math::sgn(1.0));
 	
 	modify {
 		def var res:double;
 		
 		eval {
-			def var temp1:double = pow(1.0, 1.0);
-			def var temp1b:double = pow(1.0);
-			def var temp2:double = log(1.0, 1.0);
-			def var temp2b:double = log(1.0);
-			def var temp3:double = abs(-1.0);
-			def var temp3b:long = abs(-1);
-			yield res = temp1+temp2+temp3;
+			def var temp1:double = Math::pow(1.0, 1.0);
+			def var temp1b:double = Math::pow(1.0);
+			def var temp2:double = Math::log(1.0, 1.0);
+			def var temp2b:double = Math::log(1.0);
+			def var temp3:double = Math::abs(-1.0);
+			def var temp3b:long = Math::abs(-1);
+			def var temp4:double = Math::sgn(-1.0);
+			yield res = temp1+temp2+temp3+temp4;
 		}
 		
 		return (res);

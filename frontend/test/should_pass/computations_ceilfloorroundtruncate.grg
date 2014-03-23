@@ -1,0 +1,44 @@
+function foo() : double
+{
+	def var temp1:double = Math::ceil(2.5);
+	def var temp2:double = Math::floor(2.5);
+	def var temp3:double = Math::round(2.5);
+	def var temp4:double = Math::truncate(2.5);
+	return(temp1+temp2+temp3+temp4);
+}
+
+test t : (double)
+{
+	def var res:double;
+	
+	independent {
+		yield {
+			def var temp1:double = Math::ceil(2.5);
+			def var temp2:double = Math::floor(2.5);
+			def var temp3:double = Math::round(2.5);
+			def var temp4:double = Math::truncate(2.5);
+			yield res = temp1+temp2+temp3+temp4;
+		}
+	}
+	
+	return (res);
+}
+
+rule r : (double)
+{	
+	if(Math::ceil(2.5)+Math::floor(2.5) == Math::round(2.5)+Math::truncate(2.5));
+	
+	modify {
+		def var res:double;
+		
+		eval { 
+			def var temp1:double = Math::ceil(2.5);
+			def var temp2:double = Math::floor(2.5);
+			def var temp3:double = Math::round(2.5);
+			def var temp4:double = Math::truncate(2.5);
+			yield res = temp1+temp2+temp3+temp4;
+		}
+		
+		return (res);
+	}
+}

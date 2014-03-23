@@ -155,6 +155,46 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new AbsExprNode(getCoords(), params.get(0));
 		}
+		else if(functionName.equals("ceil")) {
+			if(params.size() != 1) {
+				reportError("ceil(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new CeilExprNode(getCoords(), params.get(0));
+		}
+		else if(functionName.equals("floor")) {
+			if(params.size() != 1) {
+				reportError("floor(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new FloorExprNode(getCoords(), params.get(0));
+		}
+		else if(functionName.equals("round")) {
+			if(params.size() != 1) {
+				reportError("round(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new RoundExprNode(getCoords(), params.get(0));
+		}
+		else if(functionName.equals("truncate")) {
+			if(params.size() != 1) {
+				reportError("truncate(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new TruncateExprNode(getCoords(), params.get(0));
+		}
+		else if(functionName.equals("sgn")) {
+			if(params.size() != 1) {
+				reportError("sgn(.) takes one parameter.");
+				return false;
+			}
+			else
+				result = new SgnExprNode(getCoords(), params.get(0));
+		}
 		else if(functionName.equals("random")) {
 			if(params.size() == 1) {
 				result = new RandomNode(getCoords(), params.get(0));
@@ -181,6 +221,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			}
 			else {
 				result = new EdgesExprNode(getCoords(), params.size()==1 ? params.get(0) : new IdentExprNode(env.getDirectedEdgeRoot()), env.getDirectedEdgeRoot());
+			}
+		}
+		else if(functionName.equals("now")) {
+			if(params.size() > 0) {
+				reportError("now() takes no parameters.");
+				return false;
+			}
+			else {
+				result = new NowExprNode(getCoords());
 			}
 		}
 		else if(functionName.equals("empty")) {

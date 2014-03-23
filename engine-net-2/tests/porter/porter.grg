@@ -280,7 +280,7 @@ procedure saveConnectedComponents()
 		def var n:Node = fetchNode();
 		def ref connectedComponent:set<Node> = reachable(n) | {n};
 		def var sub:graph = inducedSubgraph(connectedComponent);
-		export(sub, "cc"+i+".grs");
+		File::export(sub, "cc"+i+".grs");
 		deleteSubgraph(connectedComponent);
 		i = i + 1;
 	}
@@ -290,8 +290,8 @@ procedure saveConnectedComponents()
 procedure loadConnectedComponents()
 {
 	def var i:int = 0;
-	while(existsFile("cc"+i+".grs")) {
-		insert(import("cc"+i+".grs"));
+	while(File::existsFile("cc"+i+".grs")) {
+		insert(File::import("cc"+i+".grs"));
 		i = i + 1;
 	}
 	return;
@@ -300,8 +300,8 @@ procedure loadConnectedComponents()
 procedure removeSavedConnectedComponentsFiles()
 {
 	def var i:int = 0;
-	while(existsFile("cc"+i+".grs")) {
-		deleteFile("cc"+i+".grs");
+	while(File::existsFile("cc"+i+".grs")) {
+		File::deleteFile("cc"+i+".grs");
 		i = i + 1;
 	}
 	return;

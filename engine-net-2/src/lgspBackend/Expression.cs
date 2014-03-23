@@ -3586,6 +3586,26 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the current time, measured as windows file time
+    /// </summary>
+    public class Now : Expression
+    {
+        public Now()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Now();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("DateTime.UtcNow.ToFileTime()");
+        }
+    }
+
+    /// <summary>
     /// Class representing expression returning whether the graph is empty
     /// </summary>
     public class Empty : Expression
@@ -5094,6 +5114,156 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("Math.Abs(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
+        }
+
+        Expression Expr;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the signum
+    /// </summary>
+    public class Sgn : Expression
+    {
+        public Sgn(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Sgn(Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Sign(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
+        }
+
+        Expression Expr;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the ceil value
+    /// </summary>
+    public class Ceil : Expression
+    {
+        public Ceil(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Ceil(Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Ceiling(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
+        }
+
+        Expression Expr;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the floor value
+    /// </summary>
+    public class Floor : Expression
+    {
+        public Floor(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Floor(Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Floor(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
+        }
+
+        Expression Expr;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the rounded value
+    /// </summary>
+    public class Round : Expression
+    {
+        public Round(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Round(Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Round(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
+        }
+
+        Expression Expr;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the truncated value
+    /// </summary>
+    public class Truncate : Expression
+    {
+        public Truncate(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Truncate(Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Truncate(");
             Expr.Emit(sourceCode);
             sourceCode.Append(")");
         }

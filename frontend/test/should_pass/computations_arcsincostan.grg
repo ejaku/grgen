@@ -1,8 +1,8 @@
 function foo() : double
 {
-	def var temp1:double = arcsin(0.0);
-	def var temp2:double = arccos(0.0);
-	def var temp3:double = arctan(0.0);
+	def var temp1:double = Math::arcsin(0.0);
+	def var temp2:double = Math::arccos(0.0);
+	def var temp3:double = Math::arctan(0.0);
 	return(temp1+temp2+temp3);
 }
 
@@ -12,9 +12,9 @@ test t : (double)
 	
 	independent {
 		yield {
-			def var temp1:double = arcsin(0.0);
-			def var temp2:double = arccos(0.0);
-			def var temp3:double = arctan(0.0);
+			def var temp1:double = Math::arcsin(0.0);
+			def var temp2:double = Math::arccos(0.0);
+			def var temp3:double = Math::arctan(0.0);
 			yield res = temp1+temp2+temp3;
 		}
 	}
@@ -24,15 +24,15 @@ test t : (double)
 
 rule r : (double)
 {	
-	if(arcsin(0.0)+arccos(0.0) == arctan(0.0));
+	if(Math::arcsin(0.0)+Math::arccos(0.0) == Math::arctan(0.0));
 	
 	modify {
 		def var res:double;
 		
 		eval { 
-			def var temp1:double = arcsin(0.0);
-			def var temp2:double = arccos(0.0);
-			def var temp3:double = arctan(0.0);
+			def var temp1:double = Math::arcsin(0.0);
+			def var temp2:double = Math::arccos(0.0);
+			def var temp3:double = Math::arctan(0.0);
 			yield res = temp1+temp2+temp3;
 		}
 		
