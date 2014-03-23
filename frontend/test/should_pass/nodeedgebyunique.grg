@@ -1,0 +1,30 @@
+rule rn : (Node)
+{
+	-e:Edge->;
+	if { nodeByUnique(0)==source(e); }
+	if { uniqueof(nodeByUnique(0))==0; }
+	
+	modify {
+		def n:Node;
+		eval {
+			yield n = nodeByUnique(42);
+		}
+		return(nodeByUnique(0));
+	}
+}
+
+rule re : (Edge)
+{
+	-e:Edge->;
+	if { edgeByUnique(0)==e; }
+	if { uniqueof(edgeByUnique(0))==0; }
+	
+	modify {
+		def -n:Edge->;
+		eval {
+			yield n = edgeByUnique(42);
+		}
+		return(edgeByUnique(0));
+	}
+}
+

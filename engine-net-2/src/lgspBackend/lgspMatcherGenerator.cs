@@ -336,7 +336,7 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         cost = 1;
                         isPreset = false;
-                        searchOperationType = SearchOperationType.PickByName; // pick by unique instead of lookup from graph
+                        searchOperationType = SearchOperationType.PickByUnique; // pick by unique instead of lookup from graph
                     }
                 }
                 else if(node.ElementBeforeCasting != null)
@@ -626,7 +626,7 @@ namespace de.unika.ipd.grGen.lgsp
             // second run handling dependent storage and index picking (can't be done in first run due to dependencies between elements)
 
             // create map with storage plan edges for all pattern graph nodes
-            // which are the result of a mapping/picking from attribute operation (with a storage or an index) 
+            // which are the result of a mapping/picking from attribute operation (with a storage or an index or the name map or the unique index)
             // or element type casting or assignment
             for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
@@ -691,7 +691,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // create map with storage plan edges for all pattern graph edges 
-            // which are the result of a mapping/picking from attribute operation (with a storage or an index)
+            // which are the result of a mapping/picking from attribute operation (with a storage or an index or the name map or the unique index)
             // or element type casting or assignment
             for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
@@ -1195,7 +1195,7 @@ exitSecondLoop: ;
                 }
             }
 
-            // then schedule all map with storage / pick from index / pick from storage elements not depending on other elements
+            // then schedule all map with storage / pick from index / pick from storage / pick from name index elements not depending on other elements
             foreach(SearchPlanEdge edge in spGraph.Root.OutgoingEdges)
             {
                 if(edge.Type == SearchOperationType.MapWithStorage)
@@ -1272,13 +1272,13 @@ exitSecondLoop: ;
                 {
                     if(edge.Target.IsPreset)
                         continue;
-                    if(edge.Target.PatternElement.Storage!=null 
+                    if(edge.Target.PatternElement.Storage != null 
                         && edge.Target.PatternElement.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness()==null)
                         continue;
-                    if(edge.Target.PatternElement.IndexAccess!=null
+                    if(edge.Target.PatternElement.IndexAccess != null
                         && edge.Target.PatternElement.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness()==null)
                         continue;
-                    if(edge.Target.PatternElement.NameLookup!=null
+                    if(edge.Target.PatternElement.NameLookup != null
                         && edge.Target.PatternElement.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness()==null)
                         continue;
                     if(edge.Target.PatternElement.UniqueLookup != null

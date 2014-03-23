@@ -1,0 +1,8 @@
+new graph "uniqueof/uniqueoftest"
+
+new :N($="foo")
+new @("foo") -:E($="bar")-> @("foo")
+
+exec s
+
+quit

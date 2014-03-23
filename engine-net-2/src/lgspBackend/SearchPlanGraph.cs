@@ -196,7 +196,8 @@ namespace de.unika.ipd.grGen.lgsp
                 if (edge.Type == SearchOperationType.PickFromStorage 
                     || edge.Type == SearchOperationType.MapWithStorage
                     || edge.Type == SearchOperationType.PickFromIndex
-                    || edge.Type == SearchOperationType.PickByName)
+                    || edge.Type == SearchOperationType.PickByName
+                    || edge.Type == SearchOperationType.PickByUnique)
                     ++NumIndependentStorageIndexElements;
         }
     }

@@ -513,7 +513,7 @@ namespace de.unika.ipd.grGen.lgsp
             // second run handling dependent storage and index picking (can't be done in first run due to dependencies between elements)
 
             // create map with storage plan edges for all pattern graph nodes
-            // which are the result of a mapping/picking from attribute operation (with a storage or an index or the name map) 
+            // which are the result of a mapping/picking from attribute operation (with a storage or an index or the name map or the unique index) 
             // or element type casting or assignment
             for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
@@ -578,7 +578,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // create map with storage plan edges for all pattern graph edges 
-            // which are the result of a mapping/picking from attribute operation (with a storage or an index or the name map)
+            // which are the result of a mapping/picking from attribute operation (with a storage or an index or the name map or the unique index)
             // or element type casting or assignment
             for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {

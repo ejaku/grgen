@@ -295,6 +295,24 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 		}
+		else if(functionName.equals("nodeByUnique")) {			
+			if(params.size() == 1) {
+				result = new NodeByUniqueExprNode(getCoords(), params.get(0), env.getNodeRoot());
+			}
+			else {
+				reportError(functionName + "() takes 1 parameter.");
+				return false;
+			}
+		}
+		else if(functionName.equals("edgeByUnique")) {			
+			if(params.size() == 1) {
+				result = new EdgeByUniqueExprNode(getCoords(), params.get(0), env.getDirectedEdgeRoot());
+			}
+			else {
+				reportError(functionName + "() takes 1 parameter.");
+				return false;
+			}
+		}
 		else if(functionName.equals("incoming")
 				|| functionName.equals("outgoing")
 				|| functionName.equals("incident")) {
@@ -544,12 +562,14 @@ public class FunctionInvocationExprNode extends ExprNode
 				result = new CanonizeExprNode(getCoords(), params.get(0));
 		}
 		else if(functionName.equals("uniqueof")) {
-			if(params.size() != 1) {
-				reportError("uniqueof(.) takes one parameter.");
+			if(params.size() > 1) {
+				reportError("uniqueof(.) takes none or one parameter.");
 				return false;
 			}
-			else
+			else if(params.size()==1)
 				result = new UniqueofExprNode(getCoords(), params.get(0));
+			else
+				result = new UniqueofExprNode(getCoords(), null);				
 		}
 		else {
 			reportError("no function " +functionName + " known");

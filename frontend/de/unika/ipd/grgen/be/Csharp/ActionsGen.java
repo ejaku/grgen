@@ -2361,9 +2361,9 @@ public class ActionsGen extends CSharpBase {
 				genExpressionTree(sb, uo.getEntity(), className, pathPrefix, alreadyDefinedEntityToName);
 			else
 				sb.append("null");
-			if(uo.getEntity().getType() instanceof NodeType)
+			if(uo.getEntity()!=null && uo.getEntity().getType() instanceof NodeType)
 				sb.append(", true, false");
-			else if(uo.getEntity().getType() instanceof EdgeType)
+			else if(uo.getEntity()!=null && uo.getEntity().getType() instanceof EdgeType)
 				sb.append(", false, false");	
 			else
 				sb.append(", false, true");					

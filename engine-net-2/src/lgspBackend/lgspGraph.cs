@@ -532,9 +532,13 @@ namespace de.unika.ipd.grGen.lgsp
         {
             LGSPUniquenessIndex index = uniquenessEnsurer as LGSPUniquenessIndex;
             if(index==null)
+                throw new NotSupportedException("Can't fetch graph element by unique id because no unique index was declared");
+
+            // check range
+            if(unique >= index.index.Count || unique < 0)
                 return null;
-            else
-                return index.index[unique];
+
+            return index.index[unique];
         }
 
         /// <summary>

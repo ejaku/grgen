@@ -1,0 +1,49 @@
+#using "uniqueoftest.gm"
+
+rule t {
+	n:N -e:E-> n;
+	
+	def var nodeunique:int;
+	def var edgeunique:int;
+	def var graphunique:int;
+	
+	yield {
+		yield nodeunique = uniqueof(n);
+		yield edgeunique = uniqueof(e);
+		yield graphunique = uniqueof();
+	}
+	
+	modify {
+		emit("The value of attribute noattribute is " + nodeunique + "\n");
+		emit("The value of attribute noattribute is " + edgeunique + "\n");
+		emit("The value of attribute noattribute is " + graphunique + "\n");
+	}
+}
+
+rule r {
+	n:N -e:E-> n;
+
+	def var subgraph:graph;
+	def var subgraphunique:int;
+
+	yield {
+		yield subgraph = inducedSubgraph(set<Node>{n});
+		yield subgraphunique = uniqueof(subgraph);
+	}
+	
+	modify {
+		emit("The value of attribute noattribute is " + subgraphunique + "\n");
+	}
+}
+
+rule s {
+	n:N -e:E-> n;
+	
+	if{ source(edgeByUnique(1))==nodeByUnique(0); }
+	if{ nodeByUnique(42)==edgeByUnique(42); }
+		
+	modify {
+		emit("The value of attribute noattribute is " + uniqueof(nodeByUnique(0)) + "\n");
+		emit("The value of attribute noattribute is " + uniqueof(edgeByUnique(1)) + "\n");
+	}
+}

@@ -2559,16 +2559,21 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 	;
 
 indexDecl [ CollectNode<IdentNode> indices ] returns [ boolean res = false ]
-	: INDEX id=indexIdentDecl LBRACE isUniqueIndexDefined=indexDeclBody[id] RBRACE
+options { k = 3; }
+	: INDEX id=indexIdentDecl LBRACE indexDeclBody[id] RBRACE
 		{
-			if(isUniqueIndexDefined)
+			indices.addChild(id);
+		}
+	| INDEX i=IDENT SEMI
+		{ 
+			if(i.getText().equals("unique"))
 				res = true;
 			else
-				indices.addChild(id);
+				reportError(getCoords(i), "only unique allowed for an index declaration without body, not \"" + i.getText() + "\"");
 		}
 	;
 
-indexDeclBody [ IdentNode id ] returns [ boolean res = false ]
+indexDeclBody [ IdentNode id ]
 	: type=typeIdentUse DOT member=memberIdentUse
 		{
 			id.setDecl(new AttributeIndexDeclNode(id, type, member));
@@ -2576,11 +2581,6 @@ indexDeclBody [ IdentNode id ] returns [ boolean res = false ]
 	| i=IDENT LPAREN startNodeType=typeIdentUse (COMMA incidentEdgeType=typeIdentUse (COMMA adjacentNodeType=typeIdentUse)?)? RPAREN 
 		{
 			id.setDecl(new IncidenceIndexDeclNode(id, i.getText(), startNodeType, incidentEdgeType, adjacentNodeType, env));
-		}
-	| i=IDENT
-		{
-			if(i.getText().equals("unique"))
-				res = true;
 		}
 	;
 
