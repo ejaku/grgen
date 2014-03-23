@@ -399,6 +399,18 @@ public class Rule extends MatchingAction implements ContainedInPackage {
 						}
 					}
 				}
+				if(node.uniqueIndexAccess!=null) {
+					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false);
+					node.uniqueIndexAccess.collectNeededEntities(needs);
+					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, node);
+					if(indexGraphEntity!=null) {
+						if(node.getDependencyLevel()<=indexGraphEntity.getDependencyLevel()) {
+							node.incrementDependencyLevel();
+							dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
+							somethingChanged = true;
+						}
+					}
+				}
 				if(node instanceof RetypedNode) {
 					if(node.getDependencyLevel()<=((RetypedNode)node).getCombinedDependencyLevel()) {
 						node.incrementDependencyLevel();
@@ -439,6 +451,18 @@ public class Rule extends MatchingAction implements ContainedInPackage {
 				if(edge.nameMapAccess!=null) {
 					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false);
 					edge.nameMapAccess.collectNeededEntities(needs);
+					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, edge);
+					if(indexGraphEntity!=null) {
+						if(edge.getDependencyLevel()<=indexGraphEntity.getDependencyLevel()) {
+							edge.incrementDependencyLevel();
+							dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
+							somethingChanged = true;
+						}
+					}
+				}
+				if(edge.uniqueIndexAccess!=null) {
+					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false);
+					edge.uniqueIndexAccess.collectNeededEntities(needs);
 					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, edge);
 					if(indexGraphEntity!=null) {
 						if(edge.getDependencyLevel()<=indexGraphEntity.getDependencyLevel()) {

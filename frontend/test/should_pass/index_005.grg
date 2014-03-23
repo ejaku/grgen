@@ -1,0 +1,38 @@
+#using "index_model_005.gm"
+
+test t {
+	n:N{unique[0]} -e:E{unique[1]}-> n;
+}
+
+rule r {
+	n:Node{unique[0]} -e:Edge{unique[1]}-> n;
+	
+	modify {
+	}
+}
+
+/////////////////////////////
+
+test tp(var x:int) {
+	n:N{unique[x]} -e:E{unique[x]}-> n;
+}
+
+rule rp(var x:int) {
+	n:Node{unique[x]} -e:Edge{unique[x]}-> n;
+	
+	modify {
+	}
+}
+
+/////////////////////////////
+
+test ta {
+	n:N{unique[0]} -e:E{unique[n.i]}-> n;
+}
+
+rule ra {
+	n:Node{unique[e.i]} -e:E{unique[1]}-> n;
+	
+	modify {
+	}
+}
