@@ -370,4 +370,30 @@ rule oneway {
 \end{example}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Attribute Initialization} \label{sec:attribinitrule}
+
+\indexmain{attribute initialization}\indexmain{name initialization}At a node or edge declaration in the modify or replace part (causing creation of the element), you can give an attribute initialization list, with the name of the element (the persistent name of a named graph) seen as a special attribute.
+
+\begin{rail}
+AttributeInitializationList : railat '(' ((AttributeInitialization)+(',')) ')';
+AttributeInitialization : AttributeName '=' Expression | dollar '=' Expression;
+\end{rail}\ixnterm{AttributeInitializationList}\ixnterm{AttributeInitialization}
+
+The initialization list is appended to the declaration with an at-Symbol, the dollar sign stands for the name of the element, whereas the other attributes of the type are simply given by their name. 
+The expression must be of the type of the attribute (and string in case of the name). 
+The initialization list is more convenient than the otherwise needed \texttt{eval} block, containing an assignment per line -- in fact it is syntactic sugar that is dissolved to \texttt{eval}-like assignments. 
+Please take into account that the names must be unique if you intend to set them from the rules.
+
+\begin{example}
+The following example rule creates a new node \texttt{n} of type \texttt{N}, initializing the name to \texttt{"foo"}, the attribute \texttt{i} to \texttt{42}, and the attribute \texttt{s} to \texttt{"Hallo Welt"}.
+\begin{grgen}
+rule create {
+  modify {
+    n:N@($="foo", i=42, s="Hallo Welt");
+  }
+}
+\end{grgen}
+\end{example}
+
 % todo: graphik die eine beispielregel zeigt und mit pfeilen die konstrukte benennt

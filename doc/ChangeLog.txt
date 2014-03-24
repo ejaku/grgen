@@ -1,4 +1,132 @@
-﻿v4.2 (2014-01-12)
+﻿v4.3beta (2014-03-24)
+ Implemented attribute indices:
+ - declared in the mode with syntax 
+   "index" name "{" Type"."attribute "}"
+   to specify the type and attribute whose values are to be indexed with a binary search tree,
+   so that an O(log(n)) lookup of graph elements based on the index value is possible,
+   (and an O(1) access of following elements)
+   instead of an O(n)-traversal of all graph elements with post-filtering based on the attribute value
+ - used in the pattern with syntax 
+   elem":"ElemType "{" name "==" valueExpr "}"
+   to bind the pattern element in succession to all elements with an attribute value equalling the value
+   or a directed index access suffix behind the pattenr element declaration
+   "{" direction "(" [ name relop valueExpr ["," name relop valueExpr] ] ")" "}"
+   with direction ::= "ascending" | "descending" and relop ::= "<", "<=", ">", ">="  
+   to bind the pattern element in succession to all elements from max to min element, or min to max element,
+   where min and max are the lowest and highest attribute values if not specified otherwise,
+   or the lowest or highest value as given with a single bound specification,
+   or the lowest and highest value as given with a double bound specification
+ - for this index as for the incidence count and the unique index holds:
+   they give very quick access, but must be maintained on element addition or removal to the graph,
+   switching them from an O(1) to an O(log(n)) operation -> use them selectively
+ 
+ Implemented incidence count indices:
+ - they store nodes ordered alongside their number of incident edges,
+   and allow to access them quickly in that order
+ - declared in the model with syntax 
+   "index" name "{" direction "(" NodeType ["," EdgeType ["," NodeType]] ")" "}"
+   with direction ::= "incident" | "incoming" | "outgoing"
+   the first mandatory parameter specifies for what node types the index information is to be stored,
+   the optional second parameter allows to further constrain the incident edge types,
+   the third optional parameter allows to further constrain the adjacent node types,
+   only node-edge-node triples satisfying the type constraints are counted
+ - used in the pattern with the syntax already known from attribute indizes
+   i.e. { indexname==value }, { ascending(indexname...) }, { descending(indexname...) }
+ - the count may be further queried from the rule language expressions,
+   with syntax: indexname "[" node-expr "]", expecting a node, returning an int,
+   the return value is the number of incident edges for the node, as stored in the index
+
+ Added support for unique integer ids for graph elements:
+ - declared in the model with "node edge unique;"
+ - the unique id can be retrieved in the expressions of the rule language (in O(1))
+   with the function uniqueof(graphelement):int
+ - uniqueof() may be used on (sub)graphs, too, returning the unique identifier of the graph;
+   for a (sub)graph argument, or zero arguments, which amounts to the host graph
+ The unique integer ids are graph to id only, they may be completed to an unique index:
+ - declared in the model with "index unique;"
+ - it allows to access graph elements in the pattern by their unique id (in O(1)), with syntax
+   elem":"ElemType "{" "unique" "[" int-expr "]" "}"
+   in contrast to attribute and incidence indices, the lookup will yield at most one element
+ - the unique index may be further queried from the rule language expressions,
+   with the functions nodeByUnique(int):Node or edgeByUnique(int):Edge
+
+ Extended support for the name index, as implemented by named graphs:
+ - graph elements may be accessed in the pattern by their unique name (in O(1)), with syntax
+   elem":"ElemType "{" "@""(" string-expr ")" "}"
+   the lookup will yield at most one element, as for unique indices
+ - the name index may be further queried from the rule language expressions,
+   with the functions nodeByName(string):Node or edgeByName(string):Edge
+ - in contrast to the unique ids that are auto-assigned and cannot be changed,
+   the name may be re-assigned by the user, it only must be ensured it is not already in use,
+   with a nameof assignment available in the rule language, with syntax
+   "nameof" "(" elem ")" "=" string-expr
+ - the same syntax may be used to assign the name of a (sub)graph, a missing elem amounts to the host graph
+ 
+ Implemented matcher parallelization:
+ - a rule or test annotated with a [parallelize=k] will be matched with k worker threads from a thread pool
+   more exactly: at most k worker threads, clipped by the number of available processors,
+   on a single core the sequential matcher will be used
+ - work is split alongside the first loop binding a pattern element to a candidate graph element,
+   if that branches only once nothing is gained,
+   if each branch only executes very few search work following candidate assignment,
+   things just become slower because of threading and locking overhead;
+   you better profile before deciding what matchers to parallelize
+  
+ Profiling: 
+ - increased accuracy of execution time calculation
+ - added "-profile" command line option to GrGen to enable generation of profiling information,
+   counting the bindings of host graph elements to pattern elements (search steps) carried out during the search
+ - added "set profile on" shell command, maps to -profile compiler option
+ - if on, the number of search steps executed are printed out in the shell after sequence execution
+ - further, more detailed per-action profiles can be displayed on demand in the shell
+   with "show" "profiles" [ actionname ]
+   for the action whose name is specified, or all actions
+
+ Added builtin packages Math, File, Time to structure builtin functions/procedures:
+ - moved functions min, max, sin, cos, tan, arcsin, arccos, arctan, pow, log, abs to package Math
+ - added new functions ceil, floor, round, truncate and sgn, to package Math
+   all expecting one parameter of type double, returning a value of type double
+   semantics as what can be expected by the names
+ - moved export, deleteFile procedures to package File
+   moved existsFile, import functions to package File
+ - added new function now() for retrieving a timestamp, to package Time
+   no parameters, returns the current UTC time as long,
+   given as windows file time (i.e. 100ns ticks since 1601-01-01)
+ - the File and Time functions/procedures are available in the sequence computations, too
+   whereas the Math functions are only available in the rule language expressions
+ - the global versions of the functions/procedures moved don't work any more!
+   the functions/procedures have to be accessed in known package notation,
+   e.g. Math::sin(x), Time::now(), File::existsFile("filename.grs")
+
+ Name/attribute initialization:
+ - a name or attribute initialization can be given at a node or edge creation now,
+   with a syntax similar to the grs, 
+   "$" "=" string-expr for name initialization, and
+   attribute-name "=" expr for attribute initialization, 
+   with expr being of the type of the attribute;
+   attached with "@" "(" ... ")" to a node or edge declaration in a modify or replace part
+ - example: n:N@($="foo", intAttr = 42);
+   
+ API:
+ - IActions, ISequenceDefinition, IFunctionDefinition, IProcedureDefinition 
+   define the actions interface of the API, now
+ - extended graph element interface by GetUniqueId():int function,
+   to retrieve the unique id for a graph element
+ - extended graph interface by GetGraphElement(int unique)
+   to retrieve the graph element for a unique id, only implemented in case of a unique index
+ - added IndexSet and Index interfaces to the graph
+
+ Misc.:
+ - Includes are now interpreted (first) relative to the including file
+ - Removed "-noperfinfo" command line option
+ - Manual: Split performance optimization into own chapter, combined with indices
+ - some bugfixes carried out, esp:
+   - embedded sequences now call the latest dynamically generated matcher, too
+   - fixes subpattern using a subpattern with dangling edges
+	
+--------------------------------------------------------------------------------------------------------
+	
+v4.2 (2014-01-12)
  Added packages to the model:
   - declared with package <pname> { <stuff> }
     (stuff are node type declarations, edge type declarations, enum declarations)

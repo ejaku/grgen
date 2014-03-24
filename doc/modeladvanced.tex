@@ -306,6 +306,8 @@ It furthermore consists of \emph{FunctionDefinition}s and \emph{ProcedureDefinit
 The file header constructs for using models, including other actions, or declaring global variables are \emph{not} available inside a package.
 \emph{Neither} can package definitions be nested.
 
+The packages \texttt{Math}, \texttt{File}, and \texttt{Time} are built-in, their functions and procedures can be used directly (see \ref{sec:primexpr} and \ref{sec:subgraphop} for their content).
+
 \begin{rail}
   PackageUsageActions: Ident '::' Ident;
 \end{rail}\ixnterm{PackageUsageActions}

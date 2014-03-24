@@ -29,7 +29,7 @@ similar to SQL expressions implemented by database engines,
 or to grammar rules implemented by parser generators.
 Development is supported by \emph{visual debugging}, you work on a visualization of your network and the rule applications inside it.
 The debugger and the pattern based languages boost your \emph{productivity} for graph-representation-based tasks way beyond traditional programming.
-Thanks to all the optimizations implemented in the pattern matching engine you still gain \emph{high-performance} solutions.
+Due to all the optimizations implemented in the pattern matching engine you still gain \emph{high-performance} solutions.
 Altogether, \GrG\ offers the highest combined speed of development and execution you can find for those kind of tasks.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,7 +65,7 @@ Program execution begins at the \node{Start} node, which also produces the initi
 The \node{Start} and the \node{Argument}s belong to the special \node{StartBlock}.
 The \node{Cmp} compares the arguments, its result is used by the \node{Cond} to carry out a conditional jump depending on the result of the comparison.
 After following the \node{Jmp} of the then- or the else-\node{Block}, the program execution is continued at \node{Block} \$D.
-The \node{Phi}\footnote{a helper node from the static single assignment form employed, see \cite{braun13cc} for a simple algorithm for constructing it from an abstract syntax tree} 
+The \node{Phi}\footnote{a helper node from the static single assignment form employed; in \cite{braun13cc} you find more information and a simple algorithm for constructing SSA from an abstract syntax tree} 
 chooses one of its operands depending on the previously executed block,
 here \node{Argument} $1$ if the \node{Cond} was evaluated to \node{True},
 or \node{Argument} $2$ if \node{Cond} was evaluated to \node{False}.

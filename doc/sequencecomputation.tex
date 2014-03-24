@@ -245,9 +245,9 @@ You may import, clone, or compute induced subgraphs.
 You may export a subgraph or insert a subgraph into the hostgraph.
 
 \begin{example}
-\verb#( doSomething() ;> { export("graph"+i+".grs") } )*# is a sequence scheme for exporting a graph after each iteration step in a loop, gaining a series of snapshots on the hard drive.
+\verb#( doSomething() ;> { File::export("graph"+i+".grs") } )*# is a sequence scheme for exporting a graph after each iteration step in a loop, gaining a series of snapshots on the hard drive.
 In a later step, you may then conditionally add exported graphs to the host graph: 
-\verb#if{cond; { ::g=import("graph"+n.a+".grs"); insert(::g) } }#
+\verb#if{cond; { ::g=File::import("graph"+n.a+".grs"); insert(::g) } }#
 \end{example}
 
 \begin{example}
