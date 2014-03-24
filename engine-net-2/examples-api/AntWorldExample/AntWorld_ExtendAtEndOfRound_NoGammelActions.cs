@@ -1,11 +1,12 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sat Jan 25 16:17:16 CET 2014
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Mar 23 22:55:08 CET 2014
 
 using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
+using System.Threading;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -309,9 +310,16 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
+
+			public void CopyMatchContent(Match_InitWorld that)
+			{
+			}
 
 			public Match_InitWorld(Match_InitWorld that)
 			{
+				CopyMatchContent(that);
 			}
 			public Match_InitWorld()
 			{
@@ -369,9 +377,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] TakeFood_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] TakeFood_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode TakeFood_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "TakeFood_node_curAnt", "curAnt", TakeFood_node_curAnt_AllowedTypes, TakeFood_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TakeFood_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "TakeFood_node_n", "n", TakeFood_node_n_AllowedTypes, TakeFood_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TakeFood_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "TakeFood_edge__edge0", "_edge0", TakeFood_edge__edge0_AllowedTypes, TakeFood_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode TakeFood_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "TakeFood_node_curAnt", "curAnt", TakeFood_node_curAnt_AllowedTypes, TakeFood_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode TakeFood_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "TakeFood_node_n", "n", TakeFood_node_n_AllowedTypes, TakeFood_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge TakeFood_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "TakeFood_edge__edge0", "_edge0", TakeFood_edge__edge0_AllowedTypes, TakeFood_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition TakeFood_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_AND(new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IAnt", "TakeFood_node_curAnt", "hasFood")), new GRGEN_EXPR.GT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IGridNode", "TakeFood_node_n", "food"), new GRGEN_EXPR.Constant("0"))),
 				new string[] { "TakeFood_node_curAnt", "TakeFood_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -597,12 +605,19 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_TakeFood(Match_TakeFood that)
+			public void CopyMatchContent(Match_TakeFood that)
 			{
 				_node_curAnt = that._node_curAnt;
 				_node_n = that._node_n;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_TakeFood(Match_TakeFood that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_TakeFood()
 			{
@@ -666,11 +681,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] GoHome_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] GoHome_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode GoHome_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "GoHome_node_curAnt", "curAnt", GoHome_node_curAnt_AllowedTypes, GoHome_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GoHome_node_old = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GoHome_node_old", "old", GoHome_node_old_AllowedTypes, GoHome_node_old_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GoHome_node_new = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GoHome_node_new", "new", GoHome_node_new_AllowedTypes, GoHome_node_new_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge GoHome_edge_oldPos = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "GoHome_edge_oldPos", "oldPos", GoHome_edge_oldPos_AllowedTypes, GoHome_edge_oldPos_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge GoHome_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "GoHome_edge__edge0", "_edge0", GoHome_edge__edge0_AllowedTypes, GoHome_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GoHome_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "GoHome_node_curAnt", "curAnt", GoHome_node_curAnt_AllowedTypes, GoHome_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GoHome_node_old = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GoHome_node_old", "old", GoHome_node_old_AllowedTypes, GoHome_node_old_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GoHome_node_new = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GoHome_node_new", "new", GoHome_node_new_AllowedTypes, GoHome_node_new_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge GoHome_edge_oldPos = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "GoHome_edge_oldPos", "oldPos", GoHome_edge_oldPos_AllowedTypes, GoHome_edge_oldPos_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge GoHome_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "GoHome_edge__edge0", "_edge0", GoHome_edge__edge0_AllowedTypes, GoHome_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition GoHome_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Qualification("GRGEN_MODEL.IAnt", "GoHome_node_curAnt", "hasFood"),
 				new string[] { "GoHome_node_curAnt" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -912,14 +927,21 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_GoHome(Match_GoHome that)
+			public void CopyMatchContent(Match_GoHome that)
 			{
 				_node_curAnt = that._node_curAnt;
 				_node_old = that._node_old;
 				_node_new = that._node_new;
 				_edge_oldPos = that._edge_oldPos;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_GoHome(Match_GoHome that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_GoHome()
 			{
@@ -977,9 +999,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] DropFood_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] DropFood_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode DropFood_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "DropFood_node_curAnt", "curAnt", DropFood_node_curAnt_AllowedTypes, DropFood_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DropFood_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "DropFood_node_hill", "hill", DropFood_node_hill_AllowedTypes, DropFood_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DropFood_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "DropFood_edge__edge0", "_edge0", DropFood_edge__edge0_AllowedTypes, DropFood_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode DropFood_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "DropFood_node_curAnt", "curAnt", DropFood_node_curAnt_AllowedTypes, DropFood_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode DropFood_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "DropFood_node_hill", "hill", DropFood_node_hill_AllowedTypes, DropFood_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge DropFood_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "DropFood_edge__edge0", "_edge0", DropFood_edge__edge0_AllowedTypes, DropFood_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition DropFood_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Qualification("GRGEN_MODEL.IAnt", "DropFood_node_curAnt", "hasFood"),
 				new string[] { "DropFood_node_curAnt" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -1205,12 +1227,19 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_DropFood(Match_DropFood that)
+			public void CopyMatchContent(Match_DropFood that)
 			{
 				_node_curAnt = that._node_curAnt;
 				_node_hill = that._node_hill;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_DropFood(Match_DropFood that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_DropFood()
 			{
@@ -1273,11 +1302,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] SearchAlongPheromones_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] SearchAlongPheromones_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode SearchAlongPheromones_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "SearchAlongPheromones_node_curAnt", "curAnt", SearchAlongPheromones_node_curAnt_AllowedTypes, SearchAlongPheromones_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode SearchAlongPheromones_node_old = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "SearchAlongPheromones_node_old", "old", SearchAlongPheromones_node_old_AllowedTypes, SearchAlongPheromones_node_old_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode SearchAlongPheromones_node_new = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "SearchAlongPheromones_node_new", "new", SearchAlongPheromones_node_new_AllowedTypes, SearchAlongPheromones_node_new_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge SearchAlongPheromones_edge_oldPos = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "SearchAlongPheromones_edge_oldPos", "oldPos", SearchAlongPheromones_edge_oldPos_AllowedTypes, SearchAlongPheromones_edge_oldPos_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge SearchAlongPheromones_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "SearchAlongPheromones_edge__edge0", "_edge0", SearchAlongPheromones_edge__edge0_AllowedTypes, SearchAlongPheromones_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SearchAlongPheromones_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "SearchAlongPheromones_node_curAnt", "curAnt", SearchAlongPheromones_node_curAnt_AllowedTypes, SearchAlongPheromones_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SearchAlongPheromones_node_old = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "SearchAlongPheromones_node_old", "old", SearchAlongPheromones_node_old_AllowedTypes, SearchAlongPheromones_node_old_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SearchAlongPheromones_node_new = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "SearchAlongPheromones_node_new", "new", SearchAlongPheromones_node_new_AllowedTypes, SearchAlongPheromones_node_new_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge SearchAlongPheromones_edge_oldPos = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "SearchAlongPheromones_edge_oldPos", "oldPos", SearchAlongPheromones_edge_oldPos_AllowedTypes, SearchAlongPheromones_edge_oldPos_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge SearchAlongPheromones_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "SearchAlongPheromones_edge__edge0", "_edge0", SearchAlongPheromones_edge__edge0_AllowedTypes, SearchAlongPheromones_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition SearchAlongPheromones_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.GT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IGridNode", "SearchAlongPheromones_node_new", "pheromones"), new GRGEN_EXPR.Constant("9")),
 				new string[] { "SearchAlongPheromones_node_new" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -1512,14 +1541,21 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_SearchAlongPheromones(Match_SearchAlongPheromones that)
+			public void CopyMatchContent(Match_SearchAlongPheromones that)
 			{
 				_node_curAnt = that._node_curAnt;
 				_node_old = that._node_old;
 				_node_new = that._node_new;
 				_edge_oldPos = that._edge_oldPos;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_SearchAlongPheromones(Match_SearchAlongPheromones that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_SearchAlongPheromones()
 			{
@@ -1582,11 +1618,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] SearchAimless_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] SearchAimless_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode SearchAimless_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "SearchAimless_node_curAnt", "curAnt", SearchAimless_node_curAnt_AllowedTypes, SearchAimless_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode SearchAimless_node_old = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "SearchAimless_node_old", "old", SearchAimless_node_old_AllowedTypes, SearchAimless_node_old_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode SearchAimless_node_new = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "SearchAimless_node_new", "new", SearchAimless_node_new_AllowedTypes, SearchAimless_node_new_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge SearchAimless_edge_oldPos = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "SearchAimless_edge_oldPos", "oldPos", SearchAimless_edge_oldPos_AllowedTypes, SearchAimless_edge_oldPos_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge SearchAimless_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, GRGEN_MODEL.EdgeType_GridEdge.typeVar, "GRGEN_MODEL.IGridEdge", "SearchAimless_edge__edge0", "_edge0", SearchAimless_edge__edge0_AllowedTypes, SearchAimless_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SearchAimless_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "SearchAimless_node_curAnt", "curAnt", SearchAimless_node_curAnt_AllowedTypes, SearchAimless_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SearchAimless_node_old = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "SearchAimless_node_old", "old", SearchAimless_node_old_AllowedTypes, SearchAimless_node_old_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SearchAimless_node_new = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "SearchAimless_node_new", "new", SearchAimless_node_new_AllowedTypes, SearchAimless_node_new_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge SearchAimless_edge_oldPos = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "SearchAimless_edge_oldPos", "oldPos", SearchAimless_edge_oldPos_AllowedTypes, SearchAimless_edge_oldPos_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge SearchAimless_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, GRGEN_MODEL.EdgeType_GridEdge.typeVar, "GRGEN_MODEL.IGridEdge", "SearchAimless_edge__edge0", "_edge0", SearchAimless_edge__edge0_AllowedTypes, SearchAimless_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			pat_SearchAimless = new GRGEN_LGSP.PatternGraph(
 				"SearchAimless",
 				"",
@@ -1818,14 +1854,21 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_SearchAimless(Match_SearchAimless that)
+			public void CopyMatchContent(Match_SearchAimless that)
 			{
 				_node_curAnt = that._node_curAnt;
 				_node_old = that._node_old;
 				_node_new = that._node_new;
 				_edge_oldPos = that._edge_oldPos;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_SearchAimless(Match_SearchAimless that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_SearchAimless()
 			{
@@ -1892,9 +1935,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] ReachedEndOfWorld_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ReachedEndOfWorld_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ReachedEndOfWorld_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "ReachedEndOfWorld_node_curAnt", "curAnt", ReachedEndOfWorld_node_curAnt_AllowedTypes, ReachedEndOfWorld_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode ReachedEndOfWorld_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "ReachedEndOfWorld_node_n", "n", ReachedEndOfWorld_node_n_AllowedTypes, ReachedEndOfWorld_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge ReachedEndOfWorld_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "ReachedEndOfWorld_edge__edge0", "_edge0", ReachedEndOfWorld_edge__edge0_AllowedTypes, ReachedEndOfWorld_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode ReachedEndOfWorld_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "ReachedEndOfWorld_node_curAnt", "curAnt", ReachedEndOfWorld_node_curAnt_AllowedTypes, ReachedEndOfWorld_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode ReachedEndOfWorld_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "ReachedEndOfWorld_node_n", "n", ReachedEndOfWorld_node_n_AllowedTypes, ReachedEndOfWorld_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge ReachedEndOfWorld_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "ReachedEndOfWorld_edge__edge0", "_edge0", ReachedEndOfWorld_edge__edge0_AllowedTypes, ReachedEndOfWorld_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			bool[,] ReachedEndOfWorld_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -1903,7 +1946,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] ReachedEndOfWorld_neg_0_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] ReachedEndOfWorld_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge ReachedEndOfWorld_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "ReachedEndOfWorld_neg_0_edge__edge0", "_edge0", ReachedEndOfWorld_neg_0_edge__edge0_AllowedTypes, ReachedEndOfWorld_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge ReachedEndOfWorld_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "ReachedEndOfWorld_neg_0_edge__edge0", "_edge0", ReachedEndOfWorld_neg_0_edge__edge0_AllowedTypes, ReachedEndOfWorld_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			ReachedEndOfWorld_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ReachedEndOfWorld_",
@@ -2157,12 +2200,19 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_ReachedEndOfWorld(Match_ReachedEndOfWorld that)
+			public void CopyMatchContent(Match_ReachedEndOfWorld that)
 			{
 				_node_curAnt = that._node_curAnt;
 				_node_n = that._node_n;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_ReachedEndOfWorld(Match_ReachedEndOfWorld that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_ReachedEndOfWorld()
 			{
@@ -2307,11 +2357,18 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_ReachedEndOfWorld_neg_0(Match_ReachedEndOfWorld_neg_0 that)
+			public void CopyMatchContent(Match_ReachedEndOfWorld_neg_0 that)
 			{
 				_node_n = that._node_n;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_ReachedEndOfWorld_neg_0(Match_ReachedEndOfWorld_neg_0 that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_ReachedEndOfWorld_neg_0()
 			{
@@ -2378,9 +2435,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] ReachedEndOfWorldAnywhere_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] ReachedEndOfWorldAnywhere_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode ReachedEndOfWorldAnywhere_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "ReachedEndOfWorldAnywhere_node__node0", "_node0", ReachedEndOfWorldAnywhere_node__node0_AllowedTypes, ReachedEndOfWorldAnywhere_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode ReachedEndOfWorldAnywhere_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "ReachedEndOfWorldAnywhere_node_n", "n", ReachedEndOfWorldAnywhere_node_n_AllowedTypes, ReachedEndOfWorldAnywhere_node_n_IsAllowedType, 1.0F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge ReachedEndOfWorldAnywhere_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "ReachedEndOfWorldAnywhere_edge__edge0", "_edge0", ReachedEndOfWorldAnywhere_edge__edge0_AllowedTypes, ReachedEndOfWorldAnywhere_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode ReachedEndOfWorldAnywhere_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "ReachedEndOfWorldAnywhere_node__node0", "_node0", ReachedEndOfWorldAnywhere_node__node0_AllowedTypes, ReachedEndOfWorldAnywhere_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode ReachedEndOfWorldAnywhere_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "ReachedEndOfWorldAnywhere_node_n", "n", ReachedEndOfWorldAnywhere_node_n_AllowedTypes, ReachedEndOfWorldAnywhere_node_n_IsAllowedType, 1.0F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge ReachedEndOfWorldAnywhere_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, GRGEN_MODEL.EdgeType_AntPosition.typeVar, "GRGEN_MODEL.IAntPosition", "ReachedEndOfWorldAnywhere_edge__edge0", "_edge0", ReachedEndOfWorldAnywhere_edge__edge0_AllowedTypes, ReachedEndOfWorldAnywhere_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			bool[,] ReachedEndOfWorldAnywhere_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -2389,7 +2446,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] ReachedEndOfWorldAnywhere_neg_0_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] ReachedEndOfWorldAnywhere_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge ReachedEndOfWorldAnywhere_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "ReachedEndOfWorldAnywhere_neg_0_edge__edge0", "_edge0", ReachedEndOfWorldAnywhere_neg_0_edge__edge0_AllowedTypes, ReachedEndOfWorldAnywhere_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge ReachedEndOfWorldAnywhere_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "ReachedEndOfWorldAnywhere_neg_0_edge__edge0", "_edge0", ReachedEndOfWorldAnywhere_neg_0_edge__edge0_AllowedTypes, ReachedEndOfWorldAnywhere_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			ReachedEndOfWorldAnywhere_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ReachedEndOfWorldAnywhere_",
@@ -2644,12 +2701,19 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_ReachedEndOfWorldAnywhere(Match_ReachedEndOfWorldAnywhere that)
+			public void CopyMatchContent(Match_ReachedEndOfWorldAnywhere that)
 			{
 				_node__node0 = that._node__node0;
 				_node_n = that._node_n;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_ReachedEndOfWorldAnywhere(Match_ReachedEndOfWorldAnywhere that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_ReachedEndOfWorldAnywhere()
 			{
@@ -2794,11 +2858,18 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_ReachedEndOfWorldAnywhere_neg_0(Match_ReachedEndOfWorldAnywhere_neg_0 that)
+			public void CopyMatchContent(Match_ReachedEndOfWorldAnywhere_neg_0 that)
 			{
 				_node_n = that._node_n;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_ReachedEndOfWorldAnywhere_neg_0(Match_ReachedEndOfWorldAnywhere_neg_0 that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_ReachedEndOfWorldAnywhere_neg_0()
 			{
@@ -2853,8 +2924,8 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			bool[] GrowFoodIfEqual_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] GrowFoodIfEqual_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternVariable GrowFoodIfEqual_var_val = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "GrowFoodIfEqual_var_val", "val", 1, false, null);
-			GRGEN_LGSP.PatternNode GrowFoodIfEqual_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowFoodIfEqual_node_n", "n", GrowFoodIfEqual_node_n_AllowedTypes, GrowFoodIfEqual_node_n_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GrowFoodIfEqual_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "GrowFoodIfEqual_node_hill", "hill", GrowFoodIfEqual_node_hill_AllowedTypes, GrowFoodIfEqual_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowFoodIfEqual_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowFoodIfEqual_node_n", "n", GrowFoodIfEqual_node_n_AllowedTypes, GrowFoodIfEqual_node_n_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowFoodIfEqual_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "GrowFoodIfEqual_node_hill", "hill", GrowFoodIfEqual_node_hill_AllowedTypes, GrowFoodIfEqual_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition GrowFoodIfEqual_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IAntHill", "GrowFoodIfEqual_node_hill", "foodCountdown"), new GRGEN_EXPR.VariableExpression("GrowFoodIfEqual_var_val")),
 				new string[] { "GrowFoodIfEqual_node_hill" }, new string[] {  }, new string[] { "GrowFoodIfEqual_var_val" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
@@ -3076,12 +3147,19 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_GrowFoodIfEqual(Match_GrowFoodIfEqual that)
+			public void CopyMatchContent(Match_GrowFoodIfEqual that)
 			{
 				_node_n = that._node_n;
 				_node_hill = that._node_hill;
 				_var_val = that._var_val;
+			}
+
+			public Match_GrowFoodIfEqual(Match_GrowFoodIfEqual that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_GrowFoodIfEqual()
 			{
@@ -3142,10 +3220,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] GrowWorldFirstAtCorner_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] GrowWorldFirstAtCorner_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode GrowWorldFirstAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridCornerNode, GRGEN_MODEL.NodeType_GridCornerNode.typeVar, "GRGEN_MODEL.IGridCornerNode", "GrowWorldFirstAtCorner_node_cur", "cur", GrowWorldFirstAtCorner_node_cur_AllowedTypes, GrowWorldFirstAtCorner_node_cur_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GrowWorldFirstAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldFirstAtCorner_node_next", "next", GrowWorldFirstAtCorner_node_next_AllowedTypes, GrowWorldFirstAtCorner_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GrowWorldFirstAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "GrowWorldFirstAtCorner_node_hill", "hill", GrowWorldFirstAtCorner_node_hill_AllowedTypes, GrowWorldFirstAtCorner_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge GrowWorldFirstAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, GRGEN_MODEL.EdgeType_GridEdge.typeVar, "GRGEN_MODEL.IGridEdge", "GrowWorldFirstAtCorner_edge__edge0", "_edge0", GrowWorldFirstAtCorner_edge__edge0_AllowedTypes, GrowWorldFirstAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldFirstAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridCornerNode, GRGEN_MODEL.NodeType_GridCornerNode.typeVar, "GRGEN_MODEL.IGridCornerNode", "GrowWorldFirstAtCorner_node_cur", "cur", GrowWorldFirstAtCorner_node_cur_AllowedTypes, GrowWorldFirstAtCorner_node_cur_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldFirstAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldFirstAtCorner_node_next", "next", GrowWorldFirstAtCorner_node_next_AllowedTypes, GrowWorldFirstAtCorner_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldFirstAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "GrowWorldFirstAtCorner_node_hill", "hill", GrowWorldFirstAtCorner_node_hill_AllowedTypes, GrowWorldFirstAtCorner_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge GrowWorldFirstAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, GRGEN_MODEL.EdgeType_GridEdge.typeVar, "GRGEN_MODEL.IGridEdge", "GrowWorldFirstAtCorner_edge__edge0", "_edge0", GrowWorldFirstAtCorner_edge__edge0_AllowedTypes, GrowWorldFirstAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			pat_GrowWorldFirstAtCorner = new GRGEN_LGSP.PatternGraph(
 				"GrowWorldFirstAtCorner",
 				"",
@@ -3448,13 +3526,20 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_GrowWorldFirstAtCorner(Match_GrowWorldFirstAtCorner that)
+			public void CopyMatchContent(Match_GrowWorldFirstAtCorner that)
 			{
 				_node_cur = that._node_cur;
 				_node_next = that._node_next;
 				_node_hill = that._node_hill;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_GrowWorldFirstAtCorner(Match_GrowWorldFirstAtCorner that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_GrowWorldFirstAtCorner()
 			{
@@ -3515,10 +3600,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] GrowWorldFirstNotAtCorner_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] GrowWorldFirstNotAtCorner_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode GrowWorldFirstNotAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldFirstNotAtCorner_node_cur", "cur", GrowWorldFirstNotAtCorner_node_cur_AllowedTypes, GrowWorldFirstNotAtCorner_node_cur_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GrowWorldFirstNotAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldFirstNotAtCorner_node_next", "next", GrowWorldFirstNotAtCorner_node_next_AllowedTypes, GrowWorldFirstNotAtCorner_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GrowWorldFirstNotAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "GrowWorldFirstNotAtCorner_node_hill", "hill", GrowWorldFirstNotAtCorner_node_hill_AllowedTypes, GrowWorldFirstNotAtCorner_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge GrowWorldFirstNotAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, GRGEN_MODEL.EdgeType_GridEdge.typeVar, "GRGEN_MODEL.IGridEdge", "GrowWorldFirstNotAtCorner_edge__edge0", "_edge0", GrowWorldFirstNotAtCorner_edge__edge0_AllowedTypes, GrowWorldFirstNotAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldFirstNotAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldFirstNotAtCorner_node_cur", "cur", GrowWorldFirstNotAtCorner_node_cur_AllowedTypes, GrowWorldFirstNotAtCorner_node_cur_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldFirstNotAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldFirstNotAtCorner_node_next", "next", GrowWorldFirstNotAtCorner_node_next_AllowedTypes, GrowWorldFirstNotAtCorner_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldFirstNotAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "GrowWorldFirstNotAtCorner_node_hill", "hill", GrowWorldFirstNotAtCorner_node_hill_AllowedTypes, GrowWorldFirstNotAtCorner_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge GrowWorldFirstNotAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, GRGEN_MODEL.EdgeType_GridEdge.typeVar, "GRGEN_MODEL.IGridEdge", "GrowWorldFirstNotAtCorner_edge__edge0", "_edge0", GrowWorldFirstNotAtCorner_edge__edge0_AllowedTypes, GrowWorldFirstNotAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			pat_GrowWorldFirstNotAtCorner = new GRGEN_LGSP.PatternGraph(
 				"GrowWorldFirstNotAtCorner",
 				"",
@@ -3773,13 +3858,20 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_GrowWorldFirstNotAtCorner(Match_GrowWorldFirstNotAtCorner that)
+			public void CopyMatchContent(Match_GrowWorldFirstNotAtCorner that)
 			{
 				_node_cur = that._node_cur;
 				_node_next = that._node_next;
 				_node_hill = that._node_hill;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_GrowWorldFirstNotAtCorner(Match_GrowWorldFirstNotAtCorner that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_GrowWorldFirstNotAtCorner()
 			{
@@ -3855,11 +3947,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] GrowWorldNextAtCorner_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
 			bool[] GrowWorldNextAtCorner_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridCornerNode, GRGEN_MODEL.NodeType_GridCornerNode.typeVar, "GRGEN_MODEL.IGridCornerNode", "GrowWorldNextAtCorner_node_cur", "cur", GrowWorldNextAtCorner_node_cur_AllowedTypes, GrowWorldNextAtCorner_node_cur_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldNextAtCorner_node_next", "next", GrowWorldNextAtCorner_node_next_AllowedTypes, GrowWorldNextAtCorner_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_curOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldNextAtCorner_node_curOuter", "curOuter", GrowWorldNextAtCorner_node_curOuter_AllowedTypes, GrowWorldNextAtCorner_node_curOuter_IsAllowedType, 5.5F, 1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "GrowWorldNextAtCorner_node_hill", "hill", GrowWorldNextAtCorner_node_hill_AllowedTypes, GrowWorldNextAtCorner_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge GrowWorldNextAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, GRGEN_MODEL.EdgeType_GridEdge.typeVar, "GRGEN_MODEL.IGridEdge", "GrowWorldNextAtCorner_edge__edge0", "_edge0", GrowWorldNextAtCorner_edge__edge0_AllowedTypes, GrowWorldNextAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridCornerNode, GRGEN_MODEL.NodeType_GridCornerNode.typeVar, "GRGEN_MODEL.IGridCornerNode", "GrowWorldNextAtCorner_node_cur", "cur", GrowWorldNextAtCorner_node_cur_AllowedTypes, GrowWorldNextAtCorner_node_cur_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldNextAtCorner_node_next", "next", GrowWorldNextAtCorner_node_next_AllowedTypes, GrowWorldNextAtCorner_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_curOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldNextAtCorner_node_curOuter", "curOuter", GrowWorldNextAtCorner_node_curOuter_AllowedTypes, GrowWorldNextAtCorner_node_curOuter_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "GrowWorldNextAtCorner_node_hill", "hill", GrowWorldNextAtCorner_node_hill_AllowedTypes, GrowWorldNextAtCorner_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge GrowWorldNextAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, GRGEN_MODEL.EdgeType_GridEdge.typeVar, "GRGEN_MODEL.IGridEdge", "GrowWorldNextAtCorner_edge__edge0", "_edge0", GrowWorldNextAtCorner_edge__edge0_AllowedTypes, GrowWorldNextAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			bool[,] GrowWorldNextAtCorner_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -3868,7 +3960,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] GrowWorldNextAtCorner_neg_0_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] GrowWorldNextAtCorner_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge GrowWorldNextAtCorner_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "GrowWorldNextAtCorner_neg_0_edge__edge0", "_edge0", GrowWorldNextAtCorner_neg_0_edge__edge0_AllowedTypes, GrowWorldNextAtCorner_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge GrowWorldNextAtCorner_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "GrowWorldNextAtCorner_neg_0_edge__edge0", "_edge0", GrowWorldNextAtCorner_neg_0_edge__edge0_AllowedTypes, GrowWorldNextAtCorner_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			GrowWorldNextAtCorner_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"GrowWorldNextAtCorner_",
@@ -4225,14 +4317,21 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_GrowWorldNextAtCorner(Match_GrowWorldNextAtCorner that)
+			public void CopyMatchContent(Match_GrowWorldNextAtCorner that)
 			{
 				_node_cur = that._node_cur;
 				_node_next = that._node_next;
 				_node_curOuter = that._node_curOuter;
 				_node_hill = that._node_hill;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_GrowWorldNextAtCorner(Match_GrowWorldNextAtCorner that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_GrowWorldNextAtCorner()
 			{
@@ -4377,11 +4476,18 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_GrowWorldNextAtCorner_neg_0(Match_GrowWorldNextAtCorner_neg_0 that)
+			public void CopyMatchContent(Match_GrowWorldNextAtCorner_neg_0 that)
 			{
 				_node_cur = that._node_cur;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_GrowWorldNextAtCorner_neg_0(Match_GrowWorldNextAtCorner_neg_0 that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_GrowWorldNextAtCorner_neg_0()
 			{
@@ -4457,11 +4563,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] GrowWorldNextNotAtCorner_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
 			bool[] GrowWorldNextNotAtCorner_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldNextNotAtCorner_node_cur", "cur", GrowWorldNextNotAtCorner_node_cur_AllowedTypes, GrowWorldNextNotAtCorner_node_cur_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldNextNotAtCorner_node_next", "next", GrowWorldNextNotAtCorner_node_next_AllowedTypes, GrowWorldNextNotAtCorner_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_curOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldNextNotAtCorner_node_curOuter", "curOuter", GrowWorldNextNotAtCorner_node_curOuter_AllowedTypes, GrowWorldNextNotAtCorner_node_curOuter_IsAllowedType, 5.5F, 1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "GrowWorldNextNotAtCorner_node_hill", "hill", GrowWorldNextNotAtCorner_node_hill_AllowedTypes, GrowWorldNextNotAtCorner_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge GrowWorldNextNotAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, GRGEN_MODEL.EdgeType_GridEdge.typeVar, "GRGEN_MODEL.IGridEdge", "GrowWorldNextNotAtCorner_edge__edge0", "_edge0", GrowWorldNextNotAtCorner_edge__edge0_AllowedTypes, GrowWorldNextNotAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldNextNotAtCorner_node_cur", "cur", GrowWorldNextNotAtCorner_node_cur_AllowedTypes, GrowWorldNextNotAtCorner_node_cur_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldNextNotAtCorner_node_next", "next", GrowWorldNextNotAtCorner_node_next_AllowedTypes, GrowWorldNextNotAtCorner_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_curOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldNextNotAtCorner_node_curOuter", "curOuter", GrowWorldNextNotAtCorner_node_curOuter_AllowedTypes, GrowWorldNextNotAtCorner_node_curOuter_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "GrowWorldNextNotAtCorner_node_hill", "hill", GrowWorldNextNotAtCorner_node_hill_AllowedTypes, GrowWorldNextNotAtCorner_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge GrowWorldNextNotAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, GRGEN_MODEL.EdgeType_GridEdge.typeVar, "GRGEN_MODEL.IGridEdge", "GrowWorldNextNotAtCorner_edge__edge0", "_edge0", GrowWorldNextNotAtCorner_edge__edge0_AllowedTypes, GrowWorldNextNotAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			bool[,] GrowWorldNextNotAtCorner_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -4470,7 +4576,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] GrowWorldNextNotAtCorner_neg_0_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] GrowWorldNextNotAtCorner_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge GrowWorldNextNotAtCorner_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "GrowWorldNextNotAtCorner_neg_0_edge__edge0", "_edge0", GrowWorldNextNotAtCorner_neg_0_edge__edge0_AllowedTypes, GrowWorldNextNotAtCorner_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge GrowWorldNextNotAtCorner_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "GrowWorldNextNotAtCorner_neg_0_edge__edge0", "_edge0", GrowWorldNextNotAtCorner_neg_0_edge__edge0_AllowedTypes, GrowWorldNextNotAtCorner_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			GrowWorldNextNotAtCorner_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"GrowWorldNextNotAtCorner_",
@@ -4779,14 +4885,21 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_GrowWorldNextNotAtCorner(Match_GrowWorldNextNotAtCorner that)
+			public void CopyMatchContent(Match_GrowWorldNextNotAtCorner that)
 			{
 				_node_cur = that._node_cur;
 				_node_next = that._node_next;
 				_node_curOuter = that._node_curOuter;
 				_node_hill = that._node_hill;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_GrowWorldNextNotAtCorner(Match_GrowWorldNextNotAtCorner that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_GrowWorldNextNotAtCorner()
 			{
@@ -4931,11 +5044,18 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_GrowWorldNextNotAtCorner_neg_0(Match_GrowWorldNextNotAtCorner_neg_0 that)
+			public void CopyMatchContent(Match_GrowWorldNextNotAtCorner_neg_0 that)
 			{
 				_node_cur = that._node_cur;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_GrowWorldNextNotAtCorner_neg_0(Match_GrowWorldNextNotAtCorner_neg_0 that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_GrowWorldNextNotAtCorner_neg_0()
 			{
@@ -4995,10 +5115,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] GrowWorldEnd_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] GrowWorldEnd_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode GrowWorldEnd_node_nextOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldEnd_node_nextOuter", "nextOuter", GrowWorldEnd_node_nextOuter_AllowedTypes, GrowWorldEnd_node_nextOuter_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GrowWorldEnd_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldEnd_node_cur", "cur", GrowWorldEnd_node_cur_AllowedTypes, GrowWorldEnd_node_cur_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GrowWorldEnd_node_curOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldEnd_node_curOuter", "curOuter", GrowWorldEnd_node_curOuter_AllowedTypes, GrowWorldEnd_node_curOuter_IsAllowedType, 5.5F, 1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge GrowWorldEnd_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "GrowWorldEnd_edge__edge0", "_edge0", GrowWorldEnd_edge__edge0_AllowedTypes, GrowWorldEnd_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldEnd_node_nextOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldEnd_node_nextOuter", "nextOuter", GrowWorldEnd_node_nextOuter_AllowedTypes, GrowWorldEnd_node_nextOuter_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldEnd_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldEnd_node_cur", "cur", GrowWorldEnd_node_cur_AllowedTypes, GrowWorldEnd_node_cur_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GrowWorldEnd_node_curOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "GrowWorldEnd_node_curOuter", "curOuter", GrowWorldEnd_node_curOuter_AllowedTypes, GrowWorldEnd_node_curOuter_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge GrowWorldEnd_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, GRGEN_MODEL.EdgeType_PathToHill.typeVar, "GRGEN_MODEL.IPathToHill", "GrowWorldEnd_edge__edge0", "_edge0", GrowWorldEnd_edge__edge0_AllowedTypes, GrowWorldEnd_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			pat_GrowWorldEnd = new GRGEN_LGSP.PatternGraph(
 				"GrowWorldEnd",
 				"",
@@ -5219,13 +5339,20 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_GrowWorldEnd(Match_GrowWorldEnd that)
+			public void CopyMatchContent(Match_GrowWorldEnd that)
 			{
 				_node_nextOuter = that._node_nextOuter;
 				_node_cur = that._node_cur;
 				_node_curOuter = that._node_curOuter;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_GrowWorldEnd(Match_GrowWorldEnd that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_GrowWorldEnd()
 			{
@@ -5280,9 +5407,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			bool[] GetNextAnt_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] GetNextAnt_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode GetNextAnt_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "GetNextAnt_node_curAnt", "curAnt", GetNextAnt_node_curAnt_AllowedTypes, GetNextAnt_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode GetNextAnt_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "GetNextAnt_node_next", "next", GetNextAnt_node_next_AllowedTypes, GetNextAnt_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge GetNextAnt_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@NextAnt, GRGEN_MODEL.EdgeType_NextAnt.typeVar, "GRGEN_MODEL.INextAnt", "GetNextAnt_edge__edge0", "_edge0", GetNextAnt_edge__edge0_AllowedTypes, GetNextAnt_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GetNextAnt_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "GetNextAnt_node_curAnt", "curAnt", GetNextAnt_node_curAnt_AllowedTypes, GetNextAnt_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode GetNextAnt_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "GetNextAnt_node_next", "next", GetNextAnt_node_next_AllowedTypes, GetNextAnt_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge GetNextAnt_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@NextAnt, GRGEN_MODEL.EdgeType_NextAnt.typeVar, "GRGEN_MODEL.INextAnt", "GetNextAnt_edge__edge0", "_edge0", GetNextAnt_edge__edge0_AllowedTypes, GetNextAnt_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			pat_GetNextAnt = new GRGEN_LGSP.PatternGraph(
 				"GetNextAnt",
 				"",
@@ -5491,12 +5618,19 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_GetNextAnt(Match_GetNextAnt that)
+			public void CopyMatchContent(Match_GetNextAnt that)
 			{
 				_node_curAnt = that._node_curAnt;
 				_node_next = that._node_next;
 				_edge__edge0 = that._edge__edge0;
+			}
+
+			public Match_GetNextAnt(Match_GetNextAnt that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_GetNextAnt()
 			{
@@ -5550,8 +5684,8 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			bool[,] Food2Ant_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] Food2Ant_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] Food2Ant_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode Food2Ant_node_lastAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "Food2Ant_node_lastAnt", "lastAnt", Food2Ant_node_lastAnt_AllowedTypes, Food2Ant_node_lastAnt_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Food2Ant_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "Food2Ant_node_hill", "hill", Food2Ant_node_hill_AllowedTypes, Food2Ant_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode Food2Ant_node_lastAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "Food2Ant_node_lastAnt", "lastAnt", Food2Ant_node_lastAnt_AllowedTypes, Food2Ant_node_lastAnt_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode Food2Ant_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, GRGEN_MODEL.NodeType_AntHill.typeVar, "GRGEN_MODEL.IAntHill", "Food2Ant_node_hill", "hill", Food2Ant_node_hill_AllowedTypes, Food2Ant_node_hill_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition Food2Ant_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.GT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IAntHill", "Food2Ant_node_hill", "food"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "Food2Ant_node_hill" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -5767,11 +5901,18 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_Food2Ant(Match_Food2Ant that)
+			public void CopyMatchContent(Match_Food2Ant that)
 			{
 				_node_lastAnt = that._node_lastAnt;
 				_node_hill = that._node_hill;
+			}
+
+			public Match_Food2Ant(Match_Food2Ant that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_Food2Ant()
 			{
@@ -5822,7 +5963,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			bool[,] EvaporateWorld_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] EvaporateWorld_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] EvaporateWorld_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode EvaporateWorld_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "EvaporateWorld_node_n", "n", EvaporateWorld_node_n_AllowedTypes, EvaporateWorld_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode EvaporateWorld_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, GRGEN_MODEL.NodeType_GridNode.typeVar, "GRGEN_MODEL.IGridNode", "EvaporateWorld_node_n", "n", EvaporateWorld_node_n_AllowedTypes, EvaporateWorld_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			pat_EvaporateWorld = new GRGEN_LGSP.PatternGraph(
 				"EvaporateWorld",
 				"",
@@ -6023,10 +6164,17 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
+
+			public void CopyMatchContent(Match_EvaporateWorld that)
+			{
+				_node_n = that._node_n;
+			}
 
 			public Match_EvaporateWorld(Match_EvaporateWorld that)
 			{
-				_node_n = that._node_n;
+				CopyMatchContent(that);
 			}
 			public Match_EvaporateWorld()
 			{
@@ -6076,7 +6224,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			bool[,] doAntWorld_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] doAntWorld_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] doAntWorld_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode doAntWorld_node_firstAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "doAntWorld_node_firstAnt", "firstAnt", doAntWorld_node_firstAnt_AllowedTypes, doAntWorld_node_firstAnt_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode doAntWorld_node_firstAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, GRGEN_MODEL.NodeType_Ant.typeVar, "GRGEN_MODEL.IAnt", "doAntWorld_node_firstAnt", "firstAnt", doAntWorld_node_firstAnt_AllowedTypes, doAntWorld_node_firstAnt_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
 			pat_doAntWorld = new GRGEN_LGSP.PatternGraph(
 				"doAntWorld",
 				"",
@@ -6642,10 +6790,17 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
+
+			public void CopyMatchContent(Match_doAntWorld that)
+			{
+				_node_firstAnt = that._node_firstAnt;
+			}
 
 			public Match_doAntWorld(Match_doAntWorld that)
 			{
-				_node_firstAnt = that._node_firstAnt;
+				CopyMatchContent(that);
 			}
 			public Match_doAntWorld()
 			{
@@ -6784,7 +6939,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         public override string Name { get { return "InitWorld"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_InitWorld.Match_InitWorld, Rule_InitWorld.IMatch_InitWorld> matches;
 
-        public static Action_InitWorld Instance { get { return instance; } }
+        public static Action_InitWorld Instance { get { return instance; } set { instance = value; } }
         private static Action_InitWorld instance = new Action_InitWorld();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_InitWorld.IMatch_InitWorld> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
@@ -7005,7 +7160,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         public override string Name { get { return "TakeFood"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_TakeFood.Match_TakeFood, Rule_TakeFood.IMatch_TakeFood> matches;
 
-        public static Action_TakeFood Instance { get { return instance; } }
+        public static Action_TakeFood Instance { get { return instance; } set { instance = value; } }
         private static Action_TakeFood instance = new Action_TakeFood();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_TakeFood.IMatch_TakeFood> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IAnt TakeFood_node_curAnt)
@@ -7242,7 +7397,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         public override string Name { get { return "GoHome"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_GoHome.Match_GoHome, Rule_GoHome.IMatch_GoHome> matches;
 
-        public static Action_GoHome Instance { get { return instance; } }
+        public static Action_GoHome Instance { get { return instance; } set { instance = value; } }
         private static Action_GoHome instance = new Action_GoHome();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_GoHome.IMatch_GoHome> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IAnt GoHome_node_curAnt)
@@ -7275,8 +7430,8 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                         continue;
                     }
                     uint prev__candidate_GoHome_node_old;
-                    prev__candidate_GoHome_node_old = candidate_GoHome_node_old.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-                    candidate_GoHome_node_old.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    prev__candidate_GoHome_node_old = candidate_GoHome_node_old.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_GoHome_node_old.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Extend Outgoing GoHome_edge__edge0 from GoHome_node_old 
                     GRGEN_LGSP.LGSPEdge head_candidate_GoHome_edge__edge0 = candidate_GoHome_node_old.lgspOuthead;
                     if(head_candidate_GoHome_edge__edge0 != null)
@@ -7292,7 +7447,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                             if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GoHome_node_new.lgspType.TypeID]) {
                                 continue;
                             }
-                            if((candidate_GoHome_node_new.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                            if((candidate_GoHome_node_new.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                             {
                                 continue;
                             }
@@ -7308,13 +7463,13 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                             {
                                 candidate_GoHome_node_old.MoveOutHeadAfter(candidate_GoHome_edge__edge0);
                                 candidate_GoHome_node_curAnt.MoveOutHeadAfter(candidate_GoHome_edge_oldPos);
-                                candidate_GoHome_node_old.lgspFlags = candidate_GoHome_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GoHome_node_old;
+                                candidate_GoHome_node_old.lgspFlags = candidate_GoHome_node_old.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GoHome_node_old;
                                 return matches;
                             }
                         }
                         while( (candidate_GoHome_edge__edge0 = candidate_GoHome_edge__edge0.lgspOutNext) != head_candidate_GoHome_edge__edge0 );
                     }
-                    candidate_GoHome_node_old.lgspFlags = candidate_GoHome_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GoHome_node_old;
+                    candidate_GoHome_node_old.lgspFlags = candidate_GoHome_node_old.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GoHome_node_old;
                 }
                 while( (candidate_GoHome_edge_oldPos = candidate_GoHome_edge_oldPos.lgspOutNext) != head_candidate_GoHome_edge_oldPos );
             }
@@ -7509,7 +7664,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         public override string Name { get { return "DropFood"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_DropFood.Match_DropFood, Rule_DropFood.IMatch_DropFood> matches;
 
-        public static Action_DropFood Instance { get { return instance; } }
+        public static Action_DropFood Instance { get { return instance; } set { instance = value; } }
         private static Action_DropFood instance = new Action_DropFood();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_DropFood.IMatch_DropFood> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IAnt DropFood_node_curAnt)
@@ -7746,7 +7901,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         public override string Name { get { return "SearchAlongPheromones"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_SearchAlongPheromones.Match_SearchAlongPheromones, Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones> matches;
 
-        public static Action_SearchAlongPheromones Instance { get { return instance; } }
+        public static Action_SearchAlongPheromones Instance { get { return instance; } set { instance = value; } }
         private static Action_SearchAlongPheromones instance = new Action_SearchAlongPheromones();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IAnt SearchAlongPheromones_node_curAnt)
@@ -7775,8 +7930,8 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                         continue;
                     }
                     uint prev__candidate_SearchAlongPheromones_node_old;
-                    prev__candidate_SearchAlongPheromones_node_old = candidate_SearchAlongPheromones_node_old.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-                    candidate_SearchAlongPheromones_node_old.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    prev__candidate_SearchAlongPheromones_node_old = candidate_SearchAlongPheromones_node_old.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_SearchAlongPheromones_node_old.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Extend Incoming SearchAlongPheromones_edge__edge0 from SearchAlongPheromones_node_old 
                     GRGEN_LGSP.LGSPEdge head_candidate_SearchAlongPheromones_edge__edge0 = candidate_SearchAlongPheromones_node_old.lgspInhead;
                     if(head_candidate_SearchAlongPheromones_edge__edge0 != null)
@@ -7792,7 +7947,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                             if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_SearchAlongPheromones_node_new.lgspType.TypeID]) {
                                 continue;
                             }
-                            if((candidate_SearchAlongPheromones_node_new.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                            if((candidate_SearchAlongPheromones_node_new.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                             {
                                 continue;
                             }
@@ -7812,13 +7967,13 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                             {
                                 candidate_SearchAlongPheromones_node_old.MoveInHeadAfter(candidate_SearchAlongPheromones_edge__edge0);
                                 candidate_SearchAlongPheromones_node_curAnt.MoveOutHeadAfter(candidate_SearchAlongPheromones_edge_oldPos);
-                                candidate_SearchAlongPheromones_node_old.lgspFlags = candidate_SearchAlongPheromones_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_SearchAlongPheromones_node_old;
+                                candidate_SearchAlongPheromones_node_old.lgspFlags = candidate_SearchAlongPheromones_node_old.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_SearchAlongPheromones_node_old;
                                 return matches;
                             }
                         }
                         while( (candidate_SearchAlongPheromones_edge__edge0 = candidate_SearchAlongPheromones_edge__edge0.lgspInNext) != head_candidate_SearchAlongPheromones_edge__edge0 );
                     }
-                    candidate_SearchAlongPheromones_node_old.lgspFlags = candidate_SearchAlongPheromones_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_SearchAlongPheromones_node_old;
+                    candidate_SearchAlongPheromones_node_old.lgspFlags = candidate_SearchAlongPheromones_node_old.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_SearchAlongPheromones_node_old;
                 }
                 while( (candidate_SearchAlongPheromones_edge_oldPos = candidate_SearchAlongPheromones_edge_oldPos.lgspOutNext) != head_candidate_SearchAlongPheromones_edge_oldPos );
             }
@@ -8013,7 +8168,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         public override string Name { get { return "SearchAimless"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_SearchAimless.Match_SearchAimless, Rule_SearchAimless.IMatch_SearchAimless> matches;
 
-        public static Action_SearchAimless Instance { get { return instance; } }
+        public static Action_SearchAimless Instance { get { return instance; } set { instance = value; } }
         private static Action_SearchAimless instance = new Action_SearchAimless();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_SearchAimless.IMatch_SearchAimless> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IAnt SearchAimless_node_curAnt)
@@ -8042,8 +8197,8 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                         continue;
                     }
                     uint prev__candidate_SearchAimless_node_old;
-                    prev__candidate_SearchAimless_node_old = candidate_SearchAimless_node_old.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-                    candidate_SearchAimless_node_old.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    prev__candidate_SearchAimless_node_old = candidate_SearchAimless_node_old.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_SearchAimless_node_old.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // both directions of SearchAimless_edge__edge0
                     for(int directionRunCounterOf_SearchAimless_edge__edge0 = 0; directionRunCounterOf_SearchAimless_edge__edge0 < 2; ++directionRunCounterOf_SearchAimless_edge__edge0)
                     {
@@ -8062,7 +8217,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                                 if(candidate_SearchAimless_node_new.lgspType.TypeID!=1 && candidate_SearchAimless_node_new.lgspType.TypeID!=2) {
                                     continue;
                                 }
-                                if((candidate_SearchAimless_node_new.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                                if((candidate_SearchAimless_node_new.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                                 {
                                     continue;
                                 }
@@ -8082,14 +8237,14 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                                         candidate_SearchAimless_node_old.MoveOutHeadAfter(candidate_SearchAimless_edge__edge0);
                                     }
                                     candidate_SearchAimless_node_curAnt.MoveOutHeadAfter(candidate_SearchAimless_edge_oldPos);
-                                    candidate_SearchAimless_node_old.lgspFlags = candidate_SearchAimless_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_SearchAimless_node_old;
+                                    candidate_SearchAimless_node_old.lgspFlags = candidate_SearchAimless_node_old.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_SearchAimless_node_old;
                                     return matches;
                                 }
                             }
                             while( (directionRunCounterOf_SearchAimless_edge__edge0==0 ? candidate_SearchAimless_edge__edge0 = candidate_SearchAimless_edge__edge0.lgspInNext : candidate_SearchAimless_edge__edge0 = candidate_SearchAimless_edge__edge0.lgspOutNext) != head_candidate_SearchAimless_edge__edge0 );
                         }
                     }
-                    candidate_SearchAimless_node_old.lgspFlags = candidate_SearchAimless_node_old.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_SearchAimless_node_old;
+                    candidate_SearchAimless_node_old.lgspFlags = candidate_SearchAimless_node_old.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_SearchAimless_node_old;
                 }
                 while( (candidate_SearchAimless_edge_oldPos = candidate_SearchAimless_edge_oldPos.lgspOutNext) != head_candidate_SearchAimless_edge_oldPos );
             }
@@ -8284,7 +8439,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
         public override string Name { get { return "ReachedEndOfWorld"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_ReachedEndOfWorld.Match_ReachedEndOfWorld, Rule_ReachedEndOfWorld.IMatch_ReachedEndOfWorld> matches;
 
-        public static Action_ReachedEndOfWorld Instance { get { return instance; } }
+        public static Action_ReachedEndOfWorld Instance { get { return instance; } set { instance = value; } }
         private static Action_ReachedEndOfWorld instance = new Action_ReachedEndOfWorld();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_ReachedEndOfWorld.IMatch_ReachedEndOfWorld> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IAnt ReachedEndOfWorld_node_curAnt)
@@ -8544,7 +8699,7 @@ label0: ;
         public override string Name { get { return "ReachedEndOfWorldAnywhere"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_ReachedEndOfWorldAnywhere.Match_ReachedEndOfWorldAnywhere, Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere> matches;
 
-        public static Action_ReachedEndOfWorldAnywhere Instance { get { return instance; } }
+        public static Action_ReachedEndOfWorldAnywhere Instance { get { return instance; } set { instance = value; } }
         private static Action_ReachedEndOfWorldAnywhere instance = new Action_ReachedEndOfWorldAnywhere();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
@@ -8806,7 +8961,7 @@ label1: ;
         public override string Name { get { return "GrowFoodIfEqual"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_GrowFoodIfEqual.Match_GrowFoodIfEqual, Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches;
 
-        public static Action_GrowFoodIfEqual Instance { get { return instance; } }
+        public static Action_GrowFoodIfEqual Instance { get { return instance; } set { instance = value; } }
         private static Action_GrowFoodIfEqual instance = new Action_GrowFoodIfEqual();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IGridNode GrowFoodIfEqual_node_n, System.Int32 GrowFoodIfEqual_var_val)
@@ -8821,13 +8976,13 @@ label1: ;
                 return matches;
             }
             uint prev__candidate_GrowFoodIfEqual_node_n;
-            prev__candidate_GrowFoodIfEqual_node_n = candidate_GrowFoodIfEqual_node_n.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-            candidate_GrowFoodIfEqual_node_n.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            prev__candidate_GrowFoodIfEqual_node_n = candidate_GrowFoodIfEqual_node_n.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowFoodIfEqual_node_n.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Lookup GrowFoodIfEqual_node_hill 
             int type_id_candidate_GrowFoodIfEqual_node_hill = 3;
             for(GRGEN_LGSP.LGSPNode head_candidate_GrowFoodIfEqual_node_hill = graph.nodesByTypeHeads[type_id_candidate_GrowFoodIfEqual_node_hill], candidate_GrowFoodIfEqual_node_hill = head_candidate_GrowFoodIfEqual_node_hill.lgspTypeNext; candidate_GrowFoodIfEqual_node_hill != head_candidate_GrowFoodIfEqual_node_hill; candidate_GrowFoodIfEqual_node_hill = candidate_GrowFoodIfEqual_node_hill.lgspTypeNext)
             {
-                if((candidate_GrowFoodIfEqual_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                if((candidate_GrowFoodIfEqual_node_hill.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                 {
                     continue;
                 }
@@ -8844,11 +8999,11 @@ label1: ;
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(candidate_GrowFoodIfEqual_node_hill);
-                    candidate_GrowFoodIfEqual_node_n.lgspFlags = candidate_GrowFoodIfEqual_node_n.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowFoodIfEqual_node_n;
+                    candidate_GrowFoodIfEqual_node_n.lgspFlags = candidate_GrowFoodIfEqual_node_n.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowFoodIfEqual_node_n;
                     return matches;
                 }
             }
-            candidate_GrowFoodIfEqual_node_n.lgspFlags = candidate_GrowFoodIfEqual_node_n.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowFoodIfEqual_node_n;
+            candidate_GrowFoodIfEqual_node_n.lgspFlags = candidate_GrowFoodIfEqual_node_n.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowFoodIfEqual_node_n;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -9040,7 +9195,7 @@ label1: ;
         public override string Name { get { return "GrowWorldFirstAtCorner"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_GrowWorldFirstAtCorner.Match_GrowWorldFirstAtCorner, Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner> matches;
 
-        public static Action_GrowWorldFirstAtCorner Instance { get { return instance; } }
+        public static Action_GrowWorldFirstAtCorner Instance { get { return instance; } set { instance = value; } }
         private static Action_GrowWorldFirstAtCorner instance = new Action_GrowWorldFirstAtCorner();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IGridNode GrowWorldFirstAtCorner_node_cur)
@@ -9054,8 +9209,8 @@ label1: ;
                 return matches;
             }
             uint prev__candidate_GrowWorldFirstAtCorner_node_cur;
-            prev__candidate_GrowWorldFirstAtCorner_node_cur = candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-            candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            prev__candidate_GrowWorldFirstAtCorner_node_cur = candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Outgoing GrowWorldFirstAtCorner_edge__edge0 from GrowWorldFirstAtCorner_node_cur 
             GRGEN_LGSP.LGSPEdge head_candidate_GrowWorldFirstAtCorner_edge__edge0 = candidate_GrowWorldFirstAtCorner_node_cur.lgspOuthead;
             if(head_candidate_GrowWorldFirstAtCorner_edge__edge0 != null)
@@ -9071,18 +9226,18 @@ label1: ;
                     if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldFirstAtCorner_node_next.lgspType.TypeID]) {
                         continue;
                     }
-                    if((candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                    if((candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
                     uint prev__candidate_GrowWorldFirstAtCorner_node_next;
-                    prev__candidate_GrowWorldFirstAtCorner_node_next = candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-                    candidate_GrowWorldFirstAtCorner_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    prev__candidate_GrowWorldFirstAtCorner_node_next = candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_GrowWorldFirstAtCorner_node_next.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Lookup GrowWorldFirstAtCorner_node_hill 
                     int type_id_candidate_GrowWorldFirstAtCorner_node_hill = 3;
                     for(GRGEN_LGSP.LGSPNode head_candidate_GrowWorldFirstAtCorner_node_hill = graph.nodesByTypeHeads[type_id_candidate_GrowWorldFirstAtCorner_node_hill], candidate_GrowWorldFirstAtCorner_node_hill = head_candidate_GrowWorldFirstAtCorner_node_hill.lgspTypeNext; candidate_GrowWorldFirstAtCorner_node_hill != head_candidate_GrowWorldFirstAtCorner_node_hill; candidate_GrowWorldFirstAtCorner_node_hill = candidate_GrowWorldFirstAtCorner_node_hill.lgspTypeNext)
                     {
-                        if((candidate_GrowWorldFirstAtCorner_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                        if((candidate_GrowWorldFirstAtCorner_node_hill.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                         {
                             continue;
                         }
@@ -9097,16 +9252,16 @@ label1: ;
                         {
                             graph.MoveHeadAfter(candidate_GrowWorldFirstAtCorner_node_hill);
                             candidate_GrowWorldFirstAtCorner_node_cur.MoveOutHeadAfter(candidate_GrowWorldFirstAtCorner_edge__edge0);
-                            candidate_GrowWorldFirstAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstAtCorner_node_next;
-                            candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstAtCorner_node_cur;
+                            candidate_GrowWorldFirstAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstAtCorner_node_next;
+                            candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstAtCorner_node_cur;
                             return matches;
                         }
                     }
-                    candidate_GrowWorldFirstAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstAtCorner_node_next;
+                    candidate_GrowWorldFirstAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstAtCorner_node_next.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstAtCorner_node_next;
                 }
                 while( (candidate_GrowWorldFirstAtCorner_edge__edge0 = candidate_GrowWorldFirstAtCorner_edge__edge0.lgspOutNext) != head_candidate_GrowWorldFirstAtCorner_edge__edge0 );
             }
-            candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstAtCorner_node_cur;
+            candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstAtCorner_node_cur;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -9308,7 +9463,7 @@ label1: ;
         public override string Name { get { return "GrowWorldFirstNotAtCorner"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_GrowWorldFirstNotAtCorner.Match_GrowWorldFirstNotAtCorner, Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner> matches;
 
-        public static Action_GrowWorldFirstNotAtCorner Instance { get { return instance; } }
+        public static Action_GrowWorldFirstNotAtCorner Instance { get { return instance; } set { instance = value; } }
         private static Action_GrowWorldFirstNotAtCorner instance = new Action_GrowWorldFirstNotAtCorner();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IGridNode GrowWorldFirstNotAtCorner_node_cur)
@@ -9322,8 +9477,8 @@ label1: ;
                 return matches;
             }
             uint prev__candidate_GrowWorldFirstNotAtCorner_node_cur;
-            prev__candidate_GrowWorldFirstNotAtCorner_node_cur = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-            candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            prev__candidate_GrowWorldFirstNotAtCorner_node_cur = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Outgoing GrowWorldFirstNotAtCorner_edge__edge0 from GrowWorldFirstNotAtCorner_node_cur 
             GRGEN_LGSP.LGSPEdge head_candidate_GrowWorldFirstNotAtCorner_edge__edge0 = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspOuthead;
             if(head_candidate_GrowWorldFirstNotAtCorner_edge__edge0 != null)
@@ -9339,18 +9494,18 @@ label1: ;
                     if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldFirstNotAtCorner_node_next.lgspType.TypeID]) {
                         continue;
                     }
-                    if((candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                    if((candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
                     uint prev__candidate_GrowWorldFirstNotAtCorner_node_next;
-                    prev__candidate_GrowWorldFirstNotAtCorner_node_next = candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-                    candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    prev__candidate_GrowWorldFirstNotAtCorner_node_next = candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Lookup GrowWorldFirstNotAtCorner_node_hill 
                     int type_id_candidate_GrowWorldFirstNotAtCorner_node_hill = 3;
                     for(GRGEN_LGSP.LGSPNode head_candidate_GrowWorldFirstNotAtCorner_node_hill = graph.nodesByTypeHeads[type_id_candidate_GrowWorldFirstNotAtCorner_node_hill], candidate_GrowWorldFirstNotAtCorner_node_hill = head_candidate_GrowWorldFirstNotAtCorner_node_hill.lgspTypeNext; candidate_GrowWorldFirstNotAtCorner_node_hill != head_candidate_GrowWorldFirstNotAtCorner_node_hill; candidate_GrowWorldFirstNotAtCorner_node_hill = candidate_GrowWorldFirstNotAtCorner_node_hill.lgspTypeNext)
                     {
-                        if((candidate_GrowWorldFirstNotAtCorner_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                        if((candidate_GrowWorldFirstNotAtCorner_node_hill.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                         {
                             continue;
                         }
@@ -9365,16 +9520,16 @@ label1: ;
                         {
                             graph.MoveHeadAfter(candidate_GrowWorldFirstNotAtCorner_node_hill);
                             candidate_GrowWorldFirstNotAtCorner_node_cur.MoveOutHeadAfter(candidate_GrowWorldFirstNotAtCorner_edge__edge0);
-                            candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstNotAtCorner_node_next;
-                            candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstNotAtCorner_node_cur;
+                            candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstNotAtCorner_node_next;
+                            candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstNotAtCorner_node_cur;
                             return matches;
                         }
                     }
-                    candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstNotAtCorner_node_next;
+                    candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_next.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstNotAtCorner_node_next;
                 }
                 while( (candidate_GrowWorldFirstNotAtCorner_edge__edge0 = candidate_GrowWorldFirstNotAtCorner_edge__edge0.lgspOutNext) != head_candidate_GrowWorldFirstNotAtCorner_edge__edge0 );
             }
-            candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstNotAtCorner_node_cur;
+            candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldFirstNotAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldFirstNotAtCorner_node_cur;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -9576,7 +9731,7 @@ label1: ;
         public override string Name { get { return "GrowWorldNextAtCorner"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_GrowWorldNextAtCorner.Match_GrowWorldNextAtCorner, Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner> matches;
 
-        public static Action_GrowWorldNextAtCorner Instance { get { return instance; } }
+        public static Action_GrowWorldNextAtCorner Instance { get { return instance; } set { instance = value; } }
         private static Action_GrowWorldNextAtCorner instance = new Action_GrowWorldNextAtCorner();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IGridNode GrowWorldNextAtCorner_node_cur, GRGEN_MODEL.IGridNode GrowWorldNextAtCorner_node_curOuter)
@@ -9590,8 +9745,8 @@ label1: ;
                 return matches;
             }
             uint prev__candidate_GrowWorldNextAtCorner_node_cur;
-            prev__candidate_GrowWorldNextAtCorner_node_cur = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-            candidate_GrowWorldNextAtCorner_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            prev__candidate_GrowWorldNextAtCorner_node_cur = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldNextAtCorner_node_cur.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // NegativePattern 
             {
                 ++isoSpace;
@@ -9607,7 +9762,7 @@ label1: ;
                         }
                         // negative pattern found
                         --isoSpace;
-                        candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
+                        candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
                         return matches;
                     }
                     while( (candidate_GrowWorldNextAtCorner_neg_0_edge__edge0 = candidate_GrowWorldNextAtCorner_neg_0_edge__edge0.lgspInNext) != head_candidate_GrowWorldNextAtCorner_neg_0_edge__edge0 );
@@ -9617,17 +9772,17 @@ label1: ;
             // Preset GrowWorldNextAtCorner_node_curOuter 
             GRGEN_LGSP.LGSPNode candidate_GrowWorldNextAtCorner_node_curOuter = (GRGEN_LGSP.LGSPNode)GrowWorldNextAtCorner_node_curOuter;
             if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldNextAtCorner_node_curOuter.lgspType.TypeID]) {
-                candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
+                candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
                 return matches;
             }
-            if((candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+            if((candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
             {
-                candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
+                candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
                 return matches;
             }
             uint prev__candidate_GrowWorldNextAtCorner_node_curOuter;
-            prev__candidate_GrowWorldNextAtCorner_node_curOuter = candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-            candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            prev__candidate_GrowWorldNextAtCorner_node_curOuter = candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Outgoing GrowWorldNextAtCorner_edge__edge0 from GrowWorldNextAtCorner_node_cur 
             GRGEN_LGSP.LGSPEdge head_candidate_GrowWorldNextAtCorner_edge__edge0 = candidate_GrowWorldNextAtCorner_node_cur.lgspOuthead;
             if(head_candidate_GrowWorldNextAtCorner_edge__edge0 != null)
@@ -9643,18 +9798,18 @@ label1: ;
                     if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldNextAtCorner_node_next.lgspType.TypeID]) {
                         continue;
                     }
-                    if((candidate_GrowWorldNextAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                    if((candidate_GrowWorldNextAtCorner_node_next.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
                     uint prev__candidate_GrowWorldNextAtCorner_node_next;
-                    prev__candidate_GrowWorldNextAtCorner_node_next = candidate_GrowWorldNextAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-                    candidate_GrowWorldNextAtCorner_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    prev__candidate_GrowWorldNextAtCorner_node_next = candidate_GrowWorldNextAtCorner_node_next.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_GrowWorldNextAtCorner_node_next.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Lookup GrowWorldNextAtCorner_node_hill 
                     int type_id_candidate_GrowWorldNextAtCorner_node_hill = 3;
                     for(GRGEN_LGSP.LGSPNode head_candidate_GrowWorldNextAtCorner_node_hill = graph.nodesByTypeHeads[type_id_candidate_GrowWorldNextAtCorner_node_hill], candidate_GrowWorldNextAtCorner_node_hill = head_candidate_GrowWorldNextAtCorner_node_hill.lgspTypeNext; candidate_GrowWorldNextAtCorner_node_hill != head_candidate_GrowWorldNextAtCorner_node_hill; candidate_GrowWorldNextAtCorner_node_hill = candidate_GrowWorldNextAtCorner_node_hill.lgspTypeNext)
                     {
-                        if((candidate_GrowWorldNextAtCorner_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                        if((candidate_GrowWorldNextAtCorner_node_hill.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                         {
                             continue;
                         }
@@ -9670,18 +9825,18 @@ label1: ;
                         {
                             graph.MoveHeadAfter(candidate_GrowWorldNextAtCorner_node_hill);
                             candidate_GrowWorldNextAtCorner_node_cur.MoveOutHeadAfter(candidate_GrowWorldNextAtCorner_edge__edge0);
-                            candidate_GrowWorldNextAtCorner_node_next.lgspFlags = candidate_GrowWorldNextAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_next;
-                            candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_curOuter;
-                            candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
+                            candidate_GrowWorldNextAtCorner_node_next.lgspFlags = candidate_GrowWorldNextAtCorner_node_next.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_next;
+                            candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_curOuter;
+                            candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
                             return matches;
                         }
                     }
-                    candidate_GrowWorldNextAtCorner_node_next.lgspFlags = candidate_GrowWorldNextAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_next;
+                    candidate_GrowWorldNextAtCorner_node_next.lgspFlags = candidate_GrowWorldNextAtCorner_node_next.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_next;
                 }
                 while( (candidate_GrowWorldNextAtCorner_edge__edge0 = candidate_GrowWorldNextAtCorner_edge__edge0.lgspOutNext) != head_candidate_GrowWorldNextAtCorner_edge__edge0 );
             }
-            candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_curOuter;
-            candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
+            candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextAtCorner_node_curOuter.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_curOuter;
+            candidate_GrowWorldNextAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextAtCorner_node_cur;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -9883,7 +10038,7 @@ label1: ;
         public override string Name { get { return "GrowWorldNextNotAtCorner"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_GrowWorldNextNotAtCorner.Match_GrowWorldNextNotAtCorner, Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner> matches;
 
-        public static Action_GrowWorldNextNotAtCorner Instance { get { return instance; } }
+        public static Action_GrowWorldNextNotAtCorner Instance { get { return instance; } set { instance = value; } }
         private static Action_GrowWorldNextNotAtCorner instance = new Action_GrowWorldNextNotAtCorner();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IGridNode GrowWorldNextNotAtCorner_node_cur, GRGEN_MODEL.IGridNode GrowWorldNextNotAtCorner_node_curOuter)
@@ -9897,8 +10052,8 @@ label1: ;
                 return matches;
             }
             uint prev__candidate_GrowWorldNextNotAtCorner_node_cur;
-            prev__candidate_GrowWorldNextNotAtCorner_node_cur = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-            candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            prev__candidate_GrowWorldNextNotAtCorner_node_cur = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // NegativePattern 
             {
                 ++isoSpace;
@@ -9914,7 +10069,7 @@ label1: ;
                         }
                         // negative pattern found
                         --isoSpace;
-                        candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
+                        candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
                         return matches;
                     }
                     while( (candidate_GrowWorldNextNotAtCorner_neg_0_edge__edge0 = candidate_GrowWorldNextNotAtCorner_neg_0_edge__edge0.lgspInNext) != head_candidate_GrowWorldNextNotAtCorner_neg_0_edge__edge0 );
@@ -9924,17 +10079,17 @@ label1: ;
             // Preset GrowWorldNextNotAtCorner_node_curOuter 
             GRGEN_LGSP.LGSPNode candidate_GrowWorldNextNotAtCorner_node_curOuter = (GRGEN_LGSP.LGSPNode)GrowWorldNextNotAtCorner_node_curOuter;
             if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspType.TypeID]) {
-                candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
+                candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
                 return matches;
             }
-            if((candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+            if((candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
             {
-                candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
+                candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
                 return matches;
             }
             uint prev__candidate_GrowWorldNextNotAtCorner_node_curOuter;
-            prev__candidate_GrowWorldNextNotAtCorner_node_curOuter = candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-            candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            prev__candidate_GrowWorldNextNotAtCorner_node_curOuter = candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Outgoing GrowWorldNextNotAtCorner_edge__edge0 from GrowWorldNextNotAtCorner_node_cur 
             GRGEN_LGSP.LGSPEdge head_candidate_GrowWorldNextNotAtCorner_edge__edge0 = candidate_GrowWorldNextNotAtCorner_node_cur.lgspOuthead;
             if(head_candidate_GrowWorldNextNotAtCorner_edge__edge0 != null)
@@ -9950,18 +10105,18 @@ label1: ;
                     if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldNextNotAtCorner_node_next.lgspType.TypeID]) {
                         continue;
                     }
-                    if((candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                    if((candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
                     uint prev__candidate_GrowWorldNextNotAtCorner_node_next;
-                    prev__candidate_GrowWorldNextNotAtCorner_node_next = candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-                    candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    prev__candidate_GrowWorldNextNotAtCorner_node_next = candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                     // Lookup GrowWorldNextNotAtCorner_node_hill 
                     int type_id_candidate_GrowWorldNextNotAtCorner_node_hill = 3;
                     for(GRGEN_LGSP.LGSPNode head_candidate_GrowWorldNextNotAtCorner_node_hill = graph.nodesByTypeHeads[type_id_candidate_GrowWorldNextNotAtCorner_node_hill], candidate_GrowWorldNextNotAtCorner_node_hill = head_candidate_GrowWorldNextNotAtCorner_node_hill.lgspTypeNext; candidate_GrowWorldNextNotAtCorner_node_hill != head_candidate_GrowWorldNextNotAtCorner_node_hill; candidate_GrowWorldNextNotAtCorner_node_hill = candidate_GrowWorldNextNotAtCorner_node_hill.lgspTypeNext)
                     {
-                        if((candidate_GrowWorldNextNotAtCorner_node_hill.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                        if((candidate_GrowWorldNextNotAtCorner_node_hill.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                         {
                             continue;
                         }
@@ -9977,18 +10132,18 @@ label1: ;
                         {
                             graph.MoveHeadAfter(candidate_GrowWorldNextNotAtCorner_node_hill);
                             candidate_GrowWorldNextNotAtCorner_node_cur.MoveOutHeadAfter(candidate_GrowWorldNextNotAtCorner_edge__edge0);
-                            candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_next;
-                            candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_curOuter;
-                            candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
+                            candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_next;
+                            candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_curOuter;
+                            candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
                             return matches;
                         }
                     }
-                    candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_next;
+                    candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_next.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_next;
                 }
                 while( (candidate_GrowWorldNextNotAtCorner_edge__edge0 = candidate_GrowWorldNextNotAtCorner_edge__edge0.lgspOutNext) != head_candidate_GrowWorldNextNotAtCorner_edge__edge0 );
             }
-            candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_curOuter;
-            candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
+            candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_curOuter.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_curOuter;
+            candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags = candidate_GrowWorldNextNotAtCorner_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldNextNotAtCorner_node_cur;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -10190,7 +10345,7 @@ label1: ;
         public override string Name { get { return "GrowWorldEnd"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_GrowWorldEnd.Match_GrowWorldEnd, Rule_GrowWorldEnd.IMatch_GrowWorldEnd> matches;
 
-        public static Action_GrowWorldEnd Instance { get { return instance; } }
+        public static Action_GrowWorldEnd Instance { get { return instance; } set { instance = value; } }
         private static Action_GrowWorldEnd instance = new Action_GrowWorldEnd();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldEnd.IMatch_GrowWorldEnd> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IGridNode GrowWorldEnd_node_cur, GRGEN_MODEL.IGridNode GrowWorldEnd_node_curOuter)
@@ -10204,22 +10359,22 @@ label1: ;
                 return matches;
             }
             uint prev__candidate_GrowWorldEnd_node_cur;
-            prev__candidate_GrowWorldEnd_node_cur = candidate_GrowWorldEnd_node_cur.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-            candidate_GrowWorldEnd_node_cur.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            prev__candidate_GrowWorldEnd_node_cur = candidate_GrowWorldEnd_node_cur.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldEnd_node_cur.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Preset GrowWorldEnd_node_curOuter 
             GRGEN_LGSP.LGSPNode candidate_GrowWorldEnd_node_curOuter = (GRGEN_LGSP.LGSPNode)GrowWorldEnd_node_curOuter;
             if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldEnd_node_curOuter.lgspType.TypeID]) {
-                candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_cur;
+                candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_cur;
                 return matches;
             }
-            if((candidate_GrowWorldEnd_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+            if((candidate_GrowWorldEnd_node_curOuter.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
             {
-                candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_cur;
+                candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_cur;
                 return matches;
             }
             uint prev__candidate_GrowWorldEnd_node_curOuter;
-            prev__candidate_GrowWorldEnd_node_curOuter = candidate_GrowWorldEnd_node_curOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-            candidate_GrowWorldEnd_node_curOuter.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            prev__candidate_GrowWorldEnd_node_curOuter = candidate_GrowWorldEnd_node_curOuter.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GrowWorldEnd_node_curOuter.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Incoming GrowWorldEnd_edge__edge0 from GrowWorldEnd_node_cur 
             GRGEN_LGSP.LGSPEdge head_candidate_GrowWorldEnd_edge__edge0 = candidate_GrowWorldEnd_node_cur.lgspInhead;
             if(head_candidate_GrowWorldEnd_edge__edge0 != null)
@@ -10235,7 +10390,7 @@ label1: ;
                     if(!GRGEN_MODEL.NodeType_GridNode.isMyType[candidate_GrowWorldEnd_node_nextOuter.lgspType.TypeID]) {
                         continue;
                     }
-                    if((candidate_GrowWorldEnd_node_nextOuter.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                    if((candidate_GrowWorldEnd_node_nextOuter.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
@@ -10249,15 +10404,15 @@ label1: ;
                     if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         candidate_GrowWorldEnd_node_cur.MoveInHeadAfter(candidate_GrowWorldEnd_edge__edge0);
-                        candidate_GrowWorldEnd_node_curOuter.lgspFlags = candidate_GrowWorldEnd_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_curOuter;
-                        candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_cur;
+                        candidate_GrowWorldEnd_node_curOuter.lgspFlags = candidate_GrowWorldEnd_node_curOuter.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_curOuter;
+                        candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_cur;
                         return matches;
                     }
                 }
                 while( (candidate_GrowWorldEnd_edge__edge0 = candidate_GrowWorldEnd_edge__edge0.lgspInNext) != head_candidate_GrowWorldEnd_edge__edge0 );
             }
-            candidate_GrowWorldEnd_node_curOuter.lgspFlags = candidate_GrowWorldEnd_node_curOuter.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_curOuter;
-            candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_cur;
+            candidate_GrowWorldEnd_node_curOuter.lgspFlags = candidate_GrowWorldEnd_node_curOuter.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_curOuter;
+            candidate_GrowWorldEnd_node_cur.lgspFlags = candidate_GrowWorldEnd_node_cur.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GrowWorldEnd_node_cur;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -10449,7 +10604,7 @@ label1: ;
         public override string Name { get { return "GetNextAnt"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_GetNextAnt.Match_GetNextAnt, Rule_GetNextAnt.IMatch_GetNextAnt> matches;
 
-        public static Action_GetNextAnt Instance { get { return instance; } }
+        public static Action_GetNextAnt Instance { get { return instance; } set { instance = value; } }
         private static Action_GetNextAnt instance = new Action_GetNextAnt();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_GetNextAnt.IMatch_GetNextAnt> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IAnt GetNextAnt_node_curAnt)
@@ -10463,8 +10618,8 @@ label1: ;
                 return matches;
             }
             uint prev__candidate_GetNextAnt_node_curAnt;
-            prev__candidate_GetNextAnt_node_curAnt = candidate_GetNextAnt_node_curAnt.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-            candidate_GetNextAnt_node_curAnt.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            prev__candidate_GetNextAnt_node_curAnt = candidate_GetNextAnt_node_curAnt.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+            candidate_GetNextAnt_node_curAnt.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
             // Extend Outgoing GetNextAnt_edge__edge0 from GetNextAnt_node_curAnt 
             GRGEN_LGSP.LGSPEdge head_candidate_GetNextAnt_edge__edge0 = candidate_GetNextAnt_node_curAnt.lgspOuthead;
             if(head_candidate_GetNextAnt_edge__edge0 != null)
@@ -10480,7 +10635,7 @@ label1: ;
                     if(candidate_GetNextAnt_node_next.lgspType.TypeID!=4) {
                         continue;
                     }
-                    if((candidate_GetNextAnt_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                    if((candidate_GetNextAnt_node_next.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
@@ -10493,13 +10648,13 @@ label1: ;
                     if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         candidate_GetNextAnt_node_curAnt.MoveOutHeadAfter(candidate_GetNextAnt_edge__edge0);
-                        candidate_GetNextAnt_node_curAnt.lgspFlags = candidate_GetNextAnt_node_curAnt.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GetNextAnt_node_curAnt;
+                        candidate_GetNextAnt_node_curAnt.lgspFlags = candidate_GetNextAnt_node_curAnt.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GetNextAnt_node_curAnt;
                         return matches;
                     }
                 }
                 while( (candidate_GetNextAnt_edge__edge0 = candidate_GetNextAnt_edge__edge0.lgspOutNext) != head_candidate_GetNextAnt_edge__edge0 );
             }
-            candidate_GetNextAnt_node_curAnt.lgspFlags = candidate_GetNextAnt_node_curAnt.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GetNextAnt_node_curAnt;
+            candidate_GetNextAnt_node_curAnt.lgspFlags = candidate_GetNextAnt_node_curAnt.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_GetNextAnt_node_curAnt;
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
@@ -10696,7 +10851,7 @@ label1: ;
         public override string Name { get { return "Food2Ant"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_Food2Ant.Match_Food2Ant, Rule_Food2Ant.IMatch_Food2Ant> matches;
 
-        public static Action_Food2Ant Instance { get { return instance; } }
+        public static Action_Food2Ant Instance { get { return instance; } set { instance = value; } }
         private static Action_Food2Ant instance = new Action_Food2Ant();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_Food2Ant.IMatch_Food2Ant> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IAnt Food2Ant_node_lastAnt)
@@ -10924,7 +11079,7 @@ label1: ;
         public override string Name { get { return "EvaporateWorld"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_EvaporateWorld.Match_EvaporateWorld, Rule_EvaporateWorld.IMatch_EvaporateWorld> matches;
 
-        public static Action_EvaporateWorld Instance { get { return instance; } }
+        public static Action_EvaporateWorld Instance { get { return instance; } set { instance = value; } }
         private static Action_EvaporateWorld instance = new Action_EvaporateWorld();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_EvaporateWorld.IMatch_EvaporateWorld> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
@@ -11148,7 +11303,7 @@ label1: ;
         public override string Name { get { return "doAntWorld"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_doAntWorld.Match_doAntWorld, Rule_doAntWorld.IMatch_doAntWorld> matches;
 
-        public static Action_doAntWorld Instance { get { return instance; } }
+        public static Action_doAntWorld Instance { get { return instance; } set { instance = value; } }
         private static Action_doAntWorld instance = new Action_doAntWorld();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_doAntWorld.IMatch_doAntWorld> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IAnt doAntWorld_node_firstAnt)
