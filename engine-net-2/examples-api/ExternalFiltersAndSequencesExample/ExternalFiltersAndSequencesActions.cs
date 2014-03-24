@@ -1,11 +1,12 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sat Jan 25 16:17:33 CET 2014
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sun Mar 23 22:55:23 CET 2014
 
 using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
+using System.Threading;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -236,9 +237,16 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
+
+			public void CopyMatchContent(Match_filterBase that)
+			{
+			}
 
 			public Match_filterBase(Match_filterBase that)
 			{
+				CopyMatchContent(that);
 			}
 			public Match_filterBase()
 			{
@@ -292,8 +300,8 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 			};
 			bool[] filterBass_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] filterBass_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode filterBass_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "filterBass_node_n", "n", filterBass_node_n_AllowedTypes, filterBass_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge filterBass_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "filterBass_edge_e", "e", filterBass_edge_e_AllowedTypes, filterBass_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode filterBass_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "filterBass_node_n", "n", filterBass_node_n_AllowedTypes, filterBass_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge filterBass_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "filterBass_edge_e", "e", filterBass_edge_e_AllowedTypes, filterBass_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			pat_filterBass = new GRGEN_LGSP.PatternGraph(
 				"filterBass",
 				"",
@@ -497,11 +505,18 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_filterBass(Match_filterBass that)
+			public void CopyMatchContent(Match_filterBass that)
 			{
 				_node_n = that._node_n;
 				_edge_e = that._edge_e;
+			}
+
+			public Match_filterBass(Match_filterBass that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_filterBass()
 			{
@@ -553,8 +568,8 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 			};
 			bool[] filterHass_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] filterHass_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode filterHass_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "filterHass_node_n", "n", filterHass_node_n_AllowedTypes, filterHass_node_n_IsAllowedType, 5.5F, 0, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge filterHass_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "filterHass_edge_e", "e", filterHass_edge_e_AllowedTypes, filterHass_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode filterHass_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "filterHass_node_n", "n", filterHass_node_n_AllowedTypes, filterHass_node_n_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge filterHass_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "filterHass_edge_e", "e", filterHass_edge_e_AllowedTypes, filterHass_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			pat_filterHass = new GRGEN_LGSP.PatternGraph(
 				"filterHass",
 				"",
@@ -756,11 +771,18 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_filterHass(Match_filterHass that)
+			public void CopyMatchContent(Match_filterHass that)
 			{
 				_node_n = that._node_n;
 				_edge_e = that._edge_e;
+			}
+
+			public Match_filterHass(Match_filterHass that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_filterHass()
 			{
@@ -996,9 +1018,16 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
+
+			public void CopyMatchContent(Match_init that)
+			{
+			}
 
 			public Match_init(Match_init that)
 			{
+				CopyMatchContent(that);
 			}
 			public Match_init()
 			{
@@ -1052,8 +1081,8 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 			};
 			bool[] r_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] r_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode r_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "r_node_n", "n", r_node_n_AllowedTypes, r_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge r_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "r_edge_e", "e", r_edge_e_AllowedTypes, r_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode r_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "r_node_n", "n", r_node_n_AllowedTypes, r_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge r_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "r_edge_e", "e", r_edge_e_AllowedTypes, r_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			pat_r = new GRGEN_LGSP.PatternGraph(
 				"r",
 				"",
@@ -1617,11 +1646,18 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_r(Match_r that)
+			public void CopyMatchContent(Match_r that)
 			{
 				_node_n = that._node_n;
 				_edge_e = that._edge_e;
+			}
+
+			public Match_r(Match_r that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_r()
 			{
@@ -1909,7 +1945,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         public override string Name { get { return "filterBase"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_filterBase.Match_filterBase, Rule_filterBase.IMatch_filterBase> matches;
 
-        public static Action_filterBase Instance { get { return instance; } }
+        public static Action_filterBase Instance { get { return instance; } set { instance = value; } }
         private static Action_filterBase instance = new Action_filterBase();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
@@ -2126,7 +2162,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         public override string Name { get { return "filterBass"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_filterBass.Match_filterBass, Rule_filterBass.IMatch_filterBass> matches;
 
-        public static Action_filterBass Instance { get { return instance; } }
+        public static Action_filterBass Instance { get { return instance; } set { instance = value; } }
         private static Action_filterBass instance = new Action_filterBass();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
@@ -2362,7 +2398,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         public override string Name { get { return "filterHass"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_filterHass.Match_filterHass, Rule_filterHass.IMatch_filterHass> matches;
 
-        public static Action_filterHass Instance { get { return instance; } }
+        public static Action_filterHass Instance { get { return instance; } set { instance = value; } }
         private static Action_filterHass instance = new Action_filterHass();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_filterHass.IMatch_filterHass> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IN filterHass_node_n)
@@ -2598,7 +2634,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         public override string Name { get { return "init"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init> matches;
 
-        public static Action_init Instance { get { return instance; } }
+        public static Action_init Instance { get { return instance; } set { instance = value; } }
         private static Action_init instance = new Action_init();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
@@ -2819,7 +2855,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         public override string Name { get { return "r"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_r.Match_r, Rule_r.IMatch_r> matches;
 
-        public static Action_r Instance { get { return instance; } }
+        public static Action_r Instance { get { return instance; } set { instance = value; } }
         private static Action_r instance = new Action_r();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)

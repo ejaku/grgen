@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sat Jan 25 16:17:30 CET 2014
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Mar 23 22:55:19 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -163,11 +163,11 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -618,11 +618,11 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			return null;
 		}
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -701,11 +701,11 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -854,11 +854,11 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1008,11 +1008,11 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1171,11 +1171,11 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1186,7 +1186,30 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		}
 
 	}
-	//-----------------------------------------------------------
+
+	//
+	// Indices
+	//
+
+	public class ExternalAttributeEvaluationIndexSet : GRGEN_LIBGR.IIndexSet
+	{
+		public ExternalAttributeEvaluationIndexSet(GRGEN_LGSP.LGSPGraph graph)
+		{
+		}
+
+
+		public GRGEN_LIBGR.IIndex GetIndex(string indexName)
+		{
+			switch(indexName)
+			{
+			}
+			return null;
+		}
+
+		public void FillAsClone(GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+		{
+		}
+	}
 
 	//
 	// Node model
@@ -1369,9 +1392,9 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	}
 
 	//
-	// IGraphModel implementation
+	// IGraphModel (LGSPGraphModel) implementation
 	//
-	public sealed class ExternalAttributeEvaluationGraphModel : GRGEN_LIBGR.IGraphModel
+	public sealed class ExternalAttributeEvaluationGraphModel : GRGEN_LGSP.LGSPGraphModel
 	{
 		public ExternalAttributeEvaluationGraphModel()
 		{
@@ -1387,23 +1410,42 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		};
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
+		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
+		};
+		public override void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {
+			graph.indices = new ExternalAttributeEvaluationIndexSet(graph);
+		}
+		public override void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
+			((ExternalAttributeEvaluationIndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);
+		}
 
-		public string ModelName { get { return "ExternalAttributeEvaluation"; } }
-		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
-		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<string> Packages { get { return packages; } }
-		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public override string ModelName { get { return "ExternalAttributeEvaluation"; } }
+		public override GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
+		public override GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
+		public override IEnumerable<string> Packages { get { return packages; } }
+		public override IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public override IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public override IEnumerable<GRGEN_LIBGR.IndexDescription> IndexDescriptions { get { return indexDescriptions; } }
+		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(int i) { return indexDescriptions[i]; }
+		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(string indexName)
+ 		{
+			for(int i=0; i<indexDescriptions.Length; ++i)
+				if(indexDescriptions[i].Name==indexName)
+					return indexDescriptions[i];
+			return null;
+		}
+		public override bool GraphElementUniquenessIsEnsured { get { return false; } }
+		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 
-		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		public override object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
 			return AttributeTypeObjectEmitterParser.Parse(reader, attrType, graph);
 		}
-		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		public override string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
 			return AttributeTypeObjectEmitterParser.Serialize(attribute, attrType, graph);
 		}
-		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		public override string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
 			return AttributeTypeObjectEmitterParser.Emit(attribute, attrType, graph);
 		}
@@ -1413,7 +1455,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public static GRGEN_LIBGR.ExternalType externalType_OwnPown = new GRGEN_LIBGR.ExternalType("OwnPown", typeof(OwnPown));
 		public static GRGEN_LIBGR.ExternalType externalType_OwnPownHome = new GRGEN_LIBGR.ExternalType("OwnPownHome", typeof(OwnPownHome));
 		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object, externalType_Own, externalType_OwnPown, externalType_OwnPownHome };
-		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+		public override GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
 
 		private void FullyInitializeExternalTypes()
 		{
@@ -1423,22 +1465,22 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			externalType_OwnPownHome.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_OwnPown, } );
 		}
 
-		public bool IsEqualClassDefined { get { return true; } }
-		public bool IsLowerClassDefined { get { return true; } }
-		public bool IsEqual(object this_, object that)
+		public override bool IsEqualClassDefined { get { return true; } }
+		public override bool IsLowerClassDefined { get { return true; } }
+		public override bool IsEqual(object this_, object that)
 		{
 			return AttributeTypeObjectCopierComparer.IsEqual(this_, that);
 		}
-		public bool IsLower(object this_, object that)
+		public override bool IsLower(object this_, object that)
 		{
 			return AttributeTypeObjectCopierComparer.IsLower(this_, that);
 		}
 
-		public string MD5Hash { get { return "e608177495bee8e61f32fa984fb2126b"; } }
+		public override string MD5Hash { get { return "e608177495bee8e61f32fa984fb2126b"; } }
 	}
 
 	//
-	// IGraph/IGraphModel implementation
+	// IGraph (LGSPGraph) / IGraphModel implementation
 	//
 	public class ExternalAttributeEvaluationGraph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
@@ -1482,6 +1524,14 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		};
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
+		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
+		};
+		public void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {
+			graph.indices = new ExternalAttributeEvaluationIndexSet(graph);
+		}
+		public void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
+			((ExternalAttributeEvaluationIndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);
+		}
 
 		public string ModelName { get { return "ExternalAttributeEvaluation"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
@@ -1489,6 +1539,17 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.IndexDescription> IndexDescriptions { get { return indexDescriptions; } }
+		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(int i) { return indexDescriptions[i]; }
+		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(string indexName)
+ 		{
+			for(int i=0; i<indexDescriptions.Length; ++i)
+				if(indexDescriptions[i].Name==indexName)
+					return indexDescriptions[i];
+			return null;
+		}
+		public bool GraphElementUniquenessIsEnsured { get { return false; } }
+		public bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -1533,7 +1594,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	}
 
 	//
-	// INamedGraph/IGraphModel implementation
+	// INamedGraph (LGSPNamedGraph) / IGraphModel implementation
 	//
 	public class ExternalAttributeEvaluationNamedGraph : GRGEN_LGSP.LGSPNamedGraph, GRGEN_LIBGR.IGraphModel
 	{
@@ -1602,6 +1663,14 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		};
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
+		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
+		};
+		public void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {
+			graph.indices = new ExternalAttributeEvaluationIndexSet(graph);
+		}
+		public void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
+			((ExternalAttributeEvaluationIndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);
+		}
 
 		public string ModelName { get { return "ExternalAttributeEvaluation"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
@@ -1609,6 +1678,17 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.IndexDescription> IndexDescriptions { get { return indexDescriptions; } }
+		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(int i) { return indexDescriptions[i]; }
+		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(string indexName)
+ 		{
+			for(int i=0; i<indexDescriptions.Length; ++i)
+				if(indexDescriptions[i].Name==indexName)
+					return indexDescriptions[i];
+			return null;
+		}
+		public bool GraphElementUniquenessIsEnsured { get { return false; } }
+		public bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{

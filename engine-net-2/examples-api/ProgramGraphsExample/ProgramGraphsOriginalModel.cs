@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sat Jan 25 16:17:57 CET 2014
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun Mar 23 22:56:02 CET 2014
 
 using System;
 using System.Collections.Generic;
@@ -156,11 +156,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -205,11 +205,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -364,11 +364,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -524,11 +524,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -573,11 +573,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -738,11 +738,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -787,11 +787,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -958,11 +958,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1007,11 +1007,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1184,11 +1184,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1362,11 +1362,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1420,11 +1420,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1573,11 +1573,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1727,11 +1727,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -1890,11 +1890,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -2053,11 +2053,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -2222,11 +2222,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -2391,11 +2391,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -2560,11 +2560,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -2729,11 +2729,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -2898,11 +2898,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -3061,11 +3061,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -3230,11 +3230,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override int NumFunctionMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.FunctionInfo> FunctionMethods { get { yield break; } }
-		public override GRGEN_LIBGR.FunctionInfo GetFunctionMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
 		public override int NumProcedureMethods { get { return 0; } }
-		public override IEnumerable<GRGEN_LIBGR.ProcedureInfo> ProcedureMethods { get { yield break; } }
-		public override GRGEN_LIBGR.ProcedureInfo GetProcedureMethod(string name) { return null; }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -3245,7 +3245,30 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 
 	}
-	//-----------------------------------------------------------
+
+	//
+	// Indices
+	//
+
+	public class ProgramGraphsOriginalIndexSet : GRGEN_LIBGR.IIndexSet
+	{
+		public ProgramGraphsOriginalIndexSet(GRGEN_LGSP.LGSPGraph graph)
+		{
+		}
+
+
+		public GRGEN_LIBGR.IIndex GetIndex(string indexName)
+		{
+			switch(indexName)
+			{
+			}
+			return null;
+		}
+
+		public void FillAsClone(GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+		{
+		}
+	}
 
 	//
 	// Node model
@@ -3773,9 +3796,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	}
 
 	//
-	// IGraphModel implementation
+	// IGraphModel (LGSPGraphModel) implementation
 	//
-	public sealed class ProgramGraphsOriginalGraphModel : GRGEN_LIBGR.IGraphModel
+	public sealed class ProgramGraphsOriginalGraphModel : GRGEN_LGSP.LGSPGraphModel
 	{
 		public ProgramGraphsOriginalGraphModel()
 		{
@@ -3800,54 +3823,47 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_methodBodyContains.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 0, 2147483647, 0, 1, false),
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_classContainsClass.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, 0, 2147483647, 0, 1, false),
 		};
+		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
+		};
+		public override void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {
+			graph.indices = new ProgramGraphsOriginalIndexSet(graph);
+		}
+		public override void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
+			((ProgramGraphsOriginalIndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);
+		}
 
-		public string ModelName { get { return "ProgramGraphsOriginal"; } }
-		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
-		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<string> Packages { get { return packages; } }
-		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
-
-		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
+		public override string ModelName { get { return "ProgramGraphsOriginal"; } }
+		public override GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
+		public override GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
+		public override IEnumerable<string> Packages { get { return packages; } }
+		public override IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
+		public override IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public override IEnumerable<GRGEN_LIBGR.IndexDescription> IndexDescriptions { get { return indexDescriptions; } }
+		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(int i) { return indexDescriptions[i]; }
+		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(string indexName)
+ 		{
+			for(int i=0; i<indexDescriptions.Length; ++i)
+				if(indexDescriptions[i].Name==indexName)
+					return indexDescriptions[i];
 			return null;
 		}
-		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			Console.WriteLine("Warning: Exporting attribute of object type to null");
-			return "null";
-		}
-		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			return attribute!=null ? attribute.ToString() : "null";
-		}
+		public override bool GraphElementUniquenessIsEnsured { get { return false; } }
+		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 
 		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
 		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
-		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+		public override GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
 
 		private void FullyInitializeExternalTypes()
 		{
 			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
 		}
 
-		public bool IsEqualClassDefined { get { return false; } }
-		public bool IsLowerClassDefined { get { return false; } }
-		public bool IsEqual(object this_, object that)
-		{
-			return this_ == that;
-		}
-		public bool IsLower(object this_, object that)
-		{
-			return this_ == that;
-		}
-
-		public string MD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }
+		public override string MD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }
 	}
 
 	//
-	// IGraph/IGraphModel implementation
+	// IGraph (LGSPGraph) / IGraphModel implementation
 	//
 	public class ProgramGraphsOriginalGraph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
@@ -3965,6 +3981,14 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_methodBodyContains.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 0, 2147483647, 0, 1, false),
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_classContainsClass.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, 0, 2147483647, 0, 1, false),
 		};
+		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
+		};
+		public void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {
+			graph.indices = new ProgramGraphsOriginalIndexSet(graph);
+		}
+		public void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
+			((ProgramGraphsOriginalIndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);
+		}
 
 		public string ModelName { get { return "ProgramGraphsOriginal"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
@@ -3972,6 +3996,17 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.IndexDescription> IndexDescriptions { get { return indexDescriptions; } }
+		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(int i) { return indexDescriptions[i]; }
+		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(string indexName)
+ 		{
+			for(int i=0; i<indexDescriptions.Length; ++i)
+				if(indexDescriptions[i].Name==indexName)
+					return indexDescriptions[i];
+			return null;
+		}
+		public bool GraphElementUniquenessIsEnsured { get { return false; } }
+		public bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -4012,7 +4047,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	}
 
 	//
-	// INamedGraph/IGraphModel implementation
+	// INamedGraph (LGSPNamedGraph) / IGraphModel implementation
 	//
 	public class ProgramGraphsOriginalNamedGraph : GRGEN_LGSP.LGSPNamedGraph, GRGEN_LIBGR.IGraphModel
 	{
@@ -4220,6 +4255,14 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_methodBodyContains.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 0, 2147483647, 0, 1, false),
 			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_classContainsClass.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, 0, 2147483647, 0, 1, false),
 		};
+		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
+		};
+		public void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {
+			graph.indices = new ProgramGraphsOriginalIndexSet(graph);
+		}
+		public void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
+			((ProgramGraphsOriginalIndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);
+		}
 
 		public string ModelName { get { return "ProgramGraphsOriginal"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
@@ -4227,6 +4270,17 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public IEnumerable<string> Packages { get { return packages; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.IndexDescription> IndexDescriptions { get { return indexDescriptions; } }
+		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(int i) { return indexDescriptions[i]; }
+		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(string indexName)
+ 		{
+			for(int i=0; i<indexDescriptions.Length; ++i)
+				if(indexDescriptions[i].Name==indexName)
+					return indexDescriptions[i];
+			return null;
+		}
+		public bool GraphElementUniquenessIsEnsured { get { return false; } }
+		public bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{

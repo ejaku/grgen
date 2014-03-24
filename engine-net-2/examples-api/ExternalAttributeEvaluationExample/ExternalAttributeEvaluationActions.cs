@@ -1,11 +1,12 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sat Jan 25 16:17:30 CET 2014
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Mar 23 22:55:19 CET 2014
 
 using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
+using System.Threading;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -238,9 +239,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
+
+			public void CopyMatchContent(Match_init that)
+			{
+			}
 
 			public Match_init(Match_init that)
 			{
+				CopyMatchContent(that);
 			}
 			public Match_init()
 			{
@@ -295,8 +303,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			};
 			bool[] r_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] r_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode r_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "r_node_n", "n", r_node_n_AllowedTypes, r_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge r_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "r_edge_e", "e", r_edge_e_AllowedTypes, r_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode r_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "r_node_n", "n", r_node_n_AllowedTypes, r_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge r_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "r_edge_e", "e", r_edge_e_AllowedTypes, r_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition r_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_AND(new GRGEN_EXPR.ExternalFunctionInvocation("foo", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Constant("42"), new GRGEN_EXPR.Constant("3.141"), new GRGEN_EXPR.ConstantEnumExpression("Enu", "hurz"), new GRGEN_EXPR.Constant("\"S21-heiteitei\""), }, new String[] {null, null, null, null, }), new GRGEN_EXPR.ExternalFunctionInvocation("foo", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "i"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "d"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "enu"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "s"), }, new String[] {null, null, null, null, })),
 				new string[] { "r_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -530,11 +538,18 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_r(Match_r that)
+			public void CopyMatchContent(Match_r that)
 			{
 				_node_n = that._node_n;
 				_edge_e = that._edge_e;
+			}
+
+			public Match_r(Match_r that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_r()
 			{
@@ -589,8 +604,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			};
 			bool[] rp_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] rp_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode rp_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "rp_node_n", "n", rp_node_n_AllowedTypes, rp_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge rp_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "rp_edge_e", "e", rp_edge_e_AllowedTypes, rp_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode rp_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "rp_node_n", "n", rp_node_n_AllowedTypes, rp_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge rp_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "rp_edge_e", "e", rp_edge_e_AllowedTypes, rp_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			pat_rp = new GRGEN_LGSP.PatternGraph(
 				"rp",
 				"",
@@ -828,11 +843,18 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_rp(Match_rp that)
+			public void CopyMatchContent(Match_rp that)
 			{
 				_node_n = that._node_n;
 				_edge_e = that._edge_e;
+			}
+
+			public Match_rp(Match_rp that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_rp()
 			{
@@ -882,7 +904,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			bool[,] testCopy_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] testCopy_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] testCopy_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode testCopy_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "testCopy_node_n", "n", testCopy_node_n_AllowedTypes, testCopy_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode testCopy_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "testCopy_node_n", "n", testCopy_node_n_AllowedTypes, testCopy_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			pat_testCopy = new GRGEN_LGSP.PatternGraph(
 				"testCopy",
 				"",
@@ -1079,10 +1101,17 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
+
+			public void CopyMatchContent(Match_testCopy that)
+			{
+				_node_n = that._node_n;
+			}
 
 			public Match_testCopy(Match_testCopy that)
 			{
-				_node_n = that._node_n;
+				CopyMatchContent(that);
 			}
 			public Match_testCopy()
 			{
@@ -1136,8 +1165,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			bool[,] testComparison_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] testComparison_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] testComparison_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternNode testComparison_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "testComparison_node_n", "n", testComparison_node_n_AllowedTypes, testComparison_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode testComparison_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "testComparison_node_m", "m", testComparison_node_m_AllowedTypes, testComparison_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode testComparison_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "testComparison_node_n", "n", testComparison_node_n_AllowedTypes, testComparison_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode testComparison_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "testComparison_node_m", "m", testComparison_node_m_AllowedTypes, testComparison_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			GRGEN_LGSP.PatternCondition testComparison_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EXTERNAL_EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "ow")),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -1399,11 +1428,18 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public int _iterationNumber;
+			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
-			public Match_testComparison(Match_testComparison that)
+			public void CopyMatchContent(Match_testComparison that)
 			{
 				_node_n = that._node_n;
 				_node_m = that._node_m;
+			}
+
+			public Match_testComparison(Match_testComparison that)
+			{
+				CopyMatchContent(that);
 			}
 			public Match_testComparison()
 			{
@@ -1516,7 +1552,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         public override string Name { get { return "init"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init> matches;
 
-        public static Action_init Instance { get { return instance; } }
+        public static Action_init Instance { get { return instance; } set { instance = value; } }
         private static Action_init instance = new Action_init();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
@@ -1730,7 +1766,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         public override string Name { get { return "r"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_r.Match_r, Rule_r.IMatch_r> matches;
 
-        public static Action_r Instance { get { return instance; } }
+        public static Action_r Instance { get { return instance; } set { instance = value; } }
         private static Action_r instance = new Action_r();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
@@ -1979,7 +2015,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         public override string Name { get { return "rp"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_rp.Match_rp, Rule_rp.IMatch_rp> matches;
 
-        public static Action_rp Instance { get { return instance; } }
+        public static Action_rp Instance { get { return instance; } set { instance = value; } }
         private static Action_rp instance = new Action_rp();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_rp.IMatch_rp> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
@@ -2212,7 +2248,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         public override string Name { get { return "testCopy"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_testCopy.Match_testCopy, Rule_testCopy.IMatch_testCopy> matches;
 
-        public static Action_testCopy Instance { get { return instance; } }
+        public static Action_testCopy Instance { get { return instance; } set { instance = value; } }
         private static Action_testCopy instance = new Action_testCopy();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_testCopy.IMatch_testCopy> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
@@ -2433,7 +2469,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         public override string Name { get { return "testComparison"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_testComparison.Match_testComparison, Rule_testComparison.IMatch_testComparison> matches;
 
-        public static Action_testComparison Instance { get { return instance; } }
+        public static Action_testComparison Instance { get { return instance; } set { instance = value; } }
         private static Action_testComparison instance = new Action_testComparison();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_testComparison.IMatch_testComparison> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
@@ -2446,13 +2482,13 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             for(GRGEN_LGSP.LGSPNode head_candidate_testComparison_node_m = graph.nodesByTypeHeads[type_id_candidate_testComparison_node_m], candidate_testComparison_node_m = head_candidate_testComparison_node_m.lgspTypeNext; candidate_testComparison_node_m != head_candidate_testComparison_node_m; candidate_testComparison_node_m = candidate_testComparison_node_m.lgspTypeNext)
             {
                 uint prev__candidate_testComparison_node_m;
-                prev__candidate_testComparison_node_m = candidate_testComparison_node_m.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-                candidate_testComparison_node_m.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                prev__candidate_testComparison_node_m = candidate_testComparison_node_m.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                candidate_testComparison_node_m.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
                 // Lookup testComparison_node_n 
                 int type_id_candidate_testComparison_node_n = 1;
                 for(GRGEN_LGSP.LGSPNode head_candidate_testComparison_node_n = graph.nodesByTypeHeads[type_id_candidate_testComparison_node_n], candidate_testComparison_node_n = head_candidate_testComparison_node_n.lgspTypeNext; candidate_testComparison_node_n != head_candidate_testComparison_node_n; candidate_testComparison_node_n = candidate_testComparison_node_n.lgspTypeNext)
                 {
-                    if((candidate_testComparison_node_n.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                    if((candidate_testComparison_node_n.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
                     {
                         continue;
                     }
@@ -2537,11 +2573,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
                     {
                         graph.MoveHeadAfter(candidate_testComparison_node_n);
                         graph.MoveHeadAfter(candidate_testComparison_node_m);
-                        candidate_testComparison_node_m.lgspFlags = candidate_testComparison_node_m.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_testComparison_node_m;
+                        candidate_testComparison_node_m.lgspFlags = candidate_testComparison_node_m.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_testComparison_node_m;
                         return matches;
                     }
                 }
-                candidate_testComparison_node_m.lgspFlags = candidate_testComparison_node_m.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_testComparison_node_m;
+                candidate_testComparison_node_m.lgspFlags = candidate_testComparison_node_m.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_testComparison_node_m;
             }
             return matches;
         }
