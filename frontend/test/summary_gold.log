@@ -119,6 +119,7 @@ OK     should_pass/computations_arcsincostan.grg
 OK     should_pass/computations_break_continue.grg
 OK     should_pass/computations_call.grg
 OK     should_pass/computations_canonize.grg
+OK     should_pass/computations_ceilfloorroundtruncate.grg
 OK     should_pass/computations_container_def.grg
 OK     should_pass/computations_container_method.grg
 OK     should_pass/computations_decl_use_recursive.grg
@@ -363,6 +364,11 @@ OK     should_pass/independent_001.grg
 OK     should_pass/independent_002.grg
 OK     should_pass/independent_003.grg
 OK     should_pass/independent_004.grg
+OK     should_pass/index_001.grg
+OK     should_pass/index_002.grg
+OK     should_pass/index_003.grg
+OK     should_pass/index_004.grg
+OK     should_pass/index_005.grg
 OK     should_pass/induced_001.grg
 OK     should_pass/induced_002.grg
 OK     should_pass/induced_003.grg
@@ -412,7 +418,9 @@ OK     should_pass/modtestbase.grg
 OK     should_pass/modtestmed.grg
 OK     should_pass/modtesttop.grg
 OK     should_pass/nadeem.grg
+OK     should_pass/name_attribute_init.grg
 OK     should_pass/nameof_001.grg
+OK     should_pass/nameof_002.grg
 OK     should_pass/negative_001.grg
 OK     should_pass/negative_002.grg
 OK     should_pass/negative_003.grg
@@ -424,6 +432,9 @@ OK     should_pass/nestedmodtesttop.grg
 OK     should_pass/node_by_storage_access.grg
 OK     should_pass/node_from_storage.grg
 OK     should_pass/nodeedgeattr_001.grg
+OK     should_pass/nodeedgebyname.grg
+OK     should_pass/nodeedgebyunique.grg
+OK     should_pass/now.grg
 OK     should_pass/object_001.grg
 OK     should_pass/object_002.grg
 OK     should_pass/package.grg
@@ -553,6 +564,7 @@ OK     should_pass/typeof_001.grg
 OK     should_pass/typeof_002.grg
 OK     should_pass/typeof_element_not_in_pattern.grg
 OK     should_pass/unary_001.grg
+OK     should_pass/unique_001.grg
 OK     should_pass/visit_001.grg
 OK     should_pass/visit_002.grg
 OK     should_pass/yield.grg
