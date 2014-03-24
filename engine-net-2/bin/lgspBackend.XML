@@ -4,6 +4,28 @@
         <name>lgspBackend</name>
     </assembly>
     <members>
+        <member name="T:de.unika.ipd.grGen.lgsp.WorkerPool">
+            <summary>
+            A thread pool of workers for parallelized pattern matching
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.WorkerPool.EnsurePoolSize(System.Int32)">
+            <summary>
+            Tries to ensure the pool contains numThreads for doing work.
+            Returns the number of threads ensured, which may be lower due to a lower number of processors available
+            (but won't be higher, even if another caller requested and was granted more threads).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.WorkerPool.StartWork(System.Int32)">
+            <summary>
+            Executes the work inside task with numThreads
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.WorkerPool.WaitForWorkDone">
+            <summary>
+            Waits until the tasks were executed
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchProgramOperation">
             <summary>
             Base class for all search program operations, containing concatenation fields,
@@ -91,6 +113,44 @@
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramOfAction.Emit(de.unika.ipd.grGen.lgsp.SourceBuilder)">
+            <summary>
+            Emits the matcher source code for all search programs
+            first head of matching function of the current search program
+            then the search program operations list in depth first walk over search program operations list
+            then tail of matching function of the current search program
+            and finally continues in missing preset search program list by emitting following search program
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.SearchProgramOfActionParallelizationHead">
+            <summary>
+            Class representing the search program of the head of a parallelized matching action, i.e. some test or rule
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramOfActionParallelizationHead.Dump(de.unika.ipd.grGen.lgsp.SourceBuilder)">
+            <summary>
+            Dumps search program followed by missing preset search subprograms
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramOfActionParallelizationHead.Emit(de.unika.ipd.grGen.lgsp.SourceBuilder)">
+            <summary>
+            Emits the matcher source code for all search programs
+            first head of matching function of the current search program
+            then the search program operations list in depth first walk over search program operations list
+            then tail of matching function of the current search program
+            and finally continues in missing preset search program list by emitting following search program
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.SearchProgramOfActionParallelizationBody">
+            <summary>
+            Class representing the search program of the body of a parallelized matching action, i.e. some test or rule
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramOfActionParallelizationBody.Dump(de.unika.ipd.grGen.lgsp.SourceBuilder)">
+            <summary>
+            Dumps search program followed by missing preset search subprograms
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramOfActionParallelizationBody.Emit(de.unika.ipd.grGen.lgsp.SourceBuilder)">
             <summary>
             Emits the matcher source code for all search programs
             first head of matching function of the current search program
@@ -214,10 +274,27 @@
             incoming; outgoing; incoming or outgoing if arbitrary directed, undirected, arbitrary
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.IndexAccessType">
+            <summary>
+            The different possibilties an index might be accessed
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.GetCandidateByIteration">
             <summary>
             Class representing "get candidate by iteration" operations,
             setting current candidate for following check candidate operation
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.GetCandidateByIterationParallel">
+            <summary>
+            Class representing parallelized "get candidate by iteration" operations,
+            setting current candidate for following check candidate operation
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.GetCandidateByIterationParallelSetup">
+            <summary>
+            Class representing setup of parallelized "get candidate by iteration" operations,
+            distributing work to worker threads, collecting their results
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.GetCandidateByDrawingType">
@@ -234,7 +311,19 @@
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.GetCandidateByDrawing">
             <summary>
-            Class representing "get node by drawing" operation,
+            Class representing "get node (or edge) by drawing" operation,
+            setting current candidate for following check candidate operations
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.WriteParallelPreset">
+            <summary>
+            Class representing "get node or edge by drawing" operation,
+            setting current candidate for following check candidate operations
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.WriteParallelPresetVar">
+            <summary>
+            Class representing "get variable by drawing" operation,
             setting current candidate for following check candidate operations
             </summary>
         </member>
@@ -292,14 +381,14 @@
         <member name="T:de.unika.ipd.grGen.lgsp.CheckCandidateForIsomorphy">
             <summary>
             Class representing "check whether candidate is not already mapped 
-              to some other pattern element, to ensure required isomorphy" operation
+              to some other local pattern element within this isomorphy space, to ensure required isomorphy" operation
             required graph element to pattern element mapping is written/removed by AcceptCandidate/AbandonCandidate
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.CheckCandidateForIsomorphyGlobal">
             <summary>
             Class representing "check whether candidate is not already mapped 
-              to some other (non-local) pattern element within this isomorphy space, to ensure required isomorphy" operation
+              to some other non-local pattern element within this isomorphy space, to ensure required isomorphy" operation
             required graph element to pattern element mapping is written by AcceptCandidateGlobal/AbandonCandidateGlobal
             </summary>
         </member>
@@ -312,6 +401,16 @@
         <member name="T:de.unika.ipd.grGen.lgsp.CheckCandidateMapWithStorage">
             <summary>
             Class representing "check whether candidate is contained in the storage map" operation
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.CheckCandidateMapByName">
+            <summary>
+            Class representing "check whether candidate is contained in the name map" operation
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.CheckCandidateMapByUnique">
+            <summary>
+            Class representing "check whether candidate is contained in the unique index" operation
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.CheckPartialMatch">
@@ -613,13 +712,13 @@
         <member name="T:de.unika.ipd.grGen.lgsp.InitializeNegativeIndependentMatching">
             <summary>
             Class representing "initialize negative/independent matching" operation
-            it opens an isomorphy space at the next negLevel, finalizeXXX will close it
+            it opens an isomorphy space at the next isoSpace number, finalizeXXX will close it
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.FinalizeNegativeIndependentMatching">
             <summary>
             Class representing "finalize negative/independent matching" operation
-            it closes an isomorphy space opened by initializeXXX, returning to the previous negLevel
+            it closes an isomorphy space opened by initializeXXX, returning to the previous isoSpace
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PushMatchForPatternpath">
@@ -940,6 +1039,36 @@
             Map some given input to an output graph element, depending on a previously matched element.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.PickFromIndex">
+            <summary>
+            Pick element from index, independent from previously matched elements.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.PickFromIndexDependent">
+            <summary>
+            Pick element from index, depending on a previously matched element (e.g. an attribute owner).
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.PickByName">
+            <summary>
+            Pick element by name, independent from previously matched elements.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.PickByNameDependent">
+            <summary>
+            Pick element by name, depending on a previously matched element (e.g. an attribute owner).
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.PickByUnique">
+            <summary>
+            Pick element by unique id, independent from previously matched elements.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.PickByUniqueDependent">
+            <summary>
+            Pick element by unique id, depending on a previously matched element (e.g. an attribute owner).
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.Cast">
             <summary>
             Cast to new type (i.e. check if type is correct and uncover attributes of that type), needs old element.
@@ -1009,6 +1138,108 @@
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.IndependentPattern">
             <summary>
             Try to match independent pattern.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.WriteParallelPreset">
+            <summary>
+            Write the preset (node or edge) for the body of a parallelized action, in the head of the parallelized action.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.ParallelPreset">
+            <summary>
+            Preset (node or edge) handed in to the body of a parallelized action.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.WriteParallelPresetVar">
+            <summary>
+            Write the preset of variable type for the body of a parallelized action, in the head of the parallelized action.
+            To forward var parameters normally only available as parameters outside schedule from head to body.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.ParallelPresetVar">
+            <summary>
+            Preset of variable type handed in to the body of a parallelized action.
+            To forward var parameters normally only available as parameters outside schedule from head to body.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.SetupParallelLookup">
+            <summary>
+            Setup a parallelized lookup element in graph operation, in the head of a parallelized action matcher.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.ParallelLookup">
+            <summary>
+            A parallelized lookup element in graph operation, in the body of a parallelized action matcher.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.SetupParallelPickFromStorage">
+            <summary>
+            Setup a parallelized pick element from storage operation, in the head of a parallelized action matcher.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.ParallelPickFromStorage">
+            <summary>
+            A parallelized pick element from storage operation, in the body of a parallelized action matcher.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.SetupParallelPickFromStorageDependent">
+            <summary>
+            Setup a parallelized pick element from storage operation, depending on a previously matched element (e.g. an attribute owner), in the head of a parallelized action matcher.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.ParallelPickFromStorageDependent">
+            <summary>
+            A parallelized pick element from storage operation, depending on a previously matched element (e.g. an attribute owner), in the body of a parallelized action matcher.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.SetupParallelPickFromIndex">
+            <summary>
+            Setup a parallelized pick element from index operation, in the head of a parallelized action matcher.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.ParallelPickFromIndex">
+            <summary>
+            A parallelized pick element from index operation, in the body of a parallelized action matcher.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.SetupParallelPickFromIndexDependent">
+            <summary>
+            Setup a parallelized pick element from index operation, depending on a previously matched element (e.g. an attribute owner).
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.ParallelPickFromIndexDependent">
+            <summary>
+            A parallelized pick element from index operation, depending on a previously matched element (e.g. an attribute owner).
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.SetupParallelOutgoing">
+            <summary>
+            Setup a parallelized follow outgoing edges of given node operation, in the head of a parallelized action matcher.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.ParallelOutgoing">
+            <summary>
+            A parallelized follow outgoing edges of given node operation, in the body of a parallelized action matcher.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.SetupParallelIncoming">
+            <summary>
+            Setup a parallelized follow incoming edges of given node operation, in the head of a parallelized action matcher.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.ParallelIncoming">
+            <summary>
+            A parallelized follow incoming edges of given node operation, in the body of a parallelized action matcher.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.SetupParallelIncident">
+            <summary>
+            Setup a parallelized follow outgoing and incoming edges of given node operation, in the head of a parallelized action matcher.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.ParallelIncident">
+            <summary>
+            A parallelized follow outgoing and incoming edges of given node operation, in the body of a parallelized action matcher.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceClosure">
@@ -1219,6 +1450,19 @@
             if true the element is not to be globally checked against anything, nor does it set any flags
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.IsomorphyInformation.LockForAllThreads">
+            <summary>
+            if true the candidate must be locked for all threads of a parallelized action,
+            in addition to sequential locking, which is used for sequential checking in the header
+            this is the case for candidates bound in the head of a parallized action
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.IsomorphyInformation.Parallel">
+            <summary>
+            if true parallelized isomorphy setting/checking code needs to be emitted, for the current thread
+            this is the case for iso handling in the body of a parallelized action
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchOperation">
             <summary>
             Search operation with information about homomorphic mapping.
@@ -1272,6 +1516,11 @@
             If true, the negatives, independents, and evaluations are inserted at the end of the schedule
             instead of as early as possible; this is likely less efficient but allows to use checks 
             which require that they are only called after a structural match was found
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.Profile">
+            <summary>
+            If true, profiling information is to be collected, i.e. some statistics about search steps executed
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.#ctor(de.unika.ipd.grGen.libGr.IGraphModel)">
@@ -1370,6 +1619,36 @@
             Inserts inlined variable assignments into the schedule given by the operations list at their earliest possible position
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.ParallelizeAsNeeded(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern)">
+            <summary>
+            Parallelize the scheduled search plan if it is to be parallelized.
+            An action to be parallelized is split at the first loop into a header part and a body part,
+            all subpatterns and nested patterns to be parallelized are switched to non- is-matched-flag-based isomorphy checking.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.ParallelizeHeadBody(de.unika.ipd.grGen.lgsp.LGSPRulePattern)">
+            <summary>
+            Parallelize the scheduled search plan to the branching factor,
+            splitting it at the first loop into a header part and a body part
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.Parallelize(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern)">
+            <summary>
+            Parallelize the scheduled search plan for usage from a parallelized matcher
+            (non- is-matched-flag-based isomorphy checking)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.ParallelizeAlternativeIterated(de.unika.ipd.grGen.lgsp.PatternGraph)">
+            <summary>
+            Non- is-matched-flag-based isomorphy checking for nested alternative cases/iterateds
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.ParallelizeNegativeIndependent(de.unika.ipd.grGen.lgsp.ScheduledSearchPlan)">
+            <summary>
+            Non- is-matched-flag-based isomorphy checking for nested negatives/independents, 
+            patch into already cloned parallel ssp
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionAndMatcher(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,System.Boolean)">
             <summary>
             Generates the action interface plus action implementation including the matcher source code 
@@ -1401,9 +1680,19 @@
             Generates the search program(s) for the pattern graph of the given rule
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateParallelizedSearchProgramAsNeeded(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern)">
+            <summary>
+            Generates the parallelized search program(s) for the pattern graph of the given rule
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateSearchProgramAlternative(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.Alternative)">
             <summary>
             Generates the search program for the given alternative 
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateParallelizedSearchProgramAlternativeAsNeeded(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.Alternative)">
+            <summary>
+            Generates the parallelized search program for the given alternative 
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateSearchProgramIterated(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph)">
@@ -1411,12 +1700,17 @@
             Generates the search program for the given iterated pattern
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateParallelizedSearchProgramIteratedAsNeeded(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph)">
+            <summary>
+            Generates the parallelized search program for the given iterated pattern
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateFileHeaderForActionsFile(de.unika.ipd.grGen.lgsp.SourceBuilder,System.String,System.String)">
             <summary>
             Generates file header for actions file into given source builer
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherClassHeadAction(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPRulePattern,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherClassHeadAction(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPRulePattern,System.Boolean,de.unika.ipd.grGen.lgsp.SearchProgram)">
             <summary>
             Generates matcher class head source code for the pattern of the rulePattern into given source builder
             isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
@@ -1445,7 +1739,7 @@
             Generates match objects of independents (one pre-allocated is part of action class)
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateTasksMemoryPool(de.unika.ipd.grGen.lgsp.SourceBuilder,System.String,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateTasksMemoryPool(de.unika.ipd.grGen.lgsp.SourceBuilder,System.String,System.Boolean,System.Boolean,System.Int32)">
             <summary>
             Generates memory pooling code for matching tasks of class given by it's name
             </summary>
@@ -1718,6 +2012,40 @@
             The number of edges for each edge type indexed by the type ID.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.inIsoSpaceMatchedElements">
+            <summary>
+            a list with the isomorphy spaces, each contains in a dictionary the elements matched locally 
+            used in case the is-matched-bits in the graph elements are not sufficient (during non-parallel matching)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.inIsoSpaceMatchedElementsGlobal">
+            <summary>
+            a list with the isomorphy spaces, each contains in a dictionary the elements matched globally 
+            used in case the is-matched-bits in the graph elements are not sufficient (during non-parallel matching)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.flagsPerThreadPerElement">
+            <summary>
+            a list which stores for each parallel matcher thread, per graph element the flags with the matching state
+            each flag encodes a bounded amount of the is-matched-bits for the lowest isomorphy spaces,
+            the flag is a reduced version of the flags bitvector available in each graph element in case of single threaded matching
+            (the unique id of the graph elements is used as index into the flags array)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.perThreadInIsoSpaceMatchedElements">
+            <summary>
+            a list which stores for each matcher thread the isomorphy spaces, each contains in a dictionary the elements matched locally 
+            used in case the is-matched-bits in the per-thread flags array are not sufficient, employed during parallelized matching
+            the outermost list is read concurrently, so its dimension/content must be fixed before matching begins
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.perThreadInIsoSpaceMatchedElementsGlobal">
+            <summary>
+            a list which stores for each matcher thread the isomorphy spaces, each contains in a dictionary the elements matched globally
+            used in case the is-matched-bits in the per-thread flags array are not sufficient, employed during parallelized matching
+            the outermost list is read concurrently, so its dimension/content must be fixed before matching begins
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel)">
             <summary>
             Constructs an LGSPGraph object with the given model and an automatically generated name.
@@ -1831,6 +2159,30 @@
             <summary>
             Enumerates all edges compatible to the given edge type.
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.GetGraphElement(System.Int32)">
+            <summary>
+            Gets the graph element for the given unique id.
+            Only available if the unique index was declared in the model.
+            </summary>
+            <param name="unique">The unique if of a graph element.</param>
+            <returns>The graph element for the given unique id or null, if there is no graph element with this unique id.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.GetNode(System.Int32)">
+            <summary>
+            Gets the node for the given unique id.
+            Only available if the unique index was declared in the model.
+            </summary>
+            <param name="unique">The unique if of a node.</param>
+            <returns>The node for the given unique id or null, if there is no node with this unique id.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.GetEdge(System.Int32)">
+            <summary>
+            Gets the edge for the given id.
+            Only available if the unique index was declared in the model.
+            </summary>
+            <param name="unique">The unique if of a edge.</param>
+            <returns>The edge for the given unique id or null, if there is no edge with this unique id.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.MoveHeadAfter(de.unika.ipd.grGen.lgsp.LGSPNode)">
             <summary>
@@ -2104,6 +2456,40 @@
             </summary>
             <param name="visitorID"></param>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.SetInternallyVisited(de.unika.ipd.grGen.libGr.IGraphElement,System.Boolean)">
+            <summary>
+            Sets the internal-use visited flag of the given graph element.
+            (Used for computing reachability.)
+            </summary>
+            <param name="elem">The graph element whose flag is to be set.</param>
+            <param name="visited">True for visited, false for not visited.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.IsInternallyVisited(de.unika.ipd.grGen.libGr.IGraphElement)">
+            <summary>
+            Returns whether the given graph element has been internally visited.
+            (Used for computing reachability.)
+            </summary>
+            <param name="elem">The graph element whose flag is to be retrieved.</param>
+            <returns>True for visited, false for not visited.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.SetInternallyVisited(de.unika.ipd.grGen.libGr.IGraphElement,System.Boolean,System.Int32)">
+            <summary>
+            Sets the internal-use visited flag of the given graph element.
+            (Used for computing reachability when employed from a parallelized matcher executed by the thread pool.)
+            </summary>
+            <param name="elem">The graph element whose flag is to be set.</param>
+            <param name="visited">True for visited, false for not visited.</param>
+            <param name="threadId">The id of the thread which marks the graph element.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.IsInternallyVisited(de.unika.ipd.grGen.libGr.IGraphElement,System.Int32)">
+            <summary>
+            Returns whether the given graph element has been internally visited.
+            (Used for computing reachability when employed from a parallelized matcher executed by the thread pool.)
+            </summary>
+            <param name="elem">The graph element whose flag is to be retrieved.</param>
+            <param name="threadId">The id of the thread which queries the marking of the graph element.</param>
+            <returns>True for visited, false for not visited.</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CheckEmptyFlags">
             <summary>
             Checks if the matching state flags in the graph are not set, as they should be in case no matching is undereway
@@ -2216,6 +2602,11 @@
             The model associated with the graph.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.Indices">
+            <summary>
+            The indices associated with the graph.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.Backend">
             <summary>
             The backend that created the graph
@@ -2272,6 +2663,11 @@
         <member name="M:de.unika.ipd.grGen.expression.ExpressionOrYielding.GetEnumerator">
             <summary>
             returns an enumerator over the contained children of this construct
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.expression.ExpressionOrYielding.SetNeedForParallelizedVersion(System.Boolean)">
+            <summary>
+            sets for the very node the parallelized flag (does not recurse)
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.expression.Yielding.Copy(System.String)">
@@ -2440,52 +2836,6 @@
             Class representing a record statement
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.LGSPElemFlags">
-            <summary>
-            Flags for graph elements.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.HAS_VARIABLES">
-            <summary>
-            Some variable contains this element.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN">
-            <summary>
-            This element has already been matched within some enclosing pattern
-            during the current matching process, needed for patternpath checks.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN">
-            <summary>
-            This element has already been matched within an pattern
-            of this neg level during the current matching process.
-            This mask must be shifted left by the current neg level.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.IS_MATCHED">
-            <summary>
-            This element has already been matched within the local pattern
-            during the current matching process.
-            This mask must be shifted left by the current neg level.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.MAX_NEG_LEVEL">
-            <summary>
-            Maximum neg level which can be handled by the flags.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.IS_VISITED">
-            <summary>
-            This element has already been visited by a visitor.
-            This mask must be shifted left by the according visitor ID.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS">
-            <summary>
-            Number of visitors which can be handled by the flags.
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPNode">
             <summary>
             Class implementing nodes in the libGr search plan backend
@@ -2499,6 +2849,11 @@
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.lgspFlags">
             <summary>
             contains some booleans coded as bitvector
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.uniqueId">
+            <summary>
+            contains a unique id if uniqueness was declared
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.lgspTypePrev">
@@ -2587,6 +2942,14 @@
             <summary>
             Returns true, if the graph element is compatible to the given type.
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.GetUniqueId">
+            <summary>
+            Gets the unique id of the node.
+            Only available if unique ids for nodes and edges were declared in the model
+            (or implicitely switched on by parallelization or the declaration of some index).
+            </summary>
+            <returns>The unique id of the graph element (an arbitrary number in case uniqueness was not requested).</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.GetAttribute(System.String)">
             <summary>
@@ -2724,6 +3087,11 @@
             contains some booleans coded as bitvector
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.uniqueId">
+            <summary>
+            contains a unique id if uniqueness was declared
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspTypeNext">
             <summary>
             Previous and next edge in the list containing all the edges of one type.
@@ -2803,6 +3171,14 @@
             <summary>
             Returns true, if the graph element is compatible to the given type
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.GetUniqueId">
+            <summary>
+            Gets the unique id of the edge.
+            Only available if unique ids for nodes and edges were declared in the model
+            (or implicitely switched on by parallelization or the declaration of some index).
+            </summary>
+            <returns>The unique id of the graph element (an arbitrary number in case uniqueness was not requested).</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.GetAttribute(System.String)">
             <summary>
@@ -3021,6 +3397,7 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPActions.ReplaceAction(System.String,de.unika.ipd.grGen.lgsp.LGSPAction)">
             <summary>
             Replaces a given action by another one.
+            For internal use.
             </summary>
             <param name="actionName">The name of the action to be replaced.</param>
             <param name="newAction">The new action.</param>
@@ -3103,9 +3480,16 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPSubpatternAction.myMatch(System.Collections.Generic.List{System.Collections.Generic.Stack{de.unika.ipd.grGen.libGr.IMatch}},System.Int32,System.Int32)">
             <summary>
             Searches for the subpattern as specified by RulePattern.
-            Takes care of search state as given by found partial matches, negLevel to search at
+            Takes care of search state as given by found partial matches, isoSpace to search in
             and maximum number of matches to search for (zero = find all matches)
             (and open tasks via this).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSubpatternAction.myMatch_parallelized(System.Collections.Generic.List{System.Collections.Generic.Stack{de.unika.ipd.grGen.libGr.IMatch}},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Searches for the subpattern as specified by RulePattern,
+            with a matcher that can be called from a parallelized rule matcher.
+            Maps to the normal matcher if the subpattern is not used from any parallelized rule.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternpathIsomorphyChecker">
@@ -3220,13 +3604,24 @@
             Consider worklist algorithm in case of performance problems
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer.ComputeMaxNegLevel(de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer.ComputeMaxIsoSpace(de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean)">
             <summary>
-            Computes the maximum negLevel of the pattern graph reached by negative/independent nesting,
-            clipped by LGSPElemFlags.MAX_NEG_LEVEL+1 which is the critical point of interest,
+            Computes the maximum isoSpace number of the pattern graph reached by negative/independent nesting,
+            clipped by LGSPElemFlags.MAX_ISO_SPACE/LGSPElemFlagsParallel.MAX_ISO_SPACE which is the critical point of interest,
             this might happen by heavy nesting or by a subpattern call path with
             direct or indirect recursion on it including a negative/independent which gets passed.
-            Returns if the max negLevel of a subpattern called was increased, causing a further run.
+            Returns true if the max isoSpace of a subpattern called was increased, causing a further run.
+            Note: If you want to use a higher MAX_ISO_SPACE in either parallel or non-parallel matching, you must split the maxIsoSpace field and this computation into two parts.
+            Currently the lower one of both is used, which causes insertion of superfluous runtime checks for the higher one. 
+            (This is not an issue at the time of writing, because both values are set to the same value.)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer.SetNeedForParallelizedVersion(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern)">
+            <summary>
+            Sets branchingFactor to >1 for actions with a parallelize annotation,
+            but especially for subpatterns used by them, and the nested patterns of both,
+            they require an additional version with non- is-matched-flag-based isomorphy checking 
+            the action needs furtheron a very different setup with a work distributing head and a parallelized body
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.NamesOfEntities">
@@ -3271,16 +3666,34 @@
             for finding out when iteration of the candidates for the given pattern element has finished
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.CandidateIterationDictionaryOrListEntry(System.String)">
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.CandidateIterationContainerEntry(System.String)">
             <summary>
-            Returns name of the dictionary/list entry variable which will be created within the search program
-            holding the dictionary entry (key-value-pair) or list entry of the storage to pick an element from
+            Returns name of the container entry variable which will be created within the search program
+            holding the dictionary entry (key-value-pair) or list/deque entry of the storage to pick an element from
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.MapWithStorageTemporary(System.String)">
             <summary>
             Returns name of the temporary variable which will be created within the search program
             for retrieving the element via TryGet from the storage map; must be casted to the needed type afterwards
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.MapByNameTemporary(System.String)">
+            <summary>
+            Returns name of the temporary variable which will be created within the search program
+            for retrieving the element from the name map of the named graph; must be casted to the needed type afterwards
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.MapByUniqueTemporary(System.String)">
+            <summary>
+            Returns name of the temporary variable which will be created within the search program
+            for retrieving the element from the unique index of the graph; must be casted to the needed type afterwards
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.CandidateIterationIndexEntry(System.String)">
+            <summary>
+            Returns name of the entry variable which will be created within the search program
+            holding the entry of the index to pick an element from
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.MissingPresetHandlingMethod(System.String)">
@@ -3320,6 +3733,11 @@
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.RulePatternClassName(System.String,System.String,System.Boolean)">
             <summary>
             Returns name of the rule pattern class
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.IndexSetType(System.String)">
+            <summary>
+            Returns name of the exact index set type
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.MatchClassName(System.String)">
@@ -3452,6 +3870,22 @@
             with the accessor given here applied as index into the storage given in the Storage field.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.IndexAccess">
+            <summary>
+            If not null this pattern element is to be determined by an index lookup,
+            with details specified by the concrete index access type contained in this field.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.NameLookup">
+            <summary>
+            If not null this pattern element is to be determined by a name map lookup
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.UniqueLookup">
+            <summary>
+            If not null this pattern element is to be determined by a unique index lookup
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.ElementBeforeCasting">
             <summary>
             If not null this pattern element is to be bound by casting the given ElementBeforeCasting to the pattern element type or causing matching to fail.
@@ -3484,7 +3918,7 @@
             visited flag used to compute pattern connectedness for inlining, just hacked into this place
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean,de.unika.ipd.grGen.expression.Expression)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.IndexAccess,de.unika.ipd.grGen.lgsp.NameLookup,de.unika.ipd.grGen.lgsp.UniqueLookup,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean,de.unika.ipd.grGen.expression.Expression)">
             <summary>
             Instantiates a new PatternElement object.
             </summary>
@@ -3504,6 +3938,9 @@
             <param name="storage">If not null this pattern element is to be bound by iterating the given storage.</param>
             <param name="storageIndex">If not null this pattern element is to be determined by a storage lookup,
                 with the accessor given here applied as index into the storage given in the storage parameter.</param>
+            <param name="indexAccess">If not null this pattern element is to be determined by an index lookup, with details specified by the concrete index access type contained in this field.</param>
+            <param name="nameLookup">If not null this pattern element is to be determined by a name map lookup.</param>
+            <param name="uniqueLookup">If not null this pattern element is to be determined by a unique index lookup.</param>
             <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -3525,9 +3962,10 @@
             </summary>
             <returns>The string representation of this instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.GetPatternElementTheStorageDependsOn">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness">
             <summary>
-            Returns the pattern element the storage (which must be not null) depends on (or the storage index depends on)
+            Returns the pattern element we depend on,
+            for a storage lookup, or an indexed storage lookup, or an index lookup
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternElement.Name">
@@ -3576,7 +4014,7 @@
             The GrGen type of the pattern node
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,de.unika.ipd.grGen.libGr.NodeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean,de.unika.ipd.grGen.expression.Expression)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,de.unika.ipd.grGen.libGr.NodeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.IndexAccess,de.unika.ipd.grGen.lgsp.NameLookup,de.unika.ipd.grGen.lgsp.UniqueLookup,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean,de.unika.ipd.grGen.expression.Expression)">
             <summary>
             Instantiates a new PatternNode object
             </summary>
@@ -3597,6 +4035,9 @@
             <param name="storage">If not null this node is to be bound by iterating the given storage.</param>
             <param name="storageIndex">If not null this node is to be determined by a storage lookup,
                 with the accessor given here applied as index into the storage given in the storage parameter.</param>
+            <param name="indexAccess">If not null this pattern element is to be determined by an index lookup, with details specified by the concrete index access type contained in this field.</param>
+            <param name="nameLookup">If not null this pattern element is to be determined by a name map lookup.</param>
+            <param name="uniqueLookup">If not null this pattern element is to be determined by a unique index lookup.</param>
             <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -3644,7 +4085,7 @@
             Indicates, whether this pattern edge should be matched with a fixed direction or not.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean,de.unika.ipd.grGen.expression.Expression)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.IndexAccess,de.unika.ipd.grGen.lgsp.NameLookup,de.unika.ipd.grGen.lgsp.UniqueLookup,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean,de.unika.ipd.grGen.expression.Expression)">
             <summary>
             Instantiates a new PatternEdge object
             </summary>
@@ -3666,6 +4107,9 @@
             <param name="storage">If not null this edge is to be bound by iterating the given storage.</param>
             <param name="storageIndex">If not null this edge is to be determined by a storage lookup,
                 with the accessor given here applied as index into the storage given in the storage parameter.</param>
+            <param name="indexAccess">If not null this pattern element is to be determined by an index lookup, with details specified by the concrete index access type contained in this field.</param>
+            <param name="nameLookup">If not null this pattern element is to be determined by a name map lookup.</param>
+            <param name="uniqueLookup">If not null this pattern element is to be determined by a unique index lookup.</param>
             <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
@@ -3864,6 +4308,87 @@
             The storage index is the given graph element attribute (qualification) if not null.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.IndexAccess">
+            <summary>
+            Base class for index accesses, used to bind a pattern element from an index.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.IndexAccess.Index">
+            <summary>
+            The index accessed
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.IndexAccess.NeededElement">
+            <summary>
+            The pattern element that must be bound before the index can be accessed.
+            null if the index can be accessed straight from the beginning, does not depend on other nodes/edges.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.IndexAccess.VariablesNeeded">
+            <summary>
+            Tells whether variables are needed for the expressions used in accessing the index.
+            This defines a constraint on scheduling.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.IndexAccessEquality">
+            <summary>
+            Representation of an index access, accessed by enumerating equal keys.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.IndexAccessAscending">
+            <summary>
+            Representation of an index access, accessed by enumerating ascendingly.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.IndexAccessDescending">
+            <summary>
+            Representation of an index access, accessed by enumerating descendingly.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.NameLookup">
+            <summary>
+            Representation of a name map lookup.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.NameLookup.NeededElement">
+            <summary>
+            The pattern element that must be bound before the name map can be accessed.
+            null if the name map can be accessed straight from the beginning, does not depend on other nodes/edges.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.NameLookup.VariablesNeeded">
+            <summary>
+            Tells whether variables are needed for the expressions used in accessing the index.
+            This defines a constraint on scheduling.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.NameLookup.Expr">
+            <summary>
+            The expression for computing the key with which the name map will be accessed
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.UniqueLookup">
+            <summary>
+            Representation of a unique index lookup.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.UniqueLookup.NeededElement">
+            <summary>
+            The pattern element that must be bound before the unique index can be accessed.
+            null if the unique index can be accessed straight from the beginning, does not depend on other nodes/edges.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.UniqueLookup.VariablesNeeded">
+            <summary>
+            Tells whether variables are needed for the expressions used in accessing the index.
+            This defines a constraint on scheduling.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.UniqueLookup.Expr">
+            <summary>
+            The expression for computing the unique id with which the unique index will be accessed
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.QualificationAccess">
             <summary>
             Representation of an owner.attribute qualification
@@ -4024,6 +4549,11 @@
             <param name="original">The original yielding to be copy constructed.</param>
             <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
             <param name="renameSuffix">The rename suffix to be applied to all the nodes, edges, and variables used.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternYielding.Clone">
+            <summary>
+            Instantiates a new PatternYielding object as a copy from the original yielding; for parallelization.
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding">
             <summary>
@@ -4483,6 +5013,113 @@
             <param name="specPath">The path to the rule specification file (.grg).</param>
             <exception cref="T:System.Exception">Thrown, when an error occurred.</exception>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPElemFlags">
+            <summary>
+            Flags for graph elements.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.MAX_ISO_SPACE">
+            <summary>
+            Maximum iso space number which can be handled by the flags (i.e. max. number of independent isomorphy spaces).
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS">
+            <summary>
+            Number of visitors which can be handled by the flags.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN">
+            <summary>
+            This element has already been matched within some enclosing pattern
+            during the current matching process, needed for patternpath checks.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN">
+            <summary>
+            This element has already been matched within an pattern
+            of this iso space during the current matching process.
+            This mask must be shifted left by the current iso space/level.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.IS_MATCHED">
+            <summary>
+            This element has already been matched within the local pattern
+            during the current matching process.
+            This mask must be shifted left by the current iso space/level.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.HAS_VARIABLES">
+            <summary>
+            Some variable contains this element.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.IS_VISITED">
+            <summary>
+            This element has already been visited by a visitor.
+            This mask must be shifted left by the according visitor ID.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlags.IS_VISITED_INTERNALLY">
+            <summary>
+            This element has already been visited by the single internal visitor.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPElemFlagsParallel">
+            <summary>
+            Flags for graph elements, for parallel matching;
+            stored outside of the graph elements themselves, in an array per thread.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlagsParallel.MAX_ISO_SPACE">
+            <summary>
+            Maximum iso space number which can be handled by the flags (i.e. max. number of independent isomorphy spaces).
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlagsParallel.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN">
+            <summary>
+            This element has already been matched within some enclosing pattern
+            during the current matching process, needed for patternpath checks.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlagsParallel.IS_MATCHED_BY_ENCLOSING_PATTERN">
+            <summary>
+            This element has already been matched within an pattern
+            of this iso space during the current matching process.
+            This mask must be shifted left by the current iso space/level.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlagsParallel.IS_MATCHED">
+            <summary>
+            This element has already been matched within the local pattern
+            during the current matching process.
+            This mask must be shifted left by the current iso space/level.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPElemFlagsParallel.IS_VISITED_INTERNALLY">
+            <summary>
+            This element has already been visited by the single internal visitor.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPGraphModel">
+            <summary>
+            A model of a GrGen graph, base class from implementation.
+            Defines a thin layer above IGraphModel, enriched with index creating functionality, the real stuff is generated.
+            It allows the generic LGSPGraph to create and bind the index set when it is configured with the graph model.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphModel.CreateAndBindIndexSet(de.unika.ipd.grGen.lgsp.LGSPGraph)">
+            <summary>
+            Called by the graph (generic implementation) to create and bind its index set (generated code).
+            Always called by an empty graph just constructed.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphModel.FillIndexSetAsClone(de.unika.ipd.grGen.lgsp.LGSPGraph,de.unika.ipd.grGen.lgsp.LGSPGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement})">
+            <summary>
+            Called on an index set that was created and bound,
+            when the graph was copy constructed from an original graph,
+            to fill in the already available cloned content from the original graph.
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SimpleGraphCanonizer.Canonize(de.unika.ipd.grGen.lgsp.LGSPGraph)">
             <summary>
             Canonize a graph
@@ -4512,7 +5149,7 @@
             Iterate all search programs to complete check operations within each one
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.CompleteCheckOperations(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.GetPartialMatchOfAlternative,de.unika.ipd.grGen.lgsp.CheckPartialMatchByNegativeOrIndependent)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.CompleteCheckOperations(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.GetPartialMatchOfAlternative,de.unika.ipd.grGen.lgsp.CheckPartialMatchByNegativeOrIndependent,de.unika.ipd.grGen.lgsp.SearchProgram)">
             <summary>
             Completes check operations in search program from given currentOperation on
             (taking borderlines set by enclosing search program and check negative into account)
@@ -4522,29 +5159,29 @@
             - insert continuing operation itself
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.MoveOutwardsAppendingListHeadAdjustment(de.unika.ipd.grGen.lgsp.CheckContinueMatchingMaximumMatchesReached)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.MoveOutwardsAppendingListHeadAdjustment(de.unika.ipd.grGen.lgsp.CheckContinueMatchingMaximumMatchesReached,System.Boolean)">
             <summary>
             "listentrick": append search program operations to adjust list heads
             i.e. set list entry point to element after last found,
-            so that next searching starts there - preformance optimization
+            so that next searching starts there - performance optimization
             (leave graph in the state of our last visit (searching it))
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.MoveOutwardsAppendingRemoveIsomorphyAndJump(de.unika.ipd.grGen.lgsp.CheckOperation,System.String[],de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.MoveOutwardsAppendingRemoveIsomorphyAndJump(de.unika.ipd.grGen.lgsp.CheckOperation,System.String[],de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchProgram)">
             <summary>
             move outwards from check operation until operation to continue at is found
             appending restore isomorphy for isomorphy written on the way
             and final jump to operation to continue at
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.MoveRightAfterCorrespondingIndependentFailedAppendingRemoveIsomorphyAndJump(de.unika.ipd.grGen.lgsp.CheckContinueMatchingOfIndependentSucceeded,de.unika.ipd.grGen.lgsp.CheckPartialMatchByIndependent)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.MoveRightAfterCorrespondingIndependentFailedAppendingRemoveIsomorphyAndJump(de.unika.ipd.grGen.lgsp.CheckContinueMatchingOfIndependentSucceeded,de.unika.ipd.grGen.lgsp.CheckPartialMatchByIndependent,de.unika.ipd.grGen.lgsp.SearchProgram)">
             <summary>
             move outwards from check succeeded operation until check partial match by independent is found
             appending restore isomorphy for isomorphy written on the way
             and final jump to operation right after the independent failed operation of the check partial match by independent
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.MoveOutwardsAppendingRemoveIsomorphy(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchProgramOperation@,System.String[],de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.MoveOutwardsAppendingRemoveIsomorphy(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchProgramOperation@,System.String[],de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchProgram)">
             <summary>
             move outwards from starting point on until operation to continue at is found
             appending restore isomorphy at insertion point for isomorphy written on the way
@@ -4902,19 +5539,39 @@
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.maybeNullElementNames">
             <summary>
             Names of the elements which may be null
-            The following members are ordered along it/generated along this order
+            The following members are ordered along it/generated along this order.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.schedules">
             <summary>
             The schedules for this pattern graph without any nested pattern graphs.
-            Normally one, but each maybe null action preset causes doubling of schedules
+            Normally one, but each maybe null action preset causes doubling of schedules.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.schedulesIncludingNegativesAndIndependents">
             <summary>
-            The schedules for this pattern graph including negatives and independents (and subpatterns?).   TODO
-            Normally one, but each maybe null action preset causes doubling of schedules
+            The schedules for this pattern graph including negatives and independents.
+            Normally one, but each maybe null action preset causes doubling of schedules.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.branchingFactor">
+            <summary>
+            Larger than 1 if and only if this rule is to be parallelized, giving the branching factor to apply
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.parallelizedSchedule">
+            <summary>
+            Not-null in case of parallelization. Contains then exactly 2 entries.
+            A parallelized matcher consists of a head (first, distributing and collecting work) and a body (following, doing real work).
+            A pattern with maybe null action presets is not parallelized.
+            The head and body schedules include negatives and independents, they are derived from
+            schedulesIncludingNegativesAndIndependents by splitting at the first candidate-binding loop.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.parallelizedYieldings">
+            <summary>
+            The yielding assignments used in this pattern graph or it's nested graphs, after parallelization
+            Not-null in case of parallelization.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.availabilityOfMaybeNullElements">
@@ -4974,10 +5631,10 @@
             Needed for patternpath processing setup (to check patternpath matches stack).
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.maxNegLevel">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.maxIsoSpace">
             <summary>
-            Gives the maximum negLevel of the pattern reached by negative/independent nesting,
-            clipped by LGSPElemFlags.MAX_NEG_LEVEL+1 which is the critical point of interest,
+            Gives the maximum isoSpace number of the pattern reached by negative/independent nesting,
+            clipped by LGSPElemFlags.MAX_ISO_SPACE which is the critical point of interest,
             this might happen by heavy nesting or by a subpattern call path with
             direct or indirect recursion on it including a negative/independent which gets passed.
             </summary>
@@ -5263,22 +5920,22 @@
             name says everything
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPRulePattern,System.Int32,System.String)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPRulePattern,System.Int32,System.String,System.Boolean,System.Boolean)">
             <summary>
             Builds search program from scheduled search plan at given index in pattern graph of the action rule pattern
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,System.Boolean,System.Boolean)">
             <summary>
             Builds search program from scheduled search plan in pattern graph of the subpattern rule pattern
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.Alternative)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.Alternative,System.Boolean,System.Boolean)">
             <summary>
             Builds search program for alternative from scheduled search plans of the alternative cases
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean)">
             <summary>
             Builds search program for iterated from scheduled search plan of iterated pattern graph
             </summary>
@@ -5334,15 +5991,38 @@
             names of the parameters of the action (null if not an action)
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.negLevelNeverAboveMaxNegLevel">
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.isoSpaceNeverAboveMaxIsoSpace">
             <summary>
-            true if statically determined that the neg level of the pattern getting constructed 
-            is always below the maximum neg level
+            true if statically determined that the iso space number of the pattern getting constructed 
+            is always below the maximum iso space number (the maximum nesting level of the isomorphy spaces)
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.indexOfSchedule">
             <summary>
             The index of the currently built schedule
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.parallelized">
+            <summary>
+            whether to build the parallelized matcher from the parallelized schedule
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.emitProfiling">
+            <summary>
+            whether to emit code for gathering profiling information (about search steps executed)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.actionName">
+            <summary>
+            the name of the action in case we're building a rule/test, otherwise null
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.firstLoopPassed">
+            <summary>
+            tells whether the first loop of the search programm was built, or not yet
+            needed for the profile that does special statistics for the first loop,
+            because this is the one that will get parallelized in case of action parallelization
+            only of relevance if programType == SearchProgramType.Action, otherwise the type pinns it to true
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildScheduledSearchPlanOperationIntoSearchProgram(System.Int32,de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
@@ -5399,6 +6079,27 @@
             <summary>
             Search program operations implementing the
             PickFromStorageDependent search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickFromIndex(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IndexAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+            <summary>
+            Search program operations implementing the
+            PickFromIndex search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickByName(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.NameLookup,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+            <summary>
+            Search program operations implementing the
+            PickByName or PickByNameDependent search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickByUnique(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.UniqueLookup,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+            <summary>
+            Search program operations implementing the
+            PickByUnique or PickByUniqueDependent search plan operation
             are created and inserted into search program
             </summary>
         </member>
@@ -5486,6 +6187,104 @@
             are created and inserted into search program
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildWriteParallelPreset(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode)">
+            <summary>
+            Search program operations implementing the
+            WriteParallelPreset search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildWriteParallelPresetVar(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.PatternVariable)">
+            <summary>
+            Search program operations implementing the
+            WriteParallelPresetVar search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPreset(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode)">
+            <summary>
+            Search program operations implementing the
+            ParallelPreset search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPresetVar(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.PatternVariable)">
+            <summary>
+            Search program operations implementing the
+            ParallelPresetVar search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelLookupSetup(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNode)">
+            <summary>
+            Search program operations implementing the
+            setup parallelized Lookup search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelLookup(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+            <summary>
+            Search program operations implementing the
+            parallelized Lookup search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPickFromStorageSetup(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess)">
+            <summary>
+            Search program operations implementing the
+            setup parallelized PickFromStorage search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPickFromStorage(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+            <summary>
+            Search program operations implementing the
+            parallelized PickFromStorage search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPickFromStorageDependentSetup(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess)">
+            <summary>
+            Search program operations implementing the
+            setup parallelized PickFromStorageDependent search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPickFromStorageDependent(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+            <summary>
+            Search program operations implementing the
+            parallelized PickFromStorageDependent search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPickFromIndexSetup(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IndexAccess)">
+            <summary>
+            Search program operations implementing the
+            setup parallelized PickFromIndex search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPickFromIndex(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IndexAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+            <summary>
+            Search program operations implementing the
+            parallelized PickFromIndex search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelIncidentSetup(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.IncidentEdgeType)">
+            <summary>
+            Search program operations implementing the
+            setup parallelized Extend Incoming|Outgoing|IncomingOrOutgoing search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelIncident(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.IncidentEdgeType)">
+            <summary>
+            Search program operations implementing the
+            parallelized Extend Incoming|Outgoing|IncomingOrOutgoing search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildMatchComplete(de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
             <summary>
             Search program operations completing the matching process
@@ -5495,11 +6294,6 @@
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertImplicitNodeFromEdge(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.ImplicitNodeType,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
             <summary>
             Inserts code to get an implicit node from an edge
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertIncidentEdgeFromNode(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.IncidentEdgeType,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
-            <summary>
-            Inserts code to get an incident edge from some node
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertInlinedMatchObjectCreation(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.PatternGraph,de.unika.ipd.grGen.lgsp.SearchProgramBuilder.MatchObjectType)">
@@ -5738,6 +6532,20 @@
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPTransactionManager">
             <summary>
             A class for managing graph transactions.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPUniquenessEnsurer">
+            <summary>
+            A class ensuring unique ids for nodes and edges with a minimum amount of gaps.
+            Gets instantiated in case support for unique nodes/edges was declared in the model.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPUniquenessIndex">
+            <summary>
+            A class ensuring unique ids for nodes and edges with a minimum amount of gaps,
+            and allowing to access them by their unique id, similar to an index (and esp. the name map).
+            Gets instantiated in case support for unique nodes/edges was declared in the model,
+            and support for accessing nodes/edges by a unique id.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SourceBuilder">
@@ -6176,6 +6984,11 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Add(`0)">
             <summary>
             adds a match object to the end of the list; only applicable if this is the match of an iteration, not an action
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.RemoveFirst">
+            <summary>
+            removes the first match object from the the list
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Clear">
@@ -6748,6 +7561,11 @@
             Class representing nameof expression
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.Uniqueof">
+            <summary>
+            Class representing unique id expression
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.ExistsFileExpression">
             <summary>
             Class representing exists file expression
@@ -6841,6 +7659,16 @@
         <member name="T:de.unika.ipd.grGen.expression.ArrayAccess">
             <summary>
             Class representing an array access expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DequeAccess">
+            <summary>
+            Class representing a deque access expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IncidenceIndexAccess">
+            <summary>
+            Class representing an incidence index access expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.MapSize">
@@ -7033,6 +7861,11 @@
             Class representing expression returning the edges of an edge type (as set)
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.Now">
+            <summary>
+            Class representing expression returning the current time, measured as windows file time
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.Empty">
             <summary>
             Class representing expression returning whether the graph is empty
@@ -7056,6 +7889,26 @@
         <member name="T:de.unika.ipd.grGen.expression.Opposite">
             <summary>
             Class representing expression returning the opposite node of an edge and a node
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.NodeByName">
+            <summary>
+            Class representing expression returning the node for a name (or null)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EdgeByName">
+            <summary>
+            Class representing expression returning the edge for a name (or null)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.NodeByUnique">
+            <summary>
+            Class representing expression returning the node for a unique id(or null)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EdgeByUnique">
+            <summary>
+            Class representing expression returning the edge for a unique id(or null)
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Outgoing">
@@ -7201,6 +8054,31 @@
         <member name="T:de.unika.ipd.grGen.expression.Abs">
             <summary>
             Class representing expression returning the absolute value
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Sgn">
+            <summary>
+            Class representing expression returning the signum
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Ceil">
+            <summary>
+            Class representing expression returning the ceil value
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Floor">
+            <summary>
+            Class representing expression returning the floor value
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Round">
+            <summary>
+            Class representing expression returning the rounded value
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Truncate">
+            <summary>
+            Class representing expression returning the truncated value
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Sin">
