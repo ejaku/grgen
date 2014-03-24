@@ -99,7 +99,7 @@ They filter based on certain conditions regarding that variable; filtering may m
 \begin{description}
 \item[\texttt{orderAscendingBy<v>}] orders the matches list ascendingly (from lowest ot highest value according to the \verb#<# operator), alongside the \texttt{v} contained in each match.
 \item[\texttt{orderDescendingBy<v>}] orders the matches list descendingly, alongside the \texttt{v} contained in each match.
-\item[\texttt{groupBy<v>}] ensures matches of equal \texttt{v} values are neighbours or only separated by matches of equal \texttt{v} values. Ordering subsumes this. (Grouping could be applied on types that only support the \verb#==# operator, though.)
+%\item[\texttt{groupBy<v>}] ensures matches of equal \texttt{v} values are neighbours or only separated by matches of equal \texttt{v} values. Ordering subsumes this. (Grouping could be applied on types that only support the \verb#==# operator, though.)
 \item[\texttt{keepSameAsFirst<v>}] filters away all matches with \texttt{v} values that are not equal to the \texttt{v} value of the first match. May be used to ensure all matches of an indeterministically chosen value are rewritten, but typically you want to order the matches list before.
 \item[\texttt{keepSameAsLast<v>}] filters away all matches with \texttt{v} values that are not equal to the \texttt{v} value of the last match.
 \item[\texttt{keepOneForEach<v>}] filters away all matches with duplicate \texttt{v} values, i.e. only one (prototypical) match is kept per \texttt{v} value. The list must have been grouped or ordered before, otherwise the result is undefined.
@@ -169,7 +169,7 @@ This way, the 50\% of the nodes with the smallest number of outgoing edges are d
 \hline
 \texttt{orderAscendingBy<def var:int|double|string>}\\
 \texttt{orderDescendingBy<def var:int|double|string>}\\
-\texttt{groupBy<def var:int|double|string>}\\
+%\texttt{groupBy<def var:int|double|string>}\\
 \texttt{keepSameAsFirst<def var:int|double|string>}\\
 \texttt{keepSameAsLast<def var>:int|double|string}\\
 \texttt{keepOneForEach<def var:int|double|string>}\\

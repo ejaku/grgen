@@ -6,7 +6,7 @@
 \section{Built-In Types}
 \label{sec:builtingenerictypes}
 Besides the types already introduced, \GrG\ offers supports for a \texttt{\indexed{graph}} type.
-If used explicitly, it denotes a subgraph of the host graph, which can be used for storing and comparing subgraphs of the current host graph (after subgraph extraction no further graph operations are possible (unless the API is used), because of the "there is only a single host graph"-design of GrGen).
+If used explicitly, it denotes a subgraph of the host graph, which can be used for storing and comparing subgraphs of the current host graph. (Because of the "there is only a single host graph"-design of GrGen you must explicitely descend to the nested subgraph if you intend to process it, see \ref{sec:graphnesting}).
 
 But more important are the large number of global functions (with call syntax as already introduced in \ref{sec:primexpr}) and global procedures (with call syntax as already introduced in \ref{sec:proccall}) that implicitly operate on the single host graph (and thus on the graph type).
 There are update functions available that allow to manipulate the graph available with \texttt{add}, \texttt{rem} and \texttt{retype}.
@@ -74,7 +74,7 @@ The same functions can be used from for loops to iterate over the entities, omit
 \end{description}
 
 %-----------------------------------------------------------------------------------------------
-\subsection{Graph Query by Neighbourhood}
+\subsection{Graph Query by Neighbourhood}\label{sub:querybyneighbourhood}
 
 Multiple functions are available to query the neighbourhood of nodes and edges.
 
@@ -289,28 +289,37 @@ they are especially useful in state space enumeration, cf. \ref{sec:statespaceen
 In addition to those computations explained below, you can access the currently processed graph via the  \texttt{\indexed{this}}\ixkeyw{this} variable that is available in the expressions of the sequences and the rules. 
 By default it is bound to the host graph, but if processing was relocated in the sequences to a subgraph, it is bound to the currently processed subgraph.
 
-The functions allow to compute (node-or-edge) induced subgraphs, import subgraphs, and clone subgraphs:
+The global functions allow to compute (node-or-edge) induced subgraphs and clone subgraphs:
 
 \begin{description}
 \item[\texttt{inducedSubgraph(.)}] returns the induced subgraph (type: \texttt{graph}) of the host graph for the set of nodes given as argument value.
 \item[\texttt{definedSubgraph(.)}] returns the defined (edge-induced) subgraph (type: \texttt{graph}) of the host graph for the set of edges given as argument value.
-\item[\texttt{import(.)}] returns the (sub)graph stored in the \texttt{.grs}-file given by its path (the main graph is \emph{not} replaced, the graph must be compatible to the model of the current host graph).
-\item[\texttt{existsFile(.)}] returns whether the file given by its path exists.
 \item[\texttt{copy(.)}] returns a clone of the original subgraph given as argument.
 \end{description}
 
-The procedures allow to insert clones of subgraphs computed with the previously introduced function,
-or to insert clones of induced subgraphs directly,
-or to export subgraphs.
+The functions from the built-in package \texttt{File} allow to import subgraphs and check for file existance (for more on packages see \ref{sub:packageaction}).
+
+\begin{description}
+\item[\texttt{File::import(.)}] returns the (sub)graph stored in the \texttt{.grs}-file given by its path (the main graph is \emph{not} replaced, the graph must be compatible to the model of the current host graph).
+\item[\texttt{File::existsFile(.)}] returns whether the file given by its path exists.
+\end{description}
+
+The global procedures allow to insert clones of subgraphs computed with the previously introduced function,
+or to insert clones of induced subgraphs directly.
 
 \begin{description}
 \item[\texttt{insert(.)}] inserts a given subgraph to the current host graph (disjoint union of the nodes and edges); the original graph is destroyed by this (move semantics).
 \item[\texttt{insertCopy(.,.)}] inserts a clone of the given subgraph to the current host graph (disjoint union of the nodes and edges); the original subgraph stays untouched. Returns the copy of the node given as second argument from the host graph.
 \item[\texttt{insertInduced(.,.)}] adds a clone of the subgraph induced by the set of nodes given as first argument to the host graph, returns the clone of the anchor node given as second argument.
 \item[\texttt{insertDefined(.,.)}] adds a clone of the subgraph defined (edge-induced) by the set of edges given as first argument to the host graph, returns the clone of the anchor edge given as second argument.
-\item[\texttt{export(.)}] exports the current host graph to a file with the given path.
-\item[\texttt{export(.,.)}] exports the subgraph given as first argument to a file with the given path.
-\item[\texttt{deleteFile(.)}] deletes the file with the given path.
+\end{description}
+
+The procedures from the built-in package \texttt{File} allow to export subgraphs and delete files.
+
+\begin{description}
+\item[\texttt{File::export(.)}] exports the current host graph to a file with the given path.
+\item[\texttt{File::export(.,.)}] exports the subgraph given as first argument to a file with the given path.
+\item[\texttt{File::deleteFile(.)}] deletes the file with the given path.
 \end{description}
 
 % todo: mehr beispiele
@@ -358,7 +367,7 @@ procedure saveConnectedComponents()
 		def var n:Node = fetchNode();
 		def ref connectedComponent:set<Node> = reachable(n) | {n};
 		def var sub:graph = inducedSubgraph(connectedComponent);
-		export(sub, "cc"+i+".grs");
+		File::export(sub, "cc"+i+".grs");
 		deleteSubgraph(connectedComponent);
 		i = i + 1;
 	}
@@ -368,8 +377,8 @@ procedure saveConnectedComponents()
 procedure loadConnectedComponents()
 {
 	def var i:int = 0;
-	while(existsFile("cc"+i+".grs")) {
-		insert(import("cc"+i+".grs"));
+	while(File::existsFile("cc"+i+".grs")) {
+		insert(File::import("cc"+i+".grs"));
 		i = i + 1;
 	}
 	return;
@@ -378,8 +387,8 @@ procedure loadConnectedComponents()
 procedure removeSavedConnectedComponentsFiles()
 {
 	def var i:int = 0;
-	while(existsFile("cc"+i+".grs")) {
-		deleteFile("cc"+i+".grs");
+	while(File::existsFile("cc"+i+".grs")) {
+		File::deleteFile("cc"+i+".grs");
 		i = i + 1;
 	}
 	return;
@@ -510,7 +519,7 @@ procedure lengthOfLongestPath(start:Node, var lengthReached:int, var flag:int) :
 		if(!child.visited[flag]) {
 			def var lengthOfLongestPathStartingAtChild:int;
 			(lengthOfLongestPathStartingAtChild)=lengthOfLongestPath(child, lengthReached+1, flag);
-			maxLength = max(maxLength, lengthOfLongestPathStartingAtChild);
+			maxLength = Math::max(maxLength, lengthOfLongestPathStartingAtChild);
 		}
 	}
 	start.visited[flag] = false;

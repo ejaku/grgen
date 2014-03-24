@@ -247,7 +247,8 @@ test example : (int)
 
 A such defined function may then be called as an expression atom from anywhere in the rule language file where an expression is required; or even from the sequence computations where an expression is required.
 Besides the built-in functions that are called with the same syntax;
-table~\ref{funcstab} lists the built-in functions of the rule language at a glance.
+table~\ref{funcstab} lists the global built-in functions of the rule language at a glance,
+table~\ref{packagefuncstab} lists the built-in functions contained in built-in packages at a glance.
 
 %\makeatletter
 \begin{table}[htbp]
@@ -291,29 +292,46 @@ table~\ref{funcstab} lists the built-in functions of the rule language at a glan
 \hline
 \texttt{inducedSubgraph(set<Node>):graph}\\
 \texttt{definedSubgraph(set<Edge>):graph}\\
-\texttt{import(string):graph}\\
-\texttt{existsFile(string):boolean}\\
 \texttt{copy(graph):graph}\\
 \hline
+\end{tabular}
+\caption{Global functions at a glance}
+\label{funcstab}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|}
 \hline
-\texttt{min(Number,Number):Number}\\
-\texttt{max(Number,Number):Number}\\
-\texttt{abs(Number):Number}\\
+\texttt{Math::min(Number,Number):Number}\\
+\texttt{Math::max(Number,Number):Number}\\
+\texttt{Math::abs(Number):Number}\\
 \hline
-\texttt{pow([double,]double):double}\\
-\texttt{log(double[,double]):double}\\
+\texttt{Math::ceil(double):double}\\
+\texttt{Math::floor(double):double}\\
+\texttt{Math::round(double):double}\\
+\texttt{Math::truncate(double):double}\\
 \hline
-\texttt{sin(double):double}\\
-\texttt{cos(double):double}\\
-\texttt{tan(double):double}\\
+\texttt{Math::pow([double,]double):double}\\
+\texttt{Math::log(double[,double]):double}\\
+\texttt{Math::sgn(double):double}\\
 \hline
-\texttt{arcsin(double):double}\\
-\texttt{arccos(double):double}\\
-\texttt{arctan(double):double}\\
+\texttt{Math::sin(double):double}\\
+\texttt{Math::cos(double):double}\\
+\texttt{Math::tan(double):double}\\
+\hline
+\texttt{Math::arcsin(double):double}\\
+\texttt{Math::arccos(double):double}\\
+\texttt{Math::arctan(double):double}\\
+\hline
+\texttt{File::import(string):graph}\\
+\texttt{File::existsFile(string):boolean}\\
+\hline
+\texttt{Time::now():long}\\
 \hline
 \end{tabular}
-\caption{Functions at a glance}
-\label{funcstab}
+\caption{Functions in packages at a glance}
+\label{packagefuncstab}
 \end{table}
 
 
@@ -385,7 +403,8 @@ rule example : (int,int)
 
 A such defined procedure may then be called as a statement atom from anywhere in the rule language file where an attribute evaluation (/computation) is required; or even from the sequence computations where a statement is required.
 Besides the built-in procedures that are called with the same syntax;
-table~\ref{procstab} lists the built-in procedures of the rule language at a glance.
+table~\ref{procstab} lists the global built-in procedures of the rule language at a glance,
+table~\ref{packageprocstab} lists the built-in procedures contained in built-in packages at a glance.
 
 Please note that the \emph{OutputAssignment} is optional, you may execute a procedure just for its side effects; this kind of call is even the most common as many built-in procedures don't return values at all but are just executed for their state changes.
 The \emph{AssignmentTarget} may be any of the LHS expressions supported by the different \emph{AssignmentStatements} (a def variable, a def variable yielded to, a global variable, a graph element attribute, an indexed target, or a visited flag of a graph element), and it may be def variable that gets just declared (\emph{LocalVariableDecl}), using the procedure output for initialization.
@@ -414,9 +433,6 @@ The \emph{AssignmentTarget} may be any of the LHS expressions supported by the d
 \texttt{insertCopy(graph,Node):(Node)}\\
 \texttt{insertInduced(set<Node>,Node):(Node)}\\
 \texttt{insertDefined(set<Edge>,Edge):(Edge)}\\
-\texttt{export(string)}\\
-\texttt{export(graph,string)}\\
-\texttt{deleteFile(string)}\\
 \hline
 \texttt{valloc():(int)}\\
 \texttt{vfree(int)}\\
@@ -433,10 +449,23 @@ The \emph{AssignmentTarget} may be any of the LHS expressions supported by the d
 \texttt{record(string)}\\
 \hline
 \end{tabular}
-\caption{Procedures at a glance}
+\caption{Global procedures at a glance}
 \label{procstab}
 \end{table}
 
+%\makeatletter
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|}
+\hline
+\texttt{File::export(string)}\\
+\texttt{File::export(graph,string)}\\
+\texttt{File::deleteFile(string)}\\
+\hline
+\end{tabular}
+\caption{Procedures in packages at a glance}
+\label{packageprocstab}
+\end{table}
 
 \pagebreak
 

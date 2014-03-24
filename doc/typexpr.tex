@@ -303,6 +303,7 @@ After we've seen the all the ways to combine expressions, finally we'll have a l
   		| VarIdent
   		| '::' GlobalVarIdent
   		| 'nameof' '(' NodeOrEdge? ')'
+  		| 'uniqueof' '(' NodeOrEdge? ')'
   		| 'random' '(' ( IntExpr )? ')'
   		| '(' Expression ')';
 \end{rail}\ixnterm{PrimaryExpr}\ixkeyw{nameof}\indexmainsee{variable}{expression variable}\indexmain{expression variable}\indexmain{variable}
@@ -311,6 +312,11 @@ The \texttt{nameof} query returns the name (persistent name, see example \ref{pe
 (graphs elements of pure \texttt{LGSPGraph}s bear no name, then the query fails, but normally you are using \texttt{LGSPNamedGraph}s).
 Besides nodes or edges, subgraphs may be given, then the name of the subgraph is returned.
 If no argument is given, the name of the graph (the current host graph) is returned.
+
+The \texttt{uniqueof} query returns the unique id (see \ref{sec:uniqueness}) of the given graph element as \texttt{int}
+(you only receive a unique id in case uniqueness was declared in the model).
+Besides nodes or edges, subgraphs may be given, then the unique id of the subgraph is returned.
+If no argument is given, the unique if of the graph (the current host graph) is returned.
 
 The \texttt{random} function returns a double random value in between 0.0 and 1.0 if called without an argument,
 or, if an integer argument value is given, an integer random value in between 0 and the value given, excluding the value itself.
@@ -323,22 +329,31 @@ or, if an integer argument value is given, an integer random value in between 0 
 
 The cast expression returns the original value casted to the new prefixed type.
 The member access \texttt{n.a} returns the value of the attribute \texttt{a} of the graph element \texttt{n}.
-A function call employs an external (attribute evaluation) function (cf. \ref{sub:extfct}), or a (internal) user-defined function (see \ref{sub:functions}), or one of the following built-in functions:
+A function call employs an external (attribute evaluation) function (cf. \ref{sub:extfct}), or a (internal) user-defined function (see \ref{sub:functions}), or one of the following built-in functions contained in the built-in package \texttt{Math} or in the built-in package \texttt{Time} (for more on packages see \ref{sub:packageaction}):
 
 \begin{description}
-\item[\texttt{min(.,.)}] returns the smaller of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
-\item[\texttt{max(.,.)}] returns the greater of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
-\item[\texttt{abs(.)}] returns the absolute value of the argument, which must be of numeric type (i.e. \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
-\item[\texttt{pow(.,.)}] returns the first argument value to the power of the second value; both must be of type \texttt{double}
-\item[\texttt{pow(.)}] returns $e$ to the power of the argument value, which must be of type \texttt{double}
-\item[\texttt{log(.,.)}] returns the logarithm of the first argument value regarding the base given by the second value; both must be of type \texttt{double}
-\item[\texttt{log(.,.)}] returns the logarithm of the argument value that must be of type \texttt{double} regarding the base $e$
-\item[\texttt{sin(.)}] returns the sine of the argument, which must be of type \texttt{double}
-\item[\texttt{cos(.)}] returns the cosine of the argument, which must be of type \texttt{double}
-\item[\texttt{tan(.)}] returns the tangent of the argument, which must be of type \texttt{double}
-\item[\texttt{arcsin(.)}] returns the inverse of the sine for the argument, which must be of type \texttt{double}
-\item[\texttt{arccos(.)}] returns the inverse of the cosine for the argument, which must be of type \texttt{double}
-\item[\texttt{arctan(.)}] returns the inverse of the tangent for the argument, which must be of type \texttt{double}
+\item[\texttt{Math::min(.,.)}] returns the smaller of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
+\item[\texttt{Math::max(.,.)}] returns the greater of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
+\item[\texttt{Math::abs(.)}] returns the absolute value of the argument, which must be of numeric type (i.e. \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
+\item[\texttt{Math::ceil(.)}] returns the ceiling of the argument, which must be of type \texttt{double}
+\item[\texttt{Math::floor(.)}] returns the floor of the argument, which must be of type \texttt{double}
+\item[\texttt{Math::round(.)}] returns the argument rounded, which must be of type \texttt{double}
+\item[\texttt{Math::truncate(.)}] returns the argument truncated, which must be of type \texttt{double}
+\item[\texttt{Math::pow(.,.)}] returns the first argument value to the power of the second value; both must be of type \texttt{double}
+\item[\texttt{Math::pow(.)}] returns $e$ to the power of the argument value, which must be of type \texttt{double}
+\item[\texttt{Math::log(.,.)}] returns the logarithm of the first argument value regarding the base given by the second value; both must be of type \texttt{double}
+\item[\texttt{Math::log(.,.)}] returns the logarithm of the argument value that must be of type \texttt{double} regarding the base $e$
+\item[\texttt{Math::sgn(.)}] returns the signum of the argument, which must be of type \texttt{double} ($-1$ if negative, $1$ if positive, $0$ if zero)
+\item[\texttt{Math::sin(.)}] returns the sine of the argument, which must be of type \texttt{double}
+\item[\texttt{Math::cos(.)}] returns the cosine of the argument, which must be of type \texttt{double}
+\item[\texttt{Math::tan(.)}] returns the tangent of the argument, which must be of type \texttt{double}
+\item[\texttt{Math::arcsin(.)}] returns the inverse of the sine for the argument, which must be of type \texttt{double}
+\item[\texttt{Math::arccos(.)}] returns the inverse of the cosine for the argument, which must be of type \texttt{double}
+\item[\texttt{Math::arctan(.)}] returns the inverse of the tangent for the argument, which must be of type \texttt{double}
+\end{description}
+
+\begin{description}
+\item[\texttt{Time::now(.)}] returns the current UTC time as \texttt{long}, given as windows file time (i.e. 100ns ticks since 1601-01-01)
 \end{description}
 
 \begin{rail}
@@ -375,6 +390,7 @@ null // the object literal
 \end{grgen}
 \end{example}
 
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Operator Priorities}

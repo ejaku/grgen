@@ -227,12 +227,23 @@ In this case the necessary assemblies will be created on the fly.
 Configures a reference to an external assembly \emph{Filename} to be linked into the generated assemblies, maps to the \texttt{-r} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
 
 \begin{rail}
-  'new' 'set' ('keepdebug'|'lazynic'|'noinline') ('on'|'off')
-\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{on}\ixkeyw{off}
+  'new' 'set' ('keepdebug'|'lazynic'|'noinline'|'profile') ('on'|'off')
+\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{noinline}\ixkeyw{profile}\ixkeyw{on}\ixkeyw{off}
 Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols,
-or configures the generation of the matchers to execute negatives, independents, and conditions only at the end of matching (normally asap),
-or configures the generation of the matchers to never inline subpatterns.
-Maps to the \texttt{-keep} and the \texttt{-debug} options or to the \texttt{-lazynic} or to the \texttt{-noinline} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+or configures the generation of the matchers.
+The latter to either execute negatives, independents, and conditions only at the end of matching (normally asap),
+or to never inline subpatterns,
+or to include profiling information.
+Those flags are mapped to the \texttt{-keep} and the \texttt{-debug} options, or to the \texttt{-lazynic}, \texttt{-noinline}, or  \texttt{-profile} options of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+
+When profiling is turned on, the number of search steps carried out is printed to the console after each sequence execution.
+A search step is a binding of a graph element to a pattern entity in case there are at least potentially several choices available.
+Fetching an element by type chooses from all elements of that type in the graph, following an incident edge chooses from all incident edges of the corresponding node, and matching by storage access chooses from all elements in that storage, whereas getting the source or target node from an edge or mapping with a storage map just grabs the target element from the source element.
+(Each binding from a choice counts as one step, the non-choice-bindings are not counted.)
+Profiling the search steps allows you to assess the work needed for a transformation, to find the hot spots worth optimizing.
+The less search steps are needed to find a match the better (we want to efficiently find patterns, want to minimize the amount of search needed to do so). 
+
+The flags are applied when the actions are generated anew because the model or rule files changed. They are not when you just switch them in the shell script. It's your responsibility to delete the old generated dlls when you change those options (by switching them, or by introducing them differently from the compiler options used to generate the dlls)!
 
 \begin{rail}
   'new' 'set' 'statistics' Filename
@@ -658,6 +669,11 @@ Only one rule set can be loaded simultaneously.
 \end{rail}\ixkeyw{show}\ixkeyw{actions}
 Lists all the rules of the loaded rule set, their parameters, and their return values.
 Rules can return a set of graph elements.
+
+\begin{rail}
+  'show' 'profiles' (Actionname)?
+\end{rail}\ixkeyw{show}\ixkeyw{profiles}
+Shows the profile for the action specified by its name, or for all rules and tests in the rule set.
 
 \begin{rail}
   'custom' 'actions' (() | SpacedParameters)

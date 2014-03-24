@@ -136,6 +136,7 @@ But you may use the annotations to transmit information from the specification f
   \textbf{Key} & \textbf{Value Type} & \textbf{Applies to} & \textbf{Meaning} \\ \hline
   \texttt{prio} & int & node, edge & Changes the ranking of a graph element for \indexed{search plan}s. The default is \texttt{prio}=1000. Graph elements with high values are likely to appear prior to graph elements with low values in search plans.\\ \hline
   \texttt{containment} & boolean & edge type & Used for XMI export; typically defined by the ecore(/XMI) import. Declares an edge type to be an edge type defining a containment relation, which causes XML element containment in the exported XMI. Default is \texttt{containment}=false.\\ \hline
+  \texttt{parallelize} & int & actions (rule, test) & Causes parallelization of the pattern matcher of the action; the value specifies the number of threads to use.\\ \hline
 \end{tabularx}
 \caption{Annotations}
 \label{tabannotations}

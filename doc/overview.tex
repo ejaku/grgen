@@ -152,7 +152,8 @@ The compiled assemblies form a specific graph rewriting system together with the
 \begin{description}
   \item[Usage] \begin{tabular*}{\linewidth}{@{}l@{}l}\texttt{[mono] GrGen.exe } & \texttt{[-keep [<dest-dir>]] [-use <existing-dir>] [-debug]}\\
         &\texttt{[-b <backend-dll>] [-o <output-dir>] [-r <assembly-path>]}\\
-        &\texttt{[-statistics <statisticsfile>] [-lazynic] [-noinline]}\\
+        &\texttt{[-lazynic] [-noinline] [-profile]}\\
+        &\texttt{[-statistics <statisticsfile>]}\\
         &\texttt{<rule-set>}\end{tabular*}
     \emph{rule-set} is a file containing a rule set specification according to Chapter~\ref{chaprulelang}. Usually such a file has the suffix \texttt{\indexed{.grg}}. The suffix \texttt{.grg} may be omitted.
 By default \GrG\ tries to write the compiled assemblies into the same directory as the rule set file. This can be changed by the optional parameter \emph{output-dir}.
@@ -168,9 +169,10 @@ By default \GrG\ tries to write the compiled assemblies into the same directory 
 \end{itemize}\\
       \texttt{-use} & Don't re-generate C\# source files. Instead use the files in \emph{existing-dir} to build the assemblies.\\
       \texttt{-debug} & Compile the assemblies with debug information.\\
-      \texttt{-statistics} & Generate matchers that are optimized for graphs of the class described by the \emph{statisticsfile} (see \ref{custom} on how to save such statistics).\\
       \texttt{-lazynic} & Negatives, Independents, and Conditions are only executed at the end of matching (normally asap).\\
       \texttt{-noinline} & Subpattern usages are never inlined.\\
+      \texttt{-profile} & Instruments the matcher code to count the search steps carried out.\\
+      \texttt{-statistics} & Generate matchers that are optimized for graphs of the class described by the \emph{statisticsfile} (see \ref{custom} on how to save such statistics).\\
       \texttt{-b} & Use the backend library \emph{backend-dll} (default is LGSPBackend).\\
       \texttt{-r} & Link the assembly \emph{assembly-path} as reference to the compilation result.\\
       \texttt{-o} & Store generated assemblies in \emph{output-dir}.
@@ -220,11 +222,15 @@ For further information about the \GrShell\ language see Chapter~\ref{chapgrshel
   \item[Requires] .NET 2.0 (or above) or Mono 1.2.3 (or above).
 \end{description}
 
+\begin{note}
+The shell supports some \texttt{new set} configuration options that map to the \texttt{grgen} compiler flags (see \ref{graphcommands}), use them before any \texttt{new graph} commands so that matchers are generated according to the compiler flags you would use if you would execute the compiler directly.
+\end{note}
+
 %-----------------------------------------------------------------------------------------------
 \subsection{\texttt{LibGr.dll}}
 \label{sct:API}
 The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}.
-See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.net/doc/API_4_0/};
+See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.net/doc/API_4_3/};
 a short introduction is given in chapter \ref{cha:api}.
 
 %-----------------------------------------------------------------------------------------------
@@ -420,7 +426,7 @@ is achieved by using languages compiled to byte code for virtual machines backed
 This should prevent the fate of the grandfather of all graph rewrite systems, PROGRES\cite{schuerr99progres},
 which achieved a high level of sophistication, but is difficult to run by now, or simply: outdated.
 
-\pagebreak %improve layout
+%\pagebreak %improve layout
 \item[General-Purpose Graph Transformation]
 in contrast to \emph{model} transformation and \emph{special-purpose} graph transformation.
 Several model transformation tools offer graph pattern matching as their primary means of transforming the models they operate upon \cite{Jakumeit2013}, but are not meant to be used in a more general setting.
