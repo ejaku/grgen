@@ -6,7 +6,6 @@
  */
 
 #define MONO_MULTIDIMARRAY_WORKAROUND       // must be equally set to the same flag in lgspGraphStatistics.cs!
-//#define NO_EDGE_LOOKUP
 //#define RANDOM_LOOKUP_LIST_START      // currently broken
 //#define DUMP_SCHEDULED_SEARCH_PLAN
 //#define DUMP_SEARCHPROGRAMS
@@ -369,7 +368,6 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternEdge edge = patternGraph.edgesPlusInlined[i];
 
                 bool isPreset;
-#if !NO_EDGE_LOOKUP
                 float cost;
                 SearchOperationType searchOperationType;
                 if(edge.DefToBeYieldedTo)
@@ -487,32 +485,6 @@ namespace de.unika.ipd.grGen.lgsp
                     planEdges.Add(rootToNodePlanEdge);
                     planNodes[nodesIndex].IncomingEdges.Add(rootToNodePlanEdge);
                 }
-#else
-                SearchOperationType searchOperationType = SearchOperationType.Lookup; // lookup as dummy
-                if(edge.PatternElementType == PatternElementType.Preset)
-                {
-                    isPreset = true;
-                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
-                }
-                else if(negativePatternGraph && edge.PatternElementType == PatternElementType.Normal)
-                {
-                    isPreset = true;
-                    searchOperationType = SearchOperationType.NegPreset;
-                }
-                else 
-                {
-                    isPreset = false;
-                }
-                planNodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset,
-                    patternGraph.GetSourcePlusInlined(edge)!=null ? patternGraph.GetSourcePlusInlined(edge).TempPlanMapping : null,
-                    patternGraph.GetTargetPlusInlined(edge)!=null ? patternGraph.GetTargetPlusInlined(edge).TempPlanMapping : null);
-                if(isPreset)
-                {
-                    PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], 0);
-                    planEdges.Add(rootToNodePlanEdge);
-                    planNodes[nodesIndex].IncomingEdges.Add(rootToNodePlanEdge);
-                }
-#endif
 
                 // only add implicit source operation if edge source is needed and the edge source is 
                 // not a preset node and not a storage node and not an index node and not a cast node

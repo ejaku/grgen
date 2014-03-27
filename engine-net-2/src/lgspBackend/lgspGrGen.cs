@@ -5,7 +5,6 @@
  * www.grgen.net
  */
 
-//#define NO_EDGE_LOOKUP
 //#define DUMP_PATTERNS
 //#define USE_NET_3_5 // use .NET 3.5 for compiling the generated code (not needed) and the user extensions (maybe needed there)
 
@@ -426,19 +425,12 @@ namespace de.unika.ipd.grGen.lgsp
                 planNodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset,
                     patternGraph.GetSourcePlusInlined(edge)!=null ? patternGraph.GetSourcePlusInlined(edge).TempPlanMapping : null,
                     patternGraph.GetTargetPlusInlined(edge)!=null ? patternGraph.GetTargetPlusInlined(edge).TempPlanMapping : null);
-#if NO_EDGE_LOOKUP
-                if(isPreset)
-                {
-#endif
                 if(searchOperationType != SearchOperationType.Void)
                 {
                     PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], cost);
                     planEdges.Add(rootToNodePlanEdge);
                     planNodes[nodesIndex].IncomingEdges.Add(rootToNodePlanEdge);
                 }
-#if NO_EDGE_LOOKUP
-                }
-#endif
 
                 // only add implicit source operation if edge source is needed and the edge source is 
                 // not a preset node and not a storage node and not an index node and not a cast node
