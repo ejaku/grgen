@@ -219,424 +219,467 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PatternNode node = patternGraph.nodesPlusInlined[i];
 
-                float cost;
-                bool isPreset;
-                SearchOperationType searchOperationType;
-                if(node.DefToBeYieldedTo)
+                PlanNode planNode;
+                PlanEdge rootToNodePlanEdge;
+                createPlanNodeAndLookupPlanEdge(node, i,
+                    patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot,
+                    out planNode, out rootToNodePlanEdge);
+
+                planNodes[nodesIndex] = planNode;
+                if(rootToNodePlanEdge != null)
                 {
-                    cost = 0;
-                    isPreset = true;
-                    searchOperationType = SearchOperationType.DefToBeYieldedTo;
-                }
-                else if(node.PointOfDefinition == null)
-                {
-                    cost = 0;
-                    isPreset = true;
-                    searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
-                }
-                else if (node.PointOfDefinition != patternGraph)
-                {
-                    cost = 0;
-                    isPreset = true;
-                    searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
-                }
-                else if(node.Storage != null)
-                {
-                    if(node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
-                    }
-                    else
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.PickFromStorage; // pick from storage instead of lookup from graph
-                    }
-                }
-                else if(node.IndexAccess != null)
-                {
-                    if(node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
-                    }
-                    else
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.PickFromIndex; // pick from index instead of lookup from graph
-                    }
-                }
-                else if(node.NameLookup != null)
-                {
-                    if(node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
-                    }
-                    else
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.PickByName; // pick by name instead of lookup from graph
-                    }
-                }
-                else if(node.UniqueLookup != null)
-                {
-                    if(node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
-                    }
-                    else
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.PickByUnique; // pick by unique instead of lookup from graph
-                    }
-                }
-                else if(node.ElementBeforeCasting != null)
-                {
-                    cost = 0;
-                    isPreset = false;
-                    searchOperationType = SearchOperationType.Void; // the element before casting is needed, so there is no lookup like operation
-                }
-                else
-                {
-                    cost = node.Cost;
-                    isPreset = false;
-                    searchOperationType = SearchOperationType.Lookup;
-                }
-                planNodes[nodesIndex] = new PlanNode(node, i + 1, isPreset);
-                if(searchOperationType != SearchOperationType.Void)
-                {
-                    PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], cost);
                     planEdges.Add(rootToNodePlanEdge);
-                    planNodes[nodesIndex].IncomingEdges.Add(rootToNodePlanEdge);
+                    planNode.IncomingEdges.Add(rootToNodePlanEdge);
                 }
 
-                node.TempPlanMapping = planNodes[nodesIndex];
+                node.TempPlanMapping = planNode;
                 ++nodesIndex;
             }
 
-            // create plan nodes and necessary plan edges for all pattern graph edges
+            // create plan nodes and lookup plus incidence handling plan edges for all pattern graph edges
             for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
                 PatternEdge edge = patternGraph.edgesPlusInlined[i];
 
-                float cost;
                 bool isPreset;
-                SearchOperationType searchOperationType;
-                if(edge.DefToBeYieldedTo)
+                PlanNode planNode;
+                PlanEdge rootToNodePlanEdge;
+                createPlanNodeAndLookupPlanEdge(edge, i, 
+                    patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot,
+                    out isPreset, out planNode, out rootToNodePlanEdge);
+
+                planNodes[nodesIndex] = planNode;
+                if(rootToNodePlanEdge != null)
                 {
-                    cost = 0;
-                    isPreset = true;
-                    searchOperationType = SearchOperationType.DefToBeYieldedTo;
-                } 
-                else if(edge.PointOfDefinition == null)
-                {
-                    cost = 0;
-                    isPreset = true;
-                    searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
-                }
-                else if(edge.PointOfDefinition != patternGraph)
-                {
-                    cost = 0;
-                    isPreset = true;
-                    searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
-                }
-                else if(edge.Storage != null)
-                {
-                    if(edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
-                    }
-                    else
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.PickFromStorage; // pick from storage instead of lookup from graph
-                    }
-                }
-                else if(edge.IndexAccess != null)
-                {
-                    if(edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
-                    }
-                    else
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.PickFromIndex; // pick from index instead of lookup from graph
-                    }
-                }
-                else if(edge.NameLookup != null)
-                {
-                    if(edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
-                    }
-                    else
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.PickByName; // pick by name instead of lookup from graph
-                    }
-                }
-                else if(edge.UniqueLookup != null)
-                {
-                    if(edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
-                    }
-                    else
-                    {
-                        cost = 0;
-                        isPreset = false;
-                        searchOperationType = SearchOperationType.PickByUnique; // pick by unique instead of lookup from graph
-                    }
-                }
-                else if(edge.ElementBeforeCasting != null)
-                {
-                    cost = 0;
-                    isPreset = false;
-                    searchOperationType = SearchOperationType.Void; // the element before casting is needed, so there is no lookup like operation
-                }
-                else
-                {
-                    cost = edge.Cost;
-                    isPreset = false;
-                    searchOperationType = SearchOperationType.Lookup;
-                }
-                planNodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset,
-                    patternGraph.GetSourcePlusInlined(edge)!=null ? patternGraph.GetSourcePlusInlined(edge).TempPlanMapping : null,
-                    patternGraph.GetTargetPlusInlined(edge)!=null ? patternGraph.GetTargetPlusInlined(edge).TempPlanMapping : null);
-                if(searchOperationType != SearchOperationType.Void)
-                {
-                    PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], cost);
                     planEdges.Add(rootToNodePlanEdge);
-                    planNodes[nodesIndex].IncomingEdges.Add(rootToNodePlanEdge);
+                    planNode.IncomingEdges.Add(rootToNodePlanEdge);
                 }
 
-                // only add implicit source operation if edge source is needed and the edge source is 
-                // not a preset node and not a storage node and not an index node and not a cast node
-                if(patternGraph.GetSourcePlusInlined(edge) != null 
-                    && !patternGraph.GetSourcePlusInlined(edge).TempPlanMapping.IsPreset
-                    && patternGraph.GetSourcePlusInlined(edge).Storage == null
-                    && patternGraph.GetSourcePlusInlined(edge).IndexAccess == null
-                    && patternGraph.GetSourcePlusInlined(edge).NameLookup == null
-                    && patternGraph.GetSourcePlusInlined(edge).UniqueLookup == null
-                    && patternGraph.GetSourcePlusInlined(edge).ElementBeforeCasting == null)
-                {
-                    SearchOperationType operation = edge.fixedDirection ? 
-                        SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
-                    PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        patternGraph.GetSourcePlusInlined(edge).TempPlanMapping, 0);
-                    planEdges.Add(implSrcPlanEdge);
-                    patternGraph.GetSourcePlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
-                }
-                // only add implicit target operation if edge target is needed and the edge target is
-                // not a preset node and not a storage node and not an index node and not a cast node
-                if(patternGraph.GetTargetPlusInlined(edge) != null
-                    && !patternGraph.GetTargetPlusInlined(edge).TempPlanMapping.IsPreset
-                    && patternGraph.GetTargetPlusInlined(edge).Storage == null
-                    && patternGraph.GetTargetPlusInlined(edge).IndexAccess == null
-                    && patternGraph.GetTargetPlusInlined(edge).NameLookup == null
-                    && patternGraph.GetTargetPlusInlined(edge).UniqueLookup == null
-                    && patternGraph.GetTargetPlusInlined(edge).ElementBeforeCasting == null)
-                {
-                    SearchOperationType operation = edge.fixedDirection ?
-                        SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
-                    PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        patternGraph.GetTargetPlusInlined(edge).TempPlanMapping, 0);
-                    planEdges.Add(implTgtPlanEdge);
-                    patternGraph.GetTargetPlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
-                }
+                createSourceTargetIncomingOutgoingPlanEdges(edge, planNode, planEdges,
+                    patternGraph, isPreset);
 
-                // edge must only be reachable from other nodes if it's not a preset and not storage determined and not index determined and not a cast
-                if(!isPreset 
-                    && edge.Storage == null
-                    && edge.IndexAccess == null
-                    && edge.NameLookup == null
-                    && edge.UniqueLookup == null
-                    && edge.ElementBeforeCasting == null)
-                {
-                    // no outgoing on source node if no source
-                    if(patternGraph.GetSourcePlusInlined(edge) != null)
-                    {
-                        SearchOperationType operation = edge.fixedDirection ?
-                            SearchOperationType.Outgoing : SearchOperationType.Incident;
-                        PlanEdge outPlanEdge = new PlanEdge(operation, patternGraph.GetSourcePlusInlined(edge).TempPlanMapping,
-                            planNodes[nodesIndex], (edge.Cost+5.5f)/2);
-                        planEdges.Add(outPlanEdge);
-                        planNodes[nodesIndex].IncomingEdges.Add(outPlanEdge);
-                    }
-                    // no incoming on target node if no target
-                    if(patternGraph.GetTargetPlusInlined(edge) != null)
-                    {
-                        SearchOperationType operation = edge.fixedDirection ?
-                            SearchOperationType.Incoming: SearchOperationType.Incident;
-                        PlanEdge inPlanEdge = new PlanEdge(operation, patternGraph.GetTargetPlusInlined(edge).TempPlanMapping,
-                            planNodes[nodesIndex], (edge.Cost+5.5f)/2);
-                        planEdges.Add(inPlanEdge);
-                        planNodes[nodesIndex].IncomingEdges.Add(inPlanEdge);
-                    }
-                }
-
-                edge.TempPlanMapping = planNodes[nodesIndex];
+                edge.TempPlanMapping = planNode;
                 ++nodesIndex;
             }
 
             ////////////////////////////////////////////////////////////////////////////
             // second run handling dependent storage and index picking (can't be done in first run due to dependencies between elements)
 
-            // create map with storage plan edges for all pattern graph nodes
-            // which are the result of a mapping/picking from attribute operation (with a storage or an index or the name map or the unique index) 
-            // or element type casting or assignment
+            // create map/pick/cast/assign plan edges for all pattern graph nodes
             for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
                 PatternNode node = patternGraph.nodesPlusInlined[i];
+                
                 if(node.PointOfDefinition == patternGraph)
-                {
-                    if(node.Storage!=null && node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness()!=null)
-                    {
-                        PlanEdge storAccessPlanEdge = new PlanEdge(
-                            node.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
-                            node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, 0);
-                        planEdges.Add(storAccessPlanEdge);
-                        node.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
-                    }
-                    else if(node.IndexAccess != null && node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        PlanEdge indexAccessPlanEdge = new PlanEdge(
-                            SearchOperationType.PickFromIndexDependent,
-                            node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, 1);
-                        planEdges.Add(indexAccessPlanEdge);
-                        node.TempPlanMapping.IncomingEdges.Add(indexAccessPlanEdge);
-                    }
-                    else if(node.NameLookup != null && node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        PlanEdge nameLookupPlanEdge = new PlanEdge(
-                            SearchOperationType.PickByNameDependent,
-                            node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, 1);
-                        planEdges.Add(nameLookupPlanEdge);
-                        node.TempPlanMapping.IncomingEdges.Add(nameLookupPlanEdge);
-                    }
-                    else if(node.UniqueLookup != null && node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        PlanEdge uniqueLookupPlanEdge = new PlanEdge(
-                            SearchOperationType.PickByUniqueDependent,
-                            node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, 1);
-                        planEdges.Add(uniqueLookupPlanEdge);
-                        node.TempPlanMapping.IncomingEdges.Add(uniqueLookupPlanEdge);
-                    }
-                    else if(node.ElementBeforeCasting != null)
-                    {
-                        PlanEdge castPlanEdge = new PlanEdge(SearchOperationType.Cast,
-                            node.ElementBeforeCasting.TempPlanMapping, node.TempPlanMapping, 0);
-                        planEdges.Add(castPlanEdge);
-                        node.TempPlanMapping.IncomingEdges.Add(castPlanEdge);
-                    }
-                    else if(node.AssignmentSource != null)
-                    {
-                        PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
-                            node.AssignmentSource.TempPlanMapping, node.TempPlanMapping, 0);
-                        planEdges.Add(assignPlanEdge);
-                        node.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
-
-                        if(!node.AssignmentSource.TempPlanMapping.IsPreset)
-                        {
-                            PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
-                                node.TempPlanMapping, node.AssignmentSource.TempPlanMapping, 1);
-                            planEdges.Add(assignPlanEdgeOpposite);
-                            node.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdgeOpposite);
-                        }
-                    }
-                }
+                    CreatePickMapCastAssignPlanEdge(node, planEdges);
             }
 
-            // create map with storage plan edges for all pattern graph edges 
-            // which are the result of a mapping/picking from attribute operation (with a storage or an index or the name map or the unique index)
-            // or element type casting or assignment
+            // create map/pick/cast/assign plan edges for all pattern graph edges
             for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
                 PatternEdge edge = patternGraph.edgesPlusInlined[i];
+
                 if(edge.PointOfDefinition == patternGraph)
-                {
-                    if(edge.Storage!=null && edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness()!=null)
-                    {
-                        PlanEdge storAccessPlanEdge = new PlanEdge(
-                            edge.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
-                            edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, 0);
-                        planEdges.Add(storAccessPlanEdge);
-                        edge.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
-                    }
-                    else if(edge.IndexAccess != null && edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        PlanEdge indexAccessPlanEdge = new PlanEdge(
-                            SearchOperationType.PickFromIndexDependent,
-                            edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, 1);
-                        planEdges.Add(indexAccessPlanEdge);
-                        edge.TempPlanMapping.IncomingEdges.Add(indexAccessPlanEdge);
-                    }
-                    else if(edge.NameLookup != null && edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        PlanEdge nameLookupPlanEdge = new PlanEdge(
-                            SearchOperationType.PickByNameDependent,
-                            edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, 1);
-                        planEdges.Add(nameLookupPlanEdge);
-                        edge.TempPlanMapping.IncomingEdges.Add(nameLookupPlanEdge);
-                    }
-                    else if(edge.UniqueLookup != null && edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
-                    {
-                        PlanEdge uniqueLookupPlanEdge = new PlanEdge(
-                            SearchOperationType.PickByUniqueDependent,
-                            edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, 1);
-                        planEdges.Add(uniqueLookupPlanEdge);
-                        edge.TempPlanMapping.IncomingEdges.Add(uniqueLookupPlanEdge);
-                    }
-                    else if(edge.ElementBeforeCasting != null)
-                    {
-                        PlanEdge castPlanEdge = new PlanEdge(SearchOperationType.Cast,
-                            edge.ElementBeforeCasting.TempPlanMapping, edge.TempPlanMapping, 0);
-                        planEdges.Add(castPlanEdge);
-                        edge.TempPlanMapping.IncomingEdges.Add(castPlanEdge);
-                    }
-                    else if(edge.AssignmentSource != null)
-                    {
-                        PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
-                            edge.AssignmentSource.TempPlanMapping, edge.TempPlanMapping, 0);
-                        planEdges.Add(assignPlanEdge);
-                        edge.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
-                        
-                        if(!edge.AssignmentSource.TempPlanMapping.IsPreset)
-                        {
-                            PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
-                                edge.TempPlanMapping, edge.AssignmentSource.TempPlanMapping, 1);
-                            planEdges.Add(assignPlanEdgeOpposite);
-                            edge.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
-                        }
-                    }
-                }
+                    CreatePickMapCastAssignPlanEdge(edge, planEdges);
             }
 
             return new PlanGraph(planRoot, planNodes, planEdges.ToArray());
         }
-       
+
+        private static void createPlanNodeAndLookupPlanEdge(PatternNode node, int i, 
+            PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpatternLike, PlanNode planRoot, 
+            out PlanNode planNode, out PlanEdge rootToNodePlanEdge)
+        {
+            float cost;
+            bool isPreset;
+            SearchOperationType searchOperationType;
+            if(node.DefToBeYieldedTo)
+            {
+                cost = 0;
+                isPreset = true;
+                searchOperationType = SearchOperationType.DefToBeYieldedTo;
+            }
+            else if(node.PointOfDefinition == null)
+            {
+                cost = 0;
+                isPreset = true;
+                searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
+            }
+            else if(node.PointOfDefinition != patternGraph)
+            {
+                cost = 0;
+                isPreset = true;
+                searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
+            }
+            else if(node.Storage != null)
+            {
+                if(node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
+                }
+                else
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.PickFromStorage; // pick from storage instead of lookup from graph
+                }
+            }
+            else if(node.IndexAccess != null)
+            {
+                if(node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
+                }
+                else
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.PickFromIndex; // pick from index instead of lookup from graph
+                }
+            }
+            else if(node.NameLookup != null)
+            {
+                if(node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
+                }
+                else
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.PickByName; // pick by name instead of lookup from graph
+                }
+            }
+            else if(node.UniqueLookup != null)
+            {
+                if(node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
+                }
+                else
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.PickByUnique; // pick by unique instead of lookup from graph
+                }
+            }
+            else if(node.ElementBeforeCasting != null)
+            {
+                cost = 0;
+                isPreset = false;
+                searchOperationType = SearchOperationType.Void; // the element before casting is needed, so there is no lookup like operation
+            }
+            else
+            {
+                cost = node.Cost;
+                isPreset = false;
+                searchOperationType = SearchOperationType.Lookup;
+            }
+
+            planNode = new PlanNode(node, i + 1, isPreset);
+            rootToNodePlanEdge = null;
+            if(searchOperationType != SearchOperationType.Void)
+                rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNode, cost);
+        }
+
+        private static void createPlanNodeAndLookupPlanEdge(PatternEdge edge, int i, 
+            PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpatternLike, PlanNode planRoot, 
+            out bool isPreset, out PlanNode planNode, out PlanEdge rootToNodePlanEdge)
+        {
+            float cost;
+
+            SearchOperationType searchOperationType;
+            if(edge.DefToBeYieldedTo)
+            {
+                cost = 0;
+                isPreset = true;
+                searchOperationType = SearchOperationType.DefToBeYieldedTo;
+            }
+            else if(edge.PointOfDefinition == null)
+            {
+                cost = 0;
+                isPreset = true;
+                searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
+            }
+            else if(edge.PointOfDefinition != patternGraph)
+            {
+                cost = 0;
+                isPreset = true;
+                searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
+            }
+            else if(edge.Storage != null)
+            {
+                if(edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
+                }
+                else
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.PickFromStorage; // pick from storage instead of lookup from graph
+                }
+            }
+            else if(edge.IndexAccess != null)
+            {
+                if(edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
+                }
+                else
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.PickFromIndex; // pick from index instead of lookup from graph
+                }
+            }
+            else if(edge.NameLookup != null)
+            {
+                if(edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
+                }
+                else
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.PickByName; // pick by name instead of lookup from graph
+                }
+            }
+            else if(edge.UniqueLookup != null)
+            {
+                if(edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
+                }
+                else
+                {
+                    cost = 0;
+                    isPreset = false;
+                    searchOperationType = SearchOperationType.PickByUnique; // pick by unique instead of lookup from graph
+                }
+            }
+            else if(edge.ElementBeforeCasting != null)
+            {
+                cost = 0;
+                isPreset = false;
+                searchOperationType = SearchOperationType.Void; // the element before casting is needed, so there is no lookup like operation
+            }
+            else
+            {
+                cost = edge.Cost;
+                isPreset = false;
+                searchOperationType = SearchOperationType.Lookup;
+            }
+
+            planNode = new PlanNode(edge, i + 1, isPreset,
+                patternGraph.GetSourcePlusInlined(edge) != null ? patternGraph.GetSourcePlusInlined(edge).TempPlanMapping : null,
+                patternGraph.GetTargetPlusInlined(edge) != null ? patternGraph.GetTargetPlusInlined(edge).TempPlanMapping : null);
+            rootToNodePlanEdge = null;
+            if(searchOperationType != SearchOperationType.Void)
+                rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNode, cost);
+        }
+
+        private static void createSourceTargetIncomingOutgoingPlanEdges(PatternEdge edge, PlanNode planNode, List<PlanEdge> planEdges, PatternGraph patternGraph, bool isPreset)
+        {
+            // only add implicit source operation if edge source is needed and the edge source is 
+            // not a preset node and not a storage node and not an index node and not a cast node
+            if(patternGraph.GetSourcePlusInlined(edge) != null
+                && !patternGraph.GetSourcePlusInlined(edge).TempPlanMapping.IsPreset
+                && patternGraph.GetSourcePlusInlined(edge).Storage == null
+                && patternGraph.GetSourcePlusInlined(edge).IndexAccess == null
+                && patternGraph.GetSourcePlusInlined(edge).NameLookup == null
+                && patternGraph.GetSourcePlusInlined(edge).UniqueLookup == null
+                && patternGraph.GetSourcePlusInlined(edge).ElementBeforeCasting == null)
+            {
+                SearchOperationType operation = edge.fixedDirection ?
+                    SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
+                PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNode,
+                    patternGraph.GetSourcePlusInlined(edge).TempPlanMapping, 0);
+                planEdges.Add(implSrcPlanEdge);
+                patternGraph.GetSourcePlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
+            }
+            // only add implicit target operation if edge target is needed and the edge target is
+            // not a preset node and not a storage node and not an index node and not a cast node
+            if(patternGraph.GetTargetPlusInlined(edge) != null
+                && !patternGraph.GetTargetPlusInlined(edge).TempPlanMapping.IsPreset
+                && patternGraph.GetTargetPlusInlined(edge).Storage == null
+                && patternGraph.GetTargetPlusInlined(edge).IndexAccess == null
+                && patternGraph.GetTargetPlusInlined(edge).NameLookup == null
+                && patternGraph.GetTargetPlusInlined(edge).UniqueLookup == null
+                && patternGraph.GetTargetPlusInlined(edge).ElementBeforeCasting == null)
+            {
+                SearchOperationType operation = edge.fixedDirection ?
+                    SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
+                PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNode,
+                    patternGraph.GetTargetPlusInlined(edge).TempPlanMapping, 0);
+                planEdges.Add(implTgtPlanEdge);
+                patternGraph.GetTargetPlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
+            }
+
+            // edge must only be reachable from other nodes if it's not a preset and not storage determined and not index determined and not a cast
+            if(!isPreset
+                && edge.Storage == null
+                && edge.IndexAccess == null
+                && edge.NameLookup == null
+                && edge.UniqueLookup == null
+                && edge.ElementBeforeCasting == null)
+            {
+                // no outgoing on source node if no source
+                if(patternGraph.GetSourcePlusInlined(edge) != null)
+                {
+                    SearchOperationType operation = edge.fixedDirection ?
+                        SearchOperationType.Outgoing : SearchOperationType.Incident;
+                    PlanEdge outPlanEdge = new PlanEdge(operation, patternGraph.GetSourcePlusInlined(edge).TempPlanMapping,
+                        planNode, (edge.Cost + 5.5f) / 2);
+                    planEdges.Add(outPlanEdge);
+                    planNode.IncomingEdges.Add(outPlanEdge);
+                }
+                // no incoming on target node if no target
+                if(patternGraph.GetTargetPlusInlined(edge) != null)
+                {
+                    SearchOperationType operation = edge.fixedDirection ?
+                        SearchOperationType.Incoming : SearchOperationType.Incident;
+                    PlanEdge inPlanEdge = new PlanEdge(operation, patternGraph.GetTargetPlusInlined(edge).TempPlanMapping,
+                        planNode, (edge.Cost + 5.5f) / 2);
+                    planEdges.Add(inPlanEdge);
+                    planNode.IncomingEdges.Add(inPlanEdge);
+                }
+            }
+        }
+
+        private static void CreatePickMapCastAssignPlanEdge(PatternNode node, List<PlanEdge> planEdges)
+        {
+            if(node.Storage != null && node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+            {
+                PlanEdge storAccessPlanEdge = new PlanEdge(
+                    node.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
+                    node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, 0);
+                planEdges.Add(storAccessPlanEdge);
+                node.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
+            }
+            else if(node.IndexAccess != null && node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+            {
+                PlanEdge indexAccessPlanEdge = new PlanEdge(
+                    SearchOperationType.PickFromIndexDependent,
+                    node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, 1);
+                planEdges.Add(indexAccessPlanEdge);
+                node.TempPlanMapping.IncomingEdges.Add(indexAccessPlanEdge);
+            }
+            else if(node.NameLookup != null && node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+            {
+                PlanEdge nameLookupPlanEdge = new PlanEdge(
+                    SearchOperationType.PickByNameDependent,
+                    node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, 1);
+                planEdges.Add(nameLookupPlanEdge);
+                node.TempPlanMapping.IncomingEdges.Add(nameLookupPlanEdge);
+            }
+            else if(node.UniqueLookup != null && node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+            {
+                PlanEdge uniqueLookupPlanEdge = new PlanEdge(
+                    SearchOperationType.PickByUniqueDependent,
+                    node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, 1);
+                planEdges.Add(uniqueLookupPlanEdge);
+                node.TempPlanMapping.IncomingEdges.Add(uniqueLookupPlanEdge);
+            }
+            else if(node.ElementBeforeCasting != null)
+            {
+                PlanEdge castPlanEdge = new PlanEdge(SearchOperationType.Cast,
+                    node.ElementBeforeCasting.TempPlanMapping, node.TempPlanMapping, 0);
+                planEdges.Add(castPlanEdge);
+                node.TempPlanMapping.IncomingEdges.Add(castPlanEdge);
+            }
+            else if(node.AssignmentSource != null)
+            {
+                PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
+                    node.AssignmentSource.TempPlanMapping, node.TempPlanMapping, 0);
+                planEdges.Add(assignPlanEdge);
+                node.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
+
+                if(!node.AssignmentSource.TempPlanMapping.IsPreset)
+                {
+                    PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
+                        node.TempPlanMapping, node.AssignmentSource.TempPlanMapping, 1);
+                    planEdges.Add(assignPlanEdgeOpposite);
+                    node.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdgeOpposite);
+                }
+            }
+        }
+
+        private static void CreatePickMapCastAssignPlanEdge(PatternEdge edge, List<PlanEdge> planEdges)
+        {
+            if(edge.Storage != null && edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+            {
+                PlanEdge storAccessPlanEdge = new PlanEdge(
+                    edge.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
+                    edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, 0);
+                planEdges.Add(storAccessPlanEdge);
+                edge.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
+            }
+            else if(edge.IndexAccess != null && edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+            {
+                PlanEdge indexAccessPlanEdge = new PlanEdge(
+                    SearchOperationType.PickFromIndexDependent,
+                    edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, 1);
+                planEdges.Add(indexAccessPlanEdge);
+                edge.TempPlanMapping.IncomingEdges.Add(indexAccessPlanEdge);
+            }
+            else if(edge.NameLookup != null && edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+            {
+                PlanEdge nameLookupPlanEdge = new PlanEdge(
+                    SearchOperationType.PickByNameDependent,
+                    edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, 1);
+                planEdges.Add(nameLookupPlanEdge);
+                edge.TempPlanMapping.IncomingEdges.Add(nameLookupPlanEdge);
+            }
+            else if(edge.UniqueLookup != null && edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
+            {
+                PlanEdge uniqueLookupPlanEdge = new PlanEdge(
+                    SearchOperationType.PickByUniqueDependent,
+                    edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, 1);
+                planEdges.Add(uniqueLookupPlanEdge);
+                edge.TempPlanMapping.IncomingEdges.Add(uniqueLookupPlanEdge);
+            }
+            else if(edge.ElementBeforeCasting != null)
+            {
+                PlanEdge castPlanEdge = new PlanEdge(SearchOperationType.Cast,
+                    edge.ElementBeforeCasting.TempPlanMapping, edge.TempPlanMapping, 0);
+                planEdges.Add(castPlanEdge);
+                edge.TempPlanMapping.IncomingEdges.Add(castPlanEdge);
+            }
+            else if(edge.AssignmentSource != null)
+            {
+                PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
+                    edge.AssignmentSource.TempPlanMapping, edge.TempPlanMapping, 0);
+                planEdges.Add(assignPlanEdge);
+                edge.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
+
+                if(!edge.AssignmentSource.TempPlanMapping.IsPreset)
+                {
+                    PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
+                        edge.TempPlanMapping, edge.AssignmentSource.TempPlanMapping, 1);
+                    planEdges.Add(assignPlanEdgeOpposite);
+                    edge.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
+                }
+            }
+        }
+
         /// <summary>
         /// Generates scheduled search plans needed for matcher code generation for action compilation
         /// out of static schedule information given by rulePattern elements, 
