@@ -247,6 +247,7 @@ namespace de.unika.ipd.grGen.lgsp
             List<PlanEdge> planEdges = new List<PlanEdge>(patternGraph.nodesPlusInlined.Length + 5 * patternGraph.edgesPlusInlined.Length);
 
             int nodesIndex = 0;
+            float zeroCost = 1;
 
             PlanNode planRoot = new PlanNode("root");
 
@@ -258,7 +259,7 @@ namespace de.unika.ipd.grGen.lgsp
                 PlanNode planNode;
                 PlanEdge rootToNodePlanEdge;
                 createPlanNodeAndLookupPlanEdge(node, i, 
-                    graphStatistics, patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot,
+                    graphStatistics, patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot, zeroCost,
                     out planNode, out rootToNodePlanEdge);
 
                 planNodes[nodesIndex] = planNode;
@@ -281,7 +282,7 @@ namespace de.unika.ipd.grGen.lgsp
                 PlanNode planNode;
                 PlanEdge rootToNodePlanEdge;
                 createPlanNodeAndLookupPlanEdge(edge, i, 
-                    graphStatistics, patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot, 
+                    graphStatistics, patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot, zeroCost,
                     out isPreset, out planNode, out rootToNodePlanEdge);
 
                 planNodes[nodesIndex] = planNode;
@@ -291,8 +292,8 @@ namespace de.unika.ipd.grGen.lgsp
                     planNode.IncomingEdges.Add(rootToNodePlanEdge);
                 }
 
-                createSourceTargetIncomingOutgoingPlanEdges(edge, planNode, planEdges, 
-                    graphStatistics, patternGraph, isPreset);
+                createSourceTargetIncomingOutgoingPlanEdges(edge, planNode, planEdges,
+                    graphStatistics, patternGraph, isPreset, zeroCost);
 
                 edge.TempPlanMapping = planNode;
                 ++nodesIndex;
@@ -307,7 +308,7 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternNode node = patternGraph.nodesPlusInlined[i];
 
                 if(node.PointOfDefinition == patternGraph)
-                    createPickMapCastAssignPlanEdges(node, planEdges);
+                    createPickMapCastAssignPlanEdges(node, planEdges, zeroCost);
             }
 
             // create map/pick/cast/assign plan edges for all pattern graph edges
@@ -316,14 +317,14 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternEdge edge = patternGraph.edgesPlusInlined[i];
 
                 if(edge.PointOfDefinition == patternGraph)
-                    createPickMapCastAssignPlanEdges(edge, planEdges);
+                    createPickMapCastAssignPlanEdges(edge, planEdges, zeroCost);
             }
 
             return new PlanGraph(planRoot, planNodes, planEdges.ToArray());
         }
 
         private static void createPlanNodeAndLookupPlanEdge(PatternNode node, int i, 
-            LGSPGraphStatistics graphStatistics, PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpatternLike, PlanNode planRoot,
+            LGSPGraphStatistics graphStatistics, PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpatternLike, PlanNode planRoot, float zeroCost,
             out PlanNode planNode, out PlanEdge rootToNodePlanEdge)
         {
             float cost;
@@ -331,19 +332,19 @@ namespace de.unika.ipd.grGen.lgsp
             SearchOperationType searchOperationType;
             if(node.DefToBeYieldedTo)
             {
-                cost = 1;
+                cost = zeroCost;
                 isPreset = true;
                 searchOperationType = SearchOperationType.DefToBeYieldedTo;
             }
             else if(node.PointOfDefinition == null)
             {
-                cost = 1;
+                cost = zeroCost;
                 isPreset = true;
                 searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
             }
             else if(node.PointOfDefinition != patternGraph)
             {
-                cost = 1;
+                cost = zeroCost;
                 isPreset = true;
                 searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
             }
@@ -351,13 +352,13 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
                 }
                 else
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.PickFromStorage; // pick from storage instead of lookup from graph
                 }
@@ -366,13 +367,13 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
                 }
                 else
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.PickFromIndex; // pick from index instead of lookup from graph
                 }
@@ -381,13 +382,13 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
                 }
                 else
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.PickByName; // pick by name instead of lookup from graph
                 }
@@ -396,20 +397,20 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
                 }
                 else
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.PickByUnique; // pick by unique instead of lookup from graph
                 }
             }
             else if(node.ElementBeforeCasting != null)
             {
-                cost = 1;
+                cost = zeroCost;
                 isPreset = false;
                 searchOperationType = SearchOperationType.Void; // the element before casting is needed, so there is no lookup like operation
             }
@@ -427,26 +428,26 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private static void createPlanNodeAndLookupPlanEdge(PatternEdge edge, int i, 
-            LGSPGraphStatistics graphStatistics, PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpatternLike, PlanNode planRoot, 
+            LGSPGraphStatistics graphStatistics, PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpatternLike, PlanNode planRoot, float zeroCost,
             out bool isPreset, out PlanNode planNode, out PlanEdge rootToNodePlanEdge)
         {
             float cost;
             SearchOperationType searchOperationType;
             if(edge.DefToBeYieldedTo)
             {
-                cost = 1;
+                cost = zeroCost;
                 isPreset = true;
                 searchOperationType = SearchOperationType.DefToBeYieldedTo;
             }
             else if(edge.PointOfDefinition == null)
             {
-                cost = 1;
+                cost = zeroCost;
                 isPreset = true;
                 searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
             }
             else if(edge.PointOfDefinition != patternGraph)
             {
-                cost = 1;
+                cost = zeroCost;
                 isPreset = true;
                 searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
             }
@@ -454,13 +455,13 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
                 }
                 else
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.PickFromStorage; // pick from storage instead of lookup from graph
                 }
@@ -469,13 +470,13 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
                 }
                 else
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.PickFromIndex; // pick from index instead of lookup from graph
                 }
@@ -484,13 +485,13 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
                 }
                 else
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.PickByName; // pick by name instead of lookup from graph
                 }
@@ -499,20 +500,20 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Void; // the element we depend on is needed, so there is no lookup like operation
                 }
                 else
                 {
-                    cost = 1;
+                    cost = zeroCost;
                     isPreset = false;
                     searchOperationType = SearchOperationType.PickByUnique; // pick by unique instead of lookup from graph
                 }
             }
             else if(edge.ElementBeforeCasting != null)
             {
-                cost = 1;
+                cost = zeroCost;
                 isPreset = false;
                 searchOperationType = SearchOperationType.Void; // the element before casting is needed, so there is no lookup like operation
             }
@@ -548,8 +549,8 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private void createSourceTargetIncomingOutgoingPlanEdges(PatternEdge edge, PlanNode planNode, 
-            List<PlanEdge> planEdges, 
-            LGSPGraphStatistics graphStatistics, PatternGraph patternGraph, bool isPreset)
+            List<PlanEdge> planEdges,
+            LGSPGraphStatistics graphStatistics, PatternGraph patternGraph, bool isPreset, float zeroCost)
         {
             // only add implicit source operation if edge source is needed and the edge source is 
             // not a preset node and not a storage node and not an index node and not a cast node
@@ -563,9 +564,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 SearchOperationType operation = edge.fixedDirection ?
                     SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
-
                 PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNode,
-                    patternGraph.GetSourcePlusInlined(edge).TempPlanMapping, 1);
+                    patternGraph.GetSourcePlusInlined(edge).TempPlanMapping, zeroCost);
                 planEdges.Add(implSrcPlanEdge);
                 patternGraph.GetSourcePlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
             }
@@ -582,7 +582,7 @@ namespace de.unika.ipd.grGen.lgsp
                 SearchOperationType operation = edge.fixedDirection ?
                     SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
                 PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNode,
-                    patternGraph.GetTargetPlusInlined(edge).TempPlanMapping, 1);
+                    patternGraph.GetTargetPlusInlined(edge).TempPlanMapping, zeroCost);
                 planEdges.Add(implTgtPlanEdge);
                 patternGraph.GetTargetPlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
             }
@@ -659,13 +659,13 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private static void createPickMapCastAssignPlanEdges(PatternNode node, List<PlanEdge> planEdges)
+        public static void createPickMapCastAssignPlanEdges(PatternNode node, List<PlanEdge> planEdges, float zeroCost)
         {
             if(node.Storage != null && node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
             {
                 PlanEdge storAccessPlanEdge = new PlanEdge(
                     node.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
-                    node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, 1);
+                    node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, zeroCost);
                 planEdges.Add(storAccessPlanEdge);
                 node.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
             }
@@ -673,7 +673,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PlanEdge indexAccessPlanEdge = new PlanEdge(
                     SearchOperationType.PickFromIndexDependent,
-                    node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, 1);
+                    node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, zeroCost);
                 planEdges.Add(indexAccessPlanEdge);
                 node.TempPlanMapping.IncomingEdges.Add(indexAccessPlanEdge);
             }
@@ -681,7 +681,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PlanEdge nameAccessPlanEdge = new PlanEdge(
                     SearchOperationType.PickByNameDependent,
-                    node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, 1);
+                    node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, zeroCost);
                 planEdges.Add(nameAccessPlanEdge);
                 node.TempPlanMapping.IncomingEdges.Add(nameAccessPlanEdge);
             }
@@ -689,41 +689,41 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PlanEdge uniqueAccessPlanEdge = new PlanEdge(
                     SearchOperationType.PickByUniqueDependent,
-                    node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, 1);
+                    node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, node.TempPlanMapping, zeroCost);
                 planEdges.Add(uniqueAccessPlanEdge);
                 node.TempPlanMapping.IncomingEdges.Add(uniqueAccessPlanEdge);
             }
             else if(node.ElementBeforeCasting != null)
             {
                 PlanEdge castPlanEdge = new PlanEdge(SearchOperationType.Cast,
-                    node.ElementBeforeCasting.TempPlanMapping, node.TempPlanMapping, 1);
+                    node.ElementBeforeCasting.TempPlanMapping, node.TempPlanMapping, zeroCost);
                 planEdges.Add(castPlanEdge);
                 node.TempPlanMapping.IncomingEdges.Add(castPlanEdge);
             }
             else if(node.AssignmentSource != null)
             {
                 PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
-                    node.AssignmentSource.TempPlanMapping, node.TempPlanMapping, 1);
+                    node.AssignmentSource.TempPlanMapping, node.TempPlanMapping, zeroCost);
                 planEdges.Add(assignPlanEdge);
                 node.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
 
                 if(!node.AssignmentSource.TempPlanMapping.IsPreset)
                 {
                     PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
-                        node.TempPlanMapping, node.AssignmentSource.TempPlanMapping, 1);
+                        node.TempPlanMapping, node.AssignmentSource.TempPlanMapping, zeroCost);
                     planEdges.Add(assignPlanEdgeOpposite);
                     node.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdgeOpposite);
                 }
             }
         }
 
-        private static void createPickMapCastAssignPlanEdges(PatternEdge edge, List<PlanEdge> planEdges)
+        public static void createPickMapCastAssignPlanEdges(PatternEdge edge, List<PlanEdge> planEdges, float zeroCost)
         {
             if(edge.Storage != null && edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
             {
                 PlanEdge storAccessPlanEdge = new PlanEdge(
                     edge.StorageIndex != null ? SearchOperationType.MapWithStorageDependent : SearchOperationType.PickFromStorageDependent,
-                    edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, 1);
+                    edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, zeroCost);
                 planEdges.Add(storAccessPlanEdge);
                 edge.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
             }
@@ -731,7 +731,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PlanEdge indexAccessPlanEdge = new PlanEdge(
                     SearchOperationType.PickFromIndexDependent,
-                    edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, 1);
+                    edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, zeroCost);
                 planEdges.Add(indexAccessPlanEdge);
                 edge.TempPlanMapping.IncomingEdges.Add(indexAccessPlanEdge);
             }
@@ -739,7 +739,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PlanEdge nameAccessPlanEdge = new PlanEdge(
                     SearchOperationType.PickByNameDependent,
-                    edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, 1);
+                    edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, zeroCost);
                 planEdges.Add(nameAccessPlanEdge);
                 edge.TempPlanMapping.IncomingEdges.Add(nameAccessPlanEdge);
             }
@@ -747,28 +747,28 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PlanEdge uniqueAccessPlanEdge = new PlanEdge(
                     SearchOperationType.PickByUniqueDependent,
-                    edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, 1);
+                    edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness().TempPlanMapping, edge.TempPlanMapping, zeroCost);
                 planEdges.Add(uniqueAccessPlanEdge);
                 edge.TempPlanMapping.IncomingEdges.Add(uniqueAccessPlanEdge);
             }
             else if(edge.ElementBeforeCasting != null)
             {
                 PlanEdge castPlanEdge = new PlanEdge(SearchOperationType.Cast,
-                    edge.ElementBeforeCasting.TempPlanMapping, edge.TempPlanMapping, 1);
+                    edge.ElementBeforeCasting.TempPlanMapping, edge.TempPlanMapping, zeroCost);
                 planEdges.Add(castPlanEdge);
                 edge.TempPlanMapping.IncomingEdges.Add(castPlanEdge);
             }
             else if(edge.AssignmentSource != null)
             {
                 PlanEdge assignPlanEdge = new PlanEdge(SearchOperationType.Assign,
-                    edge.AssignmentSource.TempPlanMapping, edge.TempPlanMapping, 1);
+                    edge.AssignmentSource.TempPlanMapping, edge.TempPlanMapping, zeroCost);
                 planEdges.Add(assignPlanEdge);
                 edge.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
 
                 if(!edge.AssignmentSource.TempPlanMapping.IsPreset)
                 {
                     PlanEdge assignPlanEdgeOpposite = new PlanEdge(SearchOperationType.Assign,
-                        edge.TempPlanMapping, edge.AssignmentSource.TempPlanMapping, 1);
+                        edge.TempPlanMapping, edge.AssignmentSource.TempPlanMapping, zeroCost);
                     planEdges.Add(assignPlanEdgeOpposite);
                     edge.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
                 }
