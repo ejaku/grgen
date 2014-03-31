@@ -9,7 +9,6 @@
 //#define RANDOM_LOOKUP_LIST_START      // currently broken
 //#define DUMP_SCHEDULED_SEARCH_PLAN
 //#define DUMP_SEARCHPROGRAMS
-//#define VSTRUCT_VAL_FOR_EDGE_LOOKUP
 
 using System;
 using System.Collections.Generic;
@@ -605,22 +604,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else
             {
-#if VSTRUCT_VAL_FOR_EDGE_LOOKUP
-                    int sourceTypeID;
-                    if(patternGraph.GetSourcePlusInlined(edge) != null) sourceTypeID = patternGraph.GetSourcePlusInlined(edge).TypeID;
-                    else sourceTypeID = model.NodeModel.RootType.TypeID;
-                    int targetTypeID;
-                    if(patternGraph.GetTargetPlusInlined(edge) != null) targetTypeID = patternGraph.GetTargetPlusInlined(edge).TypeID;
-                    else targetTypeID = model.NodeModel.RootType.TypeID;
-#if MONO_MULTIDIMARRAY_WORKAROUND
-                    cost = graph.vstructs[((sourceTypeID * graph.dim1size + edge.TypeID) * graph.dim2size
-                        + targetTypeID) * 2 + (int) LGSPDirection.Out];
-#else
-                    cost = graph.vstructs[sourceTypeID, edge.TypeID, targetTypeID, (int) LGSPDirection.Out];
-#endif
-#else
                 cost = graphStatistics.edgeCounts[edge.TypeID];
-#endif
                 cost = CostIncreaseForInlinedIndependent(edge, cost);
 
                 isPreset = false;
