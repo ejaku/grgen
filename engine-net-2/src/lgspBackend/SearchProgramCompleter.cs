@@ -92,7 +92,19 @@ namespace de.unika.ipd.grGen.lgsp
                             enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram),
                             topLevelSearchProgram);
                     }
-                    else if (currentOperation is CheckPartialMatchByNegativeOrIndependent)
+                    else if(currentOperation is CheckPartialMatchForDuplicate)
+                    {
+                        CheckPartialMatchForDuplicate checkDuplicateMatch =
+                            (CheckPartialMatchForDuplicate)currentOperation;
+                        checkDuplicateMatch.CheckFailedOperations =
+                            new SearchProgramList(checkDuplicateMatch);
+                        MoveOutwardsAppendingRemoveIsomorphyAndJump(
+                            checkDuplicateMatch,
+                            checkDuplicateMatch.NeededElements,
+                            enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram),
+                            topLevelSearchProgram);
+                    }
+                    else if(currentOperation is CheckPartialMatchByNegativeOrIndependent)
                     {
                         CheckPartialMatchByNegativeOrIndependent checkNegativeOrIndependent =
                             (CheckPartialMatchByNegativeOrIndependent)currentOperation;

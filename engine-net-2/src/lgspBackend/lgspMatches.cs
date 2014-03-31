@@ -253,6 +253,11 @@ namespace de.unika.ipd.grGen.lgsp
         public MatchInterface FirstExact { get { return count > 0 ? root : null; } }
 
         /// <summary>
+        /// Returns the first match of exact type (null if no match exists).
+        /// </summary>
+        public Match FirstImplementation { get { return count > 0 ? root : null; } }
+
+        /// <summary>
         /// Returns the match of exact type with the given index. Invalid indices cause an exception.
         /// This may be slow. If you want to iterate over the elements the MatchesExact IEnumerable should be used.
         /// </summary>

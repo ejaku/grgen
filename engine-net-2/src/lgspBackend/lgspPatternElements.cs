@@ -185,6 +185,20 @@ namespace de.unika.ipd.grGen.lgsp
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
+        /// Links to the original pattern element in case this element stems from inlining an independent
+        /// (those elements exist only in search planning, they are not contained in any pattern).
+        /// </summary>
+        public PatternElement OriginalIndependentElement;
+
+        /// <summary>
+        /// This element was declared in an independent pattern, but is now to be matched as preset,
+        /// because it was inlinded in the containing pattern to speed up matching
+        /// </summary>
+        public bool PresetBecauseOfIndependentInlining;
+
+        ////////////////////////////////////////////////////////////////////////////
+        
+        /// <summary>
         /// plan graph node corresponding to this pattern element, used in plan graph generation, just hacked into this place
         /// </summary>
         public PlanNode TempPlanMapping;
@@ -256,7 +270,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Instantiates a new PatternElement object as a copy from an original element, used for inlining.
+        /// Instantiates a new PatternElement object as a copy from an original element, used for subpattern inlining.
         /// </summary>
         /// <param name="original">The original pattern element to be copy constructed.</param>
         /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
@@ -286,6 +300,36 @@ namespace de.unika.ipd.grGen.lgsp
             AssignmentSource = original.AssignmentSource;
             originalElement = original;
             originalSubpatternEmbedding = inlinedSubpatternEmbedding;
+        }
+
+        /// <summary>
+        /// Instantiates a new PatternElement object as a copy from an original element, used for independent inlining.
+        /// </summary>
+        /// <param name="original">The original pattern element to be copy constructed.</param>
+        /// <param name="nameSuffix">The suffix to be added to the name of the pattern element (to avoid name collisions).</param>
+        public PatternElement(PatternElement original, String nameSuffix)
+        {
+            TypeID = original.TypeID;
+            typeName = original.typeName;
+            name = original.name + nameSuffix;
+            unprefixedName = original.unprefixedName + nameSuffix;
+            pointOfDefinition = original.pointOfDefinition;
+            defToBeYieldedTo = original.defToBeYieldedTo;
+            initialization = original.initialization != null ? original.initialization.Copy(nameSuffix) : null;
+            annotations = original.annotations;
+            AllowedTypes = original.AllowedTypes;
+            IsAllowedType = original.IsAllowedType;
+            Cost = original.Cost;
+            ParameterIndex = original.ParameterIndex;
+            MaybeNull = original.MaybeNull;
+            Storage = original.Storage != null ? new StorageAccess(original.Storage) : null;
+            StorageIndex = original.StorageIndex != null ? new StorageAccessIndex(original.StorageIndex) : null;
+            IndexAccess = original.IndexAccess != null ? original.IndexAccess.Copy(nameSuffix) : null;
+            NameLookup = original.NameLookup != null ? original.NameLookup.Copy(nameSuffix) : null;
+            UniqueLookup = original.UniqueLookup != null ? original.UniqueLookup.Copy(nameSuffix) : null;
+            ElementBeforeCasting = original.ElementBeforeCasting;
+            AssignmentSource = original.AssignmentSource;
+            OriginalIndependentElement = original;
         }
 
         /// <summary>
@@ -386,7 +430,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Instantiates a new PatternNode object as a copy from an original node, used for inlining.
+        /// Instantiates a new PatternNode object as a copy from an original node, used for subpattern inlining.
         /// </summary>
         /// <param name="original">The original pattern node to be copy constructed.</param>
         /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
@@ -394,6 +438,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="nameSuffix">The suffix to be added to the name of the pattern node (to avoid name collisions).</param>
         public PatternNode(PatternNode original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix)
             : base(original, inlinedSubpatternEmbedding, newHost, nameSuffix)
+        {
+        }
+
+        /// <summary>
+        /// Instantiates a new PatternNode object as a copy from an original node, used for independent inlining.
+        /// </summary>
+        /// <param name="original">The original pattern node to be copy constructed.</param>
+        /// <param name="nameSuffix">The suffix to be added to the name of the pattern node (to avoid name collisions).</param>
+        public PatternNode(PatternNode original, String nameSuffix)
+            : base(original, nameSuffix)
         {
         }
 
@@ -481,7 +535,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Instantiates a new PatternEdge object as a copy from an original edge, used for inlining.
+        /// Instantiates a new PatternEdge object as a copy from an original edge, used for subpattern inlining.
         /// </summary>
         /// <param name="original">The original pattern edge to be copy constructed.</param>
         /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
@@ -489,6 +543,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="nameSuffix">The suffix to be added to the name of the pattern edge (to avoid name collisions).</param>
         public PatternEdge(PatternEdge original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix)
             : base(original, inlinedSubpatternEmbedding, newHost, nameSuffix)
+        {
+            fixedDirection = original.fixedDirection;
+        }
+
+        /// <summary>
+        /// Instantiates a new PatternEdge object as a copy from an original edge, used for independent inlining.
+        /// </summary>
+        /// <param name="original">The original pattern edge to be copy constructed.</param>
+        /// <param name="nameSuffix">The suffix to be added to the name of the pattern edge (to avoid name collisions).</param>
+        public PatternEdge(PatternEdge original, String nameSuffix)
+            : base(original, nameSuffix)
         {
             fixedDirection = original.fixedDirection;
         }
@@ -512,7 +577,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Links to the original pattern edge in case this node was inlined, otherwise null;
+        /// Links to the original pattern edge in case this edge was inlined, otherwise null;
         /// the point of definition of the original edge references the original containing pattern
         /// </summary>
         public PatternEdge originalEdge { get { return (PatternEdge)originalElement; } }

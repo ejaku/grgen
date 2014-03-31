@@ -197,7 +197,7 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchProgramOfAction(string rulePatternClassName,
             string patternName, string[] parameterTypes, string[] parameterNames, string name,
             List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath,
-            bool containsSubpatterns, bool emitProfiling,
+            bool containsSubpatterns, bool wasIndependentInlined, bool emitProfiling,
             string[] dispatchConditions, List<string> suffixedMatcherNames, List<string[]> arguments)
         {
             RulePatternClassName = rulePatternClassName;
@@ -213,6 +213,7 @@ namespace de.unika.ipd.grGen.lgsp
                 Parameters += ", " + parameterTypes[i] + " " + parameterNames[i];
             }
             SetupSubpatternMatching = containsSubpatterns;
+            WasIndependentInlined = wasIndependentInlined;
             EmitProfiling = emitProfiling;
 
             DispatchConditions = dispatchConditions;
@@ -275,20 +276,26 @@ namespace de.unika.ipd.grGen.lgsp
             
             if(NamesOfPatternGraphsOnPathToEnclosedPatternpath.Count > 0)
                 sourceCode.AppendFront("bool searchPatternpath = false;\n");
-            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
+            foreach(string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
                     RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
                     NamesOfEntities.PatternpathMatch(graphsOnPath));
             }
 
-            if (SetupSubpatternMatching)
+            if(SetupSubpatternMatching)
             {
                 sourceCode.AppendFront("Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<"
                         + "GRGEN_LGSP.LGSPSubpatternAction>();\n");
                 sourceCode.AppendFront("List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<"
                         + "GRGEN_LIBGR.IMatch>>();\n");
                 sourceCode.AppendFront("List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;\n");
+            }
+
+            if(WasIndependentInlined)
+            {
+                sourceCode.AppendFrontFormat("Dictionary<int, {0}> {1} = null;\n",
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName), NamesOfEntities.FoundMatchesForFilteringVariable());
             }
 
             if(EmitProfiling)
@@ -321,7 +328,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
 
             // emit search subprograms
-            if (Next != null)
+            if(Next != null)
             {
                 Next.Emit(sourceCode);
             }
@@ -359,6 +366,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string PatternName;
         public string Parameters;
         public bool SetupSubpatternMatching;
+        public bool WasIndependentInlined;
         public bool EmitProfiling;
 
         string[] DispatchConditions;
@@ -495,7 +503,7 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchProgramOfActionParallelizationBody(string rulePatternClassName,
             string patternName, string name,
             List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath,
-            bool containsSubpatterns, bool emitProfiling)
+            bool containsSubpatterns, bool wasIndependentInlined, bool emitProfiling)
         {
             RulePatternClassName = rulePatternClassName;
             NamesOfPatternGraphsOnPathToEnclosedPatternpath =
@@ -505,6 +513,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             PatternName = patternName;
             SetupSubpatternMatching = containsSubpatterns;
+            WasIndependentInlined = wasIndependentInlined;
             EmitProfiling = emitProfiling;
         }
 
@@ -576,6 +585,12 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;\n");
             }
 
+            if(WasIndependentInlined)
+            {
+                sourceCode.AppendFrontFormat("Dictionary<int, {0}> {1} = null;\n",
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName), NamesOfEntities.FoundMatchesForFilteringVariable());
+            }
+
             OperationsList.Emit(sourceCode);
 
             //sourceCode.AppendFrontFormat("Console.WriteLine(\"work done for {0} at threadId \" + threadId);\n", PatternName);
@@ -598,6 +613,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public string PatternName;
         public bool SetupSubpatternMatching;
+        public bool WasIndependentInlined;
         public bool EmitProfiling;
     }
 
@@ -607,14 +623,17 @@ namespace de.unika.ipd.grGen.lgsp
     class SearchProgramOfSubpattern : SearchProgram
     {
         public SearchProgramOfSubpattern(string rulePatternClassName,
+            string patternName,
             List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath,
             string name,
-            bool parallel)
+            bool wasIndependentInlined, bool parallel)
         {
             RulePatternClassName = rulePatternClassName;
+            PatternName = patternName;
             NamesOfPatternGraphsOnPathToEnclosedPatternpath =
                 namesOfPatternGraphsOnPathToEnclosedPatternpath;
             Name = name;
+            WasIndependentInlined = wasIndependentInlined;
             Parallel = parallel;
         }
 
@@ -669,11 +688,17 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("List<ushort> flagsPerElementGlobal = graph.flagsPerThreadPerElement[threadId];\n");
             }
 
-            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
+            foreach(string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
                     RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
                     NamesOfEntities.PatternpathMatch(graphsOnPath));
+            }
+
+            if(WasIndependentInlined)
+            {
+                sourceCode.AppendFrontFormat("Dictionary<int, {0}> {1} = null;\n",
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName), NamesOfEntities.FoundMatchesForFilteringVariable());
             }
 
             OperationsList.Emit(sourceCode);
@@ -682,6 +707,9 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
         }
+
+        public string PatternName;
+        public bool WasIndependentInlined;
     }
 
     /// <summary>
@@ -751,7 +779,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("List<ushort> flagsPerElementGlobal = graph.flagsPerThreadPerElement[threadId];\n");
             }
 
-            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
+            foreach(string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
                     RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
@@ -772,14 +800,21 @@ namespace de.unika.ipd.grGen.lgsp
     class SearchProgramOfIterated : SearchProgram
     {
         public SearchProgramOfIterated(string rulePatternClassName,
+            string patternName,
+            string iterPatternName,
+            string iterPathPrefix,
             List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath,
             string name,
-            bool parallel)
+            bool wasIndependentInlined, bool parallel)
         {
             RulePatternClassName = rulePatternClassName;
+            PatternName = patternName;
+            IterPathPrefix = iterPathPrefix;
+            IterPatternName = iterPatternName;
             NamesOfPatternGraphsOnPathToEnclosedPatternpath =
                 namesOfPatternGraphsOnPathToEnclosedPatternpath;
             Name = name;
+            WasIndependentInlined = wasIndependentInlined;
             Parallel = parallel;
         }
 
@@ -835,11 +870,17 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("List<ushort> flagsPerElementGlobal = graph.flagsPerThreadPerElement[threadId];\n");
             }
 
-            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
+            foreach(string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
                     RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
                     NamesOfEntities.PatternpathMatch(graphsOnPath));
+            }
+
+            if(WasIndependentInlined)
+            {
+                sourceCode.AppendFrontFormat("Dictionary<int, {0}> {1} = null;\n",
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(IterPathPrefix + IterPatternName), NamesOfEntities.FoundMatchesForFilteringVariable());
             }
 
             OperationsList.Emit(sourceCode);
@@ -848,6 +889,11 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
         }
+
+        public string PatternName;
+        public string IterPatternName;
+        public string IterPathPrefix;
+        public bool WasIndependentInlined;
     }
 
     /// <summary>
@@ -855,11 +901,13 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class GetPartialMatchOfAlternative : SearchProgramOperation
     {
-        public GetPartialMatchOfAlternative(string pathPrefix, string caseName, string rulePatternClassName)
+        public GetPartialMatchOfAlternative(string pathPrefix, string caseName, 
+            string rulePatternClassName, bool wasIndependentInlined)
         {
             PathPrefix = pathPrefix;
             CaseName = caseName;
             RulePatternClassName = rulePatternClassName;
+            WasIndependentInlined = wasIndependentInlined;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -885,7 +933,13 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Indent();
             string whichCase = RulePatternClassName + "." + PathPrefix + "CaseNums.@" + CaseName;
             sourceCode.AppendFrontFormat("patternGraph = patternGraphs[(int){0}];\n", whichCase);
-            
+
+            if(WasIndependentInlined)
+            {
+                sourceCode.AppendFrontFormat("Dictionary<int, {0}> {1} = null;\n",
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PathPrefix + CaseName), NamesOfEntities.FoundMatchesForFilteringVariable());
+            }
+
             OperationsList.Emit(sourceCode);
             
             sourceCode.Unindent();
@@ -905,6 +959,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string PathPrefix;
         public string CaseName;
         public string RulePatternClassName;
+        public bool WasIndependentInlined;
 
         public SearchProgramList OperationsList;
     }
@@ -2430,6 +2485,11 @@ namespace de.unika.ipd.grGen.lgsp
             string patternName,
             string[] parameterNames,
             bool enclosingLoop,
+            bool wasIndependentInlined,
+            string[] neededElements,
+            string[] matchObjectPaths,
+            string[] neededElementsUnprefixedName,
+            bool[] neededElementsIsNode,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2442,6 +2502,11 @@ namespace de.unika.ipd.grGen.lgsp
             PatternName = patternName;
             ParameterNames = parameterNames;
             EnclosingLoop = enclosingLoop;
+            WasIndependentInlined = wasIndependentInlined;
+            NeededElements = neededElements;
+            MatchObjectPaths = matchObjectPaths;
+            NeededElementsUnprefixedName = neededElementsUnprefixedName;
+            NeededElementsIsNode = neededElementsIsNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2457,6 +2522,11 @@ namespace de.unika.ipd.grGen.lgsp
             string rulePatternClassName,
             string patternName,
             string[] parameterNames,
+            bool wasIndependentInlined,
+            string[] neededElements,
+            string[] matchObjectPaths,
+            string[] neededElementsUnprefixedName,
+            bool[] neededElementsIsNode,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2471,6 +2541,11 @@ namespace de.unika.ipd.grGen.lgsp
             RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
             ParameterNames = parameterNames;
+            WasIndependentInlined = wasIndependentInlined;
+            NeededElements = neededElements;
+            MatchObjectPaths = matchObjectPaths;
+            NeededElementsUnprefixedName = neededElementsUnprefixedName;
+            NeededElementsIsNode = neededElementsIsNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2488,6 +2563,11 @@ namespace de.unika.ipd.grGen.lgsp
             string rulePatternClassName,
             string patternName,
             string[] parameterNames,
+            bool wasIndependentInlined,
+            string[] neededElements,
+            string[] matchObjectPaths,
+            string[] neededElementsUnprefixedName,
+            bool[] neededElementsIsNode,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2504,6 +2584,11 @@ namespace de.unika.ipd.grGen.lgsp
             RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
             ParameterNames = parameterNames;
+            WasIndependentInlined = wasIndependentInlined;
+            NeededElements = neededElements;
+            MatchObjectPaths = matchObjectPaths;
+            NeededElementsUnprefixedName = neededElementsUnprefixedName;
+            NeededElementsIsNode = neededElementsIsNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2521,6 +2606,11 @@ namespace de.unika.ipd.grGen.lgsp
             string rulePatternClassName,
             string patternName,
             string[] parameterNames,
+            bool wasIndependentInlined,
+            string[] neededElements,
+            string[] matchObjectPaths,
+            string[] neededElementsUnprefixedName,
+            bool[] neededElementsIsNode,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2538,6 +2628,11 @@ namespace de.unika.ipd.grGen.lgsp
             RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
             ParameterNames = parameterNames;
+            WasIndependentInlined = wasIndependentInlined;
+            NeededElements = neededElements;
+            MatchObjectPaths = matchObjectPaths;
+            NeededElementsUnprefixedName = neededElementsUnprefixedName;
+            NeededElementsIsNode = neededElementsIsNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2558,6 +2653,11 @@ namespace de.unika.ipd.grGen.lgsp
             string rulePatternClassName,
             string patternName,
             string[] parameterNames,
+            bool wasIndependentInlined,
+            string[] neededElements,
+            string[] matchObjectPaths,
+            string[] neededElementsUnprefixedName,
+            bool[] neededElementsIsNode,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2578,6 +2678,11 @@ namespace de.unika.ipd.grGen.lgsp
             RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
             ParameterNames = parameterNames;
+            WasIndependentInlined = wasIndependentInlined;
+            NeededElements = neededElements;
+            MatchObjectPaths = matchObjectPaths;
+            NeededElementsUnprefixedName = neededElementsUnprefixedName;
+            NeededElementsIsNode = neededElementsIsNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2592,6 +2697,11 @@ namespace de.unika.ipd.grGen.lgsp
             string patternName,
             string[] parameterNames,
             bool enclosingLoop,
+            bool wasIndependentInlined,
+            string[] neededElements,
+            string[] matchObjectPaths,
+            string[] neededElementsUnprefixedName,
+            bool[] neededElementsIsNode,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2605,6 +2715,11 @@ namespace de.unika.ipd.grGen.lgsp
             PatternName = patternName;
             ParameterNames = parameterNames;
             EnclosingLoop = enclosingLoop;
+            WasIndependentInlined = wasIndependentInlined;
+            NeededElements = neededElements;
+            MatchObjectPaths = matchObjectPaths;
+            NeededElementsUnprefixedName = neededElementsUnprefixedName;
+            NeededElementsIsNode = neededElementsIsNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2908,6 +3023,14 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("GRGEN_LGSP.WorkerPool.WaitForWorkDone();\n");
             
             // emit matches list building from matches lists of the matcher threads (obeying order of sequential iteration)
+            if(WasIndependentInlined)
+            {
+                sourceCode.AppendFrontFormat("Dictionary<int, {0}> {1} = null;\n",
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName), NamesOfEntities.FoundMatchesForFilteringVariable());
+                sourceCode.AppendFrontFormat("if(maxMatches != 1) {0} = new Dictionary<int, {1}>();\n",
+                    NamesOfEntities.FoundMatchesForFilteringVariable(), RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName));
+            }
+
             sourceCode.AppendFront("int threadOfLastlyChosenMatch = 0;\n");
             sourceCode.AppendFront("while(matches.Count<maxMatches || maxMatches<=0)\n");
             sourceCode.AppendFront("{\n");
@@ -2931,6 +3054,104 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("if(minIterationValueIndex<Int32.MaxValue)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
+
+            if(WasIndependentInlined)
+            {
+                // check whether matches filtering is needed
+                sourceCode.AppendFrontFormat("if({0} != null)\n", NamesOfEntities.FoundMatchesForFilteringVariable());
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                // check whether the hash of the current match is already contained in the overall matches hash map
+                sourceCode.AppendFrontFormat("if({0}.ContainsKey(parallelTaskMatches[minIterationValueIndex].FirstImplementation.{1}))\n",
+                    NamesOfEntities.FoundMatchesForFilteringVariable(),
+                    NamesOfEntities.DuplicateMatchHashVariable());
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                // check whether one of the matches with the same hash in the overall hash map is equal to the current match
+                sourceCode.AppendFrontFormat("{0} {1} = {2}[parallelTaskMatches[minIterationValueIndex].FirstImplementation.{3}];\n",
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName),
+                    NamesOfEntities.DuplicateMatchCandidateVariable(),
+                    NamesOfEntities.FoundMatchesForFilteringVariable(),
+                    NamesOfEntities.DuplicateMatchHashVariable());
+                sourceCode.AppendFront("do {\n");
+                sourceCode.Indent();
+
+                // check for same elements
+                sourceCode.AppendFront("if(");
+                for(int i = 0; i < NeededElements.Length; ++i)
+                {
+                    if(i != 0)
+                        sourceCode.Append(" && ");
+                    sourceCode.AppendFormat("{0}._{1} == parallelTaskMatches[minIterationValueIndex].FirstImplementation{2}.{1}",
+                        NamesOfEntities.DuplicateMatchCandidateVariable() + MatchObjectPaths[i],
+                        NamesOfEntities.MatchName(NeededElementsUnprefixedName[i], NeededElementsIsNode[i] ? BuildMatchObjectType.Node : BuildMatchObjectType.Edge),
+                        MatchObjectPaths[i]);
+                }
+                sourceCode.Append(")\n");
+
+                // the current local match is equivalent to one of the already found ones, a duplicate
+                // so emit code to remove it and continue
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+                sourceCode.AppendFront("parallelTaskMatches[minIterationValueIndex].RemoveFirst();\n");
+                sourceCode.AppendFrontFormat("goto {0};\n", "continue_after_duplicate_match_removal_" + PatternName);
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+
+                // close "check whether one of the matches with same hash in the overall hash map is equal to the current match"
+                // switching to next match with the same hash, if available
+                sourceCode.Unindent();
+                sourceCode.AppendFront("} ");
+                sourceCode.AppendFormat("while(({0} = {0}.nextWithSameHash) != null);\n",
+                    NamesOfEntities.DuplicateMatchCandidateVariable());
+
+                // close "check whether hash of current match is already contained in overall matches hash map (if matches filtering is needed)"
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+
+                // result when this points is reached: no equal hash is contained in the overall hash map (but a match with same hash may exist)
+
+                // check whether hash is contained in found matches hash map
+                sourceCode.AppendFrontFormat("if(!{0}.ContainsKey(parallelTaskMatches[minIterationValueIndex].FirstImplementation.{1}))\n",
+                    NamesOfEntities.FoundMatchesForFilteringVariable(),
+                    NamesOfEntities.DuplicateMatchHashVariable());
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                // if not, just insert it
+                sourceCode.AppendFrontFormat("{0}[parallelTaskMatches[minIterationValueIndex].FirstImplementation.{1}] = parallelTaskMatches[minIterationValueIndex].FirstImplementation;\n",
+                    NamesOfEntities.FoundMatchesForFilteringVariable(),
+                    NamesOfEntities.DuplicateMatchHashVariable());
+
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+                sourceCode.AppendFront("else\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                // otherwise loop till end of collision list of the hash set, insert there
+                // other this code completed, the match will be processed like normal, as if there was no matches filtering
+                sourceCode.AppendFrontFormat("{0} {1} = {2}[parallelTaskMatches[minIterationValueIndex].FirstImplementation.{3}];\n",
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName),
+                    NamesOfEntities.DuplicateMatchCandidateVariable(),
+                    NamesOfEntities.FoundMatchesForFilteringVariable(),
+                    NamesOfEntities.DuplicateMatchHashVariable());
+                sourceCode.AppendFrontFormat("while({0}.nextWithSameHash != null) {0} = {0}.nextWithSameHash;\n",
+                    NamesOfEntities.DuplicateMatchCandidateVariable());
+
+                sourceCode.AppendFrontFormat("{0}.nextWithSameHash = parallelTaskMatches[minIterationValueIndex].FirstImplementation;\n",
+                     NamesOfEntities.DuplicateMatchCandidateVariable());
+
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+
+                // close "check whether matches filtering is needed"
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
+
             string matchType = RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName);
             sourceCode.AppendFrontFormat("{0} match = matches.GetNextUnfilledPosition();\n", matchType);
             sourceCode.AppendFrontFormat("match.CopyMatchContent(({0})parallelTaskMatches[minIterationValueIndex].First);\n", matchType);
@@ -2939,10 +3160,12 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("threadOfLastlyChosenMatch = minIterationValueIndex;\n");
             sourceCode.AppendFront("continue;\n");
             sourceCode.Unindent();
+
             sourceCode.AppendFront("}\n");
             sourceCode.AppendFront("else\n");
-            sourceCode.AppendFront("\tbreak;\n");
+            sourceCode.AppendFront("\tbreak;\n"); // break iteration, minIterationValueIndex == Int32.MaxValue
             sourceCode.Unindent();
+            sourceCode.Append("continue_after_duplicate_match_removal_" + PatternName + ": ;\n");
             sourceCode.AppendFront("}\n");
 
             // emit adjust list heads
@@ -3025,6 +3248,11 @@ namespace de.unika.ipd.grGen.lgsp
         public string PatternName;
         public string[] ParameterNames; // the parameters to forward to the normal matcher in case that is to be used because there's only a single iteration
         public bool EnclosingLoop; // in case of an enclosing loop we can't forward to the normal matcher
+        public bool WasIndependentInlined;
+        public string[] NeededElements; // needed in case of WasIndependentInlined
+        public string[] MatchObjectPaths; // needed in case of WasIndependentInlined
+        public string[] NeededElementsUnprefixedName; // needed in case of WasIndependentInlined
+        public bool[] NeededElementsIsNode; // needed in case of WasIndependentInlined
         public bool EmitProfiling;
         public string ActionName;
         public bool EmitFirstLoopProfiling;
@@ -4708,7 +4936,6 @@ namespace de.unika.ipd.grGen.lgsp
                 CheckFailedOperations.Dump(builder);
                 builder.Unindent();
             }
-
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -4728,6 +4955,231 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public string NegativeIndependentNamePrefix;
+    }
+
+    /// <summary>
+    /// Class representing "check whether the current partial match is a duplicate" operation
+    /// </summary>
+    class CheckPartialMatchForDuplicate : CheckPartialMatch
+    {
+        public CheckPartialMatchForDuplicate(
+            string rulePatternClassName, 
+            string patternName, 
+            string[] neededElements,
+            string[] matchObjectPaths,
+            string[] neededElementsUnprefixedName,
+            bool[] neededElementsIsNode)
+        {
+            RulePatternClassName = rulePatternClassName;
+            PatternName = patternName;
+            NeededElements = neededElements;
+            MatchObjectPaths = matchObjectPaths;
+            NeededElementsUnprefixedName = neededElementsUnprefixedName;
+            NeededElementsIsNode = neededElementsIsNode;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump local content
+            builder.AppendFront("CheckPartialMatch ForDuplicate with ");
+            foreach(string neededElement in NeededElements)
+            {
+                builder.AppendFormat("{0} ", neededElement);
+            }
+            builder.Append("\n");
+            // then operations for case check failed
+            if(CheckFailedOperations != null)
+            {
+                builder.Indent();
+                CheckFailedOperations.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(sourceCode.CommentSourceCode)
+                sourceCode.AppendFront("// Check whether a duplicate match to be purged was found \n");
+
+            // emit hash variable declaration
+            sourceCode.AppendFrontFormat("int {0} = 0;\n", NamesOfEntities.DuplicateMatchHashVariable());
+
+            // only do the rest if more than one match is requested
+            sourceCode.AppendFront("if(maxMatches!=1) {\n");
+            sourceCode.Indent();
+
+            // emit found matches hash map initialization as needed
+            sourceCode.AppendFrontFormat("if({0}==null) {0} = new Dictionary<int, {1}>();\n",
+                NamesOfEntities.FoundMatchesForFilteringVariable(),
+                RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName));
+
+            // emit hash variable initialization with result of hash computation 
+            sourceCode.AppendFrontFormat("{0} = unchecked(", 
+                NamesOfEntities.DuplicateMatchHashVariable());
+            EmitHashComputation(sourceCode, NeededElements.Length - 1);
+            sourceCode.Append(");\n");
+
+            // emit check whether hash is contained in found matches hash map
+            sourceCode.AppendFrontFormat("if({0}.ContainsKey({1}))\n", 
+                NamesOfEntities.FoundMatchesForFilteringVariable(), 
+                NamesOfEntities.DuplicateMatchHashVariable());
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            // emit check whether one of the matches in the hash map with same hash is equal to the locally matched elements
+            sourceCode.AppendFrontFormat("{0} {1} = {2}[{3}];\n", 
+                RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName),
+                NamesOfEntities.DuplicateMatchCandidateVariable(),
+                NamesOfEntities.FoundMatchesForFilteringVariable(),
+                NamesOfEntities.DuplicateMatchHashVariable());
+            sourceCode.AppendFront("do {\n");
+            sourceCode.Indent();
+
+            // emit check for same elements
+            sourceCode.AppendFront("if(");
+            for(int i = 0; i < NeededElements.Length; ++i)
+            {
+                if(i != 0)
+                    sourceCode.Append(" && ");
+                sourceCode.AppendFormat("{0}._{1} == {2}",
+                    NamesOfEntities.DuplicateMatchCandidateVariable() + MatchObjectPaths[i],
+                    NamesOfEntities.MatchName(NeededElementsUnprefixedName[i], NeededElementsIsNode[i] ? BuildMatchObjectType.Node : BuildMatchObjectType.Edge), 
+                    NamesOfEntities.CandidateVariable(NeededElements[i]));
+            }
+            sourceCode.Append(")\n");
+
+            // emit check failed code, i.e. the current local match is equivalent to one of the already found ones, a duplicate
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+            CheckFailedOperations.Emit(sourceCode);
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            // close "emit check whether one of the matches in the hash map with same hash is equal to the locally matched elements"
+            // switching to next match with the same hash, if available
+            sourceCode.Unindent();
+            sourceCode.AppendFront("} ");
+            sourceCode.AppendFormat("while(({0} = {0}.nextWithSameHash) != null);\n", 
+                NamesOfEntities.DuplicateMatchCandidateVariable());
+
+            // close "emit check whether hash is contained in found matches hash map"
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            // close "only do the rest if more than one match is requested"
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        void EmitHashComputation(SourceBuilder sourceCode, int i)
+        {
+            if(i == 0)
+                sourceCode.Append("23");
+            else
+            {
+                sourceCode.Append("(");
+                EmitHashComputation(sourceCode, i - 1);
+                sourceCode.AppendFormat("*17 + {0}.GetHashCode()",
+                    NamesOfEntities.CandidateVariable(NeededElements[i]));
+                sourceCode.Append(")");
+            }
+        }
+
+        public string RulePatternClassName;
+        public string PatternName;
+        public string[] NeededElements;
+        public string[] MatchObjectPaths;
+        public string[] NeededElementsUnprefixedName;
+        public bool[] NeededElementsIsNode;
+    }
+
+    /// <summary>
+    /// Class representing a fill operation of the current partial match into a set to prevent duplicates
+    /// </summary>
+    class FillPartialMatchForDuplicateChecking : SearchProgramOperation
+    {
+        public FillPartialMatchForDuplicateChecking(
+            string rulePatternClassName,
+            string patternName,
+            string[] neededElements,
+            string[] neededElementsUnprefixedName,
+            bool[] neededElementsIsNode,
+            bool parallelizedAction)
+        {
+            RulePatternClassName = rulePatternClassName;
+            PatternName = patternName;
+            NeededElements = neededElements;
+            NeededElementsUnprefixedName = neededElementsUnprefixedName;
+            NeededElementsIsNode = neededElementsIsNode;
+            ParallelizedAction = parallelizedAction;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump local content
+            builder.AppendFront("FillPartialMatchForDuplicateChecking with ");
+            foreach(string neededElement in NeededElements)
+            {
+                builder.AppendFormat("{0} ", neededElement);
+            }
+            builder.Append("\n");
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("if({0} != null)\n", NamesOfEntities.FoundMatchesForFilteringVariable());
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            // emit check whether hash is contained in found matches hash map
+            sourceCode.AppendFrontFormat("if(!{0}.ContainsKey({1}))\n",
+                NamesOfEntities.FoundMatchesForFilteringVariable(),
+                NamesOfEntities.DuplicateMatchHashVariable());
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            // if not, just insert it
+            sourceCode.AppendFrontFormat("{0}[{1}] = match;\n",
+                NamesOfEntities.FoundMatchesForFilteringVariable(),
+                NamesOfEntities.DuplicateMatchHashVariable());
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+            sourceCode.AppendFront("else\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            // otherwise loop till end of collision list of the hash set, insert there
+            sourceCode.AppendFrontFormat("{0} {1} = {2}[{3}];\n",
+                RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName),
+                NamesOfEntities.DuplicateMatchCandidateVariable(),
+                NamesOfEntities.FoundMatchesForFilteringVariable(),
+                NamesOfEntities.DuplicateMatchHashVariable());
+            sourceCode.AppendFrontFormat("while({0}.nextWithSameHash != null) {0} = {0}.nextWithSameHash;\n",
+                NamesOfEntities.DuplicateMatchCandidateVariable());
+
+            sourceCode.AppendFrontFormat("{0}.nextWithSameHash = match;\n",
+                 NamesOfEntities.DuplicateMatchCandidateVariable());
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            if(ParallelizedAction)
+            {
+                sourceCode.AppendFrontFormat("match.{0} = {0};\n",
+                    NamesOfEntities.DuplicateMatchHashVariable());
+            }
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public string RulePatternClassName;
+        public string PatternName;
+        public string[] NeededElements;
+        public string[] NeededElementsUnprefixedName;
+        public bool[] NeededElementsIsNode;
+        public bool ParallelizedAction;
     }
 
     /// <summary>

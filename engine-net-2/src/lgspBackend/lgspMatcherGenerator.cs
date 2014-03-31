@@ -207,8 +207,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// and edges representing the matching operations to get the elements by.
         /// Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
         /// </summary>
-        public PlanGraph GeneratePlanGraph(LGSPGraphStatistics graphStatistics, PatternGraph patternGraph, 
-            bool isNegativeOrIndependent, bool isSubpatternLike)
+        public PlanGraph GeneratePlanGraph(LGSPGraphStatistics graphStatistics, PatternGraph patternGraph,
+            bool isNegativeOrIndependent, bool isSubpatternLike, 
+            IDictionary<PatternElement, SetValueType> presetsFromIndependentInlining)
         {
             // 
             // If you change this method, chances are high you also want to change GenerateStaticPlanGraph in LGSPGrGen
@@ -242,9 +243,16 @@ namespace de.unika.ipd.grGen.lgsp
             // Create "cast" plan graph edge from element before casting to cast result,
             //     no lookup, no other plan graph edge having this node as target
 
-            PlanNode[] planNodes = new PlanNode[patternGraph.nodesPlusInlined.Length + patternGraph.edgesPlusInlined.Length];
-            // upper bound for num of edges (lookup nodes + lookup edges + impl. tgt + impl. src + incoming + outgoing)
-            List<PlanEdge> planEdges = new List<PlanEdge>(patternGraph.nodesPlusInlined.Length + 5 * patternGraph.edgesPlusInlined.Length);
+            int numNodes = patternGraph.nodesPlusInlined.Length;
+            if(!isNegativeOrIndependent)
+                numNodes += LGSPMatcherGenerator.NumNodesInIndependentsMatchedThere(patternGraph);
+            int numEdges = patternGraph.edgesPlusInlined.Length;
+            if(!isNegativeOrIndependent)
+                numEdges += LGSPMatcherGenerator.NumEdgesInIndependentsMatchedThere(patternGraph);
+            PlanNode[] planNodes = new PlanNode[numNodes + numEdges];
+            List<PlanEdge> planEdges = new List<PlanEdge>(numNodes + 5 * numEdges); // upper bound for num of edges (lookup nodes + lookup edges + impl. tgt + impl. src + incoming + outgoing)
+
+            Dictionary<PatternNode, PatternNode> originalToInlinedIndependent = new Dictionary<PatternNode, PatternNode>();
 
             int nodesIndex = 0;
             float zeroCost = 1;
@@ -258,8 +266,9 @@ namespace de.unika.ipd.grGen.lgsp
 
                 PlanNode planNode;
                 PlanEdge rootToNodePlanEdge;
-                createPlanNodeAndLookupPlanEdge(node, i, 
+                CreatePlanNodeAndLookupPlanEdge(node, i + 1, 
                     graphStatistics, patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot, zeroCost,
+                    presetsFromIndependentInlining,
                     out planNode, out rootToNodePlanEdge);
 
                 planNodes[nodesIndex] = planNode;
@@ -272,6 +281,34 @@ namespace de.unika.ipd.grGen.lgsp
                 node.TempPlanMapping = planNode;
                 ++nodesIndex;
             }
+            if(!isNegativeOrIndependent) // independent inlining only if not in negative/independent
+            {
+                foreach(PatternGraph independent in patternGraph.independentPatternGraphsPlusInlined)
+                {
+                    foreach(PatternNode nodeOriginal in LGSPMatcherGenerator.NodesInIndependentMatchedThere(independent))
+                    {
+                        PatternNode node = new PatternNode(nodeOriginal, "_inlined_" + independent.name);
+                        originalToInlinedIndependent.Add(nodeOriginal, node);
+
+                        PlanNode planNode;
+                        PlanEdge rootToNodePlanEdge;
+                        CreatePlanNodeAndLookupPlanEdge(node, -1,
+                            graphStatistics, patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot, zeroCost,
+                            presetsFromIndependentInlining,
+                            out planNode, out rootToNodePlanEdge);
+
+                        planNodes[nodesIndex] = planNode;
+                        if(rootToNodePlanEdge != null)
+                        {
+                            planEdges.Add(rootToNodePlanEdge);
+                            planNode.IncomingEdges.Add(rootToNodePlanEdge);
+                        }
+
+                        node.TempPlanMapping = planNode;
+                        ++nodesIndex;
+                    }
+                }
+            }
 
             // create plan nodes and lookup plus incidence handling plan edges for all pattern graph edges
             for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
@@ -281,8 +318,9 @@ namespace de.unika.ipd.grGen.lgsp
                 bool isPreset;
                 PlanNode planNode;
                 PlanEdge rootToNodePlanEdge;
-                createPlanNodeAndLookupPlanEdge(edge, i, 
+                CreatePlanNodeAndLookupPlanEdge(edge, i + 1, 
                     graphStatistics, patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot, zeroCost,
+                    originalToInlinedIndependent, presetsFromIndependentInlining,
                     out isPreset, out planNode, out rootToNodePlanEdge);
 
                 planNodes[nodesIndex] = planNode;
@@ -292,11 +330,42 @@ namespace de.unika.ipd.grGen.lgsp
                     planNode.IncomingEdges.Add(rootToNodePlanEdge);
                 }
 
-                createSourceTargetIncomingOutgoingPlanEdges(edge, planNode, planEdges,
-                    graphStatistics, patternGraph, isPreset, zeroCost);
+                CreateSourceTargetIncomingOutgoingPlanEdges(edge, planNode, planEdges,
+                    originalToInlinedIndependent, graphStatistics, patternGraph, isPreset, zeroCost);
 
                 edge.TempPlanMapping = planNode;
                 ++nodesIndex;
+            }
+            if(!isNegativeOrIndependent) // independent inlining only if not in negative/independent
+            {
+                foreach(PatternGraph independent in patternGraph.independentPatternGraphsPlusInlined)
+                {
+                    foreach(PatternEdge edgeOriginal in LGSPMatcherGenerator.EdgesInIndependentMatchedThere(independent))
+                    {
+                        PatternEdge edge = new PatternEdge(edgeOriginal, "_inlined_" + independent.name);
+
+                        bool isPreset;
+                        PlanNode planNode;
+                        PlanEdge rootToNodePlanEdge;
+                        CreatePlanNodeAndLookupPlanEdge(edge, -1,
+                            graphStatistics, patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot, zeroCost,
+                            originalToInlinedIndependent, presetsFromIndependentInlining,
+                            out isPreset, out planNode, out rootToNodePlanEdge);
+
+                        planNodes[nodesIndex] = planNode;
+                        if(rootToNodePlanEdge != null)
+                        {
+                            planEdges.Add(rootToNodePlanEdge);
+                            planNode.IncomingEdges.Add(rootToNodePlanEdge);
+                        }
+
+                        CreateSourceTargetIncomingOutgoingPlanEdges(edge, planNode, planEdges,
+                            originalToInlinedIndependent, graphStatistics, patternGraph, isPreset, zeroCost);
+
+                        edge.TempPlanMapping = planNode;
+                        ++nodesIndex;
+                    }
+                }
             }
 
             ////////////////////////////////////////////////////////////////////////////
@@ -307,8 +376,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PatternNode node = patternGraph.nodesPlusInlined[i];
 
-                if(node.PointOfDefinition == patternGraph)
-                    createPickMapCastAssignPlanEdges(node, planEdges, zeroCost);
+                if(node.PointOfDefinition == patternGraph && !presetsFromIndependentInlining.ContainsKey(node))
+                    CreatePickMapCastAssignPlanEdges(node, planEdges, zeroCost);
             }
 
             // create map/pick/cast/assign plan edges for all pattern graph edges
@@ -316,15 +385,16 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PatternEdge edge = patternGraph.edgesPlusInlined[i];
 
-                if(edge.PointOfDefinition == patternGraph)
-                    createPickMapCastAssignPlanEdges(edge, planEdges, zeroCost);
+                if(edge.PointOfDefinition == patternGraph && !presetsFromIndependentInlining.ContainsKey(edge))
+                    CreatePickMapCastAssignPlanEdges(edge, planEdges, zeroCost);
             }
 
             return new PlanGraph(planRoot, planNodes, planEdges.ToArray());
         }
 
-        private static void createPlanNodeAndLookupPlanEdge(PatternNode node, int i, 
+        private static void CreatePlanNodeAndLookupPlanEdge(PatternNode node, int elemId, 
             LGSPGraphStatistics graphStatistics, PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpatternLike, PlanNode planRoot, float zeroCost,
+            IDictionary<PatternElement, SetValueType> presetsFromIndependentInlining,
             out PlanNode planNode, out PlanEdge rootToNodePlanEdge)
         {
             float cost;
@@ -342,11 +412,18 @@ namespace de.unika.ipd.grGen.lgsp
                 isPreset = true;
                 searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
             }
-            else if(node.PointOfDefinition != patternGraph)
+            else if(node.PointOfDefinition != patternGraph && node.OriginalIndependentElement == null)
             {
                 cost = zeroCost;
                 isPreset = true;
                 searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
+            }
+            else if(presetsFromIndependentInlining.ContainsKey(node))
+            {
+                cost = zeroCost;
+                isPreset = true;
+                searchOperationType = SearchOperationType.NegIdptPreset;
+                node.PresetBecauseOfIndependentInlining = true;
             }
             else if(node.Storage != null)
             {
@@ -417,18 +494,20 @@ namespace de.unika.ipd.grGen.lgsp
             else
             {
                 cost = graphStatistics.nodeCounts[node.TypeID];
+                cost = CostIncreaseForInlinedIndependent(node, cost);
                 isPreset = false;
                 searchOperationType = SearchOperationType.Lookup;
             }
 
-            planNode = new PlanNode(node, i + 1, isPreset);
+            planNode = new PlanNode(node, elemId, isPreset);
             rootToNodePlanEdge = null;
             if(searchOperationType != SearchOperationType.Void)
                 rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNode, cost);
         }
 
-        private static void createPlanNodeAndLookupPlanEdge(PatternEdge edge, int i, 
+        private static void CreatePlanNodeAndLookupPlanEdge(PatternEdge edge, int elemId, 
             LGSPGraphStatistics graphStatistics, PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpatternLike, PlanNode planRoot, float zeroCost,
+            IDictionary<PatternNode, PatternNode> originalToInlinedIndependent, IDictionary<PatternElement, SetValueType> presetsFromIndependentInlining,
             out bool isPreset, out PlanNode planNode, out PlanEdge rootToNodePlanEdge)
         {
             float cost;
@@ -445,11 +524,18 @@ namespace de.unika.ipd.grGen.lgsp
                 isPreset = true;
                 searchOperationType = isSubpatternLike ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
             }
-            else if(edge.PointOfDefinition != patternGraph)
+            else if(edge.PointOfDefinition != patternGraph && edge.OriginalIndependentElement == null)
             {
                 cost = zeroCost;
                 isPreset = true;
                 searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
+            }
+            else if(presetsFromIndependentInlining.ContainsKey(edge))
+            {
+                cost = zeroCost;
+                isPreset = true;
+                searchOperationType = SearchOperationType.NegIdptPreset;
+                edge.PresetBecauseOfIndependentInlining = true;
             }
             else if(edge.Storage != null)
             {
@@ -535,56 +621,61 @@ namespace de.unika.ipd.grGen.lgsp
 #else
                 cost = graphStatistics.edgeCounts[edge.TypeID];
 #endif
+                cost = CostIncreaseForInlinedIndependent(edge, cost);
 
                 isPreset = false;
                 searchOperationType = SearchOperationType.Lookup;
             }
 
-            planNode = new PlanNode(edge, i + 1, isPreset,
-                patternGraph.GetSourcePlusInlined(edge) != null ? patternGraph.GetSourcePlusInlined(edge).TempPlanMapping : null,
-                patternGraph.GetTargetPlusInlined(edge) != null ? patternGraph.GetTargetPlusInlined(edge).TempPlanMapping : null);
+            PatternNode source = GetSourcePlusInlined(edge, patternGraph, originalToInlinedIndependent);
+            PatternNode target = GetTargetPlusInlined(edge, patternGraph, originalToInlinedIndependent);
+            planNode = new PlanNode(edge, elemId, isPreset,
+                source != null ? source.TempPlanMapping : null,
+                target != null ? target.TempPlanMapping : null);
             rootToNodePlanEdge = null;
             if(searchOperationType != SearchOperationType.Void)
                 rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNode, cost);
         }
 
-        private void createSourceTargetIncomingOutgoingPlanEdges(PatternEdge edge, PlanNode planNode, 
-            List<PlanEdge> planEdges,
+        private void CreateSourceTargetIncomingOutgoingPlanEdges(PatternEdge edge, PlanNode planNode, 
+            List<PlanEdge> planEdges, IDictionary<PatternNode, PatternNode> originalToInlinedIndependent,
             LGSPGraphStatistics graphStatistics, PatternGraph patternGraph, bool isPreset, float zeroCost)
         {
             // only add implicit source operation if edge source is needed and the edge source is 
             // not a preset node and not a storage node and not an index node and not a cast node
-            if(patternGraph.GetSourcePlusInlined(edge) != null
-                && !patternGraph.GetSourcePlusInlined(edge).TempPlanMapping.IsPreset
-                && patternGraph.GetSourcePlusInlined(edge).Storage == null
-                && patternGraph.GetSourcePlusInlined(edge).IndexAccess == null
-                && patternGraph.GetSourcePlusInlined(edge).NameLookup == null
-                && patternGraph.GetSourcePlusInlined(edge).UniqueLookup == null
-                && patternGraph.GetSourcePlusInlined(edge).ElementBeforeCasting == null)
+            PatternNode source = GetSourcePlusInlined(edge, patternGraph, originalToInlinedIndependent);
+            if(source != null
+                && !source.TempPlanMapping.IsPreset
+                && source.Storage == null
+                && source.IndexAccess == null
+                && source.NameLookup == null
+                && source.UniqueLookup == null
+                && source.ElementBeforeCasting == null)
             {
                 SearchOperationType operation = edge.fixedDirection ?
                     SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
                 PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNode,
-                    patternGraph.GetSourcePlusInlined(edge).TempPlanMapping, zeroCost);
+                    source.TempPlanMapping, zeroCost);
                 planEdges.Add(implSrcPlanEdge);
-                patternGraph.GetSourcePlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
+                source.TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
             }
             // only add implicit target operation if edge target is needed and the edge target is
             // not a preset node and not a storage node and not an index node and not a cast node
-            if(patternGraph.GetTargetPlusInlined(edge) != null
-                && !patternGraph.GetTargetPlusInlined(edge).TempPlanMapping.IsPreset
-                && patternGraph.GetTargetPlusInlined(edge).Storage == null
-                && patternGraph.GetTargetPlusInlined(edge).IndexAccess == null
-                && patternGraph.GetTargetPlusInlined(edge).NameLookup == null
-                && patternGraph.GetTargetPlusInlined(edge).UniqueLookup == null
-                && patternGraph.GetTargetPlusInlined(edge).ElementBeforeCasting == null)
+            PatternNode target = GetTargetPlusInlined(edge, patternGraph, originalToInlinedIndependent);
+            if(target != null
+                && !target.TempPlanMapping.IsPreset
+                && target.Storage == null
+                && target.IndexAccess == null
+                && target.NameLookup == null
+                && target.UniqueLookup == null
+                && target.ElementBeforeCasting == null)
             {
                 SearchOperationType operation = edge.fixedDirection ?
                     SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
                 PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNode,
-                    patternGraph.GetTargetPlusInlined(edge).TempPlanMapping, zeroCost);
+                    target.TempPlanMapping, zeroCost);
                 planEdges.Add(implTgtPlanEdge);
-                patternGraph.GetTargetPlusInlined(edge).TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
+                target.TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
             }
 
             // edge must only be reachable from other nodes if it's not a preset and not storage determined and not index determined and not a cast
@@ -596,62 +687,64 @@ namespace de.unika.ipd.grGen.lgsp
                 && edge.ElementBeforeCasting == null)
             {
                 // no outgoing on source node if no source
-                if(patternGraph.GetSourcePlusInlined(edge) != null)
+                if(source != null)
                 {
                     int targetTypeID;
-                    if(patternGraph.GetTargetPlusInlined(edge) != null) targetTypeID = patternGraph.GetTargetPlusInlined(edge).TypeID;
+                    if(target != null) targetTypeID = target.TypeID;
                     else targetTypeID = model.NodeModel.RootType.TypeID;
                     // cost of walking along edge
 #if MONO_MULTIDIMARRAY_WORKAROUND
-                    float normCost = graphStatistics.vstructs[((patternGraph.GetSourcePlusInlined(edge).TypeID * graphStatistics.dim1size + edge.TypeID) * graphStatistics.dim2size
+                    float normCost = graphStatistics.vstructs[((source.TypeID * graphStatistics.dim1size + edge.TypeID) * graphStatistics.dim2size
                         + targetTypeID) * 2 + (int)LGSPDirection.Out];
                     if(!edge.fixedDirection)
                     {
-                        normCost += graphStatistics.vstructs[((patternGraph.GetSourcePlusInlined(edge).TypeID * graphStatistics.dim1size + edge.TypeID) * graphStatistics.dim2size
+                        normCost += graphStatistics.vstructs[((source.TypeID * graphStatistics.dim1size + edge.TypeID) * graphStatistics.dim2size
                             + targetTypeID) * 2 + (int)LGSPDirection.In];
                     }
 #else
-                    float normCost = graph.statistics.vstructs[patternGraph.GetSourcePlusInlined(edge).TypeID, edge.TypeID, targetTypeID, (int) LGSPDirection.Out];
+                    float normCost = graph.statistics.vstructs[source.TypeID, edge.TypeID, targetTypeID, (int) LGSPDirection.Out];
                     if (!edge.fixedDirection) {
-                        normCost += graph.statistics.vstructs[patternGraph.GetSourcePlusInlined(edge).TypeID, edge.TypeID, targetTypeID, (int) LGSPDirection.In];
+                        normCost += graph.statistics.vstructs[source.TypeID, edge.TypeID, targetTypeID, (int) LGSPDirection.In];
                     }
 #endif
-                    if(graphStatistics.nodeCounts[patternGraph.GetSourcePlusInlined(edge).TypeID] != 0)
-                        normCost /= graphStatistics.nodeCounts[patternGraph.GetSourcePlusInlined(edge).TypeID];
+                    if(graphStatistics.nodeCounts[source.TypeID] != 0)
+                        normCost /= graphStatistics.nodeCounts[source.TypeID];
+                    normCost = CostIncreaseForInlinedIndependent(edge, normCost);
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.Outgoing : SearchOperationType.Incident;
-                    PlanEdge outPlanEdge = new PlanEdge(operation, patternGraph.GetSourcePlusInlined(edge).TempPlanMapping,
+                    PlanEdge outPlanEdge = new PlanEdge(operation, source.TempPlanMapping,
                         planNode, normCost);
                     planEdges.Add(outPlanEdge);
                     planNode.IncomingEdges.Add(outPlanEdge);
                 }
 
                 // no incoming on target node if no target
-                if(patternGraph.GetTargetPlusInlined(edge) != null)
+                if(target != null)
                 {
                     int sourceTypeID;
-                    if(patternGraph.GetSourcePlusInlined(edge) != null) sourceTypeID = patternGraph.GetSourcePlusInlined(edge).TypeID;
+                    if(source != null) sourceTypeID = source.TypeID;
                     else sourceTypeID = model.NodeModel.RootType.TypeID;
                     // cost of walking in opposite direction of edge
 #if MONO_MULTIDIMARRAY_WORKAROUND
-                    float revCost = graphStatistics.vstructs[((patternGraph.GetTargetPlusInlined(edge).TypeID * graphStatistics.dim1size + edge.TypeID) * graphStatistics.dim2size
+                    float revCost = graphStatistics.vstructs[((target.TypeID * graphStatistics.dim1size + edge.TypeID) * graphStatistics.dim2size
                         + sourceTypeID) * 2 + (int)LGSPDirection.In];
                     if(!edge.fixedDirection)
                     {
-                        revCost += graphStatistics.vstructs[((patternGraph.GetTargetPlusInlined(edge).TypeID * graphStatistics.dim1size + edge.TypeID) * graphStatistics.dim2size
+                        revCost += graphStatistics.vstructs[((target.TypeID * graphStatistics.dim1size + edge.TypeID) * graphStatistics.dim2size
                             + sourceTypeID) * 2 + (int)LGSPDirection.Out];
                     }
 #else
-                    float revCost = graph.statistics.vstructs[patternGraph.GetTargetPlusInlined(edge).TypeID, edge.TypeID, sourceTypeID, (int) LGSPDirection.In];
+                    float revCost = graph.statistics.vstructs[target.TypeID, edge.TypeID, sourceTypeID, (int) LGSPDirection.In];
                     if (!edge.fixedDirection) {
-                        revCost += graph.statistics.vstructs[patternGraph.GetTargetPlusInlined(edge).TypeID, edge.TypeID, sourceTypeID, (int) LGSPDirection.Out];
+                        revCost += graph.statistics.vstructs[target.TypeID, edge.TypeID, sourceTypeID, (int) LGSPDirection.Out];
                     }
 #endif
-                    if(graphStatistics.nodeCounts[patternGraph.GetTargetPlusInlined(edge).TypeID] != 0)
-                        revCost /= graphStatistics.nodeCounts[patternGraph.GetTargetPlusInlined(edge).TypeID];
+                    if(graphStatistics.nodeCounts[target.TypeID] != 0)
+                        revCost /= graphStatistics.nodeCounts[target.TypeID];
+                    revCost = CostIncreaseForInlinedIndependent(edge, revCost); 
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.Incoming : SearchOperationType.Incident;
-                    PlanEdge inPlanEdge = new PlanEdge(operation, patternGraph.GetTargetPlusInlined(edge).TempPlanMapping,
+                    PlanEdge inPlanEdge = new PlanEdge(operation, target.TempPlanMapping,
                         planNode, revCost);
                     planEdges.Add(inPlanEdge);
                     planNode.IncomingEdges.Add(inPlanEdge);
@@ -659,7 +752,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public static void createPickMapCastAssignPlanEdges(PatternNode node, List<PlanEdge> planEdges, float zeroCost)
+        public static void CreatePickMapCastAssignPlanEdges(PatternNode node, List<PlanEdge> planEdges, float zeroCost)
         {
             if(node.Storage != null && node.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
             {
@@ -717,7 +810,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public static void createPickMapCastAssignPlanEdges(PatternEdge edge, List<PlanEdge> planEdges, float zeroCost)
+        public static void CreatePickMapCastAssignPlanEdges(PatternEdge edge, List<PlanEdge> planEdges, float zeroCost)
         {
             if(edge.Storage != null && edge.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness() != null)
             {
@@ -773,6 +866,92 @@ namespace de.unika.ipd.grGen.lgsp
                     edge.AssignmentSource.TempPlanMapping.IncomingEdges.Add(assignPlanEdge);
                 }
             }
+        }
+
+        public static IEnumerable<PatternNode> NodesInIndependentMatchedThere(PatternGraph independent)
+        {
+            foreach(PatternNode node in independent.nodesPlusInlined)
+            {
+                if(node.PointOfDefinition == independent && !node.defToBeYieldedTo)
+                    yield return node;
+            }
+        }
+
+        public static int NumNodesInIndependentsMatchedThere(PatternGraph patternGraph)
+        {
+            int sum = 0;
+            
+            foreach(PatternGraph independent in patternGraph.independentPatternGraphsPlusInlined)
+            {
+                foreach(PatternNode node in independent.nodesPlusInlined)
+                {
+                    if(node.PointOfDefinition == independent && !node.defToBeYieldedTo)
+                        ++sum;
+                }
+            }
+            
+            return sum;
+        }
+
+        public static IEnumerable<PatternEdge> EdgesInIndependentMatchedThere(PatternGraph independent)
+        {
+            foreach(PatternEdge edge in independent.edgesPlusInlined)
+            {
+                if(edge.PointOfDefinition == independent && !edge.defToBeYieldedTo)
+                    yield return edge;
+            }
+        }
+
+        public static int NumEdgesInIndependentsMatchedThere(PatternGraph patternGraph)
+        {
+            int sum = 0;
+            
+            foreach(PatternGraph independent in patternGraph.independentPatternGraphsPlusInlined)
+            {
+                foreach(PatternEdge edge in independent.edgesPlusInlined)
+                {
+                    if(edge.PointOfDefinition == independent && !edge.defToBeYieldedTo)
+                        ++sum;
+                }
+            }
+
+            return sum;
+        }
+
+        public static PatternNode GetSourcePlusInlined(PatternEdge edge, PatternGraph patternGraph, IDictionary<PatternNode, PatternNode> originalToInlinedIndependent)
+        {
+            PatternNode source = patternGraph.GetSourcePlusInlined(edge);
+            if(edge.OriginalIndependentElement != null && source == null)
+            {
+                PatternNode sourceOriginal = edge.OriginalIndependentElement.pointOfDefinition.GetSourcePlusInlined((PatternEdge)edge.OriginalIndependentElement);
+                if(originalToInlinedIndependent.ContainsKey(sourceOriginal))
+                    source = originalToInlinedIndependent[sourceOriginal];
+                else
+                    source = sourceOriginal; // not declared in independent itself, but in some parent
+            }
+            return source;
+        }
+
+        public static PatternNode GetTargetPlusInlined(PatternEdge edge, PatternGraph patternGraph, IDictionary<PatternNode, PatternNode> originalToInlinedIndependent)
+        {
+            PatternNode target = patternGraph.GetTargetPlusInlined(edge);
+            if(edge.OriginalIndependentElement != null && target == null)
+            {
+                PatternNode targetOriginal = edge.OriginalIndependentElement.pointOfDefinition.GetTargetPlusInlined((PatternEdge)edge.OriginalIndependentElement);
+                if(originalToInlinedIndependent.ContainsKey(targetOriginal))
+                    target = originalToInlinedIndependent[targetOriginal];
+                else
+                    target = targetOriginal; // not declared in independent itself, but in some parent
+            }
+            return target;
+        }
+
+        public static float CostIncreaseForInlinedIndependent(PatternElement elem, float cost)
+        {
+            // use costs a bit higher for elements from independent patterns, so they are not chosen unless they bring a real advantage
+            if(elem.OriginalIndependentElement != null)
+                cost = (cost + 0.1F) * 1.1F;
+            return cost;
         }
 
         /// <summary>
@@ -853,6 +1032,7 @@ exitSecondLoop: ;
                 PlanPseudoNode curNode = superNode.IncomingMSAEdge.Target;
                 while (curNode.SuperNode != superNode) curNode = curNode.SuperNode;
                 curNode.IncomingMSAEdge = superNode.IncomingMSAEdge;
+                if(curNode.IncomingMSAEdge == null) throw new Exception();
             }
 
             if(DumpSearchPlan)
@@ -1321,6 +1501,11 @@ exitSecondLoop: ;
                 operations.Add(newOp);
             }
 
+            // remove the elements stemming from inlined independents
+            // they were added in the hope that they might help in matching this pattern,
+            // they don't if they are matched after the elements of this pattern (in fact they only increase the costs then)
+            RemoveInlinedIndependentElementsAtEnd(operations);
+
             // insert inlined element identity check into the schedule in case neither of the possible assignments was scheduled
             InsertInlinedElementIdentityCheckIntoSchedule(patternGraph, operations);
 
@@ -1332,6 +1517,24 @@ exitSecondLoop: ;
 
             float cost = operations.Count > 0 ? operations[0].CostToEnd : 0;
             return new ScheduledSearchPlan(patternGraph, operations.ToArray(), cost);
+        }
+
+        private void RemoveInlinedIndependentElementsAtEnd(List<SearchOperation> operations)
+        {
+            while(operations.Count > 0 &&
+                IsEndOperationAnInlinedIndependentElement(operations[operations.Count - 1]))
+            {
+                operations.RemoveAt(operations.Count-1);
+            }
+        }
+
+        private bool IsEndOperationAnInlinedIndependentElement(SearchOperation so)
+        {
+            if(so.Element is SearchPlanNode)
+                if(((SearchPlanNode)so.Element).PatternElement.OriginalIndependentElement != null)
+                    return true;
+
+            return false;
         }
 
         private void InsertInlinedElementIdentityCheckIntoSchedule(PatternGraph patternGraph, List<SearchOperation> operations)
@@ -1373,28 +1576,28 @@ exitSecondLoop: ;
         public void AppendHomomorphyInformation(ScheduledSearchPlan ssp)
         {
             // no operation -> nothing which could be homomorph
-            if (ssp.Operations.Length == 0)
+            if(ssp.Operations.Length == 0)
             {
                 return;
             }
 
             // iterate operations of the search plan to append homomorphy checks
-            for (int i = 0; i < ssp.Operations.Length; ++i)
+            for(int i = 0; i < ssp.Operations.Length; ++i)
             {
-                if (ssp.Operations[i].Type == SearchOperationType.Condition
+                if(ssp.Operations[i].Type == SearchOperationType.Condition
                     || ssp.Operations[i].Type == SearchOperationType.AssignVar
                     || ssp.Operations[i].Type == SearchOperationType.DefToBeYieldedTo)
                 {
                     continue;
                 }
 
-                if (ssp.Operations[i].Type == SearchOperationType.NegativePattern)
+                if(ssp.Operations[i].Type == SearchOperationType.NegativePattern)
                 {
                     AppendHomomorphyInformation((ScheduledSearchPlan)ssp.Operations[i].Element);
                     continue;
                 }
 
-                if (ssp.Operations[i].Type == SearchOperationType.IndependentPattern)
+                if(ssp.Operations[i].Type == SearchOperationType.IndependentPattern)
                 {
                     AppendHomomorphyInformation((ScheduledSearchPlan)ssp.Operations[i].Element);
                     continue;
@@ -1419,23 +1622,29 @@ exitSecondLoop: ;
 
             SearchPlanNode spn_j = (SearchPlanNode)ssp.Operations[j].Element;
 
-            bool homToAll = true;
-            if (spn_j.NodeType == PlanNodeType.Node)
+            if(spn_j.ElementID == -1)
             {
-                for (int i = 0; i < ssp.PatternGraph.nodesPlusInlined.Length; ++i)
+                // inlined from independent for better matching, independent from the rest
+                return;
+            }
+
+            bool homToAll = true;
+            if(spn_j.NodeType == PlanNodeType.Node)
+            {
+                for(int i = 0; i < ssp.PatternGraph.nodesPlusInlined.Length; ++i)
                 {
-                    if (!ssp.PatternGraph.homomorphicNodes[spn_j.ElementID - 1, i])
+                    if(!ssp.PatternGraph.homomorphicNodes[spn_j.ElementID - 1, i])
                     {
                         homToAll = false;
                         break;
                     }
                 }
             }
-            else // (spn_j.NodeType == PlanNodeType.Edge)
+            else //(spn_j.NodeType == PlanNodeType.Edge)
             {
-                for (int i = 0; i < ssp.PatternGraph.edgesPlusInlined.Length; ++i)
+                for(int i = 0; i < ssp.PatternGraph.edgesPlusInlined.Length; ++i)
                 {
-                    if (!ssp.PatternGraph.homomorphicEdges[spn_j.ElementID - 1, i])
+                    if(!ssp.PatternGraph.homomorphicEdges[spn_j.ElementID - 1, i])
                     {
                         homToAll = false;
                         break;
@@ -1443,7 +1652,7 @@ exitSecondLoop: ;
                 }
             }
 
-            if (homToAll)
+            if(homToAll)
             {
                 // operation is allowed to be homomorph with everything
                 // no checks for isomorphy or restricted homomorphy needed at all
@@ -1458,7 +1667,7 @@ exitSecondLoop: ;
             GrGenType[] types;
             bool[,] hom;
 
-            if (spn_j.NodeType == PlanNodeType.Node) {
+            if(spn_j.NodeType == PlanNodeType.Node) {
                 types = model.NodeModel.Types;
                 hom = ssp.PatternGraph.homomorphicNodes;
             }
@@ -1471,10 +1680,10 @@ exitSecondLoop: ;
 
             // iterate through the operations before our position
             bool homomorphyPossibleAndAllowed = false;
-            for (int i = 0; i < j; ++i)
+            for(int i = 0; i < j; ++i)
             {
                 // only check operations computing nodes or edges
-                if (ssp.Operations[i].Type == SearchOperationType.Condition
+                if(ssp.Operations[i].Type == SearchOperationType.Condition
                     || ssp.Operations[i].Type == SearchOperationType.NegativePattern
                     || ssp.Operations[i].Type == SearchOperationType.IndependentPattern
                     || ssp.Operations[i].Type == SearchOperationType.Assign
@@ -1487,18 +1696,24 @@ exitSecondLoop: ;
                 SearchPlanNode spn_i = (SearchPlanNode)ssp.Operations[i].Element;
 
                 // don't compare nodes with edges
-                if (spn_i.NodeType != spn_j.NodeType)
+                if(spn_i.NodeType != spn_j.NodeType)
                 {
                     continue;
+                }
+
+                if(spn_i.ElementID == -1)
+                {
+                    // inlined from independent for better matching, independent from the rest
+                    return;
                 }
                 
                 // find out whether element types are disjoint
                 GrGenType type_i = types[spn_i.PatternElement.TypeID];
                 GrGenType type_j = types[spn_j.PatternElement.TypeID];
                 bool disjoint = true;
-                foreach (GrGenType subtype_i in type_i.SubOrSameTypes)
+                foreach(GrGenType subtype_i in type_i.SubOrSameTypes)
                 {
-                    if (type_j.IsA(subtype_i) || subtype_i.IsA(type_j)) // IsA==IsSuperTypeOrSameType
+                    if(type_j.IsA(subtype_i) || subtype_i.IsA(type_j)) // IsA==IsSuperTypeOrSameType
                     {
                         disjoint = false;
                         break;
@@ -1506,7 +1721,7 @@ exitSecondLoop: ;
                 }
 
                 // don't check elements if their types are disjoint
-                if (disjoint)
+                if(disjoint)
                 {
                     continue;
                 }
@@ -1515,7 +1730,7 @@ exitSecondLoop: ;
                 // might get matched to the same host graph element, i.e. homomorphy is possible
                 
                 // if that's ok we don't need to insert checks to prevent this from happening
-                if (hom[spn_i.ElementID - 1, spn_j.ElementID - 1])
+                if(hom[spn_i.ElementID - 1, spn_j.ElementID - 1])
                 {
                     homomorphyPossibleAndAllowed = true;
                     continue;
@@ -1524,7 +1739,7 @@ exitSecondLoop: ;
                 // otherwise the generated matcher code has to check 
                 // that pattern element j doesn't get bound to the same graph element
                 // the pattern element i is already bound to 
-                if (ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst == null) {
+                if(ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst == null) {
                     ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst = new List<SearchPlanNode>();
                 }
                 ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst.Add(spn_i);
@@ -1537,7 +1752,7 @@ exitSecondLoop: ;
             // only if elements, the operation must be isomorph to, were matched before
             // (otherwise there were only elements, the operation is allowed to be homomorph to,
             //  matched before, so no check needed here)
-            if (ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst != null
+            if(ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst != null
                 && ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst.Count > 0)
             {
                 // order operation to check whether the is-matched-bit is set
@@ -1548,7 +1763,7 @@ exitSecondLoop: ;
             // pure isomorphy is to be guaranteed - simply check the is-matched-bit and be done
             // the pattern elements to check against are only needed 
             // if spn_j is allowed to be homomorph to some elements but must be isomorph to some others
-            if (ssp.Operations[j].Isomorphy.CheckIsMatchedBit && !homomorphyPossibleAndAllowed)
+            if(ssp.Operations[j].Isomorphy.CheckIsMatchedBit && !homomorphyPossibleAndAllowed)
             {
                 ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst = null;
             }
@@ -1561,20 +1776,27 @@ exitSecondLoop: ;
         {
             SearchPlanNode spn_j = (SearchPlanNode)ssp.Operations[j].Element;
 
-            if (spn_j.NodeType == PlanNodeType.Node) {
-                if(ssp.PatternGraph.totallyHomomorphicNodes[spn_j.ElementID - 1]) {
+            if(spn_j.NodeType == PlanNodeType.Node)
+            {
+                if(spn_j.ElementID == -1 // inlined from independent for better matching, independent from the rest
+                    || ssp.PatternGraph.totallyHomomorphicNodes[spn_j.ElementID - 1])
+                {
                     ssp.Operations[j].Isomorphy.TotallyHomomorph = true;
                     return; // iso-exceptions to totally hom are handled with non-global iso checks
                 }
-            } else {
-                if(ssp.PatternGraph.totallyHomomorphicEdges[spn_j.ElementID - 1]) {
+            }
+            else
+            {
+                if(spn_j.ElementID == -1 // inlined from independent for better matching, independent from the rest
+                    || ssp.PatternGraph.totallyHomomorphicEdges[spn_j.ElementID - 1])
+                {
                     ssp.Operations[j].Isomorphy.TotallyHomomorph = true;
                     return; // iso-exceptions to totally hom are handled with non-global iso checks
                 }
             }
 
             bool[,] homGlobal;
-            if (spn_j.NodeType == PlanNodeType.Node) {
+            if(spn_j.NodeType == PlanNodeType.Node) {
                 homGlobal = ssp.PatternGraph.homomorphicNodesGlobal;
             }
             else { // (spn_j.NodeType == PlanNodeType.Edge)
@@ -1582,10 +1804,10 @@ exitSecondLoop: ;
             }
 
             // iterate through the operations before our position
-            for (int i = 0; i < j; ++i)
+            for(int i = 0; i < j; ++i)
             {
                 // only check operations computing nodes or edges
-                if (ssp.Operations[i].Type == SearchOperationType.Condition
+                if(ssp.Operations[i].Type == SearchOperationType.Condition
                     || ssp.Operations[i].Type == SearchOperationType.NegativePattern
                     || ssp.Operations[i].Type == SearchOperationType.IndependentPattern
                     || ssp.Operations[i].Type == SearchOperationType.Assign 
@@ -1598,17 +1820,23 @@ exitSecondLoop: ;
                 SearchPlanNode spn_i = (SearchPlanNode)ssp.Operations[i].Element;
 
                 // don't compare nodes with edges
-                if (spn_i.NodeType != spn_j.NodeType)
+                if(spn_i.NodeType != spn_j.NodeType)
                 {
                     continue;
+                }
+
+                if(spn_i.ElementID == -1)
+                {
+                    // inlined from independent for better matching, independent from the rest
+                    return;
                 }
            
                 // in global isomorphy check at current position 
                 // allow globally homomorphic elements as exception
                 // if they were already defined(preset)
-                if (homGlobal[spn_j.ElementID - 1, spn_i.ElementID - 1])
+                if(homGlobal[spn_j.ElementID - 1, spn_i.ElementID - 1])
                 {
-                    if (ssp.Operations[j].Isomorphy.GloballyHomomorphPatternElements == null)
+                    if(ssp.Operations[j].Isomorphy.GloballyHomomorphPatternElements == null)
                     {
                         ssp.Operations[j].Isomorphy.GloballyHomomorphPatternElements = new List<SearchPlanNode>();
                     }
@@ -1623,25 +1851,25 @@ exitSecondLoop: ;
         /// </summary>
         public void MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(PatternGraph patternGraph)
         {
-            foreach (PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
+            foreach(PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
             {
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(neg);
             }
 
-            foreach (PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
+            foreach(PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
             {
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(idpt);
             }
 
-            foreach (Alternative alt in patternGraph.alternativesPlusInlined)
+            foreach(Alternative alt in patternGraph.alternativesPlusInlined)
             {
-                foreach (PatternGraph altCase in alt.alternativeCases)
+                foreach(PatternGraph altCase in alt.alternativeCases)
                 {
                     MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(altCase);
                 }
             }
 
-            foreach (Iterated iter in patternGraph.iteratedsPlusInlined)
+            foreach(Iterated iter in patternGraph.iteratedsPlusInlined)
             {
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(iter.iteratedPattern);
             }
@@ -1676,7 +1904,7 @@ exitSecondLoop: ;
             // nested patterns on the way to an enclosed patternpath modifier 
             // must get matched after all local nodes and edges, because they require 
             // all outer elements to be known in order to lock them for patternpath processing
-            if (patternGraph.patternGraphsOnPathToEnclosedPatternpath
+            if(patternGraph.patternGraphsOnPathToEnclosedPatternpath
                 .Contains(patternGraph.pathPrefix + patternGraph.name))
             {
                 operations.Add(new SearchOperation(SearchOperationType.LockLocalElementsForPatternpath, null, null,
@@ -1684,7 +1912,7 @@ exitSecondLoop: ;
             }
 
             // iterate over all negative scheduled search plans (TODO: order?)
-            for (int i = 0; i < patternGraph.negativePatternGraphsPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.negativePatternGraphsPlusInlined.Length; ++i)
             {
                 ScheduledSearchPlan negSchedule = patternGraph.negativePatternGraphsPlusInlined[i].schedulesIncludingNegativesAndIndependents[0];
                 int bestFitIndex = operations.Count;
@@ -1692,10 +1920,10 @@ exitSecondLoop: ;
 
                 // find best place in scheduled search plan for current negative pattern 
                 // during search from end of schedule forward until the first element the negative pattern is dependent on is found
-                for (int j = operations.Count - 1; j >= 0; --j)
+                for(int j = operations.Count - 1; j >= 0; --j)
                 {
                     SearchOperation op = operations[j];
-                    if (op.Type == SearchOperationType.Condition
+                    if(op.Type == SearchOperationType.Condition
                         || op.Type == SearchOperationType.NegativePattern
                         || op.Type == SearchOperationType.IndependentPattern
                         || op.Type == SearchOperationType.AssignVar)
@@ -1703,24 +1931,24 @@ exitSecondLoop: ;
                         continue;
                     }
 
-                    if (LazyNegativeIndependentConditionEvaluation)
+                    if(LazyNegativeIndependentConditionEvaluation)
                     {
                         break;
                     }
 
-                    if (op.Type == SearchOperationType.LockLocalElementsForPatternpath
+                    if(op.Type == SearchOperationType.LockLocalElementsForPatternpath
                         || op.Type == SearchOperationType.DefToBeYieldedTo)
                     {
                         break; // LockLocalElementsForPatternpath and DefToBeYieldedTo are barriers for neg/idpt
                     }
 
-                    if (patternGraph.negativePatternGraphsPlusInlined[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
+                    if(patternGraph.negativePatternGraphsPlusInlined[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
                         || patternGraph.negativePatternGraphsPlusInlined[i].neededEdges.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
                     {
                         break;
                     }
 
-                    if (negSchedule.Cost <= op.CostToEnd)
+                    if(negSchedule.Cost <= op.CostToEnd)
                     {
                         // best fit as CostToEnd is monotonously growing towards operation[0]
                         bestFitIndex = j;
@@ -1733,23 +1961,25 @@ exitSecondLoop: ;
                     negSchedule, null, bestFitCostToEnd + negSchedule.Cost));
 
                 // update costs of operations before best position
-                for (int j = 0; j < bestFitIndex; ++j)
+                for(int j = 0; j < bestFitIndex; ++j)
                     operations[j].CostToEnd += negSchedule.Cost;
             }
 
             // iterate over all independent scheduled search plans (TODO: order?)
-            for (int i = 0; i < patternGraph.independentPatternGraphsPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.independentPatternGraphsPlusInlined.Length; ++i)
             {
                 ScheduledSearchPlan idptSchedule = patternGraph.independentPatternGraphsPlusInlined[i].schedulesIncludingNegativesAndIndependents[0];
                 int bestFitIndex = operations.Count;
                 float bestFitCostToEnd = 0;
 
+                IDictionary<PatternElement, SetValueType> presetsFromIndependentInlining = ExtractOwnElements(patternGraph.schedules[index], patternGraph.independentPatternGraphsPlusInlined[i]);
+
                 // find best place in scheduled search plan for current independent pattern 
                 // during search from end of schedule forward until the first element the independent pattern is dependent on is found
-                for (int j = operations.Count - 1; j >= 0; --j)
+                for(int j = operations.Count - 1; j >= 0; --j)
                 {
                     SearchOperation op = operations[j];
-                    if (op.Type == SearchOperationType.Condition
+                    if(op.Type == SearchOperationType.Condition
                         || op.Type == SearchOperationType.NegativePattern
                         || op.Type == SearchOperationType.IndependentPattern
                         || op.Type == SearchOperationType.AssignVar)
@@ -1757,24 +1987,31 @@ exitSecondLoop: ;
                         continue;
                     }
 
-                    if (LazyNegativeIndependentConditionEvaluation)
+                    if(LazyNegativeIndependentConditionEvaluation)
                     {
                         break;
                     }
 
-                    if (op.Type == SearchOperationType.LockLocalElementsForPatternpath
+                    if(op.Type == SearchOperationType.LockLocalElementsForPatternpath
                         || op.Type == SearchOperationType.DefToBeYieldedTo)
                     {
                         break; // LockLocalElementsForPatternpath and DefToBeYieldedTo are barriers for neg/idpt
                     }
 
-                    if (patternGraph.independentPatternGraphsPlusInlined[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
-                        || patternGraph.independentPatternGraphsPlusInlined[i].neededEdges.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
+                    PatternElement pe = ((SearchPlanNode)op.Element).PatternElement;
+                    if(patternGraph.independentPatternGraphsPlusInlined[i].neededNodes.ContainsKey(pe.Name)
+                        || patternGraph.independentPatternGraphsPlusInlined[i].neededEdges.ContainsKey(pe.Name))
                     {
                         break;
                     }
 
-                    if (idptSchedule.Cost <= op.CostToEnd)
+                    if(pe.OriginalIndependentElement != null 
+                        && presetsFromIndependentInlining.ContainsKey(pe.OriginalIndependentElement))
+                    {
+                        break;
+                    }
+
+                    if(idptSchedule.Cost <= op.CostToEnd)
                     {
                         // best fit as CostToEnd is monotonously growing towards operation[0]
                         bestFitIndex = j;
@@ -1787,7 +2024,7 @@ exitSecondLoop: ;
                     idptSchedule, null, bestFitCostToEnd + idptSchedule.Cost));
 
                 // update costs of operations before best position
-                for (int j = 0; j < bestFitIndex; ++j)
+                for(int j = 0; j < bestFitIndex; ++j)
                     operations[j].CostToEnd += idptSchedule.Cost;
             }
 
@@ -1806,29 +2043,29 @@ exitSecondLoop: ;
         {
             // get needed (in order to evaluate it) elements of each condition 
             Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[conditions.Length];
-            for (int i = 0; i < conditions.Length; ++i)
+            for(int i = 0; i < conditions.Length; ++i)
             {
                 neededElements[i] = new Dictionary<string, bool>();
-                foreach (String neededNode in conditions[i].NeededNodes)
+                foreach(String neededNode in conditions[i].NeededNodes)
                     neededElements[i][neededNode] = true;
-                foreach (String neededEdge in conditions[i].NeededEdges)
+                foreach(String neededEdge in conditions[i].NeededEdges)
                     neededElements[i][neededEdge] = true;
                 foreach(String neededVariable in conditions[i].NeededVariables)
                     neededElements[i][neededVariable] = true;
             }
 
             // iterate over all conditions
-            for (int i = 0; i < conditions.Length; ++i)
+            for(int i = 0; i < conditions.Length; ++i)
             {
                 int j;
                 float costToEnd = 0;
 
                 // find leftmost place in scheduled search plan for current condition
                 // by search from end of schedule forward until the first element the condition is dependent on is found
-                for (j = operations.Count - 1; j >= 0; --j)
+                for(j = operations.Count - 1; j >= 0; --j)
                 {
                     SearchOperation op = operations[j];
-                    if (op.Type == SearchOperationType.Condition
+                    if(op.Type == SearchOperationType.Condition
                         || op.Type == SearchOperationType.NegativePattern
                         || op.Type == SearchOperationType.IndependentPattern
                         || op.Type == SearchOperationType.DefToBeYieldedTo)
@@ -1836,12 +2073,12 @@ exitSecondLoop: ;
                         continue;
                     }
 
-                    if (LazyNegativeIndependentConditionEvaluation)
+                    if(LazyNegativeIndependentConditionEvaluation)
                     {
                         break;
                     }
 
-                    if (op.Type == SearchOperationType.AssignVar)
+                    if(op.Type == SearchOperationType.AssignVar)
                     {
                         if(neededElements[i].ContainsKey(((PatternVariable)op.Element).Name))
                         {
@@ -1851,7 +2088,7 @@ exitSecondLoop: ;
                         continue;
                     }
 
-                    if (neededElements[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
+                    if(neededElements[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
                     {
                         costToEnd = op.CostToEnd;
                         break;
@@ -3734,13 +3971,15 @@ exitSecondLoop: ;
         /// The scheduled search plans are added to the main and the nested pattern graphs.
         /// </summary>
         public void GenerateScheduledSearchPlans(PatternGraph patternGraph, LGSPGraph graph,
-            bool isSubpatternLike, bool isNegativeOrIndependent)
+            bool isSubpatternLike, bool isNegativeOrIndependent, 
+            ScheduledSearchPlan nestingScheduledSearchPlan)
         {
             for(int i=0; i<patternGraph.schedules.Length; ++i)
             {
                 patternGraph.AdaptToMaybeNull(i);
                 PlanGraph planGraph = GeneratePlanGraph(graph.statistics, patternGraph,
-                    isNegativeOrIndependent, isSubpatternLike);
+                    isNegativeOrIndependent, isSubpatternLike,
+                    ExtractOwnElements(nestingScheduledSearchPlan, patternGraph));
                 MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
                 SearchPlanGraph searchPlanGraph = GenerateSearchPlanGraph(planGraph);
                 ScheduledSearchPlan scheduledSearchPlan = ScheduleSearchPlan(
@@ -3749,29 +3988,61 @@ exitSecondLoop: ;
                 patternGraph.schedules[i] = scheduledSearchPlan;
                 patternGraph.RevertMaybeNullAdaption(i);
 
-                foreach (PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
+                foreach(PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
                 {
-                    GenerateScheduledSearchPlans(neg, graph, isSubpatternLike, true);
+                    GenerateScheduledSearchPlans(neg, graph,
+                        isSubpatternLike, true, null);
                 }
 
-                foreach (PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
+                foreach(PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
                 {
-                    GenerateScheduledSearchPlans(idpt, graph, isSubpatternLike, true);
+                    GenerateScheduledSearchPlans(idpt, graph,
+                        isSubpatternLike, true, patternGraph.schedules[i]);
                 }
 
-                foreach (Alternative alt in patternGraph.alternativesPlusInlined)
+                foreach(Alternative alt in patternGraph.alternativesPlusInlined)
                 {
                     foreach (PatternGraph altCase in alt.alternativeCases)
                     {
-                        GenerateScheduledSearchPlans(altCase, graph, isSubpatternLike, false);
+                        GenerateScheduledSearchPlans(altCase, graph,
+                            isSubpatternLike, false, null);
                     }
                 }
 
-                foreach (Iterated iter in patternGraph.iteratedsPlusInlined)
+                foreach(Iterated iter in patternGraph.iteratedsPlusInlined)
                 {
-                    GenerateScheduledSearchPlans(iter.iteratedPattern, graph, isSubpatternLike, false);
+                    GenerateScheduledSearchPlans(iter.iteratedPattern, graph,
+                        isSubpatternLike, false, null);
                 }
             }
+        }
+
+        public static IDictionary<PatternElement, SetValueType> ExtractOwnElements(ScheduledSearchPlan nestingScheduledSearchPlan, PatternGraph patternGraph)
+        {
+            Dictionary<PatternElement, SetValueType> ownElements = new Dictionary<PatternElement,SetValueType>();
+
+            // elements contained in the schedule of the nesting pattern, that are declared in the current pattern graph
+            // stem from inlining an indepent, extract them to treat them specially in search plan building (preset from nesting pattern)
+            if(nestingScheduledSearchPlan != null)
+            {
+                for(int i = 0; i < nestingScheduledSearchPlan.Operations.Length; ++i)
+                {
+                    if(nestingScheduledSearchPlan.Operations[i].Type == SearchOperationType.Condition
+                        || nestingScheduledSearchPlan.Operations[i].Type == SearchOperationType.AssignVar
+                        || nestingScheduledSearchPlan.Operations[i].Type == SearchOperationType.DefToBeYieldedTo)
+                    {
+                        continue;
+                    }
+
+                    SearchPlanNode spn = (SearchPlanNode)nestingScheduledSearchPlan.Operations[i].Element;
+                    if(spn.PatternElement.pointOfDefinition == patternGraph)
+                    {
+                        ownElements.Add(spn.PatternElement.OriginalIndependentElement, null);
+                    }
+                }
+            }
+
+            return ownElements;
         }
 
         /// <summary>
@@ -3852,9 +4123,9 @@ exitSecondLoop: ;
             // use domain of dictionary as set with rulepatterns of the subpatterns of the actions, get them from pattern graph
             Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPatterns 
                 = new Dictionary<LGSPMatchingPattern, LGSPMatchingPattern>();
-            foreach (LGSPAction action in actions)
+            foreach(LGSPAction action in actions)
             {
-                foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern 
+                foreach(KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern 
                     in action.rulePattern.patternGraph.usedSubpatterns)
                 {
                     subpatternMatchingPatterns[usedSubpattern.Key] = usedSubpattern.Value;
@@ -3862,11 +4133,12 @@ exitSecondLoop: ;
             }
 
             // build search plans for the subpatterns
-            foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPattern in subpatternMatchingPatterns)
+            foreach(KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPattern in subpatternMatchingPatterns)
             {
                 LGSPMatchingPattern smp = subpatternMatchingPattern.Key;
 
-                LGSPGrGen.GenerateScheduledSearchPlans(smp.patternGraph, graphStatistics, this, true, false);
+                LGSPGrGen.GenerateScheduledSearchPlans(smp.patternGraph, graphStatistics, 
+                    this, true, false, null);
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph);
             }
@@ -3874,7 +4146,8 @@ exitSecondLoop: ;
             // build search plans code for actions
             foreach(LGSPAction action in actions)
             {
-                LGSPGrGen.GenerateScheduledSearchPlans(action.rulePattern.patternGraph, graphStatistics, this, false, false);
+                LGSPGrGen.GenerateScheduledSearchPlans(action.rulePattern.patternGraph, graphStatistics, 
+                    this, false, false, null);
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph);
             }
@@ -3909,7 +4182,8 @@ exitSecondLoop: ;
             {
                 LGSPMatchingPattern smp = subpatternMatchingPattern.Key;
 
-                GenerateScheduledSearchPlans(smp.patternGraph, graph, true, false);
+                GenerateScheduledSearchPlans(smp.patternGraph, graph, 
+                    true, false, null);
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph);
 
@@ -3921,7 +4195,8 @@ exitSecondLoop: ;
             // generate code for actions
             foreach(LGSPAction action in actions)
             {
-                GenerateScheduledSearchPlans(action.rulePattern.patternGraph, graph, false, false);
+                GenerateScheduledSearchPlans(action.rulePattern.patternGraph, graph,
+                    false, false, null);
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph);
 

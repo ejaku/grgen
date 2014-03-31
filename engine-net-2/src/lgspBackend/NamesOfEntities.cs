@@ -261,6 +261,32 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns the name of the variable that contains the hash of the current local match,
+        /// better: the hash of the locally matched fields of the pattern modulo the inlined independent elements
+        /// </summary>
+        public static string DuplicateMatchHashVariable()
+        {
+            return "duplicateMatchHash";
+        }
+
+        /// <summary>
+        /// Returns the name of the variable that contains the currently focused match with equal hash from the found local matches
+        /// </summary>
+        public static string DuplicateMatchCandidateVariable()
+        {
+            return "duplicateMatchCandidate";
+        }
+
+        /// <summary>
+        /// Returns the name of the variable that contains the found local matches,
+        /// accessible by the hash code of the locally matched fields of the pattern modulo the inlined independent elements
+        /// </summary>
+        public static string FoundMatchesForFilteringVariable()
+        {
+            return "foundLocalMatchesModuloElementsFromInlinedIndependents";
+        }
+
+        /// <summary>
         /// Returns a string representation of the given entity type
         /// </summary>
         public static string ToString(EntityType type)

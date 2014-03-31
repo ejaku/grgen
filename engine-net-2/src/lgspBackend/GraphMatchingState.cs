@@ -417,7 +417,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(graph.Model);
             graph.matchingState.patternGraph = matcherGen.BuildPatternGraph(graph);
-            PlanGraph planGraph = matcherGen.GeneratePlanGraph(graph.statistics, graph.matchingState.patternGraph, false, false);
+            PlanGraph planGraph = matcherGen.GeneratePlanGraph(graph.statistics, graph.matchingState.patternGraph, 
+                false, false, new Dictionary<PatternElement, SetValueType>());
             matcherGen.MarkMinimumSpanningArborescence(planGraph, graph.matchingState.patternGraph.name);
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
             ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(

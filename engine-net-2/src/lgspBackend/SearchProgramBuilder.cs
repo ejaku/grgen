@@ -101,7 +101,7 @@ namespace de.unika.ipd.grGen.lgsp
                         rulePatternClassName,
                         patternGraph.name, name + "_parallelized_body",
                         rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
-                        containsSubpatterns, emitProfiling);
+                        containsSubpatterns, wasIndependentInlined(patternGraph), emitProfiling);
                 }
                 else // index == 0
                 {
@@ -117,7 +117,7 @@ namespace de.unika.ipd.grGen.lgsp
                     rulePatternClassName,
                     patternGraph.name, parameterTypes, parameterNames, name,
                     rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
-                    containsSubpatterns, emitProfiling,
+                    containsSubpatterns, wasIndependentInlined(patternGraph), emitProfiling,
                     patternGraph.maybeNullElementNames, suffixedMatcherNameList, paramNamesList);
             } 
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
@@ -199,9 +199,10 @@ namespace de.unika.ipd.grGen.lgsp
             // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfSubpattern(
                 rulePatternClassName,
+                patternGraph.Name,
                 matchingPattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
                 "myMatch",
-                parallelized);
+                wasIndependentInlined(patternGraph), parallelized);
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
@@ -294,7 +295,8 @@ namespace de.unika.ipd.grGen.lgsp
                 GetPartialMatchOfAlternative matchAlternative = new GetPartialMatchOfAlternative(
                     pathPrefixInInlinedPatternClass, 
                     unprefixedNameInInlinedPatternClass,
-                    inlinedPatternClassName);
+                    inlinedPatternClassName,
+                    wasIndependentInlined(altCase));
                 matchAlternative.OperationsList = new SearchProgramList(matchAlternative);
                 SearchProgramOperation continuationPointAfterAltCase = insertionPoint.Append(matchAlternative);
                 
@@ -362,9 +364,12 @@ namespace de.unika.ipd.grGen.lgsp
             // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfIterated(
                 rulePatternClassName,
+                matchingPattern.patternGraph.Name,
+                iter.Name,
+                iter.pathPrefix,
                 matchingPattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
                 "myMatch",
-                parallelized);
+                wasIndependentInlined(iter), parallelized);
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
@@ -996,6 +1001,19 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode = target.NodeType == PlanNodeType.Node;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             Debug.Assert(negativeIndependentNamePrefix != "", "Negative/Independent preset in top-level search plan");
+
+            // an inlined independet preset is differently named, must be assigned first
+            if(target.PatternElement.PresetBecauseOfIndependentInlining)
+            {
+                // get candidate from other element (the cast is simply the following type check)
+                GetCandidateByDrawing inlinedIndependentPreset =
+                    new GetCandidateByDrawing(
+                        GetCandidateByDrawingType.FromOtherElementForAssign,
+                        target.PatternElement.Name,
+                        target.PatternElement.Name + "_inlined_" + patternGraphWithNestingPatterns.Peek().Name,
+                        isNode);
+                insertionPoint = insertionPoint.Append(inlinedIndependentPreset);
+            }
 
             // check candidate for isomorphy 
             if (isomorphy.CheckIsMatchedBit)
@@ -3363,6 +3381,17 @@ namespace de.unika.ipd.grGen.lgsp
                 out continuationPointAfterTypeIteration);
             insertionPoint = insertionPointAfterTypeIteration;
 
+            List<String> namesOfPatternElements;
+            List<String> matchObjectPaths;
+            List<String> unprefixedNamesOfPatternElements;
+            List<bool> patternElementIsNode;
+            GetMatchElementsForDuplicateCheck(patternGraph,
+                out namesOfPatternElements,
+                out matchObjectPaths,
+                out unprefixedNamesOfPatternElements,
+                out patternElementIsNode,
+                true);
+
             // iterate available graph elements
             GetCandidateByIterationParallelSetup elementsIteration =
                 new GetCandidateByIterationParallelSetup(
@@ -3373,6 +3402,11 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.name,
                     parameterNames,
                     insertionPointAfterTypeIteration != continuationPointAfterTypeIteration,
+                    wasIndependentInlined(patternGraph),
+                    namesOfPatternElements.ToArray(),
+                    matchObjectPaths.ToArray(),
+                    unprefixedNamesOfPatternElements.ToArray(),
+                    patternElementIsNode.ToArray(),
                     emitProfiling,
                     actionName,
                     !firstLoopPassed);
@@ -3517,6 +3551,18 @@ namespace de.unika.ipd.grGen.lgsp
                 + TypesHelper.GetStorageValueTypeName(storage.Variable.type) + ">";
             else
                 iterationType = TypesHelper.GetStorageKeyTypeName(storage.Variable.type);
+
+            List<String> namesOfPatternElements;
+            List<String> matchObjectPaths;
+            List<String> unprefixedNamesOfPatternElements;
+            List<bool> patternElementIsNode;
+            GetMatchElementsForDuplicateCheck(patternGraph,
+                out namesOfPatternElements,
+                out matchObjectPaths,
+                out unprefixedNamesOfPatternElements,
+                out patternElementIsNode,
+                true);
+
             GetCandidateByIterationParallelSetup elementsIteration =
                 new GetCandidateByIterationParallelSetup(
                     GetCandidateByIterationType.StorageElements,
@@ -3528,6 +3574,11 @@ namespace de.unika.ipd.grGen.lgsp
                     rulePatternClassName,
                     patternGraph.Name,
                     parameterNames,
+                    wasIndependentInlined(patternGraph),
+                    namesOfPatternElements.ToArray(),
+                    matchObjectPaths.ToArray(),
+                    unprefixedNamesOfPatternElements.ToArray(),
+                    patternElementIsNode.ToArray(),
                     emitProfiling,
                     actionName,
                     !firstLoopPassed);
@@ -3689,6 +3740,17 @@ namespace de.unika.ipd.grGen.lgsp
             else
                 iterationType = TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model);
 
+            List<String> namesOfPatternElements;
+            List<String> matchObjectPaths;
+            List<String> unprefixedNamesOfPatternElements;
+            List<bool> patternElementIsNode;
+            GetMatchElementsForDuplicateCheck(patternGraph,
+                out namesOfPatternElements,
+                out matchObjectPaths,
+                out unprefixedNamesOfPatternElements,
+                out patternElementIsNode,
+                true);
+
             GetCandidateByIterationParallelSetup elementsIteration =
                 new GetCandidateByIterationParallelSetup(
                     GetCandidateByIterationType.StorageAttributeElements,
@@ -3702,6 +3764,11 @@ namespace de.unika.ipd.grGen.lgsp
                     rulePatternClassName,
                     patternGraph.name,
                     parameterNames,
+                    wasIndependentInlined(patternGraph),
+                    namesOfPatternElements.ToArray(),
+                    matchObjectPaths.ToArray(),
+                    unprefixedNamesOfPatternElements.ToArray(),
+                    patternElementIsNode.ToArray(),
                     emitProfiling,
                     actionName,
                     !firstLoopPassed);
@@ -3860,6 +3927,17 @@ namespace de.unika.ipd.grGen.lgsp
                 ((IncidenceIndexDescription)index.Index).StartNodeType);
             string indexSetType = NamesOfEntities.IndexSetType(model.ModelName);
 
+            List<String> namesOfPatternElements;
+            List<String> matchObjectPaths;
+            List<String> unprefixedNamesOfPatternElements;
+            List<bool> patternElementIsNode;
+            GetMatchElementsForDuplicateCheck(patternGraph,
+                out namesOfPatternElements,
+                out matchObjectPaths,
+                out unprefixedNamesOfPatternElements,
+                out patternElementIsNode,
+                true);
+
             // iterate available index elements
             GetCandidateByIterationParallelSetup elementsIteration;
             if(index is IndexAccessEquality)
@@ -3880,6 +3958,11 @@ namespace de.unika.ipd.grGen.lgsp
                         rulePatternClassName,
                         patternGraph.name,
                         parameterNames,
+                        wasIndependentInlined(patternGraph),
+                        namesOfPatternElements.ToArray(),
+                        matchObjectPaths.ToArray(),
+                        unprefixedNamesOfPatternElements.ToArray(),
+                        patternElementIsNode.ToArray(),
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);
@@ -3909,6 +3992,11 @@ namespace de.unika.ipd.grGen.lgsp
                         rulePatternClassName,
                         patternGraph.name,
                         parameterNames,
+                        wasIndependentInlined(patternGraph),
+                        namesOfPatternElements.ToArray(),
+                        matchObjectPaths.ToArray(),
+                        unprefixedNamesOfPatternElements.ToArray(),
+                        patternElementIsNode.ToArray(),
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);
@@ -3938,6 +4026,11 @@ namespace de.unika.ipd.grGen.lgsp
                         rulePatternClassName,
                         patternGraph.name,
                         parameterNames,
+                        wasIndependentInlined(patternGraph),
+                        namesOfPatternElements.ToArray(),
+                        matchObjectPaths.ToArray(),
+                        unprefixedNamesOfPatternElements.ToArray(),
+                        patternElementIsNode.ToArray(),
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);
@@ -4141,6 +4234,18 @@ namespace de.unika.ipd.grGen.lgsp
             IncidentEdgeType incidentType = edgeType;
             GetCandidateByIterationParallelSetup incidentIteration;
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
+
+            List<String> namesOfPatternElements;
+            List<String> matchObjectPaths;
+            List<String> unprefixedNamesOfPatternElements;
+            List<bool> patternElementIsNode;
+            GetMatchElementsForDuplicateCheck(patternGraph,
+                out namesOfPatternElements,
+                out matchObjectPaths,
+                out unprefixedNamesOfPatternElements,
+                out patternElementIsNode,
+                true);
+
             if(incidentType == IncidentEdgeType.Incoming || incidentType == IncidentEdgeType.Outgoing)
             {
                 incidentIteration = new GetCandidateByIterationParallelSetup(
@@ -4152,6 +4257,11 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.name,
                     parameterNames,
                     false,
+                    wasIndependentInlined(patternGraph),
+                    namesOfPatternElements.ToArray(),
+                    matchObjectPaths.ToArray(),
+                    unprefixedNamesOfPatternElements.ToArray(),
+                    patternElementIsNode.ToArray(),
                     emitProfiling,
                     actionName,
                     !firstLoopPassed);
@@ -4171,6 +4281,11 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.name,
                         parameterNames,
                         false,
+                        wasIndependentInlined(patternGraph),
+                        namesOfPatternElements.ToArray(),
+                        matchObjectPaths.ToArray(),
+                        unprefixedNamesOfPatternElements.ToArray(),
+                        patternElementIsNode.ToArray(),
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);
@@ -4193,6 +4308,11 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.name,
                         parameterNames,
                         true,
+                        wasIndependentInlined(patternGraph),
+                        namesOfPatternElements.ToArray(),
+                        matchObjectPaths.ToArray(),
+                        unprefixedNamesOfPatternElements.ToArray(),
+                        patternElementIsNode.ToArray(),
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);
@@ -4377,6 +4497,11 @@ namespace de.unika.ipd.grGen.lgsp
                 || patternGraph.alternativesPlusInlined.Length >= 1
                 || patternGraph.iteratedsPlusInlined.Length >= 1;
 
+            // if an independent was inlined, we may have to throw away duplicate matches
+            // (duplicates in the sense that the non-inlined part was already matched with exactly the same elements)
+            if(wasIndependentInlined(patternGraph))
+                insertionPoint = insertCheckForDuplicateMatch(insertionPoint);
+
             // increase iterated matched counter if it is iterated
             if(programType==SearchProgramType.Iterated) {
                 AcceptIterated acceptIterated = new AcceptIterated();
@@ -4384,16 +4509,16 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // push subpattern tasks (in case there are some)
-            if (containsSubpatterns)
+            if(containsSubpatterns)
                 insertionPoint = insertPushSubpatternTasks(insertionPoint);
 
             // if this is a subpattern without subpatterns
             // it may be the last to be matched - handle that case
-            if (!containsSubpatterns && isSubpattern && programType!=SearchProgramType.Iterated && negativeIndependentNamePrefix=="")
+            if(!containsSubpatterns && isSubpattern && programType!=SearchProgramType.Iterated && negativeIndependentNamePrefix=="")
                 insertionPoint = insertCheckForTasksLeft(insertionPoint);
 
             // if this is a subpattern or a top-level pattern which contains subpatterns
-            if (containsSubpatterns || isSubpattern && negativeIndependentNamePrefix=="")
+            if(containsSubpatterns || isSubpattern && negativeIndependentNamePrefix=="")
             {
                 // we do the global accept of all candidate elements (write isomorphy information)
                 insertionPoint = insertGlobalAccept(insertionPoint);
@@ -4404,14 +4529,14 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // pop subpattern tasks (in case there are/were some)
-            if (containsSubpatterns)
+            if(containsSubpatterns)
                 insertionPoint = insertPopSubpatternTasks(insertionPoint);
 
             // handle matched or not matched subpatterns, matched local pattern
             if(negativeIndependentNamePrefix == "")
             {
                 // subpattern or top-level pattern which contains subpatterns
-                if (containsSubpatterns || isSubpattern)
+                if(containsSubpatterns || isSubpattern)
                     insertionPoint = insertCheckForSubpatternsFound(insertionPoint, false);
                 else // top-level-pattern of action without subpatterns
                     insertionPoint = insertPatternFound(insertionPoint);
@@ -4419,24 +4544,65 @@ namespace de.unika.ipd.grGen.lgsp
             else
             {
                 // negative/independent contains subpatterns
-                if (containsSubpatterns)
+                if(containsSubpatterns)
                     insertionPoint = insertCheckForSubpatternsFoundNegativeIndependent(insertionPoint);
                 else
                     insertionPoint = insertPatternFoundNegativeIndependent(insertionPoint);
             }
 
             // global abandon of all accepted candidate elements (remove isomorphy information)
-            if (containsSubpatterns || isSubpattern && negativeIndependentNamePrefix=="")
+            if(containsSubpatterns || isSubpattern && negativeIndependentNamePrefix=="")
                 insertionPoint = insertGlobalAbandon(insertionPoint);
 
             // decrease iterated matched counter again if it is iterated
-            if (programType == SearchProgramType.Iterated)
+            if(programType == SearchProgramType.Iterated)
             {
                 AbandonIterated abandonIterated = new AbandonIterated();
                 insertionPoint = insertionPoint.Append(abandonIterated);
             }
 
             return insertionPoint;
+        }
+
+        private bool wasIndependentInlined(PatternGraph patternGraph)
+        {
+            SearchOperation[] operations;
+            if(parallelized)
+                operations = patternGraph.parallelizedSchedule[indexOfSchedule].Operations;
+            else
+                operations = patternGraph.schedulesIncludingNegativesAndIndependents[indexOfSchedule].Operations;
+
+            for(int i = 0; i < operations.Length; ++i)
+            {
+                if(operations[i].Element is SearchPlanNode
+                    && ((SearchPlanNode)operations[i].Element).PatternElement.OriginalIndependentElement != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private IEnumerable<PatternElement> patternElementsMatchedThere(PatternGraph patternGraph, bool forceNonParallel)
+        {
+            SearchOperation[] operations;
+            if(parallelized && !forceNonParallel)
+                operations = patternGraph.parallelizedSchedule[indexOfSchedule].Operations;
+            else
+                operations = patternGraph.schedulesIncludingNegativesAndIndependents[indexOfSchedule].Operations;
+
+            for(int i = 0; i < operations.Length; ++i)
+            {
+                if(operations[i].Element is SearchPlanNode)
+                {
+                    SearchPlanNode spn = ((SearchPlanNode)operations[i].Element);
+                    if(spn.PatternElement.PointOfDefinition == patternGraph && !spn.PatternElement.defToBeYieldedTo)
+                    {
+                        yield return spn.PatternElement;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -5453,6 +5619,10 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = insertMatchObjectBuilding(insertionPoint,
                 patternGraph, MatchObjectType.Normal, true);
 
+            // if an independent was inlined, we have to insert the local match into a set used for duplicate checking
+            if(wasIndependentInlined(patternGraph))
+                insertionPoint = insertFillForDuplicateMatchChecking(insertionPoint);
+
             // ---- nesting level up
             insertionPoint = continuationPointAfterLeafMatched;
 
@@ -5462,6 +5632,99 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = continuationPointAfterTasksLeft;
 
             return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code to check whether the match is a duplicate and code for case it is
+        /// at the given position, returns position after inserted operations.
+        /// Duplicates may arise after independent inlining, when the non-inlined part was already matched with exactly the same elements.
+        /// </summary>
+        private SearchProgramOperation insertCheckForDuplicateMatch(SearchProgramOperation insertionPoint)
+        {
+            PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
+
+            List<String> namesOfPatternElements;
+            List<String> matchObjectPaths;
+            List<String> unprefixedNamesOfPatternElements;
+            List<bool> patternElementIsNode;
+            GetMatchElementsForDuplicateCheck(patternGraph, 
+                out namesOfPatternElements, 
+                out matchObjectPaths, 
+                out unprefixedNamesOfPatternElements, 
+                out patternElementIsNode,
+                false);
+
+            CheckPartialMatchForDuplicate checkDuplicateMatch =
+                new CheckPartialMatchForDuplicate(rulePatternClassName, 
+                    patternGraph.pathPrefix + patternGraph.Name,
+                    namesOfPatternElements.ToArray(),
+                    matchObjectPaths.ToArray(),
+                    unprefixedNamesOfPatternElements.ToArray(),
+                    patternElementIsNode.ToArray());
+            insertionPoint = insertionPoint.Append(checkDuplicateMatch);
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code to insert the local match into a set used for duplicate checking
+        /// at the given position, returns position after inserted operations.
+        /// Duplicates may arise after independent inlining, when the non-inlined part was already matched with exactly the same elements.
+        /// </summary>
+        private SearchProgramOperation insertFillForDuplicateMatchChecking(SearchProgramOperation insertionPoint)
+        {
+            PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
+
+            List<String> namesOfPatternElements = new List<String>();
+            List<String> unprefixedNamesOfPatternElements = new List<String>();
+            List<bool> patternElementIsNode = new List<bool>();
+            foreach(PatternElement elementFromInlinedIndependent in patternElementsMatchedThere(patternGraph, false))
+            {
+                namesOfPatternElements.Add(elementFromInlinedIndependent.Name);
+                unprefixedNamesOfPatternElements.Add(elementFromInlinedIndependent.UnprefixedName);
+                patternElementIsNode.Add(elementFromInlinedIndependent is PatternNode);
+            }
+
+            FillPartialMatchForDuplicateChecking checkDuplicateMatch =
+                new FillPartialMatchForDuplicateChecking(rulePatternClassName,
+                    patternGraph.pathPrefix + patternGraph.Name,
+                    namesOfPatternElements.ToArray(),
+                    unprefixedNamesOfPatternElements.ToArray(),
+                    patternElementIsNode.ToArray(),
+                    parallelized && programType == SearchProgramType.Action);
+            insertionPoint = insertionPoint.Append(checkDuplicateMatch);
+
+            return insertionPoint;
+        }
+
+        private void GetMatchElementsForDuplicateCheck(PatternGraph patternGraph, 
+            out List<String> namesOfPatternElements, 
+            out List<String> matchObjectPaths, 
+            out List<String> unprefixedNamesOfPatternElements, 
+            out List<bool> patternElementIsNode,
+            bool forceNonParallel)
+        {
+            namesOfPatternElements = new List<String>();
+            matchObjectPaths = new List<string>();
+            unprefixedNamesOfPatternElements = new List<String>();
+            patternElementIsNode = new List<bool>();
+            foreach(PatternElement elementFromInlinedIndependent in patternElementsMatchedThere(patternGraph, forceNonParallel))
+            {
+                namesOfPatternElements.Add(elementFromInlinedIndependent.Name);
+
+                string inlinedMatchObjectPath = "";
+                string unprefixedName = elementFromInlinedIndependent.UnprefixedName;
+                if(elementFromInlinedIndependent.originalElement != null)
+                {
+                    if(patternGraph.WasInlinedHere(elementFromInlinedIndependent.originalSubpatternEmbedding))
+                        inlinedMatchObjectPath = "." + elementFromInlinedIndependent.originalSubpatternEmbedding.Name;
+                    unprefixedName = elementFromInlinedIndependent.originalElement.UnprefixedName;
+                }
+                matchObjectPaths.Add(inlinedMatchObjectPath);
+                unprefixedNamesOfPatternElements.Add(unprefixedName);
+
+                patternElementIsNode.Add(elementFromInlinedIndependent is PatternNode);
+            }
         }
 
         /// <summary>
@@ -5714,6 +5977,10 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph, MatchObjectType.Normal, false);
                 insertionPoint = insertMatchObjectBuilding(insertionPoint,
                     patternGraph, MatchObjectType.Normal, true);
+
+                // if an independent was inlined, we have to insert the local match into a set used for duplicate checking
+                if(wasIndependentInlined(patternGraph))
+                    insertionPoint = insertFillForDuplicateMatchChecking(insertionPoint);
             }
 
             // ---- nesting level up
@@ -5787,6 +6054,10 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph, MatchObjectType.Independent, false);
                     insertionPoint = insertMatchObjectBuilding(insertionPoint,
                         patternGraph, MatchObjectType.Independent, true);
+
+                    // if an independent was inlined, we have to insert the local match into a set used for duplicate checking
+                    if(wasIndependentInlined(patternGraph))
+                        insertionPoint = insertFillForDuplicateMatchChecking(insertionPoint);
                 }
 
                 // ---- continue the matching process outside
@@ -5829,6 +6100,9 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = insertMatchObjectBuilding(insertionPoint,
                 patternGraph, MatchObjectType.Normal, true);
 
+            // if an independent was inlined, we have to insert the local match into a set used for duplicate checking
+            if(wasIndependentInlined(patternGraph))
+                insertionPoint = insertFillForDuplicateMatchChecking(insertionPoint);
 
             // ---- nesting level up
             insertionPoint = continuationPoint;
@@ -5889,6 +6163,10 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph, MatchObjectType.Independent, false);
                     insertionPoint = insertMatchObjectBuilding(insertionPoint,
                         patternGraph, MatchObjectType.Independent, true);
+
+                    // if an independent was inlined, we have to insert the local match into a set used for duplicate checking
+                    if(wasIndependentInlined(patternGraph))
+                        insertionPoint = insertFillForDuplicateMatchChecking(insertionPoint);
                 }
 
                 // continue the matching process outside
