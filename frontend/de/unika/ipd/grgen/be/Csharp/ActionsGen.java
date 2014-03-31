@@ -215,7 +215,7 @@ public class ActionsGen extends CSharpBase {
 
 		genStaticConstructor(sb, className, staticInitializers);
 
-		genMatch(sb, subpatternRule.getPattern(), className);
+		genMatch(sb, subpatternRule.getPattern(), className, false);
 
 		sb.append("\t}\n");
 		sb.append("\n");
@@ -250,7 +250,7 @@ public class ActionsGen extends CSharpBase {
 
 		genStaticConstructor(sb, className, staticInitializers);
 
-		genMatch(sb, actionRule.getPattern(), className);
+		genMatch(sb, actionRule.getPattern(), className, actionRule.getAnnotations().containsKey("parallelize"));
 
 		sb.append("\t}\n");
 		sb.append("\n");
@@ -645,7 +645,7 @@ public class ActionsGen extends CSharpBase {
 	/**
 	 * Generates the match classes (of pattern and contained patterns)
 	 */
-	private void genMatch(StringBuffer sb, PatternGraph pattern, String className) {
+	private void genMatch(StringBuffer sb, PatternGraph pattern, String className, boolean parallelized) {
 		// generate getters to contained nodes, edges, variables, embedded graphs, alternatives
 		genPatternMatchInterface(sb, pattern, pattern.getNameOfGraph(),
 				"GRGEN_LIBGR.IMatch", pattern.getNameOfGraph()+"_",
@@ -655,7 +655,7 @@ public class ActionsGen extends CSharpBase {
 		// and the implementation of the various getters from IMatch and the pattern specific match interface
 		String patGraphVarName = "pat_" + pattern.getNameOfGraph();
 		genPatternMatchImplementation(sb, pattern, pattern.getNameOfGraph(),
-				patGraphVarName, className, pattern.getNameOfGraph()+"_", false, false);
+				patGraphVarName, className, pattern.getNameOfGraph()+"_", false, false, parallelized);
 	}
 
 	//////////////////////////////////////////////////
@@ -3321,23 +3321,25 @@ public class ActionsGen extends CSharpBase {
 
 	private void genPatternMatchImplementation(StringBuffer sb, PatternGraph pattern, String name,
 			String patGraphVarName, String className,
-			String pathPrefixForElements, boolean iterated, boolean independent)
+			String pathPrefixForElements, 
+			boolean iterated, boolean independent, boolean parallelized)
 	{
 		genMatchImplementation(sb, pattern, name,
-				patGraphVarName, className, pathPrefixForElements, iterated, independent);
+				patGraphVarName, className, pathPrefixForElements, 
+				iterated, independent, parallelized);
 
 		for(PatternGraph neg : pattern.getNegs()) {
 			String negName = neg.getNameOfGraph();
 			genPatternMatchImplementation(sb, neg, pathPrefixForElements+negName,
 					pathPrefixForElements+negName, className,
-					pathPrefixForElements+negName+"_", false, false);
+					pathPrefixForElements+negName+"_", false, false, false);
 		}
 
 		for(PatternGraph idpt : pattern.getIdpts()) {
 			String idptName = idpt.getNameOfGraph();
 			genPatternMatchImplementation(sb, idpt, pathPrefixForElements+idptName,
 					pathPrefixForElements+idptName, className,
-					pathPrefixForElements+idptName+"_", false, true);
+					pathPrefixForElements+idptName+"_", false, true, false);
 		}
 
 		for(Alternative alt : pattern.getAlts()) {
@@ -3348,7 +3350,7 @@ public class ActionsGen extends CSharpBase {
 				genPatternMatchImplementation(sb, altCasePattern, altPatName,
 						altPatName, className,
 						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_", 
-						false, false);
+						false, false, false);
 			}
 		}
 
@@ -3357,7 +3359,7 @@ public class ActionsGen extends CSharpBase {
 			String iterName = iterPattern.getNameOfGraph();
 			genPatternMatchImplementation(sb, iterPattern, pathPrefixForElements+iterName,
 					pathPrefixForElements+iterName, className,
-					pathPrefixForElements+iterName+"_", true, false);
+					pathPrefixForElements+iterName+"_", true, false, false);
 		}
 	}
 
@@ -3403,7 +3405,8 @@ public class ActionsGen extends CSharpBase {
 
 	private void genMatchImplementation(StringBuffer sb, PatternGraph pattern, String name,
 			String patGraphVarName, String ruleClassName,
-			String pathPrefixForElements, boolean iterated, boolean independent)
+			String pathPrefixForElements, 
+			boolean iterated, boolean independent, boolean parallelized)
 	{
 		String interfaceName = "IMatch_" + name;
 		String className = "Match_" + name;
@@ -3433,6 +3436,9 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\tpublic bool _flag;\n");
 		sb.append("\t\t\tpublic void Mark(bool flag) { _flag = flag; }\n");
 		sb.append("\t\t\tpublic bool IsMarked() { return _flag; }\n");
+		sb.append("\t\t\tpublic "+className+" nextWithSameHash;\n");
+		if(parallelized)
+			sb.append("\t\t\tpublic int duplicateMatchHash;\n");
 		sb.append("\t\t\tpublic int _iterationNumber;\n");
 		sb.append("\t\t\tpublic int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }\n");
 

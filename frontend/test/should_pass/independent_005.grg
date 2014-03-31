@@ -1,0 +1,215 @@
+pattern p {
+	n1:Node; n2:Node; n3:Node;
+	independent {
+		n1-->n2;
+	}
+	independent {
+		n2-->.-->n3;
+	}
+	independent {
+		n3-->.;
+	}
+}
+
+pattern pa {
+	alternative {
+		Something {
+			n1:Node; n2:Node; n3:Node;
+			independent {
+				n1-->n2;
+			}
+			independent {
+				n2-->.-->n3;
+			}
+			independent {
+				n3-->.;
+			}
+		}
+		SomethingElse {
+			n2:Node;
+			independent {
+				n1o-->n2;
+			}
+			independent {
+				n2-->.-->n3o;
+			}
+			independent {
+				n3o-->.;
+			}
+		}
+	}
+	n1o:Node; n3o:Node;
+}
+
+pattern pi {
+	iterated {
+		n1:Node; n2:Node; n3:Node;
+		independent {
+			n1-->n2;
+		}
+		independent {
+			n2-->.-->n3;
+		}
+		independent {
+			n3-->.;
+		}
+	}
+}
+
+rule r {
+	n1:Node; n2:Node; n3:Node;
+	independent {
+		n1-->n2;
+	}
+	independent {
+		n2-->.-->n3;
+	}
+	independent {
+		n3-->.;
+	}
+
+	modify {
+	}
+}
+
+test ra {
+	alternative {
+		Something {
+			n1:Node; n2:Node; n3:Node;
+			independent {
+				n1-->n2;
+			}
+			independent {
+				n2-->.-->n3;
+			}
+			independent {
+				n3-->.;
+			}
+		}
+		SomethingElse {
+			n2:Node;
+			independent {
+				n1o-->n2;
+			}
+			independent {
+				n2-->.-->n3o;
+			}
+			independent {
+				n3o-->.;
+			}
+		}
+	}
+	n1o:Node; n3o:Node;
+}
+
+test ri {
+	iterated {
+		n1:Node; n2:Node; n3:Node;
+		independent {
+			n1-->n2;
+		}
+		independent {
+			n2-->.-->n3;
+		}
+		independent {
+			n3-->.;
+		}
+	}
+}
+
+rule rn {
+	negative {
+		n1:Node; n2:Node; n3:Node;
+		independent {
+			n1-->n2;
+		}
+		independent {
+			n2-->.-->n3;
+		}
+		independent {
+			n3-->.;
+		}
+	}
+
+	modify {
+	}
+}
+
+rule rin {
+	independent {
+		n1:Node; n2:Node; n3:Node;
+		independent {
+			n1-->n2;
+		}
+		independent {
+			n2-->.-->n3;
+		}
+		independent {
+			n3-->.;
+		}
+	}
+
+	modify {
+	}
+}
+
+rule rinl {
+	n1:Node; n2:Node; n3:Node;
+	independent {
+		n1-->n2;
+	}
+	independent {
+		n2-->.-->n3;
+	}
+	independent {
+		n3-->.;
+	}
+	
+	:p();
+
+	modify {
+	}
+}
+
+pattern pinl(n1:Node, n2:Node, n3:Node) {
+	independent {
+		n1-->n2;
+	}
+	independent {
+		n2-->.-->n3;
+	}
+	independent {
+		n3-->.;
+	}
+}
+
+rule rinl1 {
+	n1:Node; n2:Node; n3:Node;
+	
+	:pinl(n1,n2,n3);
+
+	modify {
+	}
+}
+
+pattern pinl2(n2:Node) {
+	n1:Node; n3:Node;
+	independent {
+		n1-->n2;
+	}
+	independent {
+		n2-->.-->n3;
+	}
+	independent {
+		n3-->.;
+	}
+}
+
+rule rinl2 {
+	n2:Node;
+	
+	:pinl2(n2);
+
+	modify {
+	}
+}

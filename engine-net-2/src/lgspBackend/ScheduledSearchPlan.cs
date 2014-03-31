@@ -220,7 +220,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + ")");
                     break;
                 case SearchOperationType.NegIdptPreset:
-                    sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + ")");
+                    sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + (tgt.PatternElement.PresetBecauseOfIndependentInlining ? " after independent inlining" : "") + ")");
                     break;
                 case SearchOperationType.SubPreset:
                     sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + ")");

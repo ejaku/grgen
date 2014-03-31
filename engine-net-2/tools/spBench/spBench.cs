@@ -163,7 +163,8 @@ namespace spBench
             MatchGen = new LGSPMatcherGenerator(graph.Model);
             Action = action;
             PatternGraph = (PatternGraph) action.rulePattern.PatternGraph;
-            SearchPlanGraph = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(graph.statistics, PatternGraph, false, false));
+            SearchPlanGraph = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(graph.statistics, PatternGraph, 
+                false, false, new Dictionary<PatternElement, SetValueType>()));
 
 //            DumpSearchPlanGraph(GenerateSearchPlanGraphNewCost(graph, (PatternGraph) action.RulePattern.PatternGraph, false), action.Name, "initial");
 
@@ -199,7 +200,8 @@ namespace spBench
 
             return scheduledSearchPlan;*/
 
-            MatchGen.GenerateScheduledSearchPlans(Action.rulePattern.patternGraph, Graph, false, false);
+            MatchGen.GenerateScheduledSearchPlans(Action.rulePattern.patternGraph, Graph, 
+                false, false, null);
             return Action.rulePattern.patternGraph.schedules[0];
         }
 
@@ -488,7 +490,8 @@ namespace spBench
             {
                 PatternGraph negPatternGraph = patternGraph.negativePatternGraphs[i];
                 NegPatternGraphs[i] = negPatternGraph;
-                NegSPGraphs[i] = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(Graph.statistics, negPatternGraph, true, false));
+                NegSPGraphs[i] = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(Graph.statistics, negPatternGraph, 
+                    true, false, new Dictionary<PatternElement, SetValueType>()));
                 NegSPGraphs[i].Root.ElementID = i;
                 Dictionary<String, bool> neededElemNames = new Dictionary<String, bool>();
                 foreach(PatternNode node in negPatternGraph.Nodes)
