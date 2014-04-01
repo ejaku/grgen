@@ -3381,17 +3381,6 @@ namespace de.unika.ipd.grGen.lgsp
                 out continuationPointAfterTypeIteration);
             insertionPoint = insertionPointAfterTypeIteration;
 
-            List<String> namesOfPatternElements;
-            List<String> matchObjectPaths;
-            List<String> unprefixedNamesOfPatternElements;
-            List<bool> patternElementIsNode;
-            GetMatchElementsForDuplicateCheck(patternGraph,
-                out namesOfPatternElements,
-                out matchObjectPaths,
-                out unprefixedNamesOfPatternElements,
-                out patternElementIsNode,
-                true);
-
             // iterate available graph elements
             GetCandidateByIterationParallelSetup elementsIteration =
                 new GetCandidateByIterationParallelSetup(
@@ -3403,10 +3392,6 @@ namespace de.unika.ipd.grGen.lgsp
                     parameterNames,
                     insertionPointAfterTypeIteration != continuationPointAfterTypeIteration,
                     wasIndependentInlined(patternGraph),
-                    namesOfPatternElements.ToArray(),
-                    matchObjectPaths.ToArray(),
-                    unprefixedNamesOfPatternElements.ToArray(),
-                    patternElementIsNode.ToArray(),
                     emitProfiling,
                     actionName,
                     !firstLoopPassed);
@@ -3552,17 +3537,6 @@ namespace de.unika.ipd.grGen.lgsp
             else
                 iterationType = TypesHelper.GetStorageKeyTypeName(storage.Variable.type);
 
-            List<String> namesOfPatternElements;
-            List<String> matchObjectPaths;
-            List<String> unprefixedNamesOfPatternElements;
-            List<bool> patternElementIsNode;
-            GetMatchElementsForDuplicateCheck(patternGraph,
-                out namesOfPatternElements,
-                out matchObjectPaths,
-                out unprefixedNamesOfPatternElements,
-                out patternElementIsNode,
-                true);
-
             GetCandidateByIterationParallelSetup elementsIteration =
                 new GetCandidateByIterationParallelSetup(
                     GetCandidateByIterationType.StorageElements,
@@ -3575,10 +3549,6 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.Name,
                     parameterNames,
                     wasIndependentInlined(patternGraph),
-                    namesOfPatternElements.ToArray(),
-                    matchObjectPaths.ToArray(),
-                    unprefixedNamesOfPatternElements.ToArray(),
-                    patternElementIsNode.ToArray(),
                     emitProfiling,
                     actionName,
                     !firstLoopPassed);
@@ -3740,17 +3710,6 @@ namespace de.unika.ipd.grGen.lgsp
             else
                 iterationType = TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model);
 
-            List<String> namesOfPatternElements;
-            List<String> matchObjectPaths;
-            List<String> unprefixedNamesOfPatternElements;
-            List<bool> patternElementIsNode;
-            GetMatchElementsForDuplicateCheck(patternGraph,
-                out namesOfPatternElements,
-                out matchObjectPaths,
-                out unprefixedNamesOfPatternElements,
-                out patternElementIsNode,
-                true);
-
             GetCandidateByIterationParallelSetup elementsIteration =
                 new GetCandidateByIterationParallelSetup(
                     GetCandidateByIterationType.StorageAttributeElements,
@@ -3765,10 +3724,6 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.name,
                     parameterNames,
                     wasIndependentInlined(patternGraph),
-                    namesOfPatternElements.ToArray(),
-                    matchObjectPaths.ToArray(),
-                    unprefixedNamesOfPatternElements.ToArray(),
-                    patternElementIsNode.ToArray(),
                     emitProfiling,
                     actionName,
                     !firstLoopPassed);
@@ -3927,17 +3882,6 @@ namespace de.unika.ipd.grGen.lgsp
                 ((IncidenceIndexDescription)index.Index).StartNodeType);
             string indexSetType = NamesOfEntities.IndexSetType(model.ModelName);
 
-            List<String> namesOfPatternElements;
-            List<String> matchObjectPaths;
-            List<String> unprefixedNamesOfPatternElements;
-            List<bool> patternElementIsNode;
-            GetMatchElementsForDuplicateCheck(patternGraph,
-                out namesOfPatternElements,
-                out matchObjectPaths,
-                out unprefixedNamesOfPatternElements,
-                out patternElementIsNode,
-                true);
-
             // iterate available index elements
             GetCandidateByIterationParallelSetup elementsIteration;
             if(index is IndexAccessEquality)
@@ -3959,10 +3903,6 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.name,
                         parameterNames,
                         wasIndependentInlined(patternGraph),
-                        namesOfPatternElements.ToArray(),
-                        matchObjectPaths.ToArray(),
-                        unprefixedNamesOfPatternElements.ToArray(),
-                        patternElementIsNode.ToArray(),
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);
@@ -3993,10 +3933,6 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.name,
                         parameterNames,
                         wasIndependentInlined(patternGraph),
-                        namesOfPatternElements.ToArray(),
-                        matchObjectPaths.ToArray(),
-                        unprefixedNamesOfPatternElements.ToArray(),
-                        patternElementIsNode.ToArray(),
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);
@@ -4027,10 +3963,6 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.name,
                         parameterNames,
                         wasIndependentInlined(patternGraph),
-                        namesOfPatternElements.ToArray(),
-                        matchObjectPaths.ToArray(),
-                        unprefixedNamesOfPatternElements.ToArray(),
-                        patternElementIsNode.ToArray(),
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);
@@ -4235,17 +4167,6 @@ namespace de.unika.ipd.grGen.lgsp
             GetCandidateByIterationParallelSetup incidentIteration;
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
 
-            List<String> namesOfPatternElements;
-            List<String> matchObjectPaths;
-            List<String> unprefixedNamesOfPatternElements;
-            List<bool> patternElementIsNode;
-            GetMatchElementsForDuplicateCheck(patternGraph,
-                out namesOfPatternElements,
-                out matchObjectPaths,
-                out unprefixedNamesOfPatternElements,
-                out patternElementIsNode,
-                true);
-
             if(incidentType == IncidentEdgeType.Incoming || incidentType == IncidentEdgeType.Outgoing)
             {
                 incidentIteration = new GetCandidateByIterationParallelSetup(
@@ -4258,10 +4179,6 @@ namespace de.unika.ipd.grGen.lgsp
                     parameterNames,
                     false,
                     wasIndependentInlined(patternGraph),
-                    namesOfPatternElements.ToArray(),
-                    matchObjectPaths.ToArray(),
-                    unprefixedNamesOfPatternElements.ToArray(),
-                    patternElementIsNode.ToArray(),
                     emitProfiling,
                     actionName,
                     !firstLoopPassed);
@@ -4282,10 +4199,6 @@ namespace de.unika.ipd.grGen.lgsp
                         parameterNames,
                         false,
                         wasIndependentInlined(patternGraph),
-                        namesOfPatternElements.ToArray(),
-                        matchObjectPaths.ToArray(),
-                        unprefixedNamesOfPatternElements.ToArray(),
-                        patternElementIsNode.ToArray(),
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);
@@ -4309,10 +4222,6 @@ namespace de.unika.ipd.grGen.lgsp
                         parameterNames,
                         true,
                         wasIndependentInlined(patternGraph),
-                        namesOfPatternElements.ToArray(),
-                        matchObjectPaths.ToArray(),
-                        unprefixedNamesOfPatternElements.ToArray(),
-                        patternElementIsNode.ToArray(),
                         emitProfiling,
                         actionName,
                         !firstLoopPassed);
@@ -4584,10 +4493,10 @@ namespace de.unika.ipd.grGen.lgsp
             return false;
         }
 
-        private IEnumerable<PatternElement> patternElementsMatchedThere(PatternGraph patternGraph, bool forceNonParallel)
+        private IEnumerable<PatternElement> patternElementsMatchedThere(PatternGraph patternGraph)
         {
             SearchOperation[] operations;
-            if(parallelized && !forceNonParallel)
+            if(parallelized)
                 operations = patternGraph.parallelizedSchedule[indexOfSchedule].Operations;
             else
                 operations = patternGraph.schedulesIncludingNegativesAndIndependents[indexOfSchedule].Operations;
@@ -5651,8 +5560,7 @@ namespace de.unika.ipd.grGen.lgsp
                 out namesOfPatternElements, 
                 out matchObjectPaths, 
                 out unprefixedNamesOfPatternElements, 
-                out patternElementIsNode,
-                false);
+                out patternElementIsNode);
 
             CheckPartialMatchForDuplicate checkDuplicateMatch =
                 new CheckPartialMatchForDuplicate(rulePatternClassName, 
@@ -5678,7 +5586,7 @@ namespace de.unika.ipd.grGen.lgsp
             List<String> namesOfPatternElements = new List<String>();
             List<String> unprefixedNamesOfPatternElements = new List<String>();
             List<bool> patternElementIsNode = new List<bool>();
-            foreach(PatternElement elementFromInlinedIndependent in patternElementsMatchedThere(patternGraph, false))
+            foreach(PatternElement elementFromInlinedIndependent in patternElementsMatchedThere(patternGraph))
             {
                 namesOfPatternElements.Add(elementFromInlinedIndependent.Name);
                 unprefixedNamesOfPatternElements.Add(elementFromInlinedIndependent.UnprefixedName);
@@ -5701,14 +5609,13 @@ namespace de.unika.ipd.grGen.lgsp
             out List<String> namesOfPatternElements, 
             out List<String> matchObjectPaths, 
             out List<String> unprefixedNamesOfPatternElements, 
-            out List<bool> patternElementIsNode,
-            bool forceNonParallel)
+            out List<bool> patternElementIsNode)
         {
             namesOfPatternElements = new List<String>();
             matchObjectPaths = new List<string>();
             unprefixedNamesOfPatternElements = new List<String>();
             patternElementIsNode = new List<bool>();
-            foreach(PatternElement elementFromInlinedIndependent in patternElementsMatchedThere(patternGraph, forceNonParallel))
+            foreach(PatternElement elementFromInlinedIndependent in patternElementsMatchedThere(patternGraph))
             {
                 namesOfPatternElements.Add(elementFromInlinedIndependent.Name);
 
