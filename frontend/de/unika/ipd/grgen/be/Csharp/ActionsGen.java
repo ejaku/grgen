@@ -3456,6 +3456,15 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t{\n");
 		sb.append("\t\t\t}\n");
 
+		sb.append("\n\t\t\tpublic bool IsEqual("+className +" that)\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tif(that==null) return false;\n");
+		for(int i=MATCH_PART_NODES; i<MATCH_PART_END; ++i) {
+			genEqualMatch(sb, pattern, name, i, pathPrefixForElements);
+		}
+		sb.append("\t\t\t\treturn true;\n");
+		sb.append("\t\t\t}\n");
+
 		sb.append("\t\t}\n");
 		sb.append("\n");
 	}
@@ -3595,7 +3604,6 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-
 	private void genCopyMatchedEntities(StringBuffer sb, PatternGraph pattern,
 			String name, int which, String pathPrefixForElements)
 	{
@@ -3642,6 +3650,71 @@ public class ActionsGen extends CSharpBase {
 				String idptName = "_" + idpt.getNameOfGraph();
 				sb.append("\t\t\t\t"+idptName+" = that."+idptName+";\n");
 			}
+			break;
+		default:
+			assert(false);
+		}
+	}
+
+	private void genEqualMatch(StringBuffer sb, PatternGraph pattern,
+			String name, int which, String pathPrefixForElements)
+	{
+		switch(which)
+		{
+		case MATCH_PART_NODES:
+			for(Node node : pattern.getNodes()) {
+				if(node.isDefToBeYieldedTo())
+					continue;
+				String nodeName = formatEntity(node, "_");
+				sb.append("\t\t\t\tif("+nodeName+" != that."+nodeName+") return false;\n");
+			}
+			break;
+		case MATCH_PART_EDGES:
+			for(Edge edge : pattern.getEdges()) {
+				if(edge.isDefToBeYieldedTo())
+					continue;
+				String edgeName = formatEntity(edge, "_");
+				sb.append("\t\t\t\tif("+edgeName+" != that."+edgeName+") return false;\n");
+			}
+			break;
+		case MATCH_PART_VARIABLES:
+			for(Variable var : pattern.getVars()) {
+				if(var.isDefToBeYieldedTo())
+					continue;
+				String varName = formatEntity(var, "_");
+				sb.append("\t\t\t\tif("+varName+" != that."+varName+") return false;\n");
+			}
+			break;
+		case MATCH_PART_EMBEDDED_GRAPHS:
+			for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
+				String subName = "@" + formatIdentifiable(sub, "_");
+				sb.append("\t\t\t\tif(!"+subName+".IsEqual(that."+subName+")) return false;\n");
+			}
+			break;
+		case MATCH_PART_ALTERNATIVES:
+			for(Alternative alt : pattern.getAlts()) {
+				String altName = "_" + alt.getNameOfGraph();
+				for(Rule altCase : alt.getAlternativeCases()) {
+					PatternGraph altCasePattern = altCase.getLeft();
+					sb.append("\t\t\t\tif("+altName+" is Match_"+name+altName+"_"+altCasePattern.getNameOfGraph()+" && !("+altName+" as Match_"+name+altName+"_"+altCasePattern.getNameOfGraph()+").IsEqual(that."+altName+" as Match_"+name+altName+"_"+altCasePattern.getNameOfGraph()+")) return false;\n");
+				}
+			}
+			break;
+		case MATCH_PART_ITERATEDS:
+			for(Rule iter : pattern.getIters()) {
+				String iterName = "_" + iter.getLeft().getNameOfGraph();
+				sb.append("\t\t\t\tif("+iterName+".Count != that."+iterName+".Count) return false;\n");
+				sb.append("\t\t\t\tIEnumerator<GRGEN_LIBGR.IMatch> "+iterName+"_thisEnumerator = "+iterName+".GetEnumerator();\n");
+				sb.append("\t\t\t\tIEnumerator<GRGEN_LIBGR.IMatch> "+iterName+"_thatEnumerator = that."+iterName+".GetEnumerator();\n");
+				sb.append("\t\t\t\twhile("+iterName+"_thisEnumerator.MoveNext())\n");
+				sb.append("\t\t\t\t{\n");
+				sb.append("\t\t\t\t\t"+iterName+"_thatEnumerator.MoveNext();\n");
+				sb.append("\t\t\t\t\tif(!("+iterName+"_thisEnumerator.Current as Match_"+name+iterName+").IsEqual("+iterName+"_thatEnumerator.Current as Match_"+name+iterName+")) return false;\n");
+				sb.append("\t\t\t\t}\n");
+			}
+			break;
+		case MATCH_PART_INDEPENDENTS:
+			// for independents, the existence counts, the exact elements are irrelevant
 			break;
 		default:
 			assert(false);

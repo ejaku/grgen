@@ -2486,10 +2486,6 @@ namespace de.unika.ipd.grGen.lgsp
             string[] parameterNames,
             bool enclosingLoop,
             bool wasIndependentInlined,
-            string[] neededElements,
-            string[] matchObjectPaths,
-            string[] neededElementsUnprefixedName,
-            bool[] neededElementsIsNode,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2503,10 +2499,6 @@ namespace de.unika.ipd.grGen.lgsp
             ParameterNames = parameterNames;
             EnclosingLoop = enclosingLoop;
             WasIndependentInlined = wasIndependentInlined;
-            NeededElements = neededElements;
-            MatchObjectPaths = matchObjectPaths;
-            NeededElementsUnprefixedName = neededElementsUnprefixedName;
-            NeededElementsIsNode = neededElementsIsNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2523,10 +2515,6 @@ namespace de.unika.ipd.grGen.lgsp
             string patternName,
             string[] parameterNames,
             bool wasIndependentInlined,
-            string[] neededElements,
-            string[] matchObjectPaths,
-            string[] neededElementsUnprefixedName,
-            bool[] neededElementsIsNode,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2542,10 +2530,6 @@ namespace de.unika.ipd.grGen.lgsp
             PatternName = patternName;
             ParameterNames = parameterNames;
             WasIndependentInlined = wasIndependentInlined;
-            NeededElements = neededElements;
-            MatchObjectPaths = matchObjectPaths;
-            NeededElementsUnprefixedName = neededElementsUnprefixedName;
-            NeededElementsIsNode = neededElementsIsNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2564,10 +2548,6 @@ namespace de.unika.ipd.grGen.lgsp
             string patternName,
             string[] parameterNames,
             bool wasIndependentInlined,
-            string[] neededElements,
-            string[] matchObjectPaths,
-            string[] neededElementsUnprefixedName,
-            bool[] neededElementsIsNode,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2585,10 +2565,6 @@ namespace de.unika.ipd.grGen.lgsp
             PatternName = patternName;
             ParameterNames = parameterNames;
             WasIndependentInlined = wasIndependentInlined;
-            NeededElements = neededElements;
-            MatchObjectPaths = matchObjectPaths;
-            NeededElementsUnprefixedName = neededElementsUnprefixedName;
-            NeededElementsIsNode = neededElementsIsNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2607,10 +2583,6 @@ namespace de.unika.ipd.grGen.lgsp
             string patternName,
             string[] parameterNames,
             bool wasIndependentInlined,
-            string[] neededElements,
-            string[] matchObjectPaths,
-            string[] neededElementsUnprefixedName,
-            bool[] neededElementsIsNode,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2629,10 +2601,6 @@ namespace de.unika.ipd.grGen.lgsp
             PatternName = patternName;
             ParameterNames = parameterNames;
             WasIndependentInlined = wasIndependentInlined;
-            NeededElements = neededElements;
-            MatchObjectPaths = matchObjectPaths;
-            NeededElementsUnprefixedName = neededElementsUnprefixedName;
-            NeededElementsIsNode = neededElementsIsNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2654,10 +2622,6 @@ namespace de.unika.ipd.grGen.lgsp
             string patternName,
             string[] parameterNames,
             bool wasIndependentInlined,
-            string[] neededElements,
-            string[] matchObjectPaths,
-            string[] neededElementsUnprefixedName,
-            bool[] neededElementsIsNode,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2679,10 +2643,6 @@ namespace de.unika.ipd.grGen.lgsp
             PatternName = patternName;
             ParameterNames = parameterNames;
             WasIndependentInlined = wasIndependentInlined;
-            NeededElements = neededElements;
-            MatchObjectPaths = matchObjectPaths;
-            NeededElementsUnprefixedName = neededElementsUnprefixedName;
-            NeededElementsIsNode = neededElementsIsNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -2698,10 +2658,6 @@ namespace de.unika.ipd.grGen.lgsp
             string[] parameterNames,
             bool enclosingLoop,
             bool wasIndependentInlined,
-            string[] neededElements,
-            string[] matchObjectPaths,
-            string[] neededElementsUnprefixedName,
-            bool[] neededElementsIsNode,
             bool emitProfiling,
             string actionName,
             bool emitFirstLoopProfiling)
@@ -2716,10 +2672,6 @@ namespace de.unika.ipd.grGen.lgsp
             ParameterNames = parameterNames;
             EnclosingLoop = enclosingLoop;
             WasIndependentInlined = wasIndependentInlined;
-            NeededElements = neededElements;
-            MatchObjectPaths = matchObjectPaths;
-            NeededElementsUnprefixedName = neededElementsUnprefixedName;
-            NeededElementsIsNode = neededElementsIsNode;
             EmitProfiling = emitProfiling;
             ActionName = actionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
@@ -3078,21 +3030,18 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("do {\n");
                 sourceCode.Indent();
 
-                // check for same elements
+                // check for same elements (recursively, as we're post-matching, just checking local elements is not sufficient anymore)
+                // with optimization: same iteration number means the elements were already checked in their matcher thread, no need to do it again
                 sourceCode.AppendFront("if(");
-                for(int i = 0; i < NeededElements.Length; ++i)
-                {
-                    if(i != 0)
-                        sourceCode.Append(" && ");
-                    sourceCode.AppendFormat("{0}._{1} == parallelTaskMatches[minIterationValueIndex].FirstImplementation{2}.{1}",
-                        NamesOfEntities.DuplicateMatchCandidateVariable() + MatchObjectPaths[i],
-                        NamesOfEntities.MatchName(NeededElementsUnprefixedName[i], NeededElementsIsNode[i] ? BuildMatchObjectType.Node : BuildMatchObjectType.Edge),
-                        MatchObjectPaths[i]);
-                }
+                sourceCode.AppendFormat("{0}.IterationNumber != parallelTaskMatches[minIterationValueIndex].FirstImplementation.IterationNumber",
+                    NamesOfEntities.DuplicateMatchCandidateVariable());
+                sourceCode.Append(" && ");
+                sourceCode.AppendFormat("{0}.IsEqual(parallelTaskMatches[minIterationValueIndex].FirstImplementation)",
+                    NamesOfEntities.DuplicateMatchCandidateVariable());
                 sourceCode.Append(")\n");
 
                 // the current local match is equivalent to one of the already found ones, a duplicate
-                // so emit code to remove it and continue
+                // so remove it and continue
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
                 sourceCode.AppendFront("parallelTaskMatches[minIterationValueIndex].RemoveFirst();\n");
@@ -3249,10 +3198,6 @@ namespace de.unika.ipd.grGen.lgsp
         public string[] ParameterNames; // the parameters to forward to the normal matcher in case that is to be used because there's only a single iteration
         public bool EnclosingLoop; // in case of an enclosing loop we can't forward to the normal matcher
         public bool WasIndependentInlined;
-        public string[] NeededElements; // needed in case of WasIndependentInlined
-        public string[] MatchObjectPaths; // needed in case of WasIndependentInlined
-        public string[] NeededElementsUnprefixedName; // needed in case of WasIndependentInlined
-        public bool[] NeededElementsIsNode; // needed in case of WasIndependentInlined
         public bool EmitProfiling;
         public string ActionName;
         public bool EmitFirstLoopProfiling;
