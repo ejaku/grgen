@@ -419,12 +419,12 @@ namespace de.unika.ipd.grGen.lgsp
             else if(countType == CountType.Out)
             {
                 outCounts[GetNodeTypeIndex(type)] = Int32.Parse(number);
-                meanOutDegree[GetNodeTypeIndex(type)] = outCounts[GetNodeTypeIndex(type)] / nodeCounts[GetNodeTypeIndex(type)];
+                meanOutDegree[GetNodeTypeIndex(type)] = outCounts[GetNodeTypeIndex(type)] / Math.Max(nodeCounts[GetNodeTypeIndex(type)], 1);
             }
             else //if(countType == CountType.In)
             {
                 inCounts[GetNodeTypeIndex(type)] = Int32.Parse(number);
-                meanInDegree[GetNodeTypeIndex(type)] = inCounts[GetNodeTypeIndex(type)] / nodeCounts[GetNodeTypeIndex(type)];
+                meanInDegree[GetNodeTypeIndex(type)] = inCounts[GetNodeTypeIndex(type)] / Math.Max(nodeCounts[GetNodeTypeIndex(type)], 1);
             }
         }
 
