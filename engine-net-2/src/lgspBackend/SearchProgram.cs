@@ -5018,7 +5018,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         void EmitHashComputation(SourceBuilder sourceCode, int i)
         {
-            if(i == 0)
+            if(i < 0)
                 sourceCode.Append("23");
             else
             {
