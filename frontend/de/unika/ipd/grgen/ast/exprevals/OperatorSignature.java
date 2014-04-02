@@ -360,10 +360,10 @@ public class OperatorSignature extends FunctionSignature {
 			switch (op.id) {
 				case EQ:  return new BoolConstNode(coords, a0.equals(a1));
 				case NE:  return new BoolConstNode(coords, !a0.equals(a1));
-				case GE:  return new BoolConstNode(coords, a0.compareTo(a1) >= 0);
-				case GT:  return new BoolConstNode(coords, a0.compareTo(a1) > 0);
-				case LE:  return new BoolConstNode(coords, a0.compareTo(a1) <= 0);
-				case LT:  return new BoolConstNode(coords, a0.compareTo(a1) < 0);
+				//case GE:  return new BoolConstNode(coords, a0.compareTo(a1) >= 0);
+				//case GT:  return new BoolConstNode(coords, a0.compareTo(a1) > 0);
+				//case LE:  return new BoolConstNode(coords, a0.compareTo(a1) <= 0);
+				//case LT:  return new BoolConstNode(coords, a0.compareTo(a1) < 0);
 
 				default:  throw new NotEvaluatableException(coords);
 			}
@@ -682,10 +682,10 @@ public class OperatorSignature extends FunctionSignature {
 		// String operators
 		makeBinOp(EQ, BOOLEAN, STRING, STRING, stringEvaluator);
 		makeBinOp(NE, BOOLEAN, STRING, STRING, stringEvaluator);
-		// makeBinOp(GE, BOOLEAN, STRING, STRING, stringEvaluator);
-		// makeBinOp(GT, BOOLEAN, STRING, STRING, stringEvaluator);
-		// makeBinOp(LE, BOOLEAN, STRING, STRING, stringEvaluator);
-		// makeBinOp(LT, BOOLEAN, STRING, STRING, stringEvaluator);
+		makeBinOp(GE, BOOLEAN, STRING, STRING, stringEvaluator);
+		makeBinOp(GT, BOOLEAN, STRING, STRING, stringEvaluator);
+		makeBinOp(LE, BOOLEAN, STRING, STRING, stringEvaluator);
+		makeBinOp(LT, BOOLEAN, STRING, STRING, stringEvaluator);
 
 		// object operators
 		makeBinOp(EQ, BOOLEAN, OBJECT, OBJECT, objectEvaluator);

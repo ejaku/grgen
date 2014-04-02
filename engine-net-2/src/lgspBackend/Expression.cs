@@ -421,6 +421,150 @@ namespace de.unika.ipd.grGen.expression
         }
     }
 
+    /// <summary>
+    /// Class representing a less than comparison on strings.
+    /// </summary>
+    public class STRING_LT : Operator
+    {
+        public STRING_LT(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new STRING_LT(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(String.Compare(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+            sourceCode.Append("<0)");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            yield return Right;
+        }
+
+        protected Expression Left;
+        protected Expression Right;
+    }
+
+    /// <summary>
+    /// Class representing a less than or equal comparison on strings.
+    /// </summary>
+    public class STRING_LE : Operator
+    {
+        public STRING_LE(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new STRING_LE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(String.Compare(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+            sourceCode.Append("<=0)");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            yield return Right;
+        }
+
+        protected Expression Left;
+        protected Expression Right;
+    }
+
+    /// <summary>
+    /// Class representing a greater than comparison on strings.
+    /// </summary>
+    public class STRING_GT : Operator
+    {
+        public STRING_GT(Expression left, Expression right) 
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new STRING_GT(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(String.Compare(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+            sourceCode.Append(">0)");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            yield return Right;
+        }
+
+        protected Expression Left;
+        protected Expression Right;
+    }
+
+    /// <summary>
+    /// Class representing a greater than or equal comparison on strings.
+    /// </summary>
+    public class STRING_GE : Operator
+    {
+        public STRING_GE(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new STRING_GE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(String.Compare(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+            sourceCode.Append(">=0)");
+        }
+        
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            yield return Right;
+        }
+
+        protected Expression Left;
+        protected Expression Right;
+    }
+
     // external comparisons
 
     /// <summary>
