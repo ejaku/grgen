@@ -2279,6 +2279,13 @@ public class ActionsGen extends CSharpBase {
 					opNamePrefix = "GRAPH_";
 				}
 			}
+			if(op.getOpCode()==Operator.GT || op.getOpCode()==Operator.GE
+				|| op.getOpCode()==Operator.LT || op.getOpCode()==Operator.LE) {
+				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
+				if(opnd.getType() instanceof StringType) {
+					opNamePrefix = "STRING_";
+				}
+			}
 			if(model.isEqualClassDefined() && (op.getOpCode()==Operator.EQ || op.getOpCode()==Operator.NE)) {
 				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
 				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalType) {

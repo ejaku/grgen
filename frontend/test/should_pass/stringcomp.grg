@@ -1,0 +1,20 @@
+rule r(var s:string) {
+	if{ "a" < s; }
+	if{ "a" <= s; }
+	if{ !("a" > s); }
+	if{ !("a" >= s); }
+
+	if{ !("a" == s); }
+	if{ "a" != s; }
+
+	modify {
+		def var b:boolean;
+		eval { yield b = "a" < s; }
+		eval { yield b = "a" <= s; }
+		eval { yield b = !("a" > s); }
+		eval { yield b = !("a" >= s); }
+
+		eval { yield b = !("a" == s); }
+		eval { yield b = "a" != s; }
+	}
+}

@@ -676,6 +676,13 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
+							else if(opType instanceof StringType) {
+								sb.append("(String.Compare(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")>0)");
+							}
 							else if(modifyGenerationState.model().isLowerClassDefined()
 									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
 								sb.append("(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
@@ -719,6 +726,13 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
+							else if(opType instanceof StringType) {
+								sb.append("(String.Compare(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")>=0)");
+							}
 							else if(modifyGenerationState.model().isLowerClassDefined()
 									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
 								sb.append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
@@ -757,6 +771,13 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
+							else if(opType instanceof StringType) {
+								sb.append("(String.Compare(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")<0)");
+							}
 							else if(modifyGenerationState.model().isLowerClassDefined()
 									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
 								sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
@@ -794,6 +815,13 @@ public abstract class CSharpBase {
 								sb.append(", ");
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
+							}
+							else if(opType instanceof StringType) {
+								sb.append("(String.Compare(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")<=0)");
 							}
 							else if(modifyGenerationState.model().isLowerClassDefined()
 									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
