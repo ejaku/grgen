@@ -3989,14 +3989,14 @@ exitSecondLoop: ;
                     foreach (PatternGraph altCase in alt.alternativeCases)
                     {
                         GenerateScheduledSearchPlans(altCase, graph,
-                            isSubpatternLike, false, null);
+                            true, false, null);
                     }
                 }
 
                 foreach(Iterated iter in patternGraph.iteratedsPlusInlined)
                 {
                     GenerateScheduledSearchPlans(iter.iteratedPattern, graph,
-                        isSubpatternLike, false, null);
+                        true, false, null);
                 }
             }
         }
