@@ -1,0 +1,15 @@
+new graph "Filters/Automorph"
+
+exec init[10000]
+
+exec [autoPattern\auto]
+
+exec [autoIndependent\auto]
+
+exec [autoIterated\auto]
+
+exec [autoAlternative\auto]
+
+exec [autoSubpattern\auto]
+
+quit
