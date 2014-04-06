@@ -267,7 +267,7 @@ namespace de.unika.ipd.grGen.lgsp
                 PlanEdge rootToNodePlanEdge;
                 CreatePlanNodeAndLookupPlanEdge(node, i + 1, 
                     graphStatistics, patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot, zeroCost,
-                    presetsFromIndependentInlining,
+                    originalToInlinedIndependent, presetsFromIndependentInlining,
                     out planNode, out rootToNodePlanEdge);
 
                 planNodes[nodesIndex] = planNode;
@@ -293,7 +293,7 @@ namespace de.unika.ipd.grGen.lgsp
                         PlanEdge rootToNodePlanEdge;
                         CreatePlanNodeAndLookupPlanEdge(node, -1,
                             graphStatistics, patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot, zeroCost,
-                            presetsFromIndependentInlining,
+                            originalToInlinedIndependent, presetsFromIndependentInlining,
                             out planNode, out rootToNodePlanEdge);
 
                         planNodes[nodesIndex] = planNode;
@@ -393,7 +393,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private static void CreatePlanNodeAndLookupPlanEdge(PatternNode node, int elemId, 
             LGSPGraphStatistics graphStatistics, PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpatternLike, PlanNode planRoot, float zeroCost,
-            IDictionary<PatternElement, SetValueType> presetsFromIndependentInlining,
+            IDictionary<PatternNode, PatternNode> originalToInlinedIndependent, IDictionary<PatternElement, SetValueType> presetsFromIndependentInlining,
             out PlanNode planNode, out PlanEdge rootToNodePlanEdge)
         {
             float cost;
@@ -934,8 +934,25 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // use costs a bit higher for elements from independent patterns, so they are not chosen unless they bring a real advantage
             if(elem.OriginalIndependentElement != null)
-                cost = (cost + 0.1F) * 1.1F;
+                cost = (cost + 0.1F) * 1.1F * (cost < 10.0F ? 1.1F : 1.0F);
             return cost;
+        }
+
+        public static void CostDecreaseForLeavingInlinedIndependent(SearchPlanEdge planEdge)
+        {
+            // considerably lower the costs for operations leaving the inlined independent part, so this is done early
+            if(planEdge.Target is SearchPlanEdgeNode) // we may leave the independent part only with an edge
+            {
+                if(planEdge.Source.PatternElement.OriginalIndependentElement != null) // when the start is a node from an inlined independent
+                {
+                    SearchPlanEdgeNode edge = (SearchPlanEdgeNode)planEdge.Target;
+                    if(edge.PatternEdgeSource.PatternElement.OriginalIndependentElement != null && edge.PatternEdgeTarget.PatternElement.OriginalIndependentElement == null
+                        || edge.PatternEdgeSource.PatternElement.OriginalIndependentElement == null && edge.PatternEdgeTarget.PatternElement.OriginalIndependentElement != null)
+                    { // and the edge is incident to elements inside and outside of the inlined independent
+                        planEdge.Cost = (float)Math.Sqrt(Math.Sqrt(planEdge.Cost));
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -1324,7 +1341,7 @@ exitSecondLoop: ;
         /// <summary>
         /// Generates a scheduled search plan for a given search plan graph
         /// </summary>
-        public ScheduledSearchPlan ScheduleSearchPlan(SearchPlanGraph spGraph, 
+        public ScheduledSearchPlan ScheduleSearchPlan(SearchPlanGraph spGraph,
             PatternGraph patternGraph, bool isNegativeOrIndependent)
         {
             // the schedule
@@ -1465,6 +1482,7 @@ exitSecondLoop: ;
                     if(edge.Target.PatternElement.UniqueLookup != null
                         && edge.Target.PatternElement.GetPatternElementThisElementDependsOnOutsideOfGraphConnectedness()==null)
                         continue;
+                    CostDecreaseForLeavingInlinedIndependent(edge);
                     activeEdges.Add(edge);
                 }
 
@@ -1506,13 +1524,16 @@ exitSecondLoop: ;
         private void RemoveInlinedIndependentElementsAtEnd(List<SearchOperation> operations)
         {
             while(operations.Count > 0 &&
-                IsEndOperationAnInlinedIndependentElement(operations[operations.Count - 1]))
+                IsOperationAnInlinedIndependentElement(operations[operations.Count - 1]))
             {
+                foreach(SearchOperation op in operations)
+                    op.CostToEnd -= operations[operations.Count - 1].CostToEnd;
+
                 operations.RemoveAt(operations.Count-1);
             }
         }
 
-        private bool IsEndOperationAnInlinedIndependentElement(SearchOperation so)
+        private bool IsOperationAnInlinedIndependentElement(SearchOperation so)
         {
             if(so.Element is SearchPlanNode)
                 if(((SearchPlanNode)so.Element).PatternElement.OriginalIndependentElement != null)
@@ -1570,7 +1591,8 @@ exitSecondLoop: ;
             {
                 if(ssp.Operations[i].Type == SearchOperationType.Condition
                     || ssp.Operations[i].Type == SearchOperationType.AssignVar
-                    || ssp.Operations[i].Type == SearchOperationType.DefToBeYieldedTo)
+                    || ssp.Operations[i].Type == SearchOperationType.DefToBeYieldedTo
+                    || ssp.Operations[i].Type == SearchOperationType.InlinedIndependentCheckForDuplicateMatch)
                 {
                     continue;
                 }
@@ -1672,7 +1694,8 @@ exitSecondLoop: ;
                     || ssp.Operations[i].Type == SearchOperationType.IndependentPattern
                     || ssp.Operations[i].Type == SearchOperationType.Assign
                     || ssp.Operations[i].Type == SearchOperationType.AssignVar
-                    || ssp.Operations[i].Type == SearchOperationType.DefToBeYieldedTo)
+                    || ssp.Operations[i].Type == SearchOperationType.DefToBeYieldedTo
+                    || ssp.Operations[i].Type == SearchOperationType.InlinedIndependentCheckForDuplicateMatch)
                 {
                     continue;
                 }
@@ -1688,7 +1711,7 @@ exitSecondLoop: ;
                 if(spn_i.ElementID == -1)
                 {
                     // inlined from independent for better matching, independent from the rest
-                    return;
+                    continue;
                 }
                 
                 // find out whether element types are disjoint
@@ -1796,7 +1819,8 @@ exitSecondLoop: ;
                     || ssp.Operations[i].Type == SearchOperationType.IndependentPattern
                     || ssp.Operations[i].Type == SearchOperationType.Assign 
                     || ssp.Operations[i].Type == SearchOperationType.AssignVar
-                    || ssp.Operations[i].Type == SearchOperationType.DefToBeYieldedTo)
+                    || ssp.Operations[i].Type == SearchOperationType.DefToBeYieldedTo
+                    || ssp.Operations[i].Type == SearchOperationType.InlinedIndependentCheckForDuplicateMatch)
                 {
                     continue;
                 }
@@ -1812,7 +1836,7 @@ exitSecondLoop: ;
                 if(spn_i.ElementID == -1)
                 {
                     // inlined from independent for better matching, independent from the rest
-                    return;
+                    continue;
                 }
            
                 // in global isomorphy check at current position 
@@ -2012,9 +2036,40 @@ exitSecondLoop: ;
                     operations[j].CostToEnd += idptSchedule.Cost;
             }
 
+            InsertInlinedIndependentCheckForDuplicateMatch(operations);
+
             float cost = operations.Count > 0 ? operations[0].CostToEnd : 0;
             patternGraph.schedulesIncludingNegativesAndIndependents[index] =
                 new ScheduledSearchPlan(patternGraph, operations.ToArray(), cost);
+        }
+
+        private void InsertInlinedIndependentCheckForDuplicateMatch(List<SearchOperation> operations)
+        {
+            bool isInlinedIndependentElementExisting = false;
+            foreach(SearchOperation op in operations)
+            {
+                if(IsOperationAnInlinedIndependentElement(op))
+                {
+                    isInlinedIndependentElementExisting = true;
+                    break;
+                }
+            }
+
+            if(isInlinedIndependentElementExisting)
+            {
+                // insert at end of schedule, just moved ahead over negatives and independents
+                // TODO: if we can estimate condition overhead, it makes sense to move ahead over conditions, too
+                int i = operations.Count - 1;
+                while((operations[i].Type == SearchOperationType.NegativePattern
+                        || operations[i].Type == SearchOperationType.IndependentPattern) && i > 0)
+                {
+                    --i;
+                }
+
+                SearchOperation so = new SearchOperation(SearchOperationType.InlinedIndependentCheckForDuplicateMatch,
+                    null, null, operations[i].CostToEnd);
+                operations.Insert(i + 1, so);
+            }
         }
 
         /// <summary>

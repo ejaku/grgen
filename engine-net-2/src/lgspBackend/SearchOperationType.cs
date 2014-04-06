@@ -140,6 +140,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         IndependentPattern,
         /// <summary>
+        /// Check for a duplicate match arising from inlining an independent.
+        /// </summary>
+        InlinedIndependentCheckForDuplicateMatch,
+        /// <summary>
         /// Write the preset (node or edge) for the body of a parallelized action, in the head of the parallelized action.
         /// </summary>
         WriteParallelPreset,
