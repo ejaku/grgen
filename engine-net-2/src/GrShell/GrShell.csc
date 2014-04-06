@@ -61,6 +61,7 @@ PARSER_BEGIN(GrShell)
                             break;
                         }
                         command = args[i + 1];
+                        Console.WriteLine("Will execute: \"" + command + "\"");
                         i++;
                     }
                     else if(args[i] == "-N")
@@ -422,6 +423,7 @@ SPECIAL_TOKEN: {
 |	< FILENAME: ~["\'", "\"", "=", ";", "$", "|", "*", " ", "?", "\n", "\r"]
 	     (~["\'", "\"", "=", ";", "$", "|", "*", " ", "?", "\n", "\r"])* > : DEFAULT
 |	< NLINFILENAME: "\n" > : DEFAULT
+|	< DOUBLESEMICOLONINFILENAME: ";;" > : DEFAULT
 |	< ERRORFILENAME: ~[] > : DEFAULT
 }
 
@@ -699,7 +701,7 @@ String FilenameOptionalAtEndOfLine():
 			return tok.image.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
 		}
 	|
-		(tok=<NLINFILENAME> | tok=<EOF>)
+		(tok=<NLINFILENAME> | tok=<DOUBLESEMICOLONINFILENAME> | tok=<EOF>)
 		{
 			return null;
 		}
@@ -718,7 +720,7 @@ String FilenameParameterOrEndOfLine():
 			return tok.image.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
 		}
 	|
-		(tok=<NLINFILENAME> | tok=<EOF>)
+		(tok=<NLINFILENAME> | tok=<DOUBLESEMICOLONINFILENAME> | tok=<EOF>)
 		{
 			return null;
 		}
