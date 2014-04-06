@@ -2478,6 +2478,10 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, strio.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, strio.getStringToSearchForExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(strio.getStartIndexExpr()!=null) {
+				sb.append(", ");
+				genExpressionTree(sb, strio.getStartIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);				
+			}
 			sb.append(")");
 		}
 		else if (expr instanceof StringLastIndexOf) {

@@ -1038,6 +1038,10 @@ public abstract class CSharpBase {
 			genExpression(sb, strio.getStringExpr(), modifyGenerationState);
 			sb.append(").IndexOf(");
 			genExpression(sb, strio.getStringToSearchForExpr(), modifyGenerationState);
+			if(strio.getStartIndexExpr()!=null) {
+				sb.append(", ");
+				genExpression(sb, strio.getStartIndexExpr(), modifyGenerationState);
+			}
 			sb.append(")");
 		}
 		else if (expr instanceof StringLastIndexOf) {

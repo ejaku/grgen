@@ -97,12 +97,15 @@ public class MethodInvocationExprNode extends ExprNode
   					result = new StringSubstringNode(getCoords(), targetExpr, params.get(0), params.get(1));
   			}
   			else if(methodName.equals("indexOf")) {
-  				if(params.size() != 1) {
-  					reportError("string.indexOf(strToSearchFor) takes one parameter.");
+  				if(params.size() != 1 && params.size() != 2) {
+  					reportError("string.indexOf(strToSearchFor) takes one parameter, or a second startIndex parameter.");
 					return false;
 				}
   				else
-  					result = new StringIndexOfNode(getCoords(), targetExpr, params.get(0));
+  					if(params.size() == 1)
+  						result = new StringIndexOfNode(getCoords(), targetExpr, params.get(0));
+  					else
+  						result = new StringIndexOfNode(getCoords(), targetExpr, params.get(0), params.get(1));
   			}
   			else if(methodName.equals("lastIndexOf")) {
   				if(params.size() != 1) {
