@@ -317,13 +317,23 @@ namespace de.unika.ipd.grGen.libGr
         /// which are also in <paramref name="b"/>.</returns>
         public static Dictionary<K, V> Intersect<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
-            // Fill new dictionary with all elements from a.
-            Dictionary<K, V> newDict = new Dictionary<K, V>(a);
+            // Create empty dictionary.
+            Dictionary<K, V> newDict = new Dictionary<K, V>();
 
-            // Remove all elements of b not contained in a.
-            foreach(KeyValuePair<K, V> entry in b)
-                if(!a.ContainsKey(entry.Key))
-                    newDict.Remove(entry.Key);
+            // Add all elements of a also contained in b.
+            if(a.Count <= b.Count)
+            {
+                foreach(KeyValuePair<K, V> entry in a)
+                    if(b.ContainsKey(entry.Key))
+                        newDict.Add(entry.Key, entry.Value);
+            }
+            else
+            {
+                V value;
+                foreach(KeyValuePair<K, V> entry in b)
+                    if(a.TryGetValue(entry.Key, out value))
+                        newDict.Add(entry.Key, value);
+            }
 
             return newDict;
         }
