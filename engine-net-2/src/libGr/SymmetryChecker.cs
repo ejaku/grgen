@@ -54,20 +54,21 @@ namespace de.unika.ipd.grGen.libGr
             // locally the match this_ was a permutation of the match that
             // now check globally the nested and subpatterns
             
-            // independents must be in a 1:1 correspondence
-            for(int i = 0; i < this_.NumberOfIndependents; ++i)
-                if(!AreSymmetric(this_.getIndependentAt(i), that.getIndependentAt(i), graph))
-                    return false;
+            // independents don't need to be checked, there is always only one, existence counts
+            // (and negatives prevent a match in the first place, we'd never reach this if they would be found)
 
             // alternatives/alternative cases must be in a 1:1 correspondence (equal cases are ensured by the identical pattern check)
             for(int i = 0; i < this_.NumberOfAlternatives; ++i)
                 if(!AreSymmetric(this_.getAlternativeAt(i), that.getAlternativeAt(i), graph))
                     return false;
 
-            // the iterateds must be in a 1:1 correspondence -- but the iterations may be permuted, that's handled in the call
+            // iterated patterns are all-matches blocker, they are eagerly matched from their inputs on, 
+            // with each iterated pattern settling on the first match, not searching for all, even if requested for the action
+            // there can't be symmetric matches due to an iterated, only through the elements up to the iterated
+            /* the iterateds must be in a 1:1 correspondence -- but the iterations may be permuted, that's handled in the call
             for(int i = 0; i < this_.NumberOfIterateds; ++i)
                 if(!AreIterationsSymmetric(this_.getIteratedAt(i), that.getIteratedAt(i), graph))
-                    return false;
+                    return false;*/
 
             // the subpatterns of equal type may be permuted, the rest must be in a 1:1 correspondence
             // (by encapsulating the elements above in a subpattern instead of duplicating their content locally they can get symmetry checked)
