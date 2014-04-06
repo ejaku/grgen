@@ -1,0 +1,22 @@
+new graph independent/Independent2
+
+debug set layout Hierarchic
+
+exec init
+
+show num nodes
+show num edges
+
+custom graph analyze
+custom actions gen_searchplan
+custom actions explain findIndependentP
+
+exec [findP]
+exec [findHalfIndependentP]
+exec [findIndependentP]
+
+exec [findP\auto]
+exec [findHalfIndependentP\auto]
+exec [findIndependentP\auto]
+
+quit

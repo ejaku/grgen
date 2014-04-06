@@ -1,0 +1,126 @@
+#using "Independent2.gm"
+
+rule init
+{
+	replace {
+		p1:P@($="a1"); p2:P@($="a2"); p3:P@($="a3"); p4:P@($="a4");	p5:P@($="a5");
+		m1:M@($="m1"); m2:M@($="m2"); m3:M@($="m3"); m4:M@($="m4");	m5:M@($="m5");
+		p1 --> m1; p1 --> m2; p1 --> m3; p1 --> m4;
+		p2 --> m1; p2 --> m2; p2 --> m3; p2 --> m4;
+		p3 --> m2; p3 --> m3; p3 --> m4;
+		p4 --> m2; p4 --> m3; p4 --> m4; p4 --> m5;
+		p5 --> m2; p5 --> m3; p5 --> m4; p5 --> m5;
+	}
+}
+
+rule initMany
+{
+	replace {
+		p1:P; p2:P; p3:P; p4:P;	p5:P;
+		m1:M; m2:M; m3:M; m4:M;	m5:M;
+		p1 --> m1; p1 --> m2; p1 --> m3; p1 --> m4;
+		p2 --> m1; p2 --> m2; p2 --> m3; p2 --> m4;
+		p3 --> m2; p3 --> m3; p3 --> m4;
+		p4 --> m2; p4 --> m3; p4 --> m4; p4 --> m5;
+		p5 --> m2; p5 --> m3; p5 --> m4; p5 --> m5;
+	}
+}
+
+rule find
+{
+	p1:P; p2:P;
+	p1 --> m1:M;
+	p2 --> m1;
+	p1 --> m2:M;
+	p2 --> m2;
+	p1 --> m3:M;
+	p2 --> m3;		
+	
+	modify {
+        emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
+	}
+} \ auto
+
+rule findHalfIndependent
+{
+	p1:P; p2:P;
+	p1 --> m1:M;
+	p2 --> m1;
+	independent {
+		p1 --> m2:M;
+		p2 --> m2;
+		p1 --> m3:M;
+		p2 --> m3;		
+	}
+	
+	modify {
+        emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
+	}
+} \ auto
+
+rule findIndependent
+{
+	p1:P; p2:P;
+	independent {
+		p1 --> m1:M;
+		p2 --> m1;
+		p1 --> m2:M;
+		p2 --> m2;
+		p1 --> m3:M;
+		p2 --> m3;		
+	}
+	
+	modify {
+        emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
+	}
+} \ auto
+
+rule findP[parallelize=2]
+{
+	p1:P; p2:P;
+	p1 --> m1:M;
+	p2 --> m1;
+	p1 --> m2:M;
+	p2 --> m2;
+	p1 --> m3:M;
+	p2 --> m3;		
+	
+	modify {
+        emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
+	}
+} \ auto
+
+rule findHalfIndependentP[parallelize=2]
+{
+	p1:P; p2:P;
+	p1 --> m1:M;
+	p2 --> m1;
+	independent {
+		p1 --> m2:M;
+		p2 --> m2;
+		p1 --> m3:M;
+		p2 --> m3;		
+	}
+	
+	modify {
+        emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
+	}
+} \ auto
+
+rule findIndependentP[parallelize=2]
+{
+	p1:P; p2:P;
+	independent {
+		p1 --> m1:M;
+		p2 --> m1;
+		p1 --> m2:M;
+		p2 --> m2;
+		p1 --> m3:M;
+		p2 --> m3;		
+	}
+	
+	modify {
+        emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
+	}
+} \ auto
+
