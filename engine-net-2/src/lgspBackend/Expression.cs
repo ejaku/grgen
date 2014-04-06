@@ -2129,9 +2129,19 @@ namespace de.unika.ipd.grGen.expression
             StringToSearchForExpr = stringToSearchForExpr;
         }
 
+        public StringIndexOf(Expression stringExpr, Expression stringToSearchForExpr, Expression startIndexExpr)
+        {
+            StringExpr = stringExpr;
+            StringToSearchForExpr = stringToSearchForExpr;
+            StartIndexExpr = startIndexExpr;
+        }
+
         public override Expression Copy(string renameSuffix)
         {
-            return new StringIndexOf(StringExpr.Copy(renameSuffix), StringToSearchForExpr.Copy(renameSuffix));
+            if(StartIndexExpr!=null)
+                return new StringIndexOf(StringExpr.Copy(renameSuffix), StringToSearchForExpr.Copy(renameSuffix), StartIndexExpr.Copy(renameSuffix));
+            else
+                return new StringIndexOf(StringExpr.Copy(renameSuffix), StringToSearchForExpr.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2140,6 +2150,11 @@ namespace de.unika.ipd.grGen.expression
             StringExpr.Emit(sourceCode);
             sourceCode.Append(").IndexOf(");
             StringToSearchForExpr.Emit(sourceCode);
+            if(StartIndexExpr != null)
+            {
+                sourceCode.Append(", ");
+                StartIndexExpr.Emit(sourceCode);
+            }
             sourceCode.Append(")");
         }
 
@@ -2147,10 +2162,13 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return StringExpr;
             yield return StringToSearchForExpr;
+            if(StartIndexExpr != null)
+                yield return StartIndexExpr;
         }
 
         Expression StringExpr;
         Expression StringToSearchForExpr;
+        Expression StartIndexExpr;
     }
 
     /// <summary>
