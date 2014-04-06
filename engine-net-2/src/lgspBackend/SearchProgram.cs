@@ -4944,7 +4944,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder sourceCode)
         {
             if(sourceCode.CommentSourceCode)
-                sourceCode.AppendFront("// Check whether a duplicate match to be purged was found \n");
+                sourceCode.AppendFront("// Check whether a duplicate match to be purged was found or will be found\n");
 
             // emit hash variable declaration
             sourceCode.AppendFrontFormat("int {0} = 0;\n", NamesOfEntities.DuplicateMatchHashVariable());

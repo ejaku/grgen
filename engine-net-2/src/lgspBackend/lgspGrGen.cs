@@ -234,7 +234,7 @@ namespace de.unika.ipd.grGen.lgsp
                 PlanEdge rootToNodePlanEdge;
                 CreatePlanNodeAndLookupPlanEdge(node, i + 1,
                     patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot, zeroCost,
-                    presetsFromIndependentInlining,
+                    originalToInlinedIndependent, presetsFromIndependentInlining,
                     out planNode, out rootToNodePlanEdge);
 
                 planNodes[nodesIndex] = planNode;
@@ -260,7 +260,7 @@ namespace de.unika.ipd.grGen.lgsp
                         PlanEdge rootToNodePlanEdge;
                         CreatePlanNodeAndLookupPlanEdge(node, -1,
                             patternGraph, isNegativeOrIndependent, isSubpatternLike, planRoot, zeroCost,
-                            presetsFromIndependentInlining,
+                            originalToInlinedIndependent, presetsFromIndependentInlining,
                             out planNode, out rootToNodePlanEdge);
 
                         planNodes[nodesIndex] = planNode;
@@ -360,7 +360,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private static void CreatePlanNodeAndLookupPlanEdge(PatternNode node, int elemId, 
             PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpatternLike, PlanNode planRoot, float zeroCost,
-            IDictionary<PatternElement, SetValueType> presetsFromIndependentInlining,
+            IDictionary<PatternNode, PatternNode> originalToInlinedIndependent, IDictionary<PatternElement, SetValueType> presetsFromIndependentInlining,
             out PlanNode planNode, out PlanEdge rootToNodePlanEdge)
         {
             float cost;

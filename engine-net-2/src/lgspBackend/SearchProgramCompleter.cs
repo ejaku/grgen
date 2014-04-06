@@ -467,9 +467,11 @@ namespace de.unika.ipd.grGen.lgsp
             while (!op.IsSearchNestingOperation());
             SearchProgramOperation directlyEnclosingOperation = op;
             if (continuationPoint == directlyEnclosingOperation
-                // (check negative/independent is enclosing, but not a loop, thus continue wouldn't work)
+                // (check negative/independent is enclosing, but not a loop, thus continue wouldn't work) 
                 && !(directlyEnclosingOperation is CheckPartialMatchByNegative)
-                && !(directlyEnclosingOperation is CheckPartialMatchByIndependent))
+                && !(directlyEnclosingOperation is CheckPartialMatchByIndependent)
+                // (check partial match for duplicate contains an internal loop in checking, thus continue wouldn't work)
+                && !(checkOperation is CheckPartialMatchForDuplicate))
             {
                 ContinueOperation continueByContinue =
                     new ContinueOperation(ContinueOperationType.ByContinue, 

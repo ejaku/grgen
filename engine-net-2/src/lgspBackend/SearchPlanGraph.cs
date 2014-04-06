@@ -134,7 +134,7 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchPlanNode Source;
         public SearchOperationType Type;
 
-        public float LocalCost;
+        public float LocalCost; // only used in benchmarking
 
         public SearchPlanEdge(SearchOperationType type, SearchPlanNode source, SearchPlanNode target, float cost)
         {
