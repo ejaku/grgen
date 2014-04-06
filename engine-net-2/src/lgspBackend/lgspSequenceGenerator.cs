@@ -4819,6 +4819,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             String rulePatternClassName = TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
+            String matchClassName = rulePatternClassName + "." + NamesOfEntities.MatchClassName(rulePattern.name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = "auto";
             
@@ -4827,32 +4828,84 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
 
-            source.AppendFront("if(matches.Count<2)\n");
+            source.AppendFront("if(matches.Count < 2)\n");
             source.AppendFront("\treturn;\n");
-
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
+
+            source.AppendFrontFormat("if(matches.Count < 5 || {0}.Instance.patternGraph.nodes.Length + {0}.Instance.patternGraph.edges.Length < 1)\n", rulePatternClassName);
+            source.AppendFront("{\n");
+            source.Indent();
+
             source.AppendFront("for(int i = 0; i < matchesArray.Count; ++i)\n");
             source.AppendFront("{\n");
             source.Indent();
-
             source.AppendFront("if(matchesArray[i] == null)\n");
             source.AppendFront("\tcontinue;\n");
-
             source.AppendFront("for(int j = i + 1; j < matchesArray.Count; ++j)\n");
             source.AppendFront("{\n");
             source.Indent();
-
             source.AppendFront("if(matchesArray[j] == null)\n");
             source.AppendFront("\tcontinue;\n");
-
             source.AppendFront("if(GRGEN_LIBGR.SymmetryChecker.AreSymmetric(matchesArray[i], matchesArray[j], procEnv.graph))\n");
             source.AppendFront("\tmatchesArray[j] = null;\n");
-
+            source.Unindent();
+            source.AppendFront("}\n");
             source.Unindent();
             source.AppendFront("}\n");
 
             source.Unindent();
             source.AppendFront("}\n");
+            source.AppendFront("else\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFrontFormat("Dictionary<int, {0}> foundMatchesOfSameMainPatternHash = new Dictionary<int, {0}>();\n", 
+                matchClassName);
+            source.AppendFront("for(int i = 0; i < matchesArray.Count; ++i)\n");
+            source.AppendFront("{\n");
+            source.Indent();
+            source.AppendFrontFormat("{0} match = ({0})matchesArray[i];\n", matchClassName);
+            source.AppendFront("int duplicateMatchHash = 0;\n");
+            source.AppendFront("for(int j = 0; j < match.NumberOfNodes; ++j) duplicateMatchHash ^= match.getNodeAt(j).GetHashCode();\n");
+            source.AppendFront("for(int j = 0; j < match.NumberOfEdges; ++j) duplicateMatchHash ^= match.getEdgeAt(j).GetHashCode();\n");
+            source.AppendFront("bool contained = foundMatchesOfSameMainPatternHash.ContainsKey(duplicateMatchHash);\n");
+            source.AppendFront("if(contained)\n");
+            source.AppendFront("{\n");
+            source.Indent();
+            source.AppendFrontFormat("{0} duplicateMatchCandidate = foundMatchesOfSameMainPatternHash[duplicateMatchHash];\n", matchClassName);
+            source.AppendFront("do\n");
+            source.AppendFront("{\n");
+            source.Indent();
+            source.AppendFront("if(GRGEN_LIBGR.SymmetryChecker.AreSymmetric(match, duplicateMatchCandidate, procEnv.graph))\n");
+            source.AppendFront("{\n");
+            source.Indent();
+            source.AppendFront("matchesArray[i] = null;\n");
+            source.AppendFrontFormat("goto label_auto_{0};\n", rulePatternClassName.Replace('.', '_'));
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.AppendFront("while((duplicateMatchCandidate = duplicateMatchCandidate.nextWithSameHash) != null);\n");
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.AppendFront("if(!contained)\n");
+            source.AppendFront("\tfoundMatchesOfSameMainPatternHash[duplicateMatchHash] = match;\n");
+            source.AppendFront("else\n");
+            source.AppendFront("{\n");
+            source.Indent();
+            source.AppendFrontFormat("{0} duplicateMatchCandidate = foundMatchesOfSameMainPatternHash[duplicateMatchHash];\n", matchClassName);
+            source.AppendFront("while(duplicateMatchCandidate.nextWithSameHash != null) duplicateMatchCandidate = duplicateMatchCandidate.nextWithSameHash;\n");
+            source.AppendFront("duplicateMatchCandidate.nextWithSameHash = match;\n");
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.AppendFormat("label_auto_{0}: ;\n", rulePatternClassName.Replace('.', '_'));
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.AppendFrontFormat("foreach({0} toClean in foundMatchesOfSameMainPatternHash.Values) toClean.CleanNextWithSameHash();\n", matchClassName);
+            
+            source.Unindent();
+            source.AppendFront("}\n");
+
             source.AppendFront("matches.FromList();\n");
 
             source.Unindent();

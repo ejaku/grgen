@@ -295,7 +295,8 @@ namespace de.unika.ipd.grGen.lgsp
             if(WasIndependentInlined)
             {
                 sourceCode.AppendFrontFormat("Dictionary<int, {0}> {1} = null;\n",
-                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName), NamesOfEntities.FoundMatchesForFilteringVariable());
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName),
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
             }
 
             if(EmitProfiling)
@@ -318,6 +319,21 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin);\n", PatternName);
                 sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsSingle.Add(loopSteps);\n", PatternName);
                 sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsMultiple.Add(loopSteps);\n", PatternName);
+            }
+
+            if(WasIndependentInlined)
+            {
+                sourceCode.AppendFrontFormat("if({0} != null)\n", 
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("foreach({0} toClean in {1}.Values) toClean.CleanNextWithSameHash();\n",
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName),
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
+
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
             }
 
 #if ENSURE_FLAGS_IN_GRAPH_ARE_EMPTY_AT_LEAVING_TOP_LEVEL_MATCHING_ACTION
@@ -588,7 +604,8 @@ namespace de.unika.ipd.grGen.lgsp
             if(WasIndependentInlined)
             {
                 sourceCode.AppendFrontFormat("Dictionary<int, {0}> {1} = null;\n",
-                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName), NamesOfEntities.FoundMatchesForFilteringVariable());
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName),
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
             }
 
             OperationsList.Emit(sourceCode);
@@ -602,6 +619,21 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].loopStepsMultiple.Add(actionEnv.PerformanceInfo.LoopStepsPerThread[threadId]);\n", PatternName);
                 sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PatternName);
                 sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PatternName);
+            }
+
+            if(WasIndependentInlined)
+            {
+                sourceCode.AppendFrontFormat("if({0} != null)\n",
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("foreach({0} toClean in {1}.Values) toClean.CleanNextWithSameHash();\n",
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName),
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
+
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
             }
 
             sourceCode.AppendFront("return;\n");
@@ -698,10 +730,26 @@ namespace de.unika.ipd.grGen.lgsp
             if(WasIndependentInlined)
             {
                 sourceCode.AppendFrontFormat("Dictionary<int, {0}> {1} = null;\n",
-                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName), NamesOfEntities.FoundMatchesForFilteringVariable());
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName),
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
             }
 
             OperationsList.Emit(sourceCode);
+
+            if(WasIndependentInlined)
+            {
+                sourceCode.AppendFrontFormat("if({0} != null)\n",
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("foreach({0} toClean in {1}.Values) toClean.CleanNextWithSameHash();\n",
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName),
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
+
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
 
             sourceCode.AppendFront("return;\n");
             sourceCode.Unindent();
@@ -880,10 +928,26 @@ namespace de.unika.ipd.grGen.lgsp
             if(WasIndependentInlined)
             {
                 sourceCode.AppendFrontFormat("Dictionary<int, {0}> {1} = null;\n",
-                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(IterPathPrefix + IterPatternName), NamesOfEntities.FoundMatchesForFilteringVariable());
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(IterPathPrefix + IterPatternName),
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
             }
 
             OperationsList.Emit(sourceCode);
+
+            if(WasIndependentInlined)
+            {
+                sourceCode.AppendFrontFormat("if({0} != null)\n",
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("foreach({0} toClean in {1}.Values) toClean.CleanNextWithSameHash();\n",
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(IterPathPrefix + IterPatternName),
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
+
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
 
             sourceCode.AppendFront("return;\n");
             sourceCode.Unindent();
@@ -937,11 +1001,27 @@ namespace de.unika.ipd.grGen.lgsp
             if(WasIndependentInlined)
             {
                 sourceCode.AppendFrontFormat("Dictionary<int, {0}> {1} = null;\n",
-                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PathPrefix + CaseName), NamesOfEntities.FoundMatchesForFilteringVariable());
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PathPrefix + CaseName),
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
             }
 
             OperationsList.Emit(sourceCode);
-            
+
+            if(WasIndependentInlined)
+            {
+                sourceCode.AppendFrontFormat("if({0} != null)\n",
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("foreach({0} toClean in {1}.Values) toClean.CleanNextWithSameHash();\n",
+                    RulePatternClassName + "." + NamesOfEntities.MatchClassName(PathPrefix + CaseName),
+                    NamesOfEntities.FoundMatchesForFilteringVariable());
+
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
+
             sourceCode.Unindent();
             sourceCode.AppendFront("} while(false);\n");
         }
@@ -3138,6 +3218,19 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("moveInHeadAfter[i].Clear();\n");
             sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
+
+            if(WasIndependentInlined)
+            {
+                sourceCode.AppendFrontFormat("if({0} != null)\n", NamesOfEntities.FoundMatchesForFilteringVariable());
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("foreach({0} toClean in {1}.Values) toClean.CleanNextWithSameHash();\n",
+                    matchType, NamesOfEntities.FoundMatchesForFilteringVariable());
+
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
 
             if(EmitProfiling)
                 sourceCode.AppendFront("parallelMatcherUsed = true;\n");

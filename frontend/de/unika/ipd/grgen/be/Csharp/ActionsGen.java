@@ -3448,6 +3448,14 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\tpublic void Mark(bool flag) { _flag = flag; }\n");
 		sb.append("\t\t\tpublic bool IsMarked() { return _flag; }\n");
 		sb.append("\t\t\tpublic "+className+" nextWithSameHash;\n");
+		sb.append("\t\t\tpublic void CleanNextWithSameHash() {\n");
+		sb.append("\t\t\t\t"+className+" cur = this;\n");
+		sb.append("\t\t\t\twhile(cur != null) {\n");
+		sb.append("\t\t\t\t\t"+className+" next = cur.nextWithSameHash;\n");
+		sb.append("\t\t\t\t\tcur.nextWithSameHash = null;\n");
+		sb.append("\t\t\t\t\tcur = next;\n");
+		sb.append("\t\t\t\t}\n");
+		sb.append("\t\t\t}\n");
 		if(parallelized)
 			sb.append("\t\t\tpublic int duplicateMatchHash;\n");
 		sb.append("\t\t\tpublic int _iterationNumber;\n");
