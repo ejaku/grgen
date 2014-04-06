@@ -1130,6 +1130,7 @@ namespace de.unika.ipd.grGen.libGr
             if(char.IsDigit(lookahead))
                 return TokenizeNumber();
 
+            bool escaped = false;
             switch(lookahead)
             {
                 case ':':
@@ -1212,8 +1213,9 @@ namespace de.unika.ipd.grGen.libGr
 
                 case '\"':
                     EatCharWithoutIngesting();
-                    while(Lookahead() != '\"' && Lookahead() != '\0')
+                    while((Lookahead() != '\"' || escaped) && Lookahead() != '\0')
                     {
+                        escaped = Lookahead() == '\\';
                         EatChar();
                     }
                     if(Lookahead() == '\0')
@@ -1223,8 +1225,9 @@ namespace de.unika.ipd.grGen.libGr
 
                 case '\'':
                     EatCharWithoutIngesting();
-                    while(Lookahead() != '\'' && Lookahead() != '\0')
+                    while((Lookahead() != '\'' || escaped) && Lookahead() != '\0')
                     {
+                        escaped = Lookahead() == '\\';
                         EatChar();
                     }
                     if(Lookahead() == '\0')
