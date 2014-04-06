@@ -1,0 +1,80 @@
+rule init
+{
+	modify {
+		n1:Node --> n2:Node;
+		n1 --> n3:Node;
+		n2 --> n4:Node;
+		n3 --> n4;
+		n4 --> .;
+		n4 --> .;
+		n4 --> .;
+	}
+}
+
+test autoPattern
+{
+	n1:Node --> n2:Node;
+	n1 --> n3:Node;
+	n2 --> n4:Node;
+	n3 --> n4;
+	n4 --> .;
+	n4 --> .;
+	n4 --> .;
+} \ auto
+
+test autoIndependent
+{
+	n1:Node --> n2:Node;
+	n1 --> n3:Node;
+	n2 --> n4:Node;
+	n3 --> n4;
+	independent {
+		n4 --> .;
+		n4 --> .;
+		n4 --> .;
+	}
+} \ auto
+
+test autoIterated
+{
+	n1:Node --> n2:Node;
+	n1 --> n3:Node;
+	n2 --> n4:Node;
+	n3 --> n4;
+	iterated {
+		n4 --> .;
+		n4 --> .;
+		n4 --> .;
+	}
+} \ auto
+
+test autoAlternative
+{
+	n1:Node --> n2:Node;
+	n1 --> n3:Node;
+	n2 --> n4:Node;
+	n3 --> n4;
+	alternative {
+		pat {
+			n4 --> .;
+			n4 --> .;
+			n4 --> .;
+		}
+	}	
+} \ auto
+
+test autoSubpattern
+{
+	n1:Node --> n2:Node;
+	n1 --> n3:Node;
+	n2 --> n4:Node;
+	n3 --> n4;
+	:Attachement(n4);
+	:Attachement(n4);
+	:Attachement(n4);
+} \ auto
+
+pattern Attachement(n4:Node)
+{
+	n4 --> .;
+}
