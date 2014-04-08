@@ -2152,7 +2152,8 @@ namespace de.unika.ipd.grGen.grShell
                         double num;
                         Console.Write("Enter point in interval series of sequence to show: ");
                         String numStr = Console.ReadLine();
-                        if(double.TryParse(numStr, out num))
+                        if(double.TryParse(numStr, System.Globalization.NumberStyles.Float,
+                                System.Globalization.CultureInfo.InvariantCulture, out num))
                         {
                             if(num < 0.0 || num > seq.Numbers[seq.Numbers.Count - 1])
                             {
@@ -2418,7 +2419,8 @@ namespace de.unika.ipd.grGen.grShell
                 if(numStr == "")
                     return randomNumber;
                 double num;
-                if(double.TryParse(numStr, out num))
+                if(double.TryParse(numStr, System.Globalization.NumberStyles.Float,
+                                System.Globalization.CultureInfo.InvariantCulture, out num))
                 {
                     if(num < 0.0 || num >= 1.0)
                     {

@@ -681,7 +681,7 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
 								sb.append(", ");
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")>0)");
+								sb.append(", StringComparison.InvariantCulture)>0)");
 							}
 							else if(modifyGenerationState.model().isLowerClassDefined()
 									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
@@ -731,7 +731,7 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
 								sb.append(", ");
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")>=0)");
+								sb.append(", StringComparison.InvariantCulture)>=0)");
 							}
 							else if(modifyGenerationState.model().isLowerClassDefined()
 									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
@@ -776,7 +776,7 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
 								sb.append(", ");
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")<0)");
+								sb.append(", StringComparison.InvariantCulture)<0)");
 							}
 							else if(modifyGenerationState.model().isLowerClassDefined()
 									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
@@ -821,7 +821,7 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
 								sb.append(", ");
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")<=0)");
+								sb.append(", StringComparison.InvariantCulture)<=0)");
 							}
 							else if(modifyGenerationState.model().isLowerClassDefined()
 									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
@@ -964,8 +964,9 @@ public abstract class CSharpBase {
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
 					sb.append(", graph)");
 				} else {
+					sb.append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(".ToString()");
+					sb.append(", graph)");
 				}
 			} else if(typeName == "object") {
 				// no cast needed

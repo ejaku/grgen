@@ -980,7 +980,18 @@ namespace de.unika.ipd.grGen.grShell
             foreach(AttributeType attrType in elem.Type.AttributeTypes)
             {
                 object attr = elem.GetAttribute(attrType.Name);
-                String attrString = (attr != null) ? attr.ToString() : "<Not initialized>";
+                String attrString;
+                if(attr != null)
+                {
+                    if(attr is double)
+                        attrString = ((double)attr).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    else if(attr is float)
+                        attrString = ((float)attr).ToString(System.Globalization.CultureInfo.InvariantCulture) + "f";
+                    else
+                        attrString = attr.ToString();
+                }
+                else
+                    attrString = "<Not initialized>";
                 attribs.Add(String.Format("{0} {1}::{2} = {3}", GetKindName(attrType),
                     attrType.OwnerType.Name, attrType.Name, attrString));
             }

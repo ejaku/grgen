@@ -736,7 +736,8 @@ namespace de.unika.ipd.grGen.libGr
                     case AttributeKind.FloatAttr:
                     {
                         float val;
-                        if(!Single.TryParse(attrval, out val))
+                        if(!Single.TryParse(attrval, System.Globalization.NumberStyles.Float,
+                                System.Globalization.CultureInfo.InvariantCulture, out val))
                             throw new Exception("Attribute \"" + attrname + "\" must be a floating point number!");
                         value = val;
                         break;
@@ -745,7 +746,8 @@ namespace de.unika.ipd.grGen.libGr
                     case AttributeKind.DoubleAttr:
                     {
                         double val;
-                        if(!Double.TryParse(attrval, out val))
+                        if(!Double.TryParse(attrval, System.Globalization.NumberStyles.Float,
+                                System.Globalization.CultureInfo.InvariantCulture, out val))
                             throw new Exception("Attribute \"" + attrname + "\" must be a floating point number!");
                         value = val;
                         break;

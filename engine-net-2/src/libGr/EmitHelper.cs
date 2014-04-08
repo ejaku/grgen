@@ -413,7 +413,7 @@ namespace de.unika.ipd.grGen.libGr
                         break;
                 }
 
-                if(type!="object")
+                if(type != "object")
                     content = ToString(value, attrType, graph);
                 else
                     content = ToStringObject(value, attrType, graph);
@@ -494,7 +494,17 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             // we return "" for null as null is a valid string denoting the empty string in GrGen (dubious performance optimization)
-            return value!=null ? value.ToString() : "";
+            if(value == null)
+                return "";
+            else
+            {
+                if(value is double)
+                    return ((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                else if(value is float)
+                    return ((float)value).ToString(System.Globalization.CultureInfo.InvariantCulture) + "f";
+                else
+                    return value.ToString();
+            }
         }
 
         /// <summary>

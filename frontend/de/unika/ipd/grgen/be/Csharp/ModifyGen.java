@@ -1134,7 +1134,9 @@ public class ModifyGen extends CSharpBase {
 				Emit emit = (Emit) istmt;
 				for(Expression arg : emit.getArguments()) {
 					sb.append("\t\t\tprocEnv.EmitWriter.Write(");
+					sb.append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
 					genExpression(sb, arg, state);
+					sb.append(", graph)");
 					sb.append(");\n");
 				}
 			} else if (istmt instanceof Exec) {
@@ -1559,7 +1561,9 @@ public class ModifyGen extends CSharpBase {
 					Emit emit = (Emit)orderedRep;
 					for(Expression arg : emit.getArguments()) {
 						sb.append("\t\t\tprocEnv.EmitWriter.Write(");
+						sb.append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
 						genExpression(sb, arg, state);
+						sb.append(", graph)");
 						sb.append(");\n");
 					}
 				} else if(orderedRep instanceof AlternativeReplacement) {

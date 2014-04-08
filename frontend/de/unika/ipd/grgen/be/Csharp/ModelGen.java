@@ -2485,7 +2485,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		if(index.entity.getType() instanceof BooleanType)
 			sb.append("\t\t\tif(current.value." + attributeName + ".CompareTo(fromto)>=0)\n");
 		else if(index.entity.getType() instanceof StringType)
-			sb.append("\t\t\tif(String.Compare(current.value." + attributeName + ", fromto)>=0)\n");
+			sb.append("\t\t\tif(String.Compare(current.value." + attributeName + ", fromto, StringComparison.InvariantCulture)>=0)\n");
 		else
 			sb.append("\t\t\tif(current.value." + attributeName + " >= fromto)\n");
 		sb.append("\t\t\t{\n");
@@ -2512,7 +2512,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		if(index.entity.getType() instanceof BooleanType)
 			sb.append("\t\t\tif(current.value." + attributeName + ".CompareTo(fromto)<=0)\n");
 		else if(index.entity.getType() instanceof StringType)
-			sb.append("\t\t\tif(String.Compare(current.value." + attributeName + ", fromto)<=0)\n");
+			sb.append("\t\t\tif(String.Compare(current.value." + attributeName + ", fromto, StringComparison.InvariantCulture)<=0)\n");
 		else
 			sb.append("\t\t\tif(current.value." + attributeName + " <= fromto)\n");
 		sb.append("\t\t\t{\n");
@@ -2661,7 +2661,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			if(index.entity.getType() instanceof BooleanType)
 				sb.append("\t\t\tif(current.value." + attributeName + ".CompareTo(from)" + (fromInclusive ? " >= " : " > ") + "0)\n");
 			else if(index.entity.getType() instanceof StringType)
-				sb.append("\t\t\tif(String.Compare(current.value." + attributeName + ", from)" + (fromInclusive ? " >= " : " > ") + "0)\n");
+				sb.append("\t\t\tif(String.Compare(current.value." + attributeName + ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " >= " : " > ") + "0)\n");
 			else
 				sb.append("\t\t\tif(current.value." + attributeName + (fromInclusive ? " >= " : " > ") + "from)\n");
 		}
@@ -2687,7 +2687,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				if(index.entity.getType() instanceof BooleanType)
 					sb.append("current.value." + attributeName + ".CompareTo(from)" + (fromInclusive ? " >= " : " > ") + "0");
 				else if(index.entity.getType() instanceof StringType)
-					sb.append("String.Compare(current.value." + attributeName + ", from)" + (fromInclusive ? " >= " : " > ") + "0");
+					sb.append("String.Compare(current.value." + attributeName + ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " >= " : " > ") + "0");
 				else
 					sb.append("current.value." + attributeName + (fromInclusive ? " >= " : " > ") + "from");
 			}
@@ -2697,7 +2697,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				if(index.entity.getType() instanceof BooleanType)
 					sb.append("current.value." + attributeName + ".CompareTo(to)" + (toInclusive ? " <= " : " < ") + "0");
 				else if(index.entity.getType() instanceof StringType)
-					sb.append("String.Compare(current.value." + attributeName + ", to)" + (toInclusive ? " <= " : " < ") + "0");
+					sb.append("String.Compare(current.value." + attributeName + ", to, StringComparison.InvariantCulture)" + (toInclusive ? " <= " : " < ") + "0");
 				else
 					sb.append("current.value." + attributeName + (toInclusive ? " <= " : " < ") + "to");
 			}
@@ -2716,7 +2716,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			if(index.entity.getType() instanceof BooleanType)
 				sb.append("\t\t\tif(current.value." + attributeName + ".CompareTo(to)" + (toInclusive ? " <= " : " < ") + "0)\n");
 			else if(index.entity.getType() instanceof StringType)
-				sb.append("\t\t\tif(String.Compare(current.value." + attributeName + ", to)" + (toInclusive ? " <= " : " < ") + "0)\n");
+				sb.append("\t\t\tif(String.Compare(current.value." + attributeName + ", to, StringComparison.InvariantCulture)" + (toInclusive ? " <= " : " < ") + "0)\n");
 			else
 				sb.append("\t\t\tif(current.value." + attributeName + (toInclusive ? " <= " : " < ") + "to)\n");
 		}
@@ -2871,7 +2871,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			if(index.entity.getType() instanceof BooleanType)
 				sb.append("\t\t\tif(current.value." + attributeName + ".CompareTo(from)" + (fromInclusive ? " <= " : " < ") + "0)\n");
 			else if(index.entity.getType() instanceof StringType)
-				sb.append("\t\t\tif(String.Compare(current.value." + attributeName + ", from)" + (fromInclusive ? " <= " : " < ") + "0)\n");
+				sb.append("\t\t\tif(String.Compare(current.value." + attributeName + ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " <= " : " < ") + "0)\n");
 			else
 				sb.append("\t\t\tif(current.value." + attributeName + (fromInclusive ? " <= " : " < ") + "from)\n");
 		}
@@ -2897,7 +2897,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				if(index.entity.getType() instanceof BooleanType)
 					sb.append("current.value." + attributeName + ".CompareTo(from)" + (fromInclusive ? " <= " : " < ") + "0");
 				else if(index.entity.getType() instanceof StringType)
-					sb.append("String.Compare(current.value." + attributeName + ", from)" + (fromInclusive ? " <= " : " < ") + "0");
+					sb.append("String.Compare(current.value." + attributeName + ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " <= " : " < ") + "0");
 				else
 					sb.append("current.value." + attributeName + (fromInclusive ? " <= " : " < ") + "from");
 			}
@@ -2907,7 +2907,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				if(index.entity.getType() instanceof BooleanType)
 					sb.append("current.value." + attributeName + ".CompareTo(to)" + (toInclusive ? " >= " : " > ") + "0");
 				else if(index.entity.getType() instanceof StringType)
-					sb.append("String.Compare(current.value." + attributeName + ", to)" + (toInclusive ? " >= " : " > ") + "0");
+					sb.append("String.Compare(current.value." + attributeName + ", to, StringComparison.InvariantCulture)" + (toInclusive ? " >= " : " > ") + "0");
 				else
 					sb.append("current.value." + attributeName + (toInclusive ? " >= " : " > ") + "to");
 			}
@@ -2926,7 +2926,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			if(index.entity.getType() instanceof BooleanType)
 				sb.append("\t\t\tif(current.value." + attributeName + ".CompareTo(to)" + (toInclusive ? " >= " : " > ") + "0)\n");
 			else if(index.entity.getType() instanceof StringType)
-				sb.append("\t\t\tif(String.Compare(current.value." + attributeName + ", to)" + (toInclusive ? " >= " : " > ") + "0)\n");
+				sb.append("\t\t\tif(String.Compare(current.value." + attributeName + ", to, StringComparison.InvariantCulture)" + (toInclusive ? " >= " : " > ") + "0)\n");
 			else
 				sb.append("\t\t\tif(current.value." + attributeName + (toInclusive ? " >= " : " > ") + "to)\n");
 		}
@@ -3026,7 +3026,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		if(index.entity.getType() instanceof BooleanType)
 			sb.append("\t\t\tif(attributeValue.CompareTo(current.value." + attributeName + ")<0");
 		else if(index.entity.getType() instanceof StringType)
-			sb.append("\t\t\tif(String.Compare(attributeValue, current.value." + attributeName + ")<0");
+			sb.append("\t\t\tif(String.Compare(attributeValue, current.value." + attributeName + ", StringComparison.InvariantCulture)<0");
 		else
 			sb.append("\t\t\tif(attributeValue < current.value." + attributeName);
 		sb.append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique + ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
@@ -3034,7 +3034,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		if(index.entity.getType() instanceof BooleanType)
 			sb.append("\t\t\telse if(attributeValue.CompareTo(current.value." + attributeName + ")>0");
 		else if(index.entity.getType() instanceof StringType)
-			sb.append("\t\t\telse if(String.Compare(attributeValue, current.value." + attributeName + ")>0");
+			sb.append("\t\t\telse if(String.Compare(attributeValue, current.value." + attributeName + ", StringComparison.InvariantCulture)>0");
 		else
 			sb.append("\t\t\telse if(attributeValue > current.value." + attributeName);
 		sb.append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique + ").uniqueId > (current.value" + castForUnique + ").uniqueId ) )\n");
@@ -3057,7 +3057,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		if(index.entity.getType() instanceof BooleanType)
 			sb.append("\t\t\tif(value." + attributeName + ".CompareTo(current.value." + attributeName + ")<0");
 		else if(index.entity.getType() instanceof StringType)
-			sb.append("\t\t\tif(String.Compare(value." + attributeName + ", current.value." + attributeName + ")<0");
+			sb.append("\t\t\tif(String.Compare(value." + attributeName + ", current.value." + attributeName + ", StringComparison.InvariantCulture)<0");
 		else
 			sb.append("\t\t\tif(value." + attributeName + " < current.value." + attributeName);
 		sb.append(" || ( value." + attributeName + " == current.value." + attributeName + " && (value" + castForUnique + ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");

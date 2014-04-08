@@ -443,7 +443,7 @@ namespace de.unika.ipd.grGen.expression
             Left.Emit(sourceCode);
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            sourceCode.Append(", StringComparison.InvariantCulture)");
             sourceCode.Append("<0)");
         }
 
@@ -479,7 +479,7 @@ namespace de.unika.ipd.grGen.expression
             Left.Emit(sourceCode);
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            sourceCode.Append(", StringComparison.InvariantCulture)");
             sourceCode.Append("<=0)");
         }
 
@@ -515,7 +515,7 @@ namespace de.unika.ipd.grGen.expression
             Left.Emit(sourceCode);
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            sourceCode.Append(", StringComparison.InvariantCulture)");
             sourceCode.Append(">0)");
         }
 
@@ -551,7 +551,7 @@ namespace de.unika.ipd.grGen.expression
             Left.Emit(sourceCode);
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            sourceCode.Append(", StringComparison.InvariantCulture)");
             sourceCode.Append(">=0)");
         }
         
@@ -1508,8 +1508,9 @@ namespace de.unika.ipd.grGen.expression
                 }
                 else
                 {
+                    sourceCode.Append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
                     Nested.Emit(sourceCode);
-                    sourceCode.Append(".ToString()");
+                    sourceCode.Append(", graph)");
                 }
             }
             else

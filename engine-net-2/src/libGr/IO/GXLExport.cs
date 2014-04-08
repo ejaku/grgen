@@ -334,6 +334,10 @@ namespace de.unika.ipd.grGen.libGr
                     case AttributeKind.DoubleAttr:
                     case AttributeKind.FloatAttr:
                         valType = "double";
+                        if(value is float)
+                            valuestr = ((float)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                        else
+                            valuestr = ((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
                         break;
 
                     case AttributeKind.ByteAttr:
