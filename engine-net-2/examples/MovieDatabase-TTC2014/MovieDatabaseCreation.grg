@@ -1,0 +1,73 @@
+sequence createExample(n:int)
+{
+	i:int=0 ;> ( if{ {{i<n}} ; createTest(n) ;> {i=i+1} ; false } )*
+}
+
+sequence createTest(n:int)
+{
+	createPositive(n) ;> createNegative(n)
+}
+
+rule createPositive(var n:int)
+{
+	replace {
+		a:Actor@(name="a"+(10*n));
+		b:Actor@(name="a"+(10*n+1));
+		c:Actor@(name="a"+(10*n+2));
+		d:Actress@(name="a"+(10*n+3));
+		e:Actress@(name="a"+(10*n+4));
+		m1:Movie@(rating=10*n);
+		m2:Movie@(rating=10*n+1);
+		m3:Movie@(rating=10*n+2);
+		m4:Movie@(rating=10*n+3);
+		m5:Movie@(rating=10*n+4);
+		a -:personToMovie-> m1;
+		a -:personToMovie-> m2;
+		a -:personToMovie-> m3;
+		a -:personToMovie-> m4;
+		b -:personToMovie-> m1;
+		b -:personToMovie-> m2;
+		b -:personToMovie-> m3;
+		b -:personToMovie-> m4;
+		c -:personToMovie-> m2;
+		c -:personToMovie-> m3;
+		c -:personToMovie-> m4;
+		d -:personToMovie-> m2;
+		d -:personToMovie-> m3;
+		d -:personToMovie-> m4;
+		d -:personToMovie-> m5;
+		e -:personToMovie-> m2;
+		e -:personToMovie-> m3;
+		e -:personToMovie-> m4;
+		e -:personToMovie-> m5;
+	}
+}
+
+rule createNegative(var n:int)
+{
+	replace {
+		a:Actor@(name="a"+(10*n+5));
+		b:Actor@(name="a"+(10*n+6));
+		c:Actress@(name="a"+(10*n+7));
+		d:Actress@(name="a"+(10*n+8));
+		e:Actress@(name="a"+(10*n+9));
+		m1:Movie@(rating=10*n+5);
+		m2:Movie@(rating=10*n+6);
+		m3:Movie@(rating=10*n+7);
+		m4:Movie@(rating=10*n+8);
+		m5:Movie@(rating=10*n+9);
+		a -:personToMovie-> m1;
+		a -:personToMovie-> m2;
+		b -:personToMovie-> m1;
+		b -:personToMovie-> m2;
+		b -:personToMovie-> m3;
+		c -:personToMovie-> m2;
+		c -:personToMovie-> m3;
+		c -:personToMovie-> m4;
+		d -:personToMovie-> m3;
+		d -:personToMovie-> m4;
+		d -:personToMovie-> m5;
+		e -:personToMovie-> m4;
+		e -:personToMovie-> m5;
+	}
+}

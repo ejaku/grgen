@@ -1,0 +1,147 @@
+#using "MovieDatabaseModel.gm"
+
+#include "MovieDatabaseCreation.grg"
+
+rule findCouples
+{
+	pn1:Person; pn2:Person;
+	independent {
+		pn1 -:personToMovie-> m1:Movie <-:personToMovie- pn2;
+		pn1 -:personToMovie-> m2:Movie <-:personToMovie- pn2;
+		pn1 -:personToMovie-> m3:Movie <-:personToMovie- pn2;
+	}
+	
+	modify {
+		c:Couple;
+		c -:p1-> pn1;
+		c -:p2-> pn2;
+
+		exec(addCommonMoviesAndComputeAverageRanking(c, pn1, pn2));
+	}
+} \ auto
+
+rule addCommonMoviesAndComputeAverageRanking(c:Couple, pn1:Person, pn2:Person)
+{
+	iterated {
+		pn1 -:personToMovie-> m:Movie <-:personToMovie- pn2;
+		
+		modify {
+			c -:commonMovies-> m;
+			
+			eval {
+				yield cnt = cnt + 1;
+				yield sum = sum + m.rating;
+			}
+		}
+	}	
+	
+	modify {
+		def var cnt:int = 0;
+		def var sum:double = 0.0;
+		
+		eval {
+			c.avgRating = sum / cnt;
+		}
+	}
+}
+
+rule findCouplesOpt[parallelize=2]
+{
+	pn1:Person; pn2:Person;
+	independent {
+		pn1 -:personToMovie-> m1:Movie <-:personToMovie- pn2;
+		if{ atLeastThreeCommonMovies(pn1, pn2); }
+	}
+	if{ uniqueof(pn1) <= uniqueof(pn2); }
+	if{ atLeastThreeMovies(pn1); }
+	if{ atLeastThreeMovies(pn2); }
+	
+	modify {
+		c:Couple;
+		c -:p1-> pn1;
+		c -:p2-> pn2;
+
+		exec([addCommonMovies(c, pn1, pn2)]);
+	}
+}
+
+rule addCommonMovies[parallelize=2](c:Couple, pn1:Person, pn2:Person)
+{
+	pn1 -:personToMovie-> m:Movie <-:personToMovie- pn2;
+	
+	modify {
+		c -:commonMovies-> m;
+	}
+}
+
+rule computeAverageRanking
+{
+	c:Couple;
+	iterated {
+		c -:commonMovies-> m:Movie;
+		
+		modify {
+			eval {
+				yield cnt = cnt + 1;
+				yield sum = sum + m.rating;
+			}
+		}
+	}
+	
+	modify {
+		def var cnt:int = 0;
+		def var sum:double = 0.0;
+
+		eval {
+			c.avgRating = sum / cnt;
+		}
+	}
+}
+
+function atLeastThreeCommonMovies(pn1:Person, pn2:Person) : boolean
+{
+	def ref movies:set<Node> = adjacentOutgoing(pn1, personToMovie);
+	def var common:int = 0;
+	for(movie:Node in adjacentOutgoing(pn2, personToMovie))
+	{
+		if(movie in movies) {
+			common = common + 1;
+			if(common >= 3) {
+				return(true);
+			}
+		}
+	}
+	return(false);
+}
+
+function atLeastThreeMovies(pn:Person) : boolean
+{
+	def var common:int = 0;
+	for(movie:Node in adjacentOutgoing(pn, personToMovie))
+	{
+		common = common + 1;
+		if(common >= 3) {
+			return(true);
+		}
+	}
+	return(false);
+}
+
+rule couplesWithRating
+{
+	c:Couple;
+	c -:p1-> pn1:Person;
+	c -:p2-> pn2:Person;
+
+	def var avgRating:double;
+	def var numMovies:int;
+	yield {
+		yield avgRating = c.avgRating;
+		yield numMovies = outgoing(c, commonMovies).size();
+	}
+	
+	modify {
+		emit("avgRating: " + avgRating + " numMovies: " + numMovies + " by " + pn1.name + " and " + pn2.name + "\n");
+	}
+} \ orderDescendingBy<avgRating>, orderDescendingBy<numMovies>
+
