@@ -1,0 +1,73 @@
+#using "movies__ecore.gm"
+#using "MovieDatabaseModel.gm"
+
+function removeLeadingUnderscore(var s:string) : string
+{
+	return(s.substring(1, s.length()-1));
+}
+
+function escapeQuote(var s:string) : string
+{
+	def var startPos:int = 0;
+	def var occPos:int = s.indexOf("\"", startPos);
+	while(occPos != -1)
+	{
+		s = s.replace(occPos, 1, "\\\"");
+		startPos = occPos + 1 + 1;
+		occPos = s.indexOf("\"", startPos);
+	}
+	return(s);
+}
+
+rule create_MovieDatabaseModel
+{
+	modify {
+		emit("new graph \"MovieDatabaseModel\"\n");
+	}
+}
+
+rule create_Movie
+{
+	m:_movies::_Movie;
+	
+	modify {
+		emit("new :Movie($=\""+nameof(m)+"\", title=\""+escapeQuote(m._title)+"\", rating="+m._rating+", year="+m._year+", type="+removeLeadingUnderscore((string)m._type)+")\n");
+	}
+}
+
+rule create_Actor
+{
+	a:_movies::_Actor;
+	
+	modify {
+		emit("new :Actor($=\""+nameof(a)+"\", name=\""+escapeQuote(a._name)+"\")\n");
+	}
+}
+
+rule create_Actress
+{
+	a:_movies::_Actress;
+	
+	modify {
+		emit("new :Actress($=\""+nameof(a)+"\", name=\""+escapeQuote(a._name)+"\")\n");
+	}
+}
+
+rule create_personToMovie
+{
+	m:_movies::_Movie -mp:_movies::_Movie_persons-> p:_movies::_Person;
+	p -pm:_movies::_Person_movies-> m;
+	
+	modify {
+		delete(pm);
+		delete(mp);
+		emit("new @(\""+nameof(p)+"\") -:personToMovie($=\""+nameof(pm)+"\")-> @(\""+nameof(m)+"\")\n");
+	}
+}
+
+test noEdgesLeft
+{
+	negative {
+		-->;
+	}
+}

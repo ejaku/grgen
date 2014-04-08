@@ -1,0 +1,6 @@
+import movies.ecore imdb-0005000-50176.movies.xmi GrgenifyMovieDatabase.grg
+redirect emit imdb-0005000-50176.movies.xmi.grs
+exec create_MovieDatabaseModel ;> [create_Movie] ;> [create_Actor] ;> [create_Actress] ;> [create_personToMovie]
+redirect emit - 
+validate exitonfailure exec noEdgesLeft
+quit

@@ -1,0 +1,31 @@
+#new set statistics "Moviestats"
+#new graph MovieDatabase
+
+import imdb-0005000-50176.movies.xmi.grs MovieDatabase.grg
+#import imdb-0340000-1511739.movies.xmi.grs MovieDatabase.grg
+
+#dump add graph exclude
+#debug set layout Hierarchic
+#show graph ycomp
+
+#exec createExample(10000)
+
+show num nodes
+show num edges
+
+custom graph analyze
+#custom graph statistics save "Moviestats"
+custom actions gen_searchplan
+custom actions explain findCouplesOpt
+custom actions explain addCommonMovies
+
+exec [findCouplesOpt]
+
+show num nodes Couple
+
+exec [computeAverageRanking]
+
+exec [couplesWithRating\orderDescendingBy<avgRating>\keepFirst(15)]
+exec [couplesWithRating\orderDescendingBy<numMovies>\keepFirst(15)]
+
+quit

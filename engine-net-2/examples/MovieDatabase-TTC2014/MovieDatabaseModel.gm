@@ -1,0 +1,43 @@
+enum MovieType
+{
+	MOVIE,
+	TV,
+	VIDEO,
+	VIDEOGAME
+}
+
+node class Movie
+{
+	title:string;
+	rating:double;
+	year:int;
+	type:MovieType;
+}
+
+node class Person
+{
+	name:string;
+}
+
+node class Actor extends Person;
+node class Actress extends Person;
+
+node class Group
+{
+	avgRating:double;
+}
+
+node class Couple extends Group;
+
+node class Clique extends Group;
+
+edge class personToMovie;
+
+edge class commonMovies;
+
+edge class p1;
+edge class p2;
+
+edge class persons;
+
+node edge unique;
