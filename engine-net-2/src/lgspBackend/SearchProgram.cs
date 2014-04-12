@@ -302,6 +302,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(EmitProfiling)
             {
                 sourceCode.AppendFront("long searchStepsAtBegin = actionEnv.PerformanceInfo.SearchSteps;\n");
+                sourceCode.AppendFront("long searchStepsAtLoopStepBegin = searchStepsAtBegin;\n");
                 sourceCode.AppendFront("int loopSteps = 0;\n");
             }
 
@@ -463,6 +464,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("maxMatchesParallel = maxMatches;\n");
             sourceCode.AppendFront("graph.EnsureSufficientIsomorphySpacesForParallelizedMatchingAreAvailable(numWorkerThreads);\n");
             sourceCode.AppendFront("List<ushort> flagsPerElement0 = graph.flagsPerThreadPerElement[0];\n");
+            sourceCode.AppendFront("int numThreadsSignaled = 0;\n");
 
             if(EmitProfiling)
             {
@@ -606,6 +608,11 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("Dictionary<int, {0}> {1} = null;\n",
                     RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName),
                     NamesOfEntities.FoundMatchesForFilteringVariable());
+            }
+
+            if(EmitProfiling)
+            {
+                sourceCode.AppendFront("long searchStepsAtLoopStepBegin;\n");
             }
 
             OperationsList.Emit(sourceCode);
@@ -1852,12 +1859,12 @@ namespace de.unika.ipd.grGen.lgsp
                 if(Parallel)
                 {
                     sourceCode.AppendFront("++actionEnv.PerformanceInfo.LoopStepsPerThread[threadId];\n");
-                    sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    sourceCode.AppendFront("searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
                 }
                 else
                 {
                     sourceCode.AppendFront("++loopSteps;\n");
-                    sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchSteps;\n");
+                    sourceCode.AppendFront("searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchSteps;\n");
                 }
             }
             if(Parallel)
@@ -2127,7 +2134,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.AppendFrontFormat("// Parallelized Lookup {0} \n", PatternElementName);
 
                 if(EmitProfiling)
-                    sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    sourceCode.AppendFront("searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 
                 EmitIterationParallelizationLockAquire(sourceCode);
 
@@ -2189,7 +2196,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 
                 if(EmitProfiling)
-                    sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    sourceCode.AppendFront("searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 
                 EmitIterationParallelizationLockAquire(sourceCode);
 
@@ -2247,7 +2254,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 
                 if(EmitProfiling)
-                    sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    sourceCode.AppendFront("searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 
                 EmitIterationParallelizationLockAquire(sourceCode);
 
@@ -2305,7 +2312,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 
                 if(EmitProfiling)
-                    sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    sourceCode.AppendFront("searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 
                 EmitIterationParallelizationLockAquire(sourceCode);
 
@@ -2363,7 +2370,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 
                 if(EmitProfiling)
-                    sourceCode.AppendFront("long searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    sourceCode.AppendFront("searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 
                 if(EdgeType != IncidentEdgeType.IncomingOrOutgoing)
                 {
@@ -2796,7 +2803,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.AppendFront("iterationNumber = 0;\n");
-            sourceCode.AppendFront("int numThreadsSignaled = 0;\n");
+            sourceCode.AppendFront("numThreadsSignaled = 0;\n");
 
             if(Type == GetCandidateByIterationType.GraphElements)
             {
