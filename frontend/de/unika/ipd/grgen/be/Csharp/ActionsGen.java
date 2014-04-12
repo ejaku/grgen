@@ -323,11 +323,11 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t{\n");
 		
 		for(Function function : bearer.getFunctions()) {
-			genFunction(sb, function, false);
+			genFunction(sb, function, false, be.system.emitProfilingInstrumentation());
 		}
 		if(be.unit.isToBeParallelizedActionExisting()) {
 			for(Function function : bearer.getFunctions()) {
-				genFunction(sb, function, true);
+				genFunction(sb, function, true, be.system.emitProfilingInstrumentation());
 			}
 		}
 
@@ -353,7 +353,8 @@ public class ActionsGen extends CSharpBase {
 	/**
 	 * Generates the function representation sourcecode for the given function
 	 */
-	private void genFunction(StringBuffer sb, Function function, boolean isToBeParallelizedActionExisting) {
+	private void genFunction(StringBuffer sb, Function function, 
+			boolean isToBeParallelizedActionExisting, boolean emitProfilingInstrumentation) {
 		sb.append("\t\tpublic static " + formatType(function.getReturnType()) + " ");
 		sb.append(function.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
 		for(Entity inParam : function.getParameters()) {
@@ -366,7 +367,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append(", int threadId");
 		sb.append(")\n");
 		sb.append("\t\t{\n");
-		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, isToBeParallelizedActionExisting);
+		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, isToBeParallelizedActionExisting, emitProfilingInstrumentation);
 		for(EvalStatement evalStmt : function.getComputationStatements()) {
 			modifyGenState.functionOrProcedureName = function.getIdent().toString();
 			mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
@@ -441,7 +442,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t{\n");
 		
 		for(Procedure procedure : bearer.getProcedures()) {
-			genProcedure(sb, procedure);
+			genProcedure(sb, procedure, be.system.emitProfilingInstrumentation());
 		}
 
 		List<String> staticInitializers = new LinkedList<String>();
@@ -470,7 +471,7 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	private void genProcedure(StringBuffer sb, Procedure procedure) {
+	private void genProcedure(StringBuffer sb, Procedure procedure, boolean emitProfilingInstrumentation) {
 		sb.append("\t\tpublic static void ");
 		sb.append(procedure.getIdent().toString() + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPGraph graph");
 		for(Entity inParam : procedure.getParameters()) {
@@ -489,7 +490,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(")\n");
 		sb.append("\t\t{\n");
-		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false);
+		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false, emitProfilingInstrumentation);
 		mgFuncComp.initEvalGen();
 		for(EvalStatement evalStmt : procedure.getComputationStatements()) {
 			modifyGenState.functionOrProcedureName = procedure.getIdent().toString();
@@ -591,7 +592,7 @@ public class ActionsGen extends CSharpBase {
 		for(FilterFunction filter : bearer.getFilterFunctions()) {
 			if(filter instanceof FilterFunctionInternal) {
 				FilterFunctionInternal filterFunction = (FilterFunctionInternal)filter;
-				genFilterFunction(sb, filterFunction);
+				genFilterFunction(sb, filterFunction, be.system.emitProfilingInstrumentation());
 			}
 		}
 
@@ -613,7 +614,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\n");		
 	}
 
-	private void genFilterFunction(StringBuffer sb, FilterFunctionInternal filter) {
+	private void genFilterFunction(StringBuffer sb, FilterFunctionInternal filter, boolean emitProfilingInstrumentation) {
 		String actionName = filter.getAction().getIdent().toString();
 		sb.append("\t\tpublic static void ");
 		sb.append("Filter_" + filter.getIdent().toString() + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_"+actionName+".IMatch_"+actionName+"> matches");
@@ -627,7 +628,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tGRGEN_LIBGR.IActionExecutionEnvironment actionEnv = procEnv;\n");
 		sb.append("\t\t\tGRGEN_LIBGR.IGraph graph = procEnv.Graph;\n");
-		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false);
+		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false, emitProfilingInstrumentation);
 		EvalStatement lastEvalStmt = null;
 		for(EvalStatement evalStmt : filter.getComputationStatements()) {
 			modifyGenState.functionOrProcedureName = filter.getIdent().toString();

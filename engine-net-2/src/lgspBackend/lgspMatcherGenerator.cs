@@ -2533,6 +2533,15 @@ exitSecondLoop: ;
             }
         }
 
+        public static void SetNeedForProfiling(ExpressionOrYielding expyield)
+        {
+            expyield.SetNeedForProfiling(true);
+            foreach(ExpressionOrYielding child in expyield)
+            {
+                SetNeedForProfiling(child);
+            }
+        }
+
         /// <summary>
         /// Generates the action interface plus action implementation including the matcher source code 
         /// for the given rule pattern into the given source builder
@@ -4016,6 +4025,8 @@ exitSecondLoop: ;
             for(int i=0; i<patternGraph.schedules.Length; ++i)
             {
                 patternGraph.AdaptToMaybeNull(i);
+                if(Profile)
+                    SetNeedForProfiling(patternGraph);
                 PlanGraph planGraph = GeneratePlanGraph(graph.statistics, patternGraph,
                     isNegativeOrIndependent, isSubpatternLike,
                     ExtractOwnElements(nestingScheduledSearchPlan, patternGraph));
@@ -4053,6 +4064,42 @@ exitSecondLoop: ;
                     GenerateScheduledSearchPlans(iter.iteratedPattern, graph,
                         true, false, null);
                 }
+            }
+        }
+
+        public static void SetNeedForProfiling(PatternGraph patternGraph)
+        {
+            foreach(PatternCondition condition in patternGraph.Conditions)
+            {
+                SetNeedForProfiling(condition.ConditionExpression);
+            }
+            foreach(PatternYielding patternYielding in patternGraph.Yieldings)
+            {
+                foreach(Yielding yielding in patternYielding.ElementaryYieldings)
+                {
+                    SetNeedForProfiling(yielding);
+                }
+            }
+
+            foreach(PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
+            {
+                SetNeedForProfiling(idpt);
+            }
+            foreach(PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
+            {
+                SetNeedForProfiling(neg);
+            }
+
+            foreach(Alternative alt in patternGraph.alternativesPlusInlined)
+            {
+                foreach(PatternGraph altCase in alt.alternativeCases)
+                {
+                    SetNeedForProfiling(altCase);
+                }
+            }
+            foreach(Iterated iter in patternGraph.iteratedsPlusInlined)
+            {
+                SetNeedForProfiling(iter.iteratedPattern);
             }
         }
 

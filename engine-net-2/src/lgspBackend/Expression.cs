@@ -43,6 +43,17 @@ namespace de.unika.ipd.grGen.expression
             // NOP, sufficient for most expressions and yieldings,
             // only the reachable-constructs and the user defined functions need to call a special version
             // that prevents issues due to the shared use of visited flags
+            // and all version that support profiling, cause that must be different for the parallel version
+        }
+
+        /// <summary>
+        /// sets for the very node the profiling flag (does not recurse)
+        /// </summary>
+        public virtual void SetNeedForProfiling(bool profiling)
+        {
+            // NOP, sufficient for most expressions and yieldings,
+            // only the node/edge and the incident/adjacent/reachable-constructs need to call a special version
+            // counting up the search steps with each visited element/graph element accessed (but not the implicit operations)
         }
     }
 
@@ -3707,6 +3718,13 @@ namespace de.unika.ipd.grGen.expression
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.Nodes(graph, ");
             NodeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
 
@@ -3715,7 +3733,19 @@ namespace de.unika.ipd.grGen.expression
             yield return NodeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression NodeType;
+        public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -3737,6 +3767,13 @@ namespace de.unika.ipd.grGen.expression
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.Edges(graph, ");
             EdgeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
 
@@ -3745,7 +3782,19 @@ namespace de.unika.ipd.grGen.expression
             yield return EdgeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+        
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression EdgeType;
+        public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -3920,9 +3969,29 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("((GRGEN_LIBGR.INamedGraph)graph).GetNode(");
-            Name.Emit(sourceCode);
-            sourceCode.Append(")");
+            if(Profiling)
+            {
+                if(Parallel)
+                {
+                    sourceCode.Append("GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, ");
+                    Name.Emit(sourceCode);
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                    sourceCode.Append(")");
+                }
+                else
+                {
+                    sourceCode.Append("GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, ");
+                    Name.Emit(sourceCode);
+                    sourceCode.AppendFront(", actionEnv");
+                    sourceCode.Append(")");
+                }
+            }
+            else
+            {
+                sourceCode.Append("((GRGEN_LIBGR.INamedGraph)graph).GetNode(");
+                Name.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -3930,7 +3999,19 @@ namespace de.unika.ipd.grGen.expression
             yield return Name;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression Name;
+        bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -3950,9 +4031,29 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("((GRGEN_LIBGR.INamedGraph)graph).GetEdge(");
-            Name.Emit(sourceCode);
-            sourceCode.Append(")");
+            if(Profiling)
+            {
+                if(Parallel)
+                {
+                    sourceCode.Append("GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, ");
+                    Name.Emit(sourceCode);
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                    sourceCode.Append(")");
+                }
+                else
+                {
+                    sourceCode.Append("GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, ");
+                    Name.Emit(sourceCode);
+                    sourceCode.AppendFront(", actionEnv");
+                    sourceCode.Append(")");
+                }
+            }
+            else
+            {
+                sourceCode.Append("((GRGEN_LIBGR.INamedGraph)graph).GetEdge(");
+                Name.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -3960,7 +4061,19 @@ namespace de.unika.ipd.grGen.expression
             yield return Name;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression Name;
+        bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -3980,9 +4093,29 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("graph.GetNode(");
-            Unique.Emit(sourceCode);
-            sourceCode.Append(")");
+            if(Profiling)
+            {
+                if(Parallel)
+                {
+                    sourceCode.Append("GRGEN_LIBGR.GraphHelper.GetNode(graph, ");
+                    Unique.Emit(sourceCode);
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                    sourceCode.Append(")");
+                }
+                else
+                {
+                    sourceCode.Append("GRGEN_LIBGR.GraphHelper.GetNode(graph, ");
+                    Unique.Emit(sourceCode);
+                    sourceCode.AppendFront(", actionEnv");
+                    sourceCode.Append(")");
+                }
+            }
+            else
+            {
+                sourceCode.Append("graph.GetNode(");
+                Unique.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -3990,7 +4123,19 @@ namespace de.unika.ipd.grGen.expression
             yield return Unique;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression Unique;
+        bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -4010,9 +4155,29 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("graph.GetEdge(");
-            Unique.Emit(sourceCode);
-            sourceCode.Append(")");
+            if(Profiling)
+            {
+                if(Parallel)
+                {
+                    sourceCode.Append("GRGEN_LIBGR.GraphHelper.GetEdge(graph, ");
+                    Unique.Emit(sourceCode);
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                    sourceCode.Append(")");
+                }
+                else
+                {
+                    sourceCode.Append("GRGEN_LIBGR.GraphHelper.GetEdge(graph, ");
+                    Unique.Emit(sourceCode);
+                    sourceCode.AppendFront(", actionEnv");
+                    sourceCode.Append(")");
+                }
+            }
+            else
+            {
+                sourceCode.Append("graph.GetEdge(");
+                Unique.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -4020,7 +4185,19 @@ namespace de.unika.ipd.grGen.expression
             yield return Unique;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression Unique;
+        bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -4048,6 +4225,13 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
 
@@ -4058,9 +4242,21 @@ namespace de.unika.ipd.grGen.expression
             yield return AdjacentNodeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -4088,6 +4284,13 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
 
@@ -4098,9 +4301,21 @@ namespace de.unika.ipd.grGen.expression
             yield return AdjacentNodeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -4128,6 +4343,13 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
 
@@ -4138,9 +4360,21 @@ namespace de.unika.ipd.grGen.expression
             yield return AdjacentNodeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -4168,6 +4402,13 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
 
@@ -4178,9 +4419,21 @@ namespace de.unika.ipd.grGen.expression
             yield return AdjacentNodeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -4208,6 +4461,13 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
 
@@ -4218,9 +4478,21 @@ namespace de.unika.ipd.grGen.expression
             yield return AdjacentNodeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -4248,6 +4520,13 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
 
@@ -4258,9 +4537,21 @@ namespace de.unika.ipd.grGen.expression
             yield return AdjacentNodeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -4294,6 +4585,13 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
 
@@ -4305,10 +4603,22 @@ namespace de.unika.ipd.grGen.expression
             yield return AdjacentNodeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression StartNode;
         Expression EndNode;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
+        bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -4342,6 +4652,13 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
 
@@ -4353,10 +4670,22 @@ namespace de.unika.ipd.grGen.expression
             yield return AdjacentNodeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression StartNode;
         Expression EndNode;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
+        bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -4390,6 +4719,13 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
         
@@ -4401,10 +4737,22 @@ namespace de.unika.ipd.grGen.expression
             yield return AdjacentNodeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression StartNode;
         Expression EndNode;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
+        bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -4438,6 +4786,13 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
 
@@ -4449,10 +4804,22 @@ namespace de.unika.ipd.grGen.expression
             yield return AdjacentNodeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression StartNode;
         Expression EndEdge;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
+        bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -4486,6 +4853,13 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
 
@@ -4497,10 +4871,22 @@ namespace de.unika.ipd.grGen.expression
             yield return AdjacentNodeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression StartNode;
         Expression EndEdge;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
+        bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -4534,6 +4920,13 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront(", actionEnv, threadId");
+                else
+                    sourceCode.AppendFront(", actionEnv");
+            }
             sourceCode.Append(")");
         }
 
@@ -4545,10 +4938,22 @@ namespace de.unika.ipd.grGen.expression
             yield return AdjacentNodeType;
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression StartNode;
         Expression EndEdge;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
+        bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -4576,7 +4981,10 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
-            if(Parallel) sourceCode.Append(", threadId");
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel) 
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -4592,10 +5000,16 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
         public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -4623,7 +5037,10 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
-            if(Parallel) sourceCode.Append(", threadId");
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -4639,10 +5056,16 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
         public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -4670,7 +5093,10 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
-            if(Parallel) sourceCode.Append(", threadId");
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -4686,10 +5112,16 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
         public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -4717,7 +5149,10 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
-            if(Parallel) sourceCode.Append(", threadId");
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -4733,10 +5168,16 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
         public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -4764,7 +5205,10 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
-            if(Parallel) sourceCode.Append(", threadId");
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -4780,10 +5224,16 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
         public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -4811,7 +5261,10 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", ");
             AdjacentNodeType.Emit(sourceCode);
-            if(Parallel) sourceCode.Append(", threadId");
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -4827,10 +5280,16 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
         public bool Parallel;
+        public bool Profiling;
     }
 
     /// <summary>
@@ -4864,7 +5323,10 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
-            if(Parallel) sourceCode.Append(", threadId");
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -4881,11 +5343,17 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression StartNode;
         Expression EndNode;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
         bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -4919,7 +5387,10 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
-            if(Parallel) sourceCode.Append(", threadId");
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -4936,11 +5407,17 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression StartNode;
         Expression EndNode;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
         bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -4982,7 +5459,10 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
-            if(Parallel) sourceCode.Append(", threadId");
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -4991,11 +5471,17 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression StartNode;
         Expression EndNode;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
         bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -5029,7 +5515,10 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
-            if(Parallel) sourceCode.Append(", threadId");
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -5046,11 +5535,17 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression StartNode;
         Expression EndEdge;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
         bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -5084,7 +5579,10 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
-            if(Parallel) sourceCode.Append(", threadId");
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -5101,11 +5599,17 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression StartNode;
         Expression EndEdge;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
         bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>
@@ -5139,7 +5643,10 @@ namespace de.unika.ipd.grGen.expression
             IncidentEdgeType.Emit(sourceCode);
             sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
             AdjacentNodeType.Emit(sourceCode);
-            if(Parallel) sourceCode.Append(", threadId");
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -5156,11 +5663,17 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         Expression StartNode;
         Expression EndEdge;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
         bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>

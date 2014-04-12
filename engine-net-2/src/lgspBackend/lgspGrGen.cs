@@ -699,6 +699,8 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i=0; i<patternGraph.schedules.Length; ++i)
             {
                 patternGraph.AdaptToMaybeNull(i);
+                if(matcherGen.Profile)
+                    LGSPMatcherGenerator.SetNeedForProfiling(patternGraph);
                 PlanGraph planGraph;
                 if(graphStatistics != null)
                     planGraph = matcherGen.GeneratePlanGraph(graphStatistics, patternGraph, 
@@ -796,6 +798,7 @@ namespace de.unika.ipd.grGen.lgsp
                     + "-c \"" + tmpDir + Path.DirectorySeparatorChar + "printOutput.txt\" "
                     + "-o \"" + tmpDir + "\""
                     + ((flags & ProcessSpecFlags.NoEvents) != 0 ? " --noevents" : "")
+                    + ((flags & ProcessSpecFlags.Profile) != 0 ? " --profile" : "")
                     + " \"" + String.Join("\" \"", sourceFiles) + "\"";
                 ProcessStartInfo startInfo = new ProcessStartInfo(javaString, execStr);
                 startInfo.CreateNoWindow = true;
