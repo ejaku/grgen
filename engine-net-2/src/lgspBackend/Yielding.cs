@@ -833,6 +833,14 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", id);
                 adjacent.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
@@ -850,6 +858,14 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", id);
                 adjacent.AdjacentNodeType.Emit(sourceCode);
@@ -869,6 +885,14 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", id);
                 adjacent.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
@@ -886,6 +910,14 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", id);
                 incident.AdjacentNodeType.Emit(sourceCode);
@@ -905,6 +937,14 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", id);
                 incident.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
@@ -922,6 +962,14 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", id);
                 incident.AdjacentNodeType.Emit(sourceCode);
@@ -941,10 +989,20 @@ namespace de.unika.ipd.grGen.expression
                 reachable.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 sourceCode.Append("graph");
-                if(Parallel) sourceCode.Append(", threadId"); 
+                if(Parallel)
+                    sourceCode.Append(", threadId"); 
                 sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
             else if(Function is ReachableIncoming)
@@ -959,10 +1017,20 @@ namespace de.unika.ipd.grGen.expression
                 reachable.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 sourceCode.Append("graph");
-                if(Parallel) sourceCode.Append(", threadId");
+                if(Parallel)
+                    sourceCode.Append(", threadId");
                 sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
             else if(Function is ReachableOutgoing)
@@ -977,10 +1045,20 @@ namespace de.unika.ipd.grGen.expression
                 reachable.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 sourceCode.Append("graph");
-                if(Parallel) sourceCode.Append(", threadId");
+                if(Parallel)
+                    sourceCode.Append(", threadId");
                 sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
             else if(Function is ReachableEdges)
@@ -995,10 +1073,20 @@ namespace de.unika.ipd.grGen.expression
                 reachable.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 sourceCode.Append("graph");
-                if(Parallel) sourceCode.Append(", threadId");
+                if(Parallel)
+                    sourceCode.Append(", threadId");
                 sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
             else if(Function is ReachableEdgesIncoming)
@@ -1013,10 +1101,20 @@ namespace de.unika.ipd.grGen.expression
                 reachable.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 sourceCode.Append("graph");
-                if(Parallel) sourceCode.Append(", threadId");
+                if(Parallel)
+                    sourceCode.Append(", threadId");
                 sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
             else if(Function is ReachableEdgesOutgoing)
@@ -1031,10 +1129,20 @@ namespace de.unika.ipd.grGen.expression
                 reachable.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 sourceCode.Append("graph");
-                if(Parallel) sourceCode.Append(", threadId");
+                if(Parallel)
+                    sourceCode.Append(", threadId");
                 sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
             else if(Function is Nodes)
@@ -1045,6 +1153,15 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
                 sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = (" + VariableType + ") node_" + id + ";\n");
             }
             else if(Function is Edges)
@@ -1055,6 +1172,15 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
                 sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = (" + VariableType + ") edge_" + id + ";\n");
             }
 
@@ -1077,12 +1203,18 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
         public String Variable;
         public String UnprefixedVariable;
         public String VariableType;
         public Expression Function;
         Yielding[] Statements;
         bool Parallel;
+        bool Profiling;
     }
     
     /// <summary>

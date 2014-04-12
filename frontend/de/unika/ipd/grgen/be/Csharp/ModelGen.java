@@ -1394,7 +1394,7 @@ deque_init_loop:
 			sb.append("\t\t{\n");
 			sb.append("\t\t\tGRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 			sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
-			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false);
+			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false, be.system.emitProfilingInstrumentation());
 			for(EvalStatement evalStmt : fm.getComputationStatements()) {
 				modifyGenState.functionOrProcedureName = fm.getIdent().toString();
 				mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
@@ -1416,7 +1416,7 @@ deque_init_loop:
 				sb.append("\t\t{\n");
 				sb.append("\t\t\tGRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 				sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
-				modifyGenState = mgFuncComp.new ModifyGenerationState(model, true);
+				modifyGenState = mgFuncComp.new ModifyGenerationState(model, true, be.system.emitProfilingInstrumentation());
 				for(EvalStatement evalStmt : fm.getComputationStatements()) {
 					modifyGenState.functionOrProcedureName = fm.getIdent().toString();
 					mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
@@ -1462,7 +1462,7 @@ deque_init_loop:
 			sb.append("\t\t{\n");
 			sb.append("\t\t\tGRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 			sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
-			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false);
+			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false, be.system.emitProfilingInstrumentation());
 			mgFuncComp.initEvalGen();
 			for(EvalStatement evalStmt : pm.getComputationStatements()) {
 				modifyGenState.functionOrProcedureName = pm.getIdent().toString();

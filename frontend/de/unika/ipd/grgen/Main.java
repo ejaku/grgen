@@ -84,6 +84,8 @@ public class Main extends Base implements Sys {
 	private boolean noEvents;
 
 	private boolean enableDebug;
+	
+	private boolean emitProfiling;
 
 	/** enable ast printing */
 	private boolean dumpAST;
@@ -153,6 +155,7 @@ public class Main extends Base implements Sys {
 		//System.out.println("  -n, --new-technology              enable immature features");
 		System.out.println("  -t, --timing                      print some timing stats");
 		System.out.println("  -d, --debug                       enable debugging");
+		System.out.println("  -r  --profile                     emit profiling instrumentation");
 		System.out.println("  -a, --dump-ast                    dump the AST");
 		System.out.println("  -i, --dump-ir                     dump the intermidiate representation");
 		System.out.println("  -j, --dump-ir-rules               dump each ir rule in a seperate file");
@@ -291,6 +294,7 @@ public class Main extends Base implements Sys {
 		try {
 			CmdLineParser parser = new CmdLineParser();
 			CmdLineParser.Option debugOpt = parser.addBooleanOption('d', "debug");
+			CmdLineParser.Option profOpt = parser.addBooleanOption('r', "profile");
 			CmdLineParser.Option astDumpOpt = parser.addBooleanOption('a', "dump-ast");
 			CmdLineParser.Option irDumpOpt = parser.addBooleanOption('i', "dump-ir");
 			CmdLineParser.Option ruleDumpOpt = parser.addBooleanOption('j', "dump-ir-rules");
@@ -330,6 +334,7 @@ public class Main extends Base implements Sys {
 			dumpIR = parser.getOptionValue(irDumpOpt) != null;
 			dumpRules = parser.getOptionValue(ruleDumpOpt) != null;
 			enableDebug = parser.getOptionValue(debugOpt) != null;
+			emitProfiling = parser.getOptionValue(profOpt) != null;
 			graphic = parser.getOptionValue(graphicOpt) != null;
 			printTiming = parser.getOptionValue(timeOpt) != null;
 			noEvents = parser.getOptionValue(noEventsOpt) != null;
@@ -362,6 +367,10 @@ public class Main extends Base implements Sys {
 
 	public boolean mayFireEvents() {
 		return !noEvents;
+	}
+
+	public boolean emitProfilingInstrumentation() {
+		return emitProfiling;
 	}
 
 	public OutputStream createDebugFile(File file) {
