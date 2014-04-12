@@ -241,6 +241,8 @@ namespace de.unika.ipd.grGen.grGen
                 else specFile = args[i];
             }
 
+            // flags |= ProcessSpecFlags.Profile; // uncomment to test profiling
+
             if(specFile == null)
             {
                 Console.WriteLine(
