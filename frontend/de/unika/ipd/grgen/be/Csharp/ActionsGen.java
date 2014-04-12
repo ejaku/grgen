@@ -251,6 +251,7 @@ public class ActionsGen extends CSharpBase {
 		genStaticConstructor(sb, className, staticInitializers);
 
 		genMatch(sb, actionRule.getPattern(), className, actionRule.getAnnotations().containsKey("parallelize"));
+		//genMatch(sb, actionRule.getPattern(), className, true); // comment out to parallelize everything as possible, for testing
 
 		sb.append("\t}\n");
 		sb.append("\n");
@@ -1201,7 +1202,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\n");
 		addAnnotations(sb, action, "annotations");
 		//if(!action.getAnnotations().containsKey("parallelize")) // uncomment to parallelize everything as possible, for testing
-		//	sb.append("\t\t\tannotations.Add(\"parallelize\", \"2\");\n");
+		//	sb.append("\t\t\tannotations.Add(\"parallelize\", \"2\");\n"); // don't forget "comment out to parallelize everything as possible, for testing"
 		sb.append("\t\t}\n");
 
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
