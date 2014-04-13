@@ -3587,6 +3587,174 @@ public class ModifyGen extends CSharpBase {
 			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 		}
+		else if(ff.getFunction() instanceof BoundedReachableNodeExpr) {
+			BoundedReachableNodeExpr reachable = (BoundedReachableNodeExpr)ff.getFunction();
+			if(reachable.Direction()==BoundedReachableNodeExpr.ADJACENT) {
+				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
+				genExpression(sb, reachable.getStartNodeExpr(), state);	        
+		        sb.append(";\n");
+		        sb.append("\t\t\tforeach(GRGEN_LIBGR.INode iter_" + id 
+		        		+ " in GRGEN_LIBGR.GraphHelper.BoundedReachable(node_" + id + ",");
+				genExpression(sb, reachable.getDepthExpr(), state);	        
+		        sb.append(",");
+				genExpression(sb, reachable.getIncidentEdgeTypeExpr(), state);	        
+		        sb.append(",");
+				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
+				sb.append(","); 
+				sb.append("graph");
+				if(state.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
+				sb.append("))\n");
+		        sb.append("\t\t\t{\n");
+		        
+				if(state.emitProfilingInstrumentation()) {
+					if(state.isToBeParallelizedActionExisting())
+						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+					else
+						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+				}
+
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
+			}
+			else if(reachable.Direction()==BoundedReachableNodeExpr.INCOMING) {
+				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
+				genExpression(sb, reachable.getStartNodeExpr(), state);	        
+		        sb.append(";\n");
+		        sb.append("\t\t\tforeach(GRGEN_LIBGR.INode iter_" + id 
+		        		+ " in GRGEN_LIBGR.GraphHelper.BoundedReachableIncoming(node_" + id + ",");
+				genExpression(sb, reachable.getDepthExpr(), state);	        
+		        sb.append(",");
+				genExpression(sb, reachable.getIncidentEdgeTypeExpr(), state);	        
+		        sb.append(",");
+				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
+				sb.append(","); 
+				sb.append("graph");
+				if(state.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
+				sb.append("))\n");
+		        sb.append("\t\t\t{\n");
+		        
+				if(state.emitProfilingInstrumentation()) {
+					if(state.isToBeParallelizedActionExisting())
+						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+					else
+						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+				}
+
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
+			}
+			else if(reachable.Direction()==BoundedReachableNodeExpr.OUTGOING) {
+				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
+				genExpression(sb, reachable.getStartNodeExpr(), state);	        
+		        sb.append(";\n");
+		        sb.append("\t\t\tforeach(GRGEN_LIBGR.INode iter_" + id 
+		        		+ " in GRGEN_LIBGR.GraphHelper.BoundedReachableOutgoing(node_" + id + ",");
+				genExpression(sb, reachable.getDepthExpr(), state);	        
+		        sb.append(",");
+				genExpression(sb, reachable.getIncidentEdgeTypeExpr(), state);	        
+		        sb.append(",");
+				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
+				sb.append(","); 
+				sb.append("graph");
+				if(state.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
+				sb.append("))\n");
+		        sb.append("\t\t\t{\n");
+		        
+				if(state.emitProfilingInstrumentation()) {
+					if(state.isToBeParallelizedActionExisting())
+						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+					else
+						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+				}
+
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
+			}
+		}
+		else if(ff.getFunction() instanceof BoundedReachableEdgeExpr) {
+			BoundedReachableEdgeExpr reachable = (BoundedReachableEdgeExpr)ff.getFunction();
+			if(reachable.Direction()==BoundedReachableEdgeExpr.INCIDENT) {
+				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
+				genExpression(sb, reachable.getStartNodeExpr(), state);	        
+		        sb.append(";\n");
+		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id 
+		        		+ " in GRGEN_LIBGR.GraphHelper.BoundedReachableEdges(node_" + id + ",");
+				genExpression(sb, reachable.getDepthExpr(), state);	        
+		        sb.append(",");
+				genExpression(sb, reachable.getIncidentEdgeTypeExpr(), state);	        
+		        sb.append(",");
+				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
+				sb.append(","); 
+				sb.append("graph");
+				if(state.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
+				sb.append("))\n");
+		        sb.append("\t\t\t{\n");
+		        
+				if(state.emitProfilingInstrumentation()) {
+					if(state.isToBeParallelizedActionExisting())
+						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+					else
+						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+				}
+
+			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+			}
+			else if(reachable.Direction()==BoundedReachableEdgeExpr.INCOMING) {
+				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
+				genExpression(sb, reachable.getStartNodeExpr(), state);	        
+		        sb.append(";\n");
+		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id 
+		        		+ " in GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesIncoming(node_" + id + ",");
+				genExpression(sb, reachable.getDepthExpr(), state);	        
+		        sb.append(",");
+				genExpression(sb, reachable.getIncidentEdgeTypeExpr(), state);	        
+		        sb.append(",");
+				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
+				sb.append(","); 
+				sb.append("graph");
+				if(state.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
+				sb.append("))\n");
+		        sb.append("\t\t\t{\n");
+		        
+				if(state.emitProfilingInstrumentation()) {
+					if(state.isToBeParallelizedActionExisting())
+						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+					else
+						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+				}
+
+			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+			}
+			else if(reachable.Direction()==BoundedReachableEdgeExpr.OUTGOING) {
+				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
+				genExpression(sb, reachable.getStartNodeExpr(), state);	        
+		        sb.append(";\n");
+		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id 
+		        		+ " in GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesOutgoing(node_" + id + ",");
+				genExpression(sb, reachable.getDepthExpr(), state);	        
+		        sb.append(",");
+				genExpression(sb, reachable.getIncidentEdgeTypeExpr(), state);	        
+		        sb.append(",");
+				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
+				sb.append(","); 
+				sb.append("graph");
+				if(state.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
+				sb.append("))\n");
+		        sb.append("\t\t\t{\n");
+		        
+				if(state.emitProfilingInstrumentation()) {
+					if(state.isToBeParallelizedActionExisting())
+						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+					else
+						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+				}
+
+			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+			}
+		}
 		else if(ff.getFunction() instanceof NodesExpr) {
             NodesExpr nodes = (NodesExpr)ff.getFunction();
         	sb.append("\t\t\tforeach(GRGEN_LIBGR.INode node_" + id + " in graph.GetCompatibleNodes(");

@@ -1,0 +1,15 @@
+new graph "reachab/reachab"
+
+include reachab/init.grsi
+
+begin = @("begin")
+exec (::s) = reachabIncoming(::begin, 0)
+show var s
+exec (::s) = reachabIncoming(::begin, 1)
+show var s
+exec (::s) = reachabIncoming(::begin, 2)
+show var s
+exec (::s) = reachabIncoming(::begin, 2000000000)
+show var s
+
+quit

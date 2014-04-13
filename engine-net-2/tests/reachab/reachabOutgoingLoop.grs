@@ -1,0 +1,19 @@
+new graph "reachab/reachab"
+
+include reachab/init.grsi
+
+begin = @("begin")
+exec (::s) = reachabOutgoingLoop(::begin, 0)
+show var s
+exec (::s) = reachabOutgoingLoop(::begin, 1)
+show var s
+exec (::s) = reachabOutgoingLoop(::begin, 2)
+show var s
+exec (::s) = reachabOutgoingLoop(::begin, 3)
+show var s
+exec (::s) = reachabOutgoingLoop(::begin, 4)
+show var s
+exec (::s) = reachabOutgoingLoop(::begin, 2000000000)
+show var s
+
+quit

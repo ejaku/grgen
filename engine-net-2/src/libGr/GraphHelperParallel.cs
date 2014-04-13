@@ -25,7 +25,7 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<INode, SetValueType> Reachable(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, int threadId)
         {
             Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode, SetValueType>();
-            Reachable(startNode, incidentEdgeType, adjacentNodeType, adjacentNodesSet, threadId);
+            Reachable(startNode, incidentEdgeType, adjacentNodeType, adjacentNodesSet); // call normal version, is thread safe
             return adjacentNodesSet;
         }
 
@@ -39,30 +39,6 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Fills set of nodes reachable from the start node, under the type constraints given, in a depth-first walk
         /// </summary>
-        private static void Reachable(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<INode, SetValueType> adjacentNodesSet, int threadId)
-        {
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
-            {
-                INode adjacentNode = edge.Target;
-                if(!adjacentNode.InstanceOf(adjacentNodeType))
-                    continue;
-                if(adjacentNodesSet.ContainsKey(adjacentNode))
-                    continue;
-                adjacentNodesSet[adjacentNode] = null;
-                Reachable(adjacentNode, incidentEdgeType, adjacentNodeType, adjacentNodesSet, threadId);
-            }
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
-            {
-                INode adjacentNode = edge.Source;
-                if(!adjacentNode.InstanceOf(adjacentNodeType))
-                    continue;
-                if(adjacentNodesSet.ContainsKey(adjacentNode))
-                    continue;
-                adjacentNodesSet[adjacentNode] = null;
-                Reachable(adjacentNode, incidentEdgeType, adjacentNodeType, adjacentNodesSet, threadId);
-            }
-        }
-
         private static void Reachable(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<INode, SetValueType> adjacentNodesSet, IActionExecutionEnvironment actionEnv, int threadId)
         {
             foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
@@ -95,7 +71,7 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<INode, SetValueType> ReachableOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, int threadId)
         {
             Dictionary<INode, SetValueType> targetNodesSet = new Dictionary<INode, SetValueType>();
-            ReachableOutgoing(startNode, outgoingEdgeType, targetNodeType, targetNodesSet, threadId);
+            ReachableOutgoing(startNode, outgoingEdgeType, targetNodeType, targetNodesSet); // call normal version, is thread safe
             return targetNodesSet;
         }
 
@@ -109,20 +85,6 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Fills set of nodes reachable from the start node via outgoing edges, under the type constraints given, in a depth-first walk
         /// </summary>
-        private static void ReachableOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IDictionary<INode, SetValueType> targetNodesSet, int threadId)
-        {
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
-            {
-                INode adjacentNode = edge.Target;
-                if(!adjacentNode.InstanceOf(targetNodeType))
-                    continue;
-                if(targetNodesSet.ContainsKey(adjacentNode))
-                    continue;
-                targetNodesSet[adjacentNode] = null;
-                ReachableOutgoing(adjacentNode, outgoingEdgeType, targetNodeType, targetNodesSet, threadId);
-            }
-        }
-
         private static void ReachableOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IDictionary<INode, SetValueType> targetNodesSet, IActionExecutionEnvironment actionEnv, int threadId)
         {
             foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
@@ -144,7 +106,7 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<INode, SetValueType> ReachableIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, int threadId)
         {
             Dictionary<INode, SetValueType> sourceNodesSet = new Dictionary<INode, SetValueType>();
-            ReachableIncoming(startNode, incomingEdgeType, sourceNodeType, sourceNodesSet, threadId);
+            ReachableIncoming(startNode, incomingEdgeType, sourceNodeType, sourceNodesSet); // call normal version, is thread safe
             return sourceNodesSet;
         }
 
@@ -228,10 +190,10 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
+                incidentEdgesSet[edge] = null;
                 if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
-                incidentEdgesSet[edge] = null;
                 ReachableEdges(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, threadId);
             }
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
@@ -239,10 +201,10 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
+                incidentEdgesSet[edge] = null;
                 if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
-                incidentEdgesSet[edge] = null;
                 ReachableEdges(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, threadId);
             }
         }
@@ -255,10 +217,10 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
+                incidentEdgesSet[edge] = null;
                 if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
-                incidentEdgesSet[edge] = null;
                 ReachableEdges(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, actionEnv, threadId);
             }
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
@@ -267,10 +229,10 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
+                incidentEdgesSet[edge] = null;
                 if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
-                incidentEdgesSet[edge] = null;
                 ReachableEdges(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, actionEnv, threadId);
             }
         }
@@ -314,10 +276,10 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
+                outgoingEdgesSet[edge] = null;
                 if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
-                outgoingEdgesSet[edge] = null;
                 ReachableEdgesOutgoing(adjacentNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, threadId);
             }
         }
@@ -330,10 +292,10 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
+                outgoingEdgesSet[edge] = null;
                 if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
-                outgoingEdgesSet[edge] = null;
                 ReachableEdgesOutgoing(adjacentNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, actionEnv, threadId);
             }
         }
@@ -377,10 +339,10 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
+                incomingEdgesSet[edge] = null;
                 if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
-                incomingEdgesSet[edge] = null;
                 ReachableEdgesIncoming(adjacentNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, threadId);
             }
         }
@@ -393,11 +355,295 @@ namespace de.unika.ipd.grGen.libGr
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
+                incomingEdgesSet[edge] = null;
                 if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
-                incomingEdgesSet[edge] = null;
                 ReachableEdgesIncoming(adjacentNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, actionEnv, threadId);
+            }
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns set of nodes reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        public static Dictionary<INode, SetValueType> BoundedReachable(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, int threadId)
+        {
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachable(startNode, depth, incidentEdgeType, adjacentNodeType, adjacentNodesToMinDepth); // call normal version, is thread safe 
+            Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode, SetValueType>(adjacentNodesToMinDepth.Count);
+            foreach(INode node in adjacentNodesToMinDepth.Keys)
+                adjacentNodesSet.Add(node, null);
+            return adjacentNodesSet;
+        }
+
+        public static Dictionary<INode, SetValueType> BoundedReachable(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachable(startNode, depth, incidentEdgeType, adjacentNodeType, adjacentNodesToMinDepth, actionEnv, threadId);
+            Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode, SetValueType>(adjacentNodesToMinDepth.Count);
+            foreach(INode node in adjacentNodesToMinDepth.Keys)
+                adjacentNodesSet.Add(node, null);
+            return adjacentNodesSet;
+        }
+
+        /// <summary>
+        /// Fills set of nodes reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+        /// </summary>
+        private static void BoundedReachable(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<INode, int> adjacentNodesToMinDepth, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(depth <= 0)
+                return;
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                BoundedReachable(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, adjacentNodesToMinDepth, actionEnv, threadId);
+            }
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                BoundedReachable(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, adjacentNodesToMinDepth, actionEnv, threadId);
+            }
+        }
+
+        /// <summary>
+        /// Returns set of nodes reachable from the start node within the given depth via outgoing edges, under the type constraints given
+        /// </summary>
+        public static Dictionary<INode, SetValueType> BoundedReachableOutgoing(INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, int threadId)
+        {
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, targetNodesToMinDepth); // call normal version, is thread safe
+            Dictionary<INode, SetValueType> targetNodesSet = new Dictionary<INode, SetValueType>(targetNodesToMinDepth.Count);
+            foreach(INode node in targetNodesToMinDepth.Keys)
+                targetNodesSet.Add(node, null);
+            return targetNodesSet;
+        }
+
+        public static Dictionary<INode, SetValueType> BoundedReachableOutgoing(INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, targetNodesToMinDepth, actionEnv, threadId);
+            Dictionary<INode, SetValueType> targetNodesSet = new Dictionary<INode, SetValueType>(targetNodesToMinDepth.Count);
+            foreach(INode node in targetNodesToMinDepth.Keys)
+                targetNodesSet.Add(node, null);
+            return targetNodesSet;
+        }
+
+        /// <summary>
+        /// Fills set of nodes reachable from the start node within the given depth via outgoing edges, under the type constraints given, in a depth-first walk
+        /// </summary>
+        private static void BoundedReachableOutgoing(INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, IDictionary<INode, int> adjacentNodesToMinDepth, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(depth <= 0)
+                return;
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(targetNodeType))
+                    continue;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                BoundedReachableOutgoing(adjacentNode, depth - 1, outgoingEdgeType, targetNodeType, adjacentNodesToMinDepth, actionEnv, threadId);
+            }
+        }
+
+        /// <summary>
+        /// Returns set of nodes reachable from the start node within the given depth via incoming edges, under the type constraints given
+        /// </summary>
+        public static Dictionary<INode, SetValueType> BoundedReachableIncoming(INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, int threadId)
+        {
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableIncoming(startNode, depth, incomingEdgeType, sourceNodeType, sourceNodesToMinDepth); // call normal version, is thread safe
+            Dictionary<INode, SetValueType> sourceNodesSet = new Dictionary<INode, SetValueType>(sourceNodesToMinDepth.Count);
+            foreach(INode node in sourceNodesToMinDepth.Keys)
+                sourceNodesSet.Add(node, null);
+            return sourceNodesSet;
+        }
+
+        public static Dictionary<INode, SetValueType> BoundedReachableIncoming(INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableIncoming(startNode, depth, incomingEdgeType, sourceNodeType, sourceNodesToMinDepth, actionEnv, threadId);
+            Dictionary<INode, SetValueType> sourceNodesSet = new Dictionary<INode, SetValueType>(sourceNodesToMinDepth.Count);
+            foreach(INode node in sourceNodesToMinDepth.Keys)
+                sourceNodesSet.Add(node, null);
+            return sourceNodesSet;
+        }
+
+        /// <summary>
+        /// Fills set of nodes reachable from the start node within the given depth via incoming edges, under the type constraints given, in a depth-first walk
+        /// </summary>
+        private static void BoundedReachableIncoming(INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<INode, int> adjacentNodesToMinDepth, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(depth <= 0)
+                return;
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(sourceNodeType))
+                    continue;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                BoundedReachableIncoming(adjacentNode, depth - 1, incomingEdgeType, sourceNodeType, adjacentNodesToMinDepth, actionEnv, threadId);
+            }
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns set of edges reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        public static Dictionary<IEdge, SetValueType> BoundedReachableEdges(IGraph graph, INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> incidentEdgesSet = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableEdges(startNode, depth, incidentEdgeType, adjacentNodeType, incidentEdgesSet, adjacentNodesToMinDepth, graph); // call normal version, is thread safe
+            return incidentEdgesSet;
+        }
+
+        public static Dictionary<IEdge, SetValueType> BoundedReachableEdges(IGraph graph, INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> incidentEdgesSet = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableEdges(startNode, depth, incidentEdgeType, adjacentNodeType, incidentEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
+            return incidentEdgesSet;
+        }
+
+        /// <summary>
+        /// Fills set of edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+        /// </summary>
+        private static void BoundedReachableEdges(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<IEdge, SetValueType> incidentEdgesSet, Dictionary<INode, int> adjacentNodesToMinDepth, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(depth <= 0)
+                return;
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                incidentEdgesSet[edge] = null;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                BoundedReachableEdges(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, incidentEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
+            }
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                incidentEdgesSet[edge] = null;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                BoundedReachableEdges(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, incidentEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
+            }
+        }
+
+        /// <summary>
+        /// Returns set of outgoing edges reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        public static Dictionary<IEdge, SetValueType> BoundedReachableEdgesOutgoing(IGraph graph, INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> outgoingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableEdgesOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, outgoingEdgesSet, adjacentNodesToMinDepth, graph); // call normal version, is thread safe
+            return outgoingEdgesSet;
+        }
+
+        public static Dictionary<IEdge, SetValueType> BoundedReachableEdgesOutgoing(IGraph graph, INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> outgoingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableEdgesOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, outgoingEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
+            return outgoingEdgesSet;
+        }
+
+        /// <summary>
+        /// Fills set of outgoing edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+        /// </summary>
+        private static void BoundedReachableEdgesOutgoing(INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, Dictionary<IEdge, SetValueType> outgoingEdgesSet, Dictionary<INode, int> adjacentNodesToMinDepth, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(depth <= 0)
+                return;
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(targetNodeType))
+                    continue;
+                outgoingEdgesSet[edge] = null;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                BoundedReachableEdgesOutgoing(adjacentNode, depth - 1, outgoingEdgeType, targetNodeType, outgoingEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
+            }
+        }
+
+        /// <summary>
+        /// Returns set of incoming edges reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        public static Dictionary<IEdge, SetValueType> BoundedReachableEdgesIncoming(IGraph graph, INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> incomingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableEdgesIncoming(startNode, depth, incomingEdgeType, sourceNodeType, incomingEdgesSet, adjacentNodesToMinDepth, graph); // call normal version, is thread safe
+            return incomingEdgesSet;
+        }
+
+        public static Dictionary<IEdge, SetValueType> BoundedReachableEdgesIncoming(IGraph graph, INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> incomingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableEdgesIncoming(startNode, depth, incomingEdgeType, sourceNodeType, incomingEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
+            return incomingEdgesSet;
+        }
+
+        /// <summary>
+        /// Fills set of incoming edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+        /// </summary>
+        private static void BoundedReachableEdgesIncoming(INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<IEdge, SetValueType> incomingEdgesSet, Dictionary<INode, int> adjacentNodesToMinDepth, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(depth <= 0)
+                return;
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(sourceNodeType))
+                    continue;
+                incomingEdgesSet[edge] = null;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                BoundedReachableEdgesIncoming(adjacentNode, depth - 1, incomingEdgeType, sourceNodeType, incomingEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
             }
         }
 
@@ -951,6 +1197,332 @@ namespace de.unika.ipd.grGen.libGr
 
         //////////////////////////////////////////////////////////////////////////////////////////////
 
+        /// <summary>
+        /// Returns whether the end node is reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        public static bool IsBoundedReachable(IGraph graph, INode startNode, INode endNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, int threadId)
+        {
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            bool result = IsBoundedReachable(startNode, endNode, depth, incidentEdgeType, adjacentNodeType, graph, adjacentNodesToMinDepth); // call normal version, is thread safe
+            return result;
+        }
+
+        public static bool IsBoundedReachable(IGraph graph, INode startNode, INode endNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            bool result = IsBoundedReachable(startNode, endNode, depth, incidentEdgeType, adjacentNodeType, graph, adjacentNodesToMinDepth, actionEnv, threadId);
+            return result;
+        }
+
+        /// <summary>
+        /// Returns whether the end node is reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        private static bool IsBoundedReachable(INode startNode, INode endNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<INode, int> adjacentNodesToMinDepth, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(depth <= 0)
+                return false;
+
+            bool result = false;
+
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(edge.Target == endNode)
+                    return true;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                result = IsBoundedReachable(adjacentNode, endNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, adjacentNodesToMinDepth, actionEnv, threadId);
+                if(result == true)
+                    break;
+            }
+
+            if(!result)
+            {
+                foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+                {
+                    ++actionEnv.PerformanceInfo.SearchSteps;
+                    INode adjacentNode = edge.Source;
+                    if(!adjacentNode.InstanceOf(adjacentNodeType))
+                        continue;
+                    if(edge.Source == endNode)
+                        return true;
+                    int nodeDepth;
+                    if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                        continue;
+                    adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                    result = IsBoundedReachable(adjacentNode, endNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, adjacentNodesToMinDepth, actionEnv, threadId);
+                    if(result == true)
+                        break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns whether the end node is reachable from the start node within the given depth, via outgoing edges, under the type constraints given
+        /// </summary>
+        public static bool IsBoundedReachableOutgoing(IGraph graph, INode startNode, INode endNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, int threadId)
+        {
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            bool result = IsBoundedReachableOutgoing(startNode, endNode, depth, outgoingEdgeType, targetNodeType, graph, targetNodesToMinDepth); // call normal version, is thread safe
+            return result;
+        }
+
+        public static bool IsBoundedReachableOutgoing(IGraph graph, INode startNode, INode endNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            bool result = IsBoundedReachableOutgoing(startNode, endNode, depth, outgoingEdgeType, targetNodeType, graph, targetNodesToMinDepth, actionEnv, threadId);
+            return result;
+        }
+
+        /// <summary>
+        /// Returns whether the end node is reachable from the start node within the given depth, via outgoing edges, under the type constraints given
+        /// </summary>
+        private static bool IsBoundedReachableOutgoing(INode startNode, INode endNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, IGraph graph, Dictionary<INode, int> adjacentNodesToMinDepth, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(depth <= 0)
+                return false;
+
+            bool result = false;
+
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(targetNodeType))
+                    continue;
+                if(edge.Target == endNode)
+                    return true;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                result = IsBoundedReachableOutgoing(adjacentNode, endNode, depth - 1, outgoingEdgeType, targetNodeType, graph, adjacentNodesToMinDepth, actionEnv, threadId);
+                if(result == true)
+                    break;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns whether the end node is reachable from the start node within the given depth, via incoming edges, under the type constraints given
+        /// </summary>
+        public static bool IsBoundedReachableIncoming(IGraph graph, INode startNode, INode endNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, int threadId)
+        {
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            bool result = IsBoundedReachableIncoming(startNode, endNode, depth, incomingEdgeType, sourceNodeType, graph, sourceNodesToMinDepth); // call normal version, is thread safe
+            return result;
+        }
+
+        public static bool IsBoundedReachableIncoming(IGraph graph, INode startNode, INode endNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            bool result = IsBoundedReachableIncoming(startNode, endNode, depth, incomingEdgeType, sourceNodeType, graph, sourceNodesToMinDepth, actionEnv, threadId);
+            return result;
+        }
+
+        /// <summary>
+        /// Returns whether the end node is reachable from the start node within the given depth, via incoming edges, under the type constraints given
+        /// </summary>
+        private static bool IsBoundedReachableIncoming(INode startNode, INode endNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, IGraph graph, Dictionary<INode, int> adjacentNodesToMinDepth, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(depth <= 0)
+                return false;
+
+            bool result = false;
+
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(sourceNodeType))
+                    continue;
+                if(edge.Source == endNode)
+                    return true;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                result = IsBoundedReachableIncoming(adjacentNode, endNode, depth - 1, incomingEdgeType, sourceNodeType, graph, adjacentNodesToMinDepth, actionEnv, threadId);
+                if(result == true)
+                    break;
+            }
+
+            return result;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns whether the end edge is reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        public static bool IsBoundedReachableEdges(IGraph graph, INode startNode, IEdge endEdge, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, int threadId)
+        {
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            bool result = IsBoundedReachableEdges(startNode, endEdge, depth, incidentEdgeType, adjacentNodeType, graph, adjacentNodesToMinDepth); // call normal version, is thread safe
+            return result;
+        }
+
+        public static bool IsBoundedReachableEdges(IGraph graph, INode startNode, IEdge endEdge, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            bool result = IsBoundedReachableEdges(startNode, endEdge, depth, incidentEdgeType, adjacentNodeType, graph, adjacentNodesToMinDepth, actionEnv, threadId);
+            return result;
+        }
+
+        /// <summary>
+        /// Returns whether the end edge is reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        private static bool IsBoundedReachableEdges(INode startNode, IEdge endEdge, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<INode, int> adjacentNodesToMinDepth, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(depth <= 0)
+                return false;
+
+            bool result = false;
+
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(edge == endEdge)
+                    return true;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                result = IsBoundedReachableEdges(adjacentNode, endEdge, depth - 1, incidentEdgeType, adjacentNodeType, graph, adjacentNodesToMinDepth, actionEnv, threadId);
+                if(result == true)
+                    break;
+            }
+
+            if(!result)
+            {
+                foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+                {
+                    ++actionEnv.PerformanceInfo.SearchSteps;
+                    INode adjacentNode = edge.Source;
+                    if(!adjacentNode.InstanceOf(adjacentNodeType))
+                        continue;
+                    if(edge == endEdge)
+                        return true;
+                    int nodeDepth;
+                    if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                        continue;
+                    adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                    result = IsBoundedReachableEdges(adjacentNode, endEdge, depth - 1, incidentEdgeType, adjacentNodeType, graph, adjacentNodesToMinDepth, actionEnv, threadId);
+                    if(result == true)
+                        break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns whether the end edge is reachable from the start node within the given depth, via outgoing edges, under the type constraints given
+        /// </summary>
+        public static bool IsBoundedReachableEdgesOutgoing(IGraph graph, INode startNode, IEdge endEdge, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, int threadId)
+        {
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            bool result = IsBoundedReachableEdgesOutgoing(startNode, endEdge, depth, outgoingEdgeType, targetNodeType, graph, targetNodesToMinDepth); // call normal version, is thread safe
+            return result;
+        }
+
+        public static bool IsBoundedReachableEdgesOutgoing(IGraph graph, INode startNode, IEdge endEdge, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            bool result = IsBoundedReachableEdgesOutgoing(startNode, endEdge, depth, outgoingEdgeType, targetNodeType, graph, targetNodesToMinDepth, actionEnv, threadId);
+            return result;
+        }
+
+        /// <summary>
+        /// Returns whether the end edge is reachable from the start node within the given depth, via outgoing edges, under the type constraints given
+        /// </summary>
+        private static bool IsBoundedReachableEdgesOutgoing(INode startNode, IEdge endEdge, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, IGraph graph, Dictionary<INode, int> adjacentNodesToMinDepth, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(depth <= 0)
+                return false;
+
+            bool result = false;
+
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(targetNodeType))
+                    continue;
+                if(edge == endEdge)
+                    return true;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                result = IsBoundedReachableEdgesOutgoing(adjacentNode, endEdge, depth - 1, outgoingEdgeType, targetNodeType, graph, adjacentNodesToMinDepth, actionEnv, threadId);
+                if(result == true)
+                    break;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns whether the end edge is reachable from the start node within the given depth, via incoming edges, under the type constraints given
+        /// </summary>
+        public static bool IsBoundedReachableEdgesIncoming(IGraph graph, INode startNode, IEdge endEdge, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, int threadId)
+        {
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            bool result = IsBoundedReachableEdgesIncoming(startNode, endEdge, depth, incomingEdgeType, sourceNodeType, graph, sourceNodesToMinDepth); // call normal version, is thread safe
+            return result;
+        }
+
+        public static bool IsBoundedReachableEdgesIncoming(IGraph graph, INode startNode, IEdge endEdge, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            bool result = IsBoundedReachableEdgesIncoming(startNode, endEdge, depth, incomingEdgeType, sourceNodeType, graph, sourceNodesToMinDepth, actionEnv, threadId);
+            return result;
+        }
+
+        /// <summary>
+        /// Returns whether the end edge is reachable from the start node within the given depth, via incoming edges, under the type constraints given
+        /// </summary>
+        private static bool IsBoundedReachableEdgesIncoming(INode startNode, IEdge endEdge, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, IGraph graph, Dictionary<INode, int> adjacentNodesToMinDepth, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(depth <= 0)
+                return false;
+
+            bool result = false;
+
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(sourceNodeType))
+                    continue;
+                if(edge == endEdge)
+                    return true;
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                result = IsBoundedReachableEdgesIncoming(adjacentNode, endEdge, depth - 1, incomingEdgeType, sourceNodeType, graph, adjacentNodesToMinDepth, actionEnv, threadId);
+                if(result == true)
+                    break;
+            }
+
+            return result;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
         public static IEnumerable<INode> Reachable(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int threadId)
         {
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
@@ -1119,6 +1691,141 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 visitedNodes.Add(adjacentNode, null);
                 foreach(IEdge reachableEdge in ReachableEdgesOutgoingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+                    yield return reachableEdge;
+            }
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        public static IEnumerable<INode> BoundedReachable(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int threadId)
+        {
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            foreach(INode node in BoundedReachableRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, adjacentNodesToMinDepth)) // call normal version, is thread safe
+                yield return node;
+        }
+
+        public static IEnumerable<INode> BoundedReachableIncoming(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int threadId)
+        {
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            foreach(INode node in BoundedReachableIncomingRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, sourceNodesToMinDepth)) // call normal version, is thread safe
+                yield return node;
+        }
+
+        public static IEnumerable<INode> BoundedReachableOutgoing(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int threadId)
+        {
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            foreach(INode node in BoundedReachableOutgoingRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, targetNodesToMinDepth)) // call normal version, is thread safe
+                yield return node;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        public static IEnumerable<IEdge> BoundedReachableEdges(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> visitedEdges = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            foreach(IEdge edge in BoundedReachableEdgesRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, visitedEdges, adjacentNodesToMinDepth, threadId))
+                yield return edge;
+        }
+
+        private static IEnumerable<IEdge> BoundedReachableEdgesRec(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<IEdge, SetValueType> visitedEdges, Dictionary<INode, int> adjacentNodesToMinDepth, int threadId)
+        {
+            if(depth <= 0)
+                yield break;
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(!visitedEdges.ContainsKey(edge))
+                {
+                    visitedEdges[edge] = null;
+                    yield return edge;
+                }
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                foreach(IEdge reachableEdge in BoundedReachableEdgesRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, visitedEdges, adjacentNodesToMinDepth, threadId))
+                    yield return reachableEdge;
+            }
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(!visitedEdges.ContainsKey(edge))
+                {
+                    visitedEdges[edge] = null;
+                    yield return edge;
+                }
+                int nodeDepth;
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                adjacentNodesToMinDepth[adjacentNode] = depth - 1;
+                foreach(IEdge reachableEdge in BoundedReachableEdgesRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, visitedEdges, adjacentNodesToMinDepth, threadId))
+                    yield return reachableEdge;
+            }
+        }
+
+        public static IEnumerable<IEdge> BoundedReachableEdgesIncoming(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> visitedEdges = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            foreach(IEdge edge in BoundedReachableEdgesIncomingRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, visitedEdges, sourceNodesToMinDepth, threadId))
+                yield return edge;
+        }
+
+        private static IEnumerable<IEdge> BoundedReachableEdgesIncomingRec(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<IEdge, SetValueType> visitedEdges, Dictionary<INode, int> sourceNodesToMinDepth, int threadId)
+        {
+            if(depth <= 0)
+                yield break;
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(!visitedEdges.ContainsKey(edge))
+                {
+                    visitedEdges[edge] = null;
+                    yield return edge;
+                }
+                int nodeDepth;
+                if(sourceNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                sourceNodesToMinDepth[adjacentNode] = depth - 1;
+                foreach(IEdge reachableEdge in BoundedReachableEdgesIncomingRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, visitedEdges, sourceNodesToMinDepth, threadId))
+                    yield return reachableEdge;
+            }
+        }
+
+        public static IEnumerable<IEdge> BoundedReachableEdgesOutgoing(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> visitedEdges = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            foreach(IEdge edge in BoundedReachableEdgesOutgoingRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, visitedEdges, targetNodesToMinDepth, threadId))
+                yield return edge;
+        }
+
+        private static IEnumerable<IEdge> BoundedReachableEdgesOutgoingRec(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<IEdge, SetValueType> visitedEdges, Dictionary<INode, int> targetNodesToMinDepth, int threadId)
+        {
+            if(depth <= 0)
+                yield break;
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(!visitedEdges.ContainsKey(edge))
+                {
+                    visitedEdges[edge] = null;
+                    yield return edge;
+                }
+                int nodeDepth;
+                if(targetNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                    continue;
+                targetNodesToMinDepth[adjacentNode] = depth - 1;
+                foreach(IEdge reachableEdge in BoundedReachableEdgesOutgoingRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, visitedEdges, targetNodesToMinDepth, threadId))
                     yield return reachableEdge;
             }
         }

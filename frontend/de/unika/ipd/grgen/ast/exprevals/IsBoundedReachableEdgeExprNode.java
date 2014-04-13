@@ -13,37 +13,41 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.IsReachableNodeExpr;
+import de.unika.ipd.grgen.ir.exprevals.IsBoundedReachableEdgeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * An ast node telling whether an end node can be reached from a start node, via incoming/outgoing/incident edges of given type, from/to a node of given type.
+ * An ast node telling whether an end edge can be reached from a start node within a given number of steps into depth,
+ * via incoming/outgoing/incident edges of given type, from/to a node of given type.
  */
-public class IsReachableNodeExprNode extends ExprNode {
+public class IsBoundedReachableEdgeExprNode extends ExprNode {
 	static {
-		setName(IsReachableNodeExprNode.class, "is reachable node expr");
+		setName(IsBoundedReachableEdgeExprNode.class, "is bounded reachable edge expr");
 	}
 
 	private ExprNode startNodeExpr;
-	private ExprNode endNodeExpr;
+	private ExprNode endEdgeExpr;
+	private ExprNode depthExpr;
 	private ExprNode incidentTypeExpr;
 	private ExprNode adjacentTypeExpr;
 
 	private int direction;
 	
-	public static final int ADJACENT = 0;
+	public static final int INCIDENT = 0;
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
 	
-	public IsReachableNodeExprNode(Coords coords, 
-			ExprNode startNodeExpr, ExprNode endNodeExpr,
+	public IsBoundedReachableEdgeExprNode(Coords coords, 
+			ExprNode startNodeExpr, ExprNode endEdgeExpr, ExprNode depthExpr,
 			ExprNode incidentTypeExpr, int direction,
 			ExprNode adjacentTypeExpr) {
 		super(coords);
 		this.startNodeExpr = startNodeExpr;
 		becomeParent(this.startNodeExpr);
-		this.endNodeExpr = endNodeExpr;
-		becomeParent(this.endNodeExpr);
+		this.endEdgeExpr = endEdgeExpr;
+		becomeParent(this.endEdgeExpr);
+		this.depthExpr = depthExpr;
+		becomeParent(this.depthExpr);
 		this.incidentTypeExpr = incidentTypeExpr;
 		becomeParent(this.incidentTypeExpr);
 		this.direction = direction;
@@ -56,7 +60,8 @@ public class IsReachableNodeExprNode extends ExprNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(startNodeExpr);
-		children.add(endNodeExpr);
+		children.add(endEdgeExpr);
+		children.add(depthExpr);
 		children.add(incidentTypeExpr);
 		children.add(adjacentTypeExpr);
 		return children;
@@ -67,7 +72,8 @@ public class IsReachableNodeExprNode extends ExprNode {
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("start node expr");
-		childrenNames.add("end node expr");
+		childrenNames.add("end edge expr");
+		childrenNames.add("depth expr");
 		childrenNames.add("incident type expr");
 		childrenNames.add("adjacent type expr");
 		return childrenNames;
@@ -83,19 +89,23 @@ public class IsReachableNodeExprNode extends ExprNode {
 	@Override
 	protected boolean checkLocal() {
 		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("first argument of isReachableNode(.,.,.,.) must be a node");
+			reportError("first argument of isBoundedReachableEdge(.,.,.,.,.) must be a node");
 			return false;
 		}
-		if(!(endNodeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("second argument of isReachableNode(.,.,.,.) must be a node");
+		if(!(endEdgeExpr.getType() instanceof EdgeTypeNode)) {
+			reportError("second argument of isBoundedReachableEdge(.,.,.,.,.) must be an edge");
+			return false;
+		}
+		if(!(depthExpr.getType() instanceof IntTypeNode)) {
+			reportError("third argument of isBoundedReachableEdge(.,.,.,.,.) must be an int");
 			return false;
 		}
 		if(!(incidentTypeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("third argument of isReachableNode(.,.,.,.) must be an edge type");
+			reportError("fourth argument of isBoundedReachableEdge(.,.,.,.,.) must be an edge type");
 			return false;
 		}
 		if(!(adjacentTypeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("fourth argument of isReachableNode(.,.,.,.) must be a node type");
+			reportError("fifth argument of isBoundedReachableEdge(.,.,.,.,.) must be a node type");
 			return false;
 		}
 		return true;
@@ -104,8 +114,8 @@ public class IsReachableNodeExprNode extends ExprNode {
 	@Override
 	protected IR constructIR() {
 		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
-		return new IsReachableNodeExpr(startNodeExpr.checkIR(Expression.class),
-								endNodeExpr.checkIR(Expression.class), 
+		return new IsBoundedReachableEdgeExpr(startNodeExpr.checkIR(Expression.class),
+								endEdgeExpr.checkIR(Expression.class), depthExpr.checkIR(Expression.class),
 								incidentTypeExpr.checkIR(Expression.class), direction,
 								adjacentTypeExpr.checkIR(Expression.class),
 								getType().getType());

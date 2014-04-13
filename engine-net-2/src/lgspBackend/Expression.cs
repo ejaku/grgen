@@ -5293,6 +5293,372 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the reachable edges within the given depth via outgoing edges of a node (as set)
+    /// </summary>
+    public class BoundedReachableEdgesOutgoing : Expression
+    {
+        public BoundedReachableEdgesOutgoing(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new BoundedReachableEdgesOutgoing(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesOutgoing(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression Depth;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the reachable edges within the given depth via incoming edges of a node (as set)
+    /// </summary>
+    public class BoundedReachableEdgesIncoming : Expression
+    {
+        public BoundedReachableEdgesIncoming(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new BoundedReachableEdgesIncoming(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesIncoming(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression Depth;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the reachable edges within the given depth via incident edges of a node (as set)
+    /// </summary>
+    public class BoundedReachableEdges : Expression
+    {
+        public BoundedReachableEdges(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new BoundedReachableEdges(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdges(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression Depth;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the reachable nodes within the given depth of a node (as set) reachable via outgoing edges
+    /// </summary>
+    public class BoundedReachableOutgoing : Expression
+    {
+        public BoundedReachableOutgoing(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new BoundedReachableOutgoing(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableOutgoing((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression Depth;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the reachable nodes within the given depth of a node (as set) reachable via incoming edges
+    /// </summary>
+    public class BoundedReachableIncoming : Expression
+    {
+        public BoundedReachableIncoming(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new BoundedReachableIncoming(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableIncoming((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression Depth;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the reachable nodes within the given depth of a node (as set) reachable via incident edges
+    /// </summary>
+    public class BoundedReachable : Expression
+    {
+        public BoundedReachable(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new BoundedReachable(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.BoundedReachable((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression Depth;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
     /// Class representing expression returning whether the end node is reachable from the start node via outgoing edges
     /// </summary>
     public class IsReachableOutgoing : Expression
@@ -5670,6 +6036,426 @@ namespace de.unika.ipd.grGen.expression
 
         Expression StartNode;
         Expression EndEdge;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+        bool Parallel;
+        bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end node is reachable from the start node within the given depth via outgoing edges
+    /// </summary>
+    public class IsBoundedReachableOutgoing : Expression
+    {
+        public IsBoundedReachableOutgoing(Expression startNode, Expression endNode, Expression depth,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndNode = endNode;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsBoundedReachableOutgoing(StartNode.Copy(renameSuffix), 
+                EndNode.Copy(renameSuffix), Depth.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableOutgoing(graph, ");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.INode)");
+            EndNode.Emit(sourceCode);
+            sourceCode.Append(", (int)");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndNode;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        Expression StartNode;
+        Expression EndNode;
+        Expression Depth;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+        bool Parallel;
+        bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end node is reachable from the start node within the given depth via incoming edges
+    /// </summary>
+    public class IsBoundedReachableIncoming : Expression
+    {
+        public IsBoundedReachableIncoming(Expression startNode, Expression endNode, Expression depth,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndNode = endNode;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsBoundedReachableIncoming(StartNode.Copy(renameSuffix),
+                EndNode.Copy(renameSuffix), Depth.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableIncoming(graph, ");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.INode)");
+            EndNode.Emit(sourceCode);
+            sourceCode.Append(", (int)");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndNode;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        Expression StartNode;
+        Expression EndNode;
+        Expression Depth;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+        bool Parallel;
+        bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end node is reachable from the start node within the given depth via incident edges
+    /// </summary>
+    public class IsBoundedReachable : Expression
+    {
+        public IsBoundedReachable(Expression startNode, Expression endNode, Expression depth,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndNode = endNode;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsBoundedReachable(StartNode.Copy(renameSuffix),
+                EndNode.Copy(renameSuffix), Depth.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndNode;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsBoundedReachable(graph, ");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.INode)");
+            EndNode.Emit(sourceCode);
+            sourceCode.Append(", (int)");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        Expression StartNode;
+        Expression EndNode;
+        Expression Depth;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+        bool Parallel;
+        bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end edge is reachable from the start node within the given depth via outgoing edges
+    /// </summary>
+    public class IsBoundedReachableEdgesOutgoing : Expression
+    {
+        public IsBoundedReachableEdgesOutgoing(Expression startNode, Expression endEdge, Expression depth,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndEdge = endEdge;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsBoundedReachableEdgesOutgoing(StartNode.Copy(renameSuffix),
+                EndEdge.Copy(renameSuffix), Depth.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableEdgesOutgoing(graph, ");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.IEdge)");
+            EndEdge.Emit(sourceCode);
+            sourceCode.Append(", (int)");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndEdge;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        Expression StartNode;
+        Expression EndEdge;
+        Expression Depth;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+        bool Parallel;
+        bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end edge is reachable from the start node within the given depth via incoming edges
+    /// </summary>
+    public class IsBoundedReachableEdgesIncoming : Expression
+    {
+        public IsBoundedReachableEdgesIncoming(Expression startNode, Expression endEdge, Expression depth,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndEdge = endEdge;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsBoundedReachableEdgesIncoming(StartNode.Copy(renameSuffix),
+                EndEdge.Copy(renameSuffix), Depth.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableEdgesIncoming(graph, ");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.IEdge)");
+            EndEdge.Emit(sourceCode);
+            sourceCode.Append(", (int)");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndEdge;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        Expression StartNode;
+        Expression EndEdge;
+        Expression Depth;
+        Expression IncidentEdgeType;
+        Expression AdjacentNodeType;
+        bool Parallel;
+        bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the end edge is reachable from the start node within the given depth via incident edges
+    /// </summary>
+    public class IsBoundedReachableEdges : Expression
+    {
+        public IsBoundedReachableEdges(Expression startNode, Expression endEdge, Expression depth,
+            Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            StartNode = startNode;
+            EndEdge = endEdge;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsBoundedReachableEdges(StartNode.Copy(renameSuffix), 
+                EndEdge.Copy(renameSuffix), Depth.Copy(renameSuffix),
+                IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableEdges(graph, ");
+            sourceCode.Append("(GRGEN_LIBGR.INode)");
+            StartNode.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.IEdge)");
+            EndEdge.Emit(sourceCode);
+            sourceCode.Append(", (int)");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.EdgeType)");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", (GRGEN_LIBGR.NodeType)");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StartNode;
+            yield return EndEdge;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        Expression StartNode;
+        Expression EndEdge;
+        Expression Depth;
         Expression IncidentEdgeType;
         Expression AdjacentNodeType;
         bool Parallel;
