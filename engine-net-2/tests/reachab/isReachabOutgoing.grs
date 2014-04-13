@@ -1,0 +1,31 @@
+new graph "reachab/reachab"
+
+include reachab/init.grsi
+
+begin = @("begin")
+pre = @("pre")
+end = @("end")
+attach = @("attach")
+
+exec isReachabOutgoing(::begin, ::pre, 1)
+
+exec isReachabOutgoing(::begin, ::end, 0)
+exec isReachabOutgoing(::begin, ::end, 1)
+exec isReachabOutgoing(::begin, ::end, 2)
+exec isReachabOutgoing(::begin, ::end, 3)
+exec isReachabOutgoing(::begin, ::end, 2000000000)
+
+exec isReachabOutgoing(::begin, ::attach, 1)
+exec isReachabOutgoing(::begin, ::attach, 2)
+exec isReachabOutgoing(::begin, ::attach, 3)
+exec isReachabOutgoing(::begin, ::attach, 2000000000)
+
+delete node @("n1")
+
+exec isReachabOutgoing(::begin, ::end, 0)
+exec isReachabOutgoing(::begin, ::end, 1)
+exec isReachabOutgoing(::begin, ::end, 2)
+exec isReachabOutgoing(::begin, ::end, 3)
+exec isReachabOutgoing(::begin, ::end, 2000000000)
+
+quit

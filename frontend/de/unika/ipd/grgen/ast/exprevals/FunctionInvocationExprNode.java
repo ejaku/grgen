@@ -513,6 +513,106 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 		}
+		else if(functionName.equals("boundedReachableEdgesIncoming")
+				|| functionName.equals("boundedReachableEdgesOutgoing")
+				|| functionName.equals("boundedReachableEdges")) {
+			int direction;
+			if(functionName.equals("boundedReachableEdgesIncoming"))
+				direction = BoundedReachableEdgeExprNode.INCOMING;
+			else if(functionName.equals("boundedReachableEdgesOutgoing"))
+				direction = BoundedReachableEdgeExprNode.OUTGOING;
+			else
+				direction = BoundedReachableEdgeExprNode.INCIDENT;
+			
+			if(params.size() == 2) {
+				result = new BoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getDirectedEdgeRoot());
+			}
+			else if(params.size() == 3) {
+				result = new BoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()), env.getDirectedEdgeRoot());
+			}
+			else if(params.size() == 4) {
+				result = new BoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, params.get(3), env.getDirectedEdgeRoot());
+			}
+			else {
+				reportError(functionName + "() takes 2-4 parameters.");
+				return false;
+			}
+		}
+		else if(functionName.equals("boundedReachableIncoming")
+				|| functionName.equals("boundedReachableOutgoing")
+				|| functionName.equals("boundedReachable")) {
+			int direction;
+			if(functionName.equals("boundedReachableIncoming"))
+				direction = BoundedReachableNodeExprNode.INCOMING;
+			else if(functionName.equals("boundedReachableOutgoing"))
+				direction = BoundedReachableNodeExprNode.OUTGOING;
+			else
+				direction = BoundedReachableNodeExprNode.ADJACENT;
+
+			if(params.size() == 2) {
+				result = new BoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
+			}
+			else if(params.size() == 3) {
+				result = new BoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
+			}
+			else if(params.size() == 4) {
+				result = new BoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, params.get(3), env.getNodeRoot());
+			}
+			else {
+				reportError(functionName + "() takes 2-4 parameters.");
+				return false;
+			}
+		}
+		else if(functionName.equals("isBoundedReachableIncoming")
+				|| functionName.equals("isBoundedReachableOutgoing")
+				|| functionName.equals("isBoundedReachable")) {
+			int direction;
+			if(functionName.equals("isBoundedReachableIncoming"))
+				direction = IsBoundedReachableNodeExprNode.INCOMING;
+			else if(functionName.equals("isBoundedReachableOutgoing"))
+				direction = IsBoundedReachableNodeExprNode.OUTGOING;
+			else
+				direction = IsBoundedReachableNodeExprNode.ADJACENT;
+			
+			if(params.size() == 3) {
+				result = new IsBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+			}
+			else if(params.size() == 4) {
+				result = new IsBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), params.get(3), direction, new IdentExprNode(env.getNodeRoot()));
+			}
+			else if(params.size() == 5) {
+				result = new IsBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), params.get(3), direction, params.get(4));
+			}
+			else {
+				reportError(functionName + "() takes 3-5 parameters.");
+				return false;
+			}
+		}
+		else if(functionName.equals("isBoundedReachableEdgesIncoming")
+				|| functionName.equals("isBoundedReachableEdgesOutgoing")
+				|| functionName.equals("isBoundedReachableEdges")) {
+			int direction;
+			if(functionName.equals("isBoundedReachableEdgesIncoming"))
+				direction = IsBoundedReachableEdgeExprNode.INCOMING;
+			else if(functionName.equals("isBoundedReachableEdgesOutgoing"))
+				direction = IsBoundedReachableEdgeExprNode.OUTGOING;
+			else
+				direction = IsBoundedReachableEdgeExprNode.INCIDENT;
+			
+			if(params.size() == 3) {
+				result = new IsBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+			}
+			else if(params.size() == 4) {
+				result = new IsBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), params.get(3), direction, new IdentExprNode(env.getNodeRoot()));
+			}
+			else if(params.size() == 5) {
+				result = new IsBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), params.get(3), direction, params.get(4));
+			}
+			else {
+				reportError(functionName + "() takes 3-5 parameters.");
+				return false;
+			}
+		}
 		else if(functionName.equals("inducedSubgraph")) {
 			if(params.size() != 1) {
 				reportError("inducedSubgraph(.) takes one parameter.");

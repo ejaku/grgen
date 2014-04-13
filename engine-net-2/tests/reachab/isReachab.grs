@@ -1,0 +1,31 @@
+new graph "reachab/reachab"
+
+include reachab/init.grsi
+
+begin = @("begin")
+pre = @("pre")
+end = @("end")
+attach = @("attach")
+
+exec isReachab(::begin, ::pre, 1)
+
+exec isReachab(::begin, ::end, 0)
+exec isReachab(::begin, ::end, 1)
+exec isReachab(::begin, ::end, 2)
+exec isReachab(::begin, ::end, 3)
+exec isReachab(::begin, ::end, 2000000000)
+
+exec isReachab(::begin, ::attach, 1)
+exec isReachab(::begin, ::attach, 2)
+exec isReachab(::begin, ::attach, 3)
+exec isReachab(::begin, ::attach, 2000000000)
+
+delete node @("n1")
+
+exec isReachab(::begin, ::end, 0)
+exec isReachab(::begin, ::end, 1)
+exec isReachab(::begin, ::end, 2)
+exec isReachab(::begin, ::end, 3)
+exec isReachab(::begin, ::end, 2000000000)
+
+quit

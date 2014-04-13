@@ -17,7 +17,7 @@ import de.unika.ipd.grgen.ir.exprevals.IsReachableEdgeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * Am ast node telling whether an end edge can be reached from a start node, via incoming/outgoing/incident edges of given type, from/to a node of given type.
+ * An ast node telling whether an end edge can be reached from a start node, via incoming/outgoing/incident edges of given type, from/to a node of given type.
  */
 public class IsReachableEdgeExprNode extends ExprNode {
 	static {
@@ -36,13 +36,13 @@ public class IsReachableEdgeExprNode extends ExprNode {
 	public static final int OUTGOING = 2;
 	
 	public IsReachableEdgeExprNode(Coords coords, 
-			ExprNode startNodeExpr, ExprNode endNodeExpr,
+			ExprNode startNodeExpr, ExprNode endEdgeExpr,
 			ExprNode incidentTypeExpr, int direction,
 			ExprNode adjacentTypeExpr) {
 		super(coords);
 		this.startNodeExpr = startNodeExpr;
 		becomeParent(this.startNodeExpr);
-		this.endEdgeExpr = endNodeExpr;
+		this.endEdgeExpr = endEdgeExpr;
 		becomeParent(this.endEdgeExpr);
 		this.incidentTypeExpr = incidentTypeExpr;
 		becomeParent(this.incidentTypeExpr);

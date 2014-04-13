@@ -1975,11 +1975,13 @@ options { k = 3; }
 	| IN { xg.append(" in "); } { input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
 			|| input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing")
 			|| input.LT(1).getText().equals("reachable") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing")
-			|| input.LT(1).getText().equals("reachableEdges") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing") 
+			|| input.LT(1).getText().equals("reachableEdges") || input.LT(1).getText().equals("reachableEdgesIncoming") || input.LT(1).getText().equals("reachableEdgesOutgoing") 
+			|| input.LT(1).getText().equals("boundedReachable") || input.LT(1).getText().equals("boundedReachableIncoming") || input.LT(1).getText().equals("boundedReachableOutgoing")
+			|| input.LT(1).getText().equals("boundedReachableEdges") || input.LT(1).getText().equals("boundedReachableEdgesIncoming") || input.LT(1).getText().equals("boundedReachableEdgesOutgoing") 
 			|| input.LT(1).getText().equals("nodes") || input.LT(1).getText().equals("edges")
 		 }?
 			i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); }
-			expr1=seqExpression[xg] (COMMA { xg.append(","); } expr2=seqExpression[xg] (COMMA { xg.append(","); } expr3=seqExpression[xg])? )?
+			expr1=seqExpression[xg] (COMMA { xg.append(","); } expr2=seqExpression[xg] (COMMA { xg.append(","); } expr3=seqExpression[xg] (COMMA { xg.append(","); } expr4=seqExpression[xg])? )? )?
 			RPAREN { xg.append(")"); }
 			SEMI { xg.append("; "); } xgrs[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	| IN LBRACK QUESTION { xg.append(" in [?"); } callRule[xg, returns] RBRACK { xg.append("]"); }
@@ -2170,10 +2172,14 @@ functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 				|| (i.getText().equals("adjacentIncoming") || i.getText().equals("adjacentOutgoing") || i.getText().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (i.getText().equals("reachableIncoming") || i.getText().equals("reachableOutgoing") || i.getText().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (i.getText().equals("reachableEdgesIncoming") || i.getText().equals("reachableEdgesOutgoing") || i.getText().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
+				|| (i.getText().equals("boundedReachableIncoming") || i.getText().equals("boundedReachableOutgoing") || i.getText().equals("boundedReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+				|| (i.getText().equals("boundedReachableEdgesIncoming") || i.getText().equals("boundedReachableEdgesOutgoing") || i.getText().equals("boundedReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
 				|| (i.getText().equals("isIncoming") || i.getText().equals("isOutgoing") || i.getText().equals("isIncident")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
 				|| (i.getText().equals("isAdjacentIncoming") || i.getText().equals("isAdjacentOutgoing") || i.getText().equals("isAdjacent")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
 				|| (i.getText().equals("isReachableIncoming") || i.getText().equals("isReachableOutgoing") || i.getText().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
 				|| (i.getText().equals("isReachableEdgesIncoming") || i.getText().equals("isReachableEdgesOutgoing") || i.getText().equals("isReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
+				|| (i.getText().equals("isBoundedReachableIncoming") || i.getText().equals("isBoundedReachableOutgoing") || i.getText().equals("isBoundedReachable")) && params.getChildren().size()>=3 && params.getChildren().size()<=5
+				|| (i.getText().equals("isBoundedReachableEdgesIncoming") || i.getText().equals("isBoundedReachableEdgesOutgoing") || i.getText().equals("isBoundedReachableEdges")) && params.getChildren().size()>=3 && params.getChildren().size()<=5 
 				|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
 				|| i.getText().equals("canonize") && params.getChildren().size()==1
 				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
@@ -3686,6 +3692,8 @@ options { k = *; }
 			  || input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing")
 			  || input.LT(1).getText().equals("reachable") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing")
 			  || input.LT(1).getText().equals("reachableEdges") || input.LT(1).getText().equals("reachableEdgesIncoming") || input.LT(1).getText().equals("reachableEdgesOutgoing")
+			  || input.LT(1).getText().equals("boundedReachable") || input.LT(1).getText().equals("boundedReachableIncoming") || input.LT(1).getText().equals("boundedReachableOutgoing")
+			  || input.LT(1).getText().equals("boundedReachableEdges") || input.LT(1).getText().equals("boundedReachableEdgesIncoming") || input.LT(1).getText().equals("boundedReachableEdgesOutgoing")
 			  || input.LT(1).getText().equals("nodes") || input.LT(1).getText().equals("edges")
 			  }?
 			function=externalFunctionInvocationExpr[false] RPAREN
@@ -4054,10 +4062,14 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| (i.getText().equals("adjacentIncoming") || i.getText().equals("adjacentOutgoing") || i.getText().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (i.getText().equals("reachableIncoming") || i.getText().equals("reachableOutgoing") || i.getText().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (i.getText().equals("reachableEdgesIncoming") || i.getText().equals("reachableEdgesOutgoing") || i.getText().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
+				|| (i.getText().equals("boundedReachableIncoming") || i.getText().equals("boundedReachableOutgoing") || i.getText().equals("boundedReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
+				|| (i.getText().equals("boundedReachableEdgesIncoming") || i.getText().equals("boundedReachableEdgesOutgoing") || i.getText().equals("boundedReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
 				|| (i.getText().equals("isIncoming") || i.getText().equals("isOutgoing") || i.getText().equals("isIncident")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
 				|| (i.getText().equals("isAdjacentIncoming") || i.getText().equals("isAdjacentOutgoing") || i.getText().equals("isAdjacent")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
 				|| (i.getText().equals("isReachableIncoming") || i.getText().equals("isReachableOutgoing") || i.getText().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
 				|| (i.getText().equals("isReachableEdgesIncoming") || i.getText().equals("isReachableEdgesOutgoing") || i.getText().equals("isReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
+				|| (i.getText().equals("isBoundedReachableIncoming") || i.getText().equals("isBoundedReachableOutgoing") || i.getText().equals("isBoundedReachable")) && params.getChildren().size()>=3 && params.getChildren().size()<=5
+				|| (i.getText().equals("isBoundedReachableEdgesIncoming") || i.getText().equals("isBoundedReachableEdgesOutgoing") || i.getText().equals("isBoundedReachableEdges")) && params.getChildren().size()>=3 && params.getChildren().size()<=5 
 				|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
 				|| i.getText().equals("canonize") && params.getChildren().size()==1
 				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1

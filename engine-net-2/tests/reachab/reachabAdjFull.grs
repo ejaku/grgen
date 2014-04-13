@@ -1,0 +1,26 @@
+new graph "reachab/reachab"
+
+include reachab/init.grsi
+
+begin = @("begin")
+end = @("end")
+
+exec (::s) = reachabOutgoingAdj(::begin)
+show var s
+exec (::s) = reachabOutgoing(::begin, 1)
+show var s
+exec (::s) = reachabOutgoingPure(::begin)
+show var s
+exec (::s) = reachabOutgoing(::begin, 2000000000)
+show var s
+
+exec (::s) = reachabOutgoingAdj(::end)
+show var s
+exec (::s) = reachabOutgoing(::end, 1)
+show var s
+exec (::s) = reachabOutgoingPure(::end)
+show var s
+exec (::s) = reachabOutgoing(::end, 2000000000)
+show var s
+
+quit

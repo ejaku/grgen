@@ -1145,6 +1145,174 @@ namespace de.unika.ipd.grGen.expression
 
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
+            else if(Function is BoundedReachable)
+            {
+                BoundedReachable reachable = (BoundedReachable)Function;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                reachable.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachable(node_{0}, ", id);
+                reachable.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append(", ");
+                reachable.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append(", ");
+                sourceCode.Append("graph");
+                if(Parallel)
+                    sourceCode.Append(", threadId");
+                sourceCode.Append("))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(Function is BoundedReachableIncoming)
+            {
+                BoundedReachableIncoming reachable = (BoundedReachableIncoming)Function;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                reachable.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableIncoming(node_{0}, ", id);
+                reachable.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append(", ");
+                reachable.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append(", ");
+                sourceCode.Append("graph");
+                if(Parallel)
+                    sourceCode.Append(", threadId");
+                sourceCode.Append("))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(Function is BoundedReachableOutgoing)
+            {
+                BoundedReachableOutgoing reachable = (BoundedReachableOutgoing)Function;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                reachable.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableOutgoing(node_{0}, ", id);
+                reachable.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append(", ");
+                reachable.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append(", ");
+                sourceCode.Append("graph");
+                if(Parallel)
+                    sourceCode.Append(", threadId");
+                sourceCode.Append("))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(Function is BoundedReachableEdges)
+            {
+                BoundedReachableEdges reachable = (BoundedReachableEdges)Function;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                reachable.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableEdges(node_{0}, ", id);
+                reachable.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append(", ");
+                reachable.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append(", ");
+                sourceCode.Append("graph");
+                if(Parallel)
+                    sourceCode.Append(", threadId");
+                sourceCode.Append("))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(Function is BoundedReachableEdgesIncoming)
+            {
+                BoundedReachableEdgesIncoming reachable = (BoundedReachableEdgesIncoming)Function;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                reachable.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesIncoming(node_{0}, ", id);
+                reachable.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append(", ");
+                reachable.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append(", ");
+                sourceCode.Append("graph");
+                if(Parallel)
+                    sourceCode.Append(", threadId");
+                sourceCode.Append("))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
+            else if(Function is BoundedReachableEdgesOutgoing)
+            {
+                BoundedReachableEdgesOutgoing reachable = (BoundedReachableEdgesOutgoing)Function;
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                reachable.Node.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesOutgoing(node_{0}, ", id);
+                reachable.IncidentEdgeType.Emit(sourceCode);
+                sourceCode.Append(", ");
+                reachable.AdjacentNodeType.Emit(sourceCode);
+                sourceCode.Append(", ");
+                sourceCode.Append("graph");
+                if(Parallel)
+                    sourceCode.Append(", threadId");
+                sourceCode.Append("))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+            }
             else if(Function is Nodes)
             {
                 Nodes nodes = (Nodes)Function;

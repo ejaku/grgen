@@ -1,0 +1,27 @@
+new graph "reachab/reachab"
+
+include reachab/init.grsi
+
+begin = @("begin")
+pre = @("e0")
+endattach = @("e10")
+
+exec isReachabEdgesIncoming(::begin, ::pre, 1)
+
+exec isReachabEdgesIncoming(::begin, ::endattach, 0)
+exec isReachabEdgesIncoming(::begin, ::endattach, 1)
+exec isReachabEdgesIncoming(::begin, ::endattach, 2)
+exec isReachabEdgesIncoming(::begin, ::endattach, 3)
+exec isReachabEdgesIncoming(::begin, ::endattach, 4)
+exec isReachabEdgesIncoming(::begin, ::endattach, 2000000000)
+
+delete node @("n1")
+
+exec isReachabEdgesIncoming(::begin, ::endattach, 0)
+exec isReachabEdgesIncoming(::begin, ::endattach, 1)
+exec isReachabEdgesIncoming(::begin, ::endattach, 2)
+exec isReachabEdgesIncoming(::begin, ::endattach, 3)
+exec isReachabEdgesIncoming(::begin, ::endattach, 4)
+exec isReachabEdgesIncoming(::begin, ::endattach, 2000000000)
+
+quit

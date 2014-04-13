@@ -37,6 +37,10 @@ test t(start1:A, middle1:A, end1:A, start2:Node, end2:Node)
 	if { reachable(start1).size() > reachable(start2).size(); }
 	if { isReachableOutgoing(start1, end1, EE) && isReachable(start2, end2); }
 	if { !isReachableOutgoing(start1, end2, EE) && !isReachable(start2, end1); }
+	
+	if { boundedReachable(start1, 42).size() > boundedReachable(start2, 42).size(); }
+	if { isBoundedReachableOutgoing(start1, end1, 42, EE) && isBoundedReachable(start2, end2, 42); }
+	if { !isBoundedReachableOutgoing(start1, end2, 42, EE) && !isBoundedReachable(start2, end1, 42); }
 }
 
 rule r(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node>, ref rrs1:set<Node>, ref rrm1:set<Node>, ref rrs2:set<Node>, ref rre2:set<Node>, start1:A, middle1:A, end1:A, start2:Node, end2:Node) : (boolean,boolean,boolean,boolean)
@@ -44,10 +48,10 @@ rule r(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node
 	def var isR11:boolean;
 	def var isR12:boolean;
 	yield {
-		def ref _rs1:set<Node> = reachableOutgoing(start1, EE);
-		def ref _rm1:set<Node> = reachable(middle1);
-		def ref _rs2:set<Node> = reachableOutgoing(start2);
-		def ref _re2:set<Node> = reachableOutgoing(end2);
+		def ref _rs1:set<Node> = reachableOutgoing(start1, EE) & boundedReachableOutgoing(start1, 42, EE);
+		def ref _rm1:set<Node> = reachable(middle1) & boundedReachable(middle1, 42);
+		def ref _rs2:set<Node> = reachableOutgoing(start2) & boundedReachableOutgoing(start2, 42);
+		def ref _re2:set<Node> = reachableOutgoing(end2) & boundedReachableOutgoing(end2, 42);
 		for(el:Node in _rs1) {
 			rs1.add(el);
 		}
@@ -60,18 +64,18 @@ rule r(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node
 		for(el:Node in _re2) {
 			re2.add(el);
 		}
-		yield isR11 = isReachableOutgoing(start1, end1, EE);
-		yield isR12 = isReachable(start1, end2);
+		yield isR11 = isReachableOutgoing(start1, end1, EE) & isBoundedReachableOutgoing(start1, end1, 42, EE);
+		yield isR12 = isReachable(start1, end2) & isBoundedReachable(start1, end2, 42);
 	}
 	
 	modify {
 		def var iisR11:boolean;
 		def var iisR12:boolean;
 		eval {
-			def ref _rs1:set<Node> = reachableOutgoing(start1, EE);
-			def ref _rm1:set<Node> = reachable(middle1);
-			def ref _rs2:set<Node> = reachableOutgoing(start2);
-			def ref _re2:set<Node> = reachableOutgoing(end2);
+			def ref _rs1:set<Node> = reachableOutgoing(start1, EE) & boundedReachableOutgoing(start1, 42, EE);
+			def ref _rm1:set<Node> = reachable(middle1) & boundedReachable(middle1, 42);
+			def ref _rs2:set<Node> = reachableOutgoing(start2) & boundedReachableOutgoing(start2, 42);
+			def ref _re2:set<Node> = reachableOutgoing(end2) & boundedReachableOutgoing(end2, 42);
 			for(el:Node in _rs1) {
 				rrs1.add(el);
 			}
@@ -84,8 +88,8 @@ rule r(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node
 			for(el:Node in _re2) {
 				rre2.add(el);
 			}
-			yield iisR11 = isReachableOutgoing(start1, end1, EE);
-			yield iisR12 = isReachable(start1, end2);
+			yield iisR11 = isReachableOutgoing(start1, end1, EE) & isBoundedReachableOutgoing(start1, end1, 42, EE);
+			yield iisR12 = isReachable(start1, end2) & isBoundedReachable(start1, end2, 42);
 		}
 		return(isR11, isR12, iisR11, iisR12);
 	}

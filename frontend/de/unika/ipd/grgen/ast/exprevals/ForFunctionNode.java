@@ -102,6 +102,10 @@ public class ForFunctionNode extends EvalStatementNode {
 			return true;
 		} else if(function.getResult() instanceof ReachableNodeExprNode){
 			return true;
+		} else if(function.getResult() instanceof BoundedReachableEdgeExprNode){
+			return true;
+		} else if(function.getResult() instanceof BoundedReachableNodeExprNode){
+			return true;
 		} else if(function.getResult() instanceof NodesExprNode) {
 			return true;
 		} else if(function.getResult() instanceof EdgesExprNode) {

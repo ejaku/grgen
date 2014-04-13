@@ -3070,6 +3070,82 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, ire.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof BoundedReachableEdgeExpr) {
+			BoundedReachableEdgeExpr bre = (BoundedReachableEdgeExpr) expr;
+			if(bre.Direction()==BoundedReachableEdgeExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.BoundedReachableEdgesOutgoing(");
+			} else if(bre.Direction()==BoundedReachableEdgeExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.BoundedReachableEdgesIncoming(");
+			} else {
+				sb.append("new GRGEN_EXPR.BoundedReachableEdges(");
+			}
+			genExpressionTree(sb, bre.getStartNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, bre.getDepthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, bre.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, bre.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof BoundedReachableNodeExpr) {
+			BoundedReachableNodeExpr brn = (BoundedReachableNodeExpr) expr;
+			if(brn.Direction()==BoundedReachableNodeExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.BoundedReachableOutgoing(");
+			} else if(brn.Direction()==BoundedReachableNodeExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.BoundedReachableIncoming(");
+			} else {
+				sb.append("new GRGEN_EXPR.BoundedReachable(");
+			}
+			genExpressionTree(sb, brn.getStartNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, brn.getDepthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, brn.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, brn.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof IsBoundedReachableNodeExpr) {
+			IsBoundedReachableNodeExpr ibrn = (IsBoundedReachableNodeExpr) expr;
+			if(ibrn.Direction()==IsBoundedReachableNodeExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.IsBoundedReachableOutgoing(");
+			} else if(ibrn.Direction()==IsBoundedReachableNodeExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.IsBoundedReachableIncoming(");
+			} else {
+				sb.append("new GRGEN_EXPR.IsBoundedReachable(");
+			}
+			genExpressionTree(sb, ibrn.getStartNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ibrn.getEndNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ibrn.getDepthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ibrn.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ibrn.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof IsBoundedReachableEdgeExpr) {
+			IsBoundedReachableEdgeExpr ibre = (IsBoundedReachableEdgeExpr) expr;
+			if(ibre.Direction()==IsBoundedReachableEdgeExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.IsBoundedReachableEdgesOutgoing(");
+			} else if(ibre.Direction()==IsBoundedReachableEdgeExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.IsBoundedReachableEdgesIncoming(");
+			} else {
+				sb.append("new GRGEN_EXPR.IsBoundedReachableEdges(");
+			}
+			genExpressionTree(sb, ibre.getStartNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ibre.getEndEdgeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ibre.getDepthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ibre.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ibre.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof InducedSubgraphExpr) {
 			InducedSubgraphExpr is = (InducedSubgraphExpr) expr;
 			sb.append("new GRGEN_EXPR.InducedSubgraph(");
