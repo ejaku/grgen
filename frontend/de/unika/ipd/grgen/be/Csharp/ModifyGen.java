@@ -3444,18 +3444,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
 				sb.append("graph");
+				if(state.emitProfilingInstrumentation())
+					sb.append(", actionEnv");
 				if(state.isToBeParallelizedActionExisting())
 					sb.append(", threadId");
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-				if(state.emitProfilingInstrumentation()) {
-					if(state.isToBeParallelizedActionExisting())
-						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
-					else
-						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
-				}
-
 		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
 			else if(reachable.Direction()==ReachableNodeExpr.INCOMING) {
@@ -3469,18 +3464,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
 				sb.append("graph");
+				if(state.emitProfilingInstrumentation())
+					sb.append(", actionEnv");
 				if(state.isToBeParallelizedActionExisting())
 					sb.append(", threadId");
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-				if(state.emitProfilingInstrumentation()) {
-					if(state.isToBeParallelizedActionExisting())
-						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
-					else
-						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
-				}
-
 		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
 			else if(reachable.Direction()==ReachableNodeExpr.OUTGOING) {
@@ -3494,18 +3484,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
 				sb.append("graph");
+				if(state.emitProfilingInstrumentation())
+					sb.append(", actionEnv");
 				if(state.isToBeParallelizedActionExisting())
 					sb.append(", threadId");
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-				if(state.emitProfilingInstrumentation()) {
-					if(state.isToBeParallelizedActionExisting())
-						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
-					else
-						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
-				}
-
 		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
 		}
@@ -3522,18 +3507,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
 				sb.append("graph");
+				if(state.emitProfilingInstrumentation())
+					sb.append(", actionEnv");
 				if(state.isToBeParallelizedActionExisting())
 					sb.append(", threadId");
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-				if(state.emitProfilingInstrumentation()) {
-					if(state.isToBeParallelizedActionExisting())
-						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
-					else
-						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
-				}
-
 			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 			else if(reachable.Direction()==ReachableEdgeExpr.INCOMING) {
@@ -3547,18 +3527,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
 				sb.append("graph");
+				if(state.emitProfilingInstrumentation())
+					sb.append(", actionEnv");
 				if(state.isToBeParallelizedActionExisting())
 					sb.append(", threadId");
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-				if(state.emitProfilingInstrumentation()) {
-					if(state.isToBeParallelizedActionExisting())
-						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
-					else
-						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
-				}
-
 			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 			else if(reachable.Direction()==ReachableEdgeExpr.OUTGOING) {
@@ -3572,18 +3547,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
 				sb.append("graph");
+				if(state.emitProfilingInstrumentation())
+					sb.append(", actionEnv");
 				if(state.isToBeParallelizedActionExisting())
 					sb.append(", threadId");
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-				if(state.emitProfilingInstrumentation()) {
-					if(state.isToBeParallelizedActionExisting())
-						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
-					else
-						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
-				}
-
 			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 		}
@@ -3602,18 +3572,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
 				sb.append("graph");
+				if(state.emitProfilingInstrumentation())
+					sb.append(", actionEnv");
 				if(state.isToBeParallelizedActionExisting())
 					sb.append(", threadId");
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-				if(state.emitProfilingInstrumentation()) {
-					if(state.isToBeParallelizedActionExisting())
-						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
-					else
-						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
-				}
-
 		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
 			else if(reachable.Direction()==BoundedReachableNodeExpr.INCOMING) {
@@ -3629,18 +3594,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
 				sb.append("graph");
+				if(state.emitProfilingInstrumentation())
+					sb.append(", actionEnv");
 				if(state.isToBeParallelizedActionExisting())
 					sb.append(", threadId");
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-				if(state.emitProfilingInstrumentation()) {
-					if(state.isToBeParallelizedActionExisting())
-						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
-					else
-						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
-				}
-
 		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
 			else if(reachable.Direction()==BoundedReachableNodeExpr.OUTGOING) {
@@ -3656,18 +3616,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
 				sb.append("graph");
+				if(state.emitProfilingInstrumentation())
+					sb.append(", actionEnv");
 				if(state.isToBeParallelizedActionExisting())
 					sb.append(", threadId");
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-				if(state.emitProfilingInstrumentation()) {
-					if(state.isToBeParallelizedActionExisting())
-						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
-					else
-						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
-				}
-
 		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
 		}
@@ -3686,17 +3641,12 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
 				sb.append("graph");
+				if(state.emitProfilingInstrumentation())
+					sb.append(", actionEnv");
 				if(state.isToBeParallelizedActionExisting())
 					sb.append(", threadId");
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
-		        
-				if(state.emitProfilingInstrumentation()) {
-					if(state.isToBeParallelizedActionExisting())
-						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
-					else
-						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
-				}
 
 			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
@@ -3713,18 +3663,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
 				sb.append("graph");
+				if(state.emitProfilingInstrumentation())
+					sb.append(", actionEnv");
 				if(state.isToBeParallelizedActionExisting())
 					sb.append(", threadId");
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-				if(state.emitProfilingInstrumentation()) {
-					if(state.isToBeParallelizedActionExisting())
-						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
-					else
-						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
-				}
-
 			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 			else if(reachable.Direction()==BoundedReachableEdgeExpr.OUTGOING) {
@@ -3740,18 +3685,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
 				sb.append(","); 
 				sb.append("graph");
+				if(state.emitProfilingInstrumentation())
+					sb.append(", actionEnv");
 				if(state.isToBeParallelizedActionExisting())
 					sb.append(", threadId");
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-				if(state.emitProfilingInstrumentation()) {
-					if(state.isToBeParallelizedActionExisting())
-						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
-					else
-						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
-				}
-
 			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 		}
