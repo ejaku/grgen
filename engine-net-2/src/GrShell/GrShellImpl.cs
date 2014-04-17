@@ -268,6 +268,7 @@ namespace de.unika.ipd.grGen.grShell
         bool newGraphLazyNIC = false;
         bool newGraphNoinline = false;
         bool newGraphProfile = false;
+        //bool newGraphProfile = true; // uncomment to test profiling
 
         /// <summary>
         /// Maps layouts to layout option names to their values.
@@ -1296,6 +1297,11 @@ namespace de.unika.ipd.grGen.grShell
         {
             newGraphProfile = on;
             return true;
+        }
+
+        public bool GetEmitProfiling()
+        {
+            return newGraphProfile;
         }
 
         public bool NewGraph(String specFilename, String graphName)

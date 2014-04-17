@@ -197,7 +197,8 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchProgramOfAction(string rulePatternClassName,
             string patternName, string[] parameterTypes, string[] parameterNames, string name,
             List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath,
-            bool containsSubpatterns, bool wasIndependentInlined, bool emitProfiling,
+            bool containsSubpatterns, bool wasIndependentInlined, 
+            bool emitProfiling, string packagePrefixedPatternName,
             string[] dispatchConditions, List<string> suffixedMatcherNames, List<string[]> arguments)
         {
             RulePatternClassName = rulePatternClassName;
@@ -215,6 +216,7 @@ namespace de.unika.ipd.grGen.lgsp
             SetupSubpatternMatching = containsSubpatterns;
             WasIndependentInlined = wasIndependentInlined;
             EmitProfiling = emitProfiling;
+            PackagePrefixedPatternName = packagePrefixedPatternName;
 
             DispatchConditions = dispatchConditions;
             SuffixedMatcherNames = suffixedMatcherNames;
@@ -310,16 +312,16 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(EmitProfiling)
             {
-                sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].callsTotal;\n", PatternName);
-                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin;\n", PatternName);
-                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].loopStepsTotal += loopSteps;\n", PatternName);
+                sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].callsTotal;\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin;\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].loopStepsTotal += loopSteps;\n", PackagePrefixedPatternName);
 
-                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin;\n", PatternName);
-                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsTotal += loopSteps;\n", PatternName);
-                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin);\n", PatternName);
-                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin);\n", PatternName);
-                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsSingle.Add(loopSteps);\n", PatternName);
-                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsMultiple.Add(loopSteps);\n", PatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin;\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsTotal += loopSteps;\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin);\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin);\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsSingle.Add(loopSteps);\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsMultiple.Add(loopSteps);\n", PackagePrefixedPatternName);
             }
 
             if(WasIndependentInlined)
@@ -381,6 +383,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public string PatternName;
+        public string PackagePrefixedPatternName;
         public string Parameters;
         public bool SetupSubpatternMatching;
         public bool WasIndependentInlined;
@@ -398,7 +401,7 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public SearchProgramOfActionParallelizationHead(string rulePatternClassName,
             string patternName, string[] parameterTypes, string[] parameterNames, string name,
-            bool emitProfiling)
+            bool emitProfiling, string packagePrefixedPatternName)
         {
             RulePatternClassName = rulePatternClassName;
             Name = name;
@@ -411,6 +414,7 @@ namespace de.unika.ipd.grGen.lgsp
                 Parameters += ", " + parameterTypes[i] + " " + parameterNames[i];
             }
             EmitProfiling = emitProfiling;
+            PackagePrefixedPatternName = packagePrefixedPatternName;
         }
 
         /// <summary>
@@ -470,6 +474,10 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 sourceCode.AppendFront("actionEnv.PerformanceInfo.ResetStepsPerThread(numWorkerThreads);\n");
                 sourceCode.AppendFront("bool parallelMatcherUsed = false;\n");
+
+                sourceCode.AppendFront("long searchStepsAtBegin = actionEnv.PerformanceInfo.SearchSteps;\n");
+                sourceCode.AppendFront("long searchStepsAtLoopStepBegin = searchStepsAtBegin;\n");
+                sourceCode.AppendFront("int loopSteps = 0;\n");
             }
 
             OperationsList.Emit(sourceCode);
@@ -479,15 +487,18 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("if(parallelMatcherUsed)\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
-                sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].callsTotal;\n", PatternName);
+                sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].callsTotal;\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin;\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].loopStepsTotal += loopSteps;\n", PackagePrefixedPatternName);
+
                 sourceCode.AppendFront("for(int i=0; i<numThreadsSignaled; ++i)\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
-                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[i].searchStepsTotal += actionEnv.PerformanceInfo.SearchStepsPerThread[i];\n", PatternName);
-                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsTotal += actionEnv.PerformanceInfo.SearchStepsPerThread[i];\n", PatternName);
-                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.SearchSteps += actionEnv.PerformanceInfo.SearchStepsPerThread[i];\n", PatternName);
-                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[i].loopStepsTotal += actionEnv.PerformanceInfo.LoopStepsPerThread[i];\n", PatternName);
-                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].loopStepsTotal += actionEnv.PerformanceInfo.LoopStepsPerThread[i];\n", PatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[i].searchStepsTotal += actionEnv.PerformanceInfo.SearchStepsPerThread[i];\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsTotal += actionEnv.PerformanceInfo.SearchStepsPerThread[i];\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.SearchSteps += actionEnv.PerformanceInfo.SearchStepsPerThread[i];\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[i].loopStepsTotal += actionEnv.PerformanceInfo.LoopStepsPerThread[i];\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].loopStepsTotal += actionEnv.PerformanceInfo.LoopStepsPerThread[i];\n", PackagePrefixedPatternName);
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
                 sourceCode.Unindent();
@@ -511,6 +522,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string PatternName;
         public string Parameters;
         public bool EmitProfiling;
+        public string PackagePrefixedPatternName;
     }
 
     /// <summary>
@@ -521,7 +533,8 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchProgramOfActionParallelizationBody(string rulePatternClassName,
             string patternName, string name,
             List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath,
-            bool containsSubpatterns, bool wasIndependentInlined, bool emitProfiling)
+            bool containsSubpatterns, bool wasIndependentInlined,
+            bool emitProfiling, string packagePrefixedPatternName)
         {
             RulePatternClassName = rulePatternClassName;
             NamesOfPatternGraphsOnPathToEnclosedPatternpath =
@@ -533,6 +546,7 @@ namespace de.unika.ipd.grGen.lgsp
             SetupSubpatternMatching = containsSubpatterns;
             WasIndependentInlined = wasIndependentInlined;
             EmitProfiling = emitProfiling;
+            PackagePrefixedPatternName = packagePrefixedPatternName;
         }
 
         /// <summary>
@@ -620,12 +634,12 @@ namespace de.unika.ipd.grGen.lgsp
             //sourceCode.AppendFrontFormat("Console.WriteLine(\"work done for {0} at threadId \" + threadId);\n", PatternName);
             if(EmitProfiling)
             {
-                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId]);\n", PatternName);
-                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId]);\n", PatternName);
-                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].loopStepsSingle.Add(actionEnv.PerformanceInfo.LoopStepsPerThread[threadId]);\n", PatternName);
-                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].loopStepsMultiple.Add(actionEnv.PerformanceInfo.LoopStepsPerThread[threadId]);\n", PatternName);
-                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PatternName);
-                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PatternName);
+                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId]);\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId]);\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].loopStepsSingle.Add(actionEnv.PerformanceInfo.LoopStepsPerThread[threadId]);\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].loopStepsMultiple.Add(actionEnv.PerformanceInfo.LoopStepsPerThread[threadId]);\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PackagePrefixedPatternName);
+                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PackagePrefixedPatternName);
             }
 
             if(WasIndependentInlined)
@@ -654,6 +668,7 @@ namespace de.unika.ipd.grGen.lgsp
         public bool SetupSubpatternMatching;
         public bool WasIndependentInlined;
         public bool EmitProfiling;
+        public string PackagePrefixedPatternName;
     }
 
     /// <summary>
@@ -1351,7 +1366,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode,
             bool parallel,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.GraphElements);
@@ -1360,7 +1375,7 @@ namespace de.unika.ipd.grGen.lgsp
             IsNode = isNode;
             Parallel = parallel;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -1373,7 +1388,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode,
             bool parallel,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageElements);
@@ -1385,7 +1400,7 @@ namespace de.unika.ipd.grGen.lgsp
             IsNode = isNode;
             Parallel = parallel;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -1400,7 +1415,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode,
             bool parallel,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageAttributeElements);
@@ -1414,7 +1429,7 @@ namespace de.unika.ipd.grGen.lgsp
             IsNode = isNode;
             Parallel = parallel;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -1429,7 +1444,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode,
             bool parallel,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.IndexElements);
@@ -1444,7 +1459,7 @@ namespace de.unika.ipd.grGen.lgsp
             IsNode = isNode;
             Parallel = parallel;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -1462,7 +1477,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode,
             bool parallel,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.IndexElements);
@@ -1480,7 +1495,7 @@ namespace de.unika.ipd.grGen.lgsp
             IsNode = isNode;
             Parallel = parallel;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -1491,7 +1506,7 @@ namespace de.unika.ipd.grGen.lgsp
             IncidentEdgeType edgeType,
             bool parallel,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.IncidentEdges);
@@ -1501,7 +1516,7 @@ namespace de.unika.ipd.grGen.lgsp
             EdgeType = edgeType;
             Parallel = parallel;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -1854,7 +1869,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(!EmitProfiling)
                 return;
 
-            if(ActionName != null && EmitFirstLoopProfiling)
+            if(PackagePrefixedActionName != null && EmitFirstLoopProfiling)
             {
                 if(Parallel)
                 {
@@ -1878,17 +1893,17 @@ namespace de.unika.ipd.grGen.lgsp
             if(!EmitProfiling)
                 return;
 
-            if(ActionName != null && EmitFirstLoopProfiling)
+            if(PackagePrefixedActionName != null && EmitFirstLoopProfiling)
             {
                 if(Parallel)
                 {
-                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", ActionName);
-                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", ActionName);
+                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PackagePrefixedActionName);
                 }
                 else
                 {
-                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
-                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
+                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", PackagePrefixedActionName);
                 }
             }
         }
@@ -1923,7 +1938,7 @@ namespace de.unika.ipd.grGen.lgsp
         public IncidentEdgeType EdgeType; // only available if IncidentEdges
         public bool Parallel;
         public bool EmitProfiling;
-        public string ActionName;
+        public string PackagePrefixedActionName;
         public bool EmitFirstLoopProfiling;
 
         public SearchProgramList NestedOperationsList;
@@ -1940,7 +1955,7 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             bool isNode,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.GraphElements);
@@ -1948,7 +1963,7 @@ namespace de.unika.ipd.grGen.lgsp
             PatternElementName = patternElementName;
             IsNode = isNode;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -1960,7 +1975,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool isDict,
             bool isNode,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageElements);
@@ -1971,7 +1986,7 @@ namespace de.unika.ipd.grGen.lgsp
             IsDict = isDict;
             IsNode = isNode;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -1985,7 +2000,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool isDict,
             bool isNode,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageAttributeElements);
@@ -1998,7 +2013,7 @@ namespace de.unika.ipd.grGen.lgsp
             IsDict = isDict;
             IsNode = isNode;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -2012,7 +2027,7 @@ namespace de.unika.ipd.grGen.lgsp
             string equality,
             bool isNode,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.IndexElements);
@@ -2026,7 +2041,7 @@ namespace de.unika.ipd.grGen.lgsp
             IndexEqual = equality;
             IsNode = isNode;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -2043,7 +2058,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool toIncluded,
             bool isNode,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.IndexElements);
@@ -2060,7 +2075,7 @@ namespace de.unika.ipd.grGen.lgsp
             IndexToIncluded = toIncluded;
             IsNode = isNode;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -2070,7 +2085,7 @@ namespace de.unika.ipd.grGen.lgsp
             string startingPointNodeName,
             IncidentEdgeType edgeType,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.IncidentEdges);
@@ -2079,7 +2094,7 @@ namespace de.unika.ipd.grGen.lgsp
             StartingPointNodeName = startingPointNodeName;
             EdgeType = edgeType;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -2491,7 +2506,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(!EmitProfiling)
                 return;
 
-            if(ActionName != null && EmitFirstLoopProfiling)
+            if(PackagePrefixedActionName != null && EmitFirstLoopProfiling)
             {
                 sourceCode.AppendFront("++actionEnv.PerformanceInfo.LoopStepsPerThread[threadId];\n");
                 sourceCode.AppendFront("searchStepsAtLoopStepBegin = actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
@@ -2504,10 +2519,10 @@ namespace de.unika.ipd.grGen.lgsp
             if(!EmitProfiling)
                 return;
 
-            if(ActionName != null && EmitFirstLoopProfiling)
+            if(PackagePrefixedActionName != null && EmitFirstLoopProfiling)
             {
-                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", ActionName);
-                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", ActionName);
+                sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PackagePrefixedActionName);
+                sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PackagePrefixedActionName);
             }
         }
 
@@ -2552,7 +2567,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string StartingPointNodeName; // from pattern - only available if IncidentEdges
         public IncidentEdgeType EdgeType; // only available if IncidentEdges
         public bool EmitProfiling;
-        public string ActionName;
+        public string PackagePrefixedActionName;
         public bool EmitFirstLoopProfiling;
 
         public SearchProgramList NestedOperationsList;
@@ -2574,7 +2589,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool enclosingLoop,
             bool wasIndependentInlined,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.GraphElements);
@@ -2587,7 +2602,7 @@ namespace de.unika.ipd.grGen.lgsp
             EnclosingLoop = enclosingLoop;
             WasIndependentInlined = wasIndependentInlined;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -2603,7 +2618,7 @@ namespace de.unika.ipd.grGen.lgsp
             string[] parameterNames,
             bool wasIndependentInlined,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageElements);
@@ -2618,7 +2633,7 @@ namespace de.unika.ipd.grGen.lgsp
             ParameterNames = parameterNames;
             WasIndependentInlined = wasIndependentInlined;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -2636,7 +2651,7 @@ namespace de.unika.ipd.grGen.lgsp
             string[] parameterNames,
             bool wasIndependentInlined,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageAttributeElements);
@@ -2653,7 +2668,7 @@ namespace de.unika.ipd.grGen.lgsp
             ParameterNames = parameterNames;
             WasIndependentInlined = wasIndependentInlined;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -2671,7 +2686,7 @@ namespace de.unika.ipd.grGen.lgsp
             string[] parameterNames,
             bool wasIndependentInlined,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.IndexElements);
@@ -2689,7 +2704,7 @@ namespace de.unika.ipd.grGen.lgsp
             ParameterNames = parameterNames;
             WasIndependentInlined = wasIndependentInlined;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -2710,7 +2725,7 @@ namespace de.unika.ipd.grGen.lgsp
             string[] parameterNames,
             bool wasIndependentInlined,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.IndexElements);
@@ -2731,7 +2746,7 @@ namespace de.unika.ipd.grGen.lgsp
             ParameterNames = parameterNames;
             WasIndependentInlined = wasIndependentInlined;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -2746,7 +2761,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool enclosingLoop,
             bool wasIndependentInlined,
             bool emitProfiling,
-            string actionName,
+            string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
         {
             Debug.Assert(type == GetCandidateByIterationType.IncidentEdges);
@@ -2760,7 +2775,7 @@ namespace de.unika.ipd.grGen.lgsp
             EnclosingLoop = enclosingLoop;
             WasIndependentInlined = wasIndependentInlined;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -3299,7 +3314,7 @@ namespace de.unika.ipd.grGen.lgsp
         public bool EnclosingLoop; // in case of an enclosing loop we can't forward to the normal matcher
         public bool WasIndependentInlined;
         public bool EmitProfiling;
-        public string ActionName;
+        public string PackagePrefixedActionName;
         public bool EmitFirstLoopProfiling;
     }
 
@@ -6827,13 +6842,13 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public CheckContinueMatchingMaximumMatchesReached(
             CheckMaximumMatchesType type, bool listHeadAdjustment, bool inParallelizedBody,
-            bool emitProfiling, string actionName, bool emitFirstLoopProfiling)
+            bool emitProfiling, string packagePrefixedActionName, bool emitFirstLoopProfiling)
         {
             Type = type;
             ListHeadAdjustment = listHeadAdjustment;
             InParallelizedBody = inParallelizedBody;
             EmitProfiling = emitProfiling;
-            ActionName = actionName;
+            PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
         }
 
@@ -6844,7 +6859,7 @@ namespace de.unika.ipd.grGen.lgsp
             ListHeadAdjustment = listHeadAdjustment;
             InParallelizedBody = inParallelizedBody;
             EmitProfiling = false;
-            ActionName = null;
+            PackagePrefixedActionName = null;
             EmitFirstLoopProfiling = false;
         }
 
@@ -6898,30 +6913,30 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(InParallelizedBody)
                 {
-                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId]);\n", ActionName);
-                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId]);\n", ActionName);
-                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].loopStepsSingle.Add(actionEnv.PerformanceInfo.LoopStepsPerThread[threadId]);\n", ActionName);
-                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].loopStepsMultiple.Add(actionEnv.PerformanceInfo.LoopStepsPerThread[threadId]);\n", ActionName);
-                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", ActionName);
-                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", ActionName);
+                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId]);\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId]);\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].loopStepsSingle.Add(actionEnv.PerformanceInfo.LoopStepsPerThread[threadId]);\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].loopStepsMultiple.Add(actionEnv.PerformanceInfo.LoopStepsPerThread[threadId]);\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId] - searchStepsAtLoopStepBegin);\n", PackagePrefixedActionName);
                 }
                 else
                 {
-                    sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].callsTotal;\n", ActionName);
-                    sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin;\n", ActionName);
-                    sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].loopStepsTotal += loopSteps;\n", ActionName);
+                    sourceCode.AppendFrontFormat("++actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].callsTotal;\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].searchStepsTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin;\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].loopStepsTotal += loopSteps;\n", PackagePrefixedActionName);
 
-                    sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin;\n", ActionName);
-                    sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsTotal += loopSteps;\n", ActionName);
-                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin);\n", ActionName);
-                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin);\n", ActionName);
-                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsSingle.Add(loopSteps);\n", ActionName);
-                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsMultiple.Add(loopSteps);\n", ActionName);
+                    sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin;\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsTotal += loopSteps;\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin);\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBegin);\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsSingle.Add(loopSteps);\n", PackagePrefixedActionName);
+                    sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].loopStepsMultiple.Add(loopSteps);\n", PackagePrefixedActionName);
                     
                     if(EmitFirstLoopProfiling)
                     {
-                        sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
-                        sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", ActionName);
+                        sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsPerLoopStepSingle.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", PackagePrefixedActionName);
+                        sourceCode.AppendFrontFormat("else actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[0].searchStepsPerLoopStepMultiple.Add(actionEnv.PerformanceInfo.SearchSteps - searchStepsAtLoopStepBegin);\n", PackagePrefixedActionName);
                     }
                 }
             }
@@ -6936,7 +6951,7 @@ namespace de.unika.ipd.grGen.lgsp
         public bool ListHeadAdjustment;
         public bool InParallelizedBody;
         public bool EmitProfiling;
-        public string ActionName;
+        public string PackagePrefixedActionName;
         public bool EmitFirstLoopProfiling;
     }
 

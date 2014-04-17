@@ -81,7 +81,7 @@ namespace de.unika.ipd.grGen.lgsp
                 actionProfile.averagesPerThread = new ProfileAverages[branchingFactor];
                 for(int i = 0; i < branchingFactor; ++i)
                     actionProfile.averagesPerThread[i] = new ProfileAverages();
-                perfInfo.ActionProfiles.Add(action.Name, actionProfile);
+                perfInfo.ActionProfiles.Add(action.PackagePrefixedName, actionProfile);
             }
         }
         

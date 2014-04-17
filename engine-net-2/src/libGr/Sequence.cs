@@ -201,6 +201,8 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public abstract IEnumerable<Sequence> Children { get; }
 
+        public override IEnumerable<SequenceBase> ChildrenBase { get { foreach(SequenceBase child in Children) yield return child; } }
+
         /// <summary>
         /// the state of executing this sequence
         /// </summary>
@@ -798,6 +800,17 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override IEnumerable<SequenceBase> ChildrenBase
+        { 
+            get
+            { 
+                foreach(SequenceExpression expr in ParamBindings.ArgumentExpressions)
+                    yield return expr;
+                foreach(FilterCall fc in Filters)
+                    foreach(SequenceExpression expr in fc.ArgumentExpressions)
+                        yield return expr;
+            } 
+        }
         public override int Precedence { get { return 8; } }
 
         public String GetRuleCallString(IGraphProcessingEnvironment procEnv)
@@ -1415,6 +1428,7 @@ namespace de.unika.ipd.grGen.libGr
             return this == target;
         }
 
+        public override IEnumerable<SequenceBase> ChildrenBase { get { foreach(Sequence child in Children) yield return child; } }
         public override string Symbol
         {
             get
@@ -2836,6 +2850,16 @@ namespace de.unika.ipd.grGen.libGr
             return this == target;
         }
 
+        public override IEnumerable<SequenceBase> ChildrenBase
+        { 
+            get
+            { 
+                yield return Seq;
+                foreach(SequenceExpression expr in ArgExprs)
+                    yield return expr; 
+            } 
+        }
+
         public string FunctionSymbol
         {
             get
@@ -3390,6 +3414,14 @@ namespace de.unika.ipd.grGen.libGr
             return this == target;
         }
 
+        public override IEnumerable<SequenceBase> ChildrenBase
+        { 
+            get 
+            {
+                foreach(SequenceExpression expr in ParamBindings.ArgumentExpressions)
+                    yield return expr;
+            }
+        }
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
 
@@ -3621,6 +3653,7 @@ namespace de.unika.ipd.grGen.libGr
             return this == target;
         }
 
+        public override IEnumerable<SequenceBase> ChildrenBase { get { yield return Computation; } }
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Special ? "%{ " + (Computation is SequenceExpression ? "{" + Computation.Symbol + "}" : Computation.Symbol) + " }" : "{ " + (Computation is SequenceExpression ? "{" + Computation.Symbol + "}" : Computation.Symbol) + " }"; } }

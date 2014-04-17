@@ -1135,5 +1135,32 @@ namespace de.unika.ipd.grGen.libGr
         /// the static member used to assign the unique ids to the sequence /expression instances
         /// </summary>
         protected static int idSource = 0;
+
+        /// <summary>
+        /// Enumerates all child sequence computation objects
+        /// </summary>
+        public abstract IEnumerable<SequenceBase> ChildrenBase { get; }
+
+        /// <summary>
+        /// sets for the very node the profiling flag (does not recurse)
+        /// </summary>
+        public virtual void SetNeedForProfiling(bool profiling)
+        {
+            // NOP, sufficient for most sequences / sequence computations / sequence expressions,
+            // only the node/edge/incident/adjacent/reachable/isX-constructs need to call a special version
+            // counting up the search steps with each visited element/graph element accessed (but not the implicit operations)
+        }
+
+        /// <summary>
+        /// sets for the node and all children, i.e. the entire tree the profiling flag
+        /// </summary>
+        public void SetNeedForProfilingRecursive(bool profiling)
+        {
+            SetNeedForProfiling(true);
+            foreach(SequenceBase child in ChildrenBase)
+            {
+                child.SetNeedForProfilingRecursive(profiling);
+            }
+        }
     }
 }

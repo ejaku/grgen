@@ -1232,6 +1232,7 @@ void ShellCommand():
                 {
 					Console.WriteLine("The validate sequence at line " + tok.beginLine + " reported back: " + warning);
                 }
+                seq.SetNeedForProfilingRecursive(impl.GetEmitProfiling());
     	        validated = impl.ValidateWithSequence(seq);
                 noError = !impl.OperationCancelled;
             }
@@ -1277,6 +1278,7 @@ void ShellCommand():
 			{
 				Console.WriteLine("The sequence at line " + tok.beginLine + " reported back: " + warning);
 			}
+			seq.SetNeedForProfilingRecursive(impl.GetEmitProfiling());
             impl.ApplyRewriteSequence(seq, false);
             noError = !impl.OperationCancelled;
         }
@@ -1308,6 +1310,7 @@ void ShellCommand():
 			{
 				Console.WriteLine("The sequence definition at line " + tok.beginLine + " reported back: " + warning);
 			}
+            ((SequenceDefinition)seqDef).SetNeedForProfilingRecursive(impl.GetEmitProfiling());
             impl.DefineRewriteSequence(seqDef);
         }
         catch(SequenceParserException ex)
@@ -1940,6 +1943,7 @@ void DebugCommand():
 				{
 					Console.WriteLine("The debug sequence at line " + tok.beginLine + " reported back: " + warning);
 				}
+                seq.SetNeedForProfilingRecursive(impl.GetEmitProfiling());
 				impl.DebugRewriteSequence(seq);
 				noError = !impl.OperationCancelled;
 			}

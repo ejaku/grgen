@@ -116,6 +116,8 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public abstract IEnumerable<SequenceComputation> Children { get; }
 
+        public override IEnumerable<SequenceBase> ChildrenBase { get { foreach(SequenceBase child in Children) yield return child; } }
+
         /// <summary>
         /// Tells whether Execute returns a value to be used as a result determining value for a boolean computation sequence.
         /// Only expressions do so, the values returned by plain computations don't bubble up to sequence level, are computation internal only.
