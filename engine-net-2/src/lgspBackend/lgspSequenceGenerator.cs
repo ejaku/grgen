@@ -1060,14 +1060,15 @@ namespace de.unika.ipd.grGen.lgsp
                             break;
                     }
 
+                    string profilingArgument = gen.EmitProfiling ? ", procEnv" : "";
                     if(seqFor.SequenceType == SequenceType.ForReachableNodes || seqFor.SequenceType == SequenceType.ForReachableNodesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableNodesViaOutgoing)
                     {
-                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GraphHelper.Reachable{1}(node_{0}, ({2}), ({3}), graph))\n",
+                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GraphHelper.Reachable{1}(node_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
                             seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
                     }
                     else if(seqFor.SequenceType == SequenceType.ForReachableEdges || seqFor.SequenceType == SequenceType.ForReachableEdgesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableEdgesViaOutgoing)
                     {
-                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GraphHelper.Reachable{1}(edge_{0}, ({2}), ({3}), graph))\n",
+                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GraphHelper.Reachable{1}(edge_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
                             seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
                     }
                     else
@@ -3579,14 +3580,16 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionNodes seqNodes = (SequenceExpressionNodes)expr;
                     string nodeType = ExtractNodeType(source, seqNodes.NodeType);
-                    return "GRGEN_LIBGR.GraphHelper.Nodes(graph, (GRGEN_LIBGR.NodeType)" + nodeType + ")";
+                    string profilingArgument = seqNodes.EmitProfiling ? ", procEnv" : "";
+                    return "GRGEN_LIBGR.GraphHelper.Nodes(graph, (GRGEN_LIBGR.NodeType)" + nodeType + profilingArgument + ")";
                 }
 
                 case SequenceExpressionType.Edges:
                 {
                     SequenceExpressionEdges seqEdges = (SequenceExpressionEdges)expr;
                     string edgeType = ExtractEdgeType(source, seqEdges.EdgeType);
-                    return "GRGEN_LIBGR.GraphHelper.Edges(graph, (GRGEN_LIBGR.EdgeType)" + edgeType + ")";
+                    string profilingArgument = seqEdges.EmitProfiling ? ", procEnv" : "";
+                    return "GRGEN_LIBGR.GraphHelper.Edges(graph, (GRGEN_LIBGR.EdgeType)" + edgeType + profilingArgument + ")";
                 }
 
                 case SequenceExpressionType.Now:
@@ -3636,8 +3639,9 @@ namespace de.unika.ipd.grGen.lgsp
                         default:
                             function = "INTERNAL ERROR"; break;
                     }
+                    string profilingArgument = seqAdjInc.EmitProfiling ? ", procEnv" : "";
                     return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode
-                        + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + ")";
+                        + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
                 }
 
                 case SequenceExpressionType.ReachableNodes:
@@ -3669,17 +3673,18 @@ namespace de.unika.ipd.grGen.lgsp
                         default:
                             function = "INTERNAL ERROR"; break;
                     }
+                    string profilingArgument = seqReach.EmitProfiling ? ", procEnv" : "";
                     if(seqReach.SequenceExpressionType == SequenceExpressionType.ReachableNodes
                         || seqReach.SequenceExpressionType == SequenceExpressionType.ReachableNodesViaIncoming
                         || seqReach.SequenceExpressionType == SequenceExpressionType.ReachableNodesViaOutgoing)
                     {
                         return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode
-                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + ")";
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
                     }
                     else // SequenceExpressionType.ReachableEdges || SequenceExpressionType.ReachableEdgesViaIncoming || SequenceExpressionType.ReachableEdgesViaOutgoing
                     {
                         return "GRGEN_LIBGR.GraphHelper." + function + "(graph, (GRGEN_LIBGR.INode)" + sourceNode
-                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + ")";
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
                     }
                 }
 
@@ -3728,8 +3733,9 @@ namespace de.unika.ipd.grGen.lgsp
                             endElementType = "INTERNAL ERROR";
                             break;
                     }
+                    string profilingArgument = seqIsAdjInc.EmitProfiling ? ", procEnv" : "";
                     return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode + ", " + endElementType + " " + endElement
-                        + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + ")";
+                        + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
                 }
 
                 case SequenceExpressionType.IsReachableNodes:
@@ -3777,8 +3783,9 @@ namespace de.unika.ipd.grGen.lgsp
                             endElementType = "INTERNAL ERROR";
                             break;
                     }
+                    string profilingArgument = seqIsReach.EmitProfiling ? ", procEnv" : "";
                     return "GRGEN_LIBGR.GraphHelper." + function + "(graph, (GRGEN_LIBGR.INode)" + sourceNode + ", " + endElementType + " " + endElement
-                        + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + ")";
+                        + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
                 }
 
                 case SequenceExpressionType.InducedSubgraph:
@@ -4152,7 +4159,8 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceExpressionType.ElementFromGraph:
                 {
                     SequenceExpressionElementFromGraph seqFromGraph = (SequenceExpressionElementFromGraph)expr;
-                    return "((GRGEN_LIBGR.INamedGraph)graph).GetGraphElement(\""+seqFromGraph.ElementName+"\")";
+                    string profilingArgument = seqFromGraph.EmitProfiling ? ", procEnv" : "";
+                    return "GRGEN_LIBGR.GraphHelper.GetGraphElement((GRGEN_LIBGR.INamedGraph)graph, \"" + seqFromGraph.ElementName + "\"" + profilingArgument + ")";
                 }
 
                 case SequenceExpressionType.Source:
@@ -4382,6 +4390,7 @@ namespace de.unika.ipd.grGen.lgsp
                         + "\" given on line " + lineNr + " reported back:\n" + warning);
                 }
                 seq.Check(env);
+                seq.SetNeedForProfilingRecursive(gen.EmitProfiling);
             }
             catch(ParseException ex)
             {
@@ -4463,6 +4472,7 @@ namespace de.unika.ipd.grGen.lgsp
                         + "\" reported back:\n" + warning);
                 }
                 seq.Check(env);
+                seq.SetNeedForProfilingRecursive(gen.EmitProfiling);
             }
             catch(ParseException ex)
             {

@@ -39,17 +39,6 @@ namespace de.unika.ipd.grGen.libGr
             return nodesSet;
         }
 
-        public static Dictionary<INode, SetValueType> Nodes(IGraph graph, NodeType nodeType, IActionExecutionEnvironment actionEnv, int threadId)
-        {
-            Dictionary<INode, SetValueType> nodesSet = new Dictionary<INode, SetValueType>();
-            foreach(INode node in graph.GetCompatibleNodes(nodeType))
-            {
-                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                nodesSet[node] = null;
-            }
-            return nodesSet;
-        }
-
         /// <summary>
         /// Returns the edges in the graph of the type given, as set
         /// </summary>
@@ -74,18 +63,23 @@ namespace de.unika.ipd.grGen.libGr
             return edgesSet;
         }
 
-        public static Dictionary<IEdge, SetValueType> Edges(IGraph graph, EdgeType edgeType, IActionExecutionEnvironment actionEnv, int threadId)
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        public static IGraphElement GetGraphElement(INamedGraph graph, string name)
         {
-            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in graph.GetCompatibleEdges(edgeType))
-            {
-                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                edgesSet[edge] = null;
-            }
-            return edgesSet;
+            return graph.GetGraphElement(name);
         }
 
-        //////////////////////////////////////////////////////////////////////////////////////////////
+        public static IGraphElement GetGraphElement(INamedGraph graph, string name, IActionExecutionEnvironment actionEnv)
+        {
+            ++actionEnv.PerformanceInfo.SearchSteps;
+            return graph.GetGraphElement(name);
+        }
+
+        public static INode GetNode(INamedGraph graph, string name)
+        {
+            return graph.GetNode(name);
+        }
 
         public static INode GetNode(INamedGraph graph, string name, IActionExecutionEnvironment actionEnv)
         {
@@ -93,10 +87,9 @@ namespace de.unika.ipd.grGen.libGr
             return graph.GetNode(name);
         }
 
-        public static INode GetNode(INamedGraph graph, string name, IActionExecutionEnvironment actionEnv, int threadId)
+        public static IEdge GetEdge(INamedGraph graph, string name)
         {
-            ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-            return graph.GetNode(name);
+            return graph.GetEdge(name);
         }
 
         public static IEdge GetEdge(INamedGraph graph, string name, IActionExecutionEnvironment actionEnv)
@@ -105,13 +98,12 @@ namespace de.unika.ipd.grGen.libGr
             return graph.GetEdge(name);
         }
 
-        public static IEdge GetEdge(INamedGraph graph, string name, IActionExecutionEnvironment actionEnv, int threadId)
-        {
-            ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-            return graph.GetEdge(name);
-        }
-
         //////////////////////////////////////////////////////////////////////////////////////////////
+
+        public static INode GetNode(IGraph graph, int uniqueId)
+        {
+            return graph.GetNode(uniqueId);
+        }
 
         public static INode GetNode(IGraph graph, int uniqueId, IActionExecutionEnvironment actionEnv)
         {
@@ -119,21 +111,14 @@ namespace de.unika.ipd.grGen.libGr
             return graph.GetNode(uniqueId);
         }
 
-        public static INode GetNode(IGraph graph, int uniqueId, IActionExecutionEnvironment actionEnv, int threadId)
+        public static IEdge GetEdge(IGraph graph, int uniqueId)
         {
-            ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-            return graph.GetNode(uniqueId);
+            return graph.GetEdge(uniqueId);
         }
 
         public static IEdge GetEdge(IGraph graph, int uniqueId, IActionExecutionEnvironment actionEnv)
         {
             ++actionEnv.PerformanceInfo.SearchSteps;
-            return graph.GetEdge(uniqueId);
-        }
-
-        public static IEdge GetEdge(IGraph graph, int uniqueId, IActionExecutionEnvironment actionEnv, int threadId)
-        {
-            ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
             return graph.GetEdge(uniqueId);
         }
 
@@ -184,28 +169,6 @@ namespace de.unika.ipd.grGen.libGr
             return adjacentNodesSet;
         }
 
-        public static Dictionary<INode, SetValueType> Adjacent(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv, int threadId)
-        {
-            Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode, SetValueType>();
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
-            {
-                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                INode adjacentNode = edge.Target;
-                if(!adjacentNode.InstanceOf(adjacentNodeType))
-                    continue;
-                adjacentNodesSet[adjacentNode] = null;
-            }
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
-            {
-                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                INode adjacentNode = edge.Source;
-                if(!adjacentNode.InstanceOf(adjacentNodeType))
-                    continue;
-                adjacentNodesSet[adjacentNode] = null;
-            }
-            return adjacentNodesSet;
-        }
-
         /// <summary>
         /// Returns set of nodes adjacent to the start node via outgoing edges, under the type constraints given
         /// </summary>
@@ -236,20 +199,6 @@ namespace de.unika.ipd.grGen.libGr
             return targetNodesSet;
         }
 
-        public static Dictionary<INode, SetValueType> AdjacentOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv, int threadId)
-        {
-            Dictionary<INode, SetValueType> targetNodesSet = new Dictionary<INode, SetValueType>();
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
-            {
-                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                INode adjacentNode = edge.Target;
-                if(!adjacentNode.InstanceOf(targetNodeType))
-                    continue;
-                targetNodesSet[adjacentNode] = null;
-            }
-            return targetNodesSet;
-        }
-
         /// <summary>
         /// Returns set of nodes adjacent to the start node via incoming edges, under the type constraints given
         /// </summary>
@@ -272,20 +221,6 @@ namespace de.unika.ipd.grGen.libGr
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
             {
                 ++actionEnv.PerformanceInfo.SearchSteps;
-                INode adjacentNode = edge.Source;
-                if(!adjacentNode.InstanceOf(sourceNodeType))
-                    continue;
-                sourceNodesSet[adjacentNode] = null;
-            }
-            return sourceNodesSet;
-        }
-
-        public static Dictionary<INode, SetValueType> AdjacentIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv, int threadId)
-        {
-            Dictionary<INode, SetValueType> sourceNodesSet = new Dictionary<INode, SetValueType>();
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
-            {
-                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
@@ -341,28 +276,6 @@ namespace de.unika.ipd.grGen.libGr
             return incidentEdgesSet;
         }
 
-        public static Dictionary<IEdge, SetValueType> Incident(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv, int threadId)
-        {
-            Dictionary<IEdge, SetValueType> incidentEdgesSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
-            {
-                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                INode adjacentNode = edge.Target;
-                if(!adjacentNode.InstanceOf(adjacentNodeType))
-                    continue;
-                incidentEdgesSet[edge] = null;
-            }
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
-            {
-                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                INode adjacentNode = edge.Source;
-                if(!adjacentNode.InstanceOf(adjacentNodeType))
-                    continue;
-                incidentEdgesSet[edge] = null;
-            }
-            return incidentEdgesSet;
-        }
-
         /// <summary>
         /// Returns set of edges outgoing from the start node, under the type constraints given
         /// </summary>
@@ -393,20 +306,6 @@ namespace de.unika.ipd.grGen.libGr
             return outgoingEdgesSet;
         }
 
-        public static Dictionary<IEdge, SetValueType> Outgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv, int threadId)
-        {
-            Dictionary<IEdge, SetValueType> outgoingEdgesSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
-            {
-                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                INode adjacentNode = edge.Target;
-                if(!adjacentNode.InstanceOf(targetNodeType))
-                    continue;
-                outgoingEdgesSet[edge] = null;
-            }
-            return outgoingEdgesSet;
-        }
-
         /// <summary>
         /// Returns set of edges incoming to the start node, under the type constraints given
         /// </summary>
@@ -429,20 +328,6 @@ namespace de.unika.ipd.grGen.libGr
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
             {
                 ++actionEnv.PerformanceInfo.SearchSteps;
-                INode adjacentNode = edge.Source;
-                if(!adjacentNode.InstanceOf(sourceNodeType))
-                    continue;
-                incomingEdgesSet[edge] = null;
-            }
-            return incomingEdgesSet;
-        }
-
-        public static Dictionary<IEdge, SetValueType> Incoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv, int threadId)
-        {
-            Dictionary<IEdge, SetValueType> incomingEdgesSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
-            {
-                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;

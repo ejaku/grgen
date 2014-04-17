@@ -1820,6 +1820,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionElementFromGraph : SequenceExpression
     {
         public String ElementName;
+        public bool EmitProfiling;
 
         public SequenceExpressionElementFromGraph(String elemName)
             : base(SequenceExpressionType.ElementFromGraph)
@@ -1848,6 +1849,11 @@ namespace de.unika.ipd.grGen.libGr
             if(elem == null)
                 throw new InvalidOperationException("Graph element does not exist: \"" + ElementName + "\"!");
             return elem;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
@@ -2113,6 +2119,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionNodes : SequenceExpression
     {
         public SequenceExpression NodeType;
+        public bool EmitProfiling;
 
         public SequenceExpressionNodes(SequenceExpression nodeType)
             : base(SequenceExpressionType.Nodes)
@@ -2171,13 +2178,21 @@ namespace de.unika.ipd.grGen.libGr
                 nodeType = procEnv.Graph.Model.NodeModel.RootType;
             }
 
-            return GraphHelper.Nodes(procEnv.Graph, nodeType);
+            if(EmitProfiling)
+                return GraphHelper.Nodes(procEnv.Graph, nodeType, procEnv);
+            else
+                return GraphHelper.Nodes(procEnv.Graph, nodeType);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             if(NodeType != null) NodeType.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { if(NodeType != null) yield return NodeType; } }
@@ -2195,6 +2210,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionEdges : SequenceExpression
     {
         public SequenceExpression EdgeType;
+        public bool EmitProfiling;
 
         public SequenceExpressionEdges(SequenceExpression edgeType)
             : base(SequenceExpressionType.Edges)
@@ -2253,13 +2269,21 @@ namespace de.unika.ipd.grGen.libGr
                 edgeType = procEnv.Graph.Model.EdgeModel.RootType;
             }
 
-            return GraphHelper.Edges(procEnv.Graph, edgeType);
+            if(EmitProfiling)
+                return GraphHelper.Edges(procEnv.Graph, edgeType, procEnv);
+            else
+                return GraphHelper.Edges(procEnv.Graph, edgeType);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             if(EdgeType != null) EdgeType.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { if(EdgeType != null) yield return EdgeType; } }
@@ -2390,6 +2414,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceExpression SourceNode;
         public SequenceExpression EdgeType;
         public SequenceExpression OppositeNodeType;
+        public bool EmitProfiling;
 
         public SequenceExpressionAdjacentIncident(SequenceExpression sourceNode, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -2506,17 +2531,35 @@ namespace de.unika.ipd.grGen.libGr
             switch(SequenceExpressionType)
             {
                 case SequenceExpressionType.AdjacentNodes:
-                    return GraphHelper.Adjacent(sourceNode, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.Adjacent(sourceNode, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.Adjacent(sourceNode, edgeType, nodeType);
                 case SequenceExpressionType.AdjacentNodesViaIncoming:
-                    return GraphHelper.AdjacentIncoming(sourceNode, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.AdjacentIncoming(sourceNode, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.AdjacentIncoming(sourceNode, edgeType, nodeType);
                 case SequenceExpressionType.AdjacentNodesViaOutgoing:
-                    return GraphHelper.AdjacentOutgoing(sourceNode, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.AdjacentOutgoing(sourceNode, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.AdjacentOutgoing(sourceNode, edgeType, nodeType);
                 case SequenceExpressionType.IncidentEdges:
-                    return GraphHelper.Incident(sourceNode, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.Incident(sourceNode, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.Incident(sourceNode, edgeType, nodeType);
                 case SequenceExpressionType.IncomingEdges:
-                    return GraphHelper.Incoming(sourceNode, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.Incoming(sourceNode, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.Incoming(sourceNode, edgeType, nodeType);
                 case SequenceExpressionType.OutgoingEdges:
-                    return GraphHelper.Outgoing(sourceNode, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.Outgoing(sourceNode, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.Outgoing(sourceNode, edgeType, nodeType);
                 default:
                     return null; // internal failure
             }
@@ -2528,6 +2571,11 @@ namespace de.unika.ipd.grGen.libGr
             SourceNode.GetLocalVariables(variables, containerConstructors);
             if(EdgeType != null) EdgeType.GetLocalVariables(variables, containerConstructors);
             if(OppositeNodeType != null) OppositeNodeType.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return SourceNode; if(EdgeType != null) yield return EdgeType; if(OppositeNodeType != null) yield return OppositeNodeType; } }
@@ -2559,6 +2607,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceExpression SourceNode;
         public SequenceExpression EdgeType;
         public SequenceExpression OppositeNodeType;
+        public bool EmitProfiling;
 
         public SequenceExpressionReachable(SequenceExpression sourceNode, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -2675,17 +2724,35 @@ namespace de.unika.ipd.grGen.libGr
             switch(SequenceExpressionType)
             {
                 case SequenceExpressionType.ReachableNodes:
-                    return GraphHelper.Reachable(sourceNode, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.Reachable(sourceNode, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.Reachable(sourceNode, edgeType, nodeType);
                 case SequenceExpressionType.ReachableNodesViaIncoming:
-                    return GraphHelper.ReachableIncoming(sourceNode, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.ReachableIncoming(sourceNode, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.ReachableIncoming(sourceNode, edgeType, nodeType);
                 case SequenceExpressionType.ReachableNodesViaOutgoing:
-                    return GraphHelper.ReachableOutgoing(sourceNode, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.ReachableOutgoing(sourceNode, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.ReachableOutgoing(sourceNode, edgeType, nodeType);
                 case SequenceExpressionType.ReachableEdges:
-                    return GraphHelper.ReachableEdges(procEnv.Graph, sourceNode, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.ReachableEdges(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.ReachableEdges(procEnv.Graph, sourceNode, edgeType, nodeType);
                 case SequenceExpressionType.ReachableEdgesViaIncoming:
-                    return GraphHelper.ReachableEdgesIncoming(procEnv.Graph, sourceNode, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.ReachableEdgesIncoming(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.ReachableEdgesIncoming(procEnv.Graph, sourceNode, edgeType, nodeType);
                 case SequenceExpressionType.ReachableEdgesViaOutgoing:
-                    return GraphHelper.ReachableEdgesOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.ReachableEdgesOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.ReachableEdgesOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType);
                 default:
                     return null; // internal failure
             }
@@ -2697,6 +2764,11 @@ namespace de.unika.ipd.grGen.libGr
             SourceNode.GetLocalVariables(variables, containerConstructors);
             if(EdgeType != null) EdgeType.GetLocalVariables(variables, containerConstructors);
             if(OppositeNodeType != null) OppositeNodeType.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return SourceNode; if(EdgeType != null) yield return EdgeType; if(OppositeNodeType != null) yield return OppositeNodeType; } }
@@ -2729,6 +2801,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceExpression EndElement;
         public SequenceExpression EdgeType;
         public SequenceExpression OppositeNodeType;
+        public bool EmitProfiling;
 
         public SequenceExpressionIsAdjacentIncident(SequenceExpression sourceNode, SequenceExpression endElement, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -2858,17 +2931,35 @@ namespace de.unika.ipd.grGen.libGr
             switch(SequenceExpressionType)
             {
                 case SequenceExpressionType.IsAdjacentNodes:
-                    return GraphHelper.IsAdjacent(sourceNode, (INode)endElement, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.IsAdjacent(sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.IsAdjacent(sourceNode, (INode)endElement, edgeType, nodeType);
                 case SequenceExpressionType.IsAdjacentNodesViaIncoming:
-                    return GraphHelper.IsAdjacentIncoming(sourceNode, (INode)endElement, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.IsAdjacentIncoming(sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.IsAdjacentIncoming(sourceNode, (INode)endElement, edgeType, nodeType);
                 case SequenceExpressionType.IsAdjacentNodesViaOutgoing:
-                    return GraphHelper.IsAdjacentOutgoing(sourceNode, (INode)endElement, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.IsAdjacentOutgoing(sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.IsAdjacentOutgoing(sourceNode, (INode)endElement, edgeType, nodeType);
                 case SequenceExpressionType.IsIncidentEdges:
-                    return GraphHelper.IsIncident(sourceNode, (IEdge)endElement, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.IsIncident(sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.IsIncident(sourceNode, (IEdge)endElement, edgeType, nodeType);
                 case SequenceExpressionType.IsIncomingEdges:
-                    return GraphHelper.IsIncoming(sourceNode, (IEdge)endElement, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.IsIncoming(sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.IsIncoming(sourceNode, (IEdge)endElement, edgeType, nodeType);
                 case SequenceExpressionType.IsOutgoingEdges:
-                    return GraphHelper.IsOutgoing(sourceNode, (IEdge)endElement, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.IsOutgoing(sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.IsOutgoing(sourceNode, (IEdge)endElement, edgeType, nodeType);
                 default:
                     return null; // internal failure
             }
@@ -2881,6 +2972,11 @@ namespace de.unika.ipd.grGen.libGr
             EndElement.GetLocalVariables(variables, containerConstructors);
             if(EdgeType != null) EdgeType.GetLocalVariables(variables, containerConstructors);
             if(OppositeNodeType != null) OppositeNodeType.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return SourceNode; yield return EndElement; if(EdgeType != null) yield return EdgeType; if(OppositeNodeType != null) yield return OppositeNodeType; } }
@@ -2913,6 +3009,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceExpression EndElement;
         public SequenceExpression EdgeType;
         public SequenceExpression OppositeNodeType;
+        public bool EmitProfiling;
 
         public SequenceExpressionIsReachable(SequenceExpression sourceNode, SequenceExpression endElement, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -3042,17 +3139,35 @@ namespace de.unika.ipd.grGen.libGr
             switch(SequenceExpressionType)
             {
                 case SequenceExpressionType.IsReachableNodes:
-                    return GraphHelper.IsReachable(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.IsReachable(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.IsReachable(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
                 case SequenceExpressionType.IsReachableNodesViaIncoming:
-                    return GraphHelper.IsReachableIncoming(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.IsReachableIncoming(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.IsReachableIncoming(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
                 case SequenceExpressionType.IsReachableNodesViaOutgoing:
-                    return GraphHelper.IsReachableOutgoing(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.IsReachableOutgoing(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.IsReachableOutgoing(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
                 case SequenceExpressionType.IsReachableEdges:
-                    return GraphHelper.IsReachableEdges(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.IsReachableEdges(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.IsReachableEdges(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
                 case SequenceExpressionType.IsReachableEdgesViaIncoming:
-                    return GraphHelper.IsReachableEdgesIncoming(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.IsReachableEdgesIncoming(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.IsReachableEdgesIncoming(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
                 case SequenceExpressionType.IsReachableEdgesViaOutgoing:
-                    return GraphHelper.IsReachableEdgesOutgoing(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
+                    if(EmitProfiling)
+                        return GraphHelper.IsReachableEdgesOutgoing(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.IsReachableEdgesOutgoing(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
                 default:
                     return null; // internal failure
             }
@@ -3065,6 +3180,11 @@ namespace de.unika.ipd.grGen.libGr
             EndElement.GetLocalVariables(variables, containerConstructors);
             if(EdgeType != null) EdgeType.GetLocalVariables(variables, containerConstructors);
             if(OppositeNodeType != null) OppositeNodeType.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return SourceNode; yield return EndElement; if(EdgeType != null) yield return EdgeType; if(OppositeNodeType != null) yield return OppositeNodeType; } }

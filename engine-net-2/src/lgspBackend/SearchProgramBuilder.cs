@@ -54,7 +54,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.PatternGraph.Package, false);
             this.emitProfiling = emitProfiling;
-            actionName = rulePattern.name;
+            packagePrefixedActionName = rulePattern.patternGraph.Package != null ? rulePattern.patternGraph.Package + "::" + rulePattern.name : rulePattern.name;
             firstLoopPassed = false;
             
             // filter out parameters which are implemented by lookup due to maybe null unfolding
@@ -101,14 +101,15 @@ namespace de.unika.ipd.grGen.lgsp
                         rulePatternClassName,
                         patternGraph.name, name + "_parallelized_body",
                         rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
-                        containsSubpatterns, wasIndependentInlined(patternGraph, index), emitProfiling);
+                        containsSubpatterns, wasIndependentInlined(patternGraph, index), 
+                        emitProfiling, patternGraph.PackagePrefixedName);
                 }
                 else // index == 0
                 {
                     searchProgram = new SearchProgramOfActionParallelizationHead(
                         rulePatternClassName,
                         patternGraph.name, parameterTypes, parameterNames, name + "_parallelized",
-                        emitProfiling);
+                        emitProfiling, patternGraph.PackagePrefixedName);
                 }
             }
             else
@@ -117,7 +118,8 @@ namespace de.unika.ipd.grGen.lgsp
                     rulePatternClassName,
                     patternGraph.name, parameterTypes, parameterNames, name,
                     rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
-                    containsSubpatterns, wasIndependentInlined(patternGraph, indexOfSchedule), emitProfiling,
+                    containsSubpatterns, wasIndependentInlined(patternGraph, indexOfSchedule), 
+                    emitProfiling, patternGraph.PackagePrefixedName,
                     patternGraph.maybeNullElementNames, suffixedMatcherNameList, paramNamesList);
             } 
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
@@ -193,7 +195,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, true);
             this.emitProfiling = emitProfiling;
-            actionName = null;
+            packagePrefixedActionName = null;
             firstLoopPassed = false;
 
             // build outermost search program operation, create the list anchor starting its program
@@ -246,7 +248,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.alternative = alternative;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, !(matchingPattern is LGSPRulePattern));
             this.emitProfiling = emitProfiling;
-            actionName = null;
+            packagePrefixedActionName = null;
             firstLoopPassed = false;
 
             // build combined list of namesOfPatternGraphsOnPathToEnclosedPatternpath
@@ -358,7 +360,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, matchingPattern.PatternGraph.Package, !(matchingPattern is LGSPRulePattern));
             this.emitProfiling = emitProfiling;
-            actionName = null;
+            packagePrefixedActionName = null;
             firstLoopPassed = false;
 
             // build outermost search program operation, create the list anchor starting its program
@@ -504,9 +506,9 @@ namespace de.unika.ipd.grGen.lgsp
         private bool emitProfiling;
 
         /// <summary>
-        /// the name of the action in case we're building a rule/test, otherwise null
+        /// the package prefixed name of the action in case we're building a rule/test, otherwise null
         /// </summary>
-        private string actionName;
+        private string packagePrefixedActionName;
 
         /// <summary>
         /// tells whether the first loop of the search programm was built, or not yet
@@ -1239,7 +1241,7 @@ namespace de.unika.ipd.grGen.lgsp
                     isNode,
                     parallelized,
                     emitProfiling,
-                    actionName,
+                    packagePrefixedActionName,
                     !firstLoopPassed);
             firstLoopPassed = true;
             SearchProgramOperation continuationPoint =
@@ -1398,7 +1400,7 @@ namespace de.unika.ipd.grGen.lgsp
                     isNode,
                     parallelized,
                     emitProfiling,
-                    actionName,
+                    packagePrefixedActionName,
                     !firstLoopPassed);
             firstLoopPassed = true;
 
@@ -1568,7 +1570,7 @@ namespace de.unika.ipd.grGen.lgsp
                     isNode,
                     parallelized,
                     emitProfiling,
-                    actionName,
+                    packagePrefixedActionName,
                     !firstLoopPassed);
             firstLoopPassed = true;
             SearchProgramOperation continuationPoint =
@@ -1728,7 +1730,7 @@ namespace de.unika.ipd.grGen.lgsp
                         isNode,
                         parallelized,
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
             }
             else if(index is IndexAccessAscending)
@@ -1755,7 +1757,7 @@ namespace de.unika.ipd.grGen.lgsp
                         isNode,
                         parallelized,
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
             }
             else //if(index is IndexAccessDescending)
@@ -1782,7 +1784,7 @@ namespace de.unika.ipd.grGen.lgsp
                         isNode,
                         parallelized,
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
             }
             firstLoopPassed = true;
@@ -2797,7 +2799,7 @@ namespace de.unika.ipd.grGen.lgsp
                     incidentType,
                     parallelized,
                     emitProfiling,
-                    actionName,
+                    packagePrefixedActionName,
                     !firstLoopPassed);
                 firstLoopPassed = true;
                 incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
@@ -2816,7 +2818,7 @@ namespace de.unika.ipd.grGen.lgsp
                         IncidentEdgeType.Incoming,
                         parallelized,
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
                     firstLoopPassed = true;
                     incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
@@ -2838,7 +2840,7 @@ namespace de.unika.ipd.grGen.lgsp
                         IncidentEdgeType.IncomingOrOutgoing,
                         parallelized,
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
                     firstLoopPassed = true;
                     incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
@@ -3439,7 +3441,7 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPointAfterTypeIteration != continuationPointAfterTypeIteration,
                     wasIndependentInlined(patternGraph, indexOfSchedule),
                     emitProfiling,
-                    actionName,
+                    packagePrefixedActionName,
                     !firstLoopPassed);
             return insertionPoint.Append(elementsIteration);
         }
@@ -3475,7 +3477,7 @@ namespace de.unika.ipd.grGen.lgsp
                     target.PatternElement.Name,
                     isNode,
                     emitProfiling,
-                    actionName,
+                    packagePrefixedActionName,
                     !firstLoopPassed);
             firstLoopPassed = true;
             SearchProgramOperation continuationPoint =
@@ -3596,7 +3598,7 @@ namespace de.unika.ipd.grGen.lgsp
                     parameterNames,
                     wasIndependentInlined(patternGraph, indexOfSchedule),
                     emitProfiling,
-                    actionName,
+                    packagePrefixedActionName,
                     !firstLoopPassed);
             return insertionPoint.Append(elementsIteration);
         }
@@ -3633,7 +3635,7 @@ namespace de.unika.ipd.grGen.lgsp
                     isDict,
                     isNode,
                     emitProfiling,
-                    actionName,
+                    packagePrefixedActionName,
                     !firstLoopPassed);
             firstLoopPassed = true;
 
@@ -3771,7 +3773,7 @@ namespace de.unika.ipd.grGen.lgsp
                     parameterNames,
                     wasIndependentInlined(patternGraph, indexOfSchedule),
                     emitProfiling,
-                    actionName,
+                    packagePrefixedActionName,
                     !firstLoopPassed);
             return insertionPoint.Append(elementsIteration);
         }
@@ -3822,7 +3824,7 @@ namespace de.unika.ipd.grGen.lgsp
                     isDict,
                     isNode,
                     emitProfiling,
-                    actionName,
+                    packagePrefixedActionName,
                     !firstLoopPassed);
             firstLoopPassed = true;
             SearchProgramOperation continuationPoint =
@@ -3950,7 +3952,7 @@ namespace de.unika.ipd.grGen.lgsp
                         parameterNames,
                         wasIndependentInlined(patternGraph, indexOfSchedule),
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
             }
             else if(index is IndexAccessAscending)
@@ -3980,7 +3982,7 @@ namespace de.unika.ipd.grGen.lgsp
                         parameterNames,
                         wasIndependentInlined(patternGraph, indexOfSchedule),
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
             }
             else //if(index is IndexAccessDescending)
@@ -4010,7 +4012,7 @@ namespace de.unika.ipd.grGen.lgsp
                         parameterNames,
                         wasIndependentInlined(patternGraph, indexOfSchedule),
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
             }
             return insertionPoint.Append(elementsIteration);
@@ -4053,7 +4055,7 @@ namespace de.unika.ipd.grGen.lgsp
                         equalityExpression.ToString(),
                         isNode,
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
             }
             else if(index is IndexAccessAscending)
@@ -4079,7 +4081,7 @@ namespace de.unika.ipd.grGen.lgsp
                         indexAscending.IncludingTo,
                         isNode,
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
             }
             else //if(index is IndexAccessDescending)
@@ -4105,7 +4107,7 @@ namespace de.unika.ipd.grGen.lgsp
                         indexDescending.IncludingTo,
                         isNode,
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
             }
             firstLoopPassed = true;
@@ -4226,7 +4228,7 @@ namespace de.unika.ipd.grGen.lgsp
                     false,
                     wasIndependentInlined(patternGraph, indexOfSchedule),
                     emitProfiling,
-                    actionName,
+                    packagePrefixedActionName,
                     !firstLoopPassed);
                 return insertionPoint.Append(incidentIteration);
             }
@@ -4246,7 +4248,7 @@ namespace de.unika.ipd.grGen.lgsp
                         false,
                         wasIndependentInlined(patternGraph, indexOfSchedule),
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
                     return insertionPoint.Append(incidentIteration);
                 }
@@ -4269,7 +4271,7 @@ namespace de.unika.ipd.grGen.lgsp
                         true,
                         wasIndependentInlined(patternGraph, indexOfSchedule),
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
                     return insertionPoint.Append(incidentIteration);
                 }
@@ -4314,7 +4316,7 @@ namespace de.unika.ipd.grGen.lgsp
                     node.PatternElement.Name,
                     incidentType,
                     emitProfiling,
-                    actionName,
+                    packagePrefixedActionName,
                     !firstLoopPassed);
                 firstLoopPassed = true;
                 incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
@@ -4332,7 +4334,7 @@ namespace de.unika.ipd.grGen.lgsp
                         node.PatternElement.Name,
                         IncidentEdgeType.Incoming,
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
                     firstLoopPassed = true;
                     incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
@@ -4347,7 +4349,7 @@ namespace de.unika.ipd.grGen.lgsp
                         node.PatternElement.Name,
                         IncidentEdgeType.IncomingOrOutgoing,
                         emitProfiling,
-                        actionName,
+                        packagePrefixedActionName,
                         !firstLoopPassed);
                     firstLoopPassed = true;
                     incidentIteration.NestedOperationsList = new SearchProgramList(incidentIteration);
@@ -6034,7 +6036,7 @@ namespace de.unika.ipd.grGen.lgsp
 #else
                 new CheckContinueMatchingMaximumMatchesReached(
                     CheckMaximumMatchesType.Action, true, parallelized && indexOfSchedule == 1,
-                    emitProfiling, actionName, firstLoopPassed);
+                    emitProfiling, packagePrefixedActionName, firstLoopPassed);
 #endif
             insertionPoint = insertionPoint.Append(checkMaximumMatches);
 
