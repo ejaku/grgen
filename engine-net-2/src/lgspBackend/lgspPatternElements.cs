@@ -1455,6 +1455,17 @@ namespace de.unika.ipd.grGen.lgsp
                 NeededVariables[i] = original.NeededVariables[i] + renameSuffix;
             NeededVariableTypes = (VarType[])original.NeededVariableTypes.Clone();
         }
+
+        /// <summary>
+        /// Instantiates a new PatternCondition object as a copy from the original condition; for parallelization.
+        /// </summary>
+        public Object Clone()
+        {
+            PatternCondition condition = new PatternCondition(ConditionExpression.Copy(""), NeededNodes, NeededEdges, NeededVariables, NeededVariableTypes);
+            condition.originalCondition = originalCondition;
+            condition.originalSubpatternEmbedding = originalSubpatternEmbedding;
+            return condition;
+        }
     }
 
     /// <summary>

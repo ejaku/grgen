@@ -3293,17 +3293,26 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, adjacent.getStartNodeExpr(), state);	        
 		        sb.append(";\n");
-		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
-		        		+ ".GetCompatibleIncident(");
-				genExpression(sb, adjacent.getIncidentEdgeTypeExpr(), state);	        
-		        sb.append("))\n");
+				if(!state.emitProfilingInstrumentation()) {
+			        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
+			        		+ ".GetCompatibleIncident(");
+					genExpression(sb, adjacent.getIncidentEdgeTypeExpr(), state);	        
+			        sb.append("))\n");
+				} else {
+			        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
+			        		+ ".Incident)\n");
+				}
 		        sb.append("\t\t\t{\n");
-	
+				
 				if(state.emitProfilingInstrumentation()) {
 					if(state.isToBeParallelizedActionExisting())
 						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 					else
 						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+			        sb.append("\t\t\tif(!edge_" + id + ".InstanceOf(");
+					genExpression(sb, adjacent.getIncidentEdgeTypeExpr(), state);	        
+					sb.append("))\n");
+			        sb.append("\t\t\t\tcontinue;\n");
 				}
 
 		        sb.append("\t\t\tif(!edge_" + id + ".Opposite(node_" + id + ").InstanceOf(");
@@ -3316,10 +3325,15 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, adjacent.getStartNodeExpr(), state);	        
 		        sb.append(";\n");
-		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
-		        		+ ".GetCompatibleIncoming(");
-				genExpression(sb, adjacent.getIncidentEdgeTypeExpr(), state);	        
-		        sb.append("))\n");
+				if(!state.emitProfilingInstrumentation()) {
+			        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
+			        		+ ".GetCompatibleIncoming(");
+					genExpression(sb, adjacent.getIncidentEdgeTypeExpr(), state);	        
+			        sb.append("))\n");
+				} else {
+			        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
+			        		+ ".Incoming)\n");
+				}
 		        sb.append("\t\t\t{\n");
 
 				if(state.emitProfilingInstrumentation()) {
@@ -3327,6 +3341,10 @@ public class ModifyGen extends CSharpBase {
 						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 					else
 						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+			        sb.append("\t\t\tif(!edge_" + id + ".InstanceOf(");
+					genExpression(sb, adjacent.getIncidentEdgeTypeExpr(), state);	        
+					sb.append("))\n");
+			        sb.append("\t\t\t\tcontinue;\n");
 				}
 
 		        sb.append("\t\t\tif(!edge_" + id + ".Source.InstanceOf(");
@@ -3339,10 +3357,15 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, adjacent.getStartNodeExpr(), state);	        
 		        sb.append(";\n");
-		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
-		        		+ ".GetCompatibleOutgoing(");
-				genExpression(sb, adjacent.getIncidentEdgeTypeExpr(), state);	        
-		        sb.append("))\n");
+				if(!state.emitProfilingInstrumentation()) {
+			        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
+			        		+ ".GetCompatibleOutgoing(");
+					genExpression(sb, adjacent.getIncidentEdgeTypeExpr(), state);	        
+			        sb.append("))\n");
+				} else {
+			        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
+			        		+ ".Outgoing)\n");
+				}
 		        sb.append("\t\t\t{\n");
 
 				if(state.emitProfilingInstrumentation()) {
@@ -3350,6 +3373,10 @@ public class ModifyGen extends CSharpBase {
 						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 					else
 						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+			        sb.append("\t\t\tif(!edge_" + id + ".InstanceOf(");
+					genExpression(sb, adjacent.getIncidentEdgeTypeExpr(), state);	        
+					sb.append("))\n");
+			        sb.append("\t\t\t\tcontinue;\n");
 				}
 
 		        sb.append("\t\t\tif(!edge_" + id + ".Target.InstanceOf(");
@@ -3365,10 +3392,15 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, incident.getStartNodeExpr(), state);	        
 		        sb.append(";\n");
-		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
-		        		+ ".GetCompatibleIncident(");
-				genExpression(sb, incident.getIncidentEdgeTypeExpr(), state);	        
-		        sb.append("))\n");
+				if(!state.emitProfilingInstrumentation()) {
+			        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
+			        		+ ".GetCompatibleIncident(");
+					genExpression(sb, incident.getIncidentEdgeTypeExpr(), state);	        
+			        sb.append("))\n");
+				} else {
+			        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
+			        		+ ".Incident)\n");
+				}
 		        sb.append("\t\t\t{\n");
 
 				if(state.emitProfilingInstrumentation()) {
@@ -3376,6 +3408,10 @@ public class ModifyGen extends CSharpBase {
 						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 					else
 						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+			        sb.append("\t\t\tif(!edge_" + id + ".InstanceOf(");
+					genExpression(sb, incident.getIncidentEdgeTypeExpr(), state);	        
+					sb.append("))\n");
+			        sb.append("\t\t\t\tcontinue;\n");
 				}
 
 		        sb.append("\t\t\tif(!edge_" + id + ".Opposite(node_" + id + ").InstanceOf(");
@@ -3388,10 +3424,15 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, incident.getStartNodeExpr(), state);	        
 		        sb.append(";\n");
-		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
-		        		+ ".GetCompatibleIncoming(");
-				genExpression(sb, incident.getIncidentEdgeTypeExpr(), state);	        
-		        sb.append("))\n");
+				if(!state.emitProfilingInstrumentation()) {
+			        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
+			        		+ ".GetCompatibleIncoming(");
+					genExpression(sb, incident.getIncidentEdgeTypeExpr(), state);	        
+			        sb.append("))\n");
+				} else {
+			        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
+			        		+ ".Incoming)\n");
+				}
 		        sb.append("\t\t\t{\n");
 
 				if(state.emitProfilingInstrumentation()) {
@@ -3399,6 +3440,10 @@ public class ModifyGen extends CSharpBase {
 						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 					else
 						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+			        sb.append("\t\t\tif(!edge_" + id + ".InstanceOf(");
+					genExpression(sb, incident.getIncidentEdgeTypeExpr(), state);	        
+					sb.append("))\n");
+			        sb.append("\t\t\t\tcontinue;\n");
 				}
 
 		        sb.append("\t\t\tif(!edge_" + id + ".Source.InstanceOf(");
@@ -3411,10 +3456,15 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, incident.getStartNodeExpr(), state);	        
 		        sb.append(";\n");
-		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
-		        		+ ".GetCompatibleOutgoing(");
-				genExpression(sb, incident.getIncidentEdgeTypeExpr(), state);	        
-		        sb.append("))\n");
+				if(!state.emitProfilingInstrumentation()) {
+			        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
+			        		+ ".GetCompatibleOutgoing(");
+					genExpression(sb, incident.getIncidentEdgeTypeExpr(), state);	        
+			        sb.append("))\n");
+				} else {
+			        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id + " in node_" + id
+			        		+ ".Outgoing)\n");
+				}
 		        sb.append("\t\t\t{\n");
 
 				if(state.emitProfilingInstrumentation()) {
@@ -3422,6 +3472,10 @@ public class ModifyGen extends CSharpBase {
 						sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
 					else
 						sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+			        sb.append("\t\t\tif(!edge_" + id + ".InstanceOf(");
+					genExpression(sb, incident.getIncidentEdgeTypeExpr(), state);	        
+					sb.append("))\n");
+			        sb.append("\t\t\t\tcontinue;\n");
 				}
 
 		        sb.append("\t\t\tif(!edge_" + id + ".Target.InstanceOf(");

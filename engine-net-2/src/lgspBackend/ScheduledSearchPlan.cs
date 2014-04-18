@@ -171,9 +171,8 @@ namespace de.unika.ipd.grGen.lgsp
             so.Expression = Expression;
             if(so.Element is PatternCondition)
             {
-                // clone the expression as we may need to set the parallelized flag for it, while the original must stay untouched
-                PatternCondition cond = so.Element as PatternCondition;
-                cond.ConditionExpression = cond.ConditionExpression.Copy("");
+                // clone the condition as we may need to set the parallelized flag for it, while the original must stay untouched
+                so.Element = (so.Element as PatternCondition).Clone();
             }
             return so;
         }

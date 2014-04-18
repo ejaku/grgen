@@ -1518,24 +1518,20 @@ public abstract class CSharpBase {
 			EdgesExpr e = (EdgesExpr) expr;
 			sb.append("GRGEN_LIBGR.GraphHelper.Edges(graph, ");
 			genExpression(sb, e.getEdgeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation()) {
-				if(modifyGenerationState.isToBeParallelizedActionExisting())
-					sb.append(", actionEnv, threadId");
-				else
-					sb.append(", actionEnv");
-			}
+			if(modifyGenerationState.emitProfilingInstrumentation())
+				sb.append(", actionEnv");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof NodesExpr) {
 			NodesExpr n = (NodesExpr) expr;
 			sb.append("GRGEN_LIBGR.GraphHelper.Nodes(graph, ");
 			genExpression(sb, n.getNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation()) {
-				if(modifyGenerationState.isToBeParallelizedActionExisting())
-					sb.append(", actionEnv, threadId");
-				else
-					sb.append(", actionEnv");
-			}
+			if(modifyGenerationState.emitProfilingInstrumentation())
+				sb.append(", actionEnv");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof NowExpr) {
@@ -1572,83 +1568,43 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof NodeByNameExpr) {
 			NodeByNameExpr nbn = (NodeByNameExpr) expr;
-			if(modifyGenerationState.emitProfilingInstrumentation()) {
-				if(modifyGenerationState.isToBeParallelizedActionExisting()) {
-					sb.append("GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, ");
-					genExpression(sb, nbn.getNameExpr(), modifyGenerationState);
-					sb.append(", actionEnv, threadId");
-					sb.append(")");
-				} else {
-					sb.append("GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, ");
-					genExpression(sb, nbn.getNameExpr(), modifyGenerationState);
-					sb.append(", actionEnv");
-					sb.append(")");
-				}
-			} else {
-				sb.append("((GRGEN_LIBGR.INamedGraph)graph).GetNode(");
-				genExpression(sb, nbn.getNameExpr(), modifyGenerationState);
-				sb.append(")");
-			}
+			sb.append("GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, ");
+			genExpression(sb, nbn.getNameExpr(), modifyGenerationState);
+			if(modifyGenerationState.emitProfilingInstrumentation())
+				sb.append(", actionEnv");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
+			sb.append(")");
 		}
 		else if (expr instanceof EdgeByNameExpr) {
 			EdgeByNameExpr ebn = (EdgeByNameExpr) expr;
-			if(modifyGenerationState.emitProfilingInstrumentation()) {
-				if(modifyGenerationState.isToBeParallelizedActionExisting()) {
-					sb.append("GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, ");
-					genExpression(sb, ebn.getNameExpr(), modifyGenerationState);
-					sb.append(", actionEnv, threadId");
-					sb.append(")");
-				} else {
-					sb.append("GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, ");
-					genExpression(sb, ebn.getNameExpr(), modifyGenerationState);
-					sb.append(", actionEnv");
-					sb.append(")");
-				}
-			} else {
-				sb.append("((GRGEN_LIBGR.INamedGraph)graph).GetEdge(");
-				genExpression(sb, ebn.getNameExpr(), modifyGenerationState);
-				sb.append(")");
-			}
+			sb.append("GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, ");
+			genExpression(sb, ebn.getNameExpr(), modifyGenerationState);
+			if(modifyGenerationState.emitProfilingInstrumentation())
+				sb.append(", actionEnv");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
+			sb.append(")");
 		}
 		else if (expr instanceof NodeByUniqueExpr) {
 			NodeByUniqueExpr nbu = (NodeByUniqueExpr) expr;
-			if(modifyGenerationState.emitProfilingInstrumentation()) {
-				if(modifyGenerationState.isToBeParallelizedActionExisting()) {
-					sb.append("GRGEN_LIBGR.GraphHelper.GetNode(graph, ");
-					genExpression(sb, nbu.getUniqueExpr(), modifyGenerationState);
-					sb.append(", actionEnv, threadId");
-					sb.append(")");
-				} else {
-					sb.append("GRGEN_LIBGR.GraphHelper.GetNode(graph, ");
-					genExpression(sb, nbu.getUniqueExpr(), modifyGenerationState);
-					sb.append(", actionEnv");
-					sb.append(")");
-				}
-			} else {
-				sb.append("graph.GetNode(");
-				genExpression(sb, nbu.getUniqueExpr(), modifyGenerationState);
-				sb.append(")");
-			}
+			sb.append("GRGEN_LIBGR.GraphHelper.GetNode(graph, ");
+			genExpression(sb, nbu.getUniqueExpr(), modifyGenerationState);
+			if(modifyGenerationState.emitProfilingInstrumentation())
+				sb.append(", actionEnv");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
+			sb.append(")");
 		}
 		else if (expr instanceof EdgeByUniqueExpr) {
 			EdgeByUniqueExpr ebu = (EdgeByUniqueExpr) expr;
-			if(modifyGenerationState.emitProfilingInstrumentation()) {
-				if(modifyGenerationState.isToBeParallelizedActionExisting()) {
-					sb.append("GRGEN_LIBGR.GraphHelper.GetEdge(graph, ");
-					genExpression(sb, ebu.getUniqueExpr(), modifyGenerationState);
-					sb.append(", actionEnv, threadId");
-					sb.append(")");
-				} else {
-					sb.append("GRGEN_LIBGR.GraphHelper.GetEdge(graph, ");
-					genExpression(sb, ebu.getUniqueExpr(), modifyGenerationState);
-					sb.append(", actionEnv");
-					sb.append(")");
-				}
-			} else {
-				sb.append("graph.GetEdge(");
-				genExpression(sb, ebu.getUniqueExpr(), modifyGenerationState);
-				sb.append(")");
-			}
+			sb.append("GRGEN_LIBGR.GraphHelper.GetEdge(graph, ");
+			genExpression(sb, ebu.getUniqueExpr(), modifyGenerationState);
+			if(modifyGenerationState.emitProfilingInstrumentation())
+				sb.append(", actionEnv");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
+			sb.append(")");
 		}
 		else if (expr instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr ie = (IncidentEdgeExpr) expr;
@@ -1664,12 +1620,10 @@ public abstract class CSharpBase {
 			genExpression(sb, ie.getIncidentEdgeTypeExpr(), modifyGenerationState);
 			sb.append(", ");
 			genExpression(sb, ie.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation()) {
-				if(modifyGenerationState.isToBeParallelizedActionExisting())
-					sb.append(", actionEnv, threadId");
-				else
-					sb.append(", actionEnv");
-			}
+			if(modifyGenerationState.emitProfilingInstrumentation())
+				sb.append(", actionEnv");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof AdjacentNodeExpr) {
@@ -1686,12 +1640,10 @@ public abstract class CSharpBase {
 			genExpression(sb, an.getIncidentEdgeTypeExpr(), modifyGenerationState);
 			sb.append(", ");
 			genExpression(sb, an.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation()) {
-				if(modifyGenerationState.isToBeParallelizedActionExisting())
-					sb.append(", actionEnv, threadId");
-				else
-					sb.append(", actionEnv");
-			}
+			if(modifyGenerationState.emitProfilingInstrumentation())
+				sb.append(", actionEnv");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof IsAdjacentNodeExpr) {
@@ -1710,12 +1662,10 @@ public abstract class CSharpBase {
 			genExpression(sb, ian.getIncidentEdgeTypeExpr(), modifyGenerationState);
 			sb.append(", ");
 			genExpression(sb, ian.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation()) {
-				if(modifyGenerationState.isToBeParallelizedActionExisting())
-					sb.append(", actionEnv, threadId");
-				else
-					sb.append(", actionEnv");
-			}
+			if(modifyGenerationState.emitProfilingInstrumentation())
+				sb.append(", actionEnv");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof IsIncidentEdgeExpr) {
@@ -1734,12 +1684,10 @@ public abstract class CSharpBase {
 			genExpression(sb, iie.getIncidentEdgeTypeExpr(), modifyGenerationState);
 			sb.append(", ");
 			genExpression(sb, iie.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation()) {
-				if(modifyGenerationState.isToBeParallelizedActionExisting())
-					sb.append(", actionEnv, threadId");
-				else
-					sb.append(", actionEnv");
-			}
+			if(modifyGenerationState.emitProfilingInstrumentation())
+				sb.append(", actionEnv");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
 			sb.append(")");
 		}
 		else if (expr instanceof ReachableEdgeExpr) {
