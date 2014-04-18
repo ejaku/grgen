@@ -154,17 +154,21 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<INode, SetValueType> Adjacent(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode, SetValueType>();
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 adjacentNodesSet[adjacentNode] = null;
             }
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -192,9 +196,11 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<INode, SetValueType> AdjacentOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<INode, SetValueType> targetNodesSet = new Dictionary<INode, SetValueType>();
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(outgoingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
@@ -222,9 +228,11 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<INode, SetValueType> AdjacentIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<INode, SetValueType> sourceNodesSet = new Dictionary<INode, SetValueType>();
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incomingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
@@ -261,17 +269,21 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IEdge, SetValueType> Incident(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<IEdge, SetValueType> incidentEdgesSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
             }
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -299,9 +311,11 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IEdge, SetValueType> Outgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<IEdge, SetValueType> outgoingEdgesSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(outgoingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
@@ -329,9 +343,11 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IEdge, SetValueType> Incoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<IEdge, SetValueType> incomingEdgesSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incomingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
@@ -364,9 +380,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void Reachable(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<INode, SetValueType> adjacentNodesSet, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -375,9 +393,11 @@ namespace de.unika.ipd.grGen.libGr
                 adjacentNodesSet[adjacentNode] = null;
                 Reachable(adjacentNode, incidentEdgeType, adjacentNodeType, adjacentNodesSet, actionEnv, threadId);
             }
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -410,9 +430,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void ReachableOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IDictionary<INode, SetValueType> targetNodesSet, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(outgoingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
@@ -443,25 +465,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Fills set of nodes reachable from the start node via incoming edges, under the type constraints given, in a depth-first walk
         /// </summary>
-        private static void ReachableIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<INode, SetValueType> sourceNodesSet, int threadId)
-        {
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
-            {
-                INode adjacentNode = edge.Source;
-                if(!adjacentNode.InstanceOf(sourceNodeType))
-                    continue;
-                if(sourceNodesSet.ContainsKey(adjacentNode))
-                    continue;
-                sourceNodesSet[adjacentNode] = null;
-                ReachableIncoming(adjacentNode, incomingEdgeType, sourceNodeType, sourceNodesSet, threadId);
-            }
-        }
-
         private static void ReachableIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<INode, SetValueType> sourceNodesSet, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incomingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
@@ -534,9 +544,11 @@ namespace de.unika.ipd.grGen.libGr
 
         private static void ReachableEdges(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<IEdge, SetValueType> incidentEdgesSet, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -546,9 +558,11 @@ namespace de.unika.ipd.grGen.libGr
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdges(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, actionEnv, threadId);
             }
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -609,9 +623,11 @@ namespace de.unika.ipd.grGen.libGr
 
         private static void ReachableEdgesOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, Dictionary<IEdge, SetValueType> outgoingEdgesSet, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(outgoingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
@@ -672,9 +688,11 @@ namespace de.unika.ipd.grGen.libGr
 
         private static void ReachableEdgesIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<IEdge, SetValueType> incomingEdgesSet, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incomingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
@@ -718,9 +736,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(depth <= 0)
                 return;
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -730,9 +750,11 @@ namespace de.unika.ipd.grGen.libGr
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 BoundedReachable(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, adjacentNodesToMinDepth, actionEnv, threadId);
             }
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -774,9 +796,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(depth <= 0)
                 return;
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(outgoingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
@@ -818,9 +842,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(depth <= 0)
                 return;
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incomingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
@@ -860,9 +886,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(depth <= 0)
                 return;
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -873,9 +901,11 @@ namespace de.unika.ipd.grGen.libGr
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 BoundedReachableEdges(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, incidentEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
             }
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -914,9 +944,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(depth <= 0)
                 return;
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(outgoingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
@@ -955,9 +987,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(depth <= 0)
                 return;
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incomingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
@@ -1042,9 +1076,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             bool result = false;
 
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -1061,9 +1097,11 @@ namespace de.unika.ipd.grGen.libGr
 
             if(!result)
             {
-                foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+                foreach(IEdge edge in startNode.Incoming)
                 {
                     ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                    if(!edge.InstanceOf(incidentEdgeType))
+                        continue;
                     INode adjacentNode = edge.Source;
                     if(!adjacentNode.InstanceOf(adjacentNodeType))
                         continue;
@@ -1133,9 +1171,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             bool result = false;
 
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(outgoingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
@@ -1204,9 +1244,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             bool result = false;
 
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incomingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
@@ -1222,6 +1264,222 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             return result;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        public static bool IsAdjacent(INode startNode, INode endNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, int threadId)
+        {
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(adjacentNode == endNode)
+                    return true;
+            }
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(adjacentNode == endNode)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsAdjacent(INode startNode, INode endNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            foreach(IEdge edge in startNode.Outgoing)
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(adjacentNode == endNode)
+                    return true;
+            }
+            foreach(IEdge edge in startNode.Incoming)
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(adjacentNode == endNode)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsAdjacentOutgoing(INode startNode, INode endNode, EdgeType outgoingEdgeType, NodeType targetNodeType, int threadId)
+        {
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(targetNodeType))
+                    continue;
+                if(adjacentNode == endNode)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsAdjacentOutgoing(INode startNode, INode endNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            foreach(IEdge edge in startNode.Outgoing)
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(outgoingEdgeType))
+                    continue;
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(targetNodeType))
+                    continue;
+                if(adjacentNode == endNode)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsAdjacentIncoming(INode startNode, INode endNode, EdgeType incomingEdgeType, NodeType sourceNodeType, int threadId)
+        {
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(sourceNodeType))
+                    continue;
+                if(adjacentNode == endNode)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsAdjacentIncoming(INode startNode, INode endNode, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            foreach(IEdge edge in startNode.Incoming)
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incomingEdgeType))
+                    continue;
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(sourceNodeType))
+                    continue;
+                if(adjacentNode == endNode)
+                    return true;
+            }
+            return false;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        public static bool IsIncident(INode startNode, IEdge endEdge, EdgeType incidentEdgeType, NodeType adjacentNodeType, int threadId)
+        {
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(edge == endEdge)
+                    return true;
+            }
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(edge == endEdge)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsIncident(INode startNode, IEdge endEdge, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            foreach(IEdge edge in startNode.Outgoing)
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(edge == endEdge)
+                    return true;
+            }
+            foreach(IEdge edge in startNode.Incoming)
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(edge == endEdge)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsOutgoing(INode startNode, IEdge endEdge, EdgeType outgoingEdgeType, NodeType targetNodeType, int threadId)
+        {
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(targetNodeType))
+                    continue;
+                if(edge == endEdge)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsOutgoing(INode startNode, IEdge endEdge, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            foreach(IEdge edge in startNode.Outgoing)
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(outgoingEdgeType))
+                    continue;
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(targetNodeType))
+                    continue;
+                if(edge == endEdge)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsIncoming(INode startNode, IEdge endEdge, EdgeType incomingEdgeType, NodeType sourceNodeType, int threadId)
+        {
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(sourceNodeType))
+                    continue;
+                if(edge == endEdge)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsIncoming(INode startNode, IEdge endEdge, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            foreach(IEdge edge in startNode.Incoming)
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incomingEdgeType))
+                    continue;
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(sourceNodeType))
+                    continue;
+                if(edge == endEdge)
+                    return true;
+            }
+            return false;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////
@@ -1306,9 +1564,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             bool result = false;
 
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -1330,9 +1590,11 @@ namespace de.unika.ipd.grGen.libGr
 
             if(!result)
             {
-                foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+                foreach(IEdge edge in startNode.Incoming)
                 {
                     ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                    if(!edge.InstanceOf(incidentEdgeType))
+                        continue;
                     INode adjacentNode = edge.Source;
                     if(!adjacentNode.InstanceOf(adjacentNodeType))
                         continue;
@@ -1412,9 +1674,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             bool result = false;
 
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(outgoingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
@@ -1493,9 +1757,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             bool result = false;
 
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(!edge.InstanceOf(incomingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
@@ -1547,9 +1813,11 @@ namespace de.unika.ipd.grGen.libGr
 
             bool result = false;
 
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -1566,9 +1834,11 @@ namespace de.unika.ipd.grGen.libGr
 
             if(!result)
             {
-                foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+                foreach(IEdge edge in startNode.Incoming)
                 {
                     ++actionEnv.PerformanceInfo.SearchSteps;
+                    if(!edge.InstanceOf(incidentEdgeType))
+                        continue;
                     INode adjacentNode = edge.Source;
                     if(!adjacentNode.InstanceOf(adjacentNodeType))
                         continue;
@@ -1614,9 +1884,11 @@ namespace de.unika.ipd.grGen.libGr
 
             bool result = false;
 
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(outgoingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
@@ -1661,9 +1933,11 @@ namespace de.unika.ipd.grGen.libGr
 
             bool result = false;
 
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(incomingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
@@ -1710,9 +1984,11 @@ namespace de.unika.ipd.grGen.libGr
 
             bool result = false;
 
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
@@ -1729,9 +2005,11 @@ namespace de.unika.ipd.grGen.libGr
 
             if(!result)
             {
-                foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+                foreach(IEdge edge in startNode.Incoming)
                 {
                     ++actionEnv.PerformanceInfo.SearchSteps;
+                    if(!edge.InstanceOf(incidentEdgeType))
+                        continue;
                     INode adjacentNode = edge.Source;
                     if(!adjacentNode.InstanceOf(adjacentNodeType))
                         continue;
@@ -1777,9 +2055,11 @@ namespace de.unika.ipd.grGen.libGr
 
             bool result = false;
 
-            foreach(IEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(outgoingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Target;
                 if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
@@ -1824,9 +2104,11 @@ namespace de.unika.ipd.grGen.libGr
 
             bool result = false;
 
-            foreach(IEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(incomingEdgeType))
+                    continue;
                 INode adjacentNode = edge.Source;
                 if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;

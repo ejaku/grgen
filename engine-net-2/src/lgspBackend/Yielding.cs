@@ -827,9 +827,16 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
                 adjacent.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(", id);
-                adjacent.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("))\n");
+                if(!Profiling)
+                {
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(", id);
+                    adjacent.IncidentEdgeType.Emit(sourceCode);
+                    sourceCode.Append("))\n");
+                }
+                else
+                {
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Incident)\n", id);
+                }
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
@@ -839,6 +846,10 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
                     else
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
+                    adjacent.IncidentEdgeType.Emit(sourceCode);
+                    sourceCode.Append("))\n");
+                    sourceCode.AppendFront("\tcontinue;\n");
                 }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", id);
@@ -853,9 +864,16 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
                 adjacent.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(", id);
-                adjacent.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("))\n");
+                if(!Profiling)
+                {
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(", id);
+                    adjacent.IncidentEdgeType.Emit(sourceCode);
+                    sourceCode.Append("))\n");
+                }
+                else
+                {
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Incoming)\n", id);
+                }
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
@@ -865,6 +883,10 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
                     else
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
+                    adjacent.IncidentEdgeType.Emit(sourceCode);
+                    sourceCode.Append("))\n");
+                    sourceCode.AppendFront("\tcontinue;\n");
                 }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", id);
@@ -879,9 +901,16 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
                 adjacent.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(", id);
-                adjacent.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("))\n");
+                if(!Profiling)
+                {
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(", id);
+                    adjacent.IncidentEdgeType.Emit(sourceCode);
+                    sourceCode.Append("))\n");
+                }
+                else
+                {
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Outgoing)\n", id);
+                }
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
@@ -891,6 +920,10 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
                     else
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
+                    adjacent.IncidentEdgeType.Emit(sourceCode);
+                    sourceCode.Append("))\n");
+                    sourceCode.AppendFront("\tcontinue;\n");
                 }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", id);
@@ -905,9 +938,16 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
                 incident.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(", id);
-                incident.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("))\n");
+                if(!Profiling)
+                {
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(", id);
+                    incident.IncidentEdgeType.Emit(sourceCode);
+                    sourceCode.Append("))\n");
+                }
+                else
+                {
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Incident)\n", id);
+                }
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
@@ -917,6 +957,10 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
                     else
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
+                    incident.IncidentEdgeType.Emit(sourceCode);
+                    sourceCode.Append("))\n");
+                    sourceCode.AppendFront("\tcontinue;\n");
                 }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", id);
@@ -931,9 +975,16 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
                 incident.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(", id);
-                incident.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("))\n");
+                if(!Profiling)
+                {
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(", id);
+                    incident.IncidentEdgeType.Emit(sourceCode);
+                    sourceCode.Append("))\n");
+                }
+                else
+                {
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Incoming)\n", id);
+                }
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
@@ -943,6 +994,10 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
                     else
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
+                    incident.IncidentEdgeType.Emit(sourceCode);
+                    sourceCode.Append("))\n");
+                    sourceCode.AppendFront("\tcontinue;\n");
                 }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", id);
@@ -957,9 +1012,16 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
                 incident.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(", id);
-                incident.IncidentEdgeType.Emit(sourceCode);
-                sourceCode.Append("))\n");
+                if(!Profiling)
+                {
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(", id);
+                    incident.IncidentEdgeType.Emit(sourceCode);
+                    sourceCode.Append("))\n");
+                }
+                else
+                {
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Outgoing)\n", id);
+                }
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
@@ -969,6 +1031,10 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
                     else
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
+                    incident.IncidentEdgeType.Emit(sourceCode);
+                    sourceCode.Append("))\n");
+                    sourceCode.AppendFront("\tcontinue;\n");
                 }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", id);
