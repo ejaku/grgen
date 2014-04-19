@@ -1906,6 +1906,14 @@ public abstract class CSharpBase {
 			genExpression(sb, s.getExpr(), modifyGenerationState);
 			sb.append(")");
 		}
+		else if (expr instanceof PiExpr) {
+			//PiExpr pi = (PiExpr)expr;
+			sb.append("Math.PI");
+		}
+		else if (expr instanceof EExpr) {
+			//EExpr e = (EExpr)expr;
+			sb.append("Math.E");
+		}
 		else if (expr instanceof CeilExpr) {
 			CeilExpr c = (CeilExpr)expr;
 			sb.append("Math.Ceiling(");

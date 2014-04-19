@@ -1,6 +1,6 @@
 function foo() : double
 {
-	def var temp1:double = Math::sin(0.0);
+	def var temp1:double = Math::sin(Math::pi());
 	def var temp2:double = Math::cos(0.0);
 	def var temp3:double = Math::tan(0.0);
 	return(temp1+temp2+temp3);
@@ -12,7 +12,7 @@ test t : (double)
 	
 	independent {
 		yield {
-			def var temp1:double = Math::sin(0.0);
+			def var temp1:double = Math::sin(Math::pi());
 			def var temp2:double = Math::cos(0.0);
 			def var temp3:double = Math::tan(0.0);
 			yield res = temp1+temp2+temp3;
@@ -24,13 +24,13 @@ test t : (double)
 
 rule r : (double)
 {	
-	if(Math::sin(0.0)+Math::cos(0.0) == Math::tan(0.0));
+	if(Math::sin(Math::pi())+Math::cos(0.0) == Math::tan(0.0));
 	
 	modify {
 		def var res:double;
 		
 		eval { 
-			def var temp1:double = Math::sin(0.0);
+			def var temp1:double = Math::sin(Math::pi());
 			def var temp2:double = Math::cos(0.0);
 			def var temp3:double = Math::tan(0.0);
 			yield res = temp1+temp2+temp3;

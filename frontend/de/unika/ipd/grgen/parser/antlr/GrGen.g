@@ -2163,6 +2163,7 @@ functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 				|| (i.getText().equals("pow") || i.getText().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
 				|| (i.getText().equals("ceil") || i.getText().equals("floor") || i.getText().equals("round") || i.getText().equals("truncate")) && params.getChildren().size()==1
 				|| (i.getText().equals("abs") || i.getText().equals("sgn")) && params.getChildren().size()==1
+				|| (i.getText().equals("pi") || i.getText().equals("e")) && params.getChildren().size()==0
 				|| (i.getText().equals("now")) && params.getChildren().size()==0
 				|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
 				|| (i.getText().equals("empty") || i.getText().equals("size")) && params.getChildren().size()==0
@@ -4046,7 +4047,8 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 					|| (i.getText().equals("arcsin") || i.getText().equals("arccos") || i.getText().equals("arctan")) && params.getChildren().size()==1
 					|| (i.getText().equals("pow") || i.getText().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
 					|| (i.getText().equals("ceil") || i.getText().equals("floor") || i.getText().equals("round") || i.getText().equals("truncate")) && params.getChildren().size()==1
-					|| (i.getText().equals("abs") || i.getText().equals("sgn")) && params.getChildren().size()==1 )
+					|| (i.getText().equals("abs") || i.getText().equals("sgn")) && params.getChildren().size()==1
+					|| (i.getText().equals("pi") || i.getText().equals("e")) && params.getChildren().size()==0 )
 				)
 				|| ( pack!=null && pack.getText().equals("File") &&
 					( (i.getText().equals("existsFile") || i.getText().equals("import")) && params.getChildren().size()==1 )
