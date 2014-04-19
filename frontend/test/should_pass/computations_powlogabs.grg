@@ -2,7 +2,7 @@ function foo() : double
 {
 	def var temp1:double = Math::pow(1.0, 1.0);
 	def var temp1b:double = Math::pow(1.0);
-	def var temp2:double = Math::log(1.0, 1.0);
+	def var temp2:double = Math::log(1.0, Math::e());
 	def var temp2b:double = Math::log(1.0);
 	def var temp3:double = Math::abs(-1.0);
 	def var temp3b:long = Math::abs(-1);
@@ -18,7 +18,7 @@ test t : (double)
 		yield {
 			def var temp1:double = Math::pow(1.0, 1.0);
 			def var temp1b:double = Math::pow(1.0);
-			def var temp2:double = Math::log(1.0, 1.0);
+			def var temp2:double = Math::log(1.0, Math::e());
 			def var temp2b:double = Math::log(1.0);
 			def var temp3:double = Math::abs(-1.0);
 			def var temp3b:long = Math::abs(-1);
@@ -32,7 +32,7 @@ test t : (double)
 
 rule r : (double)
 {	
-	if(Math::pow(0.0)+Math::log(0.0) == Math::pow(0.0,0.0)+Math::log(0.0,0.0));
+	if(Math::pow(0.0)+Math::log(0.0) == Math::pow(0.0,0.0)+Math::log(0.0,Math::e()));
 	if(Math::abs(-1)<Math::abs(-1.0));
 	if(Math::sgn(-1.0)<Math::sgn(1.0));
 	
@@ -42,7 +42,7 @@ rule r : (double)
 		eval {
 			def var temp1:double = Math::pow(1.0, 1.0);
 			def var temp1b:double = Math::pow(1.0);
-			def var temp2:double = Math::log(1.0, 1.0);
+			def var temp2:double = Math::log(1.0, Math::e());
 			def var temp2b:double = Math::log(1.0);
 			def var temp3:double = Math::abs(-1.0);
 			def var temp3b:long = Math::abs(-1);

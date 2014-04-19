@@ -6513,6 +6513,46 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning pi
+    /// </summary>
+    public class Pi : Expression
+    {
+        public Pi()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Pi();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.PI");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning e
+    /// </summary>
+    public class E : Expression
+    {
+        public E()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new E();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.E");
+        }
+    }
+
+    /// <summary>
     /// Class representing expression returning the ceil value
     /// </summary>
     public class Ceil : Expression

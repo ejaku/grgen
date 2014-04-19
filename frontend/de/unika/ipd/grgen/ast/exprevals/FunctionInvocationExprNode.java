@@ -155,6 +155,22 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new AbsExprNode(getCoords(), params.get(0));
 		}
+		else if(functionName.equals("pi")) {
+			if(params.size() != 0) {
+				reportError("pi() takes no parameters.");
+				return false;
+			}
+			else
+				result = new PiExprNode(getCoords());
+		}
+		else if(functionName.equals("e")) {
+			if(params.size() != 0) {
+				reportError("e() takes no parameters.");
+				return false;
+			}
+			else
+				result = new EExprNode(getCoords());
+		}
 		else if(functionName.equals("ceil")) {
 			if(params.size() != 1) {
 				reportError("ceil(.) takes one parameter.");
