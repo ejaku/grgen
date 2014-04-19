@@ -70,5 +70,41 @@ exec sintdescsamelast
 
 show num nodes
 show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sintascremfirst
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sintdescremlast
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sintascremfirstfrac
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sintdescremlastfrac
+
+show num nodes
+show num edges
 
 quit

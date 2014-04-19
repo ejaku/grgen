@@ -71,5 +71,41 @@ exec [filterString\orderDescendingBy<s>\keepSameAsLast<s>]
 
 show num nodes
 show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterString\orderAscendingBy<s>\removeFirst(4)]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterString\orderDescendingBy<s>\removeLast(4)]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterString\orderAscendingBy<s>\removeFirstFraction(0.5)]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec [filterString\orderDescendingBy<s>\removeLastFraction(0.5)]
+
+show num nodes
+show num edges
 
 quit

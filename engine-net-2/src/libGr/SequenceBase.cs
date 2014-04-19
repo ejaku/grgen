@@ -604,10 +604,10 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool IsFilterExisting(FilterCall filterCall, SequenceRuleCall seq)
         {
-            if(filterCall.Name == "keepFirst"
-                || filterCall.Name == "keepFirstFraction"
-                || filterCall.Name == "keepLast"
-                || filterCall.Name == "keepLastFraction")
+            if(filterCall.Name == "keepFirst" || filterCall.Name == "removeFirst"
+                || filterCall.Name == "keepFirstFraction" || filterCall.Name == "removeFirstFraction"
+                || filterCall.Name == "keepLast" || filterCall.Name == "removeLast"
+                || filterCall.Name == "keepLastFraction" || filterCall.Name == "removeLastFraction")
             {
                 filterCall.Package = null;
                 filterCall.PackagePrefixedName = filterCall.Name;
@@ -628,10 +628,10 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override int NumFilterFunctionParameters(FilterCall filterCall, SequenceRuleCall seq)
         {
-            if(filterCall.Name == "keepFirst"
-                || filterCall.Name == "keepFirstFraction"
-                || filterCall.Name == "keepLast"
-                || filterCall.Name == "keepLastFraction")
+            if(filterCall.Name == "keepFirst" || filterCall.Name == "removeFirst"
+                || filterCall.Name == "keepFirstFraction" || filterCall.Name == "removeFirstFraction"
+                || filterCall.Name == "keepLast" || filterCall.Name == "removeLast"
+                || filterCall.Name == "keepLastFraction" || filterCall.Name == "removeLastFraction")
             {
                 return 1;
             }
@@ -649,13 +649,13 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override string FilterFunctionParameterType(int i, FilterCall filterCall, SequenceRuleCall seq)
         {
-            if(filterCall.Name == "keepFirst")
+            if(filterCall.Name == "keepFirst" || filterCall.Name == "removeFirst")
                 return "int";
-            if(filterCall.Name == "keepFirstFraction")
+            if(filterCall.Name == "keepFirstFraction" || filterCall.Name == "removeFirstFraction")
                 return "double";
-            if(filterCall.Name == "keepLast")
+            if(filterCall.Name == "keepLast" || filterCall.Name == "removeLast")
                 return "int";
-            if(filterCall.Name == "keepLastFraction")
+            if(filterCall.Name == "keepLastFraction" || filterCall.Name == "removeLastFraction")
                 return "double";
             foreach(IFilter filter in seq.ParamBindings.Action.RulePattern.Filters)
             {
@@ -1016,10 +1016,10 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool IsFilterExisting(FilterCall filterCall, SequenceRuleCall seq)
         {
-            if(filterCall.Name == "keepFirst"
-                || filterCall.Name == "keepFirstFraction"
-                || filterCall.Name == "keepLast"
-                || filterCall.Name == "keepLastFraction")
+            if(filterCall.Name == "keepFirst" || filterCall.Name == "removeFirst"
+                || filterCall.Name == "keepFirstFraction" || filterCall.Name == "removeFirstFraction"
+                || filterCall.Name == "keepLast" || filterCall.Name == "removeLast"
+                || filterCall.Name == "keepLastFraction" || filterCall.Name == "removeLastFraction")
             {
                 filterCall.Package = null;
                 filterCall.PackagePrefixedName = filterCall.Name;
@@ -1057,10 +1057,10 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override int NumFilterFunctionParameters(FilterCall filterCall, SequenceRuleCall seq)
         {
-            if(filterCall.Name == "keepFirst"
-                || filterCall.Name == "keepFirstFraction"
-                || filterCall.Name == "keepLast"
-                || filterCall.Name == "keepLastFraction")
+            if(filterCall.Name == "keepFirst" || filterCall.Name == "removeFirst"
+                || filterCall.Name == "keepFirstFraction" || filterCall.Name == "removeFirstFraction"
+                || filterCall.Name == "keepLast" || filterCall.Name == "removeLast"
+                || filterCall.Name == "keepLastFraction" || filterCall.Name == "removeLastFraction")
             {
                 return 1;
             }
@@ -1072,13 +1072,13 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override string FilterFunctionParameterType(int i, FilterCall filterCall, SequenceRuleCall seq)
         {
-            if(filterCall.Name == "keepFirst")
+            if(filterCall.Name == "keepFirst" || filterCall.Name == "removeFirst")
                 return "int";
-            if(filterCall.Name == "keepFirstFraction")
+            if(filterCall.Name == "keepFirstFraction" || filterCall.Name == "removeFirstFraction")
                 return "double";
-            if(filterCall.Name == "keepLast")
+            if(filterCall.Name == "keepLast" || filterCall.Name == "removeLast")
                 return "int";
-            if(filterCall.Name == "keepLastFraction")
+            if(filterCall.Name == "keepLastFraction" || filterCall.Name == "removeLastFraction")
                 return "double";
             return filterFunctionsToInputTypes[filterCall.PackagePrefixedName][i];
         }

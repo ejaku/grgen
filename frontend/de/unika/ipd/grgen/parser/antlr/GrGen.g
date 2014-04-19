@@ -2336,7 +2336,9 @@ options { k = 5; }
 		(LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
 			{
 				if(filterId.getText().equals("keepFirst") || filterId.getText().equals("keepLast")
-					|| filterId.getText().equals("keepFirstFraction") || filterId.getText().equals("keepLastFraction"))
+					|| filterId.getText().equals("removeFirst") || filterId.getText().equals("removeLast")
+					|| filterId.getText().equals("keepFirstFraction") || filterId.getText().equals("keepLastFraction")
+					|| filterId.getText().equals("removeFirstFraction") || filterId.getText().equals("removeLastFraction"))
 				{
 					if(params.size()!=1)
 						reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 arguments.");
