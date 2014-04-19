@@ -2586,10 +2586,10 @@ namespace de.unika.ipd.grGen.grShell
             {
                 foreach(IEdge edge in node.Incident)
                 {
-                    if(!excludedGraphNodesIncluded.ContainsKey(node))
+                    if(!excludedGraphNodesIncluded.ContainsKey(edge.Opposite(node)))
                     {
-                        excludedGraphNodesIncluded.Add(node, true);
-                        ycompClient.AddNode(node);
+                        excludedGraphNodesIncluded.Add(edge.Opposite(node), true);
+                        ycompClient.AddNode(edge.Opposite(node));
                     }
                     if(!excludedGraphEdgesIncluded.ContainsKey(edge))
                     {
