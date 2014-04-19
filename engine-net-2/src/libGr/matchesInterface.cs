@@ -325,7 +325,19 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="count">The number of matches to keep</param>
         void FilterKeepLast(int count);
-        
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeFirst
+        /// </summary>
+        /// <param name="count">The number of matches to remove</param>
+        void FilterRemoveFirst(int count);
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeLast
+        /// </summary>
+        /// <param name="count">The number of matches to remove</param>
+        void FilterRemoveLast(int count);
+
         /// <summary>
         /// For filtering with the auto-supplied filter keepFirstFraction
         /// </summary>
@@ -337,6 +349,18 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="fraction">The fraction of matches to keep</param>
         void FilterKeepLastFraction(double fraction);
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeFirstFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to keep</param>
+        void FilterRemoveFirstFraction(double fraction);
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeLastFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to keep</param>
+        void FilterRemoveLastFraction(double fraction);
     }
 
 

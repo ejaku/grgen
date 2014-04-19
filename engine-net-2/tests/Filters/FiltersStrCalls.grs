@@ -70,5 +70,41 @@ exec sstrdescsamelast
 
 show num nodes
 show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sstrascremfirst
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sstrdescremlast
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sstrascremfirstfrac
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sstrdescremlastfrac
+
+show num nodes
+show num edges
 
 quit

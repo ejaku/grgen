@@ -575,6 +575,52 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// For filtering with the auto-supplied filter removeFirstFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to remove</param>
+        public void FilterRemoveFirstFraction(double fraction)
+        {
+            FilterRemoveFirst((int)Math.Ceiling(fraction * count));
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeLastFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to remove</param>
+        public void FilterRemoveLastFraction(double fraction)
+        {
+            FilterRemoveLast((int)Math.Ceiling(fraction * count));
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeFirst
+        /// </summary>
+        /// <param name="count">The number of matches to remove</param>
+        public void FilterRemoveFirst(int count)
+        {
+            List<MatchInterface> matchesArray = ToList();
+            for(int i = 0; i < Math.Min(count, matchesArray.Count); ++i)
+            {
+                matchesArray[i] = default(MatchInterface); // = null
+            }
+            FromList();
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeLast
+        /// </summary>
+        /// <param name="count">The number of matches to remove</param>
+        public void FilterRemoveLast(int count)
+        {
+            List<MatchInterface> matchesArray = ToList();
+            for(int i = matchesArray.Count - 1; i > Math.Max(matchesArray.Count - 1 - count, 0); --i)
+            {
+                matchesArray[i] = default(MatchInterface); // = null
+            }
+            FromList();
+        }
+
+        /// <summary>
         /// the action object used to generate this LGSPMatchesList object
         /// </summary>
         public IAction producer;

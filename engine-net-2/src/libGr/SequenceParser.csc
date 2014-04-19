@@ -1834,7 +1834,9 @@ FilterCall Filter(String action, String actionPackage) :
 	(LOOKAHEAD(2) package=Word() "::")? filterBase=Word() ("(" (Arguments(argExprs))? ")")?
 		{
 			if(filterBase=="keepFirst" || filterBase=="keepLast"
-				|| filterBase=="keepFirstFraction" || filterBase=="keepLastFraction")
+				|| filterBase=="removeFirst" || filterBase=="removeLast"
+				|| filterBase=="keepFirstFraction" || filterBase=="keepLastFraction"
+				|| filterBase=="removeFirstFraction" || filterBase=="removeLastFraction")
 			{
 				if(argExprs.Count!=1)
 					throw new ParseException("The auto-supplied filter " + filterBase + " expects exactly one parameter!");

@@ -1741,10 +1741,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         void EmitFilterCall(SourceBuilder source, FilterCall filterCall, string patternName, string matchesName)
         {
-            if(filterCall.Name == "keepFirst"
-                || filterCall.Name == "keepFirstFraction"
-                || filterCall.Name == "keepLast"
-                || filterCall.Name == "keepLastFraction")
+            if(filterCall.Name == "keepFirst" || filterCall.Name == "removeFirst"
+                || filterCall.Name == "keepFirstFraction" || filterCall.Name == "removeFirstFraction"
+                || filterCall.Name == "keepLast" || filterCall.Name == "removeLast"
+                || filterCall.Name == "keepLastFraction" || filterCall.Name == "removeLastFraction")
             {
                 switch(filterCall.Name)
                 {
@@ -1762,6 +1762,22 @@ namespace de.unika.ipd.grGen.lgsp
                         break;
                     case "keepLastFraction":
                         source.AppendFrontFormat("{0}.FilterKeepLastFraction((double)({1}));\n",
+                            matchesName, GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                        break;
+                    case "removeFirst":
+                        source.AppendFrontFormat("{0}.FilterRemoveFirst((int)({1}));\n",
+                            matchesName, GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                        break;
+                    case "removeLast":
+                        source.AppendFrontFormat("{0}.FilterRemoveLast((int)({1}));\n",
+                            matchesName, GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                        break;
+                    case "removeFirstFraction":
+                        source.AppendFrontFormat("{0}.FilterRemoveFirstFraction((double)({1}));\n",
+                            matchesName, GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                        break;
+                    case "removeLastFraction":
+                        source.AppendFrontFormat("{0}.FilterRemoveLastFraction((double)({1}));\n",
                             matchesName, GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
                         break;
                 }

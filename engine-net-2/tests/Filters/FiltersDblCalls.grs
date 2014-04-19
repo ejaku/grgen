@@ -70,5 +70,41 @@ exec sdbldescsamelast
 
 show num nodes
 show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sdblascremfirst
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sdbldescremlast
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sdblascremfirstfrac
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
+exec sdbldescremlastfrac
+
+show num nodes
+show num edges
 
 quit
