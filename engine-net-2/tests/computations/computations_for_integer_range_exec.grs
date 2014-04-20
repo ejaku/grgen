@@ -1,0 +1,20 @@
+new graph "computations/computations_for_integer_range"
+
+exec (::res)=rexec()
+show var ::res
+
+exec (::res)=rexecglob()
+show var ::res
+show var ::i
+show var ::x
+show var ::y
+
+exec for{i:int in [0:4]; { emit("1 value of attribute 5 6 "); emit(i); emit("\n") } }\
+;> x:int = 3 ;> y:int = 0 ;>\
+for{i:int in [x:y]; { emit("1 value of attribute 5 6 "); emit(i); emit("\n") } }
+
+exec for{i:int in [0:4]; { emit("1 value of attribute 5 6 "); emit(i); emit("\n") } }\
+;> ::x = 3 ;> ::y = 0 ;>\
+for{::i in [::x : ::y]; { emit("1 value of attribute 5 6 "); emit(::i); emit("\n") } }
+
+quit

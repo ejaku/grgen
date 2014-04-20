@@ -1256,6 +1256,20 @@ namespace de.unika.ipd.grGen.grShell
                         Console.Write("}");
                         break;
                     }
+                case SequenceType.ForIntegerRange:
+                    {
+                        SequenceForIntegerRange seqFor = (SequenceForIntegerRange)seq;
+                        Console.Write("for{");
+                        Console.Write(seqFor.Var.Name);
+                        Console.Write(" in [");
+                        Console.Write(seqFor.Left.Symbol);
+                        Console.Write(":");
+                        Console.Write(seqFor.Right.Symbol);
+                        Console.Write("]; ");
+                        PrintSequence(seqFor.Seq, seq, context);
+                        Console.Write("}");
+                        break;
+                    }
                 case SequenceType.ForAdjacentNodes:
                 case SequenceType.ForAdjacentNodesViaIncoming:
                 case SequenceType.ForAdjacentNodesViaOutgoing:
@@ -2972,6 +2986,7 @@ namespace de.unika.ipd.grGen.grShell
             if(seq.SequenceType == SequenceType.IterationMin
                 || seq.SequenceType == SequenceType.IterationMinMax
                 || seq.SequenceType == SequenceType.ForContainer
+                || seq.SequenceType == SequenceType.ForIntegerRange
                 || seq.SequenceType == SequenceType.ForAdjacentNodes
                 || seq.SequenceType == SequenceType.ForAdjacentNodesViaIncoming
                 || seq.SequenceType == SequenceType.ForAdjacentNodesViaOutgoing
@@ -3041,6 +3056,7 @@ namespace de.unika.ipd.grGen.grShell
             if(seq.SequenceType == SequenceType.IterationMin
                 || seq.SequenceType == SequenceType.IterationMinMax
                 || seq.SequenceType == SequenceType.ForContainer
+                || seq.SequenceType == SequenceType.ForIntegerRange
                 || seq.SequenceType == SequenceType.ForAdjacentNodes
                 || seq.SequenceType == SequenceType.ForAdjacentNodesViaIncoming
                 || seq.SequenceType == SequenceType.ForAdjacentNodesViaOutgoing
