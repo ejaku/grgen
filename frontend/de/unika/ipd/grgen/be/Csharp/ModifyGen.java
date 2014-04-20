@@ -2051,6 +2051,9 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof ContainerAccumulationYield) {
 			genContainerAccumulationYield(sb, state, (ContainerAccumulationYield) evalStmt);
 		}
+		else if(evalStmt instanceof IntegerRangeIterationYield) {
+			genIntegerRangeIterationYield(sb, state, (IntegerRangeIterationYield) evalStmt);
+		}
 		else if(evalStmt instanceof MatchesAccumulationYield) {
 			genMatchesAccumulationYield(sb, state, (MatchesAccumulationYield) evalStmt);
 		}
@@ -3273,6 +3276,32 @@ public class ModifyGen extends CSharpBase {
 
             sb.append("\t\t\t}\n");            
         }
+	}
+
+	private void genIntegerRangeIterationYield(StringBuffer sb, ModifyGenerationStateConst state, IntegerRangeIterationYield iriy) {
+    	String ascendingVar = "ascending_" + tmpVarID++;
+    	String entryVar = "entry_" + tmpVarID++;
+    	String limitVar = "limit_" + tmpVarID++;
+        sb.append("\t\t\tint " + entryVar + " = ");
+		genExpression(sb, iriy.getLeftExpr(), state);
+        sb.append(";\n");
+        sb.append("\t\t\tint " + limitVar + " = ");
+		genExpression(sb, iriy.getRightExpr(), state);
+        sb.append(";\n");
+        sb.append("\t\t\tbool " + ascendingVar + " = " + entryVar + " <= " + limitVar + ";\n");
+        sb.append("\t\t\twhile(" + ascendingVar + " ? " + entryVar + " <= " + limitVar + " : " + entryVar + " >= " + limitVar + ")\n");
+        sb.append("\t\t\t{\n");
+
+		if(!Expression.isGlobalVariable(iriy.getIterationVar()) || (iriy.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+            sb.append("\t\t\tint "  + formatEntity(iriy.getIterationVar()) + " = " + entryVar + ";\n");
+		} else {
+			sb.append("\t\t\t" + formatGlobalVariableWrite(iriy.getIterationVar(), entryVar) + ";\n");
+		}
+
+		genEvals(sb, state, iriy.getAccumulationStatements());
+
+        sb.append("if(" + ascendingVar + ") ++" + entryVar + "; else --" + entryVar + ";\n");
+        sb.append("\t\t\t}\n");
 	}
 
 	private void genMatchesAccumulationYield(StringBuffer sb, ModifyGenerationStateConst state, MatchesAccumulationYield may) {

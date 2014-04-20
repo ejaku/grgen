@@ -1068,7 +1068,7 @@ Sequence SimpleSequence():
 |
 	"for" "{" { varDecls.PushScope(ScopeType.For); } fromVar=Variable()
 	( 
-		LOOKAHEAD(2) "in" "[" "?" seq=Rule() "]" ";" seq2=RewriteSequence()
+		LOOKAHEAD(3) "in" "[" "?" seq=Rule() "]" ";" seq2=RewriteSequence()
 			{ varDecls.PopScope(variableList1); } "}"
 		{
 			return new SequenceForMatch(fromVar, seq, seq2, variableList1);
@@ -1107,11 +1107,18 @@ Sequence SimpleSequence():
 				return new SequenceForFunction(fromVar, SequenceType.ForEdges, argExprs, seq, variableList1);
 			}
 		}
-	|
+	| 
+		LOOKAHEAD(3)
 		("->" fromVar2=Variable())? "in" fromVar3=VariableUse() ";" seq=RewriteSequence()
 			{ varDecls.PopScope(variableList1); } "}"
 		{
 			return new SequenceForContainer(fromVar, fromVar2, fromVar3, seq, variableList1);
+		}
+	|
+		"in" "[" expr=Expression() ":" expr2=Expression() "]" ";" seq=RewriteSequence()
+			{ varDecls.PopScope(variableList1); } "}"
+		{
+			return new SequenceForIntegerRange(fromVar, expr, expr2, seq, variableList1);
 		}
 	)
 |

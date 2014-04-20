@@ -369,6 +369,14 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceType.ForIntegerRange:
+                {
+                    SequenceForIntegerRange seqFor = (SequenceForIntegerRange)seq;
+                    EmitVarIfNew(seqFor.Var, source);
+                    EmitNeededVarAndRuleEntities(seqFor.Seq, source);
+                    break;
+                }
+
                 case SequenceType.ForAdjacentNodes:
                 case SequenceType.ForAdjacentNodesViaIncoming:
                 case SequenceType.ForAdjacentNodesViaOutgoing:
@@ -966,6 +974,36 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("}\n");
                     }
 
+                    break;
+                }
+
+                case SequenceType.ForIntegerRange:
+                {
+                    SequenceForIntegerRange seqFor = (SequenceForIntegerRange)seq;
+
+                    source.AppendFront(SetResultVar(seqFor, "true"));
+
+                    String ascendingVar = "ascending_" + seqFor.Id;
+                    String entryVar = "entry_" + seqFor.Id;
+                    String limitVar = "limit_" + seqFor.Id;
+                    source.AppendFrontFormat("int {0} = (int)({1});\n", entryVar, GetSequenceExpression(seqFor.Left, source));
+                    source.AppendFrontFormat("int {0} = (int)({1});\n", limitVar, GetSequenceExpression(seqFor.Right, source));
+                    source.AppendFront("bool " + ascendingVar + " = " + entryVar + " <= " + limitVar + ";\n");
+
+                    source.AppendFront("while(" + ascendingVar + " ? " + entryVar + " <= " + limitVar + " : " + entryVar + " >= " + limitVar + ")\n");
+                    source.AppendFront("{\n");
+                    source.Indent();
+
+                    source.AppendFront(SetVar(seqFor.Var, entryVar));
+
+                    EmitSequence(seqFor.Seq, source);
+
+                    source.AppendFront("if(" + ascendingVar + ") ++" + entryVar + "; else --" + entryVar + ";\n");
+
+                    source.AppendFront(SetResultVar(seqFor, GetResultVar(seqFor) + " & " + GetResultVar(seqFor.Seq)));
+
+                    source.Unindent();
+                    source.AppendFront("}\n");
                     break;
                 }
 

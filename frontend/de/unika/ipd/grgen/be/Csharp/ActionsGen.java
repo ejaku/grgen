@@ -2155,12 +2155,16 @@ public class ActionsGen extends CSharpBase {
 			for(EvalStatement childEvalStmt : ((ContainerAccumulationYield)evalStmt).getAccumulationStatements()) {
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
-		} else if(evalStmt instanceof DoWhileStatement) {
-			for(EvalStatement childEvalStmt : ((DoWhileStatement)evalStmt).getLoopedStatements()) {
+		} else if(evalStmt instanceof IntegerRangeIterationYield) {
+			for(EvalStatement childEvalStmt : ((IntegerRangeIterationYield)evalStmt).getAccumulationStatements()) {
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof ForFunction) {
 			for(EvalStatement childEvalStmt : ((ForFunction)evalStmt).getLoopedStatements()) {
+				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
+			}
+		} else if(evalStmt instanceof DoWhileStatement) {
+			for(EvalStatement childEvalStmt : ((DoWhileStatement)evalStmt).getLoopedStatements()) {
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof WhileStatement) {
@@ -4199,6 +4203,10 @@ public class ActionsGen extends CSharpBase {
 			genContainerAccumulationYield(sb, (ContainerAccumulationYield) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
+		else if(evalStmt instanceof IntegerRangeIterationYield) {
+			genIntegerRangeIterationYield(sb, (IntegerRangeIterationYield) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
 		else if(evalStmt instanceof ForFunction) {
 			genForFunction(sb, (ForFunction) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
@@ -4589,6 +4597,29 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\"" + formatType(container.getType()) + "\", ");
 		sb.append("new GRGEN_EXPR.Yielding[] { ");
 		for(EvalStatement statement : cay.getAccumulationStatements()) {
+			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+		}
+		sb.append("}");
+		sb.append(")");
+	}
+
+	private void genIntegerRangeIterationYield(StringBuffer sb, IntegerRangeIterationYield iriy,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		Variable iterationVar = iriy.getIterationVar();
+		Expression left = iriy.getLeftExpr();
+		Expression right = iriy.getRightExpr();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.IntegerRangeIterationYield(");
+		sb.append("\"" + formatEntity(iterationVar, pathPrefix, alreadyDefinedEntityToName) + "\", ");
+		sb.append("\"" + formatIdentifiable(iterationVar) + "\", ");
+		sb.append("\"" + formatType(iterationVar.getType()) + "\", ");
+		genExpressionTree(sb, left, className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(", ");
+		genExpressionTree(sb, right, className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(", ");
+		sb.append("new GRGEN_EXPR.Yielding[] { ");
+		for(EvalStatement statement : iriy.getAccumulationStatements()) {
 			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 		}

@@ -28,6 +28,7 @@ public class EvalStatementsNode extends BaseNode
 	}
 	
 	public void addChild(EvalStatementNode c) {
+		//assert(c!=null);
 		evalStatements.addChild(c);
 	}
 	

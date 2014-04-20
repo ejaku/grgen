@@ -1,0 +1,83 @@
+function foo() : int
+{
+	def var res:int = 0;
+	for(i:int in [0:100]) {
+		res = res + 1; 
+	}
+	def var x:int = 10;
+	def var y:int = 0;
+	for(i:int in [x:y]) {
+		res = res + 1; 
+	}
+	return(res);
+}
+
+test t() : (int)
+{
+	def var res:int = 0;
+	
+	independent {
+		yield {
+			for(i:int in [0:100]) {
+				yield res = res + 1; 
+			}
+			def var x:int = 10;
+			def var y:int = 0;
+			for(i:int in [x:y]) {
+				yield res = res + 1; 
+			}
+		}
+	}
+	
+	return (res);
+}
+
+rule r() : (int)
+{	
+	modify {
+		def var res:int = 0;
+		
+		eval { 
+			for(i:int in [0:100]) {
+				yield res = res + 1; 
+			}
+			def var x:int = 10;
+			def var y:int = 0;
+			for(i:int in [x:y]) {
+				yield res = res + 1; 
+			}
+		}
+		
+		return (res);
+	}
+}
+
+rule rexec() : (int)
+{	
+	modify {
+		def var res:int = 0;
+		
+		exec ( 
+			for{i:int in [0:100]; { yield res = res + 1 } }
+			;> x:int = 10 ;> y:int = 0 ;>
+			for{i:int in [x:y]; { yield res = res + 1; } }
+		);
+		
+		return (res);
+	}
+}
+
+rule rexecglob() : (int)
+{	
+	modify {
+		def var res:int = 0;
+		
+		exec ( 
+			for{i:int in [0:100]; { yield res = res + 1 } }
+			;> ::x = 10 ;> ::y = 0 ;>
+			for{::i in [::x : ::y]; { yield res = res + 1; } }
+		);
+		
+		return (res);
+	}
+}

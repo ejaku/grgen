@@ -796,6 +796,74 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an integer range iteration yield
+    /// </summary>
+    public class IntegerRangeIterationYield : Yielding
+    {
+        public IntegerRangeIterationYield(String variable, String unprefixedVariable, String variableType, 
+            Expression left, Expression right, Yielding[] statements)
+        {
+            Variable = variable;
+            UnprefixedVariable = unprefixedVariable;
+            VariableType = variableType;
+            Left = left;
+            Right = right;
+            Statements = statements;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Yielding[] statementsCopy = new Yielding[Statements.Length];
+            for(int i = 0; i < Statements.Length; ++i)
+                statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            return new IntegerRangeIterationYield(Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, Left, Right, statementsCopy);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            String ascendingVar = "ascending_" + fetchId().ToString();
+            String entryVar = "entry_" + fetchId().ToString();
+            String limitVar = "limit_" + fetchId().ToString();
+            sourceCode.AppendFront("int " + entryVar + " = (int)(");
+            Left.Emit(sourceCode);
+            sourceCode.AppendFront(");\n");
+            sourceCode.AppendFront("int " + limitVar + " = (int)(");
+            Right.Emit(sourceCode);
+            sourceCode.AppendFront(");\n");
+            sourceCode.AppendFront("bool " + ascendingVar + " = " + entryVar + " <= " + limitVar + ";\n");
+
+            sourceCode.AppendFront("while(" + ascendingVar + " ? " + entryVar + " <= " + limitVar + " : " + entryVar + " >= " + limitVar + ")\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + entryVar + ";\n");
+
+            foreach(Yielding statement in Statements)
+                statement.Emit(sourceCode);
+
+            sourceCode.AppendFront("if(" + ascendingVar + ") ++" + entryVar + "; else --" + entryVar + ";\n");
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            yield return Right;
+            foreach(Yielding statement in Statements)
+                yield return statement;
+        }
+
+        public String Variable;
+        public String UnprefixedVariable;
+        public String VariableType;
+        public Expression Left;
+        public Expression Right;
+        Yielding[] Statements;
+    }
+
+    /// <summary>
     /// Class representing an iteration over helper function results (nodes/edgse/incident/adjacent/reachable stuff)
     /// </summary>
     public class ForFunction : Yielding

@@ -1,0 +1,12 @@
+new graph "computations/computations_for_integer_range"
+
+exec {::res=foo()}
+show var ::res
+
+exec (::res)=t() 
+show var ::res
+
+exec (::res)=r()
+show var ::res
+
+quit

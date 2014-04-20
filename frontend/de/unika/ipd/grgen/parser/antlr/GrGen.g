@@ -1986,6 +1986,8 @@ options { k = 3; }
 			SEMI { xg.append("; "); } xgrs[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	| IN LBRACK QUESTION { xg.append(" in [?"); } callRule[xg, returns] RBRACK { xg.append("]"); }
 			SEMI { xg.append("; "); } xgrs[xg] { env.popScope(); } RBRACE { xg.append("}"); }
+	| IN LBRACK { xg.append(" in ["); } left=seqExpression[xg] COLON { xg.append(" : "); } right=seqExpression[xg] RBRACK { xg.append("]"); }
+			SEMI { xg.append("; "); } xgrs[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	;
 
 seqCompoundComputation[ExecNode xg]
@@ -3655,11 +3657,7 @@ forContent [ Coords f, boolean onLHS, int context, PatternGraphNode directlyNest
 options { k = *; }
 	@init{
 		IdentNode iterIdentUse = null;
-		IdentNode containerIdentUse = null;
-		IdentNode matchesIdentUse = null;
-		IdentNode functionIdentUse = null;
 		VarDeclNode iterVar = null;
-		VarDeclNode iterIndex = null;
 	}
 
 	: variable=entIdentDecl IN i=IDENT RPAREN
@@ -3671,26 +3669,41 @@ options { k = *; }
 			iterVar = new VarDeclNode(variable, IdentNode.getInvalid(), directlyNestingLHSGraph, context);
 			res = new IteratedAccumulationYieldNode(f, iterVar, iterIdentUse, cs);
 		}
-	| variable=entIdentDecl COLON type=typeIdentUse IN i=IDENT RPAREN
+	| variable=entIdentDecl COLON dres=forContentTypedIteration[f, variable, onLHS, context, directlyNestingLHSGraph]
+		{ res = dres; }
+	;
+
+forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
+options { k = *; }
+	@init{
+		IdentNode iterIdentUse = null;
+		IdentNode containerIdentUse = null;
+		IdentNode matchesIdentUse = null;
+		IdentNode functionIdentUse = null;
+		VarDeclNode iterVar = null;
+		VarDeclNode iterIndex = null;
+	}
+
+	: type=typeIdentUse IN i=IDENT RPAREN
 		LBRACE
 			cs=computations[onLHS, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			containerIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-			iterVar = new VarDeclNode(variable, type, directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
 			res = new ContainerAccumulationYieldNode(f, iterVar, null, containerIdentUse, cs);
 		}
-	| index=entIdentDecl COLON indexType=typeIdentUse RARROW variable=entIdentDecl COLON type=typeIdentUse IN i=IDENT RPAREN
+	| indexType=typeIdentUse RARROW variable=entIdentDecl COLON type=typeIdentUse IN i=IDENT RPAREN
 		LBRACE
 			cs=computations[onLHS, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			containerIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
 			iterVar = new VarDeclNode(variable, type, directlyNestingLHSGraph, context);
-			iterIndex = new VarDeclNode(index, indexType, directlyNestingLHSGraph, context);
+			iterIndex = new VarDeclNode(leftVar, indexType, directlyNestingLHSGraph, context);
 			res = new ContainerAccumulationYieldNode(f, iterVar, iterIndex, containerIdentUse, cs);
 		}
-	| variable=entIdentDecl COLON type=typeIdentUse IN
+	| type=typeIdentUse IN
 			{ input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
 			  || input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing")
 			  || input.LT(1).getText().equals("reachable") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing")
@@ -3704,17 +3717,25 @@ options { k = *; }
 			cs=computations[onLHS, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
-			iterVar = new VarDeclNode(variable, type, directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
 			res = new ForFunctionNode(f, iterVar, (FunctionInvocationExprNode)function, cs);
 		}
-	| variable=entIdentDecl COLON MATCH LT type=actionIdentUse GT IN i=IDENT RPAREN
+	| MATCH LT type=actionIdentUse GT IN i=IDENT RPAREN
 		LBRACE
 			cs=computations[onLHS, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			matchesIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-			iterVar = new VarDeclNode(variable, MatchTypeNode.getMatchType(type), directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(leftVar, MatchTypeNode.getMatchType(type), directlyNestingLHSGraph, context);
 			res = new MatchesAccumulationYieldNode(f, iterVar, matchesIdentUse, cs);
+		}
+	| type=typeIdentUse IN LBRACK left=expr[false] COLON right=expr[false] RBRACK RPAREN
+		LBRACE
+			cs=computations[onLHS, context, directlyNestingLHSGraph]
+		RBRACE { env.popScope(); }
+		{
+			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
+			res = new IntegerRangeIterationYieldNode(f, iterVar, left, right, cs);
 		}
 	;
 

@@ -29,7 +29,7 @@ namespace de.unika.ipd.grGen.libGr
         LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll,
         WeightedOne, SomeFromSet,
         IfThenElse, IfThen,
-        ForContainer, ForMatch,
+        ForContainer, ForMatch, ForIntegerRange,
         ForIncidentEdges, ForIncomingEdges, ForOutgoingEdges,
         ForAdjacentNodes, ForAdjacentNodesViaIncoming, ForAdjacentNodesViaOutgoing, // nur wenn verfügbar
         ForReachableNodes, ForReachableNodesViaIncoming, ForReachableNodesViaOutgoing,
@@ -2433,6 +2433,91 @@ namespace de.unika.ipd.grGen.libGr
 
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "for{"+Var.Name+(VarDst!=null?"->"+VarDst.Name:"")+" in "+Container.Name+"; ...}"; } }
+    }
+
+    public class SequenceForIntegerRange : SequenceUnary
+    {
+        public SequenceVariable Var;
+        public SequenceExpression Left;
+        public SequenceExpression Right;
+
+        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+
+        public SequenceForIntegerRange(SequenceVariable var, SequenceExpression left, SequenceExpression right, Sequence seq,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+            : base(seq, SequenceType.ForIntegerRange)
+        {
+            Var = var;
+            Left = left;
+            Right = right;
+            VariablesFallingOutOfScopeOnLeavingFor = variablesFallingOutOfScopeOnLeavingFor;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(!TypesHelper.IsSameOrSubtype(Var.Type, "int", env.Model))
+                throw new SequenceParserException(Symbol + " - " + Var.Name, "int", Var.Type);
+            if(!TypesHelper.IsSameOrSubtype(Left.Type(env), "int", env.Model))
+                throw new SequenceParserException(Symbol + ", left bound" + Var.Name, "int", Var.Type);
+            if(!TypesHelper.IsSameOrSubtype(Right.Type(env), "int", env.Model))
+                throw new SequenceParserException(Symbol + ", right bound" + Var.Name, "int", Var.Type);
+            
+            base.Check(env);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceForIntegerRange copy = (SequenceForIntegerRange)MemberwiseClone();
+            copy.Var = Var.Copy(originalToCopy, procEnv);
+            copy.Left = Left.CopyExpression(originalToCopy, procEnv);
+            copy.Right = Right.CopyExpression(originalToCopy, procEnv);
+            copy.Seq = Seq.Copy(originalToCopy, procEnv);
+            copy.VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingFor.Count);
+            foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingFor)
+                copy.VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy, procEnv));
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            bool res = true;
+
+            int entry = (int)Left.Evaluate(procEnv);
+            int limit = (int)Right.Evaluate(procEnv);
+            bool ascending = entry <= limit;
+
+            bool first = true;
+            while(ascending ? entry <= limit : entry >= limit)
+            {
+                if(!first) procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(entry, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                if(ascending) ++entry; else --entry;;
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+
+            return res;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
+        {
+            Var.GetLocalVariables(variables);
+            Left.GetLocalVariables(variables, containerConstructors);
+            Right.GetLocalVariables(variables, containerConstructors);
+            if(Seq.GetLocalVariables(variables, containerConstructors, target))
+                return true;
+            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
+                variables.Remove(seqVar);
+            variables.Remove(Var);
+            return this == target;
+        }
+
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "for{" + Var.Name + " in [" + Left.Symbol + ":" + Right.Symbol + "]; ...}"; } }
     }
 
     public class SequenceForFunction : SequenceUnary
