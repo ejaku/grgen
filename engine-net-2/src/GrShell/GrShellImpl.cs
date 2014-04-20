@@ -4419,8 +4419,7 @@ showavail:
             if(newGraphExternalAssembliesReferenced.Count > 0 || newGraphStatistics != null
                 || newGraphKeepDebug || newGraphLazyNIC || newGraphNoinline || newGraphProfile)
             {
-                debugOut.WriteLine("Warning: \"new set\" and \"new add\" commands in force are ignored when the actions are built from an import.");
-                debugOut.WriteLine("Ensure that the files are up to date, e.g. by using a \"new graph\" (or even \"new new graph\") before the import.");
+                debugOut.WriteLine("Warning: \"new set\" and \"new add\" commands in force are ignored when the actions are built from an import. Ensure that the files are up to date, e.g. by using a \"new graph\" (or even \"new new graph\") before the import.");
             }
 
             if(filenameParameters[0] == "add")
