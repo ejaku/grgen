@@ -3539,54 +3539,61 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionCopy : SequenceExpression
     {
-        public SequenceExpression Graph;
+        public SequenceExpression ObjectToBeCopied;
 
-        public SequenceExpressionCopy(SequenceExpression graph)
+        public SequenceExpressionCopy(SequenceExpression objectToBeCopied)
             : base(SequenceExpressionType.Copy)
         {
-            Graph = graph;
+            ObjectToBeCopied = objectToBeCopied;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
 
-            if(Graph.Type(env) == "")
+            if(ObjectToBeCopied.Type(env) == "")
                 return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
 
-            if(!TypesHelper.IsSameOrSubtype(Graph.Type(env), "graph", env.Model))
+            if(!TypesHelper.IsSameOrSubtype(ObjectToBeCopied.Type(env), "graph", env.Model)
+                && !ObjectToBeCopied.Type(env).StartsWith("match<")
+                && (TypesHelper.ExtractSrc(ObjectToBeCopied.Type(env)) == null || TypesHelper.ExtractDst(ObjectToBeCopied.Type(env)) == null))
             {
-                throw new SequenceParserException(Symbol, "graph type", Graph.Type(env));
+                throw new SequenceParserException(Symbol, "graph type or match type or container type", ObjectToBeCopied.Type(env));
             }
         }
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            return "graph";
+            return ObjectToBeCopied.Type(env);
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionCopy copy = (SequenceExpressionCopy)MemberwiseClone();
-            copy.Graph = Graph.CopyExpression(originalToCopy, procEnv);
+            copy.ObjectToBeCopied = ObjectToBeCopied.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            object graph = Graph.Evaluate(procEnv);
-            return GraphHelper.Copy((IGraph)graph);
+            object toBeCloned = ObjectToBeCopied.Evaluate(procEnv);
+            if(toBeCloned is IGraph)
+                return GraphHelper.Copy((IGraph)toBeCloned);
+            else if(toBeCloned is IMatch)
+                return ((IMatch)toBeCloned).Clone();
+            else
+                return ContainerHelper.Clone(toBeCloned);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
-            Graph.GetLocalVariables(variables, containerConstructors);
+            ObjectToBeCopied.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Graph; } }
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return ObjectToBeCopied; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "copy(" + Graph.Symbol + ")"; } }
+        public override string Symbol { get { return "copy(" + ObjectToBeCopied.Symbol + ")"; } }
     }
 
     public class SequenceExpressionFunctionCall : SequenceExpression

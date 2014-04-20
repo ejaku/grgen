@@ -13,6 +13,7 @@ package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.DeclNode;
+import de.unika.ipd.grgen.ast.FilterFunctionDeclNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.InvalidDeclNode;
@@ -61,7 +62,7 @@ public class MemberResolver<T> extends Base
 			DeclNode scopeDecl = identNode.getScope().getIdentNode().getDecl();
 			if(scopeDecl instanceof ActionDeclNode || scopeDecl instanceof SequenceDeclNode 
 					|| scopeDecl instanceof ProcedureDeclNode || scopeDecl instanceof FunctionDeclNode 
-					|| scopeDecl instanceof InvalidDeclNode) {
+					|| scopeDecl instanceof FilterFunctionDeclNode || scopeDecl instanceof InvalidDeclNode) {
 				identNode.reportError("Undefined identifier \"" + identNode.toString() + "\"");
 				return false;
 			} else {

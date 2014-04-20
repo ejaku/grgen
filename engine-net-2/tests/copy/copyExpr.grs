@@ -1,0 +1,20 @@
+new graph copy/copyExpr
+
+exec init
+
+show num nodes
+show num nodes "N"
+
+exec ggraph
+
+exec testmatch\mmatch
+
+exec mmap
+
+exec sset
+
+exec aarray
+
+exec ddeque
+
+quit

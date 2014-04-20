@@ -1770,29 +1770,40 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class CopyExpression : Expression
     {
-        public CopyExpression(Expression graph)
+        public CopyExpression(Expression graphOrContainer, String type)
         {
-            Graph = graph;
+            GraphOrContainer = graphOrContainer;
+            Type = type;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new CopyExpression(Graph.Copy(renameSuffix));
+            return new CopyExpression(GraphOrContainer.Copy(renameSuffix), Type);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Copy(");
-            Graph.Emit(sourceCode);
-            sourceCode.Append(")");
+            if(Type == null)
+            {
+                sourceCode.Append("GRGEN_LIBGR.GraphHelper.Copy(");
+                GraphOrContainer.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
+            else
+            {
+                sourceCode.Append("new " + Type + "(");
+                GraphOrContainer.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return Graph;
+            yield return GraphOrContainer;
         }
 
-        Expression Graph;
+        String Type; // if non-null, gives the container type to copy, if null it's a graph
+        Expression GraphOrContainer;
     }
 
     /// <summary>

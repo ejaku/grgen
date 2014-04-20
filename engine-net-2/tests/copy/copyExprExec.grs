@@ -1,0 +1,91 @@
+new graph copy/copyExprExec
+
+exec init
+
+show num nodes
+show num nodes "N"
+
+exec (a:N,b:N,c:N,d:N)=ggraph\
+;> { emit("1 value of attribute 5 6 "); emit(copy(inducedSubgraph(set<Node>{a,b,c,d}))~~inducedSubgraph(set<Node>{a,b,c,d})); emit("\n") }\
+;> { ::x = inducedSubgraph(set<Node>{a,b,c,d}) }\
+;> { emit("1 value of attribute 5 6 "); emit(copy(::x)~~inducedSubgraph(set<Node>{a,b,c,d})); emit("\n") }
+
+exec mmatch\
+;> mm:match<testmatch> ;> for{ m:match<testmatch> in [?testmatch]; { mm = copy(m) } } ;> {\
+emit("1 value of attribute 5 6 "); emit(mm.a); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(mm.b); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(mm.c); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(mm.d); emit("\n")\
+}\
+;> for{ m:match<testmatch> in [?testmatch]; { ::x = m; mm = copy(::x) } } ;> {\
+emit("1 value of attribute 5 6 "); emit(mm.a); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(mm.b); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(mm.c); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(mm.d); emit("\n")\
+}
+
+exec (a:N,b:N,c:N,d:N)=mmap\
+;> container:map<N, int> = map<N, int>{a->a.a,b->b.a,c->c.a,d->d.a}\
+;> ccontainer:map<N, int> ;> { ccontainer = copy(container) }\
+;> { emit("1 value of attribute 5 6 "); emit(container); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
+;> for{n:N in ccontainer; { container.rem(n) } }\
+;> { emit("1 value of attribute 5 6 "); emit(container); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
+;> ::containerr = map<N, int>{a->a.a,b->b.a,c->c.a,d->d.a}\
+;> { ccontainer = copy(::containerr) }\
+;> { emit("1 value of attribute 5 6 "); emit(::containerr); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
+;> for{n:N in ccontainer; { ::containerr.rem(n) } }\
+;> { emit("1 value of attribute 5 6 "); emit(::containerr); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }
+
+exec (a:N,b:N,c:N,d:N)=sset\
+;> container:set<N> = set<N>{a,b,c,d}\
+;> ccontainer:set<N> ;> { ccontainer = copy(container) }\
+;> { emit("1 value of attribute 5 6 "); emit(container); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
+;> for{n:N in ccontainer; { container.rem(n) } }\
+;> { emit("1 value of attribute 5 6 "); emit(container); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
+;> ::containerr = set<N>{a,b,c,d}\
+;> { ccontainer = copy(::containerr) }\
+;> { emit("1 value of attribute 5 6 "); emit(::containerr); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
+;> for{n:N in ccontainer; { ::containerr.rem(n) } }\
+;> { emit("1 value of attribute 5 6 "); emit(::containerr); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }
+
+exec (a:N,b:N,c:N,d:N)=aarray\
+;> container:array<N> = array<N>[a,b,c,d]\
+;> ccontainer:array<N> ;> { ccontainer = copy(container) }\
+;> { emit("1 value of attribute 5 6 "); emit(container); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
+;> for{n:N in ccontainer; { container.rem() } }\
+;> { emit("1 value of attribute 5 6 "); emit(container); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
+;> ::containerr = array<N>[a,b,c,d]\
+;> { ccontainer = copy(::containerr) }\
+;> { emit("1 value of attribute 5 6 "); emit(::containerr); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
+;> for{n:N in ccontainer; { ::containerr.rem() } }\
+;> { emit("1 value of attribute 5 6 "); emit(::containerr); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }
+
+exec (a:N,b:N,c:N,d:N)=ddeque\
+;> container:deque<N> = deque<N>]a,b,c,d[\
+;> ccontainer:deque<N> ;> { ccontainer = copy(container) }\
+;> { emit("1 value of attribute 5 6 "); emit(container); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
+;> for{n:N in ccontainer; { container.rem() } }\
+;> { emit("1 value of attribute 5 6 "); emit(container); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
+;> ::containerr = deque<N>]a,b,c,d[\
+;> { ccontainer = copy(::containerr) }\
+;> { emit("1 value of attribute 5 6 "); emit(::containerr); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
+;> for{n:N in ccontainer; { ::containerr.rem() } }\
+;> { emit("1 value of attribute 5 6 "); emit(::containerr); emit("\n");\
+emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }
+
+quit

@@ -676,5 +676,20 @@ namespace de.unika.ipd.grGen.libGr
             else
                 return type;
         }
+
+        /// <summary>
+        /// Returns a clone of either a graph or a match or a container
+        /// </summary>
+        /// <param name="toBeCloned">The graph or match or container to be cloned</param>
+        /// <returns>The cloned graph or match or container</returns>
+        public static object Clone(object toBeCloned)
+        {
+            if(toBeCloned is IGraph)
+                return GraphHelper.Copy((IGraph)toBeCloned);
+            else if(toBeCloned is IMatch)
+                return ((IMatch)toBeCloned).Clone();
+            else
+                return ContainerHelper.Clone(toBeCloned);
+        }
     }
 }

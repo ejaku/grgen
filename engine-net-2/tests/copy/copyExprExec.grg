@@ -1,0 +1,158 @@
+using copyModel;
+
+rule init
+{
+	modify {
+		a:N; b:N; c:N; d:N;
+		
+		eval {
+			a.a = 0;
+			b.a = 1;
+			c.a = 2;
+			d.a = 3;
+		}
+	}
+}
+
+//////////////////////////////////////
+
+rule ggraph : (N,N,N,N)
+{
+	a:N; b:N; c:N; d:N;
+	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
+
+	modify {
+		exec( { emit("1 value of attribute 5 6 " + (copy(inducedSubgraph(set<Node>{a,b,c,d}))~~inducedSubgraph(set<Node>{a,b,c,d})) + "\n") } );
+		exec( { ::x = inducedSubgraph(set<Node>{a,b,c,d}) } );
+		exec( { emit("1 value of attribute 5 6 " + (copy(::x)~~inducedSubgraph(set<Node>{a,b,c,d})) + "\n") } );
+		return(a,b,c,d);
+	}
+}
+
+test testmatch
+{
+	a:N; b:N; c:N; d:N;
+	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
+}
+
+rule mmatch
+{
+	modify {
+		exec( mm:match<testmatch> ;> for{ m:match<testmatch> in [?testmatch]; { mm = copy(m); } } ;> {
+			emit("1 value of attribute 5 6 "); emit(mm.a); emit("\n");
+			emit("1 value of attribute 5 6 "); emit(mm.b); emit("\n");
+			emit("1 value of attribute 5 6 "); emit(mm.c); emit("\n");
+			emit("1 value of attribute 5 6 "); emit(mm.d); emit("\n");
+		} );
+		exec( mm:match<testmatch> ;> for{ m:match<testmatch> in [?testmatch]; { ::x = m; mm = copy(::x); } } ;> {
+			emit("1 value of attribute 5 6 "); emit(mm.a); emit("\n");
+			emit("1 value of attribute 5 6 "); emit(mm.b); emit("\n");
+			emit("1 value of attribute 5 6 "); emit(mm.c); emit("\n");
+			emit("1 value of attribute 5 6 "); emit(mm.d); emit("\n");
+		} );
+	}
+}
+
+rule mmap : (N,N,N,N)
+{
+	a:N; b:N; c:N; d:N;
+	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
+	
+	modify {
+		exec ( container:map<N, int> = map<N, int>{a->a.a,b->b.a,c->c.a,d->d.a}
+			;> ccontainer:map<N, int> ;> { ccontainer = copy(container) }
+			;> { emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+			;> for{n:N in ccontainer; { container.rem(n) } }
+			;> { emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+		);
+		exec ( ::container = map<N, int>{a->a.a,b->b.a,c->c.a,d->d.a}
+			;> ccontainer:map<N, int> ;> { ccontainer = copy(::container) }
+			;> { emit("1 value of attribute 5 6 "); emit(::container); emit("\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+			;> for{n:N in ccontainer; { ::container.rem(n) } }
+			;> { emit("1 value of attribute 5 6 "); emit(::container); emit("\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+		);
+		return(a,b,c,d);
+	}
+}
+
+rule sset : (N,N,N,N)
+{
+	a:N; b:N; c:N; d:N;
+	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
+	
+	modify {
+		exec ( container:set<N> = set<N>{a,b,c,d}
+			;> ccontainer:set<N> ;> { ccontainer = copy(container) }
+			;> { emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+			;> for{n:N in ccontainer; { container.rem(n) } }
+			;> { emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+		);
+		exec ( ::container = set<N>{a,b,c,d}
+			;> ccontainer:set<N> ;> { ccontainer = copy(::container) }
+			;> { emit("1 value of attribute 5 6 "); emit(::container); emit("\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+			;> for{n:N in ccontainer; { ::container.rem(n) } }
+			;> { emit("1 value of attribute 5 6 "); emit(::container); emit("\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+		);
+		return(a,b,c,d);
+	}
+}
+
+rule aarray : (N,N,N,N)
+{
+	a:N; b:N; c:N; d:N;
+	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
+	
+	modify {
+		exec ( container:array<N> = array<N>[a,b,c,d]
+			;> ccontainer:array<N> ;> { ccontainer = copy(container) }
+			;> { emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+			;> for{n:N in ccontainer; { container.rem() } }
+			;> { emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+		);
+		exec ( ::container = array<N>[a,b,c,d]
+			;> ccontainer:array<N> ;> { ccontainer = copy(::container) }
+			;> { emit("1 value of attribute 5 6 "); emit(::container); emit("\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+			;> for{n:N in ccontainer; { ::container.rem() } }
+			;> { emit("1 value of attribute 5 6 "); emit(::container); emit("\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+		);
+		return(a,b,c,d);
+	}
+}
+
+rule ddeque : (N,N,N,N)
+{
+	a:N; b:N; c:N; d:N;
+	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
+	
+	modify {
+		exec ( container:deque<N> = deque<N>]a,b,c,d[
+			;> ccontainer:deque<N> ;> { ccontainer = copy(container) }
+			;> { emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+			;> for{n:N in ccontainer; { container.rem() } }
+			;> { emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+		);
+		exec ( ::container = deque<N>]a,b,c,d[
+			;> ccontainer:deque<N> ;> { ccontainer = copy(::container) }
+			;> { emit("1 value of attribute 5 6 "); emit(::container); emit("\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+			;> for{n:N in ccontainer; { ::container.rem() } }
+			;> { emit("1 value of attribute 5 6 "); emit(::container); emit("\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
+		);
+		return(a,b,c,d);
+	}
+}
