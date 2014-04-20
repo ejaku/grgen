@@ -2496,7 +2496,7 @@ exitSecondLoop: ;
                         if(clone.Element is PatternCondition)
                             SetNeedForParallelizedVersion((clone.Element as PatternCondition).ConditionExpression);
                     }
-                    Debug.Assert(nestedSsp.PatternGraph.parallelizedSchedule == null);
+                    Debug.Assert(nestedSsp.PatternGraph.parallelizedSchedule == null); // may fire in case explain was used before, ignore it then
                     nestedSsp.PatternGraph.parallelizedSchedule = new ScheduledSearchPlan[1];
                     ScheduledSearchPlan clonedSsp = new ScheduledSearchPlan(
                         nestedSsp.PatternGraph, operations.ToArray(), operations.Count > 0 ? operations[0].CostToEnd : 0);
@@ -4231,6 +4231,8 @@ exitSecondLoop: ;
                     this, true, false, null);
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph);
+
+                ParallelizeAsNeeded(smp);
             }
 
             // build search plans code for actions
@@ -4240,6 +4242,8 @@ exitSecondLoop: ;
                     this, false, false, null);
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph);
+
+                ParallelizeAsNeeded(action.rulePattern);
             }
         }
 
