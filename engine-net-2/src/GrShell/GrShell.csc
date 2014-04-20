@@ -1445,14 +1445,14 @@ void NewCommand():
 	String modelFilename, path, graphName = "DefaultGraph";
 	INode srcNode, tgtNode;
 	ElementDef elemDef;
-	bool directed, on;
+	bool directed, on = false;
 }
 {
 	try
 	{
-		"graph" modelFilename=Filename() (graphName=WordOrText())? LineEnd()
+		("new" { on = true; })? "graph" modelFilename=Filename() (graphName=WordOrText())? LineEnd()
 		{
-			noError = impl.NewGraph(modelFilename, graphName);
+			noError = impl.NewGraph(modelFilename, graphName, on);
 		}
 	|
 		"add" "reference" path=Filename() LineEnd()

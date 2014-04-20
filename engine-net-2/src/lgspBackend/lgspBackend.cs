@@ -112,7 +112,7 @@ namespace de.unika.ipd.grGen.lgsp
             else if(extension.Equals(".gm", StringComparison.OrdinalIgnoreCase))
             {
                 String modelDllFilename;
-                if(MustGenerate(modelFilename, null, out modelDllFilename))
+                if(MustGenerate(modelFilename, null, ProcessSpecFlags.UseNoExistingFiles, out modelDllFilename))
                     LGSPGrGen.ProcessSpecification(modelFilename, null, ProcessSpecFlags.UseNoExistingFiles, new String[0]);
                 return named ? (LGSPNamedGraph)CreateNamedGraph(modelDllFilename, graphName, parameters) : (LGSPGraph)CreateGraph(modelDllFilename, graphName, parameters);
             }
@@ -650,7 +650,7 @@ namespace de.unika.ipd.grGen.lgsp
             return false;
         }
 
-        private bool MustGenerate(String grgFilename, String statisticsPath, out String actionsFilename, out String modelFilename)
+        private bool MustGenerate(String grgFilename, String statisticsPath, ProcessSpecFlags flags, out String actionsFilename, out String modelFilename)
         {
             String actionsName = GetPathBaseName(grgFilename);
             String actionsDir = GetDir(grgFilename);
@@ -693,10 +693,10 @@ namespace de.unika.ipd.grGen.lgsp
             DateTime modelTime = File.GetLastWriteTime(modelFilename);
             DateTime oldestOutputTime = actionsTime < modelTime ? actionsTime : modelTime;
 
-            return DepsOlder(oldestOutputTime, neededFilenames);
+            return DepsOlder(oldestOutputTime, neededFilenames) || (flags & ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange) == ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
         }
 
-        private bool MustGenerate(String gmFilename, String statisticsPath, out String modelFilename)
+        private bool MustGenerate(String gmFilename, String statisticsPath, ProcessSpecFlags flags, out String modelFilename)
         {
             String modelName = GetPathBaseName(gmFilename);
             String modelDir = GetDir(gmFilename);
@@ -721,7 +721,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             DateTime modelTime = File.GetLastWriteTime(modelFilename);
 
-            return DepsOlder(modelTime, neededFilenames);
+            return DepsOlder(modelTime, neededFilenames) || (flags & ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange) == ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
         }
 
         #endregion CreateFromSpec helper functions
@@ -750,7 +750,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             String actionsFilename;
             String modelFilename;
-            if(MustGenerate(grgFilename, statisticsPath, out actionsFilename, out modelFilename))
+            if(MustGenerate(grgFilename, statisticsPath, flags, out actionsFilename, out modelFilename))
                 LGSPGrGen.ProcessSpecification(grgFilename, statisticsPath, flags, externalAssemblies.ToArray());
 
             newGraph = named ? (LGSPNamedGraph)CreateNamedGraph(modelFilename, graphName, "capacity=" + capacity.ToString()) : (LGSPGraph)CreateGraph(modelFilename, graphName);
@@ -844,7 +844,7 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new FileNotFoundException("The model specification file \"" + gmFilename + "\" does not exist!", gmFilename);
 
             String modelFilename;
-            if(MustGenerate(gmFilename, statisticsPath, out modelFilename))
+            if(MustGenerate(gmFilename, statisticsPath, flags, out modelFilename))
                 LGSPGrGen.ProcessSpecification(gmFilename, statisticsPath, flags, externalAssemblies.ToArray());
 
             return CreateGraph(modelFilename, graphName, named, "capacity=" + capacity.ToString());

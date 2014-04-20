@@ -74,7 +74,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Profiling information is collected, i.e. some statistics about search steps carried out
         /// </summary>
-        Profile = 512
+        Profile = 512,
+
+        /// <summary>
+        /// Generates anew even if the sources did not change (needed to get a new build e.g. after changing profiling or statistics)
+        /// </summary>
+        GenerateEvenIfSourcesDidNotChange = 1024
     }
 
     /// <summary>

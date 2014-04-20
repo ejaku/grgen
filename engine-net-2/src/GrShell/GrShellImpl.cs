@@ -1304,7 +1304,7 @@ namespace de.unika.ipd.grGen.grShell
             return newGraphProfile;
         }
 
-        public bool NewGraph(String specFilename, String graphName)
+        public bool NewGraph(String specFilename, String graphName, bool forceRebuild)
         {
             if(!BackendExists()) return false;
 
@@ -1364,6 +1364,7 @@ namespace de.unika.ipd.grGen.grShell
                         if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
                         if(newGraphNoinline) flags |= ProcessSpecFlags.Noinline;
                         if(newGraphProfile) flags |= ProcessSpecFlags.Profile;
+                        if(forceRebuild) flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
                         graph = curGraphBackend.CreateNamedFromSpec(specFilename, graphName, null,
                             flags, newGraphExternalAssembliesReferenced, 0);
                     }
@@ -1396,6 +1397,7 @@ namespace de.unika.ipd.grGen.grShell
                         if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
                         if(newGraphNoinline) flags |= ProcessSpecFlags.Noinline;
                         if(newGraphProfile) flags |= ProcessSpecFlags.Profile;
+                        if(forceRebuild) flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
                         curGraphBackend.CreateNamedFromSpec(specFilename, graphName, newGraphStatistics,
                             flags, newGraphExternalAssembliesReferenced, 0,
                             out graph, out actions);
