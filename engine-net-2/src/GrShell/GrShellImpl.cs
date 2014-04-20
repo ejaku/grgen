@@ -4414,13 +4414,20 @@ showavail:
 
         public bool Import(List<String> filenameParameters)
         {
-            if(filenameParameters[0]=="add")
+            if(!BackendExists()) return false;
+
+            if(newGraphExternalAssembliesReferenced.Count > 0 || newGraphStatistics != null
+                || newGraphKeepDebug || newGraphLazyNIC || newGraphNoinline || newGraphProfile)
+            {
+                debugOut.WriteLine("Warning: \"new set\" and \"new add\" commands in force are ignored when the actions are built from an import.");
+                debugOut.WriteLine("Ensure that the files are up to date, e.g. by using a \"new graph\" (or even \"new new graph\") before the import.");
+            }
+
+            if(filenameParameters[0] == "add")
             {
                 filenameParameters.RemoveAt(0);
                 return ImportDUnion(filenameParameters);
             }
-
-            if(!BackendExists()) return false;
 
             IGraph graph;
             try
@@ -4457,10 +4464,8 @@ showavail:
             return true;
         }
 
-        public bool ImportDUnion(List<string> filenameParameters)
+        private bool ImportDUnion(List<string> filenameParameters)
         {
-            if (!BackendExists()) return false;
-
             IGraph graph;
             IActions actions;
             try
