@@ -1,0 +1,140 @@
+using copyModel;
+
+rule init
+{
+	modify {
+		a:N; b:N; c:N; d:N;
+		
+		eval {
+			a.a = 0;
+			b.a = 1;
+			c.a = 2;
+			d.a = 3;
+		}
+	}
+}
+
+//////////////////////////////////////
+
+rule ggraph
+{
+	a:N; b:N; c:N; d:N;
+	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
+	if{ inducedSubgraph(set<Node>{a,b,c,d}) == copy(inducedSubgraph(set<Node>{a,b,c,d})); }
+
+	modify {
+		eval {
+			def var gr:graph = inducedSubgraph(set<Node>{a,b,c,d});
+			def var ggr:graph = copy(gr);
+			emit("1 value of attribute 5 6 " + (gr~~ggr) + "\n");
+		}
+	}
+}
+
+test testmatch
+{
+	a:N; b:N; c:N; d:N;
+	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
+}
+
+filter mmatch<testmatch>
+{
+	def ref mm:match<testmatch>;
+	for(m:match<testmatch> in this)
+	{
+		mm = copy(m);
+	}
+	this[0] = null;
+	emit("1 value of attribute 5 6 "); emit(mm.a); emit("\n");
+	emit("1 value of attribute 5 6 "); emit(mm.b); emit("\n");
+	emit("1 value of attribute 5 6 "); emit(mm.c); emit("\n");
+	emit("1 value of attribute 5 6 "); emit(mm.d); emit("\n");
+}
+
+rule mmap
+{
+	a:N; b:N; c:N; d:N;
+	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
+	if{ map<N, N>{a->a,b->b,c->c,d->d} == copy(map<N, N>{a->a,b->b,c->c,d->d}); }
+	
+	modify {
+		eval {
+			def ref container:map<N, int> = map<N, int>{a->a.a,b->b.a,c->c.a,d->d.a};
+			def ref ccontainer:map<N, int> = copy(container);
+			emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n");
+			for(n:N in ccontainer)
+			{
+				container.rem(n);
+			}
+			emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n");
+		}
+	}
+}
+
+rule sset
+{
+	a:N; b:N; c:N; d:N;
+	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
+	if{ set<N>{a,b,c,d} == copy(set<N>{a,b,c,d}); }
+	
+	modify {
+		eval {
+			def ref container:set<N> = set<N>{a,b,c,d};
+			def ref ccontainer:set<N> = copy(container);
+			emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n");
+			for(n:N in ccontainer)
+			{
+				container.rem(n);
+			}
+			emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n");
+		}
+	}
+}
+
+rule aarray
+{
+	a:N; b:N; c:N; d:N;
+	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
+	if{ array<N>[a,b,c,d] == copy(array<N>[a,b,c,d]); }
+	
+	modify {
+		eval {
+			def ref container:array<N> = array<N>[a,b,c,d];
+			def ref ccontainer:array<N> = copy(container);
+			emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n");
+			for(n:N in ccontainer)
+			{
+				container.rem(container.indexOf(n));
+			}
+			emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n");
+		}
+	}
+}
+
+rule ddeque
+{
+	a:N; b:N; c:N; d:N;
+	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
+	if{ deque<N>]a,b,c,d[ == copy(deque<N>]a,b,c,d[); }
+	
+	modify {
+		eval {
+			def ref container:deque<N> = deque<N>]a,b,c,d[;
+			def ref ccontainer:deque<N> = copy(container);
+			emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n");
+			for(n:N in ccontainer)
+			{
+				container.rem(container.indexOf(n));
+			}
+			emit("1 value of attribute 5 6 " + container + "\n");
+			emit("1 value of attribute 5 6 " + ccontainer + "\n");
+		}
+	}
+}

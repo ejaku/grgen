@@ -1694,7 +1694,7 @@ SequenceExpression FunctionCall():
 			if(argExprs.Count>0) throw new ParseException("\"" + function + "\" expects no parameters");
 			return new SequenceExpressionNow();
 		} else if(function=="copy") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the subgraph to copy)");
+			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the subgraph or container to copy)");
 			return new SequenceExpressionCopy(getArgument(argExprs, 0));
 		} else if(function=="random") {
 			if(argExprs.Count>1) throw new ParseException("\"" + function + "\" expects none (returns double in [0..1[) or 1 parameter (returns int in [0..parameter[)");

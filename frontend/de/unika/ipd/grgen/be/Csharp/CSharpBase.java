@@ -929,8 +929,12 @@ public abstract class CSharpBase {
 	        	sb.append("(("+formatType(t)+")(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 				sb.append(").Clone())");
-			} else {
+			} else if(t instanceof GraphType) {
 	        	sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
+				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+				sb.append(")");
+			} else {
+	        	sb.append("new " + formatType(t) + "(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 				sb.append(")");
 			}

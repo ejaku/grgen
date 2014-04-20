@@ -285,6 +285,37 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Creates a shallow clone of the given container.
+        /// </summary>
+        /// <param name="oldContainer">The container to clone.</param>
+        /// <returns>A shallow clone of the container</returns>
+        public static object Clone(object oldContainer)
+        {
+            if(oldContainer is IDictionary)
+            {
+                Type keyType, valueType;
+                IDictionary dict = ContainerHelper.GetDictionaryTypes(
+                    oldContainer, out keyType, out valueType);
+                return NewDictionary(keyType, valueType, oldContainer);
+            }
+            else if(oldContainer is IList)
+            {
+                Type valueType;
+                IList array = ContainerHelper.GetListType(
+                    oldContainer, out valueType);
+                return NewList(valueType, oldContainer);
+            }
+            else if(oldContainer is IDeque)
+            {
+                Type valueType;
+                IDeque deque = ContainerHelper.GetDequeType(
+                    oldContainer, out valueType);
+                return NewDeque(valueType, oldContainer);
+            }
+            return null; // no known container type
+        }
+
+        /// <summary>
         /// Creates a new dictionary and fills in all key/value pairs from
         /// <paramref name="a"/> and <paramref name="b"/>.
         /// If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence

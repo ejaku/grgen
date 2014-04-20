@@ -2392,8 +2392,14 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if(expr instanceof CopyExpr) {
 			CopyExpr ce = (CopyExpr) expr;
+			Type t = ce.getSourceExpr().getType();
 			sb.append("new GRGEN_EXPR.CopyExpression(");
 			genExpressionTree(sb, ce.getSourceExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(t instanceof GraphType) {
+				sb.append(", null");
+			} else { // no match type possible here, can only occur in filter function (-> CSharpBase expression)
+				sb.append(", \"" + formatType(t) + "\"");
+			}
 			sb.append(")");
 		}
 		else if(expr instanceof Count) {

@@ -3247,16 +3247,27 @@ public class ModifyGen extends CSharpBase {
             sb.append("\t\t\tforeach(KeyValuePair<" + mapKeyTypeStr + ", " + mapValueTypeStr + "> " + entryVar + " in " + formatEntity(cay.getContainer()) + ")\n");
             sb.append("\t\t\t{\n");
 
-    		if(!Expression.isGlobalVariable(cay.getIndexVar()) || (cay.getIndexVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
-                sb.append("\t\t\t" + mapKeyTypeStr + " " + formatEntity(cay.getIndexVar()) + " = " + entryVar + ".Key;\n");
-    		} else {
-    			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIndexVar(), entryVar + ".Key") + ";\n");
-    		}
-    		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
-                sb.append("\t\t\t" + mapValueTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + ".Value;\n");
-    		} else {
-    			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + ".Value") + ";\n");
-    		}
+            if(cay.getIndexVar() != null)
+            {
+	    		if(!Expression.isGlobalVariable(cay.getIndexVar()) || (cay.getIndexVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+	                sb.append("\t\t\t" + mapKeyTypeStr + " " + formatEntity(cay.getIndexVar()) + " = " + entryVar + ".Key;\n");
+	    		} else {
+	    			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIndexVar(), entryVar + ".Key") + ";\n");
+	    		}
+	    		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+	                sb.append("\t\t\t" + mapValueTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + ".Value;\n");
+	    		} else {
+	    			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + ".Value") + ";\n");
+	    		}
+            }
+            else
+            {
+        		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
+                    sb.append("\t\t\t" + mapKeyTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + ".Key;\n");
+        		} else {
+        			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + ".Key") + ";\n");
+        		}
+            }
 
     		genEvals(sb, state, cay.getAccumulationStatements());
 
