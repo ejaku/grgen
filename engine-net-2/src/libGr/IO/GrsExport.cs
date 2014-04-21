@@ -500,7 +500,7 @@ restart:
                 return ((bool)value).ToString();
             case AttributeKind.StringAttr:
                 if(value == null) return "\"\"";
-                else return "\"" + ((string)value).Replace("\"", "\\\"") + "\"";
+                else return "\"" + ((string)value).Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
             case AttributeKind.FloatAttr:
                 return ((float)value).ToString(System.Globalization.CultureInfo.InvariantCulture)+"f";
             case AttributeKind.DoubleAttr:
