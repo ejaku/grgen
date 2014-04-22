@@ -1,0 +1,12 @@
+dump add graph exclude
+#dump set graph exclude option 2
+debug set layout Circular
+dump set node Movie color blue
+dump add node Movie shortinfotag title
+dump add node Movie infotag rating
+dump add node Person shortinfotag name
+dump set node Person shape ellipse
+dump set node Group color green
+dump add node Group infotag avgRating
+dump set node Clique color green
+dump add node Clique infotag avgRating
