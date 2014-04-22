@@ -69,6 +69,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalFiltersAndSequences
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionsProceduresExample", "examples-api\FunctionsProceduresExample\FunctionsProceduresExample.csproj", "{BA28DE01-2793-385B-9096-E2A8FA7B3E46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieDatabaseBenchmarker", "tools\MovieDatabaseBenchmarker\MovieDatabaseBenchmarker.csproj", "{C0342861-3CB1-232F-B884-FEA757A68F62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -257,6 +259,12 @@ Global
 		{BA28DE01-2793-385B-9096-E2A8FA7B3E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA28DE01-2793-385B-9096-E2A8FA7B3E46}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA28DE01-2793-385B-9096-E2A8FA7B3E46}.Release|x86.ActiveCfg = Release|Any CPU
+		{C0342861-3CB1-232F-B884-FEA757A68F62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0342861-3CB1-232F-B884-FEA757A68F62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0342861-3CB1-232F-B884-FEA757A68F62}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C0342861-3CB1-232F-B884-FEA757A68F62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0342861-3CB1-232F-B884-FEA757A68F62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0342861-3CB1-232F-B884-FEA757A68F62}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -285,5 +293,6 @@ Global
 		{41B25111-5B8F-45A6-9824-47D1766AAE9D} = {2D0AFB3F-4243-4CE2-9A96-2B02425EAFF5}
 		{FA735139-5370-4EEC-927C-856F62A2A396} = {2D0AFB3F-4243-4CE2-9A96-2B02425EAFF5}
 		{48FCC0E9-EBF4-49F0-B074-9E1F31E75385} = {2D0AFB3F-4243-4CE2-9A96-2B02425EAFF5}
+		{C0342861-3CB1-232F-B884-FEA757A68F62} = {2D0AFB3F-4243-4CE2-9A96-2B02425EAFF5}
 	EndGlobalSection
 EndGlobal
