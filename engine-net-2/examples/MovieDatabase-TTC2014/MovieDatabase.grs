@@ -1,31 +1,78 @@
 #new set statistics "Moviestats"
-#new graph MovieDatabase
+#new new graph MovieDatabase
 
 import imdb-0005000-50176.movies.xmi.grs MovieDatabase.grg
+#import imdb-0010000-98388.movies.xmi.grs MovieDatabase.grg
+#import imdb-0030000-207876.movies.xmi.grs MovieDatabase.grg
+#import imdb-0045000-299195.movies.xmi.grs MovieDatabase.grg
+#import imdb-0065000-405592.movies.xmi.grs MovieDatabase.grg
+#import imdb-0085000-502878.movies.xmi.grs MovieDatabase.grg
+#import imdb-0130000-712130.movies.xmi.grs MovieDatabase.grg
+#import imdb-0130000-712130.movies.xmi.grs MovieDatabase.grg
+#import imdb-0200000-1007510.movies.xmi.grs MovieDatabase.grg
 #import imdb-0340000-1511739.movies.xmi.grs MovieDatabase.grg
+#import imdb-0495000-2011048.movies.xmi.grs MovieDatabase.grg
+#import imdb-0660000-2514839.movies.xmi.grs MovieDatabase.grg
+#import imdb-0900000-3210567.movies.xmi.grs MovieDatabase.grg
+#import imdb-all-3335074.movies.xmi.grs MovieDatabase.grg
 
-#dump add graph exclude
-#debug set layout Hierarchic
-#show graph ycomp
+include MovieDatabaseLayout.grs
+
+#this only works for the smallest imdb model, imdb-0005000-50176
+#you must comment the first line in MovieDatabaseLayout.grs out, otherwise the graph is hidden 
+#don't forget to press the play button to start layout
+#show graph ycomp 
 
 #exec createExample(10000)
 
 show num nodes
 show num edges
 
-custom graph analyze
+#custom graph analyze
 #custom graph statistics save "Moviestats"
-custom actions gen_searchplan
-custom actions explain findCouplesOpt
-custom actions explain addCommonMovies
+#custom actions gen_searchplan
+#custom actions explain findCouples
+#custom actions explain findCouplesOpt
+#custom actions explain addCommonMovies
+
+#exec [findCouples\auto]
+#exec [findCliquesOf3\auto]
+#exec [findCliquesOf4\auto]
+#exec [findCliquesOf5\auto]
 
 exec [findCouplesOpt]
+#exec [findCliquesOf3Opt]
+#exec [findCliquesOf4Opt]
+#exec [findCliquesOf5Opt]
 
 show num nodes Couple
+show num nodes Clique
 
 exec [computeAverageRanking]
+#exec [computeAverageRankingCliques]
 
 exec [couplesWithRating\orderDescendingBy<avgRating>\keepFirst(15)]
 exec [couplesWithRating\orderDescendingBy<numMovies>\keepFirst(15)]
+
+#exec [cliques3WithRating\orderDescendingBy<avgRating>\keepFirst(15)]
+#exec [cliques3WithRating\orderDescendingBy<numMovies>\keepFirst(15)]
+
+#exec [cliques4WithRating\orderDescendingBy<avgRating>\keepFirst(15)]
+#exec [cliques4WithRating\orderDescendingBy<numMovies>\keepFirst(15)]
+
+#exec [cliques5WithRating\orderDescendingBy<avgRating>\keepFirst(15)]
+#exec [cliques5WithRating\orderDescendingBy<numMovies>\keepFirst(15)]
+
+#debug exec $%[couplesWithRating\orderDescendingBy<avgRating>\removeFirst(0)\keepFirst(1)]
+#debug exec $%[couplesWithRating\orderDescendingBy<numMovies>\removeFirst(0)\keepFirst(1)]
+
+#debug exec $%[cliques3WithRating\orderDescendingBy<avgRating>\removeFirst(0)\keepFirst(1)]
+#debug exec $%[cliques3WithRating\orderDescendingBy<numMovies>\removeFirst(0)\keepFirst(1)]
+
+#debug exec $%[cliques4WithRating\orderDescendingBy<avgRating>\removeFirst(0)\keepFirst(1)]
+#debug exec $%[cliques4WithRating\orderDescendingBy<numMovies>\removeFirst(0)\keepFirst(1)]
+
+#debug exec $%[cliques5WithRating\orderDescendingBy<avgRating>\removeFirst(0)\keepFirst(1)]
+#debug exec $%[cliques5WithRating\orderDescendingBy<numMovies>\removeFirst(0)\keepFirst(1)]
 
 quit
