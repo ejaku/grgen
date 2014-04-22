@@ -2461,7 +2461,10 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(Symbol + ", left bound" + Var.Name, "int", Var.Type);
             if(!TypesHelper.IsSameOrSubtype(Right.Type(env), "int", env.Model))
                 throw new SequenceParserException(Symbol + ", right bound" + Var.Name, "int", Var.Type);
-            
+
+            Left.Check(env);
+            Right.Check(env);
+
             base.Check(env);
         }
 
