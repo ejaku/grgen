@@ -11,6 +11,8 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
+import java.util.Set;
+
 import de.unika.ipd.grgen.ir.*;
 
 /**
@@ -35,5 +37,18 @@ public class ExecStatement extends EvalStatement {
 		for(Expression arg : getExec().getArguments()) {
 			arg.collectNeededEntities(needs);
 		}
+	}
+	
+	public Set<Entity> getNeededEntities(boolean forComputation) {
+		return exec.getNeededEntities(forComputation);
+	}
+	
+	/** Returns XGRS as an String */
+	public String getXGRSString() {
+		return exec.getXGRSString();
+	}
+	
+	public int getLineNr() {
+		return exec.getLineNr();
 	}
 }

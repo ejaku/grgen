@@ -1972,6 +1972,11 @@ public class ActionsGen extends CSharpBase {
 
 	private void genImperativeStatements(StringBuffer sb, Rule rule, String pathPrefix, String packageName) {
 		int xgrsID = 0;
+		for(EvalStatements evals : rule.getEvals()) {
+			for(EvalStatement eval : evals.evalStatements) {
+				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, eval, xgrsID);
+			}
+		}
 		for(ImperativeStmt istmt : rule.getRight().getImperativeStmts()) {
 			if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
@@ -2049,6 +2054,133 @@ public class ActionsGen extends CSharpBase {
 				assert false : "unknown ImperativeStmt: " + istmt + " in " + rule;
 			}
 		}
+	}
+
+	private int genImperativeStatements(StringBuffer sb, Rule rule, String pathPrefix, String packageName, EvalStatement evalStmt, int xgrsID) {
+		if(evalStmt instanceof ConditionStatement) {
+			ConditionStatement condStmt = (ConditionStatement)evalStmt;
+			for(EvalStatement nestedEvalStmt : condStmt.getTrueCaseStatements()) {
+				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
+			}
+			if(condStmt.getFalseCaseStatements()!=null) {
+				for(EvalStatement nestedEvalStmt : condStmt.getFalseCaseStatements()) {
+					xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
+				}
+			}
+		}
+		else if(evalStmt instanceof WhileStatement) {
+			WhileStatement whileStmt = (WhileStatement)evalStmt;
+			for(EvalStatement nestedEvalStmt : whileStmt.getLoopedStatements()) {
+				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
+			}
+		}
+		else if(evalStmt instanceof DoWhileStatement) {
+			DoWhileStatement doWhileStmt = (DoWhileStatement)evalStmt;
+			for(EvalStatement nestedEvalStmt : doWhileStmt.getLoopedStatements()) {
+				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
+			}
+		}
+		else if(evalStmt instanceof ContainerAccumulationYield) {
+			ContainerAccumulationYield containerAccumulationYieldStmt = (ContainerAccumulationYield)evalStmt;
+			for(EvalStatement nestedEvalStmt : containerAccumulationYieldStmt.getAccumulationStatements()) {
+				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
+			}
+		}
+		else if(evalStmt instanceof IntegerRangeIterationYield) {
+			IntegerRangeIterationYield integerRangeIterationYieldStmt = (IntegerRangeIterationYield)evalStmt;
+			for(EvalStatement nestedEvalStmt : integerRangeIterationYieldStmt.getAccumulationStatements()) {
+				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
+			}
+		}
+		else if(evalStmt instanceof MatchesAccumulationYield) {
+			MatchesAccumulationYield matchesAccumulationYieldStmt = (MatchesAccumulationYield)evalStmt;
+			for(EvalStatement nestedEvalStmt : matchesAccumulationYieldStmt.getAccumulationStatements()) {
+				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
+			}
+		}
+		else if(evalStmt instanceof ForFunction) {
+			ForFunction forFunctionStmt = (ForFunction)evalStmt;
+			for(EvalStatement nestedEvalStmt : forFunctionStmt.getLoopedStatements()) {
+				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
+			}
+		}
+		else if(evalStmt instanceof ExecStatement) {
+			ExecStatement execStmt = (ExecStatement)evalStmt;
+			xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, execStmt, xgrsID);
+		}
+		return xgrsID;
+	}
+	
+	private int genImperativeStatements(StringBuffer sb, Rule rule, String pathPrefix, String packageName, ExecStatement execStmt, int xgrsID) {
+		sb.append("\t\tpublic static GRGEN_LIBGR.EmbeddedSequenceInfo XGRSInfo_" + pathPrefix + xgrsID
+				+ " = new GRGEN_LIBGR.EmbeddedSequenceInfo(\n");
+		sb.append("\t\t\tnew string[] {");
+		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+			if(!neededEntity.isDefToBeYieldedTo()) {
+				sb.append("\"" + neededEntity.getIdent() + "\", ");
+			}
+		}
+		sb.append("},\n");
+		sb.append("\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+			if(!neededEntity.isDefToBeYieldedTo()) {
+				if(neededEntity instanceof Variable) {
+					sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(neededEntity) + ")), ");
+				} else {
+					GraphEntity gent = (GraphEntity)neededEntity;
+					sb.append(formatTypeClassRef(gent.getType()) + ".typeVar, ");
+				}
+			}
+		}
+		sb.append("},\n");
+		sb.append("\t\t\tnew string[] {");
+		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+			if(neededEntity.isDefToBeYieldedTo()) {
+				sb.append("\"" + neededEntity.getIdent() + "\", ");
+			}
+		}
+		sb.append("},\n");
+		sb.append("\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+			if(neededEntity.isDefToBeYieldedTo()) {
+				if(neededEntity instanceof Variable) {
+					sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(neededEntity) + ")), ");
+				} else {
+					GraphEntity gent = (GraphEntity)neededEntity;
+					sb.append(formatTypeClassRef(gent.getType()) + ".typeVar, ");
+				}
+			}
+		}
+		sb.append("},\n");
+		sb.append("\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ",\n");
+		sb.append("\t\t\t\"" + execStmt.getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\",\n");
+		sb.append("\t\t\t" + execStmt.getLineNr() + "\n");
+		sb.append("\t\t);\n");
+		
+		sb.append("\t\tprivate static bool ApplyXGRS_" + pathPrefix + xgrsID + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+			if(!neededEntity.isDefToBeYieldedTo()) {
+				sb.append(", " + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity));
+			}
+		}
+		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+			if(neededEntity.isDefToBeYieldedTo()) {
+				sb.append(", ref " + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity));
+			}
+		}
+		sb.append(") {\n");
+		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+			if(neededEntity.isDefToBeYieldedTo()) {
+				sb.append("\t\t\t" + formatEntity(neededEntity) + " = ");
+				sb.append(getInitializationValue(neededEntity.getType()) + ";\n");
+				sb.append(";\n");
+			}
+		}
+		sb.append("\t\t\treturn true;\n");
+		sb.append("\t\t}\n");
+		
+		++xgrsID;
+		return xgrsID;
 	}
 
 	private void genImperativeStatementClosures(StringBuffer sb, Rule rule, String pathPrefix,
