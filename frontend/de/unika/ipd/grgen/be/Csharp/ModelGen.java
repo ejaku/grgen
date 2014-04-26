@@ -3289,6 +3289,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t{\n");
 		sb.append("\t\t\troot = FillAsClone(that.root, that.bottom, oldToNewMap);\n");
 		sb.append("\t\t\tcount = that.count;\n");
+		sb.append("\t\t\tforeach(KeyValuePair<" + graphElementType + ", int> ntic in that.nodeToIncidenceCount)\n");
+		sb.append("\t\t\t\tnodeToIncidenceCount.Add((" + graphElementType + ")oldToNewMap[ntic.Key], ntic.Value);\n");
 		sb.append("\t\t}\n");
 		sb.append("\n");
 
