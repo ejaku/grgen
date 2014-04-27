@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.ir.Variable;
 public class VarDeclNode extends DeclNode {
 	private TypeNode type;
 
-	protected PatternGraphNode directlyNestingLHSGraph;
+	public PatternGraphNode directlyNestingLHSGraph;
 	public boolean defEntityToBeYieldedTo;
 
 	ExprNode initialization = null;

@@ -1595,6 +1595,12 @@ SequenceExpression FunctionCall():
 		} else if(function=="edges") {
 			if(argExprs.Count>1) throw new ParseException("\"" + function + "\" expects 1 parameter (edge type) or none (to get all edges)");
 			return new SequenceExpressionEdges(getArgument(argExprs, 0));
+		} else if(function=="countNodes") {
+			if(argExprs.Count>1) throw new ParseException("\"" + function + "\" expects 1 parameter (node type) or none (to get count of all nodes)");
+			return new SequenceExpressionCountNodes(getArgument(argExprs, 0));
+		} else if(function=="countEdges") {
+			if(argExprs.Count>1) throw new ParseException("\"" + function + "\" expects 1 parameter (edge type) or none (to get count of all edges)");
+			return new SequenceExpressionCountEdges(getArgument(argExprs, 0));
 		} else if(function=="empty") {
 			if(argExprs.Count>0) throw new ParseException("\"" + function + "\" expects no parameters");
 			return new SequenceExpressionEmpty();
@@ -1637,6 +1643,78 @@ SequenceExpression FunctionCall():
 		} else if(function=="reachableEdgesOutgoing") {
 			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
 			return new SequenceExpressionReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.ReachableEdgesViaOutgoing);
+		} else if(function=="boundedReachable") {
+			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, max depth) or 3 (start node, max depth, incident edge type) or 4 (start node, max depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.BoundedReachableNodes);
+		} else if(function=="boundedReachableIncoming") {
+			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, max depth) or 3 (start node, max depth, incident edge type) or 4 (start node, max depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.BoundedReachableNodesViaIncoming);
+		} else if(function=="boundedReachableOutgoing") {
+			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, max depth) or 3 (start node, max depth, incident edge type) or 4 (start node, max depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.BoundedReachableNodesViaOutgoing);
+		} else if(function=="boundedReachableEdges") {
+			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, max depth) or 3 (start node, max depth, incident edge type) or 4 (start node, max depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.BoundedReachableEdges);
+		} else if(function=="boundedReachableEdgesIncoming") {
+			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, max depth) or 3 (start node, max depth, incident edge type) or 4 (start node, max depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.BoundedReachableEdgesViaIncoming);
+		} else if(function=="boundedReachableEdgesOutgoing") {
+			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, max depth) or 3 (start node, max depth, incident edge type) or 4 (start node, max depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.BoundedReachableEdgesViaOutgoing);
+		} else if(function=="countAdjacent") {
+			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountAdjacentIncident(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.CountAdjacentNodes);
+		} else if(function=="countAdjacentIncoming") {
+			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountAdjacentIncident(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.CountAdjacentNodesViaIncoming);
+		} else if(function=="countAdjacentOutgoing") {
+			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountAdjacentIncident(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.CountAdjacentNodesViaOutgoing);
+		} else if(function=="countIncident") {
+			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountAdjacentIncident(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.CountIncidentEdges);
+		} else if(function=="countIncoming") {
+			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountAdjacentIncident(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.CountIncomingEdges);
+		} else if(function=="countOutgoing") {
+			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountAdjacentIncident(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.CountOutgoingEdges);
+		} else if(function=="countReachable") {
+			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.CountReachableNodes);
+		} else if(function=="countReachableIncoming") {
+			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.CountReachableNodesViaIncoming);
+		} else if(function=="countReachableOutgoing") {
+			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.CountReachableNodesViaOutgoing);
+		} else if(function=="countReachableEdges") {
+			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.CountReachableEdges);
+		} else if(function=="countReachableEdgesIncoming") {
+			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.CountReachableEdgesViaIncoming);
+		} else if(function=="countReachableEdgesOutgoing") {
+			if(argExprs.Count<1 || argExprs.Count>3) throw new ParseException("\"" + function + "\" expects 1 (start node only) or 2 (start node, incident edge type) or 3 (start node, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.CountReachableEdgesViaOutgoing);
+		} else if(function=="countBoundedReachable") {
+			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, max depth) or 3 (start node, max depth, incident edge type) or 4 (start node, max depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.CountBoundedReachableNodes);
+		} else if(function=="countBoundedReachableIncoming") {
+			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, max depth) or 3 (start node, max depth, incident edge type) or 4 (start node, max depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.CountBoundedReachableNodesViaIncoming);
+		} else if(function=="countBoundedReachableOutgoing") {
+			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, max depth) or 3 (start node, max depth, incident edge type) or 4 (start node, max depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.CountBoundedReachableNodesViaOutgoing);
+		} else if(function=="countBoundedReachableEdges") {
+			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, max depth) or 3 (start node, max depth, incident edge type) or 4 (start node, max depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.CountBoundedReachableEdges);
+		} else if(function=="countBoundedReachableEdgesIncoming") {
+			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, max depth) or 3 (start node, max depth, incident edge type) or 4 (start node, max depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.CountBoundedReachableEdgesViaIncoming);
+		} else if(function=="countBoundedReachableEdgesOutgoing") {
+			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, max depth) or 3 (start node, max depth, incident edge type) or 4 (start node, max depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionCountBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.CountBoundedReachableEdgesViaOutgoing);
 		} else if(function=="isAdjacent") {
 			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
 			return new SequenceExpressionIsAdjacentIncident(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.IsAdjacentNodes);
@@ -1673,6 +1751,24 @@ SequenceExpression FunctionCall():
 		} else if(function=="isReachableEdgesOutgoing") {
 			if(argExprs.Count<2 || argExprs.Count>4) throw new ParseException("\"" + function + "\" expects 2 (start node, end node) or 3 (start node, end node, incident edge type) or 4 (start node, end node, incident edge type, adjacent node type) parameters)");
 			return new SequenceExpressionIsReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), SequenceExpressionType.IsReachableEdgesViaOutgoing);
+		} else if(function=="isBoundedReachable") {
+			if(argExprs.Count<3 || argExprs.Count>5) throw new ParseException("\"" + function + "\" expects 3 (start node, end node, depth) or 4 (start node, end node, depth, incident edge type) or 5 (start node, end node, depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), getArgument(argExprs, 4), SequenceExpressionType.IsBoundedReachableNodes);
+		} else if(function=="isBoundedReachableIncoming") {
+			if(argExprs.Count<3 || argExprs.Count>5) throw new ParseException("\"" + function + "\" expects 3 (start node, end node, depth) or 4 (start node, end node, depth, incident edge type) or 5 (start node, end node, depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), getArgument(argExprs, 4), SequenceExpressionType.IsBoundedReachableNodesViaIncoming);
+		} else if(function=="isBoundedReachableOutgoing") {
+			if(argExprs.Count<3 || argExprs.Count>5) throw new ParseException("\"" + function + "\" expects 3 (start node, end node, depth) or 4 (start node, end node, depth, incident edge type) or 5 (start node, end node, depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), getArgument(argExprs, 4), SequenceExpressionType.IsBoundedReachableNodesViaOutgoing);
+		} else if(function=="isBoundedReachableEdges") {
+			if(argExprs.Count<3 || argExprs.Count>5) throw new ParseException("\"" + function + "\" expects 3 (start node, end node, depth) or 4 (start node, end node, depth, incident edge type) or 5 (start node, end node, depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), getArgument(argExprs, 4), SequenceExpressionType.IsBoundedReachableEdges);
+		} else if(function=="isBoundedReachableEdgesIncoming") {
+			if(argExprs.Count<3 || argExprs.Count>5) throw new ParseException("\"" + function + "\" expects 3 (start node, end node, depth) or 4 (start node, end node, depth, incident edge type) or 5 (start node, end node, depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), getArgument(argExprs, 4), SequenceExpressionType.IsBoundedReachableEdgesViaIncoming);
+		} else if(function=="isBoundedReachableEdgesOutgoing") {
+			if(argExprs.Count<3 || argExprs.Count>5) throw new ParseException("\"" + function + "\" expects 3 (start node, end node, depth) or 4 (start node, end node, depth, incident edge type) or 5 (start node, end node, depth, incident edge type, adjacent node type) parameters)");
+			return new SequenceExpressionIsBoundedReachable(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), getArgument(argExprs, 3), getArgument(argExprs, 4), SequenceExpressionType.IsBoundedReachableEdgesViaOutgoing);
 		} else if(function=="inducedSubgraph") {
 			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the set of nodes to construct the induced subgraph from)");
 			return new SequenceExpressionInducedSubgraph(getArgument(argExprs, 0));
@@ -1716,7 +1812,7 @@ SequenceExpression FunctionCall():
 				if(function=="valloc" || function=="add" || function=="retype" || function=="insertInduced" || function=="insertDefined") {
 					throw new ParseException("\"" + function + "\" is a procedure, call with (var)=" + function + "();");
 				} else {
-					throw new ParseException("Unknown function name: \"" + function + "\"! (available are nodes|edges|empty|size|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|isAdjacent|isAdjacentIncoming|isAdjacentOutgoing|isIncident|isIncoming|isOutgoing|isReachable|isReachableIncoming|isReachableOutgoing|isReachableEdges|isReachableEdgeIncoming|isReachableEdgesOutgoing|inducedSubgraph|definedSubgraph|source|target|opposite|nameof|existsFile|import|copy|random|canonize or one of the functions defined in the .grg:" + GetFunctionNames() + ")");
+					throw new ParseException("Unknown function name: \"" + function + "\"! (available are nodes|edges|empty|size|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|boundedReachable|boundedReachableIncoming|boundedReachableOutgoing|boundedReachableEdges|boundedReachableEdgesIncoming|boundedReachableEdgesOutgoing|countNodes|countEdges|countAdjacent|countAdjacentIncoming|countAdjacentOutgoing|countIncident|countIncoming|countOutgoing|countReachable|countReachableIncoming|countReachableOutgoing|countReachableEdges|countReachableEdgesIncoming|countReachableEdgesOutgoing|countBoundedReachable|countBoundedReachableIncoming|countBoundedReachableOutgoing|countBoundedReachableEdges|countBoundedReachableEdgesIncoming|countBoundedReachableEdgesOutgoing|isAdjacent|isAdjacentIncoming|isAdjacentOutgoing|isIncident|isIncoming|isOutgoing|isReachable|isReachableIncoming|isReachableOutgoing|isReachableEdges|isReachableEdgeIncoming|isReachableEdgesOutgoing|isBoundedReachable|isBoundedReachableIncoming|isBoundedReachableOutgoing|isBoundedReachableEdges|isBoundedReachableEdgeIncoming|isBoundedReachableEdgesOutgoing|inducedSubgraph|definedSubgraph|source|target|opposite|nameof|existsFile|import|copy|random|canonize or one of the functions defined in the .grg:" + GetFunctionNames() + ")");
 				}
 			}
 		}

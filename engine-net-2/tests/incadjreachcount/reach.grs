@@ -1,0 +1,21 @@
+new graph "incadjreachcount/incadjreachcount"
+
+exec init
+
+exec rreach
+
+show var res1
+show var res1count
+
+show var res2
+show var res2count
+
+show var res3
+show var res3count
+
+exec { ::res4 = reachable(::start); ::res4count = countReachable(::start) }
+
+show var res4
+show var res4count
+
+quit

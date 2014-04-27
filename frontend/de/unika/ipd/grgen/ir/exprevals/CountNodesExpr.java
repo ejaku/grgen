@@ -5,26 +5,24 @@
  * www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir;
+package de.unika.ipd.grgen.ir.exprevals;
 
-import de.unika.ipd.grgen.ir.exprevals.*;;
+public class CountNodesExpr extends Expression {
+	private final Expression nodeType;
 
-public class EdgesExpr extends Expression {
-	private final Expression edgeType;
-
-	public EdgesExpr(Expression edgeType, Type type) {
-		super("edges expression", type);
-		this.edgeType = edgeType;
+	public CountNodesExpr(Expression nodeType) {
+		super("count nodes expression", IntType.getType());
+		this.nodeType = nodeType;
 	}
 
-	public Expression getEdgeTypeExpr() {
-		return edgeType;
+	public Expression getNodeTypeExpr() {
+		return nodeType;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		edgeType.collectNeededEntities(needs);
+		nodeType.collectNeededEntities(needs);
 	}
 }
 

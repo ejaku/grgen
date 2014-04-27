@@ -3803,6 +3803,98 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the count of nodes of a node type
+    /// </summary>
+    public class CountNodes : Expression
+    {
+        public CountNodes(Expression nodeType)
+        {
+            NodeType = nodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountNodes(NodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountNodes(graph, ");
+            NodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.AppendFront(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return NodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression NodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of edges of an edge type
+    /// </summary>
+    public class CountEdges : Expression
+    {
+        public CountEdges(Expression edgeType)
+        {
+            EdgeType = edgeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountEdges(EdgeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountEdges(graph, ");
+            EdgeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.AppendFront(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return EdgeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression EdgeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
     /// Class representing expression returning the current time, measured as windows file time
     /// </summary>
     public class Now : Expression
@@ -4310,6 +4402,174 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the count of the outgoing edges of a node
+    /// </summary>
+    public class CountOutgoing : Expression
+    {
+        public CountOutgoing(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountOutgoing(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountOutgoing((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.AppendFront(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the incoming edges of a node
+    /// </summary>
+    public class CountIncoming : Expression
+    {
+        public CountIncoming(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountIncoming(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountIncoming((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.AppendFront(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the incident edges of a node
+    /// </summary>
+    public class CountIncident : Expression
+    {
+        public CountIncident(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountIncident(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountIncident((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.AppendFront(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
     /// Class representing expression returning the adjacent nodes of a node (as set) reachable via outgoing edges
     /// </summary>
     public class AdjacentOutgoing : Expression
@@ -4441,6 +4701,174 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.Adjacent((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.AppendFront(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the adjacent nodes of a node reachable via outgoing edges
+    /// </summary>
+    public class CountAdjacentOutgoing : Expression
+    {
+        public CountAdjacentOutgoing(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountAdjacentOutgoing(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountAdjacentOutgoing(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.AppendFront(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the adjacent nodes of a node reachable via incoming edges
+    /// </summary>
+    public class CountAdjacentIncoming : Expression
+    {
+        public CountAdjacentIncoming(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountAdjacentIncoming(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountAdjacentIncoming(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.AppendFront(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the adjacent nodes of a node reachable via incident edges
+    /// </summary>
+    public class CountAdjacent : Expression
+    {
+        public CountAdjacent(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountAdjacent(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountAdjacent(graph, (GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
             sourceCode.Append(", ");
             IncidentEdgeType.Emit(sourceCode);
@@ -5030,6 +5458,174 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the count of the reachable edges via outgoing edges of a node 
+    /// </summary>
+    public class CountReachableEdgesOutgoing : Expression
+    {
+        public CountReachableEdgesOutgoing(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountReachableEdgesOutgoing(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountReachableEdgesOutgoing(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the reachable edges via incoming edges of a node
+    /// </summary>
+    public class CountReachableEdgesIncoming : Expression
+    {
+        public CountReachableEdgesIncoming(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountReachableEdgesIncoming(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountReachableEdgesIncoming(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the reachable edges via incident edges of a node
+    /// </summary>
+    public class CountReachableEdges : Expression
+    {
+        public CountReachableEdges(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountReachableEdges(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountReachableEdges(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
     /// Class representing expression returning the reachable nodes of a node (as set) reachable via outgoing edges
     /// </summary>
     public class ReachableOutgoing : Expression
@@ -5161,6 +5757,174 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.Reachable((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the reachable nodes of a node reachable via outgoing edges
+    /// </summary>
+    public class CountReachableOutgoing : Expression
+    {
+        public CountReachableOutgoing(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountReachableOutgoing(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountReachableOutgoing((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the reachable nodes of a node reachable via incoming edges
+    /// </summary>
+    public class CountReachableIncoming : Expression
+    {
+        public CountReachableIncoming(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountReachableIncoming(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountReachableIncoming((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the reachable nodes of a node reachable via incident edges
+    /// </summary>
+    public class CountReachable : Expression
+    {
+        public CountReachable(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountReachable(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountReachable((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
             sourceCode.Append(", ");
             IncidentEdgeType.Emit(sourceCode);
@@ -5381,6 +6145,189 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the count of the reachable edges within the given depth via outgoing edges of a node
+    /// </summary>
+    public class CountBoundedReachableEdgesOutgoing : Expression
+    {
+        public CountBoundedReachableEdgesOutgoing(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountBoundedReachableEdgesOutgoing(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableEdgesOutgoing(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression Depth;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the reachable edges within the given depth via incoming edges of a node
+    /// </summary>
+    public class CountBoundedReachableEdgesIncoming : Expression
+    {
+        public CountBoundedReachableEdgesIncoming(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountBoundedReachableEdgesIncoming(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableEdgesIncoming(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression Depth;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the reachable edges within the given depth via incident edges of a node
+    /// </summary>
+    public class CountBoundedReachableEdges : Expression
+    {
+        public CountBoundedReachableEdges(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountBoundedReachableEdges(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableEdges(graph, (GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression Depth;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
     /// Class representing expression returning the reachable nodes within the given depth of a node (as set) reachable via outgoing edges
     /// </summary>
     public class BoundedReachableOutgoing : Expression
@@ -5523,6 +6470,189 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.BoundedReachable((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression Depth;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the reachable nodes within the given depth of a node reachable via outgoing edges
+    /// </summary>
+    public class CountBoundedReachableOutgoing : Expression
+    {
+        public CountBoundedReachableOutgoing(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountBoundedReachableOutgoing(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableOutgoing((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression Depth;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the reachable nodes within the given depth of a node reachable via incoming edges
+    /// </summary>
+    public class CountBoundedReachableIncoming : Expression
+    {
+        public CountBoundedReachableIncoming(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountBoundedReachableIncoming(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableIncoming((GRGEN_LIBGR.INode)");
+            Node.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Depth.Emit(sourceCode);
+            sourceCode.Append(", ");
+            IncidentEdgeType.Emit(sourceCode);
+            sourceCode.Append(", ");
+            AdjacentNodeType.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Node;
+            yield return Depth;
+            yield return IncidentEdgeType;
+            yield return AdjacentNodeType;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public Expression Node;
+        public Expression Depth;
+        public Expression IncidentEdgeType;
+        public Expression AdjacentNodeType;
+        public bool Parallel;
+        public bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the count of the reachable nodes within the given depth of a node reachable via incident edges
+    /// </summary>
+    public class CountBoundedReachable : Expression
+    {
+        public CountBoundedReachable(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        {
+            Node = node;
+            Depth = depth;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountBoundedReachable(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.CountBoundedReachable((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
             sourceCode.Append(", ");
             Depth.Emit(sourceCode);

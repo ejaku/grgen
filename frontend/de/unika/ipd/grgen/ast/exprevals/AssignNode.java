@@ -204,6 +204,11 @@ public class AssignNode extends EvalStatementNode {
 					error.error(getCoords(), "only a def graph element can be assigned to ("+lhsGraphElement.getIdentNode()+")");
 					return false;
 				}
+				
+				if(lhsGraphElement.directlyNestingLHSGraph == null && (context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
+					error.error(getCoords(), "assignment to a global variable not allowed from a yield block or a function ("+lhsGraphElement.getIdentNode()+")");
+					return false;
+				}
 			}
 			
 			if((lhsGraphElement.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {					
@@ -238,6 +243,11 @@ public class AssignNode extends EvalStatementNode {
 				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
 				if(identExpr.yieldedTo) {
 					error.error(getCoords(), "yield assignment only allowed to a def variable ("+lhsVar.getIdentNode()+")");
+					return false;
+				}
+				
+				if(lhsVar.directlyNestingLHSGraph == null && (context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
+					error.error(getCoords(), "assignment to a global variable not allowed from a yield block or a function ("+lhsVar.getIdentNode()+")");
 					return false;
 				}
 			}

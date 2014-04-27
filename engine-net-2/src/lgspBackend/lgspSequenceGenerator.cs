@@ -3646,6 +3646,22 @@ namespace de.unika.ipd.grGen.lgsp
                     return "GRGEN_LIBGR.GraphHelper.Edges(graph, (GRGEN_LIBGR.EdgeType)" + edgeType + profilingArgument + ")";
                 }
 
+                case SequenceExpressionType.CountNodes:
+                {
+                    SequenceExpressionCountNodes seqNodes = (SequenceExpressionCountNodes)expr;
+                    string nodeType = ExtractNodeType(source, seqNodes.NodeType);
+                    string profilingArgument = seqNodes.EmitProfiling ? ", procEnv" : "";
+                    return "GRGEN_LIBGR.GraphHelper.CountNodes(graph, (GRGEN_LIBGR.NodeType)" + nodeType + profilingArgument + ")";
+                }
+
+                case SequenceExpressionType.CountEdges:
+                {
+                    SequenceExpressionCountEdges seqEdges = (SequenceExpressionCountEdges)expr;
+                    string edgeType = ExtractEdgeType(source, seqEdges.EdgeType);
+                    string profilingArgument = seqEdges.EmitProfiling ? ", procEnv" : "";
+                    return "GRGEN_LIBGR.GraphHelper.CountEdges(graph, (GRGEN_LIBGR.EdgeType)" + edgeType + profilingArgument + ")";
+                }
+
                 case SequenceExpressionType.Now:
                 {
                     SequenceExpressionNow seqNow = (SequenceExpressionNow)expr;
@@ -3698,6 +3714,50 @@ namespace de.unika.ipd.grGen.lgsp
                         + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
                 }
 
+                case SequenceExpressionType.CountAdjacentNodes:
+                case SequenceExpressionType.CountAdjacentNodesViaIncoming:
+                case SequenceExpressionType.CountAdjacentNodesViaOutgoing:
+                case SequenceExpressionType.CountIncidentEdges:
+                case SequenceExpressionType.CountIncomingEdges:
+                case SequenceExpressionType.CountOutgoingEdges:
+                {
+                    SequenceExpressionCountAdjacentIncident seqCntAdjInc = (SequenceExpressionCountAdjacentIncident)expr;
+                    string sourceNode = GetSequenceExpression(seqCntAdjInc.SourceNode, source);
+                    string incidentEdgeType = ExtractEdgeType(source, seqCntAdjInc.EdgeType);
+                    string adjacentNodeType = ExtractNodeType(source, seqCntAdjInc.OppositeNodeType);
+                    string function;
+                    switch(seqCntAdjInc.SequenceExpressionType)
+                    {
+                        case SequenceExpressionType.CountAdjacentNodes:
+                            function = "CountAdjacent"; break;
+                        case SequenceExpressionType.CountAdjacentNodesViaIncoming:
+                            function = "CountAdjacentIncoming"; break;
+                        case SequenceExpressionType.CountAdjacentNodesViaOutgoing:
+                            function = "CountAdjacentOutgoing"; break;
+                        case SequenceExpressionType.CountIncidentEdges:
+                            function = "CountIncident"; break;
+                        case SequenceExpressionType.CountIncomingEdges:
+                            function = "CountIncoming"; break;
+                        case SequenceExpressionType.CountOutgoingEdges:
+                            function = "CountOutgoing"; break;
+                        default:
+                            function = "INTERNAL ERROR"; break;
+                    }
+                    string profilingArgument = seqCntAdjInc.EmitProfiling ? ", procEnv" : "";
+                    if(seqCntAdjInc.SequenceExpressionType == SequenceExpressionType.CountAdjacentNodes
+                        || seqCntAdjInc.SequenceExpressionType == SequenceExpressionType.CountAdjacentNodesViaIncoming
+                        || seqCntAdjInc.SequenceExpressionType == SequenceExpressionType.CountAdjacentNodesViaOutgoing)
+                    {
+                        return "GRGEN_LIBGR.GraphHelper." + function + "(graph, (GRGEN_LIBGR.INode)" + sourceNode
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
+                    }
+                    else // SequenceExpressionType.CountIncidentEdges || SequenceExpressionType.CountIncomingEdges || SequenceExpressionType.CountOutgoingEdges
+                    {
+                        return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
+                    }
+                }
+
                 case SequenceExpressionType.ReachableNodes:
                 case SequenceExpressionType.ReachableNodesViaIncoming:
                 case SequenceExpressionType.ReachableNodesViaOutgoing:
@@ -3738,6 +3798,140 @@ namespace de.unika.ipd.grGen.lgsp
                     else // SequenceExpressionType.ReachableEdges || SequenceExpressionType.ReachableEdgesViaIncoming || SequenceExpressionType.ReachableEdgesViaOutgoing
                     {
                         return "GRGEN_LIBGR.GraphHelper." + function + "(graph, (GRGEN_LIBGR.INode)" + sourceNode
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
+                    }
+                }
+
+                case SequenceExpressionType.CountReachableNodes:
+                case SequenceExpressionType.CountReachableNodesViaIncoming:
+                case SequenceExpressionType.CountReachableNodesViaOutgoing:
+                case SequenceExpressionType.CountReachableEdges:
+                case SequenceExpressionType.CountReachableEdgesViaIncoming:
+                case SequenceExpressionType.CountReachableEdgesViaOutgoing:
+                {
+                    SequenceExpressionCountReachable seqCntReach = (SequenceExpressionCountReachable)expr;
+                    string sourceNode = GetSequenceExpression(seqCntReach.SourceNode, source);
+                    string incidentEdgeType = ExtractEdgeType(source, seqCntReach.EdgeType);
+                    string adjacentNodeType = ExtractNodeType(source, seqCntReach.OppositeNodeType);
+                    string function;
+                    switch(seqCntReach.SequenceExpressionType)
+                    {
+                        case SequenceExpressionType.CountReachableNodes:
+                            function = "CountReachable"; break;
+                        case SequenceExpressionType.CountReachableNodesViaIncoming:
+                            function = "CountReachableIncoming"; break;
+                        case SequenceExpressionType.CountReachableNodesViaOutgoing:
+                            function = "CountReachableOutgoing"; break;
+                        case SequenceExpressionType.CountReachableEdges:
+                            function = "CountReachableEdges"; break;
+                        case SequenceExpressionType.CountReachableEdgesViaIncoming:
+                            function = "CountReachableEdgesIncoming"; break;
+                        case SequenceExpressionType.CountReachableEdgesViaOutgoing:
+                            function = "CountReachableEdgesOutgoing"; break;
+                        default:
+                            function = "INTERNAL ERROR"; break;
+                    }
+                    string profilingArgument = seqCntReach.EmitProfiling ? ", procEnv" : "";
+                    if(seqCntReach.SequenceExpressionType == SequenceExpressionType.CountReachableNodes
+                        || seqCntReach.SequenceExpressionType == SequenceExpressionType.CountReachableNodesViaIncoming
+                        || seqCntReach.SequenceExpressionType == SequenceExpressionType.CountReachableNodesViaOutgoing)
+                    {
+                        return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
+                    }
+                    else // SequenceExpressionType.CountReachableEdges || SequenceExpressionType.CountReachableEdgesViaIncoming || SequenceExpressionType.CountReachableEdgesViaOutgoing
+                    {
+                        return "GRGEN_LIBGR.GraphHelper." + function + "(graph, (GRGEN_LIBGR.INode)" + sourceNode
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
+                    }
+                }
+
+                case SequenceExpressionType.BoundedReachableNodes:
+                case SequenceExpressionType.BoundedReachableNodesViaIncoming:
+                case SequenceExpressionType.BoundedReachableNodesViaOutgoing:
+                case SequenceExpressionType.BoundedReachableEdges:
+                case SequenceExpressionType.BoundedReachableEdgesViaIncoming:
+                case SequenceExpressionType.BoundedReachableEdgesViaOutgoing:
+                {
+                    SequenceExpressionBoundedReachable seqBoundReach = (SequenceExpressionBoundedReachable)expr;
+                    string sourceNode = GetSequenceExpression(seqBoundReach.SourceNode, source);
+                    string depth = GetSequenceExpression(seqBoundReach.Depth, source);
+                    string incidentEdgeType = ExtractEdgeType(source, seqBoundReach.EdgeType);
+                    string adjacentNodeType = ExtractNodeType(source, seqBoundReach.OppositeNodeType);
+                    string function;
+                    switch(seqBoundReach.SequenceExpressionType)
+                    {
+                        case SequenceExpressionType.BoundedReachableNodes:
+                            function = "BoundedReachable"; break;
+                        case SequenceExpressionType.BoundedReachableNodesViaIncoming:
+                            function = "BoundedReachableIncoming"; break;
+                        case SequenceExpressionType.BoundedReachableNodesViaOutgoing:
+                            function = "BoundedReachableOutgoing"; break;
+                        case SequenceExpressionType.BoundedReachableEdges:
+                            function = "BoundedReachableEdges"; break;
+                        case SequenceExpressionType.BoundedReachableEdgesViaIncoming:
+                            function = "BoundedReachableEdgesIncoming"; break;
+                        case SequenceExpressionType.BoundedReachableEdgesViaOutgoing:
+                            function = "BoundedReachableEdgesOutgoing"; break;
+                        default:
+                            function = "INTERNAL ERROR"; break;
+                    }
+                    string profilingArgument = seqBoundReach.EmitProfiling ? ", procEnv" : "";
+                    if(seqBoundReach.SequenceExpressionType == SequenceExpressionType.BoundedReachableNodes
+                        || seqBoundReach.SequenceExpressionType == SequenceExpressionType.BoundedReachableNodesViaIncoming
+                        || seqBoundReach.SequenceExpressionType == SequenceExpressionType.BoundedReachableNodesViaOutgoing)
+                    {
+                        return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode + ", (int)" + depth
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
+                    }
+                    else // SequenceExpressionType.BoundedReachableEdges || SequenceExpressionType.BoundedReachableEdgesViaIncoming || SequenceExpressionType.BoundedReachableEdgesViaOutgoing
+                    {
+                        return "GRGEN_LIBGR.GraphHelper." + function + "(graph, (GRGEN_LIBGR.INode)" + sourceNode + ", (int)" + depth
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
+                    }
+                }
+
+                case SequenceExpressionType.CountBoundedReachableNodes:
+                case SequenceExpressionType.CountBoundedReachableNodesViaIncoming:
+                case SequenceExpressionType.CountBoundedReachableNodesViaOutgoing:
+                case SequenceExpressionType.CountBoundedReachableEdges:
+                case SequenceExpressionType.CountBoundedReachableEdgesViaIncoming:
+                case SequenceExpressionType.CountBoundedReachableEdgesViaOutgoing:
+                {
+                    SequenceExpressionCountBoundedReachable seqCntBoundReach = (SequenceExpressionCountBoundedReachable)expr;
+                    string sourceNode = GetSequenceExpression(seqCntBoundReach.SourceNode, source);
+                    string depth = GetSequenceExpression(seqCntBoundReach.Depth, source);
+                    string incidentEdgeType = ExtractEdgeType(source, seqCntBoundReach.EdgeType);
+                    string adjacentNodeType = ExtractNodeType(source, seqCntBoundReach.OppositeNodeType);
+                    string function;
+                    switch(seqCntBoundReach.SequenceExpressionType)
+                    {
+                        case SequenceExpressionType.CountBoundedReachableNodes:
+                            function = "CountBoundedReachable"; break;
+                        case SequenceExpressionType.CountBoundedReachableNodesViaIncoming:
+                            function = "CountBoundedReachableIncoming"; break;
+                        case SequenceExpressionType.CountBoundedReachableNodesViaOutgoing:
+                            function = "CountBoundedReachableOutgoing"; break;
+                        case SequenceExpressionType.CountBoundedReachableEdges:
+                            function = "CountBoundedReachableEdges"; break;
+                        case SequenceExpressionType.CountBoundedReachableEdgesViaIncoming:
+                            function = "CountBoundedReachableEdgesIncoming"; break;
+                        case SequenceExpressionType.CountBoundedReachableEdgesViaOutgoing:
+                            function = "CountBoundedReachableEdgesOutgoing"; break;
+                        default:
+                            function = "INTERNAL ERROR"; break;
+                    }
+                    string profilingArgument = seqCntBoundReach.EmitProfiling ? ", procEnv" : "";
+                    if(seqCntBoundReach.SequenceExpressionType == SequenceExpressionType.CountBoundedReachableNodes
+                        || seqCntBoundReach.SequenceExpressionType == SequenceExpressionType.CountBoundedReachableNodesViaIncoming
+                        || seqCntBoundReach.SequenceExpressionType == SequenceExpressionType.CountBoundedReachableNodesViaOutgoing)
+                    {
+                        return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode + ", (int)" + depth
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
+                    }
+                    else // SequenceExpressionType.CountBoundedReachableEdges || SequenceExpressionType.CountBoundedReachableEdgesViaIncoming || SequenceExpressionType.CountBoundedReachableEdgesViaOutgoing
+                    {
+                        return "GRGEN_LIBGR.GraphHelper." + function + "(graph, (GRGEN_LIBGR.INode)" + sourceNode + ", (int)" + depth
                             + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
                     }
                 }
@@ -3840,6 +4034,52 @@ namespace de.unika.ipd.grGen.lgsp
                     string profilingArgument = seqIsReach.EmitProfiling ? ", procEnv" : "";
                     return "GRGEN_LIBGR.GraphHelper." + function + "(graph, (GRGEN_LIBGR.INode)" + sourceNode + ", " + endElementType + " " + endElement
                         + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
+                }
+
+                case SequenceExpressionType.IsBoundedReachableNodes:
+                case SequenceExpressionType.IsBoundedReachableNodesViaIncoming:
+                case SequenceExpressionType.IsBoundedReachableNodesViaOutgoing:
+                case SequenceExpressionType.IsBoundedReachableEdges:
+                case SequenceExpressionType.IsBoundedReachableEdgesViaIncoming:
+                case SequenceExpressionType.IsBoundedReachableEdgesViaOutgoing:
+                {
+                    SequenceExpressionIsBoundedReachable seqIsBoundReach = (SequenceExpressionIsBoundedReachable)expr;
+                    string sourceNode = GetSequenceExpression(seqIsBoundReach.SourceNode, source);
+                    string endElement = GetSequenceExpression(seqIsBoundReach.EndElement, source);
+                    string depth = GetSequenceExpression(seqIsBoundReach.Depth, source);
+                    string incidentEdgeType = ExtractEdgeType(source, seqIsBoundReach.EdgeType);
+                    string adjacentNodeType = ExtractNodeType(source, seqIsBoundReach.OppositeNodeType);
+                    string function;
+                    switch(seqIsBoundReach.SequenceExpressionType)
+                    {
+                        case SequenceExpressionType.IsBoundedReachableNodes:
+                            function = "IsBoundedReachable"; break;
+                        case SequenceExpressionType.IsBoundedReachableNodesViaIncoming:
+                            function = "IsBoundedReachableIncoming"; break;
+                        case SequenceExpressionType.IsBoundedReachableNodesViaOutgoing:
+                            function = "IsBoundedReachableOutgoing"; break;
+                        case SequenceExpressionType.IsBoundedReachableEdges:
+                            function = "IsBoundedReachableEdges"; break;
+                        case SequenceExpressionType.IsBoundedReachableEdgesViaIncoming:
+                            function = "IsBoundedReachableEdgesIncoming"; break;
+                        case SequenceExpressionType.IsBoundedReachableEdgesViaOutgoing:
+                            function = "IsBoundedReachableEdgesOutgoing"; break;
+                        default:
+                            function = "INTERNAL ERROR"; break;
+                    }
+                    string profilingArgument = seqIsBoundReach.EmitProfiling ? ", procEnv" : "";
+                    if(seqIsBoundReach.SequenceExpressionType == SequenceExpressionType.IsBoundedReachableNodes
+                        || seqIsBoundReach.SequenceExpressionType == SequenceExpressionType.IsBoundedReachableNodesViaIncoming
+                        || seqIsBoundReach.SequenceExpressionType == SequenceExpressionType.IsBoundedReachableNodesViaOutgoing)
+                    {
+                        return "GRGEN_LIBGR.GraphHelper." + function + "(graph, (GRGEN_LIBGR.INode)" + sourceNode + ", (GRGEN_LIBGR.INode)" + endElement + ", (int)" + depth
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
+                    }
+                    else // SequenceExpressionType.IsBoundedReachableEdges || SequenceExpressionType.IsBoundedReachableEdgesViaIncoming || SequenceExpressionType.IsBoundedReachableEdgesViaOutgoing
+                    {
+                        return "GRGEN_LIBGR.GraphHelper." + function + "(graph, (GRGEN_LIBGR.INode)" + sourceNode + ", (GRGEN_LIBGR.IEdge)" + endElement + ", (int)" + depth
+                            + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
+                    }
                 }
 
                 case SequenceExpressionType.InducedSubgraph:
@@ -4256,7 +4496,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceExpressionType.Opposite:
                 {
                     SequenceExpressionOpposite seqOpp = (SequenceExpressionOpposite)expr;
-                    return "((GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqOpp.Edge, source) + ").Opposite(" + GetSequenceExpression(seqOpp.Node, source) + ")";
+                    return "((GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqOpp.Edge, source) + ").Opposite((GRGEN_LIBGR.INode)(" + GetSequenceExpression(seqOpp.Node, source) + "))";
                 }
 
                 case SequenceExpressionType.Variable:

@@ -11,6 +11,8 @@ rule r(ref n:set<Node>, ref a:set<Node>, ref e:set<Edge>, ref nn:set<Node>, ref 
 {
 	if { nodes().size() > nodes(A).size(); }
 	if { edges().size() > edges(EE).size(); }
+	if { countNodes() > countNodes(A); }
+	if { countEdges() > countEdges(EE); }
 	
 	def var countA:int;
 	def var countEE:int;
