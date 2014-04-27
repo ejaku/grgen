@@ -37,6 +37,9 @@ test tinc(start:A, start2:Node)
 	if { incident(start).size() == outgoing(start).size() + incoming(start).size(); }
 	if { outgoing(start).size() == outgoing(start, EE).size() + outgoing(start, EE, A).size(); }
 	if { incoming(start).size() == incoming(start, EE).size() + incoming(start, EE, A).size(); }
+	if { countIncident(start) == countOutgoing(start) + countIncoming(start); }
+	if { countOutgoing(start) == countOutgoing(start, EE) + countOutgoing(start, EE, A); }
+	if { countIncoming(start) == countIncoming(start, EE) + countIncoming(start, EE, A); }
 }
 
 rule rinc(ref inc:set<Edge>, ref incEE:set<Edge>, ref incEEA:set<Edge>, ref incOut:set<Edge>, ref incOutEE:set<Edge>, ref incInEdgeA:set<Edge>, ref incInEEA:set<Edge>,

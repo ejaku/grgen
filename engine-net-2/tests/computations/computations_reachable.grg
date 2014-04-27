@@ -35,10 +35,12 @@ rule unlink(middle1:A, middle2:Node)
 test t(start1:A, middle1:A, end1:A, start2:Node, end2:Node)
 {
 	if { reachable(start1).size() > reachable(start2).size(); }
+	if { countReachable(start1) > countReachable(start2); }
 	if { isReachableOutgoing(start1, end1, EE) && isReachable(start2, end2); }
 	if { !isReachableOutgoing(start1, end2, EE) && !isReachable(start2, end1); }
 	
 	if { boundedReachable(start1, 42).size() > boundedReachable(start2, 42).size(); }
+	if { countBoundedReachable(start1, 42) > countBoundedReachable(start2, 42); }
 	if { isBoundedReachableOutgoing(start1, end1, 42, EE) && isBoundedReachable(start2, end2, 42); }
 	if { !isBoundedReachableOutgoing(start1, end2, 42, EE) && !isBoundedReachable(start2, end1, 42); }
 }

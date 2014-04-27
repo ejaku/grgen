@@ -65,6 +65,34 @@ namespace de.unika.ipd.grGen.libGr
 
         //////////////////////////////////////////////////////////////////////////////////////////////
 
+        /// <summary>
+        /// Returns the count of the nodes in the graph of the type given
+        /// </summary>
+        public static int CountNodes(IGraph graph, NodeType nodeType)
+        {
+            return graph.GetNumCompatibleNodes(nodeType);
+        }
+
+        public static int CountNodes(IGraph graph, NodeType nodeType, IActionExecutionEnvironment actionEnv)
+        {
+            return graph.GetNumCompatibleNodes(nodeType);
+        }
+
+        /// <summary>
+        /// Returns the count of the edges in the graph of the type given
+        /// </summary>
+        public static int CountEdges(IGraph graph, EdgeType edgeType)
+        {
+            return graph.GetNumCompatibleEdges(edgeType);
+        }
+
+        public static int CountEdges(IGraph graph, EdgeType edgeType, IActionExecutionEnvironment actionEnv)
+        {
+            return graph.GetNumCompatibleEdges(edgeType);
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
         public static IGraphElement GetGraphElement(INamedGraph graph, string name)
         {
             return graph.GetGraphElement(name);
@@ -240,6 +268,201 @@ namespace de.unika.ipd.grGen.libGr
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
+        /// Returns the count of the nodes adjacent to the start node, under the type constraints given
+        /// </summary>
+        public static int CountAdjacent(IGraph graph, INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        {
+            int count = 0;
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(graph.IsInternallyVisited(adjacentNode))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, true);
+                ++count;
+            }
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(graph.IsInternallyVisited(adjacentNode))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, true);
+                ++count;
+            }
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, false);
+            }
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, false);
+            }
+            return count;
+        }
+
+        public static int CountAdjacent(IGraph graph, INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            int count = 0;
+            foreach(IEdge edge in startNode.Outgoing)
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(graph.IsInternallyVisited(adjacentNode))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, true);
+                ++count;
+            }
+            foreach(IEdge edge in startNode.Incoming)
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(graph.IsInternallyVisited(adjacentNode))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, true);
+                ++count;
+            }
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, false);
+            }
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, false);
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns the count of the nodes adjacent to the start node via outgoing edges, under the type constraints given
+        /// </summary>
+        public static int CountAdjacentOutgoing(IGraph graph, INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        {
+            int count = 0;
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(graph.IsInternallyVisited(adjacentNode))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, true);
+                ++count;
+            }
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, false);
+            }
+            return count;
+        }
+
+        public static int CountAdjacentOutgoing(IGraph graph, INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            int count = 0;
+            foreach(IEdge edge in startNode.Outgoing)
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(graph.IsInternallyVisited(adjacentNode))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, true);
+                ++count;
+            }
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, false);
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns the count of the nodes adjacent to the start node via incoming edges, under the type constraints given
+        /// </summary>
+        public static int CountAdjacentIncoming(IGraph graph, INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        {
+            int count = 0;
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(graph.IsInternallyVisited(adjacentNode))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, true);
+                ++count;
+            }
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, false);
+            }
+            return count;
+        }
+
+        public static int CountAdjacentIncoming(IGraph graph, INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            int count = 0;
+            foreach(IEdge edge in startNode.Incoming)
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(graph.IsInternallyVisited(adjacentNode))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, true);
+                ++count;
+            }
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                graph.SetInternallyVisited(adjacentNode, false);
+            }
+            return count;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
         /// Returns set of edges incident to the start node, under the type constraints given
         /// </summary>
         public static Dictionary<IEdge, SetValueType> Incident(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
@@ -350,6 +573,125 @@ namespace de.unika.ipd.grGen.libGr
                 incomingEdgesSet[edge] = null;
             }
             return incomingEdgesSet;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns count of the edges incident to the start node, under the type constraints given
+        /// </summary>
+        public static int CountIncident(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        {
+            int count = 0;
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                ++count;
+            }
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(adjacentNode == startNode)
+                    continue; // count reflexive edge only once
+                ++count;
+            }
+            return count;
+        }
+
+        public static int CountIncident(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            int count = 0;
+            foreach(IEdge edge in startNode.Outgoing)
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                ++count;
+            }
+            foreach(IEdge edge in startNode.Incoming)
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                if(adjacentNode == startNode)
+                    continue; // count reflexive edge only once
+                ++count;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns count of the edges outgoing from the start node, under the type constraints given
+        /// </summary>
+        public static int CountOutgoing(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        {
+            int count = 0;
+            foreach(IEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                ++count;
+            }
+            return count;
+        }
+
+        public static int CountOutgoing(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            int count = 0;
+            foreach(IEdge edge in startNode.Outgoing)
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
+                INode adjacentNode = edge.Target;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                ++count;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns count of the edges incoming to the start node, under the type constraints given
+        /// </summary>
+        public static int CountIncoming(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        {
+            int count = 0;
+            foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            {
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                ++count;
+            }
+            return count;
+        }
+
+        public static int CountIncoming(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            int count = 0;
+            foreach(IEdge edge in startNode.Incoming)
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(incidentEdgeType))
+                    continue;
+                INode adjacentNode = edge.Source;
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
+                    continue;
+                ++count;
+            }
+            return count;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////
@@ -528,6 +870,65 @@ namespace de.unika.ipd.grGen.libGr
                 sourceNodesSet[adjacentNode] = null;
                 ReachableIncoming(adjacentNode, incomingEdgeType, sourceNodeType, sourceNodesSet, actionEnv);
             }
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns the count of the nodes reachable from the start node, under the type constraints given
+        /// </summary>
+        public static int CountReachable(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode, SetValueType>();
+            Reachable(startNode, incidentEdgeType, adjacentNodeType, adjacentNodesSet);
+            return adjacentNodesSet.Count;
+        }
+
+        public static int CountReachable(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode, SetValueType>();
+            Reachable(startNode, incidentEdgeType, adjacentNodeType, adjacentNodesSet, actionEnv);
+            return adjacentNodesSet.Count;
+        }
+
+        /// <summary>
+        /// Returns the count of the nodes reachable from the start node via outgoing edges, under the type constraints given
+        /// </summary>
+        public static int CountReachableOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<INode, SetValueType> targetNodesSet = new Dictionary<INode, SetValueType>();
+            ReachableOutgoing(startNode, outgoingEdgeType, targetNodeType, targetNodesSet);
+            return targetNodesSet.Count;
+        }
+
+        public static int CountReachableOutgoing(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<INode, SetValueType> targetNodesSet = new Dictionary<INode, SetValueType>();
+            ReachableOutgoing(startNode, outgoingEdgeType, targetNodeType, targetNodesSet, actionEnv);
+            return targetNodesSet.Count;
+        }
+
+        /// <summary>
+        /// Returns the count of the nodes reachable from the start node via incoming edges, under the type constraints given
+        /// </summary>
+        public static int CountReachableIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<INode, SetValueType> sourceNodesSet = new Dictionary<INode, SetValueType>();
+            ReachableIncoming(startNode, incomingEdgeType, sourceNodeType, sourceNodesSet);
+            return sourceNodesSet.Count;
+        }
+
+        public static int CountReachableIncoming(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<INode, SetValueType> sourceNodesSet = new Dictionary<INode, SetValueType>();
+            ReachableIncoming(startNode, incomingEdgeType, sourceNodeType, sourceNodesSet, actionEnv);
+            return sourceNodesSet.Count;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////
@@ -755,6 +1156,101 @@ namespace de.unika.ipd.grGen.libGr
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
+        /// Returns the count of the edges reachable from the start node, under the type constraints given
+        /// </summary>
+        public static int CountReachableEdges(IGraph graph, INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<IEdge, SetValueType> incidentEdgesSet = new Dictionary<IEdge, SetValueType>();
+            ReachableEdges(startNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph);
+            foreach(KeyValuePair<IEdge, SetValueType> kvp in incidentEdgesSet)
+            {
+                IEdge edge = kvp.Key;
+                graph.SetInternallyVisited(edge.Source, false);
+                graph.SetInternallyVisited(edge.Target, false);
+            }
+            return incidentEdgesSet.Count;
+        }
+
+        public static int CountReachableEdges(IGraph graph, INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<IEdge, SetValueType> incidentEdgesSet = new Dictionary<IEdge, SetValueType>();
+            ReachableEdges(startNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, actionEnv);
+            foreach(KeyValuePair<IEdge, SetValueType> kvp in incidentEdgesSet)
+            {
+                IEdge edge = kvp.Key;
+                graph.SetInternallyVisited(edge.Source, false);
+                graph.SetInternallyVisited(edge.Target, false);
+            }
+            return incidentEdgesSet.Count;
+        }
+
+        /// <summary>
+        /// Returns the count of the outgoing edges reachable from the start node, under the type constraints given
+        /// </summary>
+        public static int CountReachableEdgesOutgoing(IGraph graph, INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<IEdge, SetValueType> outgoingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            ReachableEdgesOutgoing(startNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph);
+            foreach(KeyValuePair<IEdge, SetValueType> kvp in outgoingEdgesSet)
+            {
+                IEdge edge = kvp.Key;
+                graph.SetInternallyVisited(edge.Source, false);
+                graph.SetInternallyVisited(edge.Target, false);
+            }
+            return outgoingEdgesSet.Count;
+        }
+
+        public static int CountReachableEdgesOutgoing(IGraph graph, INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<IEdge, SetValueType> outgoingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            ReachableEdgesOutgoing(startNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, actionEnv);
+            foreach(KeyValuePair<IEdge, SetValueType> kvp in outgoingEdgesSet)
+            {
+                IEdge edge = kvp.Key;
+                graph.SetInternallyVisited(edge.Source, false);
+                graph.SetInternallyVisited(edge.Target, false);
+            }
+            return outgoingEdgesSet.Count;
+        }
+
+        /// <summary>
+        /// Returns the count of the incoming edges reachable from the start node, under the type constraints given
+        /// </summary>
+        public static int CountReachableEdgesIncoming(IGraph graph, INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<IEdge, SetValueType> incomingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            ReachableEdgesIncoming(startNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph);
+            foreach(KeyValuePair<IEdge, SetValueType> kvp in incomingEdgesSet)
+            {
+                IEdge edge = kvp.Key;
+                graph.SetInternallyVisited(edge.Source, false);
+                graph.SetInternallyVisited(edge.Target, false);
+            }
+            return incomingEdgesSet.Count;
+        }
+
+        public static int CountReachableEdgesIncoming(IGraph graph, INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<IEdge, SetValueType> incomingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            ReachableEdgesIncoming(startNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, actionEnv);
+            foreach(KeyValuePair<IEdge, SetValueType> kvp in incomingEdgesSet)
+            {
+                IEdge edge = kvp.Key;
+                graph.SetInternallyVisited(edge.Source, false);
+                graph.SetInternallyVisited(edge.Target, false);
+            }
+            return incomingEdgesSet.Count;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
         /// Returns set of nodes reachable from the start node within the given depth, under the type constraints given
         /// </summary>
         public static Dictionary<INode, SetValueType> BoundedReachable(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType)
@@ -971,6 +1467,59 @@ namespace de.unika.ipd.grGen.libGr
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
+        /// Returns the count of the nodes reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        public static int CountBoundedReachable(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        {
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachable(startNode, depth, incidentEdgeType, adjacentNodeType, adjacentNodesToMinDepth);
+            return adjacentNodesToMinDepth.Count;
+        }
+
+        public static int CountBoundedReachable(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachable(startNode, depth, incidentEdgeType, adjacentNodeType, adjacentNodesToMinDepth, actionEnv);
+            return adjacentNodesToMinDepth.Count;
+        }
+
+        /// <summary>
+        /// Returns the count of the nodes reachable from the start node within the given depth via outgoing edges, under the type constraints given
+        /// </summary>
+        public static int CountBoundedReachableOutgoing(INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType)
+        {
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, targetNodesToMinDepth);
+            return targetNodesToMinDepth.Count;
+        }
+
+        public static int CountBoundedReachableOutgoing(INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, targetNodesToMinDepth, actionEnv);
+            return targetNodesToMinDepth.Count;
+        }
+
+        /// <summary>
+        /// Returns the count of the nodes reachable from the start node within the given depth via incoming edges, under the type constraints given
+        /// </summary>
+        public static int CountBoundedReachableIncoming(INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType)
+        {
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableIncoming(startNode, depth, incomingEdgeType, sourceNodeType, sourceNodesToMinDepth);
+            return sourceNodesToMinDepth.Count;
+        }
+
+        public static int CountBoundedReachableIncoming(INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableIncoming(startNode, depth, incomingEdgeType, sourceNodeType, sourceNodesToMinDepth, actionEnv);
+            return sourceNodesToMinDepth.Count;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
         /// Returns set of edges reachable from the start node within the given depth, under the type constraints given
         /// </summary>
         public static Dictionary<IEdge, SetValueType> BoundedReachableEdges(IGraph graph, INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType)
@@ -1178,6 +1727,71 @@ namespace de.unika.ipd.grGen.libGr
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 BoundedReachableEdgesIncoming(adjacentNode, depth - 1, incomingEdgeType, sourceNodeType, incomingEdgesSet, adjacentNodesToMinDepth, graph, actionEnv);
             }
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns the count of the edges reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        public static int CountBoundedReachableEdges(IGraph graph, INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<IEdge, SetValueType> incidentEdgesSet = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableEdges(startNode, depth, incidentEdgeType, adjacentNodeType, incidentEdgesSet, adjacentNodesToMinDepth, graph);
+            return incidentEdgesSet.Count;
+        }
+
+        public static int CountBoundedReachableEdges(IGraph graph, INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<IEdge, SetValueType> incidentEdgesSet = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableEdges(startNode, depth, incidentEdgeType, adjacentNodeType, incidentEdgesSet, adjacentNodesToMinDepth, graph, actionEnv);
+            return incidentEdgesSet.Count;
+        }
+
+        /// <summary>
+        /// Returns the count of the outgoing edges reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        public static int CountBoundedReachableEdgesOutgoing(IGraph graph, INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<IEdge, SetValueType> outgoingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableEdgesOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, outgoingEdgesSet, adjacentNodesToMinDepth, graph);
+            return outgoingEdgesSet.Count;
+        }
+
+        public static int CountBoundedReachableEdgesOutgoing(IGraph graph, INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<IEdge, SetValueType> outgoingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableEdgesOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, outgoingEdgesSet, adjacentNodesToMinDepth, graph, actionEnv);
+            return outgoingEdgesSet.Count;
+        }
+
+        /// <summary>
+        /// Returns the count of the incoming edges reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        public static int CountBoundedReachableEdgesIncoming(IGraph graph, INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<IEdge, SetValueType> incomingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableEdgesIncoming(startNode, depth, incomingEdgeType, sourceNodeType, incomingEdgesSet, adjacentNodesToMinDepth, graph);
+            return incomingEdgesSet.Count;
+        }
+
+        public static int CountBoundedReachableEdgesIncoming(IGraph graph, INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            // todo: more performant implementation with internally visited used for marking and list for unmarking instead of hash set
+            Dictionary<IEdge, SetValueType> incomingEdgesSet = new Dictionary<IEdge, SetValueType>();
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableEdgesIncoming(startNode, depth, incomingEdgeType, sourceNodeType, incomingEdgesSet, adjacentNodesToMinDepth, graph, actionEnv);
+            return incomingEdgesSet.Count;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////

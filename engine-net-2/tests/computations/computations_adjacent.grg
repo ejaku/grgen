@@ -37,6 +37,9 @@ test tadj(start:A)
 	if { adjacent(start).size() == adjacentOutgoing(start).size() + adjacentIncoming(start).size(); }
 	if { adjacentOutgoing(start).size() == adjacentOutgoing(start, EE).size() + adjacentOutgoing(start, EE, A).size(); }
 	if { adjacentIncoming(start).size() == adjacentIncoming(start, EE).size() + adjacentIncoming(start, EE, A).size(); }
+	if { countAdjacent(start) == countAdjacentOutgoing(start) + countAdjacentIncoming(start); }
+	if { countAdjacentOutgoing(start) == countAdjacentOutgoing(start, EE) + countAdjacentOutgoing(start, EE, A); }
+	if { countAdjacentIncoming(start) == countAdjacentIncoming(start, EE) + countAdjacentIncoming(start, EE, A); }
 }
 
 rule radj(ref adj:set<Node>, ref adjEE:set<Node>, ref adjEEA:set<Node>, ref adjOut:set<Node>, ref adjOutEE:set<Node>, ref adjInEdgeA:set<Node>, ref adjInEEA:set<Node>,

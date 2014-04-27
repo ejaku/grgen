@@ -11,6 +11,11 @@ rule t(var k:int)
 	if { reachable(::g_n, Edge, Node).size()!=0 && reachableIncoming(::g_n, Edge, Node).size()!=0 && reachableOutgoing(::g_n, Edge, Node).size()!=0; }
 	if { reachable(n, Edge, Node).size()!=0 && reachableIncoming(n, Edge, Node).size()!=0 && reachableOutgoing(n, Edge, Node).size()!=0; }
 
+	if { countReachableEdges(::g_n, Edge, Node)!=0 && countReachableEdgesIncoming(::g_n, Edge, Node)!=0 && countReachableEdgesOutgoing(::g_n, Edge, Node)!=0; }
+	if { countReachableEdges(n, Edge, Node)!=0 && countReachableEdgesIncoming(n, Edge, Node)!=0 && countReachableEdgesOutgoing(n, Edge, Node)!=0; }
+	if { countReachable(::g_n, Edge, Node)!=0 && countReachableIncoming(::g_n, Edge, Node)!=0 && countReachableOutgoing(::g_n, Edge, Node)!=0; }
+	if { countReachable(n, Edge, Node)!=0 && countReachableIncoming(n, Edge, Node)!=0 && countReachableOutgoing(n, Edge, Node)!=0; }
+
 	if { isReachable(::g_n, ::g_m, Edge, Node) && isReachableIncoming(::g_n, ::g_m, Edge, Node) && isReachableOutgoing(::g_n, ::g_m, Edge, Node); }
 	if { isReachable(n, m, Edge, Node) && isReachableIncoming(n, m, Edge, Node) && isReachableOutgoing(n, m, Edge, Node); }
 	if { isReachableEdges(::g_n, ::g_e, Edge, Node) && isReachableEdgesIncoming(::g_n, ::g_e, Edge, Node) && isReachableEdgesOutgoing(::g_n, ::g_e, Edge, Node); }
@@ -20,6 +25,11 @@ rule t(var k:int)
 	if { boundedReachableEdges(n, k, Edge, Node).size()!=0 && boundedReachableEdgesIncoming(n, k, Edge, Node).size()!=0 && boundedReachableEdgesOutgoing(n, k, Edge, Node).size()!=0; }
 	if { boundedReachable(::g_n, 3, Edge, Node).size()!=0 && boundedReachableIncoming(::g_n, 3, Edge, Node).size()!=0 && boundedReachableOutgoing(::g_n, 3, Edge, Node).size()!=0; }
 	if { boundedReachable(n, k, Edge, Node).size()!=0 && boundedReachableIncoming(n, k, Edge, Node).size()!=0 && boundedReachableOutgoing(n, k, Edge, Node).size()!=0; }
+
+	if { countBoundedReachableEdges(::g_n, 3, Edge, Node)!=0 && countBoundedReachableEdgesIncoming(::g_n, 3, Edge, Node)!=0 && countBoundedReachableEdgesOutgoing(::g_n, 3, Edge, Node)!=0; }
+	if { countBoundedReachableEdges(n, k, Edge, Node)!=0 && countBoundedReachableEdgesIncoming(n, k, Edge, Node)!=0 && countBoundedReachableEdgesOutgoing(n, k, Edge, Node)!=0; }
+	if { countBoundedReachable(::g_n, 3, Edge, Node)!=0 && countBoundedReachableIncoming(::g_n, 3, Edge, Node)!=0 && countBoundedReachableOutgoing(::g_n, 3, Edge, Node)!=0; }
+	if { countBoundedReachable(n, k, Edge, Node)!=0 && countBoundedReachableIncoming(n, k, Edge, Node)!=0 && countBoundedReachableOutgoing(n, k, Edge, Node)!=0; }
 
 	if { isBoundedReachable(::g_n, ::g_m, 3, Edge, Node) && isBoundedReachableIncoming(::g_n, ::g_m, 3, Edge, Node) && isBoundedReachableOutgoing(::g_n, ::g_m, 3, Edge, Node); }
 	if { isBoundedReachable(n, m, k, Edge, Node) && isBoundedReachableIncoming(n, m, k, Edge, Node) && isBoundedReachableOutgoing(n, m, k, Edge, Node); }
@@ -34,6 +44,11 @@ rule t(var k:int)
 		eval { yield res = reachable(::g_n, Edge, Node).size()!=0 && reachableIncoming(::g_n, Edge, Node).size()!=0 && reachableOutgoing(::g_n, Edge, Node).size()!=0; }
 		eval { yield res = reachable(n, Edge, Node).size()!=0 && reachableIncoming(n, Edge, Node).size()!=0 && reachableOutgoing(n, Edge, Node).size()!=0; }
 
+		eval { yield res = countReachableEdges(::g_n, Edge, Node)!=0 && countReachableEdgesIncoming(::g_n, Edge, Node)!=0 && countReachableEdgesOutgoing(::g_n, Edge, Node)!=0; }
+		eval { yield res = countReachableEdges(n, Edge, Node)!=0 && countReachableEdgesIncoming(n, Edge, Node)!=0 && countReachableEdgesOutgoing(n, Edge, Node)!=0; }
+		eval { yield res = countReachable(::g_n, Edge, Node)!=0 && countReachableIncoming(::g_n, Edge, Node)!=0 && countReachableOutgoing(::g_n, Edge, Node)!=0; }
+		eval { yield res = countReachable(n, Edge, Node)!=0 && countReachableIncoming(n, Edge, Node)!=0 && countReachableOutgoing(n, Edge, Node)!=0; }
+
 		eval { yield res = isReachable(::g_n, ::g_m, Edge, Node) && isReachableIncoming(::g_n, ::g_m, Edge, Node) && isReachableOutgoing(::g_n, ::g_m, Edge, Node); }
 		eval { yield res = isReachable(n, m, Edge, Node) && isReachableIncoming(n, m, Edge, Node) && isReachableOutgoing(n, m, Edge, Node); }
 		eval { yield res = isReachableEdges(::g_n, ::g_e, Edge, Node) && isReachableEdgesIncoming(::g_n, ::g_e, Edge, Node) && isReachableEdgesOutgoing(::g_n, ::g_e, Edge, Node); }
@@ -44,31 +59,48 @@ rule t(var k:int)
 		eval { yield res = boundedReachable(::g_n, 3, Edge, Node).size()!=0 && boundedReachableIncoming(::g_n, 3, Edge, Node).size()!=0 && boundedReachableOutgoing(::g_n, 3, Edge, Node).size()!=0; }
 		eval { yield res = boundedReachable(n, k, Edge, Node).size()!=0 && boundedReachableIncoming(n, k, Edge, Node).size()!=0 && boundedReachableOutgoing(n, k, Edge, Node).size()!=0; }
 
+		eval { yield res = countBoundedReachableEdges(::g_n, 3, Edge, Node)!=0 && countBoundedReachableEdgesIncoming(::g_n, 3, Edge, Node)!=0 && countBoundedReachableEdgesOutgoing(::g_n, 3, Edge, Node)!=0; }
+		eval { yield res = countBoundedReachableEdges(n, k, Edge, Node)!=0 && countBoundedReachableEdgesIncoming(n, k, Edge, Node)!=0 && countBoundedReachableEdgesOutgoing(n, k, Edge, Node)!=0; }
+		eval { yield res = countBoundedReachable(::g_n, 3, Edge, Node)!=0 && countBoundedReachableIncoming(::g_n, 3, Edge, Node)!=0 && countBoundedReachableOutgoing(::g_n, 3, Edge, Node)!=0; }
+		eval { yield res = countBoundedReachable(n, k, Edge, Node)!=0 && countBoundedReachableIncoming(n, k, Edge, Node)!=0 && countBoundedReachableOutgoing(n, k, Edge, Node)!=0; }
+
 		eval { yield res = isBoundedReachable(::g_n, ::g_m, 3, Edge, Node) && isBoundedReachableIncoming(::g_n, ::g_m, 3, Edge, Node) && isBoundedReachableOutgoing(::g_n, ::g_m, 3, Edge, Node); }
 		eval { yield res = isBoundedReachable(n, m, k, Edge, Node) && isBoundedReachableIncoming(n, m, k, Edge, Node) && isBoundedReachableOutgoing(n, m, k, Edge, Node); }
 		eval { yield res = isBoundedReachableEdges(::g_n, ::g_e, 3, Edge, Node) && isBoundedReachableEdgesIncoming(::g_n, ::g_e, 3, Edge, Node) && isBoundedReachableEdgesOutgoing(::g_n, ::g_e, 3, Edge, Node); }
 		eval { yield res = isBoundedReachableEdges(n, e, k, Edge, Node) && isBoundedReachableEdgesIncoming(n, e, k, Edge, Node) && isBoundedReachableEdgesOutgoing(n, e, k, Edge, Node); }
 		
-/*
-		exec ( { res = reachableEdges(::g_n, Edge, Node).size()!=0 && reachableEdgesIncoming(::g_n, Edge, Node).size()!=0 && reachableEdgesOutgoing(::g_n, Edge, Node).size()!=0; } )
-		exec ( { res = reachableEdges(n, Edge, Node).size()!=0 && reachableEdgesIncoming(n, Edge, Node).size()!=0 && reachableEdgesOutgoing(n, Edge, Node).size()!=0; } )
-		exec ( { res = reachable(::g_n, Edge, Node).size()!=0 && reachableIncoming(::g_n, Edge, Node).size()!=0 && reachableOutgoing(::g_n, Edge, Node).size()!=0; } )
-		exec ( { res = reachable(n, Edge, Node).size()!=0 && reachableIncoming(n, Edge, Node).size()!=0 && reachableOutgoing(n, Edge, Node).size()!=0; } )
 
-		exec ( { res = isReachable(::g_n, ::g_m, Edge, Node) && isReachableIncoming(::g_n, ::g_m, Edge, Node) && isReachableOutgoing(::g_n, ::g_m, Edge, Node); } )
-		exec ( { res = isReachable(n, m, Edge, Node) && isReachableIncoming(n, m, Edge, Node) && isReachableOutgoing(n, m, Edge, Node); } )
-		exec { { res = isReachableEdges(::g_n, ::g_e, Edge, Node) && isReachableEdgesIncoming(::g_n, ::g_e, Edge, Node) && isReachableEdgesOutgoing(::g_n, ::g_e, Edge, Node); } )
-		exec { { res = isReachableEdges(n, e, Edge, Node) && isReachableEdgesIncoming(n, e, Edge, Node) && isReachableEdgesOutgoing(n, e, Edge, Node); } )
+		def ref rn:set<Node>;
+		def ref re:set<Edge>;
+
+		exec ( { re = reachableEdges(::g_n, Edge, Node); re = reachableEdgesIncoming(::g_n, Edge, Node); re = reachableEdgesOutgoing(::g_n, Edge, Node); } );
+		exec ( { re = reachableEdges(n, Edge, Node); re = reachableEdgesIncoming(n, Edge, Node); re = reachableEdgesOutgoing(n, Edge, Node); } );
+		exec ( { rn = reachable(::g_n, Edge, Node); rn = reachableIncoming(::g_n, Edge, Node); rn = reachableOutgoing(::g_n, Edge, Node); } );
+		exec ( { rn = reachable(n, Edge, Node); rn = reachableIncoming(n, Edge, Node); rn = reachableOutgoing(n, Edge, Node); } );
+
+		exec ( { res = countReachableEdges(::g_n, Edge, Node)!=0 && countReachableEdgesIncoming(::g_n, Edge, Node)!=0 && countReachableEdgesOutgoing(::g_n, Edge, Node)!=0; } );
+		exec ( { res = countReachableEdges(n, Edge, Node)!=0 && countReachableEdgesIncoming(n, Edge, Node)!=0 && countReachableEdgesOutgoing(n, Edge, Node)!=0; } );
+		exec ( { res = countReachable(::g_n, Edge, Node)!=0 && countReachableIncoming(::g_n, Edge, Node)!=0 && countReachableOutgoing(::g_n, Edge, Node)!=0; } );
+		exec ( { res = countReachable(n, Edge, Node)!=0 && countReachableIncoming(n, Edge, Node)!=0 && countReachableOutgoing(n, Edge, Node)!=0; } );
+
+		exec ( { res = isReachable(::g_n, ::g_m, Edge, Node) && isReachableIncoming(::g_n, ::g_m, Edge, Node) && isReachableOutgoing(::g_n, ::g_m, Edge, Node); } );
+		exec ( { res = isReachable(n, m, Edge, Node) && isReachableIncoming(n, m, Edge, Node) && isReachableOutgoing(n, m, Edge, Node); } );
+		exec ( { res = isReachableEdges(::g_n, ::g_e, Edge, Node) && isReachableEdgesIncoming(::g_n, ::g_e, Edge, Node) && isReachableEdgesOutgoing(::g_n, ::g_e, Edge, Node); } );
+		exec ( { res = isReachableEdges(n, e, Edge, Node) && isReachableEdgesIncoming(n, e, Edge, Node) && isReachableEdgesOutgoing(n, e, Edge, Node); } );
 		
-		exec ( { res = boundedReachableEdges(::g_n, 3, Edge, Node).size()!=0 && boundedReachableEdgesIncoming(::g_n, 3, Edge, Node).size()!=0 && boundedReachableEdgesOutgoing(::g_n, 3, Edge, Node).size()!=0; } )
-		exec ( { res = boundedReachableEdges(n, k, Edge, Node).size()!=0 && boundedReachableEdgesIncoming(n, k, Edge, Node).size()!=0 && boundedReachableEdgesOutgoing(n, k, Edge, Node).size()!=0; } )
-		exec ( { res = boundedReachable(::g_n, 3, Edge, Node).size()!=0 && boundedReachableIncoming(::g_n, 3, Edge, Node).size()!=0 && boundedReachableOutgoing(::g_n, 3, Edge, Node).size()!=0; } )
-		exec ( { res = boundedReachable(n, k, Edge, Node).size()!=0 && boundedReachableIncoming(n, k, Edge, Node).size()!=0 && boundedReachableOutgoing(n, k, Edge, Node).size()!=0; } )
+		exec ( { re = boundedReachableEdges(::g_n, 3, Edge, Node); re = boundedReachableEdgesIncoming(::g_n, 3, Edge, Node); re = boundedReachableEdgesOutgoing(::g_n, 3, Edge, Node); } );
+		exec ( { re = boundedReachableEdges(n, k, Edge, Node); re = boundedReachableEdgesIncoming(n, k, Edge, Node); re = boundedReachableEdgesOutgoing(n, k, Edge, Node); } );
+		exec ( { rn = boundedReachable(::g_n, 3, Edge, Node); rn = boundedReachableIncoming(::g_n, 3, Edge, Node); rn = boundedReachableOutgoing(::g_n, 3, Edge, Node); } );
+		exec ( { rn = boundedReachable(n, k, Edge, Node); rn = boundedReachableIncoming(n, k, Edge, Node); rn = boundedReachableOutgoing(n, k, Edge, Node); } );
 
-		exec ( { res = isBoundedReachable(::g_n, ::g_m, 3, Edge, Node) && isBoundedReachableIncoming(::g_n, ::g_m, 3, Edge, Node) && isBoundedReachableOutgoing(::g_n, ::g_m, 3, Edge, Node); } )
-		exec ( { res = isBoundedReachable(n, m, k, Edge, Node) && isBoundedReachableIncoming(n, m, k, Edge, Node) && isBoundedReachableOutgoing(n, m, k, Edge, Node); } )
-		exec { { res = isBoundedReachableEdges(::g_n, ::g_e, 3, Edge, Node) && isBoundedReachableEdgesIncoming(::g_n, ::g_e, 3, Edge, Node) && isBoundedReachableEdgesOutgoing(::g_n, ::g_e, 3, Edge, Node); } )
-		exec { { res = isBoundedReachableEdges(n, e, k, Edge, Node) && isBoundedReachableEdgesIncoming(n, e, k, Edge, Node) && isBoundedReachableEdgesOutgoing(n, e, k, Edge, Node); } )
-*/
+		exec ( { res = countBoundedReachableEdges(::g_n, 3, Edge, Node)!=0 && countBoundedReachableEdgesIncoming(::g_n, 3, Edge, Node)!=0 && countBoundedReachableEdgesOutgoing(::g_n, 3, Edge, Node)!=0; } );
+		exec ( { res = countBoundedReachableEdges(n, k, Edge, Node)!=0 && countBoundedReachableEdgesIncoming(n, k, Edge, Node)!=0 && countBoundedReachableEdgesOutgoing(n, k, Edge, Node)!=0; } );
+		exec ( { res = countBoundedReachable(::g_n, 3, Edge, Node)!=0 && countBoundedReachableIncoming(::g_n, 3, Edge, Node)!=0 && countBoundedReachableOutgoing(::g_n, 3, Edge, Node)!=0; } );
+		exec ( { res = countBoundedReachable(n, k, Edge, Node)!=0 && countBoundedReachableIncoming(n, k, Edge, Node)!=0 && countBoundedReachableOutgoing(n, k, Edge, Node)!=0; } );
+
+		exec ( { res = isBoundedReachable(::g_n, ::g_m, 3, Edge, Node) && isBoundedReachableIncoming(::g_n, ::g_m, 3, Edge, Node) && isBoundedReachableOutgoing(::g_n, ::g_m, 3, Edge, Node); } );
+		exec ( { res = isBoundedReachable(n, m, k, Edge, Node) && isBoundedReachableIncoming(n, m, k, Edge, Node) && isBoundedReachableOutgoing(n, m, k, Edge, Node); } );
+		exec ( { res = isBoundedReachableEdges(::g_n, ::g_e, 3, Edge, Node) && isBoundedReachableEdgesIncoming(::g_n, ::g_e, 3, Edge, Node) && isBoundedReachableEdgesOutgoing(::g_n, ::g_e, 3, Edge, Node); } );
+		exec ( { res = isBoundedReachableEdges(n, e, k, Edge, Node) && isBoundedReachableEdgesIncoming(n, e, k, Edge, Node) && isBoundedReachableEdgesOutgoing(n, e, k, Edge, Node); } );
 	}
 }

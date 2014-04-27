@@ -8,6 +8,8 @@ rule t
 
 	if { edges().size()!=0; }
 	if { nodes().size()!=0; }
+	if { countEdges()!=0; }
+	if { countNodes()!=0; }
 
 	if { source(e)!=n; }
 	if { source(::g_e)!=::g_n; }
@@ -20,6 +22,11 @@ rule t
 	if { incident(n).size()!=0 && incoming(n).size()!=0 && outgoing(n).size()!=0; }
 	if { adjacent(::g_n).size()!=0 && adjacentIncoming(::g_n).size()!=0 && adjacentOutgoing(::g_n).size()!=0; }
 	if { adjacent(n).size()!=0 && adjacentIncoming(n).size()!=0 && adjacentOutgoing(n).size()!=0; }
+
+	if { countIncident(::g_n)!=0 && countIncoming(::g_n)!=0 && countOutgoing(::g_n)!=0; }
+	if { countIncident(n)!=0 && countIncoming(n)!=0 && countOutgoing(n)!=0; }
+	if { countAdjacent(::g_n)!=0 && countAdjacentIncoming(::g_n)!=0 && countAdjacentOutgoing(::g_n)!=0; }
+	if { countAdjacent(n)!=0 && countAdjacentIncoming(n)!=0 && countAdjacentOutgoing(n)!=0; }
 	
 	if { isIncident(::g_n, ::g_e) && isIncoming(::g_n, ::g_e) && isOutgoing(::g_n, ::g_e); }
 	if { isIncident(n, e) && isIncoming(n, e) && isOutgoing(n, e); }
@@ -31,6 +38,8 @@ rule t
 		
 		eval { yield res = edges().size()!=0; }
 		eval { yield res = nodes().size()!=0; }
+		eval { yield res = countEdges()!=0; }
+		eval { yield res = countNodes()!=0; }
 
 		eval { yield res = source(e)!=n; }
 		eval { yield res = source(::g_e)!=::g_n; }
@@ -44,31 +53,45 @@ rule t
 		eval { yield res = adjacent(::g_n).size()!=0 && adjacentIncoming(::g_n).size()!=0 && adjacentOutgoing(::g_n).size()!=0; }
 		eval { yield res = adjacent(n).size()!=0 && adjacentIncoming(n).size()!=0 && adjacentOutgoing(n).size()!=0; }
 
+		eval { yield res = countIncident(::g_n)!=0 && countIncoming(::g_n)!=0 && countOutgoing(::g_n)!=0; }
+		eval { yield res = countIncident(n)!=0 && countIncoming(n)!=0 && countOutgoing(n)!=0; }
+		eval { yield res = countAdjacent(::g_n)!=0 && countAdjacentIncoming(::g_n)!=0 && countAdjacentOutgoing(::g_n)!=0; }
+		eval { yield res = countAdjacent(n)!=0 && countAdjacentIncoming(n)!=0 && countAdjacentOutgoing(n)!=0; }
+
 		eval { yield res = isIncident(::g_n, ::g_e) && isIncoming(::g_n, ::g_e) && isOutgoing(::g_n, ::g_e); }
 		eval { yield res = isIncident(n, e) && isIncoming(n, e) && isOutgoing(n, e); }
 		eval { yield res = isAdjacent(::g_n, ::g_m) && isAdjacentIncoming(::g_n, ::g_m) && isAdjacentOutgoing(::g_n, ::g_m); }
 		eval { yield res = isAdjacent(n, m) && isAdjacentIncoming(n, m) && isAdjacentOutgoing(n, m); }
 		
-/*
-		exec ( { res = edges().size()!=0; } )
-		exec ( { res = nodes().size()!=0; } )
 
-		exec ( { res = source(e)!=n; } )
-		exec ( { res = source(::g_e)!=::g_n; } )
-		exec ( { res = target(e)!=n; } )
-		exec ( { res = target(::g_e)!=::g_n; } )
-		exec { { res = opposite(e, n)!=n; } )
-		exec { { res = opposite(::g_e, ::g_n)!=::g_n; } )
+		def ref rn:set<Node>;
+		def ref re:set<Edge>;
+
+		exec ( { re = edges() } );
+		exec ( { rn = nodes() } );
+		exec ( { res = countEdges()!=0; } );
+		exec ( { res = countNodes()!=0; } );
+
+		exec ( { res = source(e)!=n; } );
+		exec ( { res = source(::g_e)!=::g_n; } );
+		exec ( { res = target(e)!=n; } );
+		exec ( { res = target(::g_e)!=::g_n; } );
+		exec ( { res = opposite(e, n)!=n; } );
+		exec ( { res = opposite(::g_e, ::g_n)!=::g_n; } );
 		
-		exec ( { res = incident(::g_n).size()!=0 && incoming(::g_n).size()!=0 && outgoing(::g_n).size()!=0; } )
-		exec ( { res = incident(n).size()!=0 && incoming(n).size()!=0 && outgoing(n).size()!=0; } )
-		exec ( { res = adjacent(::g_n).size()!=0 && adjacentIncoming(::g_n).size()!=0 && adjacentOutgoing(::g_n).size()!=0; } )
-		exec ( { res = adjacent(n).size()!=0 && adjacentIncoming(n).size()!=0 && adjacentOutgoing(n).size()!=0; } )
+		exec ( { re = incident(::g_n); re = incoming(::g_n); re = outgoing(::g_n); } );
+		exec ( { re = incident(n); re = incoming(n); re = outgoing(n); } );
+		exec ( { rn = adjacent(::g_n); rn = adjacentIncoming(::g_n); rn = adjacentOutgoing(::g_n); } );
+		exec ( { rn = adjacent(n); rn = adjacentIncoming(n); rn = adjacentOutgoing(n); } );
+
+		exec ( { res = countIncident(::g_n)!=0 && countIncoming(::g_n)!=0 && countOutgoing(::g_n)!=0; } );
+		exec ( { res = countIncident(n)!=0 && countIncoming(n)!=0 && countOutgoing(n)!=0; } );
+		exec ( { res = countAdjacent(::g_n)!=0 && countAdjacentIncoming(::g_n)!=0 && countAdjacentOutgoing(::g_n)!=0; } );
+		exec ( { res = countAdjacent(n)!=0 && countAdjacentIncoming(n)!=0 && countAdjacentOutgoing(n)!=0; } );
 		
-		exec ( { res = isIncident(::g_n, ::g_e) && isIncoming(::g_n, ::g_e) && isOutgoing(::g_n, ::g_e); } )
-		exec ( { res = isIncident(n, e) && isIncoming(n, e) && isOutgoing(n, e); } )
-		exec ( { res = isAdjacent(::g_n, ::g_m) && isAdjacentIncoming(::g_n, ::g_m) && isAdjacentOutgoing(::g_n, ::g_m); } )
-		exec ( { res = isAdjacent(n, m) && isAdjacentIncoming(n, m) && isAdjacentOutgoing(n, m); } )
-*/
+		exec ( { res = isIncident(::g_n, ::g_e) && isIncoming(::g_n, ::g_e) && isOutgoing(::g_n, ::g_e); } );
+		exec ( { res = isIncident(n, e) && isIncoming(n, e) && isOutgoing(n, e); } );
+		exec ( { res = isAdjacent(::g_n, ::g_m) && isAdjacentIncoming(::g_n, ::g_m) && isAdjacentOutgoing(::g_n, ::g_m); } );
+		exec ( { res = isAdjacent(n, m) && isAdjacentIncoming(n, m) && isAdjacentOutgoing(n, m); } );
 	}
 }
