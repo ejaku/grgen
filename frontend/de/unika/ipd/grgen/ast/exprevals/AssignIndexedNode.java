@@ -36,6 +36,7 @@ public class AssignIndexedNode extends EvalStatementNode {
 	BaseNode lhsUnresolved;
 	ExprNode rhs;
 	ExprNode index;
+	boolean onLHS;
 
 	QualIdentNode lhsQual;
 	VarDeclNode lhsVar;
@@ -57,6 +58,7 @@ public class AssignIndexedNode extends EvalStatementNode {
 		this.index = index;
 		becomeParent(this.index);
 		this.context = context;
+		this.onLHS = false;
 	}
 
 	/**
@@ -65,7 +67,7 @@ public class AssignIndexedNode extends EvalStatementNode {
 	 * @param expr The expression, that is assigned.
 	 * @param index The index expression to the lhs entity.
 	 */
-	public AssignIndexedNode(Coords coords, IdentExprNode target, ExprNode expr, ExprNode index, int context) {
+	public AssignIndexedNode(Coords coords, IdentExprNode target, ExprNode expr, ExprNode index, int context, boolean onLHS) {
 		super(coords);
 		this.lhsUnresolved = target;
 		becomeParent(this.lhsUnresolved);
@@ -74,6 +76,7 @@ public class AssignIndexedNode extends EvalStatementNode {
 		this.index = index;
 		becomeParent(this.index);
 		this.context = context;
+		this.onLHS = onLHS;
 	}
 
 	/** returns children of this node */
@@ -172,6 +175,11 @@ public class AssignIndexedNode extends EvalStatementNode {
 					reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned (with index).");
 					return false;
 				}
+			}
+			
+			if(lhsVar.directlyNestingLHSGraph == null && onLHS) {
+				error.error(getCoords(), "indexed assignment to a global variable not allowed from a yield block ("+lhsVar.getIdentNode()+")");
+				return false;
 			}
 		}
 
