@@ -3436,7 +3436,7 @@ options { k = 5; }
 		{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in LHS eval, only yield assignment to a def variable allowed."); }
 	|
 	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse a=ASSIGN e=expr[false] SEMI
-		{ res = new AssignNode(getCoords(a), new IdentExprNode(variable, yielded), e, context); }
+		{ res = new AssignNode(getCoords(a), new IdentExprNode(variable, yielded), e, context, onLHS); }
 	|
 	  vis=visited a=ASSIGN e=expr[false] SEMI
 		{ res = new AssignVisitedNode(getCoords(a), vis, e, context); }
@@ -3451,7 +3451,7 @@ options { k = 5; }
 		{ if(onLHS) reportError(getCoords(d), "Indexed assignment to an attribute is forbidden in LHS eval, only yield indexed assignment to a def variable allowed."); }
 	|
 	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false] SEMI
-		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, yielded), e, idx, context); }
+		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, yielded), e, idx, context, onLHS); }
 	| 
 	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse 
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
@@ -3499,7 +3499,7 @@ options { k = 5; }
 	  WHILE LPAREN e=expr[false] RPAREN
 			{ res=new DoWhileStatementNode(getCoords(d), cs, e); }
 	|
-	  (l=LPAREN tgts=targets[getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
+	  (l=LPAREN tgts=targets[onLHS, getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
 		( (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse d=DOT { methodCall = true; } (member=entIdentUse DOT { attributeMethodCall = true; })? )?
 		(pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=EMIT) params=paramExprs[false] SEMI
 			{ 
@@ -3598,17 +3598,17 @@ options { k = 5; }
 		{ res = new ExecStatementNode(exec, context); }
 	;
 
-targets	[Coords coords, MultiStatementNode ms, int context, PatternGraphNode directlyNestingLHSGraph] returns [ CollectNode<ProjectionExprNode> tgtProjs = new CollectNode<ProjectionExprNode>(), CollectNode<EvalStatementNode> tgts = new CollectNode<EvalStatementNode>() ]
+targets	[boolean onLHS, Coords coords, MultiStatementNode ms, int context, PatternGraphNode directlyNestingLHSGraph] returns [ CollectNode<ProjectionExprNode> tgtProjs = new CollectNode<ProjectionExprNode>(), CollectNode<EvalStatementNode> tgts = new CollectNode<EvalStatementNode>() ]
 	@init{
 		int index = 0; // index of return target in sequence of returns
 		ProjectionExprNode e = null;
 	}
-	: ( { e = new ProjectionExprNode(coords, index); $tgtProjs.addChild(e); } tgt=assignmentTarget[coords, e, ms, context, directlyNestingLHSGraph] { $tgts.addChild(tgt); ++index; } 
-		  ( c=COMMA { e = new ProjectionExprNode(getCoords(c), index); $tgtProjs.addChild(e); } tgt=assignmentTarget[coords, e, ms, context, directlyNestingLHSGraph] { $tgts.addChild(tgt); ++index; } )*
+	: ( { e = new ProjectionExprNode(coords, index); $tgtProjs.addChild(e); } tgt=assignmentTarget[onLHS, coords, e, ms, context, directlyNestingLHSGraph] { $tgts.addChild(tgt); ++index; } 
+		  ( c=COMMA { e = new ProjectionExprNode(getCoords(c), index); $tgtProjs.addChild(e); } tgt=assignmentTarget[onLHS, coords, e, ms, context, directlyNestingLHSGraph] { $tgts.addChild(tgt); ++index; } )*
 	  )?
 	;
 
-assignmentTarget [ Coords coords, ProjectionExprNode e, MultiStatementNode ms, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
+assignmentTarget [ boolean onLHS, Coords coords, ProjectionExprNode e, MultiStatementNode ms, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
 options { k = 5; }
 	@init{
 		boolean yielded = false;
@@ -3618,7 +3618,7 @@ options { k = 5; }
 		{ res = new AssignNode(coords, new QualIdentNode(getCoords(d), owner, member), e, context); }
 	|
 	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse
-		{ res = new AssignNode(coords, new IdentExprNode(variable, yielded), e, context); }
+		{ res = new AssignNode(coords, new IdentExprNode(variable, yielded), e, context, onLHS); }
 	|
 	  vis=visited
 		{ res = new AssignVisitedNode(coords, vis, e, context); }
@@ -3627,13 +3627,13 @@ options { k = 5; }
 		{ res = new AssignIndexedNode(coords, new QualIdentNode(getCoords(d), owner, member), e, idx, context); }
 	|
 	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[false] RBRACK
-		{ res = new AssignIndexedNode(coords, new IdentExprNode(variable, yielded), e, idx, context); }
+		{ res = new AssignIndexedNode(coords, new IdentExprNode(variable, yielded), e, idx, context, onLHS); }
 	|
 	  de=defEntityToBeYieldedTo[null, null, context, directlyNestingLHSGraph]
 		{
 			DefDeclStatementNode tgt = new DefDeclStatementNode(coords, de, context);
 			ms.addStatement(tgt);
-			res = new AssignNode(coords, new IdentExprNode(tgt.getDecl().getIdentNode()), e, context);
+			res = new AssignNode(coords, new IdentExprNode(tgt.getDecl().getIdentNode()), e, context, onLHS);
 		}
 	;
 

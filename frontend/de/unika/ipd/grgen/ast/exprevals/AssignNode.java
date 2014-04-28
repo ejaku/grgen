@@ -44,6 +44,7 @@ public class AssignNode extends EvalStatementNode {
 	BaseNode lhsUnresolved;
 	ExprNode rhs;
 	int context;
+	boolean onLHS;
 	
 	QualIdentNode lhsQual;
 	VarDeclNode lhsVar;
@@ -62,6 +63,7 @@ public class AssignNode extends EvalStatementNode {
 		this.rhs = expr;
 		becomeParent(this.rhs);
 		this.context = context;
+		this.onLHS = false;
 	}
 
 	/**
@@ -69,13 +71,14 @@ public class AssignNode extends EvalStatementNode {
 	 * @param target The left hand side.
 	 * @param expr The expression, that is assigned.
 	 */
-	public AssignNode(Coords coords, IdentExprNode target, ExprNode expr, int context) {
+	public AssignNode(Coords coords, IdentExprNode target, ExprNode expr, int context, boolean onLHS) {
 		super(coords);
 		this.lhsUnresolved = target;
 		becomeParent(this.lhsUnresolved);
 		this.rhs = expr;
 		becomeParent(this.rhs);
 		this.context = context;
+		this.onLHS = onLHS;
 	}
 
 	/** returns children of this node */
@@ -205,8 +208,8 @@ public class AssignNode extends EvalStatementNode {
 					return false;
 				}
 				
-				if(lhsGraphElement.directlyNestingLHSGraph == null && (context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-					error.error(getCoords(), "assignment to a global variable not allowed from a yield block or a function ("+lhsGraphElement.getIdentNode()+")");
+				if(lhsGraphElement.directlyNestingLHSGraph == null && onLHS) {
+					error.error(getCoords(), "assignment to a global variable not allowed from a yield block ("+lhsGraphElement.getIdentNode()+")");
 					return false;
 				}
 			}
@@ -246,8 +249,8 @@ public class AssignNode extends EvalStatementNode {
 					return false;
 				}
 				
-				if(lhsVar.directlyNestingLHSGraph == null && (context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-					error.error(getCoords(), "assignment to a global variable not allowed from a yield block or a function ("+lhsVar.getIdentNode()+")");
+				if(lhsVar.directlyNestingLHSGraph == null && onLHS) {
+					error.error(getCoords(), "assignment to a global variable not allowed from a yield block ("+lhsVar.getIdentNode()+")");
 					return false;
 				}
 			}
