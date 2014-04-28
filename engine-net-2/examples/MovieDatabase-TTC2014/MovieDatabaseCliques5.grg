@@ -1,0 +1,109 @@
+rule findCliquesOf5
+{
+	pn1:Person; pn2:Person; pn3:Person; pn4:Person; pn5:Person;
+	independent {
+		pn1 -:personToMovie-> m1:Movie; pn2 -:personToMovie-> m1; pn3 -:personToMovie-> m1; pn4 -:personToMovie-> m1; pn5 -:personToMovie-> m1;
+		pn1 -:personToMovie-> m2:Movie; pn2 -:personToMovie-> m2; pn3 -:personToMovie-> m2; pn4 -:personToMovie-> m2; pn5 -:personToMovie-> m2;
+		pn1 -:personToMovie-> m3:Movie; pn2 -:personToMovie-> m3; pn3 -:personToMovie-> m3; pn4 -:personToMovie-> m3; pn5 -:personToMovie-> m3;
+		pn1 -:personToMovie-> m4:Movie; pn2 -:personToMovie-> m4; pn3 -:personToMovie-> m4; pn4 -:personToMovie-> m4; pn5 -:personToMovie-> m4;
+		pn1 -:personToMovie-> m5:Movie; pn2 -:personToMovie-> m5; pn3 -:personToMovie-> m5; pn4 -:personToMovie-> m5; pn5 -:personToMovie-> m5;
+	}
+	
+	modify {
+		c:Clique;
+		c -:persons-> pn1;
+		c -:persons-> pn2;
+		c -:persons-> pn3;
+		c -:persons-> pn4;
+		c -:persons-> pn5;
+
+		exec(addCommonMoviesAndComputeAverageRankingOfClique5(c, pn1, pn2, pn3, pn4, pn5));
+	}
+} \ auto
+
+rule addCommonMoviesAndComputeAverageRankingOfClique5(c:Clique, pn1:Person, pn2:Person, pn3:Person, pn4:Person, pn5:Person)
+{
+	iterated it {
+		pn1 -:personToMovie-> m:Movie;
+		pn2 -:personToMovie-> m;
+		pn3 -:personToMovie-> m;
+		pn4 -:personToMovie-> m;
+		pn5 -:personToMovie-> m;
+		
+		modify {
+			c -:commonMovies-> m;
+			eval { yield sum = sum + m.rating; }
+		}
+	}	
+	
+	modify {
+		def var sum:double = 0.0;
+		eval { c.avgRating = sum / count(it); }
+	}
+}
+
+rule findCliquesOf5Opt[parallelize=64]
+{
+	pn1:Person; pn2:Person; pn3:Person; pn4:Person; pn5:Person;
+	hom(pn1,pn2,pn3,pn4,pn5);
+	independent {
+		pn1 -p2m1:personToMovie-> m1:Movie; pn2 -p2m2:personToMovie-> m1; pn3 -p2m3:personToMovie-> m1; pn4 -p2m4:personToMovie-> m1; pn5 -p2m5:personToMovie-> m1;
+		hom(pn1,pn2,pn3,pn4,pn5); hom(p2m1,p2m2,p2m3,p2m4,p2m5);
+		if{ atLeastThreeCommonMoviesInArray(array<Person>[pn1, pn2, pn3, pn4, pn5]); }
+	}
+	if{ uniqueof(pn1) < uniqueof(pn2); }
+	if{ uniqueof(pn2) < uniqueof(pn3); }
+	if{ uniqueof(pn3) < uniqueof(pn4); }
+	if{ uniqueof(pn4) < uniqueof(pn5); }
+	if{ countPersonToMovie[pn1] >= 3; }
+	if{ countPersonToMovie[pn2] >= 3; }
+	if{ countPersonToMovie[pn3] >= 3; }
+	if{ countPersonToMovie[pn4] >= 3; }
+	if{ countPersonToMovie[pn5] >= 3; }
+	
+	modify {
+		c:Clique;
+		c -:persons-> pn1;
+		c -:persons-> pn2;
+		c -:persons-> pn3;
+		c -:persons-> pn4;
+		c -:persons-> pn5;
+
+		exec([addCommonMoviesOf5(c, pn1, pn2, pn3, pn4, pn5)]);
+	}
+}
+
+rule addCommonMoviesOf5(c:Clique, pn1:Person, pn2:Person, pn3:Person, pn4:Person, pn5:Person)
+{
+	pn1 -:personToMovie-> m:Movie;
+	pn2 -:personToMovie-> m;
+	pn3 -:personToMovie-> m;
+	pn4 -:personToMovie-> m;
+	pn5 -:personToMovie-> m;
+
+	modify {
+		c -:commonMovies-> m;
+	}
+}
+
+rule cliques5WithRating
+{
+	c:Clique;
+	c -:persons-> pn1:Person;
+	c -:persons-> pn2:Person;
+	c -:persons-> pn3:Person;
+	c -:persons-> pn4:Person;
+	c -:persons-> pn5:Person;
+	if{ uniqueof(pn1) < uniqueof(pn2) && uniqueof(pn2) < uniqueof(pn3) && uniqueof(pn3) < uniqueof(pn4) && uniqueof(pn4) < uniqueof(pn5); }
+
+	def var avgRating:double;
+	def var numMovies:int;
+	yield {
+		yield avgRating = c.avgRating;
+		yield numMovies = outgoing(c, commonMovies).size();
+	}
+	
+	modify {
+		emit("avgRating: " + avgRating + " numMovies: " + numMovies + " by " + pn1.name + " and " + pn2.name + " and " + pn3.name + " and " + pn4.name + " and " + pn5.name + "\n");
+	}
+} \ orderDescendingBy<avgRating>, orderDescendingBy<numMovies>

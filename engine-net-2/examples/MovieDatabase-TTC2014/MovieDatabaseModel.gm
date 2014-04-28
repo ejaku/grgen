@@ -41,3 +41,5 @@ edge class p2;
 edge class persons;
 
 node edge unique;
+
+index countPersonToMovie { outgoing(Person, personToMovie) }
