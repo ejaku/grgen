@@ -60,6 +60,10 @@ public class SetInit extends Expression {
 		return setType;
 	}
 
+	public void forceNotConstant() {
+		isConst = false;
+	}
+	
 	public boolean isConstant() {
 		return isConst;
 	}

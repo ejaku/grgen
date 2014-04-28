@@ -324,6 +324,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t{\n");
 		
 		for(Function function : bearer.getFunctions()) {
+			forceNotConstant(function.getComputationStatements());
 			genFunction(sb, function, false, be.system.emitProfilingInstrumentation());
 		}
 		if(be.unit.isToBeParallelizedActionExisting()) {
@@ -443,6 +444,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t{\n");
 		
 		for(Procedure procedure : bearer.getProcedures()) {
+			forceNotConstant(procedure.getComputationStatements());
 			genProcedure(sb, procedure, be.system.emitProfilingInstrumentation());
 		}
 
@@ -593,6 +595,7 @@ public class ActionsGen extends CSharpBase {
 		for(FilterFunction filter : bearer.getFilterFunctions()) {
 			if(filter instanceof FilterFunctionInternal) {
 				FilterFunctionInternal filterFunction = (FilterFunctionInternal)filter;
+				forceNotConstant(filterFunction.getComputationStatements());
 				genFilterFunction(sb, filterFunction, be.system.emitProfilingInstrumentation());
 			}
 		}
@@ -896,6 +899,33 @@ public class ActionsGen extends CSharpBase {
 		sb.append("};\n");
 	}
 
+	private void forceNotConstant(List<EvalStatement> statements) {
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
+		for(EvalStatement eval : statements) {
+			eval.collectNeededEntities(needs);
+		}
+		forceNotConstant(needs);
+	}
+
+	private void forceNotConstant(NeededEntities needs) {
+		// todo: more fine-grained never assigned, the important thing is that the constant constructor is temporary, not assigned to a variable
+		for(Expression containerExpr : needs.containerExprs) {
+			if(containerExpr instanceof MapInit) {
+				MapInit mapInit = (MapInit)containerExpr;
+				mapInit.forceNotConstant();
+			} else if(containerExpr instanceof SetInit) {
+				SetInit setInit = (SetInit)containerExpr;
+				setInit.forceNotConstant();
+			} else if(containerExpr instanceof ArrayInit) {
+				ArrayInit arrayInit = (ArrayInit)containerExpr;
+				arrayInit.forceNotConstant();
+			} else if(containerExpr instanceof DequeInit) {
+				DequeInit dequeInit = (DequeInit)containerExpr;
+				dequeInit.forceNotConstant();
+			}
+		}
+	}
+
 	private void genLocalContainers(StringBuffer sb, Rule rule,
 			List<String> staticInitializers, String pathPrefixForElements,
 			HashMap<Entity, String> alreadyDefinedEntityToName) {
@@ -939,7 +969,7 @@ public class ActionsGen extends CSharpBase {
 				}
 			}
 		}
-		genLocalContainers(sb, needs, staticInitializers);
+		genLocalContainers(sb, needs, staticInitializers, false);
 	}
 
 	private void genLocalContainersConditions(StringBuffer sb, PatternGraph pattern, List<String> staticInitializers,
@@ -948,7 +978,7 @@ public class ActionsGen extends CSharpBase {
 		for(Expression expr : pattern.getConditions()) {
 			expr.collectNeededEntities(needs);
 		}
-		genLocalContainers(sb, needs, staticInitializers);
+		genLocalContainers(sb, needs, staticInitializers, true);
 	}
 
 	private void genLocalContainersEvals(StringBuffer sb, Collection<EvalStatement> evals, List<String> staticInitializers,
@@ -957,7 +987,7 @@ public class ActionsGen extends CSharpBase {
 		for(EvalStatement eval : evals) {
 			eval.collectNeededEntities(needs);
 		}
-		genLocalContainers(sb, needs, staticInitializers);
+		genLocalContainers(sb, needs, staticInitializers, false);
 	}
 
 	// type collision with the method below cause java can't distinguish List<Expression> from List<ImperativeStmt>
@@ -967,7 +997,7 @@ public class ActionsGen extends CSharpBase {
 		for(Expression expr : returns) {
 			expr.collectNeededEntities(needs);
 		}
-		genLocalContainers(sb, needs, staticInitializers);
+		genLocalContainers(sb, needs, staticInitializers, true);
 	}
 	
 	private void genLocalContainersImperativeStatements(StringBuffer sb, List<ImperativeStmt> istmts, List<String> staticInitializers,
@@ -987,20 +1017,33 @@ public class ActionsGen extends CSharpBase {
 			}
 			else assert false : "unknown ImperativeStmt: " + istmt;
 		}
-		genLocalContainers(sb, needs, staticInitializers);
+		genLocalContainers(sb, needs, staticInitializers, false);
 	}
 
-	private void genLocalContainers(StringBuffer sb, NeededEntities needs, List<String> staticInitializers) {
+	private void genLocalContainers(StringBuffer sb, NeededEntities needs, List<String> staticInitializers, boolean neverAssigned) {
+		// todo: more fine-grained never assigned, the important thing is that the constant constructor is temporary, not assigned to a variable
 		sb.append("\n");
 		for(Expression containerExpr : needs.containerExprs) {
 			if(containerExpr instanceof MapInit) {
-				genLocalMap(sb, (MapInit)containerExpr, staticInitializers);
+				MapInit mapInit = (MapInit)containerExpr;
+				if(!neverAssigned)
+					mapInit.forceNotConstant();
+				genLocalMap(sb, mapInit, staticInitializers);
 			} else if(containerExpr instanceof SetInit) {
-				genLocalSet(sb, (SetInit)containerExpr, staticInitializers);
+				SetInit setInit = (SetInit)containerExpr;
+				if(!neverAssigned)
+					setInit.forceNotConstant();
+				genLocalSet(sb, setInit, staticInitializers);
 			} else if(containerExpr instanceof ArrayInit) {
-				genLocalArray(sb, (ArrayInit)containerExpr, staticInitializers);
+				ArrayInit arrayInit = (ArrayInit)containerExpr;
+				if(!neverAssigned)
+					arrayInit.forceNotConstant();
+				genLocalArray(sb, arrayInit, staticInitializers);
 			} else if(containerExpr instanceof DequeInit) {
-				genLocalDeque(sb, (DequeInit)containerExpr, staticInitializers);
+				DequeInit dequeInit = (DequeInit)containerExpr;
+				if(!neverAssigned)
+					dequeInit.forceNotConstant();
+				genLocalDeque(sb, dequeInit, staticInitializers);
 			}
 		}
 	}

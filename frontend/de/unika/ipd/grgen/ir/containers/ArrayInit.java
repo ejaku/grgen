@@ -60,6 +60,10 @@ public class ArrayInit extends Expression {
 		return arrayType;
 	}
 
+	public void forceNotConstant() {
+		isConst = false;
+	}
+
 	public boolean isConstant() {
 		return isConst;
 	}

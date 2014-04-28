@@ -16,4 +16,18 @@ show var s
 exec (::s) = reachabLoop(::begin, 2000000000)
 show var s
 
+begin = @("begin")
+exec (::s) = reachabLoop(::begin, 0)
+show var s
+exec (::s) = reachabLoop(::begin, 1)
+show var s
+exec (::s) = reachabLoop(::begin, 2)
+show var s
+exec (::s) = reachabLoop(::begin, 3)
+show var s
+exec (::s) = reachabLoop(::begin, 4)
+show var s
+exec (::s) = reachabLoop(::begin, 2000000000)
+show var s
+
 quit
