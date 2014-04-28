@@ -1,7 +1,10 @@
 #using "MovieDatabaseModel.gm"
 
 #include "MovieDatabaseCreation.grg"
-#include "MovieDatabaseCliques.grg"
+#include "MovieDatabaseIntermediateOpt.grg"
+#include "MovieDatabaseCliques3.grg"
+#include "MovieDatabaseCliques4.grg"
+#include "MovieDatabaseCliques5.grg"
 
 rule findCouples
 {
@@ -27,50 +30,97 @@ rule addCommonMoviesAndComputeAverageRanking(c:Couple, pn1:Person, pn2:Person)
 		pn1 -:personToMovie-> m:Movie <-:personToMovie- pn2;
 		
 		modify {
-			c -:commonMovies-> m;
-			
-			eval {
-				yield sum = sum + m.rating;
-			}
+			c -:commonMovies-> m;	
+			eval { yield sum = sum + m.rating; }
 		}
 	}	
 	
 	modify {
 		def var sum:double = 0.0;
-		
-		eval {
-			c.avgRating = sum / count(it);
-		}
+		eval { c.avgRating = sum / count(it); }
 	}
 }
+
+//----------------------------------------------------
 
 rule findCouplesOpt[parallelize=64]
 {
 	pn1:Person; pn2:Person;
+	hom(pn1,pn2);
 	independent {
-		pn1 -:personToMovie-> m1:Movie <-:personToMovie- pn2;
+		pn1 -p2m1:personToMovie-> m1:Movie <-p2m2:personToMovie- pn2;
+		hom(pn1,pn2); hom(p2m1,p2m2);
 		if{ atLeastThreeCommonMovies(pn1, pn2); }
 	}
 	if{ uniqueof(pn1) < uniqueof(pn2); }
-	if{ atLeastThreeMovies(pn1); }
-	if{ atLeastThreeMovies(pn2); }
+	if{ countPersonToMovie[pn1] >= 3; }
+	if{ countPersonToMovie[pn2] >= 3; }
 	
 	modify {
 		c:Couple;
 		c -:p1-> pn1;
 		c -:p2-> pn2;
-
-		exec([addCommonMovies(c, pn1, pn2)]);
+	
+		eval { addCommonMovies(pn1, pn2, c); }
 	}
 }
 
-rule addCommonMovies(c:Couple, pn1:Person, pn2:Person)
+function atLeastThreeCommonMovies(pn1:Person, pn2:Person) : boolean
 {
-	pn1 -:personToMovie-> m:Movie <-:personToMovie- pn2;
-	
-	modify {
-		c -:commonMovies-> m;
+	if(countPersonToMovie[pn1] <= countPersonToMovie[pn2])
+	{
+		def var common:int = 0;
+		def ref movies:set<Node> = adjacentOutgoing(pn1, personToMovie);
+		for(movie:Node in adjacentOutgoing(pn2, personToMovie))
+		{
+			if(movie in movies) {
+				common = common + 1;
+				if(common >= 3) {
+					return(true);
+				}
+			}
+		}
 	}
+	else
+	{
+		def var common:int = 0;
+		def ref movies:set<Node> = adjacentOutgoing(pn2, personToMovie);
+		for(movie:Node in adjacentOutgoing(pn1, personToMovie))
+		{
+			if(movie in movies) {
+				common = common + 1;
+				if(common >= 3) {
+					return(true);
+				}
+			}
+		}
+	}
+	return(false);
+}
+
+procedure addCommonMovies(pn1:Person, pn2:Person, c:Couple)
+{
+	if(countPersonToMovie[pn1] >= countPersonToMovie[pn2])
+	{
+		def ref movies:set<Node> = adjacentOutgoing(pn2, personToMovie);
+		for(movie:Node in adjacentOutgoing(pn1, personToMovie))
+		{
+			if(movie in movies) {
+				add(commonMovies, c, movie);
+			}
+		}
+	}
+	else
+	{
+		def ref movies:set<Node> = adjacentOutgoing(pn1, personToMovie);
+		for(movie:Node in adjacentOutgoing(pn2, personToMovie))
+		{
+			if(movie in movies) {
+				add(commonMovies, c, movie);
+			}
+		}
+	}
+	return;
 }
 
 rule computeAverageRanking
@@ -80,49 +130,17 @@ rule computeAverageRanking
 		c -:commonMovies-> m:Movie;
 		
 		modify {
-			eval {
-				yield sum = sum + m.rating;
-			}
+			eval { yield sum = sum + m.rating; }
 		}
 	}
 	
 	modify {
 		def var sum:double = 0.0;
-
-		eval {
-			c.avgRating = sum / count(it);
-		}
+		eval { c.avgRating = sum / count(it); }
 	}
 }
 
-function atLeastThreeCommonMovies(pn1:Person, pn2:Person) : boolean
-{
-	def ref movies:set<Node> = adjacentOutgoing(pn1, personToMovie);
-	def var common:int = 0;
-	for(movie:Node in adjacentOutgoing(pn2, personToMovie))
-	{
-		if(movie in movies) {
-			common = common + 1;
-			if(common >= 3) {
-				return(true);
-			}
-		}
-	}
-	return(false);
-}
-
-function atLeastThreeMovies(pn:Person) : boolean
-{
-	def var common:int = 0;
-	for(movie:Node in adjacentOutgoing(pn, personToMovie))
-	{
-		common = common + 1;
-		if(common >= 3) {
-			return(true);
-		}
-	}
-	return(false);
-}
+//----------------------------------------------------
 
 rule couplesWithRating
 {
@@ -141,4 +159,3 @@ rule couplesWithRating
 		emit("avgRating: " + avgRating + " numMovies: " + numMovies + " by " + pn1.name + " and " + pn2.name + "\n");
 	}
 } \ orderDescendingBy<avgRating>, orderDescendingBy<numMovies>
-

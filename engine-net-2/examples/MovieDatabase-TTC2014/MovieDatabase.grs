@@ -1,7 +1,7 @@
 #new set statistics "Moviestats"
 #new new graph MovieDatabase
 
-import imdb-0005000-50176.movies.xmi.grs MovieDatabase.grg
+#import imdb-0005000-50176.movies.xmi.grs MovieDatabase.grg
 #import imdb-0010000-98388.movies.xmi.grs MovieDatabase.grg
 #import imdb-0030000-207876.movies.xmi.grs MovieDatabase.grg
 #import imdb-0045000-299195.movies.xmi.grs MovieDatabase.grg
@@ -11,7 +11,7 @@ import imdb-0005000-50176.movies.xmi.grs MovieDatabase.grg
 #import imdb-0130000-712130.movies.xmi.grs MovieDatabase.grg
 #import imdb-0200000-1007510.movies.xmi.grs MovieDatabase.grg
 #import imdb-0340000-1511739.movies.xmi.grs MovieDatabase.grg
-#import imdb-0495000-2011048.movies.xmi.grs MovieDatabase.grg
+import imdb-0495000-2011048.movies.xmi.grs MovieDatabase.grg
 #import imdb-0660000-2514839.movies.xmi.grs MovieDatabase.grg
 #import imdb-0900000-3210567.movies.xmi.grs MovieDatabase.grg
 #import imdb-all-3335074.movies.xmi.grs MovieDatabase.grg
@@ -28,9 +28,9 @@ include MovieDatabaseLayout.grs
 show num nodes
 show num edges
 
-#custom graph analyze
+custom graph analyze
 #custom graph statistics save "Moviestats"
-#custom actions gen_searchplan
+custom actions gen_searchplan
 #custom actions explain findCouples
 #custom actions explain findCouplesOpt
 #custom actions explain addCommonMovies
@@ -46,7 +46,10 @@ exec [findCouplesOpt]
 #exec [findCliquesOf5Opt]
 
 show num nodes Couple
+show num edges p1
+show num edges p2
 show num nodes Clique
+show num edges persons
 
 exec [computeAverageRanking]
 #exec [computeAverageRankingCliques]
