@@ -6,13 +6,13 @@
 "{n2a,n3a,n1}"
 1
 1
-"{n2a,n3a,n1,n2b,n3b,end}"
+"{n2a,n2b,n3a,n3b,n1,end}"
 1
 1
-"{n2a,n3a,n1,n2b,n3b,end,n3c,attach2a,attach}"
+"{n2a,n2b,end,n3a,n3b,n3c,n1,attach2a,attach}"
 1
 1
-"{n2a,n3a,n1,n2b,n3b,end,n3c,attach2a,attach,attach2b}"
+"{n2a,n2b,end,attach2a,attach,n3a,n3b,n3c,n1,attach2b}"
 1
 1
-"{n2a,n3a,n1,n2b,n3b,end,n3c,attach2a,attach,attach2b}"
+"{n2a,n2b,end,attach2a,attach2b,attach,n3a,n3b,n3c,n1}"

@@ -60,6 +60,10 @@ public class DequeInit extends Expression {
 		return dequeType;
 	}
 
+	public void forceNotConstant() {
+		isConst = false;
+	}
+
 	public boolean isConstant() {
 		return isConst;
 	}

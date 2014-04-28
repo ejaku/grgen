@@ -60,6 +60,10 @@ public class MapInit extends Expression {
 		return mapType;
 	}
 
+	public void forceNotConstant() {
+		isConst = false;
+	}
+
 	public boolean isConstant() {
 		return isConst;
 	}
