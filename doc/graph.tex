@@ -104,7 +104,7 @@ NeighbourhoodFunctionCall:
   ;
 \end{rail}\label{NeighbourhoodFunctionCallTypes}
 
-The neighbourhood query function can be used in three possible ways: 
+The neighbourhood query function can be used in four possible ways: 
 \begin{description}
 	\item[Set functions:] The neighbourhood function returns a set of neighbouring entities of the start node. It builds a set that is likely thrown away thereafter, so esp. for large sets this functions is less efficient than the other versions.
 \begin{rail}
@@ -116,6 +116,12 @@ Expression:
 ForLoop: 
   'for' '(' Name ':' Type 'in' FunctionName '(' StartNodeExpr ')' \\ lbrace Statements rbrace;
 \end{rail}
+	\item[Counted functions:] The counted neighbourhood function returns the count of neighbouring entities of the start node. This is at least as efficient as calling \texttt{size()} on the resulting set of the plain neighbourhood function, often it is more efficient.
+\begin{rail}
+Expression:
+  CountedFunctionName '(' StartNodeExpr ')' ;
+\end{rail}
+The \emph{CountedFunctionName} is built from the \emph{FunctionName} by prepending \texttt{count} and switching the first charecter of \emph{FunctionName} to upper case.
 	\item[Boolean functions:] The neighbourhood function is employed in a boolean predicate version that allows the check whether a second target entity is in the queried neighbourhood of the start node. The computation has the smallest internal processing overhead of the three options and stops as soon as a positive result is obtained.
 \begin{rail}
 Expression:
@@ -279,6 +285,32 @@ The isReachable functions give the most efficient and most convenient way to che
 
 The reachable iteration is the most concise way to note down a depth first walk over a graph, visiting all elements reachable from a source node on.
 \end{example}
+
+\subsubsection*{Bounded Transitive Node Neighbourhood}
+
+Transitive neighbourhood can be queried also with a path length bound, with the bounded reachability functions.
+
+Available are queries for the reachable-within-bounds edges:
+
+\begin{description}
+\item[\texttt{boundedReachableEdges(.,.)}] returns the set of the edges that are reachable from the node given as first argument value, within at most as much steps as specified by the second argument.
+\item[\texttt{boundedReachableEdgesIncoming(.,.)}] same as the reachableEdges above, but restricted to incoming edges.
+\item[\texttt{boundedReachableEdgesOutgoing(.,.)}] same as the reachableEdges above, but restricted to outgoing edges.
+\end{description}
+
+In the three argument version, only edges of the type given as third argument are contained and followed.
+The four argument version behaves as the three argument version, but additionally only edges incident to an opposite node of the type given as fourth argument are contained and followed.
+
+Available are queries for the reachable-within-bounds nodes:
+
+\begin{description}
+\item[\texttt{boundedReachable(.,.)}] returns the set of the nodes that are reachable from the node given as first argument value, within at most as much steps as specified by the second argument.
+\item[\texttt{boundedReachableIncoming(.,.)}] same as any of the reachables above, but restricted to nodes reachable via incoming edges.
+\item[\texttt{boundedReachableOutgoing(.,.)}] same as any of the reachables above, but restricted to nodes reachable via outgoing edges.
+\end{description}
+
+In the three argument version, nodes incident to an edge of the type given as third argument are contained and followed.
+The four argument version behaves as the three argument version, but additionally only nodes of the node type given as fourth argument are contained and followed.
 
 %-----------------------------------------------------------------------------------------------
 \section{Subgraph and File Operations}\label{sec:subgraphop}

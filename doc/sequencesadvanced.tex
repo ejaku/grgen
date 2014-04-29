@@ -142,7 +142,8 @@ So these constructs are not horribly inefficient, but they do have their price -
   ExtendedControl:
     'for' lbrace Variable ':' Type\\
     ('in' Function '(' Parameters ')' ';' |
-    'in' '[' '?' r ']' ';')\\
+    'in' '[' '?' r ']' ';' |
+		'in' '[' SequenceExpression ':' SequenceExpression ']' ';')\\
     RewriteSequence rbrace
     ;
 \end{rail}\ixkeyw{for}\label{forgraphelem}\label{forincidentadjacent}\label{formatch}
@@ -164,6 +165,11 @@ The elements (esp. the nodes and edges) of the pattern of the matched rule can t
 Note: the elements must be assigned to a variable in order to access their attributes, a direct attribute access after the match access is not possible.
 Note: the match object allows only to access the top level nodes, edges, or variables.
 If you use subpatterns or nested patterns and want to access elements found by them, you have to \texttt{yield}(\ref{sub:yield}) them out to the top-level pattern.
+
+The fourth \texttt{for} loop introduced here, the for integer range loop, allows to cycle through an ascending or descending series of integers; the loop variable must be of type \texttt{int}.
+First the left and right sequence expressions are evaluated,
+if the left is lower or equal than the right the variable is incremented from left on in steps of one until right is reached (inclusive),
+otherwise the variable is decremented from left on in steps of one until right is reached (inclusive).
 
 The most important \texttt{for} loop, the one iterating a container, for enumerating the elements contained in storages, was already introduced here: \ref{forstorage}.
 All \texttt{for} loops fail if one of the sequence executions failed, and succeed otherwise.
@@ -236,6 +242,7 @@ Table~\ref{seqtab} lists most of the operations of the advanced graph rewrite se
 \texttt{for\{v->w in u; t\}}	& Execute \texttt{t} for every pair (\texttt{v},\texttt{w} in storage map \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
 \texttt{for\{v:match<r> in [?r]; t\}}	& Execute \texttt{t} for every match \texttt{v} from rule \texttt{r}. One \texttt{t} failing pins the execution result to failure.\\
 \texttt{for\{v in func(...); s\}}	& Execute \texttt{s} for every node/edge in func, which may be nodes/edges, or incident/adjacent, or reachable. One \texttt{s} failing pins the execution result to failure.\\
+\texttt{for\{v:int in [l:r]; t\}}	& Execute \texttt{t} for every \texttt{v} in the integer range starting at \texttt{l} and ending at \texttt{r}, upwards by one if \texttt{l<=r}, otherwise downwards by one. One \texttt{t} failing pins the execution result to failure.\\
 \hline
 \texttt{\{comp\}}	& An unspecified sequence computation (see table \ref{comptab}).\\
 \hline
