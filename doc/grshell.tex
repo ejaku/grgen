@@ -213,13 +213,21 @@ Redirects the output of the emit-statements in the rules to stdout (again).
 \label{graphcommands}
 
 \begin{rail}
-  'new' 'graph' Filename Text
+  'new' (() | 'new') 'graph' Filename Text
 \end{rail}\ixkeyw{new}\ixkeyw{graph}
 Creates a new graph with the model specified in \emph{Filename}\indexmain{graph model}.
 Its name is set to \emph{Text}.
 The model file can be either source code (e.g.\ \texttt{turing\textunderscore machineModel.cs}) or a .NET assembly (e.g.\ \texttt{lgsp-turing\textunderscore machineModel.dll}).
-It's also possible to specify a rule set file as \emph{Filename}.
-In this case the necessary assemblies will be created on the fly.
+It's also possible to specify a rule set file as \emph{Filename} (this is the most common usage).
+In this case the necessary assemblies will be created on the fly (as needed).
+In case of a double \texttt{new}, the actions and model are created anew for sure, and not as needed according to the file change dates.
+Use this if you are working with one of the \texttt{new set} or \texttt{new add} commands from below.
+
+\begin{warning}
+You may run into unexpected results because some \texttt{new set} or \texttt{new add} options that you apply and see in the shell file are not the ones actually compiled into the generated code.
+This happens easily when you just edit those options, but the actions are not regenerated because the sources did not change.
+Use \texttt{new new} in case you are working with the options from below to ensure the actions are regenerated irrespective of the change dates of their sources (at the cost of steady recompilations).
+\end{warning}
 
 \begin{rail}
   'new' 'add' 'reference' Filename

@@ -584,6 +584,17 @@ test neighbourneighbour(ref neighbours:map<City, City>) : City
 
 %show usage as storages after examples with scalars
 
+A container iterated over must stay unchanged during the iteration.
+But sometimes we want to change the iterated content, e.g. filter the container during iteration.
+As remedy the \texttt{copy} function may be used to clone the container before the iteration, so that the clone can be iterated over and the original container changed.
+
+\begin{description}
+\item[\texttt{copy(set<T>):set<T>}] returns a clone of the original set given as argument.
+\item[\texttt{copy(map<S,T>):map<S,T>}] returns a clone of the original map given as argument.
+\item[\texttt{copy(array<T>):array<T>}] returns a clone of the original array given as argument.
+\item[\texttt{copy(deque<T>):deque<T>}] returns a clone of the original deque given as argument.
+\end{description}
+
 \begin{example}
 The container state change methods \texttt{add} and \texttt{rem} allow to add graph elements to storages or remove graph elements from storages, i.e. sets or maps or arrays or deques holding nodes and edges used for rewrite in the calling sequence (cf. \ref{sec:storages}).
 This way you can write transformations consisting of several passes with one pass operating on nodes/edges determined in a previous pass,

@@ -40,7 +40,7 @@ rule foo
 
 filter ff<foo>
 {
-	this.add(copy(this.peek()));
+	this.add(copy(this.peek())); // note the copy on match<foo>
 	this[0] = null; // removes first entry in matches array, efficiently
 	this.rem();
 }
@@ -115,7 +115,7 @@ It is highly recommended to use this \indexed{symmetry reduction} technique when
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Auto-Supplied Filters}
 
-A few filters (that do not need information from a specific match) are auto-supplied, they can be used without implementation and even without declaration. They allow to keep (and thus remove) a certain number of matches from the beginning or the end of the matches list.
+A few filters (that do not need information from a specific match) are auto-supplied, they can be used without implementation and even without declaration. They allow to keep or remove a certain number of matches from the beginning or the end of the matches list.
 
 The following auto-supplied filters may be used directly:
 \begin{description}
@@ -123,6 +123,10 @@ The following auto-supplied filters may be used directly:
 \item[\texttt{keepLast(count) }] keeps the first \texttt{count} matches from the end of the matches list, \texttt{count} must be an integer number.
 \item[\texttt{keepFirstFraction(fraction)}] keeps the \texttt{fraction} of the matches from the begin of the matches list, \texttt{fraction} must be a floating point number in between \verb#0.0# and \verb#1.0#.
 \item[\texttt{keepLastFraction(fraction)}] keeps the \texttt{fraction} of the matches from the end of the matches list, \texttt{fraction} must be a floating point number in between \verb#0.0# and \verb#1.0#.
+\item[\texttt{removeFirst(count)}] removes the first \texttt{count} matches from the begin of the matches list, \texttt{count} must be an integer number.
+\item[\texttt{removeLast(count) }] removes the first \texttt{count} matches from the end of the matches list, \texttt{count} must be an integer number.
+\item[\texttt{removeFirstFraction(fraction)}] removes the \texttt{fraction} of the matches from the begin of the matches list, \texttt{fraction} must be a floating point number in between \verb#0.0# and \verb#1.0#.
+\item[\texttt{removeLastFraction(fraction)}] removes the \texttt{fraction} of the matches from the end of the matches list, \texttt{fraction} must be a floating point number in between \verb#0.0# and \verb#1.0#.
 \end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -179,10 +183,20 @@ This way, the 50\% of the nodes with the smallest number of outgoing edges are d
 \texttt{keepLast(int-Number)}\\
 \texttt{keepFirstFraction(double-Number)}\\
 \texttt{keepLastFraction(double-Number)}\\
+\texttt{removeFirst(int-Number)}\\
+\texttt{removeLast(int-Number)}\\
+\texttt{removeFirstFraction(double-Number)}\\
+\texttt{removeLastFraction(double-Number)}\\
 \hline
 \end{tabular}
 \caption{Auto-generated and then auto-supplied filters at a glance}
 \label{filterstab}
 \end{table}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Symmetry reduction}
+% TODO
+%Problem.
+%Independent.
+%Auto. Define here, above in auto-generated placeholder and reference.
 
