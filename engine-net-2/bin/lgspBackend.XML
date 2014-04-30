@@ -447,6 +447,16 @@
             Class representing "check whether the subpatterns of the pattern were found" operation
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.CheckPartialMatchForDuplicate">
+            <summary>
+            Class representing "check whether the current partial match is a duplicate" operation
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.FillPartialMatchForDuplicateChecking">
+            <summary>
+            Class representing a fill operation of the current partial match into a set to prevent duplicates
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.AcceptCandidate">
             <summary>
             Class representing operations to execute upon candidate checking succeded;
@@ -1140,6 +1150,11 @@
             Try to match independent pattern.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.InlinedIndependentCheckForDuplicateMatch">
+            <summary>
+            Check for a duplicate match arising from inlining an independent.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.WriteParallelPreset">
             <summary>
             Write the preset (node or edge) for the body of a parallelized action, in the head of the parallelized action.
@@ -1539,15 +1554,13 @@
             <param name="graph">The graph which is to be transfered into a pattern</param>
             <returns></returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GeneratePlanGraph(de.unika.ipd.grGen.lgsp.LGSPGraphStatistics,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GeneratePlanGraph(de.unika.ipd.grGen.lgsp.LGSPGraphStatistics,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.SetValueType})">
             <summary>
             Generate plan graph for given pattern graph with costs from the analyzed host graph.
             Plan graph contains nodes representing the pattern elements (nodes and edges)
             and edges representing the matching operations to get the elements by.
             Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
             </summary>
-            <param name="graph">The host graph to optimize the matcher program for, 
-            providing statistical information about its structure </param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.MarkMinimumSpanningArborescence(de.unika.ipd.grGen.lgsp.PlanGraph,System.String)">
             <summary>
@@ -1749,7 +1762,7 @@
             Generates matcher class tail source code
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateScheduledSearchPlans(de.unika.ipd.grGen.lgsp.PatternGraph,de.unika.ipd.grGen.lgsp.LGSPGraph,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateScheduledSearchPlans(de.unika.ipd.grGen.lgsp.PatternGraph,de.unika.ipd.grGen.lgsp.LGSPGraph,System.Boolean,System.Boolean,de.unika.ipd.grGen.lgsp.ScheduledSearchPlan)">
             <summary>
             Generates scheduled search plans needed for matcher code generation for action compilation
             out of graph with analyze information, 
@@ -2670,6 +2683,11 @@
             sets for the very node the parallelized flag (does not recurse)
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.expression.ExpressionOrYielding.SetNeedForProfiling(System.Boolean)">
+            <summary>
+            sets for the very node the profiling flag (does not recurse)
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.expression.Yielding.Copy(System.String)">
             <summary>
             copies the yielding, renaming all variables with the given suffix
@@ -2779,6 +2797,11 @@
         <member name="T:de.unika.ipd.grGen.expression.ContainerAccumulationYield">
             <summary>
             Class representing an container accumulation yield, accumulating the values in a container with chosen statements
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IntegerRangeIterationYield">
+            <summary>
+            Class representing an integer range iteration yield
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ForFunction">
@@ -3776,6 +3799,23 @@
             Returns name of the state variable storing which direction run is currently underway
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.DuplicateMatchHashVariable">
+            <summary>
+            Returns the name of the variable that contains the hash of the current local match,
+            better: the hash of the locally matched fields of the pattern modulo the inlined independent elements
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.DuplicateMatchCandidateVariable">
+            <summary>
+            Returns the name of the variable that contains the currently focused match with equal hash from the found local matches
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.FoundMatchesForFilteringVariable">
+            <summary>
+            Returns the name of the variable that contains the found local matches,
+            accessible by the hash code of the locally matched fields of the pattern modulo the inlined independent elements
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.ToString(de.unika.ipd.grGen.lgsp.EntityType)">
             <summary>
             Returns a string representation of the given entity type
@@ -3908,6 +3948,18 @@
             Links to the original subpattern embedding which was inlined in case this element was inlined, otherwise null.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.OriginalIndependentElement">
+            <summary>
+            Links to the original pattern element in case this element stems from inlining an independent
+            (those elements exist only in search planning, they are not contained in any pattern).
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.PresetBecauseOfIndependentInlining">
+            <summary>
+            This element was declared in an independent pattern, but is now to be matched as preset,
+            because it was inlinded in the containing pattern to speed up matching
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.TempPlanMapping">
             <summary>
             plan graph node corresponding to this pattern element, used in plan graph generation, just hacked into this place
@@ -3949,11 +4001,18 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,de.unika.ipd.grGen.lgsp.PatternGraph,System.String)">
             <summary>
-            Instantiates a new PatternElement object as a copy from an original element, used for inlining.
+            Instantiates a new PatternElement object as a copy from an original element, used for subpattern inlining.
             </summary>
             <param name="original">The original pattern element to be copy constructed.</param>
             <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
             <param name="newHost">The pattern graph the new pattern element will be contained in.</param>
+            <param name="nameSuffix">The suffix to be added to the name of the pattern element (to avoid name collisions).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(de.unika.ipd.grGen.lgsp.PatternElement,System.String)">
+            <summary>
+            Instantiates a new PatternElement object as a copy from an original element, used for independent inlining.
+            </summary>
+            <param name="original">The original pattern element to be copy constructed.</param>
             <param name="nameSuffix">The suffix to be added to the name of the pattern element (to avoid name collisions).</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.ToString">
@@ -4046,11 +4105,18 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(de.unika.ipd.grGen.lgsp.PatternNode,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,de.unika.ipd.grGen.lgsp.PatternGraph,System.String)">
             <summary>
-            Instantiates a new PatternNode object as a copy from an original node, used for inlining.
+            Instantiates a new PatternNode object as a copy from an original node, used for subpattern inlining.
             </summary>
             <param name="original">The original pattern node to be copy constructed.</param>
             <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
             <param name="newHost">The pattern graph the new pattern node will be contained in.</param>
+            <param name="nameSuffix">The suffix to be added to the name of the pattern node (to avoid name collisions).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(de.unika.ipd.grGen.lgsp.PatternNode,System.String)">
+            <summary>
+            Instantiates a new PatternNode object as a copy from an original node, used for independent inlining.
+            </summary>
+            <param name="original">The original pattern node to be copy constructed.</param>
             <param name="nameSuffix">The suffix to be added to the name of the pattern node (to avoid name collisions).</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.ToString">
@@ -4118,11 +4184,18 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(de.unika.ipd.grGen.lgsp.PatternEdge,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,de.unika.ipd.grGen.lgsp.PatternGraph,System.String)">
             <summary>
-            Instantiates a new PatternEdge object as a copy from an original edge, used for inlining.
+            Instantiates a new PatternEdge object as a copy from an original edge, used for subpattern inlining.
             </summary>
             <param name="original">The original pattern edge to be copy constructed.</param>
             <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
             <param name="newHost">The pattern graph the new pattern element will be contained in.</param>
+            <param name="nameSuffix">The suffix to be added to the name of the pattern edge (to avoid name collisions).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(de.unika.ipd.grGen.lgsp.PatternEdge,System.String)">
+            <summary>
+            Instantiates a new PatternEdge object as a copy from an original edge, used for independent inlining.
+            </summary>
+            <param name="original">The original pattern edge to be copy constructed.</param>
             <param name="nameSuffix">The suffix to be added to the name of the pattern edge (to avoid name collisions).</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.ToString">
@@ -4138,7 +4211,7 @@
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternEdge.originalEdge">
             <summary>
-            Links to the original pattern edge in case this node was inlined, otherwise null;
+            Links to the original pattern edge in case this edge was inlined, otherwise null;
             the point of definition of the original edge references the original containing pattern
             </summary>
         </member>
@@ -4485,6 +4558,11 @@
             <param name="original">The original condition to be copy constructed.</param>
             <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
             <param name="renameSuffix">The rename suffix to be applied to all the nodes, edges, and variables used.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternCondition.Clone">
+            <summary>
+            Instantiates a new PatternCondition object as a copy from the original condition; for parallelization.
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternYielding">
             <summary>
@@ -5105,19 +5183,6 @@
             A model of a GrGen graph, base class from implementation.
             Defines a thin layer above IGraphModel, enriched with index creating functionality, the real stuff is generated.
             It allows the generic LGSPGraph to create and bind the index set when it is configured with the graph model.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphModel.CreateAndBindIndexSet(de.unika.ipd.grGen.lgsp.LGSPGraph)">
-            <summary>
-            Called by the graph (generic implementation) to create and bind its index set (generated code).
-            Always called by an empty graph just constructed.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphModel.FillIndexSetAsClone(de.unika.ipd.grGen.lgsp.LGSPGraph,de.unika.ipd.grGen.lgsp.LGSPGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement})">
-            <summary>
-            Called on an index set that was created and bound,
-            when the graph was copy constructed from an original graph,
-            to fill in the already available cloned content from the original graph.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SimpleGraphCanonizer.Canonize(de.unika.ipd.grGen.lgsp.LGSPGraph)">
@@ -6012,9 +6077,9 @@
             whether to emit code for gathering profiling information (about search steps executed)
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.actionName">
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.packagePrefixedActionName">
             <summary>
-            the name of the action in case we're building a rule/test, otherwise null
+            the package prefixed name of the action in case we're building a rule/test, otherwise null
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.firstLoopPassed">
@@ -6170,6 +6235,13 @@
             <summary>
             Search program operations implementing the
             Independent search plan operation (searching of positive application condition)
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildInlinedIndependentCheckForDuplicateMatch(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32)">
+            <summary>
+            Search program operations implementing the
+            check for duplicate match search plan operation (needed in case an independent was inlined)
             are created and inserted into search program
             </summary>
         </member>
@@ -6336,6 +6408,13 @@
             <summary>
             Inserts code to check whether there are open tasks to handle left and code for case there are none
             at the given position, returns position after inserted operations
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertFillForDuplicateMatchChecking(de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
+            <summary>
+            Inserts code to insert the local match into a set used for duplicate checking
+            at the given position, returns position after inserted operations.
+            Duplicates may arise after independent inlining, when the non-inlined part was already matched with exactly the same elements.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertGlobalAccept(de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
@@ -7033,6 +7112,30 @@
             </summary>
             <param name="count">The number of matches to keep</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterRemoveFirstFraction(System.Double)">
+            <summary>
+            For filtering with the auto-supplied filter removeFirstFraction
+            </summary>
+            <param name="fraction">The fraction of matches to remove</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterRemoveLastFraction(System.Double)">
+            <summary>
+            For filtering with the auto-supplied filter removeLastFraction
+            </summary>
+            <param name="fraction">The fraction of matches to remove</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterRemoveFirst(System.Int32)">
+            <summary>
+            For filtering with the auto-supplied filter removeFirst
+            </summary>
+            <param name="count">The number of matches to remove</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterRemoveLast(System.Int32)">
+            <summary>
+            For filtering with the auto-supplied filter removeLast
+            </summary>
+            <param name="count">The number of matches to remove</param>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.producer">
             <summary>
             the action object used to generate this LGSPMatchesList object
@@ -7061,6 +7164,11 @@
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FirstExact">
+            <summary>
+            Returns the first match of exact type (null if no match exists).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FirstImplementation">
             <summary>
             Returns the first match of exact type (null if no match exists).
             </summary>
@@ -7112,7 +7220,7 @@
             <param name="path">The original path string potentially with wrong chars</param>
             <returns>The corrected path string</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateStaticPlanGraph(de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateStaticPlanGraph(de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.SetValueType})">
             <summary>
             Generate plan graph for given pattern graph with costs from initial static schedule handed in with graph elements.
             Plan graph contains nodes representing the pattern elements (nodes and edges)
@@ -7120,7 +7228,7 @@
             Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateScheduledSearchPlans(de.unika.ipd.grGen.lgsp.PatternGraph,de.unika.ipd.grGen.lgsp.LGSPGraphStatistics,de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateScheduledSearchPlans(de.unika.ipd.grGen.lgsp.PatternGraph,de.unika.ipd.grGen.lgsp.LGSPGraphStatistics,de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator,System.Boolean,System.Boolean,de.unika.ipd.grGen.lgsp.ScheduledSearchPlan)">
             <summary>
             Generates scheduled search plans needed for matcher code generation for action compilation
             out of static schedule information given by rulePattern elements, 
@@ -7329,6 +7437,26 @@
         <member name="T:de.unika.ipd.grGen.expression.GE">
             <summary>
             Class representing a greater than or equal comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.STRING_LT">
+            <summary>
+            Class representing a less than comparison on strings.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.STRING_LE">
+            <summary>
+            Class representing a less than or equal comparison on strings.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.STRING_GT">
+            <summary>
+            Class representing a greater than comparison on strings.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.STRING_GE">
+            <summary>
+            Class representing a greater than or equal comparison on strings.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.EXTERNAL_EQ">
@@ -7861,6 +7989,16 @@
             Class representing expression returning the edges of an edge type (as set)
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountNodes">
+            <summary>
+            Class representing expression returning the count of nodes of a node type
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountEdges">
+            <summary>
+            Class representing expression returning the count of edges of an edge type
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.Now">
             <summary>
             Class representing expression returning the current time, measured as windows file time
@@ -7926,6 +8064,21 @@
             Class representing expression returning the incident edges of a node (as set)
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountOutgoing">
+            <summary>
+            Class representing expression returning the count of the outgoing edges of a node
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountIncoming">
+            <summary>
+            Class representing expression returning the count of the incoming edges of a node
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountIncident">
+            <summary>
+            Class representing expression returning the count of the incident edges of a node
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.AdjacentOutgoing">
             <summary>
             Class representing expression returning the adjacent nodes of a node (as set) reachable via outgoing edges
@@ -7939,6 +8092,21 @@
         <member name="T:de.unika.ipd.grGen.expression.Adjacent">
             <summary>
             Class representing expression returning the adjacent nodes of a node (as set) reachable via incident edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountAdjacentOutgoing">
+            <summary>
+            Class representing expression returning the count of the adjacent nodes of a node reachable via outgoing edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountAdjacentIncoming">
+            <summary>
+            Class representing expression returning the count of the adjacent nodes of a node reachable via incoming edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountAdjacent">
+            <summary>
+            Class representing expression returning the count of the adjacent nodes of a node reachable via incident edges
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.IsAdjacentOutgoing">
@@ -7986,6 +8154,21 @@
             Class representing expression returning the reachable edges via incident edges of a node (as set)
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountReachableEdgesOutgoing">
+            <summary>
+            Class representing expression returning the count of the reachable edges via outgoing edges of a node 
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountReachableEdgesIncoming">
+            <summary>
+            Class representing expression returning the count of the reachable edges via incoming edges of a node
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountReachableEdges">
+            <summary>
+            Class representing expression returning the count of the reachable edges via incident edges of a node
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.ReachableOutgoing">
             <summary>
             Class representing expression returning the reachable nodes of a node (as set) reachable via outgoing edges
@@ -7999,6 +8182,81 @@
         <member name="T:de.unika.ipd.grGen.expression.Reachable">
             <summary>
             Class representing expression returning the reachable nodes of a node (as set) reachable via incident edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountReachableOutgoing">
+            <summary>
+            Class representing expression returning the count of the reachable nodes of a node reachable via outgoing edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountReachableIncoming">
+            <summary>
+            Class representing expression returning the count of the reachable nodes of a node reachable via incoming edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountReachable">
+            <summary>
+            Class representing expression returning the count of the reachable nodes of a node reachable via incident edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.BoundedReachableEdgesOutgoing">
+            <summary>
+            Class representing expression returning the reachable edges within the given depth via outgoing edges of a node (as set)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.BoundedReachableEdgesIncoming">
+            <summary>
+            Class representing expression returning the reachable edges within the given depth via incoming edges of a node (as set)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.BoundedReachableEdges">
+            <summary>
+            Class representing expression returning the reachable edges within the given depth via incident edges of a node (as set)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountBoundedReachableEdgesOutgoing">
+            <summary>
+            Class representing expression returning the count of the reachable edges within the given depth via outgoing edges of a node
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountBoundedReachableEdgesIncoming">
+            <summary>
+            Class representing expression returning the count of the reachable edges within the given depth via incoming edges of a node
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountBoundedReachableEdges">
+            <summary>
+            Class representing expression returning the count of the reachable edges within the given depth via incident edges of a node
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.BoundedReachableOutgoing">
+            <summary>
+            Class representing expression returning the reachable nodes within the given depth of a node (as set) reachable via outgoing edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.BoundedReachableIncoming">
+            <summary>
+            Class representing expression returning the reachable nodes within the given depth of a node (as set) reachable via incoming edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.BoundedReachable">
+            <summary>
+            Class representing expression returning the reachable nodes within the given depth of a node (as set) reachable via incident edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountBoundedReachableOutgoing">
+            <summary>
+            Class representing expression returning the count of the reachable nodes within the given depth of a node reachable via outgoing edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountBoundedReachableIncoming">
+            <summary>
+            Class representing expression returning the count of the reachable nodes within the given depth of a node reachable via incoming edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountBoundedReachable">
+            <summary>
+            Class representing expression returning the count of the reachable nodes within the given depth of a node reachable via incident edges
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.IsReachableOutgoing">
@@ -8031,6 +8289,36 @@
             Class representing expression returning whether the end edge is reachable from the start node via incident edges
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsBoundedReachableOutgoing">
+            <summary>
+            Class representing expression returning whether the end node is reachable from the start node within the given depth via outgoing edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsBoundedReachableIncoming">
+            <summary>
+            Class representing expression returning whether the end node is reachable from the start node within the given depth via incoming edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsBoundedReachable">
+            <summary>
+            Class representing expression returning whether the end node is reachable from the start node within the given depth via incident edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsBoundedReachableEdgesOutgoing">
+            <summary>
+            Class representing expression returning whether the end edge is reachable from the start node within the given depth via outgoing edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsBoundedReachableEdgesIncoming">
+            <summary>
+            Class representing expression returning whether the end edge is reachable from the start node within the given depth via incoming edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsBoundedReachableEdges">
+            <summary>
+            Class representing expression returning whether the end edge is reachable from the start node within the given depth via incident edges
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.InducedSubgraph">
             <summary>
             Class representing expression returning the induced subgraph from the given set of nodes
@@ -8059,6 +8347,16 @@
         <member name="T:de.unika.ipd.grGen.expression.Sgn">
             <summary>
             Class representing expression returning the signum
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Pi">
+            <summary>
+            Class representing expression returning pi
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.E">
+            <summary>
+            Class representing expression returning e
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Ceil">
