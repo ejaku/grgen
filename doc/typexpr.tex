@@ -145,8 +145,24 @@ the semantics is given by Table~\ref{compandarithmetic} (by implicit casting the
   \label{compandarithmetic}
 \end{table}
 
-\texttt{String} types, \texttt{boolean} types, and \texttt{object} types support only the \texttt{==} and the \texttt{!=} operators;
-for strings they denote whether the strings are the same or not,
+For expressions on \texttt{string} types lexicographic order is used for comparisons,
+the exact semantics is given by Table~\ref{compandstring}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{A == B} & True, iff $A$ is the same string as $B$. \\
+    \texttt{A != B} & True, iff $A$ is not the same string as $B$. \\
+    \texttt{A <\ \ B} & True, iff the first character where $A$ and $B$ differ is smaller for $A$, or $A$ is a prefix of $B$. \\
+    \texttt{A >\ \ B} & True, iff the first character where $A$ and $B$ differ is smaller for $B$, or $B$ is a prefix of $A$. \\
+    \texttt{A <= B} & True, iff the first character where $A$ and $B$ differ is smaller for $A$, or $A$ is a prefix of $B$, or $A$ is the same as $B$. \\
+    \texttt{A >= B} & True, iff the first character where $A$ and $B$ differ is smaller for $B$, or $B$ is a prefix of $A$, or $B$ is the same as $A$. \\ \hline
+  \end{tabularx}
+  \caption{Compare operators on string expressions}
+  \label{compandstring}
+\end{table}
+
+\texttt{Boolean} types and \texttt{object} types support only the \texttt{==} and the \texttt{!=} operators;
 on boolean values they denote equivalence and antivalence,
 and on object types they tell whether the references are the same, thus the objects identical.
 
@@ -242,7 +258,8 @@ There are several operations on strings available in method call notation (Metho
 
 \begin{description}
 \item[\texttt{.length()}] returns length of string, as \texttt{int}
-\item[\texttt{.indexOf(strToSearchFor)}] returns first position \texttt{strToSearchFor:string} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.indexOf(strToSearchFor)}] returns first position where \texttt{strToSearchFor:string} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.indexOf(strToSearchFor, startIndex)}] returns first position where \texttt{strToSearchFor:string} appears at, when we start the search for it at string position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
 \item[\texttt{.lastIndexOf(strToSearchFor)}] returns last position \texttt{strToSearchFor:string} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.substring(startIndex, length)}] returns substring of given \texttt{length:int} from \texttt{startIndex:int} on
 \item[\texttt{.replace(startIndex, length, replaceStr)}] returns string with substring from \texttt{startIndex:int} on of given \texttt{length:int} replaced by \texttt{replaceStr:int}
@@ -350,6 +367,8 @@ A function call employs an external (attribute evaluation) function (cf. \ref{su
 \item[\texttt{Math::arcsin(.)}] returns the inverse of the sine for the argument, which must be of type \texttt{double}
 \item[\texttt{Math::arccos(.)}] returns the inverse of the cosine for the argument, which must be of type \texttt{double}
 \item[\texttt{Math::arctan(.)}] returns the inverse of the tangent for the argument, which must be of type \texttt{double}
+\item[\texttt{Math::pi()}] returns the constant $\pi$, of type \texttt{double}
+\item[\texttt{Math::e()}] returns the constant $e$, of type \texttt{double}
 \end{description}
 
 \begin{description}
