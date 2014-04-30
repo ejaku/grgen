@@ -20,19 +20,19 @@ rule r
 	}
 }
 
-function hur(nn:NN, -ee:EE->) : int
+function hur[foo="bar"](nn:NN, -ee:EE->) : int
 {
 	return(nn.foo(42) + ee.foo(42));
 }
 
-procedure dur(nn:NN, -ee:EE->) : (N, E)
+procedure dur[foo="bar"](nn:NN, -ee:EE->) : (N, E)
 {
 	nn.bar(42);
 	ee.bar(42);
 	return(nn,ee);
 }
 
-sequence s(nn:NN, ee:EE) : (no:N, eo:E)
+sequence s[foo="bar"](nn:NN, ee:EE) : (no:N, eo:E)
 {
 	r() ;> { (no,eo)=dur(nn,ee) } ;> { dur(nn,ee) }
 }
