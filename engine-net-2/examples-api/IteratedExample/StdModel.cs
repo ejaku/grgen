@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Mar 23 22:55:43 CET 2014
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Wed Apr 30 22:32:41 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -711,11 +711,11 @@ namespace de.unika.ipd.grGen.Model_Std
 		};
 		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
 		};
-		public override void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {
-			graph.indices = new StdIndexSet(graph);
+		public override void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {
+			((GRGEN_LGSP.LGSPGraph)graph).indices = new StdIndexSet((GRGEN_LGSP.LGSPGraph)graph);
 		}
-		public override void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
-			((StdIndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);
+		public override void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
+			((StdIndexSet)((GRGEN_LGSP.LGSPGraph)graph).indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
 		}
 
 		public override string ModelName { get { return "Std"; } }
@@ -784,11 +784,11 @@ namespace de.unika.ipd.grGen.Model_Std
 		};
 		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
 		};
-		public void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {
-			graph.indices = new StdIndexSet(graph);
+		public void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {
+			((GRGEN_LGSP.LGSPGraph)graph).indices = new StdIndexSet((GRGEN_LGSP.LGSPGraph)graph);
 		}
-		public void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
-			((StdIndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);
+		public void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
+			((StdIndexSet)((GRGEN_LGSP.LGSPGraph)graph).indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
 		}
 
 		public string ModelName { get { return "Std"; } }
@@ -898,11 +898,11 @@ namespace de.unika.ipd.grGen.Model_Std
 		};
 		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
 		};
-		public void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {
-			graph.indices = new StdIndexSet(graph);
+		public void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {
+			((GRGEN_LGSP.LGSPGraph)graph).indices = new StdIndexSet((GRGEN_LGSP.LGSPGraph)graph);
 		}
-		public void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
-			((StdIndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);
+		public void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
+			((StdIndexSet)((GRGEN_LGSP.LGSPGraph)graph).indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
 		}
 
 		public string ModelName { get { return "Std"; } }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Mar 23 22:56:12 CET 2014
+// Generated from "..\..\tests\TNT\TNT.grg" on Wed Apr 30 22:33:03 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -1737,11 +1737,11 @@ namespace de.unika.ipd.grGen.Model_TNT
 		};
 		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
 		};
-		public override void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {
-			graph.indices = new TNTIndexSet(graph);
+		public override void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {
+			((GRGEN_LGSP.LGSPGraph)graph).indices = new TNTIndexSet((GRGEN_LGSP.LGSPGraph)graph);
 		}
-		public override void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
-			((TNTIndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);
+		public override void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
+			((TNTIndexSet)((GRGEN_LGSP.LGSPGraph)graph).indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
 		}
 
 		public override string ModelName { get { return "TNT"; } }
@@ -1840,11 +1840,11 @@ namespace de.unika.ipd.grGen.Model_TNT
 		};
 		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
 		};
-		public void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {
-			graph.indices = new TNTIndexSet(graph);
+		public void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {
+			((GRGEN_LGSP.LGSPGraph)graph).indices = new TNTIndexSet((GRGEN_LGSP.LGSPGraph)graph);
 		}
-		public void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
-			((TNTIndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);
+		public void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
+			((TNTIndexSet)((GRGEN_LGSP.LGSPGraph)graph).indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
 		}
 
 		public string ModelName { get { return "TNT"; } }
@@ -2014,11 +2014,11 @@ namespace de.unika.ipd.grGen.Model_TNT
 		};
 		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
 		};
-		public void CreateAndBindIndexSet(GRGEN_LGSP.LGSPGraph graph) {
-			graph.indices = new TNTIndexSet(graph);
+		public void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {
+			((GRGEN_LGSP.LGSPGraph)graph).indices = new TNTIndexSet((GRGEN_LGSP.LGSPGraph)graph);
 		}
-		public void FillIndexSetAsClone(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
-			((TNTIndexSet)graph.indices).FillAsClone(originalGraph, oldToNewMap);
+		public void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
+			((TNTIndexSet)((GRGEN_LGSP.LGSPGraph)graph).indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
 		}
 
 		public string ModelName { get { return "TNT"; } }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Mar 23 22:55:08 CET 2014
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Wed Apr 30 22:32:17 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -310,6 +310,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_InitWorld nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_InitWorld cur = this;
+				while(cur != null) {
+					Match_InitWorld next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -323,6 +332,12 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_InitWorld()
 			{
+			}
+
+			public bool IsEqual(Match_InitWorld that)
+			{
+				if(that==null) return false;
+				return true;
 			}
 		}
 
@@ -605,6 +620,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_TakeFood nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_TakeFood cur = this;
+				while(cur != null) {
+					Match_TakeFood next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -621,6 +645,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_TakeFood()
 			{
+			}
+
+			public bool IsEqual(Match_TakeFood that)
+			{
+				if(that==null) return false;
+				if(_node_curAnt != that._node_curAnt) return false;
+				if(_node_n != that._node_n) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -927,6 +960,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_GoHome nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_GoHome cur = this;
+				while(cur != null) {
+					Match_GoHome next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -945,6 +987,17 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_GoHome()
 			{
+			}
+
+			public bool IsEqual(Match_GoHome that)
+			{
+				if(that==null) return false;
+				if(_node_curAnt != that._node_curAnt) return false;
+				if(_node_old != that._node_old) return false;
+				if(_node_new != that._node_new) return false;
+				if(_edge_oldPos != that._edge_oldPos) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -1227,6 +1280,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_DropFood nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_DropFood cur = this;
+				while(cur != null) {
+					Match_DropFood next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -1243,6 +1305,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_DropFood()
 			{
+			}
+
+			public bool IsEqual(Match_DropFood that)
+			{
+				if(that==null) return false;
+				if(_node_curAnt != that._node_curAnt) return false;
+				if(_node_hill != that._node_hill) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -1541,6 +1612,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_SearchAlongPheromones nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_SearchAlongPheromones cur = this;
+				while(cur != null) {
+					Match_SearchAlongPheromones next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -1559,6 +1639,17 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_SearchAlongPheromones()
 			{
+			}
+
+			public bool IsEqual(Match_SearchAlongPheromones that)
+			{
+				if(that==null) return false;
+				if(_node_curAnt != that._node_curAnt) return false;
+				if(_node_old != that._node_old) return false;
+				if(_node_new != that._node_new) return false;
+				if(_edge_oldPos != that._edge_oldPos) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -1854,6 +1945,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_SearchAimless nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_SearchAimless cur = this;
+				while(cur != null) {
+					Match_SearchAimless next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -1872,6 +1972,17 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_SearchAimless()
 			{
+			}
+
+			public bool IsEqual(Match_SearchAimless that)
+			{
+				if(that==null) return false;
+				if(_node_curAnt != that._node_curAnt) return false;
+				if(_node_old != that._node_old) return false;
+				if(_node_new != that._node_new) return false;
+				if(_edge_oldPos != that._edge_oldPos) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -2200,6 +2311,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_ReachedEndOfWorld nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_ReachedEndOfWorld cur = this;
+				while(cur != null) {
+					Match_ReachedEndOfWorld next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -2216,6 +2336,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_ReachedEndOfWorld()
 			{
+			}
+
+			public bool IsEqual(Match_ReachedEndOfWorld that)
+			{
+				if(that==null) return false;
+				if(_node_curAnt != that._node_curAnt) return false;
+				if(_node_n != that._node_n) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -2357,6 +2486,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_ReachedEndOfWorld_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_ReachedEndOfWorld_neg_0 cur = this;
+				while(cur != null) {
+					Match_ReachedEndOfWorld_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -2372,6 +2510,14 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_ReachedEndOfWorld_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_ReachedEndOfWorld_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -2701,6 +2847,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_ReachedEndOfWorldAnywhere nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_ReachedEndOfWorldAnywhere cur = this;
+				while(cur != null) {
+					Match_ReachedEndOfWorldAnywhere next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -2717,6 +2872,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_ReachedEndOfWorldAnywhere()
 			{
+			}
+
+			public bool IsEqual(Match_ReachedEndOfWorldAnywhere that)
+			{
+				if(that==null) return false;
+				if(_node__node0 != that._node__node0) return false;
+				if(_node_n != that._node_n) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -2858,6 +3022,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_ReachedEndOfWorldAnywhere_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_ReachedEndOfWorldAnywhere_neg_0 cur = this;
+				while(cur != null) {
+					Match_ReachedEndOfWorldAnywhere_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -2873,6 +3046,14 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_ReachedEndOfWorldAnywhere_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_ReachedEndOfWorldAnywhere_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -3147,6 +3328,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_GrowFoodIfEqual nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_GrowFoodIfEqual cur = this;
+				while(cur != null) {
+					Match_GrowFoodIfEqual next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -3163,6 +3353,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_GrowFoodIfEqual()
 			{
+			}
+
+			public bool IsEqual(Match_GrowFoodIfEqual that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_node_hill != that._node_hill) return false;
+				if(_var_val != that._var_val) return false;
+				return true;
 			}
 		}
 
@@ -3526,6 +3725,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_GrowWorldFirstAtCorner nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_GrowWorldFirstAtCorner cur = this;
+				while(cur != null) {
+					Match_GrowWorldFirstAtCorner next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -3543,6 +3751,16 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_GrowWorldFirstAtCorner()
 			{
+			}
+
+			public bool IsEqual(Match_GrowWorldFirstAtCorner that)
+			{
+				if(that==null) return false;
+				if(_node_cur != that._node_cur) return false;
+				if(_node_next != that._node_next) return false;
+				if(_node_hill != that._node_hill) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -3858,6 +4076,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_GrowWorldFirstNotAtCorner nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_GrowWorldFirstNotAtCorner cur = this;
+				while(cur != null) {
+					Match_GrowWorldFirstNotAtCorner next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -3875,6 +4102,16 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_GrowWorldFirstNotAtCorner()
 			{
+			}
+
+			public bool IsEqual(Match_GrowWorldFirstNotAtCorner that)
+			{
+				if(that==null) return false;
+				if(_node_cur != that._node_cur) return false;
+				if(_node_next != that._node_next) return false;
+				if(_node_hill != that._node_hill) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -4317,6 +4554,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_GrowWorldNextAtCorner nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_GrowWorldNextAtCorner cur = this;
+				while(cur != null) {
+					Match_GrowWorldNextAtCorner next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -4335,6 +4581,17 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_GrowWorldNextAtCorner()
 			{
+			}
+
+			public bool IsEqual(Match_GrowWorldNextAtCorner that)
+			{
+				if(that==null) return false;
+				if(_node_cur != that._node_cur) return false;
+				if(_node_next != that._node_next) return false;
+				if(_node_curOuter != that._node_curOuter) return false;
+				if(_node_hill != that._node_hill) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -4476,6 +4733,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_GrowWorldNextAtCorner_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_GrowWorldNextAtCorner_neg_0 cur = this;
+				while(cur != null) {
+					Match_GrowWorldNextAtCorner_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -4491,6 +4757,14 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_GrowWorldNextAtCorner_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_GrowWorldNextAtCorner_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_cur != that._node_cur) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -4885,6 +5159,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_GrowWorldNextNotAtCorner nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_GrowWorldNextNotAtCorner cur = this;
+				while(cur != null) {
+					Match_GrowWorldNextNotAtCorner next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -4903,6 +5186,17 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_GrowWorldNextNotAtCorner()
 			{
+			}
+
+			public bool IsEqual(Match_GrowWorldNextNotAtCorner that)
+			{
+				if(that==null) return false;
+				if(_node_cur != that._node_cur) return false;
+				if(_node_next != that._node_next) return false;
+				if(_node_curOuter != that._node_curOuter) return false;
+				if(_node_hill != that._node_hill) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -5044,6 +5338,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_GrowWorldNextNotAtCorner_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_GrowWorldNextNotAtCorner_neg_0 cur = this;
+				while(cur != null) {
+					Match_GrowWorldNextNotAtCorner_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -5059,6 +5362,14 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_GrowWorldNextNotAtCorner_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_GrowWorldNextNotAtCorner_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_cur != that._node_cur) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -5339,6 +5650,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_GrowWorldEnd nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_GrowWorldEnd cur = this;
+				while(cur != null) {
+					Match_GrowWorldEnd next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -5356,6 +5676,16 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_GrowWorldEnd()
 			{
+			}
+
+			public bool IsEqual(Match_GrowWorldEnd that)
+			{
+				if(that==null) return false;
+				if(_node_nextOuter != that._node_nextOuter) return false;
+				if(_node_cur != that._node_cur) return false;
+				if(_node_curOuter != that._node_curOuter) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -5618,6 +5948,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_GetNextAnt nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_GetNextAnt cur = this;
+				while(cur != null) {
+					Match_GetNextAnt next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -5634,6 +5973,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_GetNextAnt()
 			{
+			}
+
+			public bool IsEqual(Match_GetNextAnt that)
+			{
+				if(that==null) return false;
+				if(_node_curAnt != that._node_curAnt) return false;
+				if(_node_next != that._node_next) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -5901,6 +6249,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_Food2Ant nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_Food2Ant cur = this;
+				while(cur != null) {
+					Match_Food2Ant next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -5916,6 +6273,14 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_Food2Ant()
 			{
+			}
+
+			public bool IsEqual(Match_Food2Ant that)
+			{
+				if(that==null) return false;
+				if(_node_lastAnt != that._node_lastAnt) return false;
+				if(_node_hill != that._node_hill) return false;
+				return true;
 			}
 		}
 
@@ -6164,6 +6529,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_EvaporateWorld nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_EvaporateWorld cur = this;
+				while(cur != null) {
+					Match_EvaporateWorld next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -6178,6 +6552,13 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			}
 			public Match_EvaporateWorld()
 			{
+			}
+
+			public bool IsEqual(Match_EvaporateWorld that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				return true;
 			}
 		}
 
@@ -6790,6 +7171,15 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_doAntWorld nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_doAntWorld cur = this;
+				while(cur != null) {
+					Match_doAntWorld next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -6804,6 +7194,13 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
 			}
 			public Match_doAntWorld()
 			{
+			}
+
+			public bool IsEqual(Match_doAntWorld that)
+			{
+				if(that==null) return false;
+				if(_node_firstAnt != that._node_firstAnt) return false;
+				return true;
 			}
 		}
 
@@ -7112,6 +7509,10 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -7349,6 +7750,10 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -7616,6 +8021,10 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -7853,6 +8262,10 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -8120,6 +8533,10 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -8391,6 +8808,10 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -8651,6 +9072,10 @@ label0: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -8913,6 +9338,10 @@ label1: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -9147,6 +9576,10 @@ label1: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -9415,6 +9848,10 @@ label1: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -9683,6 +10120,10 @@ label1: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -9990,6 +10431,10 @@ label1: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -10297,6 +10742,10 @@ label1: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -10556,6 +11005,10 @@ label1: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -10803,6 +11256,10 @@ label1: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -11031,6 +11488,10 @@ label1: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -11255,6 +11716,10 @@ label1: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -11467,6 +11932,10 @@ label1: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;

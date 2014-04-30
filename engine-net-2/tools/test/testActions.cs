@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Mar 23 22:55:06 CET 2014
+// Generated from "test.grg" on Wed Apr 30 22:32:15 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -321,6 +321,15 @@ namespace de.unika.ipd.grGen.Action_test
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_testRule nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_testRule cur = this;
+				while(cur != null) {
+					Match_testRule next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -339,6 +348,17 @@ namespace de.unika.ipd.grGen.Action_test
 			}
 			public Match_testRule()
 			{
+			}
+
+			public bool IsEqual(Match_testRule that)
+			{
+				if(that==null) return false;
+				if(_node_a != that._node_a) return false;
+				if(_node_f != that._node_f) return false;
+				if(_node_m != that._node_m) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_edge__edge1 != that._edge__edge1) return false;
+				return true;
 			}
 		}
 
@@ -657,6 +677,10 @@ namespace de.unika.ipd.grGen.Action_test
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
