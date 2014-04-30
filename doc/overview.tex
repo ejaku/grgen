@@ -226,6 +226,25 @@ For further information about the \GrShell\ language see Chapter~\ref{chapgrshel
 The shell supports some \texttt{new set} configuration options that map to the \texttt{grgen} compiler flags (see \ref{graphcommands}), use them before any \texttt{new graph} commands so that matchers are generated according to the compiler flags you would use if you would execute the compiler directly.
 \end{note}
 
+\begin{example}
+The \texttt{-C} option is often not as helpful as needed because bash splits the command given inside "" alongside spaces.
+Unless you are a shell wizard in control of escaping and unescaping, you want to work with here documents.
+The following example shell script from \texttt{examples/MovieDatabase-TTC2014} shows how to execute an \GrShell-script embedded as here document on all files in a folder.
+\begin{grshell}
+#!/bin/bash
+for file in *.xmi; do	
+    GrShell -N << HERE
+import movies.ecore $file GrgenifyMovieDatabase.grg
+redirect emit $file.grs
+exec create_MovieDatabaseModel ;> [create_Movie] ;> [create_Actor] ;> [create_Actress] ;> [create_personToMovie]
+redirect emit - 
+validate exitonfailure exec noEdgesLeft
+quit
+HERE
+done
+\end{grshell}
+\end{example}
+
 %-----------------------------------------------------------------------------------------------
 \subsection{\texttt{LibGr.dll}}
 \label{sct:API}
@@ -277,8 +296,9 @@ We have organized the presentation of the features of the \GrG\ languages accord
     \item Typed nodes and edges, with \emph{multiple inheritance} on types
     \item Directed multigraphs (supporting multiple edges of the same type between two nodes)
     \item Undirected and arbitrarily directed edges
-    \item Node and edge types can be equipped with typed attributes (like structs), of the commonly known elementary types or of some container types
     \item Connection assertions to restrict the ``shape'' of graphs
+    \item Node and edge types can be equipped with typed attributes (like structs), of the commonly known elementary types or of some container types
+    \item Attribute indices for a quick lookup based on the attribute value
 %    \item Turing complete language for checking complex conditions
   \end{itemize}
 

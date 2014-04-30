@@ -122,9 +122,10 @@ Computations may be executed repeatedly by the \texttt{while} and \texttt{do-whi
 
 The containers introduced in chapter \ref{cha:container} may be iterated over with a for loop, one assigning the current value to a variable, the other assigning the current index and the current value to a variable.
 \begin{rail}
-  ForLoop: (ForHeader | IndexedForHeader) lbrace (Statement*) rbrace;
+  ForLoop: (ForHeader | IndexedForHeader | ForRangeHeader) lbrace (Statement*) rbrace;
   ForHeader: 'for' '(' Var ':' Type 'in' ContainerVar ')';
   IndexedForHeader: 'for' '(' IndexVar ':' Type '->' Var ':' Type 'in' ContainerVar ')' ;
+  ForRangeHeader: 'for' '(' Var ':' 'int' 'in' '[' IntExpr ':' IntExpr ']' ')';
 \end{rail}\ixkeyw{in}\ixkeyw{for}\ixnterm{ForLoop}
 
 Loop body execution may be exited early or continued with the next iteration with the \texttt{break} and \texttt{continue} statements. Such a statement must not occur outside of a loop.
@@ -247,7 +248,7 @@ test example : (int)
 
 A such defined function may then be called as an expression atom from anywhere in the rule language file where an expression is required; or even from the sequence computations where an expression is required.
 Besides the built-in functions that are called with the same syntax;
-table~\ref{funcstab} lists the global built-in functions of the rule language at a glance,
+table~\ref{funcstab} and table~\ref{funcstab2} list the global built-in functions of the rule language at a glance,
 table~\ref{packagefuncstab} lists the built-in functions contained in built-in packages at a glance.
 
 %\makeatletter
@@ -276,6 +277,53 @@ table~\ref{packagefuncstab} lists the built-in functions contained in built-in p
 \texttt{reachableEdgesIncoming(Node[,EdgeType[,NodeType]]):set<Edge>}\\
 \texttt{reachableEdgesOutgoing(Node[,EdgeType[,NodeType]]):set<Edge>}\\
 \hline
+\texttt{boundedReachable(Node,int[,EdgeType[,NodeType]]):set<Node>}\\
+\texttt{boundedReachableIncoming(Node,int[,EdgeType[,NodeType]]):set<Node>}\\
+\texttt{boundedReachableOutgoing(Node,int[,EdgeType[,NodeType]]):set<Node>}\\
+\texttt{boundedReachableEdges(Node,int[,EdgeType[,NodeType]]):set<Edge>}\\
+\texttt{boundedReachableEdgesIncoming(Node,int[,EdgeType[,NodeType]]):set<Edge>}\\
+\texttt{boundedReachableEdgesOutgoing(Node,int[,EdgeType[,NodeType]]):set<Edge>}\\
+\hline
+\texttt{inducedSubgraph(set<Node>):graph}\\
+\texttt{definedSubgraph(set<Edge>):graph}\\
+\texttt{copy(graph):graph}\\
+\texttt{copy(container):container}\\
+\texttt{copy(match<r>):match<r>}\\
+\hline
+\end{tabular}
+\caption{Global functions at a glance, part I}
+\label{funcstab}
+\end{table}
+
+%\makeatletter
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|}
+\hline
+\texttt{countNodes([NodeType]):int}\\
+\texttt{countEdges([EdgeType]):int}\\
+\hline
+\texttt{countAdjacent(Node[,EdgeType[,NodeType]]):int}\\
+\texttt{countAdjacentIncoming(Node[,EdgeType[,NodeType]]):int}\\
+\texttt{countAdjacentOutgoing(Node[,EdgeType[,NodeType]]):int}\\
+\texttt{countIncident(Node[,EdgeType[,NodeType]]):int}\\
+\texttt{countIncoming(Node[,EdgeType[,NodeType]]):int}\\
+\texttt{countOutgoing(Node[,EdgeType[,NodeType]]):int}\\
+\hline
+\texttt{countReachable(Node[,EdgeType[,NodeType]]):int}\\
+\texttt{countReachableIncoming(Node[,EdgeType[,NodeType]]):int}\\
+\texttt{countReachableOutgoing(Node[,EdgeType[,NodeType]]):int}\\
+\texttt{countReachableEdges(Node[,EdgeType[,NodeType]]):int}\\
+\texttt{countReachableEdgesIncoming(Node[,EdgeType[,NodeType]]):int}\\
+\texttt{countReachableEdgesOutgoing(Node[,EdgeType[,NodeType]]):int}\\
+\hline
+\texttt{countBoundedReachable(Node,int[,EdgeType[,NodeType]]):int}\\
+\texttt{countBoundedReachableIncoming(Node,int[,EdgeType[,NodeType]]):int}\\
+\texttt{countBoundedReachableOutgoing(Node,int[,EdgeType[,NodeType]]):int}\\
+\texttt{countBoundedReachableEdges(Node,int[,EdgeType[,NodeType]]):int}\\
+\texttt{countBoundedReachableEdgesIncoming(Node,int[,EdgeType[,NodeType]]):int}\\
+\texttt{countBoundedReachableEdgesOutgoing(Node,int[,EdgeType[,NodeType]]):int}\\
+\hline
 \texttt{isAdjacent(Node,Node[,EdgeType[,NodeType]]):boolean}\\
 \texttt{isAdjacentIncoming(Node,Node[,EdgeType[,NodeType]]):boolean}\\
 \texttt{isAdjacentOutgoing(Node,Node[,EdgeType[,NodeType]]):boolean}\\
@@ -290,13 +338,16 @@ table~\ref{packagefuncstab} lists the built-in functions contained in built-in p
 \texttt{isReachableEdgesIncoming(Node,Edge[,EdgeType[,NodeType]]):boolean}\\
 \texttt{isReachableEdgesOutgoing(Node,Edge[,EdgeType[,NodeType]]):boolean}\\
 \hline
-\texttt{inducedSubgraph(set<Node>):graph}\\
-\texttt{definedSubgraph(set<Edge>):graph}\\
-\texttt{copy(graph):graph}\\
+\texttt{isBoundedReachable(Node,Node,int[,EdgeType[,NodeType]]):boolean}\\
+\texttt{isBoundedReachableIncoming(Node,Node,int[,EdgeType[,NodeType]]):boolean}\\
+\texttt{isBoundedReachableOutgoing(Node,Node,int[,EdgeType[,NodeType]]):boolean}\\
+\texttt{isBoundedReachableEdges(Node,Edge,int[,EdgeType[,NodeType]]):boolean}\\
+\texttt{isBoundedReachableEdgesIncoming(Node,Edge,int[,EdgeType[,NodeType]]):boolean}\\
+\texttt{isBoundedReachableEdgesOutgoing(Node,Edge,int[,EdgeType[,NodeType]]):boolean}\\
 \hline
 \end{tabular}
-\caption{Global functions at a glance}
-\label{funcstab}
+\caption{Global functions at a glance, part II}
+\label{funcstab2}
 \end{table}
 
 \begin{table}[htbp]
@@ -323,6 +374,9 @@ table~\ref{packagefuncstab} lists the built-in functions contained in built-in p
 \texttt{Math::arcsin(double):double}\\
 \texttt{Math::arccos(double):double}\\
 \texttt{Math::arctan(double):double}\\
+\hline
+\texttt{Math::pi():double}\\
+\texttt{Math::e():double}\\
 \hline
 \texttt{File::import(string):graph}\\
 \texttt{File::existsFile(string):boolean}\\
@@ -620,6 +674,7 @@ separated into pattern and rewrite part, and into expressions and statements.
 \texttt{do \{S1\} while(cond) } & Executes \texttt{S1} until \texttt{cond} evaluates to \texttt{false}.\\
 \texttt{for(v:T in c) \{S1\} } & Executes \texttt{S1} for each value \texttt{v} contained in container \texttt{c}.\\
 \texttt{for(i:T->v:S in c) \{S1\} } & Executes \texttt{S1} for each key/position to value pair \texttt{(i,v)} contained in container \texttt{c}.\\
+\texttt{for(i:int in [l:r]) \{S1\} } & Executes \texttt{S1} for each integer \texttt{i} in the range from \texttt{l} to \texttt{r}, in steps of 1, upwards if \texttt{l<=r}, otherwise downwards.\\
 \hline
 \texttt{break} & Aborts execution of the containing loop.\\
 \texttt{continue} & Continues execution of the containing loop at its condition.\\
