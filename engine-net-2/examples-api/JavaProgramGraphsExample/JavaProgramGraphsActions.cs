@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Mar 23 22:55:50 CET 2014
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Wed Apr 30 22:32:45 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -283,15 +283,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( MultipleContainedPackagesOrClasses_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			{ // [@2915,596:603='emithere',<47>,34:3]
-			procEnv.EmitWriter.Write("package ");
-			procEnv.EmitWriter.Write(inode_sub.@name);
-			procEnv.EmitWriter.Write("\n{\n");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("package ", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(inode_sub.@name, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\n{\n", graph));
 			}
 			{ // mpc
 			Pattern_MultipleContainedPackagesOrClasses.Instance.MultipleContainedPackagesOrClasses_Modify(actionEnv, subpattern_mpc);
 			}
 			{ // [@2934,652:659='emithere',<47>,36:3]
-			procEnv.EmitWriter.Write("}\n");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("}\n", graph));
 			}
 			graph.SettingAddedEdgeNames( MultipleContainedPackagesOrClasses_iter_0_addedEdgeNames );
 			string tempvar_node_sub_name = inode_sub.@name;
@@ -338,9 +338,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( MultipleContainedPackagesOrClasses_iter_1_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			{ // [@2980,798:805='emithere',<47>,46:3]
-			procEnv.EmitWriter.Write("class ");
-			procEnv.EmitWriter.Write(inode_c.@name);
-			procEnv.EmitWriter.Write(" {\n");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("class ", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(inode_c.@name, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(" {\n", graph));
 			}
 			{ // mm
 			Pattern_MultipleMethodBodies.Instance.MultipleMethodBodies_Modify(actionEnv, subpattern_mm);
@@ -349,7 +349,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Pattern_MultipleVariables.Instance.MultipleVariables_Modify(actionEnv, subpattern_mv);
 			}
 			{ // [@3004,858:865='emithere',<47>,49:3]
-			procEnv.EmitWriter.Write("}\n");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("}\n", graph));
 			}
 			graph.SettingAddedEdgeNames( MultipleContainedPackagesOrClasses_iter_1_addedEdgeNames );
 			string tempvar_node_c_name = inode_c.@name;
@@ -572,6 +572,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleContainedPackagesOrClasses nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleContainedPackagesOrClasses cur = this;
+				while(cur != null) {
+					Match_MultipleContainedPackagesOrClasses next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -588,6 +597,29 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleContainedPackagesOrClasses()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleContainedPackagesOrClasses that)
+			{
+				if(that==null) return false;
+				if(_node_p != that._node_p) return false;
+				if(_iter_0.Count != that._iter_0.Count) return false;
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thisEnumerator = _iter_0.GetEnumerator();
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thatEnumerator = that._iter_0.GetEnumerator();
+				while(_iter_0_thisEnumerator.MoveNext())
+				{
+					_iter_0_thatEnumerator.MoveNext();
+					if(!(_iter_0_thisEnumerator.Current as Match_MultipleContainedPackagesOrClasses_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_MultipleContainedPackagesOrClasses_iter_0)) return false;
+				}
+				if(_iter_1.Count != that._iter_1.Count) return false;
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_1_thisEnumerator = _iter_1.GetEnumerator();
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_1_thatEnumerator = that._iter_1.GetEnumerator();
+				while(_iter_1_thisEnumerator.MoveNext())
+				{
+					_iter_1_thatEnumerator.MoveNext();
+					if(!(_iter_1_thisEnumerator.Current as Match_MultipleContainedPackagesOrClasses_iter_1).IsEqual(_iter_1_thatEnumerator.Current as Match_MultipleContainedPackagesOrClasses_iter_1)) return false;
+				}
+				return true;
 			}
 		}
 
@@ -739,6 +771,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleContainedPackagesOrClasses_iter_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleContainedPackagesOrClasses_iter_0 cur = this;
+				while(cur != null) {
+					Match_MultipleContainedPackagesOrClasses_iter_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -756,6 +797,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleContainedPackagesOrClasses_iter_0()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleContainedPackagesOrClasses_iter_0 that)
+			{
+				if(that==null) return false;
+				if(_node_sub != that._node_sub) return false;
+				if(_node_p != that._node_p) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@_mpc.IsEqual(that.@_mpc)) return false;
+				return true;
 			}
 		}
 
@@ -911,6 +962,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleContainedPackagesOrClasses_iter_1 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleContainedPackagesOrClasses_iter_1 cur = this;
+				while(cur != null) {
+					Match_MultipleContainedPackagesOrClasses_iter_1 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -929,6 +989,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleContainedPackagesOrClasses_iter_1()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleContainedPackagesOrClasses_iter_1 that)
+			{
+				if(that==null) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node_p != that._node_p) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@_mm.IsEqual(that.@_mm)) return false;
+				if(!@_mv.IsEqual(that.@_mv)) return false;
+				return true;
 			}
 		}
 
@@ -1117,9 +1188,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( MultipleVariables_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			{ // [@3052,1004:1011='emithere',<47>,62:3]
-			procEnv.EmitWriter.Write("var ");
-			procEnv.EmitWriter.Write(inode_v.@name);
-			procEnv.EmitWriter.Write(";\n");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("var ", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(inode_v.@name, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(";\n", graph));
 			}
 			graph.SettingAddedEdgeNames( MultipleVariables_iter_0_addedEdgeNames );
 			string tempvar_node_v_name = inode_v.@name;
@@ -1313,6 +1384,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleVariables nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleVariables cur = this;
+				while(cur != null) {
+					Match_MultipleVariables next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -1328,6 +1408,21 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleVariables()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleVariables that)
+			{
+				if(that==null) return false;
+				if(_node_c != that._node_c) return false;
+				if(_iter_0.Count != that._iter_0.Count) return false;
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thisEnumerator = _iter_0.GetEnumerator();
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thatEnumerator = that._iter_0.GetEnumerator();
+				while(_iter_0_thisEnumerator.MoveNext())
+				{
+					_iter_0_thatEnumerator.MoveNext();
+					if(!(_iter_0_thisEnumerator.Current as Match_MultipleVariables_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_MultipleVariables_iter_0)) return false;
+				}
+				return true;
 			}
 		}
 
@@ -1475,6 +1570,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleVariables_iter_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleVariables_iter_0 cur = this;
+				while(cur != null) {
+					Match_MultipleVariables_iter_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -1491,6 +1595,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleVariables_iter_0()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleVariables_iter_0 that)
+			{
+				if(that==null) return false;
+				if(_node_v != that._node_v) return false;
+				if(_node_c != that._node_c) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -1685,13 +1798,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( MultipleMethodBodies_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			{ // [@3116,1213:1220='emithere',<47>,77:3]
-			procEnv.EmitWriter.Write("method body");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("method body", graph));
 			}
 			{ // bi
 			Pattern_MethodBodyAndImplementation.Instance.MethodBodyAndImplementation_Modify(actionEnv, subpattern_bi);
 			}
 			{ // [@3127,1252:1259='emithere',<47>,79:3]
-			procEnv.EmitWriter.Write(";\n");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(";\n", graph));
 			}
 			graph.SettingAddedEdgeNames( MultipleMethodBodies_iter_0_addedEdgeNames );
 		}
@@ -1887,6 +2000,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleMethodBodies nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleMethodBodies cur = this;
+				while(cur != null) {
+					Match_MultipleMethodBodies next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -1902,6 +2024,21 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleMethodBodies()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleMethodBodies that)
+			{
+				if(that==null) return false;
+				if(_node_c != that._node_c) return false;
+				if(_iter_0.Count != that._iter_0.Count) return false;
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thisEnumerator = _iter_0.GetEnumerator();
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thatEnumerator = that._iter_0.GetEnumerator();
+				while(_iter_0_thisEnumerator.MoveNext())
+				{
+					_iter_0_thatEnumerator.MoveNext();
+					if(!(_iter_0_thisEnumerator.Current as Match_MultipleMethodBodies_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_MultipleMethodBodies_iter_0)) return false;
+				}
+				return true;
 			}
 		}
 
@@ -2053,6 +2190,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleMethodBodies_iter_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleMethodBodies_iter_0 cur = this;
+				while(cur != null) {
+					Match_MultipleMethodBodies_iter_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -2070,6 +2216,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleMethodBodies_iter_0()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleMethodBodies_iter_0 that)
+			{
+				if(that==null) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_node_c != that._node_c) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@_bi.IsEqual(that.@_bi)) return false;
+				return true;
 			}
 		}
 
@@ -2377,13 +2533,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( MethodBodyAndImplementation_iter_1_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			{ // [@3218,1658:1665='emithere',<47>,102:3]
-			procEnv.EmitWriter.Write(" {");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(" {", graph));
 			}
 			{ // me
 			Pattern_MultipleExpressions.Instance.MultipleExpressions_Modify(actionEnv, subpattern_me);
 			}
 			{ // [@3229,1688:1695='emithere',<47>,104:3]
-			procEnv.EmitWriter.Write("}");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("}", graph));
 			}
 			graph.SettingAddedEdgeNames( MethodBodyAndImplementation_iter_1_addedEdgeNames );
 		}
@@ -2602,6 +2758,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MethodBodyAndImplementation nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MethodBodyAndImplementation cur = this;
+				while(cur != null) {
+					Match_MethodBodyAndImplementation next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -2618,6 +2783,29 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MethodBodyAndImplementation()
 			{
+			}
+
+			public bool IsEqual(Match_MethodBodyAndImplementation that)
+			{
+				if(that==null) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_iter_0.Count != that._iter_0.Count) return false;
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thisEnumerator = _iter_0.GetEnumerator();
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thatEnumerator = that._iter_0.GetEnumerator();
+				while(_iter_0_thisEnumerator.MoveNext())
+				{
+					_iter_0_thatEnumerator.MoveNext();
+					if(!(_iter_0_thisEnumerator.Current as Match_MethodBodyAndImplementation_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_MethodBodyAndImplementation_iter_0)) return false;
+				}
+				if(_iter_1.Count != that._iter_1.Count) return false;
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_1_thisEnumerator = _iter_1.GetEnumerator();
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_1_thatEnumerator = that._iter_1.GetEnumerator();
+				while(_iter_1_thisEnumerator.MoveNext())
+				{
+					_iter_1_thatEnumerator.MoveNext();
+					if(!(_iter_1_thisEnumerator.Current as Match_MethodBodyAndImplementation_iter_1).IsEqual(_iter_1_thatEnumerator.Current as Match_MethodBodyAndImplementation_iter_1)) return false;
+				}
+				return true;
 			}
 		}
 
@@ -2769,6 +2957,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MethodBodyAndImplementation_iter_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MethodBodyAndImplementation_iter_0 cur = this;
+				while(cur != null) {
+					Match_MethodBodyAndImplementation_iter_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -2786,6 +2983,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MethodBodyAndImplementation_iter_0()
 			{
+			}
+
+			public bool IsEqual(Match_MethodBodyAndImplementation_iter_0 that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@__sub0.IsEqual(that.@__sub0)) return false;
+				return true;
 			}
 		}
 
@@ -2937,6 +3144,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MethodBodyAndImplementation_iter_1 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MethodBodyAndImplementation_iter_1 cur = this;
+				while(cur != null) {
+					Match_MethodBodyAndImplementation_iter_1 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -2954,6 +3170,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MethodBodyAndImplementation_iter_1()
 			{
+			}
+
+			public bool IsEqual(Match_MethodBodyAndImplementation_iter_1 that)
+			{
+				if(that==null) return false;
+				if(_node_b != that._node_b) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@_me.IsEqual(that.@_me)) return false;
+				return true;
 			}
 		}
 
@@ -3330,6 +3556,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleParameters nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleParameters cur = this;
+				while(cur != null) {
+					Match_MultipleParameters next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -3345,6 +3580,21 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleParameters()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleParameters that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_iter_0.Count != that._iter_0.Count) return false;
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thisEnumerator = _iter_0.GetEnumerator();
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thatEnumerator = that._iter_0.GetEnumerator();
+				while(_iter_0_thisEnumerator.MoveNext())
+				{
+					_iter_0_thatEnumerator.MoveNext();
+					if(!(_iter_0_thisEnumerator.Current as Match_MultipleParameters_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_MultipleParameters_iter_0)) return false;
+				}
+				return true;
 			}
 		}
 
@@ -3492,6 +3742,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleParameters_iter_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleParameters_iter_0 cur = this;
+				while(cur != null) {
+					Match_MultipleParameters_iter_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -3508,6 +3767,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleParameters_iter_0()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleParameters_iter_0 that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node__node0 != that._node__node0) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -3780,13 +4048,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( MultipleExpressions_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			{ // [@3328,2005:2012='emithere',<47>,130:3]
-			procEnv.EmitWriter.Write("exp");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("exp", graph));
 			}
 			{ // ec
 			Pattern_ExpressionChain.Instance.ExpressionChain_Modify(actionEnv, subpattern_ec);
 			}
 			{ // [@3339,2036:2043='emithere',<47>,132:3]
-			procEnv.EmitWriter.Write(" ");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(" ", graph));
 			}
 			graph.SettingAddedEdgeNames( MultipleExpressions_iter_0_addedEdgeNames );
 		}
@@ -3832,13 +4100,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( MultipleExpressions_iter_1_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			{ // [@3384,2189:2196='emithere',<47>,142:3]
-			procEnv.EmitWriter.Write("call");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("call", graph));
 			}
 			{ // ec
 			Pattern_ExpressionChain.Instance.ExpressionChain_Modify(actionEnv, subpattern_ec);
 			}
 			{ // [@3395,2221:2228='emithere',<47>,144:3]
-			procEnv.EmitWriter.Write(" ");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(" ", graph));
 			}
 			graph.SettingAddedEdgeNames( MultipleExpressions_iter_1_addedEdgeNames );
 		}
@@ -4060,6 +4328,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleExpressions nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleExpressions cur = this;
+				while(cur != null) {
+					Match_MultipleExpressions next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -4076,6 +4353,29 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleExpressions()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleExpressions that)
+			{
+				if(that==null) return false;
+				if(_node_b != that._node_b) return false;
+				if(_iter_0.Count != that._iter_0.Count) return false;
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thisEnumerator = _iter_0.GetEnumerator();
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thatEnumerator = that._iter_0.GetEnumerator();
+				while(_iter_0_thisEnumerator.MoveNext())
+				{
+					_iter_0_thatEnumerator.MoveNext();
+					if(!(_iter_0_thisEnumerator.Current as Match_MultipleExpressions_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_MultipleExpressions_iter_0)) return false;
+				}
+				if(_iter_1.Count != that._iter_1.Count) return false;
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_1_thisEnumerator = _iter_1.GetEnumerator();
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_1_thatEnumerator = that._iter_1.GetEnumerator();
+				while(_iter_1_thisEnumerator.MoveNext())
+				{
+					_iter_1_thatEnumerator.MoveNext();
+					if(!(_iter_1_thisEnumerator.Current as Match_MultipleExpressions_iter_1).IsEqual(_iter_1_thatEnumerator.Current as Match_MultipleExpressions_iter_1)) return false;
+				}
+				return true;
 			}
 		}
 
@@ -4227,6 +4527,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleExpressions_iter_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleExpressions_iter_0 cur = this;
+				while(cur != null) {
+					Match_MultipleExpressions_iter_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -4244,6 +4553,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleExpressions_iter_0()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleExpressions_iter_0 that)
+			{
+				if(that==null) return false;
+				if(_node_b != that._node_b) return false;
+				if(_node_next != that._node_next) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@_ec.IsEqual(that.@_ec)) return false;
+				return true;
 			}
 		}
 
@@ -4399,6 +4718,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleExpressions_iter_1 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleExpressions_iter_1 cur = this;
+				while(cur != null) {
+					Match_MultipleExpressions_iter_1 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -4417,6 +4745,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleExpressions_iter_1()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleExpressions_iter_1 that)
+			{
+				if(that==null) return false;
+				if(_node_b != that._node_b) return false;
+				if(_node_call != that._node_call) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@_ec.IsEqual(that.@_ec)) return false;
+				if(!@__sub0.IsEqual(that.@__sub0)) return false;
+				return true;
 			}
 		}
 
@@ -4802,7 +5141,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( ExpressionChain_alt_0_ExprAndAgain_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			{ // [@3457,2433:2440='emithere',<47>,159:4]
-			procEnv.EmitWriter.Write("--exp");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("--exp", graph));
 			}
 			{ // ec
 			Pattern_ExpressionChain.Instance.ExpressionChain_Modify(actionEnv, subpattern_ec);
@@ -4837,7 +5176,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( ExpressionChain_alt_0_CallAndAgain_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			{ // [@3507,2611:2618='emithere',<47>,169:4]
-			procEnv.EmitWriter.Write("--call");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("--call", graph));
 			}
 			{ // ec
 			Pattern_ExpressionChain.Instance.ExpressionChain_Modify(actionEnv, subpattern_ec);
@@ -4871,7 +5210,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( ExpressionChain_alt_0_End_addedNodeNames );
 			graph.SettingAddedEdgeNames( ExpressionChain_alt_0_End_addedEdgeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write(";");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(";", graph));
 		}
 		private static string[] ExpressionChain_alt_0_End_addedNodeNames = new string[] {  };
 		private static string[] ExpressionChain_alt_0_End_addedEdgeNames = new string[] {  };
@@ -5109,6 +5448,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_ExpressionChain nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_ExpressionChain cur = this;
+				while(cur != null) {
+					Match_ExpressionChain next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -5124,6 +5472,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_ExpressionChain()
 			{
+			}
+
+			public bool IsEqual(Match_ExpressionChain that)
+			{
+				if(that==null) return false;
+				if(_node_e != that._node_e) return false;
+				if(_alt_0 is Match_ExpressionChain_alt_0_ExprAndAgain && !(_alt_0 as Match_ExpressionChain_alt_0_ExprAndAgain).IsEqual(that._alt_0 as Match_ExpressionChain_alt_0_ExprAndAgain)) return false;
+				if(_alt_0 is Match_ExpressionChain_alt_0_CallAndAgain && !(_alt_0 as Match_ExpressionChain_alt_0_CallAndAgain).IsEqual(that._alt_0 as Match_ExpressionChain_alt_0_CallAndAgain)) return false;
+				if(_alt_0 is Match_ExpressionChain_alt_0_End && !(_alt_0 as Match_ExpressionChain_alt_0_End).IsEqual(that._alt_0 as Match_ExpressionChain_alt_0_End)) return false;
+				return true;
 			}
 		}
 
@@ -5273,6 +5631,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_ExpressionChain_alt_0_ExprAndAgain nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_ExpressionChain_alt_0_ExprAndAgain cur = this;
+				while(cur != null) {
+					Match_ExpressionChain_alt_0_ExprAndAgain next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -5290,6 +5657,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_ExpressionChain_alt_0_ExprAndAgain()
 			{
+			}
+
+			public bool IsEqual(Match_ExpressionChain_alt_0_ExprAndAgain that)
+			{
+				if(that==null) return false;
+				if(_node_e != that._node_e) return false;
+				if(_node_next != that._node_next) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@_ec.IsEqual(that.@_ec)) return false;
+				return true;
 			}
 		}
 
@@ -5443,6 +5820,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_ExpressionChain_alt_0_CallAndAgain nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_ExpressionChain_alt_0_CallAndAgain cur = this;
+				while(cur != null) {
+					Match_ExpressionChain_alt_0_CallAndAgain next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -5461,6 +5847,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_ExpressionChain_alt_0_CallAndAgain()
 			{
+			}
+
+			public bool IsEqual(Match_ExpressionChain_alt_0_CallAndAgain that)
+			{
+				if(that==null) return false;
+				if(_node_e != that._node_e) return false;
+				if(_node_call != that._node_call) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@_ec.IsEqual(that.@_ec)) return false;
+				if(!@__sub0.IsEqual(that.@__sub0)) return false;
+				return true;
 			}
 		}
 
@@ -5598,6 +5995,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_ExpressionChain_alt_0_End nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_ExpressionChain_alt_0_End cur = this;
+				while(cur != null) {
+					Match_ExpressionChain_alt_0_End next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -5612,6 +6018,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_ExpressionChain_alt_0_End()
 			{
+			}
+
+			public bool IsEqual(Match_ExpressionChain_alt_0_End that)
+			{
+				if(that==null) return false;
+				if(_node_e != that._node_e) return false;
+				return true;
 			}
 		}
 
@@ -5753,6 +6166,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_ExpressionChain_alt_0_End_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_ExpressionChain_alt_0_End_neg_0 cur = this;
+				while(cur != null) {
+					Match_ExpressionChain_alt_0_End_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -5768,6 +6190,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_ExpressionChain_alt_0_End_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_ExpressionChain_alt_0_End_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_e != that._node_e) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -6301,6 +6731,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleActualParameters nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleActualParameters cur = this;
+				while(cur != null) {
+					Match_MultipleActualParameters next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -6317,6 +6756,29 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleActualParameters()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleActualParameters that)
+			{
+				if(that==null) return false;
+				if(_node_c != that._node_c) return false;
+				if(_iter_0.Count != that._iter_0.Count) return false;
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thisEnumerator = _iter_0.GetEnumerator();
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thatEnumerator = that._iter_0.GetEnumerator();
+				while(_iter_0_thisEnumerator.MoveNext())
+				{
+					_iter_0_thatEnumerator.MoveNext();
+					if(!(_iter_0_thisEnumerator.Current as Match_MultipleActualParameters_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_MultipleActualParameters_iter_0)) return false;
+				}
+				if(_iter_1.Count != that._iter_1.Count) return false;
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_1_thisEnumerator = _iter_1.GetEnumerator();
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_1_thatEnumerator = that._iter_1.GetEnumerator();
+				while(_iter_1_thisEnumerator.MoveNext())
+				{
+					_iter_1_thatEnumerator.MoveNext();
+					if(!(_iter_1_thisEnumerator.Current as Match_MultipleActualParameters_iter_1).IsEqual(_iter_1_thatEnumerator.Current as Match_MultipleActualParameters_iter_1)) return false;
+				}
+				return true;
 			}
 		}
 
@@ -6468,6 +6930,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleActualParameters_iter_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleActualParameters_iter_0 cur = this;
+				while(cur != null) {
+					Match_MultipleActualParameters_iter_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -6485,6 +6956,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleActualParameters_iter_0()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleActualParameters_iter_0 that)
+			{
+				if(that==null) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node_next != that._node_next) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@__sub0.IsEqual(that.@__sub0)) return false;
+				return true;
 			}
 		}
 
@@ -6640,6 +7121,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleActualParameters_iter_1 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleActualParameters_iter_1 cur = this;
+				while(cur != null) {
+					Match_MultipleActualParameters_iter_1 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -6658,6 +7148,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleActualParameters_iter_1()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleActualParameters_iter_1 that)
+			{
+				if(that==null) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node_call != that._node_call) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@__sub0.IsEqual(that.@__sub0)) return false;
+				if(!@__sub1.IsEqual(that.@__sub1)) return false;
+				return true;
 			}
 		}
 
@@ -7045,6 +7546,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleExtendingClasses nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleExtendingClasses cur = this;
+				while(cur != null) {
+					Match_MultipleExtendingClasses next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -7060,6 +7570,21 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleExtendingClasses()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleExtendingClasses that)
+			{
+				if(that==null) return false;
+				if(_node_c != that._node_c) return false;
+				if(_iter_0.Count != that._iter_0.Count) return false;
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thisEnumerator = _iter_0.GetEnumerator();
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thatEnumerator = that._iter_0.GetEnumerator();
+				while(_iter_0_thisEnumerator.MoveNext())
+				{
+					_iter_0_thatEnumerator.MoveNext();
+					if(!(_iter_0_thisEnumerator.Current as Match_MultipleExtendingClasses_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_MultipleExtendingClasses_iter_0)) return false;
+				}
+				return true;
 			}
 		}
 
@@ -7211,6 +7736,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MultipleExtendingClasses_iter_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MultipleExtendingClasses_iter_0 cur = this;
+				while(cur != null) {
+					Match_MultipleExtendingClasses_iter_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -7228,6 +7762,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MultipleExtendingClasses_iter_0()
 			{
+			}
+
+			public bool IsEqual(Match_MultipleExtendingClasses_iter_0 that)
+			{
+				if(that==null) return false;
+				if(_node_sub != that._node_sub) return false;
+				if(_node_c != that._node_c) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@__sub0.IsEqual(that.@__sub0)) return false;
+				return true;
 			}
 		}
 
@@ -7746,6 +8290,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_InClass nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_InClass cur = this;
+				while(cur != null) {
+					Match_InClass next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -7762,6 +8315,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_InClass()
 			{
+			}
+
+			public bool IsEqual(Match_InClass that)
+			{
+				if(that==null) return false;
+				if(_node_e != that._node_e) return false;
+				if(_node_c != that._node_c) return false;
+				if(_alt_0 is Match_InClass_alt_0_Previous && !(_alt_0 as Match_InClass_alt_0_Previous).IsEqual(that._alt_0 as Match_InClass_alt_0_Previous)) return false;
+				if(_alt_0 is Match_InClass_alt_0_End && !(_alt_0 as Match_InClass_alt_0_End).IsEqual(that._alt_0 as Match_InClass_alt_0_End)) return false;
+				return true;
 			}
 		}
 
@@ -7915,6 +8478,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_InClass_alt_0_Previous nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_InClass_alt_0_Previous cur = this;
+				while(cur != null) {
+					Match_InClass_alt_0_Previous next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -7933,6 +8505,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_InClass_alt_0_Previous()
 			{
+			}
+
+			public bool IsEqual(Match_InClass_alt_0_Previous that)
+			{
+				if(that==null) return false;
+				if(_node_prev != that._node_prev) return false;
+				if(_node_e != that._node_e) return false;
+				if(_node_c != that._node_c) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@__sub0.IsEqual(that.@__sub0)) return false;
+				return true;
 			}
 		}
 
@@ -8098,6 +8681,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_InClass_alt_0_End nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_InClass_alt_0_End cur = this;
+				while(cur != null) {
+					Match_InClass_alt_0_End next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -8119,6 +8711,20 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_InClass_alt_0_End()
 			{
+			}
+
+			public bool IsEqual(Match_InClass_alt_0_End that)
+			{
+				if(that==null) return false;
+				if(_node_prev != that._node_prev) return false;
+				if(_node_e != that._node_e) return false;
+				if(_node_b != that._node_b) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_node_c != that._node_c) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_edge__edge1 != that._edge__edge1) return false;
+				if(_edge__edge2 != that._edge__edge2) return false;
+				return true;
 			}
 		}
 
@@ -8608,6 +9214,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_methodNameExistsSuper nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_methodNameExistsSuper cur = this;
+				while(cur != null) {
+					Match_methodNameExistsSuper next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -8626,6 +9241,18 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_methodNameExistsSuper()
 			{
+			}
+
+			public bool IsEqual(Match_methodNameExistsSuper that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_cls != that._node_cls) return false;
+				if(_node_opForName != that._node_opForName) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_alt_0 is Match_methodNameExistsSuper_alt_0_here && !(_alt_0 as Match_methodNameExistsSuper_alt_0_here).IsEqual(that._alt_0 as Match_methodNameExistsSuper_alt_0_here)) return false;
+				if(_alt_0 is Match_methodNameExistsSuper_alt_0_super && !(_alt_0 as Match_methodNameExistsSuper_alt_0_super).IsEqual(that._alt_0 as Match_methodNameExistsSuper_alt_0_super)) return false;
+				return true;
 			}
 		}
 
@@ -8767,6 +9394,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_methodNameExistsSuper_alt_0_here nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_methodNameExistsSuper_alt_0_here cur = this;
+				while(cur != null) {
+					Match_methodNameExistsSuper_alt_0_here next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -8782,6 +9418,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_methodNameExistsSuper_alt_0_here()
 			{
+			}
+
+			public bool IsEqual(Match_methodNameExistsSuper_alt_0_here that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_opForName != that._node_opForName) return false;
+				return true;
 			}
 		}
 
@@ -8935,6 +9579,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_methodNameExistsSuper_alt_0_super nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_methodNameExistsSuper_alt_0_super cur = this;
+				while(cur != null) {
+					Match_methodNameExistsSuper_alt_0_super next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -8953,6 +9606,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_methodNameExistsSuper_alt_0_super()
 			{
+			}
+
+			public bool IsEqual(Match_methodNameExistsSuper_alt_0_super that)
+			{
+				if(that==null) return false;
+				if(_node_cls != that._node_cls) return false;
+				if(_node_super != that._node_super) return false;
+				if(_node_opForName != that._node_opForName) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@__sub0.IsEqual(that.@__sub0)) return false;
+				return true;
 			}
 		}
 
@@ -9033,16 +9697,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( dumpGxl_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpGxl_addedEdgeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-			procEnv.EmitWriter.Write("<!DOCTYPE gxl SYSTEM \"http://www.gupro.de/GXL/gxl-1.0.dtd\">");
-			procEnv.EmitWriter.Write("<gxl>");
-			procEnv.EmitWriter.Write("<graph id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(null, graph));
-			procEnv.EmitWriter.Write("\" edgeids=\"true\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"javaProgramGraphsSchema\"/>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<!DOCTYPE gxl SYSTEM \"http://www.gupro.de/GXL/gxl-1.0.dtd\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<gxl>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<graph id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(null, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" edgeids=\"true\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"javaProgramGraphsSchema\"/>", graph));
 			ApplyXGRS_dumpGxl_0(procEnv, var_v);
-			procEnv.EmitWriter.Write("</graph>");
-			procEnv.EmitWriter.Write("</gxl>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</graph>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</gxl>", graph));
 			return;
 		}
 		private static string[] dumpGxl_addedNodeNames = new string[] {  };
@@ -9765,6 +10429,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpGxl nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpGxl cur = this;
+				while(cur != null) {
+					Match_dumpGxl next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -9779,6 +10452,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpGxl()
 			{
+			}
+
+			public bool IsEqual(Match_dumpGxl that)
+			{
+				if(that==null) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -9877,14 +10557,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			string tempvar_node_n_name = inode_n.@name;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Package\"/>");
-			procEnv.EmitWriter.Write("<attr name=\"name\"> <string>");
-			procEnv.EmitWriter.Write(tempvar_node_n_name);
-			procEnv.EmitWriter.Write("</string> </attr>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Package\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"name\"> <string>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_name, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</string> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodePackage_addedNodeNames = new string[] {  };
@@ -10046,6 +10726,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodePackage nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodePackage cur = this;
+				while(cur != null) {
+					Match_dumpNodePackage next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -10061,6 +10750,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodePackage()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodePackage that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -10162,23 +10859,23 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool tempvar_node_n_isAbstract = inode_n.@isAbstract;
 			bool tempvar_node_n_isFinal = inode_n.@isFinal;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Class\"/>");
-			procEnv.EmitWriter.Write("<attr name=\"name\"> <string>");
-			procEnv.EmitWriter.Write(tempvar_node_n_name);
-			procEnv.EmitWriter.Write("</string> </attr>");
-			procEnv.EmitWriter.Write("<attr name=\"visibility\"> <string>");
-			procEnv.EmitWriter.Write(tempvar_node_n_visibility);
-			procEnv.EmitWriter.Write("</string> </attr>");
-			procEnv.EmitWriter.Write("<attr name=\"isAbstract\"> <bool>");
-			procEnv.EmitWriter.Write(tempvar_node_n_isAbstract);
-			procEnv.EmitWriter.Write("</bool> </attr>");
-			procEnv.EmitWriter.Write("<attr name=\"isFinal\"> <bool>");
-			procEnv.EmitWriter.Write(tempvar_node_n_isFinal);
-			procEnv.EmitWriter.Write("</bool> </attr>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Class\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"name\"> <string>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_name, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</string> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"visibility\"> <string>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_visibility, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</string> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"isAbstract\"> <bool>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_isAbstract, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</bool> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"isFinal\"> <bool>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_isFinal, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</bool> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeClass_addedNodeNames = new string[] {  };
@@ -10340,6 +11037,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeClass nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeClass cur = this;
+				while(cur != null) {
+					Match_dumpNodeClass next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -10355,6 +11061,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeClass()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeClass that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -10455,20 +11169,20 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			string tempvar_node_n_visibility = inode_n.@visibility;
 			bool tempvar_node_n_isAbstract = inode_n.@isAbstract;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Interface\"/>");
-			procEnv.EmitWriter.Write("<attr name=\"name\"> <string>");
-			procEnv.EmitWriter.Write(tempvar_node_n_name);
-			procEnv.EmitWriter.Write("</string> </attr>");
-			procEnv.EmitWriter.Write("<attr name=\"visibility\"> <string>");
-			procEnv.EmitWriter.Write(tempvar_node_n_visibility);
-			procEnv.EmitWriter.Write("</string> </attr>");
-			procEnv.EmitWriter.Write("<attr name=\"isAbstract\"> <bool>");
-			procEnv.EmitWriter.Write(tempvar_node_n_isAbstract);
-			procEnv.EmitWriter.Write("</bool> </attr>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Interface\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"name\"> <string>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_name, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</string> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"visibility\"> <string>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_visibility, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</string> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"isAbstract\"> <bool>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_isAbstract, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</bool> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeInterface_addedNodeNames = new string[] {  };
@@ -10630,6 +11344,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeInterface nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeInterface cur = this;
+				while(cur != null) {
+					Match_dumpNodeInterface next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -10645,6 +11368,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeInterface()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeInterface that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -10746,23 +11477,23 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool tempvar_node_n_isStatic = inode_n.@isStatic;
 			bool tempvar_node_n_isFinal = inode_n.@isFinal;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Variable\"/>");
-			procEnv.EmitWriter.Write("<attr name=\"name\"> <string>");
-			procEnv.EmitWriter.Write(tempvar_node_n_name);
-			procEnv.EmitWriter.Write("</string> </attr>");
-			procEnv.EmitWriter.Write("<attr name=\"visibility\"> <string>");
-			procEnv.EmitWriter.Write(tempvar_node_n_visibility);
-			procEnv.EmitWriter.Write("</string> </attr>");
-			procEnv.EmitWriter.Write("<attr name=\"isStatic\"> <bool>");
-			procEnv.EmitWriter.Write(tempvar_node_n_isStatic);
-			procEnv.EmitWriter.Write("</bool> </attr>");
-			procEnv.EmitWriter.Write("<attr name=\"isFinal\"> <bool>");
-			procEnv.EmitWriter.Write(tempvar_node_n_isFinal);
-			procEnv.EmitWriter.Write("</bool> </attr>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Variable\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"name\"> <string>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_name, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</string> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"visibility\"> <string>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_visibility, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</string> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"isStatic\"> <bool>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_isStatic, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</bool> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"isFinal\"> <bool>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_isFinal, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</bool> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeVariable_addedNodeNames = new string[] {  };
@@ -10924,6 +11655,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeVariable nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeVariable cur = this;
+				while(cur != null) {
+					Match_dumpNodeVariable next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -10939,6 +11679,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeVariable()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeVariable that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -11041,26 +11789,26 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool tempvar_node_n_isStatic = inode_n.@isStatic;
 			bool tempvar_node_n_isFinal = inode_n.@isFinal;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Operation\"/>");
-			procEnv.EmitWriter.Write("<attr name=\"name\"> <string>");
-			procEnv.EmitWriter.Write(tempvar_node_n_name);
-			procEnv.EmitWriter.Write("</string> </attr>");
-			procEnv.EmitWriter.Write("<attr name=\"visibility\"> <string>");
-			procEnv.EmitWriter.Write(tempvar_node_n_visibility);
-			procEnv.EmitWriter.Write("</string> </attr>");
-			procEnv.EmitWriter.Write("<attr name=\"isAbstract\"> <bool>");
-			procEnv.EmitWriter.Write(tempvar_node_n_isAbstract);
-			procEnv.EmitWriter.Write("</bool> </attr>");
-			procEnv.EmitWriter.Write("<attr name=\"isStatic\"> <bool>");
-			procEnv.EmitWriter.Write(tempvar_node_n_isStatic);
-			procEnv.EmitWriter.Write("</bool> </attr>");
-			procEnv.EmitWriter.Write("<attr name=\"isFinal\"> <bool>");
-			procEnv.EmitWriter.Write(tempvar_node_n_isFinal);
-			procEnv.EmitWriter.Write("</bool> </attr>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Operation\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"name\"> <string>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_name, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</string> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"visibility\"> <string>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_visibility, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</string> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"isAbstract\"> <bool>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_isAbstract, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</bool> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"isStatic\"> <bool>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_isStatic, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</bool> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"isFinal\"> <bool>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_isFinal, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</bool> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeOperation_addedNodeNames = new string[] {  };
@@ -11222,6 +11970,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeOperation nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeOperation cur = this;
+				while(cur != null) {
+					Match_dumpNodeOperation next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -11237,6 +11994,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeOperation()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeOperation that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -11333,11 +12098,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(node_n, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"MethodBody\"/>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"MethodBody\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeMethodBody_addedNodeNames = new string[] {  };
@@ -11499,6 +12264,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeMethodBody nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeMethodBody cur = this;
+				while(cur != null) {
+					Match_dumpNodeMethodBody next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -11514,6 +12288,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeMethodBody()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeMethodBody that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -11612,14 +12394,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			bool tempvar_node_n_this_ = inode_n.@this_;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Access\"/>");
-			procEnv.EmitWriter.Write("<attr name=\"this\"> <bool>");
-			procEnv.EmitWriter.Write(tempvar_node_n_this_);
-			procEnv.EmitWriter.Write("</bool> </attr>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Access\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"this\"> <bool>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_this_, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</bool> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeAccess_addedNodeNames = new string[] {  };
@@ -11781,6 +12563,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeAccess nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeAccess cur = this;
+				while(cur != null) {
+					Match_dumpNodeAccess next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -11796,6 +12587,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeAccess()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeAccess that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -11894,14 +12693,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			bool tempvar_node_n_this_ = inode_n.@this_;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Update\"/>");
-			procEnv.EmitWriter.Write("<attr name=\"this\"> <bool>");
-			procEnv.EmitWriter.Write(tempvar_node_n_this_);
-			procEnv.EmitWriter.Write("</bool> </attr>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Update\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"this\"> <bool>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_this_, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</bool> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeUpdate_addedNodeNames = new string[] {  };
@@ -12063,6 +12862,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeUpdate nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeUpdate cur = this;
+				while(cur != null) {
+					Match_dumpNodeUpdate next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -12078,6 +12886,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeUpdate()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeUpdate that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -12177,17 +12993,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool tempvar_node_n_this_ = inode_n.@this_;
 			bool tempvar_node_n_super = inode_n.@super;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Call\"/>");
-			procEnv.EmitWriter.Write("<attr name=\"this\"> <bool>");
-			procEnv.EmitWriter.Write(tempvar_node_n_this_);
-			procEnv.EmitWriter.Write("</bool> </attr>");
-			procEnv.EmitWriter.Write("<attr name=\"super\"> <bool>");
-			procEnv.EmitWriter.Write(tempvar_node_n_super);
-			procEnv.EmitWriter.Write("</bool> </attr>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Call\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"this\"> <bool>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_this_, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</bool> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"super\"> <bool>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_super, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</bool> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeCall_addedNodeNames = new string[] {  };
@@ -12349,6 +13165,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeCall nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeCall cur = this;
+				while(cur != null) {
+					Match_dumpNodeCall next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -12364,6 +13189,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeCall()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeCall that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -12460,11 +13293,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(node_n, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Instantiation\"/>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Instantiation\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeIstantiation_addedNodeNames = new string[] {  };
@@ -12626,6 +13459,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeIstantiation nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeIstantiation cur = this;
+				while(cur != null) {
+					Match_dumpNodeIstantiation next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -12641,6 +13483,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeIstantiation()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeIstantiation that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -12739,14 +13589,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			string tempvar_node_n_name = inode_n.@name;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Operator\"/>");
-			procEnv.EmitWriter.Write("<attr name=\"name\"> <string>");
-			procEnv.EmitWriter.Write(tempvar_node_n_name);
-			procEnv.EmitWriter.Write("</string> </attr>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Operator\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"name\"> <string>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_name, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</string> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeOperator_addedNodeNames = new string[] {  };
@@ -12908,6 +13758,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeOperator nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeOperator cur = this;
+				while(cur != null) {
+					Match_dumpNodeOperator next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -12923,6 +13782,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeOperator()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeOperator that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -13019,11 +13886,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(node_n, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Return\"/>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Return\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeReturn_addedNodeNames = new string[] {  };
@@ -13185,6 +14052,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeReturn nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeReturn cur = this;
+				while(cur != null) {
+					Match_dumpNodeReturn next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -13200,6 +14076,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeReturn()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeReturn that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -13296,11 +14180,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(node_n, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Block\"/>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Block\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeBlock_addedNodeNames = new string[] {  };
@@ -13462,6 +14346,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeBlock nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeBlock cur = this;
+				while(cur != null) {
+					Match_dumpNodeBlock next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -13477,6 +14370,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeBlock()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeBlock that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -13575,14 +14476,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			string tempvar_node_n_value = inode_n.@value;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Literal\"/>");
-			procEnv.EmitWriter.Write("<attr name=\"value\"> <string>");
-			procEnv.EmitWriter.Write(tempvar_node_n_value);
-			procEnv.EmitWriter.Write("</string> </attr>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Literal\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<attr name=\"value\"> <string>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(tempvar_node_n_value, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</string> </attr>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeLiteral_addedNodeNames = new string[] {  };
@@ -13744,6 +14645,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeLiteral nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeLiteral cur = this;
+				while(cur != null) {
+					Match_dumpNodeLiteral next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -13759,6 +14669,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeLiteral()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeLiteral that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -13855,11 +14773,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(node_n, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<node id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"Parameter\"/>");
-			procEnv.EmitWriter.Write("</node>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<node id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_n, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"Parameter\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</node>", graph));
 			return;
 		}
 		private static string[] dumpNodeParameter_addedNodeNames = new string[] {  };
@@ -14021,6 +14939,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpNodeParameter nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpNodeParameter cur = this;
+				while(cur != null) {
+					Match_dumpNodeParameter next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -14036,6 +14963,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpNodeParameter()
 			{
+			}
+
+			public bool IsEqual(Match_dumpNodeParameter that)
+			{
+				if(that==null) return false;
+				if(_node_n != that._node_n) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -14150,15 +15085,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(edge_e, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
-			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
-			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"belongsTo\"/>");
-			procEnv.EmitWriter.Write("</edge>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<edge id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" from=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" to=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"belongsTo\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</edge>", graph));
 			return;
 		}
 		private static string[] dumpEdgeBelongsTo_addedNodeNames = new string[] {  };
@@ -14330,6 +15265,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpEdgeBelongsTo nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpEdgeBelongsTo cur = this;
+				while(cur != null) {
+					Match_dumpEdgeBelongsTo next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -14347,6 +15291,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpEdgeBelongsTo()
 			{
+			}
+
+			public bool IsEqual(Match_dumpEdgeBelongsTo that)
+			{
+				if(that==null) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -14461,15 +15415,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(edge_e, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
-			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
-			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"type\"/>");
-			procEnv.EmitWriter.Write("</edge>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<edge id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" from=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" to=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"type\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</edge>", graph));
 			return;
 		}
 		private static string[] dumpEdgeType_addedNodeNames = new string[] {  };
@@ -14641,6 +15595,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpEdgeType nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpEdgeType cur = this;
+				while(cur != null) {
+					Match_dumpEdgeType next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -14658,6 +15621,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpEdgeType()
 			{
+			}
+
+			public bool IsEqual(Match_dumpEdgeType that)
+			{
+				if(that==null) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -14772,15 +15745,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(edge_e, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
-			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
-			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"extends\"/>");
-			procEnv.EmitWriter.Write("</edge>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<edge id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" from=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" to=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"extends\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</edge>", graph));
 			return;
 		}
 		private static string[] dumpEdgeExtends_addedNodeNames = new string[] {  };
@@ -14952,6 +15925,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpEdgeExtends nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpEdgeExtends cur = this;
+				while(cur != null) {
+					Match_dumpEdgeExtends next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -14969,6 +15951,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpEdgeExtends()
 			{
+			}
+
+			public bool IsEqual(Match_dumpEdgeExtends that)
+			{
+				if(that==null) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -15083,15 +16075,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(edge_e, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
-			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
-			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"imports\"/>");
-			procEnv.EmitWriter.Write("</edge>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<edge id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" from=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" to=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"imports\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</edge>", graph));
 			return;
 		}
 		private static string[] dumpEdgeImports_addedNodeNames = new string[] {  };
@@ -15263,6 +16255,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpEdgeImports nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpEdgeImports cur = this;
+				while(cur != null) {
+					Match_dumpEdgeImports next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -15280,6 +16281,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpEdgeImports()
 			{
+			}
+
+			public bool IsEqual(Match_dumpEdgeImports that)
+			{
+				if(that==null) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -15394,15 +16405,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(edge_e, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
-			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
-			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"implements\"/>");
-			procEnv.EmitWriter.Write("</edge>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<edge id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" from=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" to=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"implements\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</edge>", graph));
 			return;
 		}
 		private static string[] dumpEdgeImplements_addedNodeNames = new string[] {  };
@@ -15574,6 +16585,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpEdgeImplements nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpEdgeImplements cur = this;
+				while(cur != null) {
+					Match_dumpEdgeImplements next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -15591,6 +16611,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpEdgeImplements()
 			{
+			}
+
+			public bool IsEqual(Match_dumpEdgeImplements that)
+			{
+				if(that==null) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -15705,15 +16735,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(edge_e, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
-			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
-			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"parameter\"/>");
-			procEnv.EmitWriter.Write("</edge>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<edge id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" from=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" to=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"parameter\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</edge>", graph));
 			return;
 		}
 		private static string[] dumpEdgeParameter_addedNodeNames = new string[] {  };
@@ -15885,6 +16915,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpEdgeParameter nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpEdgeParameter cur = this;
+				while(cur != null) {
+					Match_dumpEdgeParameter next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -15902,6 +16941,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpEdgeParameter()
 			{
+			}
+
+			public bool IsEqual(Match_dumpEdgeParameter that)
+			{
+				if(that==null) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -16016,15 +17065,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(edge_e, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
-			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
-			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"binding\"/>");
-			procEnv.EmitWriter.Write("</edge>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<edge id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" from=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" to=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"binding\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</edge>", graph));
 			return;
 		}
 		private static string[] dumpEdgeBinding_addedNodeNames = new string[] {  };
@@ -16196,6 +17245,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpEdgeBinding nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpEdgeBinding cur = this;
+				while(cur != null) {
+					Match_dumpEdgeBinding next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -16213,6 +17271,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpEdgeBinding()
 			{
+			}
+
+			public bool IsEqual(Match_dumpEdgeBinding that)
+			{
+				if(that==null) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -16327,15 +17395,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(edge_e, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
-			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
-			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"link\"/>");
-			procEnv.EmitWriter.Write("</edge>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<edge id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" from=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" to=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"link\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</edge>", graph));
 			return;
 		}
 		private static string[] dumpEdgeLink_addedNodeNames = new string[] {  };
@@ -16507,6 +17575,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpEdgeLink nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpEdgeLink cur = this;
+				while(cur != null) {
+					Match_dumpEdgeLink next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -16524,6 +17601,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpEdgeLink()
 			{
+			}
+
+			public bool IsEqual(Match_dumpEdgeLink that)
+			{
+				if(that==null) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -16638,15 +17725,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(edge_e, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
-			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
-			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"expression\"/>");
-			procEnv.EmitWriter.Write("</edge>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<edge id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" from=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" to=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"expression\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</edge>", graph));
 			return;
 		}
 		private static string[] dumpEdgeExpression_addedNodeNames = new string[] {  };
@@ -16818,6 +17905,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpEdgeExpression nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpEdgeExpression cur = this;
+				while(cur != null) {
+					Match_dumpEdgeExpression next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -16835,6 +17931,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpEdgeExpression()
 			{
+			}
+
+			public bool IsEqual(Match_dumpEdgeExpression that)
+			{
+				if(that==null) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -16949,15 +18055,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SetVisited(edge_e, var_v, true);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			procEnv.EmitWriter.Write("<edge id=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph));
-			procEnv.EmitWriter.Write("\" from=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph));
-			procEnv.EmitWriter.Write("\" to=\"");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph));
-			procEnv.EmitWriter.Write("\">");
-			procEnv.EmitWriter.Write("<type xlink:href=\"actualParameter\"/>");
-			procEnv.EmitWriter.Write("</edge>");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<edge id=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(edge_e, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" from=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_src, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\" to=\"", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(node_tgt, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\">", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("<type xlink:href=\"actualParameter\"/>", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("</edge>", graph));
 			return;
 		}
 		private static string[] dumpEdgeActualParameter_addedNodeNames = new string[] {  };
@@ -17129,6 +18235,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_dumpEdgeActualParameter nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_dumpEdgeActualParameter cur = this;
+				while(cur != null) {
+					Match_dumpEdgeActualParameter next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -17146,6 +18261,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_dumpEdgeActualParameter()
 			{
+			}
+
+			public bool IsEqual(Match_dumpEdgeActualParameter that)
+			{
+				if(that==null) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_var_v != that._var_v) return false;
+				return true;
 			}
 		}
 
@@ -17331,9 +18456,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( emitSpanningTree_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			{ // [@2858,372:379='emithere',<47>,23:2]
-			procEnv.EmitWriter.Write("// java program ");
-			procEnv.EmitWriter.Write(GRGEN_LIBGR.GraphHelper.Nameof(null, graph));
-			procEnv.EmitWriter.Write("\n");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("// java program ", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(GRGEN_LIBGR.GraphHelper.Nameof(null, graph), graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\n", graph));
 			}
 			emitSpanningTree_iter_0_Modify(actionEnv, iterated_iter_0);
 			graph.SettingAddedEdgeNames( emitSpanningTree_addedEdgeNames );
@@ -17358,15 +18483,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( emitSpanningTree_iter_0_addedNodeNames );
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			{ // [@2825,276:283='emithere',<47>,16:3]
-			procEnv.EmitWriter.Write("package ");
-			procEnv.EmitWriter.Write(inode_p.@name);
-			procEnv.EmitWriter.Write("\n{\n");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("package ", graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(inode_p.@name, graph));
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("\n{\n", graph));
 			}
 			{ // mpc
 			Pattern_MultipleContainedPackagesOrClasses.Instance.MultipleContainedPackagesOrClasses_Modify(actionEnv, subpattern_mpc);
 			}
 			{ // [@2844,330:337='emithere',<47>,18:3]
-			procEnv.EmitWriter.Write("}\n");
+			procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull("}\n", graph));
 			}
 			graph.SettingAddedEdgeNames( emitSpanningTree_iter_0_addedEdgeNames );
 			string tempvar_node_p_name = inode_p.@name;
@@ -17556,6 +18681,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_emitSpanningTree nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_emitSpanningTree cur = this;
+				while(cur != null) {
+					Match_emitSpanningTree next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -17570,6 +18704,20 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_emitSpanningTree()
 			{
+			}
+
+			public bool IsEqual(Match_emitSpanningTree that)
+			{
+				if(that==null) return false;
+				if(_iter_0.Count != that._iter_0.Count) return false;
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thisEnumerator = _iter_0.GetEnumerator();
+				IEnumerator<GRGEN_LIBGR.IMatch> _iter_0_thatEnumerator = that._iter_0.GetEnumerator();
+				while(_iter_0_thisEnumerator.MoveNext())
+				{
+					_iter_0_thatEnumerator.MoveNext();
+					if(!(_iter_0_thisEnumerator.Current as Match_emitSpanningTree_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_emitSpanningTree_iter_0)) return false;
+				}
+				return true;
 			}
 		}
 
@@ -17713,6 +18861,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_emitSpanningTree_iter_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_emitSpanningTree_iter_0 cur = this;
+				while(cur != null) {
+					Match_emitSpanningTree_iter_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -17728,6 +18885,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_emitSpanningTree_iter_0()
 			{
+			}
+
+			public bool IsEqual(Match_emitSpanningTree_iter_0 that)
+			{
+				if(that==null) return false;
+				if(_node_p != that._node_p) return false;
+				if(!@_mpc.IsEqual(that.@_mpc)) return false;
+				return true;
 			}
 		}
 
@@ -17869,6 +19034,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_emitSpanningTree_iter_0_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_emitSpanningTree_iter_0_neg_0 cur = this;
+				while(cur != null) {
+					Match_emitSpanningTree_iter_0_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -17884,6 +19058,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_emitSpanningTree_iter_0_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_emitSpanningTree_iter_0_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_p != that._node_p) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -18203,6 +19385,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_InsertHelperEdgesForNestedLayout nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_InsertHelperEdgesForNestedLayout cur = this;
+				while(cur != null) {
+					Match_InsertHelperEdgesForNestedLayout next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -18216,6 +19407,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_InsertHelperEdgesForNestedLayout()
 			{
+			}
+
+			public bool IsEqual(Match_InsertHelperEdgesForNestedLayout that)
+			{
+				if(that==null) return false;
+				return true;
 			}
 		}
 
@@ -18930,6 +20127,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_BindOperations nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_BindOperations cur = this;
+				while(cur != null) {
+					Match_BindOperations next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -18948,6 +20154,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_BindOperations()
 			{
+			}
+
+			public bool IsEqual(Match_BindOperations that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_body != that._node_body) return false;
+				if(_node_cl != that._node_cl) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_edge__edge1 != that._edge__edge1) return false;
+				return true;
 			}
 		}
 
@@ -19089,6 +20306,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_BindOperations_implneg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_BindOperations_implneg_0 cur = this;
+				while(cur != null) {
+					Match_BindOperations_implneg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -19104,6 +20330,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_BindOperations_implneg_0()
 			{
+			}
+
+			public bool IsEqual(Match_BindOperations_implneg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_edge__edge3 != that._edge__edge3) return false;
+				return true;
 			}
 		}
 
@@ -19253,6 +20487,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_BindOperations_implneg_1 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_BindOperations_implneg_1 cur = this;
+				while(cur != null) {
+					Match_BindOperations_implneg_1 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -19270,6 +20513,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_BindOperations_implneg_1()
 			{
+			}
+
+			public bool IsEqual(Match_BindOperations_implneg_1 that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_body != that._node_body) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_edge__edge4 != that._edge__edge4) return false;
+				return true;
 			}
 		}
 
@@ -19415,6 +20668,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_BindOperations_implneg_2 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_BindOperations_implneg_2 cur = this;
+				while(cur != null) {
+					Match_BindOperations_implneg_2 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -19431,6 +20693,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_BindOperations_implneg_2()
 			{
+			}
+
+			public bool IsEqual(Match_BindOperations_implneg_2 that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_cl != that._node_cl) return false;
+				if(_edge__edge5 != that._edge__edge5) return false;
+				return true;
 			}
 		}
 
@@ -19572,6 +20843,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_BindOperations_implneg_3 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_BindOperations_implneg_3 cur = this;
+				while(cur != null) {
+					Match_BindOperations_implneg_3 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -19587,6 +20867,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_BindOperations_implneg_3()
 			{
+			}
+
+			public bool IsEqual(Match_BindOperations_implneg_3 that)
+			{
+				if(that==null) return false;
+				if(_node_body != that._node_body) return false;
+				if(_edge__edge6 != that._edge__edge6) return false;
+				return true;
 			}
 		}
 
@@ -19736,6 +21024,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_BindOperations_implneg_4 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_BindOperations_implneg_4 cur = this;
+				while(cur != null) {
+					Match_BindOperations_implneg_4 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -19753,6 +21050,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_BindOperations_implneg_4()
 			{
+			}
+
+			public bool IsEqual(Match_BindOperations_implneg_4 that)
+			{
+				if(that==null) return false;
+				if(_node_body != that._node_body) return false;
+				if(_node_cl != that._node_cl) return false;
+				if(_edge__edge1 != that._edge__edge1) return false;
+				if(_edge__edge7 != that._edge__edge7) return false;
+				return true;
 			}
 		}
 
@@ -19894,6 +21201,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_BindOperations_implneg_5 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_BindOperations_implneg_5 cur = this;
+				while(cur != null) {
+					Match_BindOperations_implneg_5 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -19909,6 +21225,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_BindOperations_implneg_5()
 			{
+			}
+
+			public bool IsEqual(Match_BindOperations_implneg_5 that)
+			{
+				if(that==null) return false;
+				if(_node_cl != that._node_cl) return false;
+				if(_edge__edge8 != that._edge__edge8) return false;
+				return true;
 			}
 		}
 
@@ -20248,6 +21572,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_InitMoveIntoBlocks nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_InitMoveIntoBlocks cur = this;
+				while(cur != null) {
+					Match_InitMoveIntoBlocks next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -20264,6 +21597,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_InitMoveIntoBlocks()
 			{
+			}
+
+			public bool IsEqual(Match_InitMoveIntoBlocks that)
+			{
+				if(that==null) return false;
+				if(_node_b != that._node_b) return false;
+				if(_node_exp != that._node_exp) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -20409,6 +21751,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_InitMoveIntoBlocks_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_InitMoveIntoBlocks_neg_0 cur = this;
+				while(cur != null) {
+					Match_InitMoveIntoBlocks_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -20425,6 +21776,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_InitMoveIntoBlocks_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_InitMoveIntoBlocks_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_exp != that._node_exp) return false;
+				if(_node_b != that._node_b) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -20791,6 +22151,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MoveIntoBlocks nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MoveIntoBlocks cur = this;
+				while(cur != null) {
+					Match_MoveIntoBlocks next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -20809,6 +22178,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MoveIntoBlocks()
 			{
+			}
+
+			public bool IsEqual(Match_MoveIntoBlocks that)
+			{
+				if(that==null) return false;
+				if(_node__node0 != that._node__node0) return false;
+				if(_node_b != that._node_b) return false;
+				if(_node_exp != that._node_exp) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_edge_e != that._edge_e) return false;
+				return true;
 			}
 		}
 
@@ -20954,6 +22334,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_MoveIntoBlocks_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_MoveIntoBlocks_neg_0 cur = this;
+				while(cur != null) {
+					Match_MoveIntoBlocks_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -20970,6 +22359,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_MoveIntoBlocks_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_MoveIntoBlocks_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_exp != that._node_exp) return false;
+				if(_node_b != that._node_b) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -21219,6 +22617,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_getClassAndVariable nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_getClassAndVariable cur = this;
+				while(cur != null) {
+					Match_getClassAndVariable next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -21234,6 +22641,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_getClassAndVariable()
 			{
+			}
+
+			public bool IsEqual(Match_getClassAndVariable that)
+			{
+				if(that==null) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node_v != that._node_v) return false;
+				return true;
 			}
 		}
 
@@ -21521,6 +22936,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_variableInClass nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_variableInClass cur = this;
+				while(cur != null) {
+					Match_variableInClass next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -21539,6 +22963,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_variableInClass()
 			{
+			}
+
+			public bool IsEqual(Match_variableInClass that)
+			{
+				if(that==null) return false;
+				if(_node_v != that._node_v) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node__node0 != that._node__node0) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_edge__edge1 != that._edge__edge1) return false;
+				return true;
 			}
 		}
 
@@ -21835,6 +23270,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_methodExists nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_methodExists cur = this;
+				while(cur != null) {
+					Match_methodExists next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -21854,6 +23298,18 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_methodExists()
 			{
+			}
+
+			public bool IsEqual(Match_methodExists that)
+			{
+				if(that==null) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node_op != that._node_op) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_edge__edge1 != that._edge__edge1) return false;
+				if(_var_name != that._var_name) return false;
+				return true;
 			}
 		}
 
@@ -22102,6 +23558,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_sameStaticness nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_sameStaticness cur = this;
+				while(cur != null) {
+					Match_sameStaticness next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -22117,6 +23582,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_sameStaticness()
 			{
+			}
+
+			public bool IsEqual(Match_sameStaticness that)
+			{
+				if(that==null) return false;
+				if(_node_v != that._node_v) return false;
+				if(_node_op != that._node_op) return false;
+				return true;
 			}
 		}
 
@@ -22416,6 +23889,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_insertMethodGetter nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_insertMethodGetter cur = this;
+				while(cur != null) {
+					Match_insertMethodGetter next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -22433,6 +23915,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_insertMethodGetter()
 			{
+			}
+
+			public bool IsEqual(Match_insertMethodGetter that)
+			{
+				if(that==null) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node_v != that._node_v) return false;
+				if(_var_name != that._var_name) return false;
+				if(_var_isStatic != that._var_isStatic) return false;
+				return true;
 			}
 		}
 
@@ -22763,6 +24255,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_insertMethodSetter nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_insertMethodSetter cur = this;
+				while(cur != null) {
+					Match_insertMethodSetter next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -22782,6 +24283,18 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_insertMethodSetter()
 			{
+			}
+
+			public bool IsEqual(Match_insertMethodSetter that)
+			{
+				if(that==null) return false;
+				if(_node_v != that._node_v) return false;
+				if(_node_type != that._node_type) return false;
+				if(_node_c != that._node_c) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_var_name != that._var_name) return false;
+				if(_var_isStatic != that._var_isStatic) return false;
+				return true;
 			}
 		}
 
@@ -23030,6 +24543,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_changeVisibility nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_changeVisibility cur = this;
+				while(cur != null) {
+					Match_changeVisibility next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -23044,6 +24566,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_changeVisibility()
 			{
+			}
+
+			public bool IsEqual(Match_changeVisibility that)
+			{
+				if(that==null) return false;
+				if(_node_v != that._node_v) return false;
+				return true;
 			}
 		}
 
@@ -23405,6 +24934,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_adaptAccess nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_adaptAccess cur = this;
+				while(cur != null) {
+					Match_adaptAccess next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -23423,6 +24961,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_adaptAccess()
 			{
+			}
+
+			public bool IsEqual(Match_adaptAccess that)
+			{
+				if(that==null) return false;
+				if(_node_a != that._node_a) return false;
+				if(_node_v != that._node_v) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node_getter != that._node_getter) return false;
+				if(_edge_l != that._edge_l) return false;
+				return true;
 			}
 		}
 
@@ -23568,6 +25117,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_adaptAccess_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_adaptAccess_neg_0 cur = this;
+				while(cur != null) {
+					Match_adaptAccess_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -23584,6 +25142,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_adaptAccess_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_adaptAccess_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_a != that._node_a) return false;
+				if(_node_c != that._node_c) return false;
+				if(!@__sub0.IsEqual(that.@__sub0)) return false;
+				return true;
 			}
 		}
 
@@ -23973,6 +25540,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_adaptUpdate nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_adaptUpdate cur = this;
+				while(cur != null) {
+					Match_adaptUpdate next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -23993,6 +25569,19 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_adaptUpdate()
 			{
+			}
+
+			public bool IsEqual(Match_adaptUpdate that)
+			{
+				if(that==null) return false;
+				if(_node_u != that._node_u) return false;
+				if(_node_v != that._node_v) return false;
+				if(_node_exp != that._node_exp) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node_setter != that._node_setter) return false;
+				if(_edge_l != that._edge_l) return false;
+				if(_edge_e != that._edge_e) return false;
+				return true;
 			}
 		}
 
@@ -24138,6 +25727,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_adaptUpdate_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_adaptUpdate_neg_0 cur = this;
+				while(cur != null) {
+					Match_adaptUpdate_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -24154,6 +25752,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_adaptUpdate_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_adaptUpdate_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_u != that._node_u) return false;
+				if(_node_c != that._node_c) return false;
+				if(!@__sub0.IsEqual(that.@__sub0)) return false;
+				return true;
 			}
 		}
 
@@ -24448,6 +26055,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_adaptAccessUseAccessorsAlways nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_adaptAccessUseAccessorsAlways cur = this;
+				while(cur != null) {
+					Match_adaptAccessUseAccessorsAlways next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -24466,6 +26082,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_adaptAccessUseAccessorsAlways()
 			{
+			}
+
+			public bool IsEqual(Match_adaptAccessUseAccessorsAlways that)
+			{
+				if(that==null) return false;
+				if(_node_a != that._node_a) return false;
+				if(_node_v != that._node_v) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node_getter != that._node_getter) return false;
+				if(_edge_l != that._edge_l) return false;
+				return true;
 			}
 		}
 
@@ -24788,6 +26415,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_adaptUpdateUseAccessorsAlways nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_adaptUpdateUseAccessorsAlways cur = this;
+				while(cur != null) {
+					Match_adaptUpdateUseAccessorsAlways next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -24808,6 +26444,19 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_adaptUpdateUseAccessorsAlways()
 			{
+			}
+
+			public bool IsEqual(Match_adaptUpdateUseAccessorsAlways that)
+			{
+				if(that==null) return false;
+				if(_node_u != that._node_u) return false;
+				if(_node_v != that._node_v) return false;
+				if(_node_exp != that._node_exp) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node_setter != that._node_setter) return false;
+				if(_edge_l != that._edge_l) return false;
+				if(_edge_e != that._edge_e) return false;
+				return true;
 			}
 		}
 
@@ -25070,6 +26719,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_getSourceAndTargetAndMethodBody nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_getSourceAndTargetAndMethodBody cur = this;
+				while(cur != null) {
+					Match_getSourceAndTargetAndMethodBody next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -25086,6 +26744,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_getSourceAndTargetAndMethodBody()
 			{
+			}
+
+			public bool IsEqual(Match_getSourceAndTargetAndMethodBody that)
+			{
+				if(that==null) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_node_mb != that._node_mb) return false;
+				return true;
 			}
 		}
 
@@ -25348,6 +27015,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_getOperation nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_getOperation cur = this;
+				while(cur != null) {
+					Match_getOperation next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -25364,6 +27040,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_getOperation()
 			{
+			}
+
+			public bool IsEqual(Match_getOperation that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -25674,6 +27359,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_someInstanceVariableOfTargetType nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_someInstanceVariableOfTargetType cur = this;
+				while(cur != null) {
+					Match_someInstanceVariableOfTargetType next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -25694,6 +27388,19 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_someInstanceVariableOfTargetType()
 			{
+			}
+
+			public bool IsEqual(Match_someInstanceVariableOfTargetType that)
+			{
+				if(that==null) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_v != that._node_v) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_edge__edge1 != that._edge__edge1) return false;
+				if(_edge__edge2 != that._edge__edge2) return false;
+				return true;
 			}
 		}
 
@@ -26004,6 +27711,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_someParameterOfTargetType nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_someParameterOfTargetType cur = this;
+				while(cur != null) {
+					Match_someParameterOfTargetType next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -26024,6 +27740,19 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_someParameterOfTargetType()
 			{
+			}
+
+			public bool IsEqual(Match_someParameterOfTargetType that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_node_p != that._node_p) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_edge__edge1 != that._edge__edge1) return false;
+				if(_edge__edge2 != that._edge__edge2) return false;
+				return true;
 			}
 		}
 
@@ -26376,6 +28105,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_markExpressionOfBody nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_markExpressionOfBody cur = this;
+				while(cur != null) {
+					Match_markExpressionOfBody next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -26394,6 +28132,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_markExpressionOfBody()
 			{
+			}
+
+			public bool IsEqual(Match_markExpressionOfBody that)
+			{
+				if(that==null) return false;
+				if(_node__node0 != that._node__node0) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_node_exp != that._node_exp) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_edge__edge1 != that._edge__edge1) return false;
+				return true;
 			}
 		}
 
@@ -26722,6 +28471,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_markExpressionFollowingExpression nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_markExpressionFollowingExpression cur = this;
+				while(cur != null) {
+					Match_markExpressionFollowingExpression next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -26738,6 +28496,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_markExpressionFollowingExpression()
 			{
+			}
+
+			public bool IsEqual(Match_markExpressionFollowingExpression that)
+			{
+				if(that==null) return false;
+				if(_node_root != that._node_root) return false;
+				if(_node_exp != that._node_exp) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -27066,6 +28833,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_markExpressionFollowingActualParameter nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_markExpressionFollowingActualParameter cur = this;
+				while(cur != null) {
+					Match_markExpressionFollowingActualParameter next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -27082,6 +28858,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_markExpressionFollowingActualParameter()
 			{
+			}
+
+			public bool IsEqual(Match_markExpressionFollowingActualParameter that)
+			{
+				if(that==null) return false;
+				if(_node_root != that._node_root) return false;
+				if(_node_exp != that._node_exp) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -27330,6 +29115,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_unmarkExpression nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_unmarkExpression cur = this;
+				while(cur != null) {
+					Match_unmarkExpression next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -27344,6 +29138,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_unmarkExpression()
 			{
+			}
+
+			public bool IsEqual(Match_unmarkExpression that)
+			{
+				if(that==null) return false;
+				if(_node_exp != that._node_exp) return false;
+				return true;
 			}
 		}
 
@@ -27581,6 +29382,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_callToSuperExists nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_callToSuperExists cur = this;
+				while(cur != null) {
+					Match_callToSuperExists next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -27595,6 +29405,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_callToSuperExists()
 			{
+			}
+
+			public bool IsEqual(Match_callToSuperExists that)
+			{
+				if(that==null) return false;
+				if(_node_call != that._node_call) return false;
+				return true;
 			}
 		}
 
@@ -27858,6 +29675,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_isStatic nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_isStatic cur = this;
+				while(cur != null) {
+					Match_isStatic next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -27874,6 +29700,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_isStatic()
 			{
+			}
+
+			public bool IsEqual(Match_isStatic that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -28160,6 +29995,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_methodNameExists nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_methodNameExists cur = this;
+				while(cur != null) {
+					Match_methodNameExists next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -28178,6 +30022,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_methodNameExists()
 			{
+			}
+
+			public bool IsEqual(Match_methodNameExists that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(!@__sub0.IsEqual(that.@__sub0)) return false;
+				return true;
 			}
 		}
 
@@ -28481,6 +30336,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_thisIsAccessed nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_thisIsAccessed cur = this;
+				while(cur != null) {
+					Match_thisIsAccessed next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -28495,6 +30359,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_thisIsAccessed()
 			{
+			}
+
+			public bool IsEqual(Match_thisIsAccessed that)
+			{
+				if(that==null) return false;
+				if(_node_access != that._node_access) return false;
+				return true;
 			}
 		}
 
@@ -28636,6 +30507,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_thisIsAccessed_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_thisIsAccessed_neg_0 cur = this;
+				while(cur != null) {
+					Match_thisIsAccessed_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -28651,6 +30531,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_thisIsAccessed_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_thisIsAccessed_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_access != that._node_access) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -28908,6 +30796,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_addSourceParameter nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_addSourceParameter cur = this;
+				while(cur != null) {
+					Match_addSourceParameter next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -28923,6 +30820,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_addSourceParameter()
 			{
+			}
+
+			public bool IsEqual(Match_addSourceParameter that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_src != that._node_src) return false;
+				return true;
 			}
 		}
 
@@ -29246,6 +31151,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_useSourceParameter nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_useSourceParameter cur = this;
+				while(cur != null) {
+					Match_useSourceParameter next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -29261,6 +31175,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_useSourceParameter()
 			{
+			}
+
+			public bool IsEqual(Match_useSourceParameter that)
+			{
+				if(that==null) return false;
+				if(_node_srcparam != that._node_srcparam) return false;
+				if(_node_access != that._node_access) return false;
+				return true;
 			}
 		}
 
@@ -29402,6 +31324,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_useSourceParameter_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_useSourceParameter_neg_0 cur = this;
+				while(cur != null) {
+					Match_useSourceParameter_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -29417,6 +31348,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_useSourceParameter_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_useSourceParameter_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_access != that._node_access) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -29672,6 +31611,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_copyOperation nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_copyOperation cur = this;
+				while(cur != null) {
+					Match_copyOperation next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -29687,6 +31635,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_copyOperation()
 			{
+			}
+
+			public bool IsEqual(Match_copyOperation that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				return true;
 			}
 		}
 
@@ -29967,6 +31923,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_copyOperationParameter nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_copyOperationParameter cur = this;
+				while(cur != null) {
+					Match_copyOperationParameter next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -29984,6 +31949,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_copyOperationParameter()
 			{
+			}
+
+			public bool IsEqual(Match_copyOperationParameter that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_p != that._node_p) return false;
+				if(_node_newop != that._node_newop) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -30305,6 +32280,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_relinkMethodBody nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_relinkMethodBody cur = this;
+				while(cur != null) {
+					Match_relinkMethodBody next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -30325,6 +32309,19 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_relinkMethodBody()
 			{
+			}
+
+			public bool IsEqual(Match_relinkMethodBody that)
+			{
+				if(that==null) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_node_newop != that._node_newop) return false;
+				if(_edge_b1 != that._edge_b1) return false;
+				if(_edge_b != that._edge_b) return false;
+				return true;
 			}
 		}
 
@@ -30666,6 +32663,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_relinkParameter nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_relinkParameter cur = this;
+				while(cur != null) {
+					Match_relinkParameter next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -30688,6 +32694,21 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_relinkParameter()
 			{
+			}
+
+			public bool IsEqual(Match_relinkParameter that)
+			{
+				if(that==null) return false;
+				if(_node_exp != that._node_exp) return false;
+				if(_node_p != that._node_p) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_newop != that._node_newop) return false;
+				if(_node_newp != that._node_newp) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_edge_l != that._edge_l) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_edge__edge1 != that._edge__edge1) return false;
+				return true;
 			}
 		}
 
@@ -30996,6 +33017,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_relinkOperationAndMethodBody nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_relinkOperationAndMethodBody cur = this;
+				while(cur != null) {
+					Match_relinkOperationAndMethodBody next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -31015,6 +33045,18 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_relinkOperationAndMethodBody()
 			{
+			}
+
+			public bool IsEqual(Match_relinkOperationAndMethodBody that)
+			{
+				if(that==null) return false;
+				if(_node_mb != that._node_mb) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_tgt != that._node_tgt) return false;
+				if(_edge_bc != that._edge_bc) return false;
+				if(_edge_b != that._edge_b) return false;
+				return true;
 			}
 		}
 
@@ -31306,6 +33348,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_addDelegateBody nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_addDelegateBody cur = this;
+				while(cur != null) {
+					Match_addDelegateBody next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -31323,6 +33374,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_addDelegateBody()
 			{
+			}
+
+			public bool IsEqual(Match_addDelegateBody that)
+			{
+				if(that==null) return false;
+				if(_node_src != that._node_src) return false;
+				if(_node_own != that._node_own) return false;
+				if(_node_orig != that._node_orig) return false;
+				if(_node_vp != that._node_vp) return false;
+				return true;
 			}
 		}
 
@@ -31605,6 +33666,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_linkDelegateBodyToOperation nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_linkDelegateBodyToOperation cur = this;
+				while(cur != null) {
+					Match_linkDelegateBodyToOperation next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -31622,6 +33692,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_linkDelegateBodyToOperation()
 			{
+			}
+
+			public bool IsEqual(Match_linkDelegateBodyToOperation that)
+			{
+				if(that==null) return false;
+				if(_node_op != that._node_op) return false;
+				if(_node_param != that._node_param) return false;
+				if(_node_call != that._node_call) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -31958,6 +34038,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_replaceAccess_Variable nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_replaceAccess_Variable cur = this;
+				while(cur != null) {
+					Match_replaceAccess_Variable next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -31979,6 +34068,20 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_replaceAccess_Variable()
 			{
+			}
+
+			public bool IsEqual(Match_replaceAccess_Variable that)
+			{
+				if(that==null) return false;
+				if(_node_a != that._node_a) return false;
+				if(_node_call != that._node_call) return false;
+				if(_node_movedOperation != that._node_movedOperation) return false;
+				if(_node_b != that._node_b) return false;
+				if(_node_v != that._node_v) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_edge_l != that._edge_l) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -32328,6 +34431,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_replaceAccess_Variable_WithSource nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_replaceAccess_Variable_WithSource cur = this;
+				while(cur != null) {
+					Match_replaceAccess_Variable_WithSource next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -32350,6 +34462,21 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_replaceAccess_Variable_WithSource()
 			{
+			}
+
+			public bool IsEqual(Match_replaceAccess_Variable_WithSource that)
+			{
+				if(that==null) return false;
+				if(_node_a != that._node_a) return false;
+				if(_node_call != that._node_call) return false;
+				if(_node_movedOperation != that._node_movedOperation) return false;
+				if(_node_b != that._node_b) return false;
+				if(_node_v != that._node_v) return false;
+				if(_node_srcparam != that._node_srcparam) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_edge_l != that._edge_l) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -32604,6 +34731,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_addSourceToCall nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_addSourceToCall cur = this;
+				while(cur != null) {
+					Match_addSourceToCall next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -32619,6 +34755,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_addSourceToCall()
 			{
+			}
+
+			public bool IsEqual(Match_addSourceToCall that)
+			{
+				if(that==null) return false;
+				if(_node_call != that._node_call) return false;
+				if(_node_srcparam != that._node_srcparam) return false;
+				return true;
 			}
 		}
 
@@ -33025,6 +35169,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_getUnprocessedCallWithActualParameter nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_getUnprocessedCallWithActualParameter cur = this;
+				while(cur != null) {
+					Match_getUnprocessedCallWithActualParameter next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -33047,6 +35200,21 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_getUnprocessedCallWithActualParameter()
 			{
+			}
+
+			public bool IsEqual(Match_getUnprocessedCallWithActualParameter that)
+			{
+				if(that==null) return false;
+				if(_node_a != that._node_a) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node_movedOperation != that._node_movedOperation) return false;
+				if(_node_p != that._node_p) return false;
+				if(_node_pe != that._node_pe) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_edge__edge1 != that._edge__edge1) return false;
+				if(_edge__edge2 != that._edge__edge2) return false;
+				return true;
 			}
 		}
 
@@ -33192,6 +35360,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_getUnprocessedCallWithActualParameter_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_getUnprocessedCallWithActualParameter_neg_0 cur = this;
+				while(cur != null) {
+					Match_getUnprocessedCallWithActualParameter_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -33208,6 +35385,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_getUnprocessedCallWithActualParameter_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_getUnprocessedCallWithActualParameter_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_a != that._node_a) return false;
+				if(_node_pe != that._node_pe) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -33575,6 +35761,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_replaceAccess_Parameter_AccessWithoutLink nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_replaceAccess_Parameter_AccessWithoutLink cur = this;
+				while(cur != null) {
+					Match_replaceAccess_Parameter_AccessWithoutLink next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -33593,6 +35788,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_replaceAccess_Parameter_AccessWithoutLink()
 			{
+			}
+
+			public bool IsEqual(Match_replaceAccess_Parameter_AccessWithoutLink that)
+			{
+				if(that==null) return false;
+				if(_node_a != that._node_a) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node_pe != that._node_pe) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -33738,6 +35944,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_replaceAccess_Parameter_AccessWithoutLink_neg_0 nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_replaceAccess_Parameter_AccessWithoutLink_neg_0 cur = this;
+				while(cur != null) {
+					Match_replaceAccess_Parameter_AccessWithoutLink_neg_0 next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -33754,6 +35969,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_replaceAccess_Parameter_AccessWithoutLink_neg_0()
 			{
+			}
+
+			public bool IsEqual(Match_replaceAccess_Parameter_AccessWithoutLink_neg_0 that)
+			{
+				if(that==null) return false;
+				if(_node_a != that._node_a) return false;
+				if(_node__node0 != that._node__node0) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				return true;
 			}
 		}
 
@@ -34073,6 +36297,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			public bool _flag;
 			public void Mark(bool flag) { _flag = flag; }
 			public bool IsMarked() { return _flag; }
+			public Match_replaceAccess_Parameter_AccessWithLinkToExpression nextWithSameHash;
+			public void CleanNextWithSameHash() {
+				Match_replaceAccess_Parameter_AccessWithLinkToExpression cur = this;
+				while(cur != null) {
+					Match_replaceAccess_Parameter_AccessWithLinkToExpression next = cur.nextWithSameHash;
+					cur.nextWithSameHash = null;
+					cur = next;
+				}
+			}
 			public int _iterationNumber;
 			public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
@@ -34093,6 +36326,19 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			}
 			public Match_replaceAccess_Parameter_AccessWithLinkToExpression()
 			{
+			}
+
+			public bool IsEqual(Match_replaceAccess_Parameter_AccessWithLinkToExpression that)
+			{
+				if(that==null) return false;
+				if(_node_a != that._node_a) return false;
+				if(_node_c != that._node_c) return false;
+				if(_node_pe != that._node_pe) return false;
+				if(_node_le != that._node_le) return false;
+				if(_edge_e != that._edge_e) return false;
+				if(_edge__edge0 != that._edge__edge0) return false;
+				if(_edge_old != that._edge_old) return false;
+				return true;
 			}
 		}
 
@@ -44411,6 +46657,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -44630,6 +46880,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -44849,6 +47103,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -45068,6 +47326,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -45287,6 +47549,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -45506,6 +47772,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -45725,6 +47995,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -45944,6 +48218,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -46163,6 +48441,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -46382,6 +48664,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -46601,6 +48887,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -46820,6 +49110,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -47039,6 +49333,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -47258,6 +49556,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -47477,6 +49779,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -47696,6 +50002,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -47931,6 +50241,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -48166,6 +50480,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -48401,6 +50719,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -48636,6 +50958,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -48871,6 +51197,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -49106,6 +51436,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -49341,6 +51675,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -49576,6 +51914,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -49811,6 +52153,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -50046,6 +52392,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -50290,6 +52640,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -51064,6 +53418,10 @@ maxMatchesIterReached:
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -51481,6 +53839,10 @@ label26: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -51763,6 +54125,10 @@ label31: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -52090,6 +54456,10 @@ label33: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -52318,6 +54688,10 @@ label33: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -52589,6 +54963,10 @@ label33: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -52854,6 +55232,10 @@ label33: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -53076,6 +55458,10 @@ label33: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -53303,6 +55689,10 @@ label33: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -53560,6 +55950,10 @@ label33: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -53772,6 +56166,10 @@ label33: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -54065,6 +56463,10 @@ label36: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -54748,6 +57150,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -55352,6 +57758,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -55627,6 +58037,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -55878,6 +58292,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -56116,6 +58534,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -56419,6 +58841,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -56702,6 +59128,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -56969,6 +59399,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -57215,6 +59649,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -57461,6 +59899,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -57689,6 +60131,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -57914,6 +60360,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -58151,6 +60601,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -58509,6 +60963,10 @@ label39: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -58968,6 +61426,10 @@ label40: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -59191,6 +61653,10 @@ label40: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -59436,6 +61902,10 @@ label41: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -59659,6 +62129,10 @@ label41: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -59909,6 +62383,10 @@ label41: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -60208,6 +62686,10 @@ label41: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -60526,6 +63008,10 @@ label41: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -60804,6 +63290,10 @@ label41: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -61067,6 +63557,10 @@ label41: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -61306,6 +63800,10 @@ label41: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -61587,6 +64085,10 @@ label41: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -61874,6 +64376,10 @@ label41: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -62092,6 +64598,10 @@ label41: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -62452,6 +64962,10 @@ label43: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -62765,6 +65279,10 @@ label44: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
@@ -63072,6 +65590,10 @@ label44: ;
                     case "keepLast": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepFirstFraction": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     case "keepLastFraction": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirst": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLast": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeFirstFraction": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
+                    case "removeLastFraction": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;
                     default: throw new Exception("Unknown auto supplied filter name!");
                 }
                 return;
