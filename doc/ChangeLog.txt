@@ -1,6 +1,106 @@
-﻿v4.3beta (2014-03-24)
+﻿v4.3bms2 (2014-04-30)
+ Added bounded-reachable functions for depth-limited reachability computations:
+ - boundedReachable, boundedReachableIncoming, boundedReachableOutgoing
+   with max. parameters (startNode:Node, depth:int, incidentEdgeType:EdgeType, adjacentNodeType:NodeType)
+   returning set<Node> filled with nodes reachable within given depth
+ - boundedReachableEdges, boundedReachableEdgesIncoming, boundedReachableEdgesOutgoing
+   with max. parameters (startNode:Node, depth:int, incidentEdgeType:EdgeType, adjacentNodeType:NodeType)
+   returning set<Edge> filled with edges reachable within given depth
+ - isBoundedReachable, isBoundedReachableIncoming, isBoundedReachableOutgoing
+   with parameters (startNode, endNode:Node, depth, incidentEdgeType, adjacentNodeType)
+   returning boolean value, true iff end node is reachable from start node within given depth
+ - isBoundedReachableEdges, isBoundedReachableEdgesIncoming, isBoundedReachableEdgesOutgoing
+   with parameters (startNode, endEdge:Edge, depth, incidentEdgeType, adjacentNodeType)
+   returning boolean value, true iff end edge is reachable from start node within given depth
+
+ Added corresponding loops (rule language statements only for now):
+ - for(. in boundedReachable|boundedReachableIncoming|boundedReachableOutgoing)
+   iterates the nodes instead of filling a set
+ - for(. in boundedReachableEdges|boundedReachableEdgesIncoming|boundedReachableEdgesOutgoing)
+   iterates the edges instead of filling a set
+ 
+ Added countXXX functions for all available graph query functions:
+ - they return the size of the set that would be yielded by the function without count, supported are:
+   - countNodes, countEdges,
+   - countAdjacentOutgoing, countAdjacentIncoming, countAdjacent
+   - countOutgoing, countIncoming, countIncident
+   - countReachableOutgoing, countReachableIncoming, countReachable
+   - countReachableEdgesOutgoing, countReachableEdgesIncoming, countReachableEdges
+   - countBoundedReachableOutgoing, countBoundedReachableIncoming, countBoundedReachable
+   - countBoundedReachableEdgesOutgoing, countBoundedReachableEdgesIncoming, countBoundedReachableEdges
+ - more convenient than using .size() on the set, commonly with better performance, too
+ 
+ Added for loop iterating over an integer range:
+ - in rule language: "for" "(" var "in" "[" left ":" right "]" ")" "{" body "}"
+ - in sequences: "for" "{" var "in" "[" left ":" right "]" ";" body "}"
+   first left and right are evaluated,
+   if left <= right var is incremented from left on in steps of one until right is reached (inclusive),
+   if left > right var is decremented from left on in steps of one until right is reached (inclusive),
+   the body is executed with var assigned for every value in between left and right
+
+ Added new auto-supplied filters for removing, complementary to the keeping filters already available:
+ - removeFirst(k:int) removes the first k entries from matches list
+ - removeLast(k:int) removes the last k entries from matches list
+ - removeFirstFraction(f:double) removes the first fraction f of entries from matches list
+ - removeLastFraction(f:double) removes the last fraction f of entries from matches list
+
+ Diverse:
+ - Extended copy function to containers (from graph and match already supported),
+   as remedy for the problem that containers iterated over must stay unchanged
+ - Added <,<=,>,>= for type string to the rule language expressions
+   comparing alongside lexicographic order with InvariantCulture
+ - Extended indexOf method on strings with an optional start index:
+   s.indexOf("question", 42) will return the first occurence of "question" in s from index 42 on,
+   but no previous occurence
+ - Floating point serialization, to-string-casting, and parsing with InvariantCulture now
+   to get everywhere the same results
+ - Added parameterless functions Math::pi() and Math::e() returning their corresponding constants
+
+ Performance Improvements:
+ - Optimized Performance with independent inlining
+   - gives match planning more material to work with, leading to improved matchers,
+     in case the pattern was disconnected before it yields high speedups
+   - at the cost of local post-matches filtering
+     for already found matches modulo the inlined part
+ - Optimized automorphy filters (typically a reduction of O(n*n) to O(n))
+
+ Considerable extensions of profiling information instrumentation:
+  All graph element accesses now count up the search steps,
+  i.e. graph query expressions and statements, too,
+  instead of only the candidate variable bindings during pattern matching
+
+ GrShell:
+ - Extended "new graph" command by a "new new graph" version,
+   which ensures that things are generated even if the sources did not change
+   - this is needed if only the statistics file or the profiling flag were changed,
+     without a rebuild you would get misguided by the use of the old assemblies
+ - Improved the output of the explain command 
+ - The import command now supports a line break with ";;", too
+ - "-C" is still only of limited use, as bash splits the command given inside "" alongside spaces
+   -> "here documents" piping script parts to stdin are the medium of choice for automatization
+ 
+ Set heap size for yComp to java maximum (640MB)
+
+ GRS import/export now supports escaped \ and " with \\ and \" in attribute initialization strings
+
+ Added MovieDatabase case from TTC2014 to examples
+ 
+ Bugfixes:
+ - bugfix for dump add graph exclude command, the context of the match(es) is now really added
+ - exec contained in nesting statement inside eval works now
+ - fixed code generation bug on for loop over map with only key, without value
+ - fixed code generation bug on remove from untyped array/deque
+ - fixed div by zero in graph statistics loading
+ - fixed bugs related to profiling
+ - bugfix regarding inlining of conditions
+ - fixed (and optimized) set/map intersection
+ - fixed incidence count index takeover in case of graph cloning
+ - fixed bug regarding containers with a constant constructor
+
+
+v4.3beta (2014-03-24)
  Implemented attribute indices:
- - declared in the mode with syntax 
+ - declared in the model with syntax 
    "index" name "{" Type"."attribute "}"
    to specify the type and attribute whose values are to be indexed with a binary search tree,
    so that an O(log(n)) lookup of graph elements based on the index value is possible,
