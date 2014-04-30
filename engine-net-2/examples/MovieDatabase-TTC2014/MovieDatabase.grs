@@ -1,5 +1,10 @@
+# use the lines below to employ the static matchers, or to start profiling
+# in the former case comment out the graph analyze and gen_searchplan
+#new set profile on
 #new set statistics "Moviestats"
 #new new graph MovieDatabase
+
+# import one of the test cases
 
 #import imdb-0005000-50176.movies.xmi.grs MovieDatabase.grg
 #import imdb-0010000-98388.movies.xmi.grs MovieDatabase.grg
@@ -8,13 +13,17 @@
 #import imdb-0065000-405592.movies.xmi.grs MovieDatabase.grg
 #import imdb-0085000-502878.movies.xmi.grs MovieDatabase.grg
 #import imdb-0130000-712130.movies.xmi.grs MovieDatabase.grg
-#import imdb-0130000-712130.movies.xmi.grs MovieDatabase.grg
 #import imdb-0200000-1007510.movies.xmi.grs MovieDatabase.grg
 #import imdb-0340000-1511739.movies.xmi.grs MovieDatabase.grg
-import imdb-0495000-2011048.movies.xmi.grs MovieDatabase.grg
+#import imdb-0495000-2011048.movies.xmi.grs MovieDatabase.grg
 #import imdb-0660000-2514839.movies.xmi.grs MovieDatabase.grg
 #import imdb-0900000-3210567.movies.xmi.grs MovieDatabase.grg
 #import imdb-all-3335074.movies.xmi.grs MovieDatabase.grg
+
+# or create the synthetic example
+
+new new graph MovieDatabase
+exec createExample(200000)
 
 include MovieDatabaseLayout.grs
 
@@ -23,17 +32,20 @@ include MovieDatabaseLayout.grs
 #don't forget to press the play button to start layout
 #show graph ycomp 
 
-#exec createExample(10000)
-
 show num nodes
 show num edges
 
 custom graph analyze
-#custom graph statistics save "Moviestats"
 custom actions gen_searchplan
 #custom actions explain findCouples
-#custom actions explain findCouplesOpt
+custom actions explain findCouplesOpt
+#custom actions explain findCliquesOf3Opt
+#custom actions explain findCliquesOf4Opt
+#custom actions explain findCliquesOf5Opt
 #custom actions explain addCommonMovies
+
+#this is for saving graph analyzation data
+#custom graph statistics save "Moviestats"
 
 #exec [findCouples\auto]
 #exec [findCliquesOf3\auto]
@@ -45,6 +57,8 @@ exec [findCouplesOpt]
 #exec [findCliquesOf4Opt]
 #exec [findCliquesOf5Opt]
 
+#show profile findCouples
+
 show num nodes Couple
 show num edges p1
 show num edges p2
@@ -52,10 +66,12 @@ show num nodes Clique
 show num edges persons
 
 exec [computeAverageRanking]
-#exec [computeAverageRankingCliques]
+exec [computeAverageRankingCliques]
 
-exec [couplesWithRating\orderDescendingBy<avgRating>\keepFirst(15)]
-exec [couplesWithRating\orderDescendingBy<numMovies>\keepFirst(15)]
+# for output of the found matches
+
+#exec [couplesWithRating\orderDescendingBy<avgRating>\keepFirst(15)]
+#exec [couplesWithRating\orderDescendingBy<numMovies>\keepFirst(15)]
 
 #exec [cliques3WithRating\orderDescendingBy<avgRating>\keepFirst(15)]
 #exec [cliques3WithRating\orderDescendingBy<numMovies>\keepFirst(15)]
@@ -65,6 +81,8 @@ exec [couplesWithRating\orderDescendingBy<numMovies>\keepFirst(15)]
 
 #exec [cliques5WithRating\orderDescendingBy<avgRating>\keepFirst(15)]
 #exec [cliques5WithRating\orderDescendingBy<numMovies>\keepFirst(15)]
+
+# for visually inspecting the matches
 
 #debug exec $%[couplesWithRating\orderDescendingBy<avgRating>\removeFirst(0)\keepFirst(1)]
 #debug exec $%[couplesWithRating\orderDescendingBy<numMovies>\removeFirst(0)\keepFirst(1)]
