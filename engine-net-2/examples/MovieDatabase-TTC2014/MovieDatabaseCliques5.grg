@@ -42,7 +42,7 @@ rule addCommonMoviesAndComputeAverageRankingOfClique5(c:Clique, pn1:Person, pn2:
 	}
 }
 
-rule findCliquesOf5Opt[parallelize=64]
+rule findCliquesOf5Opt[parallelize=16]
 {
 	pn1:Person; pn2:Person; pn3:Person; pn4:Person; pn5:Person;
 	hom(pn1,pn2,pn3,pn4,pn5);

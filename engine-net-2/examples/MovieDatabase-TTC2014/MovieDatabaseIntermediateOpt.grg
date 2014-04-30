@@ -32,42 +32,6 @@ rule findCouplesIntermediateOpt2
 	pn1:Person; pn2:Person;
 	independent {
 		pn1 -:personToMovie-> m1:Movie <-:personToMovie- pn2;
-		if{ atLeastThreeCommonMoviesIntermediateOpt(pn1, pn2); }
-	}
-	if{ uniqueof(pn1) < uniqueof(pn2); }
-	
-	modify {
-		c:Couple;
-		c -:p1-> pn1;
-		c -:p2-> pn2;
-
-		exec( [addCommonMoviesIntermediateOpt(c, pn1, pn2)] );
-	}
-}
-
-function atLeastThreeCommonMoviesIntermediateOpt(pn1:Person, pn2:Person) : boolean
-{
-	def var common:int = 0;
-	def ref movies:set<Node> = adjacentOutgoing(pn1, personToMovie);
-	for(movie:Node in adjacentOutgoing(pn2, personToMovie))
-	{
-		if(movie in movies) {
-			common = common + 1;
-			if(common >= 3) {
-				return(true);
-			}
-		}
-	}
-	return(false);
-}
-
-//----------------------------------------------------
-
-rule findCouplesIntermediateOpt3
-{
-	pn1:Person; pn2:Person;
-	independent {
-		pn1 -:personToMovie-> m1:Movie <-:personToMovie- pn2;
 		if{ atLeastThreeCommonMoviesIntermediateOpt2(pn1, pn2); }
 	}
 	if{ uniqueof(pn1) < uniqueof(pn2); }

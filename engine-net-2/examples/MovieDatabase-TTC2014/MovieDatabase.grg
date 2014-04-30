@@ -43,7 +43,7 @@ rule addCommonMoviesAndComputeAverageRanking(c:Couple, pn1:Person, pn2:Person)
 
 //----------------------------------------------------
 
-rule findCouplesOpt[parallelize=64]
+rule findCouplesOpt[parallelize=16]
 {
 	pn1:Person; pn2:Person;
 	hom(pn1,pn2);
