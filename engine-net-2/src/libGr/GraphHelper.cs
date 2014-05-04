@@ -1467,6 +1467,59 @@ namespace de.unika.ipd.grGen.libGr
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
+        /// Returns set of nodes reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        public static Dictionary<INode, int> BoundedReachableWithRemainingDepth(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType)
+        {
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachable(startNode, depth, incidentEdgeType, adjacentNodeType, adjacentNodesToMinDepth);
+            return adjacentNodesToMinDepth;
+        }
+
+        public static Dictionary<INode, int> BoundedReachableWithRemainingDepth(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachable(startNode, depth, incidentEdgeType, adjacentNodeType, adjacentNodesToMinDepth, actionEnv);
+            return adjacentNodesToMinDepth;
+        }
+
+        /// <summary>
+        /// Returns set of nodes reachable from the start node within the given depth via outgoing edges, under the type constraints given
+        /// </summary>
+        public static Dictionary<INode, int> BoundedReachableWithRemainingDepthOutgoing(INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType)
+        {
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, targetNodesToMinDepth);
+            return targetNodesToMinDepth;
+        }
+
+        public static Dictionary<INode, int> BoundedReachableWithRemainingDepthOutgoing(INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, targetNodesToMinDepth, actionEnv);
+            return targetNodesToMinDepth;
+        }
+
+        /// <summary>
+        /// Returns set of nodes reachable from the start node within the given depth via incoming edges, under the type constraints given
+        /// </summary>
+        public static Dictionary<INode, int> BoundedReachableWithRemainingDepthIncoming(INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType)
+        {
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableIncoming(startNode, depth, incomingEdgeType, sourceNodeType, sourceNodesToMinDepth);
+            return sourceNodesToMinDepth;
+        }
+
+        public static Dictionary<INode, int> BoundedReachableWithRemainingDepthIncoming(INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv)
+        {
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableIncoming(startNode, depth, incomingEdgeType, sourceNodeType, sourceNodesToMinDepth, actionEnv);
+            return sourceNodesToMinDepth;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
         /// Returns the count of the nodes reachable from the start node within the given depth, under the type constraints given
         /// </summary>
         public static int CountBoundedReachable(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType)

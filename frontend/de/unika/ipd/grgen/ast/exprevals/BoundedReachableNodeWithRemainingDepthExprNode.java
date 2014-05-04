@@ -13,16 +13,16 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.BoundedReachableNodeExpr;
+import de.unika.ipd.grgen.ir.exprevals.BoundedReachableNodeWithRemainingDepthExpr;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * A node yielding the depth-bounded reachable nodes/reachable nodes via incoming edges/reachable nodes via outgoing edges of a node.
  */
-public class BoundedReachableNodeExprNode extends ExprNode {
+public class BoundedReachableNodeWithRemainingDepthExprNode extends ExprNode {
 	static {
-		setName(BoundedReachableNodeExprNode.class, "bounded reachable node expr");
+		setName(BoundedReachableNodeWithRemainingDepthExprNode.class, "bounded reachable node with remaining depth expr");
 	}
 
 	private ExprNode startNodeExpr;
@@ -38,7 +38,7 @@ public class BoundedReachableNodeExprNode extends ExprNode {
 	public static final int OUTGOING = 2;
 	
 	
-	public BoundedReachableNodeExprNode(Coords coords,
+	public BoundedReachableNodeWithRemainingDepthExprNode(Coords coords,
 			ExprNode startNodeExpr, ExprNode depthExpr,
 			ExprNode incidentTypeExpr, int direction,
 			ExprNode adjacentTypeExpr,
@@ -88,19 +88,19 @@ public class BoundedReachableNodeExprNode extends ExprNode {
 	@Override
 	protected boolean checkLocal() {
 		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("first argument of boundedReachable(.,.,.,.) must be a node");
+			reportError("first argument of boundedReachableWithRemainingDepth(.,.,.,.) must be a node");
 			return false;
 		}
 		if(!(depthExpr.getType() instanceof IntTypeNode)) {
-			reportError("second argument of boundedReachable(.,.,.,.) must be an int");
+			reportError("second argument of boundedReachableWithRemainingDepth(.,.,.,.) must be an int");
 			return false;
 		}
 		if(!(incidentTypeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("third argument of boundedReachable(.,.,.,.) must be an edge type");
+			reportError("third argument of boundedReachableWithRemainingDepth(.,.,.,.) must be an edge type");
 			return false;
 		}
 		if(!(adjacentTypeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("fourth argument of boundedReachable(.,.,.,.) must be a node type");
+			reportError("fourth argument of boundedReachableWithRemainingDepth(.,.,.,.) must be a node type");
 			return false;
 		}
 		return true;
@@ -109,7 +109,7 @@ public class BoundedReachableNodeExprNode extends ExprNode {
 	@Override
 	protected IR constructIR() {
 		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
-		return new BoundedReachableNodeExpr(startNodeExpr.checkIR(Expression.class), 
+		return new BoundedReachableNodeWithRemainingDepthExpr(startNodeExpr.checkIR(Expression.class), 
 								depthExpr.checkIR(Expression.class),
 								incidentTypeExpr.checkIR(Expression.class), direction,
 								adjacentTypeExpr.checkIR(Expression.class),
@@ -118,6 +118,6 @@ public class BoundedReachableNodeExprNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(resultNodeType);
+		return MapTypeNode.getMapType(resultNodeType, BasicTypeNode.intType.getIdentNode());
 	}
 }

@@ -4,16 +4,19 @@ ref ::res1:set<Node>;
 var ::res1count:int;
 ref ::res1e:set<Edge>;
 var ::res1ecount:int;
+ref ::res1m:map<Node,int>;
 
 ref ::res2:set<Node>;
 var ::res2count:int;
 ref ::res2e:set<Edge>;
 var ::res2ecount:int;
+ref ::res2m:map<Node,int>;
 
 ref ::res3:set<Node>;
 var ::res3count:int;
 ref ::res3e:set<Edge>;
 var ::res3ecount:int;
+ref ::res3m:map<Node,int>;
 
 rule init
 {
@@ -530,6 +533,66 @@ rule rboundreachout
 		exec({
 			::res3 = boundedReachableOutgoing(::start, 2);
 			::res3count = countBoundedReachableOutgoing(::start, 2);
+		});
+	}
+}
+
+rule rmapboundreach
+{
+	def ref _res1m:map<Node,int>;
+
+	yield {
+		yield _res1m = boundedReachableWithRemainingDepth(::start, 2);
+	}
+	
+	modify {
+		eval {
+			::res1m = _res1m;
+			::res2m = boundedReachableWithRemainingDepth(::start, 2);
+		}
+		
+		exec({
+			::res3m = boundedReachableWithRemainingDepth(::start, 2);
+		});
+	}
+}
+
+rule rmapboundreachin
+{
+	def ref _res1m:map<Node,int>;
+
+	yield {
+		yield _res1m = boundedReachableWithRemainingDepthIncoming(::start, 2);
+	}
+	
+	modify {
+		eval {
+			::res1m = _res1m;
+			::res2m = boundedReachableWithRemainingDepthIncoming(::start, 2);
+		}
+		
+		exec({
+			::res3m = boundedReachableWithRemainingDepthIncoming(::start, 2);
+		});
+	}
+}
+
+rule rmapboundreachout
+{
+	def ref _res1m:map<Node,int>;
+
+	yield {
+		yield _res1m = boundedReachableWithRemainingDepthOutgoing(::start, 2);
+	}
+	
+	modify {
+		eval {
+			::res1m = _res1m;
+			::res2m = boundedReachableWithRemainingDepthOutgoing(::start, 2);
+		}
+		
+		exec({
+			::res3m = boundedReachableWithRemainingDepthOutgoing(::start, 2);
 		});
 	}
 }

@@ -1,0 +1,17 @@
+new graph "incadjreachcount/incadjreachcount"
+
+exec init
+
+exec rmapboundreachout
+
+show var res1m
+
+show var res2m
+
+show var res3m
+
+exec { ::res4m = boundedReachableWithRemainingDepthOutgoing(::start, 2) }
+
+show var res4m
+
+quit

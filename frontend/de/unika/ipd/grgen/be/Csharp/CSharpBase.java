@@ -1922,6 +1922,28 @@ public abstract class CSharpBase {
 				sb.append(", threadId");
 			sb.append(")");
 		}
+		else if (expr instanceof BoundedReachableNodeWithRemainingDepthExpr) {
+			BoundedReachableNodeWithRemainingDepthExpr brnwrd = (BoundedReachableNodeWithRemainingDepthExpr) expr;
+			if(brnwrd.Direction()==BoundedReachableNodeWithRemainingDepthExpr.OUTGOING) {
+				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableWithRemainingDepthOutgoing(");
+			} else if(brnwrd.Direction()==BoundedReachableNodeWithRemainingDepthExpr.INCOMING) {
+				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableWithRemainingDepthIncoming(");
+			} else {
+				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableWithRemainingDepth(");
+			}
+			genExpression(sb, brnwrd.getStartNodeExpr(), modifyGenerationState);
+			sb.append(", ");
+			genExpression(sb, brnwrd.getDepthExpr(), modifyGenerationState);
+			sb.append(", ");
+			genExpression(sb, brnwrd.getIncidentEdgeTypeExpr(), modifyGenerationState);
+			sb.append(", ");
+			genExpression(sb, brnwrd.getAdjacentNodeTypeExpr(), modifyGenerationState);
+			if(modifyGenerationState.emitProfilingInstrumentation())
+				sb.append(", actionEnv");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
+			sb.append(")");
+		}
 		else if (expr instanceof CountBoundedReachableEdgeExpr) {
 			CountBoundedReachableEdgeExpr cbre = (CountBoundedReachableEdgeExpr) expr;
 			if(cbre.Direction()==CountBoundedReachableEdgeExpr.OUTGOING) {
