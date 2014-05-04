@@ -45,6 +45,7 @@ namespace de.unika.ipd.grGen.libGr
         ReachableEdges, ReachableEdgesViaIncoming, ReachableEdgesViaOutgoing,
         BoundedReachableNodes, BoundedReachableNodesViaIncoming, BoundedReachableNodesViaOutgoing,
         BoundedReachableEdges, BoundedReachableEdgesViaIncoming, BoundedReachableEdgesViaOutgoing,
+        BoundedReachableNodesWithRemainingDepth, BoundedReachableNodesWithRemainingDepthViaIncoming, BoundedReachableNodesWithRemainingDepthViaOutgoing,
         CountAdjacentNodes, CountAdjacentNodesViaIncoming, CountAdjacentNodesViaOutgoing,
         CountIncidentEdges, CountIncomingEdges, CountOutgoingEdges,
         CountReachableNodes, CountReachableNodesViaIncoming, CountReachableNodesViaOutgoing,
@@ -3557,6 +3558,183 @@ namespace de.unika.ipd.grGen.libGr
                 case SequenceExpressionType.BoundedReachableEdges: return "boundedReachableEdges";
                 case SequenceExpressionType.BoundedReachableEdgesViaIncoming: return "boundedReachableEdgesIncoming";
                 case SequenceExpressionType.BoundedReachableEdgesViaOutgoing: return "boundedReachableEdgesOutgoing";
+                default: return "INTERNAL FAILURE!";
+                }
+            }
+        }
+        public override string Symbol
+        {
+            get { return FunctionSymbol + SourceNode.Symbol + "," + Depth.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+        }
+    }
+
+    public class SequenceExpressionBoundedReachableWithRemainingDepth : SequenceExpression
+    {
+        public SequenceExpression SourceNode;
+        public SequenceExpression Depth;
+        public SequenceExpression EdgeType;
+        public SequenceExpression OppositeNodeType;
+        public bool EmitProfiling;
+
+        public SequenceExpressionBoundedReachableWithRemainingDepth(SequenceExpression sourceNode, SequenceExpression depth, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
+            : base(type)
+        {
+            SourceNode = sourceNode;
+            Depth = depth;
+            EdgeType = edgeType;
+            OppositeNodeType = oppositeNodeType;
+            if(!(type == SequenceExpressionType.BoundedReachableNodesWithRemainingDepth || type == SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaIncoming || type == SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaOutgoing))
+                throw new Exception("Internal failure, bounded reachable with remaining depth with wrong type");
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(SourceNode.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                NodeType nodeType = TypesHelper.GetNodeType(SourceNode.Type(env), env.Model);
+                if(nodeType == null)
+                {
+                    throw new SequenceParserException(Symbol+", first argument", "node type", SourceNode.Type(env));
+                }
+            }
+            if(Depth.Type(env) != "")
+            {
+                if(Depth.Type(env) != "int")
+                {
+                    throw new SequenceParserException(Symbol + ", second argument", "int type", Depth.Type(env));
+                }
+            }
+            if(EdgeType != null && EdgeType.Type(env) != "")
+            {
+                string typeString = null;
+                if(EdgeType.Type(env) == "string")
+                {
+                    if(EdgeType is SequenceExpressionConstant)
+                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
+                }
+                else
+                {
+                    typeString = EdgeType.Type(env);
+                }
+                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
+                if(edgeType == null && typeString != null)
+                {
+                    throw new SequenceParserException(Symbol + ", third argument", "edge type or string denoting edge type", typeString);
+                }
+            }
+            if(OppositeNodeType!=null && OppositeNodeType.Type(env)!="")
+            {
+                string typeString = null;
+                if(OppositeNodeType.Type(env) == "string")
+                {
+                    if(OppositeNodeType is SequenceExpressionConstant)
+                        typeString = (string)((SequenceExpressionConstant)OppositeNodeType).Constant;
+                }
+                else
+                {
+                    typeString = OppositeNodeType.Type(env);
+                }
+                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
+                if(nodeType == null && typeString != null)
+                {
+                    throw new SequenceParserException(Symbol + ", fourth argument", "node type or string denoting node type", typeString);
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "map<Node,int>";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionBoundedReachableWithRemainingDepth copy = (SequenceExpressionBoundedReachableWithRemainingDepth)MemberwiseClone();
+            copy.SourceNode = SourceNode.CopyExpression(originalToCopy, procEnv);
+            copy.Depth = Depth.CopyExpression(originalToCopy, procEnv);
+            if(EdgeType != null) copy.EdgeType = EdgeType.CopyExpression(originalToCopy, procEnv);
+            if(OppositeNodeType!=null)copy.OppositeNodeType = OppositeNodeType.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            INode sourceNode = (INode)SourceNode.Evaluate(procEnv);
+            int depth = (int)Depth.Evaluate(procEnv);
+            EdgeType edgeType = null;
+            if(EdgeType != null)
+            {
+                object tmp = EdgeType.Evaluate(procEnv);
+                if(tmp is string) edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
+                else if(tmp is EdgeType) edgeType = (EdgeType)tmp;
+                if(edgeType == null) throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
+            }
+            else
+            {
+                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
+            }
+            NodeType nodeType = null;
+            if(OppositeNodeType != null)
+            {
+                object tmp = OppositeNodeType.Evaluate(procEnv);
+                if(tmp is string) nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
+                else if(tmp is NodeType) nodeType = (NodeType)tmp;
+                if(nodeType == null) throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
+            }
+            else
+            {
+                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            }
+
+            switch(SequenceExpressionType)
+            {
+                case SequenceExpressionType.BoundedReachableNodesWithRemainingDepth:
+                    if(EmitProfiling)
+                        return GraphHelper.BoundedReachableWithRemainingDepth(sourceNode, depth, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.BoundedReachableWithRemainingDepth(sourceNode, depth, edgeType, nodeType);
+                case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaIncoming:
+                    if(EmitProfiling)
+                        return GraphHelper.BoundedReachableWithRemainingDepthIncoming(sourceNode, depth, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.BoundedReachableWithRemainingDepthIncoming(sourceNode, depth, edgeType, nodeType);
+                case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaOutgoing:
+                    if(EmitProfiling)
+                        return GraphHelper.BoundedReachableWithRemainingDepthOutgoing(sourceNode, depth, edgeType, nodeType, procEnv);
+                    else
+                        return GraphHelper.BoundedReachableWithRemainingDepthOutgoing(sourceNode, depth, edgeType, nodeType);
+                default:
+                    return null; // internal failure
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            SourceNode.GetLocalVariables(variables, containerConstructors);
+            Depth.GetLocalVariables(variables, containerConstructors);
+            if(EdgeType != null) EdgeType.GetLocalVariables(variables, containerConstructors);
+            if(OppositeNodeType != null) OppositeNodeType.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return SourceNode; yield return Depth; if(EdgeType != null) yield return EdgeType; if(OppositeNodeType != null) yield return OppositeNodeType; } }
+        public override int Precedence { get { return 8; } }
+        public string FunctionSymbol
+        {
+            get
+            {
+                switch(SequenceExpressionType)
+                {
+                case SequenceExpressionType.BoundedReachableNodes: return "boundedReachable";
+                case SequenceExpressionType.BoundedReachableNodesViaIncoming: return "boundedReachableIncoming";
+                case SequenceExpressionType.BoundedReachableNodesViaOutgoing: return "boundedReachableOutgoing";
                 default: return "INTERNAL FAILURE!";
                 }
             }

@@ -3367,6 +3367,24 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, brn.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof BoundedReachableNodeWithRemainingDepthExpr) {
+			BoundedReachableNodeWithRemainingDepthExpr brnwrd = (BoundedReachableNodeWithRemainingDepthExpr) expr;
+			if(brnwrd.Direction()==BoundedReachableNodeWithRemainingDepthExpr.OUTGOING) {
+				sb.append("new GRGEN_EXPR.BoundedReachableWithRemainingDepthOutgoing(");
+			} else if(brnwrd.Direction()==BoundedReachableNodeWithRemainingDepthExpr.INCOMING) {
+				sb.append("new GRGEN_EXPR.BoundedReachableWithRemainingDepthIncoming(");
+			} else {
+				sb.append("new GRGEN_EXPR.BoundedReachableWithRemainingDepth(");
+			}
+			genExpressionTree(sb, brnwrd.getStartNodeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, brnwrd.getDepthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, brnwrd.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, brnwrd.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof CountBoundedReachableEdgeExpr) {
 			CountBoundedReachableEdgeExpr cbre = (CountBoundedReachableEdgeExpr) expr;
 			if(cbre.Direction()==CountBoundedReachableEdgeExpr.OUTGOING) {

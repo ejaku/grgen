@@ -697,6 +697,31 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 		}
+		else if(functionName.equals("boundedReachableWithRemainingDepthIncoming")
+				|| functionName.equals("boundedReachableWithRemainingDepthOutgoing")
+				|| functionName.equals("boundedReachableWithRemainingDepth")) {
+			int direction;
+			if(functionName.equals("boundedReachableWithRemainingDepthIncoming"))
+				direction = BoundedReachableNodeWithRemainingDepthExprNode.INCOMING;
+			else if(functionName.equals("boundedReachableWithRemainingDepthOutgoing"))
+				direction = BoundedReachableNodeWithRemainingDepthExprNode.OUTGOING;
+			else
+				direction = BoundedReachableNodeWithRemainingDepthExprNode.ADJACENT;
+
+			if(params.size() == 2) {
+				result = new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
+			}
+			else if(params.size() == 3) {
+				result = new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
+			}
+			else if(params.size() == 4) {
+				result = new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, params.get(3), env.getNodeRoot());
+			}
+			else {
+				reportError(functionName + "() takes 2-4 parameters.");
+				return false;
+			}
+		}
 		else if(functionName.equals("countBoundedReachableEdgesIncoming")
 				|| functionName.equals("countBoundedReachableEdgesOutgoing")
 				|| functionName.equals("countBoundedReachableEdges")) {

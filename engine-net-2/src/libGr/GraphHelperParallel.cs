@@ -1357,6 +1357,59 @@ namespace de.unika.ipd.grGen.libGr
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
+        /// Returns map of nodes to remaining depth reachable from the start node within the given depth, under the type constraints given
+        /// </summary>
+        public static Dictionary<INode, int> BoundedReachableWithRemainingDepth(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, int threadId)
+        {
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachable(startNode, depth, incidentEdgeType, adjacentNodeType, adjacentNodesToMinDepth); // call normal version, is thread safe 
+            return adjacentNodesToMinDepth;
+        }
+
+        public static Dictionary<INode, int> BoundedReachableWithRemainingDepth(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachable(startNode, depth, incidentEdgeType, adjacentNodeType, adjacentNodesToMinDepth, actionEnv, threadId);
+            return adjacentNodesToMinDepth;
+        }
+
+        /// <summary>
+        /// Returns map of nodes to remaining depth reachable from the start node within the given depth via outgoing edges, under the type constraints given
+        /// </summary>
+        public static Dictionary<INode, int> BoundedReachableWithRemainingDepthOutgoing(INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, int threadId)
+        {
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, targetNodesToMinDepth); // call normal version, is thread safe
+            return targetNodesToMinDepth;
+        }
+
+        public static Dictionary<INode, int> BoundedReachableWithRemainingDepthOutgoing(INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, targetNodesToMinDepth, actionEnv, threadId);
+            return targetNodesToMinDepth;
+        }
+
+        /// <summary>
+        /// Returns map of nodes to remaining depth reachable from the start node within the given depth via incoming edges, under the type constraints given
+        /// </summary>
+        public static Dictionary<INode, int> BoundedReachableWithRemainingDepthIncoming(INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, int threadId)
+        {
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableIncoming(startNode, depth, incomingEdgeType, sourceNodeType, sourceNodesToMinDepth); // call normal version, is thread safe
+            return sourceNodesToMinDepth;
+        }
+
+        public static Dictionary<INode, int> BoundedReachableWithRemainingDepthIncoming(INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
+            BoundedReachableIncoming(startNode, depth, incomingEdgeType, sourceNodeType, sourceNodesToMinDepth, actionEnv, threadId);
+            return sourceNodesToMinDepth;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
         /// Returns the count of the nodes reachable from the start node within the given depth, under the type constraints given
         /// </summary>
         public static int CountBoundedReachable(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, int threadId)

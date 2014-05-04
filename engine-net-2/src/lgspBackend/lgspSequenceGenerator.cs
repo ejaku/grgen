@@ -3891,6 +3891,32 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
+                case SequenceExpressionType.BoundedReachableNodesWithRemainingDepth:
+                case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaIncoming:
+                case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaOutgoing:
+                {
+                    SequenceExpressionBoundedReachableWithRemainingDepth seqBoundReach = (SequenceExpressionBoundedReachableWithRemainingDepth)expr;
+                    string sourceNode = GetSequenceExpression(seqBoundReach.SourceNode, source);
+                    string depth = GetSequenceExpression(seqBoundReach.Depth, source);
+                    string incidentEdgeType = ExtractEdgeType(source, seqBoundReach.EdgeType);
+                    string adjacentNodeType = ExtractNodeType(source, seqBoundReach.OppositeNodeType);
+                    string function;
+                    switch(seqBoundReach.SequenceExpressionType)
+                    {
+                        case SequenceExpressionType.BoundedReachableNodesWithRemainingDepth:
+                            function = "BoundedReachableWithRemainingDepth"; break;
+                        case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaIncoming:
+                            function = "BoundedReachableWithRemainingDepthIncoming"; break;
+                        case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaOutgoing:
+                            function = "BoundedReachableWithRemainingDepthOutgoing"; break;
+                        default:
+                            function = "INTERNAL ERROR"; break;
+                    }
+                    string profilingArgument = seqBoundReach.EmitProfiling ? ", procEnv" : "";
+                    return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode + ", (int)" + depth
+                        + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
+                }
+
                 case SequenceExpressionType.CountBoundedReachableNodes:
                 case SequenceExpressionType.CountBoundedReachableNodesViaIncoming:
                 case SequenceExpressionType.CountBoundedReachableNodesViaOutgoing:

@@ -25,6 +25,8 @@ rule t(var k:int)
 	if { boundedReachableEdges(n, k).size()!=0 && boundedReachableEdgesIncoming(n, k).size()!=0 && boundedReachableEdgesOutgoing(n, k).size()!=0; }
 	if { boundedReachable(::g_n, 3).size()!=0 && boundedReachableIncoming(::g_n, 3).size()!=0 && boundedReachableOutgoing(::g_n, 3).size()!=0; }
 	if { boundedReachable(n, k).size()!=0 && boundedReachableIncoming(n, k).size()!=0 && boundedReachableOutgoing(n, k).size()!=0; }
+	if { boundedReachableWithRemainingDepth(::g_n, 3).size()!=0 && boundedReachableWithRemainingDepthIncoming(::g_n, 3).size()!=0 && boundedReachableWithRemainingDepthOutgoing(::g_n, 3).size()!=0; }
+	if { boundedReachableWithRemainingDepth(n, k).size()!=0 && boundedReachableWithRemainingDepthIncoming(n, k).size()!=0 && boundedReachableWithRemainingDepthOutgoing(n, k).size()!=0; }
 
 	if { countBoundedReachableEdges(::g_n, 3)!=0 && countBoundedReachableEdgesIncoming(::g_n, 3)!=0 && countBoundedReachableEdgesOutgoing(::g_n, 3)!=0; }
 	if { countBoundedReachableEdges(n, k)!=0 && countBoundedReachableEdgesIncoming(n, k)!=0 && countBoundedReachableEdgesOutgoing(n, k)!=0; }
@@ -58,6 +60,8 @@ rule t(var k:int)
 		eval { yield res = boundedReachableEdges(n, k).size()!=0 && boundedReachableEdgesIncoming(n, k).size()!=0 && boundedReachableEdgesOutgoing(n, k).size()!=0; }
 		eval { yield res = boundedReachable(::g_n, 3).size()!=0 && boundedReachableIncoming(::g_n, 3).size()!=0 && boundedReachableOutgoing(::g_n, 3).size()!=0; }
 		eval { yield res = boundedReachable(n, k).size()!=0 && boundedReachableIncoming(n, k).size()!=0 && boundedReachableOutgoing(n, k).size()!=0; }
+		eval { yield res = boundedReachableWithRemainingDepth(::g_n, 3).size()!=0 && boundedReachableWithRemainingDepthIncoming(::g_n, 3).size()!=0 && boundedReachableWithRemainingDepthOutgoing(::g_n, 3).size()!=0; }
+		eval { yield res = boundedReachableWithRemainingDepth(n, k).size()!=0 && boundedReachableWithRemainingDepthIncoming(n, k).size()!=0 && boundedReachableWithRemainingDepthOutgoing(n, k).size()!=0; }
 
 		eval { yield res = countBoundedReachableEdges(::g_n, 3)!=0 && countBoundedReachableEdgesIncoming(::g_n, 3)!=0 && countBoundedReachableEdgesOutgoing(::g_n, 3)!=0; }
 		eval { yield res = countBoundedReachableEdges(n, k)!=0 && countBoundedReachableEdgesIncoming(n, k)!=0 && countBoundedReachableEdgesOutgoing(n, k)!=0; }
@@ -72,6 +76,7 @@ rule t(var k:int)
 
 		def ref rn:set<Node>;
 		def ref re:set<Edge>;
+		def ref rm:map<Node,int>;
 		
 		exec ( { re = reachableEdges(::g_n); re = reachableEdgesIncoming(::g_n); re = reachableEdgesOutgoing(::g_n); } );
 		exec ( { re = reachableEdges(n); re = reachableEdgesIncoming(n); re = reachableEdgesOutgoing(n); } );
@@ -92,6 +97,8 @@ rule t(var k:int)
 		exec ( { re = boundedReachableEdges(n, k); re = boundedReachableEdgesIncoming(n, k); re = boundedReachableEdgesOutgoing(n, k); } );
 		exec ( { rn = boundedReachable(::g_n, 3); rn = boundedReachableIncoming(::g_n, 3); rn = boundedReachableOutgoing(::g_n, 3); } );
 		exec ( { rn = boundedReachable(n, k); rn = boundedReachableIncoming(n, k); rn = boundedReachableOutgoing(n, k); } );
+		exec ( { rm = boundedReachableWithRemainingDepth(::g_n, 3); rm = boundedReachableWithRemainingDepthIncoming(::g_n, 3); rm = boundedReachableWithRemainingDepthOutgoing(::g_n, 3); } );
+		exec ( { rm = boundedReachableWithRemainingDepth(n, k); rm = boundedReachableWithRemainingDepthIncoming(n, k); rm = boundedReachableWithRemainingDepthOutgoing(n, k); } );
 		
 		exec ( { res = countBoundedReachableEdges(::g_n, 3)!=0 && countBoundedReachableEdgesIncoming(::g_n, 3)!=0 && countBoundedReachableEdgesOutgoing(::g_n, 3)!=0; } );
 		exec ( { res = countBoundedReachableEdges(n, k)!=0 && countBoundedReachableEdgesIncoming(n, k)!=0 && countBoundedReachableEdgesOutgoing(n, k)!=0; } );
