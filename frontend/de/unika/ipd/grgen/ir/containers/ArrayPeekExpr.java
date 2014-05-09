@@ -30,6 +30,7 @@ public class ArrayPeekExpr extends Expression {
 	}
 
 	public void collectNeededEntities(NeededEntities needs) {
+		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 		if(numberExpr!=null) numberExpr.collectNeededEntities(needs);
 	}

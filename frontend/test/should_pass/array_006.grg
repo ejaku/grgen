@@ -5,12 +5,14 @@ rule addToArray {
 
 	if {
 		a.niceArray.subarray(a.niceArray.indexOf("foo"), 1).size()>=1 ;
+		a.niceArray.subarray(a.niceArray.indexOf("foo", 42), 1).size()>=1 ;
 		a.spiceArray.subarray(0, a.spiceArray.size()).size()>=1;
 	}		
 	
 	modify {
 		eval {
 			a.niceArray = a.niceArray.subarray(a.niceArray.indexOf("foo"), 1);
+			a.niceArray = a.niceArray.subarray(a.niceArray.indexOf("foo", 42), 1);
 			a.spiceArray = a.spiceArray.subarray(0, a.spiceArray.size());
 		}		
 	}

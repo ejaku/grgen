@@ -2794,6 +2794,10 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, ai.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, ai.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(ai.getStartIndexExpr()!=null) {
+				sb.append(", ");
+				genExpressionTree(sb, ai.getStartIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);				
+			}
 			sb.append(")");
 		}
 		else if (expr instanceof ArrayLastIndexOfExpr) {
@@ -2842,6 +2846,10 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, di.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, di.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(di.getStartIndexExpr()!=null) {
+				sb.append(", ");
+				genExpressionTree(sb, di.getStartIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			}
 			sb.append(")");
 		}
 		else if (expr instanceof DequeLastIndexOfExpr) {

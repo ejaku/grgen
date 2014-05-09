@@ -30,6 +30,7 @@ public class ArrayLastIndexOfExpr extends Expression {
 	}
 
 	public void collectNeededEntities(NeededEntities needs) {
+		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 		valueExpr.collectNeededEntities(needs);
 	}

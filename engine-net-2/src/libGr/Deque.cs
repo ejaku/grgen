@@ -41,6 +41,7 @@ namespace de.unika.ipd.grGen.libGr
         //void CopyTo(Array array, int index); from ICollection
 
         int IndexOf(object item);
+        int IndexOf(object item, int startIndex);
         int LastIndexOf(object item);
         bool Contains(object item);
 
@@ -539,6 +540,35 @@ namespace de.unika.ipd.grGen.libGr
         int IDeque.IndexOf(object item)
         {
             return IndexOf((T)item);
+        }
+
+        public int IndexOf(T item, int startIndex)
+        {
+            if(startIndex < 0 || startIndex >= Count)
+                throw new ArgumentOutOfRangeException("index out of bounds");
+
+            if(begin <= end)
+            {
+                for(int pos = begin + startIndex; pos < end; ++pos)
+                    if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
+                        return pos - begin;
+            }
+            else
+            {
+                for(int pos = begin + startIndex; pos < buffer.Length; ++pos)
+                    if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
+                        return pos - begin;
+                for(int pos = startIndex > buffer.Length - begin ? startIndex - (buffer.Length - begin) : 0; pos < end; ++pos)
+                    if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
+                        return pos + buffer.Length - begin;
+            }
+
+            return -1;
+        }
+
+        int IDeque.IndexOf(object item, int startIndex)
+        {
+            return IndexOf((T)item, startIndex);
         }
 
         public int LastIndexOf(T item)

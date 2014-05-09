@@ -31,6 +31,7 @@ public class MapPeekExpr extends Expression {
 	}
 
 	public void collectNeededEntities(NeededEntities needs) {
+		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 		numberExpr.collectNeededEntities(needs);
 	}

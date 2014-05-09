@@ -13,12 +13,21 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
 public class DequeIndexOfExpr extends Expression {
-	private Expression targetExpr, valueExpr;
+	private Expression targetExpr;
+	private Expression valueExpr;
+	private Expression startIndexExpr;
 
 	public DequeIndexOfExpr(Expression targetExpr, Expression valueExpr) {
 		super("deque indexOf expr", IntType.getType());
 		this.targetExpr = targetExpr;
 		this.valueExpr = valueExpr;
+	}
+
+	public DequeIndexOfExpr(Expression targetExpr, Expression valueExpr, Expression startIndexExpr) {
+		super("deque indexOf expr", IntType.getType());
+		this.targetExpr = targetExpr;
+		this.valueExpr = valueExpr;
+		this.startIndexExpr = startIndexExpr;
 	}
 
 	public Expression getTargetExpr() {
@@ -29,8 +38,15 @@ public class DequeIndexOfExpr extends Expression {
 		return valueExpr;
 	}
 
+	public Expression getStartIndexExpr() {
+		return startIndexExpr;
+	}
+
 	public void collectNeededEntities(NeededEntities needs) {
+		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 		valueExpr.collectNeededEntities(needs);
+		if(startIndexExpr != null)
+			startIndexExpr.collectNeededEntities(needs);
 	}
 }
