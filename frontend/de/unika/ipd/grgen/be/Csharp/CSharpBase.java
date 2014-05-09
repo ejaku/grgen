@@ -1246,6 +1246,10 @@ public abstract class CSharpBase {
 				genExpression(sb, ai.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
 				genExpression(sb, ai.getValueExpr(), modifyGenerationState);
+				if(ai.getStartIndexExpr()!=null) {
+					sb.append(", ");
+					genExpression(sb, ai.getStartIndexExpr(), modifyGenerationState);
+				}
 				sb.append(")");
 			}
 		}
@@ -1325,6 +1329,10 @@ public abstract class CSharpBase {
 				genExpression(sb, di.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
 				genExpression(sb, di.getValueExpr(), modifyGenerationState);
+				if(di.getStartIndexExpr()!=null) {
+					sb.append(", ");
+					genExpression(sb, di.getStartIndexExpr(), modifyGenerationState);
+				}
 				sb.append(")");
 			}
 		}

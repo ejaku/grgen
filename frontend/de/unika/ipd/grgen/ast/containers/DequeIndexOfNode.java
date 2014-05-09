@@ -29,6 +29,7 @@ public class DequeIndexOfNode extends ExprNode
 
 	private ExprNode targetExpr;
 	private ExprNode valueExpr;
+	private ExprNode startIndexExpr;
 
 	public DequeIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr)
 	{
@@ -37,11 +38,21 @@ public class DequeIndexOfNode extends ExprNode
 		this.valueExpr = becomeParent(valueExpr);
 	}
 
+	public DequeIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr, ExprNode startIndexExpr)
+	{
+		super(coords);
+		this.targetExpr = becomeParent(targetExpr);
+		this.valueExpr = becomeParent(valueExpr);
+		this.startIndexExpr = becomeParent(startIndexExpr);
+	}
+
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		children.add(valueExpr);
+		if(startIndexExpr!=null)
+			children.add(startIndexExpr);
 		return children;
 	}
 
@@ -50,6 +61,8 @@ public class DequeIndexOfNode extends ExprNode
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("valueExpr");
+		if(startIndexExpr!=null)
+			childrenNames.add("startIndex");
 		return childrenNames;
 	}
 
@@ -71,6 +84,11 @@ public class DequeIndexOfNode extends ExprNode
 				return false;
 			}
 		}
+		if(startIndexExpr!=null
+			&& !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
+			startIndexExpr.reportError("Argument (start index) to deque indexOf expression must be of type int");
+			return false;
+			}
 		return true;
 	}
 
@@ -81,7 +99,12 @@ public class DequeIndexOfNode extends ExprNode
 
 	@Override
 	protected IR constructIR() {
-		return new DequeIndexOfExpr(targetExpr.checkIR(Expression.class),
-				valueExpr.checkIR(Expression.class));
+		if(startIndexExpr!=null)
+			return new DequeIndexOfExpr(targetExpr.checkIR(Expression.class),
+					valueExpr.checkIR(Expression.class),
+					startIndexExpr.checkIR(Expression.class));
+		else
+			return new DequeIndexOfExpr(targetExpr.checkIR(Expression.class),
+					valueExpr.checkIR(Expression.class));
 	}
 }

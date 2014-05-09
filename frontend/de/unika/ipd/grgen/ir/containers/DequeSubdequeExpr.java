@@ -35,6 +35,7 @@ public class DequeSubdequeExpr extends Expression {
 	}
 
 	public void collectNeededEntities(NeededEntities needs) {
+		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 		startExpr.collectNeededEntities(needs);
 		lengthExpr.collectNeededEntities(needs);

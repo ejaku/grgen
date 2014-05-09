@@ -207,7 +207,22 @@ public class ModifyGen extends CSharpBase {
 				i++;
 			}
 		}
-		
+
+		public void InitNeeds(HashSet<Expression> containerExprs) {
+			int i = 0;
+			for(Expression expr : containerExprs) {
+				if(expr instanceof MapInit || expr instanceof SetInit 
+						|| expr instanceof ArrayInit || expr instanceof DequeInit)
+					continue;
+				mapExprToTempVar.put(expr, "tempcontainervar_" + i);
+				i++;
+			}
+		}
+
+		public void ClearContainerExprs() {
+			mapExprToTempVar.clear();
+		}
+
 		public ModifyGenerationState(Model model, 
 				boolean isToBeParallelizedActionExisting,
 				boolean emitProfiling) {
@@ -612,6 +627,7 @@ public class ModifyGen extends CSharpBase {
 
 		NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false, false);
 		collectElementsAndAttributesNeededByImperativeStatements(task, needs);
+		needs.collectContainerExprs = false;
 		collectElementsAndAttributesNeededByReturns(task, needs);
 		collectElementsNeededBySubpatternCreation(task, needs);
 		collectElementsNeededByNameOrAttributeInitialization(state, needs);
@@ -630,7 +646,6 @@ public class ModifyGen extends CSharpBase {
 		collectElementsAndAttributesNeededByDefVarToBeYieldedToInitialization(state, needs);
 
 		// Do not collect container expressions for evals
-		needs.collectContainerExprs = false;
 		collectElementsAndAttributesNeededByEvals(task, needs);
 		needs.collectContainerExprs = true;
 
@@ -680,11 +695,15 @@ public class ModifyGen extends CSharpBase {
 
 		genDelSubpatternCalls(sb3, stateConst);
 
+		collectContainerExprsNeededByImperativeStatements(task, needs);
+		state.InitNeeds(needs.containerExprs);
 		genContainerVariablesBeforeImperativeStatements(sb3, stateConst);
 
 		state.useVarForResult = true;
 		genImperativeStatements(sb3, stateConst, task, pathPrefix);
 		state.useVarForResult = false;
+
+		state.ClearContainerExprs();
 
 		genCheckReturnedElementsForDeletionOrRetypingDueToHomomorphy(sb3, task);
 
@@ -995,6 +1014,27 @@ public class ModifyGen extends CSharpBase {
 				// the other ordered statement is the totally different dependent subpattern replacement
 			}
 		}
+	}
+
+	private void collectContainerExprsNeededByImperativeStatements(ModifyGenerationTask task,
+			NeededEntities needs)
+	{
+		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
+			if(istmt instanceof Emit) {
+				Emit emit = (Emit) istmt;
+				for(Expression arg : emit.getArguments())
+					arg.collectNeededEntities(needs);
+			}
+		}
+		/*for(OrderedReplacements orpls : task.right.getOrderedReplacements()) {
+			for(OrderedReplacement orpl : orpls.orderedReplacements) {
+				if(orpl instanceof Emit) {
+					Emit emit = (Emit) orpl;
+					for(Expression arg : emit.getArguments())
+						arg.collectNeededEntities(needs);
+				}
+			}
+		}*/
 	}
 
 	private void collectElementsAndAttributesNeededByEvals(ModifyGenerationTask task, NeededEntities needs)

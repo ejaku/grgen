@@ -804,6 +804,20 @@ namespace de.unika.ipd.grGen.libGr
             return a.IndexOf(entry);
         }
 
+        public static int IndexOf<V>(List<V> a, V entry, int startIndex)
+        {
+            return a.IndexOf(entry, startIndex);
+        }
+
+        public static int IndexOf(IList a, object entry, int startIndex)
+        {
+            for(int i = startIndex; i < a.Count; ++i)
+                if(a[i].Equals(entry))
+                    return i;
+
+            return -1;
+        }
+
         /// <summary>
         /// Returns the first position from the end inwards of entry in the array a
         /// </summary>
@@ -955,6 +969,16 @@ namespace de.unika.ipd.grGen.libGr
         public static int IndexOf(IDeque a, object entry)
         {
             return a.IndexOf(entry);
+        }
+
+        public static int IndexOf<V>(Deque<V> a, V entry, int index)
+        {
+            return a.IndexOf(entry, index);
+        }
+
+        public static int IndexOf(IDeque a, object entry, int index)
+        {
+            return a.IndexOf(entry, index);
         }
 
         /// <summary>

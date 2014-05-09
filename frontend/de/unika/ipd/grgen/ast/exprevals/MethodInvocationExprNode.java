@@ -234,12 +234,15 @@ public class MethodInvocationExprNode extends ExprNode
   				}
 			}
   			else if(methodName.equals("indexOf")) {
-  				if(params.size() != 1) {
-  					reportError("array<T>.indexOf(valueToSearchFor) takes one parameter.");
+  				if(params.size() != 1 && params.size() != 2) {
+  					reportError("array<T>.indexOf(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
 					return false;
 				}
   				else
-  					result = new ArrayIndexOfNode(getCoords(), targetExpr, params.get(0));
+  					if(params.size() == 1)
+  						result = new ArrayIndexOfNode(getCoords(), targetExpr, params.get(0));
+  					else
+  						result = new ArrayIndexOfNode(getCoords(), targetExpr, params.get(0), params.get(1));
   			}
   			else if(methodName.equals("lastIndexOf")) {
   				if(params.size() != 1) {
@@ -292,12 +295,15 @@ public class MethodInvocationExprNode extends ExprNode
   				}
 			}
   			else if(methodName.equals("indexOf")) {
-  				if(params.size() != 1) {
-  					reportError("deque<T>.indexOf(valueToSearchFor) takes one parameter.");
+  				if(params.size() != 1 && params.size() != 2) {
+  					reportError("deque<T>.indexOf(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
 					return false;
 				}
   				else
-  					result = new DequeIndexOfNode(getCoords(), targetExpr, params.get(0));
+  					if(params.size() == 1)
+  						result = new DequeIndexOfNode(getCoords(), targetExpr, params.get(0));
+  					else
+  						result = new DequeIndexOfNode(getCoords(), targetExpr, params.get(0), params.get(1));
   			}
   			else if(methodName.equals("lastIndexOf")) {
   				if(params.size() != 1) {
