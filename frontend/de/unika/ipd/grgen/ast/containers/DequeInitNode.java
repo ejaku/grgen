@@ -143,10 +143,6 @@ public class DequeInitNode extends ExprNode
 
 	protected TypeNode getDequeType() {
 		TypeNode itemTypeNode = dequeItems.getChildren().iterator().next().valueExpr.getType();
-		if(!(itemTypeNode instanceof DeclaredTypeNode)) {
-			reportError("Deque items have to be of basic or enum type");
-			return BasicTypeNode.errorType;
-		}
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
 		return DequeTypeNode.getDequeType(itemTypeIdent);
 	}

@@ -2915,6 +2915,36 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an array as set expression.
+    /// </summary>
+    public class ArrayAsSet : Expression
+    {
+        public ArrayAsSet(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayAsSet(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.ArrayAsSet(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
     /// Class representing a deque size expression.
     /// </summary>
     public class DequeSize : Expression
@@ -3143,6 +3173,36 @@ namespace de.unika.ipd.grGen.expression
         Expression Target;
         Expression Start;
         Expression Length;
+    }
+
+    /// <summary>
+    /// Class representing a deque as set expression.
+    /// </summary>
+    public class DequeAsSet : Expression
+    {
+        public DequeAsSet(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new DequeAsSet(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.DequeAsSet(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
     }
 
     /// <summary>

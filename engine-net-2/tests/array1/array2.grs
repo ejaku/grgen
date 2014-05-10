@@ -22,4 +22,6 @@ xgrs a:array<string>=array<string>[] ;> ::tmp="a" ;> {a.add(::tmp)} ;> ::tmp="b"
 
 xgrs arrayIndexof2
 
+xgrs arrayAsSet
+
 quit

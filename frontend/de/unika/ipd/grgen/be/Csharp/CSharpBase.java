@@ -1281,6 +1281,17 @@ public abstract class CSharpBase {
 				sb.append(")");
 			}
 		}
+		else if (expr instanceof ArrayAsSetExpr) {
+			ArrayAsSetExpr aas = (ArrayAsSetExpr)expr;
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(aas));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayAsSet(");
+				genExpression(sb, aas.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
 		else if (expr instanceof DequeSizeExpr) {
 			DequeSizeExpr ds = (DequeSizeExpr)expr;
 			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
@@ -1361,6 +1372,17 @@ public abstract class CSharpBase {
 				genExpression(sb, dsd.getStartExpr(), modifyGenerationState);
 				sb.append(", ");
 				genExpression(sb, dsd.getLengthExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof DequeAsSetExpr) {
+			DequeAsSetExpr das = (DequeAsSetExpr)expr;
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(das));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.DequeAsSet(");
+				genExpression(sb, das.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
 			}
 		}

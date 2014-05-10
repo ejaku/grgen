@@ -143,10 +143,6 @@ public class ArrayInitNode extends ExprNode
 
 	protected TypeNode getArrayType() {
 		TypeNode itemTypeNode = arrayItems.getChildren().iterator().next().valueExpr.getType();
-		if(!(itemTypeNode instanceof DeclaredTypeNode)) {
-			reportError("Array items have to be of basic or enum type");
-			return BasicTypeNode.errorType;
-		}
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
 		return ArrayTypeNode.getArrayType(itemTypeIdent);
 	}

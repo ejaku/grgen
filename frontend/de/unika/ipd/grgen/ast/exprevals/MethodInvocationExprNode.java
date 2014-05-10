@@ -260,6 +260,14 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new ArraySubarrayNode(getCoords(), targetExpr, params.get(0), params.get(1));
   			}
+			else if(methodName.equals("asSet")) {
+  				if(params.size() != 0) {
+  					reportError("array<T>.asSet() takes no parameters.");
+					return false;
+				}
+  				else
+  					result = new ArrayAsSetNode(getCoords(), targetExpr);
+  			}
   			else {
   				reportError("array<T> does not have a method named \"" + methodName + "\"");
   				return false;
@@ -320,6 +328,14 @@ public class MethodInvocationExprNode extends ExprNode
 				}
   				else
   					result = new DequeSubdequeNode(getCoords(), targetExpr, params.get(0), params.get(1));
+  			}
+			else if(methodName.equals("asSet")) {
+  				if(params.size() != 0) {
+  					reportError("deque<T>.asSet() takes no parameters.");
+					return false;
+				}
+  				else
+  					result = new DequeAsSetNode(getCoords(), targetExpr);
   			}
   			else {
   				reportError("deque<T> does not have a method named \"" + methodName + "\"");

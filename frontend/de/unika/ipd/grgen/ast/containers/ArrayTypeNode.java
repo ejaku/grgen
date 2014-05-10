@@ -45,7 +45,7 @@ public class ArrayTypeNode extends DeclaredTypeNode {
 		return arrayTypeNode;
 	}
 
-	private IdentNode valueTypeUnresolved;
+	public IdentNode valueTypeUnresolved;
 	public TypeNode valueType;
 
 	// the array type node instances are created in ParserEnvironment as needed
