@@ -866,6 +866,22 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Creates a new dictionary representing a set containing all values from the given list.
+        /// </summary>
+        public static Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> ArrayAsSet<V>(List<V> a)
+        {
+            Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> newDict =
+                new Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType>();
+
+            for(int i = 0; i < a.Count; ++i)
+            {
+                newDict[a[i]] = null;
+            }
+
+            return newDict;
+        }
+
+        /// <summary>
         /// Creates a new dynamic array and appends all values first from
         /// <paramref name="a"/> and then from <paramref name="b"/>.
         /// </summary>
@@ -1014,6 +1030,22 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             return newDeque;
+        }
+
+        /// <summary>
+        /// Creates a new dictionary representing a set containing all values from the given list.
+        /// </summary>
+        public static Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> DequeAsSet<V>(Deque<V> a)
+        {
+            Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> newDict =
+                new Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType>();
+
+            for(int i = 0; i < a.Count; ++i)
+            {
+                newDict[a[i]] = null;
+            }
+
+            return newDict;
         }
 
         /// <summary>

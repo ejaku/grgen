@@ -22,4 +22,6 @@ xgrs a:deque<string>=deque<string>][ ;> ::tmp="a" ;> {a.add(::tmp)} ;> ::tmp="b"
 
 xgrs dequeIndexof2
 
+xgrs dequeAsSet
+
 quit

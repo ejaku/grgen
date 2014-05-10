@@ -50,6 +50,12 @@ public class MapRangeNode extends ExprNode
 	}
 
 	@Override
+	protected boolean resolveLocal() {
+		getType().resolve(); // call to ensure the set type exists
+		return true;
+	}
+	
+	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof MapTypeNode)) {

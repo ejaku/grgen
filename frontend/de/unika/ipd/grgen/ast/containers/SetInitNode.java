@@ -143,10 +143,6 @@ public class SetInitNode extends ExprNode
 
 	protected TypeNode getSetType() {
 		TypeNode itemTypeNode = setItems.getChildren().iterator().next().valueExpr.getType();
-		if(!(itemTypeNode instanceof DeclaredTypeNode)) {
-			reportError("Set items have to be of basic or enum type");
-			return BasicTypeNode.errorType;
-		}
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
 		return SetTypeNode.getSetType(itemTypeIdent);
 	}

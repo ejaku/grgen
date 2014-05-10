@@ -2818,6 +2818,12 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, asa.getLengthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof ArrayAsSetExpr) {
+			ArrayAsSetExpr aas = (ArrayAsSetExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayAsSet(");
+			genExpressionTree(sb, aas.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof DequeSizeExpr) {
 			DequeSizeExpr ds = (DequeSizeExpr)expr;
 			sb.append("new GRGEN_EXPR.DequeSize(");
@@ -2868,6 +2874,12 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, dsd.getStartExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, dsd.getLengthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof DequeAsSetExpr) {
+			DequeAsSetExpr das = (DequeAsSetExpr)expr;
+			sb.append("new GRGEN_EXPR.DequeAsSet(");
+			genExpressionTree(sb, das.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof MapInit) {

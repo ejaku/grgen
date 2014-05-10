@@ -162,11 +162,6 @@ public class MapInitNode extends ExprNode
 	private TypeNode getMapType() {
 		TypeNode keyTypeNode = mapItems.getChildren().iterator().next().keyExpr.getType();
 		TypeNode valueTypeNode = mapItems.getChildren().iterator().next().valueExpr.getType();
-		if(!(keyTypeNode instanceof DeclaredTypeNode)
-				|| !(valueTypeNode instanceof DeclaredTypeNode)) {
-			reportError("Map items have to be of basic or enum type");
-			return BasicTypeNode.errorType;
-		}
 		IdentNode keyTypeIdent = ((DeclaredTypeNode)keyTypeNode).getIdentNode();
 		IdentNode valueTypeIdent = ((DeclaredTypeNode)valueTypeNode).getIdentNode();
 		return MapTypeNode.getMapType(keyTypeIdent, valueTypeIdent);

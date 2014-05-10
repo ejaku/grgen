@@ -45,7 +45,7 @@ public class DequeTypeNode extends DeclaredTypeNode {
 		return dequeTypeNode;
 	}
 
-	private IdentNode valueTypeUnresolved;
+	public IdentNode valueTypeUnresolved;
 	public TypeNode valueType;
 
 	// the deque type node instances are created in ParserEnvironment as needed

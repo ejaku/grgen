@@ -18,18 +18,18 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.containers.MapDomainExpr;
+import de.unika.ipd.grgen.ir.containers.ArrayAsSetExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapDomainNode extends ExprNode
+public class ArrayAsSetNode extends ExprNode
 {
 	static {
-		setName(MapSizeNode.class, "map domain expression");
+		setName(ArrayAsSetNode.class, "array as set expression");
 	}
 
 	private ExprNode targetExpr;
 
-	public MapDomainNode(Coords coords, ExprNode targetExpr)
+	public ArrayAsSetNode(Coords coords, ExprNode targetExpr)
 	{
 		super(coords);
 		this.targetExpr = becomeParent(targetExpr);
@@ -58,8 +58,8 @@ public class MapDomainNode extends ExprNode
 	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof MapTypeNode)) {
-			targetExpr.reportError("This argument to map domain expression must be of type map<S,T>");
+		if(!(targetType instanceof ArrayTypeNode)) {
+			targetExpr.reportError("This argument to array as set expression must be of type array<T>");
 			return false;
 		}
 		return true;
@@ -67,11 +67,11 @@ public class MapDomainNode extends ExprNode
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(((MapTypeNode)targetExpr.getType()).keyTypeUnresolved);
+		return SetTypeNode.getSetType(((ArrayTypeNode)targetExpr.getType()).valueTypeUnresolved);
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new MapDomainExpr(targetExpr.checkIR(Expression.class), getType().getType());
+		return new ArrayAsSetExpr(targetExpr.checkIR(Expression.class), getType().getType());
 	}
 }
