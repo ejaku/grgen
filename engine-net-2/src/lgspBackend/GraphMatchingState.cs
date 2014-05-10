@@ -53,43 +53,44 @@ namespace de.unika.ipd.grGen.lgsp
         /// A pattern graph created out of the original graph, for isomorphy checking
         /// not null if/after comparing type counts and vstructs was insufficient
         /// </summary>
-        public PatternGraph patternGraph;
+        private PatternGraph patternGraph;
 
         /// <summary>
         /// The interpretation plan used for isomorphy checking, built from the pattern graph
         /// not null if/after comparing type counts and vstructs was insufficient
         /// </summary>
-        public InterpretationPlan interpretationPlan;
+        private InterpretationPlan interpretationPlan;
 
         /// <summary>
         /// The changes counter of the graph when the interpretation plan was built
         /// (the compiled matcher depends on this, too)
         /// </summary>
-        public long changesCounterAtInterpretationPlanBuilding;
+        private long changesCounterAtInterpretationPlanBuilding;
 
         /// <summary>
         /// The compiled graph comparison matcher, built from the interpretation plan
         /// not null if/after the interpretation plan was emitted and compiled
         /// </summary>
-        public GraphComparisonMatcher compiledMatcher;
+        private GraphComparisonMatcher compiledMatcher;
 
-        /// <summary>
-        /// Tells how many iso checks where done with this graph as one partner
-        /// </summary>
-        public int numChecks = 0;
+        // just some statistic for debugging, tells how many iso checks where done with this graph as one partner
+        private int numChecks = 0;
 
         /// <summary>
         ///Tells how many matches were carried out with this interpretation plan or compiled matcher
         /// </summary>
-        public int numMatchings = 0;
+        private int numMatchings = 0;
+
+        // object used to protect the matcher compilation process
+        private static object compilationLock = new object();
 
         /// <summary>
         /// The graphs which were matched so often they gained the status of a candidate 
         /// for the next compilation run
         /// </summary>
-        public static List<LGSPGraph> candidatesForCompilation = new List<LGSPGraph>();
+        private static List<LGSPGraph> candidatesForCompilation = new List<LGSPGraph>();
 
-        public static int TotalCandidateMatches()
+        private static int TotalCandidateMatches()
         {
             int count = 0;
             for(int i = 0; i < candidatesForCompilation.Count; ++i)
@@ -101,20 +102,20 @@ namespace de.unika.ipd.grGen.lgsp
         /// We gather the oftenly compared "hot" graphs in a candidate set 
         /// for getting isomorphy-checked with a compiled matcher instead of an interpreted matcher
         /// </summary>
-        public const int MATCHES_NEEDED_TO_BECOME_A_CANDIDATE_FOR_COMPILATION = 4;
+        private const int MATCHES_NEEDED_TO_BECOME_A_CANDIDATE_FOR_COMPILATION = 4;
 
         /// <summary>
         /// And when the candidates were compared often enough, we compile them.
         /// We can't do this often cause compilation is very expensive.
         /// Using ILGenerator to build a dynamic method would be much better, but is much harder, too :(
         /// </summary>
-        public const int TOTAL_CANDIDATE_MATCHES_NEEDED_TO_START_A_COMPILATION = 1200;
+        private const int TOTAL_CANDIDATE_MATCHES_NEEDED_TO_START_A_COMPILATION = 1200;
 
-        // just some statistics
-        public static int numGraphsComparedAtLeastOnce = 0;
-        public static int numInterpretationPlans = 0;
-        public static int numCompiledMatchers = 0;
-        public static int numCompilationPasses = 0;
+        // just some statistics for debugging
+        private static int numGraphsComparedAtLeastOnce = 0;
+        private static int numInterpretationPlans = 0;
+        private static int numCompiledMatchers = 0;
+        private static int numCompilationPasses = 0;
 
 #if LOG_ISOMORPHY_CHECKING
         private static StreamWriter writer;
@@ -150,15 +151,23 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             // ensure graphs are analyzed
-            if(this_.statistics.vstructs == null)
-                this_.AnalyzeGraph();
-            if(that.statistics.vstructs == null)
-                that.AnalyzeGraph();
-            if(this_.changesCounterAtLastAnalyze != this_.ChangesCounter)
-                this_.AnalyzeGraph();
-            if(that.changesCounterAtLastAnalyze != that.ChangesCounter)
-                that.AnalyzeGraph();
-
+            if(this_.statistics.vstructs == null || this_.changesCounterAtLastAnalyze != this_.ChangesCounter)
+            {
+                lock(this_)
+                {
+                    if(this_.statistics.vstructs == null || this_.changesCounterAtLastAnalyze != this_.ChangesCounter)
+                        this_.AnalyzeGraph();
+                }
+            }
+            if(that.statistics.vstructs == null || that.changesCounterAtLastAnalyze != that.ChangesCounter)
+            {
+                lock(that)
+                {
+                    if(that.statistics.vstructs == null || that.changesCounterAtLastAnalyze != that.ChangesCounter)
+                        that.AnalyzeGraph();
+                }
+            }
+ 
             // compare analyze statistics
             if(!AreVstructsEqual(this_, that))
                 return false;
@@ -171,21 +180,39 @@ namespace de.unika.ipd.grGen.lgsp
             // invalidate outdated interpretation plans and compiled matchers
             if(this_.matchingState.interpretationPlan != null && this_.matchingState.changesCounterAtInterpretationPlanBuilding != this_.ChangesCounter)
             {
-                this_.matchingState.interpretationPlan = null;
-                this_.matchingState.patternGraph = null;
-                GraphMatchingState.candidatesForCompilation.Remove(this_);
-                this_.matchingState.compiledMatcher = null;
-                this_.matchingState.numMatchings = 0;
-                this_.matchingState.numChecks = 0;
+                lock(this_)
+                {
+                    if(this_.matchingState.interpretationPlan != null && this_.matchingState.changesCounterAtInterpretationPlanBuilding != this_.ChangesCounter)
+                    {
+                        this_.matchingState.interpretationPlan = null;
+                        this_.matchingState.patternGraph = null;
+                        lock(GraphMatchingState.compilationLock)
+                        {
+                            GraphMatchingState.candidatesForCompilation.Remove(this_);
+                        }
+                        this_.matchingState.compiledMatcher = null;
+                        this_.matchingState.numMatchings = 0;
+                        this_.matchingState.numChecks = 0;
+                    }
+                }
             }
             if(that.matchingState.interpretationPlan != null && that.matchingState.changesCounterAtInterpretationPlanBuilding != that.ChangesCounter)
             {
-                that.matchingState.interpretationPlan = null;
-                that.matchingState.patternGraph = null;
-                GraphMatchingState.candidatesForCompilation.Remove(that);
-                that.matchingState.compiledMatcher = null;
-                that.matchingState.numMatchings = 0;
-                that.matchingState.numChecks = 0;
+                lock(that)
+                {
+                    if(that.matchingState.interpretationPlan != null && that.matchingState.changesCounterAtInterpretationPlanBuilding != that.ChangesCounter)
+                    {
+                        that.matchingState.interpretationPlan = null;
+                        that.matchingState.patternGraph = null;
+                        lock(GraphMatchingState.compilationLock)
+                        {
+                            GraphMatchingState.candidatesForCompilation.Remove(that);
+                        }
+                        that.matchingState.compiledMatcher = null;
+                        that.matchingState.numMatchings = 0;
+                        that.matchingState.numChecks = 0;
+                    }
+                }
             }
 
             // they were the same? then we must try to match this in that, or that in this
@@ -200,7 +227,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool matchedWithThis;
             if(this_.matchingState.compiledMatcher != null)
             {
-                result = this_.matchingState.compiledMatcher.IsIsomorph(this_.matchingState.patternGraph, that, includingAttributes);
+                lock(that)
+                {
+                    result = this_.matchingState.compiledMatcher.IsIsomorph(this_.matchingState.patternGraph, that, includingAttributes);
+                }
                 matchedWithThis = true;
 #if LOG_ISOMORPHY_CHECKING
                 writer.WriteLine("Using compiled interpretation plan of this " + this_.matchingState.compiledMatcher.Name);
@@ -208,7 +238,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(that.matchingState.compiledMatcher != null)
             {
-                result = that.matchingState.compiledMatcher.IsIsomorph(that.matchingState.patternGraph, this_, includingAttributes);
+                lock(this_)
+                {
+                    result = that.matchingState.compiledMatcher.IsIsomorph(that.matchingState.patternGraph, this_, includingAttributes);
+                }
                 matchedWithThis = false;
 #if LOG_ISOMORPHY_CHECKING
                 writer.WriteLine("Using compiled interpretation plan of that " + that.matchingState.compiledMatcher.Name);
@@ -216,7 +249,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(this_.matchingState.interpretationPlan != null)
             {
-                result = this_.matchingState.interpretationPlan.Execute(that, includingAttributes, null);
+                lock(that)
+                {
+                    result = this_.matchingState.interpretationPlan.Execute(that, includingAttributes, null);
+                }
                 matchedWithThis = true;
 #if LOG_ISOMORPHY_CHECKING
                 writer.WriteLine("Using interpretation plan of this " + ((InterpretationPlanStart)this_.matchingState.interpretationPlan).ComparisonMatcherName);
@@ -224,7 +260,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(that.matchingState.interpretationPlan != null)
             {
-                result = that.matchingState.interpretationPlan.Execute(this_, includingAttributes, null);
+                lock(this_)
+                {
+                    result = that.matchingState.interpretationPlan.Execute(this_, includingAttributes, null);
+                }
                 matchedWithThis = false;
 #if LOG_ISOMORPHY_CHECKING
                 writer.WriteLine("Using interpretation plan of that " + ((InterpretationPlanStart)that.matchingState.interpretationPlan).ComparisonMatcherName);
@@ -237,13 +276,19 @@ namespace de.unika.ipd.grGen.lgsp
                 if(this_.GraphID < that.GraphID)
                 {
                     BuildInterpretationPlan(this_);
-                    result = this_.matchingState.interpretationPlan.Execute(that, includingAttributes, null);
+                    lock(that)
+                    {
+                        result = this_.matchingState.interpretationPlan.Execute(that, includingAttributes, null);
+                    }
                     matchedWithThis = true;
                 }
                 else
                 {
                     BuildInterpretationPlan(that);
-                    result = that.matchingState.interpretationPlan.Execute(this_, includingAttributes, null);
+                    lock(this_)
+                    {
+                        result = that.matchingState.interpretationPlan.Execute(this_, includingAttributes, null);
+                    }
                     matchedWithThis = false;
                 }
             }
@@ -260,19 +305,32 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 ++this_.matchingState.numMatchings;
                 if(this_.matchingState.numMatchings == GraphMatchingState.MATCHES_NEEDED_TO_BECOME_A_CANDIDATE_FOR_COMPILATION)
-                    GraphMatchingState.candidatesForCompilation.Add(this_);
+                {
+                    lock(GraphMatchingState.compilationLock)
+                    {
+                        GraphMatchingState.candidatesForCompilation.Add(this_);
+                    }
+                }
             }
             else
             {
                 ++that.matchingState.numMatchings;
                 if(that.matchingState.numMatchings == GraphMatchingState.MATCHES_NEEDED_TO_BECOME_A_CANDIDATE_FOR_COMPILATION)
-                    GraphMatchingState.candidatesForCompilation.Add(that);
+                {
+                    lock(GraphMatchingState.compilationLock)
+                    {
+                        GraphMatchingState.candidatesForCompilation.Add(that);
+                    }
+                }
             }
 
 #if COMPILE_MATCHERS
-            if(GraphMatchingState.TotalCandidateMatches() >= GraphMatchingState.TOTAL_CANDIDATE_MATCHES_NEEDED_TO_START_A_COMPILATION)
+            lock(compilationLock)
             {
-                CompileComparisonMatchers();
+                if(GraphMatchingState.TotalCandidateMatches() >= GraphMatchingState.TOTAL_CANDIDATE_MATCHES_NEEDED_TO_START_A_COMPILATION)
+                {
+                    CompileComparisonMatchers();
+                }
             }
 #endif
 
@@ -492,7 +550,6 @@ namespace de.unika.ipd.grGen.lgsp
                     "de.unika.ipd.grGen.lgspComparisonMatchers.ComparisonMatcher_" + graph.GraphID);
                 if(graph.matchingState.compiledMatcher == null)
                     throw new ArgumentException("Internal error: Generated assembly does not contain comparison matcher 'ComparisonMatcher_" + graph.GraphID + "'!");
-                graph.matchingState.interpretationPlan = null; // free memory of interpretation plan not needed any more
                 ++GraphMatchingState.numCompiledMatchers;
             }
 
