@@ -6,10 +6,8 @@ rule addToSet {
 	modify {
 		eval {
 			n.edgeSet = n.edgeSet | set<Edge>{ n };
-			n.edgeSet = n.edgeSet | { m };
 			n.eSet = n.eSet | set<E>{ n };
-			n.eSet = n.eSet | { n };
-			n.uSet = n.uSet | { u };
+			n.uSet = n.uSet | set<UEdge>{ u };
 		}
 	}
 }
@@ -28,10 +26,8 @@ rule removeFromSet {
 	modify {
 		eval {
 			n.edgeSet = n.edgeSet \ set<Edge>{ n };
-			n.edgeSet = n.edgeSet \ { m };
 			n.eSet = n.eSet \ set<E>{ n };
-			n.eSet = n.eSet \ { n };
-			n.uSet = n.uSet \ { u };
+			n.uSet = n.uSet \ set<UEdge>{ u };
 		}
 	}
 }
@@ -58,8 +54,8 @@ rule anonymousSet {
 
 	modify {
 		eval {
-			n.val = (n in {n, m}) ? 1 : 0;
-			m.val = (u in {u}) ? 1 : 0;
+			n.val = (n in set<Edge>{n, m}) ? 1 : 0;
+			m.val = (u in set<UEdge>{u}) ? 1 : 0;
 		}
 	}
 }

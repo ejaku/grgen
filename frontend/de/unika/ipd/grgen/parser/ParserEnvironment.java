@@ -322,19 +322,6 @@ public abstract class ParserEnvironment extends Base {
 		return keywords.contains(str);
 	}
 	
-	public void enterContainerInit() {
-		++containerInitNestingLevel;
-	}
-
-	public void leaveContainerInit() {
-		assert(inContainerInit());
-		--containerInitNestingLevel;
-	}
-	
-	public boolean inContainerInit() {
-		return containerInitNestingLevel>=1;
-	}
-
 	/**
 	 * Initializes the lexer keywords hash set (i.e. all identifiers considered as keyword by the lexer (not the parser)).
 	 */

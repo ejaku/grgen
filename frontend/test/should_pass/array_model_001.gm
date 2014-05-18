@@ -61,21 +61,21 @@ node class AA extends A
 	constVal = 666;
 	strval = "fooo";
 	constStrval = "fooo";
-	niceArray = [
+	niceArray = array<string>[
 		"fooo",
 		"baar"
 	];
-	constNiceArray = [
+	constNiceArray = array<string>[
 		"fooo",
 		"baar"
 	];
-	spiceArray = [
+	spiceArray = array<int>[
 		666
 	];
-	constSpiceArray = [
+	constSpiceArray = array<int>[
 		666
 	];
-	enumArray = [
+	enumArray = array<et>[
 		et::a,
 		et::b,
 		et::c
@@ -88,13 +88,13 @@ node class AAA extends AA
 	constVal = 4711;
 	strval = "urgs";
 	constStrval = "urgs";
-	spiceArray = [
+	spiceArray = array<int>[
 		4711
 	];
-	constSpiceArray = [
+	constSpiceArray = array<int>[
 		4711
 	];
-	enumArray = [
+	enumArray = array<et>[
 		et::b
 	];
 }
@@ -124,21 +124,21 @@ edge class EE extends E
 	constVal = 666;
 	strval = "fooo";
 	constStrval = "fooo";
-	niceArray = [
+	niceArray = array<string>[
 		"fooo",
 		"baar"
 	];
-	constNiceArray = [
+	constNiceArray = array<string>[
 		"fooo",
 		"baar"
 	];
-	spiceArray = [
+	spiceArray = array<int>[
 		666
 	];
-	constSpiceArray = [
+	constSpiceArray = array<int>[
 		666
 	];
-	enumArray = [
+	enumArray = array<et>[
 		et::a,
 		et::b,
 		et::c
@@ -151,13 +151,13 @@ edge class EEE extends EE
 	constVal = 4711;
 	strval = "urgs";
 	constStrval = "urgs";
-	spiceArray = [
+	spiceArray = array<int>[
 		4711
 	];
-	constSpiceArray = [
+	constSpiceArray = array<int>[
 		4711
 	];
-	enumArray = [
+	enumArray = array<et>[
 		et::b
 	];
 }

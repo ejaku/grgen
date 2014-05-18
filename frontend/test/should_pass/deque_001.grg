@@ -6,7 +6,6 @@ rule addToDeque {
 	modify {
 		eval {
 			a.niceDeque = a.niceDeque + deque<string>] "yeah" [;
-			a.niceDeque = a.niceDeque + ] "yeah" [;
 		}
 	}
 }
@@ -23,7 +22,6 @@ rule computedAddToDeque {
 	modify {
 		eval {
 			a.spiceDeque = a.spiceDeque + deque<int>] a.val + b.val*2 [;
-			a.spiceDeque = a.spiceDeque + ] a.val + b.val*2 [;
 		}
 	}
 }
@@ -92,16 +90,6 @@ test anonymousDeque {
 		||
             14 in deque<int>] 2, 4, 13, 19 [;
 	}
-	
-	if { 
-            a.val in ] 1, 3, 5, 7, 11, 13, 17 [
-            && "blub" in ] "flap", "blab", "blub" [
-		||
-            e.strval in ] "foo", "bar", "blubb" [
-            && 13 in ] 2, 4, 13, 19 [
-		||
-            14 in ] 2, 4, 13, 19 [;
-	}
 }
 
 rule anonymousDequeInRewrite {
@@ -110,7 +98,6 @@ rule anonymousDequeInRewrite {
 	modify {
 		eval {
 			a.val = (5 in deque<int>]1,2,3,4,5[) ? 1 : 0;
-			a.val = (5 in ]1,2,3,4,5[) ? 1 : 0;
 		}
 	}
 }
@@ -152,21 +139,21 @@ rule dequeEqualityContainment {
 rule dequeEqualityContainment2 {	
 	a:A; b:A;
 	
-	if { ]1,2[ == ]1,2,a.val[; }
-	if { ]1,2[ != ]1,2,a.val[; }
-	if { ]1,2[ < ]1,2,a.val[; }
-	if { ]1,2[ <= ]1,2,a.val[; }
-	if { ]1,2[ > ]1,2,a.val[; }
-	if { ]1,2[ >= ]1,2,a.val[; }
+	if { deque<int>]1,2[ == deque<int>]1,2,a.val[; }
+	if { deque<int>]1,2[ != deque<int>]1,2,a.val[; }
+	if { deque<int>]1,2[ < deque<int>]1,2,a.val[; }
+	if { deque<int>]1,2[ <= deque<int>]1,2,a.val[; }
+	if { deque<int>]1,2[ > deque<int>]1,2,a.val[; }
+	if { deque<int>]1,2[ >= deque<int>]1,2,a.val[; }
 	
 	modify {
 		eval {
-			a.val = (]1,2[ == ]1,2,a.val[) ? 1 : 0;
-			b.val = (]1,2[ != ]1,2,a.val[) ? 1 : 0;
-			a.val = (]1,2[ < ]1,2,a.val[) ? 1 : 0;
-			b.val = (]1,2[ <= ]1,2,a.val[) ? 1 : 0;
-			a.val = (]1,2[> ]1,2,a.val[) ? 1 : 0;
-			b.val = (]1,2[ >= ]1,2,a.val[) ? 1 : 0;
+			a.val = (deque<int>]1,2[ == deque<int>]1,2,a.val[) ? 1 : 0;
+			b.val = (deque<int>]1,2[ != deque<int>]1,2,a.val[) ? 1 : 0;
+			a.val = (deque<int>]1,2[ < deque<int>]1,2,a.val[) ? 1 : 0;
+			b.val = (deque<int>]1,2[ <= deque<int>]1,2,a.val[) ? 1 : 0;
+			a.val = (deque<int>]1,2[> deque<int>]1,2,a.val[) ? 1 : 0;
+			b.val = (deque<int>]1,2[ >= deque<int>]1,2,a.val[) ? 1 : 0;
 		}
 	}
 }

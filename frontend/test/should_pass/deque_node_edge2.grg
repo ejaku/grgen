@@ -6,10 +6,8 @@ rule addToDeque {
 	modify {
 		eval {
 			n.edgeDeque = n.edgeDeque + deque<Edge>] n [;
-			n.edgeDeque = n.edgeDeque + ] m [;
 			n.eDeque = n.eDeque + deque<E>] n [;
-			n.eDeque = n.eDeque + ] n [;
-			n.uDeque = n.uDeque + ] u [;
+			n.uDeque = n.uDeque + deque<UEdge>] u [;
 		}
 	}
 }
@@ -44,8 +42,8 @@ rule anonymousDeque {
 
 	modify {
 		eval {
-			n.val = (n in ]n, m[) ? 1 : 0;
-			m.val = (u in ]u[) ? 1 : 0;
+			n.val = (n in deque<Edge>]n, m[) ? 1 : 0;
+			m.val = (u in deque<UEdge>]u[) ? 1 : 0;
 		}
 	}
 }

@@ -6,10 +6,8 @@ rule addToArray {
 	modify {
 		eval {
 			n.edgeArray = n.edgeArray + array<Edge>[ n ];
-			n.edgeArray = n.edgeArray + [ m ];
 			n.eArray = n.eArray + array<E>[ n ];
-			n.eArray = n.eArray + [ n ];
-			n.uArray = n.uArray + [ u ];
+			n.uArray = n.uArray + array<UEdge>[ u ];
 		}
 	}
 }
@@ -44,8 +42,8 @@ rule anonymousArray {
 
 	modify {
 		eval {
-			n.val = (n in [n, m]) ? 1 : 0;
-			m.val = (u in [u]) ? 1 : 0;
+			n.val = (n in array<Edge>[n, m]) ? 1 : 0;
+			m.val = (u in array<UEdge>[u]) ? 1 : 0;
 		}
 	}
 }

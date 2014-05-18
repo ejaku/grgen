@@ -36,7 +36,7 @@ rule r()
 			rem(res3);
 			rem(res4);
 			(yield res) = foo();
-			yield res = res | { res1 };
+			yield res = res | set<Node>{ res1 };
 		}
 	}
 }

@@ -46,7 +46,7 @@ rule r()
 			(res4b) = retype(res3, E1);
 			(yield res)=foo();
 
-			yield res = res | { res1 };
+			yield res = res | set<Node>{ res1 };
 		}
 	}
 }
