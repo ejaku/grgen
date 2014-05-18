@@ -183,17 +183,17 @@ test tfoo : (foo)
 
 test tsetboolean : (set<boolean>)
 {
-	return( { true } );
+	return( set<boolean>{ true } );
 }
 
 test tmapintstring : (map<int,string>)
 {
-	return({ 0->"" });
+	return( map<int,string>{ 0->"" } );
 }
 
 test tmapfoodouble : (map<foo,double>)
 {
-	return({ foo::Bar->0.1 });
+	return( map<foo,double>{ foo::Bar->0.1 } );
 }
 
 

@@ -6,14 +6,10 @@ rule addToMap {
 	modify {
 		eval {
 			n.nodeNodeMap = n.nodeNodeMap | map<Node,Node>{ n->m };
-			n.nodeNodeMap = n.nodeNodeMap | { m->m };
 			n.nodeEdgeMap = n.nodeEdgeMap | map<N,E>{ n->e };
-			n.nodeEdgeMap = n.nodeEdgeMap | { n->e };
 
 			n.edgeEdgeMap = n.edgeEdgeMap | map<Edge,Edge>{ e->i };
-			n.edgeEdgeMap = n.edgeEdgeMap | { i->i };
 			n.edgeNodeMap = n.edgeNodeMap | map<E,N>{ e->n };
-			n.edgeNodeMap = n.edgeNodeMap | { e->n };
 		}
 	}
 }
@@ -33,14 +29,10 @@ rule removeFromMap {
 	modify {
 		eval {
 			n.nodeNodeMap = n.nodeNodeMap \ map<Node,Node>{ n->m };
-			n.nodeNodeMap = n.nodeNodeMap \ { m->m };
 			n.nodeEdgeMap = n.nodeEdgeMap \ map<N,E>{ n->e };
-			n.nodeEdgeMap = n.nodeEdgeMap \ { n->e };
 
 			n.edgeEdgeMap = n.edgeEdgeMap \ map<Edge,Edge>{ e->i };
-			n.edgeEdgeMap = n.edgeEdgeMap \ { i->i };
 			n.edgeNodeMap = n.edgeNodeMap \ map<E,N>{ e->n };
-			n.edgeNodeMap = n.edgeNodeMap \ { e->n };
 		}
 	}
 }

@@ -6,9 +6,7 @@ rule addToDeque {
 	modify {
 		eval {
 			n.nodeDeque = n.nodeDeque + deque<Node>] n [;
-			n.nodeDeque = n.nodeDeque + ] m [;
 			n.nDeque = n.nDeque + deque<N>] n [;
-			n.nDeque = n.nDeque + ] n [;
 		}
 	}
 }
@@ -40,7 +38,7 @@ rule anonymousDeque {
 
 	modify {
 		eval {
-			n.val = (n in ]n, m[) ? 1 : 0;
+			n.val = (n in deque<Node>]n, m[) ? 1 : 0;
 		}
 	}
 }

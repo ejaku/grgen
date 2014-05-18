@@ -43,26 +43,26 @@ node class AA extends A
 	constVal = 666;
 	strval = "fooo";
 	constStrval = "fooo";
-	niceMap = {
+	niceMap = map<int,string>{
 		1 -> "fooo",
 		2 -> "baar"
 	};
-	constNiceMap = {
+	constNiceMap = map<int,string>{
 		1 -> "fooo",
 		2 -> "baar"
 	};
-	spiceMap = {
+	spiceMap = map<string,float>{
 		"pii" -> 3.141592654f
 	};
-	constSpiceMap = {
+	constSpiceMap = map<string,float>{
 		"pii" -> 3.141592654f
 	};
-	enumMap = {
+	enumMap = map<et,string>{
 		et::a -> "the aa",
 		et::c -> "the cc",
 		et::b -> "the bb"
 	};
-	enumMap2 = {
+	enumMap2 = map<string,et>{
 		"the cc" -> et::c,
 		"the aa" -> et::a,
 		"the bb" -> et::b
@@ -140,26 +140,26 @@ edge class EE extends E
 	constVal = 666;
 	strval = "fooo";
 	constStrval = "fooo";
-	niceMap = {
+	niceMap = map<int,string>{
 		1 -> "fooo",
 		2 -> "baar"
 	};
-	constNiceMap = {
+	constNiceMap = map<int,string>{
 		1 -> "fooo",
 		2 -> "baar"
 	};
-	spiceMap = {
+	spiceMap = map<string,float>{
 		"pii" -> 3.141592654f
 	};
-	constSpiceMap = {
+	constSpiceMap = map<string,float>{
 		"pii" -> 3.141592654f
 	};
-	enumMap = {
+	enumMap = map<et,string>{
 		et::a -> "another aa",
 		et::c -> "another cc",
 		et::b -> "another bb"
 	};
-	enumMap2 = {
+	enumMap2 = map<string,et>{
 		"another cc" -> et::c,
 		"another aa" -> et::a,
 		"another bb" -> et::b

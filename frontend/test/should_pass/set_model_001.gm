@@ -61,21 +61,21 @@ node class AA extends A
 	constVal = 666;
 	strval = "fooo";
 	constStrval = "fooo";
-	niceSet = {
+	niceSet = set<string>{
 		"fooo",
 		"baar"
 	};
-	constNiceSet = {
+	constNiceSet = set<string>{
 		"fooo",
 		"baar"
 	};
-	spiceSet = {
+	spiceSet = set<int>{
 		666
 	};
-	constSpiceSet = {
+	constSpiceSet = set<int>{
 		666
 	};
-	enumSet = {
+	enumSet = set<et>{
 		et::a,
 		et::b,
 		et::c
@@ -88,13 +88,13 @@ node class AAA extends AA
 	constVal = 4711;
 	strval = "urgs";
 	constStrval = "urgs";
-	spiceSet = {
+	spiceSet = set<int>{
 		4711
 	};
-	constSpiceSet = {
+	constSpiceSet = set<int>{
 		4711
 	};
-	enumSet = {
+	enumSet = set<et>{
 		et::b
 	};
 }
@@ -124,21 +124,21 @@ edge class EE extends E
 	constVal = 666;
 	strval = "fooo";
 	constStrval = "fooo";
-	niceSet = {
+	niceSet = set<string>{
 		"fooo",
 		"baar"
 	};
-	constNiceSet = {
+	constNiceSet = set<string>{
 		"fooo",
 		"baar"
 	};
-	spiceSet = {
+	spiceSet = set<int>{
 		666
 	};
-	constSpiceSet = {
+	constSpiceSet = set<int>{
 		666
 	};
-	enumSet = {
+	enumSet = set<et>{
 		et::a,
 		et::b,
 		et::c
@@ -151,13 +151,13 @@ edge class EEE extends EE
 	constVal = 4711;
 	strval = "urgs";
 	constStrval = "urgs";
-	spiceSet = {
+	spiceSet = set<int>{
 		4711
 	};
-	constSpiceSet = {
+	constSpiceSet = set<int>{
 		4711
 	};
-	enumSet = {
+	enumSet = set<et>{
 		et::b
 	};
 }

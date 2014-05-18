@@ -61,21 +61,21 @@ node class AA extends A
 	constVal = 666;
 	strval = "fooo";
 	constStrval = "fooo";
-	niceDeque = ]
+	niceDeque = deque<string>]
 		"fooo",
 		"baar"
 	[;
-	constNiceDeque = ]
+	constNiceDeque = deque<string>]
 		"fooo",
 		"baar"
 	[;
-	spiceDeque = ]
+	spiceDeque = deque<int>]
 		666
 	[;
-	constSpiceDeque = ]
+	constSpiceDeque = deque<int>]
 		666
 	[;
-	enumDeque = ]
+	enumDeque = deque<et>]
 		et::a,
 		et::b,
 		et::c
@@ -88,13 +88,13 @@ node class AAA extends AA
 	constVal = 4711;
 	strval = "urgs";
 	constStrval = "urgs";
-	spiceDeque = ]
+	spiceDeque = deque<int>]
 		4711
 	[;
-	constSpiceDeque = ]
+	constSpiceDeque = deque<int>]
 		4711
 	[;
-	enumDeque = ]
+	enumDeque = deque<et>]
 		et::b
 	[;
 }
@@ -124,21 +124,21 @@ edge class EE extends E
 	constVal = 666;
 	strval = "fooo";
 	constStrval = "fooo";
-	niceDeque = ]
+	niceDeque = deque<string>]
 		"fooo",
 		"baar"
 	[;
-	constNiceDeque = ]
+	constNiceDeque = deque<string>]
 		"fooo",
 		"baar"
 	[;
-	spiceDeque = ]
+	spiceDeque = deque<int>]
 		666
 	[;
-	constSpiceDeque = ]
+	constSpiceDeque = deque<int>]
 		666
 	[;
-	enumDeque = ]
+	enumDeque = deque<et>]
 		et::a,
 		et::b,
 		et::c
@@ -151,13 +151,13 @@ edge class EEE extends EE
 	constVal = 4711;
 	strval = "urgs";
 	constStrval = "urgs";
-	spiceDeque = ]
+	spiceDeque = deque<int>]
 		4711
 	[;
-	constSpiceDeque = ]
+	constSpiceDeque = deque<int>]
 		4711
 	[;
-	enumDeque = ]
+	enumDeque = deque<et>]
 		et::b
 	[;
 }

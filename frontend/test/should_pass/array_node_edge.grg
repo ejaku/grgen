@@ -6,9 +6,7 @@ rule addToArray {
 	modify {
 		eval {
 			n.nodeArray = n.nodeArray + array<Node>[ n ];
-			n.nodeArray = n.nodeArray + [ m ];
 			n.nArray = n.nArray + array<N>[ n ];
-			n.nArray = n.nArray + [ n ];
 		}
 	}
 }
@@ -40,7 +38,7 @@ rule anonymousArray {
 
 	modify {
 		eval {
-			n.val = (n in [n, m]) ? 1 : 0;
+			n.val = (n in array<Node>[n, m]) ? 1 : 0;
 		}
 	}
 }

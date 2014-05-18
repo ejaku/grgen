@@ -6,9 +6,7 @@ rule addToSet {
 	modify {
 		eval {
 			n.nodeSet = n.nodeSet | set<Node>{ n };
-			n.nodeSet = n.nodeSet | { m };
 			n.nSet = n.nSet | set<N>{ n };
-			n.nSet = n.nSet | { n };
 		}
 	}
 }
@@ -26,9 +24,7 @@ rule removeFromSet {
 	modify {
 		eval {
 			n.nodeSet = n.nodeSet \ set<Node>{ n };
-			n.nodeSet = n.nodeSet \ { m };
 			n.nSet = n.nSet \ set<N>{ n };
-			n.nSet = n.nSet \ { n };
 		}
 	}
 }
@@ -53,7 +49,7 @@ rule anonymousSet {
 
 	modify {
 		eval {
-			n.val = (n in {n, m}) ? 1 : 0;
+			n.val = (n in set<Node>{n, m}) ? 1 : 0;
 		}
 	}
 }

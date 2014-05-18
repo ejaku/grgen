@@ -3092,65 +3092,36 @@ initExprDecl [IdentNode id] returns [ MemberInitNode res = null ]
 		}
 	;
 
-initMapExprNonEmpty [IdentNode id, MapTypeNode mapType] returns [ MapInitNode res = null ]
-	: l=LBRACE { env.enterContainerInit(); res = new MapInitNode(getCoords(l), id, mapType); }
-	          item1=mapItem { res.addMapItem(item1); }
-	  ( COMMA item2=mapItem { res.addMapItem(item2); } )*
-	  RBRACE { env.leaveContainerInit(); }
-	;
-
-initSetExprNonEmpty [IdentNode id, SetTypeNode setType] returns [ SetInitNode res = null ]
-	: l=LBRACE { env.enterContainerInit(); res = new SetInitNode(getCoords(l), id, setType); }	
-	          item1=setItem { res.addSetItem(item1); }
-	  ( COMMA item2=setItem { res.addSetItem(item2); } )*
-	  RBRACE { env.leaveContainerInit(); }
-	;
-
-initArrayExprNonEmpty [IdentNode id, ArrayTypeNode arrayType] returns [ ArrayInitNode res = null ]
-	: l=LBRACK { env.enterContainerInit(); res = new ArrayInitNode(getCoords(l), id, arrayType); }	
-	          item1=arrayItem { res.addArrayItem(item1); }
-	  ( COMMA item2=arrayItem { res.addArrayItem(item2); } )*
-	  RBRACK { env.leaveContainerInit(); }
-	;
-
-initDequeExprNonEmpty [IdentNode id, DequeTypeNode dequeType] returns [ DequeInitNode res = null ]
-	: l=RBRACK { env.enterContainerInit(); res = new DequeInitNode(getCoords(l), id, dequeType); }	
-	          item1=dequeItem { res.addDequeItem(item1); }
-	  ( COMMA item2=dequeItem { res.addDequeItem(item2); } )*
-	  LBRACK { env.leaveContainerInit(); }
-	;
-
 initMapExpr [IdentNode id, MapTypeNode mapType] returns [ MapInitNode res = null ]
-	: l=LBRACE { env.enterContainerInit(); res = new MapInitNode(getCoords(l), id, mapType); }
+	: l=LBRACE { res = new MapInitNode(getCoords(l), id, mapType); }
 		( item1=mapItem { res.addMapItem(item1); }
 			( COMMA item2=mapItem { res.addMapItem(item2); } )*
 		)?
-	  RBRACE { env.leaveContainerInit(); }
+	  RBRACE
 	;
 
 initSetExpr [IdentNode id, SetTypeNode setType] returns [ SetInitNode res = null ]
-	: l=LBRACE { env.enterContainerInit(); res = new SetInitNode(getCoords(l), id, setType); }	
+	: l=LBRACE { res = new SetInitNode(getCoords(l), id, setType); }	
 		( item1=setItem { res.addSetItem(item1); }
 			( COMMA item2=setItem { res.addSetItem(item2); } )*
 		)?
-	  RBRACE { env.leaveContainerInit(); }
+	  RBRACE
 	;
 
 initArrayExpr [IdentNode id, ArrayTypeNode arrayType] returns [ ArrayInitNode res = null ]
-	: l=LBRACK { env.enterContainerInit(); res = new ArrayInitNode(getCoords(l), id, arrayType); }	
+	: l=LBRACK { res = new ArrayInitNode(getCoords(l), id, arrayType); }	
 		( item1=arrayItem { res.addArrayItem(item1); }
 			( COMMA item2=arrayItem { res.addArrayItem(item2); } )*
 		)?
-	  RBRACK { env.leaveContainerInit(); }
+	  RBRACK
 	;
 
-
 initDequeExpr [IdentNode id, DequeTypeNode dequeType] returns [ DequeInitNode res = null ]
-	: l=RBRACK { env.enterContainerInit(); res = new DequeInitNode(getCoords(l), id, dequeType); }	
+	: l=RBRACK { res = new DequeInitNode(getCoords(l), id, dequeType); }	
 		( item1=dequeItem { res.addDequeItem(item1); }
 			( COMMA item2=dequeItem { res.addDequeItem(item2); } )*
 		)?
-	  LBRACK { env.leaveContainerInit(); }
+	  LBRACK
 	;
 
 mapItem returns [ MapItemNode res = null ]
@@ -3960,14 +3931,6 @@ initContainerExpr returns [ ExprNode res = env.initExprNode() ]
 	| SET LT valueType=typeIdentUse GT e2=initSetExpr[null, SetTypeNode.getSetType(valueType)] { res = e2; }
 	| ARRAY LT valueType=typeIdentUse GT e3=initArrayExpr[null, ArrayTypeNode.getArrayType(valueType)] { res = e3; }
 	| DEQUE LT valueType=typeIdentUse GT e4=initDequeExpr[null, DequeTypeNode.getDequeType(valueType)] { res = e4; }
-	| {!env.inContainerInit()}? e5=initContainerExprNonEmpty { res = e5; }
-	;
-
-initContainerExprNonEmpty returns [ ExprNode res = env.initExprNode() ]
-	: (LBRACE expr[false] RARROW) => e1=initMapExprNonEmpty[null, null] { res = e1; }
-	| (LBRACE) => e2=initSetExprNonEmpty[null, null] { res = e2; }
-	| (LBRACK) => e3=initArrayExprNonEmpty[null, null] { res = e3; }
-	| (RBRACK) => e4=initDequeExprNonEmpty[null, null] { res = e4; }
 	;
 	
 constant returns [ ExprNode res = env.initExprNode() ]
