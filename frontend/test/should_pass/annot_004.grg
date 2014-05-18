@@ -1,5 +1,5 @@
 rule r {
-	-[prio=10000] : Edge->;
+	-e[prio=10000] : Edge->;
 
 	modify {
 	}

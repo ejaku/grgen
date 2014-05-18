@@ -2,24 +2,24 @@ using attrib_model_001;
 
 rule r {
 	y[prio=800] : Node;
-	[prio=304] :Node;
-	.[prio=302];
+	x1[prio=304] :Node;
+	x2[prio=302]:Node;
 
-	.[prio=100]		-[prio=5]:EINT->	[prio=200]:NINT;
-	.[prio=101]		-[prio=6]->	[prio=201]:NINT;
-	[prio=20]:NINT	<-[prio=7]:EINT-			.[prio=400];
-	[prio=21]:NINT	<-[prio=8]-			.[prio=401];
+	x3[prio=100]:Node	-x4[prio=5]:EINT->	x5[prio=200]:NINT;
+	x6[prio=101]:Node	-x7[prio=6]:EINT->	x8[prio=201]:NINT;
+	x9[prio=20]:NINT	<-x10[prio=7]:EINT-			x11[prio=400]:Node;
+	x12[prio=21]:NINT	<-x13[prio=8]:EINT-			x14[prio=401]:Node;
 
-	- [prio=42] ->;
-	- [prio=43] -> y;
-	y - [prio=44] ->;
-	- [prio=45]:EFLOAT ->;
+	- x15[prio=42]:Edge ->;
+	- x16[prio=43]:Edge -> y;
+	y - x17[prio=44]:Edge ->;
+	- x18[prio=45]:EFLOAT ->;
 	- e[prio=46] : EFLOAT ->;
 
-	<- [prio=52] -;
-	<- [prio=53] - y;
-	y <- [prio=54] -;
-	<- [prio=55]:EFLOAT -;
+	<- x19[prio=52]:Edge -;
+	<- x20[prio=53]:Edge - y;
+	y <- x21[prio=54]:Edge -;
+	<- x22[prio=55]:EFLOAT -;
 	<- ee[prio=56] : EFLOAT -;
 
 	modify {

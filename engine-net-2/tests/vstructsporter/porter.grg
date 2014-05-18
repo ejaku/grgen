@@ -29,5 +29,5 @@ rule createSecondLevel(next:Node)
 
 test matchForPerformance
 {
-	:AnchorNode -[prio=1000]:Edge-> . --> :SpecialNode;
+	:AnchorNode -anonedge[prio=1000]:Edge-> . --> :SpecialNode;
 }
