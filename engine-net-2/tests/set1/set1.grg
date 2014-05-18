@@ -13,7 +13,7 @@ rule addFooNoEffect()
 	
 	modify {
 		eval {
-			na.a = na.a | { "foo" };
+			na.a = na.a | set<string>{ "foo" };
 		}
 	}
 }
@@ -23,7 +23,7 @@ rule addFoo()
     nb:B;
 	modify {
 		eval {
-			nb.b = nb.b | { "foo" };
+			nb.b = nb.b | set<string>{ "foo" };
 		}
 	}
 }
@@ -40,7 +40,7 @@ rule removeBar()
 
 	modify {
 		eval {
-			nb.a = nb.a \ { "bar" };
+			nb.a = nb.a \ set<string>{ "bar" };
 		}
 	}
 }
@@ -51,7 +51,7 @@ rule removeBarNoEffect()
 	
 	modify {
 		eval {
-			nb.a = nb.a \ { "bar" };
+			nb.a = nb.a \ set<string>{ "bar" };
 		}
 	}
 }
@@ -59,13 +59,13 @@ rule removeBarNoEffect()
 test anonymousSet
 {
 	na:A;
-	if { na.val in { "foo", "argl" }; }
+	if { na.val in set<string>{ "foo", "argl" }; }
 }
 
 test anonymousSetNA
 {
 	nb:B;
-	if { nb.val in { "aha","oho","uh?"}; }
+	if { nb.val in set<string>{ "aha","oho","uh?"}; }
 }
 
 rule useSetVar(ref niceSet:set<string>)

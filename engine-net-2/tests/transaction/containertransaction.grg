@@ -9,12 +9,12 @@ rule transform1 {
 	
 	modify {
 		eval {
-			a.setVal = a.setVal \ { "foo" };
-			a.setVal = a.setVal | { "bar" };
-			a.mapVal = a.mapVal \ { "foo" };
-			a.mapVal = a.mapVal | { "bar"->"foo" };
-			a.arrayVal = a.arrayVal + [ "bar" ];
-			a.dequeVal = a.dequeVal + ] "bar" [;
+			a.setVal = a.setVal \ set<string>{ "foo" };
+			a.setVal = a.setVal | set<string>{ "bar" };
+			a.mapVal = a.mapVal \ set<string>{ "foo" };
+			a.mapVal = a.mapVal | map<string,string>{ "bar"->"foo" };
+			a.arrayVal = a.arrayVal + array<string>[ "bar" ];
+			a.dequeVal = a.dequeVal + deque<string>] "bar" [;
 		}
 	}
 }
