@@ -278,7 +278,7 @@ procedure saveConnectedComponents()
 	def var i:int = 0;
 	while(!empty()) {
 		def var n:Node = fetchNode();
-		def ref connectedComponent:set<Node> = reachable(n) | {n};
+		def ref connectedComponent:set<Node> = reachable(n) | set<Node>{n};
 		def var sub:graph = inducedSubgraph(connectedComponent);
 		File::export(sub, "cc"+i+".grs");
 		deleteSubgraph(connectedComponent);

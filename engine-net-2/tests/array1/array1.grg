@@ -13,7 +13,7 @@ rule addFooHuu
     nb:B;
 	modify {
 		eval {
-			nb.b = nb.b + [ "foo" ];
+			nb.b = nb.b + array<string>[ "foo" ];
 			nb.b.add("huu");
 		}
 	}
@@ -61,13 +61,13 @@ rule remove()
 test anonymousArray
 {
 	na:A;
-	if { na.val in [ "foo", "argl" ]; }
+	if { na.val in array<string>[ "foo", "argl" ]; }
 }
 
 test anonymousArrayNA
 {
 	nb:B;
-	if { nb.val in [ "aha","oho","uh?" ]; }
+	if { nb.val in array<string>[ "aha","oho","uh?" ]; }
 }
 
 rule useArrayVar(ref niceArray:array<string>)

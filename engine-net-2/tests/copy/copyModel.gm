@@ -22,8 +22,8 @@ node class NN extends N
 	e = 3.141502654;
 	f = null;
 	g = Lied::Lamm;
-	h = {"foo"};
-	i = {42->"bar"};
+	h = set<string>{"foo"};
+	i = map<int, string>{42->"bar"};
 	j:int = 0x4eadbeef;
 }
 
