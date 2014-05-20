@@ -203,19 +203,7 @@ textActions returns [ UnitNode main = null ]
 		}
 	}
 
-	: ( a=ACTIONS i=IDENT
-			{
-				reportWarning(getCoords(a), "keyword \"actions\" is deprecated");
-				reportWarning(getCoords(i),
-					"the name of this actions component is not set by the identifier " +
-					"after the \"actions\" keyword anymore but derived from the filename");
-			}
-			( usingDecl[modelChilds]
-			| SEMI
-			)
-	  )?
-	  
-	( usingDecl[modelChilds] )*
+	: ( usingDecl[modelChilds] )*
 	
 	( globalVarDecl )*
 
@@ -447,12 +435,11 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		ExecNode exec = null;
 		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 		TestDeclNode actionDecl = null;
-		boolean isExternal = false;
 	}
 
 	: t=TEST id=actionIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
 		ret=returnTypes LBRACE
-		left=patternPart[getCoords(t), params, namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+		left=patternBody[getCoords(t), params, namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 			{
 				actionDecl = new TestDeclNode(id, left, ret);
 				id.setDecl(actionDecl);
@@ -467,7 +454,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		filterDecls[id, actionDecl]
 	| r=RULE id=actionIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
 		ret=returnTypes LBRACE
-		left=patternPart[getCoords(r), params, namer, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+		left=patternBody[getCoords(r), params, namer, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 		( rightReplace=replacePart[new CollectNode<BaseNode>(), namer, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
 				actionDecl = new RuleDeclNode(id, left, rightReplace, ret);
@@ -492,7 +479,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 	| p=PATTERN id=patIdentDecl { env.pushScope(id); } params=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
 		((MODIFY|REPLACE) mp=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS|BaseNode.CONTEXT_PARAMETER, null] { modifyParams = mp; })?
 		LBRACE
-		left=patternPart[getCoords(p), params, namer, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
+		left=patternBody[getCoords(p), params, namer, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
 		( rightReplace=replacePart[modifyParams, namer, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
 			{
 				rightHandSides.addChild(rightReplace);
@@ -507,16 +494,20 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 				patternChilds.addChild(id);
 			}
 		RBRACE { env.popScope(); }
-	| (EXTERNAL { isExternal = true; })? s=SEQUENCE id=actionIdentDecl { env.pushScope(id); } { exec = new ExecNode(getCoords(s)); }
+	| s=SEQUENCE id=actionIdentDecl { env.pushScope(id); } { exec = new ExecNode(getCoords(s)); }
 		inParams=execInParameters[exec] outParams=execOutParameters[exec]
-		(LBRACE 
+		LBRACE 
 			xgrs[exec]
-		 RBRACE
-		| SEMI // no body? -> external sequence (externally implemented)
-		  { if(!isExternal) reportWarning(getCoords(s), "External sequence must start with \"external\""); }
-		) { env.popScope(); }
+		RBRACE { env.popScope(); }
 		{
 			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
+			sequenceChilds.addChild(id);
+		}
+	| EXTERNAL s=SEQUENCE id=actionIdentDecl { env.pushScope(id); } { exec = new ExecNode(getCoords(s)); }
+		inParams=execInParameters[exec] outParams=execOutParameters[exec]
+		SEMI { env.popScope(); }
+		{
+			id.setDecl(new SequenceDeclNode(id, null, inParams, outParams));
 			sequenceChilds.addChild(id);
 		}
 	| f=FUNCTION id=funcOrExtFuncIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
@@ -537,31 +528,27 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			id.setDecl(new ProcedureDeclNode(id, evals, params, retTypes, false));
 			procedureChilds.addChild(id);
 		}
-	| (EXTERNAL { isExternal = true; })? f=FILTER id=actionIdentDecl LT actionId=actionIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
-		(
-			LBRACE
-				{
-					evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
-							new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))), ArrayTypeNode.getArrayType(new IdentNode(env.occurs(ParserEnvironment.ACTIONS, actionId.toString(), actionId.getCoords()))), PatternGraphNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
-						BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
-				}
-				( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
-			RBRACE { env.popScope(); }
+	| f=FILTER id=actionIdentDecl LT actionId=actionIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
+		LBRACE
 			{
-				FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, evals, params, actionId);
-				id.setDecl(ff);
-				filterChilds.addChild(id);
+				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
+						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))), ArrayTypeNode.getArrayType(new IdentNode(env.occurs(ParserEnvironment.ACTIONS, actionId.toString(), actionId.getCoords()))), PatternGraphNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
+					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
 			}
-		|
-			SEMI
-			{
-				FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, null, params, actionId);
-				id.setDecl(ff);
-				filterChilds.addChild(id);
-				if(!isExternal)
-					reportWarning(id.getCoords(), "External filter must start with \"external\"");
-			} 
-		)
+			( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+		RBRACE { env.popScope(); }
+		{
+			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, evals, params, actionId);
+			id.setDecl(ff);
+			filterChilds.addChild(id);
+		}
+	| EXTERNAL f=FILTER id=actionIdentDecl LT actionId=actionIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
+		SEMI { env.popScope(); }
+		{
+			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, null, params, actionId);
+			id.setDecl(ff);
+			filterChilds.addChild(id);
+		} 
 	;
 
 parameters [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
@@ -661,16 +648,11 @@ filterDecls [ IdentNode actionIdent, TestDeclNode actionDecl ]
 	;
 
 filterDeclList [ IdentNode actionIdent, ArrayList<FilterCharacter> filters ]
-	@init {
-		boolean isExternal = false;
-	}
-	: ((EXTERNAL { isExternal = true; })? id=actionIdentDecl params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
+	: (EXTERNAL id=actionIdentDecl params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
 		{
 			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, null, params, actionIdent);
 			filters.add(ff);
 			id.setDecl(ff);
-			if(!isExternal)
-				reportWarning(id.getCoords(), "External filter must start with \"external\"");
 		} 
 	| a=AUTO
 		{
@@ -688,16 +670,11 @@ filterDeclList [ IdentNode actionIdent, ArrayList<FilterCharacter> filters ]
 
 filterDeclListContinuation [ IdentNode actionIdent, ArrayList<FilterCharacter> filters ]
 options { k = 3; }
-	@init {
-		boolean isExternal = false;
-	}
-	: COMMA (EXTERNAL { isExternal = true; })? id=actionIdentDecl params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
+	: COMMA EXTERNAL id=actionIdentDecl params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
 		{ 
 			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, null, params, actionIdent);
 			filters.add(ff);
 			id.setDecl(ff);
-			if(!isExternal)
-				reportWarning(id.getCoords(), "External filter must start with \"external\"");
 		}
 	| COMMA a=AUTO
 		{
@@ -709,16 +686,6 @@ options { k = 3; }
 		}
 	;
 		
-patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, AnonymousScopeNamer namer, int mod,
-			int context, String nameOfGraph ]
-			returns [ PatternGraphNode res = null ]
-	: p=PATTERN LBRACE
-		n=patternBody[getCoords(p), params, namer, mod, context, nameOfGraph] { res = n; }
-		RBRACE
-			{ reportWarning(getCoords(p), "separate pattern part deprecated, just merge content directly into rule/test-body"); }
-	| n=patternBody[pattern_coords, params, namer, mod, context, nameOfGraph] { res = n; }
-	;
-
 replacePart [ CollectNode<BaseNode> params, AnonymousScopeNamer namer,
 			int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ]
 			returns [ ReplaceDeclNode res = null ]
@@ -2562,11 +2529,7 @@ textTypes returns [ ModelNode model = null ]
 			new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
 	}
 
-	: ( m=MODEL ignoredToken=IDENT SEMI
-		{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
-	  )?
-
-	( usingDecl[modelChilds] )*
+	: ( usingDecl[modelChilds] )*
 	
 	specialClasses = typeDecls[types, packages, externalFuncs, externalProcs, indices] EOF
 		{
@@ -2585,9 +2548,6 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 		returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false, 
 				  boolean isEqualClassDefined = false, boolean isLowerClassDefined = false,
 				  boolean isUniqueDefined = false, boolean isUniqueIndexDefined = false;]
-	@init{
-		boolean isExternal = false;
-	}	
 	: (
 		type=typeDecl { types.addChild(type); }
 	  |
@@ -2597,13 +2557,13 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 	  |
 	    NODE EDGE i=IDENT SEMI { if(!i.getText().equals("unique")) reportError(getCoords(i), "malformed \"node edge unique;\""); else $isUniqueDefined = true; }
 	  |
-	    (EXTERNAL { isExternal = true; })? EMIT c=CLASS SEMI { $isEmitClassDefined = true; if(!isExternal) reportWarning(getCoords(c), "Emit class must start with \"external\""); }
+	    EXTERNAL EMIT c=CLASS SEMI { $isEmitClassDefined = true; }
 	  |
-	    (EXTERNAL { isExternal = true; })? COPY c=CLASS SEMI { $isCopyClassDefined = true; if(!isExternal) reportWarning(getCoords(c), "Copy class must start with \"external\""); }
+	    EXTERNAL COPY c=CLASS SEMI { $isCopyClassDefined = true; }
 	  |
-	    (EXTERNAL { isExternal = true; })? EQUAL c=CLASS SEMI { $isEqualClassDefined = true; if(!isExternal) reportWarning(getCoords(c), "== class must start with \"external\""); }
+	    EXTERNAL EQUAL c=CLASS SEMI { $isEqualClassDefined = true; }
 	  |
-	    (EXTERNAL { isExternal = true; })? LT c=CLASS SEMI { $isLowerClassDefined = true; if(!isExternal) reportWarning(getCoords(c), "< class must start with \"external\""); }
+	    EXTERNAL LT c=CLASS SEMI { $isLowerClassDefined = true; }
 	  |
 		res = indexDecl[indices] { $isUniqueIndexDefined = res; }
 	  )*
@@ -2638,21 +2598,16 @@ indexDeclBody [ IdentNode id ]
 externalFunctionOrProcedureDecl [ CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs ]
 	@init{
 		CollectNode<BaseNode> returnTypes = new CollectNode<BaseNode>();
-		boolean isExternal = false;
 	}
-	: (EXTERNAL { isExternal = true; })? f=FUNCTION id=funcOrExtFuncIdentDecl params=paramTypes COLON ret=returnType SEMI
+	: EXTERNAL f=FUNCTION id=funcOrExtFuncIdentDecl params=paramTypes COLON ret=returnType SEMI
 		{
 			id.setDecl(new ExternalFunctionDeclNode(id, params, ret));
 			externalFuncs.addChild(id);
-			if(!isExternal)
-				reportWarning(getCoords(f), "External function must start with \"external\"");
 		}
-	| (EXTERNAL { isExternal = true; })? p=PROCEDURE id=funcOrExtFuncIdentDecl params=paramTypes (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)? SEMI
+	| EXTERNAL p=PROCEDURE id=funcOrExtFuncIdentDecl params=paramTypes (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)? SEMI
 		{
 			id.setDecl(new ExternalProcedureDeclNode(id, params, returnTypes));
 			externalProcs.addChild(id);
-			if(!isExternal)
-				reportWarning(getCoords(p), "External procedure must start with \"external\"");
 		}
 	;
 
@@ -2781,11 +2736,7 @@ connectAssertions returns [ CollectNode<ConnAssertNode> c = new CollectNode<Conn
 
 connectAssertion [ CollectNode<ConnAssertNode> c ]
 options { k = *; }
-	: src=typeIdentUse srcRange=rangeSpec r=RARROW tgt=typeIdentUse tgtRange=rangeSpec
-		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, false));
-		  reportWarning(getCoords(r), "-> in connection assertion is deprecated, use --> (or <-- for reverse direction, or -- for undirected edges, or ?--? for arbitrary edges)");
-		}
-	| src=typeIdentUse srcRange=rangeSpec DOUBLE_RARROW tgt=typeIdentUse tgtRange=rangeSpec
+	: src=typeIdentUse srcRange=rangeSpec DOUBLE_RARROW tgt=typeIdentUse tgtRange=rangeSpec
 		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, false)); }
 	| src=typeIdentUse srcRange=rangeSpec DOUBLE_LARROW tgt=typeIdentUse tgtRange=rangeSpec
 		{ c.addChild(new ConnAssertNode(tgt, tgtRange, src, srcRange, false)); }
@@ -2927,16 +2878,11 @@ enumItemDecl [ IdentNode type, CollectNode<EnumItemNode> coll, ExprNode defInit,
 	;
 
 extClassDecl returns [ IdentNode res = env.getDummyIdent() ]
-	@init {
-		boolean isExternal = false;
-	}
-	: (EXTERNAL { isExternal = true; })? c=CLASS id=typeIdentDecl ext=extExtends[id] SEMI
+	: EXTERNAL c=CLASS id=typeIdentDecl ext=extExtends[id] SEMI
 		{
 			ExternalTypeNode et = new ExternalTypeNode(ext);
 			id.setDecl(new TypeDeclNode(id, et));
 			res = id;
-			if(!isExternal)
-				reportWarning(getCoords(c), "External class must start with \"external\"");
 		}
 	;
 
@@ -4373,7 +4319,6 @@ INCLUDE
 HASHUSING : '#using';
 
 ABSTRACT : 'abstract';
-ACTIONS : 'actions';
 ALTERNATIVE : 'alternative';
 ARBITRARY : 'arbitrary';
 ARRAY : 'array';
@@ -4413,7 +4358,6 @@ INDUCED : 'induced';
 ITERATED : 'iterated';
 MAP : 'map';
 MATCH : 'match';
-MODEL : 'model';
 MODIFY : 'modify';
 MULTIPLE : 'multiple';
 NAMEOF : 'nameof';
