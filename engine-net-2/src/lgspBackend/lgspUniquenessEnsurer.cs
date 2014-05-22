@@ -182,12 +182,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(graph.flagsPerThreadPerElement[0].Count == graph.flagsPerThreadPerElement[0].Capacity)
             {
-                // we need more space be able to store the flags for the element currently added
+                // we need more space to be able to store the flags for the element currently added
                 // we do this in parallel, each worker pool thread enlarges its own flags array
-                if(WorkerPool.GetPoolSize() != graph.flagsPerThreadPerElement.Count)
-                    throw new Exception("Internal error, number of flags arrays different from number of worker pool threads");
+                if(graph.flagsPerThreadPerElement.Count > WorkerPool.GetPoolSize())
+                    throw new Exception("Internal error, number of flags arrays higher than number of worker pool threads");
                 WorkerPool.Task = EnlargeFlags;
-                WorkerPool.StartWork(WorkerPool.GetPoolSize());
+                WorkerPool.StartWork(graph.flagsPerThreadPerElement.Count);
                 WorkerPool.WaitForWorkDone();
             }
             else
@@ -208,21 +208,21 @@ namespace de.unika.ipd.grGen.lgsp
         // maintain the flags array used by the parallel matchers, that is indexed by the unique ids
         public void InitialFillFlags(int additionalNumberOfThreads, int numberOfThreads)
         {
-            if(additionalNumberOfThreads != numberOfThreads)
-                throw new Exception("Different additional number of threads and number of threads currently not supported");
-            if(numberOfThreads != WorkerPool.GetPoolSize())
-                throw new Exception("Number of threads different from number of worker pool threads not supported");
+            if(numberOfThreads > WorkerPool.GetPoolSize())
+                throw new Exception("Internal error, number of threads announced to flags array filling is higher than number of worker pool threads");
             if(numberOfThreads != graph.flagsPerThreadPerElement.Count)
-                throw new Exception("Number of threads different from number of flags arrays");
+                throw new Exception("Internal error, number of threads different from number of flags arrays");
             WorkerPool.Task = InitialFillFlags;
-            WorkerPool.StartWork(WorkerPool.GetPoolSize());
+            WorkerPool.StartWork(numberOfThreads);
             WorkerPool.WaitForWorkDone();
         }
 
         void InitialFillFlags()
         {
+            // note: we enlarge all threads to the same value, even flags that already exist, cause all must have the same capacity 
+            // (EnlargeFlagsOfParallelizedMatcherAsNeeded would not work otherwise); we just use twice the count reached (queryied via nextNewId), to increase waiting time
             graph.flagsPerThreadPerElement[WorkerPool.ThreadId].Capacity = Math.Max(nextNewId, 2) * 2;
-            for(int i=0; i < nextNewId; ++i)
+            for(int i=graph.flagsPerThreadPerElement[WorkerPool.ThreadId].Count; i < nextNewId; ++i)
             {
                 graph.flagsPerThreadPerElement[WorkerPool.ThreadId].Add(0);
             }
