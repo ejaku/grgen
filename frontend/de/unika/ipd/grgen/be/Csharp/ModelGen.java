@@ -4177,6 +4177,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic " + override + "bool GraphElementUniquenessIsEnsured { get { return " + (model.isUniqueDefined() ? "true" : "false") + "; } }\n");
 		sb.append("\t\tpublic " + override + "bool GraphElementsAreAccessibleByUniqueId { get { return " + (model.isUniqueIndexDefined() ? "true" : "false") + "; } }\n");
+		sb.append("\t\tpublic " + override + "int BranchingFactorForEqualsAny { get { return " + model.isoParallel() + "; } }\n");
 		sb.append("\n");
         
 		if(model.isEmitClassDefined()) {

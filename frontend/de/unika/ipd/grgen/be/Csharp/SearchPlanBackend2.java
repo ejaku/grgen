@@ -103,6 +103,8 @@ modloop:for(Model model : unit.getModels()) {
 		for(Model model : unit.getModels()) {
 			if(model.isUniqueIndexDefined())
 				forceUnique = true;
+			if(model.isoParallel() > 0)
+				forceUnique = true;
 			for(@SuppressWarnings("unused") Index index : model.getIndices())
 				forceUnique = true;
 		}

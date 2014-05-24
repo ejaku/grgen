@@ -86,7 +86,9 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IGraph CreateEmptyEquivalent(String newName);
 
         public abstract bool IsIsomorph(IGraph that);
+        public abstract bool IsIsomorph(IDictionary<IGraph, SetValueType> graphsToCheckAgainst);
         public abstract bool HasSameStructure(IGraph that);
+        public abstract bool HasSameStructure(IDictionary<IGraph, SetValueType> graphsToCheckAgainst);
         public abstract string Canonize();
 
         public bool Validate(ValidationMode mode, out List<ConnectionAssertionError> errors)

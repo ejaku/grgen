@@ -59,6 +59,7 @@ namespace de.unika.ipd.grGen.libGr
         IsBoundedReachableNodes, IsBoundedReachableNodesViaIncoming, IsBoundedReachableNodesViaOutgoing,
         IsBoundedReachableEdges, IsBoundedReachableEdgesViaIncoming, IsBoundedReachableEdgesViaOutgoing,
         InducedSubgraph, DefinedSubgraph,
+        EqualsAny,
         Nameof,
         ExistsFile, Import,
         Copy,
@@ -4687,6 +4688,80 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return EdgeSet; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "definedSubgraph(" + EdgeSet.Symbol + ")"; } }
+    }
+
+    public class SequenceExpressionEqualsAny : SequenceExpression
+    {
+        public SequenceExpression Subgraph;
+        public SequenceExpression SubgraphSet;
+        public bool IncludingAttributes;
+
+        public SequenceExpressionEqualsAny(SequenceExpression subgraph, SequenceExpression subgraphSet, bool includingAttributes)
+            : base(SequenceExpressionType.EqualsAny)
+        {
+            Subgraph = subgraph;
+            SubgraphSet = subgraphSet;
+            IncludingAttributes = includingAttributes;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Subgraph.Type(env) != "")
+            {
+                if(Subgraph.Type(env) != "graph")
+                {
+                    throw new SequenceParserException(Symbol + ", first argument", "graph type", Subgraph.Type(env));
+                }
+            }
+
+            if(SubgraphSet.Type(env) != "")
+            {
+                if(!SubgraphSet.Type(env).StartsWith("set<"))
+                {
+                    throw new SequenceParserException(Symbol + ", second argument", "set<graph> type", SubgraphSet.Type(env));
+                }
+                if(TypesHelper.ExtractSrc(SubgraphSet.Type(env)) != "graph")
+                {
+                    throw new SequenceParserException(Symbol + ", second argument", "set<graph> type", SubgraphSet.Type(env));
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionEqualsAny copy = (SequenceExpressionEqualsAny)MemberwiseClone();
+            copy.Subgraph = Subgraph.CopyExpression(originalToCopy, procEnv);
+            copy.SubgraphSet = SubgraphSet.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object subgraph = Subgraph.Evaluate(procEnv);
+            object subgraphSet = SubgraphSet.Evaluate(procEnv);
+            return GraphHelper.EqualsAny((IGraph)subgraph, (IDictionary<IGraph, SetValueType>)subgraphSet, IncludingAttributes);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            Subgraph.GetLocalVariables(variables, containerConstructors);
+            SubgraphSet.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Subgraph; yield return SubgraphSet; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { 
+            if(IncludingAttributes) return "equalsAny(" + Subgraph.Symbol + ", " + SubgraphSet.Symbol + ")"; 
+            else return "equalsAnyStructurally(" + Subgraph.Symbol + ", " + SubgraphSet.Symbol + ")"; 
+        } }
     }
 
     public class SequenceExpressionCanonize : SequenceExpression

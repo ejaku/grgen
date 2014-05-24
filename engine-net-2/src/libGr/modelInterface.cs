@@ -368,6 +368,12 @@ namespace de.unika.ipd.grGen.libGr
         bool GraphElementsAreAccessibleByUniqueId { get; }
 
         /// <summary>
+        /// Tells about the number of threads to use for the equalsAny and equalsAnyStructurally functions
+        /// The normal non-parallel isomorphy comparison functions are used if this value is below 2
+        /// </summary>
+        int BranchingFactorForEqualsAny { get; }
+
+        /// <summary>
         /// Called by the graph (generic implementation) to create and bind its index set (generated code).
         /// Always called by an empty graph just constructed.
         /// </summary>

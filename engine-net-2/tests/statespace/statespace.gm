@@ -16,3 +16,5 @@ abstract edge class next connect Graph[0:1] --> Graph[0:1];
 edge class nextRed extends next;
 edge class nextGreen extends next;
 edge class nextBlue extends next;
+
+for equalsAny[parallelize=2];

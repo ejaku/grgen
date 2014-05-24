@@ -3492,5 +3492,30 @@ namespace de.unika.ipd.grGen.libGr
                     yield return reachableEdge;
             }
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        public static bool EqualsAny(IGraph candidate, IDictionary<IGraph, SetValueType> graphsToCheckAgainst, bool includingAttributes, int threadId)
+        {
+            if(candidate == null)
+                return false;
+            if(graphsToCheckAgainst == null)
+                return false;
+
+            // we're called from a parallel matcher, use non-parallel version of comparison
+            if(includingAttributes)
+            {
+                foreach(IGraph graphToCheckAgainst in graphsToCheckAgainst.Keys)
+                    if(candidate.IsIsomorph(graphToCheckAgainst))
+                        return true;
+            }
+            else
+            {
+                foreach(IGraph graphToCheckAgainst in graphsToCheckAgainst.Keys)
+                    if(candidate.HasSameStructure(graphToCheckAgainst))
+                        return true;
+            }
+            return false;
+        }
     }
 }

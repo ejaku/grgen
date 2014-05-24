@@ -1,0 +1,35 @@
+using equalsAnyModel;
+
+rule r(ref s:set<graph>)
+{
+	if{ equalsAnyStructurally(this, s); }
+	
+	modify {
+		def var res:boolean;
+		def var g:graph;
+		eval {
+			yield res = equalsAnyStructurally(this, s);
+			yield g = this;
+		}
+		
+		exec({{equalsAnyStructurally(g, s)}});
+	}
+}
+
+rule rp[parallelize=2](ref s:set<graph>)
+{
+	.; // needed so there is sth that can be parallelized
+	
+	if{ equalsAnyStructurally(this, s); }
+	
+	modify {
+		def var res:boolean;
+		def var g:graph;
+		eval {
+			yield res = equalsAnyStructurally(this, s);
+			yield g = this;
+		}
+		
+		exec({{equalsAnyStructurally(g, s)}});
+	}
+}

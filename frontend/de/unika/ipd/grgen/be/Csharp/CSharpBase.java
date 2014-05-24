@@ -2078,6 +2078,18 @@ public abstract class CSharpBase {
 			genExpression(sb, ds.getSetExpr(), modifyGenerationState);
 			sb.append(", graph)");
 		}
+		else if (expr instanceof EqualsAnyExpr) {
+			EqualsAnyExpr ea = (EqualsAnyExpr) expr;
+			sb.append("GRGEN_LIBGR.GraphHelper.EqualsAny((GRGEN_LIBGR.IGraph)");
+			genExpression(sb, ea.getSubgraphExpr(), modifyGenerationState);
+			sb.append(", (IDictionary<GRGEN_LIBGR.IGraph, GRGEN_LIBGR.SetValueType>)");
+			genExpression(sb, ea.getSetExpr(), modifyGenerationState);
+			sb.append(", ");
+			sb.append(ea.getIncludingAttributes() ? "true" : "false");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
+			sb.append(")");
+		}
 		else if (expr instanceof MaxExpr) {
 			MaxExpr m = (MaxExpr)expr;
 			sb.append("Math.Max(");

@@ -7837,6 +7837,54 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning whether the given subgraph is equal to any of the given set of subgraphs
+    /// </summary>
+    public class EqualsAny : Expression
+    {
+        public EqualsAny(Expression subgraph, Expression subgraphSet, bool includingAttributes)
+        {
+            Subgraph = subgraph;
+            SubgraphSet = subgraphSet;
+            IncludingAttributes = includingAttributes;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new EqualsAny(Subgraph.Copy(renameSuffix), SubgraphSet.Copy(renameSuffix), IncludingAttributes);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.EqualsAny((GRGEN_LIBGR.IGraph)");
+            Subgraph.Emit(sourceCode);
+            sourceCode.Append(", (IDictionary<GRGEN_LIBGR.IGraph, GRGEN_LIBGR.SetValueType>)");
+            SubgraphSet.Emit(sourceCode);
+            sourceCode.Append(", ");
+            sourceCode.Append(IncludingAttributes ? "true" : "false");
+            if(Parallel)
+                sourceCode.AppendFront(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Subgraph;
+            yield return SubgraphSet;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        bool Parallel;
+
+        Expression Subgraph;
+        Expression SubgraphSet;
+        bool IncludingAttributes;
+    }
+
+    /// <summary>
     /// Class representing the max operator.
     /// </summary>
     public class Max : BinFuncOperator
