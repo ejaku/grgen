@@ -246,12 +246,17 @@ textActions returns [ UnitNode main = null ]
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isUniqueIndexDefined |= modelChild.IsUniqueIndexDefined();
 				}				
+				int isoParallel = 0;
+				for(ModelNode modelChild : modelChilds.getChildren()) {
+					isoParallel = Math.max(isoParallel, modelChild.IsoParallel());
+				}
 				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(),
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), 
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds, 
 						isEmitClassDefined, isCopyClassDefined, 
 						isEqualClassDefined, isLowerClassDefined,
-						isUniqueDefined, isUniqueIndexDefined);
+						isUniqueDefined, isUniqueIndexDefined,
+						isoParallel);
 				modelChilds = new CollectNode<ModelNode>();
 				modelChilds.addChild(model);
 			}
@@ -2193,6 +2198,7 @@ functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 				|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
 				|| i.getText().equals("canonize") && params.getChildren().size()==1
 				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
+				|| (i.getText().equals("equalsAny") || i.getText().equals("equalsAnyStructurally")) && params.getChildren().size()==2
 				|| (i.getText().equals("existsFile") || i.getText().equals("import")) && params.getChildren().size()==1
 				|| i.getText().equals("copy") && params.getChildren().size()==1
 			  )
@@ -2538,7 +2544,8 @@ textTypes returns [ ModelNode model = null ]
 			model = new ModelNode(id, packages, types, externalFuncs, externalProcs, indices, modelChilds,
 				$specialClasses.isEmitClassDefined, $specialClasses.isCopyClassDefined, 
 				$specialClasses.isEqualClassDefined, $specialClasses.isLowerClassDefined,
-				$specialClasses.isUniqueDefined, $specialClasses.isUniqueIndexDefined);
+				$specialClasses.isUniqueDefined, $specialClasses.isUniqueIndexDefined,
+				$specialClasses.isoParallel);
 		}
 	;
 
@@ -2547,7 +2554,8 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 			CollectNode<IdentNode> indices ]
 		returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false, 
 				  boolean isEqualClassDefined = false, boolean isLowerClassDefined = false,
-				  boolean isUniqueDefined = false, boolean isUniqueIndexDefined = false;]
+				  boolean isUniqueDefined = false, boolean isUniqueIndexDefined = false,
+				  int isoParallel = 0;]
 	: (
 		type=typeDecl { types.addChild(type); }
 	  |
@@ -2566,6 +2574,22 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 	    EXTERNAL LT c=CLASS SEMI { $isLowerClassDefined = true; }
 	  |
 		res = indexDecl[indices] { $isUniqueIndexDefined = res; }
+	  |
+	    FOR i=IDENT LBRACK j=IDENT ASSIGN con=constant RBRACK
+				{
+					if(!i.getText().equals("equalsAny"))
+						reportError(getCoords(i), "malformed \"for equalsAny[parallelize=k];\"");
+					else if(!j.getText().equals("parallelize"))
+						reportError(getCoords(j), "malformed \"for equalsAny[parallelize=k];\"");
+					else {
+						Object ip = ((ConstNode) con).getValue();
+						if(!(ip instanceof Integer))
+							reportError(getCoords(i), "\"for equalsAny[parallelize=k];\" requires an integer constant");
+						else
+							$isoParallel = (Integer)ip;
+					}
+				}
+			SEMI
 	  )*
 	;
 
@@ -4044,6 +4068,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
 				|| i.getText().equals("canonize") && params.getChildren().size()==1
 				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
+				|| (i.getText().equals("equalsAny") || i.getText().equals("equalsAnyStructurally")) && params.getChildren().size()==2
 				|| i.getText().equals("copy") && params.getChildren().size()==1
 				|| i.getText().equals("uniqueof") && (params.getChildren().size()==1 || params.getChildren().size()==0)
 			)

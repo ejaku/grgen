@@ -13,6 +13,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp
@@ -1918,8 +1919,64 @@ invalidCommand:
         }
 
         /// <summary>
-        /// Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
+        /// Returns whether this graph is isomorph to any of the set of graphs given (including the attribute values)
+        /// If a graph changed only in attribute values since the last comparison, results will be wrong!
+        /// (Do a fake node insert and removal to ensure the graph is recognized as having changed.)
+        /// Don't call from a parallelized matcher!
         /// </summary>
+        /// <param name="graphsToCheckAgainst">The other graphs we check for isomorphy against</param>
+        /// <returns>true if any of the graphs given is isomorph to this, false otherwise</returns>
+        public override bool IsIsomorph(IDictionary<IGraph, SetValueType> graphsToCheckAgainst)
+        {
+            if(graphsToCheckAgainst.Count == 0)
+                return false;
+            if(graphsToCheckAgainst.ContainsKey(this))
+                return true;
+
+            lock(this)
+            {
+                if(this.matchingState == null)
+                    this.matchingState = new GraphMatchingState(this);
+
+                if(Environment.ProcessorCount == 1 || graphsToCheckAgainst.Count == 1 || model.BranchingFactorForEqualsAny < 2)
+                {
+                    foreach(IGraph that in graphsToCheckAgainst.Keys)
+                    {
+                        if(((LGSPGraph)that).matchingState == null)
+                            ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
+                        if(matchingState.IsIsomorph(this, (LGSPGraph)that, true))
+                            return true;
+                    }
+                    return false;
+                }
+                else
+                {
+                    ++this.matchingState.numChecks;
+                    GraphMatchingState.EnsureIsAnalyzed(this);
+
+                    int numWorkerThreads = WorkerPool.EnsurePoolSize(Math.Min(model.BranchingFactorForEqualsAny, 64));
+                    this.EnsureSufficientIsomorphySpacesForParallelizedMatchingAreAvailable(numWorkerThreads);
+
+                    matchingState.graphToCheck = this;
+                    matchingState.graphsToCheckAgainstIterator = graphsToCheckAgainst.GetEnumerator();
+                    matchingState.iterationLock = 0;
+                    matchingState.includingAttributes_ = true;
+                    matchingState.wasIso = false;
+
+                    WorkerPool.Task = matchingState.IsIsomorph;
+                    WorkerPool.StartWork(Math.Min(numWorkerThreads, graphsToCheckAgainst.Count));
+                    WorkerPool.WaitForWorkDone();
+
+                    matchingState.graphToCheck = null;
+                    matchingState.graphsToCheckAgainstIterator = null;
+                    return matchingState.wasIso;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
         /// <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
         /// <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
         public override bool HasSameStructure(IGraph that)
@@ -1946,6 +2003,60 @@ invalidCommand:
                 }
 #endif
                 return result;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether this graph is isomorph to any of the set of graphs given, neglecting the attribute values, only structurally
+        /// Don't call from a parallelized matcher!
+        /// </summary>
+        /// <param name="graphsToCheckAgainst">The other graphs we check for isomorphy against, neglecting attribute values</param>
+        /// <returns>true if any of the graphs given is isomorph (regarding structure) to this, false otherwise</returns>
+        public override bool HasSameStructure(IDictionary<IGraph, SetValueType> graphsToCheckAgainst)
+        {
+            if(graphsToCheckAgainst.Count == 0)
+                return false;
+            if(graphsToCheckAgainst.ContainsKey(this))
+                return true;
+
+            lock(this)
+            {
+                if(this.matchingState == null)
+                    this.matchingState = new GraphMatchingState(this);
+
+                if(Environment.ProcessorCount == 1 || graphsToCheckAgainst.Count == 1 || model.BranchingFactorForEqualsAny < 2)
+                {
+                    foreach(IGraph that in graphsToCheckAgainst.Keys)
+                    {
+                        if(((LGSPGraph)that).matchingState == null)
+                            ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
+                        if(matchingState.IsIsomorph(this, (LGSPGraph)that, false))
+                            return true;
+                    }
+                    return false;
+                }
+                else
+                {
+                    ++this.matchingState.numChecks;
+                    GraphMatchingState.EnsureIsAnalyzed(this);
+
+                    int numWorkerThreads = WorkerPool.EnsurePoolSize(Math.Min(model.BranchingFactorForEqualsAny, 64));
+                    this.EnsureSufficientIsomorphySpacesForParallelizedMatchingAreAvailable(numWorkerThreads);
+
+                    matchingState.graphToCheck = this;
+                    matchingState.graphsToCheckAgainstIterator = graphsToCheckAgainst.GetEnumerator();
+                    matchingState.iterationLock = 0;
+                    matchingState.includingAttributes_ = false;
+                    matchingState.wasIso = false;
+
+                    WorkerPool.Task = matchingState.IsIsomorph;
+                    WorkerPool.StartWork(Math.Min(numWorkerThreads, graphsToCheckAgainst.Count));
+                    WorkerPool.WaitForWorkDone();
+
+                    matchingState.graphToCheck = null;
+                    matchingState.graphsToCheckAgainstIterator = null;
+                    return matchingState.wasIso;
+                }
             }
         }
 

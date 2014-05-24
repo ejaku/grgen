@@ -4587,5 +4587,24 @@ namespace de.unika.ipd.grGen.libGr
                 return false;
             return this_.IsIsomorph(that);
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns whether the candidate (sub)graph equals any of the graphs in the given set
+        /// </summary>
+        public static bool EqualsAny(IGraph candidate, IDictionary<IGraph, SetValueType> graphsToCheckAgainst, bool includingAttributes)
+        {
+            if(candidate == null)
+                return false;
+            if(graphsToCheckAgainst == null)
+                return false;
+
+            // we're called from a non-parallel matcher, use parallel version (if available) of comparison
+            if(includingAttributes)
+                return candidate.IsIsomorph(graphsToCheckAgainst);
+            else
+                return candidate.HasSameStructure(graphsToCheckAgainst);
+        }
     }
 }

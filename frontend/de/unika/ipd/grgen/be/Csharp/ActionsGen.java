@@ -3493,6 +3493,16 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, ds.getSetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof EqualsAnyExpr) {
+			EqualsAnyExpr ea = (EqualsAnyExpr) expr;
+			sb.append("new GRGEN_EXPR.EqualsAny(");
+			genExpressionTree(sb, ea.getSubgraphExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ea.getSetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			sb.append(ea.getIncludingAttributes() ? "true" : "false");
+			sb.append(")");
+		}
 		else if (expr instanceof MaxExpr) {
 			MaxExpr m = (MaxExpr) expr;
 			sb.append("new GRGEN_EXPR.Max(");

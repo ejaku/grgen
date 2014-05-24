@@ -838,6 +838,22 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new DefinedSubgraphExprNode(getCoords(), params.get(0));
 		}
+		else if(functionName.equals("equalsAny")) {
+			if(params.size() != 2) {
+				reportError("equalsAny(.,.) takes two parameters.");
+				return false;
+			}
+			else
+				result = new EqualsAnyExprNode(getCoords(), params.get(0), params.get(1), true);
+		}
+		else if(functionName.equals("equalsAnyStructurally")) {
+			if(params.size() != 2) {
+				reportError("equalsAnyStructurally(.,.) takes two parameters.");
+				return false;
+			}
+			else
+				result = new EqualsAnyExprNode(getCoords(), params.get(0), params.get(1), false);
+		}
 		else if(functionName.equals("existsFile")) {
 			if(params.size() != 1) {
 				reportError("existsFile(.) takes one parameter.");

@@ -1,0 +1,35 @@
+using equalsAnyModel;
+
+rule r(ref s:set<graph>)
+{
+	if{ equalsAny(this, s); }
+	
+	modify {
+		def var res:boolean;
+		def var g:graph;
+		eval {
+			yield res = equalsAny(this, s);
+			yield g = this;
+		}
+		
+		exec({{equalsAny(g, s)}});
+	}
+}
+
+rule rp[parallelize=2](ref s:set<graph>, ref dummy:set<Node>)
+{
+	n:Node{dummy}; // needed so there is sth that can be parallelized
+
+	if{ nameof(n)=="foo" && equalsAny(this, s); }
+	
+	modify {
+		def var res:boolean;
+		def var g:graph;
+		eval {
+			yield res = equalsAny(this, s);
+			yield g = this;
+		}
+		
+		exec({{equalsAny(g, s)}});
+	}
+}

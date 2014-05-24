@@ -42,13 +42,15 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 	private boolean isLowerClassDefined;
 	private boolean isUniqueDefined;
 	private boolean isUniqueIndexDefined;
+	private int isoParallel;
 	private Collection<NodeType> allNodeTypes;
 	private Collection<EdgeType> allEdgeTypes;
 
 
 	public Model(Ident ident, boolean isEmitClassDefined, boolean isCopyClassDefined, 
 			boolean isEqualClassDefined, boolean isLowerClassDefined,
-			boolean isUniqueDefined, boolean isUniqueIndexDefined) {
+			boolean isUniqueDefined, boolean isUniqueIndexDefined,
+			int isoParallel) {
 		super("model", ident);
 		
 		this.isEmitClassDefined = isEmitClassDefined;
@@ -57,6 +59,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 		this.isLowerClassDefined = isLowerClassDefined;
 		this.isUniqueDefined = isUniqueDefined;
 		this.isUniqueIndexDefined = isUniqueIndexDefined;
+		this.isoParallel = isoParallel;
 	}
 
 	public void addUsedModel(Model model) {
@@ -197,6 +200,10 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 
 	public boolean isUniqueIndexDefined() {
 		return isUniqueIndexDefined;
+	}
+
+	public int isoParallel() {
+		return isoParallel;
 	}
 
 	/** Canonicalize the type model. */

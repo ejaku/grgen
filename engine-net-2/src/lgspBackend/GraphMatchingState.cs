@@ -17,6 +17,7 @@ using System.Diagnostics;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using System.Reflection;
+using System.Threading;
 using de.unika.ipd.grGen.libGr;
 #if LOG_ISOMORPHY_CHECKING
 using System.IO;
@@ -74,7 +75,7 @@ namespace de.unika.ipd.grGen.lgsp
         private GraphComparisonMatcher compiledMatcher;
 
         // just some statistic for debugging, tells how many iso checks where done with this graph as one partner
-        private int numChecks = 0;
+        public int numChecks = 0;
 
         /// <summary>
         ///Tells how many matches were carried out with this interpretation plan or compiled matcher
@@ -324,15 +325,149 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-#if COMPILE_MATCHERS
-            lock(compilationLock)
+            CompileComparisonMatchersAsNeeded();
+
+            return result;
+        }
+
+        // state/context for parameterless IsIsomorph executed by worker thread from thread pool
+        public LGSPGraph graphToCheck;
+        public IEnumerator<KeyValuePair<IGraph, SetValueType>> graphsToCheckAgainstIterator;
+        public int iterationLock;
+        public bool includingAttributes_;
+        public bool wasIso;
+
+        // Called by worker thread for parallel isomorphy checking
+        // Not for normal use!
+        public void IsIsomorph()
+        {
+            while(Interlocked.CompareExchange(ref iterationLock, 1, 0) != 0) Thread.SpinWait(10); //lock parallel enumeration with iteration lock
+            while(!wasIso && graphsToCheckAgainstIterator.MoveNext())
             {
-                if(GraphMatchingState.TotalCandidateMatches() >= GraphMatchingState.TOTAL_CANDIDATE_MATCHES_NEEDED_TO_START_A_COMPILATION)
+                LGSPGraph that = (LGSPGraph)graphsToCheckAgainstIterator.Current.Key;
+                Interlocked.Exchange(ref iterationLock, 0); //unlock parallel enumeration with iteration lock
+
+                if(IsIsomorph(graphToCheck, that, includingAttributes_, WorkerPool.ThreadId))
+                    wasIso = true;
+
+                while(Interlocked.CompareExchange(ref iterationLock, 1, 0) != 0) Thread.SpinWait(10); //lock parallel enumeration with iteration lock
+            }
+            Interlocked.Exchange(ref iterationLock, 0); //unlock parallel enumeration with iteration lock
+        }
+
+        // Version to be used by IsIsomorph(IDictionary<IGraph, SetValueType> graphsToCheckAgainst),
+        // which is comparing a candidate against an entire set.
+        // Not changing the metadata of this, matching each that inside this, not for normal use!
+        private bool IsIsomorph(LGSPGraph this_, LGSPGraph that, bool includingAttributes, int threadId)
+        {
+            ++that.matchingState.numChecks;
+
+            if(((LGSPGraph)that).matchingState == null)
+                ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
+
+#if LOG_ISOMORPHY_CHECKING
+            writer.WriteLine("Check " + this_.Name + " == " + that.Name + " on thread " + threadId);
+            writer.Flush();
+#endif
+
+            // compare number of elements per type
+            if(!AreNumberOfElementsEqual(this_, that))
+                return false;
+
+#if LOG_ISOMORPHY_CHECKING
+            writer.WriteLine("Undecided after type counts");
+            writer.Flush();
+#endif
+
+            // ensure that is analyzed, for this it was ensured by our caller
+            if(that.statistics.vstructs == null || that.changesCounterAtLastAnalyze != that.ChangesCounter)
+            {
+                lock(that)
                 {
-                    CompileComparisonMatchers();
+                    if(that.statistics.vstructs == null || that.changesCounterAtLastAnalyze != that.ChangesCounter)
+                        that.AnalyzeGraph();
                 }
             }
+
+            // compare analyze statistics
+            if(!AreVstructsEqual(this_, that))
+                return false;
+
+#if LOG_ISOMORPHY_CHECKING
+            writer.WriteLine("Undecided after vstructs comparison");
+            writer.Flush();
 #endif
+
+            // invalidate outdated interpretation plans and compiled matchers of that
+            // not needed for this cause we always use the matchers of that, matching inside this
+            if(that.matchingState.interpretationPlan != null && that.matchingState.changesCounterAtInterpretationPlanBuilding != that.ChangesCounter)
+            {
+                lock(that)
+                {
+                    if(that.matchingState.interpretationPlan != null && that.matchingState.changesCounterAtInterpretationPlanBuilding != that.ChangesCounter)
+                    {
+                        that.matchingState.interpretationPlan = null;
+                        that.matchingState.patternGraph = null;
+                        lock(GraphMatchingState.compilationLock)
+                        {
+                            GraphMatchingState.candidatesForCompilation.Remove(that);
+                        }
+                        that.matchingState.compiledMatcher = null;
+                        that.matchingState.numMatchings = 0;
+                        that.matchingState.numChecks = 0;
+                    }
+                }
+            }
+
+            // they were the same? then we must try to match that in this
+            // if a compiled matcher is existing we use the compiled matcher
+            // if an interpretation plan is existing we use the interpretation plan for matching
+            // if none is existing, then we build an interpretation plan for that 
+            // and directly use it for matching thereafter
+            // executing an interpretation plan or a compiled matcher is sufficient for isomorphy because 
+            // - element numbers are the same 
+            // - we match only exact types                
+            bool result;
+            if(that.matchingState.compiledMatcher != null)
+            {
+                // lock(this_) was employed by our caller
+                result = that.matchingState.compiledMatcher.IsIsomorph(that.matchingState.patternGraph, this_, includingAttributes, threadId);
+#if LOG_ISOMORPHY_CHECKING
+                writer.WriteLine("Using compiled interpretation plan of that " + that.matchingState.compiledMatcher.Name);
+#endif
+            }
+            else if(that.matchingState.interpretationPlan != null)
+            {
+                // lock(this_) was employed by our caller
+                result = that.matchingState.interpretationPlan.Execute(this_, includingAttributes, null, threadId);
+#if LOG_ISOMORPHY_CHECKING
+                writer.WriteLine("Using interpretation plan of that " + ((InterpretationPlanStart)that.matchingState.interpretationPlan).ComparisonMatcherName);
+#endif
+            }
+            else
+            {
+                // we build the interpretation plan for that
+                BuildInterpretationPlan(that);
+                // lock(this_) was employed by our caller
+                result = that.matchingState.interpretationPlan.Execute(this_, includingAttributes, null, threadId);
+            }
+
+#if LOG_ISOMORPHY_CHECKING
+            writer.WriteLine("Result of matching: " + (result ? "Isomorph" : "Different"));
+            writer.Flush();
+#endif
+
+            // update the statistics, and depending on the statistics we
+            // - add candidats to the set of the matchers to be compiled
+            // - it's on our caller to trigger a compiler run
+            ++that.matchingState.numMatchings;
+            if(that.matchingState.numMatchings == GraphMatchingState.MATCHES_NEEDED_TO_BECOME_A_CANDIDATE_FOR_COMPILATION)
+            {
+                lock(GraphMatchingState.compilationLock)
+                {
+                    GraphMatchingState.candidatesForCompilation.Add(that);
+                }
+            }
 
             return result;
         }
@@ -497,6 +632,19 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
         }
 
+        public static void CompileComparisonMatchersAsNeeded()
+        {
+#if COMPILE_MATCHERS
+            lock(compilationLock)
+            {
+                if(GraphMatchingState.TotalCandidateMatches() >= GraphMatchingState.TOTAL_CANDIDATE_MATCHES_NEEDED_TO_START_A_COMPILATION)
+                {
+                    CompileComparisonMatchers();
+                }
+            }
+#endif
+        }
+
         private static void CompileComparisonMatchers()
         {
             for(int i = GraphMatchingState.candidatesForCompilation.Count - 1; i >= 0; --i)
@@ -508,6 +656,7 @@ namespace de.unika.ipd.grGen.lgsp
             
             SourceBuilder sourceCode = new SourceBuilder();
             sourceCode.AppendFront("using System;\n"
+                + "using System.Collections.Generic;\n"
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n\n");
             sourceCode.AppendFront("namespace de.unika.ipd.grGen.lgspComparisonMatchers\n");
@@ -515,7 +664,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Indent();
 
             foreach(LGSPGraph graph in GraphMatchingState.candidatesForCompilation)
-                graph.matchingState.interpretationPlan.Emit(sourceCode);
+                ((InterpretationPlanStart)graph.matchingState.interpretationPlan).Emit(sourceCode);
 
             sourceCode.Append("}");
 
@@ -555,6 +704,14 @@ namespace de.unika.ipd.grGen.lgsp
 
             GraphMatchingState.candidatesForCompilation.Clear();
             ++GraphMatchingState.numCompilationPasses;
+        }
+
+        public static void EnsureIsAnalyzed(LGSPGraph this_)
+        {
+            if(this_.statistics.vstructs == null || this_.changesCounterAtLastAnalyze != this_.ChangesCounter)
+            {
+                this_.AnalyzeGraph();
+            }
         }
     }
 }

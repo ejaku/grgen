@@ -25,6 +25,11 @@ namespace de.unika.ipd.grGen.lgsp
         bool IsIsomorph(PatternGraph thisPattern, LGSPGraph graph, bool includingAttributes);
 
         /// <summary>
+        /// Returns whether the graph which resulted in thisPattern is isomorph to the graph given, using the parallel is matched flags array of the given thread id.        
+        /// </summary>
+        bool IsIsomorph(PatternGraph thisPattern, LGSPGraph graph, bool includingAttributes, int threadId);
+
+        /// <summary>
         /// Returns the name of the compiled matcher, same as the name of the interpretation plan.
         /// </summary>
         string Name { get; }

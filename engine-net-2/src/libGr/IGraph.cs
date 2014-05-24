@@ -406,11 +406,29 @@ namespace de.unika.ipd.grGen.libGr
         bool IsIsomorph(IGraph that);
 
         /// <summary>
+        /// Returns whether this graph is isomorph to any of the set of graphs given (including the attribute values)
+        /// If a graph changed only in attribute values since the last comparison, results will be wrong!
+        /// (Do a fake node insert and removal to ensure the graph is recognized as having changed.)
+        /// Don't call from a parallelized matcher!
+        /// </summary>
+        /// <param name="graphsToCheckAgainst">The other graph we check for isomorphy against</param>
+        /// <returns>true if any of the graphs given is isomorph to this, false otherwise</returns>
+        bool IsIsomorph(IDictionary<IGraph, SetValueType> graphsToCheckAgainst);
+
+        /// <summary>
         /// Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
         /// </summary>
         /// <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
         /// <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
         bool HasSameStructure(IGraph that);
+
+        /// <summary>
+        /// Returns whether this graph is isomorph to any of the set of graphs given, neglecting the attribute values, only structurally
+        /// Don't call from a parallelized matcher!
+        /// </summary>
+        /// <param name="graphsToCheckAgainst">The other graphs we check for isomorphy against, neglecting attribute values</param>
+        /// <returns>true if any of the graphs given is isomorph (regarding structure) to this, false otherwise</returns>
+        bool HasSameStructure(IDictionary<IGraph, SetValueType> graphsToCheckAgainst);
 
         /// <summary>
         /// Returns a canonical representation of the graph as a string
