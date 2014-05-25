@@ -512,7 +512,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		inParams=execInParameters[exec] outParams=execOutParameters[exec]
 		SEMI { env.popScope(); }
 		{
-			id.setDecl(new SequenceDeclNode(id, null, inParams, outParams));
+			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
 			sequenceChilds.addChild(id);
 		}
 	| f=FUNCTION id=funcOrExtFuncIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]

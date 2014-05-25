@@ -151,6 +151,8 @@ namespace de.unika.ipd.grGen.libGr
                 case "Object": return "object";
                 case "de.unika.ipd.grGen.libGr.IGraph": return "graph";
                 case "de.unika.ipd.grGen.libGr.INamedGraph": return "graph";
+                case "IGraph": return "graph";
+                case "INamedGraph": return "graph";
                 case "LGSPGraph": return "graph";
                 case "LGSPNamedGraph": return "graph";
             }
