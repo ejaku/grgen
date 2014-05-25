@@ -1,0 +1,127 @@
+#using "index_model_001b.gm"
+
+rule r13 {
+	def -n:E->;
+	yield {
+		for(m:E in {foo==13}) {
+			yield n = m;
+			break;
+		}
+	}
+	
+	modify {
+		emit("The value of attribute i is " + n.i + "\n");
+	}
+}
+
+rule rascending {
+	def -n:E->;
+	yield {
+		for(m:E in {ascending(foo)}) {
+			yield n = m;
+			break;
+		}
+	}
+	
+	modify {
+		emit("The value of attribute i is " + n.i + "\n");
+	}
+}
+
+rule rdescending {
+	def -n:E->;
+	yield {
+		for(m:E in {descending(foo)}) {
+			yield n = m;
+			break;
+		}
+	}
+	
+	modify {
+		emit("The value of attribute i is " + n.i + "\n");
+	}
+}
+
+rule rascendinglargerthan5lowerequal13 {
+	def -n:E->;
+	yield {
+		for(m:E in {ascending(foo>5, foo<=13)}) {
+			yield n = m;
+			break;
+		}
+	}
+	
+	modify {
+		emit("The value of attribute i is " + n.i + "\n");
+	}
+}
+
+rule rascendinglargerequal5 {
+	def -n:E->;
+	yield {
+		for(m:E in {ascending(foo>=5)}) {
+			yield n = m;
+			break;
+		}
+	}
+	
+	modify {
+		emit("The value of attribute i is " + n.i + "\n");
+	}
+}
+
+rule rascendinglowerthan13 {
+	def -n:E->;
+	yield {
+		for(m:E in {ascending(foo<13)}) {
+			yield n = m;
+			break;
+		}
+	}
+	
+	modify {
+		emit("The value of attribute i is " + n.i + "\n");
+	}
+}
+
+rule rdescendinglowerthan13largerequal5 {
+	def -n:E->;
+	yield {
+		for(m:E in {descending(foo<13, foo>=5)}) {
+			yield n = m;
+			break;
+		}
+	}
+	
+	modify {
+		emit("The value of attribute i is " + n.i + "\n");
+	}
+}
+
+rule rdescendinglowerequal13 {
+	def -n:E->;
+	yield {
+		for(m:E in {descending(foo<=13)}) {
+			yield n = m;
+			break;
+		}
+	}
+	
+	modify {
+		emit("The value of attribute i is " + n.i + "\n");
+	}
+}
+
+rule rdescendinglargerthan5 {
+	def -n:E->;
+	yield {
+		for(m:E in {descending(foo>5)}) {
+			yield n = m;
+			break;
+		}
+	}
+	
+	modify {
+		emit("The value of attribute i is " + n.i + "\n");
+	}
+}

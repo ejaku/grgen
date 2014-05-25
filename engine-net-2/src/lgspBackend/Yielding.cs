@@ -1446,7 +1446,217 @@ namespace de.unika.ipd.grGen.expression
         bool Parallel;
         bool Profiling;
     }
-    
+
+    /// <summary>
+    /// Class representing an iteration over index based on equality comparison
+    /// </summary>
+    public class ForIndexAccessEquality : Yielding
+    {
+        public ForIndexAccessEquality(String indexSetType, IndexDescription index, String variable, String unprefixedVariable, String variableType, Expression expr, Yielding[] statements)
+        {
+            IndexSetType = indexSetType;
+            Index = index;
+            Variable = variable;
+            UnprefixedVariable = unprefixedVariable;
+            VariableType = variableType;
+            Expr = expr;
+            Statements = statements;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Yielding[] statementsCopy = new Yielding[Statements.Length];
+            for(int i = 0; i < Statements.Length; ++i)
+                statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            return new ForIndexAccessEquality(IndexSetType, Index, Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, 
+                Expr.Copy(renameSuffix), statementsCopy);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("foreach({0} {1} in (({2})graph.indices).{3}.Lookup(", 
+                VariableType, NamesOfEntities.Variable(Variable), IndexSetType, Index.Name);
+            Expr.Emit(sourceCode);
+            sourceCode.Append("))\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                else
+                    sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+            }
+
+            foreach(Yielding statement in Statements)
+                statement.Emit(sourceCode);
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            foreach(Yielding statement in Statements)
+                yield return statement;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public String IndexSetType;
+        public IndexDescription Index;
+        public String Variable;
+        public String UnprefixedVariable;
+        public String VariableType;
+        public Expression Expr;
+        Yielding[] Statements;
+        bool Parallel;
+        bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing an iteration over index based on ordering comparison
+    /// </summary>
+    public class ForIndexAccessOrdering : Yielding
+    {
+        public ForIndexAccessOrdering(String indexSetType, IndexDescription index, String variable, String unprefixedVariable, String variableType, 
+            bool ascending, bool includingFrom, bool includingTo,
+            Expression from, Expression to, Yielding[] statements)
+        {
+            IndexSetType = indexSetType;
+            Index = index;
+            Variable = variable;
+            UnprefixedVariable = unprefixedVariable;
+            VariableType = variableType;
+            Ascending = ascending;
+            IncludingFrom = includingFrom;
+            IncludingTo = includingTo;
+            From = from;
+            To = to;
+            Statements = statements;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Yielding[] statementsCopy = new Yielding[Statements.Length];
+            for(int i = 0; i < Statements.Length; ++i)
+                statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            return new ForIndexAccessOrdering(IndexSetType, Index, Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, 
+                Ascending, IncludingFrom, IncludingTo, From!=null ? From.Copy(renameSuffix) : null, To!=null ? To.Copy(renameSuffix) : null, 
+                statementsCopy);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("foreach({0} {1} in (({2})graph.indices).{3}.Lookup",
+                VariableType, NamesOfEntities.Variable(Variable), IndexSetType, Index.Name);
+
+            if(Ascending)
+                sourceCode.Append("Ascending");
+            else
+                sourceCode.Append("Descending");
+            if(From != null && To != null)
+            {
+                sourceCode.Append("From");
+                if(IncludingFrom)
+                    sourceCode.Append("Inclusive");
+                else
+                    sourceCode.Append("Exclusive");
+                sourceCode.Append("To");
+                if(IncludingTo)
+                    sourceCode.Append("Inclusive");
+                else
+                    sourceCode.Append("Exclusive");
+                sourceCode.Append("(");
+                From.Emit(sourceCode); ;
+                sourceCode.Append(", ");
+                To.Emit(sourceCode); ;
+            }
+            else if(From != null)
+            {
+                sourceCode.Append("From");
+                if(IncludingFrom)
+                    sourceCode.Append("Inclusive");
+                else
+                    sourceCode.Append("Exclusive");
+                sourceCode.Append("(");
+                From.Emit(sourceCode); ;
+            }
+            else if(To != null)
+            {
+                sourceCode.Append("To");
+                if(IncludingTo)
+                    sourceCode.Append("Inclusive");
+                else
+                    sourceCode.Append("Exclusive");
+                sourceCode.Append("(");
+                To.Emit(sourceCode); ;
+            }
+            else
+            {
+                sourceCode.Append("(");
+            }
+
+            sourceCode.Append("))\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            if(Profiling)
+            {
+                if(Parallel)
+                    sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                else
+                    sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+            }
+
+            foreach(Yielding statement in Statements)
+                statement.Emit(sourceCode);
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            // the Function is not an independent child, it's just simpler/more consistent to reuse some parts of it here
+            foreach(Yielding statement in Statements)
+                yield return statement;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public String IndexSetType;
+        public IndexDescription Index;
+        public String Variable;
+        public String UnprefixedVariable;
+        public String VariableType;
+        public bool Ascending;
+        public bool IncludingFrom;
+        public bool IncludingTo;
+        public Expression From;
+        public Expression To;
+        Yielding[] Statements;
+        bool Parallel;
+        bool Profiling;
+    }
+
     /// <summary>
     /// Class representing an if statement, maybe with else part
     /// </summary>

@@ -1,0 +1,208 @@
+#using "index_model_002.gm"
+
+rule i {
+	def ref res:set<Node> = set<Node>{};
+	def ref resi:set<Edge> = set<Edge>{};
+	yield
+	{
+		for(n:N in {ascending(fooi>=42, fooi<1000)})
+		{
+			res.add(n);
+		}
+		for(e:E in {descending(bari<42, bari>0)})
+		{
+			resi.add(e);
+		}
+		for(m:N in {fooi==42})
+		{
+			res.add(m);
+		}
+	}
+	
+	modify {
+		eval {
+			def ref res_:set<Node> = set<Node>{};
+			def ref resi_:set<Edge> = set<Edge>{};
+			for(n:N in {ascending(fooi>=42, fooi<1000)})
+			{
+				res_.add(n);
+			}
+			for(e:E in {descending(bari<42, bari>0)})
+			{
+				resi_.add(e);
+			}
+			for(m:N in {fooi==42})
+			{
+				res_.add(m);
+			}
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////
+
+rule d {
+	def ref res:set<Node> = set<Node>{};
+	def ref resi:set<Edge> = set<Edge>{};
+	yield
+	{
+		for(n:N in {ascending(food>=42.0, food<1000)})
+		{
+			res.add(n);
+		}
+		for(e:E in {descending(bard<42.0, bard>0)})
+		{
+			resi.add(e);
+		}
+		for(m:N in {food==42})
+		{
+			res.add(m);
+		}
+	}
+	
+	modify {
+		def ref res_:set<Node> = set<Node>{};
+		def ref resi_:set<Edge> = set<Edge>{};
+		eval
+		{
+			for(n:N in {ascending(food>=42.0, food<1000)})
+			{
+				res_.add(n);
+			}
+			for(e:E in {descending(bard<42.0, bard>0)})
+			{
+				resi_.add(e);
+			}
+			for(m:N in {food==42})
+			{
+				res_.add(m);
+			}
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////
+
+rule b {
+	def ref res:set<Node> = set<Node>{};
+	def ref resi:set<Edge> = set<Edge>{};
+	yield
+	{
+		for(n:N in {ascending(foob>=false, foob<true)})
+		{
+			res.add(n);
+		}
+		for(e:E in {descending(barb<true, barb>false)})
+		{
+			resi.add(e);
+		}
+		for(m:N in {foob==true})
+		{
+			res.add(m);
+		}
+	}
+	
+	modify {
+		def ref res_:set<Node> = set<Node>{};
+		def ref resi_:set<Edge> = set<Edge>{};
+		eval
+		{
+			for(n:N in {ascending(foob>=false, foob<true)})
+			{
+				res_.add(n);
+			}
+			for(e:E in {descending(barb<true, barb>false)})
+			{
+				resi_.add(e);
+			}
+			for(m:N in {foob==true})
+			{
+				res_.add(m);
+			}
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////
+
+rule s {
+	def ref res:set<Node> = set<Node>{};
+	def ref resi:set<Edge> = set<Edge>{};
+	yield
+	{
+		for(n:N in {ascending(foos>="42", foos<"zzz")})
+		{
+			res.add(n);
+		}
+		for(e:E in {descending(bars<"42", bars>"a")})
+		{
+			resi.add(e);
+		}
+		for(m:N in {foos=="abba"})
+		{
+			res.add(m);
+		}
+	}
+	
+	modify {
+		def ref res_:set<Node> = set<Node>{};
+		def ref resi_:set<Edge> = set<Edge>{};
+		eval
+		{
+			for(n:N in {ascending(foos>="42", foos<"zzz")})
+			{
+				res_.add(n);
+			}
+			for(e:E in {descending(bars<"42", bars>"a")})
+			{
+				resi_.add(e);
+			}
+			for(m:N in {foos=="abba"})
+			{
+				res_.add(m);
+			}
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////
+
+rule re {
+	def ref res:set<Node> = set<Node>{};
+	def ref resi:set<Edge> = set<Edge>{};
+	yield
+	{
+		for(n:N in {ascending(fooe>=ENU::bar, fooe<ENU::qux)})
+		{
+			res.add(n);
+		}
+		for(e:E in {descending(bare<ENU::baz, bare>ENU::foo)})
+		{
+			resi.add(e);
+		}
+		for(m:N in {fooe==ENU::bar})
+		{
+			res.add(m);
+		}
+	}
+	
+	modify {
+		def ref res_:set<Node> = set<Node>{};
+		def ref resi_:set<Edge> = set<Edge>{};
+		eval
+		{
+			for(n:N in {ascending(fooe>=ENU::bar, fooe<ENU::qux)})
+			{
+				res_.add(n);
+			}
+			for(e:E in {descending(bare<ENU::baz, bare>ENU::foo)})
+			{
+				resi_.add(e);
+			}
+			for(m:N in {fooe==ENU::bar})
+			{
+				res_.add(m);
+			}
+		}
+	}
+}

@@ -30,9 +30,9 @@ public class AttributeIndexDeclNode extends IndexDeclNode {
 	}
 
 	protected IdentNode typeUnresolved;
-	protected TypeNode type;
+	public TypeNode type;
 	protected IdentNode memberUnresolved;
-	protected MemberDeclNode member;
+	public MemberDeclNode member;
 
 	private static final AttributeIndexTypeNode attributeIndexType =
 		new AttributeIndexTypeNode();

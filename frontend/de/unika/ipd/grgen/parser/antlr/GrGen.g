@@ -3707,6 +3707,31 @@ options { k = *; }
 			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
 			res = new IntegerRangeIterationYieldNode(f, iterVar, left, right, cs);
 		}
+	| type=typeIdentUse IN LBRACE idx=indexIdentUse EQUAL e=expr[false] RBRACE RPAREN
+		LBRACE
+			cs=computations[onLHS, context, directlyNestingLHSGraph]
+		RBRACE { env.popScope(); }
+		{
+			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
+			res = new ForIndexAccessEqualityYieldNode(f, iterVar, context, idx, e, directlyNestingLHSGraph, cs);
+		}
+	| type=typeIdentUse IN LBRACE i=IDENT LPAREN idx=indexIdentUse (os=relOS e=expr[false] (COMMA idx2=indexIdentUse os2=relOS e2=expr[false])?)? RPAREN RBRACE RPAREN
+		LBRACE
+			cs=computations[onLHS, context, directlyNestingLHSGraph]
+		RBRACE { env.popScope(); }
+		{
+			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
+			boolean ascending = true;
+			if(i.getText().equals("ascending")) 
+				ascending = true;
+			else if(i.getText().equals("descending"))
+				ascending = false;
+			else
+				reportError(getCoords(i), "ordered index access loop must start with ascending or descending");
+			if(idx2!=null && !idx.toString().equals(idx2.toString()))
+				reportError(idx2.getCoords(), "the same index must be used in an ordered index access loop with two constraints");
+			res = new ForIndexAccessOrderingYieldNode(f, iterVar, context, ascending, idx, os, e, os2, e2, directlyNestingLHSGraph, cs);
+		}
 	;
 
 assignTo returns [ int ccat = CompoundAssignNode.NONE, BaseNode tgtChanged = null ]

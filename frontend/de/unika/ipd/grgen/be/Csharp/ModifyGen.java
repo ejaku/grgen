@@ -2101,6 +2101,12 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof ForFunction) {
 			genForFunction(sb, state, (ForFunction) evalStmt);
 		}
+		else if(evalStmt instanceof ForIndexAccessEquality) {
+			genForIndexAccessEquality(sb, state, (ForIndexAccessEquality) evalStmt);
+		}
+		else if(evalStmt instanceof ForIndexAccessOrdering) {
+			genForIndexAccessOrdering(sb, state, (ForIndexAccessOrdering) evalStmt);
+		}
 		else if(evalStmt instanceof BreakStatement) {
 			genBreakStatement(sb, state, (BreakStatement) evalStmt);
 		}
@@ -3864,6 +3870,91 @@ public class ModifyGen extends CSharpBase {
 		}
 
 		genEvals(sb, state, ff.getLoopedStatements());
+
+        sb.append("\t\t\t}\n");
+	}
+
+	private void genForIndexAccessEquality(StringBuffer sb, ModifyGenerationStateConst state, ForIndexAccessEquality fiae) {
+		IndexAccessEquality iae = fiae.getIndexAcccessEquality();
+
+        sb.append("\t\t\tforeach( " + formatElementInterfaceRef(fiae.getIterationVar().getType()) +
+        		" " + formatEntity(fiae.getIterationVar()) + " in ((" +
+        		"GRGEN_MODEL." + model.getIdent() + "IndexSet" + ")graph.indices)." + iae.index.getIdent() +
+        		".Lookup(");
+		genExpression(sb, iae.expr, state);	        
+        sb.append(") )");
+        sb.append("\t\t\t{\n");
+			
+		if(state.emitProfilingInstrumentation()) {
+			if(state.isToBeParallelizedActionExisting())
+				sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+			else
+				sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+		}
+
+		genEvals(sb, state, fiae.getLoopedStatements());
+
+        sb.append("\t\t\t}\n");
+	}
+
+	private void genForIndexAccessOrdering(StringBuffer sb, ModifyGenerationStateConst state, ForIndexAccessOrdering fiao) {
+		IndexAccessOrdering iao = fiao.getIndexAccessOrdering();
+
+        sb.append("\t\t\tforeach( " + formatElementInterfaceRef(fiao.getIterationVar().getType()) +
+        		" " + formatEntity(fiao.getIterationVar()) + " in ((" +
+        		"GRGEN_MODEL." + model.getIdent() + "IndexSet" + ")graph.indices)." + iao.index.getIdent() +
+        		".Lookup");
+        if(iao.ascending)
+        	sb.append("Ascending");
+        else
+        	sb.append("Descending");
+        if(iao.from()!=null && iao.to()!=null) {
+            sb.append("From");
+            if(iao.includingFrom())
+            	sb.append("Inclusive");
+            else
+            	sb.append("Exclusive");
+            sb.append("To");
+            if(iao.includingTo())
+            	sb.append("Inclusive");
+            else
+            	sb.append("Exclusive");
+        	sb.append("(");
+    		genExpression(sb, iao.from(), state);
+        	sb.append(", ");
+    		genExpression(sb, iao.to(), state);
+        } else if(iao.from()!=null) {
+            sb.append("From");
+            if(iao.includingFrom())
+            	sb.append("Inclusive");
+            else
+            	sb.append("Exclusive");
+        	sb.append("(");
+    		genExpression(sb, iao.from(), state);
+        } else if(iao.to()!=null) {
+            sb.append("To");
+            if(iao.includingTo())
+            	sb.append("Inclusive");
+            else
+            	sb.append("Exclusive");
+        	sb.append("(");
+    		genExpression(sb, iao.to(), state);
+        } 
+        else
+        {
+        	sb.append("(");
+        }
+        sb.append(") )\n");
+        sb.append("\t\t\t{\n");
+			
+		if(state.emitProfilingInstrumentation()) {
+			if(state.isToBeParallelizedActionExisting())
+				sb.append("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+			else
+				sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
+		}
+
+		genEvals(sb, state, fiao.getLoopedStatements());
 
         sb.append("\t\t\t}\n");
 	}

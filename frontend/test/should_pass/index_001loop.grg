@@ -1,0 +1,133 @@
+#using "index_model_001.gm"
+
+test t(x:N, var i:int)
+{
+	def ref res:set<Node> = set<Node>{};
+	def ref resi:set<Edge> = set<Edge>{};
+	yield
+	{
+		for(n:N in {foo==x.i+i+42})
+		{
+			res.add(n);
+		}
+		for(e:E in {bar==x.i+i+42})
+		{
+			resi.add(e);
+		}
+		for(n:N in {ascending(foo>=x.i+i+42)})
+		{
+			res.add(n);
+		}
+		for(e:E in {ascending(bar<x.i-i-42)})
+		{
+			resi.add(e);
+		}
+		for(n:N in {ascending(foo>=x.i+i+42, foo<x.i-i-42)})
+		{
+			res.add(n);
+		}
+		for(e:E in {descending(bar<x.i-x.i+i+42, bar>x.i+x.i-i-42)})
+		{
+			resi.add(e);
+		}
+	}
+}
+
+rule r(x:N, var i:int)
+{
+	modify {
+		def ref res:set<Node> = set<Node>{};
+		def ref resi:set<Edge> = set<Edge>{};
+		eval
+		{
+			for(n:N in {foo==x.i+i+42})
+			{
+				res.add(n);
+			}
+			for(e:E in {bar==x.i+i+42})
+			{
+				resi.add(e);
+			}
+			for(n:N in {ascending(foo>=x.i+i+42)})
+			{
+				res.add(n);
+			}
+			for(e:E in {ascending(bar<x.i-i-42)})
+			{
+				resi.add(e);
+			}
+			for(n:N in {ascending(foo>=x.i+i+42, foo<x.i-i-42)})
+			{
+				res.add(n);
+			}
+			for(e:E in {descending(bar<x.i-x.i+i+42, bar>x.i+x.i-i-42)})
+			{
+				resi.add(e);
+			}
+		}
+	}
+}
+
+function f(x:N, var i:int) : set<Node>
+{
+	def ref res:set<Node> = set<Node>{};
+	def ref resi:set<Edge> = set<Edge>{};
+	for(n:N in {foo==x.i+i+42})
+	{
+		res.add(n);
+	}
+	for(e:E in {bar==x.i+i+42})
+	{
+		resi.add(e);
+	}
+	for(n:N in {ascending(foo>=x.i+i+42)})
+	{
+		res.add(n);
+	}
+	for(e:E in {ascending(bar<x.i-i-42)})
+	{
+		resi.add(e);
+	}
+	for(n:N in {ascending(foo>=x.i+i+42, foo<x.i-i-42)})
+	{
+		res.add(n);
+	}
+	for(e:E in {descending(bar<x.i-x.i+i+42, bar>x.i+x.i-i-42)})
+	{
+		resi.add(e);
+	}
+	
+	return(res);
+}
+
+procedure r(x:N, var i:int) : (set<Node>, set<Edge>)
+{
+	def ref res:set<Node> = set<Node>{};
+	def ref resi:set<Edge> = set<Edge>{};
+	for(n:N in {foo==x.i+i+42})
+	{
+		res.add(n);
+	}
+	for(e:E in {bar==x.i+i+42})
+	{
+		resi.add(e);
+	}
+	for(n:N in {ascending(foo>=x.i+i+42)})
+	{
+		res.add(n);
+	}
+	for(e:E in {ascending(bar<x.i-i-42)})
+	{
+		resi.add(e);
+	}
+	for(n:N in {ascending(foo>=x.i+i+42, foo<x.i-i-42)})
+	{
+		res.add(n);
+	}
+	for(e:E in {descending(bar<x.i-x.i+i+42, bar>x.i+x.i-i-42)})
+	{
+		resi.add(e);
+	}
+	
+	return(res, resi);
+}
