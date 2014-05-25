@@ -4546,6 +4546,14 @@ public class ActionsGen extends CSharpBase {
 			genForFunction(sb, (ForFunction) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
+		else if(evalStmt instanceof ForIndexAccessEquality) {
+			genForIndexAccessEquality(sb, (ForIndexAccessEquality) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof ForIndexAccessOrdering) {
+			genForIndexAccessOrdering(sb, (ForIndexAccessOrdering) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
 		else if(evalStmt instanceof ConditionStatement) {
 			genConditionStatement(sb, (ConditionStatement) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
@@ -5004,6 +5012,67 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append("new GRGEN_EXPR.Yielding[] { ");
 		for(EvalStatement statement : ff.getLoopedStatements()) {
+			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+		}
+		sb.append("}");
+		sb.append(")");
+	}
+
+	private void genForIndexAccessEquality(StringBuffer sb, ForIndexAccessEquality fiae,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		Variable iterationVar = fiae.getIterationVar();
+		Type iterationVarType = iterationVar.getType();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.ForIndexAccessEquality(");
+		sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
+		sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\"" + fiae.getIndexAcccessEquality().index.getIdent() + "\"), ");
+
+		sb.append("\"" + formatEntity(iterationVar, pathPrefix, alreadyDefinedEntityToName) + "\", ");
+		sb.append("\"" + formatIdentifiable(iterationVar) + "\", ");
+		sb.append("\"" + formatElementInterfaceRef(iterationVarType) + "\", ");
+
+		genExpressionTree(sb, fiae.getIndexAcccessEquality().expr, className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(", ");
+			
+		sb.append("new GRGEN_EXPR.Yielding[] { ");
+		for(EvalStatement statement : fiae.getLoopedStatements()) {
+			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+		}
+		sb.append("}");
+		sb.append(")");
+	}
+
+	private void genForIndexAccessOrdering(StringBuffer sb, ForIndexAccessOrdering fiao,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		Variable iterationVar = fiao.getIterationVar();
+		Type iterationVarType = iterationVar.getType();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.ForIndexAccessOrdering(");
+		sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
+		sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\"" + fiao.getIndexAccessOrdering().index.getIdent() + "\"), ");
+
+		sb.append("\"" + formatEntity(iterationVar, pathPrefix, alreadyDefinedEntityToName) + "\", ");
+		sb.append("\"" + formatIdentifiable(iterationVar) + "\", ");
+		sb.append("\"" + formatElementInterfaceRef(iterationVarType) + "\", ");
+
+		sb.append(fiao.getIndexAccessOrdering().ascending ? "true, " : "false, ");
+		sb.append(fiao.getIndexAccessOrdering().includingFrom() ? "true, " : "false, ");
+		sb.append(fiao.getIndexAccessOrdering().includingTo() ? "true, " : "false, ");
+		if(fiao.getIndexAccessOrdering().from() != null)
+			genExpressionTree(sb, fiao.getIndexAccessOrdering().from(), className, pathPrefix, alreadyDefinedEntityToName);
+		else
+			sb.append("null");
+		sb.append(", ");
+		if(fiao.getIndexAccessOrdering().to() != null)
+			genExpressionTree(sb, fiao.getIndexAccessOrdering().to(), className, pathPrefix, alreadyDefinedEntityToName);
+		else
+			sb.append("null");
+		sb.append(", ");
+			
+		sb.append("new GRGEN_EXPR.Yielding[] { ");
+		for(EvalStatement statement : fiao.getLoopedStatements()) {
 			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 		}
