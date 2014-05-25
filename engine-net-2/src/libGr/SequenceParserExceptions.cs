@@ -341,17 +341,16 @@ namespace de.unika.ipd.grGen.libGr
             {
                 // TODO: function
 
-                if(this.Action == null && this.Kind != SequenceParserError.TypeMismatch && this.Kind != SequenceParserError.FilterError && this.Kind != SequenceParserError.FilterParameterError)
-                {
-                    return "Unknown rule/sequence: \"" + this.Name + "\"";
-                }
-
                 switch (this.Kind)
                 {
+                case SequenceParserError.UnknownRuleOrSequence:
+                    return "Unknown rule/sequence: \"" + this.Name + "\"";
+
                 case SequenceParserError.BadNumberOfParametersOrReturnParameters:
-                    if (this.Action.RulePattern.Inputs.Length != this.NumGivenInputs &&
-                        this.Action.RulePattern.Outputs.Length != this.NumGivenOutputs)
-                    {
+                    if(this.Action == null) {
+                        return "Wrong number of parameters for " + DefinitionTypeName + " \"" + this.Name + "\"";
+                    } else if(this.Action.RulePattern.Inputs.Length != this.NumGivenInputs &&
+                        this.Action.RulePattern.Outputs.Length != this.NumGivenOutputs) {
                         return "Wrong number of parameters and return values for " + DefinitionTypeName + " \"" + this.Name + "\"!";
                     } else if (this.Action.RulePattern.Inputs.Length != this.NumGivenInputs) {
                         return "Wrong number of parameters for " + DefinitionTypeName + " \"" + this.Name + "\"!";
@@ -360,7 +359,6 @@ namespace de.unika.ipd.grGen.libGr
                     } else {
                         goto default;
                     }
-                    // TODO: sequence
 
                 case SequenceParserError.BadParameter:
                     return "The " + (this.BadParamIndex + 1) + ". parameter is not valid for " + DefinitionTypeName + " \"" + this.Name + "\"!";
