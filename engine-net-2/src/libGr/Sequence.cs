@@ -30,6 +30,7 @@ namespace de.unika.ipd.grGen.libGr
         WeightedOne, SomeFromSet,
         IfThenElse, IfThen,
         ForContainer, ForMatch, ForIntegerRange,
+        ForIndexAccessEquality, ForIndexAccessOrdering,
         ForIncidentEdges, ForIncomingEdges, ForOutgoingEdges,
         ForAdjacentNodes, ForAdjacentNodesViaIncoming, ForAdjacentNodesViaOutgoing, // nur wenn verfügbar
         ForReachableNodes, ForReachableNodesViaIncoming, ForReachableNodesViaOutgoing,
@@ -45,6 +46,15 @@ namespace de.unika.ipd.grGen.libGr
         Highlight,
         ExecuteInSubgraph,
         BooleanComputation
+    }
+
+    public enum RelOpDirection
+    {
+        Undefined,
+        Smaller,
+        SmallerEqual,
+        Greater,
+        GreaterEqual
     }
 
     /// <summary>
@@ -2521,6 +2531,602 @@ namespace de.unika.ipd.grGen.libGr
 
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "for{" + Var.Name + " in [" + Left.Symbol + ":" + Right.Symbol + "]; ...}"; } }
+    }
+
+    public class SequenceForIndexAccessEquality : SequenceUnary
+    {
+        public SequenceVariable Var;
+        public String IndexName;
+        public SequenceExpression Expr;
+
+        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+
+        public SequenceForIndexAccessEquality(SequenceVariable var, String indexName, SequenceExpression expr, 
+            Sequence seq, List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+            : base(seq, SequenceType.ForIndexAccessEquality)
+        {
+            Var = var;
+            IndexName = indexName;
+            Expr = expr;
+            VariablesFallingOutOfScopeOnLeavingFor = variablesFallingOutOfScopeOnLeavingFor;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Var.Type == "")
+                throw new SequenceParserException(Var.Name, "a node or edge type", "statically unknown type");
+            if(!TypesHelper.IsSameOrSubtype(Var.Type, "Node", env.Model) && !TypesHelper.IsSameOrSubtype(Var.Type, "Edge", env.Model))
+                throw new SequenceParserException(Symbol + " - " + Var.Name, "Node or Edge", Var.Type);
+            
+            Expr.Check(env);
+            
+            base.Check(env);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceForIndexAccessEquality copy = (SequenceForIndexAccessEquality)MemberwiseClone();
+            copy.Var = Var.Copy(originalToCopy, procEnv);
+            copy.Expr = Expr.CopyExpression(originalToCopy, procEnv);
+            copy.Seq = Seq.Copy(originalToCopy, procEnv);
+            copy.VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingFor.Count);
+            foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingFor)
+                copy.VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy, procEnv));
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            bool res = true;
+            IAttributeIndex index = (IAttributeIndex)procEnv.Graph.Indices.GetIndex(IndexName);
+            bool first = true;
+            foreach(IGraphElement elem in index.LookupElements(Expr.Evaluate(procEnv)))
+            {
+                if(!first) procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(elem, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
+        {
+            Var.GetLocalVariables(variables);
+            Expr.GetLocalVariables(variables, containerConstructors);
+            if(Seq.GetLocalVariables(variables, containerConstructors, target))
+                return true;
+            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
+                variables.Remove(seqVar);
+            variables.Remove(Var);
+            return this == target;
+        }
+
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "for{" + Var.Name + " in { " + IndexName + " == " + Expr.Symbol + " }; ...}"; } }
+    }
+
+    public class SequenceForIndexAccessOrdering : SequenceUnary
+    {
+        public SequenceVariable Var;
+        public bool Ascending;
+        public String IndexName;
+        public SequenceExpression Expr;
+        public RelOpDirection Direction;
+        public SequenceExpression Expr2;
+        public RelOpDirection Direction2;
+
+        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+
+        public SequenceForIndexAccessOrdering(SequenceVariable var, bool ascending, String indexName, 
+            SequenceExpression expr, RelOpDirection dir, SequenceExpression expr2, RelOpDirection dir2,
+            Sequence seq, List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+            : base(seq, SequenceType.ForIndexAccessOrdering)
+        {
+            Var = var;
+            Ascending = ascending;
+            IndexName = indexName;
+            Expr = expr;
+            Direction = dir;
+            Expr2 = expr2;
+            Direction2 = dir2;
+            VariablesFallingOutOfScopeOnLeavingFor = variablesFallingOutOfScopeOnLeavingFor;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(Direction == RelOpDirection.Smaller || Direction == RelOpDirection.SmallerEqual)
+            {
+                if(Expr2 != null && (Direction2 == RelOpDirection.Smaller || Direction2 == RelOpDirection.SmallerEqual))
+                {
+                    throw new SequenceParserException(IndexName, SequenceParserError.TwoLowerBounds);
+                }
+            }
+            if(Direction == RelOpDirection.Greater || Direction == RelOpDirection.GreaterEqual)
+            {
+                if(Expr2 != null && (Direction2 == RelOpDirection.Greater || Direction2 == RelOpDirection.GreaterEqual))
+                {
+                    throw new SequenceParserException(IndexName, SequenceParserError.TwoUpperBounds);
+                }
+            }
+
+            if(Expr != null)
+                Expr.Check(env);
+            if(Expr2 != null)
+                Expr2.Check(env);
+
+            base.Check(env);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceForIndexAccessOrdering copy = (SequenceForIndexAccessOrdering)MemberwiseClone();
+            copy.Var = Var.Copy(originalToCopy, procEnv);
+            copy.Expr = copy.Expr!=null ? Expr.CopyExpression(originalToCopy, procEnv) : null;
+            copy.Expr2 = copy.Expr2!=null ? Expr2.CopyExpression(originalToCopy, procEnv) : null;
+            copy.Seq = Seq.Copy(originalToCopy, procEnv);
+            copy.VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingFor.Count);
+            foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingFor)
+                copy.VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy, procEnv));
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            bool res = true;
+            IAttributeIndex index = (IAttributeIndex)procEnv.Graph.Indices.GetIndex(IndexName);
+            if(Ascending)
+            {
+                if(From() != null && To() != null)
+                {
+                    if(IncludingFrom())
+                    {
+                        if(IncludingTo())
+                        {
+                            bool first = true;
+                            foreach(IGraphElement elem in index.LookupElementsAscendingFromInclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
+                            {
+                                if(!first) procEnv.EndOfIteration(true, this);
+                                Var.SetVariableValue(elem, procEnv);
+                                Seq.ResetExecutionState();
+                                res &= Seq.Apply(procEnv);
+                                first = false;
+                            }
+                            procEnv.EndOfIteration(false, this);
+                        }
+                        else
+                        {
+                            bool first = true;
+                            foreach(IGraphElement elem in index.LookupElementsAscendingFromInclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
+                            {
+                                if(!first) procEnv.EndOfIteration(true, this);
+                                Var.SetVariableValue(elem, procEnv);
+                                Seq.ResetExecutionState();
+                                res &= Seq.Apply(procEnv);
+                                first = false;
+                            }
+                            procEnv.EndOfIteration(false, this);
+                        }
+                    }
+                    else
+                    {
+                        if(IncludingTo())
+                        {
+                            bool first = true;
+                            foreach(IGraphElement elem in index.LookupElementsAscendingFromExclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
+                            {
+                                if(!first) procEnv.EndOfIteration(true, this);
+                                Var.SetVariableValue(elem, procEnv);
+                                Seq.ResetExecutionState();
+                                res &= Seq.Apply(procEnv);
+                                first = false;
+                            }
+                            procEnv.EndOfIteration(false, this);
+                        }
+                        else
+                        {
+                            bool first = true;
+                            foreach(IGraphElement elem in index.LookupElementsAscendingFromExclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
+                            {
+                                if(!first) procEnv.EndOfIteration(true, this);
+                                Var.SetVariableValue(elem, procEnv);
+                                Seq.ResetExecutionState();
+                                res &= Seq.Apply(procEnv);
+                                first = false;
+                            }
+                            procEnv.EndOfIteration(false, this);
+                        }
+                    }
+                }
+                else if(From() != null)
+                {
+                    if(IncludingFrom())
+                    {
+                        bool first = true;
+                        foreach(IGraphElement elem in index.LookupElementsAscendingFromInclusive(From().Evaluate(procEnv)))
+                        {
+                            if(!first) procEnv.EndOfIteration(true, this);
+                            Var.SetVariableValue(elem, procEnv);
+                            Seq.ResetExecutionState();
+                            res &= Seq.Apply(procEnv);
+                            first = false;
+                        }
+                        procEnv.EndOfIteration(false, this);
+                    }
+                    else
+                    {
+                        bool first = true;
+                        foreach(IGraphElement elem in index.LookupElementsAscendingFromExclusive(From().Evaluate(procEnv)))
+                        {
+                            if(!first) procEnv.EndOfIteration(true, this);
+                            Var.SetVariableValue(elem, procEnv);
+                            Seq.ResetExecutionState();
+                            res &= Seq.Apply(procEnv);
+                            first = false;
+                        }
+                        procEnv.EndOfIteration(false, this);
+                    }
+                }
+                else if(To() != null)
+                {
+                    if(IncludingTo())
+                    {
+                        bool first = true;
+                        foreach(IGraphElement elem in index.LookupElementsAscendingToInclusive(To().Evaluate(procEnv)))
+                        {
+                            if(!first) procEnv.EndOfIteration(true, this);
+                            Var.SetVariableValue(elem, procEnv);
+                            Seq.ResetExecutionState();
+                            res &= Seq.Apply(procEnv);
+                            first = false;
+                        }
+                        procEnv.EndOfIteration(false, this);
+                    }
+                    else
+                    {
+                        bool first = true;
+                        foreach(IGraphElement elem in index.LookupElementsAscendingToExclusive(To().Evaluate(procEnv)))
+                        {
+                            if(!first) procEnv.EndOfIteration(true, this);
+                            Var.SetVariableValue(elem, procEnv);
+                            Seq.ResetExecutionState();
+                            res &= Seq.Apply(procEnv);
+                            first = false;
+                        }
+                        procEnv.EndOfIteration(false, this);
+                    }
+                }
+                else
+                {
+                    bool first = true;
+                    foreach(IGraphElement elem in index.LookupElementsAscending())
+                    {
+                        if(!first) procEnv.EndOfIteration(true, this);
+                        Var.SetVariableValue(elem, procEnv);
+                        Seq.ResetExecutionState();
+                        res &= Seq.Apply(procEnv);
+                        first = false;
+                    }
+                    procEnv.EndOfIteration(false, this);
+                }
+            }
+            else
+            {
+                if(From() != null && To() != null)
+                {
+                    if(IncludingFrom())
+                    {
+                        if(IncludingTo())
+                        {
+                            bool first = true;
+                            foreach(IGraphElement elem in index.LookupElementsDescendingFromInclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
+                            {
+                                if(!first) procEnv.EndOfIteration(true, this);
+                                Var.SetVariableValue(elem, procEnv);
+                                Seq.ResetExecutionState();
+                                res &= Seq.Apply(procEnv);
+                                first = false;
+                            }
+                            procEnv.EndOfIteration(false, this);
+                        }
+                        else
+                        {
+                            bool first = true;
+                            foreach(IGraphElement elem in index.LookupElementsDescendingFromInclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
+                            {
+                                if(!first) procEnv.EndOfIteration(true, this);
+                                Var.SetVariableValue(elem, procEnv);
+                                Seq.ResetExecutionState();
+                                res &= Seq.Apply(procEnv);
+                                first = false;
+                            }
+                            procEnv.EndOfIteration(false, this);
+                        }
+                    }
+                    else
+                    {
+                        if(IncludingTo())
+                        {
+                            bool first = true;
+                            foreach(IGraphElement elem in index.LookupElementsDescendingFromExclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
+                            {
+                                if(!first) procEnv.EndOfIteration(true, this);
+                                Var.SetVariableValue(elem, procEnv);
+                                Seq.ResetExecutionState();
+                                res &= Seq.Apply(procEnv);
+                                first = false;
+                            }
+                            procEnv.EndOfIteration(false, this);
+                        }
+                        else
+                        {
+                            bool first = true;
+                            foreach(IGraphElement elem in index.LookupElementsDescendingFromExclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
+                            {
+                                if(!first) procEnv.EndOfIteration(true, this);
+                                Var.SetVariableValue(elem, procEnv);
+                                Seq.ResetExecutionState();
+                                res &= Seq.Apply(procEnv);
+                                first = false;
+                            }
+                            procEnv.EndOfIteration(false, this);
+                        }
+                    }
+                }
+                else if(From() != null)
+                {
+                    if(IncludingFrom())
+                    {
+                        bool first = true;
+                        foreach(IGraphElement elem in index.LookupElementsDescendingFromInclusive(From().Evaluate(procEnv)))
+                        {
+                            if(!first) procEnv.EndOfIteration(true, this);
+                            Var.SetVariableValue(elem, procEnv);
+                            Seq.ResetExecutionState();
+                            res &= Seq.Apply(procEnv);
+                            first = false;
+                        }
+                        procEnv.EndOfIteration(false, this);
+                    }
+                    else
+                    {
+                        bool first = true;
+                        foreach(IGraphElement elem in index.LookupElementsDescendingFromExclusive(From().Evaluate(procEnv)))
+                        {
+                            if(!first) procEnv.EndOfIteration(true, this);
+                            Var.SetVariableValue(elem, procEnv);
+                            Seq.ResetExecutionState();
+                            res &= Seq.Apply(procEnv);
+                            first = false;
+                        }
+                        procEnv.EndOfIteration(false, this);
+                    }
+                }
+                else if(To() != null)
+                {
+                    if(IncludingTo())
+                    {
+                        bool first = true;
+                        foreach(IGraphElement elem in index.LookupElementsDescendingToInclusive(To().Evaluate(procEnv)))
+                        {
+                            if(!first) procEnv.EndOfIteration(true, this);
+                            Var.SetVariableValue(elem, procEnv);
+                            Seq.ResetExecutionState();
+                            res &= Seq.Apply(procEnv);
+                            first = false;
+                        }
+                        procEnv.EndOfIteration(false, this);
+                    }
+                    else
+                    {
+                        bool first = true;
+                        foreach(IGraphElement elem in index.LookupElementsDescendingToExclusive(To().Evaluate(procEnv)))
+                        {
+                            if(!first) procEnv.EndOfIteration(true, this);
+                            Var.SetVariableValue(elem, procEnv);
+                            Seq.ResetExecutionState();
+                            res &= Seq.Apply(procEnv);
+                            first = false;
+                        }
+                        procEnv.EndOfIteration(false, this);
+                    }
+                }
+                else
+                {
+                    bool first = true;
+                    foreach(IGraphElement elem in index.LookupElementsDescending())
+                    {
+                        if(!first) procEnv.EndOfIteration(true, this);
+                        Var.SetVariableValue(elem, procEnv);
+                        Seq.ResetExecutionState();
+                        res &= Seq.Apply(procEnv);
+                        first = false;
+                    }
+                    procEnv.EndOfIteration(false, this);
+                }
+            }
+            return res;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
+        {
+            Var.GetLocalVariables(variables);
+            if(Expr!=null)
+                Expr.GetLocalVariables(variables, containerConstructors);
+            if(Expr2!=null)
+                Expr2.GetLocalVariables(variables, containerConstructors);
+            if(Seq.GetLocalVariables(variables, containerConstructors, target))
+                return true;
+            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
+                variables.Remove(seqVar);
+            variables.Remove(Var);
+            return this == target;
+        }
+
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { 
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("for{" + Var.Name + " in { " + (Ascending ? "ascending(" : "descending(") + IndexName);
+                if(Expr!=null)
+                {
+                    sb.Append(DirectionAsString(Direction));
+                    sb.Append(Expr.Symbol);
+                }
+                if(Expr2!=null)
+                {
+                    sb.Append(", " + IndexName);
+                    sb.Append(DirectionAsString(Direction2));
+                    sb.Append(Expr2.Symbol);
+                }
+                sb.Append(") }; ...}");
+                return sb.ToString();
+            } 
+        }
+
+        public string DirectionAsString(RelOpDirection dir)
+        {
+            if(Direction == RelOpDirection.Greater) return ">";
+            else if(Direction == RelOpDirection.GreaterEqual) return ">=";
+            else if(Direction == RelOpDirection.Smaller) return "<";
+            else if(Direction == RelOpDirection.SmallerEqual) return "<=";
+            else return "UNDEFINED";
+        }
+
+        public SequenceExpression From()
+        {
+            if(Ascending)
+            {
+                if(Expr != null)
+                {
+                    if(Direction == RelOpDirection.Greater || Direction == RelOpDirection.GreaterEqual)
+                        return Expr;
+                    if(Expr2 != null)
+                    {
+                        if(Direction2 == RelOpDirection.Greater || Direction2 == RelOpDirection.GreaterEqual)
+                            return Expr2;
+                    }
+                }
+                return null;
+            }
+            else
+            {
+                if(Expr != null)
+                {
+                    if(Direction == RelOpDirection.Smaller || Direction == RelOpDirection.SmallerEqual)
+                        return Expr;
+                    if(Expr2 != null)
+                    {
+                        if(Direction2 == RelOpDirection.Smaller || Direction2 == RelOpDirection.SmallerEqual)
+                            return Expr2;
+                    }
+                }
+                return null;
+            }
+        }
+
+        public SequenceExpression To()
+        {
+            if(Ascending)
+            {
+                if(Expr != null)
+                {
+                    if(Direction == RelOpDirection.Smaller || Direction == RelOpDirection.SmallerEqual)
+                        return Expr;
+                    if(Expr2 != null)
+                    {
+                        if(Direction2 == RelOpDirection.Smaller || Direction2 == RelOpDirection.SmallerEqual)
+                            return Expr2;
+                    }
+                }
+                return null;
+            }
+            else
+            {
+                if(Expr != null)
+                {
+                    if(Direction == RelOpDirection.Greater || Direction == RelOpDirection.GreaterEqual)
+                        return Expr;
+                    if(Expr2 != null)
+                    {
+                        if(Direction2 == RelOpDirection.Greater || Direction2 == RelOpDirection.GreaterEqual)
+                            return Expr2;
+                    }
+                }
+                return null;
+            }
+        }
+
+        public bool IncludingFrom()
+        {
+            if(Ascending)
+            {
+                if(Expr != null)
+                {
+                    if(Direction == RelOpDirection.Greater || Direction == RelOpDirection.GreaterEqual)
+                        return Direction == RelOpDirection.GreaterEqual;
+                    if(Expr2 != null)
+                    {
+                        if(Direction2 == RelOpDirection.Greater || Direction2 == RelOpDirection.GreaterEqual)
+                            return Direction2 == RelOpDirection.GreaterEqual;
+                    }
+                }
+                return false; // dummy/don't care
+            }
+            else
+            {
+                if(Expr != null)
+                {
+                    if(Direction == RelOpDirection.Smaller || Direction == RelOpDirection.SmallerEqual)
+                        return Direction == RelOpDirection.SmallerEqual;
+                    if(Expr2 != null)
+                    {
+                        if(Direction2 == RelOpDirection.Smaller || Direction2 == RelOpDirection.SmallerEqual)
+                            return Direction2 == RelOpDirection.SmallerEqual;
+                    }
+                }
+                return false; // dummy/don't care
+            }
+        }
+
+        public bool IncludingTo()
+        {
+            if(Ascending)
+            {
+                if(Expr != null)
+                {
+                    if(Direction == RelOpDirection.Smaller || Direction == RelOpDirection.SmallerEqual)
+                        return Direction == RelOpDirection.SmallerEqual;
+                    if(Expr2 != null)
+                    {
+                        if(Direction2 == RelOpDirection.Smaller || Direction2 == RelOpDirection.SmallerEqual)
+                            return Direction2 == RelOpDirection.SmallerEqual;
+                    }
+                }
+                return false; // dummy/don't care
+            }
+            else
+            {
+                if(Expr != null)
+                {
+                    if(Direction == RelOpDirection.Greater || Direction == RelOpDirection.GreaterEqual)
+                        return Direction == RelOpDirection.GreaterEqual;
+                    if(Expr2 != null)
+                    {
+                        if(Direction2 == RelOpDirection.Greater || Direction2 == RelOpDirection.GreaterEqual)
+                            return Direction2 == RelOpDirection.GreaterEqual;
+                    }
+                }
+                return false; // dummy/don't care
+            }
+        }
     }
 
     public class SequenceForFunction : SequenceUnary

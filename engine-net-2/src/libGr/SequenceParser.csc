@@ -893,11 +893,12 @@ Sequence SimpleSequence():
 	List<Double> numbers = new List<Double>();
 	List<SequenceExpression> argExprs = new List<SequenceExpression>();
 	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
-	SequenceExpression expr, expr2 = null, expr3 = null;
+	SequenceExpression expr = null, expr2 = null, expr3 = null;
 	SequenceComputation comp;
 	int num = 0;
+	RelOpDirection left = RelOpDirection.Undefined, right = RelOpDirection.Undefined;
 	double numDouble = 0.0;
-	String str, attrName = null;
+	String str, attrName = null, indexName = null, indexName2 = null;
 	object constant;
 }
 {
@@ -1073,6 +1074,34 @@ Sequence SimpleSequence():
 		{
 			return new SequenceForMatch(fromVar, seq, seq2, variableList1);
 		}
+	|	
+		LOOKAHEAD(3) "in" "{" 
+			(
+				LOOKAHEAD(2) indexName=Word() "==" expr=Expression() "}" ";" seq2=RewriteSequence()
+					{ varDecls.PopScope(variableList1); } "}"
+				{
+					return new SequenceForIndexAccessEquality(fromVar, indexName, expr, seq2, variableList1);
+				}
+			|
+				str=Word() "(" indexName=Word() 
+					(left=RelationOp() expr=Expression() 
+						("," indexName2=Word() right=RelationOp() expr2=Expression())? 
+					)? ")" "}" ";" seq2=RewriteSequence()
+					{ varDecls.PopScope(variableList1); } "}"
+				{
+					bool ascending;
+					if(str=="ascending")
+						ascending = true;
+					else if(str=="descending")
+						ascending = false;
+					else
+						throw new SequenceParserException(str, SequenceParserError.UnknownIndexAccessDirection);
+					if(indexName2!=null)
+						if(indexName!=indexName2)
+							throw new SequenceParserException(indexName, SequenceParserError.TwoDifferentIndexNames);
+					return new SequenceForIndexAccessOrdering(fromVar, ascending, indexName, expr, left, expr2, right, seq2, variableList1);
+				}
+			)
 	|
 		LOOKAHEAD(3) "in" str=Word() "(" (Arguments(argExprs))? ")" ";" seq=RewriteSequence()
 			{ varDecls.PopScope(variableList1); } "}"
@@ -1330,6 +1359,19 @@ SequenceExpression ExpressionRelation():
 						| "in" seq2=ExpressionAdd() { seq = new SequenceExpressionInContainer(seq, seq2); }
 						)* 
 	{ return seq; }
+}
+
+RelOpDirection RelationOp():
+{
+	RelOpDirection result = RelOpDirection.Undefined;
+}
+{
+	( "<" { result = RelOpDirection.Smaller; }
+	| ">" { result = RelOpDirection.Greater; }
+	| "<=" { result = RelOpDirection.SmallerEqual; }
+	| ">=" { result = RelOpDirection.GreaterEqual; }
+	)
+	{ return result; }
 }
 
 SequenceExpression ExpressionAdd():

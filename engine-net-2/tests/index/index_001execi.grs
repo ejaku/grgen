@@ -1,0 +1,55 @@
+new graph "index/index_001exec"
+
+new :N($="1", i=1)
+new :N($="2", i=2)
+new :N($="3", i=3)
+new :N($="4", i=4)
+new :N($="5", i=5)
+new :N($="6", i=6)
+new :N($="7", i=7)
+new :N($="8", i=8)
+new :N($="9", i=9)
+new :N($="10", i=10)
+new :N($="20", i=20)
+new :N($="19", i=19)
+new :N($="18", i=18)
+new :N($="17", i=17)
+new :N($="16", i=16)
+new :N($="15", i=15)
+new :N($="14", i=14)
+new :N($="13", i=13)
+new :N($="12", i=12)
+new :N($="11", i=11)
+
+exec for{n:N in {foo==13}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {ascending(foo)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {descending(foo)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {ascending(foo>5, foo<=13)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {ascending(foo>=5)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {ascending(foo<13)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {descending(foo<13, foo>=5)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {descending(foo<=13)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {descending(foo>5)}; {emit("The value of attribute i is ", n.i, "\n")} }
+
+delete node @("2")
+delete node @("4")
+delete node @("6")
+delete node @("8")
+delete node @("10")
+delete node @("12")
+delete node @("14")
+delete node @("16")
+delete node @("18")
+delete node @("20")
+
+exec for{n:N in {foo==13}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {ascending(foo)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {descending(foo)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {ascending(foo>5, foo<=13)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {ascending(foo>=5)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {ascending(foo<13)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {descending(foo<13, foo>=5)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {descending(foo<=13)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in {descending(foo>5)}; {emit("The value of attribute i is ", n.i, "\n")} }
+
+quit
