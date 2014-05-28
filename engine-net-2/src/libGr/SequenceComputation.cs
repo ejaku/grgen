@@ -841,21 +841,25 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationEmit : SequenceComputation
     {
-        public SequenceExpression Expression;
+        public List<SequenceExpression> Expressions;
 
-        public SequenceComputationEmit(SequenceExpression expr)
+        public SequenceComputationEmit(List<SequenceExpression> exprs)
             : base(SequenceComputationType.Emit)
         {
-            Expression = expr;
-            if(Expression is SequenceExpressionConstant)
+            Expressions = exprs;
+            for(int i = 0; i < Expressions.Count; ++i)
             {
-                SequenceExpressionConstant constant = (SequenceExpressionConstant)Expression;
-                if(constant.Constant is string)
+                SequenceExpression expr = Expressions[i];
+                if(expr is SequenceExpressionConstant)
                 {
-                    constant.Constant = ((string)constant.Constant).Replace("\\n", "\n");
-                    constant.Constant = ((string)constant.Constant).Replace("\\r", "\r");
-                    constant.Constant = ((string)constant.Constant).Replace("\\t", "\t");
-                    constant.Constant = ((string)constant.Constant).Replace("\\#", "#");
+                    SequenceExpressionConstant constant = (SequenceExpressionConstant)Expressions[i];
+                    if(constant.Constant is string)
+                    {
+                        constant.Constant = ((string)constant.Constant).Replace("\\n", "\n");
+                        constant.Constant = ((string)constant.Constant).Replace("\\r", "\r");
+                        constant.Constant = ((string)constant.Constant).Replace("\\t", "\t");
+                        constant.Constant = ((string)constant.Constant).Replace("\\#", "#");
+                    }
                 }
             }
         }
@@ -863,27 +867,47 @@ namespace de.unika.ipd.grGen.libGr
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceComputationEmit copy = (SequenceComputationEmit)MemberwiseClone();
-            copy.Expression = Expression.CopyExpression(originalToCopy, procEnv);
+            copy.Expressions = new List<SequenceExpression>(Expressions.Count);
+            for(int i = 0; i < Expressions.Count; ++i)
+            {
+                copy.Expressions[i] = Expressions[i].CopyExpression(originalToCopy, procEnv);
+            }
             return copy;
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            object value = Expression.Evaluate(procEnv);
-            if(value != null)
-                procEnv.EmitWriter.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph));
+            object value = null;
+            for(int i = 0; i < Expressions.Count; ++i)
+            {
+                value = Expressions[i].Evaluate(procEnv);
+                if(value != null)
+                    procEnv.EmitWriter.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph));
+            }
             return value;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
-            Expression.GetLocalVariables(variables, containerConstructors);
+            for(int i = 0; i < Expressions.Count; ++i)
+                Expressions[i].GetLocalVariables(variables, containerConstructors);
         }
 
-        public override IEnumerable<SequenceComputation> Children { get { yield return Expression; } }
+        public override IEnumerable<SequenceComputation> Children { get { for(int i = 0; i < Expressions.Count; ++i) yield return Expressions[i]; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "emit(" + Expression.Symbol + ")"; } }
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("emit(");
+                for(int i = 0; i < Expressions.Count; ++i)
+                    sb.Append(Expressions[i].Symbol);
+                sb.Append(")");
+                return sb.ToString();
+            }
+        }
     }
 
     public class SequenceComputationRecord : SequenceComputation
