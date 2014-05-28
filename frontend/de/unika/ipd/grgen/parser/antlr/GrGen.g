@@ -1973,7 +1973,7 @@ options { k = 3; }
 	;
 
 forSeqRemainder[ExecNode xg, CollectNode<BaseNode> returns]
-options { k = 3; }
+options { k = 4; }
 	: (RARROW { xg.append(" -> "); } xgrsEntity[xg])? IN { xg.append(" in "); } xgrsEntity[xg]
 			SEMI { xg.append("; "); } xgrs[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	| IN { xg.append(" in "); } { input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
@@ -1988,6 +1988,13 @@ options { k = 3; }
 			expr1=seqExpression[xg] (COMMA { xg.append(","); } expr2=seqExpression[xg] (COMMA { xg.append(","); } expr3=seqExpression[xg] (COMMA { xg.append(","); } expr4=seqExpression[xg])? )? )?
 			RPAREN { xg.append(")"); }
 			SEMI { xg.append("; "); } xgrs[xg] { env.popScope(); } RBRACE { xg.append("}"); }
+	| IN { xg.append(" in "); } LBRACE { xg.append("{"); } xgrsIndex[xg] EQUAL { xg.append(" == "); } seqExpression[xg] 
+		RBRACE { xg.append("}"); } SEMI { xg.append("; "); } xgrs[xg] { env.popScope(); } RBRACE { xg.append("}"); }
+	| IN { xg.append(" in "); } LBRACE { xg.append("{"); } 
+		{ input.LT(1).getText().equals("ascending") || input.LT(1).getText().equals("descending") }? i=IDENT { xg.append(i.getText()); } 
+		LPAREN { xg.append("("); } xgrsIndex[xg] ( seqRelOs[xg] seqExpression[xg]
+				( COMMA { xg.append(","); } xgrsIndex[xg] seqRelOs[xg] seqExpression[xg] )? )? 
+		RPAREN { xg.append(")"); } RBRACE { xg.append("}"); } SEMI { xg.append("; "); } xgrs[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	| IN LBRACK QUESTION { xg.append(" in [?"); } callRule[xg, returns] RBRACK { xg.append("]"); }
 			SEMI { xg.append("; "); } xgrs[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	| IN LBRACK { xg.append(" in ["); } left=seqExpression[xg] COLON { xg.append(" : "); } right=seqExpression[xg] RBRACK { xg.append("]"); }
@@ -2074,6 +2081,13 @@ seqRelOp[ExecNode xg] returns [ Token t = null ]
 	| gt=GT {xg.append(" > "); t = gt; }
 	| ge=GE {xg.append(" >= "); t = ge; }
 	| in=IN {xg.append(" in "); t = in; }
+	;
+
+seqRelOs[ExecNode xg] returns [ Token t = null ]
+	: lt=LT {xg.append(" < "); t = lt; }
+	| le=LE {xg.append(" <= "); t = le; }
+	| gt=GT {xg.append(" > "); t = gt; }
+	| ge=GE {xg.append(" >= "); t = ge; }
 	;
 
 seqExprRelation[ExecNode xg] returns[ExprNode res = env.initExprNode()]
@@ -2509,6 +2523,10 @@ options { k = *; }
 			xg.addVarDecl(decl);
 			res = decl;
 		}
+	;
+
+xgrsIndex[ExecNode xg]
+	: id=indexIdentUse { xg.append(id.toString()); }
 	;
 
 

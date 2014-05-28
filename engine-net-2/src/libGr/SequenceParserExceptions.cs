@@ -102,7 +102,27 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Method call notations of a not-builtin-method was used on a non-graph-type
         /// </summary>
-        UserMethodsOnlyAvailableForGraphElements
+        UserMethodsOnlyAvailableForGraphElements,
+
+        /// <summary>
+        /// The index access direction is unknown (must be ascending or descending)
+        /// </summary>
+        UnknownIndexAccessDirection,
+
+        /// <summary>
+        /// Two different index names are given for an index access, must be a single one
+        /// </summary>
+        TwoDifferentIndexNames,
+
+        /// <summary>
+        /// Two lower bounds are given
+        /// </summary>
+        TwoLowerBounds,
+
+        /// <summary>
+        /// Two upper bounds are given
+        /// </summary>
+        TwoUpperBounds
     }
 
     public enum DefinitionType
@@ -407,6 +427,18 @@ namespace de.unika.ipd.grGen.libGr
 
                 case SequenceParserError.UserMethodsOnlyAvailableForGraphElements:
                     return "The type \"" + this.Name + "\" does not support user methods";
+
+                case SequenceParserError.UnknownIndexAccessDirection:
+                    return "The index access direction \"" + this.Name + "\" is not supported, must be ascending or descending";
+
+                case SequenceParserError.TwoDifferentIndexNames:
+                    return "A different index name than \"" + this.Name + "\" is given for the second bound";
+
+                case SequenceParserError.TwoLowerBounds:
+                    return "Two lower bounds specified in accessing index \"" + this.Name + "\"";
+
+                case SequenceParserError.TwoUpperBounds:
+                    return "Two upper bounds specified in accessing index \"" + this.Name + "\"";
 
                 default:
                     return "Invalid error kind: " + this.Kind;
