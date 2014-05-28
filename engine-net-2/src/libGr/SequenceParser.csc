@@ -1531,8 +1531,8 @@ SequenceComputation ProcedureOrMethodCall():
 				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 				return new SequenceComputationVReset(getArgument(argExprs, 0));
 			} else if(procedure=="emit") {
-				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
-				return new SequenceComputationEmit(getArgument(argExprs, 0));
+				if(argExprs.Count==0) throw new ParseException("\"" + procedure + "\" expects at least 1 parameter)");
+				return new SequenceComputationEmit(argExprs);
 			} else if(procedure=="record") {
 				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 				return new SequenceComputationRecord(getArgument(argExprs, 0));
