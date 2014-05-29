@@ -3,7 +3,7 @@ procedure foo(n1:Node, -e1:Edge->) : (int)
 	def var res:int = 42;
 
 	valloc();
-	startTransaction();
+	Transaction::start();
 	add(Edge, n1, n1);
 	retype(n1, Node);
 
@@ -17,7 +17,7 @@ rule r(n1:Node, -e1:Edge->) : (int)
 		
 		eval { 
 			valloc();
-			startTransaction();
+			Transaction::start();
 			add(Edge, n1, n1);
 			retype(n1, Node);
 		}

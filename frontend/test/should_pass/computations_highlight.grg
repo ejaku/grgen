@@ -2,13 +2,13 @@ using model_init;
 
 function foo(n:Node) : string
 {
-	highlight(42, n, "bar");
+	Debug::highlight(42, n, "bar");
 	return("muh");
 }
 
 procedure bar(n:Node) : (string)
 {
-	highlight(42, n, "foo");
+	Debug::highlight(42, n, "foo");
 	return("muh");
 }
 
@@ -17,7 +17,7 @@ test t()
 	independent {
 		n:Node;
 		yield {
-			highlight(42, n, "bar");
+			Debug::highlight(42, n, "bar");
 		}
 	}
 }
@@ -30,10 +30,10 @@ rule r()
 		def var res:string;
 		
 		eval { 
-			highlight(42, n, "bar");
+			Debug::highlight(42, n, "bar");
 		}
 		eval {
-			highlight(n, n, res, vis, "foo");
+			Debug::highlight(n, n, res, vis, "foo");
 		}
 	}
 }
