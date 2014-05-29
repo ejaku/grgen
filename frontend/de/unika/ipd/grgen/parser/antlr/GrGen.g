@@ -3486,18 +3486,28 @@ options { k = 5; }
 	|
 	  (l=LPAREN tgts=targets[onLHS, getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
 		( (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse d=DOT { methodCall = true; } (member=entIdentUse DOT { attributeMethodCall = true; })? )?
-		(pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=EMIT) params=paramExprs[false] SEMI
+		(pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=EMIT | i=DELETE) params=paramExprs[false] SEMI
 			{ 
 				if(!methodCall)
 				{
 					if(	( pack!=null && pack.getText().equals("File") &&
-							( i.getText().equals("export") && (params.getChildren().size()==1 || params.getChildren().size()==2)
-							|| i.getText().equals("deleteFile") && (params.getChildren().size()==1)
+							( i.getText().equals("export")
+							|| i.getText().equals("delete")
+							)
+						|| pack!=null && pack.getText().equals("Transaction") &&
+							( i.getText().equals("start") 
+							|| i.getText().equals("pause") 
+							|| i.getText().equals("resume")
+							|| i.getText().equals("commit")
+							|| i.getText().equals("rollback")
+							)
+						|| pack!=null && pack.getText().equals("Debug") &&
+							( i.getText().equals("highlight") 
 							)
 						)
 						|| i.getText().equals("valloc") && params.getChildren().size()==0
 						|| i.getText().equals("vfree") || i.getText().equals("vfreenonreset") || i.getText().equals("vreset") 
-						|| i.getText().equals("record") || i.getText().equals("emit") || i.getText().equals("highlight") 
+						|| i.getText().equals("record") || i.getText().equals("emit") 					
 						|| i.getText().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()==3)
 						|| i.getText().equals("rem") || i.getText().equals("clear")
 						|| i.getText().equals("retype") && params.getChildren().size()==2
@@ -3505,15 +3515,12 @@ options { k = 5; }
 						|| i.getText().equals("merge")
 						|| i.getText().equals("redirectSource") || i.getText().equals("redirectTarget")
 						|| i.getText().equals("redirectSourceAndTarget")
-						|| i.getText().equals("startTransaction") && params.getChildren().size()==0
-						|| i.getText().equals("pauseTransaction") || i.getText().equals("resumeTransaction")
-						|| i.getText().equals("commitTransaction") || i.getText().equals("rollbackTransaction")
 						|| i.getText().equals("insert") && params.getChildren().size()==1
 						|| i.getText().equals("insertCopy") && params.getChildren().size()==2
 						|| (i.getText().equals("insertInduced") || i.getText().equals("insertDefined")) && params.getChildren().size()==2
 					)
 					{
-						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, pack!=null ? i.getText() + pack.getText() : i.getText(), getCoords(i)));
 						ProcedureInvocationNode proc = new ProcedureInvocationNode(procIdent, params, context, env);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
@@ -4072,19 +4079,23 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 	: (pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=COPY) params=paramExprs[inEnumInit]
 		{
 			if( ( pack!=null && pack.getText().equals("Math") && 
-					( (i.getText().equals("min") || i.getText().equals("max")) && params.getChildren().size()==2
-					|| (i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")) && params.getChildren().size()==1
-					|| (i.getText().equals("arcsin") || i.getText().equals("arccos") || i.getText().equals("arctan")) && params.getChildren().size()==1
-					|| (i.getText().equals("pow") || i.getText().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
-					|| (i.getText().equals("ceil") || i.getText().equals("floor") || i.getText().equals("round") || i.getText().equals("truncate")) && params.getChildren().size()==1
-					|| (i.getText().equals("abs") || i.getText().equals("sgn")) && params.getChildren().size()==1
-					|| (i.getText().equals("pi") || i.getText().equals("e")) && params.getChildren().size()==0 )
+					( i.getText().equals("min") || i.getText().equals("max") 
+					|| i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")
+					|| i.getText().equals("arcsin") || i.getText().equals("arccos") || i.getText().equals("arctan") 
+					|| i.getText().equals("pow") || i.getText().equals("log")
+					|| i.getText().equals("ceil") || i.getText().equals("floor") || i.getText().equals("round") || i.getText().equals("truncate")
+					|| i.getText().equals("abs") || i.getText().equals("sgn")
+					|| i.getText().equals("pi") || i.getText().equals("e") 
+					)
 				)
 				|| ( pack!=null && pack.getText().equals("File") &&
-					( (i.getText().equals("existsFile") || i.getText().equals("import")) && params.getChildren().size()==1 )
+					( i.getText().equals("exists") 
+					|| i.getText().equals("import")
+					)
 				)
 				|| ( pack!=null && pack.getText().equals("Time") &&
-					( (i.getText().equals("now")) && params.getChildren().size()==0 )
+					( i.getText().equals("now")
+					)
 				)
 				|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
 				|| (i.getText().equals("countNodes") || i.getText().equals("countEdges")) && params.getChildren().size()<=1
@@ -4120,7 +4131,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| i.getText().equals("uniqueof") && (params.getChildren().size()==1 || params.getChildren().size()==0)
 			)
 			{
-				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, pack!=null ? i.getText() + pack.getText() : i.getText(), getCoords(i)));
 				res = new FunctionInvocationExprNode(funcIdent, params, env);
 			} else {
 				IdentNode funcIdent;

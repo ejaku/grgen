@@ -1,12 +1,12 @@
 procedure foo
 {
 	def var transactionId:int;
-	(transactionId) = startTransaction();
-	pauseTransaction();
-	resumeTransaction();
-	commitTransaction(transactionId);
-	(transactionId) = startTransaction();
-	rollbackTransaction(transactionId);
+	(transactionId) = Transaction::start();
+	Transaction::pause();
+	Transaction::resume();
+	Transaction::commit(transactionId);
+	(transactionId) = Transaction::start();
+	Transaction::rollback(transactionId);
 	return;
 }
 
@@ -16,12 +16,12 @@ rule r : (int)
 		def var transactionId:int;
 		
 		eval { 
-			(yield transactionId) = startTransaction();
-			pauseTransaction();
-			resumeTransaction();
-			commitTransaction(transactionId);
-			(yield transactionId) = startTransaction();
-			rollbackTransaction(transactionId);
+			(yield transactionId) = Transaction::start();
+			Transaction::pause();
+			Transaction::resume();
+			Transaction::commit(transactionId);
+			(yield transactionId) = Transaction::start();
+			Transaction::rollback(transactionId);
 		}
 		
 		return (transactionId);

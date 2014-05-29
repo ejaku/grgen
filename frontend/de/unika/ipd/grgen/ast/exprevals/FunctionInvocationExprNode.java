@@ -63,149 +63,149 @@ public class FunctionInvocationExprNode extends ExprNode
 	protected boolean resolveLocal() {
 		String functionName = functionIdent.toString();
 
-		if(functionName.equals("min")) {
+		if(functionName.equals("minMath")) {
 			if(params.size() != 2) {
-				reportError("min(.,.) takes two parameters.");
+				reportError("Math::min(.,.) takes two parameters.");
 				return false;
 			}
 			else
 				result = new MinExprNode(getCoords(), params.get(0), params.get(1));
 		}
-		else if(functionName.equals("max")) {
+		else if(functionName.equals("maxMath")) {
 			if(params.size() != 2) {
-				reportError("max(.,.) takes two parameters.");
+				reportError("Math::max(.,.) takes two parameters.");
 				return false;
 			}
 			else
 				result = new MaxExprNode(getCoords(), params.get(0), params.get(1));
 		}
-		else if(functionName.equals("sin")) {
+		else if(functionName.equals("sinMath")) {
 			if(params.size() != 1) {
-				reportError("sin(.) takes one parameter.");
+				reportError("Math::sin(.) takes one parameter.");
 				return false;
 			}
 			else
 				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.SIN, params.get(0));
 		}
-		else if(functionName.equals("cos")) {
+		else if(functionName.equals("cosMath")) {
 			if(params.size() != 1) {
-				reportError("cos(.) takes one parameter.");
+				reportError("Math::cos(.) takes one parameter.");
 				return false;
 			}
 			else
 				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.COS, params.get(0));
 		}
-		else if(functionName.equals("tan")) {
+		else if(functionName.equals("tanMath")) {
 			if(params.size() != 1) {
-				reportError("tan(.) takes one parameter.");
+				reportError("Math::tan(.) takes one parameter.");
 				return false;
 			}
 			else
 				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.TAN, params.get(0));
 		}
-		else if(functionName.equals("arcsin")) {
+		else if(functionName.equals("arcsinMath")) {
 			if(params.size() != 1) {
-				reportError("arcsin(.) takes one parameter.");
+				reportError("Math::arcsin(.) takes one parameter.");
 				return false;
 			}
 			else
 				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ARC_SIN, params.get(0));
 		}
-		else if(functionName.equals("arccos")) {
+		else if(functionName.equals("arccosMath")) {
 			if(params.size() != 1) {
-				reportError("arccos(.) takes one parameter.");
+				reportError("Math::arccos(.) takes one parameter.");
 				return false;
 			}
 			else
 				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ARC_COS, params.get(0));
 		}
-		else if(functionName.equals("arctan")) {
+		else if(functionName.equals("arctanMath")) {
 			if(params.size() != 1) {
-				reportError("arctan(.) takes one parameter.");
+				reportError("Math::arctan(.) takes one parameter.");
 				return false;
 			}
 			else
 				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ARC_TAN, params.get(0));
 		}
-		else if(functionName.equals("pow")) {
+		else if(functionName.equals("powMath")) {
 			if(params.size() == 2) {
 				result = new PowExprNode(getCoords(), params.get(0), params.get(1));
 			} else if(params.size() == 1) {
 				result = new PowExprNode(getCoords(), params.get(0));
 			} else {
-				reportError("pow(.,.)/pow(.) takes one or two parameters (one means base e).");
+				reportError("Math::pow(.,.)/Math::pow(.) takes one or two parameters (one means base e).");
 				return false;
 			}
 		}
-		else if(functionName.equals("log")) {
+		else if(functionName.equals("logMath")) {
 			if(params.size() == 2) {
 				result = new LogExprNode(getCoords(), params.get(0), params.get(1));
 			} else if(params.size() == 1) {
 				result = new LogExprNode(getCoords(), params.get(0));
 			} else {
-				reportError("log(.,.)/log(.) takes one or two parameters (one means base e).");
+				reportError("Math::log(.,.)/Math::log(.) takes one or two parameters (one means base e).");
 				return false;
 			}
 		}
-		else if(functionName.equals("abs")) {
+		else if(functionName.equals("absMath")) {
 			if(params.size() != 1) {
-				reportError("abs(.) takes one parameter.");
+				reportError("Math::abs(.) takes one parameter.");
 				return false;
 			}
 			else
 				result = new AbsExprNode(getCoords(), params.get(0));
 		}
-		else if(functionName.equals("pi")) {
+		else if(functionName.equals("piMath")) {
 			if(params.size() != 0) {
-				reportError("pi() takes no parameters.");
+				reportError("Math::pi() takes no parameters.");
 				return false;
 			}
 			else
 				result = new PiExprNode(getCoords());
 		}
-		else if(functionName.equals("e")) {
+		else if(functionName.equals("eMath")) {
 			if(params.size() != 0) {
-				reportError("e() takes no parameters.");
+				reportError("Math::e() takes no parameters.");
 				return false;
 			}
 			else
 				result = new EExprNode(getCoords());
 		}
-		else if(functionName.equals("ceil")) {
+		else if(functionName.equals("ceilMath")) {
 			if(params.size() != 1) {
-				reportError("ceil(.) takes one parameter.");
+				reportError("Math::ceil(.) takes one parameter.");
 				return false;
 			}
 			else
 				result = new CeilExprNode(getCoords(), params.get(0));
 		}
-		else if(functionName.equals("floor")) {
+		else if(functionName.equals("floorMath")) {
 			if(params.size() != 1) {
-				reportError("floor(.) takes one parameter.");
+				reportError("Math::floor(.) takes one parameter.");
 				return false;
 			}
 			else
 				result = new FloorExprNode(getCoords(), params.get(0));
 		}
-		else if(functionName.equals("round")) {
+		else if(functionName.equals("roundMath")) {
 			if(params.size() != 1) {
-				reportError("round(.) takes one parameter.");
+				reportError("Math::round(.) takes one parameter.");
 				return false;
 			}
 			else
 				result = new RoundExprNode(getCoords(), params.get(0));
 		}
-		else if(functionName.equals("truncate")) {
+		else if(functionName.equals("truncateMath")) {
 			if(params.size() != 1) {
-				reportError("truncate(.) takes one parameter.");
+				reportError("Math::truncate(.) takes one parameter.");
 				return false;
 			}
 			else
 				result = new TruncateExprNode(getCoords(), params.get(0));
 		}
-		else if(functionName.equals("sgn")) {
+		else if(functionName.equals("sgnMath")) {
 			if(params.size() != 1) {
-				reportError("sgn(.) takes one parameter.");
+				reportError("Math::sgn(.) takes one parameter.");
 				return false;
 			}
 			else
@@ -257,9 +257,9 @@ public class FunctionInvocationExprNode extends ExprNode
 				result = new CountEdgesExprNode(getCoords(), params.size()==1 ? params.get(0) : new IdentExprNode(env.getDirectedEdgeRoot()));
 			}
 		}
-		else if(functionName.equals("now")) {
+		else if(functionName.equals("nowTime")) {
 			if(params.size() > 0) {
-				reportError("now() takes no parameters.");
+				reportError("Time::now() takes no parameters.");
 				return false;
 			}
 			else {
@@ -856,15 +856,15 @@ public class FunctionInvocationExprNode extends ExprNode
 		}
 		else if(functionName.equals("existsFile")) {
 			if(params.size() != 1) {
-				reportError("existsFile(.) takes one parameter.");
+				reportError("File::exists(.) takes one parameter.");
 				return false;
 			}
 			else
 				result = new ExistsFileExprNode(getCoords(), params.get(0));
 		}
-		else if(functionName.equals("import")) {
+		else if(functionName.equals("importFile")) {
 			if(params.size() != 1) {
-				reportError("import(.) takes one parameter.");
+				reportError("File::import(.) takes one parameter.");
 				return false;
 			}
 			else

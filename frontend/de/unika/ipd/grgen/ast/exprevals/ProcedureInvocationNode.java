@@ -126,7 +126,7 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 		}
 		else if(procedureName.equals("startTransaction")) {
 			if(params.size() != 0) {
-				reportError("startTransaction() takes no parameters.");
+				reportError("Transaction::start() takes no parameters.");
 				return false;
 			}
 			else
@@ -195,13 +195,13 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 				result = new EmitProcNode(getCoords(), params.get(0));
 			}
 		}
-		else if(procedureName.equals("export")) {
+		else if(procedureName.equals("exportFile")) {
 			if(params.size() == 1) {
 				result = new ExportProcNode(getCoords(), params.get(0), null);
 			} else if(params.size() == 2) {
 				result = new ExportProcNode(getCoords(), params.get(1), params.get(0));
 			} else {
-				reportError(procedureName + "() takes 1 (filepath) or 2 (graph, filepath) parameters.");
+				reportError("File::export() takes 1 (filepath) or 2 (graph, filepath) parameters.");
 				return false;
 			}
 		}
@@ -209,11 +209,11 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 			if(params.size() == 1) {
 				result = new DeleteFileProcNode(getCoords(), params.get(0));
 			} else {
-				reportError(procedureName + "() takes 1 (filepath) parameters.");
+				reportError("File::delete() takes 1 (filepath) parameters.");
 				return false;
 			}
 		}
-		else if(procedureName.equals("highlight")) {
+		else if(procedureName.equals("highlightDebug")) {
 			HighlightProcNode highlight = new HighlightProcNode(getCoords());
 			for(ExprNode param : params.getChildren()) {
 				highlight.addExpressionToHighlight(param);
@@ -280,7 +280,7 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 		}
 		else if(procedureName.equals("pauseTransaction")) {
 			if(params.size() != 0) {
-				reportError("pauseTransaction() takes no parameters.");
+				reportError("Transaction::pause() takes no parameters.");
 				return false;
 			}
 			else {
@@ -289,7 +289,7 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 		}
 		else if(procedureName.equals("resumeTransaction")) {
 			if(params.size() != 0) {
-				reportError("resumeTransaction() takes no parameters.");
+				reportError("Transaction::resume() takes no parameters.");
 				return false;
 			}
 			else {
@@ -298,7 +298,7 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 		}
 		else if(procedureName.equals("commitTransaction")) {
 			if(params.size() != 1) {
-				reportError("commitTransaction(transactionId) takes one parameter.");
+				reportError("Transaction::commit(transactionId) takes one parameter.");
 				return false;
 			}
 			else {
@@ -307,7 +307,7 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 		}
 		else if(procedureName.equals("rollbackTransaction")) {
 			if(params.size() != 1) {
-				reportError("rollbackTransaction(transactionId) takes one parameter.");
+				reportError("Transaction::rollback(transactionId) takes one parameter.");
 				return false;
 			}
 			else {
@@ -325,7 +325,7 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 	protected boolean checkLocal() {
 		if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION
 				&& !procedureIdent.toString().equals("emit")
-				&& !procedureIdent.toString().equals("highlight")) {
+				&& !procedureIdent.toString().equals("highlightDebug")) {
 			reportError("procedure call not allowed in function or lhs context (built-in-procedure)");
 			return false;
 		}

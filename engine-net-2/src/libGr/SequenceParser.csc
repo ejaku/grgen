@@ -1151,8 +1151,10 @@ Sequence SimpleSequence():
 		}
 	)
 |
-	"highlight" "(" str=Text() ")"
+	str=Word() "::" "highlight" "(" str=Text() ")"
 	{
+		if(str!="Debug")
+			throw new SequenceParserException(str, SequenceParserError.HighlightInDebugPackage);
 		return new SequenceHighlight(str);
 	}
 |
@@ -1588,16 +1590,16 @@ SequenceComputation ProcedureOrMethodCall():
 				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 parameters (the set of edges which define the subgraph which will be cloned and inserted, and one edge of the set of which the clone will be returned)");
 				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertDefined(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
 			} else if(procedure=="export" && package!=null && package=="File") {
-				if(argExprs.Count!=1 && argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 1 (name of file only) or 2 (graph to export, name of file) parameters)");
+				if(argExprs.Count!=1 && argExprs.Count!=2) throw new ParseException("\"File::export\" expects 1 (name of file only) or 2 (graph to export, name of file) parameters)");
 				return new SequenceComputationExport(getArgument(argExprs, 0), getArgument(argExprs, 1));
-			} else if(procedure=="deleteFile" && package!=null && package=="File") {
-				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 (the path of the file) parameter)");
+			} else if(procedure=="delete" && package!=null && package=="File") {
+				if(argExprs.Count!=1) throw new ParseException("\"File::delete\" expects 1 (the path of the file) parameter)");
 				return new SequenceComputationDeleteFile(getArgument(argExprs, 0));
 			} else {
 				if(IsProcedureName(procedure, package)) {
 					return new SequenceComputationProcedureCall(CreateProcedureInvocationParameterBindings(procedure, package, argExprs, returnVars));
 				} else {
-					throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|record|export|deleteFile|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget|insert|insertCopy|insertInduced|insertDefined or one of the procedures defined in the .grg: " + GetProcedureNames() + ")");
+					throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|record|File::export|File::delete|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget|insert|insertCopy|insertInduced|insertDefined or one of the procedures defined in the .grg: " + GetProcedureNames() + ")");
 				}
 			}
 		} else { // method call
@@ -1856,14 +1858,14 @@ SequenceExpression FunctionCall():
 		} else if(function=="nameof") {
 			if(argExprs.Count>1) throw new ParseException("\"" + function + "\" expects none (for the name of the current graph) or 1 parameter (for the name of the node/edge/subgraph given as parameter)");
 			return new SequenceExpressionNameof(getArgument(argExprs, 0));
-		} else if(function=="existsFile" && package!=null && package=="File") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the path as string)");
+		} else if(function=="exists" && package!=null && package=="File") {
+			if(argExprs.Count!=1) throw new ParseException("\"File::exists\" expects 1 parameter (the path as string)");
 			return new SequenceExpressionExistsFile(getArgument(argExprs, 0));
 		} else if(function=="import" && package!=null && package=="File") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the path as string to the grs file containing the subgraph to import)");
+			if(argExprs.Count!=1) throw new ParseException("\"File::import\" expects 1 parameter (the path as string to the grs file containing the subgraph to import)");
 			return new SequenceExpressionImport(getArgument(argExprs, 0));
 		} else if(function=="now" && package!=null && package=="Time") {
-			if(argExprs.Count>0) throw new ParseException("\"" + function + "\" expects no parameters");
+			if(argExprs.Count>0) throw new ParseException("\"Time::now\" expects no parameters");
 			return new SequenceExpressionNow();
 		} else if(function=="copy") {
 			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the subgraph or container to copy)");
@@ -1881,7 +1883,7 @@ SequenceExpression FunctionCall():
 				if(function=="valloc" || function=="add" || function=="retype" || function=="insertInduced" || function=="insertDefined") {
 					throw new ParseException("\"" + function + "\" is a procedure, call with (var)=" + function + "();");
 				} else {
-					throw new ParseException("Unknown function name: \"" + function + "\"! (available are nodes|edges|empty|size|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|boundedReachable|boundedReachableIncoming|boundedReachableOutgoing|boundedReachableEdges|boundedReachableEdgesIncoming|boundedReachableEdgesOutgoing|boundedReachableWithRemainingDepth|boundedReachableWithRemainingDepthIncoming|boundedReachableWithRemainingDepthOutgoing|countNodes|countEdges|countAdjacent|countAdjacentIncoming|countAdjacentOutgoing|countIncident|countIncoming|countOutgoing|countReachable|countReachableIncoming|countReachableOutgoing|countReachableEdges|countReachableEdgesIncoming|countReachableEdgesOutgoing|countBoundedReachable|countBoundedReachableIncoming|countBoundedReachableOutgoing|countBoundedReachableEdges|countBoundedReachableEdgesIncoming|countBoundedReachableEdgesOutgoing|isAdjacent|isAdjacentIncoming|isAdjacentOutgoing|isIncident|isIncoming|isOutgoing|isReachable|isReachableIncoming|isReachableOutgoing|isReachableEdges|isReachableEdgeIncoming|isReachableEdgesOutgoing|isBoundedReachable|isBoundedReachableIncoming|isBoundedReachableOutgoing|isBoundedReachableEdges|isBoundedReachableEdgeIncoming|isBoundedReachableEdgesOutgoing|inducedSubgraph|definedSubgraph|equalsAny|equalsAnyStructurally|source|target|opposite|nameof|existsFile|import|copy|random|canonize or one of the functions defined in the .grg:" + GetFunctionNames() + ")");
+					throw new ParseException("Unknown function name: \"" + function + "\"! (available are nodes|edges|empty|size|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|boundedReachable|boundedReachableIncoming|boundedReachableOutgoing|boundedReachableEdges|boundedReachableEdgesIncoming|boundedReachableEdgesOutgoing|boundedReachableWithRemainingDepth|boundedReachableWithRemainingDepthIncoming|boundedReachableWithRemainingDepthOutgoing|countNodes|countEdges|countAdjacent|countAdjacentIncoming|countAdjacentOutgoing|countIncident|countIncoming|countOutgoing|countReachable|countReachableIncoming|countReachableOutgoing|countReachableEdges|countReachableEdgesIncoming|countReachableEdgesOutgoing|countBoundedReachable|countBoundedReachableIncoming|countBoundedReachableOutgoing|countBoundedReachableEdges|countBoundedReachableEdgesIncoming|countBoundedReachableEdgesOutgoing|isAdjacent|isAdjacentIncoming|isAdjacentOutgoing|isIncident|isIncoming|isOutgoing|isReachable|isReachableIncoming|isReachableOutgoing|isReachableEdges|isReachableEdgeIncoming|isReachableEdgesOutgoing|isBoundedReachable|isBoundedReachableIncoming|isBoundedReachableOutgoing|isBoundedReachableEdges|isBoundedReachableEdgeIncoming|isBoundedReachableEdgesOutgoing|inducedSubgraph|definedSubgraph|equalsAny|equalsAnyStructurally|source|target|opposite|nameof|File::exists|File::import|copy|random|canonize or one of the functions defined in the .grg:" + GetFunctionNames() + ")");
 				}
 			}
 		}
