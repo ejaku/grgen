@@ -5191,22 +5191,25 @@ public class ActionsGen extends CSharpBase {
 
 	private void genHighlightProc(StringBuffer sb, HighlightProc hp,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
-		sb.append("\t\t\t\tnew GRGEN_EXPR.HighlightStatement(");
+		sb.append("\t\t\t\tnew GRGEN_EXPR.HighlightStatement(");		
 		sb.append("new GRGEN_EXPR.Expression[] { ");
+		int parameterNum = 0;
 		for(Expression expr : hp.getToHighlightExpressions()) {
-			genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
-			sb.append(", ");
+			if(parameterNum % 2 == 0) {
+				genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", ");
+			}
+			++parameterNum;
 		}
 		sb.append("}, ");
-		sb.append("new string[] { ");
+		sb.append("new GRGEN_EXPR.Expression[] { ");
+		parameterNum = 0;
 		for(Expression expr : hp.getToHighlightExpressions()) {
-			if(expr instanceof VariableExpression) {
-				sb.append("\"");
-				formatIdentifiable(((VariableExpression)expr).getVariable());
-				sb.append("\", ");
-			} else {
-				sb.append("null, ");
+			if(parameterNum % 2 == 1) {
+				genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", ");
 			}
+			++parameterNum;
 		}
 		sb.append("}");
 		sb.append(")");

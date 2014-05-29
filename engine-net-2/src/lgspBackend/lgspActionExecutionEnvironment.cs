@@ -21,6 +21,7 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPActionExecutionEnvironment : IActionExecutionEnvironment
     {
         private PerformanceInfo perfInfo = new PerformanceInfo();
+        private bool highlightingUnderway = false;
         private int maxMatches = 0;
         private Dictionary<IAction, IAction> actionMapStaticToNewest = new Dictionary<IAction, IAction>();
         public LGSPGraph graph { get { return usedGraphs.Peek(); } }
@@ -89,6 +90,12 @@ namespace de.unika.ipd.grGen.lgsp
         public PerformanceInfo PerformanceInfo
         {
             get { return perfInfo; }
+        }
+
+        public bool HighlightingUnderway
+        {
+            get { return highlightingUnderway; }
+            set { highlightingUnderway = value; }
         }
 
         public int MaxMatches

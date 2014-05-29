@@ -985,6 +985,13 @@ Sequence SimpleSequence():
         return new SequenceBooleanComputation(new SequenceExpressionConstant(false), null, special);
     }
 |
+	LOOKAHEAD(3) str=Word() "::" "highlight" "(" (Arguments(argExprs)) ")"
+	{
+		if(str!="Debug")
+			throw new SequenceParserException(str, SequenceParserError.HighlightInDebugPackage);
+		return new SequenceHighlight(argExprs);
+	}
+|
 	LOOKAHEAD(RuleLookahead())
 	seq=Rule() // accepts variables, rules, all-bracketed rules, and counted all-bracketed rules
 	{
@@ -1150,13 +1157,6 @@ Sequence SimpleSequence():
 			return new SequenceForIntegerRange(fromVar, expr, expr2, seq, variableList1);
 		}
 	)
-|
-	str=Word() "::" "highlight" "(" str=Text() ")"
-	{
-		if(str!="Debug")
-			throw new SequenceParserException(str, SequenceParserError.HighlightInDebugPackage);
-		return new SequenceHighlight(str);
-	}
 |
     "in" toVar=VariableUse() ("." attrName=Word())? "{" { varDecls.PushScope(ScopeType.InSubgraph); } seq=RewriteSequence() { varDecls.PopScope(variableList1); } "}"
     {

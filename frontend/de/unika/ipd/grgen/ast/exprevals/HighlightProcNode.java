@@ -58,7 +58,14 @@ public class HighlightProcNode extends ProcedureInvocationBaseNode {
 
 	@Override
 	protected boolean checkLocal() {
-		// TODO: constrain to int, string, node, edge, container
+		int paramNum = 0;
+		for(ExprNode expr : highlightChildren.getChildren()) {
+			if(paramNum % 2 == 1 && !(expr.getType().equals(BasicTypeNode.stringType))) {
+				reportError("argument " + paramNum + " of Debug::highlight() must be of string type (a sequence of (value, annotation for the value)* must be given)");
+				return false;
+			}
+			++paramNum;
+		}
 		return true;
 	}
 

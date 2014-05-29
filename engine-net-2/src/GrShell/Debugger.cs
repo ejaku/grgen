@@ -608,20 +608,9 @@ namespace de.unika.ipd.grGen.grShell
             DoHighlight(values, annotations);
         }
 
-        void HandleHighlight(Sequence seq, String str)
-        {
-            List<object> values;
-            List<string> annotations;
-            ComputeHighlight(seq, str, out values, out annotations);
-            DoHighlight(values, annotations);
-        }
-
         void HandleHighlight(List<object> originalValues, List<string> sourceNames)
         {
-            List<object> values;
-            List<string> annotations;
-            ComputeHighlight(originalValues, sourceNames, out values, out annotations);
-            DoHighlight(values, annotations);
+            DoHighlight(originalValues, sourceNames);
         }
 
         void ComputeHighlight(Sequence seq, String str, out List<object> values, out List<string> annotations)
@@ -696,32 +685,6 @@ namespace de.unika.ipd.grGen.grShell
             }
             Console.WriteLine("Unknown variable " + argument + "!");
             Console.WriteLine("Use v(ariables) to print variables and visited flags.");
-        }
-
-        void ComputeHighlight(List<object> originalValues, List<string> sourceNames, out List<object> values, out List<string> annotations)
-        {
-            values = new List<object>();
-            annotations = new List<string>();
-
-            for(int i = 0; i < originalValues.Count; ++i)
-            {
-                object originalValue = originalValues[i];
-                if(i + 1 < originalValues.Count)
-                {
-                    object potentialAnnotation = originalValues[i + 1];
-                    if(potentialAnnotation is String)
-                    {
-                        values.Add(originalValue);
-                        annotations.Add(potentialAnnotation as String);
-                        ++i; // skip the annotation value
-                    }
-                }
-                else
-                {
-                    values.Add(originalValue);
-                    annotations.Add(sourceNames[i]);
-                }
-            }
         }
 
         void DoHighlight(List<object> sources, List<string> annotations)
@@ -2580,24 +2543,14 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         /// <summary>
-        /// highlights the arguments in the graphs if debugging is active
-        /// </summary>
-        public void Highlight(string arguments, Sequence seq)
-        {
-            context.highlightSeq = seq;
-            PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-            Console.WriteLine();
-            Console.WriteLine("Highlighting \"" + arguments + "\"...");
-            HandleHighlight(seq, arguments);
-        }
-
-        /// <summary>
         /// highlights the values in the graphs if debugging is active (annotating them with the source names)
         /// </summary>
         public void Highlight(List<object> values, List<string> sourceNames)
         {
+            ShellProcEnv.ProcEnv.HighlightingUnderway = true;
             Console.WriteLine("Highlighting called...");
             HandleHighlight(values, sourceNames);
+            ShellProcEnv.ProcEnv.HighlightingUnderway = false;
         }
 
         #endregion Possible user choices during sequence execution
