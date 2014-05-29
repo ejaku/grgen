@@ -1379,8 +1379,20 @@ SequenceExpression ExpressionAdd():
 	SequenceExpression seq, seq2;
 }
 {
-	seq=ExpressionUnary() ( "+" seq2=ExpressionUnary() { seq = new SequenceExpressionPlus(seq, seq2); } 
-						  | "-" seq2=ExpressionUnary() { seq = new SequenceExpressionMinus(seq, seq2); }
+	seq=ExpressionMul() ( "+" seq2=ExpressionMul() { seq = new SequenceExpressionPlus(seq, seq2); } 
+						  | "-" seq2=ExpressionMul() { seq = new SequenceExpressionMinus(seq, seq2); }
+						  )*
+	{ return seq; }
+}
+
+SequenceExpression ExpressionMul():
+{
+	SequenceExpression seq, seq2;
+}
+{
+	seq=ExpressionUnary() ( "*" seq2=ExpressionUnary() { seq = new SequenceExpressionMul(seq, seq2); } 
+						  | "/" seq2=ExpressionUnary() { seq = new SequenceExpressionDiv(seq, seq2); }
+						  | "%" seq2=ExpressionUnary() { seq = new SequenceExpressionMod(seq, seq2); }
 						  )*
 	{ return seq; }
 }

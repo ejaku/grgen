@@ -405,7 +405,7 @@ namespace de.unika.ipd.grGen.libGr
                     return "The construct \"" + this.VariableOrFunctionName + "\" expects:" + this.ExpectedType + " but is /given " + this.GivenType + "!";
 
                 case SequenceParserError.OperatorNotFound:
-                    return "No operator " + this.LeftType + this.VariableOrFunctionName + this.RightType + " available (for \"" + this.Expression + "\")!";
+                    return "No operator " + this.LeftType + this.VariableOrFunctionName + this.RightType + " available (for \"" + this.Expression + "\")! Or a division-by-zero/runtime error occured.";
 
                 case SequenceParserError.FilterError:
                     return "The filter \"" + this.FilterName + "\" can't be applied to \"" + this.Name + "\"!";

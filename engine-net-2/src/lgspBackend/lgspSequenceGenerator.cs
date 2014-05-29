@@ -3641,6 +3641,54 @@ namespace de.unika.ipd.grGen.lgsp
                             + leftType + ", " + rightType + ", graph)";
                 }
 
+                case SequenceExpressionType.Mul:
+                {
+                    SequenceExpressionMul seq = (SequenceExpressionMul)expr;
+                    string leftExpr = GetSequenceExpression(seq.Left, source);
+                    string rightExpr = GetSequenceExpression(seq.Right, source);
+                    string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
+                    string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
+                    if(seq.BalancedTypeStatic != "")
+                        return SequenceExpressionHelper.MulStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                    else
+                        return "GRGEN_LIBGR.SequenceExpressionHelper.MulObjects("
+                            + leftExpr + ", " + rightExpr + ", "
+                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Mul, " + leftType + ", " + rightType + ", graph.Model),"
+                            + leftType + ", " + rightType + ", graph)";
+                }
+
+                case SequenceExpressionType.Div:
+                {
+                    SequenceExpressionDiv seq = (SequenceExpressionDiv)expr;
+                    string leftExpr = GetSequenceExpression(seq.Left, source);
+                    string rightExpr = GetSequenceExpression(seq.Right, source);
+                    string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
+                    string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
+                    if(seq.BalancedTypeStatic != "")
+                        return SequenceExpressionHelper.DivStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                    else
+                        return "GRGEN_LIBGR.SequenceExpressionHelper.DivObjects("
+                            + leftExpr + ", " + rightExpr + ", "
+                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Div, " + leftType + ", " + rightType + ", graph.Model),"
+                            + leftType + ", " + rightType + ", graph)";
+                }
+
+                case SequenceExpressionType.Mod:
+                {
+                    SequenceExpressionMod seq = (SequenceExpressionMod)expr;
+                    string leftExpr = GetSequenceExpression(seq.Left, source);
+                    string rightExpr = GetSequenceExpression(seq.Right, source);
+                    string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
+                    string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
+                    if(seq.BalancedTypeStatic != "")
+                        return SequenceExpressionHelper.ModStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                    else
+                        return "GRGEN_LIBGR.SequenceExpressionHelper.ModObjects("
+                            + leftExpr + ", " + rightExpr + ", "
+                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Mod, " + leftType + ", " + rightType + ", graph.Model),"
+                            + leftType + ", " + rightType + ", graph)";
+                }
+
                 case SequenceExpressionType.Not:
                 {
                     SequenceExpressionNot seqNot = (SequenceExpressionNot)expr;
