@@ -1270,6 +1270,63 @@ namespace de.unika.ipd.grGen.grShell
                         Console.Write("}");
                         break;
                     }
+                case SequenceType.ForIndexAccessEquality:
+                    {
+                        SequenceForIndexAccessEquality seqFor = (SequenceForIndexAccessEquality)seq;
+                        Console.Write("for{");
+                        Console.Write(seqFor.Var.Name);
+                        Console.Write(" in {");
+                        Console.Write(seqFor.IndexName);
+                        Console.Write("==");
+                        Console.Write(seqFor.Expr.Symbol);
+                        Console.Write("}; ");
+                        PrintSequence(seqFor.Seq, seq, context);
+                        Console.Write("}");
+                        break;
+                    }
+                case SequenceType.ForIndexAccessOrdering:
+                    {
+                        SequenceForIndexAccessOrdering seqFor = (SequenceForIndexAccessOrdering)seq;
+                        Console.Write("for{");
+                        Console.Write(seqFor.Var.Name);
+                        Console.Write(" in {");
+                        if(seqFor.Ascending)
+                            Console.Write("ascending");
+                        else
+                            Console.Write("descending");
+                        Console.Write("(");
+                        if(seqFor.From() != null && seqFor.To() != null)
+                        {
+                            Console.Write(seqFor.IndexName);
+                            Console.Write(seqFor.DirectionAsString(seqFor.Direction));
+                            Console.Write(seqFor.Expr);
+                            Console.Write(",");
+                            Console.Write(seqFor.IndexName);
+                            Console.Write(seqFor.DirectionAsString(seqFor.Direction2));
+                            Console.Write(seqFor.Expr2);
+                        }
+                        else if(seqFor.From() != null)
+                        {
+                            Console.Write(seqFor.IndexName);
+                            Console.Write(seqFor.DirectionAsString(seqFor.Direction));
+                            Console.Write(seqFor.Expr);
+                        }
+                        else if(seqFor.To() != null)
+                        {
+                            Console.Write(seqFor.IndexName);
+                            Console.Write(seqFor.DirectionAsString(seqFor.Direction));
+                            Console.Write(seqFor.Expr);
+                        }
+                        else
+                        {
+                            Console.Write(seqFor.IndexName);
+                        }
+                        Console.Write(")");
+                        Console.Write("}; ");
+                        PrintSequence(seqFor.Seq, seq, context);
+                        Console.Write("}");
+                        break;
+                    }
                 case SequenceType.ForAdjacentNodes:
                 case SequenceType.ForAdjacentNodesViaIncoming:
                 case SequenceType.ForAdjacentNodesViaOutgoing:
@@ -2983,26 +3040,7 @@ namespace de.unika.ipd.grGen.grShell
             recentlyMatched = null;
 
             // Entering a loop?
-            if(seq.SequenceType == SequenceType.IterationMin
-                || seq.SequenceType == SequenceType.IterationMinMax
-                || seq.SequenceType == SequenceType.ForContainer
-                || seq.SequenceType == SequenceType.ForIntegerRange
-                || seq.SequenceType == SequenceType.ForAdjacentNodes
-                || seq.SequenceType == SequenceType.ForAdjacentNodesViaIncoming
-                || seq.SequenceType == SequenceType.ForAdjacentNodesViaOutgoing
-                || seq.SequenceType == SequenceType.ForIncidentEdges
-                || seq.SequenceType == SequenceType.ForIncomingEdges
-                || seq.SequenceType == SequenceType.ForOutgoingEdges
-                || seq.SequenceType == SequenceType.ForReachableNodes
-                || seq.SequenceType == SequenceType.ForReachableNodesViaIncoming
-                || seq.SequenceType == SequenceType.ForReachableNodesViaOutgoing
-                || seq.SequenceType == SequenceType.ForReachableEdges
-                || seq.SequenceType == SequenceType.ForReachableEdgesViaIncoming
-                || seq.SequenceType == SequenceType.ForReachableEdgesViaOutgoing
-                || seq.SequenceType == SequenceType.ForNodes
-                || seq.SequenceType == SequenceType.ForEdges
-                || seq.SequenceType == SequenceType.ForMatch
-                || seq.SequenceType == SequenceType.Backtrack)
+            if(IsLoop(seq))
             {
                 loopList.AddFirst(seq);
             }
@@ -3053,26 +3091,7 @@ namespace de.unika.ipd.grGen.grShell
                 stepMode = true;
             }
 
-            if(seq.SequenceType == SequenceType.IterationMin
-                || seq.SequenceType == SequenceType.IterationMinMax
-                || seq.SequenceType == SequenceType.ForContainer
-                || seq.SequenceType == SequenceType.ForIntegerRange
-                || seq.SequenceType == SequenceType.ForAdjacentNodes
-                || seq.SequenceType == SequenceType.ForAdjacentNodesViaIncoming
-                || seq.SequenceType == SequenceType.ForAdjacentNodesViaOutgoing
-                || seq.SequenceType == SequenceType.ForIncidentEdges
-                || seq.SequenceType == SequenceType.ForIncomingEdges
-                || seq.SequenceType == SequenceType.ForOutgoingEdges
-                || seq.SequenceType == SequenceType.ForReachableNodes
-                || seq.SequenceType == SequenceType.ForReachableNodesViaIncoming
-                || seq.SequenceType == SequenceType.ForReachableNodesViaOutgoing
-                || seq.SequenceType == SequenceType.ForReachableEdges
-                || seq.SequenceType == SequenceType.ForReachableEdgesViaIncoming
-                || seq.SequenceType == SequenceType.ForReachableEdgesViaOutgoing
-                || seq.SequenceType == SequenceType.ForNodes
-                || seq.SequenceType == SequenceType.ForEdges
-                || seq.SequenceType == SequenceType.ForMatch
-                || seq.SequenceType == SequenceType.Backtrack)
+            if(IsLoop(seq))
             {
                 loopList.RemoveFirst();
             }
@@ -3090,6 +3109,38 @@ namespace de.unika.ipd.grGen.grShell
                 PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
                 context.workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
                 Console.WriteLine();
+            }
+        }
+
+        private static bool IsLoop(Sequence seq)
+        {
+            switch(seq.SequenceType)
+            {
+                case SequenceType.IterationMin:
+                case SequenceType.IterationMinMax:
+                case SequenceType.ForContainer:
+                case SequenceType.ForIntegerRange:
+                case SequenceType.ForIndexAccessEquality:
+                case SequenceType.ForIndexAccessOrdering:
+                case SequenceType.ForAdjacentNodes:
+                case SequenceType.ForAdjacentNodesViaIncoming:
+                case SequenceType.ForAdjacentNodesViaOutgoing:
+                case SequenceType.ForIncidentEdges:
+                case SequenceType.ForIncomingEdges:
+                case SequenceType.ForOutgoingEdges:
+                case SequenceType.ForReachableNodes:
+                case SequenceType.ForReachableNodesViaIncoming:
+                case SequenceType.ForReachableNodesViaOutgoing:
+                case SequenceType.ForReachableEdges:
+                case SequenceType.ForReachableEdgesViaIncoming:
+                case SequenceType.ForReachableEdgesViaOutgoing:
+                case SequenceType.ForNodes:
+                case SequenceType.ForEdges:
+                case SequenceType.ForMatch:
+                case SequenceType.Backtrack:
+                    return true;
+                default:
+                    return false;
             }
         }
 
