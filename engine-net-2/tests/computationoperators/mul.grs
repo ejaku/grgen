@@ -1,0 +1,66 @@
+new graph computationoperators/computationoperators
+
+exec {::r=Foo::Blubb * Foo::Bar}
+show var r
+exec {::r=Foo::Bar * Foo::Bla}
+show var r
+exec {::r=Foo::Bla * Foo::Bar}
+show var r
+exec {::r=Foo::Bla * Foo::Bla}
+show var r
+
+exec {::r=2Y * 1Y}
+show var r
+exec {::r=1Y * 0}
+show var r
+exec {::r=0 * 1Y}
+show var r
+exec {::r=0 * 0}
+show var r
+
+exec {::r=2S * 1S}
+show var r
+exec {::r=1S * 0S}
+show var r
+exec {::r=0S * 1S}
+show var r
+exec {::r=0S * 0S}
+show var r
+
+exec {::r=2 * 1}
+show var r
+exec {::r=1 * 0}
+show var r
+exec {::r=0 * 1}
+show var r
+exec {::r=0 * 0}
+show var r
+
+exec {::r=2L * 1L}
+show var r
+exec {::r=1L * 0}
+show var r
+exec {::r=0 * 1L}
+show var r
+exec {::r=0 * 0}
+show var r
+
+exec {::r=2.0f * 1.0f}
+show var r
+exec {::r=1.0f * 0.0}
+show var r
+exec {::r=0.0 * 1.0f}
+show var r
+exec {::r=0.0 * 0.0}
+show var r
+
+exec {::r=2.0 * 1.0}
+show var r
+exec {::r=1.0 * 0.0}
+show var r
+exec {::r=0.0 * 1.0}
+show var r
+exec {::r=0.0 * 0.0}
+show var r
+
+quit

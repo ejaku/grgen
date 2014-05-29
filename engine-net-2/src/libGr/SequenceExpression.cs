@@ -24,7 +24,7 @@ namespace de.unika.ipd.grGen.libGr
         LazyOr, LazyAnd, StrictOr, StrictXor, StrictAnd,
         Not, Cast,
         Equal, NotEqual, Lower, LowerEqual, Greater, GreaterEqual, StructuralEqual,
-        Plus, Minus, // todo: all the other operators and functions/methods from the expressions - as time allows
+        Plus, Minus, Mul, Div, Mod, // nice-to-have addition: all the other operators and functions/methods from the rule language expressions
         Constant, Variable, This,
         SetConstructor, MapConstructor, ArrayConstructor, DequeConstructor,
         Random,
@@ -852,6 +852,147 @@ namespace de.unika.ipd.grGen.libGr
 
         public override int Precedence { get { return -1; } }
         public override string Operator { get { return " - "; } }
+    }
+
+    public class SequenceExpressionMul : SequenceBinaryExpression
+    {
+        public SequenceExpressionMul(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.Mul, left, right)
+        {
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            LeftTypeStatic = Left.Type(env);
+            RightTypeStatic = Right.Type(env);
+            return SequenceExpressionHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object leftValue = Left.Evaluate(procEnv);
+            object rightValue = Right.Evaluate(procEnv);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            if(balancedType == "")
+            {
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                if(balancedType == "-")
+                {
+                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
+                }
+            }
+
+            try
+            {
+                return SequenceExpressionHelper.MulObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence { get { return -1; } }
+        public override string Operator { get { return " * "; } }
+    }
+
+    public class SequenceExpressionDiv : SequenceBinaryExpression
+    {
+        public SequenceExpressionDiv(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.Div, left, right)
+        {
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            LeftTypeStatic = Left.Type(env);
+            RightTypeStatic = Right.Type(env);
+            return SequenceExpressionHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object leftValue = Left.Evaluate(procEnv);
+            object rightValue = Right.Evaluate(procEnv);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            if(balancedType == "")
+            {
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                if(balancedType == "-")
+                {
+                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
+                }
+            }
+
+            try
+            {
+                return SequenceExpressionHelper.DivObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence { get { return -1; } }
+        public override string Operator { get { return " / "; } }
+    }
+
+    public class SequenceExpressionMod : SequenceBinaryExpression
+    {
+        public SequenceExpressionMod(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.Mod, left, right)
+        {
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            LeftTypeStatic = Left.Type(env);
+            RightTypeStatic = Right.Type(env);
+            return SequenceExpressionHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object leftValue = Left.Evaluate(procEnv);
+            object rightValue = Right.Evaluate(procEnv);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            if(balancedType == "")
+            {
+                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
+                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
+                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                if(balancedType == "-")
+                {
+                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
+                }
+            }
+
+            try
+            {
+                return SequenceExpressionHelper.ModObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence { get { return -1; } }
+        public override string Operator { get { return " % "; } }
     }
 
 

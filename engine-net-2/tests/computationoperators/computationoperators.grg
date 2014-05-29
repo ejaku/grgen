@@ -591,3 +591,163 @@ rule plus
 		exec({::r=::d2 + ::d2} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 	}
 }
+
+rule minus
+{
+	modify {
+		exec({::r=Foo::Bar - Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=Foo::Bar - Foo::Bla} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=Foo::Bla - Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=Foo::Bla - Foo::Bla} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=1Y - 1Y} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1Y - 0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 - 1Y} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 - 0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=1S - 1S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1S - 0S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0S - 1S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0S - 0S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=1 - 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1 - 0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 - 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 - 0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=1L - 1L} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1L - 0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 - 1L} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 - 0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=1.0f - 1.0f} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1.0f - 0.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 - 1.0f} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 - 0.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=1.0 - 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1.0 - 0.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 - 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 - 0.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+	}
+}
+
+rule mul
+{
+	modify {
+		exec({::r=Foo::Blubb * Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=Foo::Bar * Foo::Bla} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=Foo::Bla * Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=Foo::Bla * Foo::Bla} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2Y * 1Y} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1Y * 0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 * 1Y} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 * 0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2S * 1S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1S * 0S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0S * 1S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0S * 0S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2 * 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1 * 0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 * 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 * 0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2L * 1L} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1L * 0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 * 1L} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 * 0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2.0f * 1.0f} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1.0f * 0.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 * 1.0f} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 * 0.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2.0 * 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1.0 * 0.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 * 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 * 0.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+	}
+}
+
+rule div
+{
+	modify {
+		exec({::r=Foo::Blubb / Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=Foo::Bar / Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=Foo::Bla / Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=Foo::Bla / Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2Y / 1Y} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1Y / 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 / 1Y} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 / 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2S / 1S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1S / 1S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0S / 1S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0S / 1S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2 / 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1 / 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 / 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 / 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2L / 1L} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1L / 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 / 1L} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 / 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2.0f / 1.0f} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1.0f / 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 / 1.0f} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 / 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2.0 / 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1.0 / 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 / 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 / 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+	}
+}
+
+rule mod
+{
+	modify {
+		exec({::r=Foo::Blubb % Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=Foo::Bar % Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=Foo::Bla % Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=Foo::Bla % Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2Y % 1Y} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1Y % 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 % 1Y} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 % 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2S % 1S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1S % 1S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0S % 1S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0S % 1S} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2 % 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1 % 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 % 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 % 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2L % 1L} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1L % 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 % 1L} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0 % 1} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2.0f % 1.0f} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1.0f % 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 % 1.0f} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 % 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+
+		exec({::r=2.0 % 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=1.0 % 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 % 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+		exec({::r=0.0 % 1.0} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
+	}
+}

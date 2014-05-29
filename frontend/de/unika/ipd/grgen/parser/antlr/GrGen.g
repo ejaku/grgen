@@ -2095,7 +2095,11 @@ seqExprRelation[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	;
 
 seqExprAdd[ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprUnary[xg] { res=exp; } ( (t=PLUS {xg.append(" + ");} | t=MINUS {xg.append(" - ");}) exp2=seqExprAdd[xg]  { res = makeBinOp(t, exp, exp2); })?
+	: exp=seqExprMul[xg] { res=exp; } ( (t=PLUS {xg.append(" + ");} | t=MINUS {xg.append(" - ");}) exp2=seqExprAdd[xg]  { res = makeBinOp(t, exp, exp2); })?
+	;
+
+seqExprMul[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	: exp=seqExprUnary[xg] { res=exp; } ( (t=STAR {xg.append(" * ");} | t=DIV {xg.append(" / ");} | t=MOD {xg.append(" \% ");}) exp2=seqExprMul[xg]  { res = makeBinOp(t, exp, exp2); })?
 	;
 
 seqExprUnary[ExecNode xg] returns[ExprNode res = env.initExprNode()]
