@@ -903,7 +903,32 @@ namespace de.unika.ipd.grGen.libGr
                 StringBuilder sb = new StringBuilder();
                 sb.Append("emit(");
                 for(int i = 0; i < Expressions.Count; ++i)
+                {
+                    if(i != 0)
+                        sb.Append(", ");
+                    String oldString = null;
+                    if(Expressions[i] is SequenceExpressionConstant)
+                    {
+                        SequenceExpressionConstant constant = (SequenceExpressionConstant)Expressions[i];
+                        if(constant.Constant is string)
+                        {
+                            oldString = (string)constant.Constant;
+                            constant.Constant = ((string)constant.Constant).Replace("\n", "\\n");
+                            constant.Constant = ((string)constant.Constant).Replace("\r", "\\r");
+                            constant.Constant = ((string)constant.Constant).Replace("\t", "\\t");
+                            constant.Constant = ((string)constant.Constant).Replace("#", "\\#");
+                        }
+                    }
+
+                    if(oldString != null)
+                        sb.Append("\"");
                     sb.Append(Expressions[i].Symbol);
+                    if(oldString != null)
+                        sb.Append("\"");
+
+                    if(oldString != null)
+                        ((SequenceExpressionConstant)Expressions[i]).Constant = oldString;
+                }
                 sb.Append(")");
                 return sb.ToString();
             }
@@ -954,7 +979,40 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceComputation> Children { get { yield return Expression; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "record(" + Expression.Symbol + ")"; } }
+        public override string Symbol 
+        { 
+            get 
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("record(");
+                
+                String oldString = null;
+                if(Expression is SequenceExpressionConstant)
+                {
+                    SequenceExpressionConstant constant = (SequenceExpressionConstant)Expression;
+                    if(constant.Constant is string)
+                    {
+                        oldString = (string)constant.Constant;
+                        constant.Constant = ((string)constant.Constant).Replace("\n", "\\n");
+                        constant.Constant = ((string)constant.Constant).Replace("\r", "\\r");
+                        constant.Constant = ((string)constant.Constant).Replace("\t", "\\t");
+                        constant.Constant = ((string)constant.Constant).Replace("#", "\\#");
+                    }
+                }
+
+                if(oldString != null)
+                    sb.Append("\"");
+                sb.Append(Expression.Symbol);
+                if(oldString != null)
+                    sb.Append("\"");
+
+                if(oldString != null)
+                    ((SequenceExpressionConstant)Expression).Constant = oldString;
+
+                sb.Append(")");
+                return sb.ToString();
+            } 
+        }
     }
 
     public class SequenceComputationExport : SequenceComputation

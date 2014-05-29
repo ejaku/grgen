@@ -1299,23 +1299,23 @@ namespace de.unika.ipd.grGen.grShell
                         {
                             Console.Write(seqFor.IndexName);
                             Console.Write(seqFor.DirectionAsString(seqFor.Direction));
-                            Console.Write(seqFor.Expr);
+                            Console.Write(seqFor.Expr.Symbol);
                             Console.Write(",");
                             Console.Write(seqFor.IndexName);
                             Console.Write(seqFor.DirectionAsString(seqFor.Direction2));
-                            Console.Write(seqFor.Expr2);
+                            Console.Write(seqFor.Expr2.Symbol);
                         }
                         else if(seqFor.From() != null)
                         {
                             Console.Write(seqFor.IndexName);
                             Console.Write(seqFor.DirectionAsString(seqFor.Direction));
-                            Console.Write(seqFor.Expr);
+                            Console.Write(seqFor.Expr.Symbol);
                         }
                         else if(seqFor.To() != null)
                         {
                             Console.Write(seqFor.IndexName);
                             Console.Write(seqFor.DirectionAsString(seqFor.Direction));
-                            Console.Write(seqFor.Expr);
+                            Console.Write(seqFor.Expr.Symbol);
                         }
                         else
                         {
