@@ -2173,7 +2173,7 @@ procedureCall[ExecNode xg]
 	// built-in procedure or user defined procedure, backend has to decide whether the call is valid
 	: ( LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");} )?
 		( p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); } )?
-		( i=IDENT | i=EMIT ) LPAREN { xg.append(i.getText()); xg.append("("); } functionCallParameters[xg] RPAREN { xg.append(")"); }
+		( i=IDENT | i=EMIT | i=DELETE) LPAREN { xg.append(i.getText()); xg.append("("); } functionCallParameters[xg] RPAREN { xg.append(")"); }
 	;
 
 functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
