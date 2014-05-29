@@ -410,14 +410,15 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Can only query the user for a value if a debugger is available");
         }
 
-        public void Highlight(string arguments, Sequence seq)
-        {
-            // nop
-        }
-
         public void Highlight(List<object> values, List<string> sourceNames)
         {
-            // nop
+            if(!highlightWarningShown)
+            {
+                Console.WriteLine("Highlight called without attached debugger, use \"debug enable\" or debug exec <seq> to see the highlighted content.");
+                highlightWarningShown = true;
+            }
         }
+
+        bool highlightWarningShown = false;
     }
 }

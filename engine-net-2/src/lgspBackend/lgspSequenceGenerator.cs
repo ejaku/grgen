@@ -1518,6 +1518,23 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceType.Highlight:
+                {
+                    SequenceHighlight seqHighlight = (SequenceHighlight)seq;
+                    source.AppendFront("List<object> values = new List<object>();\n");
+                    source.AppendFront("List<string> annotations = new List<string>();\n");
+                    for(int i = 0; i < seqHighlight.ArgExprs.Count; ++i)
+                    {
+                        if(i % 2 == 0)
+                            source.AppendFront("values.Add(" + GetSequenceExpression(seqHighlight.ArgExprs[i], source) + ");\n");
+                        else
+                            source.AppendFront("annotations.Add((string)" + GetSequenceExpression(seqHighlight.ArgExprs[i], source) + ");\n");
+                    }
+                    source.AppendFront("procEnv.UserProxy.Highlight(values, annotations);\n");
+                    source.AppendFront(SetResultVar(seqHighlight, "true"));
+                    break;
+                }
+
                 case SequenceType.ExecuteInSubgraph:
                 {
                     SequenceExecuteInSubgraph seqExecInSub = (SequenceExecuteInSubgraph)seq;

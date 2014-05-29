@@ -1950,7 +1950,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class HighlightStatement : Yielding
     {
-        public HighlightStatement(Expression[] values, string[] sourceNames)
+        public HighlightStatement(Expression[] values, Expression[] sourceNames)
         {
             Values = values;
             SourceNames = sourceNames;
@@ -1961,6 +1961,9 @@ namespace de.unika.ipd.grGen.expression
             Expression[] valuesCopy = new Expression[Values.Length];
             for(int i = 0; i < Values.Length; ++i)
                 valuesCopy[i] = Values[i].Copy(renameSuffix);
+            Expression[] sourceNamesCopy = new Expression[SourceNames.Length];
+            for(int i = 0; i < SourceNames.Length; ++i)
+                sourceNamesCopy[i] = SourceNames[i].Copy(renameSuffix);
             return new HighlightStatement(Values, SourceNames);
         }
 
@@ -1976,17 +1979,10 @@ namespace de.unika.ipd.grGen.expression
 			    value.Emit(sourceCode);
 			    sourceCode.Append(");\n");
             }
-            foreach(String sourceName in SourceNames)
+            foreach(Expression sourceName in SourceNames)
             {
                 sourceCode.AppendFront(highlightSourceNamesArray + ".Add(");
-                if(sourceName != null)
-                {
-                    sourceCode.Append("\"");
-                    sourceCode.Append(sourceName);
-                    sourceCode.Append("\"");
-                }
-                else
-                    sourceCode.Append("null");
+                sourceName.Emit(sourceCode);
                 sourceCode.Append(");\n");
             }
             sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).UserProxy.Highlight"
@@ -2000,7 +1996,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression[] Values;
-        String[] SourceNames;
+        Expression[] SourceNames;
     }
 
     /// <summary>

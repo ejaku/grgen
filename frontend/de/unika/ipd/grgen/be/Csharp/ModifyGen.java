@@ -4311,21 +4311,18 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\tList<object> " + highlightValuesArray + " = new List<object>();\n");
     	String highlightSourceNamesArray = "highlight_source_names_" + tmpVarID++;
 		sb.append("\t\t\tList<string> " + highlightSourceNamesArray + " = new List<string>();\n");
+		int parameterNum = 0;
 		for(Expression expr : hp.getToHighlightExpressions()) {
-			sb.append("\t\t\t" + highlightValuesArray + ".Add(");
-			genExpression(sb, expr, state);
-			sb.append(");\n");
-			if(expr instanceof GraphEntityExpression) {
-				sb.append("\t\t\t" + highlightSourceNamesArray + ".Add(\"");
-				sb.append(formatIdentifiable(((GraphEntityExpression)expr).getGraphEntity()));
-				sb.append("\");\n");
-			} else if(expr instanceof VariableExpression) {
-				sb.append("\t\t\t" + highlightSourceNamesArray + ".Add(\"");
-				sb.append(formatIdentifiable(((VariableExpression)expr).getVariable()));
-				sb.append("\");\n");
+			if(parameterNum % 2 == 0) {
+				sb.append("\t\t\t" + highlightValuesArray + ".Add(");
+				genExpression(sb, expr, state);
+				sb.append(");\n");
 			} else {
-				sb.append("\t\t\t" + highlightSourceNamesArray + ".Add(null);\n");
+				sb.append("\t\t\t" + highlightSourceNamesArray + ".Add((string)");
+				genExpression(sb, expr, state);
+				sb.append(");\n");
 			}
+			++parameterNum;
 		}
 		sb.append("\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).UserProxy.Highlight"
 				+ "(" + highlightValuesArray + ", " + highlightSourceNamesArray + ");\n");

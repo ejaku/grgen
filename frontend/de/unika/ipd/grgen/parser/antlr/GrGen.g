@@ -1951,6 +1951,9 @@ options { k = 3; }
 		)
 	| TRUE { xg.append("true"); }
 	| FALSE { xg.append("false"); }
+	| { input.LT(1).getText().equals("Debug") && input.LT(2).getText().equals("::") && input.LT(3).getText().equals("highlight") }? 
+		i=IDENT DOUBLECOLON j=IDENT {xg.append(i.getText()); xg.append("::"); xg.append(j.getText());} 
+		LPAREN {xg.append("(");} functionCallParameters[xg] RPAREN {xg.append(")");}
 	| (parallelCallRule[null, null]) => parallelCallRule[xg, returns]
 	| DOUBLECOLON id=entIdentUse { xg.append("::" + id); xg.addUsage(id); }
 	| (( DOLLAR ( MOD )? )? LBRACE LT) => ( DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? )?

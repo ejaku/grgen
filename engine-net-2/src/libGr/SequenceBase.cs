@@ -68,11 +68,6 @@ namespace de.unika.ipd.grGen.libGr
         object ChooseValue(string type, Sequence seq);
 
         /// <summary>
-        /// highlights the arguments in the graphs if debugging is active
-        /// </summary>
-        void Highlight(string arguments, Sequence seq);
-
-        /// <summary>
         /// highlights the values in the graphs if debugging is active (annotating them with the source names)
         /// </summary>
         void Highlight(List<object> values, List<string> sourceNames);

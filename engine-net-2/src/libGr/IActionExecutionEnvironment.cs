@@ -80,6 +80,12 @@ namespace de.unika.ipd.grGen.libGr
         PerformanceInfo PerformanceInfo { get; }
 
         /// <summary>
+        /// Tells whether execution is interrupted because a highlight statement was hit.
+        /// Consequence: the timer that normally prints match statistics every second remains silent
+        /// </summary>
+        bool HighlightingUnderway { get; set; }
+
+        /// <summary>
         /// The maximum number of matches to be returned for a RuleAll sequence element.
         /// If it is zero or less, the number of matches is unlimited.
         /// </summary>

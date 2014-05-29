@@ -214,11 +214,16 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 			}
 		}
 		else if(procedureName.equals("highlightDebug")) {
-			HighlightProcNode highlight = new HighlightProcNode(getCoords());
-			for(ExprNode param : params.getChildren()) {
-				highlight.addExpressionToHighlight(param);
+			if(params.size() % 2 == 0) {
+				HighlightProcNode highlight = new HighlightProcNode(getCoords());
+				for(ExprNode param : params.getChildren()) {
+					highlight.addExpressionToHighlight(param);
+				}
+				result = highlight;
+			} else {
+				reportError("Debug::highlight() takes an even number of parameters, each value must be followed by the annotation to display.");
+				return false;				
 			}
-			result = highlight;
 		}
 		else if(procedureName.equals("addCopy")) {
 			if(params.size() == 1) {

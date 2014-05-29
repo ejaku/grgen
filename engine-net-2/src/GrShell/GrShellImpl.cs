@@ -230,6 +230,11 @@ namespace de.unika.ipd.grGen.grShell
             get { return graph.ChangesCounter; }
         }
 
+        public IActionExecutionEnvironment ActionEnv
+        {
+            get { return actionEnv; }
+        }
+
         IGraph graph;
         IActionExecutionEnvironment actionEnv;
     }
@@ -3127,11 +3132,13 @@ namespace de.unika.ipd.grGen.grShell
             else curShellProcEnv.ProcEnv.OnEntereringSequence -= NormalEnteringSequenceHandler;
         }
 
-        // called from a timer while a sequence is executed outside of the debugger
+        // called from a timer while a sequence is executed outside of the debugger 
+        // (this may still mean the debugger is open and attached ("debug enable"), but just not under user control)
         static void PrintStatistics(Object state)
         {
             StatisticsSource statisticsSource = (StatisticsSource)state;
-            Console.WriteLine(" ... {0} matches, {1} rewrites, {2} graph changes until now ...", statisticsSource.MatchesFound, statisticsSource.RewritesPerformed, statisticsSource.GraphChanges);
+            if(!statisticsSource.ActionEnv.HighlightingUnderway)
+                Console.WriteLine(" ... {0} matches, {1} rewrites, {2} graph changes until now ...", statisticsSource.MatchesFound, statisticsSource.RewritesPerformed, statisticsSource.GraphChanges);
         }
 
         public void Cancel()
