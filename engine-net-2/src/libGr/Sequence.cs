@@ -2993,10 +2993,10 @@ namespace de.unika.ipd.grGen.libGr
 
         public string DirectionAsString(RelOpDirection dir)
         {
-            if(Direction == RelOpDirection.Greater) return ">";
-            else if(Direction == RelOpDirection.GreaterEqual) return ">=";
-            else if(Direction == RelOpDirection.Smaller) return "<";
-            else if(Direction == RelOpDirection.SmallerEqual) return "<=";
+            if(dir == RelOpDirection.Greater) return ">";
+            else if(dir == RelOpDirection.GreaterEqual) return ">=";
+            else if(dir == RelOpDirection.Smaller) return "<";
+            else if(dir == RelOpDirection.SmallerEqual) return "<=";
             else return "UNDEFINED";
         }
 

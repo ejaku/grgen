@@ -221,7 +221,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     if(ArgumentExpressions[i] != null)
                     {
-                        sb.Append(ArgumentExpressions[i].ToString());
+                        sb.Append(ArgumentExpressions[i].Symbol);
                     }
                     else
                     {
