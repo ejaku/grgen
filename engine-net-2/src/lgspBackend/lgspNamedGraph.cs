@@ -631,7 +631,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override string ToString()
         {
-            return "LGSPNamedGraph " + Name + " id " + GraphID + " @ " + ChangesCounter;
+            return "LGSPNamedGraph " + Name + " id " + graphID + " @ " + ChangesCounter;
         }
     }
 }

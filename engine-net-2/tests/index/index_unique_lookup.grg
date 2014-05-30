@@ -4,10 +4,16 @@ rule t {
 	n:N{unique[0]} -e:E{unique[1]}-> n;
 
 	modify {
-		emit("The value of attribute noattribute is " + uniqueof(n) + "\n");
-		emit("The value of attribute noattribute is " + uniqueof(e) + "\n");
-		emit("The value of attribute i is " + n.i + "\n");
-		emit("The value of attribute i is " + e.i + "\n");
+		emit("The value of attribute noattribute is ", uniqueof(n), "\n");
+		emit("The value of attribute noattribute is ", uniqueof(e), "\n");
+		emit("The value of attribute i is ", n.i, "\n");
+		emit("The value of attribute i is ", e.i, "\n");
+		exec( {
+			emit("The value of attribute noattribute is ", uniqueof(n), "\n");
+			emit("The value of attribute noattribute is ", uniqueof(e), "\n");
+			emit("The value of attribute i is ", n.i, "\n");
+			emit("The value of attribute i is ", e.i, "\n");
+		} );
 	}
 }
 

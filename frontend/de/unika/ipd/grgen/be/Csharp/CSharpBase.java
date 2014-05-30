@@ -893,7 +893,7 @@ public abstract class CSharpBase {
 		else if(expr instanceof Uniqueof) {
 			Uniqueof no = (Uniqueof) expr;
 			if(no.getEntity()==null)
-				sb.append("((GRGEN_LGSP.LGSPGraph)graph).GraphID");
+				sb.append("((GRGEN_LGSP.LGSPGraph)graph).GraphId");
 			else
 			{
 	        	sb.append("(");
@@ -905,7 +905,7 @@ public abstract class CSharpBase {
 	        		sb.append("(GRGEN_LGSP.LGSPGraph)");
 				genExpression(sb, no.getEntity(), modifyGenerationState); // unique id of entity
 				if(no.getEntity().getType() instanceof GraphType)
-					sb.append(").GraphID");
+					sb.append(").GraphId");
 				else
 					sb.append(").uniqueId");
 			}

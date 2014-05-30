@@ -19,6 +19,7 @@ namespace de.unika.ipd.grGen.libGr
     public abstract class BaseGraph : IGraph
     {
         public abstract String Name { get; set; }
+        public abstract int GraphId { get; }
         public abstract IGraphModel Model { get; }
         public abstract IIndexSet Indices { get; }
         public abstract bool ReuseOptimization { get; set; }

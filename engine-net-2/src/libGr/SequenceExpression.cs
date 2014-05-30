@@ -31,7 +31,7 @@ namespace de.unika.ipd.grGen.libGr
         Def,
         IsVisited,
         InContainer, ContainerEmpty, ContainerSize, ContainerAccess, ContainerPeek,
-        ElementFromGraph,
+        ElementFromGraph, NodeByName, EdgeByName, NodeByUnique, EdgeByUnique,
         Source, Target, Opposite,
         GraphElementAttribute,
         ElementOfMatch,
@@ -60,7 +60,7 @@ namespace de.unika.ipd.grGen.libGr
         IsBoundedReachableEdges, IsBoundedReachableEdgesViaIncoming, IsBoundedReachableEdgesViaOutgoing,
         InducedSubgraph, DefinedSubgraph,
         EqualsAny,
-        Nameof,
+        Nameof, Uniqueof,
         ExistsFile, Import,
         Copy,
         Canonize,
@@ -2013,6 +2013,233 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "@(" + ElementName + ")"; } }
+    }
+
+    public class SequenceExpressionNodeByName : SequenceExpression
+    {
+        public SequenceExpression NodeName;
+        public bool EmitProfiling;
+
+        public SequenceExpressionNodeByName(SequenceExpression nodeName)
+            : base(SequenceExpressionType.NodeByName)
+        {
+            NodeName = nodeName;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(NodeName.Type(env) != "")
+            {
+                if(NodeName.Type(env) != "string")
+                {
+                    throw new SequenceParserException(Symbol + ", argument", "string", NodeName.Type(env));
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "Node";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionNodeByName copy = (SequenceExpressionNodeByName)MemberwiseClone();
+            copy.NodeName = NodeName.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(!(procEnv.Graph is INamedGraph))
+                throw new InvalidOperationException("The nodeByName(.) call can only be used with named graphs!");
+            INamedGraph namedGraph = (INamedGraph)procEnv.Graph;
+            if(EmitProfiling)
+                return GraphHelper.GetNode(namedGraph, (string)NodeName.Evaluate(procEnv), procEnv);
+            else
+                return GraphHelper.GetNode(namedGraph, (string)NodeName.Evaluate(procEnv));
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return NodeName; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "getNodeByName(" + NodeName.Symbol + ")"; } }
+    }
+
+    public class SequenceExpressionEdgeByName : SequenceExpression
+    {
+        public SequenceExpression EdgeName;
+        public bool EmitProfiling;
+
+        public SequenceExpressionEdgeByName(SequenceExpression edgeName)
+            : base(SequenceExpressionType.EdgeByName)
+        {
+            EdgeName = edgeName;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(EdgeName.Type(env) != "")
+            {
+                if(EdgeName.Type(env) != "string")
+                {
+                    throw new SequenceParserException(Symbol + ", argument", "string", EdgeName.Type(env));
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "Edge";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionEdgeByName copy = (SequenceExpressionEdgeByName)MemberwiseClone();
+            copy.EdgeName = EdgeName.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(!(procEnv.Graph is INamedGraph))
+                throw new InvalidOperationException("The edgeByName(.) call can only be used with named graphs!");
+            INamedGraph namedGraph = (INamedGraph)procEnv.Graph;
+            if(EmitProfiling)
+                return GraphHelper.GetEdge(namedGraph, (string)EdgeName.Evaluate(procEnv), procEnv);
+            else
+                return GraphHelper.GetEdge(namedGraph, (string)EdgeName.Evaluate(procEnv));
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return EdgeName; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "getEdgeByName(" + EdgeName.Symbol + ")"; } }
+    }
+
+    public class SequenceExpressionNodeByUnique : SequenceExpression
+    {
+        public SequenceExpression NodeUniqueId;
+        public bool EmitProfiling;
+
+        public SequenceExpressionNodeByUnique(SequenceExpression nodeUniqueId)
+            : base(SequenceExpressionType.NodeByUnique)
+        {
+            NodeUniqueId = nodeUniqueId;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(NodeUniqueId.Type(env) != "")
+            {
+                if(NodeUniqueId.Type(env) != "int")
+                {
+                    throw new SequenceParserException(Symbol + ", argument", "int", NodeUniqueId.Type(env));
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "Node";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionNodeByUnique copy = (SequenceExpressionNodeByUnique)MemberwiseClone();
+            copy.NodeUniqueId = NodeUniqueId.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(!(procEnv.Graph.Model.GraphElementsAreAccessibleByUniqueId))
+                throw new InvalidOperationException("The nodeByUnique(.) call can only be used on graphs with a node edge unique definition!");
+            if(EmitProfiling)
+                return GraphHelper.GetNode(procEnv.Graph, (int)NodeUniqueId.Evaluate(procEnv), procEnv);
+            else
+                return GraphHelper.GetNode(procEnv.Graph, (int)NodeUniqueId.Evaluate(procEnv));
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return NodeUniqueId; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "getNodeByUnique(" + NodeUniqueId.Symbol + ")"; } }
+    }
+
+    public class SequenceExpressionEdgeByUnique : SequenceExpression
+    {
+        public SequenceExpression EdgeUniqueId;
+        public bool EmitProfiling;
+
+        public SequenceExpressionEdgeByUnique(SequenceExpression edgeName)
+            : base(SequenceExpressionType.EdgeByUnique)
+        {
+            EdgeUniqueId = edgeName;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(EdgeUniqueId.Type(env) != "")
+            {
+                if(EdgeUniqueId.Type(env) != "int")
+                {
+                    throw new SequenceParserException(Symbol + ", argument", "int", EdgeUniqueId.Type(env));
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "Edge";
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionEdgeByUnique copy = (SequenceExpressionEdgeByUnique)MemberwiseClone();
+            copy.EdgeUniqueId = EdgeUniqueId.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(!(procEnv.Graph.Model.GraphElementsAreAccessibleByUniqueId))
+                throw new InvalidOperationException("The edgeByUnique(.) call can only be used on graphs with a node edge unique definition!");
+            IEdge edge = procEnv.Graph.GetEdge((int)EdgeUniqueId.Evaluate(procEnv));
+            if(EmitProfiling)
+                return GraphHelper.GetEdge(procEnv.Graph, (int)EdgeUniqueId.Evaluate(procEnv), procEnv);
+            else
+                return GraphHelper.GetEdge(procEnv.Graph, (int)EdgeUniqueId.Evaluate(procEnv));
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return EdgeUniqueId; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "getEdgeByUnique(" + EdgeUniqueId.Symbol + ")"; } }
     }
 
     public class SequenceExpressionSource : SequenceExpression
@@ -5012,7 +5239,65 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { if(NamedEntity != null) yield return NamedEntity; else yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "nameof(" + (NamedEntity != null ? "..." : "") + ")"; } }
+        public override string Symbol { get { return "nameof(" + (NamedEntity != null ? NamedEntity.Symbol : "") + ")"; } }
+    }
+
+    public class SequenceExpressionUniqueof : SequenceExpression
+    {
+        public SequenceExpression UniquelyIdentifiedEntity;
+
+        public SequenceExpressionUniqueof(SequenceExpression uniquelyIdentifiedEntity)
+            : base(SequenceExpressionType.Uniqueof)
+        {
+            UniquelyIdentifiedEntity = uniquelyIdentifiedEntity; // might be null
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(UniquelyIdentifiedEntity != null)
+            {
+                base.Check(env); // check children
+
+                if(!TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "Node", env.Model)
+                    && !TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "Edge", env.Model)
+                    && !TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "graph", env.Model))
+                {
+                    throw new SequenceParserException(Symbol, "node or edge or graph type", UniquelyIdentifiedEntity.Type(env));
+                }
+            }
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionUniqueof copy = (SequenceExpressionUniqueof)MemberwiseClone();
+            if(UniquelyIdentifiedEntity != null)
+                copy.UniquelyIdentifiedEntity = UniquelyIdentifiedEntity.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(UniquelyIdentifiedEntity != null)
+                return GraphHelper.Uniqueof(UniquelyIdentifiedEntity.Evaluate(procEnv), procEnv.Graph);
+            else
+                return GraphHelper.Uniqueof(null, procEnv.Graph);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            if(UniquelyIdentifiedEntity != null)
+                UniquelyIdentifiedEntity.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { if(UniquelyIdentifiedEntity != null) yield return UniquelyIdentifiedEntity; else yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "uniqueof(" + (UniquelyIdentifiedEntity != null ? UniquelyIdentifiedEntity.Symbol : "") + ")"; } }
     }
 
     public class SequenceExpressionExistsFile : SequenceExpression

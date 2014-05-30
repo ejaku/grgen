@@ -3463,6 +3463,20 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Returns the unique if of the given entity (which might be a node, an edge, or a graph).
+        /// If the entity is null, the unique id of the graph is returned.
+        /// </summary>
+        public static int Uniqueof(object entity, IGraph graph)
+        {
+            if(entity is IGraphElement)
+                return ((IGraphElement)entity).GetUniqueId();
+            else if(entity is IGraph)
+                return ((IGraph)entity).GraphId;
+            else
+                return graph.GraphId;
+        }
+
+        /// <summary>
         /// Imports and returns the graph within the file specified by its path (model from given graph).
         /// </summary>
         public static IGraph Import(object path, IGraph graph)

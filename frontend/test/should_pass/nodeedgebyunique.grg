@@ -10,6 +10,7 @@ rule rn : (Node)
 			yield n = nodeByUnique(42);
 		}
 		return(nodeByUnique(0));
+		exec ( { yield n = nodeByUnique(uniqueof(nodeByUnique(42))) } );
 	}
 }
 
@@ -25,6 +26,7 @@ rule re : (Edge)
 			yield n = edgeByUnique(42);
 		}
 		return(edgeByUnique(0));
+		exec ( { yield n = edgeByUnique(uniqueof(edgeByUnique(42))) } );
 	}
 }
 

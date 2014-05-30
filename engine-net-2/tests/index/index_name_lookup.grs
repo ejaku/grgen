@@ -10,6 +10,8 @@ new @("1") -:E($="e1", s="1")-> @("1")
 new @("2") -:Edge($="e2")-> @("2")
 
 exec [t]
+exec { emit("The value of attribute noattribute is ", nameof(nodeByName("foo")), "\n");\
+emit("The value of attribute noattribute is ", nameof(edgeByName("bar")), "\n")}
 exec [r]
 
 exec [tp("foo", "bar")]
