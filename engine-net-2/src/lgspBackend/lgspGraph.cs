@@ -24,11 +24,13 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPGraph : BaseGraph
     {
         // counter for ids, used for naming and to determine the age
-        private static int graphID = 0;
+        private static int graphIDSource = 0;
 
-        protected static String GetNextGraphName() { return "lgspGraph_" + graphID; }
+        protected static String GetNextGraphName() { return "lgspGraph_" + graphIDSource; }
 
-        public int GraphID;
+        public int graphID;
+        public override int GraphId { get { return graphID; } }
+
         private String name;
 
         internal LGSPBackend backend = null;
@@ -224,8 +226,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="grname">The name for the graph.</param>
         protected LGSPGraph(String grname)
         {
-            GraphID = graphID;
-            ++graphID;
+            graphID = graphIDSource;
+            ++graphIDSource;
             
             name = grname;
 
@@ -240,8 +242,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="oldToNewMap">A map of the old elements to the new elements after cloning.</param>
         public LGSPGraph(LGSPGraph dataSource, String newName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
         {
-            GraphID = graphID;
-            ++graphID;
+            graphID = graphIDSource;
+            ++graphIDSource;
             
             Copy(dataSource, newName, out oldToNewMap);
         }
@@ -253,8 +255,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newName">Name of the copied graph.</param>
         public LGSPGraph(LGSPGraph dataSource, String newName)
         {
-            GraphID = graphID;
-            ++graphID;
+            graphID = graphIDSource;
+            ++graphIDSource;
             
             IDictionary<IGraphElement, IGraphElement> oldToNewMap;
             Copy(dataSource, newName, out oldToNewMap);
@@ -2086,7 +2088,7 @@ invalidCommand:
 
         public override string ToString()
         {
-            return "LGSPGraph " + Name + " id " + GraphID + " @ " + ChangesCounter;
+            return "LGSPGraph " + Name + " id " + graphID + " @ " + ChangesCounter;
         }
     }
 }

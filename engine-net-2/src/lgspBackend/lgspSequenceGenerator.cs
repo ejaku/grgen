@@ -4326,6 +4326,15 @@ namespace de.unika.ipd.grGen.lgsp
                         return "GRGEN_LIBGR.GraphHelper.Nameof(null, graph)";
                 }
 
+                case SequenceExpressionType.Uniqueof:
+                {
+                    SequenceExpressionUniqueof seqUniqueof = (SequenceExpressionUniqueof)expr;
+                    if(seqUniqueof.UniquelyIdentifiedEntity != null)
+                        return "GRGEN_LIBGR.GraphHelper.Uniqueof(" + GetSequenceExpression(seqUniqueof.UniquelyIdentifiedEntity, source) + ", graph)";
+                    else
+                        return "GRGEN_LIBGR.GraphHelper.Uniqueof(null, graph)";
+                }
+
                 case SequenceExpressionType.ExistsFile:
                 {
                     SequenceExpressionExistsFile seqExistsFile = (SequenceExpressionExistsFile)expr;
@@ -4702,6 +4711,34 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceExpressionElementFromGraph seqFromGraph = (SequenceExpressionElementFromGraph)expr;
                     string profilingArgument = seqFromGraph.EmitProfiling ? ", procEnv" : "";
                     return "GRGEN_LIBGR.GraphHelper.GetGraphElement((GRGEN_LIBGR.INamedGraph)graph, \"" + seqFromGraph.ElementName + "\"" + profilingArgument + ")";
+                }
+
+                case SequenceExpressionType.NodeByName:
+                {
+                    SequenceExpressionNodeByName seqNodeByName = (SequenceExpressionNodeByName)expr;
+                    string profilingArgument = seqNodeByName.EmitProfiling ? ", procEnv" : "";
+                    return "GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, (string)" + GetSequenceExpression(seqNodeByName.NodeName, source) + profilingArgument + ")";
+                }
+
+                case SequenceExpressionType.EdgeByName:
+                {
+                    SequenceExpressionEdgeByName seqEdgeByName = (SequenceExpressionEdgeByName)expr;
+                    string profilingArgument = seqEdgeByName.EmitProfiling ? ", procEnv" : "";
+                    return "GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, (string)" + GetSequenceExpression(seqEdgeByName.EdgeName, source) + profilingArgument + ")";
+                }
+
+                case SequenceExpressionType.NodeByUnique:
+                {
+                    SequenceExpressionNodeByUnique seqNodeByUnique = (SequenceExpressionNodeByUnique)expr;
+                    string profilingArgument = seqNodeByUnique.EmitProfiling ? ", procEnv" : "";
+                    return "GRGEN_LIBGR.GraphHelper.GetNode(graph, (int)" + GetSequenceExpression(seqNodeByUnique.NodeUniqueId, source) + profilingArgument + ")";
+                }
+
+                case SequenceExpressionType.EdgeByUnique:
+                {
+                    SequenceExpressionEdgeByUnique seqEdgeByUnique = (SequenceExpressionEdgeByUnique)expr;
+                    string profilingArgument = seqEdgeByUnique.EmitProfiling ? ", procEnv" : "";
+                    return "GRGEN_LIBGR.GraphHelper.GetEdge(graph, (int)" + GetSequenceExpression(seqEdgeByUnique.EdgeUniqueId, source) + profilingArgument + ")";
                 }
 
                 case SequenceExpressionType.Source:

@@ -4,10 +4,16 @@ rule t {
 	n:N{@("foo")} -e:E{@("bar")}-> n;
 
 	modify {
-		emit("The value of attribute noattribute is " + nameof(n) + "\n");
-		emit("The value of attribute noattribute is " + nameof(e) + "\n");
-		emit("The value of attribute s is " + n.s + "\n");
-		emit("The value of attribute s is " + e.s + "\n");
+		emit("The value of attribute noattribute is ", nameof(n), "\n");
+		emit("The value of attribute noattribute is ", nameof(e), "\n");
+		emit("The value of attribute s is ", n.s, "\n");
+		emit("The value of attribute s is ", e.s, "\n");
+		exec( {
+			emit("The value of attribute noattribute is ", nameof(n), "\n");
+			emit("The value of attribute noattribute is ", nameof(e), "\n");
+			emit("The value of attribute s is ", n.s, "\n");
+			emit("The value of attribute s is ", e.s, "\n");
+		} );
 	}
 }
 

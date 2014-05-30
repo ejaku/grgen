@@ -1675,7 +1675,7 @@ namespace de.unika.ipd.grGen.expression
         {
             if(Entity == null)
             {
-                sourceCode.Append("((GRGEN_LGSP.LGSPGraph)graph).GraphID");
+                sourceCode.Append("((GRGEN_LGSP.LGSPGraph)graph).GraphId");
             }
             else
             {
@@ -1688,7 +1688,7 @@ namespace de.unika.ipd.grGen.expression
                     sourceCode.Append("(GRGEN_LGSP.LGSPGraph)");
                 Entity.Emit(sourceCode);
                 if(IsGraph)
-                    sourceCode.Append(").GraphID");
+                    sourceCode.Append(").GraphId");
                 else
                     sourceCode.Append(").uniqueId");
             }

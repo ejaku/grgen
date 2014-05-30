@@ -2182,21 +2182,16 @@ functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	}
 	// built-in function or user defined function, backend has to decide whether the call is valid
 	: ( p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); } )?
-	  ( i=IDENT | i=COPY ) LPAREN { xg.append(i.getText()); xg.append("("); } params=functionCallParameters[xg] RPAREN { xg.append(")"); }
+	  ( i=IDENT | i=COPY | i=NAMEOF ) LPAREN { xg.append(i.getText()); xg.append("("); } params=functionCallParameters[xg] RPAREN { xg.append(")"); }
 		{
-			if( (i.getText().equals("min") || i.getText().equals("max")) && params.getChildren().size()==2
-				|| (i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")) && params.getChildren().size()==1
-				|| (i.getText().equals("arcsin") || i.getText().equals("arccos") || i.getText().equals("arctan")) && params.getChildren().size()==1
-				|| (i.getText().equals("pow") || i.getText().equals("log")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
-				|| (i.getText().equals("ceil") || i.getText().equals("floor") || i.getText().equals("round") || i.getText().equals("truncate")) && params.getChildren().size()==1
-				|| (i.getText().equals("abs") || i.getText().equals("sgn")) && params.getChildren().size()==1
-				|| (i.getText().equals("pi") || i.getText().equals("e")) && params.getChildren().size()==0
-				|| (i.getText().equals("now")) && params.getChildren().size()==0
+			if( (i.getText().equals("now")) && params.getChildren().size()==0
 				|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
 				|| (i.getText().equals("countNodes") || i.getText().equals("countEdges")) && params.getChildren().size()<=1
 				|| (i.getText().equals("empty") || i.getText().equals("size")) && params.getChildren().size()==0
 				|| (i.getText().equals("source") || i.getText().equals("target")) && params.getChildren().size()==1
 				|| i.getText().equals("opposite") && params.getChildren().size()==2
+				|| (i.getText().equals("nodeByName") || i.getText().equals("edgeByName")) && params.getChildren().size()==1
+				|| (i.getText().equals("nodeByUnique") || i.getText().equals("edgeByUnique")) && params.getChildren().size()==1
 				|| (i.getText().equals("incoming") || i.getText().equals("outgoing") || i.getText().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (i.getText().equals("adjacentIncoming") || i.getText().equals("adjacentOutgoing") || i.getText().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (i.getText().equals("reachableIncoming") || i.getText().equals("reachableOutgoing") || i.getText().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
@@ -2220,8 +2215,10 @@ functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 				|| i.getText().equals("canonize") && params.getChildren().size()==1
 				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
 				|| (i.getText().equals("equalsAny") || i.getText().equals("equalsAnyStructurally")) && params.getChildren().size()==2
-				|| (i.getText().equals("existsFile") || i.getText().equals("import")) && params.getChildren().size()==1
+				|| (i.getText().equals("exists") || i.getText().equals("import")) && params.getChildren().size()==1
 				|| i.getText().equals("copy") && params.getChildren().size()==1
+				|| i.getText().equals("nameof") && (params.getChildren().size()==1 || params.getChildren().size()==0)
+				|| i.getText().equals("uniqueof") && (params.getChildren().size()==1 || params.getChildren().size()==0)
 			  )
 			{
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));

@@ -143,6 +143,11 @@ namespace de.unika.ipd.grGen.libGr
         String Name { get; set; }
 
         /// <summary>
+        /// A unique id associated with the graph
+        /// </summary>
+        int GraphId { get; }
+
+        /// <summary>
         /// The model associated with the graph.
         /// </summary>
         IGraphModel Model { get; }
