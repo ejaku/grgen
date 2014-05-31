@@ -233,7 +233,6 @@ TOKEN: {
 |   < IN: "in" >
 |   < VISITED: "visited" >
 |   < YIELD: "yield" >
-|   < HIGHLIGHT: "highlight" >
 |   < COUNT: "count" >
 |   < THIS: "this" >
 }
@@ -985,13 +984,6 @@ Sequence SimpleSequence():
         return new SequenceBooleanComputation(new SequenceExpressionConstant(false), null, special);
     }
 |
-	LOOKAHEAD(3) str=Word() "::" "highlight" "(" (Arguments(argExprs)) ")"
-	{
-		if(str!="Debug")
-			throw new SequenceParserException(str, SequenceParserError.HighlightInDebugPackage);
-		return new SequenceHighlight(argExprs);
-	}
-|
 	LOOKAHEAD(RuleLookahead())
 	seq=Rule() // accepts variables, rules, all-bracketed rules, and counted all-bracketed rules
 	{
@@ -1532,61 +1524,61 @@ SequenceComputation ProcedureOrMethodCall():
 	{
 		if(fromVar==null) // procedure call
 		{
-			if(procedure=="valloc") {
+			if(procedure=="valloc" && package==null) {
 				if(argExprs.Count!=0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
 				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationVAlloc(), returnVars);
-			} else if(procedure=="vfree") {
+			} else if(procedure=="vfree" && package==null) {
 				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 				return new SequenceComputationVFree(getArgument(argExprs, 0), true);
-			} else if(procedure=="vfreenonreset") {
+			} else if(procedure=="vfreenonreset" && package==null) {
 				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 				return new SequenceComputationVFree(getArgument(argExprs, 0), false);
-			} else if(procedure=="vreset") {
+			} else if(procedure=="vreset" && package==null) {
 				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 				return new SequenceComputationVReset(getArgument(argExprs, 0));
-			} else if(procedure=="emit") {
+			} else if(procedure=="emit" && package==null) {
 				if(argExprs.Count==0) throw new ParseException("\"" + procedure + "\" expects at least 1 parameter)");
 				return new SequenceComputationEmit(argExprs);
-			} else if(procedure=="record") {
+			} else if(procedure=="record" && package==null) {
 				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 				return new SequenceComputationRecord(getArgument(argExprs, 0));
-			} else if(procedure=="add") {
+			} else if(procedure=="add" && package==null) {
 				if(argExprs.Count!=1 && argExprs.Count!=3) throw new ParseException("\"" + procedure + "\" expects 1(for a node) or 3(for an edge) parameters)");
 				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphAdd(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2)), returnVars);
-			} else if(procedure=="rem") {
+			} else if(procedure=="rem" && package==null) {
 				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 				return new SequenceComputationGraphRem(getArgument(argExprs, 0));
-			} else if(procedure=="clear") {
+			} else if(procedure=="clear" && package==null) {
 				if(argExprs.Count!=0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
 				return new SequenceComputationGraphClear();
-			} else if(procedure=="retype") {
+			} else if(procedure=="retype" && package==null) {
 				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (graph entity, new type) parameters)");
 				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphRetype(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
-			} else if(procedure=="addCopy") {
+			} else if(procedure=="addCopy" && package==null) {
 				if(argExprs.Count!=1 && argExprs.Count!=3) throw new ParseException("\"" + procedure + "\" expects 1(for a node) or 3(for an edge) parameters)");
 				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphAddCopy(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2)), returnVars);
-			} else if(procedure=="merge") {
+			} else if(procedure=="merge" && package==null) {
 				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (the nodes to merge) parameters)");
 				return new SequenceComputationGraphMerge(getArgument(argExprs, 0), getArgument(argExprs, 1));
-			} else if(procedure=="redirectSource") {
+			} else if(procedure=="redirectSource" && package==null) {
 				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (edge to redirect, new source node) parameters)");
 				return new SequenceComputationGraphRedirectSource(getArgument(argExprs, 0), getArgument(argExprs, 1));
-			} else if(procedure=="redirectTarget") {
+			} else if(procedure=="redirectTarget" && package==null) {
 				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (edge to redirect, new target node) parameters)");
 				return new SequenceComputationGraphRedirectTarget(getArgument(argExprs, 0), getArgument(argExprs, 1));
-			} else if(procedure=="redirectSourceAndTarget") {
+			} else if(procedure=="redirectSourceAndTarget" && package==null) {
 				if(argExprs.Count!=3) throw new ParseException("\"" + procedure + "\" expects 3 (edge to redirect, new source node, new target node) parameters)");
 				return new SequenceComputationGraphRedirectSourceAndTarget(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2));
-			} else if(procedure=="insert") {
+			} else if(procedure=="insert" && package==null) {
 				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 (graph to destroyingly insert) parameter)");
 				return new SequenceComputationInsert(getArgument(argExprs, 0));
-			} else if(procedure=="insertCopy") {
+			} else if(procedure=="insertCopy" && package==null) {
 				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 (graph and one node to return the clone of) parameters)");
 				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertCopy(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
-			} else if(procedure=="insertInduced") {
+			} else if(procedure=="insertInduced" && package==null) {
 				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 parameters (the set of nodes to compute the induced subgraph from which will be cloned and inserted, and one node of the set of which the clone will be returned)");
 				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertInduced(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
-			} else if(procedure=="insertDefined") {
+			} else if(procedure=="insertDefined" && package==null) {
 				if(argExprs.Count!=2) throw new ParseException("\"" + procedure + "\" expects 2 parameters (the set of edges which define the subgraph which will be cloned and inserted, and one edge of the set of which the clone will be returned)");
 				return new SequenceComputationBuiltinProcedureCall(new SequenceComputationInsertDefined(getArgument(argExprs, 0), getArgument(argExprs, 1)), returnVars);
 			} else if(procedure=="export" && package!=null && package=="File") {
@@ -1595,6 +1587,21 @@ SequenceComputation ProcedureOrMethodCall():
 			} else if(procedure=="delete" && package!=null && package=="File") {
 				if(argExprs.Count!=1) throw new ParseException("\"File::delete\" expects 1 (the path of the file) parameter)");
 				return new SequenceComputationDeleteFile(getArgument(argExprs, 0));
+			} else if(procedure=="add" && package!=null && package=="Debug") {
+				if(argExprs.Count<1) throw new ParseException("\"Debug::add\" expects at least 1 parameter (the message/entered entity)");
+				return new SequenceComputationDebugAdd(argExprs);
+			} else if(procedure=="rem" && package!=null && package=="Debug") {
+				if(argExprs.Count<1) throw new ParseException("\"Debug::rem\" expects at least 1 parameter (the message/exited entity)");
+				return new SequenceComputationDebugRem(argExprs);
+			} else if(procedure=="emit" && package!=null && package=="Debug") {
+				if(argExprs.Count<1) throw new ParseException("\"Debug::emit\" expects at least 1 parameter (the message)");
+				return new SequenceComputationDebugEmit(argExprs);
+			} else if(procedure=="halt" && package!=null && package=="Debug") {
+				if(argExprs.Count<1) throw new ParseException("\"Debug::halt\" expects at least 1 parameter (the message)");
+				return new SequenceComputationDebugHalt(argExprs);
+			} else if(procedure=="highlight" && package!=null && package=="Debug") {
+				if(argExprs.Count<1) throw new ParseException("\"Debug::highlight\" expects at least 1 parameter (the message)");
+				return new SequenceComputationDebugHighlight(argExprs);
 			} else {
 				if(IsProcedureName(procedure, package)) {
 					return new SequenceComputationProcedureCall(CreateProcedureInvocationParameterBindings(procedure, package, argExprs, returnVars));

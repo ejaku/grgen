@@ -4590,8 +4590,24 @@ public class ActionsGen extends CSharpBase {
 			genEmitProc(sb, (EmitProc) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
-		else if(evalStmt instanceof HighlightProc) {
-			genHighlightProc(sb, (HighlightProc) evalStmt,
+		else if(evalStmt instanceof DebugAddProc) {
+			genDebugAddProc(sb, (DebugAddProc) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof DebugRemProc) {
+			genDebugRemProc(sb, (DebugRemProc) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof DebugEmitProc) {
+			genDebugEmitProc(sb, (DebugEmitProc) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof DebugHaltProc) {
+			genDebugHaltProc(sb, (DebugHaltProc) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof DebugHighlightProc) {
+			genDebugHighlightProc(sb, (DebugHighlightProc) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
 		else if(evalStmt instanceof RecordProc) {
@@ -5189,23 +5205,92 @@ public class ActionsGen extends CSharpBase {
 		sb.append(")");
 	}
 
-	private void genHighlightProc(StringBuffer sb, HighlightProc hp,
+	private void genDebugAddProc(StringBuffer sb, DebugAddProc dap,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
-		sb.append("\t\t\t\tnew GRGEN_EXPR.HighlightStatement(");		
-		sb.append("new GRGEN_EXPR.Expression[] { ");
+		sb.append("\t\t\t\tnew GRGEN_EXPR.DebugAddStatement(");		
+		genExpressionTree(sb, dap.getFirstExpression(), className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(", new GRGEN_EXPR.Expression[] { ");
+		boolean first = true;
+		for(Expression expr : dap.getExpressions()) {
+			if(!first) {
+				genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", ");
+			}
+			first = false;
+		}
+		sb.append("}");
+		sb.append(")");
+	}
+
+	private void genDebugRemProc(StringBuffer sb, DebugRemProc drp,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		sb.append("\t\t\t\tnew GRGEN_EXPR.DebugRemStatement(");		
+		genExpressionTree(sb, drp.getFirstExpression(), className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(", new GRGEN_EXPR.Expression[] { ");
+		boolean first = true;
+		for(Expression expr : drp.getExpressions()) {
+			if(!first) {
+				genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", ");
+			}
+			first = false;
+		}
+		sb.append("}");
+		sb.append(")");
+	}
+
+	private void genDebugEmitProc(StringBuffer sb, DebugEmitProc dep,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		sb.append("\t\t\t\tnew GRGEN_EXPR.DebugEmitStatement(");		
+		genExpressionTree(sb, dep.getFirstExpression(), className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(", new GRGEN_EXPR.Expression[] { ");
+		boolean first = true;
+		for(Expression expr : dep.getExpressions()) {
+			if(!first) {
+				genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", ");
+			}
+			first = false;
+		}
+		sb.append("}");
+		sb.append(")");
+	}
+
+	private void genDebugHaltProc(StringBuffer sb, DebugHaltProc dhp,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		sb.append("\t\t\t\tnew GRGEN_EXPR.DebugHaltStatement(");		
+		genExpressionTree(sb, dhp.getFirstExpression(), className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(", new GRGEN_EXPR.Expression[] { ");
+		boolean first = true;
+		for(Expression expr : dhp.getExpressions()) {
+			if(!first) {
+				genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", ");
+			}
+			first = false;
+		}
+		sb.append("}");
+		sb.append(")");
+	}
+
+	private void genDebugHighlightProc(StringBuffer sb, DebugHighlightProc dhp,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		sb.append("\t\t\t\tnew GRGEN_EXPR.DebugHighlightStatement(");		
+		genExpressionTree(sb, dhp.getFirstExpression(), className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(", new GRGEN_EXPR.Expression[] { ");
 		int parameterNum = 0;
-		for(Expression expr : hp.getToHighlightExpressions()) {
-			if(parameterNum % 2 == 0) {
+		for(Expression expr : dhp.getExpressions()) {
+			if(parameterNum != 0 && parameterNum % 2 == 1) {
 				genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
 				sb.append(", ");
 			}
 			++parameterNum;
 		}
-		sb.append("}, ");
-		sb.append("new GRGEN_EXPR.Expression[] { ");
+		sb.append("} ");
+		sb.append(", new GRGEN_EXPR.Expression[] { ");
 		parameterNum = 0;
-		for(Expression expr : hp.getToHighlightExpressions()) {
-			if(parameterNum % 2 == 1) {
+		for(Expression expr : dhp.getExpressions()) {
+			if(parameterNum != 0 && parameterNum % 2 == 0) {
 				genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
 				sb.append(", ");
 			}

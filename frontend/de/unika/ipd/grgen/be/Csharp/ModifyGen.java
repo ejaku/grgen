@@ -4132,8 +4132,20 @@ public class ModifyGen extends CSharpBase {
 		if(evalProc instanceof EmitProc) {
 			genEmitProc(sb, state, (EmitProc) evalProc);
 		}
-		else if(evalProc instanceof HighlightProc) {
-			genHighlightProc(sb, state, (HighlightProc) evalProc);
+		else if(evalProc instanceof DebugAddProc) {
+			genDebugAddProc(sb, state, (DebugAddProc) evalProc);
+		}
+		else if(evalProc instanceof DebugRemProc) {
+			genDebugRemProc(sb, state, (DebugRemProc) evalProc);
+		}
+		else if(evalProc instanceof DebugEmitProc) {
+			genDebugEmitProc(sb, state, (DebugEmitProc) evalProc);
+		}
+		else if(evalProc instanceof DebugHaltProc) {
+			genDebugHaltProc(sb, state, (DebugHaltProc) evalProc);
+		}
+		else if(evalProc instanceof DebugHighlightProc) {
+			genDebugHighlightProc(sb, state, (DebugHighlightProc) evalProc);
 		}
 		else if(evalProc instanceof RecordProc) {
 			genRecordProc(sb, state, (RecordProc) evalProc);
@@ -4306,14 +4318,74 @@ public class ModifyGen extends CSharpBase {
 				+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph));\n");
 	}
 
-	private void genHighlightProc(StringBuffer sb, ModifyGenerationStateConst state, HighlightProc hp) {
+	private void genDebugAddProc(StringBuffer sb, ModifyGenerationStateConst state, DebugAddProc dap) {
+		sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering((string)");
+		genExpression(sb, dap.getFirstExpression(), state);
+		boolean first = true;
+		for(Expression expr : dap.getExpressions()) {
+			if(!first) {
+				sb.append(",");
+				genExpression(sb, expr, state);
+			} 
+			first = false;
+		}
+		sb.append(");\n");
+	}
+
+	private void genDebugRemProc(StringBuffer sb, ModifyGenerationStateConst state, DebugRemProc drp) {
+		sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting((string)");
+		genExpression(sb, drp.getFirstExpression(), state);
+		boolean first = true;
+		for(Expression expr : drp.getExpressions()) {
+			if(!first) {
+				sb.append(",");
+				genExpression(sb, expr, state);
+			} 
+			first = false;
+		}
+		sb.append(");\n");
+	}
+
+	private void genDebugEmitProc(StringBuffer sb, ModifyGenerationStateConst state, DebugEmitProc dep) {
+		sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEmitting((string)");
+		genExpression(sb, dep.getFirstExpression(), state);
+		boolean first = true;
+		for(Expression expr : dep.getExpressions()) {
+			if(!first) {
+				sb.append(",");
+				genExpression(sb, expr, state);
+			} 
+			first = false;
+		}
+		sb.append(");\n");
+	}
+
+	private void genDebugHaltProc(StringBuffer sb, ModifyGenerationStateConst state, DebugHaltProc dhp) {
+		sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugHalting((string)");
+		genExpression(sb, dhp.getFirstExpression(), state);
+		boolean first = true;
+		for(Expression expr : dhp.getExpressions()) {
+			if(!first) {
+				sb.append(",");
+				genExpression(sb, expr, state);
+			} 
+			first = false;
+		}
+		sb.append(");\n");
+	}
+
+	private void genDebugHighlightProc(StringBuffer sb, ModifyGenerationStateConst state, DebugHighlightProc dhp) {
     	String highlightValuesArray = "highlight_values_" + tmpVarID++;
 		sb.append("\t\t\tList<object> " + highlightValuesArray + " = new List<object>();\n");
     	String highlightSourceNamesArray = "highlight_source_names_" + tmpVarID++;
 		sb.append("\t\t\tList<string> " + highlightSourceNamesArray + " = new List<string>();\n");
 		int parameterNum = 0;
-		for(Expression expr : hp.getToHighlightExpressions()) {
-			if(parameterNum % 2 == 0) {
+		for(Expression expr : dhp.getExpressions()) {
+			if(parameterNum == 0) {
+				++parameterNum;
+				continue;
+			}
+			if(parameterNum % 2 == 1) {
 				sb.append("\t\t\t" + highlightValuesArray + ".Add(");
 				genExpression(sb, expr, state);
 				sb.append(");\n");
@@ -4324,8 +4396,9 @@ public class ModifyGen extends CSharpBase {
 			}
 			++parameterNum;
 		}
-		sb.append("\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).UserProxy.Highlight"
-				+ "(" + highlightValuesArray + ", " + highlightSourceNamesArray + ");\n");
+		sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugHighlighting((string)");
+		genExpression(sb, dhp.getFirstExpression(), state);
+		sb.append("," + highlightValuesArray + ", " + highlightSourceNamesArray + ");\n");
 	}
 
 	private void genRecordProc(StringBuffer sb, ModifyGenerationStateConst state, RecordProc rp) {

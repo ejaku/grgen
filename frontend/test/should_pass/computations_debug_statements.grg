@@ -1,0 +1,75 @@
+using model_init;
+
+function foo(n:Node) : string
+{
+	Debug::add("foo", 0, n, "foo");
+	Debug::emit("foo", 0, n, "foo");
+	Debug::halt("foo", 0, n, "foo");
+	Debug::halt("foo");
+	Debug::highlight("foo", 0, "vis=0", n, "n");
+	Debug::rem("foo", 0, n, "foo");
+	return("muh");
+}
+
+procedure bar(n:Node) : (string)
+{
+	Debug::add("bar", 0, n, "bar");
+	Debug::emit("bar", 0, n, "bar");
+	Debug::halt("bar", 0, n, "bar");
+	Debug::halt("bar");
+	Debug::highlight("bar", 0, "vis=0", n, "n");
+	Debug::rem("bar", 0, n, "bar");
+	return("muh");
+}
+
+test t()
+{
+	independent {
+		n:Node;
+		if{!n.visited[0];}
+		yield {
+			Debug::add("t", 0, n, "t");
+			Debug::emit("t", 0, n, "t");
+			Debug::halt("t", 0, n, "t");
+			Debug::halt("t");
+			Debug::highlight("t", 0, "vis=0", n, "n");
+			Debug::rem("t", 0, n, "t");
+		}
+	}
+}
+
+rule r()
+{	
+	n:Node;
+	if{!n.visited[0];}
+	modify {
+		def var vis:int;
+		def var res:string = "nNn";
+		
+		eval { 
+			Debug::add("r", 0, n, "r");
+			Debug::emit("r", 0, n, "r");
+			Debug::halt("r", 0, n, "r");
+			Debug::halt("r");
+			Debug::highlight("r", 0, "vis=0", n, "n");
+			Debug::rem("r", 0, n, "r");
+		}
+		eval {
+			Debug::add("r", 0, n, "r");
+			Debug::emit("r", 0, n, "r");
+			Debug::halt("r", 0, n, "r");
+			Debug::halt("r");
+			Debug::highlight("r", 0, "vis=0", n, "n", n, res);
+			Debug::rem("r", 0, n, "r");
+		}
+		
+		exec ( {
+			Debug::add("r", 0, n, "r");
+			Debug::emit("r", 0, n, "r");
+			Debug::halt("r", 0, n, "r");
+			Debug::halt("r");
+			Debug::highlight("r", 0, "vis=0", n, "n", n, res);
+			Debug::rem("r", 0, n, "r")
+			} );
+	}
+}

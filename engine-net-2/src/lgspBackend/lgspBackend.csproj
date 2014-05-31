@@ -86,6 +86,7 @@
     <Compile Include="lgspPattern.cs" />
     <Compile Include="lgspPatternElements.cs" />
     <Compile Include="lgspSequenceGenerator.cs" />
+    <Compile Include="lgspSubactionAndOutputAdditionEnvironment.cs" />
     <Compile Include="lgspTransactionManager.cs" />
     <Compile Include="lgspTransactionManagerUndoItems.cs" />
     <Compile Include="lgspUniquenessEnsurer.cs" />

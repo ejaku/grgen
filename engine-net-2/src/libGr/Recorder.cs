@@ -34,7 +34,7 @@ namespace de.unika.ipd.grGen.libGr
     public class Recorder : IRecorder
     {
         INamedGraph graph = null;
-        IGraphProcessingEnvironment procEnv = null;
+        ISubactionAndOutputAdditionEnvironment subOutEnv = null;
 
         private IDictionary<string, RecordingState> recordings = new Dictionary<string, RecordingState>();
 
@@ -42,21 +42,21 @@ namespace de.unika.ipd.grGen.libGr
         /// Create a recorder
         /// </summary>
         /// <param name="graph">The named graph whose changes are to be recorded</param>
-        /// <param name="procEnv">The graph processing environment receiving some of the action events, may be null if only graph changes are requested</param>
-        public Recorder(INamedGraph graph, IGraphProcessingEnvironment procEnv)
+        /// <param name="subOutEnv">The subaction and output environment receiving some of the action events, may be null if only graph changes are requested</param>
+        public Recorder(INamedGraph graph, ISubactionAndOutputAdditionEnvironment subOutEnv)
         {
-            Initialize(graph, procEnv);
+            Initialize(graph, subOutEnv);
         }
 
         /// <summary>
         /// Initializes a recorder after creation, needed if actions are selected later
         /// </summary>
         /// <param name="graph">The named graph whose changes are to be recorded</param>
-        /// <param name="procEnv">The graph processing environment receiving some of the action events, may be null if only graph changes are requested</param>
-        public void Initialize(INamedGraph graph, IGraphProcessingEnvironment procEnv)
+        /// <param name="subOutEnv">The subaction and output environment receiving some of the action events, may be null if only graph changes are requested</param>
+        public void Initialize(INamedGraph graph, ISubactionAndOutputAdditionEnvironment subOutEnv)
         {
             this.graph = graph;
-            this.procEnv = procEnv;
+            this.subOutEnv = subOutEnv;
         }
 
         public void StartRecording(string filename)
@@ -137,13 +137,13 @@ namespace de.unika.ipd.grGen.libGr
             graph.OnVisitedFree += VisitedFree;
             graph.OnSettingVisited += SettingVisited;
 
-            if(procEnv != null)
+            if(subOutEnv != null)
             {
-                procEnv.OnFinishing += BeforeFinish;
-                procEnv.OnRewritingNextMatch += RewriteNextMatch;
-                procEnv.OnFinished += AfterFinish;
-                procEnv.OnSwitchingToSubgraph += SwitchToGraph;
-                procEnv.OnReturnedFromSubgraph += ReturnFromGraph;
+                subOutEnv.OnFinishing += BeforeFinish;
+                subOutEnv.OnRewritingNextMatch += RewriteNextMatch;
+                subOutEnv.OnFinished += AfterFinish;
+                subOutEnv.OnSwitchingToSubgraph += SwitchToGraph;
+                subOutEnv.OnReturnedFromSubgraph += ReturnFromGraph;
             }
         }
 
@@ -161,13 +161,13 @@ namespace de.unika.ipd.grGen.libGr
             graph.OnVisitedFree -= VisitedFree;
             graph.OnSettingVisited -= SettingVisited;
 
-            if(procEnv != null)
+            if(subOutEnv != null)
             {
-                procEnv.OnFinishing -= BeforeFinish;
-                procEnv.OnRewritingNextMatch += RewriteNextMatch;
-                procEnv.OnFinished -= AfterFinish;
-                procEnv.OnSwitchingToSubgraph -= SwitchToGraph;
-                procEnv.OnReturnedFromSubgraph -= ReturnFromGraph;
+                subOutEnv.OnFinishing -= BeforeFinish;
+                subOutEnv.OnRewritingNextMatch += RewriteNextMatch;
+                subOutEnv.OnFinished -= AfterFinish;
+                subOutEnv.OnSwitchingToSubgraph -= SwitchToGraph;
+                subOutEnv.OnReturnedFromSubgraph -= ReturnFromGraph;
             }
         }
 
@@ -465,7 +465,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public void SwitchToGraph(IGraph newGraph)
         {
-            IGraph oldGraph = procEnv.Graph;
+            IGraph oldGraph = subOutEnv.Graph;
 
             foreach(RecordingState recordingState in recordings.Values)
             {
@@ -479,7 +479,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public void ReturnFromGraph(IGraph oldGraph)
         {
-            INamedGraph newGraph = (INamedGraph)procEnv.Graph;
+            INamedGraph newGraph = (INamedGraph)subOutEnv.Graph;
             foreach(RecordingState recordingState in recordings.Values)
                 recordingState.writer.WriteLine("in \"" + recordingState.mainExportContext.graphToContext[newGraph].name + "\" # due to return, before: " + oldGraph.Name);
 

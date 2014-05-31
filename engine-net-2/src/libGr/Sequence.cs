@@ -43,7 +43,6 @@ namespace de.unika.ipd.grGen.libGr
         AssignUserInputToVar, AssignRandomIntToVar, AssignRandomDoubleToVar, // needed as sequence because of debugger integration
         DeclareVariable, AssignConstToVar, AssignContainerConstructorToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope (VarToVar for embedded sequences, assigning rule elements to a variable)
         SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall,
-        Highlight,
         ExecuteInSubgraph,
         BooleanComputation
     }
@@ -4178,78 +4177,6 @@ namespace de.unika.ipd.grGen.libGr
                 return (Special ? "%" : "") + GetSequenceString();
             }
         }
-    }
-
-    public class SequenceHighlight : Sequence
-    {
-        public List<SequenceExpression> ArgExprs;
-
-        public SequenceHighlight(List<SequenceExpression> argExprs)
-            : base(SequenceType.Highlight)
-        {
-            ArgExprs = argExprs;
-        }
-
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            if(ArgExprs.Count % 2 == 1)
-                throw new Exception("Debug::highlight expects an even number of parameters (alternating value to highlight followed by annotation to be displayed)");
-
-            for(int i = 0; i < ArgExprs.Count; ++i)
-            {
-                if(i%2 == 1 && !TypesHelper.IsSameOrSubtype(ArgExprs[i].Type(env), "string", env.Model))
-                    throw new SequenceParserException("The " + i + " parameter of " + Symbol, "string type", ArgExprs[i].Type(env));
-            }
-
-            base.Check(env);
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-        {
-            SequenceHighlight copy = (SequenceHighlight)MemberwiseClone();
-            copy.ArgExprs = new List<SequenceExpression>();
-            foreach(SequenceExpression seqExpr in ArgExprs)
-                copy.ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
-        {
-            List<object> values = new List<object>();
-            List<string> annotations = new List<string>();
-            for(int i = 0; i < ArgExprs.Count; ++i)
-            {
-                if(i % 2 == 0)
-                    values.Add(ArgExprs[i].Evaluate(procEnv));
-                else
-                    annotations.Add((string)ArgExprs[i].Evaluate(procEnv));
-            }
-            procEnv.UserProxy.Highlight(values, annotations);
-            return true;
-        }
-
-        public override string Symbol
-        {
-            get
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("highlight(");
-                bool first = true;
-                foreach(SequenceExpression seqExpr in ArgExprs)
-                {
-                    if(!first)
-                        sb.Append(", ");
-                    else
-                        first = false;
-                    sb.Append(seqExpr.Symbol);
-                }
-                sb.Append(")");
-                return sb.ToString();
-            }
-        }
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
     }
 
     public class SequenceExecuteInSubgraph : SequenceUnary

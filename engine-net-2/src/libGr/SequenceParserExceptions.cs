@@ -122,12 +122,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Two upper bounds are given
         /// </summary>
-        TwoUpperBounds,
-
-        /// <summary>
-        /// highlight sequence must be prefixed with Debug package
-        /// </summary>
-        HighlightInDebugPackage
+        TwoUpperBounds
     }
 
     public enum DefinitionType
@@ -444,9 +439,6 @@ namespace de.unika.ipd.grGen.libGr
 
                 case SequenceParserError.TwoUpperBounds:
                     return "Two upper bounds specified in accessing index \"" + this.Name + "\"";
-
-                case SequenceParserError.HighlightInDebugPackage:
-                    return "highlight is only available in Debug package, not in \"" + this.Name + "\"";
 
                 default:
                     return "Invalid error kind: " + this.Kind;

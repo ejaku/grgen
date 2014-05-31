@@ -31,6 +31,7 @@ namespace de.unika.ipd.grGen.libGr
         Insert, InsertCopy,
         InsertInduced, InsertDefined,
         ProcedureCall, BuiltinProcedureCall, ProcedureMethodCall,
+        DebugAdd, DebugRem, DebugEmit, DebugHalt, DebugHighlight,
         AssignmentTarget, // every assignment target (lhs value) is a computation
         Expression // every expression (rhs value) is a computation
     }
@@ -837,6 +838,333 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return Target.Name; } }
         public override IEnumerable<SequenceComputation> Children { get { yield break; } }
         public override int Precedence { get { return 8; } } // always a top prio assignment factor
+    }
+
+    public class SequenceComputationDebugAdd : SequenceComputation
+    {
+        public List<SequenceExpression> ArgExprs;
+
+        public SequenceComputationDebugAdd(List<SequenceExpression> argExprs)
+            : base(SequenceComputationType.DebugAdd)
+        {
+            ArgExprs = argExprs;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(ArgExprs.Count == 0)
+                throw new Exception("Debug::add expects at least one parameter (the message at computation entry)");
+
+            if(!TypesHelper.IsSameOrSubtype(ArgExprs[0].Type(env), "string", env.Model))
+                throw new SequenceParserException("The 0 parameter of " + Symbol, "string type", ArgExprs[0].Type(env));
+
+            base.Check(env);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationDebugAdd copy = (SequenceComputationDebugAdd)MemberwiseClone();
+            copy.ArgExprs = new List<SequenceExpression>();
+            foreach(SequenceExpression seqExpr in ArgExprs)
+                copy.ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object[] values = new object[ArgExprs.Count-1];
+            for(int i = 1; i < ArgExprs.Count; ++i)
+            {
+                values[i-1] = ArgExprs[i].Evaluate(procEnv);
+            }
+            procEnv.DebugEntering((string)ArgExprs[0].Evaluate(procEnv), values);
+            return null;
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("Debug::add(");
+                bool first = true;
+                foreach(SequenceExpression seqExpr in ArgExprs)
+                {
+                    if(!first)
+                        sb.Append(", ");
+                    else
+                        first = false;
+                    sb.Append(seqExpr.Symbol);
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
+        }
+        public override IEnumerable<SequenceComputation> Children { get { for(int i = 0; i < ArgExprs.Count; ++i) yield return ArgExprs[i]; } }
+        public override int Precedence { get { return 8; } }
+    }
+
+    public class SequenceComputationDebugRem : SequenceComputation
+    {
+        public List<SequenceExpression> ArgExprs;
+
+        public SequenceComputationDebugRem(List<SequenceExpression> argExprs)
+            : base(SequenceComputationType.DebugRem)
+        {
+            ArgExprs = argExprs;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(ArgExprs.Count == 0)
+                throw new Exception("Debug::rem expects at least one parameter (the message at computation exit, must be the same as the message at computation entry)");
+
+            if(!TypesHelper.IsSameOrSubtype(ArgExprs[0].Type(env), "string", env.Model))
+                throw new SequenceParserException("The 0 parameter of " + Symbol, "string type", ArgExprs[0].Type(env));
+
+            base.Check(env);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationDebugRem copy = (SequenceComputationDebugRem)MemberwiseClone();
+            copy.ArgExprs = new List<SequenceExpression>();
+            foreach(SequenceExpression seqExpr in ArgExprs)
+                copy.ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object[] values = new object[ArgExprs.Count - 1];
+            for(int i = 1; i < ArgExprs.Count; ++i)
+            {
+                values[i - 1] = ArgExprs[i].Evaluate(procEnv);
+            }
+            procEnv.DebugExiting((string)ArgExprs[0].Evaluate(procEnv), values);
+            return null;
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("Debug::rem(");
+                bool first = true;
+                foreach(SequenceExpression seqExpr in ArgExprs)
+                {
+                    if(!first)
+                        sb.Append(", ");
+                    else
+                        first = false;
+                    sb.Append(seqExpr.Symbol);
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
+        }
+        public override IEnumerable<SequenceComputation> Children { get { for(int i = 0; i < ArgExprs.Count; ++i) yield return ArgExprs[i]; } }
+        public override int Precedence { get { return 8; } }
+    }
+
+    public class SequenceComputationDebugEmit : SequenceComputation
+    {
+        public List<SequenceExpression> ArgExprs;
+
+        public SequenceComputationDebugEmit(List<SequenceExpression> argExprs)
+            : base(SequenceComputationType.DebugEmit)
+        {
+            ArgExprs = argExprs;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(ArgExprs.Count == 0)
+                throw new Exception("Debug::emit expects at least one parameter (the message)");
+
+            if(!TypesHelper.IsSameOrSubtype(ArgExprs[0].Type(env), "string", env.Model))
+                throw new SequenceParserException("The 0 parameter of " + Symbol, "string type", ArgExprs[0].Type(env));
+
+            base.Check(env);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationDebugEmit copy = (SequenceComputationDebugEmit)MemberwiseClone();
+            copy.ArgExprs = new List<SequenceExpression>();
+            foreach(SequenceExpression seqExpr in ArgExprs)
+                copy.ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object[] values = new object[ArgExprs.Count - 1];
+            for(int i = 1; i < ArgExprs.Count; ++i)
+            {
+                values[i - 1] = ArgExprs[i].Evaluate(procEnv);
+            }
+            procEnv.DebugEmitting((string)ArgExprs[0].Evaluate(procEnv), values);
+            return null;
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("Debug::emit(");
+                bool first = true;
+                foreach(SequenceExpression seqExpr in ArgExprs)
+                {
+                    if(!first)
+                        sb.Append(", ");
+                    else
+                        first = false;
+                    sb.Append(seqExpr.Symbol);
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
+        }
+        public override IEnumerable<SequenceComputation> Children { get { for(int i = 0; i < ArgExprs.Count; ++i) yield return ArgExprs[i]; } }
+        public override int Precedence { get { return 8; } }
+    }
+
+    public class SequenceComputationDebugHalt : SequenceComputation
+    {
+        public List<SequenceExpression> ArgExprs;
+
+        public SequenceComputationDebugHalt(List<SequenceExpression> argExprs)
+            : base(SequenceComputationType.DebugHalt)
+        {
+            ArgExprs = argExprs;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(ArgExprs.Count == 0)
+                throw new Exception("Debug::halt expects at least one parameter (the message)");
+
+            if(!TypesHelper.IsSameOrSubtype(ArgExprs[0].Type(env), "string", env.Model))
+                throw new SequenceParserException("The 0 parameter of " + Symbol, "string type", ArgExprs[0].Type(env));
+
+            base.Check(env);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationDebugHalt copy = (SequenceComputationDebugHalt)MemberwiseClone();
+            copy.ArgExprs = new List<SequenceExpression>();
+            foreach(SequenceExpression seqExpr in ArgExprs)
+                copy.ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object[] values = new object[ArgExprs.Count - 1];
+            for(int i = 1; i < ArgExprs.Count; ++i)
+            {
+                values[i - 1] = ArgExprs[i].Evaluate(procEnv);
+            }
+            procEnv.DebugHalting((string)ArgExprs[0].Evaluate(procEnv), values);
+            return null;
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("Debug::halt(");
+                bool first = true;
+                foreach(SequenceExpression seqExpr in ArgExprs)
+                {
+                    if(!first)
+                        sb.Append(", ");
+                    else
+                        first = false;
+                    sb.Append(seqExpr.Symbol);
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
+        }
+        public override IEnumerable<SequenceComputation> Children { get { for(int i = 0; i < ArgExprs.Count; ++i) yield return ArgExprs[i]; } }
+        public override int Precedence { get { return 8; } }
+    }
+
+    public class SequenceComputationDebugHighlight : SequenceComputation
+    {
+        public List<SequenceExpression> ArgExprs;
+
+        public SequenceComputationDebugHighlight(List<SequenceExpression> argExprs)
+            : base(SequenceComputationType.DebugHighlight)
+        {
+            ArgExprs = argExprs;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(ArgExprs.Count == 0 || ArgExprs.Count % 2 == 0)
+                throw new Exception("Debug::highlight expects an odd number of parameters (message, then series of alternating value to highlight followed by annotation to be displayed)");
+
+            for(int i = 0; i < ArgExprs.Count; ++i)
+            {
+                if(i % 2 == 0 && !TypesHelper.IsSameOrSubtype(ArgExprs[i].Type(env), "string", env.Model))
+                    throw new SequenceParserException("The " + i + " parameter of " + Symbol, "string type", ArgExprs[i].Type(env));
+            }
+
+            base.Check(env);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationDebugHighlight copy = (SequenceComputationDebugHighlight)MemberwiseClone();
+            copy.ArgExprs = new List<SequenceExpression>();
+            foreach(SequenceExpression seqExpr in ArgExprs)
+                copy.ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            List<object> values = new List<object>();
+            List<string> annotations = new List<string>();
+            for(int i = 1; i < ArgExprs.Count; ++i)
+            {
+                if(i % 2 == 1)
+                    values.Add(ArgExprs[i].Evaluate(procEnv));
+                else
+                    annotations.Add((string)ArgExprs[i].Evaluate(procEnv));
+            }
+            procEnv.DebugHighlighting((string)ArgExprs[0].Evaluate(procEnv), values, annotations);
+            return null;
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("Debug::highlight(");
+                bool first = true;
+                foreach(SequenceExpression seqExpr in ArgExprs)
+                {
+                    if(!first)
+                        sb.Append(", ");
+                    else
+                        first = false;
+                    sb.Append(seqExpr.Symbol);
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
+        }
+        public override IEnumerable<SequenceComputation> Children { get { for(int i = 0; i < ArgExprs.Count; ++i) yield return ArgExprs[i]; } }
+        public override int Precedence { get { return 8; } }
     }
 
     public class SequenceComputationEmit : SequenceComputation
