@@ -1518,23 +1518,6 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceType.Highlight:
-                {
-                    SequenceHighlight seqHighlight = (SequenceHighlight)seq;
-                    source.AppendFront("List<object> values = new List<object>();\n");
-                    source.AppendFront("List<string> annotations = new List<string>();\n");
-                    for(int i = 0; i < seqHighlight.ArgExprs.Count; ++i)
-                    {
-                        if(i % 2 == 0)
-                            source.AppendFront("values.Add(" + GetSequenceExpression(seqHighlight.ArgExprs[i], source) + ");\n");
-                        else
-                            source.AppendFront("annotations.Add((string)" + GetSequenceExpression(seqHighlight.ArgExprs[i], source) + ");\n");
-                    }
-                    source.AppendFront("procEnv.UserProxy.Highlight(values, annotations);\n");
-                    source.AppendFront(SetResultVar(seqHighlight, "true"));
-                    break;
-                }
-
                 case SequenceType.ExecuteInSubgraph:
                 {
                     SequenceExecuteInSubgraph seqExecInSub = (SequenceExecuteInSubgraph)seq;
@@ -2614,6 +2597,91 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceComputationVReset seqVReset = (SequenceComputationVReset)seqComp;
                     source.AppendFront("graph.ResetVisitedFlag((int)" + GetSequenceExpression(seqVReset.VisitedFlagExpression, source) + ");\n");
                     source.AppendFront(SetResultVar(seqVReset, "null"));
+                    break;
+                }
+
+                case SequenceComputationType.DebugAdd:
+                {
+                    SequenceComputationDebugAdd seqDebug = (SequenceComputationDebugAdd)seqComp;
+                    source.AppendFront("procEnv.DebugEntering(");
+                    for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
+                    {
+                        if(i == 0)
+                            source.Append("(string)");
+                        else
+                            source.Append(", ");
+                        source.Append(GetSequenceExpression(seqDebug.ArgExprs[i], source));
+                    }
+                    source.Append(");\n");
+                    source.AppendFront(SetResultVar(seqDebug, "null"));
+                    break;
+                }
+
+                case SequenceComputationType.DebugRem:
+                {
+                    SequenceComputationDebugRem seqDebug = (SequenceComputationDebugRem)seqComp;
+                    source.AppendFront("procEnv.DebugExiting(");
+                    for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
+                    {
+                        if(i == 0)
+                            source.Append("(string)");
+                        else
+                            source.Append(", ");
+                        source.Append(GetSequenceExpression(seqDebug.ArgExprs[i], source));
+                    }
+                    source.Append(");\n");
+                    source.AppendFront(SetResultVar(seqDebug, "null"));
+                    break;
+                }
+
+                case SequenceComputationType.DebugEmit:
+                {
+                    SequenceComputationDebugEmit seqDebug = (SequenceComputationDebugEmit)seqComp;
+                    source.AppendFront("procEnv.DebugEmitting(");
+                    for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
+                    {
+                        if(i == 0)
+                            source.Append("(string)");
+                        else
+                            source.Append(", ");
+                        source.Append(GetSequenceExpression(seqDebug.ArgExprs[i], source));
+                    }
+                    source.Append(");\n");
+                    source.AppendFront(SetResultVar(seqDebug, "null"));
+                    break;
+                }
+
+                case SequenceComputationType.DebugHalt:
+                {
+                    SequenceComputationDebugHalt seqDebug = (SequenceComputationDebugHalt)seqComp;
+                    source.AppendFront("procEnv.DebugHalting(");
+                    for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
+                    {
+                        if(i == 0)
+                            source.Append("(string)");
+                        else
+                            source.Append(", ");
+                        source.Append(GetSequenceExpression(seqDebug.ArgExprs[i], source));
+                    }
+                    source.Append(");\n");
+                    source.AppendFront(SetResultVar(seqDebug, "null"));
+                    break;
+                }
+
+                case SequenceComputationType.DebugHighlight:
+                {
+                    SequenceComputationDebugHighlight seqDebug = (SequenceComputationDebugHighlight)seqComp;
+                    source.AppendFront("List<object> values = new List<object>();\n");
+                    source.AppendFront("List<string> annotations = new List<string>();\n");
+                    for(int i = 1; i < seqDebug.ArgExprs.Count; ++i)
+                    {
+                        if(i % 2 == 1)
+                            source.AppendFront("values.Add(" + GetSequenceExpression(seqDebug.ArgExprs[i], source) + ");\n");
+                        else
+                            source.AppendFront("annotations.Add((string)" + GetSequenceExpression(seqDebug.ArgExprs[i], source) + ");\n");
+                    }
+                    source.AppendFront("procEnv.DebugHighlighting(" + GetSequenceExpression(seqDebug.ArgExprs[0], source) + ", values, annotations);\n");
+                    source.AppendFront(SetResultVar(seqDebug, "null"));
                     break;
                 }
 

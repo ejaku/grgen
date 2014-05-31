@@ -1946,12 +1946,181 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a highlight statement
+    /// Class representing a debug add (entry) statement
     /// </summary>
-    public class HighlightStatement : Yielding
+    public class DebugAddStatement : Yielding
     {
-        public HighlightStatement(Expression[] values, Expression[] sourceNames)
+        public DebugAddStatement(Expression message, Expression[] values)
         {
+            Message = message;
+            Values = values;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Expression[] valuesCopy = new Expression[Values.Length];
+            for(int i = 0; i < Values.Length; ++i)
+                valuesCopy[i] = Values[i].Copy(renameSuffix);
+            return new DebugAddStatement(Message.Copy(renameSuffix), Values);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
+            Message.Emit(sourceCode);
+            foreach(Expression value in Values)
+            {
+                sourceCode.Append(", ");
+                value.Emit(sourceCode);
+            }
+            sourceCode.Append(");\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Message;
+            foreach(Expression expr in Values)
+                yield return expr;
+        }
+
+        Expression Message;
+        Expression[] Values;
+    }
+
+    /// <summary>
+    /// Class representing a debug rem (exit) statement
+    /// </summary>
+    public class DebugRemStatement : Yielding
+    {
+        public DebugRemStatement(Expression message, Expression[] values)
+        {
+            Message = message;
+            Values = values;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Expression[] valuesCopy = new Expression[Values.Length];
+            for(int i = 0; i < Values.Length; ++i)
+                valuesCopy[i] = Values[i].Copy(renameSuffix);
+            return new DebugRemStatement(Message.Copy(renameSuffix), Values);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting(");
+            Message.Emit(sourceCode);
+            foreach(Expression value in Values)
+            {
+                sourceCode.Append(", ");
+                value.Emit(sourceCode);
+            }
+            sourceCode.Append(");\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Message;
+            foreach(Expression expr in Values)
+                yield return expr;
+        }
+
+        Expression Message;
+        Expression[] Values;
+    }
+
+    /// <summary>
+    /// Class representing a debug emit statement
+    /// </summary>
+    public class DebugEmitStatement : Yielding
+    {
+        public DebugEmitStatement(Expression message, Expression[] values)
+        {
+            Message = message;
+            Values = values;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Expression[] valuesCopy = new Expression[Values.Length];
+            for(int i = 0; i < Values.Length; ++i)
+                valuesCopy[i] = Values[i].Copy(renameSuffix);
+            return new DebugEmitStatement(Message.Copy(renameSuffix), Values);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEmitting(");
+            Message.Emit(sourceCode);
+            foreach(Expression value in Values)
+            {
+                sourceCode.Append(", ");
+                value.Emit(sourceCode);
+            }
+            sourceCode.Append(");\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Message;
+            foreach(Expression expr in Values)
+                yield return expr;
+        }
+
+        Expression Message;
+        Expression[] Values;
+    }
+
+    /// <summary>
+    /// Class representing a debug halt statement
+    /// </summary>
+    public class DebugHaltStatement : Yielding
+    {
+        public DebugHaltStatement(Expression message, Expression[] values)
+        {
+            Message = message;
+            Values = values;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Expression[] valuesCopy = new Expression[Values.Length];
+            for(int i = 0; i < Values.Length; ++i)
+                valuesCopy[i] = Values[i].Copy(renameSuffix);
+            return new DebugHaltStatement(Message.Copy(renameSuffix), Values);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugHalting(");
+            Message.Emit(sourceCode);
+            foreach(Expression value in Values)
+            {
+                sourceCode.Append(", ");
+                value.Emit(sourceCode);
+            }
+            sourceCode.Append(");\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Message;
+            foreach(Expression expr in Values)
+                yield return expr;
+        }
+
+        Expression Message;
+        Expression[] Values;
+    }
+
+    /// <summary>
+    /// Class representing a debug highlight statement
+    /// </summary>
+    public class DebugHighlightStatement : Yielding
+    {
+        public DebugHighlightStatement(Expression message, Expression[] values, Expression[] sourceNames)
+        {
+            Message = message;
             Values = values;
             SourceNames = sourceNames;
         }
@@ -1964,7 +2133,7 @@ namespace de.unika.ipd.grGen.expression
             Expression[] sourceNamesCopy = new Expression[SourceNames.Length];
             for(int i = 0; i < SourceNames.Length; ++i)
                 sourceNamesCopy[i] = SourceNames[i].Copy(renameSuffix);
-            return new HighlightStatement(Values, SourceNames);
+            return new DebugHighlightStatement(Message.Copy(renameSuffix), Values, SourceNames);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -1981,20 +2150,26 @@ namespace de.unika.ipd.grGen.expression
             }
             foreach(Expression sourceName in SourceNames)
             {
-                sourceCode.AppendFront(highlightSourceNamesArray + ".Add(");
+                sourceCode.AppendFront(highlightSourceNamesArray + ".Add((string)");
                 sourceName.Emit(sourceCode);
                 sourceCode.Append(");\n");
             }
-            sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).UserProxy.Highlight"
-				    + "(" + highlightValuesArray + ", " + highlightSourceNamesArray + ");\n");
+            sourceCode.AppendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugHighlighting(");
+            Message.Emit(sourceCode);
+            sourceCode.Append(", " + highlightValuesArray + ", " + highlightSourceNamesArray);
+            sourceCode.Append(");\n");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
+            yield return Message;
             foreach(Expression expr in Values)
                 yield return expr;
+            foreach(Expression sourceName in SourceNames)
+                yield return sourceName;
         }
 
+        Expression Message;
         Expression[] Values;
         Expression[] SourceNames;
     }

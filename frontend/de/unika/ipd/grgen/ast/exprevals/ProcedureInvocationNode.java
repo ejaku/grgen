@@ -213,15 +213,63 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 				return false;
 			}
 		}
-		else if(procedureName.equals("highlightDebug")) {
-			if(params.size() % 2 == 0) {
-				HighlightProcNode highlight = new HighlightProcNode(getCoords());
+		else if(procedureName.equals("addDebug")) {
+			if(params.size() >= 1) {
+				DebugAddProcNode add = new DebugAddProcNode(getCoords());
 				for(ExprNode param : params.getChildren()) {
-					highlight.addExpressionToHighlight(param);
+					add.addExpression(param);
+				}
+				result = add;
+			} else {
+				reportError("Debug::add() takes at least one parameter, the message/computation entered.");
+				return false;				
+			}
+		}
+		else if(procedureName.equals("remDebug")) {
+			if(params.size() >= 1) {
+				DebugRemProcNode rem = new DebugRemProcNode(getCoords());
+				for(ExprNode param : params.getChildren()) {
+					rem.addExpression(param);
+				}
+				result = rem;
+			} else {
+				reportError("Debug::rem() takes at least one parameter, the message/computation left.");
+				return false;				
+			}
+		}
+		else if(procedureName.equals("emitDebug")) {
+			if(params.size() >= 1) {
+				DebugEmitProcNode rem = new DebugEmitProcNode(getCoords());
+				for(ExprNode param : params.getChildren()) {
+					rem.addExpression(param);
+				}
+				result = rem;
+			} else {
+				reportError("Debug::emit() takes at least one parameter, the message to report.");
+				return false;				
+			}
+		}
+		else if(procedureName.equals("haltDebug")) {
+			if(params.size() >= 1) {
+				DebugHaltProcNode rem = new DebugHaltProcNode(getCoords());
+				for(ExprNode param : params.getChildren()) {
+					rem.addExpression(param);
+				}
+				result = rem;
+			} else {
+				reportError("Debug::halt() takes at least one parameter, the message to report.");
+				return false;				
+			}
+		}
+		else if(procedureName.equals("highlightDebug")) {
+			if(params.size() % 2 == 1) {
+				DebugHighlightProcNode highlight = new DebugHighlightProcNode(getCoords());
+				for(ExprNode param : params.getChildren()) {
+					highlight.addExpression(param);
 				}
 				result = highlight;
 			} else {
-				reportError("Debug::highlight() takes an even number of parameters, each value must be followed by the annotation to display.");
+				reportError("Debug::highlight() takes an odd number of parameters, first the message, then a series of pairs of the value to highlight followed by its annotation.");
 				return false;				
 			}
 		}
@@ -330,6 +378,10 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 	protected boolean checkLocal() {
 		if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION
 				&& !procedureIdent.toString().equals("emit")
+				&& !procedureIdent.toString().equals("addDebug")
+				&& !procedureIdent.toString().equals("remDebug")
+				&& !procedureIdent.toString().equals("emitDebug")
+				&& !procedureIdent.toString().equals("haltDebug")
 				&& !procedureIdent.toString().equals("highlightDebug")) {
 			reportError("procedure call not allowed in function or lhs context (built-in-procedure)");
 			return false;

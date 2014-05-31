@@ -18,11 +18,9 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// An implementation of the IGraphProcessingEnvironment, to be used with LGSPGraphs.
     /// </summary>
-    public class LGSPGraphProcessingEnvironment : LGSPActionExecutionEnvironment, IGraphProcessingEnvironment
+    public class LGSPGraphProcessingEnvironment : LGSPSubactionAndOutputAdditionEnvironment, IGraphProcessingEnvironment
     {
         private LGSPTransactionManager transactionManager;
-        private IRecorder recorder;
-        private TextWriter emitWriter = Console.Out;
         public LGSPDeferredSequencesManager sequencesManager;
         
         private bool clearVariables = false;
@@ -38,37 +36,17 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPGraphProcessingEnvironment(LGSPGraph graph, LGSPActions actions)
             : base(graph, actions)
         {
-            recorder = new Recorder(graph as LGSPNamedGraph, this);
             transactionManager = new LGSPTransactionManager(this);
             sequencesManager = new LGSPDeferredSequencesManager();
             SetClearVariables(true);
         }
 
-        public void Initialize(LGSPGraph graph, LGSPActions actions)
+        public override void Initialize(LGSPGraph graph, LGSPActions actions)
         {
             SetClearVariables(false);
-            this.Graph = graph;
-            this.Actions = actions;
-            ((Recorder)recorder).Initialize(graph as LGSPNamedGraph, this);
+            base.Initialize(graph, actions);
             SetClearVariables(true);
         }
-
-        public void SwitchToSubgraph(IGraph newGraph)
-        {
-            SwitchingToSubgraph(newGraph);
-            usedGraphs.Push((LGSPGraph)newGraph);
-            namedGraphOnTop = newGraph as LGSPNamedGraph;
-        }
-
-        public IGraph ReturnFromSubgraph()
-        {
-            IGraph oldGraph = usedGraphs.Pop();
-            namedGraphOnTop = usedGraphs.Peek() as LGSPNamedGraph;
-            ReturnedFromSubgraph(oldGraph);
-            return oldGraph;
-        }
-
-        public bool IsInSubgraph { get { return usedGraphs.Count > 1; } }
 
         void RemovingNodeListener(INode node)
         {
@@ -165,18 +143,6 @@ namespace de.unika.ipd.grGen.lgsp
         public ITransactionManager TransactionManager
         { 
             get { return transactionManager; }
-        }
-
-        public IRecorder Recorder
-        {
-            get { return recorder; }
-            set { recorder = value; }
-        }
-
-        public TextWriter EmitWriter
-        {
-            get { return emitWriter; }
-            set { emitWriter = value; }
         }
         
         public void CloneGraphVariables(IGraph old, IGraph clone)
@@ -674,26 +640,10 @@ namespace de.unika.ipd.grGen.lgsp
         
 
         #region Events
-
-        public event SwitchToSubgraphHandler OnSwitchingToSubgraph;
-        public event ReturnFromSubgraphHandler OnReturnedFromSubgraph;
-        
+       
         public event EnterSequenceHandler OnEntereringSequence;
         public event ExitSequenceHandler OnExitingSequence;
         public event EndOfIterationHandler OnEndOfIteration;
-
-        private void SwitchingToSubgraph(IGraph graph)
-        {
-            SwitchToSubgraphHandler handler = OnSwitchingToSubgraph;
-            if(handler != null) handler(graph);
-        }
-
-        private void ReturnedFromSubgraph(IGraph graph)
-        {
-            ReturnFromSubgraphHandler handler = OnReturnedFromSubgraph;
-            if(handler != null) handler(graph);
-        }
-
 
         public void EnteringSequence(Sequence seq)
         {

@@ -15,39 +15,39 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ir.exprevals.DebugHighlightProc;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.HighlightProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class HighlightProcNode extends ProcedureInvocationBaseNode {
+public class DebugHighlightProcNode extends ProcedureInvocationBaseNode {
 	static {
-		setName(HighlightProcNode.class, "highlight procedure");
+		setName(DebugHighlightProcNode.class, "debug highlight procedure");
 	}
 
-	private CollectNode<ExprNode> highlightChildren = new CollectNode<ExprNode>();
+	private CollectNode<ExprNode> exprs = new CollectNode<ExprNode>();
 
-	public HighlightProcNode(Coords coords) {
+	public DebugHighlightProcNode(Coords coords) {
 		super(coords);
 
-		this.highlightChildren = becomeParent(highlightChildren);
+		this.exprs = becomeParent(exprs);
 	}
 
-	public void addExpressionToHighlight(ExprNode expr) {
-		highlightChildren.addChild(expr);
+	public void addExpression(ExprNode expr) {
+		exprs.addChild(expr);
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(highlightChildren);
+		children.add(exprs);
 		return children;
 	}
 
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("exprs to highlight");
+		childrenNames.add("exprs");
 		return childrenNames;
 	}
 
@@ -59,9 +59,9 @@ public class HighlightProcNode extends ProcedureInvocationBaseNode {
 	@Override
 	protected boolean checkLocal() {
 		int paramNum = 0;
-		for(ExprNode expr : highlightChildren.getChildren()) {
-			if(paramNum % 2 == 1 && !(expr.getType().equals(BasicTypeNode.stringType))) {
-				reportError("argument " + paramNum + " of Debug::highlight() must be of string type (a sequence of (value, annotation for the value)* must be given)");
+		for(ExprNode expr : exprs.getChildren()) {
+			if(paramNum % 2 == 0 && !(expr.getType().equals(BasicTypeNode.stringType))) {
+				reportError("argument " + paramNum + " of Debug::highlight() must be of string type (a message followed by a sequence of (value, annotation for the value)* must be given)");
 				return false;
 			}
 			++paramNum;
@@ -75,10 +75,10 @@ public class HighlightProcNode extends ProcedureInvocationBaseNode {
 
 	@Override
 	protected IR constructIR() {
-		Vector<Expression> expressionsToHighlight = new Vector<Expression>();
-		for(ExprNode expr : highlightChildren.getChildren()) {
-			expressionsToHighlight.add(expr.checkIR(Expression.class));
+		Vector<Expression> expressions = new Vector<Expression>();
+		for(ExprNode expr : exprs.getChildren()) {
+			expressions.add(expr.checkIR(Expression.class));
 		}
-		return new HighlightProc(expressionsToHighlight);
+		return new DebugHighlightProc(expressions);
 	}
 }

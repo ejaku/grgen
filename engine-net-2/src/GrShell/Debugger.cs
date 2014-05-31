@@ -1661,14 +1661,6 @@ namespace de.unika.ipd.grGen.grShell
                         break;
                     }
 
-                // highlight highlighting if current
-                case SequenceType.Highlight:
-                    {
-                        HighlightingMode mode = seq==context.highlightSeq ? HighlightingMode.Focus : HighlightingMode.None;
-                        context.workaround.PrintHighlighted(seq.Symbol, mode); 
-                        break;
-                    }
-
                 default:
                     {
                         Debug.Assert(false);
@@ -2542,17 +2534,6 @@ namespace de.unika.ipd.grGen.grShell
             return value;
         }
 
-        /// <summary>
-        /// highlights the values in the graphs if debugging is active (annotating them with the source names)
-        /// </summary>
-        public void Highlight(List<object> values, List<string> sourceNames)
-        {
-            ShellProcEnv.ProcEnv.HighlightingUnderway = true;
-            Console.WriteLine("Highlighting called...");
-            HandleHighlight(values, sourceNames);
-            ShellProcEnv.ProcEnv.HighlightingUnderway = false;
-        }
-
         #endregion Possible user choices during sequence execution
 
 
@@ -3169,6 +3150,39 @@ namespace de.unika.ipd.grGen.grShell
             RegisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
         }
 
+        void DebugEnter(string message, params object[] values)
+        {
+            Console.WriteLine("enter (Debug::add) " + message);
+        }
+
+        void DebugExit(string message, params object[] values)
+        {
+            Console.WriteLine("exit (Debug::rem) " + message);
+        }
+
+        void DebugEmit(string message, params object[] values)
+        {
+            Console.WriteLine("report (Debug::emit) " + message);
+        }
+
+        void DebugHalt(string message, params object[] values)
+        {
+            Console.WriteLine("halt (Debug::halt) " + message);
+            Console.WriteLine("Press any key to continue...");
+            ReadKeyWithCancel();
+        }
+
+        /// <summary>
+        /// highlights the values in the graphs if debugging is active (annotating them with the source names)
+        /// </summary>
+        void DebugHighlight(string message, List<object> values, List<string> sourceNames)
+        {
+            Console.WriteLine("highlight (Debug::highlight) " + message);
+            ShellProcEnv.ProcEnv.HighlightingUnderway = true;
+            HandleHighlight(values, sourceNames);
+            ShellProcEnv.ProcEnv.HighlightingUnderway = false;
+        }
+
         void DebugOnConnectionLost()
         {
             Console.WriteLine("Connection to yComp lost!");
@@ -3195,11 +3209,19 @@ namespace de.unika.ipd.grGen.grShell
             shellProcEnv.ProcEnv.OnMatched += DebugMatched;
             shellProcEnv.ProcEnv.OnRewritingNextMatch += DebugNextMatch;
             shellProcEnv.ProcEnv.OnFinished += DebugFinished;
+
+            shellProcEnv.ProcEnv.OnSwitchingToSubgraph += DebugSwitchToGraph;
+            shellProcEnv.ProcEnv.OnReturnedFromSubgraph += DebugReturnedFromGraph;
+
+            shellProcEnv.ProcEnv.OnDebugEnter += DebugEnter;
+            shellProcEnv.ProcEnv.OnDebugExit += DebugExit;
+            shellProcEnv.ProcEnv.OnDebugEmit += DebugEmit;
+            shellProcEnv.ProcEnv.OnDebugHalt += DebugHalt;
+            shellProcEnv.ProcEnv.OnDebugHighlight += DebugHighlight;
+
             shellProcEnv.ProcEnv.OnEntereringSequence += DebugEnteringSequence;
             shellProcEnv.ProcEnv.OnExitingSequence += DebugExitingSequence;
             shellProcEnv.ProcEnv.OnEndOfIteration += DebugEndOfIteration;
-            shellProcEnv.ProcEnv.OnSwitchingToSubgraph += DebugSwitchToGraph;
-            shellProcEnv.ProcEnv.OnReturnedFromSubgraph += DebugReturnedFromGraph;
         }
 
         /// <summary>
@@ -3222,11 +3244,19 @@ namespace de.unika.ipd.grGen.grShell
             shellProcEnv.ProcEnv.OnMatched -= DebugMatched;
             shellProcEnv.ProcEnv.OnRewritingNextMatch -= DebugNextMatch;
             shellProcEnv.ProcEnv.OnFinished -= DebugFinished;
+
+            shellProcEnv.ProcEnv.OnSwitchingToSubgraph -= DebugSwitchToGraph;
+            shellProcEnv.ProcEnv.OnReturnedFromSubgraph -= DebugReturnedFromGraph;
+
+            shellProcEnv.ProcEnv.OnDebugEnter -= DebugEnter;
+            shellProcEnv.ProcEnv.OnDebugExit -= DebugExit;
+            shellProcEnv.ProcEnv.OnDebugEmit -= DebugEmit;
+            shellProcEnv.ProcEnv.OnDebugHalt -= DebugHalt;
+            shellProcEnv.ProcEnv.OnDebugHighlight -= DebugHighlight;
+
             shellProcEnv.ProcEnv.OnEntereringSequence -= DebugEnteringSequence;
             shellProcEnv.ProcEnv.OnExitingSequence -= DebugExitingSequence;
             shellProcEnv.ProcEnv.OnEndOfIteration -= DebugEndOfIteration;
-            shellProcEnv.ProcEnv.OnSwitchingToSubgraph -= DebugSwitchToGraph;
-            shellProcEnv.ProcEnv.OnReturnedFromSubgraph -= DebugReturnedFromGraph;
         }
 
         #endregion Event Handling

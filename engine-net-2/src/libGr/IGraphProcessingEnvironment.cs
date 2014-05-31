@@ -14,21 +14,6 @@ namespace de.unika.ipd.grGen.libGr
     #region GraphProcessingDelegates
 
     /// <summary>
-    /// Represents a method called directly before graph processing switches to a subgraph.
-    /// (Graph processing means rule and sequence execution. Not called when the main graph is replaced.)
-    /// </summary>
-    /// <param name="graph">The new graph switched to.</param>
-    public delegate void SwitchToSubgraphHandler(IGraph graph);
-
-    /// <summary>
-    /// Represents a method called directly after graph processing returned back (from a previous switch).
-    /// (To the main graph, or a subgraph previously switched to. Graph processing means rule and sequence execution.)
-    /// </summary>
-    /// <param name="graph">The old graph returned from.</param>
-    public delegate void ReturnFromSubgraphHandler(IGraph graph);
-
-
-    /// <summary>
     /// Represents a method called directly after a sequence has been entered.
     /// </summary>
     /// <param name="seq">The current sequence object.</param>
@@ -50,48 +35,16 @@ namespace de.unika.ipd.grGen.libGr
 
     /// <summary>
     /// An environment for the advanced processing of graphs and the execution of sequences.
-    /// With global variables, textual output, (sub)graph switching, and transaction management.
+    /// With global variables, (sub)graph switching, and transaction management.
     /// </summary>
-    public interface IGraphProcessingEnvironment : IActionExecutionEnvironment
+    public interface IGraphProcessingEnvironment : ISubactionAndOutputAdditionEnvironment
     {
-        /// <summary>
-        /// Switches the graph to the given (sub)graph.
-        /// (One level added to the current graph stack.)
-        /// </summary>
-        /// <param name="newGraph">The new graph to use as current graph</param>
-        void SwitchToSubgraph(IGraph newGraph);
-
-        /// <summary>
-        /// Returns from the last switch to subgraph.
-        /// (One level back on the current graph stack.)
-        /// </summary>
-        /// <returns>The lastly used (sub)graph, now not used any more</returns>
-        IGraph ReturnFromSubgraph();
-
-        /// <summary>
-        /// Returns true when graph processings is currently occuring inside a subgraph,
-        /// returns false when the main host graph is currently processed
-        /// (i.e. only one entry on the current graph stack is existing).
-        /// </summary>
-        bool IsInSubgraph { get; }
-
         /// <summary>
         /// Returns the transaction manager of the processing environment.
         /// (Recording and undoing changes in the main graph and all processed subgraphs).
         /// Don't forget to call Commit after a transaction is finished!
         /// </summary>
         ITransactionManager TransactionManager { get; }
-
-        /// <summary>
-        /// The recorder of the main graph (nested subgraphs are not supported).
-        /// Might be null (is set if a named graph is available, then the persistent names are taken from the named graph).
-        /// </summary>
-        IRecorder Recorder { get; set; }
-
-        /// <summary>
-        /// The writer used by emit statements. By default this is Console.Out.
-        /// </summary>
-        TextWriter EmitWriter { get; set; }
 
         /// <summary>
         /// Duplicates the graph variables of an old just cloned graph, assigns them to the new cloned graph.
@@ -310,19 +263,6 @@ namespace de.unika.ipd.grGen.libGr
         #region Events
 
         /// <summary>
-        /// Fired when graph processing (rule and sequence execution) is switched to a (sub)graph.
-        /// (Not fired when the main graph is replaced by another main graph, or initialized.)
-        /// </summary>
-        event SwitchToSubgraphHandler OnSwitchingToSubgraph;
-
-        /// <summary>
-        /// Fired when graph processing is returning back after a switch.
-        /// (To the main graph, or a subgraph previously switched to.)
-        /// </summary>
-        event ReturnFromSubgraphHandler OnReturnedFromSubgraph;
-
-
-        /// <summary>
         /// Fired when a sequence is entered.
         /// </summary>
         event EnterSequenceHandler OnEntereringSequence;
@@ -409,16 +349,5 @@ namespace de.unika.ipd.grGen.libGr
         {
             throw new Exception("Can only query the user for a value if a debugger is available");
         }
-
-        public void Highlight(List<object> values, List<string> sourceNames)
-        {
-            if(!highlightWarningShown)
-            {
-                Console.WriteLine("Highlight called without attached debugger, use \"debug enable\" or debug exec <seq> to see the highlighted content.");
-                highlightWarningShown = true;
-            }
-        }
-
-        bool highlightWarningShown = false;
     }
 }

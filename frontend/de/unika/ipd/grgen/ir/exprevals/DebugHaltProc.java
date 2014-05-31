@@ -9,16 +9,23 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import java.util.Collection;
 
-public class HighlightProc extends ProcedureInvocationBase {
-	private Collection<Expression> toHighlightExpressions;
+public class DebugHaltProc extends ProcedureInvocationBase {
+	private Collection<Expression> exprs;
 
-	public HighlightProc(Collection<Expression> toHighlightExpressions) {
-		super("highlight procedure");
-		this.toHighlightExpressions = toHighlightExpressions;
+	public DebugHaltProc(Collection<Expression> expressions) {
+		super("debug halt procedure");
+		this.exprs = expressions;
 	}
 
-	public Collection<Expression> getToHighlightExpressions() {
-		return toHighlightExpressions;
+	public Expression getFirstExpression() {
+		for(Expression expr : exprs) {
+			return expr;
+		}
+		return null;
+	}
+
+	public Collection<Expression> getExpressions() {
+		return exprs;
 	}
 
 	public ProcedureBase getProcedureBase() {
@@ -27,8 +34,8 @@ public class HighlightProc extends ProcedureInvocationBase {
 
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		for(Expression exprToHighlight : toHighlightExpressions) {
-			exprToHighlight.collectNeededEntities(needs);
+		for(Expression expr : exprs) {
+			expr.collectNeededEntities(needs);
 		}
 	}
 }
