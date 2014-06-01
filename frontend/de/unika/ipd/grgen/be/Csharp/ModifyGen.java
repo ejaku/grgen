@@ -568,7 +568,7 @@ public class ModifyGen extends CSharpBase {
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
 
-		boolean useAddedElementNames = be.system.mayFireEvents()
+		boolean useAddedElementNames = be.system.mayFireActionEvents()
 			&& (task.typeOfTask==TYPE_OF_TASK_CREATION
 				|| (task.typeOfTask==TYPE_OF_TASK_MODIFY && task.left!=task.right));
 		boolean createAddedElementNames = task.typeOfTask==TYPE_OF_TASK_CREATION ||
@@ -1932,7 +1932,21 @@ public class ModifyGen extends CSharpBase {
 		
 		for(EvalStatements evalStmts : evalStatements) {
 			sb.append("\t\t\t{ // " + evalStmts.getName() + "\n");
+			
+			//if(be.system.mayFireActionEvents()) {
+			//	sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
+			//	sb.append("\"" + state.name() + "." + evalStmts.getName() + "\"");
+			//	sb.append(");\n");
+			//}
+
 			genEvals(sb, state, evalStmts.evalStatements);
+			
+			//if(be.system.mayFireActionEvents()) {
+			//	sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting(");
+			//	sb.append("\"" + state.name() + "." + evalStmts.getName() + "\"");
+			//	sb.append(");\n");
+			//}
+
 			sb.append("\t\t\t}\n");
 		}
 	}
@@ -2404,10 +2418,10 @@ public class ModifyGen extends CSharpBase {
 
 		Entity owner = cass.getTarget().getOwner();
 		boolean isDeletedElem = owner instanceof Node ? state.delNodes().contains(owner) : state.delEdges().contains(owner);
-		if(!isDeletedElem && be.system.mayFireEvents()) {
+		if(!isDeletedElem && be.system.mayFireAttributeEvents()) {
 			owner = changedTarget.getOwner();
 			isDeletedElem = owner instanceof Node ? state.delNodes().contains(owner) : state.delEdges().contains(owner);
-			if(!isDeletedElem && be.system.mayFireEvents()) {
+			if(!isDeletedElem && be.system.mayFireAttributeEvents()) {
 				String varName = "tempvar_" + tmpVarID++;
 				String varType = "bool ";
 
@@ -2478,7 +2492,7 @@ public class ModifyGen extends CSharpBase {
 		Type elementType = attribute.getOwner();
 
 		boolean isDeletedElem = element instanceof Node ? state.delNodes().contains(element) : state.delEdges().contains(element);
-		if(!isDeletedElem && be.system.mayFireEvents()) {
+		if(!isDeletedElem && be.system.mayFireAttributeEvents()) {
 			sb.append(prefix);
 			if(cass.getOperation()==CompoundAssignment.UNION)
 				sb.append("GRGEN_LIBGR.ContainerHelper.UnionChanged(");
@@ -2513,7 +2527,7 @@ public class ModifyGen extends CSharpBase {
 
 		Entity owner = changedTarget.getOwner();
 		boolean isDeletedElem = owner instanceof Node ? state.delNodes().contains(owner) : state.delEdges().contains(owner);
-		if(!isDeletedElem && be.system.mayFireEvents()) {
+		if(!isDeletedElem && be.system.mayFireAttributeEvents()) {
 			String varName = "tempvar_" + tmpVarID++;
 			String varType = "bool ";
 
@@ -3125,6 +3139,14 @@ public class ModifyGen extends CSharpBase {
 			genExpression(sb, returnValueExpr, state);
 			sb.append(";\n");
 			++i;
+		}
+		if(be.system.mayFireActionEvents()) {
+			sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting(");
+			sb.append("\"" + state.name() + "\"");
+			for(int j=0; j<i; ++j) {
+				sb.append(", _out_param_" + j);
+			}
+			sb.append(");\n");
 		}
 		sb.append("\t\t\treturn;\n");
 	}
@@ -4688,7 +4710,7 @@ public class ModifyGen extends CSharpBase {
 		}
 		else assert false : "Entity is neither a node nor an edge (" + element + ")!";
 
-		if(!isDeletedElem && be.system.mayFireEvents()) {
+		if(!isDeletedElem && be.system.mayFireAttributeEvents()) {
 			if(!Expression.isGlobalVariable(element)) {
 				sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" +
 						formatEntity(element) +	", " +
@@ -4729,7 +4751,7 @@ public class ModifyGen extends CSharpBase {
 		}
 		else assert false : "Entity is neither a node nor an edge (" + element + ")!";
 
-		if(!isDeletedElem && be.system.mayFireEvents()) {
+		if(!isDeletedElem && be.system.mayFireAttributeEvents()) {
 			if(attribute.getType() instanceof MapType) {
 				MapType attributeType = (MapType)attribute.getType();
 				sb.append("\t\t\tforeach(KeyValuePair<" + formatType(attributeType.getKeyType()) + "," + formatType(attributeType.getValueType()) + "> kvp " +

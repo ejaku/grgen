@@ -26,7 +26,8 @@ public interface Sys {
 
 	OutputStream createDebugFile(File file);
 
-	boolean mayFireEvents();
+	boolean mayFireAttributeEvents();
+	boolean mayFireActionEvents();
 	
 	boolean emitProfilingInstrumentation();
 }

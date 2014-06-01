@@ -81,7 +81,8 @@ public class Main extends Base implements Sys {
 	private Reporter debugReporter;
 	private Handler debugHandler;
 
-	private boolean noEvents;
+	private boolean noAttributeEvents;
+	private boolean noActionEvents;
 
 	private boolean enableDebug;
 	
@@ -166,7 +167,8 @@ public class Main extends Base implements Sys {
 		System.out.println("  -p, --prefs=FILE                  import preferences from FILE");
 		System.out.println("  -x, --prefs-export=FILE           export preferences to FILE");
 		System.out.println("  -o, --output=DIRECTORY            write generated files to DIRECTORY");
-		System.out.println("  -e, --noevents                    the generated code may not fire any events");
+		System.out.println("  -v, --noactionevents              the generated code may not fire action events");
+		System.out.println("  -e, --noattributeevents           the generated code may not fire attribute change events");
 	}
 
 	// TODO use or remove it
@@ -300,7 +302,8 @@ public class Main extends Base implements Sys {
 			CmdLineParser.Option ruleDumpOpt = parser.addBooleanOption('j', "dump-ir-rules");
 			CmdLineParser.Option graphicOpt = parser.addBooleanOption('g', "graphic");
 			CmdLineParser.Option timeOpt = parser.addBooleanOption('t', "timing");
-			CmdLineParser.Option noEventsOpt = parser.addBooleanOption('e', "noevents");
+			CmdLineParser.Option noAttributeEventsOpt = parser.addBooleanOption('e', "noattributeevents");
+			CmdLineParser.Option noActionEventsOpt = parser.addBooleanOption('v', "noactionevents");
 
 			CmdLineParser.Option dumpOutputToFileOpt =
 				parser.addStringOption('c', "dump-output-to-file");
@@ -337,7 +340,8 @@ public class Main extends Base implements Sys {
 			emitProfiling = parser.getOptionValue(profOpt) != null;
 			graphic = parser.getOptionValue(graphicOpt) != null;
 			printTiming = parser.getOptionValue(timeOpt) != null;
-			noEvents = parser.getOptionValue(noEventsOpt) != null;
+			noAttributeEvents = parser.getOptionValue(noAttributeEventsOpt) != null;
+			noActionEvents = parser.getOptionValue(noActionEventsOpt) != null;
 
 			/* deactivate graphic if no debug output */
 			if (!enableDebug)
@@ -365,8 +369,12 @@ public class Main extends Base implements Sys {
 		}
 	}
 
-	public boolean mayFireEvents() {
-		return !noEvents;
+	public boolean mayFireAttributeEvents() {
+		return !noAttributeEvents;
+	}
+
+	public boolean mayFireActionEvents() {
+		return !noActionEvents;
 	}
 
 	public boolean emitProfilingInstrumentation() {

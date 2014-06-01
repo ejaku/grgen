@@ -188,15 +188,13 @@ namespace de.unika.ipd.grGen.grGen
                             flags |= ProcessSpecFlags.CompileWithDebug;
                             break;
 
-                        case "-noevents":
-                            flags |= ProcessSpecFlags.NoEvents;
+                        case "-noattributeevents":
+                            flags |= ProcessSpecFlags.NoAttributeEvents;
                             break;
 
-                        case "-mission":
-                            Console.WriteLine("The Graph Rewrite Generator GrGen.NET:");
-                            Console.WriteLine("One tool to rule them all, one tool to find them.");
-                            Console.WriteLine("One tool to bring them all, and in the darkness bind them.");
-                            return 0;
+                        case "-noactionevents":
+                            flags |= ProcessSpecFlags.NoActionEvents;
+                            break;
 
                         case "-lazynic":
                             flags |= ProcessSpecFlags.LazyNIC;
@@ -267,9 +265,11 @@ namespace de.unika.ipd.grGen.grGen
                     + "  -lazynic              Negatives, Independents, and Conditions are only\n"
                     + "                        executed at the end of matching (normally asap)\n"
                     + "  -noinline             disables subpattern inlining\n"
-                    + "  -mission              Uncovers the tool's evil mission\n\n"
                     + "Optimizing options:\n"
-                    + "  -noevents             Do not fire any events in the generated code.\n"
+                    + "  -noactionevents       Do not fire action events in the generated code.\n"
+                    + "                        Impacts debugging.\n"
+                    + "  -noattributeevents    Do not fire attrib. change events in the generated code.\n"
+                    + "                        Impacts transactions, recording, debugging.\n"
                     + "  -noperfinfo           Do not try to update the performance info object\n"
                     + "                        counting number of matches and rewrites.");
                 return 1;

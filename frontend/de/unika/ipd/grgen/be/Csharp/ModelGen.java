@@ -1464,6 +1464,17 @@ deque_init_loop:
 			sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
 			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false, be.system.emitProfilingInstrumentation());
 			mgFuncComp.initEvalGen();
+			
+			if(be.system.mayFireActionEvents()) {
+				sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
+				sb.append("\"" + pm.getIdent().toString() + "\"");
+				for(Entity inParam : pm.getParameters()) {
+					sb.append(", ");
+					sb.append(formatEntity(inParam));
+				}
+				sb.append(");\n");
+			}
+
 			for(EvalStatement evalStmt : pm.getComputationStatements()) {
 				modifyGenState.functionOrProcedureName = pm.getIdent().toString();
 				mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);

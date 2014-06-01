@@ -57,29 +57,34 @@ namespace de.unika.ipd.grGen.libGr
         NoCreateActionsAssembly = 32,
 
         /// <summary>
-        /// Do not fire any events in the generated code. Used for optimization.
+        /// Do not fire action events in the generated code. Used for optimization.
         /// </summary>
-        NoEvents = 64,
+        NoActionEvents = 64,
+
+        /// <summary>
+        /// Do not fire attribute change events in the generated code. Used for optimization.
+        /// </summary>
+        NoAttributeEvents = 128,
 
         /// <summary>
         /// Execute the negatives, independents, and conditionals only at the end of matching.
         /// </summary>
-        LazyNIC = 128,
+        LazyNIC = 256,
 
         /// <summary>
         /// Forbids inlining of subpatterns (allows quick disabling in case of a bug of for comparison).
         /// </summary>
-        Noinline = 256,
+        Noinline = 512,
 
         /// <summary>
         /// Profiling information is collected, i.e. some statistics about search steps carried out
         /// </summary>
-        Profile = 512,
+        Profile = 1024,
 
         /// <summary>
         /// Generates anew even if the sources did not change (needed to get a new build e.g. after changing profiling or statistics)
         /// </summary>
-        GenerateEvenIfSourcesDidNotChange = 1024
+        GenerateEvenIfSourcesDidNotChange = 2048
     }
 
     /// <summary>

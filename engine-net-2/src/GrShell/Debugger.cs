@@ -19,60 +19,6 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.grShell
 {
-    public class PrintSequenceContext
-    {
-        /// <summary>
-        /// The workaround for printing highlighted
-        /// </summary>
-        public IWorkaround workaround;
-
-        /// <summary>
-        /// A counter increased for every potential breakpoint position and printed next to a potential breakpoint.
-        /// If bpPosCounter is smaller than zero, no such counter is used or printed.
-        /// If bpPosCounter is greater than or equal zero, the following highlighting values are irrelvant.
-        /// </summary>
-        public int bpPosCounter = -1;
-
-        /// <summary>
-        /// A counter increased for every potential choice position and printed next to a potential choicepoint.
-        /// If cpPosCounter is smaller than zero, no such counter is used or printed.
-        /// If cpPosCounter is greater than or equal zero, the following highlighting values are irrelvant.
-        /// </summary>
-        public int cpPosCounter = -1;
-
-        /// <summary> The sequence to be highlighted or null </summary>
-        public Sequence highlightSeq;
-        /// <summary> The sequence to be highlighted was already successfully matched? </summary>
-        public bool success;
-        /// <summary> The sequence to be highlighted requires a direction choice? </summary>
-        public bool choice;
-
-        /// <summary> If not null, gives the sequences to choose amongst </summary>
-        public List<Sequence> sequences;
-        /// <summary> If not null, gives the matches of the sequences to choose amongst </summary>
-        public List<IMatches> matches;
-
-        public PrintSequenceContext(IWorkaround workaround)
-        {
-            Init(workaround);
-        }
-
-        public void Init(IWorkaround workaround)
-        {
-            this.workaround = workaround;
-
-            bpPosCounter = -1;
-
-            cpPosCounter = -1;
-
-            highlightSeq = null;
-            success = false;
-            choice = false;
-
-            sequences = null;
-        }
-    }
-
     class Debugger : IUserProxyForSequenceExecution
     {
         GrShellImpl grShellImpl;
@@ -86,6 +32,8 @@ namespace de.unika.ipd.grGen.grShell
         bool dynamicStepMode = false;
         bool skipMode = false;
         bool detailedMode = false;
+        bool outOfDetailedMode = false;
+        int outOfDetailedModeTarget = -1;
         bool recordMode = false;
         bool alwaysShow = true;
         Sequence curStepSequence = null;
@@ -120,6 +68,8 @@ namespace de.unika.ipd.grGen.grShell
 
         Dictionary<INode, bool> excludedGraphNodesIncluded = new Dictionary<INode, bool>();
         Dictionary<IEdge, bool> excludedGraphEdgesIncluded = new Dictionary<IEdge, bool>();
+
+        List<SubruleComputation> computationsEnteredStack = new List<SubruleComputation>(); // can't use stack class, too weak
 
         public YCompClient YCompClient { get { return ycompClient; } }
         public bool ConnectionLost { get { return ycompClient.ConnectionLost; } }
@@ -315,6 +265,8 @@ namespace de.unika.ipd.grGen.grShell
             recordMode = false;
             alwaysShow = false;
             detailedMode = false;
+            outOfDetailedMode = false;
+            outOfDetailedModeTarget = -1;
             dynamicStepMode = false;
             skipMode = false;
             lastlyEntered = null;
@@ -448,6 +400,8 @@ namespace de.unika.ipd.grGen.grShell
                     stepMode = true;
                     dynamicStepMode = false;
                     detailedMode = true;
+                    outOfDetailedMode = false;
+                    outOfDetailedModeTarget = -1;
                     return true;
                 case 'u':
                     stepMode = false;
@@ -2821,8 +2775,11 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugMatched(IMatches matches, IMatch match, bool special)
         {
-            if(matches.Count == 0) // todo: how can this happen?
+            if(matches.Count == 0) // happens e.g. from compiled sequences firing the event always, but the Finishing only comes in case of Count!=0
                 return;
+
+            // integrate matched actions into subrule traces stack
+            computationsEnteredStack.Add(new SubruleComputation(matches.Producer.Name));
 
             if(dynamicStepMode && !skipMode)
             {
@@ -2850,9 +2807,11 @@ namespace de.unika.ipd.grGen.grShell
             {
                 DebugFinished(null, false);
                 matchDepth++;
+                if(outOfDetailedMode)
+                    return;
             }
 
-            if(matchDepth++ > 0)
+            if(matchDepth++ > 0 || computationsEnteredStack.Count > 0)
                 Console.WriteLine("Matched " + matches.Producer.Name);
 
             annotatedNodes.Clear();
@@ -2912,12 +2871,25 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugFinished(IMatches matches, bool special)
         {
-            if(detailedMode == false) return;
+            // integrate matched actions into subrule traces stack
+            if(matches != null)
+                RemoveUpToEntryForExit(matches.Producer.Name);
+
+            if(outOfDetailedMode && (computationsEnteredStack.Count <= outOfDetailedModeTarget || computationsEnteredStack.Count==0))
+            {
+                detailedMode = true;
+                outOfDetailedMode = false;
+                outOfDetailedModeTarget = -1;
+                return;
+            }
+
+            if(!detailedMode)
+                return;
 
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
-            Console.WriteLine("Press any key to continue...");
-            ReadKeyWithCancel();
+
+            QueryContinueOrTrace();
 
             foreach(INode node in addedNodes.Keys)
             {
@@ -3152,24 +3124,80 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugEnter(string message, params object[] values)
         {
-            Console.WriteLine("enter (Debug::add) " + message);
+            SubruleComputation entry = new SubruleComputation(shellProcEnv.ProcEnv.NamedGraph, 
+                SubruleComputationType.Entry, message, values);
+            computationsEnteredStack.Add(entry);
+            if(detailedMode)
+                Console.WriteLine(entry.ToString(false));
         }
 
         void DebugExit(string message, params object[] values)
         {
-            Console.WriteLine("exit (Debug::rem) " + message);
+            RemoveUpToEntryForExit(message);
+            if(detailedMode)
+            {
+                SubruleComputation exit = new SubruleComputation(shellProcEnv.ProcEnv.NamedGraph,
+                    SubruleComputationType.Exit, message, values);
+                Console.WriteLine(exit.ToString(false));
+            }
+            if(outOfDetailedMode && (computationsEnteredStack.Count <= outOfDetailedModeTarget || computationsEnteredStack.Count == 0))
+            {
+                detailedMode = true;
+                outOfDetailedMode = false;
+                outOfDetailedModeTarget = -1;
+            }
+        }
+
+        void RemoveUpToEntryForExit(string message)
+        {
+            int posOfEntry = 0;
+            for(int i = computationsEnteredStack.Count - 1; i >= 0; --i)
+            {
+                if(computationsEnteredStack[i].type == SubruleComputationType.Entry)
+                {
+                    posOfEntry = i;
+                    break;
+                }
+            }
+            if(computationsEnteredStack[posOfEntry].message != message)
+            {
+                Console.Error.WriteLine("Trying to remove from debug trace stack the entry for the exit message/computation: " + message);
+                Console.Error.WriteLine("But found as enclosing message/computation entry: " + computationsEnteredStack[posOfEntry].message);
+                throw new Exception("Mismatch of debug enter / exit, mismatch in Debug::add(message,...) / Debug::rem(message,...)");
+            }
+            computationsEnteredStack.RemoveRange(posOfEntry, computationsEnteredStack.Count - posOfEntry);
         }
 
         void DebugEmit(string message, params object[] values)
         {
-            Console.WriteLine("report (Debug::emit) " + message);
+            SubruleComputation emit = new SubruleComputation(shellProcEnv.ProcEnv.NamedGraph,
+                SubruleComputationType.Emit, message, values);
+            computationsEnteredStack.Add(emit);
+            if(detailedMode)
+                Console.WriteLine(emit.ToString(false));
         }
 
         void DebugHalt(string message, params object[] values)
         {
-            Console.WriteLine("halt (Debug::halt) " + message);
-            Console.WriteLine("Press any key to continue...");
-            ReadKeyWithCancel();
+            Console.Write("Halting: " + message);
+            for(int i = 0; i < values.Length; ++i)
+            {
+                Console.Write(" ");
+                Console.Write(EmitHelper.ToStringAutomatic(values[i], shellProcEnv.ProcEnv.NamedGraph));
+            }
+            Console.WriteLine();
+
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+            if(!detailedMode)
+            {
+                context.highlightSeq = lastlyEntered;
+                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                Console.WriteLine();
+                PrintDebugTracesStack(false);
+            }
+
+            QueryContinueOrTrace();
         }
 
         /// <summary>
@@ -3177,10 +3205,163 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         void DebugHighlight(string message, List<object> values, List<string> sourceNames)
         {
-            Console.WriteLine("highlight (Debug::highlight) " + message);
+            Console.Write("Highlighting: " + message);
+            if(sourceNames.Count > 0)
+                Console.Write(" with annotations");
+            for(int i = 0; i < sourceNames.Count; ++i)
+            {
+                Console.Write(" ");
+                Console.Write(sourceNames[i]);
+            }
+            Console.WriteLine();
+
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+            if(!detailedMode)
+            {
+                context.highlightSeq = lastlyEntered;
+                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                Console.WriteLine();
+                PrintDebugTracesStack(false);
+            }
+
             ShellProcEnv.ProcEnv.HighlightingUnderway = true;
             HandleHighlight(values, sourceNames);
             ShellProcEnv.ProcEnv.HighlightingUnderway = false;
+
+            QueryContinueOrTrace();
+        }
+
+        void PrintDebugTracesStack(bool full)
+        {
+            Console.WriteLine("Subrule traces stack is:");
+            for(int i = 0; i < computationsEnteredStack.Count; ++i)
+            {
+                if(!full && computationsEnteredStack[i].type != SubruleComputationType.Entry)
+                    continue;
+                Console.WriteLine(computationsEnteredStack[i].ToString(full));
+            }
+        }
+
+        /// <summary>
+        /// Asks in case of a breakpoint outside the sequence whether to
+        /// - print a full (t)race stack dump or even a (f)ull state dump
+        /// - continue execution (any other key)
+        /// </summary>
+        private void QueryContinueOrTrace()
+        {
+            while(true)
+            {
+                if(detailedMode && computationsEnteredStack.Count == 0)
+                    Console.WriteLine("Debugging (detailed) continues with any key, besides (f)ull state or (a)bort.");
+                else
+                {
+                    if(detailedMode)
+                    {
+                        Console.Write("Detailed subrule debugging -- ");
+                        if(computationsEnteredStack.Count > 0)
+                        {
+                            Console.Write("(r)un until end of detail debugging, ");
+                            if(TargetStackLevelForUpInDetailedMode() > 0)
+                            {
+                                Console.Write("(u)p from current entry, ");
+                                if(TargetStackLevelForOutInDetailedMode() > 0)
+                                {
+                                    Console.Write("(o)ut of detail debugging entry we are nested in, ");
+                                }
+                            }
+                        }
+                    }
+                    else
+                        Console.Write("Halt/highlight hit -- ");
+                    if(computationsEnteredStack.Count > 0)
+                        Console.Write("print subrule stack(t)race, (f)ull state, or (a)bort, any other key continues ");
+                    else
+                        Console.Write("(f)ull state, or (a)bort, any other key continues ");
+                    if(detailedMode)
+                        Console.WriteLine("detailed debugging.");
+                    else
+                        Console.WriteLine("debugging as before.");
+                }
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                case 'a':
+                    grShellImpl.Cancel();
+                    return;                               // never reached
+                case 'r':
+                    if(detailedMode && computationsEnteredStack.Count > 0)
+                    {
+                        outOfDetailedMode = true;
+                        outOfDetailedModeTarget = 0;
+                        detailedMode = false;
+                    }
+                    return;
+                case 'o':
+                    if(detailedMode && TargetStackLevelForOutInDetailedMode() > 0)
+                    {
+                        outOfDetailedMode = true;
+                        outOfDetailedModeTarget = TargetStackLevelForOutInDetailedMode();
+                        detailedMode = false;
+                    }
+                    return;
+                case 'u':
+                    if(detailedMode && TargetStackLevelForUpInDetailedMode() > 0)
+                    {
+                        outOfDetailedMode = true;
+                        outOfDetailedModeTarget = TargetStackLevelForUpInDetailedMode();
+                        detailedMode = false;
+                    }
+                    return;
+                case 't':
+                    if(computationsEnteredStack.Count > 0)
+                    {
+                        HandleStackTrace();
+                        PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                        Console.WriteLine();
+                        PrintDebugTracesStack(true);
+                        break;
+                    }
+                    else
+                        return;
+                case 'f':
+                    HandleFullState();
+                    PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                    Console.WriteLine();
+                    PrintDebugTracesStack(true);
+                    break;
+                default:
+                    return;
+                }
+            }
+        }
+
+        int TargetStackLevelForUpInDetailedMode()
+        {
+            int posOfEntry = 0;
+            for(int i = computationsEnteredStack.Count - 1; i >= 0; --i)
+            {
+                if(computationsEnteredStack[i].type == SubruleComputationType.Entry)
+                {
+                    posOfEntry = i;
+                    break;
+                }
+            }
+            return posOfEntry;
+        }
+
+        int TargetStackLevelForOutInDetailedMode()
+        {
+            int posOfEntry = 0;
+            for(int i = TargetStackLevelForUpInDetailedMode() - 1; i >= 0; --i)
+            {
+                if(computationsEnteredStack[i].type == SubruleComputationType.Entry)
+                {
+                    posOfEntry = i;
+                    break;
+                }
+            }
+            return posOfEntry;
         }
 
         void DebugOnConnectionLost()
