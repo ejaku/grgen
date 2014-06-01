@@ -63,7 +63,7 @@ rule r()
 			Debug::rem("r", 0, n, "r");
 		}
 		
-		exec ( {
+		exec ( t ;> { 
 			Debug::add("r", 0, n, "r");
 			Debug::emit("r", 0, n, "r");
 			Debug::halt("r", 0, n, "r");
@@ -71,5 +71,37 @@ rule r()
 			Debug::highlight("r", 0, "vis=0", n, "n", n, res);
 			Debug::rem("r", 0, n, "r")
 			} );
+	}
+}
+
+
+procedure pp(n:Node) : (Node)
+{
+//	Debug::highlight("pp highlight", n);
+	Debug::halt("pp halt", n);
+	return(n);
+}
+
+rule tt {
+	n:Node;
+	modify {
+		eval {
+			def m:Node;
+			(m)=pp(n);
+		}
+	}
+}
+
+rule ss {
+	n:Node; m:Node;
+	modify {
+		exec( tt ;> {pp(m)} );
+	}
+}
+
+rule rr {
+	n:Node;
+	modify {
+		exec( ss() && tt() || tt() );
 	}
 }

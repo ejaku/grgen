@@ -2,7 +2,7 @@ new graph computations_debug_statements
 
 #dump add graph exclude
 
-debug enable
+#debug enable
 
 new n42:Node($="42")
 new n43:Node($="43")
@@ -20,6 +20,8 @@ exec {bar(@("42"))}
 exec t
 
 exec r
+
+debug exec rr
 
 exec { Debug::add("qux", 0, nodeByName("42"), "foobarbaz");\
 Debug::emit("qux", 0, nodeByName("42"), "foobarbaz");\
