@@ -1,0 +1,30 @@
+new graph Debugging
+
+exec {(::visId)=valloc()}
+
+debug on add equals("p") break
+debug on add startsWith("p") break
+debug on add endsWith("p") break
+debug on add contains("p") break
+
+debug exec {p()}
+debug exec {p_schlonz()}
+debug exec {schlonz_p()}
+debug exec {schlonz_p_schlonz()}
+
+debug on rem equals("q") break
+debug on emit equals("q") break
+debug on halt equals("q") continue
+debug on highlight equals("q") continue
+
+debug exec {q()}
+
+debug on match r break
+debug on match s continue
+debug on match ss continue
+
+debug exec init
+
+debug exec s
+
+quit

@@ -1,0 +1,27 @@
+new graph Debugging
+
+exec {(::visId)=valloc()}
+
+debug on new only Node break when nameof(this)=="0"
+debug on new Node break when nameof(this)=="0"
+debug on delete T break when this.i==42
+debug on retype T break when this.i==42
+debug on set attributes T break when this.i==42
+
+debug on new @("0") break when nameof(this)=="1"
+debug on delete @("0") break when this.i==43
+debug on retype @("1") break when this.i==43
+debug on set attributes @("1") break when this.i==43
+
+debug exec rnew
+debug exec [rattr]
+debug exec rdeleteretype
+
+clear graph
+
+debug exec rnew
+debug exec [rattr]
+debug exec [rattrinc]
+debug exec rdeleteretype
+
+quit

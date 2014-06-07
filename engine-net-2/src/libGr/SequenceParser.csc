@@ -69,6 +69,16 @@ PARSER_BEGIN(SequenceParser)
 		String packageContext;
 
 		/// <summary>
+		/// Gives the rule of the match this stands for in the if clause of the debug match event.
+		/// </summary>
+		string ruleOfMatchThis;
+
+		/// <summary>
+		/// Gives the graph element type of the graph element this stands for in the if clause of the debug new/delete/retype/set-attributes event.
+		/// </summary>
+		string typeOfGraphElementThis;
+		
+		/// <summary>
 		/// Stores the warnings which occur during parsing
 		/// </summary>
 		List<String> warnings;
@@ -96,6 +106,37 @@ PARSER_BEGIN(SequenceParser)
 			SequenceCheckingEnvironment env = new SequenceCheckingEnvironmentInterpreted(actions);
 			seq.Check(env);
 			return seq;
+		}
+
+		/// <summary>
+        /// Parses a given string in xgrs exp syntax and builds a SequenceExpression object. 
+		/// Used for the interpreted if clauses for conditional watchpoint debugging.
+        /// </summary>
+        /// <param name="sequenceExprStr">The string representing a xgrs expression (e.g. "func() &amp;&amp; (st[e]==0 || var + 1 < 42)")</param>
+        /// <param name="predefinedVariables">A map from variables to types giving the predefined this variable for the sequence expression.</param>
+        /// <param name="actions">The IActions object containing the functions used in the string.</param>
+        /// <param name="ruleOfMatchThis">Gives the rule of the match this stands for in the if clause of the debug match event.</param>
+        /// <param name="typeOfGraphElementThis">Gives the graph element type of the graph element this stands for in the if clause of the debug new/delete/retype/set-attributes event.</param>
+        /// <param name="warnings">A list which receives the warnings generated during parsing.</param>
+        /// <returns>The sequence expression object according to sequenceExprStr.</returns>
+        /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
+        /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
+        /// or return parameters.</exception>
+		public static SequenceExpression ParseSequenceExpression(String sequenceExprStr, Dictionary<String, String> predefinedVariables, IActions actions, string ruleOfMatchThis, string typeOfGraphElementThis, List<String> warnings)
+		{
+			SequenceParser parser = new SequenceParser(new StringReader(sequenceExprStr));
+			parser.actions = actions;
+			parser.ruleNames = null;
+			parser.model = actions.Graph.Model;
+			parser.varDecls = new SymbolTable();
+			parser.varDecls.PushFirstScope(predefinedVariables);
+			parser.ruleOfMatchThis = ruleOfMatchThis;
+			parser.typeOfGraphElementThis = typeOfGraphElementThis;
+			parser.warnings = warnings;
+			SequenceExpression seqExpr = parser.Expression();
+			SequenceCheckingEnvironment env = new SequenceCheckingEnvironmentInterpreted(actions);
+			seqExpr.Check(env);
+			return seqExpr;
 		}
 
         /// <summary>
@@ -1460,9 +1501,10 @@ SequenceExpression ExpressionBasic():
 		return new SequenceExpressionElementFromGraph(elemName);
 	}
 |
-	"this"
+	"this" { expr = new SequenceExpressionThis(ruleOfMatchThis, typeOfGraphElementThis); }
+		( LOOKAHEAD(2) expr=SelectorExpression(expr) )?
 	{
-		return new SequenceExpressionThis();
+		return expr;
 	}
 |
 	"(" expr=Expression() ")"
@@ -1497,10 +1539,20 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
 		}
 	|
 		{
-			if(fromExpr is SequenceExpressionVariable && ((SequenceExpressionVariable)fromExpr).Variable.Type.StartsWith("match<"))
-				return new SequenceExpressionMatchAccess(((SequenceExpressionVariable)fromExpr).Variable, methodOrAttrName);
+			if(fromExpr is SequenceExpressionThis)
+			{
+				if(ruleOfMatchThis != null)
+					return new SequenceExpressionMatchAccess((SequenceExpressionThis)fromExpr, methodOrAttrName);
+				else
+					return new SequenceExpressionAttributeAccess((SequenceExpressionThis)fromExpr, methodOrAttrName);
+			}
 			else
-				return new SequenceExpressionAttributeAccess(((SequenceExpressionVariable)fromExpr).Variable, methodOrAttrName);
+			{
+				if(fromExpr is SequenceExpressionVariable && ((SequenceExpressionVariable)fromExpr).Variable.Type.StartsWith("match<"))
+					return new SequenceExpressionMatchAccess(((SequenceExpressionVariable)fromExpr).Variable, methodOrAttrName);
+				else
+					return new SequenceExpressionAttributeAccess(((SequenceExpressionVariable)fromExpr).Variable, methodOrAttrName);
+			}
 		}
 	)
 |

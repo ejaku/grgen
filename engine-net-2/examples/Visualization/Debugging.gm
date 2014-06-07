@@ -1,0 +1,27 @@
+enum ENU
+{
+	foo, bar, baz, qux
+}
+
+node class T
+{
+	i : int;
+	s : string;
+	d : double;
+	b : boolean;
+	e : ENU;
+	st : set<string>;
+}
+
+node class TT extends T
+{
+}
+
+node class N
+{
+	i : int;
+}
+
+node class NN extends N
+{
+}

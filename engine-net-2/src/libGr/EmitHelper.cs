@@ -560,5 +560,13 @@ namespace de.unika.ipd.grGen.libGr
                 return content;
             }
         }
+
+        public static string Clip(string potentiallyLargeString, int maxLength)
+        {
+            if(potentiallyLargeString.Length < maxLength)
+                return potentiallyLargeString;
+            else
+                return potentiallyLargeString.Substring(0, maxLength-3) + "...";
+        }
     }
 }
