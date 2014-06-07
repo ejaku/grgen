@@ -56,12 +56,21 @@ rule findCouplesOpt[parallelize=16]
 	if{ countPersonToMovie[pn1] >= 3; }
 	if{ countPersonToMovie[pn2] >= 3; }
 	
+	def ref common:set<Node>;
+	yield {
+		yield common = getCommonMovies(pn1, pn2);
+	}
+	
 	modify {
 		c:Couple;
 		c -:p1-> pn1;
 		c -:p2-> pn2;
 	
-		eval { addCommonMovies(pn1, pn2, c); }
+		eval { 
+			for(movie:Node in common) { 
+				add(commonMovies, c, movie); 
+			} 
+		}
 	}
 }
 
@@ -98,15 +107,16 @@ function atLeastThreeCommonMovies(pn1:Person, pn2:Person) : boolean
 	return(false);
 }
 
-procedure addCommonMovies(pn1:Person, pn2:Person, c:Couple)
+function getCommonMovies(pn1:Person, pn2:Person) : set<Node>
 {
+	def ref common:set<Node> = set<Node>{};
 	if(countPersonToMovie[pn1] >= countPersonToMovie[pn2])
 	{
 		def ref movies:set<Node> = adjacentOutgoing(pn2, personToMovie);
 		for(movie:Node in adjacentOutgoing(pn1, personToMovie))
 		{
 			if(movie in movies) {
-				add(commonMovies, c, movie);
+				common.add(movie);
 			}
 		}
 	}
@@ -116,11 +126,11 @@ procedure addCommonMovies(pn1:Person, pn2:Person, c:Couple)
 		for(movie:Node in adjacentOutgoing(pn2, personToMovie))
 		{
 			if(movie in movies) {
-				add(commonMovies, c, movie);
+				common.add(movie);
 			}
 		}
 	}
-	return;
+	return(common);
 }
 
 rule computeAverageRanking
