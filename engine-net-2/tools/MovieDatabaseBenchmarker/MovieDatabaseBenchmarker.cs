@@ -45,7 +45,11 @@ namespace MovieDatabase
                 actions = new MovieDatabaseActions(graph);
                 procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
+                int startTimeSynth = Environment.TickCount;
+
                 procEnv.ApplyGraphRewriteSequence("createExample(" + args[1] + ")");
+
+                Console.WriteLine("...needed " + (Environment.TickCount - startTimeSynth) + "ms for synthesizing");
             }
             else
             {
