@@ -970,6 +970,7 @@ anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn,
 				n = nsic;
 			}
 		)
+		( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // node typeof declaration
 		{ id = env.defineAnonymousEntity("node", getCoords(c)); }
@@ -983,12 +984,14 @@ anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn,
 				n = new NodeTypeChangeNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
 		}
+		( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // node copy declaration
 		COPY LT type=entIdentUse GT 
 		{
 			n = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
 		}
+		( AT LPAREN nameAndAttributesInitializationList[n] RPAREN )?
 		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // subpattern declaration
 		{ id = env.defineAnonymousEntity("sub", getCoords(c)); }
