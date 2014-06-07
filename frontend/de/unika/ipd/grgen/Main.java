@@ -81,8 +81,8 @@ public class Main extends Base implements Sys {
 	private Reporter debugReporter;
 	private Handler debugHandler;
 
-	private boolean noAttributeEvents;
-	private boolean noActionEvents;
+	private boolean noEvents;
+	private boolean noDebugEvents;
 
 	private boolean enableDebug;
 	
@@ -302,8 +302,8 @@ public class Main extends Base implements Sys {
 			CmdLineParser.Option ruleDumpOpt = parser.addBooleanOption('j', "dump-ir-rules");
 			CmdLineParser.Option graphicOpt = parser.addBooleanOption('g', "graphic");
 			CmdLineParser.Option timeOpt = parser.addBooleanOption('t', "timing");
-			CmdLineParser.Option noAttributeEventsOpt = parser.addBooleanOption('e', "noattributeevents");
-			CmdLineParser.Option noActionEventsOpt = parser.addBooleanOption('v', "noactionevents");
+			CmdLineParser.Option noEventsOpt = parser.addBooleanOption('e', "noevents");
+			CmdLineParser.Option noDebugEventsOpt = parser.addBooleanOption('v', "nodebugevents");
 
 			CmdLineParser.Option dumpOutputToFileOpt =
 				parser.addStringOption('c', "dump-output-to-file");
@@ -340,8 +340,8 @@ public class Main extends Base implements Sys {
 			emitProfiling = parser.getOptionValue(profOpt) != null;
 			graphic = parser.getOptionValue(graphicOpt) != null;
 			printTiming = parser.getOptionValue(timeOpt) != null;
-			noAttributeEvents = parser.getOptionValue(noAttributeEventsOpt) != null;
-			noActionEvents = parser.getOptionValue(noActionEventsOpt) != null;
+			noEvents = parser.getOptionValue(noEventsOpt) != null;
+			noDebugEvents = parser.getOptionValue(noDebugEventsOpt) != null;
 
 			/* deactivate graphic if no debug output */
 			if (!enableDebug)
@@ -369,12 +369,12 @@ public class Main extends Base implements Sys {
 		}
 	}
 
-	public boolean mayFireAttributeEvents() {
-		return !noAttributeEvents;
+	public boolean mayFireEvents() {
+		return !noEvents;
 	}
 
-	public boolean mayFireActionEvents() {
-		return !noActionEvents;
+	public boolean mayFireDebugEvents() {
+		return !noDebugEvents && !noEvents;
 	}
 
 	public boolean emitProfilingInstrumentation() {

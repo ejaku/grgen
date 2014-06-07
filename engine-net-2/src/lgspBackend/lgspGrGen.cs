@@ -41,8 +41,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.flags = flags;
         }
 
-        internal bool FireAttributeEvents { get { return (flags & ProcessSpecFlags.NoAttributeEvents) == 0; } }
-        internal bool FireActionEvents { get { return (flags & ProcessSpecFlags.NoActionEvents) == 0; } }
+        internal bool FireEvents { get { return (flags & ProcessSpecFlags.NoEvents) == 0; } }
+        internal bool FireDebugEvents { get { return (flags & ProcessSpecFlags.NoDebugEvents) == 0; } }
         internal bool EmitProfiling { get { return (flags & ProcessSpecFlags.Profile) == 0; } }
 
         /// <summary>
@@ -799,8 +799,8 @@ namespace de.unika.ipd.grGen.lgsp
                     + "-b de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2 "
                     + "-c \"" + tmpDir + Path.DirectorySeparatorChar + "printOutput.txt\" "
                     + "-o \"" + tmpDir + "\""
-                    + ((flags & ProcessSpecFlags.NoAttributeEvents) != 0 ? " --noattributeevents" : "")
-                    + ((flags & ProcessSpecFlags.NoActionEvents) != 0 ? " --noactionevents" : "")
+                    + ((flags & ProcessSpecFlags.NoEvents) != 0 ? " --noevents" : "")
+                    + ((flags & ProcessSpecFlags.NoDebugEvents) != 0 ? " --nodebugevents" : "")
                     + ((flags & ProcessSpecFlags.Profile) != 0 ? " --profile" : "")
                     + " \"" + String.Join("\" \"", sourceFiles) + "\"";
                 ProcessStartInfo startInfo = new ProcessStartInfo(javaString, execStr);

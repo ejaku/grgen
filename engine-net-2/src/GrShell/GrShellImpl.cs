@@ -2113,6 +2113,10 @@ namespace de.unika.ipd.grGen.grShell
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
                 elem.SetAttribute(par.Key, value);
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
             }
             return true;
         }
@@ -2844,6 +2848,10 @@ namespace de.unika.ipd.grGen.grShell
                 IDictionary setmap = (IDictionary)attr;
                 setmap[index] = value;
             }
+            if(elem is INode)
+                curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+            else
+                curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
         }
 
         public object GetVarValue(String varName)
@@ -4318,6 +4326,10 @@ showavail:
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
                 dict[keyObj] = null;
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
             }
             else if(attr is IList)
             {
@@ -4341,6 +4353,10 @@ showavail:
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
                 array.Add(keyObj);
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
             }
             else if(attr is IDeque)
             {
@@ -4364,6 +4380,10 @@ showavail:
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
                 deque.Enqueue(keyObj);
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
             }
             else
             {
@@ -4404,6 +4424,10 @@ showavail:
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, valueObj, keyObj);
                 dict[keyObj] = valueObj;
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
             }
             else if(attr is IList)
             {
@@ -4432,6 +4456,10 @@ showavail:
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, valueObj);
                 array.Insert((int)valueObj, keyObj);
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
             }
             else if(attr is IDeque)
             {
@@ -4460,6 +4488,10 @@ showavail:
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, valueObj);
                 deque.EnqueueAt((int)valueObj, keyObj);
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
             }
             else
             {
@@ -4494,6 +4526,10 @@ showavail:
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
                 dict.Remove(keyObj);
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
             }
             else if(attr is IList)
             {
@@ -4520,6 +4556,10 @@ showavail:
                     array.RemoveAt((int)keyObj);
                 else
                     array.RemoveAt(array.Count - 1);
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
             }
             else if(attr is IDeque)
             {
@@ -4546,6 +4586,10 @@ showavail:
                     deque.DequeueAt((int)keyObj);
                 else
                     deque.Dequeue();
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
             }
             else
             {

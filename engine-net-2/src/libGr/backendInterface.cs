@@ -57,14 +57,14 @@ namespace de.unika.ipd.grGen.libGr
         NoCreateActionsAssembly = 32,
 
         /// <summary>
-        /// Do not fire action events in the generated code. Used for optimization.
+        /// Do not fire debug (mostly action) events in the generated code. Used for optimization.
         /// </summary>
-        NoActionEvents = 64,
+        NoDebugEvents = 64,
 
         /// <summary>
-        /// Do not fire attribute change events in the generated code. Used for optimization.
+        /// Do not fire (attribute change) events in the generated code. Used for optimization.
         /// </summary>
-        NoAttributeEvents = 128,
+        NoEvents = 128,
 
         /// <summary>
         /// Execute the negatives, independents, and conditionals only at the end of matching.

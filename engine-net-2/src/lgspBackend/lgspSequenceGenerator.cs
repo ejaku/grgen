@@ -590,7 +590,7 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitFilterCall(source, seqRule.Filters[i], patternName, matchesName);
             }
 
-            if(gen.FireActionEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+            if(gen.FireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
             if(seqRule is SequenceRuleCountAllCall)
             {
                 SequenceRuleCountAllCall seqRuleCountAll = (SequenceRuleCountAllCall)seqRule;
@@ -616,7 +616,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFront(SetResultVar(seqRule, "true"));
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-            if(gen.FireActionEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+            if(gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 
             String returnParameterDeclarations;
             String returnArguments;
@@ -667,7 +667,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("}\n");
             }
 
-            if(gen.FireActionEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+            if(gen.FireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -1309,7 +1309,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.Indent();
                     source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
                     source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-                    if(gen.FireActionEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                    if(gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 
                     String returnParameterDeclarations;
                     String returnArguments;
@@ -1581,7 +1581,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(SetResultVar(seq, "true")); // shut up compiler
             source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-            if(gen.FireActionEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+            if(gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 
             String returnParameterDeclarations;
             String returnArguments;
@@ -1604,13 +1604,13 @@ namespace de.unika.ipd.grGen.lgsp
             // start a transaction
             source.AppendFront("int transID_" + seq.Id + " = procEnv.TransactionManager.Start();\n");
             source.AppendFront("int oldRewritesPerformed_" + seq.Id + " = procEnv.PerformanceInfo.RewritesPerformed;\n");
-            if(gen.FireActionEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + matchName + ", " + specialStr + ");\n");
+            if(gen.FireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + matchName + ", " + specialStr + ");\n");
             if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
 
             source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
-            if(gen.FireActionEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+            if(gen.FireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
 
             // rule applied, now execute the sequence
             EmitSequence(seq.Seq, source);
@@ -1788,8 +1788,8 @@ namespace de.unika.ipd.grGen.lgsp
                     }
 
                     source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
-                    if (gen.FireActionEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
-                    if (gen.FireActionEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                    if (gen.FireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+                    if (gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                     source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                     source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
@@ -1818,8 +1818,8 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("{\n");
                     source.Indent();
                     source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-                    if (gen.FireActionEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
-                    if (gen.FireActionEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                    if (gen.FireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+                    if (gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                     source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                     source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
@@ -1854,8 +1854,8 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("if(" + curTotalMatch + "==" + totalMatchToApply + ") {\n");
                         source.Indent();
                         source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-                        if (gen.FireActionEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
-                        if (gen.FireActionEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                        if (gen.FireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+                        if (gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                         source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                         source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
@@ -1872,8 +1872,8 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         // randomly choose match, rewrite it and remove it from available matches
                         source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".GetMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
-                        if (gen.FireActionEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
-                        if (gen.FireActionEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                        if (gen.FireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+                        if (gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                         source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                         source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
@@ -1883,7 +1883,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                if (gen.FireActionEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+                if (gen.FireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
 
                 source.Unindent();
                 source.AppendFront("}\n");
@@ -2046,6 +2046,16 @@ namespace de.unika.ipd.grGen.lgsp
                                 source.AppendFront(array + ".Add(" + sourceValue + ");\n");
                             else
                                 source.AppendFront(array + ".Insert(" + destinationValue + ", " + sourceValue + ");\n");
+                            if(seqAdd.Attribute != null)
+                            {
+                                if(gen.FireDebugEvents)
+                                {
+                                    source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                    source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
+                                    source.AppendFront("else\n");
+                                    source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
+                                }
+                            }
                         }
 
                         source.Unindent();
@@ -2080,6 +2090,16 @@ namespace de.unika.ipd.grGen.lgsp
                                 source.AppendFront(deque + ".Enqueue(" + sourceValue + ");\n");
                             else
                                 source.AppendFront(deque + ".EnqueueAt(" + destinationValue + ", " + sourceValue + ");\n");
+                            if(seqAdd.Attribute != null)
+                            {
+                                if(gen.FireDebugEvents)
+                                {
+                                    source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                    source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
+                                    source.AppendFront("else\n");
+                                    source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
+                                }
+                            }
                         }
 
                         source.Unindent();
@@ -2110,6 +2130,16 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront(dictionary + "[" + sourceValue + "] = null;\n");
                         else
                             source.AppendFront(dictionary + "[" + sourceValue + "] = " + destinationValue + ";\n");
+                        if(seqAdd.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
+                            }
+                        }
 
                         source.Unindent();
                         source.AppendFront("}\n");
@@ -2147,6 +2177,16 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront(array + ".Add(" + sourceValue + ");\n");
                         else
                             source.AppendFront(array + ".Insert(" + destinationValue + ", " + sourceValue + ");\n");
+                        if(seqAdd.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
+                            }
+                        }
                         source.AppendFront(SetResultVar(seqAdd, container));
                     }
                     else if(seqAdd.ContainerType(env).StartsWith("deque"))
@@ -2181,6 +2221,16 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront(deque + ".Enqueue(" + sourceValue + ");\n");
                         else
                             source.AppendFront(deque + ".EnqueueAt(" + destinationValue + ", " + sourceValue + ");\n");
+                        if(seqAdd.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
+                            }
+                        }
                         source.AppendFront(SetResultVar(seqAdd, container));
                     }
                     else
@@ -2216,6 +2266,16 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront(dictionary + "[" + sourceValue + "] = null;\n");
                         else
                             source.AppendFront(dictionary + "[" + sourceValue + "] = " + destinationValue + ";\n");
+                        if(seqAdd.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("if(elem_" + seqAdd.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
+                            }
+                        }
                         source.AppendFront(SetResultVar(seqAdd, container));
                     }
                     break;
@@ -2268,6 +2328,16 @@ namespace de.unika.ipd.grGen.lgsp
                                 source.AppendFront(array + ".RemoveAt(" + array + ".Count - 1);\n");
                             else
                                 source.AppendFront(array + ".RemoveAt(" + sourceValue + ");\n");
+                            if(seqDel.Attribute != null)
+                            {
+                                if(gen.FireDebugEvents)
+                                {
+                                    source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                    source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
+                                    source.AppendFront("else\n");
+                                    source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
+                                }
+                            }
                         }
 
                         source.Unindent();
@@ -2302,6 +2372,16 @@ namespace de.unika.ipd.grGen.lgsp
                                 source.AppendFront(deque + ".Dequeue();\n");
                             else
                                 source.AppendFront(deque + ".DequeueAt(" + sourceValue + ");\n");
+                            if(seqDel.Attribute != null)
+                            {
+                                if(gen.FireDebugEvents)
+                                {
+                                    source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                    source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
+                                    source.AppendFront("else\n");
+                                    source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
+                                }
+                            }
                         }
 
                         source.Unindent();
@@ -2336,6 +2416,16 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront("throw new Exception(\""+seqDel.Container.PureName+".rem() only possible on array or deque!\");\n");
                         else
                             source.AppendFront(dictionary + ".Remove(" + sourceValue + ");\n");
+                        if(seqDel.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
+                            }
+                        }
 
                         source.Unindent();
                         source.AppendFront("}\n");
@@ -2370,6 +2460,16 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront(array + ".RemoveAt(" + array + ".Count - 1);\n");
                         else
                             source.AppendFront(array + ".RemoveAt(" + sourceValue + ");\n");
+                        if(seqDel.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
+                            }
+                        }
                         source.AppendFront(SetResultVar(seqDel, container));
                     }
                     else if(seqDel.ContainerType(env).StartsWith("deque"))
@@ -2401,6 +2501,16 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront(deque + ".Dequeue();\n");
                         else
                             source.AppendFront(deque + ".DequeueAt(" + sourceValue + ");\n");
+                        if(seqDel.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
+                            }
+                        }
                         source.AppendFront(SetResultVar(seqDel, container));
                     }
                     else
@@ -2429,6 +2539,16 @@ namespace de.unika.ipd.grGen.lgsp
                             }
                         }
                         source.AppendFront(dictionary + ".Remove(" + sourceValue + ");\n");
+                        if(seqDel.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("if(elem_" + seqDel.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
+                            }
+                        }
                         source.AppendFront(SetResultVar(seqDel, container));
                     }
                     break;
@@ -2463,6 +2583,16 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront("\t\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, i_" + seqClear.Id + ");\n");
                         }
                         source.AppendFront(array + ".Clear();\n");
+                        if(seqClear.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("\tif(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\t\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
+                                source.AppendFront("\telse\n");
+                                source.AppendFront("\t\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
+                            }
+                        }
 
                         source.Unindent();
                         source.AppendFront("} else if(" + containerVar + " is GRGEN_LIBGR.IDeque) {\n");
@@ -2478,6 +2608,16 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront("\t\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, i_" + seqClear.Id + ");\n");
                         }
                         source.AppendFront(deque + ".Clear();\n");
+                        if(seqClear.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("\tif(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\t\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
+                                source.AppendFront("\telse\n");
+                                source.AppendFront("\t\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
+                            }
+                        }
 
                         source.Unindent();
                         source.AppendFront("} else {\n");
@@ -2506,9 +2646,18 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront("\t\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, kvp_" + seqClear.Id + ");\n");
                             source.Unindent();
                             source.AppendFront("}\n");
-
                         }
                         source.AppendFront(dictionary + ".Clear();\n");
+                        if(seqClear.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("\tif(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\t\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
+                                source.AppendFront("\telse\n");
+                                source.AppendFront("\t\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
+                            }
+                        }
 
                         source.Unindent();
                         source.AppendFront("}\n");
@@ -2528,6 +2677,16 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront("\t\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, i_" + seqClear.Id + ");\n");
                         }
                         source.AppendFront(array + ".Clear();\n");
+                        if(seqClear.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("\tif(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\t\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
+                                source.AppendFront("\telse\n");
+                                source.AppendFront("\t\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
+                            }
+                        }
                         source.AppendFront(SetResultVar(seqClear, container));
                     }
                     else if(seqClear.ContainerType(env).StartsWith("deque"))
@@ -2544,6 +2703,16 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront("\t\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ", GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, i_" + seqClear.Id + ");\n");
                         }
                         source.AppendFront(deque + ".Clear();\n");
+                        if(seqClear.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("\tif(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\t\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
+                                source.AppendFront("\telse\n");
+                                source.AppendFront("\t\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
+                            }
+                        }
                         source.AppendFront(SetResultVar(seqClear, container));
                     }
                     else
@@ -2571,6 +2740,16 @@ namespace de.unika.ipd.grGen.lgsp
                             }
                         }
                         source.AppendFront(dictionary + ".Clear();\n");
+                        if(seqClear.Attribute != null)
+                        {
+                            if(gen.FireDebugEvents)
+                            {
+                                source.AppendFront("if(elem_" + seqClear.Id + " is GRGEN_LIBGR.INode)\n");
+                                source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
+                                source.AppendFront("else\n");
+                                source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
+                            }
+                        }
                         source.AppendFront(SetResultVar(seqClear, container));
                     }
                     break;
@@ -3202,6 +3381,13 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("else\n");
                     source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + tgtAttr.Id + ", attrType_" + tgtAttr.Id + ", GRGEN_LIBGR.AttributeChangeType.Assign, value_" + tgtAttr.Id + ", null);\n");
                     source.AppendFront("elem_" + tgtAttr.Id + ".SetAttribute(\"" + tgtAttr.AttributeName + "\", value_" + tgtAttr.Id + ");\n");
+                    if(gen.FireDebugEvents)
+                    {
+                        source.AppendFront("if(elem_" + tgtAttr.Id + " is GRGEN_LIBGR.INode)\n");
+                        source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + tgtAttr.Id + ", attrType_" + tgtAttr.Id + ");\n");
+                        source.AppendFront("else\n");
+                        source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + tgtAttr.Id + ", attrType_" + tgtAttr.Id + ");\n");
+                    }
                     source.AppendFront(SetResultVar(tgtAttr, "value_" + tgtAttr.Id));
                     break;
                 }
@@ -3313,6 +3499,13 @@ namespace de.unika.ipd.grGen.lgsp
                             source.Unindent();
                             source.AppendFront("}\n");
                         }
+                    }
+                    if(gen.FireDebugEvents)
+                    {
+                        source.AppendFront("if(elem_" + tgtAttrIndexedVar.Id + " is GRGEN_LIBGR.INode)\n");
+                        source.AppendFront("\tgraph.ChangedNodeAttribute((GRGEN_LIBGR.INode)elem_" + tgtAttrIndexedVar.Id + ", attrType_" + tgtAttrIndexedVar.Id + ");\n");
+                        source.AppendFront("else\n");
+                        source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + tgtAttrIndexedVar.Id + ", attrType_" + tgtAttrIndexedVar.Id + ");\n");
                     }
                     break;
                 }
@@ -5073,7 +5266,7 @@ namespace de.unika.ipd.grGen.lgsp
 
 			knownRules.Clear();
 
-            if(gen.FireActionEvents)
+            if(gen.FireDebugEvents)
             {
                 source.AppendFrontFormat("procEnv.DebugEntering(\"{0}\", \"{1}\");\n", InjectExec(xgrsName), xgrsStr.Replace("\\", "\\\\").Replace("\"", "\\\""));
             }
@@ -5082,7 +5275,7 @@ namespace de.unika.ipd.grGen.lgsp
 
 			EmitSequence(seq, source);
 
-            if(gen.FireActionEvents)
+            if(gen.FireDebugEvents)
             {
                 source.AppendFrontFormat("procEnv.DebugExiting(\"{0}\");\n", InjectExec(xgrsName));
             }
@@ -5259,7 +5452,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             knownRules.Clear();
 
-            if(gen.FireActionEvents)
+            if(gen.FireDebugEvents)
             {
                 source.AppendFrontFormat("procEnv.DebugEntering(\"{0}\"", sequence.Name);
                 for(int i = 0; i < sequence.Parameters.Length; ++i)
@@ -5274,7 +5467,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             EmitSequence(seq, source);
 
-            if(gen.FireActionEvents)
+            if(gen.FireDebugEvents)
             {
                 source.AppendFrontFormat("procEnv.DebugExiting(\"{0}\"", sequence.Name);
                 for(int i = 0; i < sequence.OutParameters.Length; ++i)

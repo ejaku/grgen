@@ -457,6 +457,13 @@ namespace de.unika.ipd.grGen.libGr
                     array.Add(firstValue);
                 else
                     array.Insert((int)optionalSecondValue, firstValue);
+                if(elem != null)
+                {
+                    if(elem is INode)
+                        procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
+                    else
+                        procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                }
                 return array;
             }
             else if(container is IDeque)
@@ -473,6 +480,13 @@ namespace de.unika.ipd.grGen.libGr
                     deque.Enqueue(firstValue);
                 else
                     deque.EnqueueAt((int)optionalSecondValue, firstValue);
+                if(elem != null)
+                {
+                    if(elem is INode)
+                        procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
+                    else
+                        procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                }
                 return deque;
             }
             else
@@ -496,6 +510,10 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 IDictionary setmap = (IDictionary)container;
                 setmap[firstValue] = optionalSecondValue;
+                if(elem is INode)
+                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
                 return setmap;
             }
         }
@@ -591,6 +609,13 @@ namespace de.unika.ipd.grGen.libGr
                     array.RemoveAt(array.Count - 1);
                 else
                     array.RemoveAt((int)valueOrKeyOrIndexToRemove);
+                if(elem != null)
+                {
+                    if(elem is INode)
+                        procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
+                    else
+                        procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                }
                 return array;
             }
             else if(container is IDeque)
@@ -607,6 +632,13 @@ namespace de.unika.ipd.grGen.libGr
                     deque.Dequeue();
                 else
                     deque.DequeueAt((int)valueOrKeyOrIndexToRemove);
+                if(elem != null)
+                {
+                    if(elem is INode)
+                        procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
+                    else
+                        procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                }
                 return deque;
             }
             else
@@ -630,6 +662,10 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 IDictionary setmap = (IDictionary)container;
                 setmap.Remove(valueOrKeyOrIndexToRemove);
+                if(elem is INode)
+                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
                 return setmap;
             }
         }
@@ -694,6 +730,10 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
                 array.Clear();
+                if(elem is INode)
+                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
                 return array;
             }
             else if(container is IDeque)
@@ -710,6 +750,10 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
                 deque.Clear();
+                if(elem is INode)
+                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
                 return deque;
             }
             else
@@ -739,6 +783,10 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
                 setmap.Clear();
+                if(elem is INode)
+                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
                 return setmap;
             }
         }

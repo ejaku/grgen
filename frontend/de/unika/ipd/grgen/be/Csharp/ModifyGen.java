@@ -568,7 +568,7 @@ public class ModifyGen extends CSharpBase {
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
 
-		boolean useAddedElementNames = be.system.mayFireActionEvents()
+		boolean useAddedElementNames = be.system.mayFireDebugEvents()
 			&& (task.typeOfTask==TYPE_OF_TASK_CREATION
 				|| (task.typeOfTask==TYPE_OF_TASK_MODIFY && task.left!=task.right));
 		boolean createAddedElementNames = task.typeOfTask==TYPE_OF_TASK_CREATION ||
@@ -1933,7 +1933,7 @@ public class ModifyGen extends CSharpBase {
 		for(EvalStatements evalStmts : evalStatements) {
 			sb.append("\t\t\t{ // " + evalStmts.getName() + "\n");
 			
-			//if(be.system.mayFireActionEvents()) {
+			//if(be.system.mayFireDebugEvents()) {
 			//	sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
 			//	sb.append("\"" + state.name() + "." + evalStmts.getName() + "\"");
 			//	sb.append(");\n");
@@ -1941,7 +1941,7 @@ public class ModifyGen extends CSharpBase {
 
 			genEvals(sb, state, evalStmts.evalStatements);
 			
-			//if(be.system.mayFireActionEvents()) {
+			//if(be.system.mayFireDebugEvents()) {
 			//	sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting(");
 			//	sb.append("\"" + state.name() + "." + evalStmts.getName() + "\"");
 			//	sb.append(");\n");
@@ -2175,6 +2175,8 @@ public class ModifyGen extends CSharpBase {
 			genExpression(sb, target, state); // global var case handled by genQualAccess
 			sb.append(" = " + varName + ";\n");
 
+			genChangedAttribute(sb, state, target);
+
 			return;
 		}
 
@@ -2256,6 +2258,8 @@ public class ModifyGen extends CSharpBase {
 				sb.append("(GRGEN_MODEL." + getPackagePrefixDot(targetType) + "ENUM_" + formatIdentifiable(targetType) + ") ");
 			sb.append(varName + ";\n");
 			
+			genChangedAttribute(sb, state, target);
+
 			sb.append("\t\t\t}\n");
 		}
 		else
@@ -2270,6 +2274,9 @@ public class ModifyGen extends CSharpBase {
 			if(targetType instanceof EnumType)
 				sb.append("(GRGEN_MODEL." + getPackagePrefixDot(targetType) + "ENUM_" + formatIdentifiable(targetType) + ") ");
 			sb.append(varName + ";\n");
+			
+			if(!(target.getOwner().getType() instanceof MatchType))
+				genChangedAttribute(sb, state, target);
 		}
 	}
 
@@ -2418,10 +2425,10 @@ public class ModifyGen extends CSharpBase {
 
 		Entity owner = cass.getTarget().getOwner();
 		boolean isDeletedElem = owner instanceof Node ? state.delNodes().contains(owner) : state.delEdges().contains(owner);
-		if(!isDeletedElem && be.system.mayFireAttributeEvents()) {
+		if(!isDeletedElem && be.system.mayFireEvents()) {
 			owner = changedTarget.getOwner();
 			isDeletedElem = owner instanceof Node ? state.delNodes().contains(owner) : state.delEdges().contains(owner);
-			if(!isDeletedElem && be.system.mayFireAttributeEvents()) {
+			if(!isDeletedElem && be.system.mayFireEvents()) {
 				String varName = "tempvar_" + tmpVarID++;
 				String varType = "bool ";
 
@@ -2438,6 +2445,8 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\t");				
 				genExpression(sb, changedTarget, state);
 				sb.append(" = " + varName + ";\n");
+				
+				genChangedAttribute(sb, state, changedTarget);	
 			} else {
 				genCompoundAssignment(sb, state, cass, "\t\t\t", ";\n");
 			}
@@ -2492,7 +2501,7 @@ public class ModifyGen extends CSharpBase {
 		Type elementType = attribute.getOwner();
 
 		boolean isDeletedElem = element instanceof Node ? state.delNodes().contains(element) : state.delEdges().contains(element);
-		if(!isDeletedElem && be.system.mayFireAttributeEvents()) {
+		if(!isDeletedElem && be.system.mayFireEvents()) {
 			sb.append(prefix);
 			if(cass.getOperation()==CompoundAssignment.UNION)
 				sb.append("GRGEN_LIBGR.ContainerHelper.UnionChanged(");
@@ -2527,7 +2536,7 @@ public class ModifyGen extends CSharpBase {
 
 		Entity owner = changedTarget.getOwner();
 		boolean isDeletedElem = owner instanceof Node ? state.delNodes().contains(owner) : state.delEdges().contains(owner);
-		if(!isDeletedElem && be.system.mayFireAttributeEvents()) {
+		if(!isDeletedElem && be.system.mayFireEvents()) {
 			String varName = "tempvar_" + tmpVarID++;
 			String varType = "bool ";
 
@@ -2544,6 +2553,8 @@ public class ModifyGen extends CSharpBase {
 			sb.append("\t\t\t");				
 			genExpression(sb, changedTarget, state);
 			sb.append(" = " + varName + ";\n");
+			
+			genChangedAttribute(sb, state, changedTarget);	
 		} else {
 			genCompoundAssignmentVar(sb, state, cass, "\t\t\t", ";\n");
 		}
@@ -2626,6 +2637,8 @@ public class ModifyGen extends CSharpBase {
 			sb.append(keyExprStr);
 		sb.append(");\n");
 
+		genChangedAttribute(sb, state, target);
+
 		if(mri.getNext()!=null) {
 			genEvalStmt(sb, state, mri.getNext());
 		}
@@ -2639,6 +2652,8 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);
 		sb.append(".Clear();\n");
+
+		genClearedAttribute(sb, state, target);
 
 		if(mc.getNext()!=null) {
 			genEvalStmt(sb, state, mc.getNext());
@@ -2671,6 +2686,8 @@ public class ModifyGen extends CSharpBase {
 			sb.append(valueExprStr);
 		sb.append(";\n");
 
+		genChangedAttribute(sb, state, target);
+
 		if(mai.getNext()!=null) {
 			genEvalStmt(sb, state, mai.getNext());
 		}
@@ -2694,6 +2711,8 @@ public class ModifyGen extends CSharpBase {
 			sb.append(valueExprStr);
 		sb.append(");\n");
 
+		genChangedAttribute(sb, state, target);
+
 		if(sri.getNext()!=null) {
 			genEvalStmt(sb, state, sri.getNext());
 		}
@@ -2707,6 +2726,8 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);
 		sb.append(".Clear();\n");
+
+		genClearedAttribute(sb, state, target);
 
 		if(sc.getNext()!=null) {
 			genEvalStmt(sb, state, sc.getNext());
@@ -2730,6 +2751,8 @@ public class ModifyGen extends CSharpBase {
 		else
 			sb.append(valueExprStr);
 		sb.append("] = null;\n");
+
+		genChangedAttribute(sb, state, target);
 
 		if(sai.getNext()!=null) {
 			genEvalStmt(sb, state, sai.getNext());
@@ -2760,6 +2783,8 @@ public class ModifyGen extends CSharpBase {
 		}
 		sb.append(");\n");
 
+		genChangedAttribute(sb, state, target);
+
 		if(ari.getNext()!=null) {
 			genEvalStmt(sb, state, ari.getNext());
 		}
@@ -2773,6 +2798,8 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);
 		sb.append(".Clear();\n");
+
+		genClearedAttribute(sb, state, target);
 
 		if(ac.getNext()!=null) {
 			genEvalStmt(sb, state, ac.getNext());
@@ -2809,6 +2836,8 @@ public class ModifyGen extends CSharpBase {
 		else
 			sb.append(valueExprStr);
 		sb.append(");\n");
+
+		genChangedAttribute(sb, state, target);
 		
 		if(aai.getNext()!=null) {
 			genEvalStmt(sb, state, aai.getNext());
@@ -2835,6 +2864,8 @@ public class ModifyGen extends CSharpBase {
 			sb.append(".Dequeue();\n");
 		}
 
+		genChangedAttribute(sb, state, target);
+
 		if(dri.getNext()!=null) {
 			genEvalStmt(sb, state, dri.getNext());
 		}
@@ -2848,6 +2879,8 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);
 		sb.append(".Clear();\n");
+
+		genClearedAttribute(sb, state, target);
 
 		if(dc.getNext()!=null) {
 			genEvalStmt(sb, state, dc.getNext());
@@ -2884,7 +2917,9 @@ public class ModifyGen extends CSharpBase {
 		else
 			sb.append(valueExprStr);
 		sb.append(");\n");
-		
+
+		genChangedAttribute(sb, state, target);
+
 		if(dai.getNext()!=null) {
 			genEvalStmt(sb, state, dai.getNext());
 		}
@@ -3140,7 +3175,7 @@ public class ModifyGen extends CSharpBase {
 			sb.append(";\n");
 			++i;
 		}
-		if(be.system.mayFireActionEvents()) {
+		if(be.system.mayFireDebugEvents()) {
 			sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting(");
 			sb.append("\"" + state.name() + "\"");
 			for(int j=0; j<i; ++j) {
@@ -4710,7 +4745,7 @@ public class ModifyGen extends CSharpBase {
 		}
 		else assert false : "Entity is neither a node nor an edge (" + element + ")!";
 
-		if(!isDeletedElem && be.system.mayFireAttributeEvents()) {
+		if(!isDeletedElem && be.system.mayFireEvents()) {
 			if(!Expression.isGlobalVariable(element)) {
 				sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" +
 						formatEntity(element) +	", " +
@@ -4729,8 +4764,42 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	protected void genChangedAttribute(StringBuffer sb, ModifyGenerationStateConst state,
+			Qualification target)
+	{
+		Entity element = target.getOwner();
+		Entity attribute = target.getMember();
+		Type elementType = attribute.getOwner();
+
+		String kindStr = null;
+		boolean isDeletedElem = false;
+		if(element instanceof Node) {
+			kindStr = "Node";
+			isDeletedElem = state.delNodes().contains(element);
+		}
+		else if(element instanceof Edge) {
+			kindStr = "Edge";
+			isDeletedElem = state.delEdges().contains(element);
+		}
+		else assert false : "Entity is neither a node nor an edge (" + element + ")!";
+
+		if(!isDeletedElem && be.system.mayFireDebugEvents()) {
+			if(!Expression.isGlobalVariable(element)) {
+				sb.append("\t\t\tgraph.Changed" + kindStr + "Attribute(" +
+						formatEntity(element) +	", " +
+						formatTypeClassRef(elementType) + "." +
+						formatAttributeTypeName(attribute) + ");\n");
+			} else {
+				sb.append("\t\t\tgraph.Changed" + kindStr + "Attribute(" +
+						formatGlobalVariableRead(element) + ", " +
+						formatTypeClassRef(elementType) + "." +
+						formatAttributeTypeName(attribute) + ");\n");
+			}
+		}
+	}
+
 	protected void genClearAttribute(StringBuffer sb, ModifyGenerationStateConst state, Qualification target)
-	{		
+	{
 		StringBuffer sbtmp = new StringBuffer();
 		genExpression(sbtmp, target, state);
 		String targetStr = sbtmp.toString();
@@ -4751,7 +4820,7 @@ public class ModifyGen extends CSharpBase {
 		}
 		else assert false : "Entity is neither a node nor an edge (" + element + ")!";
 
-		if(!isDeletedElem && be.system.mayFireAttributeEvents()) {
+		if(!isDeletedElem && be.system.mayFireEvents()) {
 			if(attribute.getType() instanceof MapType) {
 				MapType attributeType = (MapType)attribute.getType();
 				sb.append("\t\t\tforeach(KeyValuePair<" + formatType(attributeType.getKeyType()) + "," + formatType(attributeType.getValueType()) + "> kvp " +
@@ -4791,6 +4860,32 @@ public class ModifyGen extends CSharpBase {
 			} else {
 				assert(false);
 			}
+		}
+	}
+
+	protected void genClearedAttribute(StringBuffer sb, ModifyGenerationStateConst state, Qualification target)
+	{
+		Entity element = target.getOwner();
+		Entity attribute = target.getMember();
+		Type elementType = attribute.getOwner();
+
+		String kindStr = null;
+		boolean isDeletedElem = false;
+		if(element instanceof Node) {
+			kindStr = "Node";
+			isDeletedElem = state.delNodes().contains(element);
+		}
+		else if(element instanceof Edge) {
+			kindStr = "Edge";
+			isDeletedElem = state.delEdges().contains(element);
+		}
+		else assert false : "Entity is neither a node nor an edge (" + element + ")!";
+
+		if(!isDeletedElem && be.system.mayFireDebugEvents()) {
+			sb.append("\t\t\t\tgraph.Changed" + kindStr + "Attribute(" +
+					formatEntity(element) +	", " +
+					formatTypeClassRef(elementType) + "." +
+					formatAttributeTypeName(attribute) + ");\n");
 		}
 	}
 
