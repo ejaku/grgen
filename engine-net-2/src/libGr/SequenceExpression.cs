@@ -1033,6 +1033,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(Constant == null)
                     return "null";
+                else if(Constant is string)
+                    return "\"" + Constant.ToString() + "\"";
                 else
                     return Constant.ToString();
             }
