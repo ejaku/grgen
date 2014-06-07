@@ -2694,7 +2694,7 @@ namespace de.unika.ipd.grGen.grShell
         void DebugDeletingEdge(IEdge edge)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New, 
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Delete, 
                 edge, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
                 InternalHalt(cr, edge);
 
@@ -2728,11 +2728,6 @@ namespace de.unika.ipd.grGen.grShell
         void DebugChangingNodeAttribute(INode node, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
-            SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes, 
-                node, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
-                InternalHalt(cr, node, attrType.Name);
-
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
             
@@ -2742,15 +2737,26 @@ namespace de.unika.ipd.grGen.grShell
         void DebugChangingEdgeAttribute(IEdge edge, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
-            SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New, 
-                edge, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
-                InternalHalt(cr, edge, attrType.Name);
-
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
             
             ycompClient.ChangeEdgeAttribute(edge, attrType, changeType, newValue, keyValue);
+        }
+
+        void DebugChangedNodeAttribute(INode node, AttributeType attrType)
+        {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes,
+                node, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+                InternalHalt(cr, node, attrType.Name);
+        }
+
+        void DebugChangedEdgeAttribute(IEdge edge, AttributeType attrType)
+        {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes,
+                edge, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+                InternalHalt(cr, edge, attrType.Name);
         }
 
         void DebugRetypingElement(IGraphElement oldElem, IGraphElement newElem)
@@ -3484,6 +3490,8 @@ namespace de.unika.ipd.grGen.grShell
             graph.OnClearingGraph += DebugClearingGraph;
             graph.OnChangingNodeAttribute += DebugChangingNodeAttribute;
             graph.OnChangingEdgeAttribute += DebugChangingEdgeAttribute;
+            graph.OnChangedNodeAttribute += DebugChangedNodeAttribute;
+            graph.OnChangedEdgeAttribute += DebugChangedEdgeAttribute;
             graph.OnRetypingNode += DebugRetypingElement;
             graph.OnRetypingEdge += DebugRetypingElement;
             graph.OnSettingAddedNodeNames += DebugSettingAddedNodeNames;
@@ -3519,6 +3527,8 @@ namespace de.unika.ipd.grGen.grShell
             graph.OnClearingGraph -= DebugClearingGraph;
             graph.OnChangingNodeAttribute -= DebugChangingNodeAttribute;
             graph.OnChangingEdgeAttribute -= DebugChangingEdgeAttribute;
+            graph.OnChangedNodeAttribute -= DebugChangedNodeAttribute;
+            graph.OnChangedEdgeAttribute -= DebugChangedEdgeAttribute;
             graph.OnRetypingNode -= DebugRetypingElement;
             graph.OnRetypingEdge -= DebugRetypingElement;
             graph.OnSettingAddedNodeNames -= DebugSettingAddedNodeNames;
