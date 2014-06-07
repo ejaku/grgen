@@ -96,6 +96,7 @@ namespace de.unika.ipd.grGen.grShell
         public IGraphProcessingEnvironment ProcEnv;
 
         public DumpInfo DumpInfo;
+        public SubruleDebuggingConfiguration SubruleDebugConfig;
         public VCGFlags VcgFlags = VCGFlags.OrientTopToBottom | VCGFlags.EdgeLabels;
         public ParserPackage Parser = null;
 
@@ -111,6 +112,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             LGSPNamedGraph Graph = new LGSPNamedGraph((LGSPGraph)graph);
             DumpInfo = new DumpInfo(Graph.GetElementName);
+            SubruleDebugConfig = new SubruleDebuggingConfiguration();
             BackendFilename = backendFilename;
             BackendParameters = backendParameters;
             ModelFilename = modelFilename;
@@ -122,6 +124,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             LGSPNamedGraph Graph = (LGSPNamedGraph)graph;
             DumpInfo = new DumpInfo(Graph.GetElementName);
+            SubruleDebugConfig = new SubruleDebuggingConfiguration();
             BackendFilename = backendFilename;
             BackendParameters = backendParameters;
             ModelFilename = modelFilename;
@@ -136,6 +139,7 @@ namespace de.unika.ipd.grGen.grShell
                 BackendFilename, BackendParameters, ModelFilename);
             result.ProcEnv.Actions = this.ProcEnv.Actions;
             result.DumpInfo = this.DumpInfo;
+            result.SubruleDebugConfig = this.SubruleDebugConfig;
             result.VcgFlags = this.VcgFlags;
             result.Parser = this.Parser;
             result.ActionsFilename = this.ActionsFilename;
@@ -484,6 +488,19 @@ namespace de.unika.ipd.grGen.grShell
             return type;
         }
 
+        public GrGenType GetGraphElementType(String typeName)
+        {
+            if(!GraphExists()) return null;
+            GrGenType type = curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.GetType(typeName);
+            if(type != null)
+                return type;
+            type = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.GetType(typeName);
+            if(type != null)
+                return type;
+            errOut.WriteLine("Unknown graph element type: \"{0}\"", typeName);
+            return null;
+        }
+
         public ShellGraphProcessingEnvironment GetShellGraphProcEnv(String graphName)
         {
             foreach(ShellGraphProcessingEnvironment shellGraph in shellProcEnvs)
@@ -500,6 +517,11 @@ namespace de.unika.ipd.grGen.grShell
                 errOut.WriteLine("Graph index out of bounds!");
 
             return shellProcEnvs[index];
+        }
+
+        public IGraphProcessingEnvironment GetProcEnv()
+        {
+            return curShellProcEnv.ProcEnv;
         }
 
         public int NumGraphs
@@ -3602,6 +3624,294 @@ showavail:
                 debugOut.WriteLine(" - {0}", name);
             debugOut.WriteLine();
             return null;
+        }
+
+		public void DebugOnAdd(string comparison, string message, bool break_)
+        {
+            SubruleMesssageMatchingMode mode = ParseComparison(comparison);
+            if(mode == SubruleMesssageMatchingMode.Undefined)
+            {
+                errOut.WriteLine("Unknown comparison function: " + comparison);
+                debugOut.WriteLine("Available are: equals, startsWith, endsWith, contains");
+                return;
+            }
+            SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
+                SubruleDebuggingEvent.Add,
+                message,
+                mode,
+                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue
+                );
+            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            if(!break_)
+            {
+                debugOut.Write("Notice: a Debug::add command continues by default -- ");
+                debugOut.WriteLine(cr.ToString());
+            }
+        }
+
+        public void DebugOnRem(string comparison, string message, bool break_)
+        {
+            SubruleMesssageMatchingMode mode = ParseComparison(comparison);
+            if(mode == SubruleMesssageMatchingMode.Undefined)
+            {
+                errOut.WriteLine("Unknown comparison function: " + comparison);
+                debugOut.WriteLine("Available are: equals, startsWith, endsWith, contains");
+                return;
+            }
+            SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
+                SubruleDebuggingEvent.Rem,
+                message,
+                mode,
+                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue
+                );
+            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            if(!break_)
+            {
+                debugOut.Write("Notice: a Debug::rem command continues by default -- ");
+                debugOut.WriteLine(cr.ToString());
+            }
+        }
+
+        public void DebugOnEmit(string comparison, string message, bool break_)
+        {
+            SubruleMesssageMatchingMode mode = ParseComparison(comparison);
+            if(mode == SubruleMesssageMatchingMode.Undefined)
+            {
+                errOut.WriteLine("Unknown comparison function: " + comparison);
+                debugOut.WriteLine("Available are: equals, startsWith, endsWith, contains");
+                return;
+            }
+            SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
+                SubruleDebuggingEvent.Emit,
+                message,
+                mode,
+                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue
+                );
+            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            if(!break_)
+            {
+                debugOut.Write("Notice: a Debug::emit command continues by default -- ");
+                debugOut.WriteLine(cr.ToString());
+            }
+        }
+
+        public void DebugOnHalt(string comparison, string message, bool break_)
+        {
+            SubruleMesssageMatchingMode mode = ParseComparison(comparison);
+            if(mode == SubruleMesssageMatchingMode.Undefined)
+            {
+                errOut.WriteLine("Unknown comparison function: " + comparison);
+                debugOut.WriteLine("Available are: equals, startsWith, endsWith, contains");
+                return;
+            }
+            SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
+                SubruleDebuggingEvent.Halt,
+                message,
+                mode,
+                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue
+                );
+            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            if(break_)
+            {
+                debugOut.Write("Notice: a Debug::halt command causes a break by default -- ");
+                debugOut.WriteLine(cr.ToString());
+            }
+        }
+
+        public void DebugOnHighlight(string comparison, string message, bool break_)
+        {
+            SubruleMesssageMatchingMode mode = ParseComparison(comparison);
+            if(mode == SubruleMesssageMatchingMode.Undefined)
+            {
+                errOut.WriteLine("Unknown comparison function: " + comparison);
+                debugOut.WriteLine("Available are: equals, startsWith, endsWith, contains");
+                return;
+            }
+            SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
+                SubruleDebuggingEvent.Highlight,
+                message,
+                mode,
+                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue
+                );
+            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            if(break_)
+            {
+                debugOut.Write("Notice: a Debug::highlight causes a break by default -- ");
+                debugOut.WriteLine(cr.ToString());
+            }
+        }
+
+        public void DebugOnMatch(string actionname, bool break_, SequenceExpression if_)
+        {
+            if(GetProcEnv().Actions.GetAction(actionname) == null)
+            {
+                errOut.WriteLine("Action unknown: "+actionname);
+                return;
+            }
+            SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
+                SubruleDebuggingEvent.Match,
+                GetProcEnv().Actions.GetAction(actionname),
+                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
+                if_
+                );
+            curShellProcEnv.SubruleDebugConfig.Add(cr);
+        }
+
+        public void DebugOnNew(GrGenType graphElemType, bool only, string elemName, bool break_, SequenceExpression if_)
+        {
+            SubruleDebuggingConfigurationRule cr;
+            if(elemName != null)
+            {
+                cr = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.New,
+                    elemName,
+                    break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
+                    if_
+                    );
+            }
+            else
+            {
+                if(graphElemType == null)
+                {
+                    errOut.WriteLine("Unknown graph element type");
+                    return;
+                }
+                cr = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.New,
+                    graphElemType,
+                    only,
+                    break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
+                    if_
+                    );
+            }
+            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            if(!break_)
+            {
+                debugOut.Write("Notice: a new node/edge continues by default -- ");
+                debugOut.WriteLine(cr.ToString());
+            }
+        }
+
+        public void DebugOnDelete(GrGenType graphElemType, bool only, string elemName, bool break_, SequenceExpression if_)
+        {
+            SubruleDebuggingConfigurationRule cr;
+            if(elemName != null)
+            {
+                cr = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.Delete,
+                    elemName,
+                    break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
+                    if_
+                    );
+            }
+            else
+            {
+                if(graphElemType == null)
+                {
+                    errOut.WriteLine("Unknown graph element type");
+                    return;
+                }
+                cr = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.Delete,
+                    graphElemType,
+                    only,
+                    break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
+                    if_
+                    );
+            }
+            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            if(!break_)
+            {
+                debugOut.Write("Notice: a delete node/edge continues by default -- ");
+                debugOut.WriteLine(cr.ToString());
+            }
+        }
+
+        public void DebugOnRetype(GrGenType graphElemType, bool only, string elemName, bool break_, SequenceExpression if_)
+        {
+            SubruleDebuggingConfigurationRule cr;
+            if(elemName != null)
+            {
+                cr = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.Retype,
+                    elemName,
+                    break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
+                    if_
+                    );
+            }
+            else
+            {
+                if(graphElemType == null)
+                {
+                    errOut.WriteLine("Unknown graph element type");
+                    return;
+                }
+                cr = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.Retype,
+                    graphElemType,
+                    only,
+                    break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
+                    if_
+                    );
+            }
+            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            if(!break_)
+            {
+                debugOut.Write("Notice: a retype node/edge continues by default -- ");
+                debugOut.WriteLine(cr.ToString());
+            }
+        }
+
+        public void DebugOnSetAttributes(GrGenType graphElemType, bool only, string elemName, bool break_, SequenceExpression if_)
+        {
+            SubruleDebuggingConfigurationRule cr;
+            if(elemName != null)
+            {
+                cr = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.SetAttributes,
+                    elemName,
+                    break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
+                    if_
+                    );
+            }
+            else
+            {
+                if(graphElemType == null)
+                {
+                    errOut.WriteLine("Unknown graph element type");
+                    return;
+                }
+                cr = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.SetAttributes,
+                    graphElemType,
+                    only,
+                    break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
+                    if_
+                    );
+            }
+            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            if(!break_)
+            {
+                debugOut.Write("Notice: an attribute assignment to a node/edge continues by default -- ");
+                debugOut.WriteLine(cr.ToString());
+            }
+        }
+
+        private SubruleMesssageMatchingMode ParseComparison(string comparison)
+        {
+            switch(comparison)
+            {
+                case "equals":
+                    return SubruleMesssageMatchingMode.Equals;
+                case "startsWith":
+                    return SubruleMesssageMatchingMode.StartsWith;
+                case "endsWith":
+                    return SubruleMesssageMatchingMode.EndsWith;
+                case "contains":
+                    return SubruleMesssageMatchingMode.Contains;
+                default:
+                    return SubruleMesssageMatchingMode.Undefined;
+            }
         }
 
         public bool SetDumpLabel(GrGenType type, String label, bool only)

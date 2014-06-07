@@ -1,0 +1,18 @@
+new graph Debugging
+
+debug on match r break when f() && this.i==0
+debug on match s continue when f() && this.i==0
+debug on match ss continue when f() && this.i==0
+
+debug exec init
+
+debug exec s
+
+clear graph 
+
+debug exec init
+new :T($="foobar")
+
+debug exec s
+
+quit

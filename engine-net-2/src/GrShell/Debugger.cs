@@ -2629,6 +2629,11 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugNodeAdded(INode node)
         {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New, 
+                node, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+                InternalHalt(cr, node);
+
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
 
@@ -2643,6 +2648,11 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugEdgeAdded(IEdge edge)
         {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New,
+                edge, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+                InternalHalt(cr, edge);
+
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
             
@@ -2657,6 +2667,11 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugDeletingNode(INode node)
         {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Delete, 
+                node, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+                InternalHalt(cr, node);
+
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
             
@@ -2678,6 +2693,11 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugDeletingEdge(IEdge edge)
         {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New, 
+                edge, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+                InternalHalt(cr, edge);
+
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
             
@@ -2708,6 +2728,11 @@ namespace de.unika.ipd.grGen.grShell
         void DebugChangingNodeAttribute(INode node, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes, 
+                node, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+                InternalHalt(cr, node, attrType.Name);
+
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
             
@@ -2717,6 +2742,11 @@ namespace de.unika.ipd.grGen.grShell
         void DebugChangingEdgeAttribute(IEdge edge, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New, 
+                edge, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+                InternalHalt(cr, edge, attrType.Name);
+
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
             
@@ -2725,6 +2755,11 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugRetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Retype, 
+                oldElem, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+                InternalHalt(cr, oldElem);
+
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
             
@@ -2781,6 +2816,26 @@ namespace de.unika.ipd.grGen.grShell
             // integrate matched actions into subrule traces stack
             computationsEnteredStack.Add(new SubruleComputation(matches.Producer.Name));
 
+            SubruleDebuggingConfigurationRule cr;
+            SubruleDebuggingDecision d = shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Match, 
+                matches, shellProcEnv.ProcEnv, out cr);
+            if(d == SubruleDebuggingDecision.Break)
+                InternalHalt(cr, matches);
+            else if(d == SubruleDebuggingDecision.Continue)
+            {
+                recentlyMatched = lastlyEntered;
+                if(!detailedMode)
+                    return;
+                if(recordMode)
+                {
+                    DebugFinished(null, false);
+                    matchDepth++;
+                    annotatedNodes.Clear();
+                    annotatedEdges.Clear();
+                }
+                return;
+            }
+
             if(dynamicStepMode && !skipMode)
             {
                 skipMode = true;
@@ -2808,7 +2863,11 @@ namespace de.unika.ipd.grGen.grShell
                 DebugFinished(null, false);
                 matchDepth++;
                 if(outOfDetailedMode)
+                {
+                    annotatedNodes.Clear();
+                    annotatedEdges.Clear();
                     return;
+                }
             }
 
             if(matchDepth++ > 0 || computationsEnteredStack.Count > 0)
@@ -2889,7 +2948,7 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
 
-            QueryContinueOrTrace();
+            QueryContinueOrTrace(false);
 
             foreach(INode node in addedNodes.Keys)
             {
@@ -3124,6 +3183,11 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugEnter(string message, params object[] values)
         {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Add, 
+                message, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+                InternalHalt(cr, message, values);
+
             SubruleComputation entry = new SubruleComputation(shellProcEnv.ProcEnv.NamedGraph, 
                 SubruleComputationType.Entry, message, values);
             computationsEnteredStack.Add(entry);
@@ -3133,6 +3197,11 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugExit(string message, params object[] values)
         {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Rem, 
+                message, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+                InternalHalt(cr, message, values);
+
             RemoveUpToEntryForExit(message);
             if(detailedMode)
             {
@@ -3170,6 +3239,11 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugEmit(string message, params object[] values)
         {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Emit, 
+                message, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+                InternalHalt(cr, message, values);
+
             SubruleComputation emit = new SubruleComputation(shellProcEnv.ProcEnv.NamedGraph,
                 SubruleComputationType.Emit, message, values);
             computationsEnteredStack.Add(emit);
@@ -3179,6 +3253,11 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugHalt(string message, params object[] values)
         {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Halt, 
+                message, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Continue)
+                return;
+
             Console.Write("Halting: " + message);
             for(int i = 0; i < values.Length; ++i)
             {
@@ -3197,7 +3276,25 @@ namespace de.unika.ipd.grGen.grShell
                 PrintDebugTracesStack(false);
             }
 
-            QueryContinueOrTrace();
+            QueryContinueOrTrace(true);
+        }
+
+        void InternalHalt(SubruleDebuggingConfigurationRule cr, object data, params object[] additionalData)
+        {
+            context.workaround.PrintHighlighted("Break ", HighlightingMode.Breakpoint);
+            Console.WriteLine("because " + cr.ToString(data, shellProcEnv.ProcEnv.NamedGraph, additionalData));
+
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+            if(!detailedMode)
+            {
+                context.highlightSeq = lastlyEntered;
+                PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                Console.WriteLine();
+                PrintDebugTracesStack(false);
+            }
+
+            QueryContinueOrTrace(true);
         }
 
         /// <summary>
@@ -3205,6 +3302,11 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         void DebugHighlight(string message, List<object> values, List<string> sourceNames)
         {
+            SubruleDebuggingConfigurationRule cr;
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Highlight, 
+                message, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Continue)
+                return;
+
             Console.Write("Highlighting: " + message);
             if(sourceNames.Count > 0)
                 Console.Write(" with annotations");
@@ -3229,7 +3331,7 @@ namespace de.unika.ipd.grGen.grShell
             HandleHighlight(values, sourceNames);
             ShellProcEnv.ProcEnv.HighlightingUnderway = false;
 
-            QueryContinueOrTrace();
+            QueryContinueOrTrace(true);
         }
 
         void PrintDebugTracesStack(bool full)
@@ -3248,15 +3350,15 @@ namespace de.unika.ipd.grGen.grShell
         /// - print a full (t)race stack dump or even a (f)ull state dump
         /// - continue execution (any other key)
         /// </summary>
-        private void QueryContinueOrTrace()
+        private void QueryContinueOrTrace(bool isBottomUpBreak)
         {
             while(true)
             {
-                if(detailedMode && computationsEnteredStack.Count == 0)
+                if(!isBottomUpBreak && computationsEnteredStack.Count == 0)
                     Console.WriteLine("Debugging (detailed) continues with any key, besides (f)ull state or (a)bort.");
                 else
                 {
-                    if(detailedMode)
+                    if(!isBottomUpBreak)
                     {
                         Console.Write("Detailed subrule debugging -- ");
                         if(computationsEnteredStack.Count > 0)
@@ -3273,12 +3375,12 @@ namespace de.unika.ipd.grGen.grShell
                         }
                     }
                     else
-                        Console.Write("Halt/highlight hit -- ");
+                        Console.Write("Watchpoint/halt/highlight hit -- ");
                     if(computationsEnteredStack.Count > 0)
                         Console.Write("print subrule stack(t)race, (f)ull state, or (a)bort, any other key continues ");
                     else
                         Console.Write("(f)ull state, or (a)bort, any other key continues ");
-                    if(detailedMode)
+                    if(!isBottomUpBreak)
                         Console.WriteLine("detailed debugging.");
                     else
                         Console.WriteLine("debugging as before.");
@@ -3290,7 +3392,7 @@ namespace de.unika.ipd.grGen.grShell
                     grShellImpl.Cancel();
                     return;                               // never reached
                 case 'r':
-                    if(detailedMode && computationsEnteredStack.Count > 0)
+                    if(!isBottomUpBreak && computationsEnteredStack.Count > 0)
                     {
                         outOfDetailedMode = true;
                         outOfDetailedModeTarget = 0;
@@ -3298,7 +3400,7 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     return;
                 case 'o':
-                    if(detailedMode && TargetStackLevelForOutInDetailedMode() > 0)
+                    if(!isBottomUpBreak && TargetStackLevelForOutInDetailedMode() > 0)
                     {
                         outOfDetailedMode = true;
                         outOfDetailedModeTarget = TargetStackLevelForOutInDetailedMode();
@@ -3306,7 +3408,7 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     return;
                 case 'u':
-                    if(detailedMode && TargetStackLevelForUpInDetailedMode() > 0)
+                    if(!isBottomUpBreak && TargetStackLevelForUpInDetailedMode() > 0)
                     {
                         outOfDetailedMode = true;
                         outOfDetailedModeTarget = TargetStackLevelForUpInDetailedMode();

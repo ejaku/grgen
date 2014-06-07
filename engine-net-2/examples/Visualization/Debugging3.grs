@@ -1,0 +1,26 @@
+new graph Debugging
+
+exec {(::visId)=valloc()}
+
+debug on new only T break
+debug on new T break
+debug on delete T break
+debug on retype T break
+debug on set attributes T break 
+
+debug on new @("0") break
+debug on delete @("0") break
+debug on retype @("1") break
+debug on set attributes @("1") break
+
+debug exec rnew
+debug exec rdeleteretype
+debug exec rattr
+
+clear graph
+
+debug exec rnew2
+debug exec rdeleteretype2
+debug exec rattr2
+
+quit

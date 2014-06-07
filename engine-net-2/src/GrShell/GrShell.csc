@@ -271,10 +271,12 @@ TOKEN: {
 |   < ATTRIBUTES: "attributes" >
 |   < BACKEND: "backend" >
 |   < BORDERCOLOR: "bordercolor" >
+|   < BREAK: "break" >
 |   < BY: "by" >
 |   < CD: "cd" >
 |   < CLEAR: "clear" >
 |   < COLOR: "color" >
+|   < CONTINUE: "continue" >
 |   < CUSTOM: "custom" >
 |   < DEBUG: "debug" >
 |   < DEF: "def" >
@@ -300,8 +302,11 @@ TOKEN: {
 |   < GRAPHS: "graphs" >
 |   < GROUP: "group" >
 |   < GRS: "grs" >
+|   < HALT: "halt" >
 |   < HELP: "help" >
 |   < HIDDEN: "hidden" >
+|   < HIGHLIGHT: "highlight" >
+|   < IF: "if" >
 |   < IMPORT: "import" >
 |   < INCLUDE: "include" >
 |   < INFOTAG: "infotag" >
@@ -315,6 +320,7 @@ TOKEN: {
 |   < LINESTYLE: "linestyle" >
 |   < LS: "ls" >
 |   < MAP: "map" >
+|   < MATCH: "match" >
 |   < MODE: "mode" >
 |   < NEW: "new" >
 |   < NODE: "node" >
@@ -857,6 +863,14 @@ EdgeType EdgeType():
 }
 {
 	(LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetEdgeType(package!=null ? package+"::"+type : type); }
+}
+
+GrGenType GraphElementType():
+{
+	String package=null, type;
+}
+{
+	(LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetGraphElementType(package!=null ? package+"::"+type : type); }
 }
 
 String TypeName():
@@ -1921,18 +1935,16 @@ void ShowVar():
 void DebugCommand():
 {
     Sequence seq;
-    String str = null, str2;
+	SequenceExpression seqExpr = null;
+    String str = null, str2, elemName = null;
 	Token tok;
+	bool break_ = false, only = false;
+	GrGenType graphElemType = null;
+	Dictionary<String, String> predefinedVariables;
 }
 {
 	try
 	{
-		"grs" str=CommandLine()
-		{
-			Console.WriteLine("The old grs are not supported any longer. Please use the extended graph rewrite sequences exec(/xgrs).");
-			noError = false;
-		}
-	|
 		(tok="xgrs" | tok="exec") str=CommandLine()
 		{
 			try
@@ -2003,6 +2015,45 @@ void DebugCommand():
 		"set" "node" DebugSetNode()
 	|
 		"set" "edge" DebugSetEdge()
+	|
+		LOOKAHEAD(2)
+		"on" "add" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+		{ impl.DebugOnAdd(str, str2, break_); }
+	|
+		LOOKAHEAD(2)
+		"on" "rem" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+		{ impl.DebugOnRem(str, str2, break_); }
+	|
+		LOOKAHEAD(2)
+		"on" "emit" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+		{ impl.DebugOnEmit(str, str2, break_); }
+	|
+		LOOKAHEAD(2)
+		"on" "halt" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+		{ impl.DebugOnHalt(str, str2, break_); }
+	|
+		LOOKAHEAD(2)
+		"on" "highlight" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+		{ impl.DebugOnHighlight(str, str2, break_); }
+	|
+		LOOKAHEAD(2)
+		"on" "match" str=WordOrText() break_=Break() (seqExpr=If(str, null))?
+		{ impl.DebugOnMatch(str, break_, seqExpr); }
+	|
+		LOOKAHEAD(2)
+		"on" "new" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
+		{ impl.DebugOnNew(graphElemType, only, elemName, break_, seqExpr); }
+	|
+		LOOKAHEAD(2)
+		"on" "delete" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
+		{ impl.DebugOnDelete(graphElemType, only, elemName, break_, seqExpr); }
+	|
+		LOOKAHEAD(2)
+		"on" "retype" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
+		{ impl.DebugOnRetype(graphElemType, only, elemName, break_, seqExpr); }
+	|
+		"on" "set" "attributes" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
+		{ impl.DebugOnSetAttributes(graphElemType, only, elemName, break_, seqExpr); }
 	}
 	catch(ParseException ex)
 	{
@@ -2011,6 +2062,74 @@ void DebugCommand():
 		impl.HelpDebug(new List<String>());
 		errorSkipSilent();
 		noError = false;
+	}
+}
+
+bool Break():
+{ }
+{
+	"break"
+	{
+		return true;
+	}
+|
+	"continue"
+	{
+		return false; 
+	}
+}
+
+string DebugRuleSet():
+{
+	string str = "";
+}
+{
+	("in" str=WordOrText())?
+	{
+		return str;
+	}
+}
+
+SequenceExpression If(string ruleOfMatchThis, string typeOfGraphElementThis):
+{
+	Token tok;
+	string str1 = "";
+	SequenceExpression seqExpr = null;
+	Dictionary<String, String> predefinedVariables = new Dictionary<String, String>();
+	predefinedVariables.Add("this", "");
+}
+{
+	tok="if" str1=CommandLine()
+	{
+		try
+		{
+			List<String> warnings = new List<String>();
+			seqExpr = SequenceParser.ParseSequenceExpression(str1, predefinedVariables, impl.CurrentActions, ruleOfMatchThis, typeOfGraphElementThis, warnings);
+			foreach(string warning in warnings)
+			{
+				Console.WriteLine("The sequence expression at line " + tok.beginLine + " reported back: " + warning);
+			}
+			return seqExpr;
+		}
+		catch(SequenceParserException ex)
+		{
+			Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine);
+			impl.HandleSequenceParserException(ex);
+			noError = false;
+			return seqExpr;
+		}
+		catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+		{
+			Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex.Message);
+			noError = false;
+			return seqExpr;
+		}
+		catch(Exception ex)
+		{
+			Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex);
+			noError = false;
+			return seqExpr;
+		}
 	}
 }
 

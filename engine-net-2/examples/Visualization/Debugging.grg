@@ -1,3 +1,5 @@
+#using "Debugging.gm"
+
 rule init
 {
 	modify {
@@ -7,11 +9,141 @@ rule init
 
 rule r
 {
+	def var i:int = 0;
 	n:Node --> m:Node --> l:Node --> n;	
 	
 	modify {
 		delete(n);
 		:Node<m>;
 		l --> :Node;
+	}
+}
+
+rule s
+{
+	def var i:int = 0;
+
+	modify {
+		exec(ss ;> r);
+	}
+}
+
+rule ss
+{
+	def var i:int = 0;
+
+	modify {
+	}
+}
+
+procedure p
+{
+	return;
+}
+
+procedure p_schlonz
+{
+	return;
+}
+
+procedure schlonz_p
+{
+	return;
+}
+
+procedure schlonz_p_schlonz
+{
+	exec(s);
+	return;
+}
+
+procedure q
+{	
+	Debug::emit("q", 42);
+	Debug::halt("q", 42);
+	Debug::highlight("q", 0, "visid=0");
+	return;
+}
+
+rule rnew
+{
+	modify {
+		:T@($="0") -:Edge@($="0-->1")-> :TT@($="1");
+	}
+}
+
+rule rdeleteretype
+{
+	t:T --> tt:TT;
+	
+	modify {
+		delete(t);
+		:T<tt>;
+	}
+}
+
+rule rattr
+{
+	t:T;
+	
+	modify {
+		eval {
+			t.i = 42;
+		}
+	}
+}
+
+rule rattrinc
+{
+	t:T;
+	
+	modify {
+		eval {
+			t.i = t.i + 1;
+		}
+	}
+}
+
+function f : boolean
+{
+	return(nodes(T).size()>=1);
+}
+
+rule rnew2
+{
+	modify {
+		:N@($="0") -:Edge@($="0-->1")-> :NN@($="1");
+	}
+}
+
+rule rdeleteretype2
+{
+	t:N --> tt:NN;
+	
+	modify {
+		delete(t);
+		:N<tt>;
+	}
+}
+
+rule rattr2
+{
+	t:N;
+	
+	modify {
+		eval {
+			t.i = 42;
+		}
+	}
+}
+
+rule rattrinc2
+{
+	t:N;
+	
+	modify {
+		eval {
+			t.i = t.i + 1;
+		}
 	}
 }
