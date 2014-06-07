@@ -321,6 +321,10 @@ namespace de.unika.ipd.grGen.libGr
             else
                 procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
             elem.SetAttribute(AttributeName, value);
+            if(elem is INode)
+                procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
+            else
+                procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -447,6 +451,11 @@ namespace de.unika.ipd.grGen.libGr
                 IDictionary map = (IDictionary)container;
                 map[key] = value;
             }
+
+            if(elem is INode)
+                procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
+            else
+                procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,

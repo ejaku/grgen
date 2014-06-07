@@ -188,12 +188,13 @@ namespace de.unika.ipd.grGen.grGen
                             flags |= ProcessSpecFlags.CompileWithDebug;
                             break;
 
-                        case "-noattributeevents":
-                            flags |= ProcessSpecFlags.NoAttributeEvents;
+                        case "-noevents":
+                            flags |= ProcessSpecFlags.NoEvents;
+                            flags |= ProcessSpecFlags.NoDebugEvents;
                             break;
 
-                        case "-noactionevents":
-                            flags |= ProcessSpecFlags.NoActionEvents;
+                        case "-nodebugevents":
+                            flags |= ProcessSpecFlags.NoDebugEvents;
                             break;
 
                         case "-lazynic":
@@ -266,9 +267,10 @@ namespace de.unika.ipd.grGen.grGen
                     + "                        executed at the end of matching (normally asap)\n"
                     + "  -noinline             disables subpattern inlining\n"
                     + "Optimizing options:\n"
-                    + "  -noactionevents       Do not fire action events in the generated code.\n"
-                    + "                        Impacts debugging.\n"
-                    + "  -noattributeevents    Do not fire attrib. change events in the generated code.\n"
+                    + "  -nodebugevents        Do not fire debug events in the generated code.\n"
+                    + "                        Mostly action events, impacts debugging.\n"
+                    + "  -noevents             Do not fire events in the generated code.\n"
+                    + "                        Mostly attribute change events.\n"
                     + "                        Impacts transactions, recording, debugging.\n"
                     + "  -noperfinfo           Do not try to update the performance info object\n"
                     + "                        counting number of matches and rewrites.");

@@ -478,6 +478,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.PutElement, entry.Value, entry.Key);
                     a[entry.Key] = entry.Value;
+                    graph.ChangedNodeAttribute(owner, attrType);
                     changed = true;
                 }
             }
@@ -509,6 +510,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.PutElement, entry.Value, entry.Key);
                     a[entry.Key] = entry.Value;
+                    graph.ChangedEdgeAttribute(owner, attrType);
                     changed = true;
                 }
             }
@@ -538,6 +540,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.PutElement, entry.Key, null);
                     a[entry.Key] = entry.Value;
+                    graph.ChangedNodeAttribute(owner, attrType);
                     changed = true;
                 }
             }
@@ -567,6 +570,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.PutElement, entry.Key, null);
                     a[entry.Key] = entry.Value;
+                    graph.ChangedEdgeAttribute(owner, attrType);
                     changed = true;
                 }
             }
@@ -598,6 +602,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.RemoveElement, null, key);
                 a.Remove(key);
+                graph.ChangedNodeAttribute(owner, attrType);
             }
 
             return toBeRemoved.Count > 0;
@@ -627,6 +632,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.RemoveElement, null, key);
                 a.Remove(key);
+                graph.ChangedEdgeAttribute(owner, attrType);
             }
 
             return toBeRemoved.Count > 0;
@@ -656,6 +662,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.RemoveElement, key, null);
                 a.Remove(key);
+                graph.ChangedNodeAttribute(owner, attrType);
             }
 
             return toBeRemoved.Count > 0;
@@ -685,6 +692,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.RemoveElement, key, null);
                 a.Remove(key);
+                graph.ChangedEdgeAttribute(owner, attrType);
             }
 
             return toBeRemoved.Count > 0;
@@ -709,6 +717,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.RemoveElement, null, entry.Key);
                 changed |= a.Remove(entry.Key);
+                graph.ChangedNodeAttribute(owner, attrType);
             }
 
             return changed;
@@ -733,6 +742,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.RemoveElement, null, entry.Key);
                 changed |= a.Remove(entry.Key);
+                graph.ChangedEdgeAttribute(owner, attrType);
             }
 
             return changed;
@@ -758,6 +768,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.RemoveElement, entry.Key, null);
                 changed |= a.Remove(entry.Key);
+                graph.ChangedNodeAttribute(owner, attrType);
             }
 
             return changed;
@@ -783,6 +794,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.RemoveElement, entry.Key, null);
                 changed |= a.Remove(entry.Key);
+                graph.ChangedEdgeAttribute(owner, attrType);
             }
 
             return changed;
@@ -944,6 +956,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.PutElement, entry, null);
                 a.Add(entry);
+                graph.ChangedNodeAttribute(owner, attrType);
             }
 
             return b.Count>0;
@@ -966,6 +979,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.PutElement, entry, null);
                 a.Add(entry);
+                graph.ChangedEdgeAttribute(owner, attrType);
             }
 
             return b.Count>0;
@@ -1117,6 +1131,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.PutElement, entry, null);
                 a.Enqueue(entry);
+                graph.ChangedNodeAttribute(owner, attrType);
             }
 
             return b.Count > 0;
@@ -1139,6 +1154,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.PutElement, entry, null);
                 a.Enqueue(entry);
+                graph.ChangedEdgeAttribute(owner, attrType);
             }
 
             return b.Count > 0;

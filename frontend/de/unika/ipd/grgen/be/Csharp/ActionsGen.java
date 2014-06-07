@@ -496,7 +496,7 @@ public class ActionsGen extends CSharpBase {
 		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false, emitProfilingInstrumentation);
 		mgFuncComp.initEvalGen();
 
-		if(be.system.mayFireActionEvents()) {
+		if(be.system.mayFireDebugEvents()) {
 			sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
 			sb.append("\"" + procedure.getIdent().toString() + "\"");
 			for(Entity inParam : procedure.getParameters()) {

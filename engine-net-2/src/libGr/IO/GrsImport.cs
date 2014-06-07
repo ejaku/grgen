@@ -605,9 +605,14 @@ namespace de.unika.ipd.grGen.libGr
             if(elem is INode)
                 graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
             else
-                graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
+                graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);            
             */
             elem.SetAttribute(attrType.Name, attributeValue);
+            /*if(elem is INode)
+                graph.ChangedNodeAttribute((INode)elem, attrType);
+            else
+                graph.ChangedEdgeAttribute((IEdge)elem, attrType);            
+            */
         }
 
         private object ParseAttributeSimpleValue(AttributeType attrType)

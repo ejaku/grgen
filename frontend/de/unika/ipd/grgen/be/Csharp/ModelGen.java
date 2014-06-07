@@ -1465,7 +1465,7 @@ deque_init_loop:
 			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, false, be.system.emitProfilingInstrumentation());
 			mgFuncComp.initEvalGen();
 			
-			if(be.system.mayFireActionEvents()) {
+			if(be.system.mayFireDebugEvents()) {
 				sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
 				sb.append("\"" + pm.getIdent().toString() + "\"");
 				for(Entity inParam : pm.getParameters()) {

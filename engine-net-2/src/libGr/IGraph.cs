@@ -85,6 +85,20 @@ namespace de.unika.ipd.grGen.libGr
             AttributeChangeType changeType, Object newValue, Object keyValue);
 
     /// <summary>
+    /// Represents a method called after a node attribute was changed (for debugging, omitted in case nodebugevents).
+    /// </summary>
+    /// <param name="node">The node whose attribute was changed.</param>
+    /// <param name="attrType">The type of the attribute changed.</param>
+    public delegate void ChangedNodeAttributeHandler(INode node, AttributeType attrType);
+
+    /// <summary>
+    /// Represents a method called after an edge attribute was changed (for debugging, omitted in case of nodebugevents).
+    /// </summary>
+    /// <param name="edge">The edge whose attribute was changed.</param>
+    /// <param name="attrType">The type of the attribute changed.</param>
+    public delegate void ChangedEdgeAttributeHandler(IEdge edge, AttributeType attrType);
+
+    /// <summary>
     /// Represents a method called before a node is retyped.
     /// </summary>
     /// <param name="oldNode">The node to be retyped.</param>
@@ -607,6 +621,26 @@ namespace de.unika.ipd.grGen.libGr
         event ChangingEdgeAttributeHandler OnChangingEdgeAttribute;
 
         /// <summary>
+        /// Fired after an attribute of a node is changed; for debugging purpose.
+        /// Note for LGSPBackend:
+        /// Because graph elements of the LGSPBackend don't know their graph a call to
+        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function
+        /// and want the event to be fired, you have to fire it yourself
+        /// using ChangedNodeAttributes.
+        /// </summary>
+        event ChangedNodeAttributeHandler OnChangedNodeAttribute;
+
+        /// <summary>
+        /// Fired before an attribute of an edge is changed; for debugging purpose.
+        /// Note for LGSPBackend:
+        /// Because graph elements of the LGSPBackend don't know their graph a call to
+        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function
+        /// and want the event to be fired, you have to fire it yourself
+        /// using ChangedEdgeAttributes.
+        /// </summary>
+        event ChangedEdgeAttributeHandler OnChangedEdgeAttribute;
+
+        /// <summary>
         /// Fired before the type of a node is changed.
         /// Old and new nodes are provided to the handler.
         /// </summary>
@@ -689,6 +723,22 @@ namespace de.unika.ipd.grGen.libGr
         ///                        The index to be removed/written to if changeType==RemoveElement/AssignElement on array/deque.</param>
         void ChangingEdgeAttribute(IEdge edge, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue);
+
+        /// <summary>
+        /// Fires an OnChangedNodeAttribute event.
+        /// For debugging, won't be automatically called in case of -nodebugevents, attribute change rollback is based on the pre-events.
+        /// </summary>
+        /// <param name="node">The node whose attribute was changed.</param>
+        /// <param name="attrType">The type of the attribute changed.</param>
+        void ChangedNodeAttribute(INode node, AttributeType attrType);
+
+        /// <summary>
+        /// Fires an OnChangedEdgeAttribute event.
+        /// For debugging, won't be automatically called in case of -nodebugevents, attribute change rollback is based on the pre-events.
+        /// </summary>
+        /// <param name="edge">The edge whose attribute was changed.</param>
+        /// <param name="attrType">The type of the attribute changed.</param>
+        void ChangedEdgeAttribute(IEdge edge, AttributeType attrType);
 
         #endregion Events
     }

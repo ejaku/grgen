@@ -126,6 +126,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public event ChangingNodeAttributeHandler OnChangingNodeAttribute;
         public event ChangingEdgeAttributeHandler OnChangingEdgeAttribute;
+        public event ChangedNodeAttributeHandler OnChangedNodeAttribute;
+        public event ChangedEdgeAttributeHandler OnChangedEdgeAttribute;
 
         public event RetypingNodeHandler OnRetypingNode;
         public event RetypingEdgeHandler OnRetypingEdge;
@@ -212,6 +214,20 @@ namespace de.unika.ipd.grGen.libGr
             ChangingEdgeAttributeHandler changingElemAttr = OnChangingEdgeAttribute;
             if(changingElemAttr != null)
                 changingElemAttr(edge, attrType, changeType, newValue, keyValue);
+        }
+
+        public void ChangedNodeAttribute(INode node, AttributeType attrType)
+        {
+            ChangedNodeAttributeHandler changedElemAttr = OnChangedNodeAttribute;
+            if(changedElemAttr != null)
+                changedElemAttr(node, attrType);
+        }
+
+        public void ChangedEdgeAttribute(IEdge edge, AttributeType attrType)
+        {
+            ChangedEdgeAttributeHandler changedElemAttr = OnChangedEdgeAttribute;
+            if(changedElemAttr != null)
+                changedElemAttr(edge, attrType);
         }
 
         /// <summary>
