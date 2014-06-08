@@ -189,6 +189,7 @@ namespace de.unika.ipd.grGen.grShell
         private string nameToMatch;
         private SubruleDebuggingDecision decisionOnMatch;
         private SequenceExpression ifClause;
+        private bool enabled = true;
 
         public SubruleDebuggingConfigurationRule(SubruleDebuggingEvent sde, string message, 
             SubruleMesssageMatchingMode smmm, SubruleDebuggingDecision sdd)
@@ -227,8 +228,21 @@ namespace de.unika.ipd.grGen.grShell
             this.ifClause = ifClause;
         }
 
+        public SubruleDebuggingEvent DebuggingEvent { get { return debuggingEvent; } }
+        public string MessageToMatch { get { return messageToMatch; } }
+        public SubruleMesssageMatchingMode MessageMatchingMode { get { return messageMatchingMode; } }
+        public IAction ActionToMatch { get { return actionToMatch; } }
+        public GrGenType TypeToMatch { get { return typeToMatch; } }
+        public bool OnlyThisType { get { return onlyThisType; } }
+        public string NameToMatch { get { return nameToMatch; } }
+        public SubruleDebuggingDecision DecisionOnMatch { get { return decisionOnMatch; } }
+        public SequenceExpression IfClause { get { return ifClause; } }
+        public bool Enabled { get { return enabled; } set { enabled = value; } }
+
         public SubruleDebuggingDecision Decide(SubruleDebuggingEvent sde, object data, IGraphProcessingEnvironment procEnv)
         {
+            if(!enabled)
+                return SubruleDebuggingDecision.Undefined;
             if(debuggingEvent != sde)
                 return SubruleDebuggingDecision.Undefined;
 
@@ -409,6 +423,8 @@ namespace de.unika.ipd.grGen.grShell
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
+            if(!enabled)
+                sb.Append("(disabled) ");
             sb.Append("on ");
             sb.Append(ToString(debuggingEvent));
             sb.Append(" ");
@@ -507,7 +523,29 @@ namespace de.unika.ipd.grGen.grShell
             configurationRules = new List<SubruleDebuggingConfigurationRule>();
         }
 
+        public List<SubruleDebuggingConfigurationRule> ConfigurationRules { get { return configurationRules; } }
+
+        public void Replace(int index, SubruleDebuggingConfigurationRule rule)
+        {
+            configurationRules[index] = rule;
+        }
+
         public void Add(SubruleDebuggingConfigurationRule rule)
+        {
+            configurationRules.Add(rule);
+        }
+
+        public void Delete(int index)
+        {
+            configurationRules.RemoveAt(index);
+        }
+
+        public void Insert(SubruleDebuggingConfigurationRule rule, int index)
+        {
+            configurationRules.Insert(index, rule);
+        }
+
+        public void Insert(SubruleDebuggingConfigurationRule rule)
         {
             configurationRules.Add(rule);
         }
