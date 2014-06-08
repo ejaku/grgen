@@ -50,6 +50,7 @@ public class ModelNode extends DeclNode {
 	protected CollectNode<IndexDeclNode> indices;
 	private ModelTypeNode type;
 	private boolean isEmitClassDefined;
+	private boolean isEmitGraphClassDefined;
 	private boolean isCopyClassDefined;
 	private boolean isEqualClassDefined;
 	private boolean isLowerClassDefined;
@@ -60,7 +61,7 @@ public class ModelNode extends DeclNode {
 	public ModelNode(IdentNode id, CollectNode<IdentNode> packages, CollectNode<IdentNode> decls, 
 			CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
 			CollectNode<IdentNode> indices, CollectNode<ModelNode> usedModels, 
-			boolean isEmitClassDefined, boolean isCopyClassDefined,
+			boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
 			boolean isEqualClassDefined, boolean isLowerClassDefined,
 			boolean isUniqueDefined, boolean isUniqueIndexDefined,
 			int isoParallel) {
@@ -79,6 +80,7 @@ public class ModelNode extends DeclNode {
 		this.usedModels = usedModels;
 		becomeParent(this.usedModels);
 		this.isEmitClassDefined = isEmitClassDefined;
+		this.isEmitGraphClassDefined = isEmitGraphClassDefined;
 		this.isCopyClassDefined = isCopyClassDefined;
 		this.isEqualClassDefined = isEqualClassDefined;
 		this.isLowerClassDefined = isLowerClassDefined;
@@ -168,6 +170,10 @@ public class ModelNode extends DeclNode {
 		return isEmitClassDefined;
 	}
 
+	public boolean IsEmitGraphClassDefined() {
+		return isEmitGraphClassDefined;
+	}
+
 	public boolean IsCopyClassDefined() {
 		return isCopyClassDefined;
 	}
@@ -220,7 +226,8 @@ public class ModelNode extends DeclNode {
 	@Override
 	protected Model constructIR() {
 		Ident id = ident.checkIR(Ident.class);
-		Model res = new Model(id, isEmitClassDefined, isCopyClassDefined, 
+		Model res = new Model(id, isEmitClassDefined, 
+				isEmitGraphClassDefined, isCopyClassDefined, 
 				isEqualClassDefined, isLowerClassDefined, 
 				isUniqueDefined, isUniqueIndexDefined,
 				isoParallel);

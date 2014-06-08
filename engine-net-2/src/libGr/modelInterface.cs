@@ -414,6 +414,15 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         string Emit(object attribute, AttributeType attrType, IGraph graph);
 
+        /// <summary>
+        /// Called during debugging on user request, the implementation must return a named graph representation for the attribute.
+        /// For attribute type object or a user defined type, which is treated as object.
+        /// The attribute type may be null. The return graph must be of the same model as the graph handed in.
+        /// The named graph is meant for display in the debugger, to visualize the internal structure of some attribute type.
+        /// This way you can graphically inspect your own data types which are opaque to GrGen with its debugger.
+        /// </summary>
+        INamedGraph AsGraph(object attribute, AttributeType attrType, IGraph graph);
+
         #endregion Emitting and parsing of attributes of object or a user defined type
 
 

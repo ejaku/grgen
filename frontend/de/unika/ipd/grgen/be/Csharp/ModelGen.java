@@ -144,6 +144,7 @@ public class ModelGen extends CSharpBase {
 				&& model.getExternalFunctions().isEmpty()
 				&& model.getExternalProcedures().isEmpty()
 				&& !model.isEmitClassDefined()
+				&& !model.isEmitGraphClassDefined()
 				&& !model.isCopyClassDefined()
 				&& !model.isEqualClassDefined()
 				&& !model.isLowerClassDefined())
@@ -165,7 +166,7 @@ public class ModelGen extends CSharpBase {
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n");
 
-		if(!model.getExternalTypes().isEmpty() || model.isEmitClassDefined())
+		if(!model.getExternalTypes().isEmpty() || model.isEmitClassDefined() || model.isEmitGraphClassDefined())
 		{
 			sb.append("\n");
 			sb.append("namespace de.unika.ipd.grGen.Model_" + model.getIdent() + "\n"
@@ -173,7 +174,7 @@ public class ModelGen extends CSharpBase {
 
 			genExternalClasses();
 
-			if(model.isEmitClassDefined())
+			if(model.isEmitClassDefined() || model.isEmitGraphClassDefined())
 				genEmitterParserClass();
 
 			if(model.isCopyClassDefined() || model.isEqualClassDefined() || model.isLowerClassDefined())
@@ -4203,7 +4204,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\tpublic " + override + "string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn AttributeTypeObjectEmitterParser.Emit(attribute, attrType, graph);\n");
-			sb.append("\t\t}\n\n");
+			sb.append("\t\t}\n");
 		} else {
 			if(!inPureGraphModel) { // the functions are inherited from LGSPGraphModel, which is not available in the graph'n'graph-model-in-one classes (because of the lack of multiple inheritance)
 				sb.append("\t\tpublic object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
@@ -4219,10 +4220,23 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				sb.append("\t\tpublic string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
 				sb.append("\t\t{\n");
 				sb.append("\t\t\treturn attribute!=null ? attribute.ToString() : \"null\";\n");
+				sb.append("\t\t}\n");
+			}
+		}
+		if(model.isEmitGraphClassDefined()) {
+			sb.append("\t\tpublic " + override + "GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn AttributeTypeObjectEmitterParser.AsGraph(attribute, attrType, graph);\n");
+			sb.append("\t\t}\n\n");
+		} else {
+			if(!inPureGraphModel) { // the functions are inherited from LGSPGraphModel, which is not available in the graph'n'graph-model-in-one classes (because of the lack of multiple inheritance)
+				sb.append("\t\tpublic GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+				sb.append("\t\t{\n");
+				sb.append("\t\t\treturn null;\n");
 				sb.append("\t\t}\n\n");
 			}
 		}
-		
+			
 		genExternalTypes();
 		sb.append("\t\tpublic " + override + "GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }\n\n");
 
@@ -4456,38 +4470,53 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t// You must implement this class in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n");
 		sb.append("\t\t// You must implement the functions called by the following functions inside that class (same name plus suffix Impl):\n");
 		sb.append("\n");
-		sb.append("\t\t// Called during .grs import, at exactly the position in the text reader where the attribute begins.\n");
-		sb.append("\t\t// For attribute type object or a user defined type, which is treated as object.\n");
-		sb.append("\t\t// The implementation must parse from there on the attribute type requested.\n");
-		sb.append("\t\t// It must not parse beyond the serialized representation of the attribute, \n");
-		sb.append("\t\t// i.e. Peek() must return the first character not belonging to the attribute type any more.\n");
-		sb.append("\t\t// Returns the parsed object.\n");
-		sb.append("\t\tpublic static object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\t\treturn ParseImpl(reader, attrType, graph);\n");
-		sb.append("\t\t\t//reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l' // default implementation\n");
-		sb.append("\t\t\t//return null; // default implementation\n");
-		sb.append("\t\t}\n");
-		sb.append("\n");
-		sb.append("\t\t// Called during .grs export, the implementation must return a string representation for the attribute.\n");
-		sb.append("\t\t// For attribute type object or a user defined type, which is treated as object.\n");
-		sb.append("\t\t// The serialized string must be parseable by Parse.\n");
-		sb.append("\t\tpublic static string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\t\treturn SerializeImpl(attribute, attrType, graph);\n");
-		sb.append("\t\t\t//Console.WriteLine(\"Warning: Exporting attribute of object type to null\"); // default implementation\n");
-		sb.append("\t\t\t//return \"null\"; // default implementation\n");
-		sb.append("\t\t}\n");
-		sb.append("\n");
-		sb.append("\t\t// Called during debugging or emit writing, the implementation must return a string representation for the attribute.\n");
-		sb.append("\t\t// For attribute type object or a user defined type, which is treated as object.\n");
-		sb.append("\t\t// The attribute type may be null.\n");
-		sb.append("\t\t// The string is meant for consumption by humans, it does not need to be parseable.\n");
-		sb.append("\t\tpublic static string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\t\treturn EmitImpl(attribute, attrType, graph);\n");
-		sb.append("\t\t\t//return \"null\"; // default implementation\n");
-		sb.append("\t\t}\n");
+		if(model.isEmitClassDefined()) {
+			sb.append("\t\t// Called during .grs import, at exactly the position in the text reader where the attribute begins.\n");
+			sb.append("\t\t// For attribute type object or a user defined type, which is treated as object.\n");
+			sb.append("\t\t// The implementation must parse from there on the attribute type requested.\n");
+			sb.append("\t\t// It must not parse beyond the serialized representation of the attribute, \n");
+			sb.append("\t\t// i.e. Peek() must return the first character not belonging to the attribute type any more.\n");
+			sb.append("\t\t// Returns the parsed object.\n");
+			sb.append("\t\tpublic static object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn ParseImpl(reader, attrType, graph);\n");
+			sb.append("\t\t\t//reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l' // default implementation\n");
+			sb.append("\t\t\t//return null; // default implementation\n");
+			sb.append("\t\t}\n");
+			sb.append("\n");
+			sb.append("\t\t// Called during .grs export, the implementation must return a string representation for the attribute.\n");
+			sb.append("\t\t// For attribute type object or a user defined type, which is treated as object.\n");
+			sb.append("\t\t// The serialized string must be parseable by Parse.\n");
+			sb.append("\t\tpublic static string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn SerializeImpl(attribute, attrType, graph);\n");
+			sb.append("\t\t\t//Console.WriteLine(\"Warning: Exporting attribute of object type to null\"); // default implementation\n");
+			sb.append("\t\t\t//return \"null\"; // default implementation\n");
+			sb.append("\t\t}\n");
+			sb.append("\n");
+			sb.append("\t\t// Called during debugging or emit writing, the implementation must return a string representation for the attribute.\n");
+			sb.append("\t\t// For attribute type object or a user defined type, which is treated as object.\n");
+			sb.append("\t\t// The attribute type may be null.\n");
+			sb.append("\t\t// The string is meant for consumption by humans, it does not need to be parseable.\n");
+			sb.append("\t\tpublic static string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn EmitImpl(attribute, attrType, graph);\n");
+			sb.append("\t\t\t//return \"null\"; // default implementation\n");
+			sb.append("\t\t}\n");
+			sb.append("\n");
+		}
+		if(model.isEmitGraphClassDefined()) {
+			sb.append("\t\t// Called during debugging on user request, the implementation must return a named graph representation for the attribute.\n");
+			sb.append("\t\t// For attribute type object or a user defined type, which is treated as object.\n");
+			sb.append("\t\t// The attribute type may be null. The return graph must be of the same model as the graph handed in.\n");
+			sb.append("\t\t// The named graph is meant for display in the debugger, to visualize the internal structure of some attribute type.\n");
+			sb.append("\t\t// This way you can graphically inspect your own data types which are opaque to GrGen with its debugger.\n");
+			sb.append("\t\tpublic static GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\treturn AsGraphImpl(attribute, attrType, graph);\n");
+			sb.append("\t\t\t//return null; // default implementation\n");
+			sb.append("\t\t}\n");
+		}
 		sb.append("\t}\n");
 		sb.append("\n");
 	}

@@ -81,7 +81,7 @@ public abstract class ParserEnvironment extends Base {
 	// ANTLR is only SLL, not LL, can't disambiguate based on the context = the stuff on the stack,
 	// here we emulate a "stack" for a particular question where we just can't get along without,
 	// with only one type of tokens pushable to that stack, so a counter of the stack depth is sufficient
-	private int containerInitNestingLevel = 0; 
+	// private int containerInitNestingLevel = 0; 
 
 	
 	/**
@@ -117,7 +117,7 @@ public abstract class ParserEnvironment extends Base {
 		stdModel = new ModelNode(predefine(ENTITIES, "Std"), stdModelPackages, stdModelChilds, 
 				new CollectNode<IdentNode>(), new CollectNode<IdentNode>(),
 				new CollectNode<IdentNode>(), new CollectNode<ModelNode>(), 
-				false, false, false, false, false, false, 0);
+				false, false, false, false, false, false, false, 0);
 
 		// The node type root
 		nodeRoot = predefineType("Node",

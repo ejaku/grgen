@@ -226,6 +226,10 @@ textActions returns [ UnitNode main = null ]
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isEmitClassDefined |= modelChild.IsEmitClassDefined();
 				}
+				boolean isEmitGraphClassDefined = false;
+				for(ModelNode modelChild : modelChilds.getChildren()) {
+					isEmitGraphClassDefined |= modelChild.IsEmitGraphClassDefined();
+				}
 				boolean isCopyClassDefined = false;
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isCopyClassDefined |= modelChild.IsCopyClassDefined();
@@ -253,7 +257,7 @@ textActions returns [ UnitNode main = null ]
 				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(),
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), 
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds, 
-						isEmitClassDefined, isCopyClassDefined, 
+						isEmitClassDefined, isEmitGraphClassDefined, isCopyClassDefined, 
 						isEqualClassDefined, isLowerClassDefined,
 						isUniqueDefined, isUniqueIndexDefined,
 						isoParallel);
@@ -2564,7 +2568,7 @@ textTypes returns [ ModelNode model = null ]
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
 			model = new ModelNode(id, packages, types, externalFuncs, externalProcs, indices, modelChilds,
-				$specialClasses.isEmitClassDefined, $specialClasses.isCopyClassDefined, 
+				$specialClasses.isEmitClassDefined, $specialClasses.isEmitGraphClassDefined, $specialClasses.isCopyClassDefined, 
 				$specialClasses.isEqualClassDefined, $specialClasses.isLowerClassDefined,
 				$specialClasses.isUniqueDefined, $specialClasses.isUniqueIndexDefined,
 				$specialClasses.isoParallel);
@@ -2574,10 +2578,13 @@ textTypes returns [ ModelNode model = null ]
 typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
             CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
 			CollectNode<IdentNode> indices ]
-		returns [ boolean isEmitClassDefined = false, boolean isCopyClassDefined = false, 
+		returns [ boolean isEmitClassDefined = false, boolean isEmitGraphClassDefined = false, boolean isCopyClassDefined = false, 
 				  boolean isEqualClassDefined = false, boolean isLowerClassDefined = false,
 				  boolean isUniqueDefined = false, boolean isUniqueIndexDefined = false,
 				  int isoParallel = 0;]
+	@init{
+		boolean graphFound = false;
+	}
 	: (
 		type=typeDecl { types.addChild(type); }
 	  |
@@ -2587,7 +2594,7 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 	  |
 	    NODE EDGE i=IDENT SEMI { if(!i.getText().equals("unique")) reportError(getCoords(i), "malformed \"node edge unique;\""); else $isUniqueDefined = true; }
 	  |
-	    EXTERNAL EMIT c=CLASS SEMI { $isEmitClassDefined = true; }
+	    EXTERNAL EMIT (i=IDENT { if(!i.getText().equals("graph")) reportError(getCoords(i), "malformed \"external emit graph class;\""); else graphFound = true;} )? c=CLASS SEMI { if(graphFound) $isEmitGraphClassDefined = true; else $isEmitClassDefined = true; }
 	  |
 	    EXTERNAL COPY c=CLASS SEMI { $isCopyClassDefined = true; }
 	  |
