@@ -301,7 +301,6 @@ TOKEN: {
 |   < GRAPH: "graph" >
 |   < GRAPHS: "graphs" >
 |   < GROUP: "group" >
-|   < GRS: "grs" >
 |   < HALT: "halt" >
 |   < HELP: "help" >
 |   < HIDDEN: "hidden" >
@@ -341,6 +340,7 @@ TOKEN: {
 |   < QUIT: "quit" >
 |   < RANDOMSEED: "randomseed" >
 |   < RECORD: "record" >
+|   < RECORDFLUSH: "recordflush" >
 |   < REDIRECT: "redirect" >
 |   < REFERENCE: "reference" >
 |   < REM: "rem" >
@@ -1124,12 +1124,6 @@ void ShellCommand():
 		noError = impl.Export(parameters);
 	}
 |
-	"grs" str1=CommandLine()
-	{
-        Console.WriteLine("The old grs are not supported any longer. Please use the extended graph rewrite sequences exec(/xgrs).");
-        noError = false;
-	}
-|
 	"help" parameters=SpacedParametersAndLineEnd()
 	{
 		impl.Help(parameters);
@@ -1202,6 +1196,11 @@ void ShellCommand():
 	"record" str1=Filename() { boolVal=false; boolVal2=false; } ("start" { boolVal=true; boolVal2=true; } | "stop" { boolVal=true; boolVal2=false; })? LineEnd()
 	{
 		noError = impl.Record(str1, boolVal, boolVal2);
+	}
+|
+	"recordflush" LineEnd()
+	{
+		noError = impl.RecordFlush();
 	}
 |
     "redirect" RedirectCommand()
