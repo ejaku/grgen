@@ -8,6 +8,10 @@ external class OwnPownHome extends OwnPown;
 // of objects of external types or of object type
 external emit class;
 
+// we declare that we want to implement attribute to graph conversion for debugger display 
+// of objects of external types or of object type
+external emit graph class;
+
 // we declare that we want to implement copying 
 // of objects of external types or of object type
 external copy class;

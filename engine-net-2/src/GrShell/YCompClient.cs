@@ -228,7 +228,17 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public String EdgeRealizerOverride { get { return edgeRealizerOverride; } set { edgeRealizerOverride = value; } }
 
-        public INamedGraph Graph { get { return graph; } }
+        public INamedGraph Graph 
+        { 
+            get { return graph; }
+            set
+            { 
+                if(isDirty || isLayoutDirty || hiddenEdges.Count > 0) 
+                    throw new Exception("Internal error: first clear the graph before you switch to a new one!");
+                graph = value;
+                dumpInfo.ElementNameGetter = graph.GetElementName;
+            }
+        }
 
         public event ConnectionLostHandler OnConnectionLost
         { add { ycompStream.OnConnectionLost += value; } remove { ycompStream.OnConnectionLost -= value; } }

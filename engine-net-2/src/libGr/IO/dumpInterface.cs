@@ -318,6 +318,7 @@ namespace de.unika.ipd.grGen.libGr
         public IEnumerable<KeyValuePair<GrGenType, List<InfoTag>>> InfoTags { get { return infoTags; } }
 
         private ElementNameGetter elementNameGetter;
+        public ElementNameGetter ElementNameGetter { set { elementNameGetter = value; } }
 
         public event NodeTypeAppearanceChangedHandler OnNodeTypeAppearanceChanged;
         public event EdgeTypeAppearanceChangedHandler OnEdgeTypeAppearanceChanged;
