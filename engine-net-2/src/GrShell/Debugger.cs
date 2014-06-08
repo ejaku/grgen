@@ -17,6 +17,7 @@ using System.Reflection;
 
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.libGr.sequenceParser;
+using System.Text;
 
 namespace de.unika.ipd.grGen.grShell
 {
@@ -304,6 +305,7 @@ namespace de.unika.ipd.grGen.grShell
                 UnregisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
                 ycompClient.ClearGraph();
                 shellProcEnv = value;
+                ycompClient.Graph = shellProcEnv.ProcEnv.NamedGraph;
                 if(!ycompClient.dumpInfo.IsExcludedGraph())
                     UploadGraph(shellProcEnv.ProcEnv.NamedGraph);
                 RegisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
@@ -461,6 +463,9 @@ namespace de.unika.ipd.grGen.grShell
                 case 'p':
                     HandleDump();
                     break;
+                case 'g':
+                    HandleAsGraph(seq);
+                    break;
                 case 'h':
                     HandleUserHighlight(seq);
                     break;
@@ -476,7 +481,7 @@ namespace de.unika.ipd.grGen.grShell
                     break;
                 default:
                     Console.WriteLine("Illegal command (Key = " + key.Key
-                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, and (a)bort allowed!");
+                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, and (a)bort allowed!");
                     break;
                 }
             }
@@ -1089,6 +1094,171 @@ after_debugging_decision: ;
             Console.WriteLine("Showing dumped graph " + filename + " with ycomp");
         }
 
+        void HandleAsGraph(Sequence seq)
+        {
+            object toBeShownAsGraph = null;
+            AttributeType attrType = null;
+            while(true)
+            {
+                Console.WriteLine("Enter name of variable or attribute access to show as graph (just enter for abort): ");
+                Console.WriteLine("Examples: \"v\", \"v.a\", \"@(\"$0\").a\" ");
+                String str = Console.ReadLine();
+                if(str.Length == 0)
+                {
+                    Console.WriteLine("Back from as-graph display to debugging.");
+                    return;
+                }
+
+                if(str.StartsWith("@"))
+                {
+                    // graph element by name
+                    string attributeName;
+                    IGraphElement elem = ParseAccessByName(str, out attributeName);
+                    if(elem == null)
+                    {
+                        Console.WriteLine("Can't parse graph access / unknown graph element: " + str);
+                        continue;
+                    }
+                    if(attributeName == null)
+                    {
+                        Console.WriteLine("The result of a graph access is a node or edge, you must access an attribute: " + str);
+                        continue;
+                    }
+                    attrType = elem.Type.GetAttributeType(attributeName);
+                    if(attrType == null)
+                    {
+                        Console.WriteLine("Unknown attribute: " + attributeName);
+                        continue;
+                    }
+                    object attribute = elem.GetAttribute(attributeName);
+                    if(attribute == null)
+                    {
+                        Console.WriteLine("Null-valued attribute: " + attributeName);
+                        continue;
+                    }
+                    toBeShownAsGraph = attribute;
+                    break;
+                }
+                else
+                {
+                    // variable
+                    string attributeName;
+                    object value = ParseVariable(str, seq, out attributeName);
+                    if(value == null)
+                    {
+                        Console.WriteLine("Can't parse variable / unknown variable / null-valued variable: " + str);
+                        continue;
+                    }
+                    if(attributeName == null)
+                        toBeShownAsGraph = value;
+                    else
+                    {
+                        if(!(value is IGraphElement))
+                        {
+                            Console.WriteLine("Can't access attribute, the variable value is not a graph element: " + str);
+                            continue;
+                        }
+                        IGraphElement elem = (IGraphElement)value;
+                        attrType = elem.Type.GetAttributeType(attributeName);
+                        if(attrType == null)
+                        {
+                            Console.WriteLine("Unknown attribute: " + attributeName);
+                            continue;
+                        }
+                        object attribute = elem.GetAttribute(attributeName);
+                        if(attribute == null)
+                        {
+                            Console.WriteLine("Null-valued attribute: " + attributeName);
+                            continue;
+                        }
+                        toBeShownAsGraph = attribute;
+                    }
+                    break;
+                }
+            }
+            
+            INamedGraph graph = shellProcEnv.ProcEnv.Graph.Model.AsGraph(toBeShownAsGraph, attrType, shellProcEnv.ProcEnv.Graph);
+            if(graph == null)
+            {
+                Console.WriteLine("Was not able to get a named graph for the object specified.");
+                Console.WriteLine("Back from as-graph display to debugging.");
+                return;
+            }
+            Console.WriteLine("Showing graph for the object specified...");
+            ycompClient.ClearGraph();
+            ycompClient.Graph = graph;
+            UploadGraph(graph);
+
+            Console.WriteLine("...press any key to continue...");
+            ReadKeyWithCancel();
+
+            Console.WriteLine("...return to normal graph.");
+            ycompClient.ClearGraph();
+            ycompClient.Graph = shellProcEnv.ProcEnv.NamedGraph;
+            if(!ycompClient.dumpInfo.IsExcludedGraph())
+                UploadGraph(shellProcEnv.ProcEnv.NamedGraph);
+
+            Console.WriteLine("Back from as-graph display to debugging.");
+        }
+
+        IGraphElement ParseAccessByName(string str, out string attribute)
+        {
+            attribute = null;
+
+            int pos = 0;
+            if(str[pos++] != '@')
+                return null;
+            if(str[pos++] != '(')
+                return null;
+            if(str[pos++] != '"')
+                return null;
+            StringBuilder sb = new StringBuilder();
+            while(str[pos] != '"')
+            {
+                sb.Append(str[pos++]);
+            }
+            if(str[pos++] != '"')
+                return null;
+            if(str[pos++] != ')')
+                return null;
+            if(pos == str.Length)
+                return grShellImpl.GetElemByName(sb.ToString());
+            if(str[pos++] != '.')
+                return null;
+            attribute = str.Substring(pos);
+            return grShellImpl.GetElemByName(sb.ToString());
+        }
+
+        object ParseVariable(string str, Sequence seq, out string attribute)
+        {
+            string varName;
+            if(str.Contains("."))
+            {
+                varName = str.Substring(0, str.LastIndexOf('.'));
+                attribute = str.Substring(str.LastIndexOf('.') + 1);
+            }
+            else
+            {
+                varName = str;
+                attribute = null;
+            }
+
+            Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            (debugSequences.Peek()).GetLocalVariables(seqVars, containerConstructors, seq);
+            foreach(SequenceVariable var in seqVars.Keys)
+            {
+                if(var.Name == varName)
+                    return var.Value;
+            }
+            foreach(Variable var in shellProcEnv.ProcEnv.Variables)
+            {
+                if(var.Name == varName)
+                    return var.Value;
+            }
+            return null;
+        }
+
         void HandleUserHighlight(Sequence seq)
         {
             Console.Write("Enter name of variable or id of visited flag to highlight (multiple values may be given comma-separated; just enter for abort): ");
@@ -1175,7 +1345,7 @@ after_debugging_decision: ;
                 }
             }
             Console.WriteLine("Unknown variable " + argument + "!");
-            Console.WriteLine("Use v(ariables) to print variables and visited flags.");
+            Console.WriteLine("Use (v)ariables to print variables and visited flags.");
         }
 
         void DoHighlight(List<object> sources, List<string> annotations)
@@ -1330,7 +1500,7 @@ after_debugging_decision: ;
                     Console.WriteLine("Unknown visited flag id " + (int)(value) + "!");
                     if(name!=null)
                         Console.WriteLine("Which is contained in variable " + name + ".");
-                    Console.WriteLine("Use v(ariables) to print variables and visited flags.");
+                    Console.WriteLine("Use (v)ariables to print variables and visited flags.");
                 }
             }
             else if(value is IGraphElement)
@@ -1343,7 +1513,7 @@ after_debugging_decision: ;
             else
             {
                 Console.WriteLine("The value " + value + (name!=null ? " contained in " + name : "") + " is neither an integer visited flag id nor a graph element, can't highlight!");
-                Console.WriteLine("Use v(ariables) to print variables and visited flags.");
+                Console.WriteLine("Use (v)ariables to print variables and visited flags.");
             }
         }
 
@@ -3540,7 +3710,7 @@ after_debugging_decision: ;
                 PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
                 Console.WriteLine();
                 context.workaround.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
-                Console.WriteLine(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, and (a)bort (plus Ctrl+C for forced abort).");
+                Console.WriteLine(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, and (a)bort (plus Ctrl+C for forced abort).");
                 QueryUser(seq);
             }
 
@@ -3705,6 +3875,7 @@ after_debugging_decision: ;
             UnregisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
             context.workaround.PrintHighlighted("Entering graph...\n", HighlightingMode.SequenceStart);
             ycompClient.ClearGraph();
+            ycompClient.Graph = (INamedGraph)newGraph;
             if(!ycompClient.dumpInfo.IsExcludedGraph())
                 UploadGraph((INamedGraph)newGraph);
             RegisterLibGrEvents((INamedGraph)newGraph);
@@ -3719,6 +3890,7 @@ after_debugging_decision: ;
             UnregisterLibGrEvents((INamedGraph)oldGraph);
             context.workaround.PrintHighlighted("...leaving graph\n", HighlightingMode.SequenceStart);
             ycompClient.ClearGraph();
+            ycompClient.Graph = shellProcEnv.ProcEnv.NamedGraph;
             if(!ycompClient.dumpInfo.IsExcludedGraph())
                 UploadGraph(shellProcEnv.ProcEnv.NamedGraph);
             RegisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);

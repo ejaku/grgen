@@ -7,6 +7,15 @@ rule init
 	}
 }
 
+rule init2
+{
+	replace {
+		n:N -:E-> n;
+		eval { n.ow = own(); }
+		exec({::nn=n; ::v=n.ow});
+	}
+}
+
 rule r
 {
 	n:N -e:E-> n;

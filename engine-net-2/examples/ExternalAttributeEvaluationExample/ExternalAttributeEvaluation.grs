@@ -1,5 +1,5 @@
 new graph ExternalAttributeEvaluation
 
-exec init
+exec init2
 
-exec r
+debug exec r
