@@ -4091,6 +4091,8 @@ after_debugging_decision: ;
                     }
                     else
                         Console.Write("Watchpoint/halt/highlight hit -- ");
+                    if(isBottomUpBreak && !stepMode)
+                        Console.Write("(s)tep mode, ");
                     if(computationsEnteredStack.Count > 0)
                         Console.Write("print subrule stack(t)race, (f)ull state, or (a)bort, any other key continues ");
                     else
@@ -4106,6 +4108,15 @@ after_debugging_decision: ;
                 case 'a':
                     grShellImpl.Cancel();
                     return;                               // never reached
+                case 's':
+                    if(isBottomUpBreak && !stepMode)
+                    {
+                        stepMode = true;
+                        dynamicStepMode = false;
+                        detailedMode = false;
+                        curStepSequence = null;
+                    }
+                    return;
                 case 'r':
                     if(!isBottomUpBreak && computationsEnteredStack.Count > 0)
                     {
