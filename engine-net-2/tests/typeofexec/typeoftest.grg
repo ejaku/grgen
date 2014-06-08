@@ -1,0 +1,28 @@
+#using "typeoftest.gm"
+
+rule r {	
+	n:N -e:E -> m:Node;
+
+	modify {
+		exec( { emit("The value of attribute noattribute is ", typeof(m), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(n), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(n.i), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(e), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(e.i), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(42y), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(42s), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(42), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(42l), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(42.0f), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(42.0), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof("a"), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(true), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(Foo::foo), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(set<Node>{}), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(set<N>{}), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(map<E,int>{}), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(array<Foo>[]), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(deque<double>][), "\n") } );
+	}
+}
+

@@ -1,0 +1,14 @@
+node class N
+{
+	i:int;
+}
+
+edge class E
+{
+	i:int;
+}
+
+enum Foo
+{
+	foo
+}

@@ -4596,6 +4596,12 @@ namespace de.unika.ipd.grGen.lgsp
                         return "GRGEN_LIBGR.GraphHelper.Uniqueof(null, graph)";
                 }
 
+                case SequenceExpressionType.Typeof:
+                {
+                    SequenceExpressionTypeof seqTypeof = (SequenceExpressionTypeof)expr;
+                    return "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + GetSequenceExpression(seqTypeof.Entity, source) + ", graph.Model)";
+                }
+
                 case SequenceExpressionType.ExistsFile:
                 {
                     SequenceExpressionExistsFile seqExistsFile = (SequenceExpressionExistsFile)expr;
@@ -5170,7 +5176,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(constant is double)
             {
-                return ((double)constant).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                return "((double)" + ((double)constant).ToString(System.Globalization.CultureInfo.InvariantCulture) + ")";
             }
             else if(constant is sbyte)
             {

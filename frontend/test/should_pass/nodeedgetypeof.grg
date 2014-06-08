@@ -1,0 +1,10 @@
+rule r : (string)
+{
+	n:Node -e:Edge->;
+	
+	modify {
+		def var s:string;
+		return(s);
+		exec ( { yield s = typeof(n) + typeof(e) } );
+	}
+}
