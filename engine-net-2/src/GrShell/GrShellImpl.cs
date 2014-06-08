@@ -246,7 +246,7 @@ namespace de.unika.ipd.grGen.grShell
 
     public class GrShellImpl
     {
-        public static readonly String VersionString = "GrShell v4.3";
+        public static readonly String VersionString = "GrShell v4.4";
 
         IBackend curGraphBackend = new LGSPBackend();
         String backendFilename = null;
@@ -4919,6 +4919,15 @@ showavail:
                 debugOut.WriteLine("Started recording to \"" + filename + "\"");
             else
                 debugOut.WriteLine("Stopped recording to \"" + filename + "\"");
+            return true;
+        }
+
+        public bool RecordFlush()
+        {
+            if(!GraphExists()) return false;
+
+            curShellProcEnv.ProcEnv.Recorder.Flush();
+            
             return true;
         }
 
