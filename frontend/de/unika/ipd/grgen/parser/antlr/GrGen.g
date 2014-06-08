@@ -2186,7 +2186,7 @@ functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	}
 	// built-in function or user defined function, backend has to decide whether the call is valid
 	: ( p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); } )?
-	  ( i=IDENT | i=COPY | i=NAMEOF ) LPAREN { xg.append(i.getText()); xg.append("("); } params=functionCallParameters[xg] RPAREN { xg.append(")"); }
+	  ( i=IDENT | i=COPY | i=NAMEOF | i=TYPEOF ) LPAREN { xg.append(i.getText()); xg.append("("); } params=functionCallParameters[xg] RPAREN { xg.append(")"); }
 		{
 			if( (i.getText().equals("now")) && params.getChildren().size()==0
 				|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
@@ -3940,10 +3940,10 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 options { k = 4; }
+@init{ IdentNode id; }
 	: e=visited { res = e; }
 	| e=nameOf { res = e; }
 	| e=count { res = e; }
-	| e=identExprOrEnumItemExpr { res = e; }
 	| e=globalsAccessExpr { res = e; }
 	| e=constant { res = e; }
 	| e=typeOf { res = e; }
@@ -3952,6 +3952,38 @@ options { k = 4; }
 	| LPAREN e=expr[inEnumInit] { res = e; } RPAREN
 	| p=PLUSPLUS { reportError(getCoords(p), "increment operator \"++\" not supported"); }
 	| q=MINUSMINUS { reportError(getCoords(q), "decrement operator \"--\" not supported"); }
+	| i=IDENT
+		{
+			if(i.getText().equals("this") && !env.test(ParserEnvironment.ENTITIES, "this"))
+				res = new ThisExprNode(getCoords(i));
+			else {
+				// Entity names can overwrite type names
+				if(env.test(ParserEnvironment.ENTITIES, i.getText()) || !env.test(ParserEnvironment.TYPES, i.getText()))
+					id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
+				else
+					id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
+				res = new IdentExprNode(id);
+			}
+		}
+	| pen=IDENT d=DOUBLECOLON i=IDENT 
+		{
+			if(env.test(ParserEnvironment.PACKAGES, pen.getText()) || !env.test(ParserEnvironment.TYPES, pen.getText())) {
+				id = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, pen.getText(), getCoords(pen)), 
+					env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
+				res = new IdentExprNode(id);
+			} else {
+				res = new DeclExprNode(new EnumExprNode(getCoords(d), 
+					new IdentNode(env.occurs(ParserEnvironment.TYPES, pen.getText(), getCoords(pen))),
+					new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
+			}
+		}
+	| p=IDENT DOUBLECOLON en=IDENT d=DOUBLECOLON i=IDENT
+		{
+			res = new DeclExprNode(new EnumExprNode(getCoords(d), 
+				new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)),
+					env.occurs(ParserEnvironment.TYPES, en.getText(), getCoords(en))),
+				new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
+		}
 	;
 
 visited returns [ VisitedNode res ]
@@ -4042,44 +4074,6 @@ globalsAccessExpr returns [ ExprNode res = env.initExprNode() ]
 		{
 			id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
 			res = new IdentExprNode(id);
-		}
-	;
-
-identExprOrEnumItemExpr returns [ ExprNode res = env.initExprNode() ]
-	options { k = 4; }
-	@init{ IdentNode id; }
-
-	: i=IDENT
-		{
-			if(i.getText().equals("this") && !env.test(ParserEnvironment.ENTITIES, "this"))
-				res = new ThisExprNode(getCoords(i));
-			else {
-				// Entity names can overwrite type names
-				if(env.test(ParserEnvironment.ENTITIES, i.getText()) || !env.test(ParserEnvironment.TYPES, i.getText()))
-					id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-				else
-					id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
-				res = new IdentExprNode(id);
-			}
-		}
-	| pe=IDENT d=DOUBLECOLON i=IDENT 
-		{
-			if(env.test(ParserEnvironment.PACKAGES, pe.getText()) || !env.test(ParserEnvironment.TYPES, pe.getText())) {
-				id = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, pe.getText(), getCoords(pe)), 
-					env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
-				res = new IdentExprNode(id);
-			} else {
-				res = new DeclExprNode(new EnumExprNode(getCoords(d), 
-					new IdentNode(env.occurs(ParserEnvironment.TYPES, pe.getText(), getCoords(pe))),
-					new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
-			}
-		}
-	| p=IDENT DOUBLECOLON e=IDENT d=DOUBLECOLON i=IDENT
-		{
-			res = new DeclExprNode(new EnumExprNode(getCoords(d), 
-				new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)),
-					env.occurs(ParserEnvironment.TYPES, e.getText(), getCoords(e))),
-				new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
 		}
 	;
 	

@@ -374,7 +374,18 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
-            return DotNetTypeToXgrsType(constant.GetType().Name, constant.GetType().FullName);
+            object typeinsteadofobject = NodeOrEdgeTypeIfNodeOrEdge(constant);
+            return DotNetTypeToXgrsType(typeinsteadofobject.GetType().Name, typeinsteadofobject.GetType().FullName);
+        }
+
+        public static object NodeOrEdgeTypeIfNodeOrEdge(object constant)
+        {
+            if(constant is INode)
+                return ((INode)constant).Type;
+            else if(constant is IEdge)
+                return ((IEdge)constant).Type;
+            else
+                return constant;
         }
 
         public static String ExtractSrc(String genericType)

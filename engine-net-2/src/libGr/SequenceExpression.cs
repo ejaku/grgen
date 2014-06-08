@@ -60,7 +60,7 @@ namespace de.unika.ipd.grGen.libGr
         IsBoundedReachableEdges, IsBoundedReachableEdgesViaIncoming, IsBoundedReachableEdgesViaOutgoing,
         InducedSubgraph, DefinedSubgraph,
         EqualsAny,
-        Nameof, Uniqueof,
+        Nameof, Uniqueof, Typeof,
         ExistsFile, Import,
         Copy,
         Canonize,
@@ -5365,6 +5365,50 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { if(UniquelyIdentifiedEntity != null) yield return UniquelyIdentifiedEntity; else yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "uniqueof(" + (UniquelyIdentifiedEntity != null ? UniquelyIdentifiedEntity.Symbol : "") + ")"; } }
+    }
+
+    public class SequenceExpressionTypeof : SequenceExpression
+    {
+        public SequenceExpression Entity;
+
+        public SequenceExpressionTypeof(SequenceExpression entity)
+            : base(SequenceExpressionType.Typeof)
+        {
+            Entity = entity;
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "string"; // typeof in the sequences returns the type name
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionTypeof copy = (SequenceExpressionTypeof)MemberwiseClone();
+            copy.Entity = Entity.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object entity = Entity.Evaluate(procEnv);
+            return TypesHelper.XgrsTypeOfConstant(entity, procEnv.Graph.Model);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            Entity.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return Entity; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "typeof(" + Entity.Symbol + ")"; } }
     }
 
     public class SequenceExpressionExistsFile : SequenceExpression
