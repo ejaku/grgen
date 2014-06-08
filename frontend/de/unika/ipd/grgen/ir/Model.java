@@ -37,6 +37,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 	private Set<ExternalFunction> externalFuncs = new LinkedHashSet<ExternalFunction>();
 	private Set<ExternalProcedure> externalProcs = new LinkedHashSet<ExternalProcedure>();
 	private boolean isEmitClassDefined;
+	private boolean isEmitGraphClassDefined;
 	private boolean isCopyClassDefined;
 	private boolean isEqualClassDefined;
 	private boolean isLowerClassDefined;
@@ -47,13 +48,14 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 	private Collection<EdgeType> allEdgeTypes;
 
 
-	public Model(Ident ident, boolean isEmitClassDefined, boolean isCopyClassDefined, 
+	public Model(Ident ident, boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined, 
 			boolean isEqualClassDefined, boolean isLowerClassDefined,
 			boolean isUniqueDefined, boolean isUniqueIndexDefined,
 			int isoParallel) {
 		super("model", ident);
 		
 		this.isEmitClassDefined = isEmitClassDefined;
+		this.isEmitGraphClassDefined = isEmitGraphClassDefined;
 		this.isCopyClassDefined = isCopyClassDefined;
 		this.isEqualClassDefined = isEqualClassDefined;
 		this.isLowerClassDefined = isLowerClassDefined;
@@ -176,6 +178,10 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 	
 	public boolean isEmitClassDefined() {
 		return isEmitClassDefined;
+	}
+
+	public boolean isEmitGraphClassDefined() {
+		return isEmitGraphClassDefined;
 	}
 
 	public boolean isCopyClassDefined() {

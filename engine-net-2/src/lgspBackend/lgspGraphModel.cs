@@ -53,6 +53,11 @@ namespace de.unika.ipd.grGen.lgsp
             return attribute != null ? attribute.ToString() : "null";
         }
 
+        public virtual INamedGraph AsGraph(object attribute, AttributeType attrType, IGraph graph)
+        {
+            return null;
+        }
+
         #endregion Emitting and parsing of attributes of object or a user defined type
 
 
