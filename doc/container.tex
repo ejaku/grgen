@@ -57,7 +57,7 @@ Set expressions consist of the known mathematical set operations, plus some oper
   MethodCall: SetEntity MethodSelector ;
   Assignment: SetEntity '=' SetExpr ;
   CompoundAssignment: SetEntity SetOperator '=' Expr ChangeAssignment? ;
-  SetConstructor: ('set' '<' Type '>')? \\ lbrace ( Expression*',' ) rbrace ;
+  SetConstructor: 'set' '<' Type '>' \\ lbrace ( Expression*',' ) rbrace ;
 \end{rail}\ixnterm{MethodCall}\ixnterm{SetExpr}\ixkeyw{in}\ixnterm{SetOperator}\ixnterm{CompoundAssignment}\ixnterm{SetConstructor}
 
 \noindent The query method calls on sets are:
@@ -132,8 +132,7 @@ This addition allows for efficient data flow computations not needing to check f
 The \emph{SetConstructor} extends the \emph{Literal} from \ref{literaldef} (as a refinement of the \emph{ContainerConstructor} there).
 It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
 It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
-If the type of the container is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
-Without the type prefix all elements given in the constructor must be of the same type.
+The elements given in the type constructor are casted to the specified member type if needed and possible.
 
 %\begin{note}
 %To add a value to a set you may use set union with a single valued set constructor,
@@ -180,7 +179,7 @@ Map expressions consist of the known mathematical set operations extended to map
   Assignment: MapEntity '=' MapExpr ;
   IndexedAssignment: MapEntity '[' IndexExpr ']' '=' Expr ;
   CompoundAssignment: MapEntity MapOperator '=' Expr ChangeAssignment? ;
-  MapConstructor: ('map' '<' Type ',' Type '>')? \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
+  MapConstructor: 'map' '<' Type ',' Type '>' \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
 \end{rail}\ixnterm{MethodCall}\ixnterm{MapExpr}\ixkeyw{in}\ixnterm{MapOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{MapConstructor}
 
 \noindent The query method calls on maps are:
@@ -251,8 +250,7 @@ The compound assignment statements on maps are a map union \verb#|=#, intersecti
 The \emph{MapConstructor} extends the \emph{Literal} from \ref{literaldef} (as a refinement of the \emph{ContainerConstructor} there).
 It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
 It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
-If the type of the container is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
-Without the type prefix all elements given in the constructor must be of the same type.
+The elements given in the type constructor are casted to the specified member types if needed and possible.
 
 %\begin{note}
 %To add a (key,value)-pair to a map you may use map union with a single valued map constructor,
@@ -301,7 +299,7 @@ Array expressions consist of array membership checking, array value lookup, and 
   Assignment: ArrayEntity '=' ArrayExpr ;
   IndexedAssignment: ArrayEntity '[' IndexExpr ']' '=' Expr ;
   CompoundAssignment: ArrayEntity ArrayOperator '=' Expr ChangeAssignment? ;
-  ArrayConstructor: ('array' '<' Type '>')? \\ '[' ( Expression*',' ) ']' ;
+  ArrayConstructor: 'array' '<' Type '>' \\ '[' ( Expression*',' ) ']' ;
 \end{rail}\ixnterm{MethodCall}\ixnterm{ArrayExpr}\ixkeyw{in}\ixnterm{ArrayOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{ArrayConstructor}
 
 \noindent The query method calls on arrays are:
@@ -311,9 +309,12 @@ Array expressions consist of array membership checking, array value lookup, and 
 \item[\texttt{.empty()}] returns whether the array is empty, as \texttt{boolean}
 \item[\texttt{.peek(num)}] returns the value stored in the array at position \texttt{num:int} in the sequence of enumeration, is equivalent to (and implemented by) \texttt{a[num])}; retrieval occurs in constant time.
 \item[\texttt{.peek()}] returns the last value stored in the array; retrieval occurs in constant time.
-\item[\texttt{.indexOf(valueToSearchFor)}] returns first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.indexOf(valueToSearchFor)}] returns the first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.indexOf(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at, when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
 \item[\texttt{.lastIndexOf(valueToSearchFor)}] returns last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.subarray(startIndex, length)}] returns subarray of given \texttt{length:int} from \texttt{startIndex:int} on
+\item[\texttt{.asSet()}] returns a set of the array content, as \verb#set<T># for \verb#array<T>#
+\item[\texttt{.implode(separator)}] returns the array imploded to a string with the \texttt{separator:string} inserted in between the substrings from the array, only available for \verb#array<string># (a \texttt{string} contains an \texttt{explode} method for reversal)
 \end{description}
 
 \noindent The update method calls on arrays are:
@@ -374,8 +375,7 @@ The compound assignment statement on arrays is the concatenation assignment \ver
 The \emph{ArrayConstructor} extends the \emph{Literal} from \ref{literaldef} (as a refinement of the \emph{ContainerConstructor} there).
 It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
 It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
-If the type of the container is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
-Without the type prefix all elements given in the constructor must be of the same type.
+The elements given in the type constructor are casted to the specified member types if needed and possible.
 
 \begin{example}
 An example explaining some array operations.
@@ -413,7 +413,7 @@ Deque expressions consist of deque membership checking, deque value lookup, and 
   Assignment: DequeEntity '=' DequeExpr ;
   IndexedAssignment: DequeEntity '[' IndexExpr ']' '=' Expr ;
   CompoundAssignment: DequeEntity DequeOperator '=' Expr ChangeAssignment? ;
-  DequeConstructor: ('deque' '<' Type '>')? \\ ']' ( Expression*',' ) '[' ;
+  DequeConstructor: 'deque' '<' Type '>' \\ ']' ( Expression*',' ) '[' ;
 \end{rail}\ixnterm{MethodCall}\ixnterm{DequeExpr}\ixkeyw{in}\ixnterm{DequeOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{DequeConstructor}
 
 \noindent The query method calls on deques are:
@@ -424,8 +424,10 @@ Deque expressions consist of deque membership checking, deque value lookup, and 
 \item[\texttt{.peek(num)}] returns the value stored in the deque at position \texttt{num:int} in the sequence of enumeration, is equivalent to (and implemented by) \texttt{a[num])}; retrieval occurs in constant time.
 \item[\texttt{.peek()}] returns the first value stored in the deque; retrieval occurs in constant time.
 \item[\texttt{.indexOf(valueToSearchFor)}] returns first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.indexOf(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at, when we start the search for it at deque position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
 \item[\texttt{.lastIndexOf(valueToSearchFor)}] returns last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.subdeque(startIndex, length)}] returns subdeque of given \texttt{length:int} from \texttt{startIndex:int} on
+\item[\texttt{.asSet()}] returns a set of the deque content, as \verb#set<T># for \verb#deque<T>#
 \end{description}
 
 \noindent The update method calls on deques are:
@@ -486,14 +488,13 @@ The compound assignment statement on deques is the concatenation assignment \ver
 The \emph{DequeConstructor} extends the \emph{Literal} from \ref{literaldef} (as a refinement of the \emph{ContainerConstructor} there).
 It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
 It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
-If the type of the container is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
-Without the type prefix all elements given in the constructor must be of the same type.
+The elements given in the type constructor are casted to the specified member types if needed and possible.
 
 \begin{note}
 The double ended queue allows for fast addition and removal both at the frond and at the back, in contrast to arrays that only support this at the end.
 It is implemented by a ringbuffer that is grown as needed, a lookup is slightly more expensive than an array lookup.
-The primary usage of the deque is as a queue, as needed for breadth first search, accessed FIFO.
-This is in contrast to the array that is suited to be employed as a stack, e.g. in a depth first search (unless that is programmed using the call stack), accessed LIFO.
+The primary usage of the deque is as a queue, as needed for breadth first search, accessed FIFO (first-in first-out).
+This is in contrast to the array that is suited to be employed as a stack, e.g. in a depth first search (unless that is programmed using the call stack), accessed LIFO (last-in first-out).
 \end{note}
 
 \begin{example}

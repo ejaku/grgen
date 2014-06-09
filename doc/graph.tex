@@ -312,6 +312,18 @@ Available are queries for the reachable-within-bounds nodes:
 In the three argument version, nodes incident to an edge of the type given as third argument are contained and followed.
 The four argument version behaves as the three argument version, but additionally only nodes of the node type given as fourth argument are contained and followed.
 
+Available are queries for the reachable-within-bounds nodes that return the minimum distance to the start node in addition:
+
+\begin{description}
+\item[\texttt{boundedReachableWithRemainingDepth(.,.)}] returns the map of the nodes that are reachable from the node given as first argument value, within at most as much steps as specified by the second argument, to the remaining depth.
+\item[\texttt{boundedReachableWithRemainingDepthIncoming(.,.)}] same as any of the reachables above, but restricted to nodes reachable via incoming edges, to the remaining depth.
+\item[\texttt{boundedReachableWithRemainingDepthOutgoing(.,.)}] same as any of the reachables above, but restricted to nodes reachable via outgoing edges, to the remaining depth.
+\end{description}
+
+In the three argument version, nodes incident to an edge of the type given as third argument are contained and followed.
+The four argument version behaves as the three argument version, but additionally only nodes of the node type given as fourth argument are contained and followed.
+The depth value for the minimum distance of the node to the root node in the result map is counted downwards from the depth requested originally, you must subtract it from the depth requested to get the real distance.
+
 %-----------------------------------------------------------------------------------------------
 \section{Subgraph and File Operations}\label{sec:subgraphop}
 
@@ -329,11 +341,22 @@ The global functions allow to compute (node-or-edge) induced subgraphs and clone
 \item[\texttt{copy(.)}] returns a clone of the original subgraph given as argument.
 \end{description}
 
+You may furtheron check for subgraph equality against a set of subgraphs at once:
+
+\begin{description}
+\item[\texttt{equalsAny(.,.)}] returns whether the (sub)graph given as first argument (type: \texttt{graph}) equals any of the (sub)graphs available in the set of subgraphs given with the second argument (type: \texttt{set<graph>}).
+\item[\texttt{equalsAnyStructurally(.,.)}] returns whether the (sub)graph given as first argument (type: \texttt{graph}) is structurally (neglecting attribute values) equal to any of the (sub)graphs available in the set of subgraphs given with the second argument (type: \texttt{set<graph>}).
+\end{description}
+
+The first function employs \verb#==# in a loop until a decision is reached, the second function does so with \verb#~~#.
+They are a bit more convenient in usage compared to writing the loop by hand, but above all are they amenable to parallelization.
+You must specify the (maximum) number of worker threads to enable parallel execution, see section \ref{sec:performanceparallel}.
+ 
 The functions from the built-in package \texttt{File} allow to import subgraphs and check for file existance (for more on packages see \ref{sub:packageaction}).
 
 \begin{description}
 \item[\texttt{File::import(.)}] returns the (sub)graph stored in the \texttt{.grs}-file given by its path (the main graph is \emph{not} replaced, the graph must be compatible to the model of the current host graph).
-\item[\texttt{File::existsFile(.)}] returns whether the file given by its path exists.
+\item[\texttt{File::exists(.)}] returns whether the file given by its path exists.
 \end{description}
 
 The global procedures allow to insert clones of subgraphs computed with the previously introduced function,
@@ -351,12 +374,12 @@ The procedures from the built-in package \texttt{File} allow to export subgraphs
 \begin{description}
 \item[\texttt{File::export(.)}] exports the current host graph to a file with the given path.
 \item[\texttt{File::export(.,.)}] exports the subgraph given as first argument to a file with the given path.
-\item[\texttt{File::deleteFile(.)}] deletes the file with the given path.
+\item[\texttt{File::delete(.)}] deletes the file with the given path.
 \end{description}
 
 % todo: mehr beispiele
 
-\pagebreak % to improve layout later on
+%\pagebreak % to improve layout later on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph comparison}\label{sec:relationalgraph}
 
@@ -397,7 +420,7 @@ procedure saveConnectedComponents()
 	def var i:int = 0;
 	while(!empty()) {
 		def var n:Node = fetchNode();
-		def ref connectedComponent:set<Node> = reachable(n) | {n};
+		def ref connectedComponent:set<Node> = reachable(n) | set<Node>{n};
 		def var sub:graph = inducedSubgraph(connectedComponent);
 		File::export(sub, "cc"+i+".grs");
 		deleteSubgraph(connectedComponent);
@@ -409,7 +432,7 @@ procedure saveConnectedComponents()
 procedure loadConnectedComponents()
 {
 	def var i:int = 0;
-	while(File::existsFile("cc"+i+".grs")) {
+	while(File::exists("cc"+i+".grs")) {
 		insert(File::import("cc"+i+".grs"));
 		i = i + 1;
 	}
@@ -419,8 +442,8 @@ procedure loadConnectedComponents()
 procedure removeSavedConnectedComponentsFiles()
 {
 	def var i:int = 0;
-	while(File::existsFile("cc"+i+".grs")) {
-		File::deleteFile("cc"+i+".grs");
+	while(File::exists("cc"+i+".grs")) {
+		File::delete("cc"+i+".grs");
 		i = i + 1;
 	}
 	return;
@@ -580,14 +603,14 @@ rule getLolp(start:Node) : (int)
 
 In addition to the procedures implemented directly in the graph, there are transaction manager procedures available, implemented in the graph processing environment.
 While a transaction is underway, an undo log is filled with commands to undo the changes that occurred in the graph in the meantime.
-Those transaction handling procedures are:
+Those transaction handling procedures from the built-in package \texttt{Transaction} (for more on packages see \ref{sub:packageaction}) are:
 
 \begin{description}
-\item[\texttt{startTransaction()}] starts a transaction and returns its transaction id (as number of type \texttt{int}).
-\item[\texttt{pauseTransaction()}] pauses transaction handling so changes are not recorded and can't be undone.
-\item[\texttt{resumeTransaction()}] resumes paused transaction handling.
-\item[\texttt{commitTransaction(.)}] keeps the changes of the transaction of the given id (of type \texttt{int}) in the graph, removing undo information.
-\item[\texttt{rollbackTransaction(.)}] reverts the changes of the transaction of the given id (of type \texttt{int}) in the graph by executing the undo log.
+\item[\texttt{Transaction::start()}] starts a transaction and returns its transaction id (as number of type \texttt{int}).
+\item[\texttt{Transaction::pause()}] pauses transaction handling so changes are not recorded and can't be undone.
+\item[\texttt{Transaction::resume()}] resumes paused transaction handling.
+\item[\texttt{Transaction::commit(.)}] keeps the changes of the transaction of the given id (of type \texttt{int}) in the graph, removing undo information.
+\item[\texttt{Transaction::rollback(.)}] reverts the changes of the transaction of the given id (of type \texttt{int}) in the graph by executing the undo log.
 \end{description}
 
 Please note that transactions may be nested; those functions are used in implementing the transaction and backtracking constructs explained in \ref{sec:extctrl}.
@@ -598,7 +621,7 @@ Please note that transactions may be nested; those functions are used in impleme
 Besides there are procedures to emit text or record graph changes available: 
 
 \begin{description}
-\item[\texttt{emit(.)}] writes the argument value, typically a test string, to stdout, or to a file if output was redirected. 
+\item[\texttt{emit(.(,.)*)}] writes the argument value, or the comma separated list of argument values, to stdout, or to a file if output was redirected. The argument(s) must be of string type, but any type is automatically casted into its string representation as needed. Prefer comma separated arguments over string concatenation, they are are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
 \item[\texttt{record(.)}] writes the argument value, typically a text string, to the graph change record.
 \end{description}
 

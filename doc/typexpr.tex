@@ -250,28 +250,41 @@ If one operand is \texttt{double} the operation is carried out with 64 Bits, oth
 String expressions combine string values by string operations, with integer numbers used as helpers to denote positions in the strings (and giving the result of length counting).
 
 \begin{rail}
-  StringExpr: PrimaryExpr (MethodSelector)? | StringExpr '+' StringExpr ;
+  StringExpr: PrimaryExpr (MethodSelector)? | StringExpr '+' StringExpr | StringExpr 'in' StringExpr;
   MethodSelector: '.' MethodName '(' (Variable*',') ')' ;
 \end{rail}\ixnterm{StringExpr}\ixnterm{MethodSelector}
 The operator \texttt{+} concatenates two strings.
+The operator \texttt{in} returns \texttt{true} if the left string is contained in the right string (\texttt{false} otherwise).
 There are several operations on strings available in method call notation (MethodSelector), these are
 
 \begin{description}
 \item[\texttt{.length()}] returns length of string, as \texttt{int}
+\item[\texttt{.beginsWith(strToSearchFor)}] returns whether the string begins with \texttt{strToSearchFor:string}, as \texttt{boolean}
+\item[\texttt{.endsWith(strToSearchFor)}] returns whether the string ends with \texttt{strToSearchFor:string}, as \texttt{boolean}
 \item[\texttt{.indexOf(strToSearchFor)}] returns first position where \texttt{strToSearchFor:string} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.indexOf(strToSearchFor, startIndex)}] returns first position where \texttt{strToSearchFor:string} appears at, when we start the search for it at string position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
 \item[\texttt{.lastIndexOf(strToSearchFor)}] returns last position \texttt{strToSearchFor:string} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.substring(startIndex, length)}] returns substring of given \texttt{length:int} from \texttt{startIndex:int} on
+\item[\texttt{.substring(startIndex)}] returns substring from \texttt{startIndex:int} on (of full remaining length)
 \item[\texttt{.replace(startIndex, length, replaceStr)}] returns string with substring from \texttt{startIndex:int} on of given \texttt{length:int} replaced by \texttt{replaceStr:int}
+\item[\texttt{.toLower()}] returns a lowercase version of the string
+\item[\texttt{.toUpper()}] returns an uppercase version of the string
+\item[\texttt{.explode(separator)}] returns the original string exploded to an array of substrings (\texttt{array<string>}), at each occurence of the \texttt{separator:string}; the separators are not included in the array. If separator is empty, you get the original string exploded to an array of single-character strings (an \texttt{array<string>} contains an \texttt{implode} method for reversal). 
 \end{description}
 
 \begin{example}
 For \texttt{n.str == "foo bar foo"} the operations yield \\
 \texttt{n.str.length()==11} \\
+\texttt{n.str.beginsWith("foo")==true} \\
+\texttt{n.str.endsWith("foo")==true} \\
 \texttt{n.str.indexOf("foo")==0} \\
+\texttt{n.str.indexOf("foo", 1)==8} \\
 \texttt{n.str.lastIndexOf("foo")==8} \\
 \texttt{n.str.substring(4,3)=="bar"} \\
+\texttt{n.str.substring(4)=="bar foo"} \\
 \texttt{n.str.replace(4,3,"foo")=="foo foo foo"} \\
+\texttt{n.str.toUpper()=="FOO BAR FOO"} \\
+\texttt{n.str.explode(" ")==array<string>["foo","bar","foo"]} \\
 \end{example}
 
 
@@ -325,7 +338,7 @@ After we've seen the all the ways to combine expressions, finally we'll have a l
   		| '(' Expression ')';
 \end{rail}\ixnterm{PrimaryExpr}\ixkeyw{nameof}\indexmainsee{variable}{expression variable}\indexmain{expression variable}\indexmain{variable}
 
-The \texttt{nameof} query returns the name (persistent name, see example \ref{persistentex}) of the given graph element as \texttt{string}
+The \texttt{nameof} query returns the name (persistent name, see example \ref{persistentex} or \ref{sec:nameindex}) of the given graph element as \texttt{string}
 (graphs elements of pure \texttt{LGSPGraph}s bear no name, then the query fails, but normally you are using \texttt{LGSPNamedGraph}s).
 Besides nodes or edges, subgraphs may be given, then the name of the subgraph is returned.
 If no argument is given, the name of the graph (the current host graph) is returned.
@@ -379,6 +392,8 @@ A function call employs an external (attribute evaluation) function (cf. \ref{su
   Literal: Constant | ContainerConstructor ;
   Constant: EnumLit | Number | HexNumber | FloatingNumber | QuotedText | BoolLit | NullLit;
 \end{rail}\ixnterm{Constant}\ixnterm{Literal}\label{literaldef}
+
+\pagebreak %layout improvement
 
 The Constants are:
 \begin{description}

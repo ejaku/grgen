@@ -11,7 +11,7 @@ The ability to execute a sequence at the end of a rule invocation allows to comb
 
 The following syntax diagram gives an extensions to the syntax diagrams of the Rule Set Language chapter \ref{chaprulelang}:
 \begin{rail}
-  ExecStatement: 'emit' '(' StringExpr ')' ';' | 'exec' '(' RewriteSequence ')' ';'
+  ExecStatement: 'emit' '(' (StringExpr + ',') ')' ';' | 'exec' '(' RewriteSequence ')' ';'
 	;
 \end{rail}\ixkeyw{emit}\ixkeyw{exec}\ixnterm{ExecStatement}
 The statements \texttt{emit} and \texttt{exec} enhance the declarative rewrite part by imperative clauses.
@@ -21,7 +21,8 @@ However, \emph{attribute} values of deleted graph elements are still available f
 The \texttt{eval} statements are executed before the execution statements, i.e.\ the execution statements work on the recalculated attributes.
 \begin{description}
   \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. Graph elements may be yielded to def variables in the RHS pattern. See Chapter~\ref{cha:xgrs} for a description of graph rewrite sequences. The \texttt{exec} statement is one of the means available in \GrG~to build complex rules and split work into several parts, see \ref{sub:mergesplit} for a discussion of this topic.
-  \item[Text Output] The \texttt{emit} statement prints a string to the currently associated output stream (default is \texttt{stdout}). See Chapter~\ref{cha:typeexpr} for a description of string expressions.
+  \item[Text Output] The \texttt{emit} statement prints a string or a comma-separated sequence of strings to the currently associated output stream (default is \texttt{stdout}). See Chapter~\ref{cha:typeexpr} for a description of string expressions.
+	The argument(s) must be of string type, but any type is automatically casted into its string representation as needed. Prefer comma separated arguments over string concatenation, they are are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
   For emitting in between the emits from subpatterns, there is an additional \texttt{emithere} statement available.
 \end{description}
 
@@ -36,7 +37,7 @@ rule AddRedundancy
   s: SourceNode;
   t: DestinationNode;
   modify {
-    emit ("Source node is " + s.name + ". Destination node is " + t.name + ".");
+    emit ("Source node is ", s.name, ". Destination node is ", t.name, ".");
     exec ( (x:SourceNode) = DuplicateNode(s) & ConnectNeighbors(s, x)* );
     exec ( [DuplicateCriticalEdge] );
     exec ( MaxCapacityIncidentEdge(t)* );

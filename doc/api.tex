@@ -229,7 +229,7 @@ Please be aware that naming is rather expensive:
 A \texttt{LGSPNamedGraph} supplying the name to element and element to name mappings normally uses up about twice the amount of memory of the \texttt{LGSPGraph} defining the graph alone (but is worth is most often).
 
 \subsection*{External Emitting and Parsing}\label{sub:apiextemitparse}
-If \texttt{emit class;} (see \ref{sub:extemitparse}) is specified in the model file \texttt{Foo}, \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located besides the model and rule files,
+If \texttt{external emit class;} or \texttt{external emit graph class;} (see \ref{sub:extemitparse}) are specified in the model file \texttt{Foo}, \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located besides the model and rule files,
 containing the following functions.
 
 \begin{csharplet}
@@ -263,11 +263,25 @@ string Emit(object attribute, AttributeType attrType, IGraph graph);
 (The functions are called from GrShell, too, insofar as possible -- the shell parses a single or double quoted text or a word or a number at an attribute position and hands that over then to the user defined parser.)
 They forward the calls to \texttt{ParseImpl}, \texttt{SerializeImpl}, and \texttt{EmitImpl} functions, that need to be implemented in a file named \texttt{FooModelExternal\-FunctionsImpl.cs} located in the folder of the \texttt{FooModelExternalFunctions.cs} file.
 Implementing them is \emph{your} task, in exchange you get a tight integration of your own datatypes into \GrG.
-You may have a look at \texttt{tests/ExternalAttributeEvaluation} or  \texttt{examples\-api/ExternalAttributeEvaluationExample} for an example.
+You may have a look at \texttt{tests/ExternalAttributeEvaluation} or \texttt{examples\-api/ExternalAttributeEvaluationExample} for an example.
 
+\begin{csharplet}
+/// <summary>
+/// Called during debugging on user request, the implementation must return a named graph representation for the attribute.
+/// For attribute type object or a user defined type, which is treated as object.
+/// The attribute type may be null. The return graph must be of the same model as the graph handed in.
+/// The named graph is meant for display in the debugger, to visualize the internal structure of some attribute type.
+/// This way you can graphically inspect your own data types which are opaque to GrGen with its debugger.
+/// </summary>
+INamedGraph AsGraph(object attribute, AttributeType attrType, IGraph graph);
+\end{csharplet}
+
+\texttt{AsGraph} is called from the debugger on user request, to visually inspect an external attribute type, rendered as graph.
+It will be called when \texttt{external emit graph class;} was specified.
+It forwards the call to \texttt{AsGraphImpl}, that needs to be implemented by \emph{you}, in the same way as specified above for the the functions called when \texttt{external emit class;} is given.
 
 \subsection*{External Copying and Comparing}\label{sub:apiextcopycompare}
-If \texttt{copy class;} or \texttt{== class;} or \texttt{< class;} (see \ref{sub:extcopycompare}) are specified in the model file \texttt{Foo},
+If \texttt{external copy class;} or \texttt{external == class;} or \texttt{external < class;} (see \ref{sub:extcopycompare}) are specified in the model file \texttt{Foo},
 \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located besides the model and rule files,
 containing a partial class \texttt{AttributeTypeObjectCopierComparer} expecting that the \texttt{Copy} or the \texttt{IsEqual} or the \texttt{IsLower} functions are implemented in the same partial class in \texttt{FooModelExternalFunctionsImpl.cs}.
 For every external type defined a further pair of functions with that type used in the input parameters is expected.
@@ -490,6 +504,16 @@ event SettingAddedElementNamesHandler OnSettingAddedNodeNames;
 event SettingAddedElementNamesHandler OnSettingAddedEdgeNames;
 \end{csharplet}
 
+The changing attribute events are fired before the attributes are assigned, with the single element change that will occur. They are used e.g. by the transaction manager to record the changes (container type change rollback requires single element notifications, complete container copies would be prohibitevly costly). The conditional watchpoints that may be configured for the debugger hook into the changed attribute events in contrast that are fired after an attribute was assigned, which are:
+
+\begin{csharplet}
+// Fired after an attribute of a node is changed; for debugging purpose.
+event ChangedNodeAttributeHandler OnChangedNodeAttribute;
+
+// Fired after an attribute of an edge is changed; for debugging purpose.
+event ChangedEdgeAttributeHandler OnChangedEdgeAttribute;
+\end{csharplet}
+
 The events available which are fired automatically on visited flag changes are:
 
 \begin{csharplet}
@@ -530,7 +554,38 @@ event RewriteNextMatchHandler OnRewritingNextMatch;
 event AfterFinishHandler OnFinished;
 \end{csharplet}
 
-The sequence based events declared by the \texttt{IGraphProcessingEnvironment} extending the \texttt{IActionExecutionEnvironment} are:
+The subrule based events declared by the \texttt{ISubactionAndOutputAdditionEnvironment} extending the \texttt{IActionExecutionEnvironment} are:
+
+\begin{csharplet}
+// Fired when a debug entity is entered.
+event DebugEnterHandler OnDebugEnter;
+
+// Fired when a debug entity is left.
+event DebugExitHandler OnDebugExit;
+
+// Fired when a debug emit is executed.
+event DebugEmitHandler OnDebugEmit;
+
+// Fired when a debug halt is executed.
+event DebugHaltHandler OnDebugHalt;
+
+// Fired when a debug highlight is executed.
+event DebugHighlightHandler OnDebugHighlight;
+\end{csharplet}
+
+A special kind of sequence based events are the graph change events, fired when processing enters a subgraph or leaves a subgraph (fired when the subgraph usage stack is altered):
+
+\begin{csharplet}
+// Fired when graph processing (rule and sequence execution) is switched to a (sub)graph.
+// (Not fired when the main graph is replaced by another main graph, or initialized.)
+event SwitchToSubgraphHandler OnSwitchingToSubgraph;
+
+// Fired when graph processing is returning back after a switch.
+// (To the main graph, or a subgraph previously switched to.)
+event ReturnFromSubgraphHandler OnReturnedFromSubgraph;
+\end{csharplet}
+
+The sequence based events declared by the \texttt{IGraphProcessingEnvironment} extending the \texttt{ISubactionAndOutputAdditionEnvironment} are:
          
 \begin{csharplet}
 // Fired when a sequence is entered.
@@ -541,16 +596,4 @@ event ExitSequenceHandler OnExitingSequence;
 
 // Fired when a sequence iteration is ended.
 event EndOfIterationHandler OnEndOfIteration;
-\end{csharplet}
-
-A special kind of sequence based events are the graph change events, fired when processing enters a subgraph or leaves a subgraph (fired when the subgraph usage stack is altered):
-
-\begin{csharplet}
-/// Fired when graph processing (rule and sequence execution) is switched to a (sub)graph.
-/// (Not fired when the main graph is replaced by another main graph, or initialized.)
-event SwitchToSubgraphHandler OnSwitchingToSubgraph;
-
-/// Fired when graph processing is returning back after a switch.
-/// (To the main graph, or a subgraph previously switched to.)
-event ReturnFromSubgraphHandler OnReturnedFromSubgraph;
 \end{csharplet}

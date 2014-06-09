@@ -68,7 +68,7 @@ You may extend \GrG~with external sequences if you want to call into external co
 %-----------------------------------------------------------------------------------------------
 \section{External Emitting and Parsing}\label{sub:extemitparse}
 \begin{rail}
-  EmitParseDeclaration: 'external' 'emit' 'class' ';';
+  EmitParseDeclaration: 'external' 'emit' (|'graph') 'class' ';';
 \end{rail}\ixnterm{EmitParseDeclaration}\ixkeyw{external}\ixkeyw{emit}\ixkeyw{class}
 Tells \GrG~that the developer wants to extend grs importing and exporting, as well as emitting and debugger display, so that they can handle external types, or the type \texttt{object}.
 This allows for a tight integration of external types with the built-in functionality;

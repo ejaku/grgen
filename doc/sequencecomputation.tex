@@ -72,11 +72,11 @@ The form of expressions and assignment targets will be specified below.
 \end{rail}\label{recstmt}\indexmain{record}\indexmain{emit}
 
 A method call executes a method on a variable, passing further arguments.
-The method may be one of the predefined container methods, or a user-defined method (cf. \ref{TODO}).
+The method may be one of the predefined container methods, or a user-defined method (cf. \ref{sec:objectoriented}).
 
 A procedure call executes a (built-in or user defined) procedure, passing further arguments.
 In addition to the graph type based functions and procedures which will be explained in more detail further below,
-\texttt{emit}, \texttt{record}, and \texttt{export} procedure calls can be given here: the emit procedure writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}).
+\texttt{emit}, \texttt{record}, and \texttt{export} procedure calls can be given here: the emit procedure writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}; in fact a sequence of the former may be given, which is to be prefered over string concatenation for performance reasons).
 The record procedure writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
 The export procedure exports the current graph to the path specified if called with one argument, or it exports the subgraph specified as first argument to the path specified as second argument.
 It behaves like the export command from the GrShell, see \ref{outputcmds}.
@@ -86,6 +86,10 @@ Furthermore, a function \texttt{canonize(g:graph):string} is available,
 which is intended to provide a canonical string representation for any graph, but currently does not work for all graphs.
 The function currently uses the SMILES\cite{SMILES} method of producing an equitable partition of graph nodes, not a canonical order; while not offering full fledged graph canonization this algorithm is sufficient for many purposes. 
 It allows to reduce graph comparisons to string comparisons, at the price of computing the Weininger algorithm for equitable partitions of nodes.
+
+Moreover, the procedures from the built-in package \texttt{Debug} as explained in detail in \ref{secdebuggersubrule} may be called.
+\texttt{Debug::add} when entering and \texttt{Debug::rem} when leaving a subrule computation of interest (always pairwise!),
+\texttt{Debug::emit} to recored some subrule computation milestones, \texttt{Debug::halt} to halt the debugger, and \texttt{Debug::highlight} to highlight some graph elements in the debugger (halting it).
 
 Besides those predefined procedures (and functions), you may call user procedures (and functions), defined in the rules file; cf. \ref{sub:compdef}.
 
@@ -152,13 +156,14 @@ The relational operators work as specified in \ref{sub:expr} for numerical types
 
 \begin{rail}
   ArithmeticSequenceExpression:
-    SequenceExpression ('+' | '-') SequenceExpression;
+    SequenceExpression ('+' | '-' | '*' | '/' | percent) SequenceExpression;
 \end{rail}\ixnterm{ArithmeticSequenceExpression}
 
 The arithmetic operator plus is used to denote addition of numerical values or string concatenation,
 the arithmetic operator minus is used to denote subtraction of numerical values.
-No further arithmetic operators are available in the sequence expressions;
-neither are the string methods supported.
+Furthermore, you can multiply and divide numbers, or compute the remainder of a division.
+Neither the arithmetic functions of package \texttt{Math}, nor the string methods are available in the sequence expressions.
+Use the entities from the rule language for real computational work, you can reuse them easily, just call the functions from the sequence expressions, the procedures from the sequence statements, and the rules/tests from the sequences.
 
 \begin{rail}
   PrimarySequenceExpression:
@@ -195,13 +200,25 @@ this means esp. that a Variable may denote a graph global variable if prefixed w
   ;
 \end{rail}\ixnterm{SpecialSequenceExpression}\ixkeyw{visited}
 
-The special sequence expressions are used for storage and visited flag handling, for random value queries, and for graph and subgraph handling.
+The special sequence expressions are used for storage handling, for graph, subgraph and visited flag handling, for random value queries, for typeof queries, and for index access.
 
-The storage and visited flag oriented ones are used to check whether a value is marked, to access a storage, or to call a method on a storage (note: here it is not possible to build method call chains). 
-They were explained in the chapters \ref{cha:container} and \ref{cha:graph}.
+The storage oriented ones are used to access a storage or to call a method on a storage (note: here it is not possible to build method call chains). 
+They were introduced in chapter \ref{cha:container}, and are summarized below in \ref{sec:storages}.
+
+The graph and subgraph handling expressions allow to query the graph for its elements, the visited flags expressions allow to check whether a value is marked.
+They were introduced in chapter \ref{cha:graph}, and are summarized below in \ref{sec:queryupdate}.
 
 The random value function \texttt{random} behaves like the random function from the expressions, see \ref{sec:primexpr};
 i.e. if noted down with an integer as argument it returns a random integer in between 0 and that upper bound, exclusive; if given without an argument it returns a random double in between 0.0 and 1.0, exclusive.
+
+The \texttt{typeof} function returns the type \emph{as string}, for an arbitrary \GrG-object fed as input.
+There is no type type supporting type comparisons as in the rule language existing, you are limited to string comparisons.
+
+The index functions allow to fetch elements based on the name or the unique-id, or to retrieve the name or the unique-id.
+Available are \texttt{nameof} to fetch the name of a node or edge or graph and \texttt{uniqueof} to fetch the unique id of a node or edge or graph.
+The function \texttt{nodeByName} allows to retrieve a node by its name, \texttt{edgeByName()} does the same for an edge.
+The function \texttt{nodeByUnique} allows to retrieve a node by its unique id, \texttt{edgeByUnique} does the same for an edge.
+You find more on them in \ref{sec:performance}.
 
 \begin{example}
 The sequence expression \verb#{{ def(y) && y.meth(x)>=y.a || @("$1").a+1 != func(x) }}# checks whether the node typed variable \texttt{y} is defined, i.e. not null, and if so compares the return value of a method of that type with an attribute value. If the comparison succeeds, it defines the return value of the expression; in case the definedness check failed or the comparison yields false, is a graph element fetched from the graph by its persistent name \verb#$1#, and its attribute \texttt{a} plus 1 compared against the result of a function call. Then the result of this latter comparison defines the outcome of the expression.
@@ -241,6 +258,7 @@ A more realistic example is to check whether two nodes returned by some rule app
 
 The third group is defined by functions and procedures that operate on (sub-)graphs, as defined in \ref{sub:functions} and \ref{sub:procedures}.
 They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
+To this end, parallelized graph isomorphy checking with the \texttt{equalsAny} function is especially of interest.
 You may import, clone, or compute induced subgraphs.
 You may export a subgraph or insert a subgraph into the hostgraph.
 
@@ -347,19 +365,20 @@ Table~\ref{comptab} lists most of the operations of the graph rewrite computatio
 \texttt{\{e\}} & An unspecified sequence expression executed for its result, defining the success of the computation.\\
 \hline
 \texttt{t=e}	& Simple assignment of an expression value to an assignment target\\
-\texttt{t=e=f}	& Chained assignment \\
+%\texttt{t=e=f}	& Chained assignment \\
 \hline
 \texttt{e ? f : g}	& Returns f if e evaluates to true, otherwise g \\
 \texttt{e op f}	& For \texttt{op} being one of the boolean operators \texttt{||,|,\&,\&\&,\^\ } \\
 \texttt{e op f}	& For \texttt{op} being one of comparison operators \texttt{==,!=,<,<=,>,>=,in} \\
-\texttt{e + f}	& Numerical addition or string concatenation \\
-\texttt{e - f}	& Numerical subtraction \\
+\texttt{e op f}	& For \texttt{op} being one of arithmetic operators \texttt{+,-,*,/,\%} \\
+\texttt{e + f}	& For string concatenation. \\
 \hline
 \texttt{v} & Variable. Assignment target or expression.\\
 \texttt{v.name} & Attribute of graph element. Assignment target or expression.\\
 \texttt{@(name)} & Return graph element of given name.\\
 \texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
 \texttt{random(upperBound)} & Returns random number from [0;upper bound[, if upper bound is missing from [0.0;1.0[.\\
+\texttt{typeof(v)} & Returns the name of the type of the entity handed in.\\
 \hline
 \texttt{u=set<Node>\{\}}	& Example for container constructor, creates storage set and assigns to \texttt{u}.\\
 \texttt{u[e]}	& Target value of \texttt{e} in \texttt{u}. Fails if \texttt{!(e in u)}. Assignment target or expression.\\
