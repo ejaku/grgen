@@ -1027,14 +1027,28 @@ public abstract class CSharpBase {
 			genExpression(sb, strlen.getStringExpr(), modifyGenerationState);
 			sb.append(").Length");
 		}
+		else if (expr instanceof StringToUpper) {
+			StringToUpper strtoup = (StringToUpper) expr;
+			sb.append("(");
+			genExpression(sb, strtoup.getStringExpr(), modifyGenerationState);
+			sb.append(").ToUpperInvariant()");
+		}
+		else if (expr instanceof StringToLower) {
+			StringToLower strtolo = (StringToLower) expr;
+			sb.append("(");
+			genExpression(sb, strtolo.getStringExpr(), modifyGenerationState);
+			sb.append(").ToLowerInvariant()");
+		}
 		else if (expr instanceof StringSubstring) {
 			StringSubstring strsubstr = (StringSubstring) expr;
 			sb.append("(");
 			genExpression(sb, strsubstr.getStringExpr(), modifyGenerationState);
 			sb.append(").Substring(");
 			genExpression(sb, strsubstr.getStartExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, strsubstr.getLengthExpr(), modifyGenerationState);
+			if(strsubstr.getLengthExpr() != null) {
+				sb.append(", ");
+				genExpression(sb, strsubstr.getLengthExpr(), modifyGenerationState);
+			}
 			sb.append(")");
 		}
 		else if (expr instanceof StringIndexOf) {
@@ -1047,6 +1061,7 @@ public abstract class CSharpBase {
 				sb.append(", ");
 				genExpression(sb, strio.getStartIndexExpr(), modifyGenerationState);
 			}
+			sb.append(", StringComparison.InvariantCulture");
 			sb.append(")");
 		}
 		else if (expr instanceof StringLastIndexOf) {
@@ -1055,6 +1070,25 @@ public abstract class CSharpBase {
 			genExpression(sb, strlio.getStringExpr(), modifyGenerationState);
 			sb.append(").LastIndexOf(");
 			genExpression(sb, strlio.getStringToSearchForExpr(), modifyGenerationState);
+			sb.append(", StringComparison.InvariantCulture");
+			sb.append(")");
+		}
+		else if (expr instanceof StringBeginsWith) {
+			StringBeginsWith strbw = (StringBeginsWith) expr;
+			sb.append("(");
+			genExpression(sb, strbw.getStringExpr(), modifyGenerationState);
+			sb.append(").StartsWith(");
+			genExpression(sb, strbw.getStringToSearchForExpr(), modifyGenerationState);
+			sb.append(", StringComparison.InvariantCulture");
+			sb.append(")");
+		}
+		else if (expr instanceof StringEndsWith) {
+			StringEndsWith strew = (StringEndsWith) expr;
+			sb.append("(");
+			genExpression(sb, strew.getStringExpr(), modifyGenerationState);
+			sb.append(").EndsWith(");
+			genExpression(sb, strew.getStringToSearchForExpr(), modifyGenerationState);
+			sb.append(", StringComparison.InvariantCulture");
 			sb.append(")");
 		}
 		else if (expr instanceof StringReplace) {
@@ -1072,6 +1106,14 @@ public abstract class CSharpBase {
 			sb.append(" + ");
 			genExpression(sb, strrepl.getLengthExpr(), modifyGenerationState);
 			sb.append("))");
+		}
+		else if (expr instanceof StringExplode) {
+			StringExplode strexpl = (StringExplode) expr;
+			sb.append("GRGEN_LIBGR.ContainerHelper.Explode(");
+			genExpression(sb, strexpl.getStringExpr(), modifyGenerationState);
+			sb.append(", ");
+			genExpression(sb, strexpl.getStringToSplitAtExpr(), modifyGenerationState);
+			sb.append(")");
 		}
 		else if (expr instanceof IndexedAccessExpr) {
 			IndexedAccessExpr ia = (IndexedAccessExpr)expr;
@@ -1289,6 +1331,19 @@ public abstract class CSharpBase {
 			else {
 				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayAsSet(");
 				genExpression(sb, aas.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof ArrayImplode) {
+			ArrayImplode ai = (ArrayImplode)expr;
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ai));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.Implode(");
+				genExpression(sb, ai.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, ai.getValueExpr(), modifyGenerationState);
 				sb.append(")");
 			}
 		}

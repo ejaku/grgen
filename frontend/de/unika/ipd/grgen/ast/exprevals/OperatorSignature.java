@@ -364,6 +364,7 @@ public class OperatorSignature extends FunctionSignature {
 				//case GT:  return new BoolConstNode(coords, a0.compareTo(a1) > 0);
 				//case LE:  return new BoolConstNode(coords, a0.compareTo(a1) <= 0);
 				//case LT:  return new BoolConstNode(coords, a0.compareTo(a1) < 0);
+				//case IN:  return new BoolConstNode(coords, a1.contains(a0));
 
 				default:  throw new NotEvaluatableException(coords);
 			}
@@ -686,6 +687,7 @@ public class OperatorSignature extends FunctionSignature {
 		makeBinOp(GT, BOOLEAN, STRING, STRING, stringEvaluator);
 		makeBinOp(LE, BOOLEAN, STRING, STRING, stringEvaluator);
 		makeBinOp(LT, BOOLEAN, STRING, STRING, stringEvaluator);
+		makeBinOp(IN, BOOLEAN, STRING, STRING, stringEvaluator);
 
 		// object operators
 		makeBinOp(EQ, BOOLEAN, OBJECT, OBJECT, objectEvaluator);

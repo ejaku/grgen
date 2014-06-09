@@ -1,0 +1,31 @@
+using attrib_model_001;
+
+rule r1(var s:string)
+{
+	str:NSTRING;
+	str2:NSTRING;
+	b:NBOOL;
+
+	def ref exploded:array<string>;
+	def var imploded:string;
+
+	if {
+		str.a == (str.a.explode(",")).implode(",");
+	}
+	
+	yield {
+		yield exploded = s.explode(",");
+		yield imploded = exploded.implode(",");
+	}
+
+	modify {
+		def ref exploded_:array<string>;
+		def var imploded_:string;
+		
+		eval {
+			str.a = (str.a.explode(",")).implode(",");
+			yield exploded_ = s.explode(",");
+			yield imploded_ = exploded.implode(",");
+		}
+	}
+}

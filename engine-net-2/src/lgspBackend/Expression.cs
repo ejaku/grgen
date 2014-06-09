@@ -1441,7 +1441,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a map/set inclusion query.
+    /// Class representing a container or string inclusion query.
     /// </summary>
     public class IN : BinInfixOperator
     {
@@ -2101,6 +2101,66 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a string to uppercase expression.
+    /// </summary>
+    public class StringToUpper : Expression
+    {
+        public StringToUpper(Expression stringExpr)
+        {
+            StringExpr = stringExpr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new StringToUpper(StringExpr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            StringExpr.Emit(sourceCode);
+            sourceCode.Append(").ToUpperInvariant()");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StringExpr;
+        }
+
+        Expression StringExpr;
+    }
+
+    /// <summary>
+    /// Class representing a string to lowercase expression.
+    /// </summary>
+    public class StringToLower : Expression
+    {
+        public StringToLower(Expression stringExpr)
+        {
+            StringExpr = stringExpr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new StringToLower(StringExpr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            StringExpr.Emit(sourceCode);
+            sourceCode.Append(").ToLowerInvariant()");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StringExpr;
+        }
+
+        Expression StringExpr;
+    }
+
+    /// <summary>
     /// Class representing a substring expression.
     /// </summary>
     public class StringSubstring : Expression
@@ -2112,10 +2172,17 @@ namespace de.unika.ipd.grGen.expression
             LengthExpr = lengthExpr;
         }
 
+        public StringSubstring(Expression stringExpr, Expression startExpr)
+        {
+            StringExpr = stringExpr;
+            StartExpr = startExpr;
+            LengthExpr = null;
+        }
+
         public override Expression Copy(string renameSuffix)
         {
             return new StringSubstring(StringExpr.Copy(renameSuffix), 
-                StartExpr.Copy(renameSuffix), LengthExpr.Copy(renameSuffix));
+                StartExpr.Copy(renameSuffix), LengthExpr!=null ? LengthExpr.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2124,8 +2191,11 @@ namespace de.unika.ipd.grGen.expression
             StringExpr.Emit(sourceCode);
             sourceCode.Append(").Substring(");
             StartExpr.Emit(sourceCode);
-            sourceCode.Append(", ");
-            LengthExpr.Emit(sourceCode);
+            if(LengthExpr != null)
+            {
+                sourceCode.Append(", ");
+                LengthExpr.Emit(sourceCode);
+            }
             sourceCode.Append(")");
         }
 
@@ -2133,7 +2203,8 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return StringExpr;
             yield return StartExpr;
-            yield return LengthExpr;
+            if(LengthExpr != null)
+                yield return LengthExpr;
         }
 
         Expression StringExpr;
@@ -2178,6 +2249,7 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append(", ");
                 StartIndexExpr.Emit(sourceCode);
             }
+            sourceCode.Append(", StringComparison.InvariantCulture");
             sourceCode.Append(")");
         }
 
@@ -2216,6 +2288,79 @@ namespace de.unika.ipd.grGen.expression
             StringExpr.Emit(sourceCode);
             sourceCode.Append(").LastIndexOf(");
             StringToSearchForExpr.Emit(sourceCode);
+            sourceCode.Append(", StringComparison.InvariantCulture");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StringExpr;
+            yield return StringToSearchForExpr;
+        }
+
+        Expression StringExpr;
+        Expression StringToSearchForExpr;
+    }
+
+    /// <summary>
+    /// Class representing a string begins with expression.
+    /// </summary>
+    public class StringBeginsWith : Expression
+    {
+        public StringBeginsWith(Expression stringExpr, Expression stringToSearchForExpr)
+        {
+            StringExpr = stringExpr;
+            StringToSearchForExpr = stringToSearchForExpr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new StringBeginsWith(StringExpr.Copy(renameSuffix), StringToSearchForExpr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            StringExpr.Emit(sourceCode);
+            sourceCode.Append(").StartsWith(");
+            StringToSearchForExpr.Emit(sourceCode);
+            sourceCode.Append(", StringComparison.InvariantCulture");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StringExpr;
+            yield return StringToSearchForExpr;
+        }
+
+        Expression StringExpr;
+        Expression StringToSearchForExpr;
+    }
+
+    /// <summary>
+    /// Class representing a string ends with expression.
+    /// </summary>
+    public class StringEndsWith : Expression
+    {
+        public StringEndsWith(Expression stringExpr, Expression stringToSearchForExpr)
+        {
+            StringExpr = stringExpr;
+            StringToSearchForExpr = stringToSearchForExpr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new StringEndsWith(StringExpr.Copy(renameSuffix), StringToSearchForExpr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            StringExpr.Emit(sourceCode);
+            sourceCode.Append(").EndsWith(");
+            StringToSearchForExpr.Emit(sourceCode);
+            sourceCode.Append(", StringComparison.InvariantCulture");
             sourceCode.Append(")");
         }
 
@@ -2277,6 +2422,41 @@ namespace de.unika.ipd.grGen.expression
         Expression StartExpr;
         Expression LengthExpr;
         Expression ReplaceStrExpr;
+    }
+
+    /// <summary>
+    /// Class representing a string explode expression.
+    /// </summary>
+    public class StringExplode : Expression
+    {
+        public StringExplode(Expression stringExpr, Expression stringToSplitAtExpr)
+        {
+            StringExpr = stringExpr;
+            StringToSplitAtExpr = stringToSplitAtExpr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new StringExplode(StringExpr.Copy(renameSuffix), StringToSplitAtExpr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Explode(");
+            StringExpr.Emit(sourceCode);
+            sourceCode.Append(", ");
+            StringToSplitAtExpr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StringExpr;
+            yield return StringToSplitAtExpr;
+        }
+
+        Expression StringExpr;
+        Expression StringToSplitAtExpr;
     }
 
     /// <summary>
@@ -2942,6 +3122,41 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array implode expression.
+    /// </summary>
+    public class ArrayImplode : Expression
+    {
+        public ArrayImplode(Expression target, Expression value)
+        {
+            Target = target;
+            Value = value;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayImplode(Target.Copy(renameSuffix), Value.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Implode(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+        }
+
+        Expression Target;
+        Expression Value;
     }
 
     /// <summary>
