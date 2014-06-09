@@ -88,13 +88,32 @@ public class MethodInvocationExprNode extends ExprNode
 				else
 					result = new StringLengthNode(getCoords(), targetExpr);
 			}
+			else if(methodName.equals("toUpper")) {
+				if(params.size() != 0) {
+					reportError("string.toUpper() does not take any parameters.");
+					return false;
+				}
+				else
+					result = new StringToUpperNode(getCoords(), targetExpr);
+			}
+			else if(methodName.equals("toLower")) {
+				if(params.size() != 0) {
+					reportError("string.toLower() does not take any parameters.");
+					return false;
+				}
+				else
+					result = new StringToLowerNode(getCoords(), targetExpr);
+			}
 			else if(methodName.equals("substring")) {
-  				if(params.size() != 2) {
-  					reportError("string.substring(startIndex, length) takes two parameters.");
+  				if(params.size() != 1 && params.size() != 2) {
+  					reportError("string.substring(startIndex, length) takes two parameters, or one if the length is omitted.");
 					return false;
 				}
   				else
-  					result = new StringSubstringNode(getCoords(), targetExpr, params.get(0), params.get(1));
+  					if(params.size() == 2)
+  						result = new StringSubstringNode(getCoords(), targetExpr, params.get(0), params.get(1));
+  					else
+  						result = new StringSubstringNode(getCoords(), targetExpr, params.get(0));
   			}
   			else if(methodName.equals("indexOf")) {
   				if(params.size() != 1 && params.size() != 2) {
@@ -115,6 +134,22 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new StringLastIndexOfNode(getCoords(), targetExpr, params.get(0));
   			}
+  			else if(methodName.equals("beginsWith")) {
+  				if(params.size() != 1) {
+  					reportError("string.beginsWith(strToSearchFor) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new StringBeginsWithNode(getCoords(), targetExpr, params.get(0));
+  			}
+  			else if(methodName.equals("endsWith")) {
+  				if(params.size() != 1) {
+  					reportError("string.endsWith(strToSearchFor) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new StringEndsWithNode(getCoords(), targetExpr, params.get(0));
+  			}
   			else if(methodName.equals("replace")) {
   				if(params.size() != 3) {
   					reportError("string.replace(startIndex, length, replaceStr) takes three parameters.");
@@ -122,6 +157,14 @@ public class MethodInvocationExprNode extends ExprNode
 				}
   				else
   					result = new StringReplaceNode(getCoords(), targetExpr, params.get(0), params.get(1), params.get(2));
+  			}
+  			else if(methodName.equals("explode")) {
+  				if(params.size() != 1) {
+  					reportError("string.explode(strToSearchFor) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new StringExplodeNode(getCoords(), targetExpr, params.get(0));
   			}
   			else {
   				reportError("string does not have a method named \"" + methodName + "\"");
@@ -267,6 +310,14 @@ public class MethodInvocationExprNode extends ExprNode
 				}
   				else
   					result = new ArrayAsSetNode(getCoords(), targetExpr);
+  			}
+  			else if(methodName.equals("implode")) {
+  				if(params.size() != 1) {
+  					reportError("array<string>.implode(value) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new ArrayImplodeNode(getCoords(), targetExpr, params.get(0));
   			}
   			else {
   				reportError("array<T> does not have a method named \"" + methodName + "\"");

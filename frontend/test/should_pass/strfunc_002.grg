@@ -1,0 +1,33 @@
+using attrib_model_001;
+
+rule r1(var s:string)
+{
+	str:NSTRING;
+	str2:NSTRING;
+	b:NBOOL;
+
+	if {
+		str.a.beginsWith("test");
+		str.a.endsWith("test");
+		s.beginsWith("test");
+		s.endsWith("test");
+		"test" in str.a;
+		"test" in s;
+
+		str.a.substring(0) == s.substring(42);
+		str.a.toUpper() == s.toUpper();
+		str.a.toLower() == s.toLower();
+	}
+
+	modify {
+		eval {
+			str.a = str.a.toUpper() + s.toLower() + str.a.substring(0);
+
+			str2.a = str.a.toLower() + s.toUpper() + s.substring(42);
+
+			b.a = str.a.beginsWith("test") & str.a.endsWith("test")
+					& s.beginsWith("test") & s.endsWith("test")
+					& "test" in str.a & "test" in s;
+		}
+	}
+}

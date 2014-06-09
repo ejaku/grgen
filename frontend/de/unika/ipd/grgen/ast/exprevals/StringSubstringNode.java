@@ -39,12 +39,22 @@ public class StringSubstringNode extends ExprNode {
 		this.lengthExpr = becomeParent(lengthExpr);
 	}
 
+	public StringSubstringNode(Coords coords, ExprNode stringExpr,
+			ExprNode startExpr) {
+		super(coords);
+
+		this.stringExpr = becomeParent(stringExpr);
+		this.startExpr  = becomeParent(startExpr);
+		this.lengthExpr = null;
+	}
+
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(stringExpr);
 		children.add(startExpr);
-		children.add(lengthExpr);
+		if(lengthExpr != null)
+			children.add(lengthExpr);
 		return children;
 	}
 
@@ -53,7 +63,8 @@ public class StringSubstringNode extends ExprNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("string");
 		childrenNames.add("start");
-		childrenNames.add("length");
+		if(lengthExpr != null)
+			childrenNames.add("length");
 		return childrenNames;
 	}
 
@@ -68,10 +79,12 @@ public class StringSubstringNode extends ExprNode {
 					+ "substring expression must be of type int");
 			return false;
 		}
-		if(!lengthExpr.getType().isEqual(BasicTypeNode.intType)) {
-			lengthExpr.reportError("Second argument (length) to substring "
-					+ "expression must be of type int");
-			return false;
+		if(lengthExpr != null) {
+			if(!lengthExpr.getType().isEqual(BasicTypeNode.intType)) {
+				lengthExpr.reportError("Second argument (length) to substring "
+						+ "expression must be of type int");
+				return false;
+			}
 		}
 		return true;
 	}
@@ -80,7 +93,7 @@ public class StringSubstringNode extends ExprNode {
 	protected IR constructIR() {
 		return new StringSubstring(stringExpr.checkIR(Expression.class),
 				startExpr.checkIR(Expression.class),
-				lengthExpr.checkIR(Expression.class));
+				lengthExpr!=null ? lengthExpr.checkIR(Expression.class) : null);
 	}
 
 	@Override

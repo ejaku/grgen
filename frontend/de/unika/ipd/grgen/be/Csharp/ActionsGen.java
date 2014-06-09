@@ -2660,14 +2660,28 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, strlen.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof StringToUpper) {
+			StringToUpper strtoup = (StringToUpper) expr;
+			sb.append("new GRGEN_EXPR.StringToUpper(");
+			genExpressionTree(sb, strtoup.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof StringToLower) {
+			StringToLower strtolow = (StringToLower) expr;
+			sb.append("new GRGEN_EXPR.StringToLower(");
+			genExpressionTree(sb, strtolow.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof StringSubstring) {
 			StringSubstring strsubstr = (StringSubstring) expr;
 			sb.append("new GRGEN_EXPR.StringSubstring(");
 			genExpressionTree(sb, strsubstr.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, strsubstr.getStartExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			sb.append(", ");
-			genExpressionTree(sb, strsubstr.getLengthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(strsubstr.getLengthExpr() != null) {
+				sb.append(", ");
+				genExpressionTree(sb, strsubstr.getLengthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			}
 			sb.append(")");
 		}
 		else if (expr instanceof StringIndexOf) {
@@ -2690,6 +2704,22 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, strlio.getStringToSearchForExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof StringBeginsWith) {
+			StringBeginsWith strbw = (StringBeginsWith) expr;
+			sb.append("new GRGEN_EXPR.StringBeginsWith(");
+			genExpressionTree(sb, strbw.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, strbw.getStringToSearchForExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof StringEndsWith) {
+			StringEndsWith strew = (StringEndsWith) expr;
+			sb.append("new GRGEN_EXPR.StringEndsWith(");
+			genExpressionTree(sb, strew.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, strew.getStringToSearchForExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof StringReplace) {
 			StringReplace strrepl = (StringReplace) expr;
 			sb.append("new GRGEN_EXPR.StringReplace(");
@@ -2700,6 +2730,14 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, strrepl.getLengthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, strrepl.getReplaceStrExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof StringExplode) {
+			StringExplode strexpl = (StringExplode) expr;
+			sb.append("new GRGEN_EXPR.StringExplode(");
+			genExpressionTree(sb, strexpl.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, strexpl.getStringToSplitAtExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof IndexedAccessExpr) {
@@ -2833,6 +2871,14 @@ public class ActionsGen extends CSharpBase {
 			ArrayAsSetExpr aas = (ArrayAsSetExpr)expr;
 			sb.append("new GRGEN_EXPR.ArrayAsSet(");
 			genExpressionTree(sb, aas.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayImplode) {
+			ArrayImplode ai = (ArrayImplode)expr;
+			sb.append("new GRGEN_EXPR.ArrayImplode(");
+			genExpressionTree(sb, ai.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ai.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof DequeSizeExpr) {

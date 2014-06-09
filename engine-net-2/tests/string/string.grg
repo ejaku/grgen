@@ -1,0 +1,32 @@
+rule t(var str:string)
+{
+	if {
+		str.length()==11;
+		str.indexOf("foo")==0;
+		str.indexOf("foo", 1)==8;
+		str.lastIndexOf("foo")==8;
+		str.substring(4,3)=="bar";
+		str.substring(4)=="bar foo";
+		str.replace(4,3,"foo")=="foo foo foo";
+		str.beginsWith("foo");
+		str.endsWith("foo");
+		"bar" in str;
+		(str.toUpper()).toLower()==str;
+		(str.explode(" ")).implode(" ")==str;
+	}
+
+	modify {
+        emit("1 value of attribute 5 6 " + (str.length()==11) + "\n");
+        emit("1 value of attribute 5 6 " + (str.indexOf("foo")==0) + "\n");
+        emit("1 value of attribute 5 6 " + (str.indexOf("foo", 1)==8) + "\n");
+        emit("1 value of attribute 5 6 " + (str.lastIndexOf("foo")==8) + "\n");
+        emit("1 value of attribute 5 6 " + (str.substring(4,3)=="bar") + "\n");
+        emit("1 value of attribute 5 6 " + (str.substring(4)=="bar foo") + "\n");
+        emit("1 value of attribute 5 6 " + (str.replace(4,3,"foo")=="foo foo foo") + "\n");
+        emit("1 value of attribute 5 6 " + (str.beginsWith("foo")) + "\n");
+        emit("1 value of attribute 5 6 " + (str.endsWith("foo")) + "\n");
+        emit("1 value of attribute 5 6 " + ("bar" in str) + "\n");
+        emit("1 value of attribute 5 6 " + ((str.toUpper()).toLower()==str) + "\n");
+        emit("1 value of attribute 5 6 " + ((str.explode(" ")).implode(" ")==str) + "\n");
+	}
+}

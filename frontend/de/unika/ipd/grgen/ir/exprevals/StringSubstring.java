@@ -36,6 +36,7 @@ public class StringSubstring extends Expression {
 	public void collectNeededEntities(NeededEntities needs) {
 		stringExpr.collectNeededEntities(needs);
 		startExpr.collectNeededEntities(needs);
-		lengthExpr.collectNeededEntities(needs);
+		if(lengthExpr != null)
+			lengthExpr.collectNeededEntities(needs);
 	}
 }

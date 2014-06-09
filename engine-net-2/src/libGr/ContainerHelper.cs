@@ -893,6 +893,36 @@ namespace de.unika.ipd.grGen.libGr
             return newDict;
         }
 
+        public static string Implode(List<string> a, string filler)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            bool first = true;
+            for(int i = 0; i < a.Count; ++i)
+            {
+                if(!first)
+                    sb.Append(filler);
+                else
+                    first = false;
+                sb.Append(a[i]);
+            }
+
+            return sb.ToString();
+        }
+
+        public static List<string> Explode(string input, string separator)
+        {
+            if(separator.Length == 0)
+            {
+                List<string> result = new List<string>();
+                for(int i = 0; i < input.Length; ++i)
+                    result.Add(new string(input[i], 1));
+                return result;
+            }
+
+            return new List<string>(input.Split(new string[] { separator }, StringSplitOptions.None));
+        }
+
         /// <summary>
         /// Creates a new dynamic array and appends all values first from
         /// <paramref name="a"/> and then from <paramref name="b"/>.
