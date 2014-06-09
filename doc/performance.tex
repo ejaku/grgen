@@ -264,13 +264,27 @@ The elements from the index are successively bound to the pattern element, then 
 \begin{rail}
   IndexAccess:
     lbrace IndexName '==' Expression rbrace |
-		lbrace ('ascending'|'descending') '(' (IndexBound (',' IndexBound)?)? ')';
+		lbrace ('ascending'|'descending') '(' (IndexBound (',' IndexBound)?)? ')' rbrace;
 	IndexBound: IndexName ('<'|'<='|'>'|'>=') Expression;
 \end{rail}\ixnterm{IndexAccess}
 
 The pattern element may be bound to the elements from the index with an attribute value equal to a specified value,
 or to the elements from the index in ascending or descending order.
 In case of ordered access, you may specify no bound, this is typically only of interest when only one match is requested, the one with the highest or lowest attribute value (satisfying the other constraints of the pattern), or you may specify a lower or an upper bound, or you may specify a lower \emph{and} an upper bound.
+
+\begin{rail}
+  IndexAccessLoopStatement:
+    ForIndexAccessHeader lbrace (Statement*) rbrace;
+  ForIndexAccessHeader:
+    'for' '(' Var ':' GraphElementType 'in' IndexAccess ')';
+  IndexAccessLoopSequence:
+    'for' lbrace Var ':' GraphElementType 'in' IndexAccess ';' RewriteSequence rbrace;
+\end{rail}\ixnterm{IndexAccessLoopStatement}\ixnterm{IndexAccessLoopSequence}
+
+The index can be accessed furtheron from the statements of the rule language in the form of a loop.
+The \emph{IndexAccess} in the loop header follows the format used in the index access in the pattern.
+The iteration variable is bound to the graph element retrieved from the index, for each such element, then the body is executed for each such element.
+Moreover, the index can be iterated over in the sequences.
 
 %-----------------------------------------------------------------------------
 \subsection{Incidence Count Indices}
@@ -314,7 +328,7 @@ the count may be queried from the rule language expressions (the attributes can 
 The index access specfied in indexer notation expects a node (of the type as specified with the first node type in the incidence function) as input argument, and returns the incidence count for that node as stored in the index as \texttt{int}.
 
 %-----------------------------------------------------------------------------
-\subsection{Name Index}
+\subsection{Name Index}\label{sec:nameindex}
 A named graph is a graph where each element bears a unique name and can be looked up quickly by that name.
 So basically it works as a graph with an integrated key-value store from a string to graph elements; and from graph elements to their string.
 It is implemented with two hash maps, one from the name to the elements, and the other from the elements to the name.
@@ -431,7 +445,7 @@ The approach of remembering state instead of searching when needed has a clear c
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Profile and Parallelize}
+\section{Profile and Parallelize}\label{sec:performanceparallel}
 
 A basic and often sufficient means of profiling is built-in into GrShell:
 After each sequence execution the time required to carry it out is printed.
@@ -466,6 +480,10 @@ Remark: Only the pattern matcher of an action is parallelized, so only the searc
 This offers the biggest bang for the bucks invested, as search is \emph{the} expensive task, and it allows you to stick to the much simpler sequential programming model.
 A parallelization of the kind presented in \cite{ParGraErs} offers potentially even higher speedups, but at the price of dealing with a parallel programming model, and at the price of graph partitioning that is very hard to get right in a general-purpose tool.
 
+There's a second part that can be parallelized, the \texttt{equalsAny} function checking for graph isomorphy of a new candidate against a set of known graphs.
+The \emph{EqualsAnyParallelization} clause in the model must specify the number of worker threads used in parallel.
+A \verb#for equalsAny[parallelize=8];# requests 8 worker threads for checking whether there's alreay a graph existing that is isomorphic to the candidate.
+Graph isomorphy checking is expensive, you may gain considerable speed-ups in state space enumeration (at the price of having to maintain a set of already known graphs).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Compilation and Static Knowledge}

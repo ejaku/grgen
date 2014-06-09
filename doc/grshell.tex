@@ -504,6 +504,12 @@ You may start and stop recordings to different files at different times, every f
 Note: As a debugging help a recording does not only contain graph manipulation commands (cf. \ref{mani}) but also comments telling about the rewrites and transaction events which occurred (whose effects were recorded).
 
 \begin{rail}
+  'recordflush'
+\end{rail}\ixkeyw{recordflush}
+Flushes the buffers of the recordings to disk. 
+To be called to guarantee persistence if you use \GrG{} as a kind of online database, recording the graph changes while running to a redo log.
+
+\begin{rail}
   'replay' Filename ('.gz')? ('from' Text)? ('to' Text)?
 \end{rail}\ixkeyw{replay}\ixkeyw{from}\ixkeyw{to}\indexmain{replay}
 The replay command plays a recording back: the graph at the time the recording was started is recreated, then the changes which occurred are carried out again, so you end up with the graph at the time the recording was stopped. Instead of replaying the entire GRS file you may restrict replaying to parts of the file by giving the line to start at and/or the line to stop at. Lines are specified by their textual content which is searched in the file.

@@ -184,7 +184,7 @@ rule addStartFinalState {
     x:StartState -:EpsilonTransition-> :FinalState;
     modify {
         y:StartFinalState<x>;
-        emit("Start state (" + x.id +  ") mutated into a start-and-final state");
+        emit("Start state (", x.id, ") mutated into a start-and-final state");
     }
 }
 

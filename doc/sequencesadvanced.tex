@@ -143,7 +143,8 @@ So these constructs are not horribly inefficient, but they do have their price -
     'for' lbrace Variable ':' Type\\
     ('in' Function '(' Parameters ')' ';' |
     'in' '[' '?' r ']' ';' |
-		'in' '[' SequenceExpression ':' SequenceExpression ']' ';')\\
+		'in' '[' SequenceExpression ':' SequenceExpression ']' ';' |
+		'in' IndexAccess ';')\\
     RewriteSequence rbrace
     ;
 \end{rail}\ixkeyw{for}\label{forgraphelem}\label{forincidentadjacent}\label{formatch}
@@ -154,8 +155,11 @@ The iteration variable is bound to the currently enumerated graph element, then 
 If you iterate a node type from a graph, you may be interested in iterating its incident edges or its adjacent nodes.
 This can be achieved with a for neighbouring elements loop, which binds the iteration variable to an edge in case the \emph{Function} is one of \texttt{incoming}, \texttt{outgoing}, or \texttt{incident}. 
 Or which binds the iteration variable to a node in case the \emph{Function} is one of \texttt{adjacentIncoming}, \texttt{adjacentOutgoing}, or \texttt{adjacent}.
-Moreover, you may iterate with \texttt{reachableIncoming}, \texttt{reachableOutgoing}, and \texttt{reachable} the nodes reachable from a starting node, or with \texttt{reachableEdgesIncoming}, \texttt{reachableEdgesOutgoing}, and \texttt{reachableEdges} the edges reachable from a starting node.
-The admissible \emph{Parameters} are the source node, or the source node plus the incident edge type, or the source node plus the incident edge type, plus the adjacent node type ---
+
+Moreover, you may iterate with \texttt{reachable\-Incoming}, \texttt{reachable\-Outgoing}, and \texttt{reachable} the nodes reachable from a starting node, or with \texttt{reachable\-Edges\-Incoming}, \texttt{reachable\-Edges\-Outgoing}, and \texttt{reachable\-Edges} the edges reachable from a starting node.
+Or you may use one of the bounded reachability functions \texttt{bounded\-Reachable}, \texttt{bounded\-Reachable\-Incoming}, \texttt{bounded\-Reachable\-Outgoing}, \texttt{bounded\-Reachable\-Edges}, \texttt{bounded\-Reachable\-Edges\-Incoming}, \texttt{bounded\-Reachable\-Edges\-Outgoing} here.
+
+The admissible \emph{Parameters} for the \emph{Functions} are the source node, or the source node plus the incident edge type, or the source node plus the incident edge type, plus the adjacent node type ---
 that's the same as for the sequence expression functions explained in \ref{neighbouringelementsfunctions}/Connectedness queries.
 In contrast to these set returning functions, this loop contained functions enumerate nodes/edges multiple times in case of reflexive or multi edges.
 
@@ -166,22 +170,15 @@ Note: the elements must be assigned to a variable in order to access their attri
 Note: the match object allows only to access the top level nodes, edges, or variables.
 If you use subpatterns or nested patterns and want to access elements found by them, you have to \texttt{yield}(\ref{sub:yield}) them out to the top-level pattern.
 
-The fourth \texttt{for} loop introduced here, the for integer range loop, allows to cycle through an ascending or descending series of integers; the loop variable must be of type \texttt{int}.
+The fourth \texttt{for} loop from the diagram above, the for integer range loop, allows to cycle through an ascending or descending series of integers; the loop variable must be of type \texttt{int}.
 First the left and right sequence expressions are evaluated,
 if the left is lower or equal than the right the variable is incremented from left on in steps of one until right is reached (inclusive),
 otherwise the variable is decremented from left on in steps of one until right is reached (inclusive).
 
-The most important \texttt{for} loop, the one iterating a container, for enumerating the elements contained in storages, was already introduced here: \ref{forstorage}.
-All \texttt{for} loops fail if one of the sequence executions failed, and succeed otherwise.
+The fifth \texttt{for} loop listed above allows to iterate the contents of an index, see \ref{sub:indexusage} for more on this and the \emph{IndexAccess}.
 
-\begin{rail}
-  ExtendedControl:
-		'highlight' '(' Arguments ')'
-    ;
-\end{rail}\ixkeyw{highlight}
-The \texttt{highlight} sequence highlights the arguments given as a quoted text in the graph;
-it does what the \texttt{(h)ighlight} command does in the debugger, see \ref{highlight}, just programmed from the sequences. 
-Arguments is a comma-separated list of variable names or visited flag ids, the graph elements contained in the variables are highlighted, as are the graph elements marked by the visited flag.
+The most important \texttt{for} loop, the one iterating a container, for enumerating the elements contained in storages, was already introduced here: \ref{forstorage}.
+All \texttt{for} loops fail if one of the sequence executions from the body failed (all are carried out, though, even after a failure), and succeed otherwise.
 
 \begin{rail} 
   ExtendedControl: 
@@ -234,15 +231,14 @@ Table~\ref{seqtab} lists most of the operations of the advanced graph rewrite se
 \texttt{<<r;;s>>}	& Backtracking: try the matches of rule \texttt{r} until \texttt{s} succeeds.\\
 \texttt{/ s /}	& Pause insertion: execute \texttt{s} outside of the enclosing transactions and sequences, i.e. the changes of \texttt{s} are not rolled back.\\
 \hline
-\texttt{highlight(vars)} & Highlights the content of the variables in the graph. \\
-\hline
 \texttt{\$\{<r1,[r2],\$[r3]>\}}	& Tries to match all contained rules, then rewrites indeterministically one of the rules which matched. True if at least one matched.\\
 \hline
 \texttt{for\{v in u; t\}}	& Execute \texttt{t} for every \texttt{v} in storage set \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
 \texttt{for\{v->w in u; t\}}	& Execute \texttt{t} for every pair (\texttt{v},\texttt{w} in storage map \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
 \texttt{for\{v:match<r> in [?r]; t\}}	& Execute \texttt{t} for every match \texttt{v} from rule \texttt{r}. One \texttt{t} failing pins the execution result to failure.\\
-\texttt{for\{v in func(...); s\}}	& Execute \texttt{s} for every node/edge in func, which may be nodes/edges, or incident/adjacent, or reachable. One \texttt{s} failing pins the execution result to failure.\\
+\texttt{for\{v in func(...); s\}}	& Execute \texttt{s} for every node/edge in func, which may be nodes/edges, or incident/adjacent, or reachable/boundedReachable. One \texttt{s} failing pins the execution result to failure.\\
 \texttt{for\{v:int in [l:r]; t\}}	& Execute \texttt{t} for every \texttt{v} in the integer range starting at \texttt{l} and ending at \texttt{r}, upwards by one if \texttt{l<=r}, otherwise downwards by one. One \texttt{t} failing pins the execution result to failure.\\
+\texttt{for\{v:N in \{asc.(idx>7)\}; t\}}	& Execute \texttt{t} for every \texttt{v} in the index \texttt{idx}, in ascending order, from \texttt{7} exclusive on. One \texttt{t} failing pins the execution result to failure. \texttt{asc.} abbreviates \texttt{ascending}, is not valid syntax as such.\\
 \hline
 \texttt{\{comp\}}	& An unspecified sequence computation (see table \ref{comptab}).\\
 \hline

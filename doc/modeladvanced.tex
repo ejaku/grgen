@@ -17,11 +17,15 @@ Graph-oriented programming can be made scalable to large tasks with hierarchical
   									 | ExternalFunctionDeclaration
   									 | EmitParseDeclaration
   									 | CopyCompareDeclaration
-										 | PackageDefinitionModel);
+										 | PackageDefinitionModel
+										 | EqualsAnyParallelization);
 \end{rail}\ixnterm{AdvancedModelDeclarations}
 
-The \emph{ExternalClassDeclaration} registers an \indexed{external class}, including its subtype hierarchy, excluding any attributes with \GrG~which can subsequently be used in attribute computations with \indexed{external function} calls; the \emph{EmitParseDeclaration} declares that the user defines emit and parse functions for external or object type values, whereas the \emph{CopyCompareDeclaration} declares that the user defines copy and compare functions for external or object type values.
+The \emph{ExternalClassDeclaration} registers an \indexed{external class}, including its subtype hierarchy, excluding any attributes with \GrG~which can subsequently be used in attribute computations with \indexed{external function} calls;
+the \emph{EmitParseDeclaration} declares that the user defines emit and parse functions for external or object type values,
+whereas the \emph{CopyCompareDeclaration} declares that the user defines copy and compare functions for external or object type values.
 You find more on them in \ref{chapextensions}, here we will take a closer look on the \emph{FunctionMethodDefinition} and \emph{ProcedureMethodDefinition}, followed by the \emph{PackageDefinitionModel}.
+The \emph{EqualsAnyParallelization} is explained in \ref{sec:performanceparallel}.
 %Node/Edge typed attributes are possible.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -62,10 +66,15 @@ the usage of \texttt{this} is mandatory in \GrG~to access the attributes of the 
 \begin{tabular}{|l|}
 \hline
 \texttt{string.length():int}\\
+\texttt{string.beginsWith():boolean}\\
+\texttt{string.endsWith():boolean}\\
 \texttt{string.indexOf(string[,int]):int}\\
 \texttt{string.lastIndexOf(string):int}\\
-\texttt{string.substring(int, int):string}\\
+\texttt{string.substring(int[, int]):string}\\
 \texttt{string.replace(int, int, string):string}\\
+\texttt{string.toLower():string}\\
+\texttt{string.toUpper():string}\\
+\texttt{string.explode(string):array<string>}\\
 \hline
 \texttt{set<T>.size():int}\\
 \texttt{set<T>.empty():boolean}\\
@@ -80,16 +89,20 @@ the usage of \texttt{this} is mandatory in \GrG~to access the attributes of the 
 \texttt{array<T>.size():int}\\
 \texttt{array<T>.empty():boolean}\\
 \texttt{array<T>.peek([int]):T}\\
-\texttt{array<T>.indexOf(T):int}\\
+\texttt{array<T>.indexOf(T[,int]):int}\\
 \texttt{array<T>.lastIndexOf(T):int}\\
 \texttt{array<T>.subarray(int, int):array<T>}\\
+\texttt{array<T>.asSet():set<T>}\\
+\hline
+\texttt{array<string>.implode(string):string}\\
 \hline
 \texttt{deque<T>.size():int}\\
 \texttt{deque<T>.empty():boolean}\\
 \texttt{deque<T>.peek([int]):T}\\
-\texttt{deque<T>.indexOf(T):int}\\
+\texttt{deque<T>.indexOf(T[,int]):int}\\
 \texttt{deque<T>.lastIndexOf(T):int}\\
 \texttt{deque<T>.subdeque(int, int):deque<T>}\\
+\texttt{deque<T>.asSet():set<T>}\\
 \hline
 \end{tabular}
 \caption{Function methods at a glance}

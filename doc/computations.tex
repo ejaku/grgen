@@ -121,8 +121,10 @@ Computations may be executed repeatedly by the \texttt{while} and \texttt{do-whi
 %\section{Container iteration}
 
 The containers introduced in chapter \ref{cha:container} may be iterated over with a for loop, one assigning the current value to a variable, the other assigning the current index and the current value to a variable.
+Furthermore, a for loop is available for iterating a range of integers, with the lower and the upper bounds specified.
+Moreover, a for loop is available for iterating the graph elements stored in an index, with the lower and upper bounds specified, see \ref{sub:indexusage} for more on this and the \emph{ForIndexAccessHeader}.
 \begin{rail}
-  ForLoop: (ForHeader | IndexedForHeader | ForRangeHeader) lbrace (Statement*) rbrace;
+  ForLoop: (ForHeader | IndexedForHeader | ForRangeHeader | ForIndexAccessHeader) lbrace (Statement*) rbrace;
   ForHeader: 'for' '(' Var ':' Type 'in' ContainerVar ')';
   IndexedForHeader: 'for' '(' IndexVar ':' Type '->' Var ':' Type 'in' ContainerVar ')' ;
   ForRangeHeader: 'for' '(' Var ':' 'int' 'in' '[' IntExpr ':' IntExpr ']' ')';
@@ -284,11 +286,28 @@ table~\ref{packagefuncstab} lists the built-in functions contained in built-in p
 \texttt{boundedReachableEdgesIncoming(Node,int[,EdgeType[,NodeType]]):set<Edge>}\\
 \texttt{boundedReachableEdgesOutgoing(Node,int[,EdgeType[,NodeType]]):set<Edge>}\\
 \hline
+\texttt{boundedReachableWithRemainingDepth(Node,int):map<Node, int>}\\
+\texttt{boundedReachableWithRemainingDepthIncoming(Node,int):map<Node, int>}\\
+\texttt{boundedReachableWithRemainingDepthOutgoing(Node,int):map<Node, int>}\\
+The three functions above allow optional edge and node type constraints, too.\\
+\hline
 \texttt{inducedSubgraph(set<Node>):graph}\\
 \texttt{definedSubgraph(set<Edge>):graph}\\
+\texttt{equalsAny(graph, set<graph>):boolean}\\
+\texttt{equalsAnyStructurally(graph, set<graph>):boolean}\\
 \texttt{copy(graph):graph}\\
 \texttt{copy(container):container}\\
 \texttt{copy(match<r>):match<r>}\\
+\hline
+\texttt{random():double}\\
+\texttt{random(int):int}\\
+\hline
+\texttt{nameof(Node/Edge/graph):string}\\
+\texttt{uniqueof(Node/Edge/graph):int}\\
+\texttt{nodeByName(string):Node}\\
+\texttt{edgeByName(string):Edge}\\
+\texttt{nodeByUnique(int):Node}\\
+\texttt{edgeByUnique(int):Edge}\\
 \hline
 \end{tabular}
 \caption{Global functions at a glance, part I}
@@ -379,7 +398,7 @@ table~\ref{packagefuncstab} lists the built-in functions contained in built-in p
 \texttt{Math::e():double}\\
 \hline
 \texttt{File::import(string):graph}\\
-\texttt{File::existsFile(string):boolean}\\
+\texttt{File::exists(string):boolean}\\
 \hline
 \texttt{Time::now():long}\\
 \hline
@@ -493,13 +512,7 @@ The \emph{AssignmentTarget} may be any of the LHS expressions supported by the d
 \texttt{vreset(int)}\\
 \texttt{vfreenonreset(int)}\\
 \hline
-\texttt{startTransaction():(int)}\\
-\texttt{pauseTransaction(int)}\\
-\texttt{resumeTransaction(int)}\\
-\texttt{commitTransaction(int)}\\
-\texttt{rollbackTransaction(int)}\\
-\hline
-\texttt{emit(string)}\\
+\texttt{emit(string(,string)*)}\\
 \texttt{record(string)}\\
 \hline
 \end{tabular}
@@ -514,7 +527,19 @@ The \emph{AssignmentTarget} may be any of the LHS expressions supported by the d
 \hline
 \texttt{File::export(string)}\\
 \texttt{File::export(graph,string)}\\
-\texttt{File::deleteFile(string)}\\
+\texttt{File::delete(string)}\\
+\hline
+\texttt{Transaction::start():(int)}\\
+\texttt{Transaction::pause(int)}\\
+\texttt{Transaction::resume(int)}\\
+\texttt{Transaction::commit(int)}\\
+\texttt{Transaction::rollback(int)}\\
+\hline
+\texttt{Debug::add(string(,object)*)}\\
+\texttt{Debug::rem(string(,object)*)}\\
+\texttt{Debug::emit(string(,object)*)}\\
+\texttt{Debug::halt(string(,object)*)}\\
+\texttt{Debug::highlight(string(,object,string)*)}\\
 \hline
 \end{tabular}
 \caption{Procedures in packages at a glance}
@@ -628,6 +653,7 @@ separated into pattern and rewrite part, and into expressions and statements.
 \texttt{::v}	& Reads the global variable \texttt{v}. \\
 \texttt{v.a} & Reads the attribute \texttt{a} of \texttt{v}.\\
 \texttt{v[i]} & Reads the value at position \texttt{i} of container \texttt{v}.\\
+\texttt{idx[n]} & Reads the incidence count of node \texttt{n} from incidence count index \texttt{idx}.\\
 \texttt{x.a[i]} & Reads the value at position \texttt{i} of container attribute \texttt{a} of \texttt{x}.\\
 \texttt{x.visited[i]} & Reads the visited flag \texttt{i} of graph element \texttt{x}.\\
 \hline
@@ -675,6 +701,7 @@ separated into pattern and rewrite part, and into expressions and statements.
 \texttt{for(v:T in c) \{S1\} } & Executes \texttt{S1} for each value \texttt{v} contained in container \texttt{c}.\\
 \texttt{for(i:T->v:S in c) \{S1\} } & Executes \texttt{S1} for each key/position to value pair \texttt{(i,v)} contained in container \texttt{c}.\\
 \texttt{for(i:int in [l:r]) \{S1\} } & Executes \texttt{S1} for each integer \texttt{i} in the range from \texttt{l} to \texttt{r}, in steps of 1, upwards if \texttt{l<=r}, otherwise downwards.\\
+\texttt{for(n:N in \{asc.(idx>7)\}) \{S1\}}	& Execute \texttt{S1} for every \texttt{n} in the index \texttt{idx}, in ascending order, from \texttt{7} exclusive on. \texttt{asc.} abbreviates \texttt{ascending}, is not valid syntax as such.\\
 \hline
 \texttt{break} & Aborts execution of the containing loop.\\
 \texttt{continue} & Continues execution of the containing loop at its condition.\\

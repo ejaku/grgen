@@ -347,6 +347,8 @@ The subgraph is not adapted automatically when the host graph changes, if this h
 or such:\\
 \verb#exec if{ for{other:graph in setOfCandidates; {curSub!=other}} ; doNonIso(curSub)}#.
 
+Isomorphy comparison is an expensive operation, you can gain considerable speedups by using the parallelizable \texttt{equalsAny} function (cf. \ref{sec:subgraphop}) (and by specifying the number of worker threads (cf. \ref{sec:performanceparallel}), otherwise only a single one is used, saving you only the effort of manually coding the loop). 
+In order to use this function you have to supply and maintain a set of the known subgraphs to check against in addition. 
 
 \section{Copying Structures}\label{subsub:copystructure}\indexmain{subgraph copying}\indexmainsee{copy structure}{subgraph copying}
 Structures are copied in two passes, the first consists of copying and collecting all nodes of interest, the second of copying all edges of interest in between the nodes.
@@ -581,7 +583,7 @@ The key ingredients for state space enumeration then are
 	\item Recursive sequences --- they allow to nest backtracking angles dynamically, so it becomes possible to enumerate an entire state space with a sequence just implementing one backtracking step (see section \ref{sec:sequencedefinition})
 	\item The capability to create a copy of a subgraph and insert it into the host graph (see section \ref{subsub:copystructure}, esp. subsection \ref{builtingraphcopying})
 	\item The ability to compare subgraphs (see section \ref{subsub:comparestructure}).
-Implemented in an optimized way with a subgraph attribute in the anchor nodes which contains a copy of the subgraph in the host graph, ready to be compared to the current graph, in order to decide whether that one should be inserted into the state space or purged for being an isomorphic copy of an already available instance. 
+Implemented in an optimized way with a subgraph attribute in the anchor nodes which contains a copy of the subgraph in the host graph, ready to be compared to the current graph, in order to decide whether that one should be inserted into the state space or purged for being an isomorphic copy of an already available instance. Potentially even further improved with an additional set of subgraphs, compared against with the parallelizable \texttt{equalsAny} function.
 	\item Adjacency and induced functions to compute the subgraphs from the host graph following the \texttt{contains} edges from the anchor nodes (see section \ref{neighbouringelementsfunctions}, Connectedness Queries and section \ref{sec:subgraphop}, Subgraph Operations)
 	\item The \texttt{auto} filters from \ref{sub:extflt} finally allow to optimize performance by filtering symmetric matches stemming from automorphic patterns. This is a lot more efficient than creating states which are for sure isomorphic and filtering them later on by comparison with all the other states.
 \end{itemize}

@@ -267,12 +267,14 @@ Or allow to dump the current graph, or highlight elements in the graph, defined 
 \hline
   (toggle) \texttt{b}(reakpoint) & Toggle a breakpoint at one of the breakpointable locations.\\
   (toggle) \texttt{c}(choicepoint) & Toggle a choicepoint at one of the choicepointable locations.\\
+	(edit) \texttt{w}(atchpoints) & Allows to edit data breakpoints or the behaviour for programmed debug messages.\\
 \hline
   \texttt{v}(ariables) & Prints the global variables and the local variables of the sequence currently executed, which is the topmost sequence of the sequence call stack. Plus the allocated visited flags. To be more precise regarding local variables: all variables which were defined (and have not fallen out of scope again) up to the sequence position focussed.\\
   \texttt{t}(race) & Prints the stack trace of the current sequence call stack; the stack trace includes the body of each sequence called at its execution state.\\
   \texttt{f}(ull dump) & Prints the stack trace including the local variables of each stack frame plus the global variables.\\
   (dum)\texttt{p} (graph)\label{dumpgraph} & Dumps the current graph as a \texttt{.vcg} file and shows it in yComp. This can be used as a workaround to check the real state in case transaction/backtracking rollback is used on a graph with node nesting, which may lead to a buggy display.\\
-  \texttt{h}(ighlight)\label{highlight} & Highlights the elements in the graph which are marked with the visited flag given, or are contained in the variable given (which might be a simple scalar variable containing a graph element, or a set/map/array valued container of graph elements). Multiple variables of visited flags may be given separated by commas.\\
+  (as)-\texttt{g}(raph) & Asks for the value of the externally defined typed that is to be shown in the debugger in graph form (you must implement an extension handler able to return an \texttt{INamedGraph} on request for this to work, see \ref{sub:apiextemitparse}).\\
+  \texttt{h}(ighlight)\label{highlight} & Highlights the elements in the graph which are marked with the visited flag given, or are contained in the variable given (which might be a simple scalar variable containing a graph element, or a container variable). Multiple variables or visited flags may be given separated by commas.\\
 \hline
   \end{tabularx}
   \caption{\GrShell\ debug commands}
@@ -325,4 +327,106 @@ The following table shows the ``break points'' of further debug commands, entere
 %ref to visualization commands, again: hierarchy
 %copy some of the stuff from ycomp help?
 
+\pagebreak
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Subrule Debugging and Programmed Halts}\label{secdebuggersubrule}
+
+The basic granularity of debugging in \GrG{} is the single rule called from an interpreted sequence.
+But with embedded execs there are further sequences and actions available outside direct control and visibility of the debugger.
+At least the actions called from the embedded sequences are shown in the debugger -- in case detailed mode is used.
+But the local execution state of imperative code which may be used for tasks where pattern matching is not benefitial is completely invisible to the debugger.
+Only the effects on the graph become visible.
+
+There is a remedy for this situation, code-embedded debugging commands, in the form of calls to procedures from the built-in package \texttt{Debug}.
+With them you can punch holes into the covering blanket that allow you to peek at what's going on under the covers.
+The debugging commands are used for one to directly display information, but for the other for handling a stack of debug messages, intended for representing the current state of the call nesting of the executing code.
+
+The available commands are:
+\begin{description}
+\item[\texttt{Debug::add(message(,object)*)}] to be called when a subrule computation or an interesting piece of code is entered.
+The message is added to the debug messages stack of the debugger.
+Besides the mandatory \texttt{message:string}, an arbitrary number of other parameters may be given (of arbitrary type).
+\item[\texttt{Debug::rem(message(,object)*)}] to be called when a subrule computation or an interesting piece of code is exited.
+The topmost entry message on the messages stack is removed.
+It is checked that the message of the topmost added entry is identical to the message of current removal -- you must always call \texttt{add} and \texttt{rem} in pairs!
+The \texttt{emit} messages on the way to the topmost \texttt{add} are removed. Besides the mandatory \texttt{message:string}, an arbitrary number of other parameters may be given (of arbitrary type).
+\item[\texttt{Debug::emit(message(,object)*)}] to be called when some interesting points in the code are passed.
+The message is added to the debug messages stack of the debugger.
+Besides the mandatory \texttt{message:string}, an arbitrary number of other parameters may be given (of arbitrary type).
+\item[\texttt{Debug::halt(message(,object)*)}] to be called when some point in the code is reached that is so interesting that you want the execution to break in the debugger. 
+If called, the debugger halts execution, displays the messages stack in its current state, and prints out the halt message with its parameters.
+Besides the mandatory \texttt{message:string}, an arbitrary number of other parameters may be given (of arbitrary type).
+\item[\texttt{Debug::highlight(message(,object,string)*)}] to be called when some point in the code is reached that is so interesting that you want the execution to break in the debugger, in order to display some variable values highlighted graphically in the debugger, in the same way they are highlighted when an action is matched.
+If called, the debugger halts execution, displays the messages stack in its current state, and displays the nodes and edges passed with the additional parameters highlighted in the graph.
+The additional parameters must be given in pairs, first the entity to display, then the string that entry will be annotated with in the debugger.
+The entity to display may be a node or edge, which is then directly highlighted,
+or a storage containing nodes or edges, all contained nodes/edges will then be highlighted,
+or a visited flag (integer number), all graph elements that are visited according to that flag are then highlighted.
+Besides, as first mandatory parameter, the \texttt{message:string} must be given.
+\end{description}
+
+Some \texttt{add} and \texttt{rem} are automatically inserted by \GrG{} for you.
+For one for embedded execs, a debug message is sent when an embedded exec is entered or exited, with a message starting with the name of the containing rule.
+For the other for procedures and compiled sequence definitions, a debug message is sent when a procedure or defined sequence is entered or exited, with a message being equal to the name of the procedure or defined sequence.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Watchpoint configuration}
+
+The behaviour of the debugger upon receiving certain events can be defined with configuration rules or watchpoints.
+When a subrule debugging event (aka debug message), or a graph change event, or an action match event occurs,
+is the list visited one entry after the other, and one configuration rule checked for a match.
+When a configuration rule or watchpoint matches, is its decision applied.
+The decision may be to break execution and display the current execution state, or to continue execution, which is of interest for events that normally break execution but should be better ignored.
+
+Besides defining the configuration rules of the watchpoints beforehand with shell commands, can you edit them interactively with the edit \texttt{w}atchpoint command inside the debugger. 
+
+\subsection*{Subrule messages}
+
+\begin{rail}
+  'debug' 'on' ('add'|'rem'|'emit') MessageFilter 'break';
+  'debug' 'on' ('halt'|'highlight') MessageFilter 'continue';
+	MessageFilter: ('equals' | 'startsWith' | 'endsWith' | 'contains') '(' StringConstant ')';
+\end{rail}\ixkeyw{debug}\ixkeyw{on}\ixkeyw{add}\ixkeyw{rem}\ixkeyw{emit}\ixkeyw{halt}\ixkeyw{highlight}\ixkeyw{break}\ixkeyw{continue}\ixnterm{MessageFilter}\ixkeyw{equals}\ixkeyw{startsWith}\ixkeyw{endsWith}\ixkeyw{contains}
+
+When the string specified matches the message of the debug event according to the message filter given,
+is execution interrupted by the debugger in case of an \texttt{Debug::add}, \texttt{Debug::rem}, \texttt{Debug::emit}
+which normally occurs silently, those events are typically only used to represent the execution state of the code in the debugger.
+When a match happens for a \texttt{Debug::halt} or \texttt{Debug::highlight} is execution continued without interruption, while normally those messages break execution in the debugger.
+
+\subsection*{Action match event}
+
+\begin{rail}
+  'debug' 'on' 'match' RuleName ('break'|'continue') ('if' SequenceExpression)?;
+\end{rail}\ixkeyw{debug}\ixkeyw{on}\ixkeyw{match}\ixkeyw{break}\ixkeyw{continue}\ixkeyw{if}
+
+When the action specified was matched, is execution halted in the debugger in case of a \texttt{break}.
+This is of interest for rules executed from execs, as normal breakpoints don't apply to them, this way we can set a breakpoint on a rule irrespective from where it is called (allowing us to just \texttt{r}un a sequence until an action match of interest happens).
+In case of a \texttt{continue} is execution forced to continue.
+This is of interest for detail mode debugging that normally breaks on each matched rule.
+It allows us to leave out uninteresting rules from detail mode debugging, to skip over rules in execs without the need to acknowledge them.
+
+The sequence expression finally allows us to decide conditionally.
+It is evaluated when the configuration rule is evaluated because its event occured, if it returns true the configuration rule matches, otherwise it does not match.
+The \texttt{this} entity is overloaded for the sequence expression (normally it denotes the graph).
+It gives access to the match found, you can access the entities of the match in dot-Notation (e.g. \texttt{this.node1}).
+The configuration rule is evaluated for all matches in case of an all-bracketed match, if one returns true, the decision is carried out.
+
+\subsection*{Graph change events}
+
+\begin{rail}
+  'debug' 'on' ('new'|'delete'|'retype'|'set' 'attributes') TypeNameSpec 'break' \\ ('if' SequenceExpression)?;
+	TypeNameSpec: ('only')? Type | railat '(' Name')';
+\end{rail}\ixkeyw{debug}\ixkeyw{on}\ixkeyw{new}\ixkeyw{delete}\ixkeyw{retype}\ixkeyw{set}\ixkeyw{attributes}\ixkeyw{break}\ixnterm{TypeNameSpec}\ixkeyw{only}\ixkeyw{if}
+
+When the graph change specified occured (its corresponding event was fired), is execution halted in the debugger.
+The supported graph changes are graph element creation, deletion, retyping, or attribute assignment.
+The \emph{TypeNameSpec} constrains this by type or by name.
+The first form matches only when the element is of the specified type, in case of \texttt{only} only if it is of exactly that type and not a subtype.
+The second form matches only when the element is of the specified name, given as string constant (rules of that kind are typically created interactively, but due to the persistence of persistent names and the execution of GrGen being as deterministic as possible in between single runs make even static rules sense -- even more so if you assign the names on your own).
+
+The sequence expression finally allows us to decide conditionally.
+It is evaluated when the configuration rule is evaluated because its event occured, if it returns true the configuration rule matches, otherwise it does not match.
+The \texttt{this} entity is overloaded for the sequence expression (normally it denotes the graph).
+It gives access to the node or edge that was just created, is getting deleted, is getting retyped, or was assigned to.
+So here we find support for conditional data breakpoints.
