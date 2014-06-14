@@ -73,12 +73,17 @@ new node "start" of type "State" has been created.
 # Now we have a node named "start" and a variable v assigned to "start"
 \end{grshell}
 \end{example}
+
 \begin{note}
 Persistent names will be saved (\texttt{save graph\dots}, see Section~\ref{outputcmds}) and exported,
 and, if you visualize a graph (\texttt{dump graph\dots}, see Section~\ref{outputcmds}),
 graph elements will be \indexed{label}ed with their persistent names.
 Persistent names have to be unique for a graph (the graph they belong to).
 \end{note}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Variables}
 
 \begin{rail}
   Variable '=' ( GraphElement | Variable | Literal )
@@ -93,19 +98,43 @@ The variables known to \GrShell\ are the graph global variables (see \ref{cha:xg
 \end{rail}\ixkeyw{show}\ixkeyw{var}
 Prints the content of the specified variable.
 
+\begin{rail}
+  'askfor';
+  Variable '=' 'askfor' Type
+\end{rail}\ixkeyw{askfor}
+The \texttt{askfor} command just waits until the user presses enter.
+The \texttt{askfor} assignment interactively asks the user for a value of the specified type.
+The entered value is type checked against the expected type, and assigned to the given variable in case it matches.
+If the type is a value type, the user is prompted to enter a value literal with the keyboard.
+If the type is a graph element type, the user is prompted to enter the graph element by double clicking in yComp.
+Note that in this case the debug mode must have been enabled before.
+(The command is equivalent to \verb#debug exec Variable=$%(Type)#.)
+
+\begin{example}
+\begin{grshelllet}
+x = askfor int
+\end{grshelllet}
+asks the user to enter an integer value; pressing 4 then 2 then enter will do fine.
+\begin{grshelllet}
+x = askfor Node
+\end{grshelllet}
+asks the user to select a graph element in yComp; double clicking any node will do fine.
+\end{example}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\GrShell\ Commands}
-This section describes the \GrShell\ commands\ixnterm{Command}. Commands are assembled from basic elements.
-As stated before commands are terminated by line breaks. Alternatively commands can be terminated by the \indexed{\texttt{;;}} symbol.
+\section{Common and File System Commands}
+\label{commcommands}
+
+Here and in the following sections we describes the \GrShell\ commands\ixnterm{Command}.
+Commands are assembled from basic elements.
+As stated before commands are terminated by line breaks.
+Alternatively commands can be terminated by the \indexed{\texttt{;;}} symbol.
 Like an operating system shell, the \GrShell\ allows you to span a single command over $n$ lines by terminating the first $n-1$ lines with a \indexed{backslash}.
 \begin{rail}
   Script: ((Command ('<line break>' | ';;'))+) '<end of file>' ;
 \end{rail}\ixnterm{Script}
 
-%-----------------------------------------------------------------------------------------------
-\subsection{Common Commands}
-\label{commcommands}
 \begin{rail}
   'help' (Command)?
 \end{rail}\ixkeyw{help}
@@ -146,29 +175,6 @@ Lists the directories and files in the current working directory, files relevant
 Changes the current working directory to the path given.
 
 \begin{rail}
-  'askfor';
-  Variable '=' 'askfor' Type
-\end{rail}\ixkeyw{askfor}
-The \texttt{askfor} command just waits until the user presses enter.
-The \texttt{askfor} assignment interactively asks the user for a value of the specified type.
-The entered value is type checked against the expected type, and assigned to the given variable in case it matches.
-If the type is a value type, the user is prompted to enter a value literal with the keyboard.
-If the type is a graph element type, the user is prompted to enter the graph element by double clicking in yComp.
-Note that in this case the debug mode must have been enabled before.
-(The command is equivalent to \verb#debug exec Variable=$%(Type)#.)
-
-\begin{example}
-\begin{grshelllet}
-x = askfor int
-\end{grshelllet}
-asks the user to enter an integer value; pressing 4 then 2 then enter will do fine.
-\begin{grshelllet}
-x = askfor Node
-\end{grshelllet}
-asks the user to select a graph element in yComp; double clicking any node will do fine.
-\end{example}
-
-\begin{rail}
   '!' CommandLine
 \end{rail}\indexmain{\texttt{"!}}
 \emph{CommandLine}\indexmain{command line} is an arbitrary text, the operating system attempts to execute.
@@ -179,38 +185,12 @@ On a Linux machine you might execute
 \end{grshell}
 \end{example}
 
-\begin{rail}
-'silence' ('on'|'off')
-\end{rail}\ixkeyw{silence}\ixkeyw{on}\ixkeyw{off}
-Switches the new node / edge created / deleted messages on(default) or off.
-Switching them off allows for much faster execution of scripts containing a lot of creation commands.
 
-\begin{rail}
-'silence' 'exec' ('on'|'off')
-\end{rail}\ixkeyw{silence}\ixkeyw{exec}\ixkeyw{on}\ixkeyw{off}
-During non-debug sequence execution every second match statistics are printed to the console;
-they allow to assess the progress of long-running transformations.
-With this command they can be disabled (or enabled again).
-Switching them off may be of interest if own debug messages printed via emit from the sequences (or rules) should not be disturbed.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph Creation}
+\label{graphcreationcommands}
 
-\begin{rail}
-'randomseed' (Number | 'time')
-\end{rail}\ixkeyw{randomseed}\ixkeyw{time}
-Sets the random seed to the given number for reproducible results when using the \$-operator-prefix or the random-match-selector, whereas time sets the random seed to the current time in ms.
-
-\begin{rail}
-'redirect' 'emit' Filename
-\end{rail}\ixkeyw{redirect}\ixkeyw{emit}
-Redirects the output of the emit-statements in the rules from stdout to the given file.
-
-\begin{rail}
-'redirect' 'emit' '-'
-\end{rail}\ixkeyw{redirect}\ixkeyw{emit}
-Redirects the output of the emit-statements in the rules to stdout (again).
-
-%-----------------------------------------------------------------------------------------------
-\subsection{Graph Commands}
-\label{graphcommands}
+The command most shell scripts starts with is graph creation.
 
 \begin{rail}
   'new' (() | 'new') 'graph' Filename Text
@@ -229,57 +209,54 @@ This happens easily when you just edit those options, but the actions are not re
 Use \texttt{new new} in case you are working with the options from below to ensure the actions are regenerated irrespective of the change dates of their sources (at the cost of steady recompilations).
 \end{warning}
 
-\begin{rail}
-  'new' 'add' 'reference' Filename
-\end{rail}\ixkeyw{new}\ixkeyw{add}\ixkeyw{reference}
-Configures a reference to an external assembly \emph{Filename} to be linked into the generated assemblies, maps to the \texttt{-r} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+Create graph elements, initializing their attributes.
+On shell level they are available and mainly used as elementary instructions in creating an initial graph, in exporting and importing a graph, as well as in change recording and replaying.
+This are the commands you may find in the GRS export/import files.
 
 \begin{rail}
-  'new' 'set' ('keepdebug'|'lazynic'|'noinline'|'profile') ('on'|'off')
-\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{noinline}\ixkeyw{profile}\ixkeyw{on}\ixkeyw{off}
-Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols,
-or configures the generation of the matchers.
-The latter to either execute negatives, independents, and conditions only at the end of matching (normally asap),
-or to never inline subpatterns,
-or to include profiling information.
-Those flags are mapped to the \texttt{-keep} and the \texttt{-debug} options, or to the \texttt{-lazynic}, \texttt{-noinline}, or  \texttt{-profile} options of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
-
-When profiling is turned on, the number of search steps carried out is printed to the console after each sequence execution.
-A search step is a binding of a graph element to a pattern entity in case there are at least potentially several choices available.
-Fetching an element by type chooses from all elements of that type in the graph, following an incident edge chooses from all incident edges of the corresponding node, and matching by storage access chooses from all elements in that storage, whereas getting the source or target node from an edge or mapping with a storage map just grabs the target element from the source element.
-(Each binding from a choice counts as one step, the non-choice-bindings are not counted.)
-Profiling the search steps allows you to assess the work needed for a transformation, to find the hot spots worth optimizing.
-The less search steps are needed to find a match the better (we want to efficiently find patterns, want to minimize the amount of search needed to do so). 
-
-The flags are applied when the actions are generated anew because the model or rule files changed. They are not when you just switch them in the shell script. It's your responsibility to delete the old generated dlls when you change those options (by switching them, or by introducing them differently from the compiler options used to generate the dlls)!
+  'new' (() | Text) (() | ':' NodeType (() | Constructor))
+\end{rail}\ixkeyw{new}
+Creates a new node within the current graph.
+Optionally a variable \emph{Text} is assigned to the new node.
+If \emph{NodeType} is supplied, the new node will be of type \emph{NodeType} and attributes can be initialized by a constructor.
+Otherwise the node will be of the base node class type \emph{Node}.
+\begin{note}
+The \GrShell\ can reassign \indexed{variable}s.
+This is in contrast to the rule language (Chapter~\ref{chaprulelang}), where we mainly use \emph{names}\indexmain{name}\indexmain{expression variable}\indexmainsee{expression variable}{name}
+(with exception of var and ref input variables and def entities).
+\end{note}
 
 \begin{rail}
-  'new' 'set' 'statistics' Filename
-\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{statistics}
-Configures the compilation of the generated assemblies to use the statistics file specified, yielding pattern matchers adapted to the class of graphs described in that file.
-Maps to the \texttt{-statistics} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}, and see \ref{custom} on how to get such statistics).
+  'new' Node (('-' EdgeEntityConstructor '->') | ('<-' EdgeEntityConstructor '-') | ('-' EdgeEntityConstructor '-')) Node ;
+EdgeEntityConstructor:
+  (()|Text) (() | ':' EdgeType (() | Constructor)) ;
+\end{rail}\ixkeyw{new}
+Creates a new edge within the current graph between the specified nodes,
+directed from the first to the second \emph{Node} in the case of \texttt{-->},
+directed from the second to the first \emph{Node} in the case of \texttt{<--},
+or undirected in the case of \texttt{--}.
+Optionally a variable \emph{Text} is assigned to the new edge.
+If \emph{EdgeType} is supplied, the new edge will be of type \emph{EdgeType} and attributes can be initialized by a constructor.
+Otherwise the edge will be of the base edge class type \texttt{Edge} for \texttt{-->} or \texttt{UEdge} for \texttt{--}.
 
 \begin{rail}
-  'show' 'graphs'
-\end{rail}\ixkeyw{show}\ixkeyw{graph}
-Displays a list of currently available graphs.
-
-\begin{rail}
-  'select' 'graph' Graph
-\end{rail}\ixkeyw{select}\ixkeyw{graph}
-Selects the current \indexed{working graph}.
-This graph acts as \emph{\indexed{host graph}} for graph rewrite sequences (see also Sections~\ref{ov:whatsallabout} and~\ref{grsthings}).
-Though you can define multiple graphs, only one graph can be the active ``working graph''.
-
-\begin{rail}
-  'clear' 'graph' (() | Graph)
-\end{rail}\ixkeyw{clear}\ixkeyw{graph}
-Deletes all graph elements of the current working graph resp.\ the graph \emph{Graph}.
-
-\begin{rail}
-  'delete' 'graph' Graph
-\end{rail}\ixkeyw{delete}\ixkeyw{graph}
-Deletes the graph \emph{Graph} from the backend storage.
+  Constructor : '(' (() | (dollar '=' Text (() | ',' Attributes) | Attributes)) ')';
+  Attributes : (AttributeName '=' AttributeValue) + (',');
+  AttributeValue :  PrimitiveAttributeValue | SetConstr | MapConstr | ArrayConstr | DequeConstr;
+  PrimitiveAttributeValue : EnumLit | Number | FloatingNumber | QuotedText | BoolLit | NullLit ;
+  SetConstr: 'set' '<' Type '>' lbrace ( Expression*',' ) rbrace ;
+  MapConstr: 'map' '<' Type ',' Type '>' \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
+  ArrayConstr: 'array' '<' Type '>' '[' ( Expression*',' ) ']' ;
+  DequeConstr: 'deque' '<' Type '>' ']' ( Expression*',' ) '[' ;
+\end{rail}\indexmain{\texttt{\$}}\ixnterm{Constructor}\ixnterm{Attributes}\ixnterm{AttributeValue}\ixnterm{PrimitiveAttributeValue}\ixnterm{SetConstr}\ixnterm{MapConstr}\ixnterm{ArrayConstr}\ixnterm{DequeConstr}
+A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below).
+A comma separated list of \indexed{attribute} declarations is supplied to the constructor.
+Available attribute names are specified by the graph model of the current working graph.
+All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type
+(\texttt{int} $\leftarrow$ \texttt{0}; \texttt{long} $\leftarrow$ \texttt{0L}; \texttt{byte} $\leftarrow$ \texttt{0Y}; \texttt{short} $\leftarrow$ \texttt{0S}; \texttt{boolean} $\leftarrow$ \texttt{false}; \texttt{float} $\leftarrow$ \texttt{0.0f}; \texttt{double} $\leftarrow$ \texttt{0.0}; \texttt{string} $\leftarrow$ \texttt{""}; \texttt{set<T>} $\leftarrow$ \texttt{set<T>\{\}}; \texttt{map<S,T>} $\leftarrow$ \texttt{map<S,T>\{\}}; \texttt{array<T>} $\leftarrow$ \texttt{array<T>[]}; \texttt{deque<T>} $\leftarrow$ \texttt{deque<T>][}; \texttt{enum} $\leftarrow$ unspecified;).\\
+The \texttt{\$} is a special attribute name: a unique identifier of the new graph element.
+This identifier is also called \newterm{persistent name} (see Example~\ref{persistentex}).
+This name can be specified by a constructor only.
 
 \begin{rail}
   'add' 'new' 'graph' Text
@@ -295,72 +272,73 @@ Switches graph processing to the given subgraph (denoted by its unique name).
 This command as well as the command above are supplied for importing grs files containing subgraph attributes resulting from a grs export or recording.
 Using them directly is discouraged; you would have to ensure unique names in order to use them, a task that is carried out by the exporter remembering the subgraphs already seen.
 
-%-----------------------------------------------------------------------------------------------
-\subsection{Validation Commands}
 
-\GrG\ offers two different graph validation mechanisms,
-the first checks against the connection assertions specified in the model,
-the second checks against an arbitrary graph rewrite sequence containing arbitrary tests and rules.
-
-\begin{rail}
-  'validate' ('exitonfailure')? ('strict' ('only' 'specified')?)?
-\end{rail}\ixkeyw{validate}\ixkeyw{exitonfailure}\ixkeyw{strict}\ixkeyw{only}\ixkeyw{specified}
-Validates\indexmain{validate} if the current working graph fulfills the \indexed{connection assertion}s specified in the corresponding graph model (cf. ~\ref{sct:ConnectionAssertions}).
-Validate without the strict modifier checks the multiplicities of the connections it finds in the host graph,
-it ignores node-edge-node connections which are available in the host graph but have not been specified in the model.
-The \emph{strict} mode additionally requires that all the edges available in the host graph must have been specified in the model.
-This requirement is too harsh for models where only certain parts are considered critical enough to be checked
-or might be a too big step in tightening the level of structural checking in an already existing large model.
-So some form of selective strict checking is supported:
-The \emph{strict only specified} mode requires strict matching (i.e. that all edges are covered) only of the edges for which connection assertions have been specified in the model.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Attribute Assignment and Graph Manipulation}
+\label{mani}
+Graph manipulation commands alter existing graphs;
+they allow to retype and delete graph elements and change attributes.
+Creating elements was already introduced in the previous section.
+These are tasks which are or at least should be carried out by the rules of the rule language in the first place.
+On shell level they are available and mainly used as elementary instructions in creating an initial graph, in exporting and importing a graph, as well as in change recording and replaying.
 
 \begin{rail}
-  'validate' ('exitonfailure')? ('exec'|'xgrs') GRS
-\end{rail}\ixkeyw{validate}\ixkeyw{exitonfailure}\ixkeyw{xgrs}\ixkeyw{exec}
-Validates\indexmain{validate} if the current working graph satisfies the \indexed{graph rewrite sequence} given.
-Before the graph rewrite sequence is executed, the instance graph gets cloned;
-the sequence operates on the clone, allowing you to change the graph as you want to, without influence on the host graph.
-Validation fails iff the sequence fails.
-This gives a rather costly but extremely flexible and powerful mechanism to specify graph constraints.
-The GrShell is exited with an error code if \texttt{exitonfailure} is specified and the validation fails.
+  GraphElement '.' AttributeName '=' AttributeValue ;
+\end{rail}
+Set the \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} to the value \emph{AttributeValue} (for the different possible attribute values see above).
 
-\begin{example}
-We reuse a simplified version of the road map model from Chapter~\ref{chapmodellang}:
-\begin{grgen}
-model Map;
+\begin{rail}
+  GraphElement '.' AttributeName '[' Index ']' '=' AttributeValue ;
+\end{rail}
+Overwrite the value in the array or deque or map \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} at the integer position or key value \emph{Index} with the value \emph{AttributeValue}.
 
-node class city;
-node class metropolis;
+\begin{rail}
+  GraphElement '.' AttributeName '.' 'add' '(' \\
+  	PrimitiveAttributeValue (',' PrimitiveAttributeValue)? ')' ;
+\end{rail}
+Add the value \emph{PrimitiveAttributeValue} (for the different possible primitive attribute values see above) to the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or add the key-value pair consisting of the two \emph{PrimitiveAttributeValue}s to the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement}.
+Or add the value \emph{PrimitiveAttributeValue} to the end of the array/deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the one parameter case or insert the \emph{PrimitiveAttributeValue} to the of the array/deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} at the index given by the second parameter in the two parameter case.
 
-edge class street;
-edge class highway
-      connect metropolis [+] --> metropolis [+];
-\end{grgen}
-The node constraint on \emph{highway} requires all the metropolises to be connected by highways. Now have a look at the following graph:
-\begin{center}
-  \fbox{\includegraphics[width=8.5cm]{fig/map}}
-\end{center}
-
-This graph is valid but not strict valid.
-\begin{grshell}
-> validate
-The graph is valid.
-> validate strict only specified
-The graph is NOT valid:
-  CAE: city "Eppstein" -- highway "A3" --> metropolis "Frankfurt" not specified
-> validate strict
-The graph is NOT valid:
-  CAE: city "Eppstein" -- highway "A3" --> metropolis "Frankfurt" not specified
-  CAE: metropolis "Karlsruhe" -- street "trail" --> metropolis "Frankfurt" not specified
->
-\end{grshell}
-\end{example}
+\begin{rail}
+  GraphElement '.' AttributeName '.' 'rem' '(' (PrimitiveAttributeValue)? ')' ;
+\end{rail}
+Remove the value \emph{PrimitiveAttributeValue} from the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the key \emph{PrimitiveAttributeValue} from the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the end element from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case or remove the first element from the deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case.
 
 
-\pagebreak
+\begin{rail}
+  'retype' Node '<' Type '>'
+\end{rail}\ixkeyw{retype}
+Retypes the node \emph{Node} from its current type to the new type \emph{Type}. Attributes common to initial and final type are kept. Incident edges are kept as well. \indexmain{retype}
 
-%-----------------------------------------------------------------------------------------------
-\subsection{Graph Input and Output Commands}
+\begin{rail}
+  'retype' ('-' Edge '<' Type '>' '->' | '-' Edge '<' Type '>' '-')
+\end{rail}\ixkeyw{retype}
+Retypes the edge \emph{Edge} from its current type to the new type \emph{Type}. Attributes common to initial and final type are kept. Incident nodes are kept as well.
+
+\begin{rail}
+  'redirect' Edge ('source'|'target') Node
+\end{rail}\ixkeyw{redirect}
+Redirects the edge \emph{Edge} from the old source or target node to the new source or target \emph{Node} given.
+
+\begin{rail}
+  'delete' 'node' Node
+\end{rail}\ixkeyw{delete}\ixkeyw{node}
+Deletes the node \emph{Node} from the current graph.
+Incident edges will be deleted as well.
+
+\begin{rail}
+  'delete' 'edge' Edge
+\end{rail}\ixkeyw{delete}\ixkeyw{edge}
+Deletes the edge \emph{Edge} from the current graph.
+
+\begin{rail}
+  'clear' 'graph' (() | Graph)
+\end{rail}\ixkeyw{clear}\ixkeyw{graph}
+Deletes all graph elements of the current working graph resp.\ the graph \emph{Graph}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph Input and Output}
 \label{outputcmds}
 
 \begin{rail}
@@ -483,8 +461,9 @@ Imports the graph in the specified file and adds it to the current graph
 (instead of overwriting the old graph with the new graph).
 The \texttt{FileSpec} is of the same format as the file specification in the other import commands.
 
-%-----------------------------------------------------------------------------------------------
-\subsection{Graph Change Recording and Replaying}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph Change Recording and Replaying}
 \label{recordnreplay}
 
 Graph change recording and replaying is available 
@@ -517,109 +496,76 @@ If a \emph{from} line is given, all lines from file begin on including this line
 Normally you reference with \texttt{from} and \texttt{to} comment lines you write with the \texttt{record} statement (cf. \ref{recstmt}) in the sequences, marking relevant states during a transformation process.
 An example for record and replay is given in \texttt{tests/recordreplay}.
 
-%-----------------------------------------------------------------------------------------------
-\subsection{Graph Manipulation Commands}
-\label{mani}
-Graph manipulation commands alter existing graphs;
-they allow to create, retype and delete graph elements and change attributes.
-These are tasks which are or at least should be carried out by the rules of the rule language in the first place.
-On shell level they are available and mainly used as elementary instructions in creating an initial graph, in exporting and importing a graph, as well as in change recording and replaying.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Shell and Environment Configuration}
 
 \begin{rail}
-  'new' (() | Text) (() | ':' NodeType (() | Constructor))
-\end{rail}\ixkeyw{new}
-Creates a new node within the current graph.
-Optionally a variable \emph{Text} is assigned to the new node.
-If \emph{NodeType} is supplied, the new node will be of type \emph{NodeType} and attributes can be initialized by a constructor.
-Otherwise the node will be of the base node class type \emph{Node}.
-\begin{note}
-The \GrShell\ can reassign \indexed{variable}s.
-This is in contrast to the rule language (Chapter~\ref{chaprulelang}), where we mainly use \emph{names}\indexmain{name}\indexmain{expression variable}\indexmainsee{expression variable}{name}
-(with exception of var and ref input variables and def entities).
-\end{note}
+'silence' ('on'|'off')
+\end{rail}\ixkeyw{silence}\ixkeyw{on}\ixkeyw{off}
+Switches the new node / edge created / deleted messages on(default) or off.
+Switching them off allows for much faster execution of scripts containing a lot of creation commands.
 
 \begin{rail}
-  'new' Node (('-' EdgeEntityConstructor '->') | ('<-' EdgeEntityConstructor '-') | ('-' EdgeEntityConstructor '-')) Node ;
-EdgeEntityConstructor:
-  (()|Text) (() | ':' EdgeType (() | Constructor)) ;
-\end{rail}\ixkeyw{new}
-Creates a new edge within the current graph between the specified nodes,
-directed from the first to the second \emph{Node} in the case of \texttt{-->},
-directed from the second to the first \emph{Node} in the case of \texttt{<--},
-or undirected in the case of \texttt{--}.
-Optionally a variable \emph{Text} is assigned to the new edge.
-If \emph{EdgeType} is supplied, the new edge will be of type \emph{EdgeType} and attributes can be initialized by a constructor.
-Otherwise the edge will be of the base edge class type \texttt{Edge} for \texttt{-->} or \texttt{UEdge} for \texttt{--}.
+'silence' 'exec' ('on'|'off')
+\end{rail}\ixkeyw{silence}\ixkeyw{exec}\ixkeyw{on}\ixkeyw{off}
+During non-debug sequence execution every second match statistics are printed to the console;
+they allow to assess the progress of long-running transformations.
+With this command they can be disabled (or enabled again).
+Switching them off may be of interest if own debug messages printed via emit from the sequences (or rules) should not be disturbed.
 
 \begin{rail}
-  Constructor : '(' (() | (dollar '=' Text (() | ',' Attributes) | Attributes)) ')';
-  Attributes : (AttributeName '=' AttributeValue) + (',');
-  AttributeValue :  PrimitiveAttributeValue | SetConstr | MapConstr | ArrayConstr | DequeConstr;
-  PrimitiveAttributeValue : EnumLit | Number | FloatingNumber | QuotedText | BoolLit | NullLit ;
-  SetConstr: 'set' '<' Type '>' lbrace ( Expression*',' ) rbrace ;
-  MapConstr: 'map' '<' Type ',' Type '>' \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
-  ArrayConstr: 'array' '<' Type '>' '[' ( Expression*',' ) ']' ;
-  DequeConstr: 'deque' '<' Type '>' ']' ( Expression*',' ) '[' ;
-\end{rail}\indexmain{\texttt{\$}}\ixnterm{Constructor}\ixnterm{Attributes}\ixnterm{AttributeValue}\ixnterm{PrimitiveAttributeValue}\ixnterm{SetConstr}\ixnterm{MapConstr}\ixnterm{ArrayConstr}\ixnterm{DequeConstr}
-A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below).
-A comma separated list of \indexed{attribute} declarations is supplied to the constructor.
-Available attribute names are specified by the graph model of the current working graph.
-All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type
-(\texttt{int} $\leftarrow$ \texttt{0}; \texttt{long} $\leftarrow$ \texttt{0L}; \texttt{byte} $\leftarrow$ \texttt{0Y}; \texttt{short} $\leftarrow$ \texttt{0S}; \texttt{boolean} $\leftarrow$ \texttt{false}; \texttt{float} $\leftarrow$ \texttt{0.0f}; \texttt{double} $\leftarrow$ \texttt{0.0}; \texttt{string} $\leftarrow$ \texttt{""}; \texttt{set<T>} $\leftarrow$ \texttt{set<T>\{\}}; \texttt{map<S,T>} $\leftarrow$ \texttt{map<S,T>\{\}}; \texttt{array<T>} $\leftarrow$ \texttt{array<T>[]}; \texttt{deque<T>} $\leftarrow$ \texttt{deque<T>][}; \texttt{enum} $\leftarrow$ unspecified;).\\
-The \texttt{\$} is a special attribute name: a unique identifier of the new graph element.
-This identifier is also called \newterm{persistent name} (see Example~\ref{persistentex}).
-This name can be specified by a constructor only.
+'randomseed' (Number | 'time')
+\end{rail}\ixkeyw{randomseed}\ixkeyw{time}
+Sets the random seed to the given number for reproducible results when using the \$-operator-prefix or the random-match-selector, whereas time sets the random seed to the current time in ms.
 
 \begin{rail}
-  'retype' Node '<' Type '>'
-\end{rail}\ixkeyw{retype}
-Retypes the node \emph{Node} from its current type to the new type \emph{Type}. Attributes common to initial and final type are kept. Incident edges are kept as well. \indexmain{retype}
+'redirect' 'emit' Filename
+\end{rail}\ixkeyw{redirect}\ixkeyw{emit}
+Redirects the output of the emit-statements in the rules from stdout to the given file.
 
 \begin{rail}
-  'retype' ('-' Edge '<' Type '>' '->' | '-' Edge '<' Type '>' '-')
-\end{rail}\ixkeyw{retype}
-Retypes the edge \emph{Edge} from its current type to the new type \emph{Type}. Attributes common to initial and final type are kept. Incident nodes are kept as well.
+'redirect' 'emit' '-'
+\end{rail}\ixkeyw{redirect}\ixkeyw{emit}
+Redirects the output of the emit-statements in the rules to stdout (again).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Compilation Configuration}\label{sec:compilerconfigshell}
 
 \begin{rail}
-  'redirect' Edge ('source'|'target') Node
-\end{rail}\ixkeyw{redirect}
-Redirects the edge \emph{Edge} from the old source or target node to the new source or target \emph{Node} given.
+  'new' 'add' 'reference' Filename
+\end{rail}\ixkeyw{new}\ixkeyw{add}\ixkeyw{reference}
+Configures a reference to an external assembly \emph{Filename} to be linked into the generated assemblies, maps to the \texttt{-r} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
 
 \begin{rail}
-  'delete' 'node' Node
-\end{rail}\ixkeyw{delete}\ixkeyw{node}
-Deletes the node \emph{Node} from the current graph.
-Incident edges will be deleted as well.
+  'new' 'set' ('keepdebug'|'lazynic'|'noinline'|'profile') ('on'|'off')
+\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{noinline}\ixkeyw{profile}\ixkeyw{on}\ixkeyw{off}
+Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols,
+or configures the generation of the matchers.
+The latter to either execute negatives, independents, and conditions only at the end of matching (normally asap),
+or to never inline subpatterns,
+or to include profiling information.
+Those flags are mapped to the \texttt{-keep} and the \texttt{-debug} options, or to the \texttt{-lazynic}, \texttt{-noinline}, or  \texttt{-profile} options of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+
+When profiling is turned on, the number of search steps carried out is printed to the console after each sequence execution.
+A search step is a binding of a graph element to a pattern entity in case there are at least potentially several choices available.
+Fetching an element by type chooses from all elements of that type in the graph, following an incident edge chooses from all incident edges of the corresponding node, and matching by storage access chooses from all elements in that storage, whereas getting the source or target node from an edge or mapping with a storage map just grabs the target element from the source element.
+(Each binding from a choice counts as one step, the non-choice-bindings are not counted.)
+Profiling the search steps allows you to assess the work needed for a transformation, to find the hot spots worth optimizing.
+The less search steps are needed to find a match the better (we want to efficiently find patterns, want to minimize the amount of search needed to do so). 
+
+The flags are applied when the actions are generated anew because the model or rule files changed. They are not when you just switch them in the shell script. It's your responsibility to delete the old generated dlls when you change those options (by switching them, or by introducing them differently from the compiler options used to generate the dlls)!
 
 \begin{rail}
-  'delete' 'edge' Edge
-\end{rail}\ixkeyw{delete}\ixkeyw{edge}
-Deletes the edge \emph{Edge} from the current graph.
+  'new' 'set' 'statistics' Filename
+\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{statistics}
+Configures the compilation of the generated assemblies to use the statistics file specified, yielding pattern matchers adapted to the class of graphs described in that file.
+Maps to the \texttt{-statistics} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}, and see \ref{custom} on how to get such statistics).
 
-\begin{rail}
-  GraphElement '.' AttributeName '=' AttributeValue ;
-\end{rail}
-Set the \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} to the value \emph{AttributeValue} (for the different possible attribute values see above).
 
-\begin{rail}
-  GraphElement '.' AttributeName '[' Index ']' '=' AttributeValue ;
-\end{rail}
-Overwrite the value in the array or deque or map \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} at the integer position or key value \emph{Index} with the value \emph{AttributeValue}.
-
-\begin{rail}
-  GraphElement '.' AttributeName '.' 'add' '(' \\
-  	PrimitiveAttributeValue (',' PrimitiveAttributeValue)? ')' ;
-\end{rail}
-Add the value \emph{PrimitiveAttributeValue} (for the different possible primitive attribute values see above) to the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or add the key-value pair consisting of the two \emph{PrimitiveAttributeValue}s to the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement}.
-Or add the value \emph{PrimitiveAttributeValue} to the end of the array/deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the one parameter case or insert the \emph{PrimitiveAttributeValue} to the of the array/deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} at the index given by the second parameter in the two parameter case.
-
-\begin{rail}
-  GraphElement '.' AttributeName '.' 'rem' '(' (PrimitiveAttributeValue)? ')' ;
-\end{rail}
-Remove the value \emph{PrimitiveAttributeValue} from the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the key \emph{PrimitiveAttributeValue} from the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the end element from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case or remove the first element from the deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case.
-
-%-----------------------------------------------------------------------------------------------
-\subsection{Graph and Model Query Commands}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Model and Graph Queries}
 
 \begin{rail}
   'show' (() | 'num') ('nodes' (() | (() | 'only') NodeType) | 'edges' (() | (() | 'only') EdgeType))
@@ -666,34 +612,79 @@ Displays the value of the specified attribute.
 Gets the information whether the first element is \indexed{type-compatible}\indexmainsee{compatible types}{type-compatible} to the second element.
 
 
-%-----------------------------------------------------------------------------------------------
-\subsection{Action Commands (XGRS)}\indexmain{action command}\indexmainsee{action}{graph rewrite sequence}
-\label{grsthings}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Validation Commands}\label{sec:validate}
+
+\GrG\ offers two different graph validation mechanisms,
+the first checks against the connection assertions specified in the model,
+the second checks against an arbitrary graph rewrite sequence containing arbitrary tests and rules.
+
+\begin{rail}
+  'validate' ('exitonfailure')? ('strict' ('only' 'specified')?)?
+\end{rail}\ixkeyw{validate}\ixkeyw{exitonfailure}\ixkeyw{strict}\ixkeyw{only}\ixkeyw{specified}
+Validates\indexmain{validate} if the current working graph fulfills the \indexed{connection assertion}s specified in the corresponding graph model (cf. ~\ref{sct:ConnectionAssertions}).
+Validate without the strict modifier checks the multiplicities of the connections it finds in the host graph,
+it ignores node-edge-node connections which are available in the host graph but have not been specified in the model.
+The \emph{strict} mode additionally requires that all the edges available in the host graph must have been specified in the model.
+This requirement is too harsh for models where only certain parts are considered critical enough to be checked
+or might be a too big step in tightening the level of structural checking in an already existing large model.
+So some form of selective strict checking is supported:
+The \emph{strict only specified} mode requires strict matching (i.e. that all edges are covered) only of the edges for which connection assertions have been specified in the model.
+
+\begin{rail}
+  'validate' ('exitonfailure')? ('exec'|'xgrs') GRS
+\end{rail}\ixkeyw{validate}\ixkeyw{exitonfailure}\ixkeyw{xgrs}\ixkeyw{exec}
+Validates\indexmain{validate} if the current working graph satisfies the \indexed{graph rewrite sequence} given.
+Before the graph rewrite sequence is executed, the instance graph gets cloned;
+the sequence operates on the clone, allowing you to change the graph as you want to, without influence on the host graph.
+Validation fails iff the sequence fails.
+This gives a rather costly but extremely flexible and powerful mechanism to specify graph constraints.
+The GrShell is exited with an error code if \texttt{exitonfailure} is specified and the validation fails.
+
+\begin{example}
+We reuse a simplified version of the road map model from Chapter~\ref{chapmodellang}:
+\begin{grgen}
+model Map;
+
+node class city;
+node class metropolis;
+
+edge class street;
+edge class highway
+      connect metropolis [+] --> metropolis [+];
+\end{grgen}
+The node constraint on \emph{highway} requires all the metropolises to be connected by highways. Now have a look at the following graph:
+\begin{center}
+  \fbox{\includegraphics[width=8.5cm]{fig/map}}
+\end{center}
+
+This graph is valid but not strict valid.
+\begin{grshell}
+> validate
+The graph is valid.
+> validate strict only specified
+The graph is NOT valid:
+  CAE: city "Eppstein" -- highway "A3" --> metropolis "Frankfurt" not specified
+> validate strict
+The graph is NOT valid:
+  CAE: city "Eppstein" -- highway "A3" --> metropolis "Frankfurt" not specified
+  CAE: metropolis "Karlsruhe" -- street "trail" --> metropolis "Frankfurt" not specified
+>
+\end{grshell}
+\end{example}
+
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sequence Execution and Profiles}\label{grsthings}\indexmainsee{action}{graph rewrite sequence}
+
 An \emph{action} denotes a graph rewrite rule.
-
-\begin{rail}
-  'select' 'actions' Filename
-\end{rail}\ixkeyw{select}\ixkeyw{actions}
-Selects a \indexed{rule set}.
-\emph{Filename} can either be a .NET assembly (e.g.\ ``rules.dll'') or a source file (``rules.cs'').
-Only one rule set can be loaded simultaneously.
-
-\begin{rail}
-  'show' 'actions'
-\end{rail}\ixkeyw{show}\ixkeyw{actions}
-Lists all the rules of the loaded rule set, their parameters, and their return values.
-Rules can return a set of graph elements.
 
 \begin{rail}
   'show' 'profiles' (Actionname)?
 \end{rail}\ixkeyw{show}\ixkeyw{profiles}
 Shows the profile for the action specified by its name, or for all rules and tests in the rule set.
-
-\begin{rail}
-  'custom' 'actions' (() | SpacedParameters)
-\end{rail}\ixkeyw{custom}\ixkeyw{actions}
-Executes an action specific to the current \indexed{backend}.
-If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSPBackend see Section~\ref{custom}).
 
 \begin{rail}
   GraphRewriteSequence: RewriteSequenceDefinition;
@@ -729,14 +720,18 @@ For \indexed{undefined variables} see Section~\ref{ruledecls}, \emph{Parameters}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Backend Commands}
-\label{backend}
+\section{Backend, Graph, and Actions Selection}\label{backend}\indexmain{action command}
 
+\subsubsection*{Backend}
 \GrG\ is built to support multiple backends implementing the model and action interfaces of libGr.
 This is roughly comparable to the different storage engines MySQL offers.
 Currently only one backend is available, the libGr search plan backend, or short LGSPBackend.
 
-\subsection{Backend Selection and Custom Commands}
+\begin{rail}
+  'show' 'backend'
+\end{rail}\nopagebreak\ixkeyw{show}\ixkeyw{backend}
+List all the parameters supported by the currently selected backend.
+The parameters can be provided to the \texttt{select backend} command.
 
 \begin{rail}
   'select' 'backend' Filename ( ( ) | ':' Parameters )
@@ -746,11 +741,25 @@ Selects a \indexed{backend} that handles graph and rule representation.
 Comma-separated \indexed{parameter}s can be supplied optionally; if so, the backend must support these parameters.
 By default the LGSPBackend is used.
 
+
+\subsubsection*{Graph}
+
 \begin{rail}
-  'show' 'backend'
-\end{rail}\nopagebreak\ixkeyw{show}\ixkeyw{backend}
-List all the parameters supported by the currently selected backend.
-The parameters can be provided to the \texttt{select backend} command.
+  'select' 'graph' Graph
+\end{rail}\ixkeyw{select}\ixkeyw{graph}
+Selects the current \indexed{working graph}.
+This graph acts as \emph{\indexed{host graph}} for graph rewrite sequences (see also Sections~\ref{ov:whatsallabout} and~\ref{grsthings}).
+Though you can define multiple graphs, only one graph can be the active ``working graph''.
+
+\begin{rail}
+  'show' 'graphs'
+\end{rail}\ixkeyw{show}\ixkeyw{graph}
+Displays a list of currently available graphs.
+
+\begin{rail}
+  'delete' 'graph' Graph
+\end{rail}\ixkeyw{delete}\ixkeyw{graph}
+Deletes the graph \emph{Graph} from the backend storage.
 
 \begin{rail}
   'custom' 'graph' ( ( ) | SpacedParameters )
@@ -759,10 +768,38 @@ Executes a command specific to the current backend.
 If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSP backend see Sections~\ref{custom}).
 
 
-\subsection{LGSPBackend Custom Commands}
+\subsubsection*{Actions}
+
+\begin{rail}
+  'select' 'actions' Filename
+\end{rail}\ixkeyw{select}\ixkeyw{actions}
+Selects a \indexed{rule set}.
+\emph{Filename} can either be a .NET assembly (e.g.\ ``rules.dll'') or a source file (``rules.cs'').
+Only one rule set can be loaded simultaneously.
+
+\begin{rail}
+  'show' 'actions'
+\end{rail}\ixkeyw{show}\ixkeyw{actions}
+Lists all the rules of the loaded rule set, their parameters, and their return values.
+Rules can return a set of graph elements.
+
+\begin{rail}
+  'custom' 'actions' (() | SpacedParameters)
+\end{rail}\ixkeyw{custom}\ixkeyw{actions}
+Executes an action specific to the current \indexed{backend}.
+If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSPBackend see Section~\ref{custom}).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{LGSPBackend Custom Commands}
 \label{custom}
 
 %several rail nts are defines resolved to terminal with underscores
+
+Don't be shy to use custom commands just because they are custom.
+The search plan generation and explanation offered by them are of outstanding importance for achieving high performance solutions.
+Leading directly to high-performance solutions by adapting the pattern matchers to the specifics of the host graph.
+Or indirectly by explaining the chosen search plan so you can inspect it for the spots where the planner was not able to circumvent massively splitting passages; you may have to rethink your solutions regarding those, with maybe a change in the modelling, a change in the pattern, or even imperative code with hash set intersections/joins.
 
 The \indexed{LGSPBackend} supports the following custom commands:
 
@@ -778,7 +815,7 @@ Analysis data is available as long as \GrShell\ is running, i.e.\ when the host 
 \end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{statistics}\ixkeyw{save}
 Write the statistics of the last analyze to the specified statistics file (the graph must have been analyzed before this command is called).
 This way you can save the statistics of a characteristic graph of your domain and compile pattern matchers well adapted to those class of graphs straight from the beginning, saving you the costs of online analysis and matcher compilation.
-See \ref{grgenoptions} or \ref{graphcommands} for explanations on how to do this.
+See \ref{grgenoptions} or \ref{sec:compilerconfigshell} for explanations on how to do this.
 
 \begin{rail}
   'custom' 'graph' setmaxmatches Number
