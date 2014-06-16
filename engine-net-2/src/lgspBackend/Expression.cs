@@ -2303,11 +2303,11 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a string begins with expression.
+    /// Class representing a string starts with expression.
     /// </summary>
-    public class StringBeginsWith : Expression
+    public class StringStartsWith : Expression
     {
-        public StringBeginsWith(Expression stringExpr, Expression stringToSearchForExpr)
+        public StringStartsWith(Expression stringExpr, Expression stringToSearchForExpr)
         {
             StringExpr = stringExpr;
             StringToSearchForExpr = stringToSearchForExpr;
@@ -2315,7 +2315,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new StringBeginsWith(StringExpr.Copy(renameSuffix), StringToSearchForExpr.Copy(renameSuffix));
+            return new StringStartsWith(StringExpr.Copy(renameSuffix), StringToSearchForExpr.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)

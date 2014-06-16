@@ -134,13 +134,13 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new StringLastIndexOfNode(getCoords(), targetExpr, params.get(0));
   			}
-  			else if(methodName.equals("beginsWith")) {
+  			else if(methodName.equals("startsWith")) {
   				if(params.size() != 1) {
-  					reportError("string.beginsWith(strToSearchFor) takes one parameter.");
+  					reportError("string.startsWith(strToSearchFor) takes one parameter.");
 					return false;
 				}
   				else
-  					result = new StringBeginsWithNode(getCoords(), targetExpr, params.get(0));
+  					result = new StringStartsWithNode(getCoords(), targetExpr, params.get(0));
   			}
   			else if(methodName.equals("endsWith")) {
   				if(params.size() != 1) {

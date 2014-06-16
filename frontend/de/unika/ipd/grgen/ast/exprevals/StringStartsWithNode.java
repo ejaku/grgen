@@ -16,20 +16,20 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.StringBeginsWith;
+import de.unika.ipd.grgen.ir.exprevals.StringStartsWith;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringBeginsWithNode extends ExprNode {
+public class StringStartsWithNode extends ExprNode {
 	static {
-		setName(StringBeginsWithNode.class, "string beginsWith");
+		setName(StringStartsWithNode.class, "string startsWith");
 	}
 
 	private ExprNode stringExpr;
 	private ExprNode stringToSearchForExpr;
 
 
-	public StringBeginsWithNode(Coords coords, ExprNode stringExpr,
+	public StringStartsWithNode(Coords coords, ExprNode stringExpr,
 			ExprNode stringToSearchForExpr) {
 		super(coords);
 
@@ -56,12 +56,12 @@ public class StringBeginsWithNode extends ExprNode {
 	@Override
 	protected boolean checkLocal() {
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringExpr.reportError("This argument to string beginsWith expression must be of type string");
+			stringExpr.reportError("This argument to string startsWith expression must be of type string");
 			return false;
 		}
 		if(!stringToSearchForExpr.getType().isEqual(BasicTypeNode.stringType)) {
 			stringToSearchForExpr.reportError("Argument (string to "
-					+ "search for) to string beginsWith expression must be of type string");
+					+ "search for) to string startsWith expression must be of type string");
 			return false;
 		}
 		return true;
@@ -69,7 +69,7 @@ public class StringBeginsWithNode extends ExprNode {
 
 	@Override
 	protected IR constructIR() {
-		return new StringBeginsWith(stringExpr.checkIR(Expression.class),
+		return new StringStartsWith(stringExpr.checkIR(Expression.class),
 				stringToSearchForExpr.checkIR(Expression.class));
 	}
 

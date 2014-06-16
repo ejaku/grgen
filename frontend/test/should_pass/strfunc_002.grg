@@ -7,9 +7,9 @@ rule r1(var s:string)
 	b:NBOOL;
 
 	if {
-		str.a.beginsWith("test");
+		str.a.startsWith("test");
 		str.a.endsWith("test");
-		s.beginsWith("test");
+		s.startsWith("test");
 		s.endsWith("test");
 		"test" in str.a;
 		"test" in s;
@@ -25,8 +25,8 @@ rule r1(var s:string)
 
 			str2.a = str.a.toLower() + s.toUpper() + s.substring(42);
 
-			b.a = str.a.beginsWith("test") & str.a.endsWith("test")
-					& s.beginsWith("test") & s.endsWith("test")
+			b.a = str.a.startsWith("test") & str.a.endsWith("test")
+					& s.startsWith("test") & s.endsWith("test")
 					& "test" in str.a & "test" in s;
 		}
 	}

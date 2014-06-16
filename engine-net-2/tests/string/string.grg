@@ -8,7 +8,7 @@ rule t(var str:string)
 		str.substring(4,3)=="bar";
 		str.substring(4)=="bar foo";
 		str.replace(4,3,"foo")=="foo foo foo";
-		str.beginsWith("foo");
+		str.startsWith("foo");
 		str.endsWith("foo");
 		"bar" in str;
 		(str.toUpper()).toLower()==str;
@@ -23,7 +23,7 @@ rule t(var str:string)
         emit("1 value of attribute 5 6 " + (str.substring(4,3)=="bar") + "\n");
         emit("1 value of attribute 5 6 " + (str.substring(4)=="bar foo") + "\n");
         emit("1 value of attribute 5 6 " + (str.replace(4,3,"foo")=="foo foo foo") + "\n");
-        emit("1 value of attribute 5 6 " + (str.beginsWith("foo")) + "\n");
+        emit("1 value of attribute 5 6 " + (str.startsWith("foo")) + "\n");
         emit("1 value of attribute 5 6 " + (str.endsWith("foo")) + "\n");
         emit("1 value of attribute 5 6 " + ("bar" in str) + "\n");
         emit("1 value of attribute 5 6 " + ((str.toUpper()).toLower()==str) + "\n");

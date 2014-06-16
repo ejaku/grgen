@@ -11,11 +11,11 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class StringBeginsWith extends Expression {
+public class StringStartsWith extends Expression {
 	private Expression stringExpr, stringToSearchForExpr;
 
-	public StringBeginsWith(Expression stringExpr, Expression stringToSearchForExpr) {
-		super("string beginsWith", BooleanType.getType());
+	public StringStartsWith(Expression stringExpr, Expression stringToSearchForExpr) {
+		super("string startsWith", BooleanType.getType());
 		this.stringExpr = stringExpr;
 		this.stringToSearchForExpr = stringToSearchForExpr;
 	}
