@@ -1073,12 +1073,12 @@ public abstract class CSharpBase {
 			sb.append(", StringComparison.InvariantCulture");
 			sb.append(")");
 		}
-		else if (expr instanceof StringBeginsWith) {
-			StringBeginsWith strbw = (StringBeginsWith) expr;
+		else if (expr instanceof StringStartsWith) {
+			StringStartsWith strsw = (StringStartsWith) expr;
 			sb.append("(");
-			genExpression(sb, strbw.getStringExpr(), modifyGenerationState);
+			genExpression(sb, strsw.getStringExpr(), modifyGenerationState);
 			sb.append(").StartsWith(");
-			genExpression(sb, strbw.getStringToSearchForExpr(), modifyGenerationState);
+			genExpression(sb, strsw.getStringToSearchForExpr(), modifyGenerationState);
 			sb.append(", StringComparison.InvariantCulture");
 			sb.append(")");
 		}

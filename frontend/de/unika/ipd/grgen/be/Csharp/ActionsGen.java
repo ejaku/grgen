@@ -2704,12 +2704,12 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, strlio.getStringToSearchForExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
-		else if (expr instanceof StringBeginsWith) {
-			StringBeginsWith strbw = (StringBeginsWith) expr;
-			sb.append("new GRGEN_EXPR.StringBeginsWith(");
-			genExpressionTree(sb, strbw.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		else if (expr instanceof StringStartsWith) {
+			StringStartsWith strsw = (StringStartsWith) expr;
+			sb.append("new GRGEN_EXPR.StringStartsWith(");
+			genExpressionTree(sb, strsw.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			genExpressionTree(sb, strbw.getStringToSearchForExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, strsw.getStringToSearchForExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof StringEndsWith) {
