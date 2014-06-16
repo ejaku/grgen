@@ -408,6 +408,13 @@ namespace de.unika.ipd.grGen.libGr
         IGraph Clone(String newName);
 
         /// <summary>
+        /// Duplicates a graph, assigning names.
+        /// The new graph will use the same model and backend as the other.
+        /// </summary>
+        /// <returns>A new named graph with the same structure as this graph.</returns>
+        INamedGraph CloneAndAssignNames();
+
+        /// <summary>
         /// Creates an empty graph using the same model and backend as the other.
         /// </summary>
         /// <param name="newName">Name of the new graph.</param>
@@ -631,7 +638,7 @@ namespace de.unika.ipd.grGen.libGr
         event ChangedNodeAttributeHandler OnChangedNodeAttribute;
 
         /// <summary>
-        /// Fired before an attribute of an edge is changed; for debugging purpose.
+        /// Fired after an attribute of an edge is changed; for debugging purpose.
         /// Note for LGSPBackend:
         /// Because graph elements of the LGSPBackend don't know their graph a call to
         /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function

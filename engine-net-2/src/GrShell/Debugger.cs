@@ -1176,8 +1176,18 @@ after_debugging_decision: ;
                     break;
                 }
             }
-            
+
             INamedGraph graph = shellProcEnv.ProcEnv.Graph.Model.AsGraph(toBeShownAsGraph, attrType, shellProcEnv.ProcEnv.Graph);
+            if(graph == null)
+            {
+                if(toBeShownAsGraph is INamedGraph)
+                    graph = toBeShownAsGraph as INamedGraph;
+                else if(toBeShownAsGraph is IGraph)
+                {
+                    Console.WriteLine("Clone and assign names to unnamed graph for display.");
+                    graph = (toBeShownAsGraph as IGraph).CloneAndAssignNames();
+                }
+            }
             if(graph == null)
             {
                 Console.WriteLine("Was not able to get a named graph for the object specified.");

@@ -84,6 +84,7 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IBackend Backend { get; }
 
         public abstract IGraph Clone(String newName);
+        public abstract INamedGraph CloneAndAssignNames();
         public abstract IGraph CreateEmptyEquivalent(String newName);
 
         public abstract bool IsIsomorph(IGraph that);

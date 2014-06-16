@@ -1877,6 +1877,17 @@ invalidCommand:
         }
 
         /// <summary>
+        /// Duplicates a graph, assigning names.
+        /// The new graph will use the same model and backend as the other
+        /// Open transaction data will not be cloned.
+        /// </summary>
+        /// <returns>A new named graph with the same structure as this graph.</returns>
+        public override INamedGraph CloneAndAssignNames()
+        {
+            return new LGSPNamedGraph(this);
+        }
+
+        /// <summary>
         /// Creates an empty graph using the same model and backend as the other.
         /// </summary>
         /// <param name="newName">Name of the new graph.</param>
