@@ -1,4 +1,233 @@
-﻿v4.3bms2 (2014-04-30)
+﻿v4.4RC (2014-06-??)
+ Grammar cleaning:
+ - removed container literals without type prefix (they don't work well with other language features)
+ - removed annotations for anonymous elements
+ - external declarations must come with the external keyword, now mandatory
+ - removed separate, non-nested pattern block in rules, deprecated since a long time
+ - removed actions name declaration and keyword, deprecated since a long time
+ - removed model name declaration and keyword, deprecated since a long time
+ - removed usage of "->" in connection assertions, deprecated since a long time
+
+ Further procedures modularization with builtin packages Transaction and Debug:
+ - moved procedures startTransaction, pauseTranscation, resumeTransaction, 
+   commitTransaction, rollbackTransaction to Transaction
+ - renamed them to start, pause, resume, commit, rollback;
+   sufficient as access must be qualified with "Transaction::" package prefix
+ - moved procedure highlight to Debug
+ - renamed File::deleteFile to File::delete and File::existsFile to File::exists
+
+ Added index access loops to rule language statements:
+ - offering the same functionality as the index access from the pattern,
+   just as for loops in the yields, evals, functions, procedures
+ - for(element:type in { index-name == expr })
+   to iterate the elements from the index equal to the expression
+ - for(element:type in { ascending(index-name [relop expr [, index-name relop expr]]) }
+   to iterate ascendingly the elements from the index in between the specified bounds
+ - for(element:type in { descending(index-name [relop expr [, index-name relop expr]]) }
+   to iterate descendingly the elements from the index in between the specified bounds
+   
+ Added index access loops to sequences:
+ - offering the same functionality as the index access loops from the rule language statements,
+   just being a sequence and executing a sequence as body
+ - for{element:type in { index-name == expr }; seq }
+   to iterate the elements from the index equal to the expression
+ - for{element:type in { ascending(index-name [relop expr [, index-name relop expr]]) }; seq }
+   to iterate ascendingly the elements from the index in between the specified bounds
+ - for{element:type in { descending(index-name [relop expr [, index-name relop expr]]) }; seq }
+   to iterate descendingly the elements from the index in between the specified bounds
+
+ Completed index support in the sequences with the sequence expression functions:
+ - uniqueof(Node|Edge|graph):string, nameof(Node|Edge|graph):string
+ - nodeByName(string):Node, edgeByName(string):Edge
+ - nodeByUnique(string):Node, edgeByUnique(string):Edge
+ Same semantics as the correspondingly named functions in the rule language.
+ 
+ Added function equalsAny(graph, set<graph>):boolean to rule and sequence expressions:
+ - returns whether the graph is isomorphic to any of the graphs in the set
+   a sibling is available with equalsAnyStructurally neglecting the attributes (~~ instead of ==)
+ - they are a bit more convenient than the loop,
+   but most important offer a parallelized implementation
+ - a "for equalsAny[parallelize=2];" in the model causes the usage of a
+   parallelized version of equalsAny employing 2 worker threads (up to 64 possible)
+   
+ Added reachability functions that tell about the distance from the start:
+ - boundedReachableWithRemainingDepth, 
+ - boundedReachableWithRemainingDepthIncoming,
+ - boundedReachableWithRemainingDepthOutgoing 
+ yielding a map<Node,int>, that tells about the remaining depth of a search from the start node on
+ (of the minimum distance path)
+ 
+ The emit in the sequence computations now supports an arbitrary number of parameters,
+  separated by commas, as supported by the emit in the rule language
+  This form is to be prefered over + for string concatenation because of better performance.
+
+ Added operators *, /, % to the sequence expressions
+  for integer or floating-point multiplication, division, remainder-computation
+  same semantics as their counterparts in the rule language expressions
+  
+ Added typeof(entity):string to the sequence expressions
+  is mapping to string (not to type, there's no type type in the sequences)
+ 
+ Added some string-related methods (in rule language expressions only):
+ - string.startsWith(needle:string):string
+   telling whether the string starts with the needle string
+ - string.endsWith(needle:string):string
+   telling whether the string ends with the needle string
+ - needle in haystack
+   telling whether string needle is contained in string haystack
+ - string.toUpper():string
+   returning the original string transformed to uppercase characters
+ - string.toLower():string
+   returning the original string transformed to lowercase characters
+ - string.substring(startindex:int)
+   returns the original string from start index on, until full length
+   (overloaded version of string.substring(startindex:int, length:int) not requiring a length)
+ - string.explode(separator:string):array<string>
+   returns the original string exploded to an array of substrings at the separators,
+   the separators are not included, if separator is empty, you get the original string
+   exploded to an array of single-character strings
+ 
+ Added some array/deque-related methods:
+ - added array<string>.implode(separator:string):string
+   returns the original array imploded to a string with the separator in between the substrings
+ - added array<T>.asSet():set<T>
+   returning the array content as set
+ - added deque<T>.asSet():set<T> methods 
+   returning the deque content as set
+ - extended array<T>.indexOf(needle:T, startIndex:int) 
+   to support an optional second startIndex parameter, to start the search at
+ - extended deque<T>.indexOf(needle:T, startIndex:int) 
+   to support an optional second startIndex parameter, to start the search at
+
+ Added subrule debugging support with new procedures and debug trace events,
+  to allow debugging of functions and procedures, and improve debugging of embedded execs:
+ 
+ New procedures in rule language as well as sequence computations:
+ - added Debug::add(message:string, params:object*) procedure,
+   allows to communicate a computation entry to the debugger, from user code
+ - added Debug::rem(message:string, params:object*) procedure ,
+   allows to communicate a computation exit to the debugger, from user code
+ - added Debug::emit(message:string, params:object*) procedure,
+   allows to report a debug trace to the debugger, from user code
+ - added Debug::halt(message:string, params:object*) procedure,
+   allows to halt execution in the debugger, reporting a debug trace, from user code
+ - changed/added Debug::highlight(message:string, (param:object, annotation:string)*) procedure,
+   allows to halt execution in the debugger and highlight the parameters in the graph, 
+   with the given annotations; this replaces the old highlight from sequences,
+   and extends the rule version with the mandatory message string
+   e.g. Debug::highlight("foo", x, "x", stor, x.str, 0, "visited flag 0") 
+   highlights with the message/event/action "foo" in the graph
+   - the node x with the annotation "x"
+   - all nodes from stor:set<Node> with the string found in x.str
+   - all nodes marked with visited flag 0 with "visited flag 0"
+
+ Those procedures fire in the graph processing environment the events:
+ - OnDebugEnter
+ - OnDebugExit
+ - OnDebugEmit
+ - OnDebugHalt
+ - OnDebugHighlight
+ 
+ The debugger listens to the events, updating its knowledge of the computations currently carried out,
+  and halting on the latter two commands, visually showing the graphs elements in case of the highlight.
+ To this end it stores the computations entered and not yet left again on a stack.
+  (As well as the debug emits that occured up to that point until their frame is left again.)
+
+ The code generated by the compiler automatically fires add(=entry) and rem(=exit) events 
+  for embedded sequences, including the sequence body as string parameter;
+  and for compiled sequences and procedures, including the input and output values.
+
+ Utilizing them, during detail mode debugging, the debugger shows the embedded sequence executed,
+  or the compiled sequence calls, or the procedure calls, as context for the rules;
+  the same holds when a halt or highlight is hit.
+
+ Added watchpoint / subrule debugging support and configuration rules to the shell/debugger.
+ They can be edited interactively, or preconfigured with the following rules.
+ - The rules allow to configure the behaviour of the debugger (break/continue)
+   when a subrule debugging or graph change or action match event occurs.
+ - For this the debugger stores a list of configuration rules,
+   which are executed one after the other in case a debugging event occurs,
+   in case they match their decision is applied, influencing debugging.
+
+ The subrule debugging events configuration rules are:
+ - "on" "add" <messageFilter> "break"
+ - "on" "rem" <messageFilter> "break"
+ - "on" "emit" <messageFilter> "break"
+ - "on" "halt" <messageFilter> "continue"
+ - "on" "highlight" <messageFilter> "continue"
+ with messageFilter ::= ("equals"|"startsWith"|"endsWith"|"contains") "(" string ")"
+ The string specified must match the message of the event with the mode given.
+ The rules tell the debugger to break execution when a subrule is entered/exited/emitted,
+ which normally occurs silently, is only defining the context for the breaking operations,
+ which are halt/highlight, they can be configured to be skipped, not breaking execution.
+
+ The action match event configuration rules are:
+ - "on" "match" actionname "break"|"continue" ("if" <sequence-expression>)?
+ The rules tell the debugger to break execution when an action is matched,
+ which is of interest for actions executed from execs,
+ as normal breakpoints don't apply to them,
+ or to continue execution when an action is matched,
+ which allows to leave out uninteresting actions from detail mode debugging,
+ skip over actions in execs without the need to acknowledge them.
+ The sequence-expression allows to do this conditionally,
+ the "this" entity is overloaded in this context to give access to the match,
+ the rule is executed for all matches, if one fires, the decision is carried out.
+
+ The graph change event configuration rules are:
+ - "on" "new" ( ("only")? Type | "@" "(" Name ")" ) "break"  ("if" <sequence-expression>)?
+ - "on" "delete" ( ("only")? Type | "@" "(" Name ")" ) "break"  ("if" <sequence-expression>)?
+ - "on" "retype" ( ("only")? Type | "@" "(" Name ")" ) "break"  ("if" <sequence-expression>)?
+ - "on " "set" "attributes" ( ("only")? Type | "@" "(" Name ")" ) "break" ("if" <sequence-expression>)?
+ The rules tell the debugger to break execution when a graph element is created,
+ or deleted, or retyped, or one of its attributes is assigned.
+ The first form does so when the element is of the specified type,
+ in case of "only" if it is of exactly that type and not a subtype.
+ The second form does so when the element is of the specified name (static string).
+ The sequence-expression allows to do this conditionally,
+ the "this" entity is overloaded in this context to give access to the node/edge 
+ that is created/deleted/retyped/assigned-to.
+ (So here we find support for conditional data breakpoints/watchpoints.)
+   
+ Added attribute post-change event(s):
+ - fired after the attribute was changed, meant for debugging,
+   telling only about the owning element and the attribute;
+   the attribute is to be read by the code listening to the event
+   much simpler than reacting to the detailed change type
+ - complements the pre-change event that is meant for graph processing,
+   esp. transaction rollback, and that tells about the detailed change
+   (a container element change must be handled as a single element change,
+   as processing an entire container would be prohibitively wasteful)
+
+ Changed compiler switches for event firing configuration to:
+ - events in general, with mostly attribute change events as base (like before)
+ - events for debugging on top of it, mostly action match events,
+   but also the new post-change-event
+   
+ Added support for rendering external types as graphs in the debugger:
+ - this allows to inspect opaque-to-GrGen external types in yComp as graphs
+ - must be declared with "external emit graph class;" in the model
+ - implemented by calling INamedGraph AsGraph(object attribute, AttributeType attrType, IGraph graph),
+   which is forwarding to a AsGraphImpl,
+   to be supplied by the user in the external attribute types implementation file
+ - employed in the debugger with the new "as (g)raph" command
+
+ Added "recordflush" to shell commands to flush the graph change recorder streams.
+ Finally removed the outdated "grs" shell command.
+
+ Improved code structure by adding a new SubactionAndOutputAdditionEnvironment,
+  in between the ActionExecutionEnvironment and the GraphProcessingEnvironment.
+  It enriches the former with subaction debugging, subgraph nesting, and output 
+  (textual emit plus graph change recording).
+  The latter then adds sequence-, variable-, and transaction-handling.
+ 
+ Bugfixes:
+ - fixed graph switch introduced with nested graph support, the names were wrong in the debugger.
+ - fixed code generation bugs regarding container method usage from emit, and double constants.
+ - fixed name/attribute initialization list at a first anonymous node (missing in grammer).
+ - some smaller other bugfixes.
+
+
+v4.3bms2 (2014-04-30)
  Added bounded-reachable functions for depth-limited reachability computations:
  - boundedReachable, boundedReachableIncoming, boundedReachableOutgoing
    with max. parameters (startNode:Node, depth:int, incidentEdgeType:EdgeType, adjacentNodeType:NodeType)
