@@ -259,7 +259,7 @@ There are several operations on strings available in method call notation (Metho
 
 \begin{description}
 \item[\texttt{.length()}] returns length of string, as \texttt{int}
-\item[\texttt{.beginsWith(strToSearchFor)}] returns whether the string begins with \texttt{strToSearchFor:string}, as \texttt{boolean}
+\item[\texttt{.startsWith(strToSearchFor)}] returns whether the string begins with \texttt{strToSearchFor:string}, as \texttt{boolean}
 \item[\texttt{.endsWith(strToSearchFor)}] returns whether the string ends with \texttt{strToSearchFor:string}, as \texttt{boolean}
 \item[\texttt{.indexOf(strToSearchFor)}] returns first position where \texttt{strToSearchFor:string} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.indexOf(strToSearchFor, startIndex)}] returns first position where \texttt{strToSearchFor:string} appears at, when we start the search for it at string position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
@@ -275,7 +275,7 @@ There are several operations on strings available in method call notation (Metho
 \begin{example}
 For \texttt{n.str == "foo bar foo"} the operations yield \\
 \texttt{n.str.length()==11} \\
-\texttt{n.str.beginsWith("foo")==true} \\
+\texttt{n.str.startsWith("foo")==true} \\
 \texttt{n.str.endsWith("foo")==true} \\
 \texttt{n.str.indexOf("foo")==0} \\
 \texttt{n.str.indexOf("foo", 1)==8} \\

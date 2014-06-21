@@ -273,7 +273,7 @@ Or allow to dump the current graph, or highlight elements in the graph, defined 
   \texttt{t}(race) & Prints the stack trace of the current sequence call stack; the stack trace includes the body of each sequence called at its execution state.\\
   \texttt{f}(ull dump) & Prints the stack trace including the local variables of each stack frame plus the global variables.\\
   (dum)\texttt{p} (graph)\label{dumpgraph} & Dumps the current graph as a \texttt{.vcg} file and shows it in yComp. This can be used as a workaround to check the real state in case transaction/backtracking rollback is used on a graph with node nesting, which may lead to a buggy display.\\
-  (as)-\texttt{g}(raph) & Asks for the value of the externally defined typed that is to be shown in the debugger in graph form (you must implement an extension handler able to return an \texttt{INamedGraph} on request for this to work, see \ref{sub:apiextemitparse}).\\
+  (as)-\texttt{g}(raph) & Asks for the value of the externally defined type that is to be shown in the debugger in graph form (you must implement an extension handler able to return an \texttt{INamedGraph} on request for this to work, see \ref{sub:apiextemitparse}). Alternatively, you may specify a graph value, which is then displayed directly.\\
   \texttt{h}(ighlight)\label{highlight} & Highlights the elements in the graph which are marked with the visited flag given, or are contained in the variable given (which might be a simple scalar variable containing a graph element, or a container variable). Multiple variables or visited flags may be given separated by commas.\\
 \hline
   \end{tabularx}

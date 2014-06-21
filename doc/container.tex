@@ -616,10 +616,10 @@ rule foo(ref storage:set<Node>)
 \begin{example}
 Some examples of container literals:
 \begin{grgen}
-{ "foo", "bar" } // a constant set<string> constructor
-map<string,int>{ (n.strVal+m.strVal)->(m.intVal+n.intVal), intVal->strVal, "fool"->42 } // a non-constant map constructor with type prefix
-[ 1,2,3 ] // a constant array<int> constructor
-] 1,2,3 [ // a constant deque<int> constructor
+set<string>{ "foo", "bar" } // a constant set<string> constructor
+map<string,int>{ (n.strVal+m.strVal)->(m.intVal+n.intVal), intVal->strVal, "fool"->42 } // a non-constant map constructor
+array<int>[ 1,2,3 ] // a constant array<int> constructor
+deque<int>] 1,2,3 [ // a constant deque<int> constructor
 \end{grgen}
 \end{example}\label{containerconstructorex}
 

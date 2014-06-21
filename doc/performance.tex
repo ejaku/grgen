@@ -453,7 +453,7 @@ After each sequence execution the time required to carry it out is printed.
 Sometimes you need further information about what's going on.
 Use the built-in profiling then (you may of course apply a profiler on the generated code, but then you descend to the level of implementation of \GrG{}).
 
-You can do so by specifing the \texttt{profile} compiler option (cf. \ref{grgenoptions}) to request search code instrumentation, or better the \texttt{set profile on} shell command (cf. \ref{graphcommands}).
+You can do so by specifing the \texttt{profile} compiler option (cf. \ref{grgenoptions}) to request search code instrumentation, or better the \texttt{set profile on} shell command (cf. \ref{sec:compilerconfigshell}).
 You will receive two kinds ouf results when executing matchers instrumented that way.
 
 \begin{enumerate}
@@ -494,7 +494,7 @@ If this holds, you can do the graph analyzation when such a characteristic graph
 with the \texttt{custom graph statistics save} command, cf. \ref{custom}.
 And at each following static action generation build the static matchers based on it, by loading that statistics file. 
 This is possible with the \texttt{statistics} compiler option, cf. \ref{grgenoptions},
-and with the shell \texttt{new set statistics} command, cf. \ref{graphcommands}. 
+and with the shell \texttt{new set statistics} command, cf. \ref{sec:compilerconfigshell}. 
 It is seldom that up-to-the-point dynamic information about the host graph makes a real difference,
 and graph analyzation and matcher re-generation at runtime are \emph{costly} -- push this effort from runtime to compilation time.
 
