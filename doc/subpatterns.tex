@@ -20,9 +20,9 @@ The common recurring pattern is specified in a subpattern declaration and used b
 Subpattern declarations define a subpattern type denoting the specified shape in the global namespace;
 the parameters specify some context elements the pattern may refer to, but which are not part of the pattern itself. 
 So they are only syntactically the same as test/rule-parameters (which are members of the pattern part).
-A further difference is the lack of ReturnTypes; they are not actions, just a helper in constructing complex patterns.
+A further difference is the lack of \emph{ReturnTypes}; they are not actions, just a helper in constructing complex patterns.
 In order to get values out they employ the language construct of def entities which are yielded to (cf. \ref{sec:localvarorderedevalyield} later in this chapter).
-Subpatterns can receive additional rewrite parameters in contrast to the actions; they can be used to hand in nodes which are created in the rewrite part of the action or subpattern which contains the subpattern entity.
+Subpatterns can receive additional rewrite parameters, in addition to the pattern parameters, in contrast to the actions; they can be used to hand in nodes which are created in the rewrite part of the action or subpattern which contains the subpattern entity.
 (The nested body will be explained in Section~\ref{sec:subrule}.)
 
 \begin{rail}  
@@ -33,7 +33,7 @@ Subpatterns can receive additional rewrite parameters in contrast to the actions
 Subpattern entity declarations instantiate an entity of the subpattern type (i.e. specified shape), which means the subpattern must get matched for the matching of the enclosing pattern to succeed.
 The arguments given are bound to the corresponding parameters of the subpattern.
 If you prefer a syntactical point of view, you may see the subpattern entity as a placeholder, which gets substituted in place by the textual body of the subpattern declaration under renaming of the parameters to the arguments.
-If you prefer an operational point of view, you may see the subpattern entity as a call to the matcher routine searching for the specified pattern from the given arguments on.
+If you prefer an operational point of view, you may see the subpattern entity as a call to the matcher routine searching for the specified pattern from the given arguments on (constructing a match piece, which is the base for rewriting of that part).
 
 %TODO:remove
 %Termersetzung mit Termen die Graphen beschreiben.

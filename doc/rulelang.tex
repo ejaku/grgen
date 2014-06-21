@@ -436,15 +436,16 @@ For an explanation of the pattern modifiers \texttt{dpo}, \texttt{identification
 Names defined for graph elements may be used by other pattern statements as well as by replace/modify statements.
 Like all identifier definitions, such names may be used before their \indexed{declaration}.
 See Section~\ref{rulebb} for a detailed explanation of names and graphlets.
+
 \begin{figure}[htbp]
 \begin{warning}
 \label{note:indeterminism}
-The \indexed{application} of a rule is not deterministic\indexmain{non-determinism}\indexmainsee{determinism}{non-determinism} (remember the example of the introduction in Section~\ref{ov:example}); in particular there may be more than one subgraph that matches the pattern.
-Whereas the \GrShell\ selects one of them arbitrarily (without further abilities to control the selection), the underlying \LibGr\indexmain{libGr} provides a mechanism to deal with such ambiguities.
+The \indexed{application} of a rule is not deterministic\indexmain{non-determinism}\indexmainsee{determinism}{non-determinism} (remember the example of the introduction in Section~\ref{ov:example}), there may be more than one subgraph that matches the pattern.
+In this case the location which is rewritten is chosen arbitrarily (in fact matching is just stopped after the first match following an implementation-defined order is found).
+But when you compute all matches, you can select deterministically one of them with a post-matches filter, cf. chapter \ref{sub:filters}, or you can do so on API level, see chapter \ref{cha:api}.
 
-Also notice that graph rewrite \emph{sequences}\indexmain{graph rewrite sequence} introduce a further variant of non-determinism on rule application level:
-The \indexed{\texttt{\$<op>}} flag marks the operator \texttt{<op>} as commutative, i.e.\ the execution order of its operands (rules) is non-deterministic.
-See Chapter~\ref{cha:xgrs} for further information on graph rewrite sequences.
+The rule from the rule set to apply in contrast is chosen deterministically by default by the graph rewrite \emph{sequence}\indexmain{graph rewrite sequence}  (\GrG\ follows the programmed in contrast to the graph grammar approach),
+but you can introduce non-determinism there with the \texttt{\$} flag prepended to a sequence operator, cf. \ref{sec:ruleapplication}, or the dedicated indeterministic choices specified in section \ref{sec:indetchoice}.
 \end{warning}
 \end{figure}
 

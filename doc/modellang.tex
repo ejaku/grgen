@@ -199,7 +199,7 @@ A \newterm{connection assertion} specifies that certain edge types should only c
 \begin{warning}
 It is not forbidden to create graphs that are invalid according to \indexed{connection assertion}s.
 \GrG\ just enables you to check, whether a graph is valid or not.
-See also Section~\ref{graphcommands}, \texttt{validate}.
+See also Section~\ref{sec:validate}, \texttt{validate}.
 \end{warning}
 
 \begin{rail}
@@ -223,7 +223,7 @@ This is accepted in the case of normal validation (throwing connection assertion
 but as you normally want to see \emph{only} the specified connections occuring in the graph,
 there is the additional mode of strict validation: if an edge is not covered by a single matching connection, validation fails.
 Furtheron there is the strict-only-specified mode, which only does strict validation of the edges for which connection assertions are given.
-See Section~\ref{graphcommands}, \texttt{validate}\ixkeyw{validate}, for an example.
+See Section~\ref{sec:validate}, \texttt{validate}\ixkeyw{validate}, for an example.
 
 The arrow syntax is based on the \GrG\ graphlet specification (see Section~\ref{sct:graphlets}).
 The different kinds of arrows distinguish between directed, undirected, and arbitrary edges.
