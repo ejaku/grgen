@@ -1,8 +1,8 @@
 new graph Debugging
 
-debug on match r break when f() && this.i==0
-debug on match s continue when f() && this.i==0
-debug on match ss continue when f() && this.i==0
+debug on match r break if f() && this.i==0
+debug on match s continue if f() && this.i==0
+debug on match ss continue if f() && this.i==0
 
 debug exec init
 

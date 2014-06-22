@@ -9,8 +9,6 @@
  * Licence:     GPL
  */
 
-model Firm;
-
 node class FIRM_node extends Node {
 	generation: int;
 }

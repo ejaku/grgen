@@ -23,7 +23,7 @@
 # or create the synthetic example
 
 new new graph MovieDatabase
-exec createExample(200000)
+exec createExample(50000)
 
 include MovieDatabaseLayout.grs
 
