@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Wed Apr 30 22:32:27 CEST 2014
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jun 22 11:10:45 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -61,6 +61,17 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		{
 			return EmitImpl(attribute, attrType, graph);
 			//return "null"; // default implementation
+		}
+
+		// Called during debugging on user request, the implementation must return a named graph representation for the attribute.
+		// For attribute type object or a user defined type, which is treated as object.
+		// The attribute type may be null. The return graph must be of the same model as the graph handed in.
+		// The named graph is meant for display in the debugger, to visualize the internal structure of some attribute type.
+		// This way you can graphically inspect your own data types which are opaque to GrGen with its debugger.
+		public static GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return AsGraphImpl(attribute, attrType, graph);
+			//return null; // default implementation
 		}
 	}
 

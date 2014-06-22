@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Wed Apr 30 22:32:21 CEST 2014
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Jun 22 11:10:36 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -2257,6 +2257,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override bool GraphElementUniquenessIsEnsured { get { return false; } }
 		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
+		public override int BranchingFactorForEqualsAny { get { return 0; } }
 
 		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
 		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
@@ -2371,6 +2372,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public bool GraphElementUniquenessIsEnsured { get { return false; } }
 		public bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
+		public int BranchingFactorForEqualsAny { get { return 0; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -2385,6 +2387,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
 			return attribute!=null ? attribute.ToString() : "null";
+		}
+		public GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return null;
 		}
 
 		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
@@ -2566,6 +2572,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public bool GraphElementUniquenessIsEnsured { get { return false; } }
 		public bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
+		public int BranchingFactorForEqualsAny { get { return 0; } }
 
 		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
@@ -2580,6 +2587,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
 			return attribute!=null ? attribute.ToString() : "null";
+		}
+		public GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+		{
+			return null;
 		}
 
 		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));

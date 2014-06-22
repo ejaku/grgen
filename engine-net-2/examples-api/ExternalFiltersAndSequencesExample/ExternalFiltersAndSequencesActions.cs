@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Wed Apr 30 22:32:31 CEST 2014
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sun Jun 22 11:10:49 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -1211,6 +1211,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
         {
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
+            procEnv.DebugEntering("r.exec_0", "(::x,::y,::z,::u,::v)=foo(42,3.141,Enu::hurz,\"S21-heiteitei\",true) ;> foo(n.i,n.d,n.enu,n.s,n.b) ;> (::nul)=bar(null,n.o) ;> isnull(::x) ;> (::a,::b)=bla(m,e) ;> (::a,::b)=blo(m,e) ;> huh ;> (ehh:Edge)=createEdge(n,n)");
             bool res_64;
             bool res_58;
             bool res_56;
@@ -1228,7 +1229,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
             bool res_63;
             GRGEN_LIBGR.IEdge var_ehh = null;
             int tmpvar_0x = 0;double tmpvar_1y = 0.0;GRGEN_MODEL.ENUM_Enu tmpvar_2z = (GRGEN_MODEL.ENUM_Enu)0;string tmpvar_3u = "";bool tmpvar_4v = false;
-            if(Sequence_foo.ApplyXGRS_foo(procEnv, (int)42, (double)3.141, (GRGEN_MODEL.ENUM_Enu)de.unika.ipd.grGen.Model_ExternalFiltersAndSequences.ENUM_Enu.hurz, (string)"S21-heiteitei", (bool)true, ref tmpvar_0x, ref tmpvar_1y, ref tmpvar_2z, ref tmpvar_3u, ref tmpvar_4v)) {
+            if(Sequence_foo.ApplyXGRS_foo(procEnv, (int)42, (double)((double)3.141), (GRGEN_MODEL.ENUM_Enu)de.unika.ipd.grGen.Model_ExternalFiltersAndSequences.ENUM_Enu.hurz, (string)"S21-heiteitei", (bool)true, ref tmpvar_0x, ref tmpvar_1y, ref tmpvar_2z, ref tmpvar_3u, ref tmpvar_4v)) {
                 procEnv.SetVariableValue("x", tmpvar_0x);
 procEnv.SetVariableValue("y", tmpvar_1y);
 procEnv.SetVariableValue("z", tmpvar_2z);
@@ -1296,6 +1297,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                 res_63 = (bool)(false);
             }
             res_64 = (bool)(res_63);
+            procEnv.DebugExiting("r.exec_0");
             return res_64;
         }
 
@@ -1303,6 +1305,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
+            procEnv.DebugEntering("r.exec_1", "filterBase\\f1 ;> filterBase\\nomnomnom ;> filterBase\\auto ;> [filterBass\\f2] ;> $::x[filterBass\\f3] ;> [filterBass\\auto] ;> (::ee)=filterHass(::n)\\f4(::n.i,\"foo\") ;>  <<filterBase\\f1;;filterBase\\f1>>  ;> ${<filterBase\\f1,[filterBass\\f2]>}");
             bool res_93;
             bool res_89;
             bool res_85;
@@ -1551,6 +1554,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                 procEnv.Finished(matches_91, false);
             }
             res_93 = (bool)(res_92);
+            procEnv.DebugExiting("r.exec_1");
             return res_93;
         }
 
@@ -3162,6 +3166,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
+            procEnv.DebugEntering("counterExample1", var_v1, var_v2);
             bool res_103;
             object res_102;
             object res_97;
@@ -3176,6 +3181,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             res_101 = res_98;
             res_102 = res_101;
             res_103 = (bool)(true);
+            procEnv.DebugExiting("counterExample1", var_r1, var_r2);
             return res_103;
         }
 
@@ -3220,10 +3226,12 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
+            procEnv.DebugEntering("counterExample2");
             bool res_106;
             object res_105;
             res_105 = true;
             res_106 = (bool)(!GRGEN_LIBGR.TypesHelper.IsDefaultValue(res_105));
+            procEnv.DebugExiting("counterExample2");
             return res_106;
         }
 
@@ -3354,6 +3362,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         public override string Name { get { return "ExternalFiltersAndSequencesActions"; } }
         public override string StatisticsPath { get { return null; } }
         public override bool LazyNIC { get { return false; } }
+        public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
         public override string ModelMD5Hash { get { return "645eea4f3e21e49c90ac82a74ce000c7"; } }

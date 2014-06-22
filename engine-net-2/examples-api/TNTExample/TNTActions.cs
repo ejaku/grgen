@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Wed Apr 30 22:33:03 CEST 2014
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Jun 22 11:11:22 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -30918,6 +30918,7 @@ label3: ;
         public override string Name { get { return "TNTActions"; } }
         public override string StatisticsPath { get { return null; } }
         public override bool LazyNIC { get { return false; } }
+        public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
         public override string ModelMD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
