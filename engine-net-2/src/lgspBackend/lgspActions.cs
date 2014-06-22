@@ -246,6 +246,7 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPAction GenerateAction(LGSPAction action)
         {
             matcherGenerator.LazyNegativeIndependentConditionEvaluation = LazyNIC;
+            matcherGenerator.InlineIndependents = InlineIndependents;
             matcherGenerator.Profile = Profile;
             LGSPAction newAction = matcherGenerator.GenerateAction(graph, modelAssemblyName, actionsAssemblyName, (LGSPAction) action);
             actions[action.Name] = newAction;
@@ -275,6 +276,7 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPAction[] GenerateActions(params LGSPAction[] oldActions)
         {
             matcherGenerator.LazyNegativeIndependentConditionEvaluation = LazyNIC;
+            matcherGenerator.InlineIndependents = InlineIndependents;
             matcherGenerator.Profile = Profile;
             LGSPAction[] newActions = matcherGenerator.GenerateActions(graph, modelAssemblyName,
                 actionsAssemblyName, oldActions);
@@ -352,6 +354,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                     int startticks = Environment.TickCount;
                     matcherGenerator.LazyNegativeIndependentConditionEvaluation = LazyNIC;
+                    matcherGenerator.InlineIndependents = InlineIndependents;
                     matcherGenerator.Profile = Profile;
                     LGSPAction[] newActions = matcherGenerator.GenerateActions(graph, modelAssemblyName,
                         actionsAssemblyName, oldActions);
@@ -408,7 +411,7 @@ namespace de.unika.ipd.grGen.lgsp
                         else
                             Console.WriteLine("static search plans");
                         LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(graph.Model);
-                        matcherGen.FillInStaticSearchPlans(graphStatistics, action);
+                        matcherGen.FillInStaticSearchPlans(graphStatistics, InlineIndependents, action);
                     }
                     SourceBuilder sb = new SourceBuilder();
                     foreach(KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern

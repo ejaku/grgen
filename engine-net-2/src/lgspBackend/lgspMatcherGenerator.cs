@@ -61,6 +61,11 @@ namespace de.unika.ipd.grGen.lgsp
         public bool LazyNegativeIndependentConditionEvaluation = false;
 
         /// <summary>
+        /// If true, the independents are to be inlined
+        /// </summary>
+        public bool InlineIndependents = true;
+
+        /// <summary>
         /// If true, profiling information is to be collected, i.e. some statistics about search steps executed
         /// </summary>
         public bool Profile = false;
@@ -243,10 +248,10 @@ namespace de.unika.ipd.grGen.lgsp
             //     no lookup, no other plan graph edge having this node as target
 
             int numNodes = patternGraph.nodesPlusInlined.Length;
-            if(!isNegativeOrIndependent)
+            if(InlineIndependents && !isNegativeOrIndependent)
                 numNodes += LGSPMatcherGenerator.NumNodesInIndependentsMatchedThere(patternGraph);
             int numEdges = patternGraph.edgesPlusInlined.Length;
-            if(!isNegativeOrIndependent)
+            if(InlineIndependents && !isNegativeOrIndependent)
                 numEdges += LGSPMatcherGenerator.NumEdgesInIndependentsMatchedThere(patternGraph);
             PlanNode[] planNodes = new PlanNode[numNodes + numEdges];
             List<PlanEdge> planEdges = new List<PlanEdge>(numNodes + 5 * numEdges); // upper bound for num of edges (lookup nodes + lookup edges + impl. tgt + impl. src + incoming + outgoing)
@@ -280,7 +285,7 @@ namespace de.unika.ipd.grGen.lgsp
                 node.TempPlanMapping = planNode;
                 ++nodesIndex;
             }
-            if(!isNegativeOrIndependent) // independent inlining only if not in negative/independent
+            if(InlineIndependents && !isNegativeOrIndependent) // independent inlining only if not in negative/independent
             {
                 foreach(PatternGraph independent in patternGraph.independentPatternGraphsPlusInlined)
                 {
@@ -335,7 +340,7 @@ namespace de.unika.ipd.grGen.lgsp
                 edge.TempPlanMapping = planNode;
                 ++nodesIndex;
             }
-            if(!isNegativeOrIndependent) // independent inlining only if not in negative/independent
+            if(InlineIndependents && !isNegativeOrIndependent) // independent inlining only if not in negative/independent
             {
                 foreach(PatternGraph independent in patternGraph.independentPatternGraphsPlusInlined)
                 {
@@ -4206,7 +4211,7 @@ exitSecondLoop: ;
         /// <summary>
         /// Do the static search planning again so we can explain the search plan
         /// </summary>
-        public void FillInStaticSearchPlans(LGSPGraphStatistics graphStatistics, params LGSPAction[] actions)
+        public void FillInStaticSearchPlans(LGSPGraphStatistics graphStatistics, bool inlineIndependents, params LGSPAction[] actions)
         {
             if(actions.Length == 0) throw new ArgumentException("No actions provided!");
 

@@ -265,7 +265,7 @@ namespace de.unika.ipd.grGen.grGen
                     + "                        (default: LGSPBackend)\n"
                     + "  -lazynic              Negatives, Independents, and Conditions are only\n"
                     + "                        executed at the end of matching (normally asap)\n"
-                    + "  -noinline             disables subpattern inlining\n"
+                    + "  -noinline             disables subpattern and independent inlining\n"
                     + "Optimizing options:\n"
                     + "  -nodebugevents        Do not fire debug events in the generated code.\n"
                     + "                        Mostly action events, impacts debugging.\n"
