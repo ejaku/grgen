@@ -12,6 +12,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp
@@ -291,7 +292,7 @@ namespace de.unika.ipd.grGen.lgsp
         public void ElementAdded(IGraphElement elem)
         {
             if(recording && !paused && !undoing)
-                undoItems.Add(new LGSPUndoElemAdded(elem));
+                undoItems.Add(new LGSPUndoElemAdded(elem, procEnv));
 
 #if LOG_TRANSACTION_HANDLING
             if(elem is INode) {
@@ -321,7 +322,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(Object.ReferenceEquals(elem, currentlyRedirectedEdge))
                 {
                     LGSPEdge edge = (LGSPEdge)elem;
-                    undoItems.Add(new LGSPUndoElemRedirecting(edge, edge.lgspSource, edge.lgspTarget));
+                    undoItems.Add(new LGSPUndoElemRedirecting(edge, edge.lgspSource, edge.lgspTarget, procEnv));
                     currentlyRedirectedEdge = null;
                 }
             }
@@ -334,7 +335,7 @@ namespace de.unika.ipd.grGen.lgsp
             writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "ChangingElementAttribute: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(elem) + ":" + elem.Type.Name + "." + attrType.Name);
 #endif
             if(recording && !paused && !undoing)
-                undoItems.Add(new LGSPUndoAttributeChanged(elem, attrType, changeType, newValue, keyValue));
+                undoItems.Add(new LGSPUndoAttributeChanged(elem, attrType, changeType, newValue, keyValue, procEnv));
         }
 
         public void RetypingElement(IGraphElement oldElem, IGraphElement newElem)
@@ -343,7 +344,7 @@ namespace de.unika.ipd.grGen.lgsp
             writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "RetypingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(newElem) + ":" + newElem.Type.Name + "<" + ((LGSPNamedGraph)procEnv.graph).GetElementName(oldElem) + ":" + oldElem.Type.Name + ">");
 #endif
             if(recording && !paused && !undoing)
-                undoItems.Add(new LGSPUndoElemRetyped(oldElem, newElem));
+                undoItems.Add(new LGSPUndoElemRetyped(oldElem, newElem, procEnv));
         }
 
         public void RedirectingEdge(IEdge edge)
@@ -389,7 +390,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 bool oldValue = procEnv.graph.IsVisited(elem, visitorID);
                 if(newValue != oldValue)
-                    undoItems.Add(new LGSPUndoSettingVisited(elem, visitorID, oldValue));
+                    undoItems.Add(new LGSPUndoSettingVisited(elem, visitorID, oldValue, procEnv));
             }
 
 #if LOG_TRANSACTION_HANDLING
@@ -426,5 +427,19 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public bool IsActive { get { return recording; } }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i < undoItems.Count; ++i)
+            {
+                IUndoItem item = undoItems[i];
+                sb.Append(item.ToString());
+                sb.Append(" @");
+                sb.Append(i.ToString());
+                sb.Append("\n");
+            }
+            return sb.ToString();
+        }
     }
 }

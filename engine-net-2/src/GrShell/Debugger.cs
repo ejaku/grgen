@@ -1092,6 +1092,16 @@ after_debugging_decision: ;
         {
             string filename = grShellImpl.ShowGraphWith("ycomp", "");
             Console.WriteLine("Showing dumped graph " + filename + " with ycomp");
+
+            String undoLog = shellProcEnv.ProcEnv.TransactionManager.ToString();
+            if(undoLog.Length > 0)
+            {
+                filename = "undo.log";
+                StreamWriter sw = new StreamWriter(filename, false);
+                sw.Write(undoLog);
+                sw.Close();
+                Console.WriteLine("Written undo log to " + filename);
+            }
         }
 
         void HandleAsGraph(Sequence seq)
