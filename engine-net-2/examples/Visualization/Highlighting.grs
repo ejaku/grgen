@@ -4,6 +4,8 @@ exec ::m2=map<Node,int>{} ;> ::m3=map<string,Node>{} ;> ::s2=set<Edge>{} ;> ::a1
 
 debug exec m1:map<Node,Node>=map<Node,Node>{} ;> s1:set<Node>=set<Node>{} ;> a2:array<Edge>=array<Edge>[] ;>\
 (n1:Node,e1:Edge,::n2,::e2)=init(m1,::m2,::m3,s1,::s2,::a1,a2,::visId,::visId2) ;> %true ;>\
-highlight(m1) ;> highlight("m1,m2,m3") ;> highlight('s1,a1') ;> highlight(e1) ;> highlight("visID,1") ;> highlight("0,visId2")
+{Debug::highlight("test",m1,"m1")} ;> {Debug::highlight("test",m1,"m1",::m2,"::m2",::m3,"::m3")} ;>\
+{Debug::highlight("test",s1,"s1",::a1,"::a1")} ;> {Debug::highlight("test",e1,"e1")} ;>\
+{Debug::highlight("test", ::visID,"::visId",1,"1")} ;> {Debug::highlight("test",0,"0",::visId2,"::visId2")}
 
 quit

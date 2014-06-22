@@ -83,6 +83,19 @@ ModelMigration-TTC2010:
   show_uml14.grs -> 0
   show_uml22.grs -> 0
   show_uml22_objectflow_extension.grs -> 0
+MovieDatabase-TTC2014:
+  GrgenifyMovieDatabase.grs -> 0
+  imdb-0005000-50176.movies.xmi.grs -> 127
+  imdb-0010000-98388.movies.xmi.grs -> 127
+  imdb-0030000-207876.movies.xmi.grs -> 127
+  imdb-0045000-299195.movies.xmi.grs -> 127
+  imdb-0065000-405592.movies.xmi.grs -> 127
+  imdb-0085000-502878.movies.xmi.grs -> 127
+  imdb-0130000-712130.movies.xmi.grs -> 127
+  imdb-0200000-1007510.movies.xmi.grs -> 127
+  imdb-0340000-1511739.movies.xmi.grs -> 127
+  MovieDatabase.grs -> 0
+  MovieDatabaseLayout.grs -> 127
 Mutex:
   Mutex10.grs -> 0
   Mutex1000.grs -> 0
@@ -162,6 +175,10 @@ UML2CSP-GraBaTs09:
   UML2CSP.grs -> 0
 Visualization:
   Debugging.grs -> 0
+  Debugging2.grs -> 0
+  Debugging2when.grs -> 0
+  Debugging3.grs -> 0
+  Debugging3when.grs -> 0
   Highlighting.grs -> 0
   Visualization.grs -> 0
 WeakComponents:

@@ -136,7 +136,7 @@ test ReachedEndOfWorld(curAnt:Ant) : (GridNode)
 
 test ReachedEndOfWorldAnywhere : (GridNode)
 {
-    [prio=10000]:Ant -:AntPosition-> n:GridNode\AntHill;
+    a[prio=10000]:Ant -:AntPosition-> n:GridNode\AntHill;
     negative { n <-:PathToHill-; }
     return (n);
 }

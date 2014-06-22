@@ -127,10 +127,10 @@ rule CreatePredSucc {
 
 	modify {
 		eval {
-			t11.succ = t11.succ | {l2.Id};
-			t12.succ = t12.succ | {l2.Id};
-			t21.pred = t21.pred | {l1.Id};
-			t22.pred = t22.pred | {l1.Id};
+			t11.succ = t11.succ | set<int>{l2.Id};
+			t12.succ = t12.succ | set<int>{l2.Id};
+			t21.pred = t21.pred | set<int>{l1.Id};
+			t22.pred = t22.pred | set<int>{l1.Id};
 			j.visited = true;
 		}
 	}
