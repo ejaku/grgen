@@ -226,6 +226,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public abstract bool LazyNIC { get; }
 
+        public abstract bool InlineIndependents { get; }
+
         public abstract bool Profile { get; }
     }
 }

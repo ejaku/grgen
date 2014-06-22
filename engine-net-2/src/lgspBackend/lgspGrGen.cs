@@ -169,7 +169,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
         /// </summary>
         private static PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, 
-            bool isNegativeOrIndependent, bool isSubpatternLike, 
+            bool isNegativeOrIndependent, bool isSubpatternLike, bool inlineIndependent,
             IDictionary<PatternElement, SetValueType> presetsFromIndependentInlining)
         {
             //
@@ -213,10 +213,10 @@ namespace de.unika.ipd.grGen.lgsp
             //     no lookup, no other plan graph edge having this node as target
 
             int numNodes = patternGraph.nodesPlusInlined.Length;
-            if(!isNegativeOrIndependent)
+            if(inlineIndependent && !isNegativeOrIndependent)
                 numNodes += LGSPMatcherGenerator.NumNodesInIndependentsMatchedThere(patternGraph);
             int numEdges = patternGraph.edgesPlusInlined.Length;
-            if(!isNegativeOrIndependent)
+            if(inlineIndependent && !isNegativeOrIndependent)
                 numEdges += LGSPMatcherGenerator.NumEdgesInIndependentsMatchedThere(patternGraph);
             PlanNode[] planNodes = new PlanNode[numNodes + numEdges];
             List<PlanEdge> planEdges = new List<PlanEdge>(numNodes + 5 * numEdges); // upper bound for num of edges (lookup nodes + lookup edges + impl. tgt + impl. src + incoming + outgoing)
@@ -249,7 +249,7 @@ namespace de.unika.ipd.grGen.lgsp
                 node.TempPlanMapping = planNode;
                 ++nodesIndex;
             }
-            if(!isNegativeOrIndependent) // independent inlining only if not in negative/independent
+            if(inlineIndependent && !isNegativeOrIndependent) // independent inlining only if not in negative/independent
             {
                 foreach(PatternGraph independent in patternGraph.independentPatternGraphsPlusInlined)
                 {
@@ -304,7 +304,7 @@ namespace de.unika.ipd.grGen.lgsp
                 edge.TempPlanMapping = planNode;
                 ++nodesIndex;
             }
-            if(!isNegativeOrIndependent) // independent inlining only if not in negative/independent
+            if(inlineIndependent && !isNegativeOrIndependent) // independent inlining only if not in negative/independent
             {
                 foreach(PatternGraph independent in patternGraph.independentPatternGraphsPlusInlined)
                 {
@@ -710,7 +710,7 @@ namespace de.unika.ipd.grGen.lgsp
                         LGSPMatcherGenerator.ExtractOwnElements(nestingScheduledSearchPlan, patternGraph));
                 else
                     planGraph = GenerateStaticPlanGraph(patternGraph,
-                        isNegativeOrIndependent, isSubpatternLike,
+                        isNegativeOrIndependent, isSubpatternLike, matcherGen.InlineIndependents,
                         LGSPMatcherGenerator.ExtractOwnElements(nestingScheduledSearchPlan, patternGraph));
                 matcherGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
                 SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
@@ -1249,6 +1249,7 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
             if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0) matcherGen.CommentSourceCode = true;
             if((flags & ProcessSpecFlags.LazyNIC) != 0) matcherGen.LazyNegativeIndependentConditionEvaluation = true;
+            if((flags & ProcessSpecFlags.Noinline) != 0) matcherGen.InlineIndependents = false;
             if((flags & ProcessSpecFlags.Profile) != 0) matcherGen.Profile = true;
 
             foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
@@ -1271,7 +1272,9 @@ namespace de.unika.ipd.grGen.lgsp
             // a source builder which is appended at the end of the other generated stuff
             SourceBuilder endSource = GenerateActionsClass(model, actionsName, unitName,
                 statisticsPath, ruleAndMatchingPatterns, 
-                matcherGen.LazyNegativeIndependentConditionEvaluation, matcherGen.Profile);
+                matcherGen.LazyNegativeIndependentConditionEvaluation,
+                matcherGen.InlineIndependents,
+                matcherGen.Profile);
             source.Append(endSource.ToString());
             source.Append("}");
         }
@@ -1386,7 +1389,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private SourceBuilder GenerateActionsClass(IGraphModel model, String actionsName, String unitName,
             string statisticsPath, LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, 
-            bool lazyNIC, bool profile)
+            bool lazyNIC, bool inlineIndependents, bool profile)
         {
             SourceBuilder endSource = new SourceBuilder("\n");
             endSource.Indent();
@@ -1561,6 +1564,7 @@ namespace de.unika.ipd.grGen.lgsp
             endSource.AppendFront("public override string Name { get { return \"" + actionsName + "\"; } }\n");
             endSource.AppendFront("public override string StatisticsPath { get { return " + (statisticsPath != null ? "@\"" + statisticsPath + "\"" : "null") + "; } }\n");
             endSource.AppendFront("public override bool LazyNIC { get { return " + (lazyNIC ? "true" : "false") + "; } }\n");
+            endSource.AppendFront("public override bool InlineIndependents { get { return " + (inlineIndependents ? "true" : "false") + "; } }\n");
             endSource.AppendFront("public override bool Profile { get { return " + (profile ? "true" : "false") + "; } }\n\n");
             endSource.AppendFront("public override string ModelMD5Hash { get { return \"" + model.MD5Hash + "\"; } }\n");
             endSource.Unindent();
