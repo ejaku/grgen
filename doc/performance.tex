@@ -98,9 +98,9 @@ In case of undirected edges, or arbitrary directed edges in the pattern, both di
 both lists -- the outgoing list as well as the incoming list -- are crawled.
 
 %-----------------------------------------------------------------------------
-\subsection{The Costs}
+\subsection{The Costs}\label{sec:performancememory} 
 The type and neighbourhood indices are built into each and every \GrG{} graph, wired into a system of ringlists (cf. \ref{sec:generatedcode}).
-They are implicitely used by \GrG{}, pattern matching is just carried out alongside them, in an order decided upon by the search planner. 
+They are implicitly used by \GrG{}, pattern matching is just carried out alongside them, in an order decided upon by the search planner. 
 You always benefit from them during matching (most if you are using statistics-based search planning), but you must always pay their price:
 The memory consumption of a \GrG{} node without attributes is 36 bytes using a 32bit CLR (5 pointers a 4 bytes, a 4 bytes flags field/bitvector, a 4 bytes unique id field, plus 8 bytes .NET object overhead), it is 64 bytes for a 64bit CLR (5 pointers a 8 bytes, a 4bytes flags field, a 4 bytes unique id field, plus 16 bytes .NET object overhead).
 The memory consumption of a \GrG{} edge without attributes is 52 bytes using a 32bit CLR (9 pointers a 4 bytes, a 4 bytes flags field/bitvector, a 4 bytes unique id field, plus 8 bytes .NET object overhead), it is 96 bytes for a 64bit CLR (9 pointers a 8 bytes, a 4 bytes flags field, a 4 bytes unique id field, plus 16 bytes .NET object overhead).
@@ -228,7 +228,7 @@ search planning can avoid lookups on populated types.
 This typically leads to the best results, but not always -- sometimes you may fare better by manually assigning priorities to the pattern elements, thus influencing the search order of the initial static search plan (high-prio elements are matched first) -- if you don't re-generated the search plan for that rule at runtime the static search plan is kept in place.
 
 Again: Use types!
-The more fine grain a graph is typed, the better are the statistics regarding the splitting factors (V-Structures) and the number of elements of a certain type, and the better are then in consequence the search plans in their ability of evading splitting structures and avoiding lookups of oftenly occuring types.
+The more fine grain a graph is typed, the better are the statistics regarding the splitting factors (V-Structures) and the number of elements of a certain type, and the better are then in consequence the search plans in their ability of evading splitting structures and avoiding lookups of oftenly occurring types.
 
 %-----------------------------------------------------------------------------
 \subsection{Attribute Indices}
@@ -243,7 +243,7 @@ On each and every graph element insertion and removal, but esp. attribute assign
 That's only logarithmic, but clearly worse than the default $O(1)$ behaviour of \GrG{}, so if you do a lot of graph manipulations and only few lookups based on it, an index may in fact degrade performance.
 
 \subsubsection*{Declaration in the model}
-In contrast to type and neighbourhood indices which are always available (they define the core of a \GrG{}-graph) and are implicitely used (by matching the specified pattern), all other indices must be worked with explicitely.
+In contrast to type and neighbourhood indices which are always available (they define the core of a \GrG{}-graph) and are implicitly used (by matching the specified pattern), all other indices must be worked with explicitly.
 
 An attribute index must be declared in the model.
 
@@ -474,7 +474,7 @@ If each loop iteration only executes very few search work following candidate as
 things become \emph{slower} because of threading and locking overhead.
 Don't just append the parallelize annotation to each and every rule in the hope things will become faster!
 Only search intensive-tasks benefit, only for them the overhead of parallelization pays off.
-But for those search-intensive tasks, you can achieve high speedups, reaping benefits from ourdays multicore machines. 
+But for those search-intensive tasks, you can achieve high speedups, reaping benefits from our-days multicore machines. 
 
 Remark: Only the pattern matcher of an action is parallelized, so only the search process is parallelized.
 This offers the biggest bang for the bucks invested, as search is \emph{the} expensive task, and it allows you to stick to the much simpler sequential programming model.

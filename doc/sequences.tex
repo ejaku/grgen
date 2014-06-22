@@ -251,7 +251,7 @@ Each match is sought in the host graph at the state left behind by the execution
 %after each step previously available match possibilities may have been removed (besides the one matched), or previously unavailable ones may have been created.
 The latter sequence part executes the rule \texttt{q} on all matches in the current host graph at once, assigning the number of matches found (equalling the number of rewrites) to \texttt{::cnt}.
 %Match possibilites created this way are not inspected any more, hopefully there were no conflicts due to overlapping matches.
-The result of the overall sequence is always \texttt{true}, for one because the star operator used in the true-case always succeeds, and for the other because the false-case explicitely fixes its result to the constant \texttt{true}.
+The result of the overall sequence is always \texttt{true}, for one because the star operator used in the true-case always succeeds, and for the other because the false-case explicitly fixes its result to the constant \texttt{true}.
 \end{example}
 
 \begin{note}

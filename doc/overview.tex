@@ -5,7 +5,7 @@
 The first consists of the compiler \texttt{grgen} and two runtime libraries, which offer the basic functionality of the system;
 the compiler transforms specifications of declarative graph rewrite rules into highly efficient .NET-assemblies.
 The second consists of the interactive command line \texttt{GrShell} and the graph viewer \texttt{yComp},
-which offer a rapid prototyping environment supporting graphical and stepwise debugging of rules that are controled by sequences.
+which offer a rapid prototyping environment supporting graphical and stepwise debugging of rules that are controlled by sequences.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{System Overview}\indexmain{overview, system}
@@ -15,7 +15,7 @@ Figure~\ref{figsys} gives an overview of the \GrG\ system components and the inv
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{fig/OverviewGenerationArtefacts}
-  \caption{\GrG\ system components and artefacts}
+  \caption{\GrG\ system components and artifacts}
   \label{figsys}
 \end{figure}
 
@@ -35,7 +35,7 @@ Figure~\ref{process} depicts the major runtime objects.
   \label{process}
 \end{figure}
 
-The central object is the \emph{graph}, it adhers to the specified graph model.
+The central object is the \emph{graph}, it adheres to the specified graph model.
 (In general you have to distinguish between a graph model on the meta level, a host graph created as instance of the graph model, and a statically specified pattern graph of a rule that matches a portion of the host graph at runtime).
 It may be modified directly by \GrShell, or by a user application.
 But typically is it changed by the application of one of the generated \emph{actions}, most often from within a \emph{sequence}, which is parsed into an operator tree and then interpreted, by the graph \emph{processing environment}.
@@ -92,7 +92,7 @@ By default \GrG\ tries to write the compiled assemblies into the same directory 
       \texttt{-use} & Don't re-generate C\# source files. Instead use the files in \emph{existing-dir} to build the assemblies.\\
       \texttt{-debug} & Compile the assemblies with debug information.\\
       \texttt{-lazynic} & Negatives, Independents, and Conditions are only executed at the end of matching (normally asap).\\
-      \texttt{-noinline} & Subpattern usages are never inlined.\\
+      \texttt{-noinline} & Subpattern usages and independents are not inlined.\\
       \texttt{-profile} & Instruments the matcher code to count the search steps carried out.\\
       \texttt{-statistics} & Generate matchers that are optimized for graphs of the class described by the \emph{statisticsfile} (see \ref{custom} on how to save such statistics).\\
       \texttt{-b} & Use the backend library \emph{backend-dll} (default is LGSPBackend).\\
@@ -215,9 +215,9 @@ This process is programmed at specification time utilizing a graph model languag
 
 %------------------------------------------------------------------------------------
 \subsection{Graph Model Language}
-At the foundation you find the graph model (meta-model) language given with \texttt{class} definintions in the style of an object-oriented language, with some influences of data definition languages as offered by databases. 
+At the foundation you find the graph model (meta-model) language given with \texttt{class} definitions in the style of an object-oriented language, with some influences of data definition languages as offered by databases. 
 
-It allows you to specify \emph{node} and \emph{edge types}, with \emph{multiple inheritance} on the types.
+It allows you to specify \emph{node} and \emph{edge types}, with \emph{multiple inheritance} on the types (see Chapter \ref{chapmodellang}).
 They are used in building a typed, directed multigraph (supporting multiple edges of the same type between two nodes).
 In addition, you may declare undirected and arbitrarily directed edges; or may even register external types with \GrG.
 Furthermore, connection assertions allow you to restrict the ``shape'' of the graphs.
@@ -225,32 +225,32 @@ Furthermore, connection assertions allow you to restrict the ``shape'' of the gr
 Node and edge types can be equipped with \emph{typed attributes}, of the commonly known elementary types (integer and floating-point numbers, strings, booleans, and enums) or of some container types (available are hashmap and array based types).
 In addition, methods supporting dynamic dispatch may be given.%(they are seldom needed for tasks based on graph-representations, though). 
 
-Moreover, you may configure indices: attribute indices for a quick lookup of a graph element based on the attribute value, or incidence count indices for a quick lookup based on the number of incident edges.
+Moreover, you may configure indices (see Chapter \ref{sec:performance}): attribute indices for a quick lookup of a graph element based on the attribute value, or incidence count indices for a quick lookup based on the number of incident edges.
 Several indices are already built-in and automatically used by the pattern matchers, notably the type index for quick lookups based on element type, and the incident elements index giving access to the neighbouring elements in constant time.
 
 %------------------------------------------------------------------------------------
 \subsection{Rule and Computations Language}
 On top of the graph model language and at the heart of \GrG\ do you find the rule and computations language.
 
-It supports pattern-based \emph{rules}, which are built by a \emph{pattern to be matched} and a \emph{rewrite} to be carried out; or put differently: a left-hand-side precondition pattern and a right-hand-side postcondition pattern.
+It supports pattern-based \emph{rules}, which are built by a \emph{pattern to be matched} and a \emph{rewrite} to be carried out; or put differently: a left-hand-side precondition pattern and a right-hand-side postcondition pattern (see Chapter \ref{chaprulelang}).
 A pattern is described by \emph{graphlets}, a specification of nodes connected by edges in an intuitive syntax.
-Complex patterns are combined from elementary patterns with \emph{nested patterns} (defining alternative, optional, multiple and iterated structures, or negative and independent application conditions) and \emph{subpattern} definitions and usages.
-Besides those parts for declarative processing of structural information are \emph{attribute conditions} and \emph{attribute evaluations} available, the former are expressions computing an output value by reading attributes of matched elements, the latter are statements changing attribute values with assignments. 
+Complex patterns are combined from elementary patterns with \emph{nested patterns} (defining alternative, optional, multiple and iterated structures, or negative and independent application conditions, see Chapter \ref{cha:nested}) and \emph{subpattern} definitions and usages (see Chapter \ref{cha:sub}).
+Besides those parts for declarative processing of structural information are \emph{attribute conditions} (see Chapter \ref{cha:typeexpr}) and \emph{attribute evaluations} available, the former are expressions computing an output value by reading attributes of matched elements, the latter are statements changing attribute values with assignments. 
 
-The attribute processing expressions and statements are in fact parts of a full-fledged \emph{imperative programming language} integrated with the declarative pattern-based rule language.
+The attribute processing expressions and statements are in fact parts of a full-fledged \emph{imperative programming language} integrated with the declarative pattern-based rule language (see Chapter \ref{cha:computations}).
 The \emph{expressions} can query the graph with a multitude of available functions in addition to reading the attributes of matched elements and carrying out computations with the attributes; they can be abstracted into \emph{functions}.
 The \emph{statements} support direct graph changes and supply control flow statements and def variable declarations in addition to the attribute assignments; they can be abstracted into \emph{procedures}.
-You especially find subgraph operations for the processing of nested graphs, with subgraph extraction, subgraph comparison, and subgraph insertion. 
+You especially find subgraph operations for the processing of nested graphs, with subgraph extraction, subgraph comparison, and subgraph insertion (see Chapter \ref{cha:graph}). 
 
 Pattern matching can be adjusted fine-grained with homomorphic matching for selected elements (with \texttt{hom} declarations, so they can match the same graph elements), overriding the default isomorphic matching, and with type constraints (forbidding certain static types or requiring equivalence of dynamic \texttt{typeof}s).
 
 The rewrite part of a rule keeps, adds and deletes graph elements according to the SPO approach, as specified by element declarations and references in the LHS and RHS patterns (there are three additional rule application semantics available: DPO or exact patterns only or induced subgraphs only).
-The rewrite part supports two modes of specification: A rule can either express the changes to the match (\texttt{modify}-mode, requiring deletion to be specified explicitely) or specify a whole new subgraph (\texttt{replace}-mode).
+The rewrite part supports two modes of specification: A rule can either express the changes to the match (\texttt{modify}-mode, requiring deletion to be specified explicitly) or specify a whole new subgraph (\texttt{replace}-mode).
 
-A rich bouquet of single element rewrite operations is available on top of the basic ones with \emph{retyping} aka relabeling, that allows to change the type of a graph element while keeping its incident elements, with the creation of new nodes/edges of only dynamically known types or as exact copies of other nodes/edges, and with node merging and edge redirection constructs.
-Besides changing the graph can you \texttt{emit} user-defined text to \texttt{stdout} or files (supporting model-to-text transformations).
+A rich bouquet of single element rewrite operations is available on top of the basic ones with \emph{retyping} aka relabeling, that allows to change the type of a graph element while keeping its incident elements, with the creation of new nodes/edges of only dynamically known types or as exact copies of other nodes/edges, and with node merging and edge redirection constructs (see Chapter \ref{chapadvanced}).
+Besides changing the graph can you \texttt{emit} user-defined text to \texttt{stdout} or files (supporting model-to-text transformations; see Chapter \ref{cha:imperativeandstate}).
 
-A special class of computations are available with the post-match filter functions, that allow to inspect and manipulate the set of matches found when applying a rule (with all bracketing). 
+A special class of computations are available with the post-match filter functions (see Chapter \ref{sub:filters}), that allow to inspect and manipulate the set of matches found when applying a rule (with all bracketing). 
 This way you can \emph{accumulate} information over the matches, or \emph{filter} the matches set for the most interesting matches.
 Several filters for sorting and clipping are already supplied or can be generated automatically on request.
 Symmetry reduction is available with a filter for duplicate matches due to permuted elements from automorphic patterns.
@@ -265,34 +265,34 @@ Both combined allow to match \emph{entire tree like structures} within a single 
 Subpatterns and nested patterns are matched from the outermost to the innermost patterns with \emph{recursive descent}, handing already matched elements down; on \emph{ascend}, they can \texttt{yield} elements found out to the \texttt{def} elements of their containing pattern.
 The nested patterns and subpatterns also support \emph{nested rewrite parts}, so that complex structures are not only matched (parsing), but can also get rewritten (transduction) --- yielding \emph{structure directed transformation}, alongside structures defined by graphlets combined in an EBNF-grammar-like way\cite{EBNFAGTIVE}.
 
-A graph rewrite system described in those languages can be employed via an \emph{API} by .NET-applications, typically written in C\#.
+A graph rewrite system described in those languages can be employed via an \emph{API} by .NET-applications, typically written in C\# (see Chapter \ref{cha:api}).
 %The API is provided in two versions --- for one named and typed entities which get generated, and for the other a string and object based interface on top of it offered by \LibGr. The \LibGr-based API is needed to work with arbitrary systems.
-The other way round you can include C\#-code into your specifications by using external types or calling external functions and procedures, as well as sequences.
+The other way round you can include C\#-code into your specifications by using external types or calling external functions and procedures, as well as sequences (see Chapter \ref{chapextensions}).
 
 %------------------------------------------------------------------------------------
 \subsection{Rule Application Control Language}
 On top of the rules and computations language do you find the \emph{sequences} language, for controling the application of the rules (and procedures or functions), determining \emph{which rule} to apply \emph{where} next. 
 
-This strategy language allows to determine the rule that is called next by its control operators and constructs.
+This strategy language allows to determine the rule that is called next by its control operators and constructs (see Chapter \ref{cha:xgrs}).
 The basic ones available are the \emph{sequential} and \emph{logical operators}, the \emph{decisions}, and the \emph{loops} (defining the control-flow orchestration).
 The location where to apply a rule may be defined with \emph{parameters} handed into the called rules, and received back from them. 
 The sequences support \emph{variables} to store the locations (for data-flow orchestration).
 A rule may be applied for the \emph{first match} found, or for \emph{all matches} that are available with all-bracketing.
 
-The sequences offer a \emph{computations} sublanguage that supports calling procedures and functions, basic graph querying and modification, visited flags management, and storages manipulation.
+The sequences offer a \emph{computations} sublanguage that supports calling procedures and functions, basic graph querying and modification, visited flags management, and storages manipulation (see Chapter \ref{seqcomp}).
 The first ones allow to bypass the rules of the layer below for simple tasks, and especially allow to extract and insert subgraphs. 
 Visited flags used in marking processed elements must be allocated and freed, the sequence computations are the right place to do so.
-Most usages are related to \emph{storages} which are variables of container type storing graph elements, they esp. allow to build transformations following a wavefront running over the graph.
+Most usages are related to \emph{storages} which are variables of container type storing graph elements, they esp. allow to build transformations following a wavefront running over the graph (see Chapter \ref{cha:container} for more on containers).
 
 The sequences can be abstracted into a \emph{sequence definition} that can then be called in the place of a rule.
 This way common parts can be reused, but especially is it possible to program a recursive strategy.
 For simulation runs, several indeterministic choice operators are available.
 
-Advanced constructs are available with \emph{transactions} angles and \emph{backtracking} double angles capable of \emph{rolling back changes} carried out on the graph to get back to the state of the graph again from before their nested content was applied.
+Advanced constructs are available with \emph{transactions} angles and \emph{backtracking} double angles capable of \emph{rolling back changes} carried out on the graph to get back to the state of the graph again from before their nested content was applied (see Chapter \ref{cha:transaction}).
 With them you can easily try things out without having to invest into programming the bookkeeping needed to revert to an old state.
 They allow to systematically run through a search space, or even to enumerate a state space, materializing interesting states reached in time out into space.
 
-Those sequences are available in an integrated form in the rule language.
+Those sequences are available in an integrated form in the rule language (see Chapter \ref{cha:imperativeandstate}).
 After applying the direct effects of a rule it is possible to apply an \emph{embedded sequence} for follow-up tasks that just can't be expressed with a single rule application; those sequences have access to the elements of their containing rule, they allow to build complex transformations with sequence-rule call chains.
 		
 %------------------------------------------------------------------------------------
@@ -302,14 +302,14 @@ In addition, the \GrG\ system supplies a shell application, the \GrShell,
 which offers besides some common commands, variable handling constructs, and file system commands several constructs for \emph{graph handling} and \emph{visualization}, as well as constructs for \emph{sequence execution} and \emph{debugging}.
 Furthermore, some switches are available to configure the shell and the graph processing environment, as well as the \texttt{grgen} compiler.
 
-Regarding graph handling you find commands for graph creation and manipulation, graph export and import, and graph change recording plus replaying.
+Regarding graph handling you find commands for graph creation and manipulation, graph export and import, and graph change recording plus replaying (see Chapter \ref{chapgrshell}).
 For graph creation 3 simple \texttt{new} commands are available, one for creating an empty graph, one for creating a node, and one for creation an edge.
 The GRS exporter serializes with the same syntax, which is also expected by the GRS importer.
 Write a file in this simple format if the available import formats are not supported by your data source.
 
 For direct graph manipulation you find deletion and retyping commands in addition to the creation commands, and commands for assigning attributes of graph elements.
 Moreover, \texttt{export} and \texttt{import} commands are available for serializing a graph to a file, and for unserializing a graph from a file (in \texttt{GRS}, \texttt{GXL} and \texttt{XMI/ecore} formats). 
-Changes that are occuring to a graph may be \texttt{record}ed to a \texttt{GRS} and later \texttt{replay}ed or simply \texttt{import}ed.
+Changes that are occurring to a graph may be \texttt{record}ed to a \texttt{GRS} and later \texttt{replay}ed or simply \texttt{import}ed.
 Change recording allows for post-problem debugging, but allows also to use \GrG\ as a kind of embedded database that persists changes as they appear. %(at the price of replaying changes that are rendered futile by later changes).
 
 The graph and the model can be queried furtheron for e.g. the defined types or the attributes of a graph element.
@@ -325,7 +325,7 @@ And in the following to re-generate the pattern matchers at runtime (\texttt{gen
 You can inspect the search plans in use with the \texttt{explain} custom command.
 
 The debugger component of the \GrShell\ allows to \texttt{debug} a sequence \texttt{exec}ution step-by-step, highlighting the currently executed rule in the sequence, and displaying the current graph in the graph viewer \yComp;
-in detail mode even the match found and the rewrite carried out by the rule are highlighted in the graph.
+in detail mode even the match found and the rewrite carried out by the rule are highlighted in the graph (see Chapter \ref{chapdebugger}).
 
 The graph visualization is highly \emph{customizable}.
 You can choose one from several available layout algorithms.
@@ -334,7 +334,7 @@ or exclude uninteresting types altogether from the display.
 You can pick the attributes that are to be shown directly (normally they are only displayed on mouse-over).
 Furthermore, you can configure \emph{visual graph nesting} by declaring edges as containment edges, thus keeping large graphs with containment or tree relations \emph{understandable}.
 For large graphs that are beyond the capabilities of the graph viewer you can define that only the matches plus their context up to a certain depth are displayed.
-Altogether, you can taylor the graph display to what you need, transforming an unreadable haystack which is what large graphs tend to become into a well-readable representation.
+Altogether, you can tailor the graph display to what you need, transforming an unreadable haystack which is what large graphs tend to become into a well-readable representation.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -352,7 +352,7 @@ is achieved by declarative specification languages for pattern matching and rewr
 In addition to the unmatched expressiveness of the single-element operations offered by the pattern and the rewrite parts,
 are nested and subpatterns available for combining them flexibly;
 they allow to process substructures of arbitrary depth and breadth with a single rule application.
-This surpassess the capabilities of the VIATRA2\cite{viatra2,recursiveviatra} and GROOVE \cite{Groove} tools, our strongest competitors regarding rule expressiveness.
+This surpasses the capabilities of the VIATRA2\cite{viatra2,recursiveviatra} and GROOVE \cite{Groove} tools, our strongest competitors regarding rule expressiveness.
 You may have a look at the GrGen.NET solution of the program understanding case \cite{ProgramUnderstanding} of the TTC 2011 highlighting how \emph{concise} and \emph{elegant} solutions become due to the expressiveness of the language constructs.
 
 While the patterns can be combined in a functional way with nested and subpatterns to build complex rules, can the rules be combined in an imperative way with graph rewrite sequences, executing a graph state change after the other.
@@ -377,7 +377,7 @@ For small tasks that effort is likely higher than the net gains in the end.
 
 For subtasks where the declarative pattern-based rules do not work well (which happens occasionally), are you free to revert to imperative and object-oriented programming as known from the C++, Java, C\# language family, utilizing the imperative parts of the \GrG-languages.
 You loose a considerable amount of the benefits of employing the tool then (we consider model transformation tools offering own -- but only imperative -- languages pointless (and OCL-expressions are only a small improvement in this regard)), but neither are you stuck, nor are you forced to convoluted workarounds, as it may happen with tools that offer only pattern-based rules, e.g. Henshin\cite{Henshin} or AGG\cite{agg}.
-The multi-paradigm languages of \GrG\ offer you all the constructs you need for transforming graph-represenations.
+The multi-paradigm languages of \GrG\ offer you all the constructs you need for transforming graph-representations.
 
 \subsection*{General-Purpose Graph Rewriting}
 in contrast to \emph{special-purpose} graph rewriting requires high programmability, genericity and customizability.
@@ -402,7 +402,7 @@ This should not hinder you to choose the latter when your task does not require 
 The approach of \GrG\ is to offer you \emph{languages} to achieve your goals, not \emph{pre-coded solutions} that may or may not fit to your task.
 This holds not only for the languages used to describe the data or specify the computations, but also for the visualization and the debugger. They can be customized easily to the characteristics of your graph representation. 
 
-Programmability always must come with means to abstract and encapsulate the programs into own units and parameterize them, so you are not exposed to details where you don't need them (but can access them when you need to do so, in contrast to fixed-function units).
+Programmability always must come with means to abstract and encapsulate the programs into own units and parametrize them, so you are not exposed to details where you don't need them (but can access them when you need to do so, in contrast to fixed-function units).
 They are available with the rules and tests, the subpatterns, the procedures and functions (plus method procedures and method functions), the filter functions, and sequence definitions; and the input and output parameters available for them.
 
 While the old \textsc{GrGen} started as a special-purpose compiler construction tool for internal use with fixed-shape patterns 
@@ -413,7 +413,7 @@ for reasoning with semantic nets, transformation of natural language to UML mode
 model transformation, processing of program graphs, genome simulation, or pattern matching in social nets or RDF graphs.
 Have a look at \cite{usecomputerlinguistics} or \cite{usemodeltransformation} or \cite{usegeneexpression} for some of the results.
 Or at the results of \GrG\ for the diverse tasks posed in the transformation tool contests. 
-It was always amongst the best rated tools, a record that is only achievable for a general-purpose tool with expressive and universably usable languages.
+It was always amongst the best rated tools, a record that is only achievable for a general-purpose tool with expressive and universally usable languages.
 %which offers the highest combined speed of development and execution for graph based algorithms through its declarative languages with automatic optimization.
 
 \subsection*{Performance}
@@ -428,7 +428,7 @@ with nested loops for matching the pattern elements is helping tremendously rega
 But it comes at a cost: the test-debug-cycle is slowed down, and you are less flexible regarding runtime changes.
 A further help for performance are the types, which are speeding up the pattern matcher
 -- besides being a help in modeling the domain and besides easening the life of the programmer by eliminating large classes of errors at compile time.
-Performance is further fostered by explicit control and rule applications from preset parameters on, defining where to match the rules (giving rooted pattern matching), and which rule to match when (getting faster to a matching rule based on domain knowledge), in contrast to approaches based on implicit control, most notably the graph-grammar approach with its parameterless rules (only controled by an optional layering). 
+Performance is further fostered by explicit control and rule applications from preset parameters on, defining where to match the rules (giving rooted pattern matching), and which rule to match when (getting faster to a matching rule based on domain knowledge), in contrast to approaches based on implicit control, most notably the graph-grammar approach with its parameterless rules (only controlled by an optional layering). 
 
 Performance is gained by the host graph sensitive search plans.
 In order to accelerate the matching step, we internally introduce \newterm{search plan}s
@@ -440,18 +440,18 @@ is our pattern matching algorithm fully automatic and neither needs to be tuned 
 Furthermore, there are several strength reduction and inlining optimizations employed by the compiler to eliminate the overhead of the higher level of abstraction where it is not needed;
 in addition to the search state space stepping that typically yields matches faster,
 an important factor for being at least one order of magnitude faster than any other tool known to us according to \indexed{Varr\'o's benchmark}\cite{varro_bench}.
-Finally, search intensive tasks can be parallelized, reaping benefits from ourdays multicore machines; have a look at our solution for the Movie Database case of the TTC14\cite{MovieDatabase} to see what can be achieved this way.
+Finally, search intensive tasks can be parallelized, reaping benefits from our-days multicore machines; have a look at our solution for the Movie Database case of the TTC14\cite{MovieDatabase} to see what can be achieved this way.
 
 \subsection*{Understandability and Learnability}
 was taken care by evaluating for each language construct several options,
-prefering constructs already known from imperative and object-oriented programming languages as well as parser generators ---
+preferring constructs already known from imperative and object-oriented programming languages as well as parser generators ---
 the ones which seemed most clean and intuitive while satisfying the other constraints were chosen.
 This can be noted in comparison with the languages of the GReTL \cite{GReTL} tool, esp. with its powerful graph query language GReQL,
 which may be pleasing to someone from the realm of formal specification, but which are not to the mind of a programmer.
 %A programmer who just wants to process his graphs on a higher level of abstraction, with declarative pattern matching and rewriting on a visualization of the network of objects -- instead of low level pointer structure fiddling, chasing objects by following references in the debugger.
 You may have a look at the GrGen.NET solution of the Hello World! case \cite{HelloWorld} to judge on your own.
 As we know that even the best designed language is not self explaining we put an emphasize on the user manual currently read by you.
-Especially since the consequences of the development goals expressiveness and programmability are increasing the learning effort.
+Especially since the consequences of the development goals expressiveness and programmability are inevitably increasing the learning effort.
 
 \subsection*{Development Convenience}
 is gained especially by the offered interactive and graphical debugging of rule applications.
@@ -488,22 +488,32 @@ There's another trait to platform independence: \GrG\ is built on its own model 
 Don't expect this to change, the performance of declarative pattern matching and rewriting is our top concern, and that can be best achieved with a model optimized for this task (the current type and neighbourhood ringlist implementation is efficient and scalable, and supports the search space stepping optimization; directed edges are always navigable in both directions, giving the planner more room for choosing a good search plan; and some fields are included that render isomorphy checking cheap and supply some cost-free visited flags).
 
 Besides, we consider EMF not that important, because we consider the MDA vision an illusion.
-The costs of developing a domain-specific lanuguage, a model as a high-level representation of a domain, and a code generator emitting executable code from it (maybe with an intermediate platform dependent model in the chain) can only be amortized for large program families with a high degree of variation, for the bulk of software application the costs will never pay off.
+The costs of developing a domain-specific language, a model as a high-level representation of a domain, and a code generator emitting executable code from it (maybe with an intermediate platform dependent model in the chain) can only be amortized for large program families with a high degree of variation, for the bulk of software application the costs will never pay off.
 (Designing a language for a domain and building a compiler are interesting but truly expensive tasks.)
 
 \subsection*{General-Purpose Graph Transformation}
 in contrast to \emph{model} transformation.
 Several model transformation tools offer graph pattern matching as a means of transformation and graph-based tools have been successfully used to model many domains; a clear separation is not possible \cite{Jakumeit2013}.
 But pattern matching is typically limited in dedicated model transformation tools, as is their performance regarding it, esp. their ability for achieving automatically high-performance solutions --- the EMF poses an obstacle to efficient, automatic-declarative pattern matching.
-Besides, we have serious doubts about the encompassing MDA vision (see paragraph above), yet think that a great graph-representation-processing language and supporting environemnt is of real practical interest for many tasks.
+Besides, we have serious doubts about the encompassing MDA vision (see paragraph above), yet think that a great graph-representation-processing language and supporting environment is of real practical interest for many tasks.
 
 And graph \emph{transformation} in contrast to graph \emph{databases}.
-The focus is on efficient \emph{rewriting} with complex queries and complex updates that are strongly coupled to the query results, 
-on an \emph{in-memory} graph-structure, by a \emph{single user} at a time.
-In contrast to e.g. Neo4J\cite{neo}, that offers complex \emph{queries} that are feeding loosely coupled simple updates,
-on a \emph{backing-store}, by \emph{multiple users} that are working concurrently at the same time, isolated by transactions.
-\GrG\ \emph{does} offer \emph{online} modification of an application-embedded graph-structured state
--- in addition to \emph{batch-wise offline} mapping of a graph representation to another one, which defines the common and only usage of model \emph{mapping} tools like ATL\cite{atl} or Epsilon\cite{epsilon}--
+The focus is on efficient \emph{pattern-based} matching, and rewritings that are strongly coupled to the query results, capable of executing fine-grain spot-wise changes (with transaction support for crawling search spaces). 
+Executed on an \emph{in-memory} graph-structure, by a \emph{single user} at a time.
+In contrast to e.g. Neo4J\cite{neo}, that offers non-pattern queries that are feeding loosely coupled simple updates via a query-result container in between, which is accumulating the matches but renders fine-grain changes based on the exact matches/spots difficult.
+Executed on a \emph{backing-store}, by \emph{multiple users} that are working concurrently at the same time, isolated by transactions.
+
+So \GrG\ is not suited for scenarios where many users need to access data at the same time. 
+It is very fast, so you can handle multiple-user scenarios simply by serializing the accesses --- this could be well sufficient for your tasks, but won't scale towards large user numbers.
+You may use it as an application-embedded database, as
+\GrG\ \emph{does} offer \emph{online} modification of graph-structures
+-- in addition to \emph{batch-wise offline} mapping of one graph representation to another one, which defines the common and only usage of model \emph{mapping} tools like ATL\cite{atl} or Epsilon\cite{epsilon} --
 but persistence of online modifications is only offered via recording to a change log that needs to be replayed at the next start
 (besides writing a full dump from memory at session end, as it is common to batch-wise offline processing).
+
+So \GrG\ is not suited for scenarios where the limits of main memory are exceeded.
+A well equipped single sever with 128GB of main memory is capable of storing somewhat under about 500 Million nodes plus 1 Billion edges (naked, without attributes and without names), see Chapter \ref{sec:performance} for the maths.
+This should be sufficient for many tasks, but still there are task that grow beyond it.
+And unfortunately other things come into play at that sizes -- importing such a graph will take several hours (the GRS importer is munching at some ten thousand elements per second), databases that work on a backing store and only shuffle the data visited in are at an advantage here (amortizing import cost over the course of processing).
+\GrG\ scales very well and can easily handle millions of elements, matching a pattern in such a graph within the blink of an eye, but it is not optimized for very huge datasets.
 

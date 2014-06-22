@@ -6,7 +6,7 @@
 \section{Built-In Types}
 \label{sec:builtingenerictypes}
 Besides the types already introduced, \GrG\ offers supports for a \texttt{\indexed{graph}} type.
-If used explicitly, it denotes a subgraph of the host graph, which can be used for storing and comparing subgraphs of the current host graph. (Because of the "there is only a single host graph"-design of GrGen you must explicitely descend to the nested subgraph if you intend to process it, see \ref{sec:graphnesting}).
+If used explicitly, it denotes a subgraph of the host graph, which can be used for storing and comparing subgraphs of the current host graph. (Because of the "there is only a single host graph"-design of GrGen you must explicitly descend to the nested subgraph if you intend to process it, see \ref{sec:graphnesting}).
 
 But more important are the large number of global functions (with call syntax as already introduced in \ref{sec:primexpr}) and global procedures (with call syntax as already introduced in \ref{sec:proccall}) that implicitly operate on the single host graph (and thus on the graph type).
 There are update functions available that allow to manipulate the graph available with \texttt{add}, \texttt{rem} and \texttt{retype}.
@@ -286,9 +286,9 @@ The isReachable functions give the most efficient and most convenient way to che
 The reachable iteration is the most concise way to note down a depth first walk over a graph, visiting all elements reachable from a source node on.
 \end{example}
 
-\subsubsection*{Bounded Transitive Node Neighbourhood}
+\subsubsection*{Bounded Transitive Node Neighbourhood}\label{transitiveneighbourbounded}
 
-Transitive neighbourhood can be queried also with a path length bound, with the bounded reachability functions.
+Transitive neighbourhood can be queried also with a path of bounded length, with the bounded reachability functions (querying for a \indexed{bounded iterated path}).
 
 Available are queries for the reachable-within-bounds edges:
 
