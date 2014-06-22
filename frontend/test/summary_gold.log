@@ -122,6 +122,7 @@ OK     should_pass/computations_canonize.grg
 OK     should_pass/computations_ceilfloorroundtruncate.grg
 OK     should_pass/computations_container_def.grg
 OK     should_pass/computations_container_method.grg
+OK     should_pass/computations_debug_statements.grg
 OK     should_pass/computations_decl_use_recursive.grg
 OK     should_pass/computations_decl_use_recursive_computations.grg
 OK     should_pass/computations_decl_use_return.grg
@@ -143,7 +144,8 @@ OK     should_pass/computations_do_while.grg
 OK     should_pass/computations_emitrecord.grg
 OK     should_pass/computations_for_container.grg
 OK     should_pass/computations_for_incident_adjacent_lookup.grg
-OK     should_pass/computations_highlight.grg
+OK     should_pass/computations_for_integer_range.grg
+OK     should_pass/computations_for_integer_range_exec.grg
 OK     should_pass/computations_if_else.grg
 OK     should_pass/computations_induced_defined.grg
 OK     should_pass/computations_merge_redirect.grg
@@ -247,6 +249,8 @@ OK     should_pass/enum_010.grg
 OK     should_pass/enum_011.grg
 OK     should_pass/enum_100.grg
 OK     should_pass/enum_101.grg
+OK     should_pass/equalsAny.grg
+OK     should_pass/equalsAnyStructurally.grg
 OK     should_pass/evalhere.grg
 OK     should_pass/exact_001.grg
 OK     should_pass/exact_002.grg
@@ -328,6 +332,7 @@ OK     should_pass/exectype_VFreeUntyped.grg
 OK     should_pass/exectype_VReset.grg
 OK     should_pass/exectype_VResetUntyped.grg
 OK     should_pass/exists_delete_file.grg
+OK     should_pass/explode_implode.grg
 OK     should_pass/external_001.grg
 OK     should_pass/FilterFunctions.grg
 OK     should_pass/FilterFunctionsParams.grg
@@ -364,9 +369,17 @@ OK     should_pass/independent_001.grg
 OK     should_pass/independent_002.grg
 OK     should_pass/independent_003.grg
 OK     should_pass/independent_004.grg
+OK     should_pass/independent_005.grg
+OK     should_pass/independent_005p.grg
 OK     should_pass/index_001.grg
+OK     should_pass/index_001exec.grg
+OK     should_pass/index_001loop.grg
 OK     should_pass/index_002.grg
+OK     should_pass/index_002exec.grg
+OK     should_pass/index_002loop.grg
 OK     should_pass/index_003.grg
+OK     should_pass/index_003exec.grg
+OK     should_pass/index_003loop.grg
 OK     should_pass/index_004.grg
 OK     should_pass/index_005.grg
 OK     should_pass/induced_001.grg
@@ -434,6 +447,7 @@ OK     should_pass/node_from_storage.grg
 OK     should_pass/nodeedgeattr_001.grg
 OK     should_pass/nodeedgebyname.grg
 OK     should_pass/nodeedgebyunique.grg
+OK     should_pass/nodeedgetypeof.grg
 OK     should_pass/now.grg
 OK     should_pass/object_001.grg
 OK     should_pass/object_002.grg
@@ -548,6 +562,8 @@ OK     should_pass/set_node_edge.grg
 OK     should_pass/set_node_edge2.grg
 OK     should_pass/snowflakeAGTIVE.grg
 OK     should_pass/strfunc_001.grg
+OK     should_pass/strfunc_002.grg
+OK     should_pass/stringcomp.grg
 OK     should_pass/successfulTermination_002.grg
 OK     should_pass/successfulTermination_003.grg
 OK     should_pass/successfulTermination_004.grg
@@ -570,7 +586,6 @@ OK     should_pass/visit_002.grg
 OK     should_pass/yield.grg
 WARNED should_warn/basic_003.grg
 WARNED should_warn/basic_025.grg
-WARNED should_warn/basic_054.grg
 WARNED should_warn/basic_200.grg
 WARNED should_warn/basic_201.grg
 WARNED should_warn/basic_202.grg
@@ -627,7 +642,7 @@ ERROR  should_fail/annot_005.grg
 ERROR  should_fail/annot_006.grg
 ERROR  should_fail/annot_007.grg
 ERROR  should_fail/annot_008.grg
-ERROR  should_fail/array_001.grg
+OK     should_fail/array_001.grg
 ERROR  should_fail/array_002.grg
 ERROR  should_fail/array_003.grg
 ERROR  should_fail/array_004.grg
@@ -940,7 +955,7 @@ ERROR  should_fail/delretypesame_004b.grg
 ERROR  should_fail/delretypesame_004b_e.grg
 ERROR  should_fail/delretypesame_004c.grg
 ERROR  should_fail/delretypesame_004c_e.grg
-ERROR  should_fail/deque_001.grg
+OK     should_fail/deque_001.grg
 ERROR  should_fail/deque_002.grg
 ERROR  should_fail/deque_003.grg
 ERROR  should_fail/deque_004.grg
@@ -1325,7 +1340,7 @@ ERROR  should_fail/rhs_edge2_nested.grg
 ERROR  should_fail/rhslhs.grg
 ERROR  should_fail/rhslhs2.grg
 ERROR  should_fail/same_attribute_as_node_edge_name.grg
-ERROR  should_fail/set_001.grg
+OK     should_fail/set_001.grg
 ERROR  should_fail/set_002.grg
 ERROR  should_fail/set_003.grg
 ERROR  should_fail/set_004.grg
