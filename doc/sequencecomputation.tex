@@ -338,7 +338,9 @@ The for loop could be replaced by employing the storage access in the rule const
 \end{example}
 
 \begin{warning}
-The container over which the for loop iterates must stay untouched during iteration.
+The container over which the \texttt{for} loop iterates must stay untouched during iteration.
+
+Use the \texttt{copy(.:container):container} function to clone the container before the iteration if you need to iterate the container content \emph{and} change its values.
 \end{warning}
 
 %\begin{example}

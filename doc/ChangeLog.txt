@@ -1,4 +1,4 @@
-﻿v4.4RC (2014-06-??)
+﻿v4.4RC (2014-06-22)
  Grammar cleaning:
  - removed container literals without type prefix (they don't work well with other language features)
  - removed annotations for anonymous elements
@@ -141,6 +141,10 @@
   or the compiled sequence calls, or the procedure calls, as context for the rules;
   the same holds when a halt or highlight is hit.
 
+ The "dum(p) graph" of the debugger now writes an undo.log in addition to the graph dump
+  in case a transaction is pending, with the contents of the undo log of the transaction manager
+  (i.e. the commands to reverse the changes that occured, not the changes themselves)
+  
  Added watchpoint / subrule debugging support and configuration rules to the shell/debugger.
  They can be edited interactively, or preconfigured with the following rules.
  - The rules allow to configure the behaviour of the debugger (break/continue)
@@ -202,6 +206,7 @@
  - events in general, with mostly attribute change events as base (like before)
  - events for debugging on top of it, mostly action match events,
    but also the new post-change-event
+ The compiler switch for inlining prevention now includes independent inlining.
    
  Added support for rendering external types as graphs in the debugger:
  - this allows to inspect opaque-to-GrGen external types in yComp as graphs
