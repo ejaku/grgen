@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Wed Apr 30 22:32:24 CEST 2014
+// Generated from "..\..\tests\edge1\edge1.grg" on Sun Jun 22 11:10:40 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -6188,6 +6188,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         public override string Name { get { return "edge1Actions"; } }
         public override string StatisticsPath { get { return null; } }
         public override bool LazyNIC { get { return false; } }
+        public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
         public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Wed Apr 30 22:32:55 CEST 2014
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun Jun 22 11:11:15 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -9738,6 +9738,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
         {
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
+            procEnv.DebugEntering("InsertHelperEdgesForNestedLayout.exec_0", "LinkMethodBodyToContainedEntity* && LinkMethodBodyToContainedExpressionTransitive* && [RemoveMethodBodyContainsBetweenExpressions] && RetypeClassContainment*");
             bool res_9;
             bool res_6;
             bool res_4;
@@ -9848,6 +9849,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
                 res_8 = (bool)(i_8 >= 0);
                 res_9 = (bool)(res_8);
             }
+            procEnv.DebugExiting("InsertHelperEdgesForNestedLayout.exec_0");
             return res_9;
         }
 
@@ -21104,6 +21106,7 @@ label3: ;
         public override string Name { get { return "ProgramGraphsOriginalActions"; } }
         public override string StatisticsPath { get { return null; } }
         public override bool LazyNIC { get { return false; } }
+        public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
         public override string ModelMD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }

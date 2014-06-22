@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Wed Apr 30 22:32:15 CEST 2014
+// Generated from "test.grg" on Sun Jun 22 11:10:31 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -138,12 +138,15 @@ namespace de.unika.ipd.grGen.Action_test
 			int tempvar_0 = (int )1234;
 			graph.ChangingNodeAttribute(node_are, GRGEN_MODEL.NodeType_D2211_2222_31.AttributeType_d2211_2222_31, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_are.@d2211_2222_31 = tempvar_0;
+			graph.ChangedNodeAttribute(node_are, GRGEN_MODEL.NodeType_D2211_2222_31.AttributeType_d2211_2222_31);
 			int tempvar_1 = (int )5678;
 			graph.ChangingNodeAttribute(node_fre, GRGEN_MODEL.NodeType_D231_4121.AttributeType_d231_4121, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 			inode_fre.@d231_4121 = tempvar_1;
+			graph.ChangedNodeAttribute(node_fre, GRGEN_MODEL.NodeType_D231_4121.AttributeType_d231_4121);
 			int tempvar_2 = (int )9012;
 			graph.ChangingNodeAttribute(node_mre, GRGEN_MODEL.NodeType_D11_2221.AttributeType_d11_2221, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_2, null);
 			inode_mre.@d11_2221 = tempvar_2;
+			graph.ChangedNodeAttribute(node_mre, GRGEN_MODEL.NodeType_D11_2221.AttributeType_d11_2221);
 			}
 			return;
 		}
@@ -735,6 +738,7 @@ namespace de.unika.ipd.grGen.Action_test
         public override string Name { get { return "testActions"; } }
         public override string StatisticsPath { get { return null; } }
         public override bool LazyNIC { get { return false; } }
+        public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
         public override string ModelMD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }

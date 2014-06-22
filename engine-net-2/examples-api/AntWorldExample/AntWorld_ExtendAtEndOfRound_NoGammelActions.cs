@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Wed Apr 30 22:32:17 CEST 2014
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Jun 22 11:10:31 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -450,9 +450,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			bool tempvar_0 = (bool )true;
 			graph.ChangingNodeAttribute(node_curAnt, GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_curAnt.@hasFood = tempvar_0;
+			graph.ChangedNodeAttribute(node_curAnt, GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood);
 			int tempvar_1 = (int )(inode_n.@food - 1);
 			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 			inode_n.@food = tempvar_1;
+			graph.ChangedNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_food);
 			}
 			return;
 		}
@@ -782,6 +784,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			int tempvar_0 = (int )(inode_old.@pheromones + 1024);
 			graph.ChangingNodeAttribute(node_old, GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_old.@pheromones = tempvar_0;
+			graph.ChangedNodeAttribute(node_old, GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones);
 			}
 			graph.Remove(edge_oldPos);
 			return;
@@ -1110,9 +1113,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			bool tempvar_0 = (bool )false;
 			graph.ChangingNodeAttribute(node_curAnt, GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_curAnt.@hasFood = tempvar_0;
+			graph.ChangedNodeAttribute(node_curAnt, GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood);
 			int tempvar_1 = (int )(inode_hill.@food + 1);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 			inode_hill.@food = tempvar_1;
+			graph.ChangedNodeAttribute(node_hill, GRGEN_MODEL.NodeType_GridNode.AttributeType_food);
 			}
 			return;
 		}
@@ -3158,9 +3163,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			int tempvar_0 = (int )(inode_n.@food + 100);
 			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_n.@food = tempvar_0;
+			graph.ChangedNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_food);
 			int tempvar_1 = (int )(inode_hill.@foodCountdown + 10);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 			inode_hill.@foodCountdown = tempvar_1;
+			graph.ChangedNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown);
 			}
 			return;
 		}
@@ -3485,6 +3492,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			int tempvar_0 = (int )(inode_hill.@foodCountdown - 3);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_hill.@foodCountdown = tempvar_0;
+			graph.ChangedNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			ApplyXGRS_GrowWorldFirstAtCorner_0(procEnv, (GRGEN_MODEL.IGridNode)node_outer1, (GRGEN_MODEL.IGridCornerNode)node_outer2, (GRGEN_MODEL.IGridNode)node_outer3);
@@ -3499,6 +3507,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
         {
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
+            procEnv.DebugEntering("GrowWorldFirstAtCorner.exec_0", "GrowFoodIfEqual(outer1,-2) || GrowFoodIfEqual(outer2,-1) || GrowFoodIfEqual(outer3,0)");
             bool res_16;
             bool res_10;
             bool res_4;
@@ -3556,6 +3565,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                 }
                 res_16 = (bool)(res_15);
             }
+            procEnv.DebugExiting("GrowWorldFirstAtCorner.exec_0");
             return res_16;
         }
 
@@ -3878,6 +3888,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			int tempvar_0 = (int )(inode_hill.@foodCountdown - 1);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_hill.@foodCountdown = tempvar_0;
+			graph.ChangedNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			ApplyXGRS_GrowWorldFirstNotAtCorner_0(procEnv, (GRGEN_MODEL.IGridNode)node_outer);
@@ -3892,6 +3903,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
         {
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
+            procEnv.DebugEntering("GrowWorldFirstNotAtCorner.exec_0", "GrowFoodIfEqual(outer,0)");
             bool res_21;
             Action_GrowFoodIfEqual rule_GrowFoodIfEqual = Action_GrowFoodIfEqual.Instance;
             GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_21 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer, (int)0);
@@ -3907,6 +3919,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                 procEnv.PerformanceInfo.RewritesPerformed++;
                 procEnv.Finished(matches_21, false);
             }
+            procEnv.DebugExiting("GrowWorldFirstNotAtCorner.exec_0");
             return res_21;
         }
 
@@ -4294,6 +4307,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			int tempvar_0 = (int )(inode_hill.@foodCountdown - 3);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_hill.@foodCountdown = tempvar_0;
+			graph.ChangedNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			ApplyXGRS_GrowWorldNextAtCorner_0(procEnv, (GRGEN_MODEL.IGridNode)node_outer1, (GRGEN_MODEL.IGridCornerNode)node_outer2, (GRGEN_MODEL.IGridNode)node_outer3);
@@ -4308,6 +4322,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
         {
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
+            procEnv.DebugEntering("GrowWorldNextAtCorner.exec_0", "GrowFoodIfEqual(outer1,-2) || GrowFoodIfEqual(outer2,-1) || GrowFoodIfEqual(outer3,0)");
             bool res_38;
             bool res_32;
             bool res_26;
@@ -4365,6 +4380,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                 }
                 res_38 = (bool)(res_37);
             }
+            procEnv.DebugExiting("GrowWorldNextAtCorner.exec_0");
             return res_38;
         }
 
@@ -4941,6 +4957,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			int tempvar_0 = (int )(inode_hill.@foodCountdown - 1);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_hill.@foodCountdown = tempvar_0;
+			graph.ChangedNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown);
 			}
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			ApplyXGRS_GrowWorldNextNotAtCorner_0(procEnv, (GRGEN_MODEL.IGridNode)node_outer);
@@ -4955,6 +4972,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
         {
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
+            procEnv.DebugEntering("GrowWorldNextNotAtCorner.exec_0", "GrowFoodIfEqual(outer,0)");
             bool res_43;
             Action_GrowFoodIfEqual rule_GrowFoodIfEqual = Action_GrowFoodIfEqual.Instance;
             GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_43 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer, (int)0);
@@ -4970,6 +4988,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                 procEnv.PerformanceInfo.RewritesPerformed++;
                 procEnv.Finished(matches_43, false);
             }
+            procEnv.DebugExiting("GrowWorldNextNotAtCorner.exec_0");
             return res_43;
         }
 
@@ -6086,6 +6105,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			int tempvar_0 = (int )(inode_hill.@food - 1);
 			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_hill.@food = tempvar_0;
+			graph.ChangedNodeAttribute(node_hill, GRGEN_MODEL.NodeType_GridNode.AttributeType_food);
 			}
 			output_0 = (GRGEN_MODEL.IAnt)(node_newAnt);
 			return;
@@ -6372,6 +6392,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			int tempvar_0 = (int )((int) (((double) inode_n.@pheromones) * 0.95));
 			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_n.@pheromones = tempvar_0;
+			graph.ChangedNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones);
 			}
 			return;
 		}
@@ -6655,6 +6676,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
         {
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
+            procEnv.DebugEntering("doAntWorld.exec_0", "(curAnt:Ant=firstAnt && ((TakeFood(curAnt) | GoHome(curAnt) || DropFood(curAnt) | ($[SearchAlongPheromones(curAnt)] || $[SearchAimless(curAnt)])) && (curAnt)=GetNextAnt(curAnt))* | ((cur:GridNode)=ReachedEndOfWorldAnywhere && ((cur,curOuter:GridNode)=GrowWorldFirstNotAtCorner(cur) || (cur,curOuter)=GrowWorldFirstAtCorner(cur)) && ((cur,curOuter)=GrowWorldNextNotAtCorner(cur,curOuter) || (cur,curOuter)=GrowWorldNextAtCorner(cur,curOuter))* && GrowWorldEnd(cur,curOuter)) | (curAnt)=Food2Ant(curAnt)* | [EvaporateWorld])[50]");
             bool res_106;
             bool res_105;
             bool res_44;
@@ -7017,6 +7039,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
                 if(!res_105) break;
             }
             res_106 = (bool)(i_106 >= 50);
+            procEnv.DebugExiting("doAntWorld.exec_0");
             return res_106;
         }
 
@@ -12160,6 +12183,7 @@ label1: ;
         public override string Name { get { return "AntWorld_ExtendAtEndOfRound_NoGammelActions"; } }
         public override string StatisticsPath { get { return null; } }
         public override bool LazyNIC { get { return false; } }
+        public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
         public override string ModelMD5Hash { get { return "5efeccfb37eb4c2835fae110fe22d2e7"; } }

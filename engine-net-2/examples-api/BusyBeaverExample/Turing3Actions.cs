@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Wed Apr 30 22:32:21 CEST 2014
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Jun 22 11:10:36 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -128,6 +128,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			int tempvar_0 = (int )inode_wv.@value;
 			graph.ChangingNodeAttribute(node_bp, GRGEN_MODEL.NodeType_BandPosition.AttributeType_value, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_bp.@value = tempvar_0;
+			graph.ChangedNodeAttribute(node_bp, GRGEN_MODEL.NodeType_BandPosition.AttributeType_value);
 			}
 			output_0 = (GRGEN_MODEL.IWriteValue)(node_wv);
 			return;
@@ -455,6 +456,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			int tempvar_0 = (int )inode_wv.@value;
 			graph.ChangingNodeAttribute(node_bp, GRGEN_MODEL.NodeType_BandPosition.AttributeType_value, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 			inode_bp.@value = tempvar_0;
+			graph.ChangedNodeAttribute(node_bp, GRGEN_MODEL.NodeType_BandPosition.AttributeType_value);
 			}
 			output_0 = (GRGEN_MODEL.IWriteValue)(node_wv);
 			return;
@@ -5313,6 +5315,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public override string Name { get { return "Turing3Actions"; } }
         public override string StatisticsPath { get { return null; } }
         public override bool LazyNIC { get { return false; } }
+        public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
         public override string ModelMD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }

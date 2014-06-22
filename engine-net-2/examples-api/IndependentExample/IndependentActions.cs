@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Wed Apr 30 22:32:38 CEST 2014
+// Generated from "..\..\tests\independent\Independent.grg" on Sun Jun 22 11:10:56 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -10247,6 +10247,7 @@ label15: ;
         public override string Name { get { return "IndependentActions"; } }
         public override string StatisticsPath { get { return null; } }
         public override bool LazyNIC { get { return false; } }
+        public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
         public override string ModelMD5Hash { get { return "a5b70deb49575f4d0997a3b831be3dfa"; } }
