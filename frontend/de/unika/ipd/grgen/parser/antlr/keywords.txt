@@ -1,5 +1,4 @@
 ABSTRACT : 'abstract';
-ACTIONS : 'actions';
 ALTERNATIVE : 'alternative';
 ARBITRARY : 'arbitrary';
 ARRAY : 'array';
@@ -39,7 +38,6 @@ INDUCED : 'induced';
 ITERATED : 'iterated';
 MAP : 'map';
 MATCH : 'match';
-MODEL : 'model';
 MODIFY : 'modify';
 MULTIPLE : 'multiple';
 NAMEOF : 'nameof';
