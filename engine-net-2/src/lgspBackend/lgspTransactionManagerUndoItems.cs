@@ -33,6 +33,11 @@ namespace de.unika.ipd.grGen.lgsp
             // if nothing happened from opening the first transaction to opening the transaction of interest,
             // they would be indistinguishable as the number of undo items did not change
         }
+
+        public override string ToString()
+        {
+            return "Transaction::start()";
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -40,16 +45,53 @@ namespace de.unika.ipd.grGen.lgsp
     ////////////////////////////////////////////////////////////////////////////////
     {
         public IGraphElement _elem;
+        public String _name; // for ToString only
+        public String _sourceName; // for ToString only
+        public String _targetName; // for ToString only
 
-        public LGSPUndoElemAdded(IGraphElement elem)
+        public LGSPUndoElemAdded(IGraphElement elem, LGSPGraphProcessingEnvironment procEnv)
         {
             _elem = elem;
+            if(procEnv.graph is LGSPNamedGraph)
+            {
+                _name = ((LGSPNamedGraph)procEnv.graph).GetElementName(_elem);
+                if(_elem is IEdge)
+                {
+                    _sourceName = ((LGSPNamedGraph)procEnv.graph).GetElementName(((IEdge)_elem).Source);
+                    _targetName = ((LGSPNamedGraph)procEnv.graph).GetElementName(((IEdge)_elem).Target);
+                }
+            }
+            else
+            {
+                _name = "?";
+                if(_elem is IEdge)
+                {
+                    _sourceName = "?";
+                    _targetName = "?";
+                }
+            }
         }
 
         public void DoUndo(LGSPGraphProcessingEnvironment procEnv)
         {
             if(_elem is INode) procEnv.graph.Remove((INode) _elem);
             else procEnv.graph.Remove((IEdge) _elem);
+        }
+
+        public override string ToString()
+        {
+            if(_elem is INode)
+                return "rem(" + _name + ":" + _elem.Type.Name + ")";
+            else
+                return "rem(-" + _name + ":" + _elem.Type.Name + "->" + SourceTarget() + ")";
+        }
+
+        private string SourceTarget()
+        {
+            if(_sourceName == null || _targetName == null)
+                return ", ?, ?";
+            else
+                return ", " + _sourceName + ", " + _targetName;
         }
     }
 
@@ -60,6 +102,7 @@ namespace de.unika.ipd.grGen.lgsp
         public IGraphElement _elem;
         public String _name;
         public LinkedList<Variable> _vars;
+        public IGraph _graph; // for ToString only
 
         public LGSPUndoElemRemoved(IGraphElement elem, LGSPGraphProcessingEnvironment procEnv)
         {
@@ -67,6 +110,7 @@ namespace de.unika.ipd.grGen.lgsp
             _vars = procEnv.GetElementVariables(_elem);
             if(procEnv.graph is LGSPNamedGraph) _name = ((LGSPNamedGraph)procEnv.graph).GetElementName(_elem);
             else _name = null;
+            _graph = procEnv.graph;
         }
 
         private LGSPUndoElemRemoved(IGraphElement elem, String name, LinkedList<Variable> vars)
@@ -95,6 +139,22 @@ namespace de.unika.ipd.grGen.lgsp
                     procEnv.SetVariableValue(var.Name, _elem);
             }
         }
+
+        public override string ToString()
+        {
+            if(_elem is INode)
+                return _name != null ? "add(" + _name + ":" + _elem.Type.Name + ")" : "add(?:" + _elem.Type.Name + ")";
+            else
+                return _name != null ? "add(-" + _name + ":" + _elem.Type.Name + "->" + SourceTarget() + ")" : "add(-?:" + _elem.Type.Name + "->" + SourceTarget() + ")";
+        }
+
+        private string SourceTarget()
+        {
+            if(!(_graph is INamedGraph) || ((IEdge)_elem).Source == null || ((IEdge)_elem).Target == null)
+                return ", ?, ?";
+            else
+                return ", " + ((INamedGraph)_graph).GetElementName(((IEdge)_elem).Source) + ", " + ((INamedGraph)_graph).GetElementName(((IEdge)_elem).Target);
+        }
     }
 
     public enum UndoOperation
@@ -115,11 +175,18 @@ namespace de.unika.ipd.grGen.lgsp
         public UndoOperation _undoOperation;
         public Object _value;
         public Object _keyOfValue;
+        public String _name; // for ToString only
+        public IGraph _graph; // for ToString only
 
         public LGSPUndoAttributeChanged(IGraphElement elem, AttributeType attrType,
-                AttributeChangeType changeType, Object newValue, Object keyValue)
+                AttributeChangeType changeType, Object newValue, Object keyValue, 
+                LGSPGraphProcessingEnvironment procEnv)
         {
-            _elem = elem; _attrType = attrType;
+            _elem = elem;
+            _attrType = attrType;
+            if(procEnv.graph is LGSPNamedGraph) _name = ((LGSPNamedGraph)procEnv.graph).GetElementName(_elem);
+            else _name = "?";
+            _graph = procEnv.graph;
 
             if (_attrType.Kind == AttributeKind.SetAttr)
             {
@@ -422,6 +489,73 @@ namespace de.unika.ipd.grGen.lgsp
                 procEnv.graph.ChangingEdgeAttribute(edge, _attrType, changeType, _value, _keyOfValue);
             }
         }
+
+        public override string ToString()
+        {
+            String attrName = _attrType.Name;
+            if(_undoOperation == UndoOperation.PutElement)
+            {
+                if(_attrType.Kind == AttributeKind.SetAttr)
+                    return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_value, _graph) + ")";
+                else if(_attrType.Kind == AttributeKind.MapAttr)
+                    return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph) + ", " + EmitHelper.ToStringAutomatic(_value, _graph) + ")";
+                else if(_attrType.Kind == AttributeKind.ArrayAttr)
+                {
+                    if(_keyOfValue == null)
+                        return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_value, _graph) + ")";
+                    else
+                        return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph) + ", " + EmitHelper.ToStringAutomatic(_value, _graph) + ")";
+                }
+                else //if(_attrType.Kind == AttributeKind.DequeAttr)
+                {
+                    if(_keyOfValue == null)
+                        return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_value, _graph) + ")";
+                    else
+                        return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph) + ", " + EmitHelper.ToStringAutomatic(_value, _graph) + ")";
+                }
+            }
+            else if(_undoOperation == UndoOperation.RemoveElement)
+            {
+                if(_attrType.Kind == AttributeKind.SetAttr)
+                    return NameDotAttribute() + ".rem(" + EmitHelper.ToStringAutomatic(_value, _graph) + ")";
+                else if(_attrType.Kind == AttributeKind.MapAttr)
+                    return NameDotAttribute() + ".rem(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph) + ")";
+                else if(_attrType.Kind == AttributeKind.ArrayAttr)
+                {
+                    if(_keyOfValue == null)
+                        return NameDotAttribute() + ".rem()";
+                    else
+                        return NameDotAttribute() + ".rem(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph) + ")";
+                }
+                else //if(_attrType.Kind == AttributeKind.DequeAttr)
+                {
+                    if(_keyOfValue == null)
+                        return NameDotAttribute() + ".rem()";
+                    else
+                        return NameDotAttribute() + ".rem(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph) + ")";
+                }
+            }
+            else if(_undoOperation == UndoOperation.AssignElement)
+            {
+                if(_attrType.Kind == AttributeKind.ArrayAttr)
+                    return NameDotAttribute() + "[" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph) + "] = " + EmitHelper.ToStringAutomatic(_value, _graph);
+                else //if(_attrType.Kind == AttributeKind.DequeAttr)
+                    return NameDotAttribute() + "[" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph) + "] = " + EmitHelper.ToStringAutomatic(_value, _graph);
+            }
+            else if(_undoOperation == UndoOperation.Assign)
+            {
+                return NameDotAttribute() + " = " + EmitHelper.ToStringAutomatic(_value, _graph);
+            }
+            return "nop (idempotent action)";
+        }
+
+        private String NameDotAttribute()
+        {
+            if(_elem is INode)
+                return _name + "." + _attrType.Name;
+            else
+                return "-" + _name + "." + _attrType.Name + "->";
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -430,11 +564,14 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public IGraphElement _oldElem;
         public IGraphElement _newElem;
+        public String _name; // for ToString only
 
-        public LGSPUndoElemRetyped(IGraphElement oldElem, IGraphElement newElem)
+        public LGSPUndoElemRetyped(IGraphElement oldElem, IGraphElement newElem, LGSPGraphProcessingEnvironment procEnv)
         {
             _oldElem = oldElem;
             _newElem = newElem;
+            if(procEnv.graph is LGSPNamedGraph) _name = ((LGSPNamedGraph)procEnv.graph).GetElementName(newElem);
+            else _name = "?";
         }
 
         public void DoUndo(LGSPGraphProcessingEnvironment procEnv)
@@ -483,6 +620,14 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
         }
+
+        public override string ToString()
+        {
+            if(_oldElem is INode)
+                return "retype(" + _name + ":" + _oldElem.Type.Name + ")";
+            else
+                return "retype(-" + _name + ":" + _oldElem.Type.Name + "->)";
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -492,18 +637,36 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPEdge _edge;
         public LGSPNode _source;
         public LGSPNode _target;
+        public String _name; // for ToString only
+        public IGraph _graph; // for ToString only
 
-        public LGSPUndoElemRedirecting(LGSPEdge edge, LGSPNode source, LGSPNode target)
+        public LGSPUndoElemRedirecting(LGSPEdge edge, LGSPNode source, LGSPNode target, LGSPGraphProcessingEnvironment procEnv)
         {
             _edge = edge;
             _source = source;
             _target = target;
+            if(procEnv.graph is LGSPNamedGraph) _name = ((LGSPNamedGraph)procEnv.graph).GetElementName(_edge);
+            else _name = "?";
+            _graph = procEnv.graph;
         }
 
         public void DoUndo(LGSPGraphProcessingEnvironment procEnv)
         {
             _edge.lgspSource = _source;
             _edge.lgspTarget = _target;
+        }
+
+        public override string ToString()
+        {
+            return "redirect(-" + _name + ":" + _edge.Type.Name + "->" + SourceTarget() + ")";
+        }
+
+        private string SourceTarget()
+        {
+            if(!(_graph is INamedGraph))
+                return ", ?, ?";
+            else
+                return ", " + ((INamedGraph)_graph).GetElementName(_source) + ", " + ((INamedGraph)_graph).GetElementName(_target);
         }
     }
 
@@ -522,6 +685,11 @@ namespace de.unika.ipd.grGen.lgsp
         {
             procEnv.graph.FreeVisitedFlagNonReset(_visitorID);
         }
+
+        public override string ToString()
+        {
+            return "vfree(" + _visitorID + ")";
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -539,6 +707,11 @@ namespace de.unika.ipd.grGen.lgsp
         {
             procEnv.graph.ReallocateVisitedFlag(_visitorID);
         }
+
+        public override string ToString()
+        {
+            return "valloc(" + _visitorID + ")";
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -548,17 +721,28 @@ namespace de.unika.ipd.grGen.lgsp
         public IGraphElement _elem;
         public int _visitorID;
         public bool _oldValue;
-        
-        public LGSPUndoSettingVisited(IGraphElement elem, int visitorID, bool oldValue)
+        public String _name; // for ToString only
+
+        public LGSPUndoSettingVisited(IGraphElement elem, int visitorID, bool oldValue, LGSPGraphProcessingEnvironment procEnv)
         {
             _elem = elem;
             _visitorID = visitorID;
             _oldValue = oldValue;
+            if(procEnv.graph is LGSPNamedGraph) _name = ((LGSPNamedGraph)procEnv.graph).GetElementName(_elem);
+            else _name = "?";
         }
 
         public void DoUndo(LGSPGraphProcessingEnvironment procEnv)
         {
             procEnv.graph.SetVisited(_elem, _visitorID, _oldValue);
+        }
+
+        public override string ToString()
+        {
+            if(_elem is INode)
+                return _name + ":" + _elem.Type.Name + ".visited[" + _visitorID + "] = " + _oldValue;
+            else
+                return "-" + _name + ":" + _elem.Type.Name + "->.visited[" + _visitorID + "] = " + _oldValue;
         }
     }
 
@@ -577,6 +761,11 @@ namespace de.unika.ipd.grGen.lgsp
         {
             procEnv.ReturnFromSubgraph();
             procEnv.SwitchToSubgraph(_oldGraph);
+        }
+
+        public override string ToString()
+        {
+            return "in " + _oldGraph.Name;
         }
     }
 }
