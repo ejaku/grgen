@@ -773,7 +773,7 @@
             to be implemented by concrete subclasses
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlan.Emit(de.unika.ipd.grGen.lgsp.SourceBuilder)">
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlan.Emit(de.unika.ipd.grGen.lgsp.SourceBuilder,System.Boolean)">
             <summary>
             emits the interpretation plan operation (as c# code string) into source builder
             to be implemented by concrete subclasses
@@ -786,6 +786,16 @@
             <param name="graph">The graph over which the plan is to be interpreted</param>
             <param name="includingAttributes">Whether to check for isomorphy including attributes or without them (== vs ~~)</param>
             <param name="matches">If not null, the list is filled with the matches; only in this case are all matches iterated</param>
+            <returns>true if execution succeeded, i.e. a match was found; false otherwise</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.InterpretationPlan.Execute(de.unika.ipd.grGen.lgsp.LGSPGraph,System.Boolean,System.Collections.Generic.List{de.unika.ipd.grGen.lgsp.FoundMatch},System.Int32)">
+            <summary>
+            Executes the interpretation plan (starting with this operation)
+            </summary>
+            <param name="graph">The graph over which the plan is to be interpreted</param>
+            <param name="includingAttributes">Whether to check for isomorphy including attributes or without them (== vs ~~)</param>
+            <param name="matches">If not null, the list is filled with the matches; only in this case are all matches iterated</param>
+            <param name="threadId">The id of the thread that is executing this interpretation plan (used for accessing the flags for isomorphy checking)</param>
             <returns>true if execution succeeded, i.e. a match was found; false otherwise</returns>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlan.next">
@@ -970,11 +980,6 @@
             <summary>
             The compiled graph comparison matcher, built from the interpretation plan
             not null if/after the interpretation plan was emitted and compiled
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.numChecks">
-            <summary>
-            Tells how many iso checks where done with this graph as one partner
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.GraphMatchingState.numMatchings">
@@ -1347,6 +1352,11 @@
             An implementation of the IGraphProcessingEnvironment, to be used with LGSPGraphs.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPSubactionAndOutputAdditionEnvironment">
+            <summary>
+            An implementation of the ISubactionAndOutputAdditionEnvironment, to be used with LGSPGraphs.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPActionExecutionEnvironment">
             <summary>
             An implementation of the IGraphProcessingEnvironment, to be used with LGSPGraphs.
@@ -1531,6 +1541,11 @@
             If true, the negatives, independents, and evaluations are inserted at the end of the schedule
             instead of as early as possible; this is likely less efficient but allows to use checks 
             which require that they are only called after a structural match was found
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.InlineIndependents">
+            <summary>
+            If true, the independents are to be inlined
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.Profile">
@@ -1781,7 +1796,7 @@
             <param name="action">Needed for the rule pattern and the name</param>
             <param name="sourceOutputFilename">null if no output file needed</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.FillInStaticSearchPlans(de.unika.ipd.grGen.lgsp.LGSPGraphStatistics,de.unika.ipd.grGen.lgsp.LGSPAction[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.FillInStaticSearchPlans(de.unika.ipd.grGen.lgsp.LGSPGraphStatistics,System.Boolean,de.unika.ipd.grGen.lgsp.LGSPAction[])">
             <summary>
             Do the static search planning again so we can explain the search plan
             </summary>
@@ -1976,6 +1991,11 @@
         <member name="M:de.unika.ipd.grGen.lgsp.GraphComparisonMatcher.IsIsomorph(de.unika.ipd.grGen.lgsp.PatternGraph,de.unika.ipd.grGen.lgsp.LGSPGraph,System.Boolean)">
             <summary>
             Returns whether the graph which resulted in thisPattern is isomorph to the graph given.        
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.GraphComparisonMatcher.IsIsomorph(de.unika.ipd.grGen.lgsp.PatternGraph,de.unika.ipd.grGen.lgsp.LGSPGraph,System.Boolean,System.Int32)">
+            <summary>
+            Returns whether the graph which resulted in thisPattern is isomorph to the graph given, using the parallel is matched flags array of the given thread id.        
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.GraphComparisonMatcher.Name">
@@ -2560,6 +2580,14 @@
             <param name="newName">Name of the new graph.</param>
             <returns>A new graph with the same structure as this graph.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CloneAndAssignNames">
+            <summary>
+            Duplicates a graph, assigning names.
+            The new graph will use the same model and backend as the other
+            Open transaction data will not be cloned.
+            </summary>
+            <returns>A new named graph with the same structure as this graph.</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CreateEmptyEquivalent(System.String)">
             <summary>
             Creates an empty graph using the same model and backend as the other.
@@ -2576,12 +2604,24 @@
             <param name="that">The other graph we check for isomorphy against</param>
             <returns>true if that is isomorph to this, false otherwise</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.HasSameStructure(de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.IsIsomorph(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.SetValueType})">
             <summary>
-            Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
+            Returns whether this graph is isomorph to any of the set of graphs given (including the attribute values)
+            If a graph changed only in attribute values since the last comparison, results will be wrong!
+            (Do a fake node insert and removal to ensure the graph is recognized as having changed.)
+            Don't call from a parallelized matcher!
             </summary>
-            <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
-            <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
+            <param name="graphsToCheckAgainst">The other graphs we check for isomorphy against</param>
+            <returns>true if any of the graphs given is isomorph to this, false otherwise</returns>
+        </member>
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.lgsp.LGSPGraph.HasSameStructure(de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.HasSameStructure(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.SetValueType})">
+            <summary>
+            Returns whether this graph is isomorph to any of the set of graphs given, neglecting the attribute values, only structurally
+            Don't call from a parallelized matcher!
+            </summary>
+            <param name="graphsToCheckAgainst">The other graphs we check for isomorphy against, neglecting attribute values</param>
+            <returns>true if any of the graphs given is isomorph (regarding structure) to this, false otherwise</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Canonize">
             <summary>
@@ -2809,6 +2849,16 @@
             Class representing an iteration over helper function results (nodes/edgse/incident/adjacent/reachable stuff)
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.ForIndexAccessEquality">
+            <summary>
+            Class representing an iteration over index based on equality comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ForIndexAccessOrdering">
+            <summary>
+            Class representing an iteration over index based on ordering comparison
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.ConditionStatement">
             <summary>
             Class representing an if statement, maybe with else part
@@ -2849,9 +2899,29 @@
             Class representing an emit statement
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.HighlightStatement">
+        <member name="T:de.unika.ipd.grGen.expression.DebugAddStatement">
             <summary>
-            Class representing a highlight statement
+            Class representing a debug add (entry) statement
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DebugRemStatement">
+            <summary>
+            Class representing a debug rem (exit) statement
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DebugEmitStatement">
+            <summary>
+            Class representing a debug emit statement
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DebugHaltStatement">
+            <summary>
+            Class representing a debug halt statement
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DebugHighlightStatement">
+            <summary>
+            Class representing a debug highlight statement
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.RecordStatement">
@@ -7220,7 +7290,7 @@
             <param name="path">The original path string potentially with wrong chars</param>
             <returns>The corrected path string</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateStaticPlanGraph(de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.SetValueType})">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateStaticPlanGraph(de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean,System.Boolean,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.SetValueType})">
             <summary>
             Generate plan graph for given pattern graph with costs from initial static schedule handed in with graph elements.
             Plan graph contains nodes representing the pattern elements (nodes and edges)
@@ -7661,7 +7731,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.expression.IN">
             <summary>
-            Class representing a map/set inclusion query.
+            Class representing a container or string inclusion query.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Cast">
@@ -7759,6 +7829,16 @@
             Class representing a string length expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.StringToUpper">
+            <summary>
+            Class representing a string to uppercase expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.StringToLower">
+            <summary>
+            Class representing a string to lowercase expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.StringSubstring">
             <summary>
             Class representing a substring expression.
@@ -7774,9 +7854,24 @@
             Class representing a string lastIndexOf expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.StringStartsWith">
+            <summary>
+            Class representing a string starts with expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.StringEndsWith">
+            <summary>
+            Class representing a string ends with expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.StringReplace">
             <summary>
             Class representing a string replace expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.StringExplode">
+            <summary>
+            Class representing a string explode expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.MapAccess">
@@ -7869,6 +7964,16 @@
             Class representing an array subarray expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayAsSet">
+            <summary>
+            Class representing an array as set expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayImplode">
+            <summary>
+            Class representing an array implode expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.DequeSize">
             <summary>
             Class representing a deque size expression.
@@ -7897,6 +8002,11 @@
         <member name="T:de.unika.ipd.grGen.expression.DequeSubdeque">
             <summary>
             Class representing a deque subdeque expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DequeAsSet">
+            <summary>
+            Class representing a deque as set expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.StaticMap">
@@ -8259,6 +8369,21 @@
             Class representing expression returning the count of the reachable nodes within the given depth of a node reachable via incident edges
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.BoundedReachableWithRemainingDepthOutgoing">
+            <summary>
+            Class representing expression returning the reachable nodes within the given depth of a node (as map including the remaining depth) reachable via outgoing edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.BoundedReachableWithRemainingDepthIncoming">
+            <summary>
+            Class representing expression returning the reachable nodes within the given depth of a node (as map including the remaining depth) reachable via incoming edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.BoundedReachableWithRemainingDepth">
+            <summary>
+            Class representing expression returning the reachable nodes within the given depth of a node (as map including the remaining depth) reachable via incident edges
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.IsReachableOutgoing">
             <summary>
             Class representing expression returning whether the end node is reachable from the start node via outgoing edges
@@ -8327,6 +8452,11 @@
         <member name="T:de.unika.ipd.grGen.expression.DefinedSubgraph">
             <summary>
             Class representing expression returning the defined subgraph from the given set of edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EqualsAny">
+            <summary>
+            Class representing expression returning whether the given subgraph is equal to any of the given set of subgraphs
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Max">
