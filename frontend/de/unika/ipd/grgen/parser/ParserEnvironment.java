@@ -332,7 +332,6 @@ public abstract class ParserEnvironment extends Base {
 		// execute antlr/gen-keywords-code.sh writing to antlr/keywords.out
 
 		keywords.add("abstract");
-		keywords.add("actions");
 		keywords.add("alternative");
 		keywords.add("arbitrary");
 		keywords.add("array");
@@ -372,7 +371,6 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("iterated");
 		keywords.add("map");
 		keywords.add("match");
-		keywords.add("model");
 		keywords.add("modify");
 		keywords.add("multiple");
 		keywords.add("nameof");
