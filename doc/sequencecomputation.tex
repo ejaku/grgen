@@ -1,6 +1,6 @@
 %TODO: durchgehen und alles was hier exklusiv ist in die computation-kapitel aufnehmen
 
-\chapter{Sequence Computations}\indexmain{sequence computations}
+\chapter{Sequence Computations}\indexmain{sequence computations}\label{seqcomp}
 
 In this chapter we'll take a look at sequence computations, which are not concerned with directly controlling rules, but with computing values or causing side effects, that are then used to control rules.
 
@@ -270,7 +270,7 @@ In a later step, you may then conditionally add exported graphs to the host grap
 
 \begin{example}
 When you model a state space with \texttt{Graph} representative nodes (\emph{not} \texttt{graph} standing for a real (sub)graph), which are pointing with \texttt{contains} edges to the nodes contained in their state (i.e. subgraph), and store additionally a replica of the subgraph in a \texttt{sub} attribute of the \texttt{Graph} node, so it is readily available for comparisons,
-then the step of a state space enumeration with isomorphic state pruning is controled with code like this:\\
+then the step of a state space enumeration with isomorphic state pruning is controlled with code like this:\\
 \verb#<< modifiyCurrent(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)}#\\
 Inside the backtracking double angles, a new state is computed as first step by modifying the currently focused state received as input \texttt{gr:Graph} from the previous step. The modified subgraph is extracted for comparison by computing the \texttt{inducedSubgraph} from the nodes \texttt{adjacent} via \texttt{contains}-edges to the \texttt{gr}-node.\\
 \verb#;> for{others:Graph in nodes(Graph); {{sub!=others.sub}} } && #\\

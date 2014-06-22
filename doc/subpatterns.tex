@@ -93,7 +93,7 @@ pattern IteratedPath(prev:Node)
   
 The code above searches an \indexed{iterated path} from the root node on, here an assignment list. 
 The iterated \indexed{path} with the optional is equivalent to the code below. Note the negative which ensures you get a longest match -- without it the empty case may be chosen lazily just in the beginning.
-Please note that if you only need to check for the existence of such a simple iterated path you can use the \texttt{reachable} function introduced in \ref{transitiveneighbour}.
+Please note that if you only need to check for the existence of such a simple iterated path you can use the \texttt{reachable} functions introduced in \ref{transitiveneighbour}.
 
   \begin{grgen}
 pattern IteratedPath(prev:Node)
@@ -117,6 +117,7 @@ The \indexed{bounded iterated path} is realized by
 calling a pattern with the requested maximum depth,
 counting the depth parameter down with each recursion step,
 until the limit checked by a condition is reached.
+The \texttt{boundedReachable} functions introduced in \ref{transitiveneighbourbounded} should be prefered in a simple case like this.
 
   \begin{grgen}
 test boundedIteratedPath(root:Assign)
@@ -168,7 +169,8 @@ Here, three nodes \texttt{a1},\texttt{a2},\texttt{a3} of type \texttt{Assign} fo
 The path may contain the host graph node matched to \texttt{a2} again.
 Without the \texttt{independent} this would not be possible, as all pattern elements -- including the ones originating from subpatterns -- get matched isomorphically. 
 The same path specified in the pattern of the rule -- not in the independent -- would not get matched if it would go through the host graph node matched to b, as it is locked by the isomorphy constraint.
-
+Again, the \texttt{reachable} functions introduced in \ref{transitiveneighbour} are the better choice here.
+They always match independently from the patterns (so when you need locking, you cannot employ them), can be used directly, and are implemented (more) efficiently. 
 \end{example}
 
 With recursive subpatterns you can already capture neatly structures extending into depth (as iterated paths)
@@ -757,7 +759,7 @@ Exceeding the more verbose syntax they offer constructs for matching the pattern
 
 Understanding \GrG-subpatterns may be easier given knowledge about EBNF-grammars when we compare them to those.
 We find then that rules resemble grammar axioms, subpatterns resemble nonterminals, and graphlets resemble terminal symbols; nested patterns are similar to EBNF operators, and the rewrite part corresponds to the semantic actions of syntax directed translation.
-Negative and independent patterns are used to explicitely check context constraints
+Negative and independent patterns are used to explicitly check context constraints
 (every graphlet as such is already able to match pieces that one would or could classify as context, graph rewriting allows for derivations that are highly adaptable to the surrounding parts).
 See \cite{EBNFAGTIVE} for more on this.
 

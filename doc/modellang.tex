@@ -220,7 +220,7 @@ Please take care of non-disjoint source/target types/subtypes in the case of und
 In the case of multiple connection assertions all are checked and errors for each one reported; for strict validation to succeed at least one of them must match.
 It might happen that none of the connection assertions of an \texttt{EdgeType} are matching an edge of this type in the graph.
 This is accepted in the case of normal validation (throwing connection assertions without multiplicities effectively back to nops);
-but as you normally want to see \emph{only} the specified connections occuring in the graph,
+but as you normally want to see \emph{only} the specified connections occurring in the graph,
 there is the additional mode of strict validation: if an edge is not covered by a single matching connection, validation fails.
 Furtheron there is the strict-only-specified mode, which only does strict validation of the edges for which connection assertions are given.
 See Section~\ref{sec:validate}, \texttt{validate}\ixkeyw{validate}, for an example.

@@ -10,7 +10,7 @@ The primary means available are: external attribute types, external functions, m
   ExternalClassDeclaration: 'external' 'class' IdentDecl (() | 'extends' (ExternalClassType+',')) ';';
 \end{rail}\ixnterm{ExternalClassDeclaration}\ixkeyw{external}\ixkeyw{class}\ixkeyw{extends}
 Registers a new attribute type with \GrG. You may declare the base types of the type, but not give attributes. The attribute type must be implemented externally, see \ref{sub:extclsfctimpl}; for \GrG~the type is opaque, only external functions can do computations with it. You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs.
-(Those types are not implicitely casted to \texttt{object}, but can be explicitely casted.)
+(Those types are not implicitly casted to \texttt{object}, but can be explicitly casted.)
 
 %-----------------------------------------------------------------------------------------------
 \section{External Function Types}\label{sub:extfct}
