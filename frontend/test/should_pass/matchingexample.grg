@@ -1,0 +1,29 @@
+#using "matchingexample.gm"
+
+rule r(a:Node) : (Node, int)
+{
+	a --> b:Node;
+	
+	def var i:int;
+	optional o {
+		a --> . --> c:N;
+		yield { yield i = c.i; }
+		
+		modify {
+		}
+	}
+
+	def d:Node;
+	p:P(b, yield d);
+	
+	modify {
+		b --> u:Node;
+		return(d, i);
+	}
+}
+
+pattern P(n:Node, def rm:Node)
+{
+	n --> . --> m:Node;
+	yield { yield rm = m; }
+}

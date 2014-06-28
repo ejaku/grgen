@@ -729,13 +729,138 @@ test countOfEdges(start:Node) : (int)
 %\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Regular Expression Syntax and Locking}\indexmainsee{EBNF}{regular expression syntax}\indexmain{regular expression syntax}
+\section{Flow Example, Regular Expression Syntax, and Locking}\indexmainsee{EBNF}{regular expression syntax}\indexmain{regular expression syntax}
 
+Pattern matching and rewriting occurs in two completely distinct passes, separated by the part-pattern matches tree of the combined patterns.
+During each pass, input and output parameters may be computed and passed; with explicit passing for subpatterns, and implicit passing for nested patterns (which can directly access the content of their contained pattern).
+
+First the pattern is matched with recursive descent alongside pattern nesting and subpattern calling, employing some helper stacks in addition to the call stack (the pushdown machine is explained in more detail in \ref{sec:generatedcode}).
+Matching occurs strictly top-down (or from the outside to the nested inside patterns), first the graphlets of the current pattern are matched, then control descends to the nested and subpatterns.
+During matching, input parameters may be passed, esp. forwarding just matched elements or attributes from them; they allow to influence the matching process.
+
+When a complete match is found, while ascending again, unwinding the call stack, output pattern-\texttt{def} parameters are passed bottom-up (or from the inside to the containing outside patterns) with \texttt{yield} blocks and \texttt{yield} assignments within those blocks, or \texttt{yield} bindings of \texttt{def} parameters in a subpattern call.
+During this ascent, the part-pattern matches tree is assembled, each match of a pattern contains the matches of its nested patterns and used subpatterns when it is left.
+
+In the rewrite step, the matches tree is visited recursively again, creating the new nodes of the current pattern, then descending to the nested patterns and subpatterns, executing their changes, and after they returned, executing all other changes of the pattern.
+During this visit, rewrite input parameters may be passed, for forwarding just created elements (or computed values). 
+
+On ascending again from a pattern, the rewrite-\texttt{def} elements are assigned from \texttt{yield} assignments in the \texttt{eval} blocks, or \texttt{yield} bindings of \texttt{def} rewrite parameters in a subpattern rewrite call.
+(Technically, nested patterns are handled like subpatterns, with parameter passing for accessed elements of the containing pattern automatically inserted by the compiler.)
+
+Let's take a look at an example, with Figure \ref{figmatchingparameterflow} depicting the input and output parameter passing during the matching of Example \ref{exmatchingparameterflow}, and Figure \ref{figrewritingparameterflow} depicting the input and output parameter passing during the rewriting of Example \ref{exrewritingparameterflow} (which is an extended version of Example \ref{figmatchingparameterflow}).
+
+\begin{example}
+  \begin{grgen}
+rule r(a:Node) : (Node, int)
+{
+	a --> b:Node;
+	
+	def var i:int;
+	optional o {
+		a --> . --> c:N;
+		yield { yield i = c.i; }
+		
+		modify {
+		}
+	}
+
+	def d:Node;
+	p:P(b, yield d);
+	
+	modify {
+		b --> u:Node;
+		return(d, i);
+	}
+}
+
+pattern P(n:Node, def rm:Node)
+{
+	n --> . --> m:Node;
+	yield { yield rm = m; }
+}
+  \end{grgen}
+\end{example}\label{exmatchingparameterflow}
+
+\begin{figure}[hptb]
+  \centering
+  \includegraphics[width=0.61\textwidth]{fig/MatchAndParameterFlowAnnotated}
+  \caption{Parameter flow in matching}
+  \label{figmatchingparameterflow}
+\end{figure}
+
+\begin{example}
+  \begin{grgen}
+rule r(a:Node) : (Node, int, Node, int) {
+	a --> b:Node;
+	def var i:int;
+	optional o {
+		a --> . --> c:N;
+		yield {	yield i = c.i; }
+		
+		modify {
+			eval { yield j = i + u.i; }
+		}
+	}
+	def d:Node;
+	p:P(b, yield d);
+	
+	modify {
+		def e:Node; def var j:int;
+		b --> u:N;
+		p(u, yield e);
+		return(d, i, e, j);
+	}
+}
+pattern P(n:Node, def rm:Node) modify(k:Node, def x:Node) {
+	n --> . --> m:Node;
+	yield {	yield rm = m; }
+	
+	modify {
+		m --> k; m --> l:Node;
+		eval { yield x = l; }
+	}
+}
+  \end{grgen}
+\end{example}\label{exrewritingparameterflow}
+
+\begin{figure}[hptb]
+  \centering
+  \includegraphics[width=0.63\textwidth]{fig/RewriteAndParameterFlowAnnotated}
+  \caption{Parameter flow in rewriting}
+  \label{figrewritingparameterflow}
+\end{figure}
+
+In Example \ref{exmatchingparameterflow}, a rule \texttt{r} is matched, which contains a nested \texttt{optional} pattern \texttt{o} and uses a subpattern \texttt{P}.
+The rule matches from its input node \texttt{a} on a neighbouring node \texttt{b} and hands it in to the subpattern \texttt{p}.
+In the optional pattern it matches a two-step neighbouring node \texttt{c} from \texttt{a} on.
+The subpattern \texttt{P} matches from its input parameter \texttt{n} on a two-step neighbouring node \texttt{m}.
+
+A \texttt{def} variable \texttt{i} is declared in the pattern, and \texttt{yield} assigned from the optional \texttt{o} an attribute of the \texttt{c} found there.
+Another \texttt{def} variable \texttt{d} is declared in the pattern, and assigned from the subpattern call \texttt{p} with a \texttt{yield} parameter passing. 
+The two pattern \texttt{def} variables are then \texttt{return}ed out of rule \texttt{r}.
+The subpattern \texttt{P} \texttt{yield}s to its output \texttt{def} parameter \texttt{rm} the \texttt{m} found in its body.
+
+In the extended Example \ref{exrewritingparameterflow}, the rewrite part of the rule \texttt{r} creates a node \texttt{u}, links it to \texttt{b}, and hands it in to the subpattern rewrite employment of \texttt{p}.
+The rewrite part of subpattern \texttt{P} creates a node \texttt{l} and links it to \texttt{m}.
+Additionally, an edge is inserted in between \texttt{m} and the rewrite input parameter \texttt{k}.
+
+A \texttt{def} variable \texttt{j} is declared in the rewrite part of \texttt{r}, and \texttt{yield} assigned from the \texttt{eval} inside the rewrite part of the optional \texttt{o}.
+Another \texttt{def} variable \texttt{e} is declared in the rewrite part, and assigned from the subpattern rewrite call \texttt{p}.
+The two rewrite-\texttt{def} variables are then \texttt{return}ed out of the rule, in addition to the two pattern-\texttt{def} variables.
+The subpattern \texttt{yield}s from its \texttt{eval} part to its output \texttt{def} rewrite parameter \texttt{x} the \texttt{l} just created.
+
+Bottom line: you can flexibly combine patterns with nested and subpatterns, including input and output parameters.
+You can pass parameters in during matching alongside matching order. When matching completed, during match-tree building, you can yield elements found in contained patterns out. 
+When the rewrite is applied, you can pass parameters in alongside the buildup of the patterns, and yield elements out once more.
+But not only are those two passes strictly distinct, but also are the parameter passing directions strictly distinct, first is all input parameter passing carried out during descent, then is all output parameter synthesizing carried out during ascent.
+
+
+\subsubsection*{Regular Expression Syntax}
 In addition to the already introduced syntax for the nested patterns with the keywords 
 \texttt{negative}, \texttt{independent}, \texttt{alternative}, \texttt{iterated}, \texttt{multiple} and \texttt{optional},
-there is a more lightweight syntax resembling regular expressions; 
-using it together with the subpatterns gives graph rewrite specifications which look like EBNF-grammars with embedded actions. 
-Exceeding the more verbose syntax they offer constructs for matching the pattern a bounded number of times (same notation as the one for the bounded iteration in the sequences).
+there is a more lightweight syntax resembling regular expressions available; 
+when used together with the subpatterns it yields graph rewrite specifications which look like EBNF-grammars with embedded actions. 
+Besides reducing syntactical weight, they offer constructs for matching a pattern a bounded number of times (same notation as the one for the bounded iteration in the sequences).
 
 %Table \ref{keywordregexpsyntax} lists the corresponding (/equivalent) language constructs; 
 %Example \ref{introexampleregexp} is a version of the introductory example \ref{introexample} modified to use the new syntax. commented out to get better layout
