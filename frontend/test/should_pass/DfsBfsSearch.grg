@@ -127,3 +127,19 @@ procedure DepthFirstSearchCall(root:WalkOrder, var num:int, var vis:int) : (int)
 	
 	return(num);
 }
+
+// iterative deepening is trivial due to boundedReachable (encapsulating a depth-bounded depth first search)
+procedure IterativeDeepening(root:Node, var maxdepth:int) : (boolean)
+{
+	for(depth:int in [0:maxdepth])
+	{
+		for(n:Node in boundedReachableOutgoing(root, depth))
+		{ 
+			if(foundCondition()) {
+				return(true);
+			}
+		}		
+	}
+	
+	return(false);
+}

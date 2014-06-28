@@ -3723,6 +3723,10 @@ options { k = *; }
 			  || input.LT(1).getText().equals("nodes") || input.LT(1).getText().equals("edges")
 			  }?
 			function=externalFunctionInvocationExpr[false] RPAREN
+			{
+				if(!(function instanceof FunctionInvocationExprNode))
+					reportError(function.getCoords(), "unknown function or wrong parameters in for loop over graph access function");
+			}
 		LBRACE
 			cs=computations[onLHS, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
