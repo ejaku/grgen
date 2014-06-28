@@ -238,8 +238,8 @@ Complex patterns are combined from elementary patterns with \emph{nested pattern
 Besides those parts for declarative processing of structural information are \emph{attribute conditions} (see Chapter \ref{cha:typeexpr}) and \emph{attribute evaluations} available, the former are expressions computing an output value by reading attributes of matched elements, the latter are statements changing attribute values with assignments. 
 
 The attribute processing expressions and statements are in fact parts of a full-fledged \emph{imperative programming language} integrated with the declarative pattern-based rule language (see Chapter \ref{cha:computations}).
-The \emph{expressions} can query the graph with a multitude of available functions in addition to reading the attributes of matched elements and carrying out computations with the attributes; they can be abstracted into \emph{functions}.
-The \emph{statements} support direct graph changes and supply control flow statements and def variable declarations in addition to the attribute assignments; they can be abstracted into \emph{procedures}.
+The \emph{expressions} can query the graph with a multitude of available functions in addition to reading the attributes of matched elements and carrying out computations with the attributes; they compute a value and can be abstracted into \emph{functions}.
+The \emph{statements} support direct graph changes and supply control flow statements and def variable declarations in addition to the attribute assignments; they change the state and can be abstracted into \emph{procedures}.
 You especially find subgraph operations for the processing of nested graphs, with subgraph extraction, subgraph comparison, and subgraph insertion (see Chapter \ref{cha:graph}). 
 
 Pattern matching can be adjusted fine-grained with homomorphic matching for selected elements (with \texttt{hom} declarations, so they can match the same graph elements), overriding the default isomorphic matching, and with type constraints (forbidding certain static types or requiring equivalence of dynamic \texttt{typeof}s).
@@ -347,19 +347,19 @@ it is open source licensed under LGPL3(\url{www.gnu.org/licenses/lgpl.html}) and
 The development goals of \GrG\ have been:
 
 \subsection*{Expressiveness}
-is achieved by declarative specification languages for pattern matching and rewriting that are bursting with features, building upon a rich graph model language.
+is achieved by \emph{declarative} specification languages for \emph{pattern matching} and \emph{rewriting} that are bursting with features, building upon a rich graph model language.
 
 In addition to the unmatched expressiveness of the single-element operations offered by the pattern and the rewrite parts,
-are nested and subpatterns available for combining them flexibly;
+are \emph{nested} and \emph{subpatterns} available for combining them flexibly;
 they allow to process substructures of arbitrary depth and breadth with a single rule application.
 This surpasses the capabilities of the VIATRA2\cite{viatra2,recursiveviatra} and GROOVE \cite{Groove} tools, our strongest competitors regarding rule expressiveness.
 You may have a look at the GrGen.NET solution of the program understanding case \cite{ProgramUnderstanding} of the TTC 2011 highlighting how \emph{concise} and \emph{elegant} solutions become due to the expressiveness of the language constructs.
 
 While the patterns can be combined in a functional way with nested and subpatterns to build complex rules, can the rules be combined in an imperative way with graph rewrite sequences, executing a graph state change after the other.
 
-The sequences used for orchestrating the rules are at the time of writing the most advanced strategy language offered by any graph rewriting tool, featuring variables of elementary as well as container types (called storages when containing nodes, as pioneered by the VMTS\cite{vmts} tool), and sequential, logical, conditional, and iterative control flow as the base operations, plus sequence definitions and calls.
+The sequences used for orchestrating the rules are at the time of writing the most advanced \emph{strategy language} offered by any graph rewriting tool, featuring variables of elementary as well as container types (called storages when containing nodes, as pioneered by the VMTS\cite{vmts} tool), and sequential, logical, conditional, and iterative control flow as the base operations, plus sequence definitions and calls.
 Small graph-changes and computations can be executed with sequence computations without the need to enter and exit again the rule layer.
-The most notable feature of the sequences are their transactional and backtracking constructs, which support search and state space enumeration processes with their ability to roll changes to the graph back to an initial states, saving you a considerable amount of change reversal and bookkeeping code you'd need for implementing this on your own.
+The most notable feature of the sequences are their \emph{transactional} and \emph{backtracking constructs}, which support search and state space enumeration processes with their ability to roll changes to the graph back to an initial states, saving you a considerable amount of change reversal and bookkeeping code you'd need for implementing this on your own.
 
 Expressiveness is achieved by language elements that were designed to be \emph{general} and \emph{orthogonal}.
 \GrG\ offers the more general iterated patterns subsuming the multinodes as they are common for graph rewriting tools.
@@ -375,12 +375,12 @@ For nearly any graph-representation-based task do you find a collection of tools
 But you have to learn those tools and how to use them beforehand.
 For small tasks that effort is likely higher than the net gains in the end.
 
-For subtasks where the declarative pattern-based rules do not work well (which happens occasionally), are you free to revert to imperative and object-oriented programming as known from the C++, Java, C\# language family, utilizing the imperative parts of the \GrG-languages.
+For subtasks where the declarative pattern-based rules do not work well (which happens occasionally), are you free to revert to \emph{imperative} and \emph{object-oriented programming} as known from the C++, Java, C\# language family, utilizing the imperative parts of the \GrG-languages.
 You loose a considerable amount of the benefits of employing the tool then (we consider model transformation tools offering own -- but only imperative -- languages pointless (and OCL-expressions are only a small improvement in this regard)), but neither are you stuck, nor are you forced to convoluted workarounds, as it may happen with tools that offer only pattern-based rules, e.g. Henshin\cite{Henshin} or AGG\cite{agg}.
-The multi-paradigm languages of \GrG\ offer you all the constructs you need for transforming graph-representations.
+The \emph{multi-paradigm languages} of \GrG\ offer you all the constructs you need for transforming graph-representations.
 
 \subsection*{General-Purpose Graph Rewriting}
-in contrast to \emph{special-purpose} graph rewriting requires high programmability, genericity and customizability.
+in contrast to \emph{special-purpose} graph rewriting requires high \emph{programmability}, \emph{genericity} and \emph{customizability}.
 
 Some graph based tools are geared towards special application domains, e.g. biology (XL \cite{xl} or verification (GROOVE \cite{Groove}).
 This means that design decisions were taken that ease uses in these application areas at the cost of rendering uses in other domains more difficult.
@@ -391,7 +391,7 @@ Instead of offering a built-in fixed-function state space enumerator like GROOVE
 This highlights the costs of being general-purpose: you \emph{must program} what you need.
 But it also highlights the benefits: you \emph{can program exactly} what is needed, being very \emph{flexible} in how state-space enumeration is carried out.
 The former tools expect a rule set which they apply exhaustively to create a state space, one state per rule application. 
-But state space enumeration requires a lot of memory due to state explosion phenomenon -- for practical applications you need control over which changes are to be seen as states and which not, and single rules often are too low-level regarding this classification, materializing many superfluous states.
+But state space enumeration requires a lot of memory due to the state explosion phenomenon -- for practical applications you need control over which changes are to be seen as states and which not, and single rules often are too low-level regarding this classification, materializing many superfluous states.
 \GrG\ gives you that kind of control (backtracking rule application and state materialization are separate things), allowing you to unfold deeper given the same amount of memory. 
 When it comes to non-toy-examples, \emph{programmability wins} over coarse-grain \emph{fixed-function} units.
 But of course only as long as you don't need to reinvent the wheel, when you can program based on a \emph{suitable level of abstraction}.
@@ -402,7 +402,7 @@ This should not hinder you to choose the latter when your task does not require 
 The approach of \GrG\ is to offer you \emph{languages} to achieve your goals, not \emph{pre-coded solutions} that may or may not fit to your task.
 This holds not only for the languages used to describe the data or specify the computations, but also for the visualization and the debugger. They can be customized easily to the characteristics of your graph representation. 
 
-Programmability always must come with means to abstract and encapsulate the programs into own units and parametrize them, so you are not exposed to details where you don't need them (but can access them when you need to do so, in contrast to fixed-function units).
+Programmability always must come with means to abstract and encapsulate the programs into own units and parametrize them, so you are not exposed to details where you don't need them (but can access them when you need to do so, in contrast to opaque fixed-function units).
 They are available with the rules and tests, the subpatterns, the procedures and functions (plus method procedures and method functions), the filter functions, and sequence definitions; and the input and output parameters available for them.
 
 While the old \textsc{GrGen} started as a special-purpose compiler construction tool for internal use with fixed-shape patterns 
@@ -418,52 +418,52 @@ It was always amongst the best rated tools, a record that is only achievable for
 
 \subsection*{Performance}
 i.e. high speed at modest memory consumption, is needed to tackle real world problems.
-It is achieved by a model implementation that is optimized for efficient and scalable pattern matching (and rewriting),
-while not growing memory needs out of proportion (as it happens for incremental approaches storing and maintaining the matches of all rules at any time).
+It is achieved by an \emph{optimized model implementation} that is tailored for efficient and scalable pattern matching (and rewriting),
+while not growing memory needs out of proportion (as it happens for incremental match engines storing and maintaining the matches of all rules at any time).
 The nodes and edges are organized in a system of ringlists, giving immediate access to the elements of a type, and to the incident elements of an element.
-When needed, attribute indices or incidence count indices can be applied, getting fast access to graph elements based on attribute values, or incidence counts.
+When needed, attribute indices or incidence count indices can be applied, giving fast access to graph elements based on attribute values, or incidence counts.
 
-The generative approach compiling the rules into executable code,
-with nested loops for matching the pattern elements is helping tremendously regarding performance.
-But it comes at a cost: the test-debug-cycle is slowed down, and you are less flexible regarding runtime changes.
-A further help for performance are the types, which are speeding up the pattern matcher
--- besides being a help in modeling the domain and besides easening the life of the programmer by eliminating large classes of errors at compile time.
-Performance is further fostered by explicit control and rule applications from preset parameters on, defining where to match the rules (giving rooted pattern matching), and which rule to match when (getting faster to a matching rule based on domain knowledge), in contrast to approaches based on implicit control, most notably the graph-grammar approach with its parameterless rules (only controlled by an optional layering). 
+The generative approach and its \emph{compilation} of the rules into executable code is helping tremendously regarding performance, employing nested loops for matching the pattern elements (and a recursive descent based pushdown machine for combining the patterns).
+But it comes at a cost: the test-debug-cycle is slowed down compared to an interpreter, and you are less flexible regarding runtime changes.
+A further help regarding performance are the\emph{types}, which are speeding up the pattern matcher
+-- besides being a help in modeling the domain and besides easening your life by eliminating large classes of errors at compile time.
+Performance is further fostered by \emph{explicit control} with sequences, and rule applications from \emph{preset parameters} on, defining where to match the rules (giving rooted pattern matching), and which rule to match when (getting faster to a matching rule based on domain knowledge), in contrast to approaches based on implicit control, most notably the graph-grammar approach with its parameterless rules (only controlled by an optional layering). 
 
-Performance is gained by the host graph sensitive search plans.
+Performance is gained by the \emph{host graph sensitive search plans}.
 In order to accelerate the matching step, we internally introduce \newterm{search plan}s
 to represent different \newterm{matching strategies} and equip these search plans with a cost model, taking the present host graph into account.
 The task of selecting a good search plan is then considered as an optimization problem~\cite{BKG:07,Bat:06}.
 In contrast to systems like Fujaba\cite{fujaba,fuj}, our strongest competitor regarding performance,
 is our pattern matching algorithm fully automatic and neither needs to be tuned nor partly be implemented by hand.
 
-Furthermore, there are several strength reduction and inlining optimizations employed by the compiler to eliminate the overhead of the higher level of abstraction where it is not needed;
-in addition to the search state space stepping that typically yields matches faster,
-an important factor for being at least one order of magnitude faster than any other tool known to us according to \indexed{Varr\'o's benchmark}\cite{varro_bench}.
-Finally, search intensive tasks can be parallelized, reaping benefits from our-days multicore machines; have a look at our solution for the Movie Database case of the TTC14\cite{MovieDatabase} to see what can be achieved this way.
+Furthermore, there are several strength reduction and inlining \emph{optimizations} employed by the compiler to eliminate the overhead of the higher level of abstraction where it is not needed;
+in addition to the \emph{search state space stepping} that typically yields matches faster,
+boosting rule applications executed from inside a loop,
+which plays an important role in being at least one order of magnitude faster than any other tool known to us according to \indexed{Varr\'o's benchmark}\cite{varro_bench}.
+Finally, search intensive tasks can be \emph{parallelized}, reaping benefits from our-days multicore machines; have a look at our solution for the Movie Database case of the TTC14\cite{MovieDatabase} to see what can be achieved this way.
 
 \subsection*{Understandability and Learnability}
 was taken care by evaluating for each language construct several options,
-preferring constructs already known from imperative and object-oriented programming languages as well as parser generators ---
+preferring constructs already known from imperative and object-oriented programming languages (as well as parser generators) ---
 the ones which seemed most clean and intuitive while satisfying the other constraints were chosen.
 This can be noted in comparison with the languages of the GReTL \cite{GReTL} tool, esp. with its powerful graph query language GReQL,
-which may be pleasing to someone from the realm of formal specification, but which are not to the mind of a programmer.
+which may be pleasing to someone from the realm of formal specification, but which are not to the \emph{mind of a programmer}.
 %A programmer who just wants to process his graphs on a higher level of abstraction, with declarative pattern matching and rewriting on a visualization of the network of objects -- instead of low level pointer structure fiddling, chasing objects by following references in the debugger.
 You may have a look at the GrGen.NET solution of the Hello World! case \cite{HelloWorld} to judge on your own.
-As we know that even the best designed language is not self explaining we put an emphasize on the user manual currently read by you.
+As we know that even the best designed language is not self explaining we put an emphasize on the \emph{user manual} currently read by you.
 Especially since the consequences of the development goals expressiveness and programmability are inevitably increasing the learning effort.
 
 \subsection*{Development Convenience}
-is gained especially by the offered interactive and graphical debugging of rule applications.
+is gained especially by the offered \emph{interactive} and \emph{graphical debugging} of rule applications.
 The debugger visualizes the matched pattern and the changes carried out by rewriting in the graph where they apply,
 for the currently active rule in the sequence (which is highlighted).
 
-A further point easening development is the application programming interface of the generated code,
+A further point easening development is the \emph{application programming interface} of the generated code,
 which offers access to named, statically typed entities, catching most errors before runtime and allowing the code completion mechanisms of modern IDEs to excel.
 In addition a generic interface operating on name strings and .NET objects is available for applications where the rules may change at runtime (as e.g. the \GrShell).
 
 There's one convenience not offered you might expect: a visual rule language and an editor.
-This brings a clear benefit -- graph transformation specifications to be processed by \GrG\ can be easily generated and textually diff'ed --
+This brings a clear benefit -- graph transformation specifications to be processed by \GrG\ can be easily \emph{generated} and \emph{textually diff'ed} --
 but also is a good deal cheaper to implement.
 Given the limited resources of an university or open-source project this is an important point,
 as can be seen with the AGG\cite{agg} tool, offering a graphical editor but delivering performance only up to simple toy examples
@@ -515,5 +515,5 @@ So \GrG\ is not suited for scenarios where the limits of main memory are exceede
 A well equipped single sever with 128GB of main memory is capable of storing somewhat under about 500 Million nodes plus 1 Billion edges (naked, without attributes and without names), see Chapter \ref{sec:performance} for the maths.
 This should be sufficient for many tasks, but still there are task that grow beyond it.
 And unfortunately other things come into play at that sizes -- importing such a graph will take several hours (the GRS importer is munching at some ten thousand elements per second), databases that work on a backing store and only shuffle the data visited in are at an advantage here (amortizing import cost over the course of processing).
-\GrG\ scales very well and can easily handle millions of elements, matching a pattern in such a graph within the blink of an eye, but it is not optimized for very huge datasets.
+\GrG\ scales very well and can easily handle millions of elements, matching a pattern in such a graph within the blink of an eye, but it does not contain dedicated optimizations for very huge datasets.
 
