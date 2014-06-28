@@ -312,6 +312,27 @@ Available are queries for the reachable-within-bounds nodes:
 In the three argument version, nodes incident to an edge of the type given as third argument are contained and followed.
 The four argument version behaves as the three argument version, but additionally only nodes of the node type given as fourth argument are contained and followed.
 
+\begin{example}
+\begin{grgen}
+// iterative deepening is trivial due to boundedReachable (encapsulating a depth-bounded depth first search)
+procedure IterativeDeepening(root:Node, var maxdepth:int) : (boolean)
+{
+    for(depth:int in [0:maxdepth])
+    {
+        for(n:Node in boundedReachableOutgoing(root, depth))
+        { 
+            if(foundCondition()) {
+                return(true);
+            }
+        }		
+    }
+    return(false);
+}
+\end{grgen}
+An example showing how to use \texttt{boundedReachable} in implementing \indexed{iterative deepening}.
+You find it and an example for \indexed{depth-first search}, as well as an example for \indexed{breadth-first search} implemented with a \texttt{deque} in \texttt{test/should\_pass}, in \texttt{/DfsBfsSearch.grg}.
+\end{example}
+
 Available are queries for the reachable-within-bounds nodes that return the minimum distance to the start node in addition:
 
 \begin{description}
@@ -379,7 +400,7 @@ The procedures from the built-in package \texttt{File} allow to export subgraphs
 
 % todo: mehr beispiele
 
-%\pagebreak % to improve layout later on
+\pagebreak % to improve layout later on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph comparison}\label{sec:relationalgraph}
 
