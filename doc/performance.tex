@@ -1,10 +1,10 @@
 \chapter{Indices and Performance Optimization}\label{sec:performance} \indexmain{performance}\indexmain{optimization}
 
-The most important point to understand when optimizing for speed is that the expensive task is the search carried out during pattern matching. The effort for rewriting, the dominant theme in graph rewriting (theory) literature, is negligible.
+The most important point to understand when optimizing for speed is that the expensive task is the search carried out during pattern matching. The effort for rewriting (the dominant theme in graph rewriting literature) is negligible.
 
 Searching is carried out with a backtracking algorithm following a search plan in a fixed order, 
 binding one pattern element after another to a graph element, checking if it fits to the already bound parts.
-If it does fit search continues trying to bind the next pattern element (or succeeds building the match object from all the elements bound if the last check succeeds), if it does not fit search continues with the next graph element; if all graph element candidates for this pattern element are exhausted, search backtracks to the previous decision point and continues there with the next element.
+If it does fit search continues trying to bind the next pattern element (or succeeds building the match object from all the elements bound if the last check succeeds), if it does not fit search continues with the next graph element; if all graph element candidates for the currently focused pattern element are exhausted, search backtracks to the previous decision point and continues there with the next element.
 
 Typically, first a graph element is determined with a lookup operation reaching into the graph, binding the element to a graph element of the required type (the less elements of that type exists, the better) -- then neighbouring elements are traversed following the graph structure (the less neighbouring elements exists, the better), until a match of the entire pattern is found.
 
@@ -118,6 +118,16 @@ And they cause quicker pruning of search branches because of early failing type 
 Using fine-grain types is easy in GrGen, for multiple inheritance on node and edge types (cf. \ref{nodeandedgetypes}) is supported.
 Besides, the more fine grain the graph is typed, the better are the statistics, allowing \GrG{ } to find better search plans (see more for this below).
 
+\subsubsection*{Prune early}
+Attribute conditions are evaluated as soon as all needed graph elements are matched (saving us from enumerating futile match extensions).
+But the unit of scheduling are the full attribute condition expressions. 
+If an expression can be separated into different parts that depend on less pattern elements than the entire expression (such a separation is trivial for boolean expressions joined by logical conjunctions), split it into those parts.
+The parts are then checked earlier in the search process.
+You could even introduce checks that are logically not needed because a later check removes all incorrect matches anyway, just to achieve better performance, which is the case if the checks allow to prune some branches from the search space earlier.
+This holds as long as the checks are cheap, if they are expensive you could do the opposite and introduce artificial dependencies to all pattern elements instead, to ensure the attribute condition is evaluated as late as possible.
+
+\pagebreak
+
 \subsubsection*{Prefer directed edges}
 Non-directed edges in the pattern are searched in both directions, considerably increasing the search space.
 Use non-directed edges only if they you really needed them.
@@ -130,14 +140,17 @@ Besides, the vstructure statistics are more discriminating in case of directed e
 \subsubsection*{Beware of Disconnected Patterns}
 Disconnected patterns cause a combinatorial explosion of the matches, because the overall number of matches equals the cartesian product of the partial matches of the disconnected parts. 
 
-This is not specified in single flat pattern unless one really wants to get the cartesian product.
+This is inevitable and a price that must be simply paid if this is really needed.
+But it is normally not needed, and, most important, is not specified accidentally, as a disconnected pattern in single flat pattern is typically immediately visible.
 But take care of nested patterns or subpatterns.
-You might overlook that the parts making everything appear as a connected component are matched strictly after the nesting pattern -- they only filter the list of matches of the nesting pattern as it gets enumerated.
-Esp. take care of not disconnecting patterns when factoring out a common part into a subpattern to improve the codee.
+You might overlook that nested patterns and subpatterns are matched strictly one after the other and especially after their containing pattern.
+You cannot ignore block borders and subpattern calls, they disconnect otherwise connected components.
+Esp. take care of not disconnecting patterns when factoring out a common part into a subpattern to improve the code.
+But due to inlining, things look better than what was said until now.
 
 \begin{example}
-Take a look at nesting, when the pattern is disconnected, you run into issues due to combinatorial explosion.
-This holds for alternative and iterated patterns.
+Take a look at pattern nesting, when the pattern is disconnected, you run into issues due to combinatorial explosion.
+This holds for sure for alternative and iterated patterns.
 
 So you must take care of pattern cardinality ...
 \begin{grgen}
@@ -162,8 +175,8 @@ test bad {
 \end{example}
 
 \begin{example}
-Take a look at nesting, when the pattern is disconnected, you run into issues due to combinatorial explosion.
-This may hold independent and subpatterns -- but inlining is of help here.
+Take a look at pattern nesting, when the pattern is disconnected, you run into issues due to combinatorial explosion.
+This may hold for independent and subpatterns -- but inlining is of help here.
 
 The edge from the independent in the example is typically inlined into the pattern removing the issue...
 \begin{grgen}
@@ -187,20 +200,23 @@ pattern P(n1:Node, n2:Node) {
 Take a look at the output of the \texttt{explain} command to check whether inlining occured.
 \end{example}
 
-Subpatterns are searched top-down (cf. \ref{pushdownmachine}), from the input parameters on.
+The need to take nested pattern borders and subpattern calls into account is due to the recursive descent matching with a multi-pushdown machine as described in Section \ref{matchingflow} and Section \ref{pushdownmachine}.
+
+Subpatterns are matched top-down, from the input parameters on.
 If the input arguments are disconnected in the pattern containing the subpattern, the containing pattern enumerates the cross product of the matches of the disconnected parts, which is only later on filtered for the ones which are connected.
 This will likely wreak havoc on the search performance.
-Even if you don't search for all matches, if you only compute a single overall match, the calling pattern must enumerate a lot of combinations of its parts (worsened by the fact that those are typically found oftenly because of their simplicity), until the nested pattern finally is able to connect one of the disconnected pairs fed into it.
+Even if you don't search for all matches, if you only compute a single overall match --- the calling pattern must enumerate a lot of combinations of its parts (worsened by the fact that those are typically found oftenly because of their simplicity), until the nested pattern finally is able to connect one of the disconnected pairs fed into it.
 It might be more efficient to just search from a start parameter towards a connected end location, and yield the found one out (cf. \ref{sec:localvarorderedevalyield}), or to search from a start parameter all connected end locations, collecting the found ones in a result set; and then to check the ones found alongside connectedness in a second step.
 
-The same holds for the nested patterns, just that parameter passing is implicit there, the elements from the containing pattern which are referenced in the nested pattern are passed in automatically as arguments.
+Nested patterns are matched top-down, from the input parameters on, just that parameter passing is implicit there, the elements from the containing pattern which are referenced in the nested pattern are passed in automatically as arguments.
 The holds especially for the \texttt{alternative} and \texttt{iterated} constructs which are matched with the pushdown machine (cf. \ref{pushdownmachine}), too, but also for the \texttt{negative} and \texttt{independent} constructs which are matched with nested local code embedded into the matcher code of their containing pattern.
 
-Don't shy away from using subpatterns or independents too easily, \indexed{inlining} is helping here. 
-The elements from an independent linking a disconncted pattern are typically inlined into their using pattern.
-All elements from a subpattern are often inlined into their using pattern, causing the pattern to get connected (again), 
+But don't shy away from using subpatterns or independents too easily, \indexed{inlining} is helping here!
+
+The elements from an independent that are linking a disconncted pattern are typically inlined into their using pattern.
+The elements from a subpattern are often inlined into their using pattern, causing the pattern to get connected (again), 
 but also removing the pushdown machine overhead.
-But you must take into account that the \emph{subpattern inlining} implemented in GrGen is limited to depth one.
+But you must take into account that the \emph{inlining} implemented in GrGen is limited to depth one.
 If a pattern is disconnected over two or more levels of subpattern usage (which might happen statically with one subpattern using another subpattern, and will for sure dynamically on a subpattern recursion path), it will hit performance.
 You may have a look at the output of the \texttt{explain} command (cf. \ref{custom}) to see if the subpatterns are disconnected; this is typically indicated by multiple lookups in the containing pattern, and the fact that the starting points passed as preset parameters to the nested or subpatterns get connected only there with search commands.
 
@@ -219,7 +235,7 @@ In addition, often the rules work from some parameter nodes onwards, which are t
 
 You can inspect the current search plan employed wit the explain command.
 Use it before search planning to inspect the statically generated search plans.
-Use it afterwards to inspect how the elements are matched now.
+Use it afterwards to inspect how the elements are matched then.
 
 Beware: the analyze command is not for free, it visited all the nodes and edges in the graph, computing for each start node of a $(NodeType, EdgeType, NodeType)$-triple the number of edges of the edge type leading to an end node of the end node type -- for all node and edge types known.
 Given that information search planning can compute a search plan that avoids structures splitting into breadth (V-structures);
@@ -427,13 +443,12 @@ Or call embedded rules, directly handing elements from the rule, saving you the 
 Commonly, this is just the right way of handling this situation, 
 as you must continue processing the very spot you just processed with the previous rule(s) to achieve a valid result.
 Sometimes you don't need to, but gain higher performance when you do so.
-Optimize this way then, use \emph{rooted} pattern matching, with roots defined by previous rules, it's cheaper as it saves you the lookup.
+Optimize this way then, use \emph{rooted} pattern matching, with roots defined by previous rules, it's cheaper as it saves you the lookup in the graph.
 A different way of parameter passing is adding reflexive edges to the graph to mark the spot of processing.
 This is normally working well, too, but the parameter passing is typically easier and does not "pollute" the graph with processing information.
-It also works in case of an unbounded number of processing locations, that cannot be handled with a statically bound number of variables.
 
-But in case of a statically not known number of locations as they appear e.g. in wavefront algorithm, you may store the locations in storages (cf. chapter \ref{cha:container}), i.e. collection valued variables (which are iterated over in the sequences or passed to the rules as \texttt{ref} parameters).
-Search will then start from these parameters, instead of a looking up a value in the graph by type (unless search planning taking the statistics about the graph into account comes to the conclusion that a lookup on a very seldom type is still the better approach).
+In case of a statically not known number of locations as they appear e.g. in wavefront algorithm, you may store the locations in storages (cf. chapter \ref{cha:container}), i.e. collection valued variables (which are iterated over in the sequences or passed to the rules as \texttt{ref} parameters).
+Search will then start from these parameters, instead of a looking up a value in the graph by type (unless search planning taking the statistics about the graph into account comes to the conclusion that a lookup on a super-seldom type is still the better approach).
 
 A sophisticated way of remembering facts about non-local properties is to computed them with data flow analyses (see section \ref{subsub:flow}) and store them as attributes in the graph elements.
 This allows to replace searching for distant values, or global properties like reachability, by checking a local property, at the price of re-running an analysis every time the graph changes in an important way.
@@ -451,7 +466,7 @@ A basic and often sufficient means of profiling is built-in into GrShell:
 After each sequence execution the time required to carry it out is printed.
 
 Sometimes you need further information about what's going on.
-Use the built-in profiling then (you may of course apply a profiler on the generated code, but then you descend to the level of implementation of \GrG{}).
+Use the built-in profiling then (you may of course apply a profiler on the generated code, but then you descend to the level of implementation of \GrG).
 
 You can do so by specifing the \texttt{profile} compiler option (cf. \ref{grgenoptions}) to request search code instrumentation, or better the \texttt{set profile on} shell command (cf. \ref{sec:compilerconfigshell}).
 You will receive two kinds ouf results when executing matchers instrumented that way.
@@ -501,11 +516,13 @@ and graph analyzation and matcher re-generation at runtime are \emph{costly} -- 
 \subsubsection*{Use Compiled Sequences}
 The compiled sequences given in the rules file are executed a good deal faster than the interpreted sequences given in the shell.
 So if you need speed, replace interpreted sequences by compiled ones.
-The price you pay is a loss of debuggability, a compiled sequence can only be executed as one big step.
+The price you pay is a loss of debuggability, a compiled sequence can only be executed as one big step (the introduction of subrule debugging -- see \ref{secdebuggersubrule} -- improved a bit on this, but the differences regarding state introspection and control are still huge).
 
 \subsubsection*{Use Pre-Compiled Code}
 For shortly-running tasks the JIT-compiling overhead dominates the execution runtimes.
-TODO.
+The times in the range of a few dozen milliseconds printed out for most of our tests are the times needed for just-in-time compilation of the .NET bytecode of the matchers into machine code, the matching itself is typically several orders of magnitude faster, for simple patterns it is in the range of microseconds or below.
+You see this effect in place when your code takes some hundred milliseconds to execute the first time, but afterwards completes immediately for a task of the same size.
+You may cut down on this overhead by utilizing the \texttt{ngen} tool of .NET for pre-compiling the \GrG-dlls (the supplied as well as the generated ones, cf. \ref{systemoverview}), or the \texttt{--aot} option of mono, for ahead-of-time compilation.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -536,10 +553,12 @@ On the other hand you have to use a loop in case the parts of the matches which 
 Iterateds are similar to all-bracketed rules insofar that they match all spots in the graph existing at a certain point in time.
 They can be emedded directly in a rule (which is considerably less heavyweight than declaring a rule and passing the attachement points as parameters), and they allow for easy yielding of elements back to the pattern (typically with an accumulating yield).
 But the overhead of the three pushdown machine must be payed for them, and they can't be matched in parallel.
+Using an iterated as the outermost block of a rule is wasteful, all-bracketing is to be prefered in this case.
+But other then that: don't replace them unless really needed, they are simply much more convenient.
 
 \subsubsection*{Reachable versus Subpattern Recursion}
 Prefer reachable predicate over subpattern recursion.
-The reachable predicate has a tight implementation, while subpattern recursion must pay for the three pushdown machine (which is not horrible but can be clearly felt).
+The reachable predicate has a tight implementation, while subpattern recursion must pay for graph parsing with the three pushdown machine (which is not horrible expensive but can be clearly felt).
 Note the semantic difference: elements already matched in the pattern can't be matched again in case of subpattern recursion due to the isomorphy constraint. 
 The reachable predicate does not know about the pattern it is called from, so elements already matched in the pattern can get matched again.
 This is often what is wanted anyway, and together with the increased convenience of having only to call a pre-implemented functionality instead of programming an iterated path by yourself leads to the clear advice to favor the reachable predicate.
@@ -548,9 +567,26 @@ if you want to match more than chains of single nodes linked by single edges, es
 of if you want to somehow change the elements on the path -- not searching merely for existence.
 
 \subsubsection*{Helper Programs versus Patterns}
-The pattern matchers generated are efficient, but there are query tasks existing where pattern matching is not the most efficient way of processing. 
-This holds especially for tasks where you must search for combined existence information, e.g. must find all nodes that are adjacent to two different nodes at the same time, in case both have a considerable amount of adjacent nodes. 
-Storing the adjacent nodes of one node in a hash set, querying it with the adjacent nodes from the other node is often faster then ($O(n)$ instead of $O(n*n)$ due to the $O(1)$ hash lookup).
-But it holds especially when you are only interested whether a certain minimum number is reached -- in that case you may write a helper function that returns as soon as this amount is reached.
+\GrG\ search planning can be compared to searching straw stars on a freshly harvested field,
+by looking at the places where the ground is only slightly covered, only reaching into the haystacks when
+they can't be circumvented at all, and only for peripheral parts.
+A pattern matcher is generated based on the assumption that search planning worked well in circumventing those haystacks. 
+It is based on nested loops for binding the pattern elements to the graph elements;
+and for a pattern node that is reached via multiple pattern edges on
+comparison code to check whether the node bound to the pattern node with the first loop
+is the same as the node that is reached later on from the other parts. 
+
+That approach works very well for sparse graphs with low incidence counts.
+But for graphs with massively linked parts that need to be reached on different ways you may need to overwrite this behaviour with hashset based connectedness checks.
+
+That comparison code as such is a simple object identity comparison so it is very cheap, 
+but what weights in here are the cycles needed to iterate through the many different edge candidates until one is found that indeed is incident to the current node candidate.
+Hashset based connectedness checks are a good deal more expensive than iteration and reference comparison (esp. due to hashset building and filling), but they can be done in $O(1)$ in contrast.
+For a handful of elements, they straight loose against the default code emitted by \GrG, but when we speak of hundreds or thousands of elements, they win.
+
+So for tasks where you must find all nodes that are adjacent to two different nodes at the same time, when both of those have a considerable amount of adjacent nodes in addition, you should switch to the following approach:
+store the adjacent nodes of one node in a hash set, and query it with the adjacent nodes from the other node.
+This is only $O(n)$ instead of $O(n*n)$ due to the $O(1)$ hash lookup (applied as query, or implicitely used in a hash set intersection).
+But it holds especially when you are only interested whether a certain minimum number is reached -- in that case you may write a helper function that returns as soon as this amount is reached; see \cite{MovieDatabase} for an example of this.
 Using a helper function is also commonly more lighweight than using a helper rule (in case the helper function does not get large, which is the case when a pattern containing more than a handful of elements is needed).
 

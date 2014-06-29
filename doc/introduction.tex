@@ -6,8 +6,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{What Is \GrG?}
 
-{\scshape GrGen} (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}erator) is a \emph{development tool} that offers \emph{programming languages} optimized for graph structured data, with \emph{pattern matching} and \emph{rewriting} at their core, supplemented by support for imperative and object-oriented programming, showing some traits of database query-result processing.
-The generative programming system featuring a \emph{graphical debugger} eases the \emph{transformation} of \emph{graph-based representations}, as they are needed in e.g. model transformation, computer linguistics, or modern compiler construction.
+{\scshape GrGen} (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}erator) is a software \emph{development tool} that offers \emph{programming languages} optimized for graph structured data, with declarative \emph{pattern matching} and \emph{rewriting} at their core, with support for imperative and object-oriented programming, and a bit of database-like query-result processing.
+The generative programming system featuring a \emph{graphical debugger} eases the \emph{transformation} of \emph{graph-based representations}, as they are needed in e.g. engineering, model transformation, computer linguistics, or compiler construction.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{When to Use \GrG}
@@ -124,7 +124,7 @@ The notion of graph rewriting as understood by \GrG\ is a method for declarative
 This is comparable to the well-known term rewriting.
 Normally you use one or more \newterm{graph rewrite rules} to accomplish a certain task.
 \GrG\ implements an SPO-based approach (as default).
-In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$---the \newterm{left hand side}\indexmainsee{LHS}{left hand side} of the rule---is called \newterm{pattern graph} and $R$---the \newterm{right hand side}\indexmainsee{RHS}{right hand side} of the rule---is the \newterm{replacement graph}.
+In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$---the \newterm{left hand side}\indexmainsee{LHS}{left hand side} of the rule---is called \newterm{pattern graph} and $R$---the \newterm{right hand side}\indexmainsee{RHS}{right hand side} of the rule---is the \newterm{rewrite graph}.
 
 \begin{figure}[htbp]
 	\centering
@@ -159,7 +159,7 @@ The transformation is done by \newterm{application}\indexmainsee{rule applicatio
 To do so, we have to find an occurrence of the pattern graph in the host graph.
 Mathematically speaking, such a \newterm{match} $m$ is an isomorphism from $L$ to a subgraph of $H$.
 This morphism may not be unique, i.e.\ there may be several matches.
-Afterwards we change the matched \indexed{spot} $m(L)$ of the host graph, such that it becomes an isomorphic subgraph of the replacement graph $R$.
+Afterwards we change the matched \indexed{spot} $m(L)$ of the host graph, such that it becomes an isomorphic subgraph of the rewrite graph $R$.
 Elements of $L$ not mapped by $r$ are deleted from $m(L)$ during rewrite.
 Elements of $R$ not in the image of $r$ are inserted into $H$, all others (elements that are mapped by $r$) are retained.
 The outcome of these steps is the resulting graph $H'$. In symbolic language: $H \xRightarrow{m, p} H'$.

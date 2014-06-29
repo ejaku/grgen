@@ -208,7 +208,7 @@ subpattern rewriting is separated into a nested rewrite specification given with
 and a subpattern rewrite application given within the rewrite part of the pattern containing the subpattern entity declaration requesting the rewrite to be actually applied.
 
 \begin{rail}  
-  SubpatternRewriting: ('replace' | 'modify') lbrace (()+ReplaceStatement) rbrace;
+  SubpatternRewriting: ('replace' | 'modify') lbrace (()+RewriteStatement) rbrace;
 \end{rail}\ixnterm{SubpatternRewriting}\ixkeyw{replace}\ixkeyw{modify}
 
 The subpattern rewriting specifications within the subpattern declaration looks like a nested rewriting specification,
@@ -223,7 +223,7 @@ but additionally there may be rewrite parameters given in the subpattern header 
 	;
 \end{rail}\ixnterm{SubpatternRewriteApplication}
 
-\noindent The \emph{SubpatternRewriteApplication} is part of the \emph{ReplaceStatement} already introduced (cf. \ref{replstmt}).
+\noindent The \emph{SubpatternRewriteApplication} is part of the \emph{RewriteStatement} already introduced (cf. \ref{replstmt}).
 The subpattern rewrite application is given within the rewrite part of the pattern containing the subpattern entity declaration,
 in call notation on the declared subpattern identifier.
 It causes the rewrite part of the subpattern to get used; if you leave it out, the subpattern is simply kept untouched.
@@ -332,7 +332,7 @@ rule chainFromToReverseToCommon()
 %-----------------------------------------------------------------------------------------------
 \subsection{Deletion and Preservation of Subpatterns}\label{sub:delpressub}
 
-In addition to the fine-grain dependent replacement, subpatterns may get deleted or kept as a whole.
+In addition to the fine-grain dependent rewrite, subpatterns may get deleted or kept as a whole.
 
 \begin{rail}  
   SubpatternOccurence: 
@@ -729,7 +729,7 @@ test countOfEdges(start:Node) : (int)
 %\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Flow Example, Regular Expression Syntax, and Locking}\indexmainsee{EBNF}{regular expression syntax}\indexmain{regular expression syntax}
+\section{Flow Example, Regular Expression Syntax, and Locking}\indexmainsee{EBNF}{regular expression syntax}\indexmain{regular expression syntax}\label{matchingflow}
 
 Pattern matching and rewriting occurs in two completely distinct passes, separated by the part-pattern matches tree of the combined patterns.
 During each pass, input and output parameters may be computed and passed; with explicit passing for subpatterns, and implicit passing for nested patterns (which can directly access the content of their contained pattern).

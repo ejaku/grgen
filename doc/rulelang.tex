@@ -5,44 +5,45 @@ The \indexed{rule set} language forms the core of \GrG.
 Rule files refer to zero
 \footnote{Omitting a graph meta model means that \GrG\ uses a \indexed{default graph model}.
 The default model consists of the base type \texttt{Node} for vertices and the base type \texttt{Edge} for edges.}
-or more \indexed{graph model}s and specify a set of rewrite rules.
-The rule language covers the pattern specification and the rewrite specification in the form of the \texttt{replace} or the \texttt{modify} block.
-Attributes of graph elements can be re-evaluated during an application of a rule.
-The following rewrite rule mentioned in Geiß et al.~\cite{GBGHS:06} gives a rough picture of the language:
-%TODO: don't try to show every feature, esp. not negatives, show graphlets, show the stuff explained in this chapter
-%\begin{figure}[tb]
-\begin{example}\label{ex:rule:SomeRule}
+or more \indexed{graph model}s, and specify a set of rewrite rules.
+The rule language covers \texttt{test}s and \texttt{rule}s, with a pattern specification built mainly from \emph{graphlets}, potentially with \texttt{hom}omorphic matching.
+Rewrite specifications may be given nested inside a rule in the form of a \texttt{replace} or \texttt{modify} block.
+Attributes of graph elements can be checked within \texttt{if} clauses and assigned within \texttt{eval} blocks.
+
+The following rewrite rule gives an impression of the basic constructs that we will cover in this chapter (attribute expressions and assignments are covered in Chapters \ref{cha:typeexpr} and \ref{cha:computations}).
+
+\begin{example}\label{ex:rule:SomeSimplifiedRule}
 \begin{grgen}
 #using "SomeModel.gm"
 
-rule SomeRule {
-  n1:NodeTypeA;
-  n2:NodeTypeA;
-  hom(n1, n2);
-  n1 --> n2; /*@\label{ex:somerule:graphlet}@*/
-  n3:NodeTypeB;
-  negative {
-    n3 -e1:EdgeTypeA-> n1;
-    if {n3.a1 == 42*n2.a1;}
-  }
-  negative { /*@\label{ex:somerule:secondnac:begin}@*/
-    n4:Node\(NodeTypeB);
-    n3 -e1:EdgeTypeB-> n4;
-    if {typeof(e1) >= EdgeTypeA;}
-  } /*@\label{ex:somerule:secondnac:end}@*/
-  replace {
-    n5:NodeTypeC<n1>;
-    n3 -e1:EdgeTypeB-> n5;
-    eval {n5.a3 = n3.a1*n1.a2;}
-  }
+test t(n:Node, k:Node) : (Node) {
+    n --> . --> l:Node --> k;
+    hom(l, k);
+    return(l);
+}
+
+rule r {
+    n:N -e:E-> n; /*@\label{ex:somerule:graphlet}@*/
+    if{ n.a <= e.a; }
+
+    replace { /*@\label{ex:somerule:scope:begin}@*/
+        n --> m:N; 
+        eval { m.a = n.a + 1; }
+    } /*@\label{ex:somerule:scope:end}@*/
+}
+
+rule s(var i:int) : (Node, N, int) {
+    :N <-- n:N --> m:Node;
+    m <--> l:Node -:E-> n;
+    if{ n.a <= i; }
+
+    modify {
+        delete(n);
+        return(m, l, n.a + 1);
+    }
 }
 \end{grgen}
 \end{example}
-%\end{figure}
-In this chapter we explain the basics of Example~\ref{ex:rule:SomeRule} (\texttt{SomeRule}),
-the more advanced constructs are illustrated in chapter \ref{chapadvanced}.
-The nested \texttt{negative}s which specify a pattern which must not be available in the host graph are described in Chapter~\ref{cha:nested}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Building Blocks}
@@ -73,21 +74,21 @@ See Section~\ref{typeexpressions} for the use of type expressions.\\
   Continuation: GraphletEdge (() | (GraphletNode (() | Continuation))) ;
 \end{rail}\ixnterm{Graphlet}\ixnterm{Continuation}
 A \indexed{graphlet} specifies a connected subgraph.
-\GrG\ provides graphlets as a descriptive notation to define both, patterns\indexmain{pattern graph} to search for as well as the subgraphs that replace or modify matched \indexed{spot}s in a host graph\indexmain{replacement graph}.
+\GrG\ provides graphlets as a descriptive notation to define both, patterns\indexmain{pattern graph} to search for as well as the subgraphs that replace or modify matched \indexed{spot}s in a host graph\indexmain{rewrite graph}.
 Any graph can be specified piecewise by a set of graphlets.
-In Example~\ref{ex:rule:SomeRule}, line~\ref{ex:somerule:graphlet}, the statement \texttt{n1 --> n2} is the node identifier \texttt{n1} followed by the \indexedsee{continuation}{graphlet} graphlet \texttt{--> n2}.
+In Example~\ref{ex:rule:SomeSimplifiedRule}, line~\ref{ex:somerule:graphlet}, the graphlet \texttt{n:N -e:E-> n} begins with a node declaration \texttt{n:N}, followed by the \indexedsee{continuation}{graphlet} graphlet \texttt{-e:E-> n}, declaring an edge \texttt{e:E}, leading again to the node \texttt{n}, referenced by its name.
 
 All the graph elements of a graphlet have \newterm{name}s.
 The name is either user-assigned or a unique internal, non-accessible name.
 In the second case the graph element is called \newterm{anonymous}.
 For illustration purposes we use a \indexed{\texttt{\$<number>}} notation to denote anonymous graph elements in this document.
-For example the graphlet \texttt{n1 --> n2} contains an anonymous edge; thus can be understood as \texttt{n1 -\$1:Edge-> n2}.
+For example the graphlet \texttt{n:N --> m:Node} contains an anonymous edge; thus can be understood as \texttt{n -\$1:Edge-> m}.
 Names must not be \indexed{redefine}d; once defined, a name is \emph{bound} to a graph element.
 We use the term ``\indexed{binding of names}'' because a name not only denotes a graph element of a graphlet but also denotes the mapping of the abstract graph element of a graphlet to a concrete graph element of a host graph.
-So graph elements of different names are pair wise distinct except for homomorphically matched\indexmain{homomorphic matching} graph elements (see Section~\ref{patternpart}).
+So graph elements of different names are pairwise distinct except for homomorphically matched\indexmain{homomorphic matching} graph elements (see Section~\ref{patternpart}).
 For instance \texttt{v:NodeType1 -e:EdgeType-> w:NodeType2} selects some node of type \texttt{Node\-Type1} that is connected to a node of type \texttt{NodeType2} by an edge of type \texttt{EdgeType} and binds the names \texttt{v}, \texttt{w}, and \texttt{e}.
 If \texttt{v} and \texttt{w} are not explicitly marked as homomorphic, the graph elements they bind to are distinct.
-Binding of names allows for splitting a single graphlet into multiple graphlets as well as defining cyclic structures.
+The binding of names allows for splitting a single graphlet into multiple graphlets as well as defining cyclic structures.
 \begin{example}
 The following graphlet (\texttt{n1}, \texttt{n2}, and \texttt{n3} are defined somewhere else)
 \begin{grgen}
@@ -105,8 +106,9 @@ The visibility of names is determined by \indexed{scope}s.
 Scopes can be nested.
 Names of surrounding scopes are visible in inner scopes.
 Usually a scope is defined by \texttt{\{} and \texttt{\}}. %In contrast to pure syntactic scoping, the replace/modify part is a direct inner scope of the pattern part.
-In Example~\ref{ex:rule:SomeRule}, lines~\ref{ex:somerule:secondnac:begin}~to~\ref{ex:somerule:secondnac:end}, the negative condition uses \texttt{n3} from the surrounding scope and defines \texttt{n4} and \texttt{e1}.
-We may safely reuse the variable name \texttt{e1} in the replace part.
+In Example~\ref{ex:rule:SomeSimplifiedRule}, lines~\ref{ex:somerule:scope:begin}~to~\ref{ex:somerule:scope:end}, 
+the rewrite part uses \texttt{n} from the surrounding scope, and declares \texttt{m} that is not available in the nesting pattern.
+And in Example~\ref{ex:rule:SomeRule}, lines~\ref{ex:somerule:secondnac:begin}~to~\ref{ex:somerule:secondnac:end}, the negative condition uses \texttt{n3} from the surrounding scope and declares \texttt{n4} and \texttt{e1}.
 
 \begin{rail}
 GraphletNode: (Ident |
@@ -167,7 +169,7 @@ However, the graphlets
 -e-> ;
 x:Node -e:Edge-> y:Node;
 \end{grgenlet}
-are allowed, but the first graphlet \texttt{-e->} is superfluous. In particular this graphlet does not identify or create any ``copies'', neither if the graphlet occurs in the pattern part nor if it occurs in the replace part.
+are allowed, but the first graphlet \texttt{-e->} is superfluous. In particular this graphlet does not identify or create any ``copies'', neither if the graphlet occurs in the pattern part nor if it occurs in the rewrite part.
 \begin{example}
 Some attempts to specify a loop edge:\\
 \mbox{ }\\
@@ -277,7 +279,7 @@ And some illegal graphlets:\\
 \end{figure}
 
 \begin{warning}
-	Although both, the pattern part and the replace/modify part use graphlets, there are subtle differences between them.
+	Although both, the pattern part and the rewrite part use graphlets, there are subtle differences between them.
 	Most of the differences can be seen in chapter \ref{chapadvanced} where the advanced constructs are explained .
 \end{warning}
 
@@ -285,14 +287,18 @@ And some illegal graphlets:\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Rules and Tests}
 \label{ruledecls}
+
 The structure of a \indexed{rule set} file is as follows:
 \begin{rail}
   RuleSet: FileHeader ((ActionDeclaration | SubpatternDeclaration | RewriteSequenceDefinition | FunctionDefinition | ProcedureDefinition | FilterFunctionDefinition | PackageDefinitionAction)+) ;
   FileHeader: ((ModelUsage)*()) ((RulesInclusion)*()) ((GlobalVarDecl)*());
+\end{rail}\ixnterm{RuleSet}\ixnterm{FileHeader}
+\pagebreak %improve layout
+\begin{rail}
   ModelUsage: '\#using' Filename;
   RulesInclusion: '\#include' Filename;
   GlobalVarDecl: '::' IdentDecl ':' NodeType ';' | '-' '::' IdentDecl ':' EdgeType '->' ';' | ('var'|'ref') '::' IdentDecl ':' VarType ';';
-\end{rail}\ixkeyw{using}\ixkeyw{include}\ixnterm{RuleSet}\ixnterm{FileHeader}\ixnterm{ModelUsage}\ixnterm{RulesInclusion}\ixnterm{GlobalVarDecl}
+\end{rail}\ixkeyw{using}\ixkeyw{include}\ixnterm{ModelUsage}\ixnterm{RulesInclusion}\ixnterm{GlobalVarDecl}
 
 A rule set built on the \indexed{graph model}s you are \texttt{using}
 consists primarily of actions, i.e. rewrite rules and tests,
@@ -301,21 +307,21 @@ plus further constructs that will be introduced in later chapters.
 Additionally you may \texttt{include} further rule language files.
 (As a hint regarding the syntax diagrams: please note that the bottom rail in the \emph{RuleSet} diagram departs before the end and joins in after the \emph{FileHeader}, i.e. it denotes a looping back edge (a fast forward edge would have split and join points at the same positions but of the opposite direction)).
 
-Furthermore, you may declare \indexed{graph global variable}s; this is a pure declaration that they will exist with the given type during execution. It renders them accessible in the rules (esp. the attribute condition and attribute evaluation), but you must define and assign them  before rule execution outside of the rules. They are made available to allow for an easy parameterization of entire transformations, defining the environment; other uses are discouraged. See \ref{cha:xgrs} for more on this.
+Furthermore, you may declare \indexed{graph global variable}s; this is a pure declaration that they will exist with the given type during execution. It renders them accessible in the rules (esp. the attribute condition and attribute evaluation), but you must define and assign them  before rule execution outside of the rules. They are made available to allow for an easy parameterization of entire transformations, defining the environment; other uses are discouraged. See Chapter \ref{cha:xgrs} for more on this.
 (Use \texttt{ref} for container types and \texttt{var} for the other (non-node or edge) types.)
 
 In case of multiple graph models, \GrG\ uses the union of these models. 
 In case of multiple includes, \GrG\ uses the union of these actions. 
 In this case beware of conflicting declarations.
-You may use packages as a remedy, in the model for conflicting data units, or in the actions for conflicting computation units -- or you may use name prefixes as you would do in C.
+You may use packages as a remedy, in the model for conflicting data units, or in the actions for conflicting computation units -- or you may use name prefixes as you would do in the C programming language.
 
 \begin{rail}
   ActionDeclaration: TestDeclaration | RuleDeclaration;
   TestDeclaration: TestModifier 'test' ActionSignature lbrace Pattern rbrace FiltersDecl;
-  RuleDeclaration: RuleModifier 'rule' ActionSignature lbrace Pattern Replace rbrace FiltersDecl;
+  RuleDeclaration: RuleModifier 'rule' ActionSignature lbrace Pattern Rewrite rbrace FiltersDecl;
 \end{rail}\ixkeyw{test}\ixkeyw{rule}\ixkeyw{exact}\ixkeyw{induced}\ixkeyw{dpo}\ixkeyw{dangling}\ixkeyw{identification}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}\ixnterm{ActionDeclaration}
 Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}.
-It consists of a pattern part (see Section~\ref{patternpart}) in conjunction with its rewrite/modify part (see Section~\ref{sec:replacemodify}).
+It consists of a pattern part (see Section~\ref{patternpart}) in conjunction with its rewrite part (see Section~\ref{sec:replacemodify}).
 A \newterm{test} has no rewrite specification.
 It's intended to check whether (and maybe how many times) a pattern occurs (see example \ref{ex:rulelang:testrule}).
 For an explanation of the available modifiers see Section~\ref{sct:patternmodifier},
@@ -528,7 +534,7 @@ i.e. they can't be referenced by name, cf. \ref{locking}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Replace/Modify Part}\indexmain{replacement graph}
+\section{Replace/Modify Part}\indexmain{rewrite graph}
 \label{sec:replacemodify}
 Besides specifying the pattern, a main task of a rule is to specify the transformation of a matched subgraph within the \indexed{host graph}.
 Such a \indexed{transformation specification} defines the transition from the \indexed{left hand side} (LHS) to the \indexed{right hand side} (RHS), i.e.\ which graph elements of a match will be kept, which of them will be deleted and which graph elements have to be newly created.
@@ -561,11 +567,11 @@ In theory the transformation specification is done by defining the preservation 
   \caption{Process of Graph Transformation}
   \label{rule:figrule}
 \end{figure}
-In \GrG\, the preservation morphism $r$ is defined implicitly by using \indexed{name}s both in pattern \indexed{graphlet}s and replace graphlets.
-Remember that to each of the graph elements a name is bound to, either user defined or internally defined. If such a name is used in a replace graphlet, the denoted graph element will be kept.
+In \GrG\, the preservation morphism $r$ is defined implicitly by using \indexed{name}s both in pattern \indexed{graphlet}s and rewrite graphlets.
+Remember that to each of the graph elements a name is bound to, either user defined or internally defined. If such a name is used in a rewrite graphlet, the denoted graph element will be kept.
 Otherwise the graph element will be deleted.
-By defining a name in a replace graphlet a corresponding graph element will be newly created.
-So in a replace pattern \indexed{anonymous} graph elements will always be created.
+By defining a name in a rewrite graphlet a corresponding graph element will be newly created.
+So in a rewrite pattern \indexed{anonymous} graph elements will always be created.
 Using a name multiple times has the same effect as a single using occurrence.
 In case of a conflict between \indexed{deletion} and \indexed{preservation}, deletion is prioritized.
 If an incident node of an edge gets deleted, the edge will be deleted as well (in compliance to the SPO\indexmain{single-pushout approach} semantics).
@@ -573,7 +579,7 @@ If an incident node of an edge gets deleted, the edge will be deleted as well (i
 \begin{table}[htbp]
 \centering
 \begin{tabularx}{\linewidth}{lllX}
-  \textbf{Pattern (LHS)} & \textbf{Replace (RHS)} & \textbf{$r: L \longrightarrow R$} & \textbf{Meaning} \\ \hline
+  \textbf{Pattern (LHS)} & \textbf{Rewrite (RHS)} & \textbf{$r: L \longrightarrow R$} & \textbf{Meaning} \\ \hline
   \texttt{x:T;} & \texttt{x;}                 & $r:\lhs.x \mapsto \rhs.x$ & Preservation \\
   \texttt{x:T;} & \texttt{}                   & $\lhs.x \notin \deF(r)$    & Deletion \\
   \texttt{} & \texttt{x:T;}                   & $\rhs.x \notin \ran(r)$    & Creation \\
@@ -589,17 +595,17 @@ If an incident node of an edge gets deleted, the edge will be deleted as well (i
 \subsection{Specification Modes for Graph Transformation}
 For the task of rewriting, \GrG\ provides two different modes: A \emph{replace mode} and a \emph{modify mode}.
 \begin{description}
-  \item[Replace mode] \indexmain{replace mode}The semantics of this mode is to delete every graph element of the pattern that is not used (occur) in the replace part, keep every graph element that is used, and create every additionally defined graph elements. ``Using'' means that the name of a graph element occurs in a replace graphlet. Attribute calculations are no using occurrences.\\
+  \item[Replace mode] \indexmain{replace mode}The semantics of this mode is to delete every graph element of the pattern that is not used (referenced) in the rewrite part, keep every graph element that is used, and create every additionally defined graph element. ``Using'' means that the name of a graph element occurs in a rewrite graphlet. Attribute calculations are no using occurrences.\\
   In Example~\ref{ex:rule:someruleext} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.\\
 See Section~\ref{rule:morphismr} for a detailed explanation of the transformation semantics.
-  \item[Modify mode] The \indexed{modify mode} can be regarded as a replace part in replace mode, where every pattern graph element is added (occurs) before the first replace statement.
+  \item[Modify mode] The \indexed{modify mode} can be regarded as a rewrite part in replace mode, where every pattern graph element is added (occurs) before the first rewrite statement.
 In particular all the \indexed{anonymous} graph elements are kept.
 Additionally this mode supports the \texttt{delete} operator that deletes every element given as an argument.
 Deletion takes place after all other rewrite operations. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
 
 \begin{note}
 In general modify mode should be preferred as it allows to read the rewrite part as a diff of the changes to be made to the pattern part, whereas replace mode requires comparing the LHS and RHS pattern while reading to find out about the changes.
-Only if most of the pattern is to be deleted replace mode is advantageous, pinpointing what should stay.
+Only if most of the pattern is to be deleted is the replace mode advantageous, pinpointing what should stay.
 (Furthermore it might be simpler to generate code for, just dumping both patterns.)
 \end{note}
 
@@ -629,32 +635,32 @@ rule SomeRuleExtModify(varnode: Node): (Node, EdgeTypeB)  {
 \subsection{Syntax}
 
 \begin{rail}
-  Replace: ('replace' | 'modify') lbrace (()+ReplaceStatement) (() | ReturnStatement) \\
+  Rewrite: ('replace' | 'modify') lbrace (()+RewriteStatement) (() | ReturnStatement) \\
   (()+ExecStatement) rbrace ;
-\end{rail}\ixkeyw{replace}\ixkeyw{modify}\ixnterm{Replace}\label{replclause}
-Selects whether the replace mode or the modify mode is used.
-Several replace statements describe the transformation from the pattern subgraph to the destination subgraph.
+\end{rail}\ixkeyw{replace}\ixkeyw{modify}\ixnterm{Rewrite}\label{replclause}
+Selects whether replace mode or modify mode is used.
+Several rewrite statements describe the transformation from the pattern subgraph to the destination subgraph.
 The \emph{ReturnStatement} was already introduced, for tests it can appear in the pattern part.
-Regarding rules it can only be given in the rewrite part.
+Inside rules it can only be given in the rewrite part.
 The \emph{ExecStatement} will be introduced in chapter \ref{cha:imperativeandstate}.
 
 \begin{rail}
-  ReplaceStatement:
+  RewriteStatement:
     Graphlet ';' |
     'delete' '(' (Ident + ',') ')' ';' |
     'eval' lbrace (ComputationStatement +) rbrace |
     SubpatternRewriteApplication
     ;
-\end{rail}\ixkeyw{delete}\ixkeyw{eval}\ixnterm{ReplaceStatement}\label{replstmt}
-The semantics of the various replace statements are given below:
+\end{rail}\ixkeyw{delete}\ixkeyw{eval}\ixnterm{RewriteStatement}\label{replstmt}
+The semantics of the various rewrite statements are given below:
 \begin{description}
-  \item[Graphlet] \indexmain{graphlet}Analogous to a pattern graphlet; a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the replace graphlet. See Section~\ref{rulebb} for a detailed explanation of graphlets.
-  \item[Deletion] \indexmain{deletion}The \texttt{delete} operator is only available in the modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed after all other replace statements. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
+  \item[Graphlet] \indexmain{graphlet}Analogous to a pattern graphlet; a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the rewrite graphlet. See Section~\ref{rulebb} for a detailed explanation of graphlets.
+  \item[Deletion] \indexmain{deletion}The \texttt{delete} operator is only available in modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed after all other rewrite statements. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
   \item[Computation (Attribute Evaluation)] \indexmain{computation}\indexmainsee{attribute evaluation}{computation}\indexmainsee{evaluation}{attribute evaluation}\indexmainsee{re-evaluation}{attribute evaluation}If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated according to the \texttt{eval} statements. Besides attribute evaluations, further computations may be executed and side effects applied, see Chapter~\ref{cha:computations} for more on this.
   \item[SubpatternRewriteApplication] will be explained in \ref{sec:subrule}.
 \end{description}
 
-Several evaluation parts are allowed within the replace part.
+Several attribute evaluation parts may be given within the rewrite block.
 Multiple evaluation statements will be internally concatenated, preserving their order.
 Evaluation takes place before any graph element specified to be deleted by the rule gets deleted and after all the new elements (according to the rule rewrite part) have been created.
 You may read (and write, although this is pointless) attributes of graph elements to be deleted.
