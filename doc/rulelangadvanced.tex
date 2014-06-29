@@ -1,11 +1,45 @@
 \chapter{Advanced Matching and Rewriting}\indexmain{advanced matching and rewriting}
 \label{chapadvanced}
 
+The following rewrite rule mentioned in Geiß et al.~\cite{GBGHS:06} shows some of the advanced constructs.
+In this chapter we explain the constructs of Example~\ref{ex:rule:SomeRule} that are exceeding the basics already introduced in Chapter~\ref{chaprulelang}, and the nested \texttt{negative}s already described in Chapter~\ref{cha:nested}.
+Furthermore, we'll visited some additional advanced constructs.
+
+%\begin{figure}[tb]
+\begin{example}\label{ex:rule:SomeRule}
+\begin{grgen}
+#using "SomeModel.gm"
+
+rule SomeRule {
+  n1:NodeTypeA;
+  n2:NodeTypeA;
+  hom(n1, n2);
+  n1 --> n2;
+  n3:NodeTypeB;
+  negative {
+    n3 -e1:EdgeTypeA-> n1;
+    if {n3.a1 == 42*n2.a1;}
+  }
+  negative { /*@\label{ex:somerule:secondnac:begin}@*/
+    n4:Node\(NodeTypeB);
+    n3 -e1:EdgeTypeB-> n4;
+    if {typeof(e1) >= EdgeTypeA;}
+  } /*@\label{ex:somerule:secondnac:end}@*/
+  replace {
+    n5:NodeTypeC<n1>;
+    n3 -e1:EdgeTypeB-> n5;
+    eval {n5.a3 = n3.a1*n1.a2;}
+  }
+}
+\end{grgen}
+\end{example}
+%\end{figure}
+
 The advanced \emph{modifiers} introduced in the following section allow to annotate patterns or actions with keywords which restrict what graph patterns are accepted as matches (some of them independent of the rewrite part, some of them depending on the rewrite specification).
 But first the advanced \emph{matching} constructs are introduced in this section, before they are elaborated on in a later section:
 they allow to request more fine grain or more dynamically what types to match, as well as allowing to specify a match from a storage.
 Followed by the advanced \emph{rewrite} constructs which are handled in the same way (introduction here, then elaboration in a later section);
-these enable the specification of retyping (relabeling) and copying, as well as node merging and edge redirection.
+they enable the specification of retyping (relabeling) and copying, as well as node merging and edge redirection.
 
 \begin{rail}
 AdvancedNodeTypeConstructs : ( NodeType (TypeConstraint | StorageAccess | Retyping | Merging) | CopyOperator);
@@ -223,7 +257,7 @@ Syntactically it is specified by giving the original node enclosed in left and r
 \begin{table}[htbp]
 \centering
 \begin{tabularx}{\linewidth}{lllX}
-  \textbf{Pattern (LHS)} & \textbf{Replace (RHS)} & \textbf{$r: L \longrightarrow R$} & \textbf{Meaning} \\ \hline
+  \textbf{Pattern (LHS)} & \textbf{Rewrite (RHS)} & \textbf{$r: L \longrightarrow R$} & \textbf{Meaning} \\ \hline
   \texttt{x:N1;} & \texttt{y:N2<x>;}          & $r:\lhs.x \mapsto \rhs.x$ & Match \texttt{x}, then retype \texttt{x} from \texttt{N1} to \texttt{N2} and bind name \texttt{y} to retyped version of \texttt{x}.\\
   \texttt{e:E1;} & \texttt{f:E2<e>;}          & $r:\lhs.e \mapsto \rhs.e$ & Match \texttt{e}, then retype \texttt{e} from \texttt{E1} to \texttt{E2} and bind name \texttt{f} to the retyped version of \texttt{e}.\\
 \end{tabularx}
@@ -232,7 +266,7 @@ Syntactically it is specified by giving the original node enclosed in left and r
 \end{table}
 
 \indexmain{retyping}Retyping enables us to keep all adjacent nodes and all attributes stemming from common super types of a graph element while changing its type (table~\ref{rule:retyping_graphlets} shows how retyping can be expressed both for nodes and edges).
-Retyping differs from a \indexedsee{type cast}{retyping}: During replacement both of the graph elements are alive.
+Retyping differs from a \indexedsee{type cast}{retyping}: During rewriting both of the graph elements are alive.
   Specifically both of them are available for evaluation, a respective evaluation could, e.g., look like this:
   \begin{grgenlet}
 eval {
@@ -285,7 +319,9 @@ Please have a look at example \ref{ex:retypelhs} for more on this.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Copy} \label{sec:copy}
 
-\indexmain{copy}The copy operator allows to create a node or edge of the type of another node/edge, bearing the same attributes as that other node. It can be seen as an extended version of the \texttt{typeof} construct not only copying the exact dynamic type but also the attributes of the matched graph element. Together with the \texttt{iterated} construct it allows to simulate node replacement grammars or to copy entire structures, see \ref{sub:mergesplit} and \ref{sub:copyflow}.
+\indexmain{copy}The copy operator allows to create a node or edge of the type of another node/edge, bearing the same attributes as that other node.
+It can be seen as an extended version of the \texttt{typeof} construct not only copying the exact dynamic type but also the attributes of the matched graph element.
+Together with the \texttt{iterated} construct it allows to simulate node replacement grammars or to copy entire structures, see \ref{sub:mergesplit} and \ref{subsub:copystructure}.
 
 \begin{rail}
   CopyOperator: 'copy' '<' Ident '>';

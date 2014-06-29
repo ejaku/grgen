@@ -385,7 +385,7 @@ So we will extend the language of the structure parser introduced so far into a 
 This does not hold for the application conditions, which are pure conditions, but for all the other language constructs introduced in this chapter.
 
 \begin{rail}  
-  NestedRewriting: ('replace' | 'modify') lbrace (()+ReplaceStatement) rbrace;
+  NestedRewriting: ('replace' | 'modify') lbrace (()+RewriteStatement) rbrace;
 \end{rail}\ixnterm{NestedRewriting}\ixkeyw{replace}\ixkeyw{modify}
 
 Syntactically the rewrite is specified by a modify or replace clause nested directly within the scope of each nested pattern;
