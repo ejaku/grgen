@@ -1,0 +1,21 @@
+node class N
+{
+	a:int;
+}
+
+node class NN extends N
+{
+	aa:int;
+}
+
+edge class E
+{
+	a:int;
+}
+
+edge class EE extends E
+{
+	aa:int;
+}
+
+node edge unique;

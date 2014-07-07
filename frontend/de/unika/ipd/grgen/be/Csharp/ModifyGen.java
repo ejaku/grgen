@@ -4150,10 +4150,19 @@ public class ModifyGen extends CSharpBase {
 			sb.append(call.getProcedure().getIdent().toString() + "(actionEnv, graph");
 		} else {
 			ExternalProcedureMethodInvocation call = (ExternalProcedureMethodInvocation)procedure;
-			Entity owner = call.getOwner();
-			sb.append("\t\t\t(("+ formatElementInterfaceRef(owner.getType()) + ") ");
-			sb.append(formatEntity(owner) + ").@");
-			sb.append(call.getExternalProc().getIdent().toString() + "(actionEnv, graph");
+			// the graph element is handed in to the external type method if it was called on a graph element attribute, to allow for transaction manager undo item registration
+			if(call.getOwnerQual()!=null) {
+				genQualAccess(sb, call.getOwnerQual(), state);
+			} else {
+				genVar(sb, call.getOwnerVar(), state);
+			}
+			sb.append(".@");
+			sb.append(call.getExternalProc().getIdent().toString() + "(actionEnv, graph, ");
+			if(call.getOwnerQual()!=null) {
+				sb.append(formatEntity(call.getOwnerQual().getOwner()));
+			} else {
+				sb.append("null");
+			}
 		}
 		for(int i=0; i<procedure.arity(); ++i) {
 			sb.append(", ");

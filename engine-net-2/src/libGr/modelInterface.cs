@@ -1482,7 +1482,7 @@ namespace de.unika.ipd.grGen.libGr
     /// A representation of an external type registered with GrGen.
     /// The bottom type of the external type hierarchy that is always available is type object.
     /// </summary>
-    public class ExternalType
+    public abstract class ExternalType
     {
         public ExternalType(string name, Type type)
         {
@@ -1530,6 +1530,42 @@ namespace de.unika.ipd.grGen.libGr
                     return true;
             return false;
         }
+
+        /// <summary>
+        /// The number of function methods of this type.
+        /// </summary>
+        public abstract int NumFunctionMethods { get; }
+
+        /// <summary>
+        /// Enumerates all function methods of this type.
+        /// </summary>
+        public abstract IEnumerable<IFunctionDefinition> FunctionMethods { get; }
+
+        /// <summary>
+        /// Returns a function definition object for the given function method name.
+        /// If this type does not have a function method with this name, null is returned.
+        /// </summary>
+        /// <param name="name">Name of the function method</param>
+        /// <returns>The function definition of the function method matching the name, or null if there is no such</returns>
+        public abstract IFunctionDefinition GetFunctionMethod(String name);
+
+        /// <summary>
+        /// The number of procedure methods of this type.
+        /// </summary>
+        public abstract int NumProcedureMethods { get; }
+
+        /// <summary>
+        /// Enumerates all procedure methods of this type.
+        /// </summary>
+        public abstract IEnumerable<IProcedureDefinition> ProcedureMethods { get; }
+
+        /// <summary>
+        /// Returns a procedure definition object for the given procedure method name.
+        /// If this type does not have a procedure method with this name, null is returned.
+        /// </summary>
+        /// <param name="name">Name of the procedure method</param>
+        /// <returns>The procedure definition of the procedure method matching the name, or null if there is no such</returns>
+        public abstract IProcedureDefinition GetProcedureMethod(String name);
 
         /// <summary>
         /// Returns the name of the type.

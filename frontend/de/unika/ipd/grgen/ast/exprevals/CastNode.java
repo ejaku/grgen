@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.ast.exprevals;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
@@ -32,8 +33,8 @@ public class CastNode extends ExprNode {
 	}
 
 	// target type of the cast
-	private BasicTypeNode type;
 	private BaseNode typeUnresolved;
+	private TypeNode type;
 
 	// expression to be casted
 	private ExprNode expr;
@@ -94,13 +95,14 @@ public class CastNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static DeclarationTypeResolver<BasicTypeNode> typeResolver =
-		new DeclarationTypeResolver<BasicTypeNode>(BasicTypeNode.class);
+	private static DeclarationTypeResolver<TypeNode> typeResolver =
+		new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
+		fixupDefinition(typeUnresolved, typeUnresolved.getScope());
 		type = typeResolver.resolve(typeUnresolved, this);
 		successfullyResolved = type!=null && successfullyResolved;
 		return successfullyResolved;
@@ -122,7 +124,40 @@ public class CastNode extends ExprNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#typeCheckLocal()
 	 */
 	private boolean typeCheckLocal() {
-		boolean result = expr.getType().isCastableTo(type);
+		TypeNode fromType = expr.getType();
+		if(fromType instanceof NodeTypeNode && type instanceof NodeTypeNode)
+		{
+			// we support up- and down-casts, but no cross-casts of nodes
+			HashSet<TypeNode> supertypesOfFrom = new HashSet<TypeNode>();
+			((NodeTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
+			HashSet<TypeNode> supertypesOfTo = new HashSet<TypeNode>();
+			((NodeTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);			
+			return fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
+		}
+		if(fromType instanceof EdgeTypeNode && type instanceof EdgeTypeNode)
+		{
+			// we support up- and down-casts, but no cross-casts of edges
+			HashSet<TypeNode> supertypesOfFrom = new HashSet<TypeNode>();
+			((EdgeTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
+			HashSet<TypeNode> supertypesOfTo = new HashSet<TypeNode>();
+			((EdgeTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);			
+			return fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
+		}
+		if(fromType instanceof ObjectTypeNode && !(type instanceof NodeTypeNode) && !(type instanceof EdgeTypeNode))
+			return true; // object is castable to anything besides nodes and edges
+		if(type instanceof ObjectTypeNode && !(fromType instanceof NodeTypeNode) && !(fromType instanceof EdgeTypeNode))
+			return true; // anything besides nodes and edges can be casted into an object
+		if(fromType instanceof ExternalTypeNode && type instanceof ExternalTypeNode)
+		{
+			// we support up- and down-casts, but no cross-casts of external types
+			HashSet<TypeNode> supertypesOfFrom = new HashSet<TypeNode>();
+			((ExternalTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
+			HashSet<TypeNode> supertypesOfTo = new HashSet<TypeNode>();
+			((ExternalTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);			
+			return fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
+		}
+		
+		boolean result = fromType.isCastableTo(type);
 		if(!result) {
 			reportError("Illegal cast from \"" + expr.getType() + "\" to \"" + type + "\"");
 		}

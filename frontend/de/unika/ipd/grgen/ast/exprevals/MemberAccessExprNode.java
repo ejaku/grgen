@@ -158,9 +158,19 @@ public class MemberAccessExprNode extends ExprNode
 			else
 				return new MatchAccess(targetExpr.checkIR(Expression.class), var.getVariable());
 		}
-		return new Qualification(
-				targetExpr.getIR() instanceof VariableExpression ? targetExpr.checkIR(VariableExpression.class).getVariable() : targetExpr.checkIR(GraphEntityExpression.class).getGraphEntity(), 
+		if(targetExpr.getIR() instanceof VariableExpression) {
+			return new Qualification(
+				targetExpr.checkIR(VariableExpression.class).getVariable(),
 				member.checkIR(Entity.class));
+		} else if(targetExpr.getIR() instanceof GraphEntityExpression) {
+			return new Qualification(
+				targetExpr.checkIR(GraphEntityExpression.class).getGraphEntity(), 
+				member.checkIR(Entity.class));
+		} else {
+			return new Qualification(
+				targetExpr.checkIR(Expression.class), // normally a Cast
+				member.checkIR(Entity.class));
+		}
 	}
 
 	public static String getKindStr() {

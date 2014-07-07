@@ -1884,6 +1884,33 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing qualification after cast expression
+    /// </summary>
+    public class CastQualification : Expression
+    {
+        public CastQualification(Expression owner, String member)
+        {
+            Owner = owner;
+            Member = member;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CastQualification(Owner.Copy(renameSuffix), Member);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            Owner.Emit(sourceCode);
+            sourceCode.Append(").@" + Member);
+        }
+
+        Expression Owner;
+        String Member;
+    }
+
+    /// <summary>
     /// Class representing typeof expression
     /// </summary>
     public class Typeof : Expression
@@ -3926,6 +3953,8 @@ namespace de.unika.ipd.grGen.expression
                     sourceCode.Append("("+ArgumentTypes[i]+")");
                 argument.Emit(sourceCode);
             }
+            if(Parallel)
+                sourceCode.AppendFront(", threadId");
             sourceCode.Append(")");
         }
 
@@ -3976,11 +4005,19 @@ namespace de.unika.ipd.grGen.expression
                 if(ArgumentTypes[i] != null) sourceCode.Append("(" + ArgumentTypes[i] + ")");
                 argument.Emit(sourceCode);
             }
+            if(Parallel)
+                sourceCode.AppendFront(", threadId");
             sourceCode.Append(")");
         }
 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
         String OwnerType;
-        String Owner; 
+        String Owner;
+        public bool Parallel;
     }
 
     /// <summary>
@@ -3988,10 +4025,9 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ExternalFunctionMethodInvocation : ExternalFunctionInvocation
     {
-        public ExternalFunctionMethodInvocation(String ownerType, String owner, String functionName, Expression[] arguments, String[] argumentTypes)
+        public ExternalFunctionMethodInvocation(Expression owner, String functionName, Expression[] arguments, String[] argumentTypes)
             : base(functionName, arguments, argumentTypes)
         {
-            OwnerType = ownerType;
             Owner = owner;
         }
 
@@ -3999,12 +4035,14 @@ namespace de.unika.ipd.grGen.expression
         {
             Expression[] newArguments = new Expression[Arguments.Length];
             for(int i = 0; i < Arguments.Length; ++i) newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
-            return new ExternalFunctionMethodInvocation(OwnerType, Owner + renameSuffix, FunctionName, newArguments, (String[])ArgumentTypes.Clone());
+            return new ExternalFunctionMethodInvocation(Owner.Copy(renameSuffix), FunctionName, newArguments, (String[])ArgumentTypes.Clone());
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("((" + OwnerType + ")" + NamesOfEntities.CandidateVariable(Owner) + ").@");
+            sourceCode.Append("(");
+            Owner.Emit(sourceCode);
+            sourceCode.Append(").@");
             sourceCode.Append(FunctionName + "(actionEnv, graph");
             for(int i = 0; i < Arguments.Length; ++i)
             {
@@ -4014,11 +4052,18 @@ namespace de.unika.ipd.grGen.expression
                     sourceCode.Append("(" + ArgumentTypes[i] + ")");
                 argument.Emit(sourceCode);
             }
+            if(Parallel)
+                sourceCode.AppendFront(", threadId");
             sourceCode.Append(")");
         }
 
-        String OwnerType;
-        String Owner; 
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        Expression Owner;
+        public bool Parallel;
     }
 
     /// <summary>

@@ -374,6 +374,14 @@ public abstract class CSharpBase {
 		return "ProcedureMethodInfo_" + formatIdentifiable(pm) + "_" + formatIdentifiable(type);
 	}
 
+	public String formatExternalFunctionMethodInfoName(ExternalFunctionMethod efm, ExternalType type) {
+		return "FunctionMethodInfo_" + formatIdentifiable(efm) + "_" + formatIdentifiable(type);
+	}
+
+	public String formatExternalProcedureMethodInfoName(ExternalProcedureMethod epm, ExternalType type) {
+		return "ProcedureMethodInfo_" + formatIdentifiable(epm) + "_" + formatIdentifiable(type);
+	}
+
 	public String formatType(Type type) {
 		if(type instanceof InheritanceType) {
 			return formatElementInterfaceRef(type);
@@ -866,7 +874,13 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof Qualification) {
 			Qualification qual = (Qualification) expr;
-			genQualAccess(sb, qual, modifyGenerationState);
+			if(qual.getOwner()!=null) {
+				genQualAccess(sb, qual, modifyGenerationState);
+			} else {
+				sb.append("(");
+				genExpression(sb, qual.getOwnerExpr(), modifyGenerationState);
+				sb.append(").@" + formatIdentifiable(qual.getMember()));
+			}
 		}
 		else if(expr instanceof MemberExpression) {
 			MemberExpression memberExp = (MemberExpression) expr;
@@ -1587,9 +1601,9 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof ExternalFunctionMethodInvocationExpr) {
 			ExternalFunctionMethodInvocationExpr efmi = (ExternalFunctionMethodInvocationExpr)expr;
-			Entity owner = efmi.getOwner();
-			sb.append("(("+ formatElementInterfaceRef(owner.getType()) + ") ");
-			sb.append(formatEntity(owner) + ").@");
+			sb.append("(");
+			genExpression(sb, efmi.getOwner(), modifyGenerationState);
+			sb.append(").@");
 			sb.append(efmi.getExternalFunc().getIdent().toString() + "(actionEnv, graph");
 			for(int i=0; i<efmi.arity(); ++i) {
 				sb.append(", ");
@@ -2370,6 +2384,12 @@ public abstract class CSharpBase {
 				return "object";
 			case Type.IS_GRAPH:
 				return "GRGEN_LIBGR.IGraph";
+			case Type.IS_EXTERNAL_TYPE:
+				return formatType(cast.getType());
+			case Type.IS_NODE:
+				return formatType(cast.getType());
+			case Type.IS_EDGE:
+				return formatType(cast.getType());
 			default:
 				throw new UnsupportedOperationException(
 					"This is either a forbidden cast, which should have been " +

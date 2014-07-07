@@ -403,7 +403,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append(" },\n");
 		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : function.getParameters()) {
-			if(inParam.getType() instanceof InheritanceType) {
+			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
@@ -411,7 +411,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(" },\n");
 		Type outType = function.getReturnType();
-		if(outType instanceof InheritanceType) {
+		if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
 			sb.append("\t\t\t\t\t\t" + formatTypeClassRef(outType) + ".typeVar\n");
 		} else {
 			sb.append("\t\t\t\t\t\tGRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
@@ -539,7 +539,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append(" },\n");
 		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : procedure.getParameters()) {
-			if(inParam.getType() instanceof InheritanceType) {
+			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
@@ -548,7 +548,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append(" },\n");
 		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
 		for(Type outType : procedure.getReturnTypes()) {
-			if(outType instanceof InheritanceType) {
+			if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
 				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + ")), ");
@@ -2527,12 +2527,16 @@ public class ActionsGen extends CSharpBase {
 			Qualification qual = (Qualification) expr;
 			Entity owner = qual.getOwner();
 			Entity member = qual.getMember();
-			if(!Expression.isGlobalVariable(owner)) {
-				sb.append("new GRGEN_EXPR.Qualification(\"" + formatElementInterfaceRef(owner.getType())
-					+ "\", \"" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \"" + formatIdentifiable(member) + "\")");
-			} else {
+			if(Expression.isGlobalVariable(owner)) {
 				sb.append("new GRGEN_EXPR.GlobalVariableQualification(\"" + formatType(owner.getType())
 						+ "\", \"" + formatIdentifiable(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \"" + formatIdentifiable(member) + "\")");
+			} else if(owner!=null) {
+				sb.append("new GRGEN_EXPR.Qualification(\"" + formatElementInterfaceRef(owner.getType())
+						+ "\", \"" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \"" + formatIdentifiable(member) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.CastQualification(");
+				genExpressionTree(sb, qual.getOwnerExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", \"" + formatIdentifiable(member) + "\")");
 			}
 		}
 		else if(expr instanceof EnumExpression) {
@@ -3103,9 +3107,9 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if (expr instanceof ExternalFunctionMethodInvocationExpr) {
 			ExternalFunctionMethodInvocationExpr efmi = (ExternalFunctionMethodInvocationExpr)expr;
-			sb.append("new GRGEN_EXPR.ExternalFunctionMethodInvocation(\"" + formatElementInterfaceRef(efmi.getOwner().getType()) + "\","
-					+ " \"" + formatEntity(efmi.getOwner(), pathPrefix, alreadyDefinedEntityToName) + "\","
-					+ " \"" + efmi.getExternalFunc().getIdent() + "\", new GRGEN_EXPR.Expression[] {");
+			sb.append("new GRGEN_EXPR.ExternalFunctionMethodInvocation(");
+			genExpressionTree(sb, efmi.getOwner(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", \"" + efmi.getExternalFunc().getIdent() + "\", new GRGEN_EXPR.Expression[] {");
 			for(int i=0; i<efmi.arity(); ++i) {
 				Expression argument = efmi.getArgument(i);
 				genExpressionTree(sb, argument, className, pathPrefix, alreadyDefinedEntityToName);

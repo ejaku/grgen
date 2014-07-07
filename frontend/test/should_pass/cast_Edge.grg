@@ -1,0 +1,15 @@
+using castModel2;
+
+rule r {
+	-e:E->;
+	-ee:E->;
+	
+	if{ ((EE)e).aa == ((E)ee).a + uniqueof((Edge)ee); }
+	
+	replace {
+		eval {
+			ee.a = ((EE)e).aa + ((E)ee).a + uniqueof((Edge)ee);
+		}
+	}
+}
+

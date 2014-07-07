@@ -17,8 +17,12 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.exprevals.ExternalFunctionMethod;
+import de.unika.ipd.grgen.ir.exprevals.ExternalProcedureMethod;
 import de.unika.ipd.grgen.ir.exprevals.ExternalType;
 
 /**
@@ -35,11 +39,17 @@ public class ExternalTypeNode extends InheritanceTypeNode {
 	 * Create a new external type
 	 * @param ext The collect node containing the types which are extended by this type.
 	 */
-	public ExternalTypeNode(CollectNode<IdentNode> ext) {
+	public ExternalTypeNode(CollectNode<IdentNode> ext, CollectNode<BaseNode> body) {
 		this.extendUnresolved = ext;
 		becomeParent(this.extendUnresolved);
-		body = new CollectNode<BaseNode>();
-		addCastability(this, BasicTypeNode.objectType);
+		this.bodyUnresolved = body;
+		becomeParent(this.bodyUnresolved);
+		
+		// allow the conditional operator on the external type
+		OperatorSignature.makeOp(OperatorSignature.COND, this,
+								 new TypeNode[] { BasicTypeNode.booleanType, this, this },
+								 OperatorSignature.condEvaluator
+								);
 	}
 
 	/** returns children of this node */
@@ -47,6 +57,7 @@ public class ExternalTypeNode extends InheritanceTypeNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(extendUnresolved, extend));
+		children.add(getValidVersion(bodyUnresolved, body));
 		return children;
 	}
 
@@ -55,15 +66,21 @@ public class ExternalTypeNode extends InheritanceTypeNode {
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("extends");
+		childrenNames.add("body");
 		return childrenNames;
 	}
 
 	private static final CollectResolver<ExternalTypeNode> extendResolver =	new CollectResolver<ExternalTypeNode>(
 		new DeclarationTypeResolver<ExternalTypeNode>(ExternalTypeNode.class));
 
+	@SuppressWarnings("unchecked")
+	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
+		new DeclarationResolver<BaseNode>(ExternalFunctionDeclNode.class, ExternalProcedureDeclNode.class));
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
+		body = bodyResolver.resolve(bodyUnresolved, this);
 		extend = extendResolver.resolve(extendUnresolved, this);
 
 		// Initialize direct sub types
@@ -73,7 +90,7 @@ public class ExternalTypeNode extends InheritanceTypeNode {
 			}
 		}
 
-		return extend != null;
+		return body != null && extend != null;
 	}
 
 	/**
@@ -92,10 +109,29 @@ public class ExternalTypeNode extends InheritanceTypeNode {
 	protected IR constructIR() {
 		ExternalType et = new ExternalType(getDecl().getIdentNode().getIdent());
 
+		if (isIRAlreadySet()) { // break endless recursion in case of a member of node/edge type
+			return getIR();
+		} else{
+			setIR(et);
+		}
+		
 		constructIR(et);
 
 		return et;
 	}
+
+	protected void constructIR(ExternalType extType) {
+		for(BaseNode n : body.getChildren()) {
+			if(n instanceof ExternalFunctionDeclNode) {
+				extType.addExternalFunctionMethod(n.checkIR(ExternalFunctionMethod.class));
+			} else {
+				extType.addExternalProcedureMethod(n.checkIR(ExternalProcedureMethod.class));
+			}
+		}
+		for(InheritanceTypeNode inh : getExtends().getChildren()) {
+			extType.addDirectSuperType((InheritanceType)inh.getType());
+		}
+    }
 
 	protected CollectNode<? extends InheritanceTypeNode> getExtends() {
 		return extend;
@@ -128,6 +164,13 @@ public class ExternalTypeNode extends InheritanceTypeNode {
 
 	@Override
 	protected void getMembers(Map<String, DeclNode> members) {
+		for(BaseNode n : body.getChildren()) {
+			if(n instanceof ExternalFunctionDeclNode) {
+				continue; // METHOD-TODO check that parameters are identical to overridden method(s)
+			} else if(n instanceof ExternalProcedureDeclNode) {
+				continue; // METHOD-TODO check that parameters are identical to overridden mehtod(s)
+			} 
+		}
 	}
 }
 

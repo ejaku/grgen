@@ -2654,12 +2654,12 @@ externalFunctionOrProcedureDecl [ CollectNode<IdentNode> externalFuncs, CollectN
 	}
 	: EXTERNAL f=FUNCTION id=funcOrExtFuncIdentDecl params=paramTypes COLON ret=returnType SEMI
 		{
-			id.setDecl(new ExternalFunctionDeclNode(id, params, ret));
+			id.setDecl(new ExternalFunctionDeclNode(id, params, ret, false));
 			externalFuncs.addChild(id);
 		}
 	| EXTERNAL p=PROCEDURE id=funcOrExtFuncIdentDecl params=paramTypes (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)? SEMI
 		{
-			id.setDecl(new ExternalProcedureDeclNode(id, params, returnTypes));
+			id.setDecl(new ExternalProcedureDeclNode(id, params, returnTypes, false));
 			externalProcs.addChild(id);
 		}
 	;
@@ -2931,12 +2931,19 @@ enumItemDecl [ IdentNode type, CollectNode<EnumItemNode> coll, ExprNode defInit,
 	;
 
 extClassDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: EXTERNAL c=CLASS id=typeIdentDecl ext=extExtends[id] SEMI
+	: EXTERNAL c=CLASS id=typeIdentDecl 
+	  ext=extExtends[id] { env.pushScope(id); }
+		(
+			LBRACE body=extClassBody[id] RBRACE
+		|	SEMI
+			{ body = new CollectNode<BaseNode>(); }
+		)
 		{
-			ExternalTypeNode et = new ExternalTypeNode(ext);
+			ExternalTypeNode et = new ExternalTypeNode(ext, body);
 			id.setDecl(new TypeDeclNode(id, et));
 			res = id;
 		}
+		{ env.popScope(); }
 	;
 
 extExtends [ IdentNode clsId ] returns [ CollectNode<IdentNode> c = new CollectNode<IdentNode>() ]
@@ -2959,6 +2966,37 @@ extExtendsCont [IdentNode clsId, CollectNode<IdentNode> c ]
 				reportError(n.getCoords(), "A class must not extend itself");
 		}
 	)*
+	;
+
+extClassBody [IdentNode clsId] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
+	:	(
+			(
+				funcMethod=inClassExtFunctionDecl[clsId] { c.addChild(funcMethod); }
+			|
+				procMethod=inClassExtProcedureDecl[clsId] { c.addChild(procMethod); }
+			)
+		)*
+	;
+
+inClassExtFunctionDecl [ IdentNode clsId ] returns [ ExternalFunctionDeclNode res = null ]
+	: EXTERNAL f=FUNCTION id=methodOrExtMethodIdentDecl { env.pushScope(id); } params=paramTypes COLON retType=returnType SEMI { env.popScope(); }
+		{
+			res = new ExternalFunctionDeclNode(id, params, retType, true);
+			id.setDecl(res);
+		}
+	;
+
+inClassExtProcedureDecl [ IdentNode clsId ] returns [ ExternalProcedureDeclNode res = null ]
+	@init{
+		CollectNode<BaseNode> retTypes = new CollectNode<BaseNode>();
+	}
+	
+	: EXTERNAL pr=PROCEDURE id=methodOrExtMethodIdentDecl { env.pushScope(id); } params=paramTypes
+		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)? SEMI { env.popScope(); }
+		{
+			res = new ExternalProcedureDeclNode(id, params, retTypes, true);
+			id.setDecl(res);
+		}
 	;
 	
 basicAndContainerDecl [ CollectNode<BaseNode> c ]
@@ -3569,7 +3607,7 @@ options { k = 5; }
 					IdentNode method_ = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
 					if(!attributeMethodCall) 
 					{
-						ProcedureMethodInvocationNode pmi = new ProcedureMethodInvocationNode(new IdentExprNode(variable, yielded), method_, params, context);
+						ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new IdentExprNode(variable, yielded), method_, params, context);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
 							proj.setProcedure(pmi);
@@ -3582,7 +3620,7 @@ options { k = 5; }
 					}
 					else
 					{
-						ProcedureMethodInvocationNode pmi = new ProcedureMethodInvocationNode(new QualIdentNode(getCoords(d), variable, member), method_, params, context);
+						ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new QualIdentNode(getCoords(d), variable, member), method_, params, context);
 						if(onLHS) reportError(getCoords(d), "Method call on an attribute is forbidden in LHS eval, only yield method call to a def variable allowed.");
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
