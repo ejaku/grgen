@@ -1,8 +1,17 @@
 // we declare three external classes we want to use in our external attribute computations
 // signature only, external implmentation!
 external class Own;
-external class OwnPown extends Own;
-external class OwnPownHome extends OwnPown;
+external class OwnPown extends Own
+{
+	external function fn(string) : string;
+	external procedure pc(string);
+}
+external class OwnPownHome extends OwnPown
+{
+	external function fn2(OwnPownHome) : OwnPownHome;
+	external function fn3() : string;
+	external procedure pc2(string, Own) : (string, Own);
+}
 
 // we declare that we want to implement parsing, serializing, and debug output generation 
 // of objects of external types or of object type
@@ -42,8 +51,37 @@ node class N
 	ow:Own; // attributes of type externally defined
 	op:OwnPown; // attributes of type externally defined
 	oh:OwnPownHome; // attributes of type externally defined
+	
+	function fn(var ss:string) : string
+	{
+		return(ss + this.s + this.fn(ss));
+	}
+	
+	procedure pc(var ss:string)
+	{
+		this.s = ss;
+		this.pc(ss);
+		return;
+	}
+	
+	function fn2(var oo:OwnPownHome) : OwnPownHome
+	{
+		def var o1:OwnPownHome = this.fn2(oo);
+		def var o2:OwnPownHome = oo.fn2(oo);
+		def var b1:boolean = o1.fn3()==o2.fn3();
+		def var b2:boolean = this.s==(oo.fn("foo")+this.op.fn("42"));
+		return( b1 && b2 ? oo : oo.fn2(oo) );
+	}
+	
+	procedure pc2(var ss:string, var oo:OwnPown) : (string, OwnPown)
+	{
+		(ss,oo)=this.pc2(ss,oo);
+		oo.pc(ss);
+		return(oo.fn(ss), oo);
+	}
 }
 
+node class NN extends N;
 edge class E;
 
 // we declare the external attribute functions

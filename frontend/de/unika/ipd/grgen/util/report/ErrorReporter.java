@@ -48,9 +48,7 @@ public class ErrorReporter extends Reporter {
 	 * @param msg The error message.
 	 */
 	public void error(Location loc, String msg) {
-		if(msg.equals("rule initContainerExpr failed predicate: {!env.inContainerInit()}?"))
-			report(ERROR, loc, "empty container initialization without type not allowed -- " + getMsg(ERROR, msg));
-		else if(msg.equals("mismatched input '$' expecting RPAREN"))
+		if(msg.equals("mismatched input '$' expecting RPAREN"))
 			report(ERROR, loc, getMsg(ERROR, msg) + " -- forgot \"@\"?");
 		else
 			report(ERROR, loc, getMsg(ERROR, msg));

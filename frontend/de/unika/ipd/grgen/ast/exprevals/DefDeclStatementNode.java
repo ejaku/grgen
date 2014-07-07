@@ -62,7 +62,9 @@ public class DefDeclStatementNode extends EvalStatementNode {
 	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		getDecl();
+		DeclNode decl = getDecl();
+		fixupDefinition(decl.typeUnresolved, decl.typeUnresolved.getScope());
+		successfullyResolved = decl.resolve();
 		return successfullyResolved;
 	}
 

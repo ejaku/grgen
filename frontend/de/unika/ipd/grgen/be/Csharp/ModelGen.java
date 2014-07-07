@@ -68,10 +68,10 @@ public class ModelGen extends CSharpBase {
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
                 + "using GRGEN_EXPR = de.unika.ipd.grGen.expression;\n"
+				+ "using GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n"
 				+ "\n"
 				+ "namespace de.unika.ipd.grGen.Model_" + model.getIdent() + "\n"
-				+ "{\n"
-				+ "\tusing GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n");
+				+ "{\n");
 
 		for(PackageType pt : model.getPackages()) {
 			System.out.println("    generating package " + pt.getIdent() + "...");
@@ -95,6 +95,11 @@ public class ModelGen extends CSharpBase {
 
 		genBearer(model.getAllNodeTypes(), model.getAllEdgeTypes(),
 				model, null);
+		
+		genExternalTypeObject();
+		for(ExternalType et : model.getExternalTypes()) {
+			genExternalType(et);
+		}
 
 		System.out.println("    generating indices...");
 
@@ -164,7 +169,8 @@ public class ModelGen extends CSharpBase {
 				+ "using System.Collections.Generic;\n"
 				+ "using System.IO;\n"
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
-                + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n");
+                + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
+				+ "using GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n");
 
 		if(!model.getExternalTypes().isEmpty() || model.isEmitClassDefined() || model.isEmitGraphClassDefined())
 		{
@@ -187,9 +193,7 @@ public class ModelGen extends CSharpBase {
 		{
 			sb.append("\n");
 			sb.append("namespace de.unika.ipd.grGen.expression\n"
-					+ "{\n"
-					+ "\tusing GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n"
-					+ "\n");
+					+ "{\n");
 
 			sb.append("\tpublic partial class ExternalFunctions\n");
 			sb.append("\t{\n");
@@ -207,9 +211,7 @@ public class ModelGen extends CSharpBase {
 		{
 			sb.append("\n");
 			sb.append("namespace de.unika.ipd.grGen.expression\n"
-					+ "{\n"
-					+ "\tusing GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n"
-					+ "\n");
+					+ "{\n");
 
 			sb.append("\tpublic partial class ExternalProcedures\n");
 			sb.append("\t{\n");
@@ -1366,10 +1368,9 @@ deque_init_loop:
 	}
 
 	private void genParameterPassingReturnArray(InheritanceType type, ProcedureMethod pm) {
-		sb.append("\t\tprivate static object[] ReturnArray_" + pm.getIdent().toString() + "_" + type.getIdent().toString() + " = new object[" + pm.getReturnTypes().size() + "];\n");
+		sb.append("\t\tprivate static object[] ReturnArray_" + pm.getIdent().toString() + "_" + type.getIdent().toString() + " = new object[" + pm.getReturnTypes().size() + "]; // helper array for multi-value-returns, to allow for contravariant parameter assignment\n");
 	}
 
-	// METHOD-TODO
 	private void genMethods(InheritanceType type) {
 		sb.append("\n\t\tpublic override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)\n");
 		sb.append("\t\t{\n");
@@ -2125,7 +2126,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append(" },\n");
 		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : fm.getParameters()) {
-			if(inParam.getType() instanceof InheritanceType) {
+			if(inParam.getType() instanceof InheritanceType  && !(inParam.getType() instanceof ExternalType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
@@ -2133,7 +2134,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		}
 		sb.append(" },\n");
 		Type outType = fm.getReturnType();
-		if(outType instanceof InheritanceType) {
+		if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
 			sb.append("\t\t\t\t\t\t" + formatTypeClassRef(outType) + ".typeVar\n");
 		} else {
 			sb.append("\t\t\t\t\t\tGRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
@@ -2177,7 +2178,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append(" },\n");
 		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : pm.getParameters()) {
-			if(inParam.getType() instanceof InheritanceType) {
+			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
@@ -2186,7 +2187,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append(" },\n");
 		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
 		for(Type outType : pm.getReturnTypes()) {
-			if(outType instanceof InheritanceType) {
+			if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
 				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + ")), ");
@@ -4418,16 +4419,14 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\tGRGEN_MODEL." + getPackagePrefixDot(enumt) + "Enums.@" + formatIdentifiable(enumt) + ",\n");
 	}
 
+	///////////////////////////////
+	// External stuff generation //
+	///////////////////////////////
+
 	private void genExternalTypes() {
-		sb.append("\t\tpublic static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType(");
-		sb.append("\"object\", ");
-		sb.append("typeof(object)");
-		sb.append(");\n");
+		sb.append("\t\tpublic static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();\n");
 		for(ExternalType et : model.getExternalTypes()) {
-			sb.append("\t\tpublic static GRGEN_LIBGR.ExternalType externalType_" + et.getIdent() + " = new GRGEN_LIBGR.ExternalType(");
-			sb.append("\"" + et.getIdent() + "\", ");
-			sb.append("typeof(" + et.getIdent() + ")");
-			sb.append(");\n");
+			sb.append("\t\tpublic static GRGEN_LIBGR.ExternalType externalType_" + et.getIdent() + " = new ExternalType_" + et.getIdent() + "();\n");
 		}
 
 		sb.append("\t\tprivate GRGEN_LIBGR.ExternalType[] externalTypes = { ");
@@ -4438,9 +4437,248 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append(" };\n");
 	}
 
-	///////////////////////////////
-	// External stuff generation //
-	///////////////////////////////
+	/**
+	 * Generates the external type implementation
+	 */
+	private void genExternalType(ExternalType type) {
+		sb.append("\n");
+		sb.append("\tpublic sealed class ExternalType_" + type.getIdent() + " : GRGEN_LIBGR.ExternalType\n");
+		sb.append("\t{\n");
+
+		sb.append("\t\tpublic ExternalType_" + type.getIdent() + "()\n");
+		sb.append("\t\t\t: base(\"" + type.getIdent() + "\", typeof(" + type.getIdent() + "))\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t\tpublic override int NumFunctionMethods { get { return " + type.getAllExternalFunctionMethods().size() + "; } }\n");
+		genExternalFunctionMethodsEnumerator(type);
+		genGetExternalFunctionMethod(type);
+
+		sb.append("\t\tpublic override int NumProcedureMethods { get { return " + type.getAllExternalProcedureMethods().size() + "; } }\n");
+		genExternalProcedureMethodsEnumerator(type);
+		genGetExternalProcedureMethod(type);
+
+		sb.append("\t}\n");
+		
+		// generate function method info classes
+		Collection<ExternalFunctionMethod> allExternalFunctionMethods = type.getAllExternalFunctionMethods();
+		for(ExternalFunctionMethod efm : allExternalFunctionMethods) {
+			genExternalFunctionMethodInfo(efm, type, null);
+		}
+		
+		// generate procedure method info classes
+		Collection<ExternalProcedureMethod> allExternalProcedureMethods = type.getAllExternalProcedureMethods();
+		for(ExternalProcedureMethod epm : allExternalProcedureMethods) {
+			genExternalProcedureMethodInfo(epm, type, null);
+		}
+	}
+
+	private void genExternalFunctionMethodsEnumerator(ExternalType type) {
+		Collection<ExternalFunctionMethod> allExternalFunctionMethods = type.getAllExternalFunctionMethods();
+		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods");
+
+		if(allExternalFunctionMethods.isEmpty())
+			sb.append(" { get { yield break; } }\n");
+		else {
+			sb.append("\n\t\t{\n");
+			sb.append("\t\t\tget\n");
+			sb.append("\t\t\t{\n");
+			for(ExternalFunctionMethod efm : allExternalFunctionMethods) {
+				sb.append("\t\t\t\tyield return " + formatExternalFunctionMethodInfoName(efm, type) + ".Instance;\n");
+			}
+			sb.append("\t\t\t}\n");
+			sb.append("\t\t}\n");
+		}
+	}
+
+	private void genGetExternalFunctionMethod(ExternalType type) {
+		Collection<ExternalFunctionMethod> allExternalFunctionMethods = type.getAllExternalFunctionMethods();
+		sb.append("\t\tpublic override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name)");
+
+		if(allExternalFunctionMethods.isEmpty())
+			sb.append(" { return null; }\n");
+		else {
+			sb.append("\n\t\t{\n");
+			sb.append("\t\t\tswitch(name)\n");
+			sb.append("\t\t\t{\n");
+			for(ExternalFunctionMethod efm : allExternalFunctionMethods) {
+				sb.append("\t\t\t\tcase \"" + formatIdentifiable(efm) + "\" : return " +
+						formatExternalFunctionMethodInfoName(efm, type) + ".Instance;\n");
+			}
+			sb.append("\t\t\t}\n");
+			sb.append("\t\t\treturn null;\n");
+			sb.append("\t\t}\n");
+		}
+	}
+
+	private void genExternalProcedureMethodsEnumerator(ExternalType type) {
+		Collection<ExternalProcedureMethod> allExternalProcedureMethods = type.getAllExternalProcedureMethods();
+		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods");
+
+		if(allExternalProcedureMethods.isEmpty())
+			sb.append(" { get { yield break; } }\n");
+		else {
+			sb.append("\n\t\t{\n");
+			sb.append("\t\t\tget\n");
+			sb.append("\t\t\t{\n");
+			for(ExternalProcedureMethod epm : allExternalProcedureMethods) {
+				sb.append("\t\t\t\tyield return " + formatExternalProcedureMethodInfoName(epm, type) + ".Instance;\n");
+			}
+			sb.append("\t\t\t}\n");
+			sb.append("\t\t}\n");
+		}
+	}
+
+	private void genGetExternalProcedureMethod(ExternalType type) {
+		Collection<ExternalProcedureMethod> allExternalProcedureMethods = type.getAllExternalProcedureMethods();
+		sb.append("\t\tpublic override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name)");
+
+		if(allExternalProcedureMethods.isEmpty())
+			sb.append(" { return null; }\n");
+		else {
+			sb.append("\n\t\t{\n");
+			sb.append("\t\t\tswitch(name)\n");
+			sb.append("\t\t\t{\n");
+			for(ExternalProcedureMethod epm : allExternalProcedureMethods) {
+				sb.append("\t\t\t\tcase \"" + formatIdentifiable(epm) + "\" : return " +
+						formatExternalProcedureMethodInfoName(epm, type) + ".Instance;\n");
+			}
+			sb.append("\t\t\t}\n");
+			sb.append("\t\t\treturn null;\n");
+			sb.append("\t\t}\n");
+		}
+	}
+
+	/**
+	 * Generates the function info for the given external function method
+	 */
+	private void genExternalFunctionMethodInfo(ExternalFunctionMethod efm, ExternalType type, String packageName) {
+		String externalFunctionMethodName = formatIdentifiable(efm);
+		String className = formatExternalFunctionMethodInfoName(efm, type);
+
+		sb.append("\tpublic class " + className + " : GRGEN_LIBGR.FunctionInfo\n");
+		sb.append("\t{\n");
+		sb.append("\t\tprivate static " + className + " instance = null;\n");
+		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
+				+ "instance = new " + className + "(); } return instance; } }\n");
+		sb.append("\n");
+
+		sb.append("\t\tprivate " + className + "()\n");
+		sb.append("\t\t\t\t\t: base(\n");
+		sb.append("\t\t\t\t\t\t\"" + externalFunctionMethodName + "\",\n");
+		sb.append("\t\t\t\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ", ");
+		sb.append("\"" + (packageName!=null ? packageName + "::" + externalFunctionMethodName : externalFunctionMethodName) + "\",\n");
+		sb.append("\t\t\t\t\t\tnew String[] { ");
+		int i = 0;
+		for(@SuppressWarnings("unused") Type inParamType : efm.getParameterTypes()) {
+			sb.append("\"in_" + i + "\", ");
+			++i;
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Type inParamType : efm.getParameterTypes()) {
+			if(inParamType instanceof InheritanceType  && !(inParamType instanceof ExternalType)) {
+				sb.append(formatTypeClassRef(inParamType) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParamType) + ")), ");
+			}
+		}
+		sb.append(" },\n");
+		Type outType = efm.getReturnType();
+		if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+			sb.append("\t\t\t\t\t\t" + formatTypeClassRef(outType) + ".typeVar\n");
+		} else {
+			sb.append("\t\t\t\t\t\tGRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
+		}
+		sb.append("\t\t\t\t\t  )\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t}\n");
+		
+		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tthrow new Exception(\"Not implemented, can't call function method without this object!\");\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t}\n");
+		sb.append("\n");
+	}
+
+	/**
+	 * Generates the procedure info for the given external procedure method
+	 */
+	private void genExternalProcedureMethodInfo(ExternalProcedureMethod epm, ExternalType type, String packageName) {
+		String externalProcedureMethodName = formatIdentifiable(epm);
+		String className = formatExternalProcedureMethodInfoName(epm, type);
+
+		sb.append("\tpublic class " + className + " : GRGEN_LIBGR.ProcedureInfo\n");
+		sb.append("\t{\n");
+		sb.append("\t\tprivate static " + className + " instance = null;\n");
+		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
+				+ "instance = new " + className + "(); } return instance; } }\n");
+		sb.append("\n");
+
+		sb.append("\t\tprivate " + className + "()\n");
+		sb.append("\t\t\t\t\t: base(\n");
+		sb.append("\t\t\t\t\t\t\"" + externalProcedureMethodName + "\",\n");
+		sb.append("\t\t\t\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ", ");
+		sb.append("\"" + (packageName!=null ? packageName + "::" + externalProcedureMethodName : externalProcedureMethodName) + "\",\n");
+		sb.append("\t\t\t\t\t\tnew String[] { ");
+		int i = 0;
+		for(@SuppressWarnings("unused") Type inParamType : epm.getParameterTypes()) {
+			sb.append("\"in_" + i + "\", ");
+			++i;
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Type inParamType : epm.getParameterTypes()) {
+			if(inParamType instanceof InheritanceType && !(inParamType instanceof ExternalType)) {
+				sb.append(formatTypeClassRef(inParamType) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParamType) + ")), ");
+			}
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Type outType : epm.getReturnTypes()) {
+			if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + ")), ");
+			}
+		}
+		sb.append(" }\n");
+		sb.append("\t\t\t\t\t  )\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t}\n");
+		
+		sb.append("\t\tpublic override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tthrow new Exception(\"Not implemented, can't call procedure method without this object!\");\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t}\n");
+		sb.append("\n");
+	}
+
+	private void genExternalTypeObject() {
+		sb.append("\n");
+		sb.append("\tpublic sealed class ExternalType_object : GRGEN_LIBGR.ExternalType\n");
+		sb.append("\t{\n");
+
+		sb.append("\t\tpublic ExternalType_object()\n");
+		sb.append("\t\t\t: base(\"object\", typeof(object))\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t\tpublic override int NumFunctionMethods { get { return 0; } }\n");
+		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }\n");
+		sb.append("\t\tpublic override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }\n");
+		sb.append("\t\tpublic override int NumProcedureMethods { get { return 0; } }\n");
+		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }\n");
+		sb.append("\t\tpublic override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }\n");
+
+		sb.append("\t}\n");		
+	}
 
 	private void genExternalClasses() {
 		for(ExternalType et : model.getExternalTypes()) {
@@ -4458,9 +4696,65 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\n");
 			sb.append("\t{\n");
 			sb.append("\t\t// You must implement this class in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n");
+			
+			genExtMethods(et);
+			
 			sb.append("\t}\n");
 			sb.append("\n");
 		}
+	}
+
+	private void genExtMethods(ExternalType type) {
+		if(type.getAllExternalFunctionMethods().size()==0 && type.getAllExternalProcedureMethods().size()==0)
+			return;
+		
+		sb.append("\n\t\t// You must implement the following methods in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n");
+		
+		for(ExternalFunctionMethod efm : type.getAllExternalFunctionMethods()) {
+			sb.append("\t\t//public " + formatType(efm.getReturnType()) + " ");
+			sb.append(efm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph");
+			for(Type inParamType : efm.getParameterTypes()) {
+				sb.append(", ");
+				sb.append(formatType(inParamType));
+			}
+			sb.append(");\n");
+
+			if(be.unit.isToBeParallelizedActionExisting())
+			{
+				sb.append("\t\t//public " + formatType(efm.getReturnType()) + " ");
+				sb.append(efm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph");
+				for(Type inParamType : efm.getParameterTypes()) {
+					sb.append(", ");
+					sb.append(formatType(inParamType));
+				}
+				sb.append(", int threadId");
+				sb.append(");\n");
+			}
+		}
+
+		//////////////////////////////////////////////////////////////
+		
+		for(ExternalProcedureMethod epm : type.getAllExternalProcedureMethods()) {
+			genParameterPassingReturnArray(type, epm);
+		}
+
+		for(ExternalProcedureMethod epm : type.getAllExternalProcedureMethods()) {
+			sb.append("\t\t//public void ");
+			sb.append(epm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_LIBGR.IGraphElement");
+			for(Type inParamType : epm.getParameterTypes()) {
+				sb.append(", ");
+				sb.append(formatType(inParamType));
+			}
+			for(Type outType : epm.getReturnTypes()) {
+				sb.append(", out ");
+				sb.append(formatType(outType));
+			}
+			sb.append(");\n");
+		}
+	}
+
+	private void genParameterPassingReturnArray(ExternalType type, ExternalProcedureMethod epm) {
+		sb.append("\t\tprivate static object[] ReturnArray_" + epm.getIdent().toString() + "_" + type.getIdent().toString() + " = new object[" + epm.getReturnTypes().size() + "]; // helper array for multi-value-returns, to allow for contravariant parameter assignment\n");
 	}
 
 	private void genEmitterParserClass() {

@@ -26,6 +26,16 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
             ehe = that.ehe;
         }
 
+        public string fn(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, string var_ss)
+        {
+            return ehe;
+        }
+
+        public void pc(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, GRGEN_LIBGR.IGraphElement elem_, string var_ss)
+        {
+            return;
+        }
+
         public string ehe;
     }
 	
@@ -38,6 +48,23 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
         public OwnPownHome(OwnPownHome that)
         {
             aha = that.aha;
+        }
+
+        public OwnPownHome fn2(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, OwnPownHome var_oo)
+        {
+            return var_oo;
+        }
+
+        public string fn3(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_)
+        {
+            return ehe;
+        }
+
+        public void pc2(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, GRGEN_LIBGR.IGraphElement elem_, string var_ss, Own var_oo, out string _out_param_0, out Own _out_param_1)
+        {
+            _out_param_0 = var_ss;
+            _out_param_1 = var_oo;
+            return;
         }
 
         public string aha;

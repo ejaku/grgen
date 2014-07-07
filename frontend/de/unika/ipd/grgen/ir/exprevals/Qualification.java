@@ -14,8 +14,11 @@ package de.unika.ipd.grgen.ir.exprevals;
 import de.unika.ipd.grgen.ir.*;
 
 public class Qualification extends Expression {
-	/** The owner of the expression. */
+	/** The owner of the qualification. */
 	private final Entity owner;
+
+	/** The owner of the casted qualification. */
+	private final Expression ownerExpr;
 
 	/** The member of the qualification. */
 	private final Entity member;
@@ -23,11 +26,23 @@ public class Qualification extends Expression {
 	public Qualification(Entity owner, Entity member) {
 		super("qual", member.getType());
 		this.owner = owner;
+		this.ownerExpr = null;
+		this.member = member;
+	}
+
+	public Qualification(Expression ownerExpr, Entity member) {
+		super("qual", member.getType());
+		this.owner = null;
+		this.ownerExpr = ownerExpr;
 		this.member = member;
 	}
 
 	public Entity getOwner() {
 		return owner;
+	}
+
+	public Expression getOwnerExpr() {
+		return ownerExpr;
 	}
 
 	public Entity getMember() {
@@ -40,12 +55,16 @@ public class Qualification extends Expression {
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		if(!isGlobalVariable(owner) && !(owner.getType() instanceof MatchType))
-		{
-			if(owner instanceof GraphEntity)
-				needs.addAttr((GraphEntity) owner, member);
-			else
-				needs.add((Variable)owner);
+		if(owner != null) {
+			if(!isGlobalVariable(owner) && !(owner.getType() instanceof MatchType))
+			{
+				if(owner instanceof GraphEntity)
+					needs.addAttr((GraphEntity) owner, member);
+				else
+					needs.add((Variable)owner);
+			}
+		} else {
+			ownerExpr.collectNeededEntities(needs);
 		}
 	}
 }

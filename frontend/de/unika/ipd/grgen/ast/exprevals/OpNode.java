@@ -79,7 +79,10 @@ public abstract class OpNode extends ExprNode
 		for(int i = 0; i < n; i++) {
 			ExprNode op = children.get(i);
 			TypeNode type = op.getType();
-			if(type instanceof InheritanceTypeNode) type = OperatorSignature.TYPE;
+			if(type instanceof NodeTypeNode || type instanceof EdgeTypeNode) 
+				type = OperatorSignature.TYPE;
+			if(type instanceof ExternalTypeNode && argTypes.length<3) // keep real ext type for cond
+				type = OperatorSignature.TYPE;
 			if(type instanceof ByteTypeNode || type instanceof ShortTypeNode)
 				if(n<3) type = BasicTypeNode.intType;
 			argTypes[i] = type;

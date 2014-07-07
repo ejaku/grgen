@@ -1,0 +1,16 @@
+// should be a should_pass test, but the external files have issues with the two step process used by the tester
+
+using castModel3;
+
+rule r(var n:N, var nn:NN)
+{
+	if{ ((NN)n).aa() == ((N)nn).a(); }
+	
+	replace {
+		eval {
+			def var a:int = ((NN)n).aa() + ((N)nn).a();
+			(def var b:N, def var c:string) = nn.p(n, "foo");
+		}
+	}
+}
+

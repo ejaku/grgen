@@ -1,0 +1,15 @@
+using castModel2;
+
+rule r {
+	n:N;
+	nn:N;
+	
+	if{ ((NN)n).aa == ((N)nn).a + uniqueof((Node)nn); }
+	
+	replace {
+		eval {
+			nn.a = ((NN)n).aa + ((N)nn).a + uniqueof((Node)nn);
+		}
+	}
+}
+

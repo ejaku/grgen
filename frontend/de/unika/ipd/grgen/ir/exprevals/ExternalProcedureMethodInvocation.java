@@ -14,14 +14,15 @@ package de.unika.ipd.grgen.ir.exprevals;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Variable;
 
 /**
  * An external procedure method invocation.
  */
 public class ExternalProcedureMethodInvocation extends ProcedureInvocationBase {
 	/** The owner of the procedure method. */
-	private Entity owner;
+	private Qualification ownerQual;
+	private Variable ownerVar;
 
 	/** The arguments of the procedure invocation. */
 	protected List<Expression> arguments = new ArrayList<Expression>();
@@ -29,15 +30,26 @@ public class ExternalProcedureMethodInvocation extends ProcedureInvocationBase {
 	/** The procedure of the procedure method invocation expression. */
 	protected ExternalProcedure externalProcedure;
 
-	public ExternalProcedureMethodInvocation(Entity owner, ExternalProcedure externalProcedure) {
+	public ExternalProcedureMethodInvocation(Qualification ownerQual, ExternalProcedure externalProcedure) {
 		super("external procedure method invocation");
 
-		this.owner = owner;
+		this.ownerQual = ownerQual;
 		this.externalProcedure = externalProcedure;
 	}
 
-	public Entity getOwner() {
-		return owner;
+	public ExternalProcedureMethodInvocation(Variable ownerVar, ExternalProcedure externalProcedure) {
+		super("external procedure method invocation");
+
+		this.ownerVar = ownerVar;
+		this.externalProcedure = externalProcedure;
+	}
+
+	public Qualification getOwnerQual() {
+		return ownerQual;
+	}
+
+	public Variable getOwnerVar() {
+		return ownerVar;
 	}
 
 	public ProcedureBase getProcedureBase() {

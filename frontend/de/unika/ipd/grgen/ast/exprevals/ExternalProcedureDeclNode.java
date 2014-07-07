@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.exprevals.ExternalProcedure;
+import de.unika.ipd.grgen.ir.exprevals.ExternalProcedureMethod;
 
 import java.util.Collection;
 import java.util.Vector;
@@ -35,13 +36,16 @@ public class ExternalProcedureDeclNode extends ProcedureBase {
 
 	private static final ExternalProcedureTypeNode externalProcedureType = 
 		new ExternalProcedureTypeNode();
+	
+	boolean isMethod;
 
-	public ExternalProcedureDeclNode(IdentNode id, CollectNode<BaseNode> paramTypesUnresolved, CollectNode<BaseNode> rets) {
+	public ExternalProcedureDeclNode(IdentNode id, CollectNode<BaseNode> paramTypesUnresolved, CollectNode<BaseNode> rets, boolean isMethod) {
 		super(id, externalProcedureType);
 		this.paramTypesUnresolved = paramTypesUnresolved;
 		becomeParent(this.paramTypesUnresolved);
 		this.retsUnresolved = rets;
 		becomeParent(this.retsUnresolved);
+		this.isMethod = isMethod;
 	}
 
 	/** returns children of this node */
@@ -95,8 +99,9 @@ public class ExternalProcedureDeclNode extends ProcedureBase {
 
 	@Override
 	protected IR constructIR() {
-		ExternalProcedure externalProc = new ExternalProcedure(getIdentNode().toString(),
-				getIdentNode().getIdent());
+		ExternalProcedure externalProc = isMethod ? 
+				new ExternalProcedureMethod(getIdentNode().toString(), getIdentNode().getIdent()) :
+				new ExternalProcedure(getIdentNode().toString(), getIdentNode().getIdent());
 		for(TypeNode retType : returnTypes.getChildren()) {
 			externalProc.addReturnType(retType.checkIR(Type.class));
 		}

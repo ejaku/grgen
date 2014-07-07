@@ -393,9 +393,16 @@ public class MethodInvocationExprNode extends ExprNode
   				return false;
   			}
 		}
-		else if(targetType instanceof InheritanceTypeNode) {
-			// METHOD-TODO
-			result = new FunctionMethodOrExternalFunctionMethodInvocationExprNode(((IdentExprNode)targetExpr).getIdent(), methodIdent, params);
+		else if(targetType instanceof InheritanceTypeNode && !(targetType instanceof ExternalTypeNode)) {
+			if(targetExpr instanceof MethodInvocationExprNode) {
+				reportError("method call chains are not supported, assign to a temporary def variable and invoke the method on it");
+				return false;
+			}
+			result = new FunctionMethodInvocationExprNode(((IdentExprNode)targetExpr).getIdent(), methodIdent, params);
+		}
+		else if(targetType instanceof ExternalTypeNode) {
+			targetExpr.resolve();
+			result = new ExternalFunctionMethodInvocationExprNode(targetExpr, methodIdent, params);
 		}
 		else {
 			reportError(targetType.toString() + " does not have any methods");

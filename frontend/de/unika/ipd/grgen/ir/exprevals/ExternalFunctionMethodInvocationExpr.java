@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ir.*;
  */
 public class ExternalFunctionMethodInvocationExpr extends Expression {
 	/** The owner of the function method. */
-	private Entity owner;
+	private Expression owner;
 
 	/** The arguments of the function method invocation expression. */
 	protected List<Expression> arguments = new ArrayList<Expression>();
@@ -31,14 +31,14 @@ public class ExternalFunctionMethodInvocationExpr extends Expression {
 	protected ExternalFunction externalFunction;
 
 
-	public ExternalFunctionMethodInvocationExpr(Entity owner, Type type, ExternalFunction externalFunction) {
+	public ExternalFunctionMethodInvocationExpr(Expression owner, Type type, ExternalFunction externalFunction) {
 		super("external function method invocation expr", type);
 
 		this.owner = owner;
 		this.externalFunction = externalFunction;
 	}
 
-	public Entity getOwner() {
+	public Expression getOwner() {
 		return owner;
 	}
 
@@ -71,8 +71,7 @@ public class ExternalFunctionMethodInvocationExpr extends Expression {
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		if(!isGlobalVariable(owner))
-			needs.add((GraphEntity) owner);
+		owner.collectNeededEntities(needs);
 		for(Expression child : getWalkableChildren())
 			child.collectNeededEntities(needs);
 	}

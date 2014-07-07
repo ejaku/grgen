@@ -16,6 +16,7 @@ import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.ExternalFunction;
+import de.unika.ipd.grgen.ir.exprevals.ExternalFunctionMethod;
 import de.unika.ipd.grgen.ir.Type;
 
 import java.util.Collection;
@@ -36,12 +37,15 @@ public class ExternalFunctionDeclNode extends FunctionBase {
 	private static final ExternalFunctionTypeNode externalFunctionType =
 		new ExternalFunctionTypeNode();
 
-	public ExternalFunctionDeclNode(IdentNode id, CollectNode<BaseNode> paramTypesUnresolved, BaseNode ret) {
+	boolean isMethod;
+
+	public ExternalFunctionDeclNode(IdentNode id, CollectNode<BaseNode> paramTypesUnresolved, BaseNode ret, boolean isMethod) {
 		super(id, externalFunctionType);
 		this.paramTypesUnresolved = paramTypesUnresolved;
 		becomeParent(this.paramTypesUnresolved);
 		this.retUnresolved = ret;
 		becomeParent(this.retUnresolved);
+		this.isMethod = isMethod;
 	}
 
 	/** returns children of this node */
@@ -95,8 +99,9 @@ public class ExternalFunctionDeclNode extends FunctionBase {
 
 	@Override
 	protected IR constructIR() {
-		ExternalFunction externalFunc = new ExternalFunction(getIdentNode().toString(),
-				getIdentNode().getIdent(), ret.checkIR(Type.class));
+		ExternalFunction externalFunc = isMethod ? 
+				new ExternalFunctionMethod(getIdentNode().toString(), getIdentNode().getIdent(), ret.checkIR(Type.class)) :
+				new ExternalFunction(getIdentNode().toString(), getIdentNode().getIdent(), ret.checkIR(Type.class));
 		for(TypeNode param : paramTypes.getChildren()) {
 			externalFunc.addParameterType(param.checkIR(Type.class));
 		}
