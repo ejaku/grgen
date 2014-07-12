@@ -156,10 +156,29 @@ public class NodeTypeNode extends InheritanceTypeNode {
 
 		for(BaseNode n : body.getChildren()) {
 			if(n instanceof ConstructorDeclNode) continue;
+			
 			if(n instanceof FunctionDeclNode) {
-				continue; // METHOD-TODO check that parameters are identical to overridden method(s)
+				FunctionDeclNode function = (FunctionDeclNode)n;
+				for(InheritanceTypeNode base : getAllSuperTypes()) {
+					for(BaseNode c : base.getBody().getChildren()) {
+						if(c instanceof FunctionDeclNode) {
+							FunctionDeclNode functionBase = (FunctionDeclNode)c;
+							if(function.ident.toString().equals(functionBase.ident.toString()))
+								checkSignatureAdhered(functionBase, function);
+						} 
+					}
+				}
 			} else if(n instanceof ProcedureDeclNode) {
-				continue; // METHOD-TODO check that parameters are identical to overridden mehtod(s)
+				ProcedureDeclNode procedure = (ProcedureDeclNode)n;
+				for(InheritanceTypeNode base : getAllSuperTypes()) {
+					for(BaseNode c : base.getBody().getChildren()) {
+						if(c instanceof ProcedureDeclNode) {
+							ProcedureDeclNode procedureBase = (ProcedureDeclNode)c;
+							if(procedure.ident.toString().equals(procedureBase.ident.toString()))
+								checkSignatureAdhered(procedureBase, procedure);
+						} 
+					}
+				}
 			} else if(n instanceof DeclNode) {
 				DeclNode decl = (DeclNode)n;
 

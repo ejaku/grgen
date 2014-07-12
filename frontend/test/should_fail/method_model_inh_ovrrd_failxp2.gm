@@ -1,0 +1,11 @@
+external class N
+{
+	external procedure bar(int, int) : (int, int);
+	external procedure baz(N);
+}
+
+external class NN extends N
+{
+	external procedure bar(int, int) : (string, boolean);
+	external procedure baz(NN);
+}

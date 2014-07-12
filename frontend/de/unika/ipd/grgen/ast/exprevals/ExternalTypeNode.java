@@ -166,10 +166,28 @@ public class ExternalTypeNode extends InheritanceTypeNode {
 	protected void getMembers(Map<String, DeclNode> members) {
 		for(BaseNode n : body.getChildren()) {
 			if(n instanceof ExternalFunctionDeclNode) {
-				continue; // METHOD-TODO check that parameters are identical to overridden method(s)
+				ExternalFunctionDeclNode function = (ExternalFunctionDeclNode)n;
+				for(InheritanceTypeNode base : getAllSuperTypes()) {
+					for(BaseNode c : base.getBody().getChildren()) {
+						if(c instanceof ExternalFunctionDeclNode) {
+							ExternalFunctionDeclNode functionBase = (ExternalFunctionDeclNode)c;
+							if(function.ident.toString().equals(functionBase.ident.toString()))
+								checkSignatureAdhered(functionBase, function);
+						} 
+					}
+				}
 			} else if(n instanceof ExternalProcedureDeclNode) {
-				continue; // METHOD-TODO check that parameters are identical to overridden mehtod(s)
-			} 
+				ExternalProcedureDeclNode procedure = (ExternalProcedureDeclNode)n;
+				for(InheritanceTypeNode base : getAllSuperTypes()) {
+					for(BaseNode c : base.getBody().getChildren()) {
+						if(c instanceof ExternalProcedureDeclNode) {
+							ExternalProcedureDeclNode procedureBase = (ExternalProcedureDeclNode)c;
+							if(procedure.ident.toString().equals(procedureBase.ident.toString()))
+								checkSignatureAdhered(procedureBase, procedure);
+						} 
+					}
+				}
+			}
 		}
 	}
 }

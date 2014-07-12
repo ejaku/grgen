@@ -19,7 +19,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ast.exprevals.EvalStatementNode;
+import de.unika.ipd.grgen.ast.exprevals.FunctionBase;
 import de.unika.ipd.grgen.ast.exprevals.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.exprevals.ProcedureBase;
 import de.unika.ipd.grgen.ast.exprevals.ProcedureDeclNode;
 import de.unika.ipd.grgen.ir.containers.ArrayInit;
 import de.unika.ipd.grgen.ir.IR;
@@ -104,6 +106,10 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 			}
 		}
 		return allSuperTypes;
+	}
+
+	public CollectNode<BaseNode> getBody() {
+		return body;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
@@ -274,6 +280,96 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		return res;
 	}
 	
+	/** Check whether the override adheres to the signature of the base declaration */
+	protected boolean checkSignatureAdhered(FunctionBase base, FunctionBase override) {
+		String functionName = base.ident.toString();
+
+		Vector<TypeNode> baseParams = base.getParameterTypes();
+		Vector<TypeNode> overrideParams = override.getParameterTypes();
+
+		// check if the number of parameters is correct
+		int numBaseParams = baseParams.size();
+		int numOverrideParams = overrideParams.size();
+		if(numBaseParams != numOverrideParams) {
+			override.reportError("The function method \"" + functionName + "\" is declared with "
+					+ numBaseParams + " parameters in the base class, but overriden here with " + numOverrideParams);
+			return false;
+		}
+
+		// check if the types of the parameters are correct
+		boolean res = true;
+		for(int i = 0; i < numBaseParams; ++i) {
+			TypeNode baseParam = baseParams.get(i);
+			TypeNode overrideParam = overrideParams.get(i);
+			
+			if(!baseParam.isEqual(overrideParam)) {
+				res = false;
+				override.reportError("The function method \"" + functionName + "\" differs in its " + (i+1) + ". parameter from the base class");
+			}
+		}
+		
+		// check if the return type is correct
+		if(!base.getReturnType().isEqual(override.getReturnType())) {
+			override.reportError("The function method \"" + functionName + "\" differs in its return type from the base class");
+		}
+
+		return res;
+	}
+
+	/** Check whether the override adheres to the signature of the base declaration */
+	protected boolean checkSignatureAdhered(ProcedureBase base, ProcedureBase override) {
+		String procedureName = base.ident.toString();
+
+		Vector<TypeNode> baseParams = base.getParameterTypes();
+		Vector<TypeNode> overrideParams = override.getParameterTypes();
+
+		// check if the number of parameters is correct
+		int numBaseParams = baseParams.size();
+		int numOverrideParams = overrideParams.size();
+		if(numBaseParams != numOverrideParams) {
+			override.reportError("The procedure method \"" + procedureName + "\" is declared with "
+					+ numBaseParams + " parameters in the base class, but overriden here with " + numOverrideParams);
+			return false;
+		}
+
+		// check if the types of the parameters are correct
+		boolean res = true;
+		for(int i = 0; i < numBaseParams; ++i) {
+			TypeNode baseParam = baseParams.get(i);
+			TypeNode overrideParam = overrideParams.get(i);
+			
+			if(!baseParam.isEqual(overrideParam)) {
+				res = false;
+				override.reportError("The procedure method \"" + procedureName + "\" differs in its " + (i+1) + ". parameter from the base class");
+			}
+		}
+
+		Vector<TypeNode> baseReturnParams = base.getReturnTypes();
+		Vector<TypeNode> overrideReturnParams = override.getReturnTypes();
+
+		// check if the number of parameters is correct
+		int numBaseReturnParams = baseReturnParams.size();
+		int numOverrideReturnParams = overrideReturnParams.size();
+		if(numBaseReturnParams != numOverrideReturnParams) {
+			override.reportError("The procedure method \"" + procedureName + "\" is declared with "
+					+ numBaseReturnParams + " return parameters in the base class, but overriden here with " + numOverrideReturnParams);
+			return false;
+		}
+
+		// check if the types of the parameters are correct
+		for(int i = 0; i < numBaseReturnParams; ++i) {
+			TypeNode baseReturnParam = baseReturnParams.get(i);
+			TypeNode overrideReturnParam = overrideReturnParams.get(i);
+			
+			if(!baseReturnParam.isEqual(overrideReturnParam)) {
+				res = false;
+				override.reportError("The procedure method \"" + procedureName + "\" differs in its " + (i+1) + ". return parameter from the base class");
+			}
+		}
+
+		return res;
+	}
+
 	protected void constructIR(InheritanceType inhType) {
 		for(BaseNode n : body.getChildren()) {
 			if(n instanceof ConstructorDeclNode) {

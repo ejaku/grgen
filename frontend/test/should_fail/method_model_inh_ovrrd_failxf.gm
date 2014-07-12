@@ -1,0 +1,11 @@
+external class N
+{
+	external function foo() : int;
+	external function qux(int) : string;
+}
+
+external class NN extends N
+{
+	external function foo(int) : int;
+	external function qux() : string;
+}
