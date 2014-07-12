@@ -1,0 +1,25 @@
+node class N
+{
+	function foo(var x:int) : int
+	{
+		return (42);
+	}
+		
+	function qux(n:N) : string
+	{
+		return("42");
+	}
+}
+
+node class NN extends N
+{	
+	function foo(var x:boolean) : int
+	{
+		return (42);
+	}
+		
+	function qux(n:NN) : boolean
+	{
+		return(true);
+	}
+}

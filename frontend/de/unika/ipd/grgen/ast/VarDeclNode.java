@@ -105,6 +105,9 @@ public class VarDeclNode extends DeclNode {
 			typeUnresolved.reportError("Unknown type: \"" + typeUnresolved + "\"");
 			return false;
 		}
+		if(!typeDecl.resolve()) {
+			return false;
+		}
 		type = typeDecl.getDeclType();
 		return type != null;
 	}

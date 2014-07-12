@@ -1,0 +1,25 @@
+edge class E
+{
+	procedure bar(var x:int, var y:int) : (int, int)
+	{
+		return (42, 42);
+	}	
+	
+	procedure baz(-n:E->)
+	{
+		return;
+	}
+}
+
+edge class EE extends E
+{
+	procedure bar(var x:int, var y:int) : (string, boolean)
+	{
+		return ("42", true);
+	}	
+
+	procedure baz(-n:EE->)
+	{
+		return;
+	}	
+}

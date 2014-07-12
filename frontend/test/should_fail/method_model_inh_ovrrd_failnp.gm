@@ -1,0 +1,25 @@
+node class N
+{
+	procedure bar(var x:int, var y:int) : (int, int)
+	{
+		return(42, 42);
+	}	
+	
+	procedure baz()
+	{
+		return;
+	}
+}
+
+node class NN extends N
+{
+	procedure bar(var x:int) : (int, int)
+	{
+		return(42, 42);
+	}	
+
+	procedure baz() : (int)
+	{
+		return(42);
+	}
+}
