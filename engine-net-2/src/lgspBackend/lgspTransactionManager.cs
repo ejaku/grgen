@@ -428,6 +428,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         public bool IsActive { get { return recording; } }
 
+        public void ExternalTypeChanged(IUndoItem item)
+        {
+            if(recording && !paused && !undoing)
+            {
+                undoItems.Add(item);
+            }
+        }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
