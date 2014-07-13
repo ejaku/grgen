@@ -4206,6 +4206,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn AttributeTypeObjectEmitterParser.Emit(attribute, attrType, graph);\n");
 			sb.append("\t\t}\n");
+			sb.append("\t\tpublic " + override + "void External(string line, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\tAttributeTypeObjectEmitterParser.External(line, graph);\n");
+			sb.append("\t\t}\n");
 		} else {
 			if(!inPureGraphModel) { // the functions are inherited from LGSPGraphModel, which is not available in the graph'n'graph-model-in-one classes (because of the lack of multiple inheritance)
 				sb.append("\t\tpublic object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
@@ -4221,6 +4225,11 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				sb.append("\t\tpublic string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
 				sb.append("\t\t{\n");
 				sb.append("\t\t\treturn attribute!=null ? attribute.ToString() : \"null\";\n");
+				sb.append("\t\t}\n");
+				sb.append("\t\tpublic void External(string line, GRGEN_LIBGR.IGraph graph)\n");
+				sb.append("\t\t{\n");
+				sb.append("\t\t\tConsole.Write(\"Ignoring: \");\n");
+				sb.append("\t\t\tConsole.WriteLine(line);\n");
 				sb.append("\t\t}\n");
 			}
 		}
@@ -4796,6 +4805,19 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn EmitImpl(attribute, attrType, graph);\n");
 			sb.append("\t\t\t//return \"null\"; // default implementation\n");
+			sb.append("\t\t}\n");
+			sb.append("\n");
+			sb.append("\t\t// Called when the shell hits a line starting with \"external\".\n");
+			sb.append("\t\t// The content of that line is handed in.\n");
+			sb.append("\t\t// This is typically used while replaying changes containing a method call of an external type\n");
+			sb.append("\t\t// -- after such a line was recorded, by the method called, by writing to the recorder.\n");
+			sb.append("\t\t// This is meant to replay fine-grain changes of graph attributes of external type,\n");
+			sb.append("\t\t// in contrast to full assignments handled by Parse and Serialize.\n");
+			sb.append("\t\tpublic static void External(string line, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\tExternalImpl(line, graph);\n");
+			sb.append("\t\t\t//Console.Write(\"Ignoring: \"); // default implementation\n");
+			sb.append("\t\t\t//Console.WriteLine(line); // default implementation\n");
 			sb.append("\t\t}\n");
 			sb.append("\n");
 		}

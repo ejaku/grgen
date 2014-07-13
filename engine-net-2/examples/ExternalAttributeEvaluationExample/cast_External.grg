@@ -14,3 +14,34 @@ rule r(var n:N, var nn:NN)
 	}
 }
 
+rule init
+{
+	modify {
+		n:NB;
+		eval {
+			n.n = createNN();
+		}
+	}
+}
+
+rule testUndo
+{
+	n:NB;
+	
+	modify {
+		eval {
+			n.n.finegrainChange();
+		}
+	}
+}
+
+rule testReplay 
+{
+	n:NB;
+	
+	modify {
+		eval {
+			n.n.finegrainChange();
+		}
+	}
+}

@@ -294,6 +294,7 @@ TOKEN: {
 |   < EXIT: "exit" >
 |   < EXITONFAILURE: "exitonfailure" >
 |   < EXPORT: "export" >
+|   < EXTERNAL: "external" >
 |   < FALSE: "false" >
 |   < FILE: "file" >
 |   < FROM: "from" >
@@ -1343,6 +1344,11 @@ void ShellCommand():
             Console.WriteLine("(You tried to overwrite a compiled sequence?)");
             noError = false;
         }
+    }
+|
+    tok="external" str1=CommandLine()
+    {
+        impl.External(str1);
     }
 |
     // TODO: Introduce prefix for the following commands to allow useful error handling!

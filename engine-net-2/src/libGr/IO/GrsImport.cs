@@ -301,7 +301,7 @@ namespace de.unika.ipd.grGen.libGr
                 Match(TokenKind.EQUAL);
                 ParseAttributeValue(elem, attrType);
             }
-            /*else if(LookaheadToken()==TokenKind.LBOXBRACKET)
+            /*else if(LookaheadToken()==TokenKind.LBOXBRACKET) // [ for indexed assignment to attribute
             {
                 AttributeType indexAttrType;
                 if(attrType.Kind == AttributeKind.ArrayAttr)
@@ -321,8 +321,11 @@ namespace de.unika.ipd.grGen.libGr
                 ParseAttributeValue(elem, attrType);
                 DeferredAttributeInitialization(elem, attrName, index, value);
             }*/
+            /*else if(LookaheadToken()==TokenKind.DOT) // [ for add/rem to/from container
+            {
+            }*/
             else
-                throw GetSyntaxException("Syntax error", "= for assignment to attribute or [ for indexed assignment to attribute");
+                throw GetSyntaxException("Syntax error", "= for assignment to attribute");
         }
 
         private bool LookaheadText()

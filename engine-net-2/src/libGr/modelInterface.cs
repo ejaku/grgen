@@ -415,6 +415,16 @@ namespace de.unika.ipd.grGen.libGr
         string Emit(object attribute, AttributeType attrType, IGraph graph);
 
         /// <summary>
+        /// Called when the shell hits a line starting with "external".
+        /// The content of that line is handed in.
+        /// This is typically used while replaying changes containing a method call of an external type
+        /// -- after such a line was recorded, by the method called, by writing to the recorder.
+        /// This is meant to replay fine-grain changes of graph attributes of external type,
+        /// in contrast to full assignments handled by Parse and Serialize.
+        /// </summary>
+        void External(string line, IGraph graph);
+
+        /// <summary>
         /// Called during debugging on user request, the implementation must return a named graph representation for the attribute.
         /// For attribute type object or a user defined type, which is treated as object.
         /// The attribute type may be null. The return graph must be of the same model as the graph handed in.
