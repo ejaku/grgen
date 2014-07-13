@@ -3134,8 +3134,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			String indexName = index.getIdent().toString();
 			sb.append("\t\t\t\tcase \"" + indexName + "\": return " + indexName + ";\n");
 		}
+		sb.append("\t\t\t\tdefault: return null;\n");
 		sb.append("\t\t\t}\n");
-		sb.append("\t\t\treturn null;\n");
 		sb.append("\t\t}\n");
 		sb.append("\n");
 		

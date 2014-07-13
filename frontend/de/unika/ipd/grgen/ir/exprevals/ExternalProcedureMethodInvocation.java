@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ir.exprevals;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.Variable;
 
 /**
@@ -58,5 +59,20 @@ public class ExternalProcedureMethodInvocation extends ProcedureInvocationBase {
 
 	public ExternalProcedure getExternalProc() {
 		return externalProcedure;
+	}
+	
+	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
+	public void collectNeededEntities(NeededEntities needs) {
+		if(ownerQual!=null) {
+			ownerQual.collectNeededEntities(needs);
+			if(ownerQual.getOwner()!=null)
+				if(ownerQual.getOwner() instanceof GraphEntity)
+					needs.add((GraphEntity)ownerQual.getOwner());
+		} else {
+			if(!isGlobalVariable(ownerVar))
+				needs.add(ownerVar);
+		}
+		for(Expression child : getWalkableChildren())
+			child.collectNeededEntities(needs);
 	}
 }
