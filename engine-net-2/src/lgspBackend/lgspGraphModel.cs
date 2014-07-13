@@ -53,6 +53,12 @@ namespace de.unika.ipd.grGen.lgsp
             return attribute != null ? attribute.ToString() : "null";
         }
 
+        public virtual void External(string line, IGraph graph)
+        {
+            Console.Write("Ignoring: ");
+            Console.WriteLine(line);
+        }
+
         public virtual INamedGraph AsGraph(object attribute, AttributeType attrType, IGraph graph)
         {
             return null;

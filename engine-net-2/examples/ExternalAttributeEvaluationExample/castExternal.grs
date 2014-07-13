@@ -1,3 +1,15 @@
 new graph cast_External
 
+exec init
+
+exec < testUndo ;> false >
+
+record "test.grsi"
+
+exec testReplay
+
+record "test.grsi" stop
+
+replay "test.grsi"
+
 quit

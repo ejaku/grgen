@@ -105,6 +105,16 @@ namespace de.unika.ipd.grGen.libGr
             return recordings.ContainsKey(filename);
         }
 
+        public void External(string value)
+        {
+            foreach(RecordingState recordingState in recordings.Values)
+            {
+                recordingState.writer.Write("external ");
+                recordingState.writer.Write(value);
+                recordingState.writer.Write("\n");
+            }
+        }
+
         public void Write(string value)
         {
             foreach(RecordingState recordingState in recordings.Values)
@@ -114,7 +124,10 @@ namespace de.unika.ipd.grGen.libGr
         public void WriteLine(string value)
         {
             foreach(RecordingState recordingState in recordings.Values)
-                recordingState.writer.Write(value + "\n");
+            {
+                recordingState.writer.Write(value);
+                recordingState.writer.Write("\n");
+            }
         }
 
         public void Flush()

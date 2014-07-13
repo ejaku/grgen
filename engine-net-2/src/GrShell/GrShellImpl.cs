@@ -1099,6 +1099,12 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        public void External(String cmdLine)
+        {
+            if(!GraphExists()) return;
+            curShellProcEnv.ProcEnv.Graph.Model.External(cmdLine, curShellProcEnv.ProcEnv.Graph);
+        }
+
         public bool ChangeDirectory(String filename)
         {
             try

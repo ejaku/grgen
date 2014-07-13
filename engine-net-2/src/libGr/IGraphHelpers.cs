@@ -161,6 +161,17 @@ namespace de.unika.ipd.grGen.libGr
         bool IsRecording(string filename);
 
         /// <summary>
+        /// Writes a line starting with "external ", ending with a new line, 
+        /// containing the given string in between (which must not contain "\n" or "\r"),
+        /// to the currently ongoing recordings.
+        /// This is the format expected for fine-grain external attribute changes, 
+        /// the string is passed to External of the graph model on replaying, 
+        /// which is forwarding it to external user code for parsing and executing the changes.
+        /// </summary>
+        /// <param name="value">The string to write to the recordings</param>
+        void External(string value);
+
+        /// <summary>
         /// Writes the given string to the currently ongoing recordings
         /// </summary>
         /// <param name="value">The string to write to the recordings</param>

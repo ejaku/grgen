@@ -163,6 +163,28 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
                 return attribute.ToString();
             }
         }
+
+        public static void ExternalImpl(string line, GRGEN_LIBGR.IGraph graph)
+        {
+            Console.Write("Ignoring: "); // default implementation
+            Console.WriteLine(line); // default implementation
+        }
+
+        /*public static GRGEN_LIBGR.INamedGraph AsGraphImpl(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
+        {
+            if(attribute is Own || attribute is OwnPown || attribute is OwnPownHome)
+            {
+                // here you would inspect the type and build the graph depending on the type, returning null for types not supported
+                ExternalAttributeEvaluationNamedGraph ng = new ExternalAttributeEvaluationNamedGraph();
+                N foo = ng.CreateNodeN("foo");
+                foo.i = 42;
+                Node bar = ng.CreateNodeNode("bar");
+                E baz = ng.CreateEdgeE(foo, bar, "baz");
+                Edge qux = ng.CreateEdgeEdge(bar, bar, "qux");
+                return ng;
+            }
+            return null;
+        }*/
     }
 }
 

@@ -7,4 +7,14 @@ external class NN extends N
 {
 	external function aa() : int;
 	external procedure p(N, string) : (N, string);
+	external procedure finegrainChange();
 }
+
+node class NB
+{
+	n:NN;
+}
+
+external function createNN() : NN;
+
+external emit class;
