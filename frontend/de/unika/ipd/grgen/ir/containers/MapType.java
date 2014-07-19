@@ -33,6 +33,10 @@ public class MapType extends Type {
 	public Type getValueType() {
 		return valueType;
 	}
+	
+	public String toString() {
+		return "map<" + keyType + "," + valueType + ">";
+	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {

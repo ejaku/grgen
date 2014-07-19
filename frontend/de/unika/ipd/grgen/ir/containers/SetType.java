@@ -28,6 +28,10 @@ public class SetType extends Type {
 		return valueType;
 	}
 
+	public String toString() {
+		return "set<" + valueType + ">";
+	}
+	
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {
 		return IS_SET;

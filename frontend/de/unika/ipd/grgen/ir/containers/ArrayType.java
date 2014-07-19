@@ -27,6 +27,10 @@ public class ArrayType extends Type {
 	public Type getValueType() {
 		return valueType;
 	}
+	
+	public String toString() {
+		return "array<" + valueType + ">";
+	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {

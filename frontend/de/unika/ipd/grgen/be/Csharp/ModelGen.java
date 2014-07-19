@@ -1529,7 +1529,7 @@ deque_init_loop:
 		} else {
 			sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
 				+ "\"de.unika.ipd.grGen.Model_" + model.getIdent() + "."
-				+ "I" + getNodeOrEdgeTypePrefix(type) + getPackagePrefixDot(type) + formatIdentifiable(type) + "\"; } }\n");
+				+ getPackagePrefixDot(type) + "I" + getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type) + "\"; } }\n");
 		}
 		if(type.isAbstract()) {
 			sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"ClassName { get { return null; } }\n");
