@@ -122,8 +122,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="matches">The matches object returned by a previous matcher call.</param>
         /// <param name="which">The index of the match in the matches object to be applied,
         /// or -1, if all matches are to be applied.</param>
-        /// <returns>A possibly empty array of objects returned by the last applied rewrite.</returns>
-        object[] Replace(IMatches matches, int which);
+        /// <returns>A list with the return values of each of the rewrites applied. 
+        /// Each element is a possibly empty array of objects that were returned by their rewrite.</returns>
+        List<object[]> Replace(IMatches matches, int which);
 
         #endregion Graph rewriting     
         

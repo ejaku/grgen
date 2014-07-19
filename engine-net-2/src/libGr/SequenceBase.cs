@@ -88,7 +88,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seq">The sequence to check, must be a rule call, a rule all call, or a sequence call</param>
-        public void CheckCall(Sequence seq)
+        public void CheckCall(Sequence seq, bool isRuleAllCall)
         {
             InvocationParameterBindingsWithReturns paramBindings = ExtractParameterBindings(seq);
 
@@ -121,8 +121,27 @@ namespace de.unika.ipd.grGen.libGr
             // Check return types
             for(int i = 0; i < paramBindings.ReturnVars.Length; ++i)
             {
-                if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, paramBindings, null), paramBindings.ReturnVars[i].Type, Model))
-                    throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
+                if(isRuleAllCall)
+                {
+                    if(paramBindings.ReturnVars[i].Type != "")
+                    {
+                        if(!paramBindings.ReturnVars[i].Type.StartsWith("array<"))
+                        {
+                            Console.Error.WriteLine("An all call expects all return parameters T in an array<T>");
+                            throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
+                        }
+                        if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, paramBindings, null), paramBindings.ReturnVars[i].Type.Substring(6, paramBindings.ReturnVars[i].Type.Length - 7), Model))
+                        {
+                            Console.Error.WriteLine("The arrays of the all call are inconsemurable in their value types");
+                            throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
+                        }
+                    }
+                }
+                else
+                {
+                    if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, paramBindings, null), paramBindings.ReturnVars[i].Type, Model))
+                        throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
+                }
             }
 
             // Check filter calls

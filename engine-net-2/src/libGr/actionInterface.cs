@@ -66,13 +66,20 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="actionEnv">The action execution environment, esp. giving access to the host graph.</param>
         /// <param name="matches">The matches of the rule to apply.</param>
-        /// <returns>An array of objects returned by the last applicance of the rule.
+        /// <returns>A list of arrays of objects returned by the last application of the rule.
         /// It is only valid until the next graph rewrite with this rule.</returns>
-        object[] ModifyAll(IActionExecutionEnvironment actionEnv, IMatches matches);
+        List<object[]> ModifyAll(IActionExecutionEnvironment actionEnv, IMatches matches);
+
+        /// <summary>
+        /// Returns a list of arrays with the given number of list elements;
+        /// the array size is as needed for storing the return values.
+        /// The list/its members are only valid until the next allocate or graph rewrite with this rule.
+        /// </summary>
+        List<object[]> Reserve(int numReturns);
 
         /// <summary>
         /// Tries to apply this rule to the given graph processing environment/its current graph once.
-        /// The rule may not require any parameters.
+        /// Only applicable for parameterless rules. Shows better performance than the normal Apply called without parameters.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="actionEnv">The action execution environment, esp. giving access to the host graph.</param>
@@ -95,15 +102,15 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Tries to apply this rule to all occurrences in the current graph of the graph processing environment "at once".
-        /// The rule may not require any parameters.
+        /// Only applicable for parameterless rules. Shows better performance than the normal ApplyAll called without parameters.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="maxMatches">The maximum number of matches to be rewritten.</param>
         /// <param name="actionEnv">The action execution environment, esp. giving access to the host graph.</param>
-        /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
+        /// <returns>A list of arrays of objects (the arrays may be empty) returned by the last application of the rule,
         /// which is only valid until the next graph rewrite with this rule,
         /// or null, if no match was found.</returns>
-        object[] ApplyAll(int maxMatches, IActionExecutionEnvironment actionEnv);
+        List<object[]> ApplyAll(int maxMatches, IActionExecutionEnvironment actionEnv);
 
         /// <summary>
         /// Tries to apply this rule to all occurrences in the current graph of the graph processing environment "at once".
@@ -113,14 +120,14 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="actionEnv">The action execution environment, esp. giving access to the host graph.</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
+        /// <returns>A list of arrays of objects (the arrays may be empty) returned by the last application of the rule,
         /// which is only valid until the next graph rewrite with this rule,
         /// or null, if no match was found.</returns>
-        object[] ApplyAll(int maxMatches, IActionExecutionEnvironment actionEnv, params object[] parameters);
+        List<object[]> ApplyAll(int maxMatches, IActionExecutionEnvironment actionEnv, params object[] parameters);
 
         /// <summary>
         /// Applies this rule to the given processing environment/its current graph as often as possible.
-        /// The rule may not require any parameters.
+        /// Only applicable for parameterless rules. Shows better performance than the normal ApplyStar called without parameters.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="actionEnv">The action execution environment, esp. giving access to the host graph.</param>
@@ -139,7 +146,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Applies this rule to the given processing environment/its current graph as often as possible.
-        /// The rule may not require any parameters.
+        /// Only applicable for parameterless rules. Shows better performance than the normal ApplyPlus called without parameters.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="actionEnv">The action execution environment, esp. giving access to the host graph.</param>
@@ -158,7 +165,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Applies this rule to The action execution environment/its current graph at most max times.
-        /// The rule may not require any parameters.
+        /// Only applicable for parameterless rules. Shows better performance than the normal ApplyMinMax called without parameters.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="actionEnv">The action execution environment, esp. giving access to the host graph.</param>

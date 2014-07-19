@@ -2002,7 +2002,7 @@ options { k = 4; }
 		LPAREN { xg.append("("); } xgrsIndex[xg] ( seqRelOs[xg] seqExpression[xg]
 				( COMMA { xg.append(","); } xgrsIndex[xg] seqRelOs[xg] seqExpression[xg] )? )? 
 		RPAREN { xg.append(")"); } RBRACE { xg.append("}"); } SEMI { xg.append("; "); } xgrs[xg] { env.popScope(); } RBRACE { xg.append("}"); }
-	| IN LBRACK QUESTION { xg.append(" in [?"); } callRule[xg, returns] RBRACK { xg.append("]"); }
+	| IN LBRACK QUESTION { xg.append(" in [?"); } callRule[xg, returns, true] RBRACK { xg.append("]"); }
 			SEMI { xg.append("; "); } xgrs[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	| IN LBRACK { xg.append(" in ["); } left=seqExpression[xg] COLON { xg.append(" : "); } right=seqExpression[xg] RBRACK { xg.append("]"); }
 			SEMI { xg.append("; "); } xgrs[xg] { env.popScope(); } RBRACE { xg.append("}"); }
@@ -2334,19 +2334,19 @@ parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
 		(	( DOLLAR {xg.append("$");} ( xgrsVarUse[xg] 
 						(COMMA {xg.append(",");} (xgrsVarUse[xg] | STAR {xg.append("*");}))? )? )?
 				LBRACK {xg.append("[");} 
-				callRule[xg, returns]
+				callRule[xg, returns, true]
 				RBRACK {xg.append("]");}
 		| 
 			COUNT {xg.append("count");}
 				LBRACK {xg.append("[");} 
-				callRule[xg, returns]
+				callRule[xg, returns, true]
 				RBRACK {xg.append("]");}
 		|
-			callRule[xg, returns]
+			callRule[xg, returns, false]
 		)
 	;
 		
-callRule[ExecNode xg, CollectNode<BaseNode> returns]
+callRule[ExecNode xg, CollectNode<BaseNode> returns, boolean isAllBracketed]
 	@init{
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
 		CollectNode<IdentNode> filters = new CollectNode<IdentNode>();
@@ -2359,7 +2359,7 @@ callRule[ExecNode xg, CollectNode<BaseNode> returns]
 		(callRuleFilter[xg, filters])*
 		{
 			// TODO: there may be more than one user-defined filter be given (that should be checked in the call action node, just postponed because unlikely)
-			xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns, filters));
+			xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns, filters, isAllBracketed));
 		}
 	;
 

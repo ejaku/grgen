@@ -37,10 +37,12 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraph patternGraph;
 
         /// <summary>
-        /// Performance optimization: saves us usage of new in the old style/unspecific modify/apply methods
-        /// of the action interface implementation for returning an array.
+        /// Performance optimization: saves us usage of new for the return array or the return arrays. 
+        /// In the object/string-style modify/apply methods of the action interface implementation.
         /// </summary>
         public object[] ReturnArray;
+        public List<object[]> ReturnArrayListForAll = new List<object[]>();
+        public List<object[]> AvailableReturnArrays = new List<object[]>();
 
         /// <summary>
         /// The name of the action (without prefixes)

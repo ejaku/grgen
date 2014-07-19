@@ -621,7 +621,12 @@ namespace de.unika.ipd.grGen.lgsp
             String returnParameterDeclarations;
             String returnArguments;
             String returnAssignments;
-            BuildReturnParameters(paramBindings, out returnParameterDeclarations, out returnArguments, out returnAssignments);
+            String returnParameterDeclarationsAllCall;
+            String intermediateReturnAssignmentsAllCall;
+            String returnAssignmentsAllCall;
+            BuildReturnParameters(paramBindings,
+                out returnParameterDeclarations, out returnArguments, out returnAssignments,
+                out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 
             if(seqRule.SequenceType == SequenceType.RuleCall)
             {
@@ -634,6 +639,7 @@ namespace de.unika.ipd.grGen.lgsp
             else if(seqRule.SequenceType == SequenceType.RuleCountAllCall || !((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
             {
                 // iterate through matches, use Modify on each, fire the next match event after the first
+                if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarationsAllCall + "\n");
                 String enumeratorName = "enum_" + seqRule.Id;
                 source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
                 source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
@@ -641,17 +647,19 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Indent();
                 source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
                 source.AppendFront("if(" + matchName + "!=" + matchesName + ".FirstExact) procEnv.RewritingNextMatch();\n");
-                if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
+                if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                 source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
-                if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+                if(returnAssignments.Length != 0) source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
                 source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                 source.Unindent();
                 source.AppendFront("}\n");
+                if(returnAssignments.Length != 0) source.AppendFront(returnAssignmentsAllCall + "\n");
             }
             else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
             {
                 // as long as a further rewrite has to be selected: randomly choose next match, rewrite it and remove it from available matches; fire the next match event after the first
                 SequenceRuleAllCall seqRuleAll = (SequenceRuleAllCall)seqRule;
+                if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarationsAllCall + "\n");
                 source.AppendFrontFormat("int numchooserandomvar_{0} = (int){1};\n", seqRuleAll.Id, seqRuleAll.MaxVarChooseRandom != null ? GetVar(seqRuleAll.MaxVarChooseRandom) : (seqRuleAll.MinSpecified ? "2147483647" : "1"));
                 source.AppendFrontFormat("if({0}.Count < numchooserandomvar_{1}) numchooserandomvar_{1} = {0}.Count;\n", matchesName, seqRule.Id);
                 source.AppendFrontFormat("for(int i = 0; i < numchooserandomvar_{0}; ++i)\n", seqRule.Id);
@@ -661,10 +669,11 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
                 if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                 source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
-                if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+                if(returnAssignments.Length != 0) source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
                 source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                 source.Unindent();
                 source.AppendFront("}\n");
+                if(returnAssignments.Length != 0) source.AppendFront(returnAssignmentsAllCall + "\n");
             }
 
             if(gen.FireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
@@ -1314,7 +1323,12 @@ namespace de.unika.ipd.grGen.lgsp
                     String returnParameterDeclarations;
                     String returnArguments;
                     String returnAssignments;
-                    BuildReturnParameters(paramBindings, out returnParameterDeclarations, out returnArguments, out returnAssignments);
+                    String returnParameterDeclarationsAllCall;
+                    String intermediateReturnAssignmentsAllCall;
+                    String returnAssignmentsAllCall;
+                    BuildReturnParameters(paramBindings,
+                        out returnParameterDeclarations, out returnArguments, out returnAssignments,
+                        out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 
                     // apply the sequence for every match found
                     String enumeratorName = "enum_" + seqFor.Id;
@@ -1586,7 +1600,12 @@ namespace de.unika.ipd.grGen.lgsp
             String returnParameterDeclarations;
             String returnArguments;
             String returnAssignments;
-            BuildReturnParameters(paramBindings, out returnParameterDeclarations, out returnArguments, out returnAssignments);
+            String returnParameterDeclarationsAllCall;
+            String intermediateReturnAssignmentsAllCall;
+            String returnAssignmentsAllCall;
+            BuildReturnParameters(paramBindings,
+                out returnParameterDeclarations, out returnArguments, out returnAssignments,
+                out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 
             // apply the rule and the following sequence for every match found,
             // until the first rule and sequence execution succeeded
@@ -1778,7 +1797,12 @@ namespace de.unika.ipd.grGen.lgsp
                 String returnParameterDeclarations;
                 String returnArguments;
                 String returnAssignments;
-                BuildReturnParameters(paramBindings, out returnParameterDeclarations, out returnArguments, out returnAssignments);
+                String returnParameterDeclarationsAllCall;
+                String intermediateReturnAssignmentsAllCall;
+                String returnAssignmentsAllCall;
+                BuildReturnParameters(paramBindings,
+                    out returnParameterDeclarations, out returnArguments, out returnAssignments,
+                    out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 
                 if (seqRule.SequenceType == SequenceType.RuleCall)
                 {
@@ -1812,6 +1836,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
 
                     // iterate through matches, use Modify on each, fire the next match event after the first
+                    if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarationsAllCall + "\n");
                     String enumeratorName = "enum_" + seqRule.Id;
                     source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
                     source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
@@ -1823,11 +1848,12 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                     source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
-                    if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+                    if(returnAssignments.Length != 0) source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
                     source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                     source.AppendFront(firstRewrite + " = false;\n");
                     source.Unindent();
                     source.AppendFront("}\n");
+                    if(returnAssignments.Length != 0) source.AppendFront(returnAssignmentsAllCall + "\n");
                     if(seqRule.SequenceType == SequenceType.RuleCountAllCall)
                     {
                         SequenceRuleCountAllCall ruleCountAll = (SequenceRuleCountAllCall)seqRule;
@@ -3651,16 +3677,22 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private void BuildReturnParameters(RuleInvocationParameterBindings paramBindings, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
+        private void BuildReturnParameters(RuleInvocationParameterBindings paramBindings, 
+            out String returnParameterDeclarations, out String returnArguments, out String returnAssignments,
+            out String returnParameterDeclarationsAllCall, out String intermediateReturnAssignmentsAllCall, out String returnAssignmentsAllCall)
         {
             // can't use the normal xgrs variables for return value receiving as the type of an out-parameter must be invariant
             // this is bullshit, as it is perfectly safe to assign a subtype to a variable of a supertype
             // so we create temporary variables of exact type, which are used to receive the return values,
             // and finally we assign these temporary variables to the real xgrs variables
 
-            returnParameterDeclarations = "";
-            returnArguments = "";
-            returnAssignments = "";
+            StringBuilder sbReturnParameterDeclarations = new StringBuilder();
+            StringBuilder sbReturnArguments = new StringBuilder();
+            StringBuilder sbReturnAssignments = new StringBuilder();
+            StringBuilder sbReturnParameterDeclarationsAllCall = new StringBuilder();
+            StringBuilder sbIntermediateReturnAssignmentsAllCall = new StringBuilder();
+            StringBuilder sbReturnAssignmentsAllCall = new StringBuilder();
+
             for(int i = 0; i < rulesToOutputTypes[paramBindings.PackagePrefixedName].Count; i++)
             {
                 String varName;
@@ -3670,11 +3702,51 @@ namespace de.unika.ipd.grGen.lgsp
                     varName = tmpVarCtr.ToString();
                 ++tmpVarCtr;
                 String typeName = rulesToOutputTypes[paramBindings.PackagePrefixedName][i];
-                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
-                returnArguments += ", out tmpvar_" + varName;
+                
+                sbReturnParameterDeclarations.Append(TypesHelper.XgrsTypeToCSharpType(typeName, model));
+                sbReturnParameterDeclarations.Append(" tmpvar_");
+                sbReturnParameterDeclarations.Append(varName);
+                sbReturnParameterDeclarations.Append("; ");
+
+                String returnListValueVarType = typeName;
+                if(paramBindings.ReturnVars.Length != 0 && paramBindings.ReturnVars[i].Type != "" && paramBindings.ReturnVars[i].Type.StartsWith("array<"))
+                    returnListValueVarType = TypesHelper.ExtractSrc(paramBindings.ReturnVars[i].Type);
                 if(paramBindings.ReturnVars.Length != 0)
-                    returnAssignments += SetVar(paramBindings.ReturnVars[i], "tmpvar_" + varName);
+                {
+                    sbReturnParameterDeclarationsAllCall.Append("List<");
+                    sbReturnParameterDeclarationsAllCall.Append(TypesHelper.XgrsTypeToCSharpType(returnListValueVarType, model));
+                    sbReturnParameterDeclarationsAllCall.Append("> tmpvarlist_");
+                    sbReturnParameterDeclarationsAllCall.Append(varName);
+                    sbReturnParameterDeclarationsAllCall.Append(" = new List<");
+                    sbReturnParameterDeclarationsAllCall.Append(TypesHelper.XgrsTypeToCSharpType(returnListValueVarType, model));
+                    sbReturnParameterDeclarationsAllCall.Append(">(); ");
+                }
+
+                sbReturnArguments.Append(", out tmpvar_");
+                sbReturnArguments.Append(varName);
+
+                if(paramBindings.ReturnVars.Length != 0)
+                {
+                    sbReturnAssignments.Append(SetVar(paramBindings.ReturnVars[i], "tmpvar_" + varName));
+
+                    sbIntermediateReturnAssignmentsAllCall.Append("tmpvarlist_");
+                    sbIntermediateReturnAssignmentsAllCall.Append(varName);
+                    sbIntermediateReturnAssignmentsAllCall.Append(".Add((");
+                    sbIntermediateReturnAssignmentsAllCall.Append(TypesHelper.XgrsTypeToCSharpType(returnListValueVarType, model));
+                    sbIntermediateReturnAssignmentsAllCall.Append(")tmpvar_");
+                    sbIntermediateReturnAssignmentsAllCall.Append(varName);
+                    sbIntermediateReturnAssignmentsAllCall.Append("); ");
+                    
+                    sbReturnAssignmentsAllCall.Append(SetVar(paramBindings.ReturnVars[i], "tmpvarlist_" + varName));
+                }
             }
+
+            returnParameterDeclarations = sbReturnParameterDeclarations.ToString();
+            returnArguments = sbReturnArguments.ToString();
+            returnAssignments = sbReturnAssignments.ToString();
+            returnParameterDeclarationsAllCall = sbReturnParameterDeclarationsAllCall.ToString();
+            intermediateReturnAssignmentsAllCall = sbIntermediateReturnAssignmentsAllCall.ToString();
+            returnAssignmentsAllCall = sbReturnAssignmentsAllCall.ToString();
         }
 
         private void BuildReturnParameters(ProcedureInvocationParameterBindings paramBindings, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)

@@ -143,30 +143,39 @@ namespace de.unika.ipd.grGen.lgsp
             actionMapStaticToNewest[staticAction] = newAction;
         }
 
-        public object[] Replace(IMatches matches, int which)
+        public List<object[]> Replace(IMatches matches, int which)
         {
+            List<object[]> returns;
             object[] retElems = null;
             if(which != -1)
             {
                 if(which < 0 || which >= matches.Count)
                     throw new ArgumentOutOfRangeException("\"which\" is out of range!");
 
+                returns = matches.Producer.Reserve(0); 
                 retElems = matches.Producer.Modify(this, matches.GetMatch(which));
+                returns.Add(retElems);
                 PerformanceInfo.RewritesPerformed++;
             }
             else
             {
                 bool first = true;
+                returns = matches.Producer.Reserve(matches.Count);
+                int curResultNum = 0;
                 foreach(IMatch match in matches)
                 {
                     if(first) first = false;
                     else if(OnRewritingNextMatch != null) OnRewritingNextMatch();
                     retElems = matches.Producer.Modify(this, match);
+                    object[] curResult = returns[curResultNum];
+                    for(int i = 0; i < retElems.Length; ++i)
+                        curResult[i] = retElems[i];
                     PerformanceInfo.RewritesPerformed++;
+                    curResultNum++;
                 }
                 if(retElems == null) retElems = Sequence.NoElems;
             }
-            return retElems;
+            return returns;
         }
 
         #endregion Graph rewriting

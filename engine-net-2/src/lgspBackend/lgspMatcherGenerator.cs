@@ -2716,10 +2716,14 @@ exitSecondLoop: ;
             String actionInterfaceName = "IAction_"+matchingPattern.name;
             String outParameters = "";
             String refParameters = "";
-            for(int i=0; i<matchingPattern.Outputs.Length; ++i) {
+            String allParameters = "";
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
+            {
                 outParameters += ", out " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_"+i;
                 refParameters += ", ref " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_"+i;
+                allParameters += ", List<" + TypesHelper.TypeName(matchingPattern.Outputs[i]) + "> output_"+i;
             }
+ 
             String inParameters = "";
             for(int i=0; i<matchingPattern.Inputs.Length; ++i) {
                 inParameters += ", " + TypesHelper.TypeName(matchingPattern.Inputs[i]) + " " + matchingPattern.InputNames[i];
@@ -2749,13 +2753,13 @@ exitSecondLoop: ;
             sb.AppendFrontFormat("void Modify(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, {0} match{1});\n", matchType, outParameters);
 
             sb.AppendFront("/// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>\n");
-            sb.AppendFrontFormat("void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, {0} matches{1});\n", matchesType, outParameters);
+            sb.AppendFrontFormat("void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, {0} matches{1});\n", matchesType, allParameters);
 
             sb.AppendFront("/// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>\n");
             sb.AppendFrontFormat("bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0}{1});\n", inParameters, refParameters);
 
-            sb.AppendFront("/// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>\n");
-            sb.AppendFrontFormat("bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0}{1});\n", inParameters, refParameters);
+            sb.AppendFront("/// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>\n");
+            sb.AppendFrontFormat("int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0}{1});\n", inParameters, allParameters);
 
             sb.AppendFront("/// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>\n");
             sb.AppendFrontFormat("bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0});\n", inParameters);
@@ -2783,32 +2787,101 @@ exitSecondLoop: ;
         /// </summary>
         void GenerateActionImplementation(SourceBuilder sb, LGSPRulePattern matchingPattern)
         {
-            String inParameters = "";
-            String inArguments = "";
-            String inArgumentsFromArray = "";
-            for (int i = 0; i < matchingPattern.Inputs.Length; ++i)
+            StringBuilder sbInParameters = new StringBuilder();
+            StringBuilder sbInArguments = new StringBuilder();
+            StringBuilder sbInArgumentsFromArray = new StringBuilder();
+            for(int i = 0; i < matchingPattern.Inputs.Length; ++i)
             {
-                inParameters += ", " + TypesHelper.TypeName(matchingPattern.Inputs[i]) + " " + matchingPattern.InputNames[i];
-                inArguments += ", " + matchingPattern.InputNames[i];
-                inArgumentsFromArray += ", (" + TypesHelper.TypeName(matchingPattern.Inputs[i]) + ") parameters[" + i + "]";
-            }
+                sbInParameters.Append(", ");
+                sbInParameters.Append(TypesHelper.TypeName(matchingPattern.Inputs[i]));
+                sbInParameters.Append(" ");
+                sbInParameters.Append(matchingPattern.InputNames[i]);
 
-            String outParameters = "";
-            String refParameters = "";
-            String outLocals = "";
-            String refLocals = "";
-            String outArguments = "";
-            String refArguments = "";
-            for (int i = 0; i < matchingPattern.Outputs.Length; ++i)
+                sbInArguments.Append(", ");
+                sbInArguments.Append(matchingPattern.InputNames[i]);
+
+                sbInArgumentsFromArray.Append(", (");
+                sbInArgumentsFromArray.Append(TypesHelper.TypeName(matchingPattern.Inputs[i]));
+                sbInArgumentsFromArray.Append(") parameters[");
+                sbInArgumentsFromArray.Append(i);
+                sbInArgumentsFromArray.Append("]");
+            }
+            String inParameters = sbInParameters.ToString();
+            String inArguments = sbInArguments.ToString();
+            String inArgumentsFromArray = sbInArgumentsFromArray.ToString();
+
+            StringBuilder sbOutParameters = new StringBuilder();
+            StringBuilder sbRefParameters = new StringBuilder();
+            StringBuilder sbOutLocals = new StringBuilder();
+            StringBuilder sbRefLocals = new StringBuilder();
+            StringBuilder sbOutArguments = new StringBuilder();
+            StringBuilder sbRefArguments = new StringBuilder();
+            StringBuilder sbOutIntermediateLocalsAll = new StringBuilder();
+            StringBuilder sbOutParametersAll = new StringBuilder();
+            StringBuilder sbOutArgumentsAll = new StringBuilder();
+            StringBuilder sbIntermediateLocalArgumentsAll = new StringBuilder();
+            StringBuilder sbOutClassArgumentsAll = new StringBuilder();
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
             {
-                outParameters += ", out " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i;
-                refParameters += ", ref " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i;
-                outLocals += TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i + "; ";
-                refLocals += TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i + " = " + TypesHelper.DefaultValueString(matchingPattern.Outputs[i].PackagePrefixedName, model) + "; ";
-                outArguments += ", out output_" + i;
-                refArguments += ", ref output_" + i;
-            }
+                sbOutParameters.Append(", out ");
+                sbOutParameters.Append(TypesHelper.TypeName(matchingPattern.Outputs[i]));
+                sbOutParameters.Append(" output_");
+                sbOutParameters.Append(i);
 
+                sbRefParameters.Append(", ref ");
+                sbRefParameters.Append(TypesHelper.TypeName(matchingPattern.Outputs[i]));
+                sbRefParameters.Append(" output_");
+                sbRefParameters.Append(i);
+
+                sbOutLocals.Append(TypesHelper.TypeName(matchingPattern.Outputs[i]));
+                sbOutLocals.Append(" output_");
+                sbOutLocals.Append(i);
+                sbOutLocals.Append("; ");
+
+                sbRefLocals.Append(TypesHelper.TypeName(matchingPattern.Outputs[i]));
+                sbRefLocals.Append(" output_");
+                sbRefLocals.Append(i);
+                sbRefLocals.Append(" = ");
+                sbRefLocals.Append(TypesHelper.DefaultValueString(matchingPattern.Outputs[i].PackagePrefixedName, model));
+                sbRefLocals.Append("; ");
+
+                sbOutArguments.Append(", out output_");
+                sbOutArguments.Append(i);
+
+                sbRefArguments.Append(", ref output_");
+                sbRefArguments.Append(i);
+
+                sbOutIntermediateLocalsAll.Append(TypesHelper.TypeName(matchingPattern.Outputs[i]));
+                sbOutIntermediateLocalsAll.Append(" output_local_");
+                sbOutIntermediateLocalsAll.Append(i);
+                sbOutIntermediateLocalsAll.Append("; ");
+
+                sbOutParametersAll.Append(", List<");
+                sbOutParametersAll.Append(TypesHelper.TypeName(matchingPattern.Outputs[i]));
+                sbOutParametersAll.Append("> output_");
+                sbOutParametersAll.Append(i);
+
+                sbOutArgumentsAll.Append(", output_");
+                sbOutArgumentsAll.Append(i);
+
+                sbIntermediateLocalArgumentsAll.Append(", out output_local_");
+                sbIntermediateLocalArgumentsAll.Append(i);
+
+                sbOutClassArgumentsAll.Append(", output_list_");
+                sbOutClassArgumentsAll.Append(i);
+            }
+            String outParameters = sbOutParameters.ToString();
+            String refParameters = sbRefParameters.ToString();
+            String outLocals = sbOutLocals.ToString();
+            String refLocals = sbRefLocals.ToString();
+            String outArguments = sbOutArguments.ToString();
+            String refArguments = sbRefArguments.ToString();
+            String outIntermediateLocalsAll = sbOutIntermediateLocalsAll.ToString();
+            String outParametersAll = sbOutParametersAll.ToString();
+            String outArgumentsAll = sbOutArgumentsAll.ToString();
+            String intermediateLocalArgumentsAll = sbIntermediateLocalArgumentsAll.ToString();
+            String outClassArgumentsAll = sbOutClassArgumentsAll.ToString();
+ 
             String matchingPatternClassName = matchingPattern.GetType().Name;
             String patternName = matchingPattern.name;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
@@ -2825,6 +2898,17 @@ exitSecondLoop: ;
             sb.AppendFront("/// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>\n");
             sb.AppendFront("public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }\n");
 
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
+            {
+                sb.AppendFront("List<");
+                sb.Append(TypesHelper.TypeName(matchingPattern.Outputs[i]));
+                sb.Append("> output_list_");
+                sb.Append(i.ToString());
+                sb.Append(" = new List<");
+                sb.Append(TypesHelper.TypeName(matchingPattern.Outputs[i]));
+                sb.Append(">();\n");
+            }
+
             sb.AppendFrontFormat("public {0} Match(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int maxMatches{1})\n", matchesType, inParameters);
             sb.AppendFront("{\n");
             sb.Indent();
@@ -2839,13 +2923,19 @@ exitSecondLoop: ;
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFrontFormat("public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, {0} matches{1})\n", matchesType, outParameters);
+            sb.AppendFrontFormat("public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, {0} matches{1})\n", matchesType, outParametersAll);
             sb.AppendFront("{\n");
             sb.Indent();
-            for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
-                sb.AppendFrontFormat("output_{0} = {1};\n", i, TypesHelper.DefaultValueString(matchingPattern.Outputs[i].PackagePrefixedName, model));
+            sb.AppendFrontFormat("foreach({0} match in matches)\n", matchType);
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFrontFormat("{0}\n", outIntermediateLocalsAll);
+            sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match{0});\n", intermediateLocalArgumentsAll);
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+                sb.AppendFrontFormat("output_{0}.Add(output_local_{0});\n", i);
             }
-            sb.AppendFrontFormat("foreach({0} match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match{1});\n", matchType, outArguments);
+            sb.Unindent();
+            sb.AppendFront("}\n");
             sb.Unindent();
             sb.AppendFront("}\n");
 
@@ -2859,13 +2949,22 @@ exitSecondLoop: ;
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFrontFormat("public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0}{1})\n", inParameters, refParameters);
+            sb.AppendFrontFormat("public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv{0}{1})\n", inParameters, outParametersAll);
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFrontFormat("{0} matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches{1});\n", matchesType, inArguments);
-            sb.AppendFront("if(matches.Count <= 0) return false;\n");
-            sb.AppendFrontFormat("foreach({0} match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match{1});\n", matchType, outArguments);
-            sb.AppendFront("return true;\n");
+            sb.AppendFront("if(matches.Count <= 0) return 0;\n");
+            sb.AppendFrontFormat("foreach({0} match in matches)\n", matchType);
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFrontFormat("{0}\n", outIntermediateLocalsAll);
+            sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match{0});\n", intermediateLocalArgumentsAll);
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+                sb.AppendFrontFormat("output_{0}.Add(output_local_{0});\n", i);
+            }
+            sb.Unindent();
+            sb.AppendFront("}\n");
+            sb.AppendFront("return matches.Count;\n");
             sb.Unindent();
             sb.AppendFront("}\n");
 
@@ -2936,34 +3035,50 @@ exitSecondLoop: ;
             sb.Indent();
             sb.AppendFrontFormat("{0}\n", outLocals);
             sb.AppendFrontFormat("Modify(actionEnv, ({0})match{1});\n", matchType, outArguments);
-            for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
                 sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
             }
             sb.AppendFront("return ReturnArray;\n");
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)\n");
+            sb.AppendFront("public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("{0}\n", outLocals);
-            sb.AppendFrontFormat("ModifyAll(actionEnv, ({0})matches{1});\n", matchesType, outArguments);
-            for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
-                sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
+
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
+            {
+                sb.AppendFront("output_list_");
+                sb.Append(i.ToString());
+                sb.Append(".Clear();\n");
             }
-            sb.AppendFront("return ReturnArray;\n");
+            sb.AppendFrontFormat("ModifyAll(actionEnv, ({0})matches{1});\n", matchesType, outClassArgumentsAll);
+
+            sb.AppendFront("while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[" + matchingPattern.Outputs.Length + "]);\n");
+            sb.AppendFront("ReturnArrayListForAll.Clear();\n");
+            sb.AppendFront("for(int i=0; i<matches.Count; ++i)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("ReturnArrayListForAll.Add(AvailableReturnArrays[i]);\n");
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+                sb.AppendFrontFormat("ReturnArrayListForAll[i][{0}] = output_list_{0}[i];\n", i);
+            }
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("return ReturnArrayListForAll;\n");
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
             sb.AppendFront("object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            if (matchingPattern.Inputs.Length == 0) {
+            if(matchingPattern.Inputs.Length == 0) {
                 sb.AppendFrontFormat("{0}\n", refLocals);
                 sb.AppendFrontFormat("if(Apply(actionEnv{0})) ", refArguments);
                 sb.Append("{\n");
                 sb.Indent();
-                for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+                for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
                     sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
                 }
                 sb.AppendFront("return ReturnArray;\n");
@@ -2971,7 +3086,8 @@ exitSecondLoop: ;
                 sb.AppendFront("}\n");
                 sb.AppendFront("else return null;\n");
             }
-            else sb.AppendFront("throw new Exception();\n");
+            else
+                sb.AppendFront("throw new Exception();\n");
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
@@ -2982,7 +3098,7 @@ exitSecondLoop: ;
             sb.AppendFrontFormat("if(Apply(actionEnv{0}{1})) ", inArgumentsFromArray, refArguments);
             sb.Append("{\n");
             sb.Indent();
-            for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
                 sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
             }
             sb.AppendFront("return ReturnArray;\n");
@@ -2992,48 +3108,82 @@ exitSecondLoop: ;
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFront("object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)\n");
+            sb.AppendFront("public List<object[]> Reserve(int numReturns)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            if (matchingPattern.Inputs.Length == 0) {
-                sb.AppendFrontFormat("{0}\n", refLocals);
-                sb.AppendFrontFormat("if(ApplyAll(maxMatches, actionEnv{0})) ", refArguments);
-                sb.Append("{\n");
-                sb.Indent();
-                for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
-                    sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
+            sb.AppendFront("while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[" + matchingPattern.Outputs.Length + "]);\n");
+            sb.AppendFront("ReturnArrayListForAll.Clear();\n");
+            sb.AppendFront("for(int i=0; i<numReturns; ++i)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("ReturnArrayListForAll.Add(AvailableReturnArrays[i]);\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+            sb.AppendFront("return ReturnArrayListForAll;\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            if(matchingPattern.Inputs.Length == 0) {
+                for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
+                {
+                    sb.AppendFront("output_list_");
+                    sb.Append(i.ToString());
+                    sb.Append(".Clear();\n");
                 }
-                sb.AppendFront("return ReturnArray;\n");
+                sb.AppendFrontFormat("int matchesCount = ApplyAll(maxMatches, actionEnv{0});\n", outClassArgumentsAll);
+                sb.AppendFront("while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[" + matchingPattern.Outputs.Length + "]);\n");
+                sb.AppendFront("ReturnArrayListForAll.Clear();\n");
+                sb.AppendFront("for(int i=0; i<matchesCount; ++i)\n");
+                sb.AppendFront("{\n");
+                sb.Indent();
+                sb.AppendFront("ReturnArrayListForAll.Add(AvailableReturnArrays[i]);\n");
+                for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+                    sb.AppendFrontFormat("ReturnArrayListForAll[i][{0}] = output_list_{0}[i];\n", i);
+                }
                 sb.Unindent();
                 sb.AppendFront("}\n");
-                sb.AppendFront("else return null;\n");
+                sb.AppendFront("return ReturnArrayListForAll;\n");
             }
-            else sb.AppendFront("throw new Exception();\n");
+            else
+                sb.AppendFront("throw new Exception();\n");
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)\n");
+            sb.AppendFront("List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("{0}\n", refLocals);
-            sb.AppendFrontFormat("if(ApplyAll(maxMatches, actionEnv{0}{1})) ", inArgumentsFromArray, refArguments);
-            sb.Append("{\n");
-            sb.Indent();
-            for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
-                sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
+            {
+                sb.AppendFront("output_list_");
+                sb.Append(i.ToString());
+                sb.Append(".Clear();\n");
             }
-            sb.AppendFront("return ReturnArray;\n");
-            sb.Unindent(); 
+            sb.AppendFrontFormat("int matchesCount = ApplyAll(maxMatches, actionEnv{0}{1});\n", inArgumentsFromArray, outClassArgumentsAll);
+            sb.AppendFront("while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[" + matchingPattern.Outputs.Length + "]);\n");
+            sb.AppendFront("ReturnArrayListForAll.Clear();\n");
+            sb.AppendFront("for(int i=0; i<matchesCount; ++i)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("ReturnArrayListForAll.Add(AvailableReturnArrays[i]);\n");
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+                sb.AppendFrontFormat("ReturnArrayListForAll[i][{0}] = output_list_{0}[i];\n", i);
+            }
+            sb.Unindent();
             sb.AppendFront("}\n");
-            sb.AppendFront("else return null;\n");
+            sb.AppendFront("return ReturnArrayListForAll;\n");
             sb.Unindent();
             sb.AppendFront("}\n");
 
             sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            if (matchingPattern.Inputs.Length == 0) sb.AppendFront("return ApplyStar(actionEnv);\n");
-            else sb.AppendFront("throw new Exception(); return false;\n");
+            if(matchingPattern.Inputs.Length == 0)
+                sb.AppendFront("return ApplyStar(actionEnv);\n");
+            else
+                sb.AppendFront("throw new Exception(); return false;\n");
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
@@ -3047,8 +3197,10 @@ exitSecondLoop: ;
             sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            if (matchingPattern.Inputs.Length == 0) sb.AppendFront("return ApplyPlus(actionEnv);\n");
-            else sb.AppendFront("throw new Exception(); return false;\n");
+            if(matchingPattern.Inputs.Length == 0)
+                sb.AppendFront("return ApplyPlus(actionEnv);\n");
+            else
+                sb.AppendFront("throw new Exception(); return false;\n");
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
@@ -3062,8 +3214,10 @@ exitSecondLoop: ;
             sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int min, int max)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            if (matchingPattern.Inputs.Length == 0) sb.AppendFront("return ApplyMinMax(actionEnv, min, max);\n");
-            else sb.AppendFront("throw new Exception(); return false;\n");
+            if(matchingPattern.Inputs.Length == 0)
+                sb.AppendFront("return ApplyMinMax(actionEnv, min, max);\n");
+            else 
+                sb.AppendFront("throw new Exception(); return false;\n");
             sb.Unindent(); 
             sb.AppendFront("}\n");
 

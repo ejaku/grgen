@@ -60,7 +60,7 @@ show num edges only E1
 
 select actions porter/lgsp-portercontainerActions.dll
 
-xgrs (::n,::e)=[checkForTestGraph]
+xgrs (::n,::e)=[checkForTestGraph]  ;> { ::n = ::n[0]; ::e = ::e[0] }
 
 n.aby
 n.ash

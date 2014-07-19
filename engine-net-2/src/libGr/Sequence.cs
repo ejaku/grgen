@@ -730,7 +730,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            env.CheckCall(this);
+            env.CheckCall(this, false);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -931,6 +931,11 @@ namespace de.unika.ipd.grGen.libGr
                     MaxVarChooseRandom = varChooseRandom;
             }
             this.choice = choice;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            env.CheckCall(this, true);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -4064,7 +4069,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            env.CheckCall(this);
+            env.CheckCall(this, false);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
