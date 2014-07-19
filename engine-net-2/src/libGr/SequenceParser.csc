@@ -303,10 +303,10 @@ TOKEN: {
 |	< HEXNUMBER_SHORT: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("s"|"S") >
 |	< HEXNUMBER_LONG: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("l"|"L") >
 |
-	< DOUBLEQUOTEDTEXT : "\"" (~["\"", "\n", "\r"])* "\"" >
+	< DOUBLEQUOTEDTEXT : "\"" ("\\\"" | ~["\"", "\n", "\r"])* "\"" >
 		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
 |
-	< SINGLEQUOTEDTEXT : "\'" (~["\'", "\n", "\r"])* "\'" >
+	< SINGLEQUOTEDTEXT : "\'" ("\\\'" | ~["\'", "\n", "\r"])* "\'" >
 		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
 |
 < WORD : ["A"-"Z", "a"-"z", "_"] (["A"-"Z", "a"-"z", "_", "0"-"9"])* >
@@ -328,7 +328,7 @@ String TextString():
 	Token tok;
 }
 {
-	tok=<DOUBLEQUOTEDTEXT>
+	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT>)
 	{
 		return tok.image;
 	}
