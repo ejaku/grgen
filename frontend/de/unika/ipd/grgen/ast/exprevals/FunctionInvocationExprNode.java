@@ -171,6 +171,102 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new EExprNode(getCoords());
 		}
+		else if(functionName.equals("byteMinMath")) {
+			if(params.size() != 0) {
+				reportError("Math::byteMin() takes no parameters.");
+				return false;
+			}
+			else
+				result = new ByteMinExprNode(getCoords());
+		}
+		else if(functionName.equals("byteMaxMath")) {
+			if(params.size() != 0) {
+				reportError("Math::byteMax() takes no parameters.");
+				return false;
+			}
+			else
+				result = new ByteMaxExprNode(getCoords());
+		}
+		else if(functionName.equals("shortMinMath")) {
+			if(params.size() != 0) {
+				reportError("Math::shortMin() takes no parameters.");
+				return false;
+			}
+			else
+				result = new ShortMinExprNode(getCoords());
+		}
+		else if(functionName.equals("shortMaxMath")) {
+			if(params.size() != 0) {
+				reportError("Math::shortMax() takes no parameters.");
+				return false;
+			}
+			else
+				result = new ShortMaxExprNode(getCoords());
+		}
+		else if(functionName.equals("intMinMath")) {
+			if(params.size() != 0) {
+				reportError("Math::intMin() takes no parameters.");
+				return false;
+			}
+			else
+				result = new IntMinExprNode(getCoords());
+		}
+		else if(functionName.equals("intMaxMath")) {
+			if(params.size() != 0) {
+				reportError("Math::intMax() takes no parameters.");
+				return false;
+			}
+			else
+				result = new IntMaxExprNode(getCoords());
+		}
+		else if(functionName.equals("longMinMath")) {
+			if(params.size() != 0) {
+				reportError("Math::longMin() takes no parameters.");
+				return false;
+			}
+			else
+				result = new LongMinExprNode(getCoords());
+		}
+		else if(functionName.equals("longMaxMath")) {
+			if(params.size() != 0) {
+				reportError("Math::longMax() takes no parameters.");
+				return false;
+			}
+			else
+				result = new LongMaxExprNode(getCoords());
+		}
+		else if(functionName.equals("floatMinMath")) {
+			if(params.size() != 0) {
+				reportError("Math::floatMin() takes no parameters.");
+				return false;
+			}
+			else
+				result = new FloatMinExprNode(getCoords());
+		}
+		else if(functionName.equals("floatMaxMath")) {
+			if(params.size() != 0) {
+				reportError("Math::floatMax() takes no parameters.");
+				return false;
+			}
+			else
+				result = new FloatMaxExprNode(getCoords());
+		}
+		else if(functionName.equals("doubleMinMath")) {
+			if(params.size() != 0) {
+				reportError("Math::doubleMin() takes no parameters.");
+				return false;
+			}
+			else
+				result = new DoubleMinExprNode(getCoords());
+		}
+		else if(functionName.equals("doubleMaxMath")) {
+			if(params.size() != 0) {
+				reportError("Math::doubleMax() takes no parameters.");
+				return false;
+			}
+			else
+				result = new DoubleMaxExprNode(getCoords());
+		}
 		else if(functionName.equals("ceilMath")) {
 			if(params.size() != 1) {
 				reportError("Math::ceil(.) takes one parameter.");
