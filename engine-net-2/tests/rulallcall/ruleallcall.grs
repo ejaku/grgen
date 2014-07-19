@@ -1,0 +1,44 @@
+new graph "rulallcall/ruleallcall"
+
+exec init
+
+exec (r1:array<N>,r2:array<Node>,r3:array<int>,r4:array<string>)=[r] \
+;> { emit('the value of variable "r1" of type dontcare is: ', r1, "\n") } \
+;> { emit('the value of variable "r2" of type dontcare is: ', r2, "\n") } \
+;> { emit('the value of variable "r3" of type dontcare is: ', r3, "\n") } \
+;> { emit('the value of variable "r4" of type dontcare is: ', r4, "\n") } \
+;> (r1,r2,r3,r4)=[r] \
+;> { emit('the value of variable "r1" of type dontcare is: ', r1, "\n") } \
+;> { emit('the value of variable "r2" of type dontcare is: ', r2, "\n") } \
+;> { emit('the value of variable "r3" of type dontcare is: ', r3, "\n") } \
+;> { emit('the value of variable "r4" of type dontcare is: ', r4, "\n") } \
+
+exec (::_r1,::_r2,::_r3,::_r4)=[r]
+show var _r1
+show var _r2
+show var _r3
+show var _r4
+
+exec (::_r1,::_r2,::_r3,::_r4)=[r]
+show var _r1
+show var _r2
+show var _r3
+show var _r4
+
+exec [r]
+
+exec (r1:N,r2:Node,r3:int,r4:string)=r \
+;> { emit('the value of variable "r1" of type dontcare is: ', r1, "\n") } \
+;> { emit('the value of variable "r2" of type dontcare is: ', r2, "\n") } \
+;> { emit('the value of variable "r3" of type dontcare is: ', r3, "\n") } \
+;> { emit('the value of variable "r4" of type dontcare is: ', r4, "\n") }
+
+exec (::_r1,::_r2,::_r3,::_r4)=r
+show var _r1
+show var _r2
+show var _r3
+show var _r4
+
+exec r
+
+quit

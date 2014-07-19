@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.CSharp;
@@ -272,9 +273,38 @@ namespace de.unika.ipd.grGen.lgsp
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             PerformanceInfo.StartLocal();
 #endif
-            object[] retElems = Replace(matches, which);
-            for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
-                paramBindings.ReturnVars[i].SetVariableValue(retElems[i], this);
+            List<object[]> retElemsList = Replace(matches, which);
+            if(which == -1)
+            {
+                IList[] returnVars = null;
+                if(paramBindings.ReturnVars.Length > 0)
+                {
+                    returnVars = new IList[paramBindings.ReturnVars.Length];
+                    for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
+                    {
+                        returnVars[i] = (IList)paramBindings.ReturnVars[i].GetVariableValue(this);
+                        if(returnVars[i] == null) {
+                            string returnType = TypesHelper.DotNetTypeToXgrsType(paramBindings.Action.RulePattern.Outputs[i]);
+                            Type valueType = ContainerHelper.GetTypeFromNameForContainer(returnType, graph);
+                            returnVars[i] = ContainerHelper.NewList(valueType);
+                            paramBindings.ReturnVars[i].SetVariableValue(returnVars[i], this);
+                        } else
+                            returnVars[i].Clear();
+                    }
+                }
+                for(int curRetElemNum = 0; curRetElemNum < retElemsList.Count; ++curRetElemNum)
+                {
+                    object[] retElems = retElemsList[curRetElemNum];
+                    for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
+                        returnVars[i].Add(retElems[i]);
+                }
+            }
+            else
+            {
+                object[] retElems = retElemsList[0]; 
+                for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
+                    paramBindings.ReturnVars[i].SetVariableValue(retElems[i], this);
+            }
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             PerformanceInfo.StopRewrite();
 #endif

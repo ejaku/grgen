@@ -1,0 +1,81 @@
+#using "basic_model_001.gm"
+
+rule init
+{
+	modify {
+		n:N;
+	}
+}
+
+rule r : (N, Node, int, string)
+{
+	n:N;
+	
+	modify {
+		return(n, n, 42, "42");
+	}
+}
+
+rule s : (N, Node, int, string)
+{
+	n:N;
+	
+	modify {
+		exec((r1:array<N>,r2:array<Node>,r3:array<int>,r4:array<string>)=[r]);
+		exec((::_r1,::_r2,::_r3,::_r4)=[r]);
+		exec([r]);
+		exec((r1:N,r2:Node,r3:int,r4:string)=r);
+		exec((::_r1,::_r2,::_r3,::_r4)=r);
+		exec(r);
+		
+		return(n, n, 42, "42");
+	}
+}
+
+rule t
+{
+	modify {
+		exec ( (r1:array<N>,r2:array<Node>,r3:array<int>,r4:array<string>)=[r]
+			;> { emit("the value of variable \"r1\" of type dontcare is: ", r1, "\n") }
+			;> { emit("the value of variable \"r2\" of type dontcare is: ", r2, "\n") }
+			;> { emit("the value of variable \"r3\" of type dontcare is: ", r3, "\n") }
+			;> { emit("the value of variable \"r4\" of type dontcare is: ", r4, "\n") }
+			;> (r1,r2,r3,r4)=[r]
+			;> { emit("the value of variable \"r1\" of type dontcare is: ", r1, "\n") }
+			;> { emit("the value of variable \"r2\" of type dontcare is: ", r2, "\n") }
+			;> { emit("the value of variable \"r3\" of type dontcare is: ", r3, "\n") }
+			;> { emit("the value of variable \"r4\" of type dontcare is: ", r4, "\n") }
+		);
+		exec ( (::_r1,::_r2,::_r3,::_r4)=[r]
+			;> { emit("the value of variable \"_r1\" of type dontcare is: ", ::_r1, "\n") }
+			;> { emit("the value of variable \"_r2\" of type dontcare is: ", ::_r2, "\n") }
+			;> { emit("the value of variable \"_r3\" of type dontcare is: ", ::_r3, "\n") }
+			;> { emit("the value of variable \"_r4\" of type dontcare is: ", ::_r4, "\n") }
+			;> (::_r1,::_r2,::_r3,::_r4)=[r]
+			;> { emit("the value of variable \"_r1\" of type dontcare is: ", ::_r1, "\n") }
+			;> { emit("the value of variable \"_r2\" of type dontcare is: ", ::_r2, "\n") }
+			;> { emit("the value of variable \"_r3\" of type dontcare is: ", ::_r3, "\n") }
+			;> { emit("the value of variable \"_r4\" of type dontcare is: ", ::_r4, "\n") }
+		);
+		exec( [r] );
+	}
+}
+
+rule tr
+{
+	modify {
+		exec ( (r1:N,r2:Node,r3:int,r4:string)=r
+			;> { emit("the value of variable \"r1\" of type dontcare is: ", r1, "\n") }
+			;> { emit("the value of variable \"r2\" of type dontcare is: ", r2, "\n") }
+			;> { emit("the value of variable \"r3\" of type dontcare is: ", r3, "\n") }
+			;> { emit("the value of variable \"r4\" of type dontcare is: ", r4, "\n") }
+		);
+		exec ( (::_r1,::_r2,::_r3,::_r4)=r
+			;> { emit("the value of variable \"_r1\" of type dontcare is: ", ::_r1, "\n") }
+			;> { emit("the value of variable \"_r2\" of type dontcare is: ", ::_r2, "\n") }
+			;> { emit("the value of variable \"_r3\" of type dontcare is: ", ::_r3, "\n") }
+			;> { emit("the value of variable \"_r4\" of type dontcare is: ", ::_r4, "\n") }
+		);
+		exec( r );
+	}
+}

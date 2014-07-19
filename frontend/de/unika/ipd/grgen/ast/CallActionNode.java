@@ -52,6 +52,8 @@ public class CallActionNode extends BaseNode {
 	private CollectNode<BaseNode> returnsUnresolved;
 	private CollectNode<IdentNode> filterFunctionsUnresolved;
 
+	private boolean isAllBracketed;
+	
 	private TestDeclNode action;
 	private SequenceDeclNode sequence;
 	private ExecVarDeclNode booleVar;
@@ -66,12 +68,13 @@ public class CallActionNode extends BaseNode {
 	 * @param    returnsUnresolved   a  CollectNode<BaseNode>
 	 */
 	public CallActionNode(Coords coords, IdentNode ruleUnresolved, CollectNode<BaseNode> paramsUnresolved,
-			CollectNode<BaseNode> returnsUnresolved, CollectNode<IdentNode> filterFunctionsUnresolved) {
+			CollectNode<BaseNode> returnsUnresolved, CollectNode<IdentNode> filterFunctionsUnresolved, boolean isAllBracketed) {
 		super(coords);
 		this.actionUnresolved = ruleUnresolved;
 		this.paramsUnresolved = paramsUnresolved;
 		this.returnsUnresolved = returnsUnresolved;
 		this.filterFunctionsUnresolved = filterFunctionsUnresolved;
+		this.isAllBracketed = isAllBracketed;
 	}
 
 	/** returns children of this node */
@@ -378,8 +381,15 @@ public class CallActionNode extends BaseNode {
 
 				// Formal return type is a variable?
 				if(formalReturnType.classify() != Type.IS_UNKNOWN) {
+					if(isAllBracketed) {
+						// Do types match?
+						if(actualReturnType.classify() != Type.IS_ARRAY)
+							incommensurable = true;		// No => illegal
+						else if(((ArrayType)actualReturnType).getValueType().classify() != formalReturnType.classify())
+							incommensurable = true;
+					}
 					// Do types match?
-					if(actualReturnType.classify() != formalReturnType.classify())
+					else if(actualReturnType.classify() != formalReturnType.classify())
 						incommensurable = true;		// No => illegal
 				}
 				// No, are formal and actual return types of same kind?
@@ -389,7 +399,7 @@ public class CallActionNode extends BaseNode {
 
 				if(incommensurable) {
 					reportError("Actual return type \"" + actualReturnType
-							+ "\" and formal return type \"" + formalReturnType
+							+ "\" and formal return type \"" + (isAllBracketed ? "array<" + formalReturnType + ">" : formalReturnType)
 							+ "\" of action " + actionUnresolved.toString() + " are incommensurable.");
 					res = false;
 				}
