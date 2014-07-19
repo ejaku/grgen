@@ -2195,6 +2195,42 @@ public abstract class CSharpBase {
 			//EExpr e = (EExpr)expr;
 			sb.append("Math.E");
 		}
+		else if (expr instanceof ByteMinExpr) {
+			sb.append("SByte.MinValue");
+		}
+		else if (expr instanceof ByteMaxExpr) {
+			sb.append("SByte.MaxValue");
+		}
+		else if (expr instanceof ShortMinExpr) {
+			sb.append("Int16.MinValue");
+		}
+		else if (expr instanceof ShortMaxExpr) {
+			sb.append("Int16.MaxValue");
+		}
+		else if (expr instanceof IntMinExpr) {
+			sb.append("Int32.MinValue");
+		}
+		else if (expr instanceof IntMaxExpr) {
+			sb.append("Int32.MaxValue");
+		}
+		else if (expr instanceof LongMinExpr) {
+			sb.append("Int64.MinValue");
+		}
+		else if (expr instanceof LongMaxExpr) {
+			sb.append("Int64.MaxValue");
+		}
+		else if (expr instanceof FloatMinExpr) {
+			sb.append("Single.MinValue");
+		}
+		else if (expr instanceof FloatMaxExpr) {
+			sb.append("Single.MaxValue");
+		}
+		else if (expr instanceof DoubleMinExpr) {
+			sb.append("Double.MinValue");
+		}
+		else if (expr instanceof DoubleMaxExpr) {
+			sb.append("Double.MaxValue");
+		}
 		else if (expr instanceof CeilExpr) {
 			CeilExpr c = (CeilExpr)expr;
 			sb.append("Math.Ceiling(");

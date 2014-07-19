@@ -8281,6 +8281,246 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the minimum value of type byte
+    /// </summary>
+    public class ByteMin : Expression
+    {
+        public ByteMin()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ByteMin();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("SByte.MinValue");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning the maximum value of type byte
+    /// </summary>
+    public class ByteMax : Expression
+    {
+        public ByteMax()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ByteMax();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("SByte.MaxValue");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning the minimum value of type short
+    /// </summary>
+    public class ShortMin : Expression
+    {
+        public ShortMin()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ShortMin();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Int16.MinValue");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning the maximum value of type short
+    /// </summary>
+    public class ShortMax : Expression
+    {
+        public ShortMax()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ShortMax();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Int16.MaxValue");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning the minimum value of type int
+    /// </summary>
+    public class IntMin : Expression
+    {
+        public IntMin()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IntMin();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Int32.MinValue");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning the maximum value of type int
+    /// </summary>
+    public class IntMax : Expression
+    {
+        public IntMax()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IntMax();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Int32.MaxValue");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning the minimum value of type long
+    /// </summary>
+    public class LongMin : Expression
+    {
+        public LongMin()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new LongMin();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Int64.MinValue");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning the maximum value of type long
+    /// </summary>
+    public class LongMax : Expression
+    {
+        public LongMax()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new LongMax();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Int64.MaxValue");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning the minimum value of type float
+    /// </summary>
+    public class FloatMin : Expression
+    {
+        public FloatMin()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new FloatMin();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Single.MinValue");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning the maximum value of type float
+    /// </summary>
+    public class FloatMax : Expression
+    {
+        public FloatMax()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new FloatMax();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Single.MaxValue");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning the minimum value of type double
+    /// </summary>
+    public class DoubleMin : Expression
+    {
+        public DoubleMin()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new DoubleMin();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Double.MinValue");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning the maximum value of type double
+    /// </summary>
+    public class DoubleMax : Expression
+    {
+        public DoubleMax()
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new DoubleMax();
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Double.MaxValue");
+        }
+    }
+
+    /// <summary>
     /// Class representing expression returning the ceil value
     /// </summary>
     public class Ceil : Expression

@@ -1,0 +1,22 @@
+rule r 
+{
+	if{
+		Math::byteMin() != Math::byteMax();
+		Math::shortMin() != Math::shortMax();
+		Math::intMin() != Math::intMax();
+		Math::longMin() != Math::longMax();
+		Math::floatMin() != Math::floatMax();
+		Math::doubleMin() != Math::doubleMax();
+	}
+	
+	modify {
+		eval {
+			def var b:byte = (byte)(Math::byteMin() + Math::byteMax());
+			def var s:short = (short)(Math::shortMin() + Math::shortMax());
+			def var i:int = Math::intMin() + Math::intMax();
+			def var l:long = Math::longMin() + Math::longMax();
+			def var f:float = Math::floatMin() + Math::floatMax();
+			def var d:double = Math::doubleMin() + Math::doubleMax();
+		}
+	}
+}

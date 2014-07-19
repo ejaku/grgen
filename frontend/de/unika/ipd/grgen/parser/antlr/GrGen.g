@@ -4133,6 +4133,12 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 					|| i.getText().equals("ceil") || i.getText().equals("floor") || i.getText().equals("round") || i.getText().equals("truncate")
 					|| i.getText().equals("abs") || i.getText().equals("sgn")
 					|| i.getText().equals("pi") || i.getText().equals("e") 
+					|| i.getText().equals("byteMin") || i.getText().equals("byteMax") 
+					|| i.getText().equals("shortMin") || i.getText().equals("shortMax") 
+					|| i.getText().equals("intMin") || i.getText().equals("intMax") 
+					|| i.getText().equals("longMin") || i.getText().equals("longMax") 
+					|| i.getText().equals("floatMin") || i.getText().equals("floatMax") 
+					|| i.getText().equals("doubleMin") || i.getText().equals("doubleMax") 
 					)
 				)
 				|| ( pack!=null && pack.getText().equals("File") &&

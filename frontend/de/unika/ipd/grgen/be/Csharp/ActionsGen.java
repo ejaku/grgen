@@ -3602,6 +3602,54 @@ public class ActionsGen extends CSharpBase {
 			sb.append("new GRGEN_EXPR.E(");
 			sb.append(")");
 		}
+		else if (expr instanceof ByteMinExpr) {
+			sb.append("new GRGEN_EXPR.ByteMin(");
+			sb.append(")");
+		}
+		else if (expr instanceof ByteMaxExpr) {
+			sb.append("new GRGEN_EXPR.ByteMax(");
+			sb.append(")");
+		}
+		else if (expr instanceof ShortMinExpr) {
+			sb.append("new GRGEN_EXPR.ShortMin(");
+			sb.append(")");
+		}
+		else if (expr instanceof ShortMaxExpr) {
+			sb.append("new GRGEN_EXPR.ShortMax(");
+			sb.append(")");
+		}
+		else if (expr instanceof IntMinExpr) {
+			sb.append("new GRGEN_EXPR.IntMin(");
+			sb.append(")");
+		}
+		else if (expr instanceof IntMaxExpr) {
+			sb.append("new GRGEN_EXPR.IntMax(");
+			sb.append(")");
+		}
+		else if (expr instanceof LongMinExpr) {
+			sb.append("new GRGEN_EXPR.LongMin(");
+			sb.append(")");
+		}
+		else if (expr instanceof LongMaxExpr) {
+			sb.append("new GRGEN_EXPR.LongMax(");
+			sb.append(")");
+		}
+		else if (expr instanceof FloatMinExpr) {
+			sb.append("new GRGEN_EXPR.FloatMin(");
+			sb.append(")");
+		}
+		else if (expr instanceof FloatMaxExpr) {
+			sb.append("new GRGEN_EXPR.FloatMax(");
+			sb.append(")");
+		}
+		else if (expr instanceof DoubleMinExpr) {
+			sb.append("new GRGEN_EXPR.DoubleMin(");
+			sb.append(")");
+		}
+		else if (expr instanceof DoubleMaxExpr) {
+			sb.append("new GRGEN_EXPR.DoubleMax(");
+			sb.append(")");
+		}
 		else if (expr instanceof CeilExpr) {
 			CeilExpr c = (CeilExpr) expr;
 			sb.append("new GRGEN_EXPR.Ceil(");
