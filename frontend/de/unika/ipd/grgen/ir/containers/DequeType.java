@@ -27,6 +27,10 @@ public class DequeType extends Type {
 	public Type getValueType() {
 		return valueType;
 	}
+	
+	public String toString() {
+		return "deque<" + valueType + ">";
+	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {
