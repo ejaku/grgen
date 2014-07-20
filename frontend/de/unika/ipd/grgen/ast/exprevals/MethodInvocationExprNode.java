@@ -303,6 +303,14 @@ public class MethodInvocationExprNode extends ExprNode
   					else
   						result = new ArrayIndexOfNode(getCoords(), targetExpr, params.get(0), params.get(1));
   			}
+  			else if(methodName.equals("indexOfOrdered")) {
+  				if(params.size() != 1) {
+  					reportError("array<T>.indexOfOrdered(valueToSearchFor) takes one parameter.");
+					return false;
+				}
+  				else
+					result = new ArrayIndexOfOrderedNode(getCoords(), targetExpr, params.get(0));
+  			}
   			else if(methodName.equals("lastIndexOf")) {
   				if(params.size() != 1) {
   					reportError("array<T>.lastIndexOf(valueToSearchFor) takes one parameter.");

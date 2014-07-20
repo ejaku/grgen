@@ -2859,6 +2859,14 @@ public class ActionsGen extends CSharpBase {
 			}
 			sb.append(")");
 		}
+		else if (expr instanceof ArrayIndexOfOrderedExpr) {
+			ArrayIndexOfOrderedExpr aio = (ArrayIndexOfOrderedExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayIndexOfOrdered(");
+			genExpressionTree(sb, aio.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, aio.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof ArrayLastIndexOfExpr) {
 			ArrayLastIndexOfExpr ali = (ArrayLastIndexOfExpr)expr;
 			sb.append("new GRGEN_EXPR.ArrayLastIndexOf(");
