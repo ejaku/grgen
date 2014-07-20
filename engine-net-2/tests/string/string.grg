@@ -12,7 +12,7 @@ rule t(var str:string)
 		str.endsWith("foo");
 		"bar" in str;
 		(str.toUpper()).toLower()==str;
-		(str.explode(" ")).implode(" ")==str;
+		(str.asArray(" ")).asString(" ")==str;
 	}
 
 	modify {
@@ -27,6 +27,6 @@ rule t(var str:string)
         emit("1 value of attribute 5 6 " + (str.endsWith("foo")) + "\n");
         emit("1 value of attribute 5 6 " + ("bar" in str) + "\n");
         emit("1 value of attribute 5 6 " + ((str.toUpper()).toLower()==str) + "\n");
-        emit("1 value of attribute 5 6 " + ((str.explode(" ")).implode(" ")==str) + "\n");
+        emit("1 value of attribute 5 6 " + ((str.asArray(" ")).asString(" ")==str) + "\n");
 	}
 }

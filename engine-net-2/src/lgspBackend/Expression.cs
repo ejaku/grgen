@@ -2452,11 +2452,11 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a string explode expression.
+    /// Class representing a string as array expression.
     /// </summary>
-    public class StringExplode : Expression
+    public class StringAsArray : Expression
     {
-        public StringExplode(Expression stringExpr, Expression stringToSplitAtExpr)
+        public StringAsArray(Expression stringExpr, Expression stringToSplitAtExpr)
         {
             StringExpr = stringExpr;
             StringToSplitAtExpr = stringToSplitAtExpr;
@@ -2464,12 +2464,12 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new StringExplode(StringExpr.Copy(renameSuffix), StringToSplitAtExpr.Copy(renameSuffix));
+            return new StringAsArray(StringExpr.Copy(renameSuffix), StringToSplitAtExpr.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Explode(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.StringAsArray(");
             StringExpr.Emit(sourceCode);
             sourceCode.Append(", ");
             StringToSplitAtExpr.Emit(sourceCode);
@@ -2887,6 +2887,36 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a set as array expression.
+    /// </summary>
+    public class SetAsArray : Expression
+    {
+        public SetAsArray(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new SetAsArray(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.SetAsArray(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
     /// Class representing an array size expression.
     /// </summary>
     public class ArraySize : Expression
@@ -3122,6 +3152,66 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an array sort expression.
+    /// </summary>
+    public class ArraySort : Expression
+    {
+        public ArraySort(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArraySort(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.ArraySort(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array reverse expression.
+    /// </summary>
+    public class ArrayReverse : Expression
+    {
+        public ArrayReverse(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayReverse(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.ArrayReverse(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
     /// Class representing an array as set expression.
     /// </summary>
     public class ArrayAsSet : Expression
@@ -3152,11 +3242,71 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an array implode expression.
+    /// Class representing an array as map expression.
     /// </summary>
-    public class ArrayImplode : Expression
+    public class ArrayAsMap : Expression
     {
-        public ArrayImplode(Expression target, Expression value)
+        public ArrayAsMap(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayAsMap(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.ArrayAsMap(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array as deque expression.
+    /// </summary>
+    public class ArrayAsDeque : Expression
+    {
+        public ArrayAsDeque(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayAsDeque(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.ArrayAsDeque(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array as string expression.
+    /// </summary>
+    public class ArrayAsString : Expression
+    {
+        public ArrayAsString(Expression target, Expression value)
         {
             Target = target;
             Value = value;
@@ -3164,12 +3314,12 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayImplode(Target.Copy(renameSuffix), Value.Copy(renameSuffix));
+            return new ArrayAsString(Target.Copy(renameSuffix), Value.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Implode(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.ArrayAsString(");
             Target.Emit(sourceCode);
             sourceCode.Append(", ");
             Value.Emit(sourceCode);
@@ -3435,6 +3585,36 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.ContainerHelper.DequeAsSet(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing a deque as array expression.
+    /// </summary>
+    public class DequeAsArray : Expression
+    {
+        public DequeAsArray(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new DequeAsArray(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.DequeAsArray(");
             Target.Emit(sourceCode);
             sourceCode.Append(")");
         }

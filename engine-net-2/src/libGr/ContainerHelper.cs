@@ -801,6 +801,21 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Creates a new dictionary representing a set containing all values from the given list.
+        /// </summary>
+        public static List<V> SetAsArray<V>(Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> a)
+        {
+            List<V> newList = new List<V>();
+
+            foreach(KeyValuePair<V, de.unika.ipd.grGen.libGr.SetValueType> kvp in a)
+            {
+                newList.Add(kvp.Key);
+            }
+
+            return newList;
+        }
+
+        /// <summary>
         /// Returns the first position of entry in the array a
         /// </summary>
         /// <param name="a">A List, i.e. dynamic array.</param>
@@ -878,6 +893,48 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Creates a new array containing the content of the old array but sorted.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <returns>A new List with the content of the old list sorted.</returns>
+        public static List<V> ArraySort<V>(List<V> a)
+        {
+            List<V> newList = new List<V>(a);
+
+            newList.Sort();
+
+            return newList;
+        }
+
+        /// <summary>
+        /// Creates a new array containing the content of the old array but sorted.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <returns>A new List with the content of the old list sorted.</returns>
+        public static List<string> ArraySort(List<string> a)
+        {
+            List<string> newList = new List<string>(a);
+
+            newList.Sort(StringComparer.InvariantCulture);
+
+            return newList;
+        }
+
+        /// <summary>
+        /// Creates a new array containing the content of the old array but reversed.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <returns>A new List with the content of the old list reversed.</returns>
+        public static List<V> ArrayReverse<V>(List<V> a)
+        {
+            List<V> newList = new List<V>(a);
+
+            newList.Reverse();
+
+            return newList;
+        }
+
+        /// <summary>
         /// Creates a new dictionary representing a set containing all values from the given list.
         /// </summary>
         public static Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> ArrayAsSet<V>(List<V> a)
@@ -893,7 +950,38 @@ namespace de.unika.ipd.grGen.libGr
             return newDict;
         }
 
-        public static string Implode(List<string> a, string filler)
+        /// <summary>
+        /// Creates a new dictionary representing a map containing all values from the given list, mapped to by their index.
+        /// </summary>
+        public static Dictionary<int, V> ArrayAsMap<V>(List<V> a)
+        {
+            Dictionary<int, V> newDict =
+                new Dictionary<int, V>();
+
+            for(int i = 0; i < a.Count; ++i)
+            {
+                newDict[i] = a[i];
+            }
+
+            return newDict;
+        }
+
+        /// <summary>
+        /// Creates a new deque containing all values from the given list.
+        /// </summary>
+        public static Deque<V> ArrayAsDeque<V>(List<V> a)
+        {
+            Deque<V> newDeque = new Deque<V>();
+
+            for(int i = 0; i < a.Count; ++i)
+            {
+                newDeque.Add(a[i]);
+            }
+
+            return newDeque;
+        }
+
+        public static string ArrayAsString(List<string> a, string filler)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -910,7 +998,7 @@ namespace de.unika.ipd.grGen.libGr
             return sb.ToString();
         }
 
-        public static List<string> Explode(string input, string separator)
+        public static List<string> StringAsArray(string input, string separator)
         {
             if(separator.Length == 0)
             {
@@ -1090,6 +1178,21 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             return newDict;
+        }
+
+        /// <summary>
+        /// Creates a new list representing an array containing all values from the given deque.
+        /// </summary>
+        public static List<V> DequeAsArray<V>(Deque<V> a)
+        {
+            List<V> newArray = new List<V>();
+
+            for(int i = 0; i < a.Count; ++i)
+            {
+                newArray.Add(a[i]);
+            }
+
+            return newArray;
         }
 
         /// <summary>
