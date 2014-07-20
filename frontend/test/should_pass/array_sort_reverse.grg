@@ -1,0 +1,53 @@
+#using "array_sort_reverse_model.gm"
+
+rule sortReverseInt(ref a:array<int>) {
+	if {
+		a.sort() == a.reverse();
+	}		
+	
+	modify {
+		eval {
+			def ref aa:array<int> = a.sort();
+			aa = a.reverse();
+		}		
+	}
+}
+
+rule sortReverseString(ref a:array<string>) {
+	if {
+		a.sort() == a.reverse();
+	}		
+	
+	modify {
+		eval {
+			def ref aa:array<string> = a.sort();
+			aa = a.reverse();
+		}		
+	}
+}
+
+rule sortReverseDouble(ref a:array<double>) {
+	if {
+		a.sort() == a.reverse();
+	}		
+	
+	modify {
+		eval {
+			def ref aa:array<double> = a.sort();
+			aa = a.reverse();
+		}		
+	}
+}
+
+rule sortReverseET(ref a:array<ET>) {
+	if {
+		a.sort() == a.reverse();
+	}		
+	
+	modify {
+		eval {
+			def ref aa:array<ET> = a.sort();
+			aa = a.reverse();
+		}		
+	}
+}

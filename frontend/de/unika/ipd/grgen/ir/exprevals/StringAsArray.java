@@ -13,11 +13,11 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.Type;
 
-public class StringExplode extends Expression {
+public class StringAsArray extends Expression {
 	private Expression stringExpr, stringToSplitAtExpr;
 
-	public StringExplode(Expression stringExpr, Expression stringToSplitAtExpr, Type targetType) {
-		super("string explode", targetType);
+	public StringAsArray(Expression stringExpr, Expression stringToSplitAtExpr, Type targetType) {
+		super("string asArray", targetType);
 		this.stringExpr = stringExpr;
 		this.stringToSplitAtExpr = stringToSplitAtExpr;
 	}

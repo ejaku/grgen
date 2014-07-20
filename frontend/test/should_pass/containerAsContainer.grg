@@ -1,0 +1,51 @@
+rule dequeAs(ref d:deque<int>):()
+{
+	if { d.asSet() != set<int>{}; }
+	if { d.asArray() != array<int>[]; }
+	
+	modify {
+		eval {
+			def ref s:set<int> = d.asSet();
+			def ref a:array<int> = d.asArray();
+		}
+	}
+}
+
+rule arrayAs(ref a:array<int>):()
+{
+	if { a.asSet() != set<int>{}; }
+	if { a.asDeque() != deque<int>][; }
+	if { a.asMap() != map<int,int>{}; }
+	
+	modify {
+		eval {
+			def ref s:set<int> = a.asSet();
+			def ref d:deque<int> = a.asDeque();
+			def ref m:map<int,int> = a.asMap();
+		}
+	}
+}
+
+rule setAs(ref s:set<int>):()
+{
+	if { s.asArray() != array<int>[]; }
+	
+	modify {
+		eval {
+			def ref a:array<int> = s.asArray();
+		}
+	}
+}
+
+rule mapAs(ref m:map<int,int>):()
+{
+	if { m.domain() != set<int>{}; }
+	if { m.range() != set<int>{}; }
+	
+	modify {
+		eval {
+			def ref a:set<int> = m.domain();
+			a = m.range();
+		}
+	}
+}

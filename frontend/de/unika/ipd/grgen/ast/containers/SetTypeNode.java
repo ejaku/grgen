@@ -45,7 +45,7 @@ public class SetTypeNode extends DeclaredTypeNode {
 		return setTypeNode;
 	}
 
-	private IdentNode valueTypeUnresolved;
+	IdentNode valueTypeUnresolved;
 	public TypeNode valueType;
 
 	// the set type node instances are created in ParserEnvironment as needed

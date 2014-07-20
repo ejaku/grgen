@@ -10,12 +10,12 @@ rule r1(var s:string)
 	def var imploded:string;
 
 	if {
-		str.a == (str.a.explode(",")).implode(",");
+		str.a == (str.a.asArray(",")).asString(",");
 	}
 	
 	yield {
-		yield exploded = s.explode(",");
-		yield imploded = exploded.implode(",");
+		yield exploded = s.asArray(",");
+		yield imploded = exploded.asString(",");
 	}
 
 	modify {
@@ -23,9 +23,9 @@ rule r1(var s:string)
 		def var imploded_:string;
 		
 		eval {
-			str.a = (str.a.explode(",")).implode(",");
-			yield exploded_ = s.explode(",");
-			yield imploded_ = exploded.implode(",");
+			str.a = (str.a.asArray(",")).asString(",");
+			yield exploded_ = s.asArray(",");
+			yield imploded_ = exploded.asString(",");
 		}
 	}
 }
