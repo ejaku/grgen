@@ -12,11 +12,11 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayImplode extends Expression {
+public class ArrayAsString extends Expression {
 	private Expression targetExpr, valueExpr;
 
-	public ArrayImplode(Expression targetExpr, Expression valueExpr) {
-		super("array implode expr", StringType.getType());
+	public ArrayAsString(Expression targetExpr, Expression valueExpr) {
+		super("array asString expr", StringType.getType());
 		this.targetExpr = targetExpr;
 		this.valueExpr = valueExpr;
 	}

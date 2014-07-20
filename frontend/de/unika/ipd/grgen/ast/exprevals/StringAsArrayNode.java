@@ -17,20 +17,20 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.containers.ArrayTypeNode;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.StringExplode;
+import de.unika.ipd.grgen.ir.exprevals.StringAsArray;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringExplodeNode extends ExprNode {
+public class StringAsArrayNode extends ExprNode {
 	static {
-		setName(StringExplodeNode.class, "string explode");
+		setName(StringAsArrayNode.class, "string asArray");
 	}
 
 	private ExprNode stringExpr;
 	private ExprNode stringToSplitAtExpr;
 
 
-	public StringExplodeNode(Coords coords, ExprNode stringExpr,
+	public StringAsArrayNode(Coords coords, ExprNode stringExpr,
 			ExprNode stringToSplitAtExpr) {
 		super(coords);
 
@@ -70,7 +70,7 @@ public class StringExplodeNode extends ExprNode {
 
 	@Override
 	protected IR constructIR() {
-		return new StringExplode(stringExpr.checkIR(Expression.class),
+		return new StringAsArray(stringExpr.checkIR(Expression.class),
 				stringToSplitAtExpr.checkIR(Expression.class),
 				getType().getType());
 	}

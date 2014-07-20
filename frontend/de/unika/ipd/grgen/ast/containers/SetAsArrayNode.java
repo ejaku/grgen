@@ -16,32 +16,29 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
-import de.unika.ipd.grgen.ir.containers.ArrayImplode;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.containers.SetAsArrayExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayImplodeNode extends ExprNode
+public class SetAsArrayNode extends ExprNode
 {
 	static {
-		setName(ArrayImplodeNode.class, "array implode");
+		setName(SetAsArrayNode.class, "set as array expression");
 	}
 
 	private ExprNode targetExpr;
-	private ExprNode valueExpr;
 
-	public ArrayImplodeNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr)
+	public SetAsArrayNode(Coords coords, ExprNode targetExpr)
 	{
 		super(coords);
 		this.targetExpr = becomeParent(targetExpr);
-		this.valueExpr = becomeParent(valueExpr);
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
-		children.add(valueExpr);
 		return children;
 	}
 
@@ -49,33 +46,20 @@ public class ArrayImplodeNode extends ExprNode
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
-		childrenNames.add("valueExpr");
 		return childrenNames;
 	}
 
 	@Override
 	protected boolean resolveLocal() {
-		targetExpr.getType().resolve(); // call to ensure the array type exists
+		getType().resolve(); // call to ensure the set type exists
 		return true;
 	}
 	
 	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to array implode expression must be of type array<string> (is not an array)");
-			return false;
-		}
-		ArrayTypeNode arrayMemberType = (ArrayTypeNode)targetType;
-		if(!(arrayMemberType.valueType instanceof StringTypeNode)) {
-			targetExpr.reportError("This argument to array implode expression must be of type array<string> (array is not of string))");
-			return false;
-		}
-		TypeNode valueType = valueExpr.getType();
-		if (!valueType.isEqual(BasicTypeNode.stringType))
-		{
-			valueExpr.reportError("Argument (value) to "
-					+ "array implode method must be of type string");
+		if(!(targetType instanceof SetTypeNode)) {
+			targetExpr.reportError("This argument to set as array expression must be of type set<T>");
 			return false;
 		}
 		return true;
@@ -83,12 +67,11 @@ public class ArrayImplodeNode extends ExprNode
 
 	@Override
 	public TypeNode getType() {
-		return BasicTypeNode.stringType;
+		return ArrayTypeNode.getArrayType(((SetTypeNode)targetExpr.getType()).valueTypeUnresolved);
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new ArrayImplode(targetExpr.checkIR(Expression.class),
-				valueExpr.checkIR(Expression.class));
+		return new SetAsArrayExpr(targetExpr.checkIR(Expression.class), getType().getType());
 	}
 }

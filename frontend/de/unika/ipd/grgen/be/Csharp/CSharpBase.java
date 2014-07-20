@@ -1121,12 +1121,12 @@ public abstract class CSharpBase {
 			genExpression(sb, strrepl.getLengthExpr(), modifyGenerationState);
 			sb.append("))");
 		}
-		else if (expr instanceof StringExplode) {
-			StringExplode strexpl = (StringExplode) expr;
-			sb.append("GRGEN_LIBGR.ContainerHelper.Explode(");
-			genExpression(sb, strexpl.getStringExpr(), modifyGenerationState);
+		else if (expr instanceof StringAsArray) {
+			StringAsArray saa = (StringAsArray) expr;
+			sb.append("GRGEN_LIBGR.ContainerHelper.StringAsArray(");
+			genExpression(sb, saa.getStringExpr(), modifyGenerationState);
 			sb.append(", ");
-			genExpression(sb, strexpl.getStringToSplitAtExpr(), modifyGenerationState);
+			genExpression(sb, saa.getStringToSplitAtExpr(), modifyGenerationState);
 			sb.append(")");
 		}
 		else if (expr instanceof IndexedAccessExpr) {
@@ -1251,6 +1251,17 @@ public abstract class CSharpBase {
 				sb.append(")");
 			}
 		}
+		else if (expr instanceof SetAsArrayExpr) {
+			SetAsArrayExpr saa = (SetAsArrayExpr)expr;
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(saa));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.SetAsArray(");
+				genExpression(sb, saa.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
 		else if (expr instanceof ArraySizeExpr) {
 			ArraySizeExpr as = (ArraySizeExpr)expr;
 			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
@@ -1323,17 +1334,39 @@ public abstract class CSharpBase {
 			}
 		}
 		else if (expr instanceof ArraySubarrayExpr) {
-			ArraySubarrayExpr asa = (ArraySubarrayExpr)expr;
+			ArraySubarrayExpr as = (ArraySubarrayExpr)expr;
 			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.mapExprToTempVar().get(asa));
+				sb.append(modifyGenerationState.mapExprToTempVar().get(as));
 			}
 			else {
 				sb.append("GRGEN_LIBGR.ContainerHelper.Subarray(");
-				genExpression(sb, asa.getTargetExpr(), modifyGenerationState);
+				genExpression(sb, as.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
-				genExpression(sb, asa.getStartExpr(), modifyGenerationState);
+				genExpression(sb, as.getStartExpr(), modifyGenerationState);
 				sb.append(", ");
-				genExpression(sb, asa.getLengthExpr(), modifyGenerationState);
+				genExpression(sb, as.getLengthExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof ArraySortExpr) {
+			ArraySortExpr as = (ArraySortExpr)expr;
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(as));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.ArraySort(");
+				genExpression(sb, as.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof ArrayReverseExpr) {
+			ArrayReverseExpr ar = (ArrayReverseExpr)expr;
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ar));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayReverse(");
+				genExpression(sb, ar.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
 			}
 		}
@@ -1348,16 +1381,38 @@ public abstract class CSharpBase {
 				sb.append(")");
 			}
 		}
-		else if (expr instanceof ArrayImplode) {
-			ArrayImplode ai = (ArrayImplode)expr;
+		else if (expr instanceof ArrayAsDequeExpr) {
+			ArrayAsDequeExpr aad = (ArrayAsDequeExpr)expr;
 			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.mapExprToTempVar().get(ai));
+				sb.append(modifyGenerationState.mapExprToTempVar().get(aad));
 			}
 			else {
-				sb.append("GRGEN_LIBGR.ContainerHelper.Implode(");
-				genExpression(sb, ai.getTargetExpr(), modifyGenerationState);
+				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayAsDeque(");
+				genExpression(sb, aad.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof ArrayAsMapExpr) {
+			ArrayAsMapExpr aam = (ArrayAsMapExpr)expr;
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(aam));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayAsMap(");
+				genExpression(sb, aam.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof ArrayAsString) {
+			ArrayAsString aas = (ArrayAsString)expr;
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(aas));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayAsString(");
+				genExpression(sb, aas.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
-				genExpression(sb, ai.getValueExpr(), modifyGenerationState);
+				genExpression(sb, aas.getValueExpr(), modifyGenerationState);
 				sb.append(")");
 			}
 		}
@@ -1452,6 +1507,17 @@ public abstract class CSharpBase {
 			else {
 				sb.append("GRGEN_LIBGR.ContainerHelper.DequeAsSet(");
 				genExpression(sb, das.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof DequeAsArrayExpr) {
+			DequeAsArrayExpr daa = (DequeAsArrayExpr)expr;
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(daa));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.DequeAsArray(");
+				genExpression(sb, daa.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
 			}
 		}

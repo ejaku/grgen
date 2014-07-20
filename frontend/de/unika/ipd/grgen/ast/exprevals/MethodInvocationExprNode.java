@@ -79,7 +79,9 @@ public class MethodInvocationExprNode extends ExprNode
 		String methodName = methodIdent.toString();
 		TypeNode targetType = targetExpr.getType();
 
+		///////////////////////////////////////////////////
 		if(targetType == BasicTypeNode.stringType) {
+		///////////////////////////////////////////////////
 			if(methodName.equals("length")) {
 				if(params.size() != 0) {
 					reportError("string.length() does not take any parameters.");
@@ -158,20 +160,22 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new StringReplaceNode(getCoords(), targetExpr, params.get(0), params.get(1), params.get(2));
   			}
-  			else if(methodName.equals("explode")) {
+  			else if(methodName.equals("asArray")) {
   				if(params.size() != 1) {
-  					reportError("string.explode(strToSearchFor) takes one parameter.");
+  					reportError("string.asArray(separator) takes one parameter.");
 					return false;
 				}
   				else
-  					result = new StringExplodeNode(getCoords(), targetExpr, params.get(0));
+  					result = new StringAsArrayNode(getCoords(), targetExpr, params.get(0));
   			}
   			else {
   				reportError("string does not have a method named \"" + methodName + "\"");
   				return false;
   			}
 		}
+		///////////////////////////////////////////////////
 		else if(targetType instanceof MapTypeNode) {
+		///////////////////////////////////////////////////
 			if(methodName.equals("size")) {
   				if(params.size() != 0) {
   					reportError("map<S,T>.size() does not take any parameters.");
@@ -217,7 +221,9 @@ public class MethodInvocationExprNode extends ExprNode
   				return false;
   			}
 		}
+		///////////////////////////////////////////////////
 		else if(targetType instanceof SetTypeNode) {
+		///////////////////////////////////////////////////
 			if(methodName.equals("size")) {
   				if(params.size() != 0) {
   					reportError("set<T>.size() does not take any parameters.");
@@ -242,12 +248,22 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new SetPeekNode(getCoords(), targetExpr, params.get(0));
 			}
+			else if(methodName.equals("asArray")) {
+  				if(params.size() != 0) {
+  					reportError("set<T>.asArray() takes no parameters.");
+					return false;
+				}
+  				else
+  					result = new SetAsArrayNode(getCoords(), targetExpr);
+  			}
   			else {
   				reportError("set<T> does not have a method named \"" + methodName + "\"");
   				return false;
   			}
 		}
+		///////////////////////////////////////////////////
 		else if(targetType instanceof ArrayTypeNode) {
+		///////////////////////////////////////////////////
 			if(methodName.equals("size")) {
   				if(params.size() != 0) {
   					reportError("array<T>.size() does not take any parameters.");
@@ -303,6 +319,22 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new ArraySubarrayNode(getCoords(), targetExpr, params.get(0), params.get(1));
   			}
+			else if(methodName.equals("sort")) {
+  				if(params.size() != 0) {
+  					reportError("array<T>.sort() takes no parameters.");
+					return false;
+				}
+  				else
+  					result = new ArraySortNode(getCoords(), targetExpr);
+  			}
+			else if(methodName.equals("reverse")) {
+  				if(params.size() != 0) {
+  					reportError("array<T>.reverse() takes no parameters.");
+					return false;
+				}
+  				else
+  					result = new ArrayReverseNode(getCoords(), targetExpr);
+  			}
 			else if(methodName.equals("asSet")) {
   				if(params.size() != 0) {
   					reportError("array<T>.asSet() takes no parameters.");
@@ -311,20 +343,38 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new ArrayAsSetNode(getCoords(), targetExpr);
   			}
-  			else if(methodName.equals("implode")) {
-  				if(params.size() != 1) {
-  					reportError("array<string>.implode(value) takes one parameter.");
+			else if(methodName.equals("asDeque")) {
+  				if(params.size() != 0) {
+  					reportError("array<T>.asDeque() takes no parameters.");
 					return false;
 				}
   				else
-  					result = new ArrayImplodeNode(getCoords(), targetExpr, params.get(0));
+  					result = new ArrayAsDequeNode(getCoords(), targetExpr);
+  			}
+			else if(methodName.equals("asMap")) {
+  				if(params.size() != 0) {
+  					reportError("array<T>.asMap() takes no parameters.");
+					return false;
+				}
+  				else
+  					result = new ArrayAsMapNode(getCoords(), targetExpr);
+  			}
+  			else if(methodName.equals("asString")) {
+  				if(params.size() != 1) {
+  					reportError("array<string>.asString(separator) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new ArrayAsStringNode(getCoords(), targetExpr, params.get(0));
   			}
   			else {
   				reportError("array<T> does not have a method named \"" + methodName + "\"");
   				return false;
   			}
 		}
+		///////////////////////////////////////////////////
 		else if(targetType instanceof DequeTypeNode) {
+		///////////////////////////////////////////////////
 			if(methodName.equals("size")) {
   				if(params.size() != 0) {
   					reportError("deque<T>.size() does not take any parameters.");
@@ -388,19 +438,31 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new DequeAsSetNode(getCoords(), targetExpr);
   			}
+			else if(methodName.equals("asArray")) {
+  				if(params.size() != 0) {
+  					reportError("deque<T>.asArray() takes no parameters.");
+					return false;
+				}
+  				else
+  					result = new DequeAsArrayNode(getCoords(), targetExpr);
+  			}
   			else {
   				reportError("deque<T> does not have a method named \"" + methodName + "\"");
   				return false;
   			}
 		}
+		///////////////////////////////////////////////////
 		else if(targetType instanceof InheritanceTypeNode && !(targetType instanceof ExternalTypeNode)) {
+		///////////////////////////////////////////////////
 			if(targetExpr instanceof MethodInvocationExprNode) {
 				reportError("method call chains are not supported, assign to a temporary def variable and invoke the method on it");
 				return false;
 			}
 			result = new FunctionMethodInvocationExprNode(((IdentExprNode)targetExpr).getIdent(), methodIdent, params);
 		}
+		///////////////////////////////////////////////////
 		else if(targetType instanceof ExternalTypeNode) {
+		///////////////////////////////////////////////////
 			targetExpr.resolve();
 			result = new ExternalFunctionMethodInvocationExprNode(targetExpr, methodIdent, params);
 		}
