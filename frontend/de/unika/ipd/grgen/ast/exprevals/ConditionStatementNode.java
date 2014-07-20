@@ -75,6 +75,10 @@ public class ConditionStatementNode extends EvalStatementNode {
 
 	@Override
 	protected boolean checkLocal() {
+		if(!conditionExpr.getType().isEqual(BasicTypeNode.booleanType)) {
+			conditionExpr.reportError("if condition must be of type boolean");
+			return false;
+		}
 		return true;
 	}
 

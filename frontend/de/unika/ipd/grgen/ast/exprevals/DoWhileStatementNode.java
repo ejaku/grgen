@@ -67,6 +67,10 @@ public class DoWhileStatementNode extends EvalStatementNode {
 
 	@Override
 	protected boolean checkLocal() {
+		if(!conditionExpr.getType().isEqual(BasicTypeNode.booleanType)) {
+			conditionExpr.reportError("do-while condition must be of type boolean");
+			return false;
+		}
 		return true;
 	}
 	
