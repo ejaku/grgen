@@ -74,7 +74,7 @@ rule ra
 {
 	alternative
 	{
-		case {
+		case_ {
 			ni:NINT;
 			nb:NBOOL;
 			nf:NFLOAT;

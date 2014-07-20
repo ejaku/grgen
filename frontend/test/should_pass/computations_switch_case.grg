@@ -1,0 +1,264 @@
+test tbyte(var x:byte) : (string)
+{
+	def var res:string;
+		
+	yield {
+		switch(x) {
+			case 1y {
+				yield res = "a";
+			} 
+			case 2y {
+				yield res = "ab";
+			}
+			else {
+				yield res = "abc";
+			}
+		}
+	}
+		
+	return (res);
+}
+
+rule rbyte(var x:byte) : (string)
+{
+	modify {
+		def var res:string;
+		
+		eval { 
+			switch(x) {
+				case 1y {
+					yield res = "a";
+				}
+				case 2y {
+					yield res = "ab";
+				}
+				else {
+					yield res = "abc";
+				}
+			}
+		}
+		
+		return (res);
+	}
+}
+
+test tshort(var x:short) : (string)
+{
+	def var res:string;
+		
+	yield {
+		switch(x) {
+			case 1s {
+				yield res = "a";
+			} 
+			case 2s {
+				yield res = "ab";
+			}
+			else {
+				yield res = "abc";
+			}
+		}
+	}
+		
+	return (res);
+}
+
+rule rshort(var x:short) : (string)
+{
+	modify {
+		def var res:string;
+		
+		eval { 
+			switch(x) {
+				case 1s {
+					yield res = "a";
+				}
+				case 2s {
+					yield res = "ab";
+				}
+				else {
+					yield res = "abc";
+				}
+			}
+		}
+		
+		return (res);
+	}
+}
+
+test tint(var x:int) : (string)
+{
+	def var res:string;
+		
+	yield {
+		switch(x) {
+			case 1 {
+				yield res = "a";
+			} 
+			case 2 {
+				yield res = "ab";
+			}
+			else {
+				yield res = "abc";
+			}
+		}
+	}
+		
+	return (res);
+}
+
+rule rint(var x:int) : (string)
+{
+	modify {
+		def var res:string;
+		
+		eval { 
+			switch(x) {
+				case 1 {
+					yield res = "a";
+				}
+				case 2 {
+					yield res = "ab";
+				}
+				else {
+					yield res = "abc";
+				}
+			}
+		}
+		
+		return (res);
+	}
+}
+
+test tlong(var x:long) : (string)
+{
+	def var res:string;
+		
+	yield {
+		switch(x) {
+			case 1l {
+				yield res = "a";
+			} 
+			case 2l {
+				yield res = "ab";
+			}
+			else {
+				yield res = "abc";
+			}
+		}
+	}
+		
+	return (res);
+}
+
+rule rlong(var x:long) : (string)
+{
+	modify {
+		def var res:string;
+		
+		eval { 
+			switch(x) {
+				case 1l {
+					yield res = "a";
+				}
+				case 2l {
+					yield res = "ab";
+				}
+				else {
+					yield res = "abc";
+				}
+			}
+		}
+		
+		return (res);
+	}
+}
+
+test tboolean(var x:boolean) : (string)
+{
+	def var res:string;
+		
+	yield {
+		switch(x) {
+			case true {
+				yield res = "a";
+			} 
+			case false {
+				yield res = "ab";
+			}
+			else {
+				yield res = "abc";
+			}
+		}
+	}
+		
+	return (res);
+}
+
+rule rboolean(var x:boolean) : (string)
+{
+	modify {
+		def var res:string;
+		
+		eval { 
+			switch(x) {
+				case true {
+					yield res = "a";
+				}
+				case false {
+					yield res = "ab";
+				}
+				else {
+					yield res = "abc";
+				}
+			}
+		}
+		
+		return (res);
+	}
+}
+
+
+test tstring(var x:string) : (string)
+{
+	def var res:string;
+		
+	yield {
+		switch(x) {
+			case "1" {
+				yield res = "a";
+			} 
+			case "2" {
+				yield res = "ab";
+			}
+			else {
+				yield res = "abc";
+			}
+		}
+	}
+		
+	return (res);
+}
+
+rule rstring(var x:string) : (string)
+{
+	modify {
+		def var res:string;
+		
+		eval { 
+			switch(x) {
+				case "1" {
+					yield res = "a";
+				}
+				case "2" {
+					yield res = "ab";
+				}
+				else {
+					yield res = "abc";
+				}
+			}
+		}
+		
+		return (res);
+	}
+}

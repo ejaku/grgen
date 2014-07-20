@@ -2088,6 +2088,9 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof ConditionStatement) {
 			genConditionStatement(sb, state, (ConditionStatement) evalStmt);
 		}
+		else if(evalStmt instanceof SwitchStatement) {
+			genSwitchStatement(sb, state, (SwitchStatement) evalStmt);
+		}
 		else if(evalStmt instanceof WhileStatement) {
 			genWhileStatement(sb, state, (WhileStatement) evalStmt);
 		}
@@ -3195,6 +3198,30 @@ public class ModifyGen extends CSharpBase {
 			sb.append("\t\t\t} else {\n");			
 			genEvals(sb, state, cs.getFalseCaseStatements());
 		}
+		sb.append("\t\t\t}\n");
+	}
+
+	private void genSwitchStatement(StringBuffer sb, ModifyGenerationStateConst state, SwitchStatement ss) {
+		sb.append("\t\t\tswitch(");
+		genExpression(sb, ss.getSwitchExpr(), state);
+		sb.append(") {\n");
+		for(CaseStatement cs : ss.getStatements()) {
+			genCaseStatement(sb, state, cs);
+		}
+		sb.append("\t\t\t}\n");
+	}
+
+	private void genCaseStatement(StringBuffer sb, ModifyGenerationStateConst state, CaseStatement cs) {
+		if(cs.getCaseConstantExpr() != null) {
+			sb.append("\t\t\tcase ");
+			genExpression(sb, cs.getCaseConstantExpr(), state);
+			sb.append(": ");
+		} else {
+			sb.append("\t\t\tdefault: ");
+		}
+		sb.append("{\n");
+		genEvals(sb, state, cs.getStatements());
+		sb.append("\t\t\tbreak;\n");
 		sb.append("\t\t\t}\n");
 	}
 

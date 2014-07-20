@@ -1716,6 +1716,94 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a switch statement
+    /// </summary>
+    public class SwitchStatement : Yielding
+    {
+        public SwitchStatement(Expression switchExpression, CaseStatement[] caseStatements)
+        {
+            SwitchExpression = switchExpression;
+            CaseStatements = caseStatements;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            CaseStatement[] caseStatementsCopy = new CaseStatement[CaseStatements.Length];
+            for(int i = 0; i < CaseStatements.Length; ++i)
+                caseStatementsCopy[i] = (CaseStatement)CaseStatements[i].Copy(renameSuffix);
+            return new SwitchStatement(SwitchExpression.Copy(renameSuffix), caseStatementsCopy);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("switch(");
+            SwitchExpression.Emit(sourceCode);
+            sourceCode.Append(") {\n");
+            foreach(CaseStatement statement in CaseStatements)
+                statement.Emit(sourceCode);
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return SwitchExpression;
+            foreach(Yielding statement in CaseStatements)
+                yield return statement;
+        }
+
+        Expression SwitchExpression;
+        CaseStatement[] CaseStatements;
+    }
+
+    /// <summary>
+    /// Class representing a case statement within a switch
+    /// </summary>
+    public class CaseStatement : Yielding
+    {
+        public CaseStatement(Expression switchExpression, Yielding[] statements)
+        {
+            CaseConstExpression = switchExpression;
+            Statements = statements;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Yielding[] statementsCopy = new Yielding[Statements.Length];
+            for(int i = 0; i < Statements.Length; ++i)
+                statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            return new CaseStatement(CaseConstExpression!=null ? CaseConstExpression.Copy(renameSuffix) : null, statementsCopy);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(CaseConstExpression != null)
+            {
+                sourceCode.AppendFront("case ");
+                CaseConstExpression.Emit(sourceCode);
+                sourceCode.Append(": ");
+            }
+            else
+                sourceCode.AppendFront("default: ");
+            sourceCode.Append("{\n");
+            foreach(Yielding statement in Statements)
+                statement.Emit(sourceCode);
+            sourceCode.AppendFront("break;\n");
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            if(CaseConstExpression!=null)
+                yield return CaseConstExpression;
+            foreach(Yielding statement in Statements)
+                yield return statement;
+        }
+
+        Expression CaseConstExpression;
+        Yielding[] Statements;
+    }
+
+    /// <summary>
     /// Class representing while statement
     /// </summary>
     public class WhileStatement : Yielding

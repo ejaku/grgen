@@ -47,7 +47,7 @@ rule AandBtoC {
 rule noCreationOfOuterElements {
 	n:Node;
 	alternative {
-		case {
+		case_ {
 			
 			replace {
 				n --> m:Node;

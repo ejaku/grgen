@@ -2122,6 +2122,18 @@ public class ActionsGen extends CSharpBase {
 				}
 			}
 		}
+		else if(evalStmt instanceof SwitchStatement) {
+			SwitchStatement switchStmt = (SwitchStatement)evalStmt;
+			for(EvalStatement nestedEvalStmt : switchStmt.getStatements()) {
+				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
+			}
+		}
+		else if(evalStmt instanceof CaseStatement) {
+			CaseStatement caseStmt = (CaseStatement)evalStmt;
+			for(EvalStatement nestedEvalStmt : caseStmt.getStatements()) {
+				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
+			}
+		}
 		else if(evalStmt instanceof WhileStatement) {
 			WhileStatement whileStmt = (WhileStatement)evalStmt;
 			for(EvalStatement nestedEvalStmt : whileStmt.getLoopedStatements()) {
@@ -2336,6 +2348,16 @@ public class ActionsGen extends CSharpBase {
 				for(EvalStatement childEvalStmt : condStmt.getFalseCaseStatements()) {
 					xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 				}
+			}
+		} else if(evalStmt instanceof SwitchStatement) {
+			SwitchStatement switchStmt = (SwitchStatement)evalStmt;
+			for(EvalStatement childEvalStmt : switchStmt.getStatements()) {
+				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
+			}
+		} else if(evalStmt instanceof CaseStatement) {
+			CaseStatement caseStmt = (CaseStatement)evalStmt;
+			for(EvalStatement childEvalStmt : caseStmt.getStatements()) {
+				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof ContainerAccumulationYield) {
 			for(EvalStatement childEvalStmt : ((ContainerAccumulationYield)evalStmt).getAccumulationStatements()) {
@@ -4711,6 +4733,10 @@ public class ActionsGen extends CSharpBase {
 			genConditionStatement(sb, (ConditionStatement) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
+		else if(evalStmt instanceof SwitchStatement) {
+			genSwitchStatement(sb, (SwitchStatement) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
 		else if(evalStmt instanceof WhileStatement) {
 			genWhileStatement(sb, (WhileStatement) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
@@ -5270,6 +5296,37 @@ public class ActionsGen extends CSharpBase {
 		} else {
 			sb.append("null");
 		}
+		sb.append(")");
+	}
+
+	private void genSwitchStatement(StringBuffer sb, SwitchStatement ss,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		sb.append("\t\t\t\tnew GRGEN_EXPR.SwitchStatement(");
+		genExpressionTree(sb, ss.getSwitchExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(",");
+		sb.append("new GRGEN_EXPR.CaseStatement[] { ");
+		for(CaseStatement statement : ss.getStatements()) {
+			genCaseStatement(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+		}
+		sb.append("} ");
+		sb.append(")");
+	}
+
+	private void genCaseStatement(StringBuffer sb, CaseStatement cs,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		sb.append("new GRGEN_EXPR.CaseStatement(");
+		if(cs.getCaseConstantExpr() != null)
+			genExpressionTree(sb, cs.getCaseConstantExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		else
+			sb.append("null");
+		sb.append(",");
+		sb.append("new GRGEN_EXPR.Yielding[] { ");
+		for(EvalStatement statement : cs.getStatements()) {
+			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+		}
+		sb.append("} ");
 		sb.append(")");
 	}
 

@@ -126,7 +126,7 @@ rule ra
 {
 	alternative
 	{
-		case {
+		case_ {
 			ni:NINT;
 			nl:NLONG;
 			nb:NBOOL;
@@ -205,7 +205,7 @@ rule ran
 
 	alternative
 	{
-		case {
+		case_ {
 
 			modify {
 				evalhere {

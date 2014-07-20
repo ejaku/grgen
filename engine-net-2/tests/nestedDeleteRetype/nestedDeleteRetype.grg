@@ -5,7 +5,7 @@ rule deleteInAlternative
 	a:A;
 	
 	alternative {
-		case {
+		case_ {
 		
 			modify {
 				delete(a);
@@ -54,7 +54,7 @@ rule retypeInAlternative
 	a:A;
 	
 	alternative {
-		case {
+		case_ {
 		
 			modify {
 				b:B<a>;
@@ -145,7 +145,7 @@ rule deleteInAlternativeEdge
 	-a:EA->;
 	
 	alternative {
-		case {
+		case_ {
 		
 			modify {
 				delete(a);
@@ -194,7 +194,7 @@ rule retypeInAlternativeEdge
 	-a:EA->;
 	
 	alternative {
-		case {
+		case_ {
 		
 			modify {
 				-b:EB<a>->;
@@ -285,7 +285,7 @@ rule dontDeleteInAlternative
 	a:A;
 	
 	alternative {
-		case {
+		case_ {
 			independent {
 				a;
 			}
@@ -333,7 +333,7 @@ rule dontDeleteInSubpatternAlternative
 pattern DontDeleteInSubpatternAlternative(a:A)
 {
 	alternative {
-		case {
+		case_ {
 			negative {
 				a --> a;
 			}

@@ -1,0 +1,44 @@
+#using "computations_switch_case_enum.gm"
+
+test t(var x:ET) : (string)
+{
+	def var res:string;
+		
+	yield {
+		switch(x) {
+			case ET::foo {
+				yield res = "a";
+			} 
+			case ET::bar {
+				yield res = "ab";
+			}
+			else {
+				yield res = "abc";
+			}
+		}
+	}
+		
+	return (res);
+}
+
+rule r(var x:ET) : (string)
+{
+	modify {
+		def var res:string;
+		eval { 
+			switch(x) {
+				case ET::foo {
+					yield res = "a";
+				}
+				case ET::bar {
+					yield res = "ab";
+				}
+				else {
+					yield res = "abc";
+				}
+			}
+		}
+		
+		return (res);
+	}
+}

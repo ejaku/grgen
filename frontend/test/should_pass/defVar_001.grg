@@ -34,7 +34,7 @@ rule ra
 {
 	alternative
 	{
-		case {
+		case_ {
 			modify {
 				def var aby:byte;
 				def var ash:short;
