@@ -2839,6 +2839,9 @@ options { k = 5; }
 	  ie=ifelse[onLHS, context, directlyNestingLHSGraph]
 			{ res=ie; }
 	|
+	  sc=switchcase[onLHS, context, directlyNestingLHSGraph]
+			{ res=sc; }
+	|
 	  w=WHILE LPAREN e=expr[false] RPAREN
 		LBRACE { env.pushScope("while", getCoords(w)); }
 			cs=computations[onLHS, context, directlyNestingLHSGraph]
@@ -3022,6 +3025,42 @@ ifelse [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] 
 		  )
 	  )?
 			{ res=new ConditionStatementNode(getCoords(i), e, cs, elseRemainder); }
+	;
+
+switchcase [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
+	@init{
+		CollectNode<CaseStatementNode> cases = new CollectNode<CaseStatementNode>();
+		int caseCounter = 1;
+		Token branch = null;
+		ExprNode caseExpr = null;
+	}
+
+	: s=SWITCH LPAREN e=expr[false] RPAREN 
+		LBRACE
+			(
+				( ca=CASE 
+					(
+					  c=constant 
+						{
+							branch = ca;
+							caseExpr = c;
+						} 
+					| ec=enumConstant 
+						{
+							branch = ca;
+							caseExpr = ec;
+						}
+					)
+				|
+					el=ELSE { branch = el; caseExpr = null; }
+				)
+				LBRACE { env.pushScope("case_"+caseCounter, getCoords(s)); } 
+					cs=computations[onLHS, context, directlyNestingLHSGraph]
+					{ cases.addChild(new CaseStatementNode(getCoords(branch), caseExpr, cs)); ++caseCounter; }
+				RBRACE { env.popScope(); } 
+			)+
+		RBRACE
+			{ res=new SwitchStatementNode(getCoords(s), e, cases); }
 	;
 
 forContent [ Coords f, boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
@@ -3422,6 +3461,23 @@ constant returns [ ExprNode res = env.initExprNode() ]
 		{ res = new NullConstNode(getCoords(n)); }
 	;
 
+enumConstant returns [ ExprNode res = env.initExprNode() ]
+options { k = 4; }
+	: pen=IDENT d=DOUBLECOLON i=IDENT 
+		{
+			res = new DeclExprNode(new EnumExprNode(getCoords(d), 
+				new IdentNode(env.occurs(ParserEnvironment.TYPES, pen.getText(), getCoords(pen))),
+				new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
+		}
+	| p=IDENT DOUBLECOLON en=IDENT d=DOUBLECOLON i=IDENT
+		{
+			res = new DeclExprNode(new EnumExprNode(getCoords(d), 
+				new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)),
+					env.occurs(ParserEnvironment.TYPES, en.getText(), getCoords(en))),
+				new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
+		}
+	;
+	
 entIdentExpr returns [ ExprNode res = env.initExprNode() ]
 	: i=IDENT
 		{
@@ -3756,6 +3812,7 @@ ARBITRARY : 'arbitrary';
 ARRAY : 'array';
 AUTO : 'auto';
 BREAK : 'break';
+CASE : 'case';
 CLASS : 'class';
 COPY : 'copy';
 CONNECT : 'connect';
@@ -3807,6 +3864,7 @@ RETURN : 'return';
 RULE : 'rule';
 SEQUENCE : 'sequence';
 SET : 'set';
+SWITCH : 'switch';
 TEST : 'test';
 TRUE : 'true';
 TYPEOF : 'typeof';

@@ -25,7 +25,7 @@ rule r(var b:boolean, var by:byte, var sh:short, var i:int, var l:long, var s:st
 	}
 
 	alternative {
-		case {
+		case_ {
 			modify {
 				eval {
 					b = true;
@@ -105,7 +105,7 @@ pattern p(var b:boolean, var by:byte, var sh:short, var i:int, var l:long, var s
 	}
 
 	alternative {
-		case {
+		case_ {
 			modify {
 				eval {
 					b = true;

@@ -1,0 +1,42 @@
+test t(var x:string) : (string)
+{
+	def var res:string;
+		
+	yield {
+		switch(x) {
+			case "1" {
+				yield res = "a";
+			} 
+			case "2" {
+				yield res = "ab";
+			}
+			else {
+				yield res = "abc";
+			}
+		}
+	}
+		
+	return (res);
+}
+
+rule r(var x:string) : (string)
+{
+	modify {
+		def var res:string;
+		eval { 
+			switch(x) {
+				case "1" {
+					yield res = "a";
+				}
+				case "2" {
+					yield res = "ab";
+				}
+				else {
+					yield res = "abc";
+				}
+			}
+		}
+		
+		return (res);
+	}
+}

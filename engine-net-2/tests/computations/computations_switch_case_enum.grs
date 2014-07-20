@@ -1,0 +1,17 @@
+new graph "computations/computations_switch_case_enum"
+
+exec (::res)=t(ET::foo)
+show var res
+exec (::res)=t(ET::bar)
+show var res
+exec (::res)=t(ET::baz)
+show var res
+
+exec (::res)=r(ET::foo)
+show var res
+exec (::res)=r(ET::bar)
+show var res
+exec (::res)=r(ET::baz)
+show var res
+
+quit
