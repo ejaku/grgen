@@ -3077,6 +3077,41 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an array index of ordered expression.
+    /// </summary>
+    public class ArrayIndexOfOrdered : Expression
+    {
+        public ArrayIndexOfOrdered(Expression target, Expression value)
+        {
+            Target = target;
+            Value = value;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayIndexOfOrdered(Target.Copy(renameSuffix), Value.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.IndexOfOrdered(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+        }
+
+        Expression Target;
+        Expression Value;
+    }
+
+    /// <summary>
     /// Class representing an array last index of expression.
     /// </summary>
     public class ArrayLastIndexOf : Expression

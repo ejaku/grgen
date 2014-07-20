@@ -1320,6 +1320,19 @@ public abstract class CSharpBase {
 				sb.append(")");
 			}
 		}
+		else if (expr instanceof ArrayIndexOfOrderedExpr) {
+			ArrayIndexOfOrderedExpr aio = (ArrayIndexOfOrderedExpr)expr;
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(aio));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.IndexOfOrdered(");
+				genExpression(sb, aio.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, aio.getValueExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
 		else if (expr instanceof ArrayLastIndexOfExpr) {
 			ArrayLastIndexOfExpr ali = (ArrayLastIndexOfExpr)expr;
 			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {

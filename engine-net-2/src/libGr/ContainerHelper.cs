@@ -846,6 +846,22 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Returns the first position of entry in the array a that must be ordered with a binary search
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <param name="entry">The value to search for.</param>
+        /// <returns>The first position of entry in the array a, -1 if entry not in a.</returns>
+        public static int IndexOfOrdered<V>(List<V> a, V entry)
+        {
+            return a.BinarySearch(entry);
+        }
+
+        public static int IndexOfOrdered(List<string> a, string entry)
+        {
+            return a.BinarySearch(entry, StringComparer.InvariantCulture);
+        }
+
+        /// <summary>
         /// Returns the first position from the end inwards of entry in the array a
         /// </summary>
         /// <param name="a">A List, i.e. dynamic array.</param>
