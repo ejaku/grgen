@@ -30,4 +30,26 @@ show var s
 exec (::s) = reachabLoop(::begin, 2000000000)
 show var s
 
+exec for{x:Node in boundedReachable(::begin, 0); { emit("The value of variable \"x\" of type Node is: ", x, "\n") } }
+exec { emit("The value of variable \"---------------\" of type ------------ is: ---------\n") }
+
+exec for{x:Node in boundedReachable(::begin, 1); { emit("The value of variable \"x\" of type Node is: ", x, "\n") } }
+exec { emit("The value of variable \"---------------\" of type ------------ is: ---------\n") }
+
+exec for{x:Node in boundedReachable(::begin, 2); { emit("The value of variable \"x\" of type Node is: ", x, "\n") } }
+exec { emit("The value of variable \"---------------\" of type ------------ is: ---------\n") }
+
+exec for{x:Node in boundedReachable(::begin, 3); { emit("The value of variable \"x\" of type Node is: ", x, "\n") } }
+exec { emit("The value of variable \"---------------\" of type ------------ is: ---------\n") }
+
+exec for{x:Node in boundedReachable(::begin, 4); { emit("The value of variable \"x\" of type Node is: ", x, "\n") } }
+exec { emit("The value of variable \"---------------\" of type ------------ is: ---------\n") }
+
+exec for{x:Edge in boundedReachableEdges(::begin, 1); { emit("The value of variable \"x\" of type Edge is: ", x, "\n") } }
+exec { emit("The value of variable \"---------------\" of type ------------ is: ---------\n") }
+
+exec boundedReachab(::begin)
+
+exec boundedReachabEdges(::begin)
+
 quit

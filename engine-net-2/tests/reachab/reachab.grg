@@ -175,3 +175,19 @@ test isReachabEdges(start:Node, -end:Edge->, var k:int)
 {
 	if(isBoundedReachableEdges(start, end, k));
 }
+
+////////////////////
+
+rule boundedReachab(start:Node)
+{
+	modify {
+		exec( for{x:Node in boundedReachable(start, 1); { emit("The value of variable \"x\" of type Node is: ", x, "\n") } } );
+	}
+}
+
+rule boundedReachabEdges(start:Node)
+{
+	modify {
+		exec( for{x:Edge in boundedReachableEdges(start, 1); { emit("The value of variable \"x\" of type Edge is: ", x, "\n") } } );
+	}
+}

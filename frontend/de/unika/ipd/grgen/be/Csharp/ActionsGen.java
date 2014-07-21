@@ -208,7 +208,7 @@ public class ActionsGen extends CSharpBase {
 		genRuleOrSubpatternInit(sb, subpatternRule, className, packageName, true);
 		sb.append("\n");
 
-		mg.genModify(sb, subpatternRule, true);
+		mg.genModify(sb, subpatternRule, packageName, true);
 
 		genImperativeStatements(sb, subpatternRule, formatIdentifiable(subpatternRule) + "_", true, true);
 		genImperativeStatementClosures(sb, subpatternRule, formatIdentifiable(subpatternRule) + "_", false);
@@ -243,7 +243,7 @@ public class ActionsGen extends CSharpBase {
 		genRuleOrSubpatternInit(sb, actionRule, className, packageName, false);
 		sb.append("\n");
 
-		mg.genModify(sb, actionRule, false);
+		mg.genModify(sb, actionRule, packageName, false);
 
 		genImperativeStatements(sb, actionRule, formatIdentifiable(actionRule) + "_", true, false);
 		genImperativeStatementClosures(sb, actionRule, formatIdentifiable(actionRule) + "_", true);
@@ -5193,6 +5193,16 @@ public class ActionsGen extends CSharpBase {
 			ReachableEdgeExpr reachableExpr = (ReachableEdgeExpr)ff.getFunction();
 			StringBuffer sbtmp = new StringBuffer();
 			genExpressionTree(sbtmp, reachableExpr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(sbtmp.toString() + ", ");
+		} else if(ff.getFunction() instanceof BoundedReachableNodeExpr) {
+			BoundedReachableNodeExpr boundedReachableExpr = (BoundedReachableNodeExpr)ff.getFunction();
+			StringBuffer sbtmp = new StringBuffer();
+			genExpressionTree(sbtmp, boundedReachableExpr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(sbtmp.toString() + ", ");
+		} else if(ff.getFunction() instanceof BoundedReachableEdgeExpr) {
+			BoundedReachableEdgeExpr boundedReachableExpr = (BoundedReachableEdgeExpr)ff.getFunction();
+			StringBuffer sbtmp = new StringBuffer();
+			genExpressionTree(sbtmp, boundedReachableExpr, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(sbtmp.toString() + ", ");
 		} else if(ff.getFunction() instanceof NodesExpr) {
 			NodesExpr nodesExpr = (NodesExpr)ff.getFunction();
