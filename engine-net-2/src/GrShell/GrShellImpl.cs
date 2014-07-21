@@ -2544,10 +2544,14 @@ namespace de.unika.ipd.grGen.grShell
 
             debugOut.Write("  calls total: ");
             debugOut.WriteLine(profile.callsTotal);
-            debugOut.Write("  search steps total: ");
-            debugOut.WriteLine(profile.searchStepsTotal);
-            debugOut.Write("  loop steps total: ");
+            debugOut.Write("  steps of first loop of pattern matcher total: ");
             debugOut.WriteLine(profile.loopStepsTotal);
+            debugOut.Write("  search steps total (in pattern matching, if checking, yielding): ");
+            debugOut.WriteLine(profile.searchStepsTotal);
+            debugOut.Write("  search steps total during eval computation): ");
+            debugOut.WriteLine(profile.searchStepsDuringEvalTotal);
+            debugOut.Write("  search steps total during exec-ution (incl. actions called): ");
+            debugOut.WriteLine(profile.searchStepsDuringExecTotal);
 
             for(int i = 0; i < profile.averagesPerThread.Length; ++i)
             {

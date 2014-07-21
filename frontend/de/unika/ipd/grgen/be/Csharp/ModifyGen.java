@@ -254,11 +254,11 @@ public class ModifyGen extends CSharpBase {
 	// Modification part generation //
 	//////////////////////////////////
 
-	public void genModify(StringBuffer sb, Rule rule, boolean isSubpattern) {
-		genModify(sb, rule, "", "pat_"+rule.getLeft().getNameOfGraph(), isSubpattern);
+	public void genModify(StringBuffer sb, Rule rule, String packageName, boolean isSubpattern) {
+		genModify(sb, rule, packageName, "", "pat_"+rule.getLeft().getNameOfGraph(), isSubpattern);
 	}
 
-	private void genModify(StringBuffer sb, Rule rule, String pathPrefix, String patGraphVarName, boolean isSubpattern)
+	private void genModify(StringBuffer sb, Rule rule, String packageName, String pathPrefix, String patGraphVarName, boolean isSubpattern)
 	{
 		if(rule.getRight()!=null) { // rule / subpattern with dependent replacement
 			// replace left by right, normal version
@@ -272,7 +272,7 @@ public class ModifyGen extends CSharpBase {
 			task.returns = rule.getReturns();
 			task.isSubpattern = isSubpattern;
 			task.mightThereBeDeferredExecs = rule.mightThereBeDeferredExecs;
-			genModifyRuleOrSubrule(sb, task, pathPrefix);
+			genModifyRuleOrSubrule(sb, task, packageName, pathPrefix);
 		} else if(!isSubpattern){ // test
 			// keep left unchanged, normal version
 			ModifyGenerationTask task = new ModifyGenerationTask();
@@ -285,7 +285,7 @@ public class ModifyGen extends CSharpBase {
 			task.returns = rule.getReturns();
 			task.isSubpattern = false;
 			task.mightThereBeDeferredExecs = rule.mightThereBeDeferredExecs;
-			genModifyRuleOrSubrule(sb, task, pathPrefix);
+			genModifyRuleOrSubrule(sb, task, packageName, pathPrefix);
 		}
 
 		if(isSubpattern) {
@@ -313,7 +313,7 @@ public class ModifyGen extends CSharpBase {
 						task.left.addSingleEdge(edge);
 					}
 				}
-				genModifyRuleOrSubrule(sb, task, pathPrefix);
+				genModifyRuleOrSubrule(sb, task, packageName, pathPrefix);
 			}
 
 			// delete subpattern from pattern
@@ -337,7 +337,7 @@ public class ModifyGen extends CSharpBase {
 					task.right.addSingleEdge(edge);
 				}
 			}
-			genModifyRuleOrSubrule(sb, task, pathPrefix);
+			genModifyRuleOrSubrule(sb, task, packageName, pathPrefix);
 		}
 
 		for(Alternative alt : rule.getLeft().getAlts()) {
@@ -348,7 +348,7 @@ public class ModifyGen extends CSharpBase {
 			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				String altCasePatGraphVarName = pathPrefix+rule.getLeft().getNameOfGraph()+"_"+altName+"_"+altCasePattern.getNameOfGraph();
-				genModify(sb, altCase, pathPrefix+rule.getLeft().getNameOfGraph()+"_"+altName+"_", altCasePatGraphVarName, isSubpattern);
+				genModify(sb, altCase, packageName, pathPrefix+rule.getLeft().getNameOfGraph()+"_"+altName+"_", altCasePatGraphVarName, isSubpattern);
 			}
 		}
 
@@ -356,7 +356,7 @@ public class ModifyGen extends CSharpBase {
 			String iterName = iter.getLeft().getNameOfGraph();
 			String iterPatGraphVarName = pathPrefix+rule.getLeft().getNameOfGraph()+"_"+iterName;
 			genModifyIterated(sb, iter, pathPrefix+rule.getLeft().getNameOfGraph()+"_", iterName, isSubpattern);
-			genModify(sb, iter, pathPrefix+rule.getLeft().getNameOfGraph()+"_", iterPatGraphVarName, isSubpattern);
+			genModify(sb, iter, packageName, pathPrefix+rule.getLeft().getNameOfGraph()+"_", iterPatGraphVarName, isSubpattern);
 		}
 	}
 
@@ -564,7 +564,7 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t}\n");
 	}
 
-	private void genModifyRuleOrSubrule(StringBuffer sb, ModifyGenerationTask task, String pathPrefix) {
+	private void genModifyRuleOrSubrule(StringBuffer sb, ModifyGenerationTask task, String packageName, String pathPrefix) {
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
 
@@ -611,6 +611,7 @@ public class ModifyGen extends CSharpBase {
 
 		ModifyGenerationState state = new ModifyGenerationState(model, false, be.system.emitProfilingInstrumentation());
 		state.actionName = task.left.getNameOfGraph();
+		String packagePrefixedActionName = packageName==null ? task.left.getNameOfGraph() : packageName + "::" + task.left.getNameOfGraph();
 		ModifyGenerationStateConst stateConst = state;
 
 		collectYieldedElements(task, stateConst, state.yieldedNodes, state.yieldedEdges, state.yieldedVariables);
@@ -652,6 +653,9 @@ public class ModifyGen extends CSharpBase {
 		// Fill state with information gathered in needs
 		state.InitNeeds(needs);
 
+		if(state.emitProfilingInstrumentation() && pathPrefix.equals("") && !task.isSubpattern && task.typeOfTask==TYPE_OF_TASK_MODIFY)
+			genEvalProfilingStart(sb2, true);
+		
 		genNewNodes(sb2, stateConst, useAddedElementNames, prefix,
 				state.nodesNeededAsElements, state.nodesNeededAsTypes);
 
@@ -695,6 +699,12 @@ public class ModifyGen extends CSharpBase {
 
 		genDelSubpatternCalls(sb3, stateConst);
 
+		if(state.emitProfilingInstrumentation() && pathPrefix.equals("") && !task.isSubpattern && task.typeOfTask==TYPE_OF_TASK_MODIFY)
+			genEvalProfilingStop(sb3, packagePrefixedActionName);
+
+		if(state.emitProfilingInstrumentation() && pathPrefix.equals("") && !task.isSubpattern && task.typeOfTask==TYPE_OF_TASK_MODIFY)
+			genExecProfilingStart(sb3);
+
 		collectContainerExprsNeededByImperativeStatements(task, needs);
 		state.InitNeeds(needs.containerExprs);
 		genContainerVariablesBeforeImperativeStatements(sb3, stateConst);
@@ -705,11 +715,14 @@ public class ModifyGen extends CSharpBase {
 
 		state.ClearContainerExprs();
 
+		if(state.emitProfilingInstrumentation() && pathPrefix.equals("") && !task.isSubpattern && task.typeOfTask==TYPE_OF_TASK_MODIFY)
+			genExecProfilingStop(sb3, packagePrefixedActionName);
+
 		genCheckReturnedElementsForDeletionOrRetypingDueToHomomorphy(sb3, task);
 
 		// Emit return (only if top-level rule)
-		if(pathPrefix=="" && !task.isSubpattern)
-			emitReturnStatement(sb3, stateConst, task.returns);
+		if(pathPrefix.equals("") && !task.isSubpattern)
+			emitReturnStatement(sb3, stateConst, state.emitProfilingInstrumentation() && task.typeOfTask==TYPE_OF_TASK_MODIFY, packagePrefixedActionName, task.returns);
 
 		// Emit end of function
 		sb3.append("\t\t}\n");
@@ -743,6 +756,25 @@ public class ModifyGen extends CSharpBase {
 		if(createAddedElementNames) {
 			genAddedGraphElementsArray(sb, stateConst, prefix, task.typeOfTask);
 		}
+	}
+
+	private void genEvalProfilingStart(StringBuffer sb, boolean declareVariable) {
+		if(declareVariable)
+	        sb.append("\t\t\tlong searchStepsAtBeginEval = actionEnv.PerformanceInfo.SearchSteps;\n");
+		else
+			sb.append("\t\t\tsearchStepsAtBeginEval = actionEnv.PerformanceInfo.SearchSteps;\n");
+	}
+
+	private void genEvalProfilingStop(StringBuffer sb, String packagePrefixedActionName) {
+        sb.append("\t\t\tactionEnv.PerformanceInfo.ActionProfiles[\"" + packagePrefixedActionName + "\"].searchStepsDuringEvalTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBeginEval;\n");
+	}
+
+	private void genExecProfilingStart(StringBuffer sb) {
+        sb.append("\t\t\tlong searchStepsAtBeginExec = actionEnv.PerformanceInfo.SearchSteps;\n");
+	}
+
+	private void genExecProfilingStop(StringBuffer sb, String packagePrefixedActionName) {
+        sb.append("\t\t\tactionEnv.PerformanceInfo.ActionProfiles[\"" + packagePrefixedActionName + "\"].searchStepsDuringExecTotal += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBeginExec;\n");
 	}
 
 	private void emitMethodHeadAndBegin(StringBuffer sb, ModifyGenerationTask task, String pathPrefix)
@@ -1651,7 +1683,9 @@ public class ModifyGen extends CSharpBase {
 		sb.append(";\n");
 	}
 
-	private void emitReturnStatement(StringBuffer sb, ModifyGenerationStateConst state, List<Expression> returns) {
+	private void emitReturnStatement(StringBuffer sb, ModifyGenerationStateConst state, boolean emitProfiling, String packagePrefixedactionName, List<Expression> returns) {
+		if(emitProfiling && returns.size() > 0)
+			genEvalProfilingStart(sb, false);
 		for(int i = 0; i < returns.size(); i++)
 		{
 			sb.append("\t\t\toutput_" + i + " = ");
@@ -1663,6 +1697,8 @@ public class ModifyGen extends CSharpBase {
 			genExpression(sb, expr, state);
 			sb.append(");\n");
 		}
+		if(emitProfiling && returns.size() > 0)
+			genEvalProfilingStop(sb, packagePrefixedactionName);
 		sb.append("\t\t\treturn;\n");
 	}
 

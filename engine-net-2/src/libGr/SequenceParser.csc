@@ -1170,6 +1170,18 @@ Sequence SimpleSequence():
 				return new SequenceForFunction(fromVar, SequenceType.ForReachableEdgesViaIncoming, argExprs, seq, variableList1);
 			} else if(str=="reachableEdgesOutgoing") {
 				return new SequenceForFunction(fromVar, SequenceType.ForReachableEdgesViaOutgoing, argExprs, seq, variableList1);
+			} else if(str=="boundedReachable") {
+				return new SequenceForFunction(fromVar, SequenceType.ForBoundedReachableNodes, argExprs, seq, variableList1);
+			} else if(str=="boundedReachableIncoming") {
+				return new SequenceForFunction(fromVar, SequenceType.ForBoundedReachableNodesViaIncoming, argExprs, seq, variableList1);
+			} else if(str=="boundedReachableOutgoing") {
+				return new SequenceForFunction(fromVar, SequenceType.ForBoundedReachableNodesViaOutgoing, argExprs, seq, variableList1);
+			} else if(str=="boundedReachableEdges") {
+				return new SequenceForFunction(fromVar, SequenceType.ForBoundedReachableEdges, argExprs, seq, variableList1);
+			} else if(str=="boundedReachableEdgesIncoming") {
+				return new SequenceForFunction(fromVar, SequenceType.ForBoundedReachableEdgesViaIncoming, argExprs, seq, variableList1);
+			} else if(str=="boundedReachableEdgesOutgoing") {
+				return new SequenceForFunction(fromVar, SequenceType.ForBoundedReachableEdgesViaOutgoing, argExprs, seq, variableList1);
 			} else if(str=="nodes") {
 				return new SequenceForFunction(fromVar, SequenceType.ForNodes, argExprs, seq, variableList1);
 			} else if(str=="edges") {

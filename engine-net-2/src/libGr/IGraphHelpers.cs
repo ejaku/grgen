@@ -399,10 +399,14 @@ namespace de.unika.ipd.grGen.libGr
     {
         // counts how often the action was called in total
         public long callsTotal = 0;
-        // counts how many search steps were carried out over all calls
+        // counts how many search steps were carried out over all calls during pattern matching (incl. condition evaluation and yielding)
         public long searchStepsTotal = 0;
-        // counts how many loop steps of the first loop were executed over all calls
+        // counts how many loop steps of the first pattern matching loop were executed over all calls
         public long loopStepsTotal = 0;
+        // counts how many search steps were carried out over all calls during attribute evaluation (while rewriting)
+        public long searchStepsDuringEvalTotal = 0;
+        // counts how many search steps were carried out over all calls during exec processing, incl. the effort of all called actions
+        public long searchStepsDuringExecTotal = 0;
 
         // gives the averages, which are collected per thread, 
         // as synchronization to collect them accumulated would be overly expensive,

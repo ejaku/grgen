@@ -1983,6 +1983,12 @@ after_debugging_decision: ;
                 case SequenceType.ForReachableEdges:
                 case SequenceType.ForReachableEdgesViaIncoming:
                 case SequenceType.ForReachableEdgesViaOutgoing:
+                case SequenceType.ForBoundedReachableNodes:
+                case SequenceType.ForBoundedReachableNodesViaIncoming:
+                case SequenceType.ForBoundedReachableNodesViaOutgoing:
+                case SequenceType.ForBoundedReachableEdges:
+                case SequenceType.ForBoundedReachableEdgesViaIncoming:
+                case SequenceType.ForBoundedReachableEdgesViaOutgoing:
                 case SequenceType.ForNodes:
                 case SequenceType.ForEdges:
                     {
@@ -3832,6 +3838,12 @@ after_debugging_decision: ;
                 case SequenceType.ForReachableEdges:
                 case SequenceType.ForReachableEdgesViaIncoming:
                 case SequenceType.ForReachableEdgesViaOutgoing:
+                case SequenceType.ForBoundedReachableNodes:
+                case SequenceType.ForBoundedReachableNodesViaIncoming:
+                case SequenceType.ForBoundedReachableNodesViaOutgoing:
+                case SequenceType.ForBoundedReachableEdges:
+                case SequenceType.ForBoundedReachableEdgesViaIncoming:
+                case SequenceType.ForBoundedReachableEdgesViaOutgoing:
                 case SequenceType.ForNodes:
                 case SequenceType.ForEdges:
                 case SequenceType.ForMatch:

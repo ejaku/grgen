@@ -405,6 +405,12 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.ForReachableEdges:
                 case SequenceType.ForReachableEdgesViaIncoming:
                 case SequenceType.ForReachableEdgesViaOutgoing:
+                case SequenceType.ForBoundedReachableNodes:
+                case SequenceType.ForBoundedReachableNodesViaIncoming:
+                case SequenceType.ForBoundedReachableNodesViaOutgoing:
+                case SequenceType.ForBoundedReachableEdges:
+                case SequenceType.ForBoundedReachableEdgesViaIncoming:
+                case SequenceType.ForBoundedReachableEdgesViaOutgoing:
                 case SequenceType.ForNodes:
                 case SequenceType.ForEdges:
                 {
@@ -1146,8 +1152,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                     source.AppendFront(SetResultVar(seqFor, "true"));
 
-                    SequenceExpression Expr = seqFor.ArgExprs[0];
-                    string sourceNodeExpr = GetSequenceExpression(Expr, source);
+                    string sourceNodeExpr = GetSequenceExpression(seqFor.ArgExprs[0], source);
                     source.AppendFrontFormat("GRGEN_LIBGR.INode node_{0} = (GRGEN_LIBGR.INode)({1});\n", seqFor.Id, sourceNodeExpr);
 
                     SequenceExpression IncidentEdgeType = seqFor.ArgExprs.Count >= 2 ? seqFor.ArgExprs[1] : null;
@@ -1228,26 +1233,120 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     else if(seqFor.SequenceType == SequenceType.ForReachableEdges || seqFor.SequenceType == SequenceType.ForReachableEdgesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableEdgesViaOutgoing)
                     {
-                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GraphHelper.Reachable{1}(edge_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
+                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GraphHelper.Reachable{1}(node_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
                             seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
                     }
                     else
                     {
-                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatible{1}({2}))\n",
-                            seqFor.Id, edgeMethod, incidentEdgeTypeExpr);
+                        if(gen.EmitProfiling)
+                            source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.{1})\n",
+                                seqFor.Id, edgeMethod);
+                        else
+                            source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatible{1}({2}))\n",
+                                seqFor.Id, edgeMethod, incidentEdgeTypeExpr);
                     }
                     source.AppendFront("{\n");
                     source.Indent();
 
-                    // incident/adjacent needs a check for adjacent node, cause only incident edge can be type constrained in the loop
-                    // reachable already allows to iterate exactly the edges of interest
                     if(seqFor.SequenceType != SequenceType.ForReachableNodes && seqFor.SequenceType != SequenceType.ForReachableNodesViaIncoming && seqFor.SequenceType != SequenceType.ForReachableNodesViaOutgoing
                         && seqFor.SequenceType != SequenceType.ForReachableEdges && seqFor.SequenceType != SequenceType.ForReachableEdgesViaIncoming || seqFor.SequenceType != SequenceType.ForReachableEdgesViaOutgoing)
                     {
+                        if(gen.EmitProfiling)
+                        {
+                            source.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                            source.AppendFrontFormat("if(!edge_{0}.InstanceOf(", seqFor.Id);
+                            source.Append(incidentEdgeTypeExpr);
+                            source.Append("))\n");
+                            source.AppendFront("\tcontinue;\n");
+                        }
+
+                        // incident/adjacent needs a check for adjacent node, cause only incident edge can be type constrained in the loop
+                        // reachable already allows to iterate exactly the edges of interest
                         source.AppendFrontFormat("if(!{0}.InstanceOf({1}))\n",
                             theOther, adjacentNodeTypeExpr);
                         source.AppendFront("\tcontinue;\n");
                     }
+
+                    source.AppendFront(SetVar(seqFor.Var, iterationVariable));
+
+                    EmitSequence(seqFor.Seq, source);
+
+                    source.AppendFront(SetResultVar(seqFor, GetResultVar(seqFor) + " & " + GetResultVar(seqFor.Seq)));
+                    source.Unindent();
+                    source.AppendFront("}\n");
+
+                    break;
+                }
+
+                case SequenceType.ForBoundedReachableNodes:
+                case SequenceType.ForBoundedReachableNodesViaIncoming:
+                case SequenceType.ForBoundedReachableNodesViaOutgoing:
+                case SequenceType.ForBoundedReachableEdges:
+                case SequenceType.ForBoundedReachableEdgesViaIncoming:
+                case SequenceType.ForBoundedReachableEdgesViaOutgoing:
+                {
+                    SequenceForFunction seqFor = (SequenceForFunction)seq;
+
+                    source.AppendFront(SetResultVar(seqFor, "true"));
+
+                    string sourceNodeExpr = GetSequenceExpression(seqFor.ArgExprs[0], source);
+                    source.AppendFrontFormat("GRGEN_LIBGR.INode node_{0} = (GRGEN_LIBGR.INode)({1});\n", seqFor.Id, sourceNodeExpr);
+                    string depthExpr = GetSequenceExpression(seqFor.ArgExprs[1], source);
+                    source.AppendFrontFormat("int depth_{0} = (int)({1});\n", seqFor.Id, depthExpr);
+
+                    SequenceExpression IncidentEdgeType = seqFor.ArgExprs.Count >= 3 ? seqFor.ArgExprs[2] : null;
+                    string incidentEdgeTypeExpr = ExtractEdgeType(source, IncidentEdgeType);
+                    SequenceExpression AdjacentNodeType = seqFor.ArgExprs.Count >= 4 ? seqFor.ArgExprs[3] : null;
+                    string adjacentNodeTypeExpr = ExtractNodeType(source, AdjacentNodeType);
+
+                    string iterationVariable; // valid for incident/adjacent and reachable
+                    string edgeMethod = null; // only valid for incident/adajcent
+                    string theOther = null; // only valid for incident/adjacent
+                    string reachableMethod = null; // only valid for reachable
+                    switch(seqFor.SequenceType)
+                    {
+                        case SequenceType.ForBoundedReachableNodes:
+                            reachableMethod = "";
+                            iterationVariable = "iter_" + seqFor.Id; ;
+                            break;
+                        case SequenceType.ForBoundedReachableNodesViaIncoming:
+                            reachableMethod = "Incoming";
+                            iterationVariable = "iter_" + seqFor.Id; ;
+                            break;
+                        case SequenceType.ForBoundedReachableNodesViaOutgoing:
+                            reachableMethod = "Outgoing";
+                            iterationVariable = "iter_" + seqFor.Id; ;
+                            break;
+                        case SequenceType.ForBoundedReachableEdges:
+                            reachableMethod = "Edges";
+                            iterationVariable = "edge_" + seqFor.Id;
+                            break;
+                        case SequenceType.ForBoundedReachableEdgesViaIncoming:
+                            reachableMethod = "EdgesIncoming";
+                            iterationVariable = "edge_" + seqFor.Id;
+                            break;
+                        case SequenceType.ForBoundedReachableEdgesViaOutgoing:
+                            reachableMethod = "EdgesOutgoing";
+                            iterationVariable = "edge_" + seqFor.Id;
+                            break;
+                        default:
+                            edgeMethod = theOther = iterationVariable = "INTERNAL ERROR";
+                            break;
+                    }
+
+                    string profilingArgument = gen.EmitProfiling ? ", procEnv" : "";
+                    if(seqFor.SequenceType == SequenceType.ForBoundedReachableNodes || seqFor.SequenceType == SequenceType.ForBoundedReachableNodesViaIncoming || seqFor.SequenceType == SequenceType.ForBoundedReachableNodesViaOutgoing)
+                    {
+                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachable{1}(node_{0}, depth_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
+                            seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
+                    }
+                    else if(seqFor.SequenceType == SequenceType.ForBoundedReachableEdges || seqFor.SequenceType == SequenceType.ForBoundedReachableEdgesViaIncoming || seqFor.SequenceType == SequenceType.ForBoundedReachableEdgesViaOutgoing)
+                    {
+                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachable{1}(node_{0}, depth_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
+                            seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
+                    }
+                    source.AppendFront("{\n");
+                    source.Indent();
 
                     source.AppendFront(SetVar(seqFor.Var, iterationVariable));
 
@@ -1281,11 +1380,15 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     source.AppendFront("{\n");
                     source.Indent();
+                    
+                    if(gen.EmitProfiling)
+                        source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
                     source.AppendFront(SetVar(seqFor.Var, "elem_" + seqFor.Id));
 
                     EmitSequence(seqFor.Seq, source);
 
                     source.AppendFront(SetResultVar(seqFor, GetResultVar(seqFor) + " & " + GetResultVar(seqFor.Seq)));
+                    
                     source.Unindent();
                     source.AppendFront("}\n");
 
