@@ -2547,6 +2547,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
 
+        public bool EmitProfiling;
+
         public SequenceForIndexAccessEquality(SequenceVariable var, String indexName, SequenceExpression expr, 
             Sequence seq, List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
             : base(seq, SequenceType.ForIndexAccessEquality)
@@ -2589,6 +2591,8 @@ namespace de.unika.ipd.grGen.libGr
             bool first = true;
             foreach(IGraphElement elem in index.LookupElements(Expr.Evaluate(procEnv)))
             {
+                if(EmitProfiling)
+                    ++procEnv.PerformanceInfo.SearchSteps;
                 if(!first) procEnv.EndOfIteration(true, this);
                 Var.SetVariableValue(elem, procEnv);
                 Seq.ResetExecutionState();
@@ -2612,6 +2616,11 @@ namespace de.unika.ipd.grGen.libGr
             return this == target;
         }
 
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
+        }
+
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "for{" + Var.Name + " in { " + IndexName + " == " + Expr.Symbol + " }; ...}"; } }
     }
@@ -2627,6 +2636,8 @@ namespace de.unika.ipd.grGen.libGr
         public RelOpDirection Direction2;
 
         public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+
+        public bool EmitProfiling;
 
         public SequenceForIndexAccessOrdering(SequenceVariable var, bool ascending, String indexName, 
             SequenceExpression expr, RelOpDirection dir, SequenceExpression expr2, RelOpDirection dir2,
@@ -2697,6 +2708,8 @@ namespace de.unika.ipd.grGen.libGr
                             bool first = true;
                             foreach(IGraphElement elem in index.LookupElementsAscendingFromInclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
                             {
+                                if(EmitProfiling)
+                                    ++procEnv.PerformanceInfo.SearchSteps;
                                 if(!first) procEnv.EndOfIteration(true, this);
                                 Var.SetVariableValue(elem, procEnv);
                                 Seq.ResetExecutionState();
@@ -2710,6 +2723,8 @@ namespace de.unika.ipd.grGen.libGr
                             bool first = true;
                             foreach(IGraphElement elem in index.LookupElementsAscendingFromInclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
                             {
+                                if(EmitProfiling)
+                                    ++procEnv.PerformanceInfo.SearchSteps;
                                 if(!first) procEnv.EndOfIteration(true, this);
                                 Var.SetVariableValue(elem, procEnv);
                                 Seq.ResetExecutionState();
@@ -2726,6 +2741,8 @@ namespace de.unika.ipd.grGen.libGr
                             bool first = true;
                             foreach(IGraphElement elem in index.LookupElementsAscendingFromExclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
                             {
+                                if(EmitProfiling)
+                                    ++procEnv.PerformanceInfo.SearchSteps;
                                 if(!first) procEnv.EndOfIteration(true, this);
                                 Var.SetVariableValue(elem, procEnv);
                                 Seq.ResetExecutionState();
@@ -2739,6 +2756,8 @@ namespace de.unika.ipd.grGen.libGr
                             bool first = true;
                             foreach(IGraphElement elem in index.LookupElementsAscendingFromExclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
                             {
+                                if(EmitProfiling)
+                                    ++procEnv.PerformanceInfo.SearchSteps;
                                 if(!first) procEnv.EndOfIteration(true, this);
                                 Var.SetVariableValue(elem, procEnv);
                                 Seq.ResetExecutionState();
@@ -2756,6 +2775,8 @@ namespace de.unika.ipd.grGen.libGr
                         bool first = true;
                         foreach(IGraphElement elem in index.LookupElementsAscendingFromInclusive(From().Evaluate(procEnv)))
                         {
+                            if(EmitProfiling)
+                                ++procEnv.PerformanceInfo.SearchSteps;
                             if(!first) procEnv.EndOfIteration(true, this);
                             Var.SetVariableValue(elem, procEnv);
                             Seq.ResetExecutionState();
@@ -2769,6 +2790,8 @@ namespace de.unika.ipd.grGen.libGr
                         bool first = true;
                         foreach(IGraphElement elem in index.LookupElementsAscendingFromExclusive(From().Evaluate(procEnv)))
                         {
+                            if(EmitProfiling)
+                                ++procEnv.PerformanceInfo.SearchSteps;
                             if(!first) procEnv.EndOfIteration(true, this);
                             Var.SetVariableValue(elem, procEnv);
                             Seq.ResetExecutionState();
@@ -2785,6 +2808,8 @@ namespace de.unika.ipd.grGen.libGr
                         bool first = true;
                         foreach(IGraphElement elem in index.LookupElementsAscendingToInclusive(To().Evaluate(procEnv)))
                         {
+                            if(EmitProfiling)
+                                ++procEnv.PerformanceInfo.SearchSteps;
                             if(!first) procEnv.EndOfIteration(true, this);
                             Var.SetVariableValue(elem, procEnv);
                             Seq.ResetExecutionState();
@@ -2798,6 +2823,8 @@ namespace de.unika.ipd.grGen.libGr
                         bool first = true;
                         foreach(IGraphElement elem in index.LookupElementsAscendingToExclusive(To().Evaluate(procEnv)))
                         {
+                            if(EmitProfiling)
+                                ++procEnv.PerformanceInfo.SearchSteps;
                             if(!first) procEnv.EndOfIteration(true, this);
                             Var.SetVariableValue(elem, procEnv);
                             Seq.ResetExecutionState();
@@ -2812,6 +2839,8 @@ namespace de.unika.ipd.grGen.libGr
                     bool first = true;
                     foreach(IGraphElement elem in index.LookupElementsAscending())
                     {
+                        if(EmitProfiling)
+                            ++procEnv.PerformanceInfo.SearchSteps;
                         if(!first) procEnv.EndOfIteration(true, this);
                         Var.SetVariableValue(elem, procEnv);
                         Seq.ResetExecutionState();
@@ -2832,6 +2861,8 @@ namespace de.unika.ipd.grGen.libGr
                             bool first = true;
                             foreach(IGraphElement elem in index.LookupElementsDescendingFromInclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
                             {
+                                if(EmitProfiling)
+                                    ++procEnv.PerformanceInfo.SearchSteps;
                                 if(!first) procEnv.EndOfIteration(true, this);
                                 Var.SetVariableValue(elem, procEnv);
                                 Seq.ResetExecutionState();
@@ -2845,6 +2876,8 @@ namespace de.unika.ipd.grGen.libGr
                             bool first = true;
                             foreach(IGraphElement elem in index.LookupElementsDescendingFromInclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
                             {
+                                if(EmitProfiling)
+                                    ++procEnv.PerformanceInfo.SearchSteps;
                                 if(!first) procEnv.EndOfIteration(true, this);
                                 Var.SetVariableValue(elem, procEnv);
                                 Seq.ResetExecutionState();
@@ -2861,6 +2894,8 @@ namespace de.unika.ipd.grGen.libGr
                             bool first = true;
                             foreach(IGraphElement elem in index.LookupElementsDescendingFromExclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
                             {
+                                if(EmitProfiling)
+                                    ++procEnv.PerformanceInfo.SearchSteps;
                                 if(!first) procEnv.EndOfIteration(true, this);
                                 Var.SetVariableValue(elem, procEnv);
                                 Seq.ResetExecutionState();
@@ -2874,6 +2909,8 @@ namespace de.unika.ipd.grGen.libGr
                             bool first = true;
                             foreach(IGraphElement elem in index.LookupElementsDescendingFromExclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
                             {
+                                if(EmitProfiling)
+                                    ++procEnv.PerformanceInfo.SearchSteps;
                                 if(!first) procEnv.EndOfIteration(true, this);
                                 Var.SetVariableValue(elem, procEnv);
                                 Seq.ResetExecutionState();
@@ -2891,6 +2928,8 @@ namespace de.unika.ipd.grGen.libGr
                         bool first = true;
                         foreach(IGraphElement elem in index.LookupElementsDescendingFromInclusive(From().Evaluate(procEnv)))
                         {
+                            if(EmitProfiling)
+                                ++procEnv.PerformanceInfo.SearchSteps;
                             if(!first) procEnv.EndOfIteration(true, this);
                             Var.SetVariableValue(elem, procEnv);
                             Seq.ResetExecutionState();
@@ -2904,6 +2943,8 @@ namespace de.unika.ipd.grGen.libGr
                         bool first = true;
                         foreach(IGraphElement elem in index.LookupElementsDescendingFromExclusive(From().Evaluate(procEnv)))
                         {
+                            if(EmitProfiling)
+                                ++procEnv.PerformanceInfo.SearchSteps;
                             if(!first) procEnv.EndOfIteration(true, this);
                             Var.SetVariableValue(elem, procEnv);
                             Seq.ResetExecutionState();
@@ -2920,6 +2961,8 @@ namespace de.unika.ipd.grGen.libGr
                         bool first = true;
                         foreach(IGraphElement elem in index.LookupElementsDescendingToInclusive(To().Evaluate(procEnv)))
                         {
+                            if(EmitProfiling)
+                                ++procEnv.PerformanceInfo.SearchSteps;
                             if(!first) procEnv.EndOfIteration(true, this);
                             Var.SetVariableValue(elem, procEnv);
                             Seq.ResetExecutionState();
@@ -2933,6 +2976,8 @@ namespace de.unika.ipd.grGen.libGr
                         bool first = true;
                         foreach(IGraphElement elem in index.LookupElementsDescendingToExclusive(To().Evaluate(procEnv)))
                         {
+                            if(EmitProfiling)
+                                ++procEnv.PerformanceInfo.SearchSteps;
                             if(!first) procEnv.EndOfIteration(true, this);
                             Var.SetVariableValue(elem, procEnv);
                             Seq.ResetExecutionState();
@@ -2947,6 +2992,8 @@ namespace de.unika.ipd.grGen.libGr
                     bool first = true;
                     foreach(IGraphElement elem in index.LookupElementsDescending())
                     {
+                        if(EmitProfiling)
+                            ++procEnv.PerformanceInfo.SearchSteps;
                         if(!first) procEnv.EndOfIteration(true, this);
                         Var.SetVariableValue(elem, procEnv);
                         Seq.ResetExecutionState();
@@ -3132,6 +3179,11 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 return false; // dummy/don't care
             }
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
         }
     }
 

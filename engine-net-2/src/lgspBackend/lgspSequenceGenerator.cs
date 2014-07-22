@@ -1055,6 +1055,8 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("{\n");
                     source.Indent();
 
+                    if(gen.EmitProfiling)
+                        source.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
                     source.AppendFront(SetVar(seqFor.Var, entryVar));
 
                     EmitSequence(seqFor.Seq, source);
@@ -1126,6 +1128,8 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("{\n");
                     source.Indent();
 
+                    if(gen.EmitProfiling)
+                        source.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
                     source.AppendFront(SetVar(seqFor.Var, entryVar));
 
                     EmitSequence(seqFor.Seq, source);
