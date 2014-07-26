@@ -491,14 +491,13 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
-        public void ChangeNodeAttribute(INode node, AttributeType attrType,
-            AttributeChangeType changeType, Object newValue, Object keyValue)
+        public void ChangeNodeAttribute(INode node, AttributeType attrType)
         {
             if (IsNodeExcluded(node)) return;
 
             String attrTypeString;
             String attrValueString;
-            EncodeAttr(attrType, node, changeType, newValue, keyValue, out attrTypeString, out attrValueString);
+            EncodeAttr(attrType, node, out attrTypeString, out attrValueString);
 
             String name = graph.GetElementName(node);
             ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
@@ -509,15 +508,14 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
-        public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType,
-            AttributeChangeType changeType, Object newValue, Object keyValue)
+        public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType)
         {
             if (IsEdgeExcluded(edge)) return;
             if (hiddenEdges.ContainsKey(edge)) return;
 
             String attrTypeString;
             String attrValueString;
-            EncodeAttr(attrType, edge, changeType, newValue, keyValue, out attrTypeString, out attrValueString);
+            EncodeAttr(attrType, edge, out attrTypeString, out attrValueString);
 
             String name = graph.GetElementName(edge);
             ycompStream.Write("changeEdgeAttr \"e" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
@@ -823,31 +821,6 @@ namespace de.unika.ipd.grGen.grShell
             else
             {
                 EmitHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
-                attrValueString = Encode(attrValueString);
-            }
-        }
-
-        private void EncodeAttr(AttributeType attrType, IGraphElement elem, AttributeChangeType changeType, Object newValue, Object keyValue,
-            out String attrTypeString, out String attrValueString)
-        {
-            if (attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
-            {
-                EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), changeType, newValue, keyValue, out attrTypeString, out attrValueString, attrType, graph);
-                attrValueString = Encode(attrValueString);
-            }
-            else if(attrType.Kind == AttributeKind.ArrayAttr)
-            {
-                EmitHelper.ToString((IList)elem.GetAttribute(attrType.Name), changeType, newValue, keyValue, out attrTypeString, out attrValueString, attrType, graph);
-                attrValueString = Encode(attrValueString);
-            }
-            else if(attrType.Kind == AttributeKind.DequeAttr)
-            {
-                EmitHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), changeType, newValue, out attrTypeString, out attrValueString, attrType, graph);
-                attrValueString = Encode(attrValueString);
-            }
-            else
-            {
-                EmitHelper.ToString(newValue, out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
         }
