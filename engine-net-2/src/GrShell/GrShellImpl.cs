@@ -4603,7 +4603,7 @@ showavail:
             }
             else
             {
-                errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is neither a map nor a set nor an array.");
+                errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a container.");
             }
         }
 
