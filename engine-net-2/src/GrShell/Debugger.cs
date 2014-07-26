@@ -3458,26 +3458,11 @@ after_debugging_decision: ;
             ycompClient.ClearGraph();
         }
 
-        void DebugChangingNodeAttribute(INode node, AttributeType attrType,
-            AttributeChangeType changeType, Object newValue, Object keyValue)
-        {
-            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
-                return;
-            
-            ycompClient.ChangeNodeAttribute(node, attrType, changeType, newValue, keyValue);
-        }
-
-        void DebugChangingEdgeAttribute(IEdge edge, AttributeType attrType,
-            AttributeChangeType changeType, Object newValue, Object keyValue)
-        {
-            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
-                return;
-            
-            ycompClient.ChangeEdgeAttribute(edge, attrType, changeType, newValue, keyValue);
-        }
-
         void DebugChangedNodeAttribute(INode node, AttributeType attrType)
         {
+            if(!ycompClient.dumpInfo.IsExcludedGraph() || recordMode)
+                ycompClient.ChangeNodeAttribute(node, attrType);
+            
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes,
                 node, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
@@ -3486,6 +3471,9 @@ after_debugging_decision: ;
 
         void DebugChangedEdgeAttribute(IEdge edge, AttributeType attrType)
         {
+            if(!ycompClient.dumpInfo.IsExcludedGraph() || recordMode)
+                ycompClient.ChangeEdgeAttribute(edge, attrType);
+            
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes,
                 edge, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
@@ -4240,8 +4228,6 @@ after_debugging_decision: ;
             graph.OnRemovingNode += DebugDeletingNode;
             graph.OnRemovingEdge += DebugDeletingEdge;
             graph.OnClearingGraph += DebugClearingGraph;
-            graph.OnChangingNodeAttribute += DebugChangingNodeAttribute;
-            graph.OnChangingEdgeAttribute += DebugChangingEdgeAttribute;
             graph.OnChangedNodeAttribute += DebugChangedNodeAttribute;
             graph.OnChangedEdgeAttribute += DebugChangedEdgeAttribute;
             graph.OnRetypingNode += DebugRetypingElement;
@@ -4277,8 +4263,6 @@ after_debugging_decision: ;
             graph.OnRemovingNode -= DebugDeletingNode;
             graph.OnRemovingEdge -= DebugDeletingEdge;
             graph.OnClearingGraph -= DebugClearingGraph;
-            graph.OnChangingNodeAttribute -= DebugChangingNodeAttribute;
-            graph.OnChangingEdgeAttribute -= DebugChangingEdgeAttribute;
             graph.OnChangedNodeAttribute -= DebugChangedNodeAttribute;
             graph.OnChangedEdgeAttribute -= DebugChangedEdgeAttribute;
             graph.OnRetypingNode -= DebugRetypingElement;
