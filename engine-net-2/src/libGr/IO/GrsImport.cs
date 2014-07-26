@@ -49,13 +49,19 @@ namespace de.unika.ipd.grGen.libGr
         IDENT, // LETTER (LETTER | DIGIT)*
         ADD, //add
         ARRAY, //array
+        DELETE, //delete
         DEQUE, //deque
+        EDGE, //edge
+        EXTERNAL, //external attribute change
         FALSE, //false
         GRAPH, //graph
         IN, //in
         MAP, //map
         NEW, //new
+        NODE, //node
         NULL, //null
+        REM, //rem
+        RETYPE, //retype
         SET, //set
         TRUE, //true
         EOF // end of file
@@ -82,6 +88,7 @@ namespace de.unika.ipd.grGen.libGr
         TokenKind tokenKind; // gives the kind of token matched lately
         StringBuilder tokenContent; // the buffer with the token matched lately
         Dictionary<string, INamedGraph> nameToSubgraph = new Dictionary<string, INamedGraph>(); // maps subgraph name to subgraph
+        AttributeType intAttrType = new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 
         /// <summary>
         /// Imports the given graph from a file with the given filename.
@@ -197,16 +204,32 @@ namespace de.unika.ipd.grGen.libGr
             ParseNewGraphCommand();
             while(LookaheadToken() != TokenKind.EOF)
             {
-                if(LookaheadToken() == TokenKind.NEW)
-                    ParseNewGraphElementCommand();
-                else if(LookaheadToken() == TokenKind.ADD)
-                    ParseNewSubgraphCommand();
-                else if(LookaheadToken() == TokenKind.IN)
-                    ParseSwitchToSubgraph();
-                else if(LookaheadToken() == TokenKind.AT)
-                    ParseDeferredAttributeAssignment();
-                else
-                    throw GetSyntaxException("syntax error", "new command or deferred attribute assingment");
+                switch(LookaheadToken())
+                {
+                    case TokenKind.NEW:
+                        ParseNewGraphElementCommand();
+                        break;
+                    case TokenKind.DELETE:
+                        ParseDeleteGraphElementCommand();
+                        break;
+                    case TokenKind.RETYPE:
+                        ParseRetypeGraphElementCommand();
+                        break;
+                    case TokenKind.ADD:
+                        ParseNewSubgraphCommand();
+                        break;
+                    case TokenKind.IN:
+                        ParseSwitchToSubgraph();
+                        break;
+                    case TokenKind.EXTERNAL:
+                        ParseExternalAttributeChange();
+                        break;
+                    case TokenKind.AT:
+                        ParseDeferredAttributeAssignment();
+                        break;
+                    default:
+                        throw GetSyntaxException("syntax error", "new command, or delete command, or retype command, or external attribute change, or deferred attribute assignment (assignment proper, or container element assignment, or container add, or container rem)");
+                }
             }
         }
 
@@ -279,7 +302,49 @@ namespace de.unika.ipd.grGen.libGr
                 graph.AddNode(node, nodeName);
             }
             else
-                throw GetSyntaxException("Syntax error", "@ for nodee start in edge definition or : for node definition");
+                throw GetSyntaxException("Syntax error", "@ for node start in edge definition or : for node definition");
+        }
+
+        private void ParseDeleteGraphElementCommand()
+        {
+            Match(TokenKind.DELETE);
+            if(LookaheadToken() == TokenKind.NODE)
+            {
+                Match(TokenKind.NODE);
+                INode node = ParseNode();
+                graph.Remove(node);
+            }
+            else
+            {
+                Match(TokenKind.EDGE);
+                IEdge edge = ParseEdge();
+                graph.Remove(edge);
+            }
+        }
+
+        private void ParseRetypeGraphElementCommand()
+        {
+            Match(TokenKind.RETYPE);
+            if(LookaheadToken() == TokenKind.AT)
+            {
+                INode node = ParseNode();
+                Match(TokenKind.LANGLE);
+                NodeType nodeType = ParseNodeType();
+                Match(TokenKind.RANGLE);
+                graph.Retype(node, nodeType);
+            }
+            else if(LookaheadToken() == TokenKind.MINUS)
+            {
+                Match(TokenKind.MINUS);
+                IEdge edge = ParseEdge();
+                Match(TokenKind.LANGLE);
+                EdgeType edgeType = ParseEdgeType();
+                Match(TokenKind.RANGLE);
+                Match(TokenKind.ARROW);
+                graph.Retype(edge, edgeType);
+            }
+            else
+                throw GetSyntaxException("Syntax error", "@ for node or - for edge");
         }
 
         private void ParseSwitchToSubgraph()
@@ -301,13 +366,13 @@ namespace de.unika.ipd.grGen.libGr
                 Match(TokenKind.EQUAL);
                 ParseAttributeValue(elem, attrType);
             }
-            /*else if(LookaheadToken()==TokenKind.LBOXBRACKET) // [ for indexed assignment to attribute
+            else if(LookaheadToken()==TokenKind.LBOXBRACKET) // [ for indexed assignment to attribute
             {
                 AttributeType indexAttrType;
                 if(attrType.Kind == AttributeKind.ArrayAttr)
-                    indexAttrType = new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null);
+                    indexAttrType = intAttrType;
                 else if(attrType.Kind == AttributeKind.DequeAttr)
-                    indexAttrType = new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null);
+                    indexAttrType = intAttrType;
                 else if(attrType.Kind == AttributeKind.MapAttr)
                     indexAttrType = attrType.KeyType;
                 else
@@ -318,14 +383,127 @@ namespace de.unika.ipd.grGen.libGr
                 object index = ParseAttributeSimpleValue(indexAttrType);
                 Match(TokenKind.RBOXBRACKET);
                 Match(TokenKind.EQUAL);
-                ParseAttributeValue(elem, attrType);
-                DeferredAttributeInitialization(elem, attrName, index, value);
-            }*/
-            /*else if(LookaheadToken()==TokenKind.DOT) // [ for add/rem to/from container
+                ParseAttributeValueIndexed(elem, attrType.ValueType, attrType.Name, index);
+            }
+            else if(LookaheadToken()==TokenKind.DOT) // . for add/rem to/from container
             {
-            }*/
+                // GraphElement . Text . add|rem ( ... )
+                Match(TokenKind.DOT);
+                if(LookaheadToken() == TokenKind.ADD)
+                {
+                    Match(TokenKind.ADD);
+                    Match(TokenKind.LPARENTHESIS);
+                    object param1 = ParseAttributeSimpleValue(attrType.Kind == AttributeKind.MapAttr ? attrType.KeyType : attrType.ValueType);
+                    if(LookaheadToken() == TokenKind.COMMA)
+                    {
+                        Match(TokenKind.COMMA);
+                        object param2 = ParseAttributeSimpleValue(attrType.Kind == AttributeKind.MapAttr ? attrType.ValueType : intAttrType);
+                        ContainerAddIndexed(elem, attrName, param1, param2);
+                    }
+                    else
+                        ContainerAdd(elem, attrName, param1);
+                    Match(TokenKind.RPARENTHESIS);
+                }
+                else if(LookaheadToken() == TokenKind.REM)
+                {
+                    Match(TokenKind.REM);
+                    Match(TokenKind.LPARENTHESIS);
+                    if(LookaheadToken() != TokenKind.RPARENTHESIS)
+                    {
+                        object param = ParseAttributeSimpleValue(attrType.Kind == AttributeKind.MapAttr ? attrType.KeyType : attrType.Kind == AttributeKind.SetAttr ? attrType.ValueType : intAttrType);
+                        ContainerRem(elem, attrName, param);
+                    }
+                    else
+                        ContainerRem(elem, attrName, null);
+                    Match(TokenKind.RPARENTHESIS);
+                }
+                else
+                    throw GetSyntaxException("Syntax error", "only .add() and .rem() supported");
+            }
             else
                 throw GetSyntaxException("Syntax error", "= for assignment to attribute");
+        }
+
+        private void ContainerAdd(IGraphElement elem, String attrName, object keyObj)
+        {
+            object attr = elem.GetAttribute(attrName);
+
+            if(attr is IDictionary)
+            {
+                IDictionary dict = attr as IDictionary;
+                dict[keyObj] = null;
+            }
+            else if(attr is IList)
+            {
+                IList array = attr as IList;
+                array.Add(keyObj);
+            }
+            else if(attr is IDeque)
+            {
+                IDeque deque = attr as IDeque;
+                deque.Enqueue(keyObj);
+            }
+            else
+                throw new Exception(graph.GetElementName(elem) + "." + attrName + " is neither a set nor an array nor a deque.");
+        }
+
+        private void ContainerAddIndexed(IGraphElement elem, String attrName, object keyObj, object valueObj)
+        {
+            object attr = elem.GetAttribute(attrName);
+
+            if(attr is IDictionary)
+            {
+                IDictionary dict = attr as IDictionary;
+                dict[keyObj] = valueObj;
+            }
+            else if(attr is IList)
+            {
+                IList array = attr as IList;
+                array.Insert((int)valueObj, keyObj);
+            }
+            else if(attr is IDeque)
+            {
+                IDeque deque = attr as IDeque;
+                deque.EnqueueAt((int)valueObj, keyObj);
+            }
+            else
+                throw new Exception(graph.GetElementName(elem) + "." + attrName + " is neither a map nor an array nor a deque.");
+        }
+
+        private void ContainerRem(IGraphElement elem, String attrName, object keyObj)
+        {
+            object attr = elem.GetAttribute(attrName);
+
+            if(attr is IDictionary)
+            {
+                IDictionary dict = attr as IDictionary;
+                dict.Remove(keyObj);
+            }
+            else if(attr is IList)
+            {
+                IList array = attr as IList;
+                if(keyObj != null)
+                    array.RemoveAt((int)keyObj);
+                else
+                    array.RemoveAt(array.Count - 1);
+            }
+            else if(attr is IDeque)
+            {
+                IDeque deque = attr as IDeque;
+                if(keyObj != null)
+                    deque.DequeueAt((int)keyObj);
+                else
+                    deque.Dequeue();
+            }
+            else
+                throw new Exception(graph.GetElementName(elem) + "." + attrName + " is not a container.");
+        }
+
+        private void ParseExternalAttributeChange()
+        {
+            Match(TokenKind.EXTERNAL);
+            string line = MatchExternalLine();
+            model.External(line, graph);
         }
 
         private bool LookaheadText()
@@ -392,6 +570,16 @@ namespace de.unika.ipd.grGen.libGr
             return GetNodeByName(nodeName);
         }
 
+        private IEdge ParseEdge()
+        {
+            // at lparen Text rparen
+            Match(TokenKind.AT);
+            Match(TokenKind.LPARENTHESIS);
+            string edgeName = ParseText();
+            Match(TokenKind.RPARENTHESIS);
+            return GetEdgeByName(edgeName);
+        }
+
         private IGraphElement ParseGraphElement()
         {
             // at lparen Text rparen
@@ -400,6 +588,24 @@ namespace de.unika.ipd.grGen.libGr
             string elemName = ParseText();
             Match(TokenKind.RPARENTHESIS);
             return GetElemByName(elemName);
+        }
+
+        private NodeType ParseNodeType()
+        {
+            string typeName = ParseTypeText();
+            NodeType nodeType = graph.Model.NodeModel.GetType(typeName);
+            if(nodeType == null) throw new Exception("Unknown node type: \"" + typeName + "\"");
+            if(nodeType.IsAbstract) throw new Exception("Abstract node type \"" + typeName + "\" may not be instantiated!");
+            return nodeType;
+        }
+
+        private EdgeType ParseEdgeType()
+        {
+            string typeName = ParseTypeText();
+            EdgeType edgeType = graph.Model.EdgeModel.GetType(typeName);
+            if(edgeType == null) throw new Exception("Unknown edge type: \"" + typeName + "\"");
+            if(edgeType.IsAbstract) throw new Exception("Abstract edge type \"" + typeName + "\" may not be instantiated!");
+            return edgeType;
         }
 
         private INamedGraph ParseGraph()
@@ -480,6 +686,46 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         private void ParseAttributeValue(IGraphElement elem, AttributeType attrType)
+        {
+            object attributeValue = JustParseAttributeValue(elem, attrType);
+
+            /*AttributeChangeType changeType = AttributeChangeType.Assign;
+            if(elem is INode)
+                graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
+            else
+                graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);            
+            */
+            elem.SetAttribute(attrType.Name, attributeValue);
+            /*if(elem is INode)
+                graph.ChangedNodeAttribute((INode)elem, attrType);
+            else
+                graph.ChangedEdgeAttribute((IEdge)elem, attrType);            
+            */
+        }
+
+        private void ParseAttributeValueIndexed(IGraphElement elem, AttributeType attrType, string attrName, object index)
+        {
+            object value = ParseAttributeSimpleValue(attrType);
+            object attr = elem.GetAttribute(attrName);
+
+            if(attr is IList)
+            {
+                IList array = (IList)attr;
+                array[(int)index] = value;
+            }
+            else if(attr is IDeque)
+            {
+                IDeque deque = (IDeque)attr;
+                deque[(int)index] = value;
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)attr;
+                setmap[index] = value;
+            }
+        }
+
+        private object JustParseAttributeValue(IGraphElement elem, AttributeType attrType)
         {
             object attributeValue;
             if(attrType.Kind == AttributeKind.SetAttr)
@@ -604,18 +850,7 @@ namespace de.unika.ipd.grGen.libGr
                 attributeValue = ParseAttributeSimpleValue(attrType);
             }
 
-            /*AttributeChangeType changeType = AttributeChangeType.Assign;
-            if(elem is INode)
-                graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
-            else
-                graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);            
-            */
-            elem.SetAttribute(attrType.Name, attributeValue);
-            /*if(elem is INode)
-                graph.ChangedNodeAttribute((INode)elem, attrType);
-            else
-                graph.ChangedEdgeAttribute((IEdge)elem, attrType);            
-            */
+            return attributeValue;
         }
 
         private object ParseAttributeSimpleValue(AttributeType attrType)
@@ -982,6 +1217,16 @@ namespace de.unika.ipd.grGen.libGr
                     throw GetSyntaxException("Syntax error", "graph");
                 case TokenKind.NEW:
                     throw GetSyntaxException("Syntax error", "new");
+                case TokenKind.DELETE:
+                    throw GetSyntaxException("Syntax error", "delete");
+                case TokenKind.RETYPE:
+                    throw GetSyntaxException("Syntax error", "retype");
+                case TokenKind.EXTERNAL:
+                    throw GetSyntaxException("Syntax error", "external");
+                case TokenKind.NODE:
+                    throw GetSyntaxException("Syntax error", "node");
+                case TokenKind.EDGE:
+                    throw GetSyntaxException("Syntax error", "edge");
                 case TokenKind.NULL:
                     throw GetSyntaxException("Syntax error", "null");
                 case TokenKind.TRUE:
@@ -1108,6 +1353,21 @@ namespace de.unika.ipd.grGen.libGr
                         return path;
                 }
             }
+        }
+
+        private string MatchExternalLine()
+        {
+            while(Lookahead() == ' ' || Lookahead() == '\t')
+            {
+                EatCharWithoutIngesting();
+            }
+
+            while(Lookahead() != '\n' && Lookahead() != '\r' && Lookahead() != '\0')
+            {
+                EatChar();
+            }
+
+            return EatAndReturnToken();
         }
 
         // if no token was matched yet or the last was not eaten yet: determines next token, yields filled tokenKind and tokenContent variables
@@ -1257,7 +1517,7 @@ namespace de.unika.ipd.grGen.libGr
                 EatChar();
             }
 
-            if(tokenContent.Length < 2 || tokenContent.Length > 5)
+            if(tokenContent.Length < 2 || tokenContent.Length > 8)
                 return FoundToken(TokenKind.IDENT);
 
             switch(tokenContent[0])
@@ -1282,6 +1542,30 @@ namespace de.unika.ipd.grGen.libGr
                         && tokenContent[3] == 'u'
                         && tokenContent[4] == 'e')
                         return FoundToken(TokenKind.DEQUE);
+                    else if(tokenContent.Length == 6
+                        && tokenContent[1] == 'e'
+                        && tokenContent[2] == 'l'
+                        && tokenContent[3] == 'e'
+                        && tokenContent[4] == 't'
+                        && tokenContent[5] == 'e')
+                        return FoundToken(TokenKind.DELETE);
+                    else
+                        return FoundToken(TokenKind.IDENT);
+                case 'e':
+                    if(tokenContent.Length == 4
+                        && tokenContent[1] == 'd'
+                        && tokenContent[2] == 'g'
+                        && tokenContent[3] == 'e')
+                        return FoundToken(TokenKind.EDGE);
+                    else if(tokenContent.Length == 8
+                        && tokenContent[1] == 'x'
+                        && tokenContent[2] == 't'
+                        && tokenContent[3] == 'e'
+                        && tokenContent[4] == 'r'
+                        && tokenContent[5] == 'n'
+                        && tokenContent[6] == 'a'
+                        && tokenContent[7] == 'l')
+                        return FoundToken(TokenKind.EDGE);
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 'f':
@@ -1326,6 +1610,25 @@ namespace de.unika.ipd.grGen.libGr
                         && tokenContent[2] == 'l'
                         && tokenContent[3] == 'l')
                         return FoundToken(TokenKind.NULL);
+                    else if(tokenContent.Length == 4
+                        && tokenContent[1] == 'o'
+                        && tokenContent[2] == 'd'
+                        && tokenContent[3] == 'e')
+                        return FoundToken(TokenKind.NODE);
+                    else
+                        return FoundToken(TokenKind.IDENT);
+                case 'r':
+                    if(tokenContent.Length == 3
+                        && tokenContent[1] == 'e'
+                        && tokenContent[2] == 'm')
+                        return FoundToken(TokenKind.REM);
+                    else if(tokenContent.Length == 6
+                        && tokenContent[1] == 'e'
+                        && tokenContent[2] == 't'
+                        && tokenContent[3] == 'y'
+                        && tokenContent[4] == 'p'
+                        && tokenContent[5] == 'e')
+                        return FoundToken(TokenKind.RETYPE);
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 's':

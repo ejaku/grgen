@@ -415,7 +415,7 @@ namespace de.unika.ipd.grGen.libGr
         string Emit(object attribute, AttributeType attrType, IGraph graph);
 
         /// <summary>
-        /// Called when the shell hits a line starting with "external".
+        /// Called when the grs importer or the shell hits a line starting with "external".
         /// The content of that line is handed in.
         /// This is typically used while replaying changes containing a method call of an external type
         /// -- after such a line was recorded, by the method called, by writing to the recorder.
