@@ -6,6 +6,8 @@ rule addToArray {
 	if {
 		a.niceArray.subarray(a.niceArray.indexOf("foo"), 1).size()>=1 ;
 		a.niceArray.subarray(a.niceArray.indexOf("foo", 42), 1).size()>=1 ;
+		a.niceArray.subarray(a.niceArray.lastIndexOf("foo"), 1).size()>=1 ;
+		a.niceArray.subarray(a.niceArray.lastIndexOf("foo", 42), 1).size()>=1 ;
 		a.niceArray.subarray(a.niceArray.indexOfOrdered("foo"), 1).size()>=1 ;
 		a.niceArray.asSet().size()>=1;
 		a.spiceArray.subarray(0, a.spiceArray.size()).size()>=1;
@@ -15,6 +17,8 @@ rule addToArray {
 		eval {
 			a.niceArray = a.niceArray.subarray(a.niceArray.indexOf("foo"), 1);
 			a.niceArray = a.niceArray.subarray(a.niceArray.indexOf("foo", 42), 1);
+			a.niceArray = a.niceArray.subarray(a.niceArray.lastIndexOf("foo"), 1);
+			a.niceArray = a.niceArray.subarray(a.niceArray.lastIndexOf("foo", 42), 1);
 			a.niceArray = a.niceArray.subarray(a.niceArray.indexOfOrdered("foo"), 1);
 			a.spiceArray = array<int>[(a.niceArray.asSet() & set<string>{"a","b"}).size()];
 			a.spiceArray = a.spiceArray.subarray(0, a.spiceArray.size());

@@ -12,13 +12,23 @@
 package de.unika.ipd.grgen.ir.exprevals;
 
 public class StringLastIndexOf extends Expression {
-	private Expression stringExpr, stringToSearchForExpr;
+	private Expression stringExpr;
+	private Expression stringToSearchForExpr;
+	private Expression startIndexExpr;
 
 	public StringLastIndexOf(Expression stringExpr, Expression stringToSearchForExpr) {
 		super("string lastIndexOf", IntType.getType());
 		this.stringExpr = stringExpr;
 		this.stringToSearchForExpr = stringToSearchForExpr;
 	}
+
+	public StringLastIndexOf(Expression stringExpr, Expression stringToSearchForExpr, Expression startIndexExpr) {
+		super("string lastIndexOf", IntType.getType());
+		this.stringExpr = stringExpr;
+		this.stringToSearchForExpr = stringToSearchForExpr;
+		this.startIndexExpr = startIndexExpr;
+	}
+
 
 	public Expression getStringExpr() {
 		return stringExpr;
@@ -28,8 +38,14 @@ public class StringLastIndexOf extends Expression {
 		return stringToSearchForExpr;
 	}
 
+	public Expression getStartIndexExpr() {
+		return startIndexExpr;
+	}
+
 	public void collectNeededEntities(NeededEntities needs) {
 		stringExpr.collectNeededEntities(needs);
 		stringToSearchForExpr.collectNeededEntities(needs);
+		if(startIndexExpr!=null)
+			startIndexExpr.collectNeededEntities(needs);
 	}
 }

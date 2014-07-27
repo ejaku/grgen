@@ -1,0 +1,6 @@
+node class N
+{
+	i:int;
+	s:string;
+}
+

@@ -40,14 +40,16 @@ public class MethodInvocationExprNode extends ExprNode
 
 	private ExprNode targetExpr;
 	private IdentNode methodIdent;
+	private IdentNode attributeIdent; // in most cases null, not used
 	private CollectNode<ExprNode> params;
 	private ExprNode result;
 
-	public MethodInvocationExprNode(ExprNode targetExpr, IdentNode methodIdent, CollectNode<ExprNode> params)
+	public MethodInvocationExprNode(ExprNode targetExpr, IdentNode methodIdent, CollectNode<ExprNode> params, IdentNode attributeIdent)
 	{
 		super(methodIdent.getCoords());
 		this.targetExpr  = becomeParent(targetExpr);
 		this.methodIdent = becomeParent(methodIdent);
+		this.attributeIdent = becomeParent(attributeIdent);
 		this.params      = becomeParent(params);
 	}
 
@@ -129,12 +131,15 @@ public class MethodInvocationExprNode extends ExprNode
   						result = new StringIndexOfNode(getCoords(), targetExpr, params.get(0), params.get(1));
   			}
   			else if(methodName.equals("lastIndexOf")) {
-  				if(params.size() != 1) {
-  					reportError("string.lastIndexOf(strToSearchFor) takes one parameter.");
+  				if(params.size() != 1 && params.size() != 2) {
+  					reportError("string.lastIndexOf(strToSearchFor) takes one parameter, or a second startIndex parameter.");
 					return false;
 				}
   				else
-  					result = new StringLastIndexOfNode(getCoords(), targetExpr, params.get(0));
+  					if(params.size() == 1)
+  						result = new StringLastIndexOfNode(getCoords(), targetExpr, params.get(0));
+  					else
+  						result = new StringLastIndexOfNode(getCoords(), targetExpr, params.get(0), params.get(1));
   			}
   			else if(methodName.equals("startsWith")) {
   				if(params.size() != 1) {
@@ -207,6 +212,14 @@ public class MethodInvocationExprNode extends ExprNode
 				}
   				else
   					result = new MapRangeNode(getCoords(), targetExpr);
+  			}
+			else if(methodName.equals("asArray")) {
+  				if(params.size() != 0) {
+  					reportError("map<int,T>.asArray() does not take any parameters.");
+					return false;
+				}
+  				else
+  					result = new MapAsArrayNode(getCoords(), targetExpr);
   			}
 			else if(methodName.equals("peek")) {
 				if(params.size() != 1) {
@@ -303,6 +316,17 @@ public class MethodInvocationExprNode extends ExprNode
   					else
   						result = new ArrayIndexOfNode(getCoords(), targetExpr, params.get(0), params.get(1));
   			}
+  			else if(methodName.equals("indexOfBy")) {
+  				if(params.size() != 1 && params.size() != 2) {
+  					reportError("array<T>.indexOfBy<attribute>(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
+					return false;
+				}
+  				else
+  					if(params.size() == 1)
+  						result = new ArrayIndexOfByNode(getCoords(), targetExpr, attributeIdent, params.get(0));
+  					else
+  						result = new ArrayIndexOfByNode(getCoords(), targetExpr, attributeIdent, params.get(0), params.get(1));
+  			}
   			else if(methodName.equals("indexOfOrdered")) {
   				if(params.size() != 1) {
   					reportError("array<T>.indexOfOrdered(valueToSearchFor) takes one parameter.");
@@ -311,13 +335,35 @@ public class MethodInvocationExprNode extends ExprNode
   				else
 					result = new ArrayIndexOfOrderedNode(getCoords(), targetExpr, params.get(0));
   			}
-  			else if(methodName.equals("lastIndexOf")) {
+  			else if(methodName.equals("indexOfOrderedBy")) {
   				if(params.size() != 1) {
-  					reportError("array<T>.lastIndexOf(valueToSearchFor) takes one parameter.");
+  					reportError("array<T>.indexOfOrderedBy<attribute>(valueToSearchFor) takes one parameter.");
 					return false;
 				}
   				else
-  					result = new ArrayLastIndexOfNode(getCoords(), targetExpr, params.get(0));
+					result = new ArrayIndexOfOrderedByNode(getCoords(), targetExpr, attributeIdent, params.get(0));
+  			}
+  			else if(methodName.equals("lastIndexOf")) {
+  				if(params.size() != 1 && params.size() != 2) {
+  					reportError("array<T>.lastIndexOf(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
+					return false;
+				}
+  				else
+  					if(params.size() == 1)
+  						result = new ArrayLastIndexOfNode(getCoords(), targetExpr, params.get(0));
+  					else
+  						result = new ArrayLastIndexOfNode(getCoords(), targetExpr, params.get(0), params.get(1));
+  			}
+  			else if(methodName.equals("lastIndexOfBy")) {
+  				if(params.size() != 1 && params.size() != 2) {
+  					reportError("array<T>.lastIndexOfBy<attribute>(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
+					return false;
+				}
+  				else
+  					if(params.size() == 1)
+  						result = new ArrayLastIndexOfByNode(getCoords(), targetExpr, attributeIdent, params.get(0));
+  					else
+  						result = new ArrayLastIndexOfByNode(getCoords(), targetExpr, attributeIdent, params.get(0), params.get(1));
   			}
 			else if(methodName.equals("subarray")) {
   				if(params.size() != 2) {
@@ -327,13 +373,21 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new ArraySubarrayNode(getCoords(), targetExpr, params.get(0), params.get(1));
   			}
-			else if(methodName.equals("sort")) {
+			else if(methodName.equals("orderAscending")) {
   				if(params.size() != 0) {
-  					reportError("array<T>.sort() takes no parameters.");
+  					reportError("array<T>.orderAscending() takes no parameters.");
 					return false;
 				}
   				else
-  					result = new ArraySortNode(getCoords(), targetExpr);
+  					result = new ArrayOrderAscendingNode(getCoords(), targetExpr);
+  			}
+			else if(methodName.equals("orderAscendingBy")) {
+  				if(params.size() != 0) {
+  					reportError("array<T>.orderAscendingBy<attribute>() takes no parameters.");
+					return false;
+				}
+  				else
+  					result = new ArrayOrderAscendingByNode(getCoords(), targetExpr, attributeIdent);
   			}
 			else if(methodName.equals("reverse")) {
   				if(params.size() != 0) {

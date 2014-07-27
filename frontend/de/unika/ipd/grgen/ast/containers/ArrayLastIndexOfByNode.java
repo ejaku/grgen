@@ -16,32 +16,38 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
-import de.unika.ipd.grgen.ir.containers.ArrayLastIndexOfExpr;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ir.containers.ArrayLastIndexOfByExpr;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayLastIndexOfNode extends ExprNode
+public class ArrayLastIndexOfByNode extends ExprNode
 {
 	static {
-		setName(ArrayLastIndexOfNode.class, "array last index of");
+		setName(ArrayLastIndexOfByNode.class, "array last index of by");
 	}
 
 	private ExprNode targetExpr;
+	private IdentNode attribute;
+	private MemberDeclNode member;
 	private ExprNode valueExpr;
 	private ExprNode startIndexExpr;
 
-	public ArrayLastIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr)
+	public ArrayLastIndexOfByNode(Coords coords, ExprNode targetExpr, IdentNode attribute, ExprNode valueExpr)
 	{
 		super(coords);
 		this.targetExpr = becomeParent(targetExpr);
+		this.attribute = attribute;
 		this.valueExpr = becomeParent(valueExpr);
 	}
 
-	public ArrayLastIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr, ExprNode startIndexExpr)
+	public ArrayLastIndexOfByNode(Coords coords, ExprNode targetExpr, IdentNode attribute, ExprNode valueExpr, ExprNode startIndexExpr)
 	{
 		super(coords);
 		this.targetExpr = becomeParent(targetExpr);
+		this.attribute = attribute;
 		this.valueExpr = becomeParent(valueExpr);
 		this.startIndexExpr = becomeParent(startIndexExpr);
 	}
@@ -66,27 +72,47 @@ public class ArrayLastIndexOfNode extends ExprNode
 		return childrenNames;
 	}
 
+	private static final DeclarationResolver<MemberDeclNode> memberResolver
+		= new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
+
 	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to array lastIndexOf expression must be of type array<T>");
+			targetExpr.reportError("This argument to array lastIndexOfBy expression must be of type array<T>");
 			return false;
 		}
+		
+		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
+		if(!(arrayType.valueType instanceof InheritanceTypeNode)) {
+			reportError("lastIndexOfBy can only be employed on an array of nodes or edges.");
+			return false;
+		}
+
+		ScopeOwner o = (ScopeOwner) arrayType.valueType;
+		o.fixupDefinition(attribute);
+		member = memberResolver.resolve(attribute, this);
+		if(member == null)
+			return false;
+
+		if(member.isConst()) {
+			reportError("lastIndexOfBy cannot be used on const attributes.");
+		}
+
+		TypeNode memberType = member.getDeclType();
 		TypeNode valueType = valueExpr.getType();
-		ArrayTypeNode arrayType = ((ArrayTypeNode)targetExpr.getType());
-		if (!valueType.isEqual(arrayType.valueType))
+		if (!valueType.isEqual(memberType))
 		{
-			valueExpr = becomeParent(valueExpr.adjustType(arrayType.valueType, getCoords()));
+			valueExpr = becomeParent(valueExpr.adjustType(memberType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {
 				valueExpr.reportError("Argument (value) to "
-						+ "array lastIndexOf method must be of type " +arrayType.valueType.toString());
+						+ "array lastIndexOfBy method must be of type " +memberType.toString());
 				return false;
 			}
 		}
 		if(startIndexExpr!=null
 				&& !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
-				startIndexExpr.reportError("Argument (start index) to array lastIndexOf expression must be of type int");
+				startIndexExpr.reportError("Argument (start index) to array lastIndexOfBy expression must be of type int");
 				return false;
 				}
 		return true;
@@ -100,11 +126,13 @@ public class ArrayLastIndexOfNode extends ExprNode
 	@Override
 	protected IR constructIR() {
 		if(startIndexExpr!=null)
-			return new ArrayLastIndexOfExpr(targetExpr.checkIR(Expression.class),
+			return new ArrayLastIndexOfByExpr(targetExpr.checkIR(Expression.class),
+					member.checkIR(Entity.class),
 					valueExpr.checkIR(Expression.class),
 					startIndexExpr.checkIR(Expression.class));
 		else
-			return new ArrayLastIndexOfExpr(targetExpr.checkIR(Expression.class),
-				valueExpr.checkIR(Expression.class));
+			return new ArrayLastIndexOfByExpr(targetExpr.checkIR(Expression.class),
+					member.checkIR(Entity.class),
+					valueExpr.checkIR(Expression.class));
 	}
 }

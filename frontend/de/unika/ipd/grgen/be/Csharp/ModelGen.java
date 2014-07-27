@@ -345,6 +345,7 @@ public class ModelGen extends CSharpBase {
 		if(!type.isAbstract())
 			genElementImplementation(type);
 		genTypeImplementation(allTypes, type, packageName);
+		genAttributeArrayHelpersAndComparers(type);
 	}
 
 	//////////////////////////////////
@@ -2205,6 +2206,132 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 		sb.append("\t}\n");
 		sb.append("\n");
+	}
+
+	void genAttributeArrayHelpersAndComparers(InheritanceType type)
+	{
+		for(Entity entity : type.getAllMembers()) {
+			if(entity.getType().classify() == Type.IS_BYTE
+				|| entity.getType().classify() == Type.IS_SHORT
+				|| entity.getType().classify() == Type.IS_INTEGER
+				|| entity.getType().classify() == Type.IS_LONG
+				|| entity.getType().classify() == Type.IS_FLOAT
+				|| entity.getType().classify() == Type.IS_DOUBLE
+				|| entity.getType().classify() == Type.IS_BOOLEAN
+				|| entity.getType().classify() == Type.IS_STRING
+				|| entity.getType().classify() == Type.IS_EXTERNAL_TYPE
+				|| entity.getType().classify() == Type.IS_OBJECT)
+			{
+				if((entity.getType().classify() == Type.IS_EXTERNAL_TYPE || entity.getType().classify() == Type.IS_OBJECT)
+						&& !(model.isEqualClassDefined() && model.isLowerClassDefined()))
+					continue;
+				if(entity.isConst())
+					continue;
+				genAttributeArrayHelpersAndComparers(type, entity);
+			}
+		}
+	}
+
+	void genAttributeArrayHelpersAndComparers(InheritanceType type, Entity entity)
+	{
+		String typeName = formatElementInterfaceRef(type);
+		String attributeName = formatIdentifiable(entity);
+		String attributeTypeName = formatAttributeType(entity.getType());
+		String comparerClassName = "Comparer_" + type.getIdent().toString() + "_" + attributeName;
+		
+		if(!type.isAbstract() && type.getExternalName()==null) 
+		{
+			sb.append("\n\tpublic class " + comparerClassName + " : Comparer<" + typeName + ">\n");
+			sb.append("\t{\n");
+
+			if(type instanceof EdgeType)
+				sb.append("\t\tprivate static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(type) + "(null, null);\n");
+			else
+				sb.append("\t\tprivate static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(type) + "();\n");
+		}
+		else
+		{
+			boolean nonAbstractSubtypeFound = false;
+			for(InheritanceType subtype : type.getAllSubTypes()) {
+				if(!subtype.isAbstract() && type.getExternalName()==null)
+				{
+					sb.append("\n\tpublic class " + comparerClassName + " : Comparer<" + typeName + ">\n");
+					sb.append("\t{\n");
+
+					if(type instanceof EdgeType)
+						sb.append("\t\tprivate static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(subtype) + "(null, null);\n");
+					else
+						sb.append("\t\tprivate static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(subtype) + "();\n");
+					
+					nonAbstractSubtypeFound = true;
+					break;
+				}
+			}
+			if(!nonAbstractSubtypeFound)
+				return; // can't generate comparer for abstract types that have no concrete subtype
+		}
+		
+		sb.append("\t\tprivate static " + comparerClassName + " thisComparer = new " + comparerClassName + "();\n");
+		
+		sb.append("\t\tpublic override int Compare(" + typeName + " a, " + typeName + " b)\n");
+		sb.append("\t\t{\n");
+		if(entity.getType().classify()==Type.IS_EXTERNAL_TYPE || entity.getType().classify()==Type.IS_OBJECT) {
+			sb.append("\t\t\tif(AttributeTypeObjectCopierComparer.IsEqual(a, b)) return 0;\n");
+			sb.append("\t\t\tif(AttributeTypeObjectCopierComparer.IsLower(a, b)) return -1;\n");
+			sb.append("\t\t\treturn 1;\n");
+		}
+		else if(entity.getType() instanceof StringType)
+			sb.append("\t\t\treturn StringComparer.InvariantCulture.Compare(a.@" + attributeName + ", b.@" + attributeName + ");\n");
+		else
+			sb.append("\t\t\treturn a.@" + attributeName + ".CompareTo(b.@" + attributeName + ");\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t\tpublic static int IndexOfBy(IList<" + typeName + "> list, " + attributeTypeName + " entry)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tfor(int i = 0; i < list.Count; ++i)\n");
+		sb.append("\t\t\t\tif(list[i].@" + attributeName + ".Equals(entry))\n");
+		sb.append("\t\t\t\t\treturn i;\n");
+		sb.append("\t\t\treturn -1;\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t\tpublic static int IndexOfBy(IList<" + typeName + "> list, " + attributeTypeName + " entry, int startIndex)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tfor(int i = startIndex; i < list.Count; ++i)\n");
+		sb.append("\t\t\t\tif(list[i].@" + attributeName + ".Equals(entry))\n");
+		sb.append("\t\t\t\t\treturn i;\n");
+		sb.append("\t\t\treturn -1;\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t\tpublic static int LastIndexOfBy(IList<" + typeName + "> list, " + attributeTypeName + " entry)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tfor(int i = list.Count - 1; i >= 0; --i)\n");
+		sb.append("\t\t\t\tif(list[i].@" + attributeName + ".Equals(entry))\n");
+		sb.append("\t\t\t\t\treturn i;\n");
+		sb.append("\t\t\treturn -1;\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t\tpublic static int LastIndexOfBy(IList<" + typeName + "> list, " + attributeTypeName + " entry, int startIndex)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tfor(int i = startIndex; i >= 0; --i)\n");
+		sb.append("\t\t\t\tif(list[i].@" + attributeName + ".Equals(entry))\n");
+		sb.append("\t\t\t\t\treturn i;\n");
+		sb.append("\t\t\treturn -1;\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t\tpublic static int IndexOfOrderedBy(List<" + typeName + "> list, " + attributeTypeName + " entry)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tnodeBearingAttributeForSearch.@" + attributeName + " = entry;\n");
+		sb.append("\t\t\treturn list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t\tpublic static List<" + typeName + "> ArrayOrderAscendingBy(List<" + typeName + "> list)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tList<" + typeName + "> newList = new List<" + typeName + ">(list);\n");
+		sb.append("\t\t\tnewList.Sort(thisComparer);\n");
+		sb.append("\t\t\treturn newList;\n");
+		sb.append("\t\t}\n");
+		
+		sb.append("\t}\n\n");
 	}
 
 	////////////////////////////

@@ -1,0 +1,26 @@
+using arraysort;
+
+rule sort(ref a:array<N>)
+{
+	if{ a.orderAscendingBy<i>().indexOfOrderedBy<i>(2)==2; }
+	if{ a.indexOfBy<i>(1)==a.lastIndexOfBy<i>(1); }
+	if{ a.orderAscendingBy<s>().indexOfOrderedBy<s>("2")==2; }
+
+	modify {
+		emit("the value of variable a of type unknown is: ", a.orderAscendingBy<i>(), "\n");
+		emit("the value of variable i of type unknown is: ", a.orderAscendingBy<i>().indexOfOrderedBy<i>(2), "\n");
+		emit("the value of variable a of type unknown is: ", a.orderAscendingBy<s>(), "\n");
+		emit("the value of variable i of type unknown is: ", a.orderAscendingBy<s>().indexOfOrderedBy<s>("2"), "\n");
+		emit("the value of variable foo of type unknown is: ", a.indexOfBy<i>(1)==a.lastIndexOfBy<i>(1), "\n");
+	}
+}
+
+rule sortPlain(ref a:array<int>)
+{
+	if{ a.orderAscending().indexOfOrdered(2)==2; }
+
+	modify {
+		emit("the value of variable a of type unknown is: ", a.orderAscending(), "\n");
+		emit("the value of variable i of type unknown is: ", a.orderAscending().indexOfOrdered(2), "\n");
+	}
+}

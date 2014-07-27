@@ -2,52 +2,128 @@
 
 rule sortReverseInt(ref a:array<int>) {
 	if {
-		a.sort() == a.reverse();
+		a.orderAscending() == a.reverse();
 	}		
 	
 	modify {
 		eval {
-			def ref aa:array<int> = a.sort();
+			def ref aa:array<int> = a.orderAscending();
 			aa = a.reverse();
+		}		
+	}
+}
+
+rule sortReverseByInt(ref a:array<N>) {
+	if {
+		a.orderAscendingBy<i>() == a.reverse();
+		a.indexOfOrderedBy<i>(42) == a.indexOfOrderedBy<i>(42);
+		a.indexOfBy<i>(42) == a.indexOfBy<i>(42, 0);
+		a.lastIndexOfBy<i>(42) == a.lastIndexOfBy<i>(42, 0);
+	}		
+	
+	modify {
+		eval {
+			def ref aa:array<N> = a.orderAscendingBy<i>();
+			aa = a.reverse();
+			def var b:boolean = a.indexOfOrderedBy<i>(42) == aa.indexOfOrderedBy<i>(42);
+			b = a.indexOfBy<i>(42) == aa.indexOfBy<i>(42, 0);
+			b = a.lastIndexOfBy<i>(42) == aa.lastIndexOfBy<i>(42, 0);
 		}		
 	}
 }
 
 rule sortReverseString(ref a:array<string>) {
 	if {
-		a.sort() == a.reverse();
+		a.orderAscending() == a.reverse();
 	}		
 	
 	modify {
 		eval {
-			def ref aa:array<string> = a.sort();
+			def ref aa:array<string> = a.orderAscending();
 			aa = a.reverse();
+		}		
+	}
+}
+
+rule sortReverseByString(ref a:array<N>) {
+	if {
+		a.orderAscendingBy<s>() == a.reverse();
+		a.indexOfOrderedBy<s>("42") == a.indexOfOrderedBy<s>("42");
+		a.indexOfBy<s>("42") == a.indexOfBy<s>("42", 0);
+		a.lastIndexOfBy<s>("42") == a.lastIndexOfBy<s>("42", 0);
+	}		
+	
+	modify {
+		eval {
+			def ref aa:array<N> = a.orderAscendingBy<s>();
+			aa = a.reverse();
+			def var b:boolean = a.indexOfOrderedBy<s>("42") == aa.indexOfOrderedBy<s>("42");
+			b = a.indexOfBy<s>("42") == aa.indexOfBy<s>("42", 0);
+			b = a.lastIndexOfBy<s>("42") == aa.lastIndexOfBy<s>("42", 0);
 		}		
 	}
 }
 
 rule sortReverseDouble(ref a:array<double>) {
 	if {
-		a.sort() == a.reverse();
+		a.orderAscending() == a.reverse();
 	}		
 	
 	modify {
 		eval {
-			def ref aa:array<double> = a.sort();
+			def ref aa:array<double> = a.orderAscending();
 			aa = a.reverse();
+		}		
+	}
+}
+
+rule sortReverseByDouble(ref a:array<N>) {
+	if {
+		a.orderAscendingBy<d>() == a.reverse();
+		a.indexOfOrderedBy<d>(42.0) == a.indexOfOrderedBy<d>(42.0);
+		a.indexOfBy<d>(42.0) == a.indexOfBy<d>(42.0, 0);
+		a.lastIndexOfBy<d>(42.0) == a.lastIndexOfBy<d>(42.0, 0);
+	}		
+	
+	modify {
+		eval {
+			def ref aa:array<N> = a.orderAscendingBy<d>();
+			aa = a.reverse();
+			def var b:boolean = a.indexOfOrderedBy<d>(42.0) == aa.indexOfOrderedBy<d>(42.0);
+			b = a.indexOfBy<d>(42.0) == aa.indexOfBy<d>(42.0, 0);
+			b = a.lastIndexOfBy<d>(42.0) == aa.lastIndexOfBy<d>(42.0, 0);
 		}		
 	}
 }
 
 rule sortReverseET(ref a:array<ET>) {
 	if {
-		a.sort() == a.reverse();
+		a.orderAscending() == a.reverse();
 	}		
 	
 	modify {
 		eval {
-			def ref aa:array<ET> = a.sort();
+			def ref aa:array<ET> = a.orderAscending();
 			aa = a.reverse();
+		}		
+	}
+}
+
+rule sortReverseByET(ref a:array<N>) {
+	if {
+		a.orderAscendingBy<e>() == a.reverse();
+		a.indexOfOrderedBy<e>(ET::bar) == a.indexOfOrderedBy<e>(ET::bar);
+		a.indexOfBy<e>(ET::bar) == a.indexOfBy<e>(ET::bar, 0);
+		a.lastIndexOfBy<e>(ET::bar) == a.lastIndexOfBy<e>(ET::bar, 0);
+	}		
+	
+	modify {
+		eval {
+			def ref aa:array<N> = a.orderAscendingBy<e>();
+			aa = a.reverse();
+			def var b:boolean = a.indexOfOrderedBy<e>(ET::bar) == aa.indexOfOrderedBy<e>(ET::bar);
+			b = a.indexOfBy<e>(ET::bar) == aa.indexOfBy<e>(ET::bar, 0);
+			b = a.lastIndexOfBy<e>(ET::bar) == aa.lastIndexOfBy<e>(ET::bar, 0);
 		}		
 	}
 }

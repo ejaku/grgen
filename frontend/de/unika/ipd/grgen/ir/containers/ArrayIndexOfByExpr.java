@@ -10,28 +10,36 @@
  */
 package de.unika.ipd.grgen.ir.containers;
 
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayLastIndexOfExpr extends Expression {
+public class ArrayIndexOfByExpr extends Expression {
 	private Expression targetExpr;
+	private Entity member;
 	private Expression valueExpr;
 	private Expression startIndexExpr;
 
-	public ArrayLastIndexOfExpr(Expression targetExpr, Expression valueExpr) {
-		super("array lastIndexOf expr", IntType.getType());
+	public ArrayIndexOfByExpr(Expression targetExpr, Entity member, Expression valueExpr) {
+		super("array indexOfBy expr", IntType.getType());
 		this.targetExpr = targetExpr;
+		this.member = member;
 		this.valueExpr = valueExpr;
 	}
 
-	public ArrayLastIndexOfExpr(Expression targetExpr, Expression valueExpr, Expression startIndexExpr) {
-		super("array indexOf expr", IntType.getType());
+	public ArrayIndexOfByExpr(Expression targetExpr, Entity member, Expression valueExpr, Expression startIndexExpr) {
+		super("array indexOfBy expr", IntType.getType());
 		this.targetExpr = targetExpr;
+		this.member = member;
 		this.valueExpr = valueExpr;
 		this.startIndexExpr = startIndexExpr;
 	}
 
 	public Expression getTargetExpr() {
 		return targetExpr;
+	}
+
+	public Entity getMember() {
+		return member;
 	}
 
 	public Expression getValueExpr() {

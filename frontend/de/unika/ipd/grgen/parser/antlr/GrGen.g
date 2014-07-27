@@ -3581,10 +3581,13 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 selectorExpr [ ExprNode target, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	:	l=LBRACK key=expr[inEnumInit] RBRACK { res = new IndexedAccessExprNode(getCoords(l), target, key); }
 	|	d=DOT id=memberIdentUse
+			( { input.get(input.LT(1).getTokenIndex()-1).getText().equals("indexOfBy") || input.get(input.LT(1).getTokenIndex()-1).getText().equals("indexOfOrderedBy") 
+				|| input.get(input.LT(1).getTokenIndex()-1).getText().equals("lastIndexOfBy") || input.get(input.LT(1).getTokenIndex()-1).getText().equals("orderAscendingBy") }? 
+				LT mi=memberIdentUse GT )?
 		(
 			params=paramExprs[inEnumInit]
 			{
-				res = new MethodInvocationExprNode(target, id, params);
+				res = new MethodInvocationExprNode(target, id, params, mi);
 			}
 		| 
 			{
