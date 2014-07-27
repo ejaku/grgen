@@ -2728,6 +2728,10 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, strlio.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, strlio.getStringToSearchForExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(strlio.getStartIndexExpr()!=null) {
+				sb.append(", ");
+				genExpressionTree(sb, strlio.getStartIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);				
+			}
 			sb.append(")");
 		}
 		else if (expr instanceof StringStartsWith) {
@@ -2813,6 +2817,12 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, mr.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof MapAsArrayExpr) {
+			MapAsArrayExpr maa = (MapAsArrayExpr)expr;
+			sb.append("new GRGEN_EXPR.MapAsArray(");
+			genExpressionTree(sb, maa.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof MapPeekExpr) {
 			MapPeekExpr mp = (MapPeekExpr)expr;
 			sb.append("new GRGEN_EXPR.MapPeek(");
@@ -2881,6 +2891,19 @@ public class ActionsGen extends CSharpBase {
 			}
 			sb.append(")");
 		}
+		else if (expr instanceof ArrayIndexOfByExpr) {
+			ArrayIndexOfByExpr aib = (ArrayIndexOfByExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayIndexOfBy(");
+			genExpressionTree(sb, aib.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", \"" + ((ArrayType)aib.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
+			sb.append(", \"" + formatIdentifiable(aib.getMember()) + "\", ");
+			genExpressionTree(sb, aib.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(aib.getStartIndexExpr()!=null) {
+				sb.append(", ");
+				genExpressionTree(sb, aib.getStartIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);				
+			}
+			sb.append(")");
+		}
 		else if (expr instanceof ArrayIndexOfOrderedExpr) {
 			ArrayIndexOfOrderedExpr aio = (ArrayIndexOfOrderedExpr)expr;
 			sb.append("new GRGEN_EXPR.ArrayIndexOfOrdered(");
@@ -2889,12 +2912,38 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, aio.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof ArrayIndexOfOrderedByExpr) {
+			ArrayIndexOfOrderedByExpr aiob = (ArrayIndexOfOrderedByExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayIndexOfOrderedBy(");
+			genExpressionTree(sb, aiob.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", \"" + ((ArrayType)aiob.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
+			sb.append(", \"" + formatIdentifiable(aiob.getMember()) + "\", ");
+			genExpressionTree(sb, aiob.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof ArrayLastIndexOfExpr) {
 			ArrayLastIndexOfExpr ali = (ArrayLastIndexOfExpr)expr;
 			sb.append("new GRGEN_EXPR.ArrayLastIndexOf(");
 			genExpressionTree(sb, ali.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, ali.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(ali.getStartIndexExpr()!=null) {
+				sb.append(", ");
+				genExpressionTree(sb, ali.getStartIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			}
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayLastIndexOfByExpr) {
+			ArrayLastIndexOfByExpr alib = (ArrayLastIndexOfByExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayLastIndexOfBy(");
+			genExpressionTree(sb, alib.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", \"" + ((ArrayType)alib.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
+			sb.append(", \"" + formatIdentifiable(alib.getMember()) + "\", ");
+			genExpressionTree(sb, alib.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(alib.getStartIndexExpr()!=null) {
+				sb.append(", ");
+				genExpressionTree(sb, alib.getStartIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			}
 			sb.append(")");
 		}
 		else if (expr instanceof ArraySubarrayExpr) {
@@ -2907,10 +2956,18 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, as.getLengthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
-		else if (expr instanceof ArraySortExpr) {
-			ArraySortExpr as = (ArraySortExpr)expr;
-			sb.append("new GRGEN_EXPR.ArraySort(");
-			genExpressionTree(sb, as.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		else if (expr instanceof ArrayOrderAscending) {
+			ArrayOrderAscending aoa = (ArrayOrderAscending)expr;
+			sb.append("new GRGEN_EXPR.ArrayOrderAscending(");
+			genExpressionTree(sb, aoa.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayOrderAscendingBy) {
+			ArrayOrderAscendingBy aoab = (ArrayOrderAscendingBy)expr;
+			sb.append("new GRGEN_EXPR.ArrayOrderAscendingBy(");
+			genExpressionTree(sb, aoab.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", \"" + ((ArrayType)aoab.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
+			sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
 			sb.append(")");
 		}
 		else if (expr instanceof ArrayReverseExpr) {

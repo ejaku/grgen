@@ -16,20 +16,20 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
-import de.unika.ipd.grgen.ir.containers.ArraySortExpr;
+import de.unika.ipd.grgen.ir.containers.ArrayOrderAscending;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArraySortNode extends ExprNode
+public class ArrayOrderAscendingNode extends ExprNode
 {
 	static {
-		setName(ArraySortNode.class, "array sort");
+		setName(ArrayOrderAscendingNode.class, "array ordere ascending");
 	}
 
 	private ExprNode targetExpr;
 
-	public ArraySortNode(Coords coords, ExprNode targetExpr)
+	public ArrayOrderAscendingNode(Coords coords, ExprNode targetExpr)
 	{
 		super(coords);
 		this.targetExpr = becomeParent(targetExpr);
@@ -53,7 +53,7 @@ public class ArraySortNode extends ExprNode
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to array sort expression must be of type array<T>");
+			targetExpr.reportError("This argument to array orderAscending expression must be of type array<T>");
 			return false;
 		}
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
@@ -66,7 +66,7 @@ public class ArraySortNode extends ExprNode
 			&& !(arrayType.valueType.equals(BasicTypeNode.stringType))
 			&& !(arrayType.valueType.equals(BasicTypeNode.booleanType))
 			&& !(arrayType.valueType instanceof EnumTypeNode)) {
-			targetExpr.reportError("array sort only available for arrays of type byte,short,int,long,float,double,string,boolean,enum");
+			targetExpr.reportError("array orderAscending only available for arrays of type byte,short,int,long,float,double,string,boolean,enum");
 		}
 		return true;
 	}
@@ -78,6 +78,6 @@ public class ArraySortNode extends ExprNode
 
 	@Override
 	protected IR constructIR() {
-		return new ArraySortExpr(targetExpr.checkIR(Expression.class));
+		return new ArrayOrderAscending(targetExpr.checkIR(Expression.class));
 	}
 }

@@ -889,6 +889,28 @@ namespace de.unika.ipd.grGen.libGr
             return -1;
         }
 
+        public static int LastIndexOf<V>(List<V> a, V entry, int startIndex)
+        {
+            for(int i = startIndex; i >= 0; --i)
+            {
+                if(EqualityComparer<V>.Default.Equals(a[i], entry))
+                    return i;
+            }
+
+            return -1;
+        }
+
+        public static int LastIndexOf(IList a, object entry, int startIndex)
+        {
+            for(int i = startIndex; i >= 0; --i)
+            {
+                if(a[i] == entry)
+                    return i;
+            }
+
+            return -1;
+        }
+
         /// <summary>
         /// Creates a new dynamic array with length values copied from a from index start on.
         /// </summary>
@@ -913,7 +935,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="a">A List, i.e. dynamic array.</param>
         /// <returns>A new List with the content of the old list sorted.</returns>
-        public static List<V> ArraySort<V>(List<V> a)
+        public static List<V> ArrayOrderAscending<V>(List<V> a)
         {
             List<V> newList = new List<V>(a);
 
@@ -927,7 +949,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="a">A List, i.e. dynamic array.</param>
         /// <returns>A new List with the content of the old list sorted.</returns>
-        public static List<string> ArraySort(List<string> a)
+        public static List<string> ArrayOrderAscending(List<string> a)
         {
             List<string> newList = new List<string>(a);
 
@@ -1347,6 +1369,35 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             return newDict;
+        }
+
+        /// <summary>
+        /// Creates a new list representing an array,
+        /// containing all values from the given dictionary representing a map <paramref name="map"/> from int to some values.
+        /// </summary>
+        /// <param name="map">A dictionary representing a map.</param>
+        /// <returns>A new list containing all values from <paramref name="map"/>.</returns>
+        public static List<V> MapAsArray<V>(Dictionary<int, V> map)
+        {
+            int max = 0;
+            foreach(int i in map.Keys)
+            {
+                if(i < 0)
+                    throw new Exception("MapAsArray does not support negative indices");
+                max = Math.Max(max, i);
+            }
+            List<V> newList = new List<V>(max); // yep, if the dict contains max int, contiguous 8GB are needed
+
+            // Add all values of dictionary representing map to new dictionary representing set
+            for(int i = 0; i < map.Count; ++i)
+            {
+                if(map.ContainsKey(i))
+                    newList[i] = map[i];
+                else
+                    newList[i] = default(V);
+            }
+
+            return newList;
         }
 
         /// <summary>

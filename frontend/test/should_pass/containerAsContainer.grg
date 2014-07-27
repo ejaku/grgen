@@ -41,11 +41,13 @@ rule mapAs(ref m:map<int,int>):()
 {
 	if { m.domain() != set<int>{}; }
 	if { m.range() != set<int>{}; }
+	if { m.asArray() != array<int>[]; }
 	
 	modify {
 		eval {
-			def ref a:set<int> = m.domain();
-			a = m.range();
+			def ref s:set<int> = m.domain();
+			s = m.range();
+			def ref a:array<int> = m.asArray();
 		}
 	}
 }

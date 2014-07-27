@@ -8,24 +8,26 @@
 /**
  * @author Edgar Jakumeit
  */
+
 package de.unika.ipd.grgen.ir.containers;
 
+import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArraySortExpr extends Expression {
-	private Expression targetExpr;
+public class MapAsArrayExpr extends Expression {
+	Expression targetExpr;
 
-	public ArraySortExpr(Expression targetExpr) {
-		super("array sort expr", (ArrayType)targetExpr.getType());
+	public MapAsArrayExpr(Expression targetExpr, Type targetType) {
+		super("map as array expression", targetType);
 		this.targetExpr = targetExpr;
-	}
-
-	public Expression getTargetExpr() {
-		return targetExpr;
 	}
 
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
+	}
+
+	public Expression getTargetExpr() {
+		return targetExpr;
 	}
 }

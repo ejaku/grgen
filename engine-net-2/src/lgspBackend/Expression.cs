@@ -2304,9 +2304,19 @@ namespace de.unika.ipd.grGen.expression
             StringToSearchForExpr = stringToSearchForExpr;
         }
 
+        public StringLastIndexOf(Expression stringExpr, Expression stringToSearchForExpr, Expression startIndexExpr)
+        {
+            StringExpr = stringExpr;
+            StringToSearchForExpr = stringToSearchForExpr;
+            StartIndexExpr = startIndexExpr;
+        }
+
         public override Expression Copy(string renameSuffix)
         {
-            return new StringLastIndexOf(StringExpr.Copy(renameSuffix), StringToSearchForExpr.Copy(renameSuffix));
+            if(StartIndexExpr != null)
+                return new StringLastIndexOf(StringExpr.Copy(renameSuffix), StringToSearchForExpr.Copy(renameSuffix), StartIndexExpr.Copy(renameSuffix));
+            else
+                return new StringLastIndexOf(StringExpr.Copy(renameSuffix), StringToSearchForExpr.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2315,6 +2325,11 @@ namespace de.unika.ipd.grGen.expression
             StringExpr.Emit(sourceCode);
             sourceCode.Append(").LastIndexOf(");
             StringToSearchForExpr.Emit(sourceCode);
+            if(StartIndexExpr != null)
+            {
+                sourceCode.Append(", ");
+                StartIndexExpr.Emit(sourceCode);
+            }
             sourceCode.Append(", StringComparison.InvariantCulture");
             sourceCode.Append(")");
         }
@@ -2323,10 +2338,13 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return StringExpr;
             yield return StringToSearchForExpr;
+            if(StartIndexExpr != null)
+                yield return StartIndexExpr;
         }
 
         Expression StringExpr;
         Expression StringToSearchForExpr;
+        Expression StartIndexExpr;
     }
 
     /// <summary>
@@ -2792,6 +2810,36 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a map as array expression.
+    /// </summary>
+    public class MapAsArray : Expression
+    {
+        public MapAsArray(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new MapAsArray(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.MapAsArray(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
     /// Class representing a set size expression.
     /// </summary>
     public class SetSize : Expression
@@ -3077,6 +3125,65 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an array index of by attribute expression.
+    /// </summary>
+    public class ArrayIndexOfBy : Expression
+    {
+        public ArrayIndexOfBy(Expression target, string ownerType, string member, Expression value)
+        {
+            Target = target;
+            OwnerType = ownerType;
+            Member = member;
+            Value = value;
+        }
+
+        public ArrayIndexOfBy(Expression target, string ownerType, string member, Expression value, Expression startIndex)
+        {
+            Target = target;
+            OwnerType = ownerType;
+            Member = member;
+            Value = value;
+            StartIndex = startIndex;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            if(StartIndex != null)
+                return new ArrayIndexOfBy(Target.Copy(renameSuffix), OwnerType, Member, Value.Copy(renameSuffix), StartIndex.Copy(renameSuffix));
+            else
+                return new ArrayIndexOfBy(Target.Copy(renameSuffix), OwnerType, Member, Value.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFormat("GRGEN_MODEL.Comparer_{0}_{1}.IndexOfBy(", OwnerType, Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            if(StartIndex != null)
+            {
+                sourceCode.Append(", ");
+                StartIndex.Emit(sourceCode);
+            }
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+            if(StartIndex != null)
+                yield return StartIndex;
+        }
+
+        Expression Target;
+        String OwnerType;
+        String Member;
+        Expression Value;
+        Expression StartIndex;
+    }
+
+    /// <summary>
     /// Class representing an array index of ordered expression.
     /// </summary>
     public class ArrayIndexOfOrdered : Expression
@@ -3112,24 +3219,26 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an array last index of expression.
+    /// Class representing an array index of ordered by attribute expression.
     /// </summary>
-    public class ArrayLastIndexOf : Expression
+    public class ArrayIndexOfOrderedBy : Expression
     {
-        public ArrayLastIndexOf(Expression target, Expression value)
+        public ArrayIndexOfOrderedBy(Expression target, String ownerType, String member, Expression value)
         {
             Target = target;
+            OwnerType = ownerType;
+            Member = member;
             Value = value;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayLastIndexOf(Target.Copy(renameSuffix), Value.Copy(renameSuffix));
+            return new ArrayIndexOfOrderedBy(Target.Copy(renameSuffix), OwnerType, Member, Value.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.LastIndexOf(");
+            sourceCode.AppendFormat("GRGEN_MODEL.Comparer_{0}_{1}.IndexOfOrderedBy(", OwnerType, Member);
             Target.Emit(sourceCode);
             sourceCode.Append(", ");
             Value.Emit(sourceCode);
@@ -3143,7 +3252,121 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Target;
+        String OwnerType;
+        String Member;
         Expression Value;
+    }
+
+    /// <summary>
+    /// Class representing an array last index of expression.
+    /// </summary>
+    public class ArrayLastIndexOf : Expression
+    {
+        public ArrayLastIndexOf(Expression target, Expression value)
+        {
+            Target = target;
+            Value = value;
+        }
+
+        public ArrayLastIndexOf(Expression target, Expression value, Expression startIndex)
+        {
+            Target = target;
+            Value = value;
+            StartIndex = startIndex;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            if(StartIndex != null)
+                return new ArrayLastIndexOf(Target.Copy(renameSuffix), Value.Copy(renameSuffix));
+            else
+                return new ArrayLastIndexOf(Target.Copy(renameSuffix), Value.Copy(renameSuffix), StartIndex);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.LastIndexOf(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            if(StartIndex != null)
+            {
+                sourceCode.Append(", ");
+                StartIndex.Emit(sourceCode);
+            }
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+            if(StartIndex != null)
+                yield return StartIndex;
+        }
+
+        Expression Target;
+        Expression Value;
+        Expression StartIndex;
+    }
+
+    /// <summary>
+    /// Class representing an array last index of by expression.
+    /// </summary>
+    public class ArrayLastIndexOfBy : Expression
+    {
+        public ArrayLastIndexOfBy(Expression target, string ownerType, string member, Expression value)
+        {
+            Target = target;
+            OwnerType = ownerType;
+            Member = member;
+            Value = value;
+        }
+
+        public ArrayLastIndexOfBy(Expression target, string ownerType, string member, Expression value, Expression startIndex)
+        {
+            Target = target;
+            OwnerType = ownerType;
+            Member = member;
+            Value = value;
+            StartIndex = startIndex;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            if(StartIndex != null)
+                return new ArrayLastIndexOfBy(Target.Copy(renameSuffix), OwnerType, Member, Value.Copy(renameSuffix));
+            else
+                return new ArrayLastIndexOfBy(Target.Copy(renameSuffix), OwnerType, Member, Value.Copy(renameSuffix), StartIndex);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFormat("GRGEN_MODEL.Comparer_{0}_{1}.LastIndexOfBy(", OwnerType, Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            if(StartIndex != null)
+            {
+                sourceCode.Append(", ");
+                StartIndex.Emit(sourceCode);
+            }
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+            if(StartIndex != null)
+                yield return StartIndex;
+        }
+
+        Expression Target;
+        String OwnerType;
+        String Member;
+        Expression Value;
+        Expression StartIndex;
     }
 
     /// <summary>
@@ -3189,21 +3412,21 @@ namespace de.unika.ipd.grGen.expression
     /// <summary>
     /// Class representing an array sort expression.
     /// </summary>
-    public class ArraySort : Expression
+    public class ArrayOrderAscending : Expression
     {
-        public ArraySort(Expression target)
+        public ArrayOrderAscending(Expression target)
         {
             Target = target;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArraySort(Target.Copy(renameSuffix));
+            return new ArrayOrderAscending(Target.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.ArraySort(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.ArrayOrderAscending(");
             Target.Emit(sourceCode);
             sourceCode.Append(")");
         }
@@ -3214,6 +3437,40 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array sort by expression.
+    /// </summary>
+    public class ArrayOrderAscendingBy : Expression
+    {
+        public ArrayOrderAscendingBy(Expression target, string ownerType, string member)
+        {
+            Target = target;
+            OwnerType = ownerType;
+            Member = member;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOrderAscendingBy(Target.Copy(renameSuffix), OwnerType, Member);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFormat("GRGEN_MODEL.Comparer_{0}_{1}.ArrayOrderAscendingBy(", OwnerType, Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+        String OwnerType;
+        String Member;
     }
 
     /// <summary>

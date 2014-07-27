@@ -1,3 +1,11 @@
 enum ET {
 	foo, bar, baz, qux
 }
+
+node class N
+{
+	i:int;
+	s:string;
+	d:double;
+	e:ET;
+}

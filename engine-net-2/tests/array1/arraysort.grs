@@ -1,0 +1,32 @@
+new graph array1/arraysort
+
+new n1:N
+n1.i = 0
+n1.s = "0"
+show var n1
+
+new n2:N
+n2.i = 1
+n2.s = "1"
+show var n2
+
+new n3:N
+n3.i = 2
+n3.s = "2"
+show var n3
+
+new n4:N
+n4.i = 3
+n4.s = "3"
+show var n4
+
+new n5:N
+n5.i = 4
+n5.s = "4"
+show var n5
+
+exec a:array<N>=array<N>[::n2,::n1,::n3,::n4,::n5,::n4] ;> sort(a)
+
+exec a:array<int>=array<int>[1,0,2,3,4,3] ;> sortPlain(a)
+
+quit

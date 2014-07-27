@@ -11,6 +11,8 @@ rule r1
 		str.a.lastIndexOf("test") == str.a.indexOf("test");
 		str2.a.indexOf("test") != -1;
 		str2.a.lastIndexOf("test") == str2.a.indexOf("test");
+		str.a.indexOf("test", 42) == -1;
+		str.a.lastIndexOf("test", 42) == -1;
 
 		(str2.a + 8).length() != (str.a + str2.a).indexOf("blub");
 
@@ -31,7 +33,7 @@ rule r1
 
 			str2.a = str2.a.replace(str2.a.indexOf("test"), 4, "rules");
 
-			b.a = str.a == str2.a;
+			b.a = str.a == str2.a && str.a.indexOf("test", 42) == str.a.lastIndexOf("test", 42);
 		}
 	}
 }

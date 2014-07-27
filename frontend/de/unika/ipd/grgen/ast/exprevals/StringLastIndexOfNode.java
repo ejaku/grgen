@@ -27,6 +27,7 @@ public class StringLastIndexOfNode extends ExprNode {
 
 	private ExprNode stringExpr;
 	private ExprNode stringToSearchForExpr;
+	private ExprNode startIndexExpr;
 
 
 	public StringLastIndexOfNode(Coords coords, ExprNode stringExpr,
@@ -37,11 +38,22 @@ public class StringLastIndexOfNode extends ExprNode {
 		this.stringToSearchForExpr = becomeParent(stringToSearchForExpr);
 	}
 
+	public StringLastIndexOfNode(Coords coords, ExprNode stringExpr,
+			ExprNode stringToSearchForExpr, ExprNode startIndexExpr) {
+		super(coords);
+
+		this.stringExpr            = becomeParent(stringExpr);
+		this.stringToSearchForExpr = becomeParent(stringToSearchForExpr);
+		this.startIndexExpr        = becomeParent(startIndexExpr);
+	}
+
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(stringExpr);
 		children.add(stringToSearchForExpr);
+		if(startIndexExpr!=null)
+			children.add(startIndexExpr);
 		return children;
 	}
 
@@ -50,6 +62,8 @@ public class StringLastIndexOfNode extends ExprNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("string");
 		childrenNames.add("stringToSearchFor");
+		if(startIndexExpr!=null)
+			childrenNames.add("startIndex");
 		return childrenNames;
 	}
 
@@ -64,13 +78,23 @@ public class StringLastIndexOfNode extends ExprNode {
 					+ "search for) to string lastIndexOf expression must be of type string");
 			return false;
 		}
+		if(startIndexExpr!=null
+				&& !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
+				startIndexExpr.reportError("Argument (start index) to string lastIndexOf expression must be of type int");
+				return false;
+			}
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new StringLastIndexOf(stringExpr.checkIR(Expression.class),
-				stringToSearchForExpr.checkIR(Expression.class));
+		if(startIndexExpr!=null)
+			return new StringLastIndexOf(stringExpr.checkIR(Expression.class),
+					stringToSearchForExpr.checkIR(Expression.class),
+					startIndexExpr.checkIR(Expression.class));
+		else
+			return new StringLastIndexOf(stringExpr.checkIR(Expression.class),
+					stringToSearchForExpr.checkIR(Expression.class));
 	}
 
 	@Override
