@@ -102,11 +102,11 @@ pattern FindSourceState(containedEntity:Node, def sourceState:_statemachine::_St
 			}
 		}
 		StatementSwitch {
-			switch:_statements::_Switch -:_statements::_Switch_cases-> containedEntity;
-			fss:FindSourceState(switch, yield sourceState);
+			switch_:_statements::_Switch -:_statements::_Switch_cases-> containedEntity;
+			fss:FindSourceState(switch_, yield sourceState);
 
 			modify {
-				transition -:link-> switch;
+				transition -:link-> switch_;
 				fss(transition);
 			}
 		}
@@ -156,8 +156,8 @@ rule addTriggerNonRunMethodName
 
 rule addTriggerSwitchCaseEnumValueName
 {
-	transition:_statemachine::_Transition -:link-> case:_statements::_NormalSwitchCase;
-	case -:_statements::_Conditional_condition-> caseCondition:_references::_IdentifierReference;
+	transition:_statemachine::_Transition -:link-> case_:_statements::_NormalSwitchCase;
+	case_ -:_statements::_Conditional_condition-> caseCondition:_references::_IdentifierReference;
 	caseCondition -:_references::_ElementReference_target-> value:_members::_EnumConstant;
 
 	modify {
