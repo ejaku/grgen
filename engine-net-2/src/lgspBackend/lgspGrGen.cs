@@ -43,7 +43,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         internal bool FireEvents { get { return (flags & ProcessSpecFlags.NoEvents) == 0; } }
         internal bool FireDebugEvents { get { return (flags & ProcessSpecFlags.NoDebugEvents) == 0; } }
-        internal bool EmitProfiling { get { return (flags & ProcessSpecFlags.Profile) == 0; } }
+        internal bool EmitProfiling { get { return (flags & ProcessSpecFlags.Profile) != 0; } }
 
         /// <summary>
         /// Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system 
