@@ -1056,7 +1056,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.Indent();
 
                     if(gen.EmitProfiling)
-                        source.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                        source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
                     source.AppendFront(SetVar(seqFor.Var, entryVar));
 
                     EmitSequence(seqFor.Seq, source);
@@ -1129,7 +1129,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.Indent();
 
                     if(gen.EmitProfiling)
-                        source.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                        source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
                     source.AppendFront(SetVar(seqFor.Var, entryVar));
 
                     EmitSequence(seqFor.Seq, source);
@@ -1257,7 +1257,7 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         if(gen.EmitProfiling)
                         {
-                            source.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                            source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
                             source.AppendFrontFormat("if(!edge_{0}.InstanceOf(", seqFor.Id);
                             source.Append(incidentEdgeTypeExpr);
                             source.Append("))\n");
