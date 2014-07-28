@@ -76,7 +76,7 @@ The method may be one of the predefined container methods, or a user-defined met
 
 A procedure call executes a (built-in or user defined) procedure, passing further arguments.
 In addition to the graph type based functions and procedures which will be explained in more detail further below,
-\texttt{emit}, \texttt{record}, and \texttt{export} procedure calls can be given here: the emit procedure writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}; in fact a sequence of the former may be given, which is to be prefered over string concatenation for performance reasons).
+\texttt{emit}, \texttt{record}, and \texttt{export} procedure calls can be given here: the emit procedure writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}; in fact a sequence of the former may be given, which is to be preferred over string concatenation for performance reasons).
 The record procedure writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
 The export procedure exports the current graph to the path specified if called with one argument, or it exports the subgraph specified as first argument to the path specified as second argument.
 It behaves like the export command from the GrShell, see \ref{outputcmds}.

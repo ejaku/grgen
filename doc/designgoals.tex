@@ -7,7 +7,7 @@ it is open source licensed under LGPL3(\url{www.gnu.org/licenses/lgpl.html}) and
 
 Over the course of time it moved from high-performance fixed-shaped patterns and limited sequences for control to flexibly-shaped patterns and very high programmability, for one with the sequences and for the other with an integrated imperative programming language, while retaining its performance.
 
-\GrG\ offers developement at the abstraction level of graph representations.
+\GrG\ offers development at the abstraction level of graph representations.
 It offers the convenience of linguistic abstraction, with dedicated syntax for graph processing, and static type checking.
 In contrast to limited libraries or the very leaky abstractions often offered by common programming frameworks.
 The abstraction is not halting at the languages, but carried through to development support.
@@ -170,9 +170,9 @@ But you may just prefer the simple graph programming language GP\cite{gp} in thi
 For us, the convenience at using the language had priority over the convenience at reasoning formally about the language.
 In order to achieve simple reasoning, you need to (over-)simplify the languages to a level that makes using them much harder, as solutions need to be expressed with more, and more convoluted code.
 You see this struggle in the programming languages community in theory people asking for the ban of the break and continue control flow constructs, although code using them is clearer and better readable.
-They do so because the constructs make prooving propositions about the code much harder.
+They do so because the constructs make proving propositions about the code much harder.
 You see this struggle in the graph rewriting community in the preference of the \newterm{double-pushout} approach (DPO, for explanation see~\cite{dpoapproach}) by the theory people, although rules using them require convoluted coding for a simple node deletion.
-We optimized our languages for people that need to get real work done in them, not for people who want to proove that the program is up to a specification coded in predicate or some other kind of logic. 
+We optimized our languages for people that need to get real work done in them, not for people who want to prove that the program is up to a specification coded in predicate or some other kind of logic. 
 
 \section{Platform Independence}
 is achieved by using languages compiled to byte code for virtual machines backed by large, standardized libraries, specifically: Java and C\#.
@@ -220,7 +220,7 @@ Databases that work on a backing store and only shuffle in the data visited are 
 \GrG\ scales very well and can easily handle millions of elements, matching a pattern in such a graph within the blink of an eye, but it does not contain dedicated optimizations for very huge datasets.
 
 \GrG\ is a tool that was built for achieving goals in practice in mind.
-Despite a shared pair graph grammer inspiration is it unrelated to triple graph grammars and their implicit assumption that typically one graph representation is to be transformed to another basically equivalent, just somehow a bit differently formulated graph representation, without information loss or enrichement in either direction (bidirectional transformation tasks are very seldom).
+Despite a shared pair graph grammar inspiration is it unrelated to triple graph grammars and their implicit assumption that typically one graph representation is to be transformed to another basically equivalent, just somehow a bit differently formulated graph representation, without information loss or enrichment in either direction (bidirectional transformation tasks are very seldom).
 \GrG\ can be used for meta-programming (esp. due to its compiler construction roots), but otherwise do you work with it at the object and class level, not at the meta, meta-meta, or meta-meta-meta tralala-ding-ding-dong level (the abstraction levels of the real model-based software engineers).
 %(Besides, \GrG\ is worth hundreds of model driven engineering papers, we just considered it more important to produce something usable and executable, compared to mostly hot air dominating that community.)
 When you don't care about expressiveness and performance for real world taks, but are just interested in pimping your thesis, pick AGG and do some critical pair analysis.

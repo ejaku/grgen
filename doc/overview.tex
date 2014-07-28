@@ -57,7 +57,7 @@ Notice that the \yComp\ graph viewer is not a part of \GrG ; \yComp\ ships with 
 \yComp\ is closed-source and only free for non-commercial use --
 this means above all that you are not allowed to ship it with a release of your own commercial software, in contrast to the \GrG\ libraries.
 
-Executing a generated graph rewrite system requires .NET 2.0 or later, compiling and debugging a graph rewrite system in addition requires JAVA 1.5 or later. 
+Executing a generated graph rewrite system requires .NET 2.0 or later; compiling and debugging a graph rewrite system in addition requires JAVA 1.5 or later. 
 You find the tools in the \texttt{bin} subdirectory of your \GrG\ installation.
 %\pagebreak
 
@@ -104,6 +104,10 @@ By default \GrG\ tries to write the compiled assemblies into the same directory 
 
 \begin{note}
 Regarding the column information in the error reports of the compiler please note that tabs count as one character.
+\end{note}
+
+\begin{note}
+As .NET supports integration with native code, you may even use a \GrG-generated graph rewriting kernel from a native application.
 \end{note}
 
 \begin{note}\label{note:modelruledump}
@@ -211,7 +215,7 @@ searching a pattern aka finding a match,
 performing changes to the matched spot in the host graph,
 and, finally, selecting which rule(s) to apply where next.
 
-This process is programmed at specification time utilizing a graph model language, a rule and computations language, and the sequences language for controling rule applications.
+This process is programmed at specification time utilizing a graph model language, a rule and computations language, and the sequences language for controlling rule applications.
 
 %------------------------------------------------------------------------------------
 \subsection{Graph Model Language}
@@ -256,7 +260,7 @@ Several filters for sorting and clipping are already supplied or can be generate
 Symmetry reduction is available with a filter for duplicate matches due to permuted elements from automorphic patterns.
 
 \GrG\ rules are \emph{modular}: in contrast to traditional pointer structure traversal where you attach the functionality to visiting passes comprising a lot of boilerplate code, do you note down just the functionality.
-This frees you from the smearing of graph traversal and graph matching/rewriting functionality, and in consequence from many tedious modifications during development stemming from the continuous change of traversal code due to the steady evolvement of functionality.
+This frees you from the smearing of graph traversal and graph matching/rewriting functionality, and in consequence from many tedious modifications during development stemming from the continuous change of traversal code due to the steady evolution of functionality.
 You are still free to build local (or even global) passes with rules and tests (tests are rules with only a LHS pattern) by using \emph{parameters}: input and output parameters are supported by rules and tests, the subpatterns, and functions and procedures.
 They are typically used to define and advance the location of processing in the graph, but they are also used for attribute computations.
 In addition visited flags can be queried and written, for marking already processed elements.
@@ -275,7 +279,7 @@ The other way round you can include C\#-code into your specifications by using e
 
 %------------------------------------------------------------------------------------
 \subsection{Rule Application Control Language}
-On top of the rules and computations language do you find the \emph{sequences} language, for controling the application of the rules (and procedures or functions), determining \emph{which rule} to apply \emph{where} next. 
+On top of the rules and computations language do you find the \emph{sequences} language, for controlling the application of the rules (and procedures or functions), determining \emph{which rule} to apply \emph{where} next. 
 
 This strategy language allows to determine the rule that is called next by its control operators and constructs (see Chapter \ref{cha:xgrs}).
 The basic ones available are the \emph{sequential} and \emph{logical operators}, the \emph{decisions}, and the \emph{loops} (defining the control-flow orchestration).
@@ -320,7 +324,7 @@ The graph and the model can be queried furtheron for e.g. the defined types or t
 The graph may be validated against the connection assertions specified in the model, or against a sequence that gets executed on a clone of the host graph.
 
 Regarding sequence execution you find the central \texttt{exec} command that is \emph{interpreting} the following sequence (in fact by delegating the parsing and execution to \texttt{libGr}).
-In addition, action \texttt{profiles} may be \texttt{show}n. They are available when \emph{profiling} instrumentation was switched on, telling about the number of search steps or graph accesses carried out.
+In addition, action \texttt{profile}s may be \texttt{show}n. They are available when \emph{profiling} instrumentation was switched on, telling about the number of search steps or graph accesses carried out.
 
 The actions can be replaced at runtime by loading another actions library; the backend could be, but currently there is only one available, the \texttt{lgspBackend}.
 This backend supports further custom commands, that start with a \texttt{custom graph} or \texttt{custom actions} prefix. 

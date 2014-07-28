@@ -335,7 +335,7 @@ The following table shows the ``break points'' of further debug commands, entere
 The basic granularity of debugging in \GrG{} is the single rule called from an interpreted sequence.
 But with embedded execs there are further sequences and actions available outside direct control and visibility of the debugger.
 At least the actions called from the embedded sequences are shown in the debugger -- in case detailed mode is used.
-But the local execution state of imperative code which may be used for tasks where pattern matching is not benefitial is completely invisible to the debugger.
+But the local execution state of imperative code which may be used for tasks where pattern matching is not beneficial is completely invisible to the debugger.
 Only the effects on the graph become visible.
 
 There is a remedy for this situation, code-embedded debugging commands, in the form of calls to procedures from the built-in package \texttt{Debug}.
