@@ -5,7 +5,25 @@
 The ``.NET'' postfix of the new name indicates that \textsc{GrGen} has been reimplemented in C\# for the Microsoft .NET or Mono environment~\cite{NET,MONO};
 it is open source licensed under LGPL3(\url{www.gnu.org/licenses/lgpl.html}) and available for download at \url{www.grgen.net}.
 
-The development goals of \GrG\ have been:
+Over the course of time it moved from high-performance fixed-shaped patterns and limited sequences for control to flexibly-shaped patterns and very high programmability, for one with the sequences and for the other with an integrated imperative programming language, while retaining its performance.
+
+\GrG\ offers developement at the abstraction level of graph representations.
+It offers the convenience of linguistic abstraction, with dedicated syntax for graph processing, and static type checking.
+In contrast to limited libraries or the very leaky abstractions often offered by common programming frameworks.
+The abstraction is not halting at the languages, but carried through to development support.
+With a debugger showing the data and the processing effects on that very level,
+removing a major shortcoming of many domain-specific languages that are linguistically better but are undebuggable at their level.
+And with performance optimization helpers operating at this level, with search plan explanation of the pattern matchers, and profiling instrumentation for the search steps.
+
+The main characteristics of \GrG\ are, the main focus of development has been:
+\begin{itemize}
+	\item productivity through declarative pattern-based rules of very high expressiveness
+	\item high-performance pattern matching and graph rewriting, based on a model implementation tailored for it, and an optimizing compiler
+	\item general-purpose graph-representation processing enabled by its very high programmability, and customizability
+	\item debugability: the processing state and esp. the graph can be inspected, esp. graphically
+\end{itemize}
+ 
+In the following, we'll take a deeper look at the development goals of \GrG.
 
 \section{Expressiveness}
 is achieved by \emph{declarative} specification languages for \emph{pattern matching} and \emph{rewriting} that are bursting with features, building upon a rich graph model language.
@@ -37,7 +55,7 @@ But you have to learn those tools and how to use them beforehand.
 For small tasks that effort is likely higher than the net gains in the end.
 
 For subtasks where the declarative pattern-based rules do not work well (which happens occasionally), are you free to revert to \emph{imperative} and \emph{object-oriented programming} as known from the C++, Java, C\# language family, utilizing the imperative parts of the \GrG-languages.
-You loose a considerable amount of the benefits of employing the tool then (we consider model transformation tools offering own -- but only imperative -- languages pointless (and OCL-expressions are only a small improvement in this regard)), but neither are you stuck, nor are you forced to convoluted workarounds, as it may happen with tools that offer only pattern-based rules, e.g. Henshin\cite{Henshin} or AGG\cite{agg}.
+You loose a good amount of the benefits of employing the tool then (we consider model transformation tools offering own -- but only imperative -- languages pointless (and OCL-expressions are only a small improvement in this regard)), but neither are you stuck, nor are you forced to convoluted workarounds, as it may happen with tools that offer only pattern-based rules, e.g. Henshin\cite{Henshin} or AGG\cite{agg}.
 The \emph{multi-paradigm languages} of \GrG\ offer you all the constructs you need for transforming graph-representations.
 
 \section{General-Purpose Graph Rewriting}
@@ -79,8 +97,8 @@ It was always amongst the best rated tools, a record that is only achievable for
 
 \section{Performance}
 i.e. high speed at modest memory consumption, is needed to tackle real world problems.
-It is achieved by an \emph{optimized model implementation} that is tailored for efficient and scalable pattern matching (and rewriting),
-while not growing memory needs out of proportion (as it happens for incremental match engines storing and maintaining the matches of all rules at any time).
+It is achieved by an \emph{optimized model implementation} that is tailored for efficient and scalable pattern matching and rewriting,
+while not growing memory needs out of proportion -- as it happens for incremental match engines storing and maintaining the matches of all rules at any time.
 The nodes and edges are organized in a system of ringlists, giving immediate access to the elements of a type, and to the incident elements of an element.
 When needed, attribute indices or incidence count indices can be applied, giving fast access to graph elements based on attribute values, or incidence counts.
 
@@ -114,6 +132,10 @@ You may have a look at the GrGen.NET solution of the Hello World! case \cite{Hel
 As we know that even the best designed language is not self explaining we put an emphasize on the \emph{user manual} currently read by you.
 Especially since the consequences of the development goals expressiveness and programmability are inevitably increasing the learning effort.
 
+\GrG\ is a pretty heavyweight beast --- you need to learn some languages in order to use and control it (but easily learnable ones, as explained above).
+But thereafter you are able to develop at the abstraction level of graph representations, and at a speed outpacing by far any developer working with a traditional programming language (for a graph-representation processing task).
+A specification change carried out in a day in \GrG\ easily amounts to a man-week or even man-month(!) change in a traditional programming language.
+
 \section{Development Convenience}
 is gained especially by the offered \emph{interactive} and \emph{graphical debugging} of rule applications.
 The debugger visualizes the matched pattern and the changes carried out by rewriting in the graph where they apply,
@@ -129,28 +151,38 @@ And with only the ability to follow an outgoing edge from its source node on, wh
 Every node supports an unbounded number of incident edges, increasing flexibility und regularity compared to some statically fixed pointer fields as utilized normally.
 
 There's one convenience not offered you might expect: a visual rule language and an editor.
-This brings a clear benefit -- graph transformation specifications to be processed by \GrG\ can be easily \emph{generated} and \emph{textually diff'ed} --
-but also is a good deal cheaper to implement.
+We're following a first things first policy here, and graphical debugging is a must-have, while a graphical rule editor is only nice-to-have (we consider tools offering the other way round toys, created by people without any own experience in graph-representation processing, just praying at the altar of some visual programming idea).
+Besides, textual languages bring some benefits on their own: graph transformation specifications to be processed by \GrG\ can be easily \emph{generated}, stored in a source code management system, and \emph{textually diff'ed}.
+But they are also a good deal cheaper to implement.
 Given the limited resources of an university or open-source project this is an important point,
 as can be seen with the AGG\cite{agg} tool, offering a graphical editor but delivering performance only up to simple toy examples
 --- unfortunately causing the wrong impression that graph rewriting is notoriously inefficient.
 
 \section{Well Founded Semantics}
 to ease formal, but especially human reasoning.
-The semantics of \GrG\ are specified in \cite{DissRuby}, based upon graph homomorphisms, denotational evaluation functions and category theory.
-The \GrG-rewrite step is based by default on the \newterm{single-pushout approach} (SPO, for explanation see~\cite{spoapproach}),
-with the \newterm{double-pushout approach} (DPO, for explanation see~\cite{dpoapproach}) available on request, too.
-The semantics of the recursive rules introduced in version 2.0 are given in \cite{Jak:08},
+The semantics of \GrG, or better a subset of the current \GrG\ are specified formally in \cite{DissRuby}, based upon graph homomorphisms, denotational evaluation functions and category theory.
+The \GrG-rewrite step is based on the \newterm{single-pushout approach} (SPO, for explanation see~\cite{spoapproach}).
+The semantics of the recursive rules introduced in version 2.0 are sketched in \cite{Jak:08},
 utilizing pair star graph grammars on the meta level to assemble the rules of the object level.
-The formal semantics are not as complete as for the graph programming language GP\cite{gp} though, mainly due to the large amount of features
---- the convenience at using the language had priority over the convenience at reasoning formally about the language.
+The formal semantics were outpaced by development, though, if you want to reason formally you have to restrain yourself to a subset of the current \GrG.
+
+But you may just prefer the simple graph programming language GP\cite{gp} in this case, which was developed with formal reasoning in mind.
+For us, the convenience at using the language had priority over the convenience at reasoning formally about the language.
+In order to achieve simple reasoning, you need to (over-)simplify the languages to a level that makes using them much harder, as solutions need to be expressed with more, and more convoluted code.
+You see this struggle in the programming languages community in theory people asking for the ban of the break and continue control flow constructs, although code using them is clearer and better readable.
+They do so because the constructs make prooving propositions about the code much harder.
+You see this struggle in the graph rewriting community in the preference of the \newterm{double-pushout} approach (DPO, for explanation see~\cite{dpoapproach}) by the theory people, although rules using them require convoluted coding for a simple node deletion.
+We optimized our languages for people that need to get real work done in them, not for people who want to proove that the program is up to a specification coded in predicate or some other kind of logic. 
 
 \section{Platform Independence}
 is achieved by using languages compiled to byte code for virtual machines backed by large, standardized libraries, specifically: Java and C\#.
 This should prevent the fate of the grandfather of all graph rewrite systems, PROGRES\cite{schuerr99progres},
 which achieved a high level of sophistication, but is difficult to run by now, or simply: outdated.
 
-There's another trait to platform independence: \GrG\ is built on its own model layer, in contrast to the JAVA model transformation world, where EMF has emerged as a quasi-standard.
+Java is only needed for development, the generated code and its supporting libs are entirely .NET based.
+The .NET framework allows to use native code, so if you really need to you can integrate via .NET - native interop a graph rewrite system into some native application.
+
+There's another trait to platform independence: \GrG\ is built on its own model layer, in contrast to the Java model transformation world, where EMF has emerged as a quasi-standard.
 Don't expect this to change, the performance of declarative pattern matching and rewriting is our top concern, and that can be best achieved with a model optimized for this task (the current type and neighbourhood ringlist implementation is efficient and scalable, and supports the search space stepping optimization; directed edges are always navigable in both directions, giving the planner more room for choosing a good search plan; and some fields are included that render isomorphy checking cheap and supply some cost-free visited flags).
 
 EMF is not that important for us for another reason: we consider the MDA vision an illusion.
@@ -174,7 +206,7 @@ In contrast to e.g. Neo4J\cite{neo}, that offers non-pattern queries that are fe
 Executed on a \emph{backing-store}, by \emph{multiple users} that are working concurrently at the same time, isolated by transactions.
 
 So \GrG\ is not suited for scenarios where many users need to access data at the same time. 
-It is very fast, so you can handle multiple-user scenarios simply by serializing the accesses --- this could be well sufficient for your tasks, but won't scale towards large user numbers.
+It is very fast, so you can handle multiple-user scenarios simply by serializing the accesses --- this could be well sufficient for your tasks, but won't scale towards really large user numbers.
 You may use it as an application-embedded database, as
 \GrG\ \emph{does} offer \emph{online} modification of graph-structures,
 but persistence of online modifications is only offered via recording to a change log that needs to be replayed at the next start
@@ -183,12 +215,14 @@ but persistence of online modifications is only offered via recording to a chang
 \GrG\ is not suited for scenarios where the limits of main memory are exceeded.
 A well equipped single sever with 128GB of main memory is capable of storing somewhat under about 500 Million nodes plus 1 Billion edges (naked, without attributes and without names), see Chapter \ref{sec:performance} for the maths.
 This should be sufficient for many tasks, but still there are task that grow beyond it.
-And unfortunately other things come into play at that sizes -- importing such a graph will take several hours (the GRS importer is munching at some ten thousand elements per second), databases that work on a backing store and only shuffle the data visited in are at an advantage here (amortizing import cost over the course of processing).
+Besides, other things come into play at that sizes: importing such a graph will take some time, maybe longer than you're willing to wait -- the GRS importer is munching at some ten thousand elements per second.
+Databases that work on a backing store and only shuffle in the data visited are at an advantage here (amortizing import cost over the course of processing).
 \GrG\ scales very well and can easily handle millions of elements, matching a pattern in such a graph within the blink of an eye, but it does not contain dedicated optimizations for very huge datasets.
 
 \GrG\ is a tool that was built for achieving goals in practice in mind.
 Despite a shared pair graph grammer inspiration is it unrelated to triple graph grammars and their implicit assumption that typically one graph representation is to be transformed to another basically equivalent, just somehow a bit differently formulated graph representation, without information loss or enrichement in either direction (bidirectional transformation tasks are very seldom).
-\GrG\ can be used for meta-programming (esp. due ot its compiler construction roots), but otherwise do you work with it at the object and class level, not at the meta, meta-meta, or meta-meta-meta tralala-ding-ding-dong level (the abstraction levels of the real model-based software engineers).
+\GrG\ can be used for meta-programming (esp. due to its compiler construction roots), but otherwise do you work with it at the object and class level, not at the meta, meta-meta, or meta-meta-meta tralala-ding-ding-dong level (the abstraction levels of the real model-based software engineers).
+%(Besides, \GrG\ is worth hundreds of model driven engineering papers, we just considered it more important to produce something usable and executable, compared to mostly hot air dominating that community.)
 When you don't care about expressiveness and performance for real world taks, but are just interested in pimping your thesis, pick AGG and do some critical pair analysis.
 \GrG\ is the most sophisticated implementation of algebraic graph transformation, but it was not created to prove that the theory can be made executable.
 Neither was it created to prove a visual programming point.

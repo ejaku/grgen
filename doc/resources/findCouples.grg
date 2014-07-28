@@ -1,0 +1,17 @@
+rule findCouples
+{
+    pn1:Person; pn2:Person;
+    independent {
+        pn1 -:personToMovie-> m1:Movie <-:personToMovie- pn2;
+        pn1 -:personToMovie-> m2:Movie <-:personToMovie- pn2;
+        pn1 -:personToMovie-> m3:Movie <-:personToMovie- pn2;
+    }
+
+    modify {
+        c:Couple;
+        c -:p1-> pn1;
+        c -:p2-> pn2;
+
+        exec(addCommonMoviesAndComputeAverageRanking(c, pn1, pn2));
+    }
+} \ auto

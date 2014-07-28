@@ -1,0 +1,31 @@
+rule findCouplesOpt[parallelize=16]
+{
+    pn1:Person; pn2:Person;
+    hom(pn1,pn2);
+    independent {
+        pn1 -p2m1:personToMovie-> m1:Movie <-p2m2:personToMovie- pn2;
+        hom(pn1,pn2); hom(p2m1,p2m2);
+        if{ atLeastThreeCommonMovies(pn1, pn2); }
+    }
+    if{ uniqueof(pn1) < uniqueof(pn2); }
+    if{ countPersonToMovie[pn1] >= 3; }
+    if{ countPersonToMovie[pn2] >= 3; }
+
+    def ref common:set<Node>;
+    yield {
+        yield common = getCommonMovies(pn1, pn2);
+    }
+
+    modify {
+        c:Couple;
+        c -:p1-> pn1;
+        c -:p2-> pn2;
+
+        eval { 
+            for(movie:Node in common) { 
+                add(commonMovies, c, movie); 
+            } 
+        }
+    }
+}
+

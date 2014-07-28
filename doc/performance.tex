@@ -97,17 +97,32 @@ Typically you optimize this with a database index that allows to find the elemen
 In case of undirected edges, or arbitrary directed edges in the pattern, both directions are searched,
 both lists -- the outgoing list as well as the incoming list -- are crawled.
 
+\pagebreak %improve layout
+
 %-----------------------------------------------------------------------------
 \subsection{The Costs}\label{sec:performancememory} 
 The type and neighbourhood indices are built into each and every \GrG{} graph, wired into a system of ringlists (cf. \ref{sec:generatedcode}).
 They are implicitly used by \GrG{}, pattern matching is just carried out alongside them, in an order decided upon by the search planner. 
+
 You always benefit from them during matching (most if you are using statistics-based search planning), but you must always pay their price:
 The memory consumption of a \GrG{} node without attributes is 36 bytes using a 32bit CLR (5 pointers a 4 bytes, a 4 bytes flags field/bitvector, a 4 bytes unique id field, plus 8 bytes .NET object overhead), it is 64 bytes for a 64bit CLR (5 pointers a 8 bytes, a 4bytes flags field, a 4 bytes unique id field, plus 16 bytes .NET object overhead).
 The memory consumption of a \GrG{} edge without attributes is 52 bytes using a 32bit CLR (9 pointers a 4 bytes, a 4 bytes flags field/bitvector, a 4 bytes unique id field, plus 8 bytes .NET object overhead), it is 96 bytes for a 64bit CLR (9 pointers a 8 bytes, a 4 bytes flags field, a 4 bytes unique id field, plus 16 bytes .NET object overhead).
 Attributes are cheap, they only increase this by the .NET-memory-footprint of their underlying objects.
-The runtime price of those indices during graph manipulation is low, adding a graph element is done in $O(1)$, removing a graph element is done in $O(1)$, too. 
-(Furthermore, those indices allow to optimize loops by starting matching of the next iteration where the previous iteration left of (search state space stepping -- a further built-in contribution to the motto "Find, Don't Search")).
-We consider this the best you can get for the task of efficient pattern matching on typed, attributed multigraphs -- those indices are simply worth their price in the general case (you can only improve on this by exploiting the specifics of a less general graph model or by restricting yourself to less general and non-automatic pattern matching).
+
+The runtime price of maintaining those indices during graph manipulation is low, adding a graph element is done in $O(1)$, removing a graph element is done in $O(1)$, too. 
+Furthermore, those indices allow to optimize loops by starting matching of the next iteration where the previous iteration left of (search state space stepping -- a further built-in contribution to the motto "Find, Don't Search")).
+
+We consider this the best you can get for the task of efficient pattern matching and rewriting on typed, attributed multigraphs, with multiple inheritance and attributes on nodes as well as edge types -- those indices are simply worth their price in the general case.
+You can only improve on this by exploiting the specifics of a less general graph model, a less general processing strategy supporting less change operations optimally out-of-the box, or by restricting yourself to less general and non-automatic pattern matching.
+E.g. by using only single-linked ringlists for the types and incident elements we could reduce memory consumption considerably and thus increase query performance, but deletion and retyping would require to iterate the full list to get to the predecessor to link it to the new successor, so rewriting would not be $O(1)$ anymore.
+Or by always entering the graph at some elsewhere stored root nodes we could save the type ringlists (that give us the modularity of the rules).
+Or by using less general edges/edges that appear only with a statically fixed association cardinality, we could reduce them to mere pointers stored in the nodes.
+
+\GrG\ was built for general-purpose graph pattern matching and rewriting on a general model, to perform well on \emph{any} task, with \emph{minimum programming effort} for the user; regarding this it is implemented in a way we consider optimal and unimprovable.
+If you are willing to invest extra programming and understanding effort to exploit the specifics of your task at hand, you \emph{can} manually code a higher-performance solution, by stripping away features from the model you don't need.
+Saving on the memory needed for the generality and programming productivity is what gives our competitor FUJABA a lead performance-wise for tasks where a simpler graph model is sufficient and the user is willing to invest more development time into (and no iterative search-replace-operations are carried out, search state space stepping wins then).
+
+\pagebreak %improve layout
 
 %-----------------------------------------------------------------------------
 \subsection{Consequences For Optimization}
@@ -126,7 +141,7 @@ The parts are then checked earlier in the search process.
 You could even introduce checks that are logically not needed because a later check removes all incorrect matches anyway, just to achieve better performance, which is the case if the checks allow to prune some branches from the search space earlier.
 This holds as long as the checks are cheap, if they are expensive you could do the opposite and introduce artificial dependencies to all pattern elements instead, to ensure the attribute condition is evaluated as late as possible.
 
-\pagebreak
+%\pagebreak
 
 \subsubsection*{Prefer directed edges}
 Non-directed edges in the pattern are searched in both directions, considerably increasing the search space.
@@ -545,8 +560,8 @@ Applying a rule on all matches is the most efficient way of processing multiple 
 This holds for normal matchers, but even more so for parallelized matchers.
 For a normal rule call, there is typically some of the search effort wasted because some workers already passed the point where the match was found; when all matches are sought, no effort is wasted -- and typically the entire search takes longer, which lowers the break-even point regarding the overhead incurred by the parallel matcher.
 
-Loops are not much slower due to search state space stepping, continuing where the last iteration left of.
-But they are semantically considerably different: each step of the loop operates on the then-changed graph, in contrast to applying a rule on all matches available at a certain point in time time.
+Loops are not much slower due to the search state space stepping, continuing where the last iteration left of.
+But they are semantically considerably different: each step of the loop operates on the then-changed graph, in contrast to applying a rule on all matches available at a certain point in time.
 If you have to explore new match possibilities created by applying the rule you need a loop, but even then you'll likely benefit from applying an all-bracketed rule in the loop.
 On the other hand you have to use a loop in case the parts of the matches which are to be modified, e.g. retyped, are not disjoint (an element can only be changed once).
 
@@ -557,14 +572,14 @@ Using an iterated as the outermost block of a rule is wasteful, all-bracketing i
 But other then that: don't replace them unless really needed, they are simply much more convenient.
 
 \subsubsection*{Reachable versus Subpattern Recursion}
-Prefer reachable predicate over subpattern recursion.
+Prefer the reachable predicate over subpattern recursion.
 The reachable predicate has a tight implementation, while subpattern recursion must pay for graph parsing with the three pushdown machine (which is not horrible expensive but can be clearly felt).
 Note the semantic difference: elements already matched in the pattern can't be matched again in case of subpattern recursion due to the isomorphy constraint. 
 The reachable predicate does not know about the pattern it is called from, so elements already matched in the pattern can get matched again.
 This is often what is wanted anyway, and together with the increased convenience of having only to call a pre-implemented functionality instead of programming an iterated path by yourself leads to the clear advice to favor the reachable predicate.
-You have to use subpattern recursion if you want to impose a certain pattern of type alternation on the iterated path, 
-if you want to match more than chains of single nodes linked by single edges, esp. if you want to match tree-like structures,
-of if you want to somehow change the elements on the path -- not searching merely for existence.
+You have to use subpattern recursion, though, if you want to impose a certain pattern of type alternation on the iterated path, 
+or if you want to match more than chains of single nodes linked by single edges, and esp. if you want to match tree-like structures;
+or if you want to somehow change the elements on the path -- not searching merely for existence.
 
 \subsubsection*{Helper Programs versus Patterns}
 \GrG\ search planning can be compared to searching straw stars on a freshly harvested field,
@@ -590,3 +605,101 @@ This is only $O(n)$ instead of $O(n*n)$ due to the $O(1)$ hash lookup (applied a
 But it holds especially when you are only interested whether a certain minimum number is reached -- in that case you may write a helper function that returns as soon as this amount is reached; see \cite{MovieDatabase} for an example of this.
 Using a helper function is also commonly more lighweight than using a helper rule (in case the helper function does not get large, which is the case when a pattern containing more than a handful of elements is needed).
 
+\subsubsection*{Helper Programs versus Patterns on an Example}
+
+In the example \cite{MovieDatabase} mentioned above which is solving the TTC14 Movie Database Case \cite{MovieDatabaseCase} we started optimizing the rule shown in Fig. \ref{fig:findCouples.grg}
+with the search plan printed by the \texttt{explain} command (cf. \ref{custom}) in For. \ref{fig:InitialSP}.
+
+\begin{figure}[h]
+	\begin{verbatim}
+findCouples:
+    lookup -_edge0_inlined_idpt_0:personToMovie-> in graph
+    from <-_edge0_inlined_idpt_0- get source pn1:Person
+    from -_edge0_inlined_idpt_0-> get target m1_inlined_idpt_0:Movie
+    from m1_inlined_idpt_0 incoming <-_edge1_inlined_idpt_0:personToMovie-
+    from <-_edge1_inlined_idpt_0- get source pn2:Person
+    independent {
+        (preset: pn1)
+        (preset: m1 after independent inlining)
+        (preset: pn2)
+        (preset: _edge0 after independent inlining)
+        (preset: _edge1 after independent inlining)
+        from pn1 outgoing -_edge2:personToMovie->
+        from -_edge2-> get target m2:Movie
+        from pn1 outgoing -_edge4:personToMovie->
+        from -_edge4-> get target m3:Movie
+        from pn2 outgoing -_edge3:personToMovie->
+        from pn2 outgoing -_edge5:personToMovie->
+    }
+\end{verbatim}
+	\caption{Initial search plan}
+	\label{fig:InitialSP}
+\end{figure}
+
+\begin{figure}[h]
+	\lstinputlisting[language=LANGgrgen]{resources/findCouples.grg}
+	\caption{findCouples rule}
+	\label{fig:findCouples.grg}
+\end{figure}
+
+The graph is entered with a lookup of a \texttt{personToMovie} edge, then the candidates for the source node \texttt{pn1} and the target node \texttt{m1} are extracted from it. Afterwards the other \texttt{personToMovie} edge is matched in reverse from the movie to \texttt{pn2}.
+Several elements in the independent are handed in as already matched presets from the outer pattern, then the \texttt{personToMovie} edges are taken from \texttt{pn1} to the movies \texttt{m2} and \texttt{m3}, and finally the \texttt{personToMovie} edges from \texttt{pn2} are matched, with an implicit check that the target movie is the same as the one already matched.
+
+We see here an automatically applied optimization, the movie \texttt{m1} was inlined from the independent pattern to its containing pattern. Without this optimization, \texttt{pn1} and \texttt{pn2} would have to be enumerated in the main pattern \emph{unconnected}, resulting in the unfolding of the cartesian product of all \texttt{Person} nodes, before handing it in to the matcher of the nested independent pattern to purge the actors without a connecting movie.
+
+Take care that connectedness checks for nodes that are reached via multiple edges are not printed in the search plan -- but they \emph{are} carried out, as early as possible.
+In the example search plan, take a look at the two latest lines:\\
+\verb#from pn2 outgoing -_edge3:personToMovie-> (target must equal m2)#\\
+\verb#from pn2 outgoing -_edge5:personToMovie-> (target must equal m3)#\\
+For those two lines, after the edges were matched, there are no get target operations as you would expect for \texttt{m2} and \texttt{m3}, because the targets \texttt{m2} and \texttt{m3} were already matched.
+Instead the connectedness check is carried out here, it is checked that the target node of \verb#_edge3# is equal to the target node already bound to \texttt{m2}, and that the target node of \verb#_edge5# is equal to the target node already bound to \texttt{m3}.
+
+\subsubsection*{Helper Programs versus Patterns on an Example, Optimized}
+
+In the case we applied a succession of optimization steps,
+the final optimized rule is shown in \autoref{fig:findCouplesOpt.grg}, and its helper functions in \autoref{fig:atLeastThreeCommonMovies.grg} and \autoref{fig:getCommonMovies.grg}; its search plan is listed in \autoref{fig:FinalSP} below.
+
+\begin{figure}[hptb]
+	\begin{verbatim}
+findCouplesOpt:
+    parallelized lookup pn1:Person in graph
+    if { depending on findCouplesOpt_node_pn1, }
+    from pn1 outgoing -p2m1_inlined_idpt_0:personToMovie->
+    from -p2m1_inlined_idpt_0-> get target m1_inlined_idpt_0:Movie
+    from m1_inlined_idpt_0 incoming <-p2m2_inlined_idpt_0:personToMovie-
+    from <-p2m2_inlined_idpt_0- get source pn2:Person
+    if { depending on findCouplesOpt_node_pn2, }
+    if { depending on findCouplesOpt_node_pn1,findCouplesOpt_node_pn2, }
+    independent {
+        (preset: pn1)
+        (preset: m1 after independent inlining)
+        (preset: pn2)
+        if { depending on findCouplesOpt_node_pn1,findCouplesOpt_node_pn2, }
+        (preset: p2m1 after independent inlining)
+        (preset: p2m2 after independent inlining)
+    }
+    \end{verbatim}
+	\caption{Final search plan}
+	\label{fig:FinalSP}
+\end{figure}
+
+Note the parallized first lookup spreading matching work over multiple threads; in addition, the computation of the common movies is executed in parallel, materializing the results to a common movies set, per match.
+Only a part of the original pattern is used here, because the connectedness check was moved to a helper function, called from an attribute condition.
+
+\begin{figure}[hptb]
+	\lstinputlisting[language=LANGgrgen]{resources/findCouplesOpt.grg}
+	\caption{findCouplesOpt rule}
+	\label{fig:findCouplesOpt.grg}
+\end{figure}
+
+\begin{figure}[hptb]
+	\lstinputlisting[language=LANGgrgen]{resources/atLeastThreeCommonMovies.grg}
+	\caption{atLeastThreeCommonMovies rule}
+	\label{fig:atLeastThreeCommonMovies.grg}
+\end{figure}
+
+\begin{figure}[hptb]
+	\lstinputlisting[language=LANGgrgen]{resources/getCommonMovies.grg}
+	\caption{getCommonMovies rule}
+	\label{fig:getCommonMovies.grg}
+\end{figure}
