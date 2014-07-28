@@ -22,6 +22,7 @@ OK     should_pass/array_element_parameters_and_addrem.grg
 OK     should_pass/array_identical_assignment.grg
 OK     should_pass/array_node_edge.grg
 OK     should_pass/array_node_edge2.grg
+OK     should_pass/array_sort_reverse.grg
 OK     should_pass/assign_parameter.grg
 OK     should_pass/attrib_001.grg
 OK     should_pass/attrib_002.grg
@@ -112,6 +113,8 @@ OK     should_pass/cast.grg
 OK     should_pass/cast_001.grg
 OK     should_pass/cast_002.grg
 OK     should_pass/cast_003.grg
+OK     should_pass/cast_Edge.grg
+OK     should_pass/cast_Node.grg
 OK     should_pass/comparison_graph.grg
 OK     should_pass/computationoperators.grg
 OK     should_pass/computations_addrem.grg
@@ -153,6 +156,7 @@ OK     should_pass/computations_powlogabs.grg
 OK     should_pass/computations_retype.grg
 OK     should_pass/computations_sequence_call.grg
 OK     should_pass/computations_sincostan.grg
+OK     should_pass/computations_switch_case.grg
 OK     should_pass/computations_transaction.grg
 OK     should_pass/computations_var.grg
 OK     should_pass/computations_visited.grg
@@ -163,6 +167,7 @@ OK     should_pass/computations_while2b.grg
 OK     should_pass/conn_001.grg
 OK     should_pass/constr_001.grg
 OK     should_pass/container.grg
+OK     should_pass/containerAsContainer.grg
 OK     should_pass/containerGaggl.grg
 OK     should_pass/copy.grg
 OK     should_pass/dangle_001.grg
@@ -417,6 +422,8 @@ OK     should_pass/map_element_parameters_and_addrem.grg
 OK     should_pass/map_identical_assignment.grg
 OK     should_pass/map_node_edge.grg
 OK     should_pass/mapset_001.grg
+OK     should_pass/matchingexample.grg
+OK     should_pass/matchingexamplerewrite.grg
 OK     should_pass/MaybeNull.grg
 OK     should_pass/merge_bw.grg
 OK     should_pass/method.grg
@@ -449,6 +456,7 @@ OK     should_pass/nodeedgebyname.grg
 OK     should_pass/nodeedgebyunique.grg
 OK     should_pass/nodeedgetypeof.grg
 OK     should_pass/now.grg
+OK     should_pass/numberTypeMinMax.grg
 OK     should_pass/object_001.grg
 OK     should_pass/object_002.grg
 OK     should_pass/package.grg
@@ -545,6 +553,7 @@ OK     should_pass/reuse_007.grg
 OK     should_pass/reuse_008.grg
 OK     should_pass/rewriteparametereval.grg
 OK     should_pass/rule_empty.grg
+OK     should_pass/ruleallcall.grg
 OK     should_pass/rules4.grg
 OK     should_pass/same_node_name_as_model_name.grg
 OK     should_pass/sequence_execute_in_subgraph.grg
@@ -1198,6 +1207,18 @@ ERROR  should_fail/method_inh_ovrrd2.grg
 ERROR  should_fail/method_inh_ovrrd2e.grg
 ERROR  should_fail/method_inh_ovrrd3.grg
 ERROR  should_fail/method_inh_ovrrd3e.grg
+ERROR  should_fail/method_model_inh_ovrrd_failef.grg
+ERROR  should_fail/method_model_inh_ovrrd_failef2.grg
+ERROR  should_fail/method_model_inh_ovrrd_failep.grg
+ERROR  should_fail/method_model_inh_ovrrd_failep2.grg
+ERROR  should_fail/method_model_inh_ovrrd_failnf.grg
+ERROR  should_fail/method_model_inh_ovrrd_failnf2.grg
+ERROR  should_fail/method_model_inh_ovrrd_failnp.grg
+ERROR  should_fail/method_model_inh_ovrrd_failnp2.grg
+ERROR  should_fail/method_model_inh_ovrrd_failxf.grg
+ERROR  should_fail/method_model_inh_ovrrd_failxf2.grg
+ERROR  should_fail/method_model_inh_ovrrd_failxp.grg
+ERROR  should_fail/method_model_inh_ovrrd_failxp2.grg
 ERROR  should_fail/minmax_001.grg
 ERROR  should_fail/minmax_002.grg
 ERROR  should_fail/minmax_003.grg
