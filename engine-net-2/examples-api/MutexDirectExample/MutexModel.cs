@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Jun 22 11:11:11 CEST 2014
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Jul 28 08:46:04 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -8,10 +8,10 @@ using System.IO;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
+using GRGEN_MODEL = de.unika.ipd.grGen.Model_Mutex;
 
 namespace de.unika.ipd.grGen.Model_Mutex
 {
-	using GRGEN_MODEL = de.unika.ipd.grGen.Model_Mutex;
 
 	//
 	// Enums
@@ -2194,6 +2194,70 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	}
 
+	public class Comparer_annotationTestEdge_attrib : Comparer<GRGEN_MODEL.IannotationTestEdge>
+	{
+		private static GRGEN_MODEL.IannotationTestEdge nodeBearingAttributeForSearch = new GRGEN_MODEL.@annotationTestEdge(null, null);
+		private static Comparer_annotationTestEdge_attrib thisComparer = new Comparer_annotationTestEdge_attrib();
+		public override int Compare(GRGEN_MODEL.IannotationTestEdge a, GRGEN_MODEL.IannotationTestEdge b)
+		{
+			return a.@attrib.CompareTo(b.@attrib);
+		}
+		public static int IndexOfBy(IList<GRGEN_MODEL.IannotationTestEdge> list, int entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@attrib.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int IndexOfBy(IList<GRGEN_MODEL.IannotationTestEdge> list, int entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@attrib.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int LastIndexOfBy(IList<GRGEN_MODEL.IannotationTestEdge> list, int entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@attrib.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int LastIndexOfBy(IList<GRGEN_MODEL.IannotationTestEdge> list, int entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@attrib.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IannotationTestEdge> list, int entry)
+		{
+			nodeBearingAttributeForSearch.@attrib = entry;
+			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+		}
+		public static List<GRGEN_MODEL.IannotationTestEdge> ArrayOrderAscendingBy(List<GRGEN_MODEL.IannotationTestEdge> list)
+		{
+			List<GRGEN_MODEL.IannotationTestEdge> newList = new List<GRGEN_MODEL.IannotationTestEdge>(list);
+			newList.Sort(thisComparer);
+			return newList;
+		}
+	}
+
+
+	public sealed class ExternalType_object : GRGEN_LIBGR.ExternalType
+	{
+		public ExternalType_object()
+			: base("object", typeof(object))
+		{
+		}
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
+	}
+
 	//
 	// Indices
 	//
@@ -2209,8 +2273,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			switch(indexName)
 			{
+				default: return null;
 			}
-			return null;
 		}
 
 		public void FillAsClone(GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
@@ -2585,7 +2649,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 		public override int BranchingFactorForEqualsAny { get { return 0; } }
 
-		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		public static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();
 		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
 		public override GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
 
@@ -2729,12 +2793,17 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return attribute!=null ? attribute.ToString() : "null";
 		}
+		public void External(string line, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.Write("Ignoring: ");
+			Console.WriteLine(line);
+		}
 		public GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
 			return null;
 		}
 
-		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		public static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();
 		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
 		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
 
@@ -2954,12 +3023,17 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return attribute!=null ? attribute.ToString() : "null";
 		}
+		public void External(string line, GRGEN_LIBGR.IGraph graph)
+		{
+			Console.Write("Ignoring: ");
+			Console.WriteLine(line);
+		}
 		public GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
 			return null;
 		}
 
-		public static GRGEN_LIBGR.ExternalType externalType_object = new GRGEN_LIBGR.ExternalType("object", typeof(object));
+		public static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();
 		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
 		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
 

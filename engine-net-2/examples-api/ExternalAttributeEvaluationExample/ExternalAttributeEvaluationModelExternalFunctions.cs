@@ -1,12 +1,13 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jun 22 11:10:45 CEST 2014
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Mon Jul 28 08:45:37 CEST 2014
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
+using GRGEN_MODEL = de.unika.ipd.grGen.Model_ExternalAttributeEvaluation;
 
 namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 {
@@ -18,11 +19,25 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	public partial class OwnPown : Own
 	{
 		// You must implement this class in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
+
+		// You must implement the following methods in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
+		//public string fn(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, string);
+		private static object[] ReturnArray_pc_OwnPown = new object[0]; // helper array for multi-value-returns, to allow for contravariant parameter assignment
+		//public void pc(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_LIBGR.IGraphElement, string);
 	}
 
 	public partial class OwnPownHome : OwnPown
 	{
 		// You must implement this class in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
+
+		// You must implement the following methods in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
+		//public string fn(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, string);
+		//public GRGEN_MODEL.OwnPownHome fn2(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_MODEL.OwnPownHome);
+		//public string fn3(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph);
+		private static object[] ReturnArray_pc_OwnPownHome = new object[0]; // helper array for multi-value-returns, to allow for contravariant parameter assignment
+		private static object[] ReturnArray_pc2_OwnPownHome = new object[2]; // helper array for multi-value-returns, to allow for contravariant parameter assignment
+		//public void pc(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_LIBGR.IGraphElement, string);
+		//public void pc2(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_LIBGR.IGraphElement, string, GRGEN_MODEL.Own, out string, out GRGEN_MODEL.Own);
 	}
 
 	public partial class AttributeTypeObjectEmitterParser
@@ -61,6 +76,19 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		{
 			return EmitImpl(attribute, attrType, graph);
 			//return "null"; // default implementation
+		}
+
+		// Called when the shell hits a line starting with "external".
+		// The content of that line is handed in.
+		// This is typically used while replaying changes containing a method call of an external type
+		// -- after such a line was recorded, by the method called, by writing to the recorder.
+		// This is meant to replay fine-grain changes of graph attributes of external type,
+		// in contrast to full assignments handled by Parse and Serialize.
+		public static void External(string line, GRGEN_LIBGR.IGraph graph)
+		{
+			ExternalImpl(line, graph);
+			//Console.Write("Ignoring: "); // default implementation
+			//Console.WriteLine(line); // default implementation
 		}
 
 		// Called during debugging on user request, the implementation must return a named graph representation for the attribute.
@@ -119,8 +147,6 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 
 namespace de.unika.ipd.grGen.expression
 {
-	using GRGEN_MODEL = de.unika.ipd.grGen.Model_ExternalAttributeEvaluation;
-
 	public partial class ExternalFunctions
 	{
 		// You must implement the following functions in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
@@ -141,8 +167,6 @@ namespace de.unika.ipd.grGen.expression
 
 namespace de.unika.ipd.grGen.expression
 {
-	using GRGEN_MODEL = de.unika.ipd.grGen.Model_ExternalAttributeEvaluation;
-
 	public partial class ExternalProcedures
 	{
 		// You must implement the following procedures in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jun 22 11:10:45 CEST 2014
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Mon Jul 28 08:45:37 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -1909,8 +1909,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -1967,7 +1967,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches)
         {
-            foreach(Rule_init.IMatch_init match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_init.IMatch_init match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -1976,12 +1980,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_init.IMatch_init match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_init.IMatch_init match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2030,11 +2038,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             Modify(actionEnv, (Rule_init.IMatch_init)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2052,21 +2065,37 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2127,8 +2156,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -2185,7 +2214,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches)
         {
-            foreach(Rule_init2.IMatch_init2 match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_init2.IMatch_init2 match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2194,12 +2227,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_init2.IMatch_init2 match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_init2.IMatch_init2 match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2248,11 +2285,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             Modify(actionEnv, (Rule_init2.IMatch_init2)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2270,21 +2312,37 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2345,8 +2403,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -2384,7 +2442,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             {
                 // Implicit Source r_node_n from r_edge_e 
                 GRGEN_LGSP.LGSPNode candidate_r_node_n = candidate_r_edge_e.lgspSource;
-                if(candidate_r_node_n.lgspType.TypeID!=1) {
+                if(candidate_r_node_n.lgspType.TypeID!=1 && candidate_r_node_n.lgspType.TypeID!=2) {
                     continue;
                 }
                 if(candidate_r_edge_e.lgspSource != candidate_r_node_n) {
@@ -2438,7 +2496,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r> matches)
         {
-            foreach(Rule_r.IMatch_r match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_r.IMatch_r match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2447,12 +2509,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_r.IMatch_r match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_r.IMatch_r match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2501,11 +2567,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             Modify(actionEnv, (Rule_r.IMatch_r)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2523,21 +2594,37 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2598,8 +2685,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_rp.IMatch_rp> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -2637,7 +2724,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             {
                 // Implicit Source rp_node_n from rp_edge_e 
                 GRGEN_LGSP.LGSPNode candidate_rp_node_n = candidate_rp_edge_e.lgspSource;
-                if(candidate_rp_node_n.lgspType.TypeID!=1) {
+                if(candidate_rp_node_n.lgspType.TypeID!=1 && candidate_rp_node_n.lgspType.TypeID!=2) {
                     continue;
                 }
                 if(candidate_rp_edge_e.lgspSource != candidate_rp_node_n) {
@@ -2675,7 +2762,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_rp.IMatch_rp> matches)
         {
-            foreach(Rule_rp.IMatch_rp match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_rp.IMatch_rp match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2684,12 +2775,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_rp.IMatch_rp> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_rp.IMatch_rp match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_rp.IMatch_rp match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2738,11 +2833,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             Modify(actionEnv, (Rule_rp.IMatch_rp)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_rp.IMatch_rp>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2760,21 +2860,37 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2835,8 +2951,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_testCopy.IMatch_testCopy> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -2869,17 +2985,20 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             matches.Clear();
             int isoSpace = 0;
             // Lookup testCopy_node_n 
-            int type_id_candidate_testCopy_node_n = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_testCopy_node_n = graph.nodesByTypeHeads[type_id_candidate_testCopy_node_n], candidate_testCopy_node_n = head_candidate_testCopy_node_n.lgspTypeNext; candidate_testCopy_node_n != head_candidate_testCopy_node_n; candidate_testCopy_node_n = candidate_testCopy_node_n.lgspTypeNext)
+            foreach(GRGEN_LIBGR.NodeType type_candidate_testCopy_node_n in GRGEN_MODEL.NodeType_N.typeVar.SubOrSameTypes)
             {
-                Rule_testCopy.Match_testCopy match = matches.GetNextUnfilledPosition();
-                match._node_n = candidate_testCopy_node_n;
-                matches.PositionWasFilledFixIt();
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.Count >= maxMatches)
+                int type_id_candidate_testCopy_node_n = type_candidate_testCopy_node_n.TypeID;
+                for(GRGEN_LGSP.LGSPNode head_candidate_testCopy_node_n = graph.nodesByTypeHeads[type_id_candidate_testCopy_node_n], candidate_testCopy_node_n = head_candidate_testCopy_node_n.lgspTypeNext; candidate_testCopy_node_n != head_candidate_testCopy_node_n; candidate_testCopy_node_n = candidate_testCopy_node_n.lgspTypeNext)
                 {
-                    graph.MoveHeadAfter(candidate_testCopy_node_n);
-                    return matches;
+                    Rule_testCopy.Match_testCopy match = matches.GetNextUnfilledPosition();
+                    match._node_n = candidate_testCopy_node_n;
+                    matches.PositionWasFilledFixIt();
+                    // if enough matches were found, we leave
+                    if(maxMatches > 0 && matches.Count >= maxMatches)
+                    {
+                        graph.MoveHeadAfter(candidate_testCopy_node_n);
+                        return matches;
+                    }
                 }
             }
             return matches;
@@ -2900,7 +3019,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_testCopy.IMatch_testCopy> matches)
         {
-            foreach(Rule_testCopy.IMatch_testCopy match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_testCopy.IMatch_testCopy match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2909,12 +3032,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_testCopy.IMatch_testCopy> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_testCopy.IMatch_testCopy match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_testCopy.IMatch_testCopy match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2963,11 +3090,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             Modify(actionEnv, (Rule_testCopy.IMatch_testCopy)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_testCopy.IMatch_testCopy>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -2985,21 +3117,37 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -3060,8 +3208,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_testComparison.IMatch_testComparison> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -3094,106 +3242,112 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             matches.Clear();
             int isoSpace = 0;
             // Lookup testComparison_node_m 
-            int type_id_candidate_testComparison_node_m = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_testComparison_node_m = graph.nodesByTypeHeads[type_id_candidate_testComparison_node_m], candidate_testComparison_node_m = head_candidate_testComparison_node_m.lgspTypeNext; candidate_testComparison_node_m != head_candidate_testComparison_node_m; candidate_testComparison_node_m = candidate_testComparison_node_m.lgspTypeNext)
+            foreach(GRGEN_LIBGR.NodeType type_candidate_testComparison_node_m in GRGEN_MODEL.NodeType_N.typeVar.SubOrSameTypes)
             {
-                uint prev__candidate_testComparison_node_m;
-                prev__candidate_testComparison_node_m = candidate_testComparison_node_m.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-                candidate_testComparison_node_m.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
-                // Lookup testComparison_node_n 
-                int type_id_candidate_testComparison_node_n = 1;
-                for(GRGEN_LGSP.LGSPNode head_candidate_testComparison_node_n = graph.nodesByTypeHeads[type_id_candidate_testComparison_node_n], candidate_testComparison_node_n = head_candidate_testComparison_node_n.lgspTypeNext; candidate_testComparison_node_n != head_candidate_testComparison_node_n; candidate_testComparison_node_n = candidate_testComparison_node_n.lgspTypeNext)
+                int type_id_candidate_testComparison_node_m = type_candidate_testComparison_node_m.TypeID;
+                for(GRGEN_LGSP.LGSPNode head_candidate_testComparison_node_m = graph.nodesByTypeHeads[type_id_candidate_testComparison_node_m], candidate_testComparison_node_m = head_candidate_testComparison_node_m.lgspTypeNext; candidate_testComparison_node_m != head_candidate_testComparison_node_m; candidate_testComparison_node_m = candidate_testComparison_node_m.lgspTypeNext)
                 {
-                    if((candidate_testComparison_node_n.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                    uint prev__candidate_testComparison_node_m;
+                    prev__candidate_testComparison_node_m = candidate_testComparison_node_m.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    candidate_testComparison_node_m.lgspFlags |= (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace;
+                    // Lookup testComparison_node_n 
+                    foreach(GRGEN_LIBGR.NodeType type_candidate_testComparison_node_n in GRGEN_MODEL.NodeType_N.typeVar.SubOrSameTypes)
                     {
-                        continue;
+                        int type_id_candidate_testComparison_node_n = type_candidate_testComparison_node_n.TypeID;
+                        for(GRGEN_LGSP.LGSPNode head_candidate_testComparison_node_n = graph.nodesByTypeHeads[type_id_candidate_testComparison_node_n], candidate_testComparison_node_n = head_candidate_testComparison_node_n.lgspTypeNext; candidate_testComparison_node_n != head_candidate_testComparison_node_n; candidate_testComparison_node_n = candidate_testComparison_node_n.lgspTypeNext)
+                        {
+                            if((candidate_testComparison_node_n.lgspFlags & (uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) != 0)
+                            {
+                                continue;
+                            }
+                            // Condition 
+                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!((!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!((!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!((!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow)&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow)))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow)|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow)))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
+                                continue;
+                            }
+                            // Condition 
+                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
+                                continue;
+                            }
+                            Rule_testComparison.Match_testComparison match = matches.GetNextUnfilledPosition();
+                            match._node_n = candidate_testComparison_node_n;
+                            match._node_m = candidate_testComparison_node_m;
+                            matches.PositionWasFilledFixIt();
+                            // if enough matches were found, we leave
+                            if(maxMatches > 0 && matches.Count >= maxMatches)
+                            {
+                                graph.MoveHeadAfter(candidate_testComparison_node_n);
+                                graph.MoveHeadAfter(candidate_testComparison_node_m);
+                                candidate_testComparison_node_m.lgspFlags = candidate_testComparison_node_m.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_testComparison_node_m;
+                                return matches;
+                            }
+                        }
                     }
-                    // Condition 
-                    if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!((!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!((!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!((!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow)&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow)))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow)|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow)))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
-                        continue;
-                    }
-                    // Condition 
-                    if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
-                        continue;
-                    }
-                    Rule_testComparison.Match_testComparison match = matches.GetNextUnfilledPosition();
-                    match._node_n = candidate_testComparison_node_n;
-                    match._node_m = candidate_testComparison_node_m;
-                    matches.PositionWasFilledFixIt();
-                    // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.Count >= maxMatches)
-                    {
-                        graph.MoveHeadAfter(candidate_testComparison_node_n);
-                        graph.MoveHeadAfter(candidate_testComparison_node_m);
-                        candidate_testComparison_node_m.lgspFlags = candidate_testComparison_node_m.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_testComparison_node_m;
-                        return matches;
-                    }
+                    candidate_testComparison_node_m.lgspFlags = candidate_testComparison_node_m.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_testComparison_node_m;
                 }
-                candidate_testComparison_node_m.lgspFlags = candidate_testComparison_node_m.lgspFlags & ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace) | prev__candidate_testComparison_node_m;
             }
             return matches;
         }
@@ -3213,7 +3367,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_testComparison.IMatch_testComparison> matches)
         {
-            foreach(Rule_testComparison.IMatch_testComparison match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_testComparison.IMatch_testComparison match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -3222,12 +3380,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_testComparison.IMatch_testComparison> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_testComparison.IMatch_testComparison match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_testComparison.IMatch_testComparison match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -3276,11 +3438,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             Modify(actionEnv, (Rule_testComparison.IMatch_testComparison)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_testComparison.IMatch_testComparison>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -3298,21 +3465,37 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -3457,6 +3640,6 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
-        public override string ModelMD5Hash { get { return "e608177495bee8e61f32fa984fb2126b"; } }
+        public override string ModelMD5Hash { get { return "c31b4a83d7adddb9205f28026a0414cd"; } }
     }
 }
