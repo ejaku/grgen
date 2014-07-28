@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Jun 22 11:10:27 CEST 2014
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Mon Jul 28 08:45:16 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -12938,8 +12938,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_createA.IMatch_createA> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -12996,7 +12996,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_createA.IMatch_createA> matches)
         {
-            foreach(Rule_createA.IMatch_createA match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_createA.IMatch_createA match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13005,12 +13009,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createA.IMatch_createA> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_createA.IMatch_createA match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_createA.IMatch_createA match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13059,11 +13067,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             Modify(actionEnv, (Rule_createA.IMatch_createA)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_createA.IMatch_createA>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13081,21 +13094,37 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13156,8 +13185,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_createB.IMatch_createB> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -13214,7 +13243,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_createB.IMatch_createB> matches)
         {
-            foreach(Rule_createB.IMatch_createB match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_createB.IMatch_createB match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13223,12 +13256,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createB.IMatch_createB> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_createB.IMatch_createB match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_createB.IMatch_createB match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13277,11 +13314,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             Modify(actionEnv, (Rule_createB.IMatch_createB)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_createB.IMatch_createB>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13299,21 +13341,37 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13374,8 +13432,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_createC.IMatch_createC> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -13432,7 +13490,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_createC.IMatch_createC> matches)
         {
-            foreach(Rule_createC.IMatch_createC match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_createC.IMatch_createC match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13441,12 +13503,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createC.IMatch_createC> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_createC.IMatch_createC match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_createC.IMatch_createC match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13495,11 +13561,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             Modify(actionEnv, (Rule_createC.IMatch_createC)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_createC.IMatch_createC>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13517,21 +13588,37 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13592,8 +13679,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_createAtoB.IMatch_createAtoB> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -13650,7 +13737,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_createAtoB.IMatch_createAtoB> matches)
         {
-            foreach(Rule_createAtoB.IMatch_createAtoB match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_createAtoB.IMatch_createAtoB match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13659,12 +13750,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createAtoB.IMatch_createAtoB> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_createAtoB.IMatch_createAtoB match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_createAtoB.IMatch_createAtoB match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13713,11 +13808,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             Modify(actionEnv, (Rule_createAtoB.IMatch_createAtoB)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_createAtoB.IMatch_createAtoB>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13735,21 +13835,37 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13810,8 +13926,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_leer.IMatch_leer> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -13893,7 +14009,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_leer.IMatch_leer> matches)
         {
-            foreach(Rule_leer.IMatch_leer match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_leer.IMatch_leer match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13902,12 +14022,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_leer.IMatch_leer> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_leer.IMatch_leer match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_leer.IMatch_leer match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13956,11 +14080,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             Modify(actionEnv, (Rule_leer.IMatch_leer)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_leer.IMatch_leer>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -13978,21 +14107,37 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -14147,8 +14292,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_AorB.IMatch_AorB> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -14230,7 +14375,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_AorB.IMatch_AorB> matches)
         {
-            foreach(Rule_AorB.IMatch_AorB match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_AorB.IMatch_AorB match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -14239,12 +14388,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_AorB.IMatch_AorB> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_AorB.IMatch_AorB match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_AorB.IMatch_AorB match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -14293,11 +14446,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             Modify(actionEnv, (Rule_AorB.IMatch_AorB)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_AorB.IMatch_AorB>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -14315,21 +14473,37 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -14573,8 +14747,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_AandnotCorB.IMatch_AandnotCorB> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -14656,7 +14830,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_AandnotCorB.IMatch_AandnotCorB> matches)
         {
-            foreach(Rule_AandnotCorB.IMatch_AandnotCorB match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_AandnotCorB.IMatch_AandnotCorB match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -14665,12 +14843,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_AandnotCorB.IMatch_AandnotCorB> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_AandnotCorB.IMatch_AandnotCorB match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_AandnotCorB.IMatch_AandnotCorB match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -14719,11 +14901,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             Modify(actionEnv, (Rule_AandnotCorB.IMatch_AandnotCorB)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_AandnotCorB.IMatch_AandnotCorB>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -14741,21 +14928,37 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -15017,8 +15220,8 @@ label0: ;
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_AorBorC.IMatch_AorBorC> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -15100,7 +15303,11 @@ label0: ;
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_AorBorC.IMatch_AorBorC> matches)
         {
-            foreach(Rule_AorBorC.IMatch_AorBorC match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_AorBorC.IMatch_AorBorC match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -15109,12 +15316,16 @@ label0: ;
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_AorBorC.IMatch_AorBorC> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_AorBorC.IMatch_AorBorC match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_AorBorC.IMatch_AorBorC match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -15163,11 +15374,16 @@ label0: ;
             Modify(actionEnv, (Rule_AorBorC.IMatch_AorBorC)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_AorBorC.IMatch_AorBorC>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -15185,21 +15401,37 @@ label0: ;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -15515,8 +15747,8 @@ label0: ;
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_AtoAorB.IMatch_AtoAorB> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -15611,7 +15843,11 @@ label0: ;
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_AtoAorB.IMatch_AtoAorB> matches)
         {
-            foreach(Rule_AtoAorB.IMatch_AtoAorB match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_AtoAorB.IMatch_AtoAorB match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -15620,12 +15856,16 @@ label0: ;
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_AtoAorB.IMatch_AtoAorB> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_AtoAorB.IMatch_AtoAorB match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_AtoAorB.IMatch_AtoAorB match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -15674,11 +15914,16 @@ label0: ;
             Modify(actionEnv, (Rule_AtoAorB.IMatch_AtoAorB)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_AtoAorB.IMatch_AtoAorB>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -15696,21 +15941,37 @@ label0: ;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -16017,8 +16278,8 @@ label0: ;
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_createComplex.IMatch_createComplex> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -16075,7 +16336,11 @@ label0: ;
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_createComplex.IMatch_createComplex> matches)
         {
-            foreach(Rule_createComplex.IMatch_createComplex match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_createComplex.IMatch_createComplex match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -16084,12 +16349,16 @@ label0: ;
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createComplex.IMatch_createComplex> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_createComplex.IMatch_createComplex match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_createComplex.IMatch_createComplex match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -16138,11 +16407,16 @@ label0: ;
             Modify(actionEnv, (Rule_createComplex.IMatch_createComplex)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_createComplex.IMatch_createComplex>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -16160,21 +16434,37 @@ label0: ;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -16235,8 +16525,8 @@ label0: ;
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_Complex.IMatch_Complex> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -16390,7 +16680,11 @@ label0: ;
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_Complex.IMatch_Complex> matches)
         {
-            foreach(Rule_Complex.IMatch_Complex match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_Complex.IMatch_Complex match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -16399,12 +16693,16 @@ label0: ;
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_Complex.IMatch_Complex> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_Complex.IMatch_Complex match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_Complex.IMatch_Complex match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -16453,11 +16751,16 @@ label0: ;
             Modify(actionEnv, (Rule_Complex.IMatch_Complex)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_Complex.IMatch_Complex>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -16475,21 +16778,37 @@ label0: ;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -17457,8 +17776,8 @@ label0: ;
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_ComplexMax.IMatch_ComplexMax> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -17612,7 +17931,11 @@ label0: ;
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_ComplexMax.IMatch_ComplexMax> matches)
         {
-            foreach(Rule_ComplexMax.IMatch_ComplexMax match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_ComplexMax.IMatch_ComplexMax match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -17621,12 +17944,16 @@ label0: ;
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_ComplexMax.IMatch_ComplexMax> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_ComplexMax.IMatch_ComplexMax match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_ComplexMax.IMatch_ComplexMax match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -17675,11 +18002,16 @@ label0: ;
             Modify(actionEnv, (Rule_ComplexMax.IMatch_ComplexMax)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_ComplexMax.IMatch_ComplexMax>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -17697,21 +18029,37 @@ label0: ;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -18725,8 +19073,8 @@ label3: ;
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_createABA.IMatch_createABA> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -18783,7 +19131,11 @@ label3: ;
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_createABA.IMatch_createABA> matches)
         {
-            foreach(Rule_createABA.IMatch_createABA match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_createABA.IMatch_createABA match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -18792,12 +19144,16 @@ label3: ;
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createABA.IMatch_createABA> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_createABA.IMatch_createABA match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_createABA.IMatch_createABA match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -18846,11 +19202,16 @@ label3: ;
             Modify(actionEnv, (Rule_createABA.IMatch_createABA)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_createABA.IMatch_createABA>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -18868,21 +19229,37 @@ label3: ;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -18943,8 +19320,8 @@ label3: ;
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_homm.IMatch_homm> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -19098,7 +19475,11 @@ label3: ;
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_homm.IMatch_homm> matches)
         {
-            foreach(Rule_homm.IMatch_homm match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_homm.IMatch_homm match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -19107,12 +19488,16 @@ label3: ;
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_homm.IMatch_homm> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_homm.IMatch_homm match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_homm.IMatch_homm match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -19161,11 +19546,16 @@ label3: ;
             Modify(actionEnv, (Rule_homm.IMatch_homm)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_homm.IMatch_homm>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -19183,21 +19573,37 @@ label3: ;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -19585,8 +19991,8 @@ label3: ;
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_XtoAorB.IMatch_XtoAorB> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -19696,7 +20102,11 @@ label3: ;
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_XtoAorB.IMatch_XtoAorB> matches)
         {
-            foreach(Rule_XtoAorB.IMatch_XtoAorB match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_XtoAorB.IMatch_XtoAorB match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -19705,12 +20115,16 @@ label3: ;
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_XtoAorB.IMatch_XtoAorB> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_XtoAorB.IMatch_XtoAorB match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_XtoAorB.IMatch_XtoAorB match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -19759,11 +20173,16 @@ label3: ;
             Modify(actionEnv, (Rule_XtoAorB.IMatch_XtoAorB)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_XtoAorB.IMatch_XtoAorB>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -19781,21 +20200,37 @@ label3: ;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -20048,8 +20483,8 @@ label3: ;
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_alternative_in_negative.IMatch_alternative_in_negative> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -20132,7 +20567,11 @@ label3: ;
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_alternative_in_negative.IMatch_alternative_in_negative> matches)
         {
-            foreach(Rule_alternative_in_negative.IMatch_alternative_in_negative match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_alternative_in_negative.IMatch_alternative_in_negative match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -20141,12 +20580,16 @@ label3: ;
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_alternative_in_negative.IMatch_alternative_in_negative> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_alternative_in_negative.IMatch_alternative_in_negative match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_alternative_in_negative.IMatch_alternative_in_negative match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -20195,11 +20638,16 @@ label3: ;
             Modify(actionEnv, (Rule_alternative_in_negative.IMatch_alternative_in_negative)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_alternative_in_negative.IMatch_alternative_in_negative>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -20217,21 +20665,37 @@ label3: ;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -20520,8 +20984,8 @@ label3: ;
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_alternative_in_iterated.IMatch_alternative_in_iterated> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -20608,7 +21072,11 @@ label3: ;
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_alternative_in_iterated.IMatch_alternative_in_iterated> matches)
         {
-            foreach(Rule_alternative_in_iterated.IMatch_alternative_in_iterated match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_alternative_in_iterated.IMatch_alternative_in_iterated match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -20617,12 +21085,16 @@ label3: ;
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_alternative_in_iterated.IMatch_alternative_in_iterated> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_alternative_in_iterated.IMatch_alternative_in_iterated match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_alternative_in_iterated.IMatch_alternative_in_iterated match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -20671,11 +21143,16 @@ label3: ;
             Modify(actionEnv, (Rule_alternative_in_iterated.IMatch_alternative_in_iterated)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_alternative_in_iterated.IMatch_alternative_in_iterated>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -20693,21 +21170,37 @@ label3: ;
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {

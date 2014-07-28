@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Jun 22 11:10:36 CEST 2014
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Jul 28 08:45:29 CEST 2014
 
 using System;
 using System.Collections.Generic;
@@ -3127,11 +3127,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, Rule_readZeroRule.IMatch_readZeroRule match, out GRGEN_MODEL.IWriteValue output_0);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> matches, out GRGEN_MODEL.IWriteValue output_0);
+        void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> matches, List<GRGEN_MODEL.IWriteValue> output_0);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp, ref GRGEN_MODEL.IWriteValue output_0);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp, ref GRGEN_MODEL.IWriteValue output_0);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp, List<GRGEN_MODEL.IWriteValue> output_0);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -3215,6 +3215,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
+        List<GRGEN_MODEL.IWriteValue> output_list_0 = new List<GRGEN_MODEL.IWriteValue>();
         public GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> Match(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches, readZeroRule_node_s, readZeroRule_node_bp);
@@ -3223,10 +3224,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_0);
         }
-        public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> matches, out GRGEN_MODEL.IWriteValue output_0)
+        public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> matches, List<GRGEN_MODEL.IWriteValue> output_0)
         {
-            output_0 = null;
-            foreach(Rule_readZeroRule.IMatch_readZeroRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_0);
+            foreach(Rule_readZeroRule.IMatch_readZeroRule match in matches)
+            {
+                GRGEN_MODEL.IWriteValue output_local_0; 
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_local_0);
+                output_0.Add(output_local_0);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp, ref GRGEN_MODEL.IWriteValue output_0)
         {
@@ -3235,12 +3240,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First, out output_0);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp, ref GRGEN_MODEL.IWriteValue output_0)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp, List<GRGEN_MODEL.IWriteValue> output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches, readZeroRule_node_s, readZeroRule_node_bp);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_readZeroRule.IMatch_readZeroRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_0);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_readZeroRule.IMatch_readZeroRule match in matches)
+            {
+                GRGEN_MODEL.IWriteValue output_local_0; 
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_local_0);
+                output_0.Add(output_local_0);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp)
         {
@@ -3290,12 +3300,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
             ReturnArray[0] = output_0;
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            GRGEN_MODEL.IWriteValue output_0; 
-            ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule>)matches, out output_0);
-            ReturnArray[0] = output_0;
-            return ReturnArray;
+            output_list_0.Clear();
+            ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule>)matches, output_list_0);
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[1]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+                ReturnArrayListForAll[i][0] = output_list_0[i];
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -3310,18 +3326,32 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
+        {
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[1]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
         {
-            GRGEN_MODEL.IWriteValue output_0 = null; 
-            if(ApplyAll(maxMatches, actionEnv, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1], ref output_0)) {
-                ReturnArray[0] = output_0;
-                return ReturnArray;
+            output_list_0.Clear();
+            int matchesCount = ApplyAll(maxMatches, actionEnv, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1], output_list_0);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[1]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+                ReturnArrayListForAll[i][0] = output_list_0[i];
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -3379,11 +3409,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, Rule_readOneRule.IMatch_readOneRule match, out GRGEN_MODEL.IWriteValue output_0);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> matches, out GRGEN_MODEL.IWriteValue output_0);
+        void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> matches, List<GRGEN_MODEL.IWriteValue> output_0);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp, ref GRGEN_MODEL.IWriteValue output_0);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp, ref GRGEN_MODEL.IWriteValue output_0);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp, List<GRGEN_MODEL.IWriteValue> output_0);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -3467,6 +3497,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
+        List<GRGEN_MODEL.IWriteValue> output_list_0 = new List<GRGEN_MODEL.IWriteValue>();
         public GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> Match(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches, readOneRule_node_s, readOneRule_node_bp);
@@ -3475,10 +3506,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_0);
         }
-        public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> matches, out GRGEN_MODEL.IWriteValue output_0)
+        public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> matches, List<GRGEN_MODEL.IWriteValue> output_0)
         {
-            output_0 = null;
-            foreach(Rule_readOneRule.IMatch_readOneRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_0);
+            foreach(Rule_readOneRule.IMatch_readOneRule match in matches)
+            {
+                GRGEN_MODEL.IWriteValue output_local_0; 
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_local_0);
+                output_0.Add(output_local_0);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp, ref GRGEN_MODEL.IWriteValue output_0)
         {
@@ -3487,12 +3522,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First, out output_0);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp, ref GRGEN_MODEL.IWriteValue output_0)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp, List<GRGEN_MODEL.IWriteValue> output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches, readOneRule_node_s, readOneRule_node_bp);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_readOneRule.IMatch_readOneRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_0);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_readOneRule.IMatch_readOneRule match in matches)
+            {
+                GRGEN_MODEL.IWriteValue output_local_0; 
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_local_0);
+                output_0.Add(output_local_0);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp)
         {
@@ -3542,12 +3582,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
             ReturnArray[0] = output_0;
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            GRGEN_MODEL.IWriteValue output_0; 
-            ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule>)matches, out output_0);
-            ReturnArray[0] = output_0;
-            return ReturnArray;
+            output_list_0.Clear();
+            ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule>)matches, output_list_0);
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[1]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+                ReturnArrayListForAll[i][0] = output_list_0[i];
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -3562,18 +3608,32 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
+        {
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[1]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
         {
-            GRGEN_MODEL.IWriteValue output_0 = null; 
-            if(ApplyAll(maxMatches, actionEnv, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1], ref output_0)) {
-                ReturnArray[0] = output_0;
-                return ReturnArray;
+            output_list_0.Clear();
+            int matchesCount = ApplyAll(maxMatches, actionEnv, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1], output_list_0);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[1]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+                ReturnArrayListForAll[i][0] = output_list_0[i];
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -3634,8 +3694,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -3760,7 +3820,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> matches)
         {
-            foreach(Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp)
         {
@@ -3769,12 +3833,16 @@ namespace de.unika.ipd.grGen.Action_Turing3
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp)
         {
@@ -3823,11 +3891,16 @@ namespace de.unika.ipd.grGen.Action_Turing3
             Modify(actionEnv, (Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -3841,17 +3914,30 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
+        {
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1])) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -3912,8 +3998,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -4038,7 +4124,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> matches)
         {
-            foreach(Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp)
         {
@@ -4047,12 +4137,16 @@ namespace de.unika.ipd.grGen.Action_Turing3
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp)
         {
@@ -4101,11 +4195,16 @@ namespace de.unika.ipd.grGen.Action_Turing3
             Modify(actionEnv, (Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -4119,17 +4218,30 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
+        {
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1])) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -4187,11 +4299,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, Rule_moveLeftRule.IMatch_moveLeftRule match, out GRGEN_MODEL.IState output_0, out GRGEN_MODEL.IBandPosition output_1);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> matches, out GRGEN_MODEL.IState output_0, out GRGEN_MODEL.IBandPosition output_1);
+        void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> matches, List<GRGEN_MODEL.IState> output_0, List<GRGEN_MODEL.IBandPosition> output_1);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp, ref GRGEN_MODEL.IState output_0, ref GRGEN_MODEL.IBandPosition output_1);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp, ref GRGEN_MODEL.IState output_0, ref GRGEN_MODEL.IBandPosition output_1);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp, List<GRGEN_MODEL.IState> output_0, List<GRGEN_MODEL.IBandPosition> output_1);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -4301,6 +4413,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
+        List<GRGEN_MODEL.IState> output_list_0 = new List<GRGEN_MODEL.IState>();
+        List<GRGEN_MODEL.IBandPosition> output_list_1 = new List<GRGEN_MODEL.IBandPosition>();
         public GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> Match(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches, moveLeftRule_node_wv, moveLeftRule_node_bp);
@@ -4309,11 +4423,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_0, out output_1);
         }
-        public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> matches, out GRGEN_MODEL.IState output_0, out GRGEN_MODEL.IBandPosition output_1)
+        public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> matches, List<GRGEN_MODEL.IState> output_0, List<GRGEN_MODEL.IBandPosition> output_1)
         {
-            output_0 = null;
-            output_1 = null;
-            foreach(Rule_moveLeftRule.IMatch_moveLeftRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_0, out output_1);
+            foreach(Rule_moveLeftRule.IMatch_moveLeftRule match in matches)
+            {
+                GRGEN_MODEL.IState output_local_0; GRGEN_MODEL.IBandPosition output_local_1; 
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_local_0, out output_local_1);
+                output_0.Add(output_local_0);
+                output_1.Add(output_local_1);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp, ref GRGEN_MODEL.IState output_0, ref GRGEN_MODEL.IBandPosition output_1)
         {
@@ -4322,12 +4440,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First, out output_0, out output_1);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp, ref GRGEN_MODEL.IState output_0, ref GRGEN_MODEL.IBandPosition output_1)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp, List<GRGEN_MODEL.IState> output_0, List<GRGEN_MODEL.IBandPosition> output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches, moveLeftRule_node_wv, moveLeftRule_node_bp);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_moveLeftRule.IMatch_moveLeftRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_0, out output_1);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_moveLeftRule.IMatch_moveLeftRule match in matches)
+            {
+                GRGEN_MODEL.IState output_local_0; GRGEN_MODEL.IBandPosition output_local_1; 
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_local_0, out output_local_1);
+                output_0.Add(output_local_0);
+                output_1.Add(output_local_1);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp)
         {
@@ -4378,13 +4502,20 @@ namespace de.unika.ipd.grGen.Action_Turing3
             ReturnArray[1] = output_1;
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            GRGEN_MODEL.IState output_0; GRGEN_MODEL.IBandPosition output_1; 
-            ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule>)matches, out output_0, out output_1);
-            ReturnArray[0] = output_0;
-            ReturnArray[1] = output_1;
-            return ReturnArray;
+            output_list_0.Clear();
+            output_list_1.Clear();
+            ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule>)matches, output_list_0, output_list_1);
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[2]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+                ReturnArrayListForAll[i][0] = output_list_0[i];
+                ReturnArrayListForAll[i][1] = output_list_1[i];
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -4400,19 +4531,34 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
+        {
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[2]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
         {
-            GRGEN_MODEL.IState output_0 = null; GRGEN_MODEL.IBandPosition output_1 = null; 
-            if(ApplyAll(maxMatches, actionEnv, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1], ref output_0, ref output_1)) {
-                ReturnArray[0] = output_0;
-                ReturnArray[1] = output_1;
-                return ReturnArray;
+            output_list_0.Clear();
+            output_list_1.Clear();
+            int matchesCount = ApplyAll(maxMatches, actionEnv, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1], output_list_0, output_list_1);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[2]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+                ReturnArrayListForAll[i][0] = output_list_0[i];
+                ReturnArrayListForAll[i][1] = output_list_1[i];
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -4470,11 +4616,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, Rule_moveRightRule.IMatch_moveRightRule match, out GRGEN_MODEL.IState output_0, out GRGEN_MODEL.IBandPosition output_1);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> matches, out GRGEN_MODEL.IState output_0, out GRGEN_MODEL.IBandPosition output_1);
+        void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> matches, List<GRGEN_MODEL.IState> output_0, List<GRGEN_MODEL.IBandPosition> output_1);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp, ref GRGEN_MODEL.IState output_0, ref GRGEN_MODEL.IBandPosition output_1);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp, ref GRGEN_MODEL.IState output_0, ref GRGEN_MODEL.IBandPosition output_1);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp, List<GRGEN_MODEL.IState> output_0, List<GRGEN_MODEL.IBandPosition> output_1);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -4584,6 +4730,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
+        List<GRGEN_MODEL.IState> output_list_0 = new List<GRGEN_MODEL.IState>();
+        List<GRGEN_MODEL.IBandPosition> output_list_1 = new List<GRGEN_MODEL.IBandPosition>();
         public GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> Match(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches, moveRightRule_node_wv, moveRightRule_node_bp);
@@ -4592,11 +4740,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_0, out output_1);
         }
-        public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> matches, out GRGEN_MODEL.IState output_0, out GRGEN_MODEL.IBandPosition output_1)
+        public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> matches, List<GRGEN_MODEL.IState> output_0, List<GRGEN_MODEL.IBandPosition> output_1)
         {
-            output_0 = null;
-            output_1 = null;
-            foreach(Rule_moveRightRule.IMatch_moveRightRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_0, out output_1);
+            foreach(Rule_moveRightRule.IMatch_moveRightRule match in matches)
+            {
+                GRGEN_MODEL.IState output_local_0; GRGEN_MODEL.IBandPosition output_local_1; 
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_local_0, out output_local_1);
+                output_0.Add(output_local_0);
+                output_1.Add(output_local_1);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp, ref GRGEN_MODEL.IState output_0, ref GRGEN_MODEL.IBandPosition output_1)
         {
@@ -4605,12 +4757,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First, out output_0, out output_1);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp, ref GRGEN_MODEL.IState output_0, ref GRGEN_MODEL.IBandPosition output_1)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp, List<GRGEN_MODEL.IState> output_0, List<GRGEN_MODEL.IBandPosition> output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches, moveRightRule_node_wv, moveRightRule_node_bp);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_moveRightRule.IMatch_moveRightRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_0, out output_1);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_moveRightRule.IMatch_moveRightRule match in matches)
+            {
+                GRGEN_MODEL.IState output_local_0; GRGEN_MODEL.IBandPosition output_local_1; 
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match, out output_local_0, out output_local_1);
+                output_0.Add(output_local_0);
+                output_1.Add(output_local_1);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp)
         {
@@ -4661,13 +4819,20 @@ namespace de.unika.ipd.grGen.Action_Turing3
             ReturnArray[1] = output_1;
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            GRGEN_MODEL.IState output_0; GRGEN_MODEL.IBandPosition output_1; 
-            ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule>)matches, out output_0, out output_1);
-            ReturnArray[0] = output_0;
-            ReturnArray[1] = output_1;
-            return ReturnArray;
+            output_list_0.Clear();
+            output_list_1.Clear();
+            ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule>)matches, output_list_0, output_list_1);
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[2]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+                ReturnArrayListForAll[i][0] = output_list_0[i];
+                ReturnArrayListForAll[i][1] = output_list_1[i];
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -4683,19 +4848,34 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
+        {
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[2]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             throw new Exception();
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
         {
-            GRGEN_MODEL.IState output_0 = null; GRGEN_MODEL.IBandPosition output_1 = null; 
-            if(ApplyAll(maxMatches, actionEnv, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1], ref output_0, ref output_1)) {
-                ReturnArray[0] = output_0;
-                ReturnArray[1] = output_1;
-                return ReturnArray;
+            output_list_0.Clear();
+            output_list_1.Clear();
+            int matchesCount = ApplyAll(maxMatches, actionEnv, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1], output_list_0, output_list_1);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[2]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+                ReturnArrayListForAll[i][0] = output_list_0[i];
+                ReturnArrayListForAll[i][1] = output_list_1[i];
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -4756,8 +4936,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_countZeros.IMatch_countZeros> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -4825,7 +5005,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_countZeros.IMatch_countZeros> matches)
         {
-            foreach(Rule_countZeros.IMatch_countZeros match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_countZeros.IMatch_countZeros match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -4834,12 +5018,16 @@ namespace de.unika.ipd.grGen.Action_Turing3
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_countZeros.IMatch_countZeros> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_countZeros.IMatch_countZeros match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_countZeros.IMatch_countZeros match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -4888,11 +5076,16 @@ namespace de.unika.ipd.grGen.Action_Turing3
             Modify(actionEnv, (Rule_countZeros.IMatch_countZeros)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_countZeros.IMatch_countZeros>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -4910,21 +5103,37 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -4985,8 +5194,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
         void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_countOnes.IMatch_countOnes> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
         bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns the number of matches found/applied. </summary>
+        int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -5054,7 +5263,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         }
         public void ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatchesExact<Rule_countOnes.IMatch_countOnes> matches)
         {
-            foreach(Rule_countOnes.IMatch_countOnes match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            foreach(Rule_countOnes.IMatch_countOnes match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
         }
         public bool Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -5063,12 +5276,16 @@ namespace de.unika.ipd.grGen.Action_Turing3
             _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public int ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_countOnes.IMatch_countOnes> matches = DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches);
-            if(matches.Count <= 0) return false;
-            foreach(Rule_countOnes.IMatch_countOnes match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
-            return true;
+            if(matches.Count <= 0) return 0;
+            foreach(Rule_countOnes.IMatch_countOnes match in matches)
+            {
+                
+                _rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match);
+            }
+            return matches.Count;
         }
         public bool ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -5117,11 +5334,16 @@ namespace de.unika.ipd.grGen.Action_Turing3
             Modify(actionEnv, (Rule_countOnes.IMatch_countOnes)match);
             return ReturnArray;
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
+        public List<object[]> ModifyAll(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches)
         {
-            
             ModifyAll(actionEnv, (GRGEN_LIBGR.IMatchesExact<Rule_countOnes.IMatch_countOnes>)matches);
-            return ReturnArray;
+            while(AvailableReturnArrays.Count < matches.Count) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matches.Count; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
@@ -5139,21 +5361,37 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             else return null;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
+        public List<object[]> Reserve(int numReturns)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<numReturns; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
         }
-        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
-            
-            if(ApplyAll(maxMatches, actionEnv)) {
-                return ReturnArray;
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
             }
-            else return null;
+            return ReturnArrayListForAll;
+        }
+        List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, params object[] parameters)
+        {
+            int matchesCount = ApplyAll(maxMatches, actionEnv);
+            while(AvailableReturnArrays.Count < matchesCount) AvailableReturnArrays.Add(new object[0]);
+            ReturnArrayListForAll.Clear();
+            for(int i=0; i<matchesCount; ++i)
+            {
+                ReturnArrayListForAll.Add(AvailableReturnArrays[i]);
+            }
+            return ReturnArrayListForAll;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)
         {
