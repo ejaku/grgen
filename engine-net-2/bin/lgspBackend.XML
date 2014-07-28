@@ -2864,6 +2864,16 @@
             Class representing an if statement, maybe with else part
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.SwitchStatement">
+            <summary>
+            Class representing a switch statement
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CaseStatement">
+            <summary>
+            Class representing a case statement within a switch
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.WhileStatement">
             <summary>
             Class representing while statement
@@ -3403,8 +3413,8 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPAction.ReturnArray">
             <summary>
-            Performance optimization: saves us usage of new in the old style/unspecific modify/apply methods
-            of the action interface implementation for returning an array.
+            Performance optimization: saves us usage of new for the return array or the return arrays. 
+            In the object/string-style modify/apply methods of the action interface implementation.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPAction.rulePattern">
@@ -7794,6 +7804,11 @@
             Class representing global variable qualification expression
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.CastQualification">
+            <summary>
+            Class representing qualification after cast expression
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.Typeof">
             <summary>
             Class representing typeof expression
@@ -7869,9 +7884,9 @@
             Class representing a string replace expression.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.StringExplode">
+        <member name="T:de.unika.ipd.grGen.expression.StringAsArray">
             <summary>
-            Class representing a string explode expression.
+            Class representing a string as array expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.MapAccess">
@@ -7919,6 +7934,11 @@
             Class representing a map range expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.MapAsArray">
+            <summary>
+            Class representing a map as array expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.SetSize">
             <summary>
             Class representing a set size expression.
@@ -7932,6 +7952,11 @@
         <member name="T:de.unika.ipd.grGen.expression.SetPeek">
             <summary>
             Class representing a set peek expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.SetAsArray">
+            <summary>
+            Class representing a set as array expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ArraySize">
@@ -7954,9 +7979,29 @@
             Class representing an array index of expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayIndexOfBy">
+            <summary>
+            Class representing an array index of by attribute expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayIndexOfOrdered">
+            <summary>
+            Class representing an array index of ordered expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayIndexOfOrderedBy">
+            <summary>
+            Class representing an array index of ordered by attribute expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.ArrayLastIndexOf">
             <summary>
             Class representing an array last index of expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayLastIndexOfBy">
+            <summary>
+            Class representing an array last index of by expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ArraySubarray">
@@ -7964,14 +8009,39 @@
             Class representing an array subarray expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOrderAscending">
+            <summary>
+            Class representing an array sort expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOrderAscendingBy">
+            <summary>
+            Class representing an array sort by expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayReverse">
+            <summary>
+            Class representing an array reverse expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.ArrayAsSet">
             <summary>
             Class representing an array as set expression.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.ArrayImplode">
+        <member name="T:de.unika.ipd.grGen.expression.ArrayAsMap">
             <summary>
-            Class representing an array implode expression.
+            Class representing an array as map expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayAsDeque">
+            <summary>
+            Class representing an array as deque expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayAsString">
+            <summary>
+            Class representing an array as string expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.DequeSize">
@@ -8007,6 +8077,11 @@
         <member name="T:de.unika.ipd.grGen.expression.DequeAsSet">
             <summary>
             Class representing a deque as set expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DequeAsArray">
+            <summary>
+            Class representing a deque as array expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.StaticMap">
@@ -8487,6 +8562,66 @@
         <member name="T:de.unika.ipd.grGen.expression.E">
             <summary>
             Class representing expression returning e
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ByteMin">
+            <summary>
+            Class representing expression returning the minimum value of type byte
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ByteMax">
+            <summary>
+            Class representing expression returning the maximum value of type byte
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ShortMin">
+            <summary>
+            Class representing expression returning the minimum value of type short
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ShortMax">
+            <summary>
+            Class representing expression returning the maximum value of type short
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IntMin">
+            <summary>
+            Class representing expression returning the minimum value of type int
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IntMax">
+            <summary>
+            Class representing expression returning the maximum value of type int
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.LongMin">
+            <summary>
+            Class representing expression returning the minimum value of type long
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.LongMax">
+            <summary>
+            Class representing expression returning the maximum value of type long
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.FloatMin">
+            <summary>
+            Class representing expression returning the minimum value of type float
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.FloatMax">
+            <summary>
+            Class representing expression returning the maximum value of type float
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DoubleMin">
+            <summary>
+            Class representing expression returning the minimum value of type double
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DoubleMax">
+            <summary>
+            Class representing expression returning the maximum value of type double
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Ceil">
