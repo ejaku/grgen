@@ -76,7 +76,7 @@ Rewrite factors are the building blocks of graph rewrite sequences.
 They are split into four major areas: rule (and sequence) application, simple variable handling, extended control, and sequence computation usages.
 Here we start with the most import one, applying rules.
 In section \ref{sec:simplevarhandling} we visit simple variable handling.
-In chapter \ref{cha:transaction} we have a look at advanced control \ref{sec:extctrl} and sequence computations \ref{sec:seqcomp}.
+In section \ref{sec:extctrl} we have a look at advanced control, and in section \ref{sec:seqcomp} at the sequence computations.
 
 \begin{rail}
   RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (RuleModifier Rule | (RandomSelection)? '[' RuleModifier Rule ']' | 'count' '[' RuleModifier Rule ']' '=''>' Variable);
@@ -102,10 +102,12 @@ Application will succeed or fail depending on the result of the body of the sequ
 In case of success, the output variables of the sequence definition are written to the destination variables of the assignment. In case of failure, no assignment takes place, so sequence calls behave the same as rule calls.
 The break point \texttt{\%} can be applied to a sequence call, but neither the \texttt{?} operator nor all braces (\texttt{[]}).
 
-The square braces (\texttt{[]}) introduce a special kind of multiple rule application:
+The square braces (\texttt{[]}) introduce a special kind of multiple rule execution:
 Every pattern match produced by the rule will be rewritten;
-if at least one was found, rule application will succeed, otherwise it will fail. 
-If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.
+if at least one was found, rule execution will succeed, otherwise it will fail. 
+If \emph{Rule} returns values, the value of each rule application will be returned.
+This happens in the form of an array, or better one array per return parameter, with type \verb#array<T># for return parameter type \verb#T#.
+The return parameter arrays are filled with as many values as there were succeeding rule applications.
 
 The \texttt{count}ed all bracketing \texttt{count[r]=>c} assigns the \indexed{count} of matches of rule \texttt{r} to the variable \texttt{c}, and applies \texttt{r} on all the matches.
 With \texttt{count[?r]=>c} the matches are only counted, no rewrites are carried out.
@@ -121,6 +123,7 @@ allowing the user to choose the match to be applied from the available ones in t
 The sequence \verb#(u,v)=r(x,y)# applies the rule \texttt{r} with input from the variables \texttt{x} and \texttt{y} on the host graph 
 and assigns the return elements from the rule to the variables \texttt{u} and \texttt{v} (the parenthesis around the out variables are always needed, even if there's only one variable assigned to).
 The sequence \verb#$[t]# determines all matches of the parameterless rule \texttt{t} on the host graph, then one of the matches is randomly chosen and executed.
+Rule \texttt{r} applied with all-bracketing may look like \verb#(u:array<Node>,v:array<int>)=[r(x,y)]#, note the return value arrays, compared to a single application with \verb#(u:Node,v:int)=r(x,y)#.
 \end{example}
 
 
@@ -292,6 +295,7 @@ Table~\ref{seqbasictab} lists the basic operations of the graph rewrite sequence
 \texttt{?\emph{Rule}} & Switches \emph{Rule} to a test. \\
 \texttt{\%\emph{Rule}} & This is the multi-purpose flag when accessed from \LibGr. Also used for graph dumping and break points. \\
 \texttt{[\emph{Rule}]} & Rewrite every pattern match produced by the action \emph{Rule}.\\
+\texttt{(v:array<T>)=[r]} & Searches for all matches and rewrites them all, for \texttt{r} returning \texttt{T}.\\
 \texttt{count[\emph{a}]=>v} & Rewrite every pattern match produced by the action \emph{a}, and write the count of the matches found to the variable v.\\
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\

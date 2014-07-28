@@ -23,7 +23,7 @@ An example implementing \indexed{depth-first search}, \indexed{breadth-first sea
     | ProcedureCall
     | EmbeddedExec
     | Decision
-    | WhileLoop
+    | Repetition
     | ForLoop
     | EarlyExit
     | ReturnStatement
@@ -100,23 +100,32 @@ rule example
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Control flow} \label{sub:controlflow}\indexmain{controlflow}
 
-Based on the value of a boolean expression different computations can be executed conditionally with the \texttt{if} and \texttt{else} statements. Please not that the braces are mandatory.
+Based on the value of a boolean expression different computations can be executed conditionally with the \texttt{if} and \texttt{else} statements. 
+Please not that the braces are mandatory.
+With the \texttt{switch} and \texttt{case} statements, you can match constants against the value of an expression computed once.
+Every case-branch is enclosed in an block, at block end also the execution of the block ends,
+there is no implicit fall-through carried out, a fall-through is not even available.
+Only one else branch is allowed, it is hit in case no other branch was executed.
+The construct is only available for expressions with values of type \texttt{byte}, \texttt{short}, \texttt{int}, \texttt{long}, \texttt{string}, \texttt{boolean}, and \texttt{enum} types.
 
 \begin{rail} 
-  Decision: IfPart ((ElseIfPart)*()) (ElsePart)? ;
+  Decision: IfElse | SwitchCase;
+  IfElse: IfPart ((ElseIfPart)*()) (ElsePart)? ;
 	IfPart: 'if' '(' BoolExpr ')' lbrace (Statement*) rbrace ;
 	ElseIfPart: 'else' 'if' '(' BoolExpr ')' lbrace (Statement*) rbrace ;
 	ElsePart: 'else' lbrace (Statement*) rbrace ;
-\end{rail}\ixnterm{Decision}\ixkeyw{if}\ixkeyw{else}
+	ElsePart: 'else' lbrace (Statement*) rbrace ;
+	SwitchCase: 'switch' '(' Expr ')' lbrace (CaseStatement+) rbrace;
+	CaseStatement: 'case' ConstExpr lbrace (Statement*) rbrace | 'else' lbrace (Statement*) rbrace;
+\end{rail}\ixnterm{Decision}\ixnterm{IfElse}\ixnterm{SwitchCase}\ixkeyw{if}\ixkeyw{else}\ixkeyw{switch}\ixkeyw{case}
 
 Computations may be executed repeatedly by the \texttt{while} and \texttt{do-while} statements. Please note that the braces are mandatory and that the \texttt{do-while} loop comes without a terminating semicolon.
 
 \begin{rail} 
-  WhileLoop: 
-	'while' '(' BoolExpr ')' lbrace (Statement*) rbrace |
-	'do' lbrace (Statement*) rbrace 'while' '(' BoolExpr ')' 
-	;
-\end{rail}\ixnterm{Loop}\ixkeyw{while}\ixkeyw{do}
+  Repetition: WhileLoop | DoWhileLoop;
+	WhileLoop: 'while' '(' BoolExpr ')' lbrace (Statement*) rbrace;
+	DoWhileLoop: 'do' lbrace (Statement*) rbrace 'while' '(' BoolExpr ')';
+\end{rail}\ixnterm{Repetition}\ixnterm{WhileLoop}\ixnterm{DoWhileLoop}\ixkeyw{while}\ixkeyw{do}
 
 %\section{Container iteration}
 
@@ -396,6 +405,19 @@ The three functions above allow optional edge and node type constraints, too.\\
 \hline
 \texttt{Math::pi():double}\\
 \texttt{Math::e():double}\\
+\hline
+\texttt{Math::byteMin():byte}\\
+\texttt{Math::byteMax():byte}\\
+\texttt{Math::shortMin():short}\\
+\texttt{Math::shortMax():short}\\
+\texttt{Math::intMin():int}\\
+\texttt{Math::intMax():int}\\
+\texttt{Math::longMin():long}\\
+\texttt{Math::longMax():long}\\
+\texttt{Math::floatMin():float}\\
+\texttt{Math::floatMax():float}\\
+\texttt{Math::doubleMin():double}\\
+\texttt{Math::doubleMax():double}\\
 \hline
 \texttt{File::import(string):graph}\\
 \texttt{File::exists(string):boolean}\\
@@ -696,6 +718,8 @@ separated into pattern and rewrite part, and into expressions and statements.
 \texttt{x.visited[i] = exp} & Assigns the value of \texttt{exp} to the visited flag \texttt{i} of graph element \texttt{x}.\\
 \hline
 \texttt{if(cond) \{S1\} else \{S2\}} & Executes \texttt{S1} iff \texttt{cond} evaluates to \texttt{true}, or \texttt{S2} otherwise.\\
+\texttt{switch(exp) \{ cases \}} & Evaluates \texttt{exp}, then dispatches to one of the cases, see below.\\
+\texttt{case c-exp \{S1\} else \{S2\}} & If the \texttt{c}onstant \texttt{exp} matches the value switched upon, \texttt{S1} is executed, if none of the cases matches, \texttt{else} is executed (if available).\\
 \texttt{while(cond) \{S1\} } & Executes \texttt{S1} as long as \texttt{cond} evaluates to s\texttt{true}.\\
 \texttt{do \{S1\} while(cond) } & Executes \texttt{S1} until \texttt{cond} evaluates to \texttt{false}.\\
 \texttt{for(v:T in c) \{S1\} } & Executes \texttt{S1} for each value \texttt{v} contained in container \texttt{c}.\\

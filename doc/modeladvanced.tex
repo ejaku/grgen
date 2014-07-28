@@ -69,32 +69,43 @@ the usage of \texttt{this} is mandatory in \GrG~to access the attributes of the 
 \texttt{string.startsWith():boolean}\\
 \texttt{string.endsWith():boolean}\\
 \texttt{string.indexOf(string[,int]):int}\\
-\texttt{string.lastIndexOf(string):int}\\
-\texttt{string.substring(int[, int]):string}\\
+\texttt{string.lastIndexOf(string[,int]):int}\\
+\texttt{string.substring(int[,int]):string}\\
 \texttt{string.replace(int, int, string):string}\\
 \texttt{string.toLower():string}\\
 \texttt{string.toUpper():string}\\
-\texttt{string.explode(string):array<string>}\\
+\texttt{string.asArray(string):array<string>}\\
 \hline
 \texttt{set<T>.size():int}\\
 \texttt{set<T>.empty():boolean}\\
 \texttt{set<T>.peek(int):T}\\
+\texttt{set<T>.asArray():array<T>}\\
 \hline
 \texttt{map<S,T>.size():int}\\
 \texttt{map<S,T>.empty():boolean}\\
 \texttt{map<S,T>.peek(int):S}\\
 \texttt{map<S,T>.domain():set<S>}\\
 \texttt{map<S,T>.range():set<T>}\\
+\texttt{map<int,T>.asArray():array<T>}\\
 \hline
 \texttt{array<T>.size():int}\\
 \texttt{array<T>.empty():boolean}\\
 \texttt{array<T>.peek([int]):T}\\
 \texttt{array<T>.indexOf(T[,int]):int}\\
-\texttt{array<T>.lastIndexOf(T):int}\\
+\texttt{array<T>.lastIndexOf(T[,int]):int}\\
+\texttt{array<T>.indexOfOrdered(T):int}\\
+\texttt{array<T>.orderAscending():array<T>}\\
+\texttt{array<T>.reverse():array<T>}\\
 \texttt{array<T>.subarray(int, int):array<T>}\\
+\texttt{array<T>.asDeque():deque<T>}\\
 \texttt{array<T>.asSet():set<T>}\\
+\texttt{array<T>.asMap():map<int,T>}\\
+\texttt{array<string>.asString(string):string}\\
 \hline
-\texttt{array<string>.implode(string):string}\\
+\texttt{array<T>.indexOfBy<attr>(typeof(attr)[,int]):int}\\
+\texttt{array<T>.lastIndexOfBy<attr>(typeof(attr)[,int]):int}\\
+\texttt{array<T>.indexOfOrderedBy<attr>(typeof(attr)):int}\\
+\texttt{array<T>.orderAscendingBy<attr>():array<T>}\\
 \hline
 \texttt{deque<T>.size():int}\\
 \texttt{deque<T>.empty():boolean}\\
@@ -102,6 +113,7 @@ the usage of \texttt{this} is mandatory in \GrG~to access the attributes of the 
 \texttt{deque<T>.indexOf(T[,int]):int}\\
 \texttt{deque<T>.lastIndexOf(T):int}\\
 \texttt{deque<T>.subdeque(int, int):deque<T>}\\
+\texttt{deque<T>.asArray():array<T>}\\
 \texttt{deque<T>.asSet():set<T>}\\
 \hline
 \end{tabular}

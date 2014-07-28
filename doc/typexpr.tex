@@ -262,14 +262,15 @@ There are several operations on strings available in method call notation (Metho
 \item[\texttt{.startsWith(strToSearchFor)}] returns whether the string begins with \texttt{strToSearchFor:string}, as \texttt{boolean}
 \item[\texttt{.endsWith(strToSearchFor)}] returns whether the string ends with \texttt{strToSearchFor:string}, as \texttt{boolean}
 \item[\texttt{.indexOf(strToSearchFor)}] returns first position where \texttt{strToSearchFor:string} appears at, as \texttt{int}, or -1 if not found
-\item[\texttt{.indexOf(strToSearchFor, startIndex)}] returns first position where \texttt{strToSearchFor:string} appears at, when we start the search for it at string position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
+\item[\texttt{.indexOf(strToSearchFor, startIndex)}] returns first position where \texttt{strToSearchFor:string} appears at (moving to the end), when we start the search for it at string position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
 \item[\texttt{.lastIndexOf(strToSearchFor)}] returns last position \texttt{strToSearchFor:string} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.lastIndexOf(strToSearchFor, startIndex)}] returns last position \texttt{strToSearchFor:string} appears at (moving to the begin), when we start the search for it at string position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
 \item[\texttt{.substring(startIndex, length)}] returns substring of given \texttt{length:int} from \texttt{startIndex:int} on
 \item[\texttt{.substring(startIndex)}] returns substring from \texttt{startIndex:int} on (of full remaining length)
 \item[\texttt{.replace(startIndex, length, replaceStr)}] returns string with substring from \texttt{startIndex:int} on of given \texttt{length:int} replaced by \texttt{replaceStr:int}
 \item[\texttt{.toLower()}] returns a lowercase version of the string
 \item[\texttt{.toUpper()}] returns an uppercase version of the string
-\item[\texttt{.explode(separator)}] returns the original string exploded to an array of substrings (\texttt{array<string>}), at each occurence of the \texttt{separator:string}; the separators are not included in the array. If separator is empty, you get the original string exploded to an array of single-character strings (an \texttt{array<string>} contains an \texttt{implode} method for reversal). 
+\item[\texttt{.asArray(separator)}] returns the original string exploded to an array of substrings (\texttt{array<string>}), at each occurence of the \texttt{separator:string}; the separators are not included in the array. If separator is empty, you get the original string exploded to an array of single-character strings (an \texttt{array<string>} contains an \texttt{asString} method for reversal). 
 \end{description}
 
 \begin{example}
@@ -284,7 +285,7 @@ For \texttt{n.str == "foo bar foo"} the operations yield \\
 \texttt{n.str.substring(4)=="bar foo"} \\
 \texttt{n.str.replace(4,3,"foo")=="foo foo foo"} \\
 \texttt{n.str.toUpper()=="FOO BAR FOO"} \\
-\texttt{n.str.explode(" ")==array<string>["foo","bar","foo"]} \\
+\texttt{n.str.asArray(" ")==array<string>["foo","bar","foo"]} \\
 \end{example}
 
 
@@ -382,6 +383,18 @@ A function call employs an external (attribute evaluation) function (cf. \ref{su
 \item[\texttt{Math::arctan(.)}] returns the inverse of the tangent for the argument, which must be of type \texttt{double}
 \item[\texttt{Math::pi()}] returns the constant $\pi$, of type \texttt{double}
 \item[\texttt{Math::e()}] returns the constant $e$, of type \texttt{double}
+\item[\texttt{Math::byteMin()}] returns the smallest number supported by type \texttt{byte}
+\item[\texttt{Math::byteMax()}] returns the largest number supported by type \texttt{byte}
+\item[\texttt{Math::shortMin()}] returns the smallest number supported by type \texttt{short}
+\item[\texttt{Math::shortMax()}] returns the largest number supported by type \texttt{short}
+\item[\texttt{Math::intMin()}] returns the smallest number supported by type \texttt{int}
+\item[\texttt{Math::intMax()}] returns the largest number supported by type \texttt{int}
+\item[\texttt{Math::longMin()}] returns the smallest number supported by type \texttt{long}
+\item[\texttt{Math::longMax()}] returns the largest number supported by type \texttt{long}
+\item[\texttt{Math::floatMin()}] returns the smallest number supported by type \texttt{float}
+\item[\texttt{Math::floatMax()}] returns the largest number supported by type \texttt{float}
+\item[\texttt{Math::doubleMin()}] returns the smallest number supported by type \texttt{double}
+\item[\texttt{Math::doubleMax()}] returns the largest number supported by type \texttt{double}
 \end{description}
 
 \begin{description}
@@ -393,7 +406,7 @@ A function call employs an external (attribute evaluation) function (cf. \ref{su
   Constant: EnumLit | Number | HexNumber | FloatingNumber | QuotedText | BoolLit | NullLit;
 \end{rail}\ixnterm{Constant}\ixnterm{Literal}\label{literaldef}
 
-\pagebreak %layout improvement
+%\pagebreak %layout improvement
 
 The Constants are:
 \begin{description}
