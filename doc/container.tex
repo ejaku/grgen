@@ -66,6 +66,7 @@ Set expressions consist of the known mathematical set operations, plus some oper
 \item[\texttt{.size()}] returns the number of elements in the set, as \texttt{int}
 \item[\texttt{.empty()}] returns whether the set is empty, as \texttt{boolean}
 \item[\texttt{.peek(num)}] returns the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{T} for \verb#set<T>#; the higher the number, the longer retrieval takes
+\item[\texttt{.asArray()}] returns an array of the set content, as \verb#array<T># for \verb#set<T>#, in enumeration order
 \end{description}
 
 \noindent The update method calls on sets are:
@@ -190,6 +191,7 @@ Map expressions consist of the known mathematical set operations extended to map
 \item[\texttt{.peek(num)}] returns the key of the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{S} for \verb#map<S,T>#; the higher the number, the longer retrieval takes
 \item[\texttt{.domain()}] returns the set of elements in the domain of the map, as \verb#set<S># for \verb#map<S,T>#
 \item[\texttt{.range()}] returns the set of elements in the range of the map, as \verb#set<T># for \verb#map<S,T>#
+\item[\texttt{.asArray()}] returns an array of the map content, as \verb#array<T># for \verb#map<int,T># (only available for domain type \texttt{int}); gaps are filled with the default value, up to the maximum index available in the map
 \end{description}
 
 \noindent The update method calls on maps are:
@@ -310,12 +312,30 @@ Array expressions consist of array membership checking, array value lookup, and 
 \item[\texttt{.peek(num)}] returns the value stored in the array at position \texttt{num:int} in the sequence of enumeration, is equivalent to (and implemented by) \texttt{a[num])}; retrieval occurs in constant time.
 \item[\texttt{.peek()}] returns the last value stored in the array; retrieval occurs in constant time.
 \item[\texttt{.indexOf(valueToSearchFor)}] returns the first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
-\item[\texttt{.indexOf(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at, when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
-\item[\texttt{.lastIndexOf(valueToSearchFor)}] returns last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.indexOf(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at (moving to the end), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
+\item[\texttt{.lastIndexOf(valueToSearchFor)}] returns the last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.lastIndexOf(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
+\item[\texttt{.indexOfOrdered(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurences, an arbitray one is returned
+\item[\texttt{.orderAscending()}] returns an array with the content of the input array ordered ascendingly, only available for basic types
+\item[\texttt{.reverse()}] returns an array with the content of the input array reversed
 \item[\texttt{.subarray(startIndex, length)}] returns subarray of given \texttt{length:int} from \texttt{startIndex:int} on
-\item[\texttt{.asSet()}] returns a set of the array content, as \verb#set<T># for \verb#array<T>#
-\item[\texttt{.implode(separator)}] returns the array imploded to a string with the \texttt{separator:string} inserted in between the substrings from the array, only available for \verb#array<string># (a \texttt{string} contains an \texttt{explode} method for reversal)
+\item[\texttt{.asDeque()}] returns a deque of the array content, as \verb#deque<T># for \verb#array<T>#, in same order
+\item[\texttt{.asSet()}] returns a set (without order) of the array content, as \verb#set<T># for \verb#array<T>#
+\item[\texttt{.asMap()}] returns a map of the array content, as \verb#map<int,T># for \verb#array<T>#, the values are mapped-to by their index
+\item[\texttt{.asString(separator)}] returns the array imploded to a string with the \texttt{separator:string} inserted in between the substrings from the array, only available for \verb#array<string># (a \texttt{string} contains an \texttt{asArray} method for reversal)
 \end{description}
+
+\noindent Some query method calls are available only on arrays of node or edge types bearing attributes, inspecting the value of an attribute of the graph elements stored in the array, with the attribute defined with the operation, instead of the values contained in the array directly:
+
+\begin{description}
+\item[\texttt{.indexOfBy<attr>(valueToSearchFor)}] returns the first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.indexOfBy<attr>(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at (moving to the end), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
+\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor)}] returns the last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
+\item[\texttt{.indexOfOrderedBy<attr>(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurences, an arbitray one is returned
+\item[\texttt{.orderAscendingBy<attr>()}] returns an array with the content of the input array ordered ascendingly; only available for an attribute of basic type, contained in a node or edge type, with the array storing graph elements of that type.
+\end{description}
+%And again: the \verb#X_by<attr>#-versions inspect the value of the attribute of the graph element stored in the array.
 
 \noindent The update method calls on arrays are:
 
@@ -427,6 +447,7 @@ Deque expressions consist of deque membership checking, deque value lookup, and 
 \item[\texttt{.indexOf(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at, when we start the search for it at deque position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
 \item[\texttt{.lastIndexOf(valueToSearchFor)}] returns last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.subdeque(startIndex, length)}] returns subdeque of given \texttt{length:int} from \texttt{startIndex:int} on
+\item[\texttt{.asArray()}] returns an array of the deque content, as \verb#array<T># for \verb#deque<T>#, in same order
 \item[\texttt{.asSet()}] returns a set of the deque content, as \verb#set<T># for \verb#deque<T>#
 \end{description}
 

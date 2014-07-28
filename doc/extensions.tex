@@ -7,10 +7,14 @@ The primary means available are: external attribute types, external functions, m
 %-----------------------------------------------------------------------------------------------
 \section{External Attribute Types}\label{sub:extcls}
 \begin{rail}
-  ExternalClassDeclaration: 'external' 'class' IdentDecl (() | 'extends' (ExternalClassType+',')) ';';
+  ExternalClassDeclaration: 'external' 'class' IdentDecl (() | 'extends' (ExternalClassType+',')) \\
+	(';' | lbrace ((ExternalFunctionDeclaration | ExternalProcedureDeclaration)*) rbrace);
 \end{rail}\ixnterm{ExternalClassDeclaration}\ixkeyw{external}\ixkeyw{class}\ixkeyw{extends}
-Registers a new attribute type with \GrG. You may declare the base types of the type, but not give attributes. The attribute type must be implemented externally, see \ref{sub:extclsfctimpl}; for \GrG~the type is opaque, only external functions can do computations with it. You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs.
-(Those types are not implicitly casted to \texttt{object}, but can be explicitly casted.)
+Registers a new attribute type with \GrG. You may declare the base types of the type, and you may specify external function methods or procedure methods. Attributes can't be specified. The attribute type (and the declared methods) must be implemented externally, see \ref{sub:extclsfctimpl}; for \GrG~the type is opaque, only external functions/procedures or the function/procedure methods can carry out computations on it. 
+
+You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs (because you need functionality not related to graph-rewriting, or because you want to implement lists or trees more efficiently than with the node and edge types built for general-purpose graph rewriting).
+(The external types can be explicitly casted to \texttt{object} but are not implicitly casted.)
+The methods may register own undo items with the transaction manager to realize rollback behaviour for external attributes (cf. \ref{ex:transman}).
 
 %-----------------------------------------------------------------------------------------------
 \section{External Function Types}\label{sub:extfct}
@@ -129,7 +133,7 @@ Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotat
 Although you can use any key-value pairs between the brackets, only the identifiers \indexed{prio} and \indexed{containment} have an effect so far.
 But you may use the annotations to transmit information from the specification files to API level where they can be queried/enumerated.
 
-\pagebreak %improve layout
+%\pagebreak %improve layout
 
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|lllX|} \hline

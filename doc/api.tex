@@ -191,6 +191,7 @@ public interface ITransactionManager
     void Resume();
     void Commit(int transactionID);
     void Rollback(int transactionID);
+    void ExternalTypeChanged(IUndoItem item);
 }
 \end{verbatim}
 \end{example}
@@ -198,6 +199,7 @@ public interface ITransactionManager
 The \texttt{Start} starts a transaction and returns its id; it may be called multiple times returning different ids for the then nested transactions (i.e. a failing outer one rolls back the changes of an inner transaction which succeeded).
 Changes to the graph are recorded thereafter into an undo log, unless a \texttt{Pause} was called not yet followed by a \texttt{Resume}.
 When the changes of interest were carried out the transaction identified by its id is either \texttt{Commit}ed, which causes the changes recorded since the corresponding \texttt{Start} to stay in the graph, or rolled back by calling \texttt{Rollback}, in that case all the changes recorded since the corresponding \texttt{Start} are undone.
+The \texttt{ExternalTypeChanged} allows you to include external attribute types in transaction handling, you must supply an undo item capable of rolling back the changes to the transaction manager, each type a change was carried out.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Import/Export and Miscellaneous Stuff}\label{sub:imexport}\indexmain{import}\indexmain{export}
@@ -259,11 +261,30 @@ string Serialize(object attribute, AttributeType attrType, IGraph graph);
 string Emit(object attribute, AttributeType attrType, IGraph graph);
 \end{csharplet}
 
+\pagebreak
+
+\begin{csharplet}
+/// <summary>
+/// Called when the grs importer or the shell hits a line starting with "external".
+/// The content of that line is handed in.
+/// This is typically used while replaying changes containing a method call of an external type
+/// -- after such a line was recorded, by the method called, by writing to the recorder.
+/// This is meant to replay fine-grain changes of graph attributes of external type,
+/// in contrast to full assignments handled by Parse and Serialize.
+/// </summary>
+void External(string line, IGraph graph);
+\end{csharplet}
+
 \texttt{Parse} is called when an attribute of an external or object type is to be imported from a grs file, \texttt{Serialize} is called when an attribute of an external or object type is to be exported to a grs file, and \texttt{Emit} is called when a value of external or object type is to be emitted, or displayed in the debugger, including yComp.
 (The functions are called from GrShell, too, insofar as possible -- the shell parses a single or double quoted text or a word or a number at an attribute position and hands that over then to the user defined parser.)
 They forward the calls to \texttt{ParseImpl}, \texttt{SerializeImpl}, and \texttt{EmitImpl} functions, that need to be implemented in a file named \texttt{FooModelExternal\-FunctionsImpl.cs} located in the folder of the \texttt{FooModelExternalFunctions.cs} file.
 Implementing them is \emph{your} task, in exchange you get a tight integration of your own datatypes into \GrG.
 You may have a look at \texttt{tests/ExternalAttributeEvaluation} or \texttt{examples\-api/ExternalAttributeEvaluationExample} for an example.
+
+\texttt{External} is called when a line starting with \texttt{external} is seen by the shell or the grs importer, in this case the content up to the end of the line is munched and handed in to this function.
+Those line are typically recorded by calls of the \verb#public void External(string value)# function supplied in the \texttt{IRecorder} interface, from external attribute method calls (cf. \ref{sub:extcls}), for persisting changes of the external method calls.
+For assignments of complete attribute values, you must implement \texttt{Parse} and \text{Serialize}. 
+The \texttt{External} function is existing for fine-grain changes of external attribute types.
 
 \begin{csharplet}
 /// <summary>
