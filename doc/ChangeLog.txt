@@ -1,4 +1,106 @@
-﻿v4.4RC (2014-06-22)
+﻿v4.4 (2014-07-29)
+ Rule all calls now return for *each* match its return values, 
+  instead of the return values of an arbitrarily chosen one.
+ They are returned in the form of array<T> for each return parameter of type T,
+  the output arguments assigned to must be of a corresponding array type,
+  this is checked at compile time (or runtime for untyped global variables).
+ An all-call always returns an array for each out parameter, even if there is exactly one match,
+  a normal rule always returns a scalar as before; so r : (Node, int) must be called with
+  (a:array<Node>,i:array<int>)=[r] for all calls, instead of (a:Node,i:int)=r for normal calls
+
+ Added new array methods:
+  - array<T>.reverse() 
+    which returns a reversed version of the array
+  - array<T>.orderAscending() 
+    which returns a sorted version of the array 
+    (not available for arrays of graph,node,edge,container type)
+  - array<T>.indexOfOrdered(.) 
+    which returns the index of an occurence of the given element in the array;
+    the array must be sorted, otherwise results returned by the binary search will be wrong;
+    in case of multiple occurences, an arbitray one is returned.
+
+ Added new array methods on arrays of node or edge types bearing attributes:
+  - indexOfBy<attribute-name>(value [, startIndex]):int 
+    returns the index of the first occurence of the attribute value in the array as seen from the begin on (or the start index)
+  - lastIndexOfBy<attribute-name>(value [, startIndex]):int 
+    returns the index of the first occurence of the attribute value in the array as seen from the end on (or the start index)
+  - indexOfOrderedBy<attribute-name>(value [, startIndex]):int
+    returns the index of an occurence of the attribute value in the array as found by a binary search
+  - orderAscendingBy<attribute-name>():array<T>
+    returns the array ordered ascendingly alongside the given attribute of the contained graph elements
+
+ Added/changed several container transformation methods:
+  - added set<T>.asArray() 
+    which returns an array<T> filled with the content of the set (in enumeration order)
+  - added array<T>.asMap() 
+    which returns a map<int,T> filled with the content of the array, mapped-to by the index
+  - added array<T>.asDeque() 
+    which returns a deque<T> filled with the content of the array (in same order)
+  - added deque<T>.asArray() 
+    which returns an array<T> filled with the content of the deque (in same order)
+  - added map<int,T>.asArray()
+    which returns an array<T> with the content of the map,
+    gaps are filled with the default value, up the maximum index available in the map
+  - renamed string.explode(.) to string.asArray(.)
+  - renamed array.implode(.) to array.asString(.)
+
+ Added external methods to external attribute types:
+  they are declared similar to normal functions or procedures, but with their signature only
+  external class Foo {
+    external function foo(int) : int;
+    external procedure bar(int) : (int); 
+  }
+  
+ Added a function to register own undo items to the transaction manager, 
+  which will be called on rollback
+  this allows to integrate changes to external attribute types to transaction handling.
+
+ Added external change recording and replaying, with
+  - a special command line of the grs files, starting with "external", ending with line end
+  - in grs reading (by shell replay and grs import) the content in between is munched,
+    and sent to a user-supplied external handler 
+    void External(string line, IGraph graph)
+    whose interface is emitted when the "external emit class" specification is given in the model,
+    in addition to Parse, Serialize, Emit
+  - support for external line writing in the recorder (to be called from external methods)
+    intended for fine grain changes from method calls on external types,
+    in contrast to coarse grain changes from assignments (to variables of external types)
+
+ Added switch-case statement to rule language:
+  with syntax: switch(expr) { cases },
+  and cases being either: case constexpr { statements }
+  or: else { statements }
+  - every branch is enclosed in an block, at block end execution of the block ends,
+    no implicit fall-through, a fall-through is not even available
+  - only one else branch is allowed, it is hit in case no other branch was executed
+  - only available for byte, short, int, long, string, boolean, enum types
+  
+ Added functions to retrieve the minimum and maximum numbers of the numeric types:
+  - Math::byteMin(), Math::byteMax() for type byte
+  - Math::shortMin(), Math::shortMax() for type short
+  - Math::intMin(), Math::intMax() for type int
+  - Math::longMin(), Math::longMax() for type long
+  - Math::floatMin(), Math::floatMax() for type float
+  - Math::doubleMin(), Math::doubleMax() for type double
+
+ Extended array<T> and string lastIndexOf to support a second optional startIndex
+ 
+ Improved quoted text handling in the sequences by
+  - allowed escaped quotes in quoted texts
+  - allowed single quoted string constants
+
+ The grs importer is now able to import a recording
+  (again, feature was lost in rewriting importer for higher performance)
+
+ Extended profiling information to search steps occuring in evals, and in execs
+ 
+ The debugger only listens to post attribute change events now,
+  the pre attribute change events are now only used by the transaction manager and the recorder
+ 
+ Some small and medium bugfixes
+
+ 
+v4.4RC (2014-06-22)
  Grammar cleaning:
  - removed container literals without type prefix (they don't work well with other language features)
  - removed annotations for anonymous elements

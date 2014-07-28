@@ -1,11 +1,12 @@
-GrGen.NET v4.3.beta (2014-03-24)
---------------------------------
+GrGen.NET v4.4 (2014-07-29)
+---------------------------
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
 - the Graph Rewrite Generator GrGen, which turns declarative rewrite rule
   specifications into efficient .NET assemblies performing the rewrites,
-  which are supported by the runtime environment LibGr.
+  which are supported by the runtime environment implemented by LibGr
+  and the lgspBackend.
 - the rapid prototyping environment offered by GrShell and yComp
 
 
@@ -161,7 +162,7 @@ COPYING
 
 Copyright (C) 2003-2014 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 4.3
+This file is part of GrGen, Version GrGen.NET 4.4
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
