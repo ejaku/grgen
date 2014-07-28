@@ -77,7 +77,7 @@ In \GrG{} they following types of indices are supported:
 
 %-----------------------------------------------------------------------------
 \subsection{Type Indices}
-All the nodes or edges in \GrG{} of a certain type are contained in a list that can be acessed in $O(1)$ and iterated in $O(k)$ with $k$ being the number of elements in that list (the nodes or edges of same type), in contrast to $n$, being the number of nodes or edges in the graph.
+All the nodes or edges in \GrG{} of a certain type are contained in a list that can be accessed in $O(1)$ and iterated in $O(k)$ with $k$ being the number of elements in that list (the nodes or edges of same type), in contrast to $n$, being the number of nodes or edges in the graph.
 The first node or edge in a pattern is typically bound by iterating such a type list.
 In case the pattern is disconnected, a lookup is needed per connected component.
 In case multiple types have very few members, the search planner may decide to use several lookups even in case of a connected pattern.
@@ -92,7 +92,7 @@ So following neighbouring elements, crawling alongside the structure is very che
 It is cheap in graph databases, too, but absolutely not in relational databases.
 To follow a relation, there you have to join two complete tables, building the cartesian product of two tables (materializing only the rows where they agree) -- you must inspect all edges in the graph to find the neighbours.
 Typically you optimize this with a database index that allows to find the elements of the second table matching your focused element of the first table in $O(log(n))$ -- but for large $n$ or for complex queries this global product is way less efficient than direct local access to exactly the neighbouring elements.
-(Furthermore, a table join is conceptionally and notationally much heavier than an edge in a graph pattern).
+(Furthermore, a table join is conceptually and notationally much heavier than an edge in a graph pattern).
 
 In case of undirected edges, or arbitrary directed edges in the pattern, both directions are searched,
 both lists -- the outgoing list as well as the incoming list -- are crawled.
@@ -118,7 +118,7 @@ E.g. by using only single-linked ringlists for the types and incident elements w
 Or by always entering the graph at some elsewhere stored root nodes we could save the type ringlists (that give us the modularity of the rules).
 Or by using less general edges/edges that appear only with a statically fixed association cardinality, we could reduce them to mere pointers stored in the nodes.
 
-\GrG\ was built for general-purpose graph pattern matching and rewriting on a general model, to perform well on \emph{any} task, with \emph{minimum programming effort} for the user; regarding this it is implemented in a way we consider optimal and unimprovable.
+\GrG\ was built for general-purpose graph pattern matching and rewriting on a general model, to perform well on \emph{any} task, with \emph{minimum programming effort} for the user; regarding this it is implemented in a way we consider optimal and not improvable.
 If you are willing to invest extra programming and understanding effort to exploit the specifics of your task at hand, you \emph{can} manually code a higher-performance solution, by stripping away features from the model you don't need.
 Saving on the memory needed for the generality and programming productivity is what gives our competitor FUJABA a lead performance-wise for tasks where a simpler graph model is sufficient and the user is willing to invest more development time into (and no iterative search-replace-operations are carried out, search state space stepping wins then).
 
@@ -170,7 +170,7 @@ This holds for sure for alternative and iterated patterns.
 So you must take care of pattern cardinality ...
 \begin{grgen}
 test bad {
-	n1:Node; n2:Node; // builds cartesion product of all nodes in the graph (O(n*n))
+	n1:Node; n2:Node; // builds cartesian product of all nodes in the graph (O(n*n))
   multiple {
 		n1 --> n2; // then filters it down to the connected nodes
   }
@@ -179,7 +179,7 @@ test bad {
 ... and alternatives ...
 \begin{grgen}
 test bad {
-	n1:Node; n2:Node; // builds cartesion product of all nodes in the graph (O(n*n))
+	n1:Node; n2:Node; // builds cartesian product of all nodes in the graph (O(n*n))
   alternative {
 		single {
 			n1 --> n2; // then filters it down to the connected nodes
@@ -196,7 +196,7 @@ This may hold for independent and subpatterns -- but inlining is of help here.
 The edge from the independent in the example is typically inlined into the pattern removing the issue...
 \begin{grgen}
 test bad {
-	n1:Node; n2:Node; // builds cartesion product of all nodes in the graph (O(n*n))
+	n1:Node; n2:Node; // builds cartesian product of all nodes in the graph (O(n*n))
   independent {
 		n1 --> n2; // then filters it down to the connected nodes
   }
@@ -205,14 +205,14 @@ test bad {
 ... as is the subpattern body inlined into the pattern, removing the performance issue.
 \begin{grgen}
 test bad {
-	n1:Node; n2:Node; // builds cartesion product of all nodes in the graph (O(n*n))
+	n1:Node; n2:Node; // builds cartesian product of all nodes in the graph (O(n*n))
   :P(n1,n2);
 }
 pattern P(n1:Node, n2:Node) {
 	n1 --> n2; // then filters it down to the connected nodes
 }
 \end{grgen}
-Take a look at the output of the \texttt{explain} command to check whether inlining occured.
+Take a look at the output of the \texttt{explain} command to check whether inlining occurred.
 \end{example}
 
 The need to take nested pattern borders and subpattern calls into account is due to the recursive descent matching with a multi-pushdown machine as described in Section \ref{matchingflow} and Section \ref{pushdownmachine}.
@@ -220,7 +220,7 @@ The need to take nested pattern borders and subpattern calls into account is due
 Subpatterns are matched top-down, from the input parameters on.
 If the input arguments are disconnected in the pattern containing the subpattern, the containing pattern enumerates the cross product of the matches of the disconnected parts, which is only later on filtered for the ones which are connected.
 This will likely wreak havoc on the search performance.
-Even if you don't search for all matches, if you only compute a single overall match --- the calling pattern must enumerate a lot of combinations of its parts (worsened by the fact that those are typically found oftenly because of their simplicity), until the nested pattern finally is able to connect one of the disconnected pairs fed into it.
+Even if you don't search for all matches, if you only compute a single overall match --- the calling pattern must enumerate a lot of combinations of its parts (worsened by the fact that those are typically found often because of their simplicity), until the nested pattern finally is able to connect one of the disconnected pairs fed into it.
 It might be more efficient to just search from a start parameter towards a connected end location, and yield the found one out (cf. \ref{sec:localvarorderedevalyield}), or to search from a start parameter all connected end locations, collecting the found ones in a result set; and then to check the ones found alongside connectedness in a second step.
 
 Nested patterns are matched top-down, from the input parameters on, just that parameter passing is implicit there, the elements from the containing pattern which are referenced in the nested pattern are passed in automatically as arguments.
@@ -228,7 +228,7 @@ The holds especially for the \texttt{alternative} and \texttt{iterated} construc
 
 But don't shy away from using subpatterns or independents too easily, \indexed{inlining} is helping here!
 
-The elements from an independent that are linking a disconncted pattern are typically inlined into their using pattern.
+The elements from an independent that are linking a disconnected pattern are typically inlined into their using pattern.
 The elements from a subpattern are often inlined into their using pattern, causing the pattern to get connected (again), 
 but also removing the pushdown machine overhead.
 But you must take into account that the \emph{inlining} implemented in GrGen is limited to depth one.
@@ -259,14 +259,14 @@ search planning can avoid lookups on populated types.
 This typically leads to the best results, but not always -- sometimes you may fare better by manually assigning priorities to the pattern elements, thus influencing the search order of the initial static search plan (high-prio elements are matched first) -- if you don't re-generated the search plan for that rule at runtime the static search plan is kept in place.
 
 Again: Use types!
-The more fine grain a graph is typed, the better are the statistics regarding the splitting factors (V-Structures) and the number of elements of a certain type, and the better are then in consequence the search plans in their ability of evading splitting structures and avoiding lookups of oftenly occurring types.
+The more fine grain a graph is typed, the better are the statistics regarding the splitting factors (V-Structures) and the number of elements of a certain type, and the better are then in consequence the search plans in their ability of evading splitting structures and avoiding lookups of often occurring types.
 
 %-----------------------------------------------------------------------------
 \subsection{Attribute Indices}
 In addition to the built-in type and neighbourhood indices, you may declare attribute indices.
 An attribute index allows to do a lookup based on an attributes value, or a range of attribute values.
 This stands in contrast to the default behaviour of carrying out a lookup on the type, visiting all $n$ elements of the type, filtering them down to the elements of interest (within range) with an attribute condition.
-If this means you have to inspect a lot of values while searching only for a few ones, you should use an attribute index and benefit from its massively improved selectiveness for the lookup.
+If this means you have to inspect a lot of values while searching only for a few ones, you should use an attribute index and benefit from its massively improved selectivity for the lookup.
 It requires only $O(log(n))$ to search for the first element, and $O(k)$ for the $k$ elements within the bounds specified.
 It is implemented with a balanced binary search tree (an AA-tree\cite{Andersson93balancedsearch} to be exact) that requires three pointers plus one 4 byte integer per element contained in the index (two pointers to the left and right tree nodes, and one to the graph element as value), which is really cheap.
 But it must be maintained on graph changes, which is less cheap.
@@ -320,9 +320,9 @@ Moreover, the index can be iterated over in the sequences.
 %-----------------------------------------------------------------------------
 \subsection{Incidence Count Indices}
 Attribute indices can be seen as a general-purpose device, that extends the built-in ability of quick lookup by-type and of quick lookup by-neighbourhood with a quick lookup by-attribute, thus giving complete quick-lookup coverage for all foundational elements of the graph model.
-Incidence count indices in contrast are more of a special-purpose device for a certain abstraction that can applied to the graph -- the \emph{count} of incident edges -- and are benefitial only if that abstration is of importance.
+Incidence count indices in contrast are more of a special-purpose device for a certain abstraction that can applied to the graph -- the \emph{count} of incident edges -- and are beneficial only if that abstraction is of importance.
 They allow you to quickly lookup nodes based on their number of incident edges.
-This is benefitial if you need to quickly fetch nodes with a certain number of incident edges;
+This is beneficial if you need to quickly fetch nodes with a certain number of incident edges;
 but especially for algorithms that work best when starting with the nodes with the highest number of incident edges, going downwards, or vice versa.
 
 The index furtheron allows to fetch the incidence count for a node quickly with just an index lookup, 
@@ -406,7 +406,7 @@ The same syntax may be used to assign the name of a (sub)graph, a missing elemen
 
 %-----------------------------------------------------------------------------
 \subsection{Uniqueness Index}\label{sec:uniqueness}
-Uniquness can be applied in two parts, the i) uniqueness \emph{constraint}, and ii) the uniqueness \emph{index}.
+Uniqueness can be applied in two parts, the i) uniqueness \emph{constraint}, and ii) the uniqueness \emph{index}.
 The uniqueness \emph{constraint} ensures that each element in the graph has a unique id. 
 But only for a given graph element can the unique id be obtained.
 You may see it as a key-value store from graph elements to their ids -- it is a very efficient one, as the unique-id is stored in the graph elements. 
@@ -483,12 +483,12 @@ After each sequence execution the time required to carry it out is printed.
 Sometimes you need further information about what's going on.
 Use the built-in profiling then (you may of course apply a profiler on the generated code, but then you descend to the level of implementation of \GrG).
 
-You can do so by specifing the \texttt{profile} compiler option (cf. \ref{grgenoptions}) to request search code instrumentation, or better the \texttt{set profile on} shell command (cf. \ref{sec:compilerconfigshell}).
-You will receive two kinds ouf results when executing matchers instrumented that way.
+You can do so by specifying the \texttt{profile} compiler option (cf. \ref{grgenoptions}) to request search code instrumentation, or better the \texttt{set profile on} shell command (cf. \ref{sec:compilerconfigshell}).
+You will receive two kinds of results when executing matchers instrumented that way.
 
 \begin{enumerate}
-	\item After each sequence execution, the shell will print out the number of search steps that occured, in addition to the time. A search step consists of binding a graph element to a pattern element.
-	\item You can request a detailed per-action profile with the \texttt{show profiles} shell command (cf. \ref{grsthings}).
+	\item After each sequence execution, the shell will print out the number of search steps that occurred, in addition to the time. A search step consists of binding a graph element to a pattern element.
+	\item You can request a detailed per-action profile with the \texttt{show profile} shell command (cf. \ref{grsthings}).
 \end{enumerate}
 
 The detailed per-action profile contains a value that gives you a hint about the expected use of matcher parallelization, the higher the number the better is the rule suited.
@@ -512,21 +512,21 @@ A parallelization of the kind presented in \cite{ParGraErs} offers potentially e
 
 There's a second part that can be parallelized, the \texttt{equalsAny} function checking for graph isomorphy of a new candidate against a set of known graphs.
 The \emph{EqualsAnyParallelization} clause in the model must specify the number of worker threads used in parallel.
-A \verb#for equalsAny[parallelize=8];# requests 8 worker threads for checking whether there's alreay a graph existing that is isomorphic to the candidate.
+A \verb#for equalsAny[parallelize=8];# requests 8 worker threads for checking whether there's already a graph existing that is isomorphic to the candidate.
 Graph isomorphy checking is expensive, you may gain considerable speed-ups in state space enumeration (at the price of having to maintain a set of already known graphs).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Compilation and Static Knowledge}
 
-\subsubsection*{Use saved graph analyzation data}
+\subsubsection*{Use saved graph analysis data}
 The different instance graphs for a certain graph-based problem you work with often show similar characteristics regarding the types and their connectedness.
-If this holds, you can do the graph analyzation when such a characteristic graph is reached, once, and save the results,
+If this holds, you can do the graph analysis when such a characteristic graph is reached, once, and save the results,
 with the \texttt{custom graph statistics save} command, cf. \ref{custom}.
 And at each following static action generation build the static matchers based on it, by loading that statistics file. 
 This is possible with the \texttt{statistics} compiler option, cf. \ref{grgenoptions},
 and with the shell \texttt{new set statistics} command, cf. \ref{sec:compilerconfigshell}. 
 It is seldom that up-to-the-point dynamic information about the host graph makes a real difference,
-and graph analyzation and matcher re-generation at runtime are \emph{costly} -- push this effort from runtime to compilation time.
+and graph analysis and matcher re-generation at runtime are \emph{costly} -- push this effort from runtime to compilation time.
 
 \subsubsection*{Use Compiled Sequences}
 The compiled sequences given in the rules file are executed a good deal faster than the interpreted sequences given in the shell.
@@ -566,9 +566,9 @@ If you have to explore new match possibilities created by applying the rule you 
 On the other hand you have to use a loop in case the parts of the matches which are to be modified, e.g. retyped, are not disjoint (an element can only be changed once).
 
 Iterateds are similar to all-bracketed rules insofar that they match all spots in the graph existing at a certain point in time.
-They can be emedded directly in a rule (which is considerably less heavyweight than declaring a rule and passing the attachement points as parameters), and they allow for easy yielding of elements back to the pattern (typically with an accumulating yield).
+They can be embedded directly in a rule (which is considerably less heavyweight than declaring a rule and passing the attachment points as parameters), and they allow for easy yielding of elements back to the pattern (typically with an accumulating yield).
 But the overhead of the three pushdown machine must be payed for them, and they can't be matched in parallel.
-Using an iterated as the outermost block of a rule is wasteful, all-bracketing is to be prefered in this case.
+Using an iterated as the outermost block of a rule is wasteful, all-bracketing is to be preferred in this case.
 But other then that: don't replace them unless really needed, they are simply much more convenient.
 
 \subsubsection*{Reachable versus Subpattern Recursion}
@@ -601,9 +601,9 @@ For a handful of elements, they straight loose against the default code emitted 
 
 So for tasks where you must find all nodes that are adjacent to two different nodes at the same time, when both of those have a considerable amount of adjacent nodes in addition, you should switch to the following approach:
 store the adjacent nodes of one node in a hash set, and query it with the adjacent nodes from the other node.
-This is only $O(n)$ instead of $O(n*n)$ due to the $O(1)$ hash lookup (applied as query, or implicitely used in a hash set intersection).
+This is only $O(n)$ instead of $O(n*n)$ due to the $O(1)$ hash lookup (applied as query, or implicitly used in a hash set intersection).
 But it holds especially when you are only interested whether a certain minimum number is reached -- in that case you may write a helper function that returns as soon as this amount is reached; see \cite{MovieDatabase} for an example of this.
-Using a helper function is also commonly more lighweight than using a helper rule (in case the helper function does not get large, which is the case when a pattern containing more than a handful of elements is needed).
+Using a helper function is also commonly more lightweight than using a helper rule (in case the helper function does not get large, which is the case when a pattern containing more than a handful of elements is needed).
 
 \subsubsection*{Helper Programs versus Patterns on an Example}
 
@@ -683,7 +683,7 @@ findCouplesOpt:
 	\label{fig:FinalSP}
 \end{figure}
 
-Note the parallized first lookup spreading matching work over multiple threads; in addition, the computation of the common movies is executed in parallel, materializing the results to a common movies set, per match.
+Note the parallelized first lookup spreading matching work over multiple threads; in addition, the computation of the common movies is executed in parallel, materializing the results to a common movies set, per match.
 Only a part of the original pattern is used here, because the connectedness check was moved to a helper function, called from an attribute condition.
 
 \begin{figure}[hptb]
@@ -703,3 +703,73 @@ Only a part of the original pattern is used here, because the connectedness chec
 	\caption{getCommonMovies rule}
 	\label{fig:getCommonMovies.grg}
 \end{figure}
+
+\subsubsection*{Helper Programs versus Patterns on an Example, Profiling}
+
+When you enable profiling for the \verb#imdb-0005000-50176.movies.xmi# example, cf. \ref{sec:performanceparallel}, you see a drastic reduction in search operations for the optimized version compared to the non-optimized version (and a corresponding reduction in runtime), compare \ref{fig:profilefindCouples} to \ref{fig:profilefindCouplesOpt}. 
+
+Execution was carried out on a double core, the number of matches differs because of the automorphic matches filtering being executed during matching compared to post-matching, and in the optimized version there are no matches occuring from an embedded \emph{exec}, as all search work was shifted to the parallelized matcher.
+
+\begin{figure}[hptb]
+	\begin{verbatim}
+Executing Graph Rewrite Sequence done after 23174.7 ms with result True:
+ - 138718180 search steps executed
+ - 34958 matches found
+ - 34958 rewrites performed
+> show profile findCouples
+profile for action findCouples:
+  calls total: 1
+  steps of first loop of pattern matcher total: 5000
+  search steps total (in pattern matching, if checking, yielding): 136430986
+  search steps total during eval computation): 0
+  search steps total during exec-ution (incl. actions called): 2287194
+  search steps until one match: 0.00
+  loop steps until one match: 0.00
+  search steps per loop step (until one match): 0.00
+  search steps until more than one match: 136430986.00
+  loop steps until more than one match: 5000.00
+  search steps per loop step (until more than one match): 4441.29
+  parallelization potential: 474.49
+  \end{verbatim}
+	\caption{Profile of findCouples}
+	\label{fig:profilefindCouples}
+\end{figure}
+
+\begin{figure}[hptb]
+	\begin{verbatim}
+Executing Graph Rewrite Sequence done after 1764.0 ms with result True:
+ - 2962438 search steps executed
+ - 17479 matches found
+ - 17479 rewrites performed
+> show profile findCouplesOpt
+profile for action findCouplesOpt:
+  calls total: 1
+  steps of first loop of pattern matcher total: 5000
+  search steps total (in pattern matching, if checking, yielding): 2962438
+  search steps total during eval computation): 0
+  search steps total during exec-ution (incl. actions called): 0
+for thread 0:
+  search steps total: 373345
+  loop steps total: 2193
+  search steps until one match: 0.00
+  loop steps until one match: 0.00
+  search steps per loop step (until one match): 0.00
+  search steps until more than one match: 373345.00
+  loop steps until more than one match: 2193.00
+  search steps per loop step (until more than one match): 33.64
+for thread 1:
+  search steps total: 374142
+  loop steps total: 2807
+  search steps until one match: 0.00
+  loop steps until one match: 0.00
+  search steps per loop step (until one match): 0.00
+  search steps until more than one match: 374142.00
+  loop steps until more than one match: 2807.00
+  search steps per loop step (until more than one match): 15.91
+  \end{verbatim}
+	\caption{Profile of findCouplesOpt}
+	\label{fig:profilefindCouplesOpt}
+\end{figure}
+
+
+

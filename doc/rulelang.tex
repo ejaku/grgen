@@ -485,7 +485,7 @@ Keep in mind that using type constraints or the \texttt{typeof} operator might b
 Their types must be compatible to the return types specified.
 
 \begin{note}
-If you are using a graph at the API level without shell-provided names accessible by the \texttt{nameof}-operator, you may want to number the graph elements for dumping like this:
+If you are using a graph at the API level without shell-provided names accessible by the \texttt{nameof}-operator, you may want to number the graph elements for dumping like this (alternatively you may use the unique index, cf. \ref{sec:uniqueness}; it does not allow you manual handling, but it also altogether spares you from manual handling):
 \begin{grgen}
 rule numberNode(var id:int) : (int)
 {

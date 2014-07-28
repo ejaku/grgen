@@ -209,9 +209,15 @@ This happens easily when you just edit those options, but the actions are not re
 Use \texttt{new new} in case you are working with the options from below to ensure the actions are regenerated irrespective of the change dates of their sources (at the cost of steady recompilations).
 \end{warning}
 
-Create graph elements, initializing their attributes.
+The following two commands create graph elements, initializing their attributes.
 On shell level they are available and mainly used as elementary instructions in creating an initial graph, in exporting and importing a graph, as well as in change recording and replaying.
-This are the commands you may find in the GRS export/import files.
+These are the commands you may find in the GRS export/import files.
+
+
+\begin{note}
+If you need to import data in a format not supported by \GrG, serialize data into the simple format explained here in \ref{graphcreationcommands} with its few \texttt{new} commands and the attribute initialization lists.
+It can be written easily.
+\end{note}
 
 \begin{rail}
   'new' (() | Text) (() | ':' NodeType (() | Constructor))
@@ -220,6 +226,7 @@ Creates a new node within the current graph.
 Optionally a variable \emph{Text} is assigned to the new node.
 If \emph{NodeType} is supplied, the new node will be of type \emph{NodeType} and attributes can be initialized by a constructor.
 Otherwise the node will be of the base node class type \emph{Node}.
+
 \begin{note}
 The \GrShell\ can reassign \indexed{variable}s.
 This is in contrast to the rule language (Chapter~\ref{chaprulelang}), where we mainly use \emph{names}\indexmain{name}\indexmain{expression variable}\indexmainsee{expression variable}{name}
@@ -682,8 +689,8 @@ The graph is NOT valid:
 An \emph{action} denotes a graph rewrite rule.
 
 \begin{rail}
-  'show' 'profiles' (Actionname)?
-\end{rail}\ixkeyw{show}\ixkeyw{profiles}
+  'show' 'profile' (Actionname)?
+\end{rail}\ixkeyw{show}\ixkeyw{profile}
 Shows the profile for the action specified by its name, or for all rules and tests in the rule set.
 
 \begin{rail}
