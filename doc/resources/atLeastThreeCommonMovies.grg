@@ -1,0 +1,27 @@
+function atLeastThreeCommonMovies(pn1:Person, pn2:Person) : boolean
+{
+    if(countPersonToMovie[pn1] <= countPersonToMovie[pn2]) {
+        def var common:int = 0;
+        def ref movies:set<Node> = adjacentOutgoing(pn1, personToMovie);
+        for(movie:Node in adjacentOutgoing(pn2, personToMovie)) {
+            if(movie in movies) {
+                common = common + 1;
+                if(common >= 3) {
+                    return(true);
+                }
+            }
+        }
+    } else {
+        def var common:int = 0;
+        def ref movies:set<Node> = adjacentOutgoing(pn2, personToMovie);
+        for(movie:Node in adjacentOutgoing(pn1, personToMovie)) {
+            if(movie in movies) {
+                common = common + 1;
+                if(common >= 3) {
+                    return(true);
+                }
+            }
+        }
+    }
+    return(false);
+}

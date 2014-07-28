@@ -134,7 +134,7 @@ For further information about the \GrShell\ language see Chapter~\ref{chapgrshel
 \begin{description}
   \item[Usage] \texttt{[mono] grShell.exe [-N] [-SI] [-C "<commands>"] <grshell-script>*} \\
      Opens the interactive shell. The \GrShell\ will include and execute the commands in the optional list of \emph{grshell-script}s\indexmain{graph rewrite script} (usually \texttt{*\indexed{.grs}} files) in the given order.
-	 The \texttt{grs} suffixes may be omitted. \GrShell\ returns 0 on successful execution, or in non-interactive mode -1 if the specified shell script could not be executed, or -2 if a \texttt{validate} with \texttt{exitonfailure} failed.
+	 The \texttt{grs} suffixes may be omitted. \GrShell\ returns 0 on successful execution, or in non-interactive mode -1 if the specified shell script could not be executed, or -2 if a \texttt{validate} with \texttt{exitonfailure} failed. This allows you to build a test-suite consisting of shell scripts.
   \item[Options] \mbox{}
     \begin{tabularx}{\linewidth}{lX}
       \texttt{-N} & Enables non-debug non-gui mode which exits on error with an error code instead of waiting for user input.\\
@@ -233,9 +233,9 @@ Several indices are already built-in and automatically used by the pattern match
 On top of the graph model language and at the heart of \GrG\ do you find the rule and computations language.
 
 It supports pattern-based \emph{rules}, which are built by a \emph{pattern to be matched} and a \emph{rewrite} to be carried out; or put differently: a left-hand-side precondition pattern and a right-hand-side postcondition pattern (see Chapter \ref{chaprulelang}).
-A pattern is described by \emph{graphlets}, a specification of nodes connected by edges in an intuitive syntax.
+A pattern is described by \emph{graphlets}, a specification of nodes connected by edges in an intuitive, easily writable, easily readable, and \emph{easily changeable} syntax.
 Complex patterns are combined from elementary patterns with \emph{nested patterns} (defining alternative, optional, multiple and iterated structures, or negative and independent application conditions, see Chapter \ref{cha:nested}) and \emph{subpattern} definitions and usages (see Chapter \ref{cha:sub}).
-Besides those parts for declarative processing of structural information are \emph{attribute conditions} (see Chapter \ref{cha:typeexpr}) and \emph{attribute evaluations} available, the former are expressions computing an output value by reading attributes of matched elements, the latter are statements changing attribute values with assignments. 
+Besides those parts for \emph{declarative} processing of structural information are \emph{attribute conditions} (see Chapter \ref{cha:typeexpr}) and \emph{attribute evaluations} available, the former are expressions computing an output value by reading attributes of matched elements, the latter are statements changing attribute values with assignments. 
 
 The attribute processing expressions and statements are in fact parts of a full-fledged \emph{imperative programming language} integrated with the declarative pattern-based rule language (see Chapter \ref{cha:computations}).
 The \emph{expressions} can query the graph with a multitude of available functions in addition to reading the attributes of matched elements and carrying out computations with the attributes; they compute a value and can be abstracted into \emph{functions}.
@@ -255,15 +255,19 @@ This way you can \emph{accumulate} information over the matches, or \emph{filter
 Several filters for sorting and clipping are already supplied or can be generated automatically on request.
 Symmetry reduction is available with a filter for duplicate matches due to permuted elements from automorphic patterns.
 
-Rules and tests (tests are rules with only a LHS pattern) support \emph{parameterization}, with input and output parameters; so do the subpatterns, as well as the functions and procedures.
-The parameters are typically used to define and advance the location of processing in the graph, but are also used for attribute computations.
+\GrG\ rules are \emph{modular}: in contrast to traditional pointer structure traversal where you attach the functionality to visiting passes comprising a lot of boilerplate code, do you note down just the functionality.
+This frees you from the smearing of graph traversal and graph matching/rewriting functionality, and in consequence from many tedious modifications during development stemming from the continuous change of traversal code due to the steady evolvement of functionality.
+You are still free to build local (or even global) passes with rules and tests (tests are rules with only a LHS pattern) by using \emph{parameters}: input and output parameters are supported by rules and tests, the subpatterns, and functions and procedures.
+They are typically used to define and advance the location of processing in the graph, but they are also used for attribute computations.
 In addition visited flags can be queried and written, for marking already processed elements.
 
-Subpatterns allow for pattern reuse, and allow via \emph{recursion} to match substructures extending into \emph{depth} (e.g. iterated paths -- but for just checking an iterated path condition, i.e. the transitive closure of a relation, there are predefined and even more efficient functions available that can be simply called.)
+Subpatterns allow for pattern reuse, and allow via subpattern \emph{recursion} to match substructures extending into \emph{depth} (e.g. iterated paths -- but for just checking an iterated path condition, i.e. the transitive closure of a relation, there are predefined and even more efficient functions available that can be simply called.)
 Iterated patterns allow to match substructures splitting into \emph{breadth} (e.g multinodes).
 Both combined allow to match \emph{entire tree like structures} within a single rule application. 
 Subpatterns and nested patterns are matched from the outermost to the innermost patterns with \emph{recursive descent}, handing already matched elements down; on \emph{ascend}, they can \texttt{yield} elements found out to the \texttt{def} elements of their containing pattern.
 The nested patterns and subpatterns also support \emph{nested rewrite parts}, so that complex structures are not only matched (parsing), but can also get rewritten (transduction) --- yielding \emph{structure directed transformation}, alongside structures defined by graphlets combined in an EBNF-grammar-like way\cite{EBNFAGTIVE}.
+
+Those features and their optimized implementation crown \GrG\ the king of graph pattern matching and rewriting, and allow you to process graph representations at their natural level of abstraction, with a flexibility and performance coming near to what you can achieve by programming everything by hand.
 
 A graph rewrite system described in those languages can be employed via an \emph{API} by .NET-applications, typically written in C\# (see Chapter \ref{cha:api}).
 %The API is provided in two versions --- for one named and typed entities which get generated, and for the other a string and object based interface on top of it offered by \LibGr. The \LibGr-based API is needed to work with arbitrary systems.
@@ -280,7 +284,7 @@ The sequences support \emph{variables} to store the locations (for data-flow orc
 A rule may be applied for the \emph{first match} found, or for \emph{all matches} that are available with all-bracketing.
 
 The sequences offer a \emph{computations} sublanguage that supports calling procedures and functions, basic graph querying and modification, visited flags management, and storages manipulation (see Chapter \ref{seqcomp}).
-The first ones allow to bypass the rules of the layer below for simple tasks, and especially allow to extract and insert subgraphs. 
+The first ones allow to bypass the rules of the layer below for simple tasks, and especially allow to extract, insert and compare subgraphs. 
 Visited flags used in marking processed elements must be allocated and freed, the sequence computations are the right place to do so.
 Most usages are related to \emph{storages} which are variables of container type storing graph elements, they esp. allow to build transformations following a wavefront running over the graph (see Chapter \ref{cha:container} for more on containers).
 

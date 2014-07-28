@@ -1,0 +1,20 @@
+function getCommonMovies(pn1:Person, pn2:Person) : set<Node>
+{
+    def ref common:set<Node> = set<Node>{};
+    if(countPersonToMovie[pn1] >= countPersonToMovie[pn2]) {
+        def ref movies:set<Node> = adjacentOutgoing(pn2, personToMovie);
+        for(movie:Node in adjacentOutgoing(pn1, personToMovie)) {
+            if(movie in movies) {
+                common.add(movie);
+            }
+        }
+    } else {
+        def ref movies:set<Node> = adjacentOutgoing(pn1, personToMovie);
+        for(movie:Node in adjacentOutgoing(pn2, personToMovie)) {
+            if(movie in movies) {
+                common.add(movie);
+            }
+        }
+    }
+    return(common);
+}

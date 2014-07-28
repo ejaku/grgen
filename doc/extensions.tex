@@ -2,7 +2,14 @@
 
 This chapter lists the ways you can customize \GrG~without \GrG-language constructs and
 shows how to interact with the external world outside of \GrG.
-The primary means available are: external attribute types, external functions, match filters, and external sequences; the secondary helpers available are annotations, command line parameters, and external shell commands.
+The primary means available are: external attribute types and their methods, external functions and procedures, match filters, and external sequences; the secondary helpers available are annotations, command line parameters, and external shell commands.
+
+You typically want to use them for integrating functionality outside of graph representation processing, subtasks \GrG\ was not built for; you maybe want to use them for performance reasons to implement linked lists or trees more efficiently than with the nodes and edges supplied by \GrG.
+
+The languages of \GrG\ shield you from the details of the runtime and the framework below it; you can combine their constructs freely.
+But when you plug into the existing framework with your code, you must obey the expectations of that framework.
+When you extend \GrG, you must play according to the rules of the \GrG-components.
+That said, there are plenty of possibilities to extend the framework with your own functionality.
 
 %-----------------------------------------------------------------------------------------------
 \section{External Attribute Types}\label{sub:extcls}
@@ -96,7 +103,14 @@ See \ref{sub:apiextcopycompare} for an explanation on what needs to be implement
 \begin{rail}
   '!' CommandLine
 \end{rail}\indexmain{\texttt{"!}}
-\emph{CommandLine} is execute as-is by the shell of the operating system.
+\emph{CommandLine} is executed as-is by the shell of the operating system.
+
+\begin{rail}
+  'external' CommandLine
+\end{rail}\indexmain{external}
+An \texttt{External} method you must supply is called with the \emph{CommandLine}.
+This happens when \texttt{external emit class} was specified, see \ref{sub:extemitparse} above.
+See \ref{sub:apiextemitparse} for an explanation on what needs to be implemented in this case.
 
 %-----------------------------------------------------------------------------------------------
 \section{Shell and Compiler Parameters}
@@ -130,7 +144,8 @@ Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotat
 \begin{rail}
   IdentDecl: Ident (() | '[' (Ident '=' Constant + ',') ']');
 \end{rail}\ixnterm{IdentDecl}
-Although you can use any key-value pairs between the brackets, only the identifiers \indexed{prio} and \indexed{containment} have an effect so far.
+You can use any key-value pairs between the brackets.
+For \GrG\ only the identifiers \indexed{prio}, \indexed{containment}, and \indexed{parallelize} have an effect.
 But you may use the annotations to transmit information from the specification files to API level where they can be queried/enumerated.
 
 %\pagebreak %improve layout
