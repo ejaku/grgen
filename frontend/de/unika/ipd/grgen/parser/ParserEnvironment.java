@@ -337,6 +337,7 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("array");
 		keywords.add("auto");
 		keywords.add("break");
+		keywords.add("case");
 		keywords.add("class");
 		keywords.add("copy");
 		keywords.add("connect");
@@ -388,6 +389,7 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("rule");
 		keywords.add("sequence");
 		keywords.add("set");
+		keywords.add("switch");
 		keywords.add("test");
 		keywords.add("true");
 		keywords.add("typeof");
