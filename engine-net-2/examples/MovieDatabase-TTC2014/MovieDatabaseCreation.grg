@@ -1,6 +1,6 @@
 sequence createExample(n:int)
 {
-	for{i:int in [0:n-1]; createPositive(n) ;> createNegative(n)}
+	for{i:int in [0:n-1]; createPositive(i) ;> createNegative(i)}
 }
 
 rule createPositive(var n:int)
