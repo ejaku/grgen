@@ -86,7 +86,7 @@ public abstract class BaseNode extends Base
 
 
 	/** The parent node of this node. */
-	private Set<BaseNode> parents = new LinkedHashSet<BaseNode>();
+	protected Set<BaseNode> parents = new LinkedHashSet<BaseNode>();
 
 
 	/** Has this base node already been resolved? */
