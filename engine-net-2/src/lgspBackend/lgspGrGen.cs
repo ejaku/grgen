@@ -805,6 +805,7 @@ namespace de.unika.ipd.grGen.lgsp
                     + " \"" + String.Join("\" \"", sourceFiles) + "\"";
                 ProcessStartInfo startInfo = new ProcessStartInfo(javaString, execStr);
                 startInfo.CreateNoWindow = true;
+                startInfo.UseShellExecute = false;
                 try
                 {
                     Console.CancelKeyPress += ctrlCHandler;
