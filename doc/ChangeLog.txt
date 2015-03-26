@@ -1,4 +1,12 @@
-﻿v4.4 (2014-07-29)
+﻿v4.4.1 (2015-03-26)
+ Bugfixes and language construct polishings:
+  - fixed grgen compiler not working under Windows 8 because of a failing ShellExecute of javaw
+  - iterateds in subpatterns without a top-level/outermost modify part work now
+  - local variable declarations and computation language casts support now package prefixed types
+  - for loops over containers support now iteration variables of subtypes of the container type (for nodes/edges),
+    an exception will be thrown if that type is not really contained (same as for loops over graph access functions)
+
+v4.4 (2014-07-29)
  Rule all calls now return for *each* match its return values, 
   instead of the return values of an arbitrarily chosen one.
  They are returned in the form of array<T> for each return parameter of type T,
