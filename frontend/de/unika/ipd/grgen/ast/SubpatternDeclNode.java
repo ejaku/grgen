@@ -115,6 +115,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 				orderedReplacements, evals, returnz, imperativeStmts,
 				BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, pattern);
 			right.addChild(new ModifyDeclNode(getIdentNode(), graph, new CollectNode<IdentNode>()));
+			getIdentNode().setDecl(this);
 		}
 		
 		return type != null;
