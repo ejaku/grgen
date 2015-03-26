@@ -1,0 +1,20 @@
+#using "abstract_program__ecore.gm"
+
+rule activityToCompliant(ref tasks:set<Node>, ref ttasks:array<Node>, ref tttasks:map<Node,Node>, ref ttttasks:deque<Node>) {	
+	modify {
+		eval {
+			for(t:_abstractPrograms::_Task in tasks) { 
+				emit(" test "+t._name);
+			}
+			for(t:_abstractPrograms::_Task in ttasks) { 
+				emit(" test "+t._name);
+			}
+			for(t:_abstractPrograms::_Task->tt:_abstractPrograms::_Task in tttasks) { 
+				emit(" test "+t._name+" tt "+tt._name);
+			}
+			for(t:_abstractPrograms::_Task in ttttasks) { 
+				emit(" test "+t._name);
+			}
+		}
+	}
+}

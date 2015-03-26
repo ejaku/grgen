@@ -3321,6 +3321,7 @@ public class ModifyGen extends CSharpBase {
         {
         	Type arrayValueType = ((ArrayType)cay.getContainer().getType()).getValueType();
         	String arrayValueTypeStr = formatType(arrayValueType);
+        	String entryVarTypeStr = formatType(cay.getIterationVar().getType());
         	String indexVar = "index_" + tmpVarID++;
         	String entryVar = "entry_" + tmpVarID++; // for the container itself
             sb.append("\t\t\tList<" + arrayValueTypeStr + "> " + entryVar + " = (List<" + arrayValueTypeStr + ">) " + formatEntity(cay.getContainer()) + ";\n");
@@ -3335,7 +3336,7 @@ public class ModifyGen extends CSharpBase {
         			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIndexVar(), indexVar) + ";\n");
         		}
         		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
-                    sb.append("\t\t\t" + arrayValueTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + "[" + indexVar + "];\n");
+                    sb.append("\t\t\t" + entryVarTypeStr + " " + formatEntity(cay.getIterationVar()) + " = (" + entryVarTypeStr + ")" + entryVar + "[" + indexVar + "];\n");
         		} else {
         			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + "[" + indexVar + "]") + ";\n");
         		}
@@ -3343,7 +3344,7 @@ public class ModifyGen extends CSharpBase {
             else
             {
         		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
-                    sb.append("\t\t\t" + arrayValueTypeStr + " "  + formatEntity(cay.getIterationVar()) + " = " + entryVar + "[" + indexVar + "];\n");
+                    sb.append("\t\t\t" + entryVarTypeStr + " " + formatEntity(cay.getIterationVar()) + " = (" + entryVarTypeStr + ")" + entryVar + "[" + indexVar + "];\n");
         		} else {
         			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + "[" + indexVar + "]") + ";\n");
         		}
@@ -3357,6 +3358,7 @@ public class ModifyGen extends CSharpBase {
         {
         	Type dequeValueType = ((DequeType)cay.getContainer().getType()).getValueType();
         	String dequeValueTypeStr = formatType(dequeValueType);
+        	String entryVarTypeStr = formatType(cay.getIterationVar().getType());
         	String indexVar = "index_" + tmpVarID++;
         	String entryVar = "entry_" + tmpVarID++; // for the container itself
             sb.append("\t\t\tGRGEN_LIBGR.Deque<" + dequeValueTypeStr + "> " + entryVar + " = (GRGEN_LIBGR.Deque<" + dequeValueTypeStr + ">) " + formatEntity(cay.getContainer()) + ";\n");
@@ -3371,7 +3373,7 @@ public class ModifyGen extends CSharpBase {
         			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIndexVar(), indexVar) + ";\n");
         		}
         		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
-                    sb.append("\t\t\t" + dequeValueTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + "[" + indexVar + "];\n");
+                    sb.append("\t\t\t" + entryVarTypeStr + " " + formatEntity(cay.getIterationVar()) + " = (" + entryVarTypeStr + ")" + entryVar + "[" + indexVar + "];\n");
         		} else {
         			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + "[" + indexVar + "]") + ";\n");
         		}
@@ -3379,7 +3381,7 @@ public class ModifyGen extends CSharpBase {
             else
             {
         		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
-                    sb.append("\t\t\t" + dequeValueTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + "[" + indexVar + "];\n");
+                    sb.append("\t\t\t" + entryVarTypeStr + " " + formatEntity(cay.getIterationVar()) + " = (" + entryVarTypeStr + ")" + entryVar + "[" + indexVar + "];\n");
         		} else {
         			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + "[" + indexVar + "]") + ";\n");
         		}
@@ -3393,12 +3395,13 @@ public class ModifyGen extends CSharpBase {
         {
         	Type setValueType = ((SetType)cay.getContainer().getType()).getValueType();
         	String setValueTypeStr = formatType(setValueType);
+        	String entryVarTypeStr = formatType(cay.getIterationVar().getType());
         	String entryVar = "entry_" + tmpVarID++;
             sb.append("\t\t\tforeach(KeyValuePair<" + setValueTypeStr + ", GRGEN_LIBGR.SetValueType> " + entryVar + " in " + formatEntity(cay.getContainer()) + ")\n");
             sb.append("\t\t\t{\n");
 
     		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
-                sb.append("\t\t\t" + setValueTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + ".Key;\n");
+                sb.append("\t\t\t" + entryVarTypeStr + " " + formatEntity(cay.getIterationVar()) + " = (" + entryVarTypeStr + ")" + entryVar + ".Key;\n");
     		} else {
     			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + ".Key") + ";\n");
     		}
@@ -3413,6 +3416,8 @@ public class ModifyGen extends CSharpBase {
         	String mapKeyTypeStr = formatType(mapKeyType);
         	Type mapValueType = ((MapType)cay.getContainer().getType()).getValueType();
         	String mapValueTypeStr = formatType(mapValueType);
+        	String keyVarTypeStr = cay.getIndexVar() != null ? formatType(cay.getIndexVar().getType()) : formatType(cay.getIterationVar().getType());
+        	String valueVarTypeStr = formatType(cay.getIterationVar().getType());
         	String entryVar = "entry_" + tmpVarID++;
             sb.append("\t\t\tforeach(KeyValuePair<" + mapKeyTypeStr + ", " + mapValueTypeStr + "> " + entryVar + " in " + formatEntity(cay.getContainer()) + ")\n");
             sb.append("\t\t\t{\n");
@@ -3420,12 +3425,12 @@ public class ModifyGen extends CSharpBase {
             if(cay.getIndexVar() != null)
             {
 	    		if(!Expression.isGlobalVariable(cay.getIndexVar()) || (cay.getIndexVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
-	                sb.append("\t\t\t" + mapKeyTypeStr + " " + formatEntity(cay.getIndexVar()) + " = " + entryVar + ".Key;\n");
+	                sb.append("\t\t\t" + keyVarTypeStr + " " + formatEntity(cay.getIndexVar()) + " = (" + keyVarTypeStr + ")" + entryVar + ".Key;\n");
 	    		} else {
 	    			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIndexVar(), entryVar + ".Key") + ";\n");
 	    		}
 	    		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
-	                sb.append("\t\t\t" + mapValueTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + ".Value;\n");
+	                sb.append("\t\t\t" + valueVarTypeStr + " " + formatEntity(cay.getIterationVar()) + " = (" + valueVarTypeStr + ")" + entryVar + ".Value;\n");
 	    		} else {
 	    			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + ".Value") + ";\n");
 	    		}
@@ -3433,7 +3438,7 @@ public class ModifyGen extends CSharpBase {
             else
             {
         		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
-                    sb.append("\t\t\t" + mapKeyTypeStr + " " + formatEntity(cay.getIterationVar()) + " = " + entryVar + ".Key;\n");
+	                sb.append("\t\t\t" + keyVarTypeStr + " " + formatEntity(cay.getIterationVar()) + " = (" + keyVarTypeStr + ")" + entryVar + ".Key;\n");
         		} else {
         			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + ".Key") + ";\n");
         		}
