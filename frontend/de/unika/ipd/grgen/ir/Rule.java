@@ -210,7 +210,7 @@ public class Rule extends MatchingAction implements ContainedInPackage {
 					}
 				}
 				if(homNode.changesType(right)) {
-					if(entitiesToTheirDeletingOrRetypingPattern.containsKey(node)) {
+					if(entitiesToTheirDeletingOrRetypingPattern.containsKey(node) && entitiesToTheirDeletingOrRetypingPattern.get(node)!=this) {
 						reportMultipleDeleteOrRetype(node, entitiesToTheirDeletingOrRetypingPattern.get(node), this);
 					} else {
 						entitiesToTheirDeletingOrRetypingPattern.put(node, this);
@@ -228,7 +228,7 @@ public class Rule extends MatchingAction implements ContainedInPackage {
 					}
 				}
 				if(homEdge.changesType(right)) {
-					if(entitiesToTheirDeletingOrRetypingPattern.containsKey(edge)) {
+					if(entitiesToTheirDeletingOrRetypingPattern.containsKey(edge) && entitiesToTheirDeletingOrRetypingPattern.get(edge)!=this) {
 						reportMultipleDeleteOrRetype(edge, entitiesToTheirDeletingOrRetypingPattern.get(edge), this);
 					} else {
 						entitiesToTheirDeletingOrRetypingPattern.put(edge, this);

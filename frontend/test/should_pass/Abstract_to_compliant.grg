@@ -1,0 +1,22 @@
+rule activityToCompliant {
+	.;
+
+	iterated {
+		.;
+		ts:taskSearch();
+
+		modify {		
+			//ts();
+		}
+	}
+}
+
+pattern taskSearch() 
+{
+	iterated {
+		.;
+		
+		modify {
+		}
+	}		
+}
