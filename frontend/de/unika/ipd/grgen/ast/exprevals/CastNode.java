@@ -17,6 +17,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.exprevals.Cast;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
@@ -102,7 +103,10 @@ public class CastNode extends ExprNode {
 	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		fixupDefinition(typeUnresolved, typeUnresolved.getScope());
+		if(typeUnresolved instanceof PackageIdentNode)
+			Resolver.resolveOwner((PackageIdentNode)typeUnresolved);
+		else
+			fixupDefinition(typeUnresolved, typeUnresolved.getScope());
 		type = typeResolver.resolve(typeUnresolved, this);
 		successfullyResolved = type!=null && successfullyResolved;
 		return successfullyResolved;

@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.exprevals.DefDeclGraphEntityStatement;
 import de.unika.ipd.grgen.ir.exprevals.DefDeclVarStatement;
 import de.unika.ipd.grgen.ir.GraphEntity;
@@ -63,7 +64,10 @@ public class DefDeclStatementNode extends EvalStatementNode {
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		DeclNode decl = getDecl();
-		fixupDefinition(decl.typeUnresolved, decl.typeUnresolved.getScope());
+		if(decl.typeUnresolved instanceof PackageIdentNode)
+			Resolver.resolveOwner((PackageIdentNode)decl.typeUnresolved);
+		else
+			fixupDefinition(decl.typeUnresolved, decl.typeUnresolved.getScope());
 		successfullyResolved = decl.resolve();
 		return successfullyResolved;
 	}

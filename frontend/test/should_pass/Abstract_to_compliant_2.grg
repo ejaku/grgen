@@ -1,0 +1,12 @@
+#using "abstract_program__ecore.gm"
+
+rule activityToCompliant(ref tasks:set<Node>) {
+	modify {		
+		eval {
+			for(t:Node in tasks) { 
+				def var tt:_abstractPrograms::_Task = (_abstractPrograms::_Task)t;
+				emit(" test "+tt._name);
+			}
+		}
+	}
+}
