@@ -1,5 +1,8 @@
 OK     should_pass/abstract_element_reference_in_nested_pattern.grg
 OK     should_pass/abstract_replace_parameter.grg
+OK     should_pass/Abstract_to_compliant.grg
+OK     should_pass/Abstract_to_compliant_2.grg
+OK     should_pass/Abstract_to_compliant_3.grg
 OK     should_pass/alternative_001.grg
 OK     should_pass/alternative_002.grg
 OK     should_pass/alternative_repl.grg
