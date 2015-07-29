@@ -18,7 +18,7 @@ The temporary VCG file will be passed to the program \emph{ExecutableName} as fi
 further parameters, such as program options, can be specified by \emph{Text}.
 If you use \yComp\footnote{See Section~\ref{tools:ycomp}.}\indexmain{yComp} as executable (\texttt{show graph ycomp}), this may look like
 \begin{center}
-  \includegraphics[width=0.75\linewidth]{fig/showgraph}
+  \includegraphics[width=0.85\linewidth]{fig/showgraph}
 \end{center}
 The temporary file will be deleted, when the application \emph{Filename} is terminated if \GrShell\ is still running at this time.
 
@@ -124,7 +124,13 @@ Choose the layout algorithm and the options delivering the best results for your
 should be tried first.
 \end{note}
 
-The following example shows several of the layout options employed to considerably increase the readability of a program graph (as given in \texttt{examples/JavaProgramGraphs-GraBaTs08}):
+The following example consisting of Figures~\ref{figprogramgraph1} and \ref{figprogramgraph2} shows several of the layout options employed to considerably increase the readability of a program graph (as given in \texttt{examples/JavaProgramGraphs-GraBaTs08}), with:
+\begin{itemize}
+	\item nesting to show containment
+	\item color coding to distinguish different classes of elements (yellow for classes, magenta for methods, cyan for variables, green for expressions and statements)
+	\item the typical rendering of the \texttt{Hierarchic} layout (it's advanced version \texttt{Compilergraph} to be more exact)
+\end{itemize}
+
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.99\textwidth]{fig/screen-overview}
@@ -139,7 +145,38 @@ The following example shows several of the layout options employed to considerab
   \label{figprogramgraph2}
 \end{figure}
 
-\pagebreak 
+
+\pagebreak
+
+
+You see the \texttt{exclude} option applied in Figures~\ref{figimdb} and \ref{figimdb2}, stemming from the \GrG{} solution \cite{MovieDatabase} of the TTC14 Movie Database case \cite{MovieDatabaseCase} (you find it under \texttt{examples/MovieDatabase-TTC2014}) .
+There, a rule \texttt{couplesWithRating} (whose pattern consists of a \texttt{c:Couple} referencing its actors \texttt{pn1:Person} and \texttt{pn2:Person}) is used in in order to fetch the couples of actors who performed together in a movie, for one the couples whose common movies have the highest rating, and for the other the couples with the highest number of common movies. 
+The match with the highest rating or highest number is obtained by ordering with an auto-generated filter (cf. \ref{sub:filters}) alongside an appropriately filled \texttt{def} variable, and throwing away the results below with an auto-supplied filter.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{fig/IMDB}
+  \caption{\texttt{couplesWithRating}, order by \texttt{avgRating}, 10,000 movies file}
+  \label{figimdb}
+\end{figure}
+
+The first screenshot depicted in Figure~\ref{figimdb} was taken from the 10,000 movies file from IMDB (98,388 nodes, 124,638 edges), and executed under Windows 10. 
+It is displayed with layout \texttt{Circular} and shows the match of the couple with the highest rating. 
+
+The second screenshot depicted in Figure~\ref{figimdb2} was taken from the generated N=50,000 example (1,000,000 nodes, 1,600,000 edges), and executed under openSUSE LINUX 13.2. 
+It is displayed with layout \texttt{Organic} and shows the match of the couple with the highest number of common movies.
+
+The graphs as such are beyond the capabilities of the graph viewer (several thousand graph elements work well, up to a few ten thousand ones), without the \texttt{exclude} we'd be blind, this way we're endowed with partial sight (on the important part, the match plus its context). Notice the infotags on the \texttt{rating} and \texttt{avgRating} attributes.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{fig/IMDB2}
+  \caption{\texttt{couplesWithRating}, order by \texttt{numMovies}, generated with N=50,000}
+  \label{figimdb2}
+\end{figure}
+
+
+\pagebreak
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

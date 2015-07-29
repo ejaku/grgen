@@ -401,7 +401,7 @@ Note that the rule is \emph{modular}, i.e. independent from other functionality 
 	\subfloat[After folding the Cond.]{\label{fig:condfold}
 		\includegraphics[width=2.7in]{fig/MinPlusCondRewritten.png}
 	}
-	\caption{Situation reached during folding the program graph of the minimum plus one function when applied to constant arguments.}
+	\caption{Situation reached during folding the program graph of the minimum plus one function when applied to constant arguments (rendered by the debugger).}
 	\label{fig:cmpcondfold}
 \end{figure}
 
@@ -409,10 +409,12 @@ Note that the rule is \emph{modular}, i.e. independent from other functionality 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Why to use \GrG}
 
-\GrG\ offers processing of \emph{graph representations} at their \emph{natural level of abstraction}.
+\GrG\ offers \emph{processing} of \emph{graph representations} at their \emph{natural level of abstraction}.
 
-It is built on a \emph{rich and efficient metamodel} implementing multi-graphs, with multiple inheritance on node and edge types.
-The nodes and edges are wired in scalable ringlists, which give access to their incident elements in constant time, to all elements of a type in constant time, and allow to add and delete elements in constant time.
+Graph representations are typically employed in engineering (blueprints, designs), model transformation (models), computer linguistics (syntax graphs, semantic nets), or compiler construction (intermediate representations, program graphs) -- but a graph is maybe the most natural representation of the data of your domain, too?
+
+\GrG\ is built on a \emph{rich and efficient metamodel} implementing multi-graphs, with multiple inheritance on node and edge types.
+The nodes and edges are wired in \emph{scalable} ringlists, which give access to their incident elements in constant time, to all elements of a type in constant time, and allow to add and delete elements in constant time.
 
 \GrG\ features \emph{modular rules} that don't smear functionality into traversal code as is the case in traditional pointer structure passes.
 It offers declarative \emph{graph patterns} of high expressiveness, saving you a lot of boilerplate code that would be needed for coding them manually.
@@ -422,15 +424,15 @@ And it implements efficient graph change rollback, thus allowing you to easily c
 The \emph{general-purpose} system is highly extensible and customizable, you can express solutions fitting well to your task at hand.
 
 \GrG\ offers the convenience of \emph{dedicated languages} with well-readable syntax and static type checking, instead of clunky internal DSLs, limited annotations, or annoying XML.
-\GrG\ is brought to live by an \emph{optimizing compiler} that prunes not needed generality and generates pattern matchers adapted to the characteristics of the host graph at hand.
-A runtime library is supplied that implements an easy-to-use API, and features built-in serialization / deserialization.
+Its languages are brought to life by an \emph{optimizing compiler} that prunes not needed generality and generates pattern matchers adapted to the characteristics of the host graph at hand.
+A runtime library is supplied that implements an easy-to-use API, and features built-in graph serialization / deserialization.
 
 The system ships with a readily available shell application for file mapping tasks, which especially offers step-wise and \emph{visual debugging}, saving you from chasing reference chains in the debugger of your programming language.
 Further mature development support is offered with search plan explanation and profiling instrumentation. 
 Moreover, \GrG\ is properly documented in an extensive \emph{user manual}.
 
 Traditional programming of graph representation processing is tedious, it requires careful orchestration of functionality attached to passes, boilerplate code for patterns, and low-level pointer fiddling.
-You are more \emph{productive} with \GrG\ in one-shot-coding a solution, but esp. are you so for a continuous development process or when changes are needed afterwards, a \GrG-specification can be adapted at a much higher pace.
+You are more \emph{productive} with \GrG\ in one-shot-coding a solution, but esp. are you so for a continuous development process or when changes are needed afterwards, a \GrG-specification can be \emph{adapted} at a much higher pace.
 
 Altogether, \GrG\ offers the \emph{highest combined speed of development and execution} for graph representation processing you can find.
 

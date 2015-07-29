@@ -204,8 +204,8 @@ The lazy operators \verb/||/ and \verb/&&/ evaluate the subsequences in random o
 (which holds for the disjunction as long as there was no succeeding rule and for the conjunction as long as there was no failing rule).
 A \indexed{choice point} may be used to define the subsequence to be executed next.
 
-The \indexed{some-of-set braces} \verb/{(r,[s],$[t])}/ matches all contained rules and then executes the ones which matched.
-The \indexed{one-of-set braces} \verb/${(r,[s],$[t])}/ (some-of-set with random choice applied) matches all contained rules and then executes at random one of the rules which matched
+The \indexed{some-of-set braces} \verb/{<r,[s],$[t]>}/ matches all contained rules and then executes the ones which matched.
+The \indexed{one-of-set braces} \verb/${<r,[s],$[t]>}/ (some-of-set with random choice applied) matches all contained rules and then executes at random one of the rules which matched
 (i.e. the one match of a rule, all matches of an all bracketed rule, or one randomly chosen match of an all bracketed rule with random choice).
 The one/some-of-set is true if at least one rule matched and false if no contained rule matched.
 A \indexed{choice point} may be used on the one-of-set; it allows you to inspect the matches available graphically before deciding on the one to apply. 

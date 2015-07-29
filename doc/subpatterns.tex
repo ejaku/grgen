@@ -198,6 +198,59 @@ pattern SpanningTree(root:Class)
   \end{grgen}
 \end{example}
 
+\begin{example}
+
+\begin{center}
+  \parbox{0.99\linewidth}{\includegraphics[width=\linewidth]{fig/exdepthbreadth}}
+\end{center}
+
+The image from above visualizes the matching of structures extending into depth and splitting into breadth, employing the pattern of test \texttt{db} from below.
+
+\begin{grgen}
+test db(root:Node)
+{
+  iterated {
+    root --> child:N;
+  }	
+  dbc:chain(root);
+}
+pattern chain(begin:Node)
+{
+  alternative {
+    again {
+      begin --> next:Node;
+      c:chain(next);
+    }
+    end {
+      negative { begin --> .; }
+    }
+  }
+}
+\end{grgen}
+
+\end{example}
+
+\begin{example}
+
+The example from the previous page utilizes the nested and subpatterns introduced in this and the previous chapter;
+it matches \texttt{db} from a \texttt{root} node handed in on, in a tiny example graph (built from nodes of types \texttt{Node} and \texttt{N}, and edges of type \texttt{Edge}). 
+
+The breadth-splitting structure is collected with an \texttt{iterated} pattern around the center node bound to the pattern node \texttt{root}.
+The graph elements are annotated in the debugger (cf. Chapter~\ref{chapdebugger}) as usual with their pattern element name -- plus the (sub)pattern nesting path that lead to the instance of this pattern.
+
+The \verb#(.)*/1/child# at the middle-right node tells that the node is contained in an iterated pattern (using the regular expression syntax for the iterated, see Table~\ref{keywordregexpsyntax}), that this is instance \texttt{1} (starting at \texttt{0}, here we got 3 matches of the iterated, so ending at instance count \texttt{2}, and that the name of the element in the pattern is \texttt{child}.
+
+The depth-extending structure is collected with a subpattern \texttt{chain} employed from the test with the instance \texttt{dbc} starting at the node bound to the pattern node \texttt{root}.
+It uses itself recursively with the subpattern instance \texttt{c}, from the node \texttt{next} on, which is reached with one edge-following-step from the input node \texttt{begin} on.
+
+The \verb#/dbc/(.|.)/again/next# at the middle node of the chain tells that the node was matched on the subpattern instance named \texttt{dbc}, in an alternative (using regular expression syntax for the alternative), in the pattern of the \texttt{again} case, to the pattern node named \texttt{next}.
+The same node is annotated with an\verb#/dbc/(.|.)/again/c/begin#, which stems from the fact that the node appears also in the next nesting step (subpattern call), in the instance \texttt{c} of the subpattern instantiated in the branch \texttt{again}; as \texttt{begin} node handed in to \texttt{chain}.
+
+Breadth-splitting structure-matching is typically following \texttt{contains} edges, while depth-extending structure-matching is typically following \texttt{next} edges, see Note~\ref{modelcontainsnext} for hints on the modeling. 
+
+The (sub)pattern nesting paths can get long, cluttering display, so from a certain size on, only the size of the path is printed in the debugger. 
+
+\end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Subpattern Rewriting}
@@ -206,6 +259,8 @@ pattern SpanningTree(root:Class)
 Alongside the separation into subpattern declaration and subpattern entity declaration, 
 subpattern rewriting is separated into a nested rewrite specification given within the subpattern declaration defining how the rewrite looks like 
 and a subpattern rewrite application given within the rewrite part of the pattern containing the subpattern entity declaration requesting the rewrite to be actually applied.
+
+\pagebreak
 
 \begin{rail}  
   SubpatternRewriting: ('replace' | 'modify') lbrace (()+RewriteStatement) rbrace;
@@ -229,6 +284,8 @@ in call notation on the declared subpattern identifier.
 It causes the rewrite part of the subpattern to get used; if you leave it out, the subpattern is simply kept untouched.
 The \emph{SubpatternOccurence} is explained in the next subsection \ref{sub:delpressub}.
 The \emph{SubpatternExecEmit} is explained in chapter \ref{cha:imperativeandstate}.
+
+\pagebreak
 
 \begin{example}
 This is an example for a subpattern rewrite application.

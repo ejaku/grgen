@@ -300,9 +300,36 @@ y:int = 42;
 \end{warning}
 
 \begin{note}
-If you need to mark nodes in the graph, but only very few of them at the same time, think of reflexive edges of a special type. If the marking is sparse, they are the most efficient solution, before attributes, even before visited flags.
+The modeling of the example from the introduction (cf. \ref{sub:examplegraphrep}) that was chosen for the compiler case\cite{CompilerCase} is suboptimal regarding its usage of integer attributes to denote positions.
+This stems from the usage of indices into arrays in its originating compiler intermediate representation \Firm, and esp. its implementation.
+The right way to handle this in \GrG\ are edges explicitly denoting the successor relationship.
+
+The basic points in modeling with \GrG\ are:
+
+\begin{itemize}
+  \item Use types and inheritance as much as possible, on nodes as well as edges. 
+	\item Represent relationships directly and explicitly with typed edges, one for each relationship (modeling entities as nodes and relationships with edges in between them).
+	\item Use edges of type \texttt{contains} to denote containment, pointing from the containing element to its children. If you have distinguished types of containment, use \texttt{contains} as abstract base class, from which the concrete ones that get instantiated are inheriting.
+	\item Use edges of type \texttt{next} to denote orderings or successor relationships, pointing from the predecessor to the successor element in the ordering. If you have distinguished types of ordering, use \texttt{next} as abstract base class, from which the concrete ones that get instantiated are inheriting.
+	\item If you have an ordered containment, up to a statically not known depth, use edges of both kinds at the same time. With \texttt{contains} to denote the containment in the ordered tree, and \texttt{next} to order the contained children of an element (so a node is incident to both kinds of edges).
+	\item If you have an ordered containment with a statically known depth, use containment edges of dedicated types, with the type representing the order. Example: if you implement binary trees, use an edge of type \texttt{left} and an edge of type \texttt{right} to point to the left and right sibling. This is easier to process and less memory hungry than the modeling needed for the full case.
+If you implement an if-then-else, use a node of type \texttt{IfThenElse} that points with a \texttt{condition} edge to the starting node of the condition expression, and a \texttt{then} edge to the starting node of the true case statements, and an \texttt{else} edge to the starting node of the false case statements (with statements inheriting from a \texttt{Statement} node class, being linked by \texttt{next} edges, and expressions being typically binary trees, inheriting from an \texttt{Expression} node class, being linked by edges of a type representing an ordered containment). 
+\end{itemize}
+
+\end{note}\label{modelcontainsnext}
+
+\begin{note}
+Don't materialize transitive relationsships. 
+Point only to the immediate/direct successor, and compute transitive reachability as needed (with the \texttt{reachable} functions or recursive subpatterns).
 \end{note}
 
+\begin{note}
+Don't materialize bidirectional relationships with two edges. 
+Use undirected edges, or pretend they are unidirectional.
+\end{note}
 
+\begin{note}
+If you need to mark nodes in the graph, but only very few of them at the same time, think of reflexive edges of a special type. If the marking is sparse, they are the most efficient solution, before attributes, even before visited flags.
+\end{note}
 
 % todo: graphik die ein beispielmodell zeigt und mit pfeilen die konstrukte benennt

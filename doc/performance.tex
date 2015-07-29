@@ -14,7 +14,7 @@ Typically, first a graph element is determined with a lookup operation reaching 
 
 A search plan for the pattern in figure \ref{perf:figpatterntosearch} is:\\
 \texttt{lkp(v1:A); out(v1,e1:a); tgt(e1,v2:B); out(v2,e3:b); tgt(e3,v3:C); out(v3,e2:a)}\\
-The search operations \texttt{lkp} denotes a node (or edge) lookup in the graph, \texttt{out} follows the outgoing edges of the given source node and \texttt{in} follows the incoming edges ot the given target node, while \texttt{src} fetches the source from the given edge and \texttt{tgt} fetches the target from the given edge.
+The search operations \texttt{lkp} denotes a node (or edge) lookup in the graph, \texttt{out} follows the outgoing edges of the given source node and \texttt{in} follows the incoming edges of the given target node, while \texttt{src} fetches the source from the given edge and \texttt{tgt} fetches the target from the given edge.
 
 For some graphs the search plan might work well, but for the graph given in figure \ref{perf:figgraphtosearchin} it is a bad search plan.
 Why so can be seen in the search order sketched in figure \ref{perf:figbadsearch}.
@@ -317,13 +317,62 @@ The \emph{IndexAccess} in the loop header follows the format used in the index a
 The iteration variable is bound to the graph element retrieved from the index, for each such element, then the body is executed for each such element.
 Moreover, the index can be iterated over in the sequences.
 
+\begin{example}
+The following index \texttt{foo} allows to quickly fetch nodes of type \texttt{N} (or a subtype) based on the value of its attribute \texttt{i}.
+
+\begin{grgen}
+node class N {
+  i : int;
+}
+index foo { N.i }
+\end{grgen}
+
+Fetching typically occurs in the rules, binding a pattern element based on the constraints specified with the lookup.
+The test \texttt{t} only matches if a node is found whose attribute \texttt{i} matches the parameter \texttt{j}.
+The rule \texttt{r} ascendingly binds the nodes whose attribute \texttt{i} is greater than or equal $5$ and lower than $13$.
+The ascendingly means that the node \texttt{n} with smallest attribute \texttt{i} is matched that satisfies the further constraints in the pattern (if there are no further constraints like in this example, its the node with smallest attribute satisfying the limits of the index access).
+
+\begin{grgen}
+test t(var j:int) {
+  n:N{foo==j};	
+}
+
+rule r {
+  n:N{ascending(foo>=5, foo<13)};
+
+  modify {
+    emit("The value of attribute i is " + n.i + "\n");
+  }
+}
+\end{grgen}
+
+An index may also be queried with a \texttt{for} loop from the statements, accepting the same bounds; 
+or with a \texttt{for} loop from the sequences.
+
+\begin{grgen}
+rule rd {
+  modify {
+    eval {
+      for(n:E in {descending(foo<=13)}) {
+        emit("The value of attribute i is ", n.i, "\n");
+      }
+    }
+    exec (
+      for{n:E in {descending(foo<=13)}; {emit("The value of attribute i is ", n.i, "\n")} }
+    );
+  }
+}
+\end{grgen}
+
+\end{example}
+
 %-----------------------------------------------------------------------------
 \subsection{Incidence Count Indices}
 Attribute indices can be seen as a general-purpose device, that extends the built-in ability of quick lookup by-type and of quick lookup by-neighbourhood with a quick lookup by-attribute, thus giving complete quick-lookup coverage for all foundational elements of the graph model.
 Incidence count indices in contrast are more of a special-purpose device for a certain abstraction that can applied to the graph -- the \emph{count} of incident edges -- and are beneficial only if that abstraction is of importance.
 They allow you to quickly lookup nodes based on their number of incident edges.
 This is beneficial if you need to quickly fetch nodes with a certain number of incident edges;
-but especially for algorithms that work best when starting with the nodes with the highest number of incident edges, going downwards, or vice versa.
+but especially for algorithms that work best when starting with the nodes with the highest number of incident edges, going downwards, or the other way round.
 
 The index furtheron allows to fetch the incidence count for a node quickly with just an index lookup, 
 but typically no considerable gains can be made from this, as counting the incident edges of a node is commonly cheap (an $O(log(n)$ index lookup versus an $O(k)$ counting enumeration, with $k$ being the number of edges incident to the focused node).
@@ -334,16 +383,16 @@ An incidence count index must be declared in the model.
 
 \begin{rail}
 IncidenceCountIndexDecl: 'index' IndexName lbrace IncidenceFunction rbrace;
-IncidenceFunction: 
-  IncidenceFunctionName '(' NodeType ')' |
-  IncidenceFunctionName '(' NodeType ',' EdgeType ')' |
-  IncidenceFunctionName '(' NodeType ',' EdgeType ',' NodeType ')'
+CountIncidenceFunction: 
+  CountIncidenceFunctionName '(' NodeType ')' |
+  CountIncidenceFunctionName '(' NodeType ',' EdgeType ')' |
+  CountIncidenceFunctionName '(' NodeType ',' EdgeType ',' NodeType ')'
   ;
 \end{rail}\label{IncidenceCountIndexDecl}
 
 Following the \texttt{index} keyword, a name for the index is specified; in the body of the index, the incidence function and its types are given.
-The admissible incidence functions are \texttt{incident}, \texttt{incoming}, and \texttt{outgoing}, with their obvious meanings (as already introduced in \ref{sub:querybyneighbourhood}).
-The count of the edges complying to the specified incidence function is indexed, for all nodes in the graph of the type of the first node in the incidence function.
+The admissible count incidence functions are \texttt{countIncident}, \texttt{countIncoming}, and \texttt{countOutgoing}, with their obvious meanings (as already introduced in \ref{sub:querybyneighbourhood}).
+The count of the edges complying to the specified incidence function is indexed, for all nodes in the graph of the type of the first node in the couint incidence function.
 
 \subsubsection*{Usage in the rules}
 An incidence count index can be used in the pattern in exactly the same way as an attribute index, see above \ref{sub:indexusage}.
@@ -357,6 +406,39 @@ the count may be queried from the rule language expressions (the attributes can 
 \end{rail}\ixnterm{IncidenceCountIndexAccessExpr}
 
 The index access specfied in indexer notation expects a node (of the type as specified with the first node type in the incidence function) as input argument, and returns the incidence count for that node as stored in the index as \texttt{int}.
+
+\begin{example}
+The following index \texttt{bar} allows to quickly fetch nodes based on the number of \texttt{outgoing} edges, \texttt{qux} allows to quickly fetch nodes of type \texttt{N} based on the number of \texttt{incoming} edges of type \texttt{E}, stemming from a source node of type \texttt{N}.
+
+\begin{grgen}
+node class N {
+	i:int = 0;
+}
+edge class E;
+index bar { countOutgoing(Node) }
+index qux { countIncoming(N, E, N) }
+\end{grgen}
+
+Fetching typically occurs in the rules, binding a pattern element based on the constraints specified with the lookup.
+The test \texttt{t} returns the node \texttt{n} in the graph with the maximum number of outgoing edges.
+The rule \texttt{r} ascendingly binds the nodes whose number of incoming edges of type \texttt{E} from a node of type \texttt{N} is greater than or equal the value of attribute \texttt{i} of node \texttt{l} matched before (constrained to values below $42$ by the \texttt{if}); it \texttt{emit}s the count of outgoing edges of \texttt{n}, queried from the index \texttt{bar} with array access notation.
+
+\begin{grgen}
+test t() {
+	n:Node{descending(bar)};
+}
+
+rule r() {
+  l:N; if{ l.i<42;}
+  n:N{ascending(qux>=l.i)};
+	
+  modify {
+    emit("count outgoing(Node): ", bar[n], "\n");
+  }
+}
+\end{grgen}
+
+\end{example}
 
 %-----------------------------------------------------------------------------
 \subsection{Name Index}\label{sec:nameindex}
@@ -404,6 +486,37 @@ This can be only done in an \texttt{eval}-block, or a \texttt{procedure}, with a
 When you do so, it is your responsibility to ensure the name does not already exists, otherwise the assignment will cause a runtime exception.
 The same syntax may be used to assign the name of a (sub)graph, a missing element amounts to the host graph.
 
+\begin{example}
+The test \texttt{t} succeeds if there is a node of name "foo" existing in the graph, with a reflexive edge of the name defined by input parameter \texttt{s}, and there is a further node of name "bar" existing the graph.
+
+\begin{grgen}
+test t(var s:string) {
+  n:Node{@("foo")} -e:Edge{@(s)}-> n;
+  if{ nodeByName("bar") != null; }
+}
+\end{grgen}
+
+The rule \texttt{r} \texttt{yield}s the name of the node matched to \texttt{n} to \texttt{oldname}, and changes the name of the node in the \texttt{modify} part by prepending the name of the host graph. Furthermore, it prints the name of the edge bound to \texttt{e}.
+
+\begin{grgen}
+rule r() {
+  n:Node -e:Edge->;
+
+  def var oldname:string;
+  yield { yield oldname = nameof(n); }
+		
+  modify {
+    eval {
+      nameof(n) = nameof() + "_" + oldname;
+    }
+    emit("The name of the graph element bound to e is " + nameof(e) + "\n");
+  }
+}
+\end{grgen}
+
+\end{example}
+
+
 %-----------------------------------------------------------------------------
 \subsection{Uniqueness Index}\label{sec:uniqueness}
 Uniqueness can be applied in two parts, the i) uniqueness \emph{constraint}, and ii) the uniqueness \emph{index}.
@@ -448,6 +561,42 @@ the unique index with the \texttt{nodeByUnique} and \texttt{edgeByUnique} functi
 
 The unique ids are automatically assigned (from a global counter increased with each element, but reusing already handed out ids that return to the pool once their element is removed from the graph). In contrast to the names you cannot change the id assignment.
 
+\begin{example}
+
+The following model declares a node class \texttt{N}, specifies the uniqueness constraint, and requests the uniqueness index.
+ 
+\begin{grgen}
+node class N;
+node edge unique;
+index unique;
+\end{grgen}
+
+The test \texttt{t} succeeds if there is a node of unique id $0$ existing in the graph, with a reflexive edge of the unique id defined by input parameter \texttt{i}, and there is a further node of unique id $42$ existing the graph. It is unlikely you will really use code like that as you cannot assign a unique id.
+
+\begin{grgen}
+test t(var i:int) {
+  n:N{unique[0]} -e:Edge{unique[i]}-> n;
+  if{ nodeByUnique(42) != null; }
+}
+\end{grgen}
+
+The rule \texttt{r} allows to match \texttt{n} and \texttt{m} to the same graph element \texttt{hom}omorphically, just to forbid it then with the condition requesting that their unique-ids must be different. The point here is that the \texttt{hom} allows the engine to omit the isomorphy check, yielding slightly better performance. By using \verb#<# instead of \verb#!=# we ensure that we get only one match for the automorphic pattern in case of an application with all-bracketing -- the one in which the element with the smaller id is bound to \texttt{n}. Furthermore, the rule prints the unique id of the node bound to \texttt{n}.
+
+\begin{grgen}
+rule r() {
+  n:N -- m:N;
+  hom(n,m);
+  if{ uniqueof(n) < uniqueof(m); }
+		
+  modify {
+    emit("The unique id of the graph element bound to n is " + uniqueof(n) + "\n");
+  }
+}
+\end{grgen}
+
+\end{example}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Location passing and memorization}
@@ -470,9 +619,16 @@ This allows to replace searching for distant values, or global properties like r
 
 With variables and storages you build indices into the graph, indices which are typically more selective than the automatically supplied indices; 
 but in contrast to the automatically built ones, you must maintain them by hand.
+Beware of elements already deleted from the graph still hanging out in your storage because you forgot to remove them.
 
-The approach of remembering state instead of searching when needed has a clear caveat: the code becomes susceptible to ordering effects (more brittle), it may become less readable. As in normal programming, you must balance performance optimizations against maintainability.
+The approach of remembering state instead of searching when needed has a clear caveat: the code becomes susceptible to ordering effects (more brittle), it may become less readable. 
+As in normal programming, you must balance performance optimizations against maintainability.
 
+\begin{note}
+If a simple specification is fast enough, keep it simple.
+If the program executes fast enough, let it carry out unneeded work.
+You must weight programming time esp. including the long term costs of maintenance against execution time.
+\end{note}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Profile and Parallelize}\label{sec:performanceparallel}
@@ -770,6 +926,4 @@ for thread 1:
 	\caption{Profile of findCouplesOpt}
 	\label{fig:profilefindCouplesOpt}
 \end{figure}
-
-
 

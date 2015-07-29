@@ -652,7 +652,11 @@ The \emph{ExecStatement} will be introduced in chapter \ref{cha:imperativeandsta
     SubpatternRewriteApplication
     ;
 \end{rail}\ixkeyw{delete}\ixkeyw{eval}\ixnterm{RewriteStatement}\label{replstmt}
-The semantics of the various rewrite statements are given below:
+
+The semantics of the various rewrite statements are:
+
+\pagebreak
+
 \begin{description}
   \item[Graphlet] \indexmain{graphlet}Analogous to a pattern graphlet; a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the rewrite graphlet. See Section~\ref{rulebb} for a detailed explanation of graphlets.
   \item[Deletion] \indexmain{deletion}The \texttt{delete} operator is only available in modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed after all other rewrite statements. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
@@ -686,5 +690,43 @@ modify {
 This toy example yields $\texttt{y.i} = 42$, $\texttt{y.j} = 1$.
 \end{example}
 
-
 % todo: graphik die eine beispielregel zeigt und mit pfeilen die konstrukte benennt
+
+\begin{example}
+
+\begin{center}
+  \parbox{0.45\linewidth}{\includegraphics[width=\linewidth]{fig/exmatch}}
+  \parbox{0.45\linewidth}{\includegraphics[width=\linewidth]{fig/exrewrite}}
+\end{center}
+
+The images from above visualize the basic graph operations introduced in this chapter, rendered by the debugger (cf. Chapter~\ref{chapdebugger}).
+
+The figure to the left shows how the pattern of example rule \texttt{r} from below is matched in a tiny example graph (built from nodes of types \texttt{Node} and \texttt{N}, the latter bearing an attribute \texttt{i} of type \texttt{int}, and edges of type \texttt{Edge}). 
+Matched nodes are colored in light-brown, in contrast to the default yellow of unmatched nodes \verb#$1# and \verb#$3#, 
+and have the name of the pattern element that was mapped to them inscribed, here we see pattern node \texttt{n} matched to \verb#$0#, and pattern node \texttt{m} matched to \verb#$2#.
+The unmatched edges \verb#$4# and \verb#$7# are shown with a thin arrow, the matched edge \verb#$5# with a thick arrow, in addition it has the auto-assigned name \texttt{\_edge0} inscribed.
+The attribute condition \verb#n.i == 42# is satisfied as can be seen from the infotag shown at node \verb#$0#.
+Note that \texttt{m} could have been matched to \verb#$1# instead.
+
+The figure to the right shows how the modifications of the rewrite part are applied at the matched spot. 
+Node \verb#$2# bound to \texttt{m} is \text{delete}d, this is shown with gray color ("fade to gray"); according to SPO semantics, it drags edges \verb#$4# and \verb#$5# with it.
+Node \verb#$8# is created for pattern node \texttt{o}, and edge \verb#$9# for pattern edge \texttt{\_edge1} (which is again an auto-generated name, which is what \GrG\ does under the covers for anonymous pattern elements.)
+Graph element creation is visualized in green color.
+Additionally, the attribute assignment \verb#n.i = 43# was carried out.
+
+\begin{grgen}
+rule r
+{
+  n:N --> m:Node;
+  if{ n.i == 42; }
+	
+  modify {
+    delete(m);
+    n --> o:Node;
+    eval { n.i = 43; }
+  }
+}
+\end{grgen}
+
+\end{example}
+

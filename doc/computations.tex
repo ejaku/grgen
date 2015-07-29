@@ -114,7 +114,6 @@ The construct is only available for expressions with values of type \texttt{byte
 	IfPart: 'if' '(' BoolExpr ')' lbrace (Statement*) rbrace ;
 	ElseIfPart: 'else' 'if' '(' BoolExpr ')' lbrace (Statement*) rbrace ;
 	ElsePart: 'else' lbrace (Statement*) rbrace ;
-	ElsePart: 'else' lbrace (Statement*) rbrace ;
 	SwitchCase: 'switch' '(' Expr ')' lbrace (CaseStatement+) rbrace;
 	CaseStatement: 'case' ConstExpr lbrace (Statement*) rbrace | 'else' lbrace (Statement*) rbrace;
 \end{rail}\ixnterm{Decision}\ixnterm{IfElse}\ixnterm{SwitchCase}\ixkeyw{if}\ixkeyw{else}\ixkeyw{switch}\ixkeyw{case}
@@ -199,7 +198,7 @@ This construct achieves a further step in the direction of blending rule-based w
 Computations that are occurring frequently may be factored out into a computation definition given in the header of a rule file.
 Such compound computations can be built and abstracted into reusable entities in two different forms, \emph{functions} usable(/callable) from expression context, and \emph{procedures} usable(/callable) from statement context.
 Besides, several built-in functions and procedures are available, ready to be called and reused with the same syntax.
-(Furthermore, external functions and computations may be declared, callable with the same syntax, too.)
+(Furthermore, external functions and procedures may be declared, callable with the same syntax, too.)
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Function Definition and Call}\label{sub:functions}\label{sec:funccall} 
@@ -207,7 +206,7 @@ Besides, several built-in functions and procedures are available, ready to be ca
 Functions return exactly one output value, and can thus be used from the expressions with their compositional semantics.
 They are side-effect free, meaning they are not allowed to change the graph while being executed ---
 so you are not allowed to call procedures (self-defined as well as built-in) from with a function definition.
-On the other hand we consider pure functional programming not a help but a burden, so you are free to declare local variables and assign them as you like inside the function definitions; they only must behave as functions at the outside.
+On the other hand do we consider pure functional programming not a help but a burden, so you are free to declare local variables and assign them as you like inside the function definitions; they only must behave as functions at the outside.
 
 \begin{rail} 
   FunctionDefinition: 
@@ -464,8 +463,7 @@ An example showing how procedures are declared and used.
   \begin{grgen}
 procedure foo(n:N) : (N,int)
 {
-	def m:N;
-	(m) = add(N); // create new node of type N and add it to the graph
+	(def m:N) = add(N); // create new node of type N and add it to the graph
 	return( m, n.a );
 }
 
