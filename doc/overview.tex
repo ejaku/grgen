@@ -119,7 +119,9 @@ in the form of a dump of the compiler IR as a .vcg file:\\
 
 \begin{note}
 If you run into \texttt{Unable to process specification: The system cannot find the file specified} errors, 
-you may need to install a JDK to a non system path and add the bin folder of the JDK to the path variable.
+grgen is typically not able to execute the JAVA frontend.
+Check whether your path contains a zombie java variable from an old installation pointing to nowhere; remove it in this case.
+Installing a JDK to a non system path and adding the bin folder of the JDK to the path variable may help.
 (Normally just installing a JRE is sufficient.)
 \end{note}
 
@@ -175,7 +177,7 @@ done
 \subsection{\texttt{LibGr.dll}}
 \label{sct:API}
 The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}.
-See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.net/doc/API_4_3/};
+See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.net/doc/API_4_4/};
 a short introduction is given in chapter \ref{cha:api}.
 
 %-----------------------------------------------------------------------------------------------
@@ -191,7 +193,7 @@ For a more detailed introduction have a look at chapter \ref{cha:developing}.
 It is well integrated and shipped with \GrG, but it's not a part of \GrG.
 \yComp\ implements several graph layout algorithms and has file format support for \indexed{VCG}, GML and YGF among others.
 \begin{center}
-\includegraphics[width=0.45\linewidth]{fig/ycomp1.pdf} \includegraphics[width=0.45\linewidth]{fig/ycomp2.pdf}
+\includegraphics[width=0.49\linewidth]{fig/ycomp1.pdf} \includegraphics[width=0.49\linewidth]{fig/ycomp2.pdf}
 \end{center}
 \begin{description}
   \item[Usage] Usually \yComp\ will be loaded by the \GrShell. You might want to open \yComp\ manually by typing\\
@@ -259,9 +261,10 @@ This way you can \emph{accumulate} information over the matches, or \emph{filter
 Several filters for sorting and clipping are already supplied or can be generated automatically on request.
 Symmetry reduction is available with a filter for duplicate matches due to permuted elements from automorphic patterns.
 
-\GrG\ rules are \emph{modular}: in contrast to traditional pointer structure traversal where you attach the functionality to visiting passes comprising a lot of boilerplate code, do you note down just the functionality.
-This frees you from the smearing of graph traversal and graph matching/rewriting functionality, and in consequence from many tedious modifications during development stemming from the continuous change of traversal code due to the steady evolution of functionality.
-You are still free to build local (or even global) passes with rules and tests (tests are rules with only a LHS pattern) by using \emph{parameters}: input and output parameters are supported by rules and tests, the subpatterns, and functions and procedures.
+\GrG\ rules are \emph{modular} or \emph{local}: you just note down the functionality.
+Typically it is smeared into graph traversal code of global visiting passes.
+This limits the changes needed during development and maintenance, and together with the concise and easily editable patterns saves you from many large-scale tedious modifications that are normally needed in those cases.
+You are still free to build local (or even global) passes by combining rules and tests (tests are rules with only a LHS pattern) utilizing \emph{parameters}: input and output parameters are supported by rules and tests, the subpatterns, and functions and procedures.
 They are typically used to define and advance the location of processing in the graph, but they are also used for attribute computations.
 In addition visited flags can be queried and written, for marking already processed elements.
 
@@ -271,7 +274,7 @@ Both combined allow to match \emph{entire tree like structures} within a single 
 Subpatterns and nested patterns are matched from the outermost to the innermost patterns with \emph{recursive descent}, handing already matched elements down; on \emph{ascend}, they can \texttt{yield} elements found out to the \texttt{def} elements of their containing pattern.
 The nested patterns and subpatterns also support \emph{nested rewrite parts}, so that complex structures are not only matched (parsing), but can also get rewritten (transduction) --- yielding \emph{structure directed transformation}, alongside structures defined by graphlets combined in an EBNF-grammar-like way\cite{EBNFAGTIVE}.
 
-Those features and their optimized implementation crown \GrG\ the king of graph pattern matching and rewriting, and allow you to process graph representations at their natural level of abstraction, with a flexibility and performance coming near to what you can achieve by programming everything by hand.
+Those features and their optimized implementation crown \GrG\ the king of graph pattern matching and rewriting, and allow you to process graph representations at their natural level of abstraction, with a flexibility and performance coming near to what you can achieve by programming things by hand.
 
 A graph rewrite system described in those languages can be employed via an \emph{API} by .NET-applications, typically written in C\# (see Chapter \ref{cha:api}).
 %The API is provided in two versions --- for one named and typed entities which get generated, and for the other a string and object based interface on top of it offered by \LibGr. The \LibGr-based API is needed to work with arbitrary systems.

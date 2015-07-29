@@ -6,40 +6,50 @@ In this chapter we'll have a look at transformation techniques to solve common g
 They could be offered directly by some dedicated operators,
 but these would need so much customization to be useful in the different situations one needs them,
 that we decided against dedicated operators;
-instead it is on you to program the version you need yourself by combining language constructs and rules.
+instead it is on you to program the version you need yourself by \emph{combining} language constructs and rules.
 
-%TODO: discuss declarative rule and pattern based versus imperative computation, container, sequence based.
+The primary means to build transformations are top-level \emph{sequences}, controlling rule applications (on one or all matches).
+They may call other sequences, even so recursively.
+The sequences allow for \emph{external composition} of rules; a rule may be \emph{(re-)used} multiple times.
+They follow the \emph{imperative} programming paradigm, one rule is applied after the other, on the \emph{then-changed} state (of the graph, changed after each step).
 
-There are two-and-a-half means available in the \GrG-rule language to build combined, complex rules:
-\begin{description}
-	\item[nested and subpatterns]
-which allow to match and rewrite complex patterns built in a structured way piece by piece.
+With \emph{embedded sequences} are you able to call rules from within a rule application, after the rule proper was executed (deferred execution), with direct access to the elements of that rule.
+Seen from the outside, they allow to build a complex rule and thus allow for rule \emph{internal composition}, again in an \emph{imperative} way.
+They allow to do work later on you can't do while executing the rule proper (e.g. because an element was already matched and is now locked due to the isomorphy constraint), to follow a breadth-splitting structure, or simply to split work into several parts, modularizing it, \emph{reusing} already available functionality.
+
+The other means for \emph{internal composition} are the \emph{nested and subpatterns}.
+They allow to match and rewrite complex patterns built in a structured way piece by piece.
 With different pieces connected together, pieces to decide in between, and pieces which appear repeatedly.
-	\item[embedded graph rewrite sequences]
-for deferred rule execution to do work later on you can't do while executing the rule proper (e.g. because an element was already matched and is now locked due to the isomorphy constraint); or for splitting work into several parts, reusing already available functionality.
-	\item[storages (container variables)]
-to store elements collected in one run and reuse them as input in another run, i.e. using multi-value variables to break up the transformation into passes. (This is the half point, as they are not a means to build a complex rule, but a means to communicate between rules building complex transformations.)
-\end{description}
-%Besides, sequences combining rules into more complex sequences.
-%Besides, programmed-direct graph manipulation from procedures, and programmed-direct graph querying from functions.
+They follow the \emph{functional} programming paradigm, a complex state change is built compositionally without graph changes in between, only after applying the rule in a big step is the graph changed (in fact after the rewriting half-step, following the matching half-step). 
+They shift processing below the rules-combined-by-sequences level. 
 
-\noindent In the following we'll employ them to merge and split nodes, emulate node replacement grammars, execute transformations in the narrow sense, aka mappings, copy substructures, compute flow equations over the graph structure with sets in the nodes, and enumerate state spaces.
-Further examples can be found in \cite{CompilerOptimization} employing two storagesets switched in between for computing a wavefront running over a compiler graph and \cite{ProgramUnderstanding} using the nested and subpatterns for elegantly extracting a state machine model from a program graph.
+The sequences typically use graph-element-valued variables to communicate a \emph{single spot} in the host graph that is currently getting processed in between the rules.
+This can be generalized with \emph{storages (container variables)} capable of holding \emph{multiple spots}; they allow to store elements collected in one run and reuse them as input in another run (this is esp. useful if elements are reached on different paths).
+You can break up a transformation into self-contained \emph{passes} mediated by some \emph{intermediate state} with those multi-valued variables. 
+
+Besides, you can employ elementary procedures directly manipulating the graph and elementary functions directly querying the graph, combining them \emph{programmatically} with expressions and statements, abstracting them into own procedures and functions.
+Those functions and procedures can then be \emph{used} from the \texttt{if} and \texttt{eval} parts of the rules, and from the sequences.
 
 \begin{note}
-You should use the means to build complex transformations in the order given, first try to solve the problem with nested and subpatterns, if they don't get the job done (often because of the isomorphy constraint locking of already matched elements) or feel awkward then embedded graph rewrite sequences, and if these are still inadequate then storages and storagemaps; i.e. from declarative-local to imperative-global. This helps in keeping the code readable and easily adaptable. And don't forget the last resort if you must solve a task so complex that rules, control and storages are not sufficient: adding helper nodes, edges, or attributes to the graph model and the graph itself (with the visited flags being a light version of this tactic). Note: storages might be useful when you are experiencing performance problems, replacing a search in the graph by a lookup in a container. But beware of elements already deleted from the graph still hanging out in your storage because you forgot to remove them.
+Prefer declarative composition, it helps in keeping the code readable and easily adaptable.
+Prefer internal embedding over external state passing, it is typically a good deal more concise.
+But don't go to extremes regarding this, use the mode of composition that is suited to the task and feels best and most natural.
+
+Avoid rules carrying out a tiny amount of work with a lot of input and output and heavy external orchestration (graph-rewriting,  assembler-level style), aim for a medium amount of work per rule call (well, normally more is better, but when you press too hard you can get over the top).
 \end{note}
 
-Furthermore we'll have a look at language constructs which allow to build transformations by introducing state as a means of communication between several rule applications.
-
-Besides the normal scalar variables from the rule application control language there are container-valued storages available for communicating some information between rule applications;
-additionally there are several visited flags per graph element available for this means.
-Both allow to split a transformation into passes mediated by their state.
-
 \begin{note}
-The storage sets are more efficient in case the count of elements of interest is a good deal smaller than the number elements in the graph; they are looked up in the set, in contrast to the visited flags, which are used by enumerating all available graph elements, filtering according to visited state.
+An alternative to storage containment are visited flags, they allow to mark interesting elements directly.
+The storage sets are more efficient compared to the visited flags in case the count of elements of interest is a good deal smaller than the number elements in the graph; they are looked up in the set, in contrast to the visited flags, which are used by enumerating all available graph elements, filtering according to the visited state.
 The visited flags on the other hand are extremely memory efficient (for free as long as you use only a few of them at the same time).
 \end{note}
+
+\begin{note}
+Don't forget the last resort if you must solve a task so complex that the above means of composition (regarding control-flow or data-flow) are not sufficient: adding helper nodes, edges, or attributes to the graph model and the graph itself, holding some intermediate state of processing. 
+\end{note}
+
+In the following we'll employ those constructs to merge and split nodes, emulate node replacement grammars, execute transformations in the narrow sense, aka mappings, copy substructures, compute flow equations over the graph structure with sets in the nodes, and enumerate state spaces.
+Further examples can be found in \cite{CompilerOptimization} employing two storagesets switched in between for computing a wavefront running over a compiler graph and \cite{ProgramUnderstanding} using the nested and subpatterns for elegantly extracting a state machine model from a program graph.
 
 
 \section{Merge and Split Nodes}\indexmain{merge node}\indexmain{split node}
@@ -56,6 +66,7 @@ In case a simple node merging without edge retyping is sufficient the retype'n'm
 \end{note}
 
 Now we'll have a look at an example for node merging: T1-T2 analysis from compiler construction is used to find out whether a control flow graph of a subroutine is reducible, i.e. all loops are natural loops. All loops being natural loops is a very useful property for many analyses and optimizations. The analysis is split into two steps, T1 removes reflexive edges, T2 merges a control flow successor into its predecessor iff there is only one predecessor available. These two steps are iterated until the entire graph is collapsed into one node which means the control flow is reducible, or execution gets stuck before, in which case the control flow graph is irreducible.
+
 The analysis is defined on simple graphs, i.e. if two control flow edges between two basic block nodes appear because of merging they are seen as one, i.e. they are automatically fused into one. As \GrG~is built on multigraphs we have to explicitly do the edge fusion in a further step T3.
 
 First let us have a look at T1 and T3, which are rather boring ... ehm, straight forward:
@@ -265,9 +276,9 @@ rule cliqueTerminal
 The examples can be found in the \texttt{tests/nodeReplacementGrammar} directory.
 
 
-\section{Transformation in a Rewriting Tool}\label{sec:transfo}\indexmain{transformation in a narrow sense}
+\section{Mapping in a Rewriting Tool}\label{sec:transfo}\indexmain{transformation in a narrow sense}
 \GrG{} is a \emph{rewrite} tool, i.e. you modify \emph{one} graph.
-This is in contrast to \emph{transformation} or better \emph{mapping} tools, which are used for specifying mappings in between \emph{two} (or more) graphs. (Graphs are typically called models in this kind of tools. Don't confuse this with the notion of graph model in \GrG\ as introduced in chapter \ref{chapmodellang}. In model transformation parlance our graph model denotes a meta model, with a model adhering to a meta model, which in turn adheres to a meta meta model, climbing a ladder of bullshit abstraction leading right into the land of the hot-air merchants, eh..., consultants, ehhh..., the truthfully real software engineers. XML. Model. Meta. Meta-meta. Business-logic. Cloud. Bingo!))
+This is in contrast to \emph{transformation} or better \emph{mapping} tools, which are used for specifying mappings in between \emph{two} (or more) graphs. (Graphs are typically called models in this kind of tools. Don't confuse this with the notion of graph model in \GrG\ as introduced in chapter \ref{chapmodellang}. In model transformation parlance our graph model denotes a meta model, with a model adhering to a meta model, which in turn adheres to a meta meta model, climbing a ladder of bullshit abstraction leading right into the land of the hot-air merchants, eh..., the truthfully real software engineers. XML. Model. Meta. Meta-meta. Business-logic. Cloud. Bingo!))
 The graph model might be a union of multiple graph models, and the graph may consist of multiple unconnected components, so you don't loose anything regarding expressiveness here.
 
 What you loose is the automatic construction of the \indexed{traceability} links which allow to retrieve the source node from a mapped node or the mapped node from a source node, which is normally carried out by a mapping tool in the background.
@@ -293,6 +304,16 @@ In cases they are not disjoint but share certain parts/types,
 you can tell the elements from different graphs apart by either using visited flags --- then each ``graph'' is marked to be visited with its own flag.
 Or you may use anchor nodes representing subgraphs, with an edge from such an anchor node to all nodes contained in its subgraph.
 Thus all nodes of a subgraph are adjacent to an anchor node, and the subgraph consists exactly of the induced subgraph of these adjacent nodes (see \ref{builtingraphcopying} for more on this kind of modelling).
+
+So while you can write mapping (\emph{out-of-place}) transformations leaving the source untouched, do we recommend rewriting (\emph{in-place}) transformations (unless you have a strong real need for the former).
+This of course and esp. holds for tasks that don't consist of mapping an entire representation into another one, completely changing its structure, but modifying an existing one (e.g. enriching it with additional information, or partial rewriting of constructs amenable to some kind of normalization, while keeping the rest simply intact).
+Here you can simply leave the unchanged parts out, saving you from specification effort, and from execution time, because you don't need to copy the elements untouched during the transformation pass.
+For simple mapping tasks you can employ relabeling as its concise rewriting alternative, for complex tasks that require a series of changes are you better off with rewriting due to the argument above, as only parts of each step/pass require a full change in structure.
+
+Mapping \emph{tools} and languages are typically \emph{input-driven}, iterating the source model elements, to decide what target elements to produce from them (focusing one source element at a time, checking context conditions, to create a target pattern).
+In rewrite tools you typically use a \emph{control program} that defines what is to be carried out, and commonly you work there \emph{output-driven}, calling rules that produce one target element, decided upon by querying the source model for the patterns that produce it (calling rules that rewrite into a target pattern from a complex source pattern matched).
+This commonly results in a better understandable specification, showing an improved separation of concern.
+With explicit control by the control program, you are free to choose how to drive the computation, adapting it to whatever suits the problem best.
 
 \section{Comparing Structures}\label{subsub:comparestructure}\indexmain{subgraph comparison}\indexmainsee{compare structure}{subgraph comparison}
 Structures are compared in three steps, the first is to collect all nodes of interest in a storage set, the second is to compute an induced subgraph from that set, and the third is to compare the subgraphs with the built-in graph comparison operators.

@@ -48,7 +48,7 @@ There are procedures to update the graph by adding or removing or retyping avail
 \item[\texttt{merge(.,.)}] merges the source node given as second argument into the target node given as first argument.
 \item[\texttt{redirectSource(.,.)}] redirects the edge given as first argument to the new source node given as second argument.
 \item[\texttt{redirectTarget(.,.)}] redirects the edge given as first argument to the new target node given as second argument.
-\item[\texttt{redirectSourceAndTarget(.,.)}] redirects the edge given as first argument to the new source node given as second argument and the new target node given as third argument.
+\item[\texttt{redirectSourceAndTarget(.,.,.)}] redirects the edge given as first argument to the new source node given as second argument and the new target node given as third argument.
 \end{description}
 
 The versions introduced above are only available on named graphs, as they fetch the debug display name from the old element.
@@ -346,7 +346,7 @@ The four argument version behaves as the three argument version, but additionall
 The depth value for the minimum distance of the node to the root node in the result map is counted downwards from the depth requested originally, you must subtract it from the depth requested to get the real distance.
 
 %-----------------------------------------------------------------------------------------------
-\section{Subgraph and File Operations}\label{sec:subgraphop}
+\section{Subgraph Operations}\label{sec:subgraphop}
 
 Several functions and procedures returning and accepting subgraphs are available;
 they are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}, but also in graph-oriented programming with the structuring and information hiding supported by hierarchically nested graphs, cf. \ref{sec:graphnesting}.
@@ -373,13 +373,6 @@ The first function employs \verb#==# in a loop until a decision is reached, the 
 They are a bit more convenient in usage compared to writing the loop by hand, but above all are they amenable to parallelization.
 You must specify the (maximum) number of worker threads to enable parallel execution, see section \ref{sec:performanceparallel}.
  
-The functions from the built-in package \texttt{File} allow to import subgraphs and check for file existance (for more on packages see \ref{sub:packageaction}).
-
-\begin{description}
-\item[\texttt{File::import(.)}] returns the (sub)graph stored in the \texttt{.grs}-file given by its path (the main graph is \emph{not} replaced, the graph must be compatible to the model of the current host graph).
-\item[\texttt{File::exists(.)}] returns whether the file given by its path exists.
-\end{description}
-
 The global procedures allow to insert clones of subgraphs computed with the previously introduced function,
 or to insert clones of induced subgraphs directly.
 
@@ -388,6 +381,16 @@ or to insert clones of induced subgraphs directly.
 \item[\texttt{insertCopy(.,.)}] inserts a clone of the given subgraph to the current host graph (disjoint union of the nodes and edges); the original subgraph stays untouched. Returns the copy of the node given as second argument from the host graph.
 \item[\texttt{insertInduced(.,.)}] adds a clone of the subgraph induced by the set of nodes given as first argument to the host graph, returns the clone of the anchor node given as second argument.
 \item[\texttt{insertDefined(.,.)}] adds a clone of the subgraph defined (edge-induced) by the set of edges given as first argument to the host graph, returns the clone of the anchor edge given as second argument.
+\end{description}
+
+%-----------------------------------------------------------------------------------------------
+\section{File Operations}\label{sec:fileop}
+
+The functions from the built-in package \texttt{File} allow to import subgraphs and check for file existance (for more on packages see \ref{sub:packageaction}).
+
+\begin{description}
+\item[\texttt{File::import(.)}] returns the (sub)graph stored in the \texttt{.grs}-file given by its path (the main graph is \emph{not} replaced, the graph must be compatible to the model of the current host graph).
+\item[\texttt{File::exists(.)}] returns whether the file given by its path exists.
 \end{description}
 
 The procedures from the built-in package \texttt{File} allow to export subgraphs and delete files.

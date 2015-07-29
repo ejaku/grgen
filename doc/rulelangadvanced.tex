@@ -164,7 +164,7 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
                 \draw[-latex] (n2) -- (n3) {};
                 \draw[-latex] (n2) -- (n4) node[midway,right] {$e$};
             \end{tikzpicture}\end{tabular} &
-                \begin{tabular}[c]{@{}l}\texttt{pattern\{ --> x:node --> ; \}}\\\texttt{modify\{ delete(x); \}}\end{tabular} &
+                \begin{tabular}[c]{@{}l}\texttt{\{ --> x:node --> ; \}}\\\texttt{modify\{ delete(x); \}}\end{tabular} &
                 Produces no match in DPO-mode because of edge \texttt{e}\\
         \end{tabularx}
     \end{center}

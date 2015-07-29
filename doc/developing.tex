@@ -45,7 +45,7 @@ The graph structure is maintained in an \texttt{LGSPGraph} built of \texttt{LGSP
 The types defined in the model are realized by generated node and edge interfaces defining the user visible types and attributes, which are implemented by generated node and edge classes inheriting from and working like \texttt{LGSPNode}s and \texttt{LGSPEdge}s in the graph, additionally implementing the type and attribute bearing interfaces.
 
 The nodes and edges are contained in a system of ringlists.
-Top level there are type ringlist, every node or edge is contained in the linked list of its specific type; the dummy head nodes or head edges serving as entry points into these structures are stored in an array in the graph.
+Top level there are the type ringlists, every node or edge is contained in the linked list of its specific type; the dummy head nodes or head edges serving as entry points into these structures are accessible from an array in the graph, storing as many heads as there are types.
 Every node or edge contains a field \texttt{typeNext} giving the next element of the type.
 These lists allow to quickly look up all elements from the graph bearing a certain type.
 Figure \ref{figtyperinglists} gives an example for a graph with 3 node types, one having no instance nodes, one having only one instance node, and one having 5 instance nodes; the same holds for the edge types.
@@ -141,7 +141,7 @@ Iterateds are handled like subpatterns whose tasks are not removed when they get
 
 The advantages of this design linearizing the pattern tree on the call stack are the rather low usage of heap memory, the ability to reuse the match programs for the patterns as introduced in the previous section, and the ability to find all matches (the $n$ in $2+n$ pushdown machine stands for the number of matches found).
 
-Rewriting is carried out by a depth-first traversal of the match object tree, creating new elements before descending, evaluating attributes and deleting old elements before ascending. For each pattern piece match the modification specified in the rewrite part is carried out, i.e. the overall rewrite gets combined from the rewrites of the pattern pieces (cf. table \ref{table:executionorderrewriting} for the order of rewriting).
+Rewriting is carried out by a depth-first traversal of the match object tree, creating new elements before descending, evaluating attributes and deleting old elements before ascending. For each pattern piece matched the modification specified in the rewrite part is carried out, i.e. the overall rewrite gets combined from the rewrites of the pattern pieces (cf. table \ref{table:executionorderrewriting} for the order of rewriting).
 
 The subpattern usage parameters are computed during matching from matched elements and call expressions (inherited attribution), LHS yielding is carried out after the match was found during match object building within yield statements (synthesized attribution), RHS yielding is carried out during match object tree rewriting within eval statements (left attribution, with a user defined left-relation).
 
@@ -257,7 +257,7 @@ In the following, an example run of the $2+n$ pushdown machine is given:
 In the previous section a search program for the pattern (repeated in figure \ref{figpatterntosearch}) was given.
 It follows the schedule\\
 \texttt{lkp(v1:A); out(v1,e1:a); tgt(e1,v2:B); out(v2,e3:b); tgt(e3,v3:C); out(v3,e2:a)}\\
-A schedule is a more abstract version of a search program, with search operations \texttt{lkp} denoting node (or edge) lookup in the graph by iterating the type list, \texttt{out} iterating the outgoing edges of the given source node and \texttt{in} iterating the incoming edges ot the given target node, \texttt{src} fetching the source from the given edge and \texttt{tgt} fetching the target from the given edge.
+A schedule is a more abstract version of a search program, with search operations \texttt{lkp} denoting node (or edge) lookup in the graph by iterating the type list, \texttt{out} iterating the outgoing edges of the given source node and \texttt{in} iterating the incoming edges of the given target node, \texttt{src} fetching the source from the given edge and \texttt{tgt} fetching the target from the given edge.
 For some graphs it might work well, but for the graph given in figure \ref{figgraphtosearchin} is is a bad search plan. Why so can be seen in the search order sketched in figure \ref{figbadsearch}.
 Due to the multiple outgoing edges of \texttt{v1} of which only one leads to a match it has to backtrack several times. A better search order would be one matching this edge from \texttt{v2} on in reverse direction; due to the graph model containing a list of outgoing and a list of incoming edges, each edge can be traversed in either direction.
 
@@ -585,7 +585,7 @@ building the rewrite sequence AST from the classes in \texttt{Sequence.cs} furth
 The rewrite sequence classes contain a method \texttt{ApplyImpl(IGraph graph)} which executes them.
 Finally the libGr offers several importers and exporters in the \texttt{src/libGr/IO} subfolder.
 
-When GrGen rules are matched in the graph and when the graph is changed by rule rewriting then events are fired.
+When GrGen rules are matched, as well as when the graph is changed, events are fired.
 They allow to to display the matches and changes to the user in the debugger,
 to record changes to a file for later playback, or record changes to a transaction undo log for later rollback, 
 or to execute user code if event handlers are registered to them,
