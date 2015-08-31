@@ -282,9 +282,9 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// The description of a single incidence index.
+    /// The description of a single incidence count index.
     /// </summary>
-    public class IncidenceIndexDescription : IndexDescription
+    public class IncidenceCountIndexDescription : IndexDescription
     {
         /// <summary>
         /// The direction of incidence followed.
@@ -306,7 +306,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly NodeType AdjacentNodeType;
 
-        public IncidenceIndexDescription(string name, IncidenceDirection direction,
+        public IncidenceCountIndexDescription(string name, IncidenceDirection direction,
             NodeType startNodeType, EdgeType incidentEdgeType, NodeType adjacentNodeType)
             : base(name)
         {

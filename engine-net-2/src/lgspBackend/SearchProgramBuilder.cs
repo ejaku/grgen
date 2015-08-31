@@ -1708,7 +1708,7 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             string iterationType = TypesHelper.TypeName(index.Index is AttributeIndexDescription ?
                 ((AttributeIndexDescription)index.Index).GraphElementType :
-                ((IncidenceIndexDescription)index.Index).StartNodeType);
+                ((IncidenceCountIndexDescription)index.Index).StartNodeType);
             string indexSetType = NamesOfEntities.IndexSetType(model.ModelName);
 
             // iterate available index elements
@@ -3927,7 +3927,7 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
             string iterationType = TypesHelper.TypeName(index.Index is AttributeIndexDescription ?
                 ((AttributeIndexDescription)index.Index).GraphElementType :
-                ((IncidenceIndexDescription)index.Index).StartNodeType);
+                ((IncidenceCountIndexDescription)index.Index).StartNodeType);
             string indexSetType = NamesOfEntities.IndexSetType(model.ModelName);
 
             // iterate available index elements
@@ -4034,7 +4034,7 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeIndependentNamePrefix = "";
             string iterationType = TypesHelper.TypeName(index.Index is AttributeIndexDescription ?
                 ((AttributeIndexDescription)index.Index).GraphElementType :
-                ((IncidenceIndexDescription)index.Index).StartNodeType);
+                ((IncidenceCountIndexDescription)index.Index).StartNodeType);
             string indexSetType = NamesOfEntities.IndexSetType(model.ModelName);
 
             // iterate available index elements

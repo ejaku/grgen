@@ -2785,9 +2785,9 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatElementInterfaceRef(ia.getKeyExpr().getType()) + "\"");
 			sb.append(")");
 		}
-		else if (expr instanceof IndexedIncidenceIndexAccessExpr) {
-			IndexedIncidenceIndexAccessExpr ia = (IndexedIncidenceIndexAccessExpr)expr;
-			sb.append("new GRGEN_EXPR.IncidenceIndexAccess(");
+		else if (expr instanceof IndexedIncidenceCountIndexAccessExpr) {
+			IndexedIncidenceCountIndexAccessExpr ia = (IndexedIncidenceCountIndexAccessExpr)expr;
+			sb.append("new GRGEN_EXPR.IncidenceCountIndexAccess(");
 			sb.append("\"" + ia.getTarget().getIdent() + "\", ");
 			genExpressionTree(sb, ia.getKeyExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", \"" + formatElementInterfaceRef(ia.getKeyExpr().getType()) + "\"");

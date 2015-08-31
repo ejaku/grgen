@@ -1150,13 +1150,13 @@ public abstract class CSharpBase {
 				sb.append("])");
 			}
 		}
-		else if (expr instanceof IndexedIncidenceIndexAccessExpr) {
-			IndexedIncidenceIndexAccessExpr ia = (IndexedIncidenceIndexAccessExpr)expr;
+		else if (expr instanceof IndexedIncidenceCountIndexAccessExpr) {
+			IndexedIncidenceCountIndexAccessExpr ia = (IndexedIncidenceCountIndexAccessExpr)expr;
 			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ia));
 			}
 			else {
-				sb.append("((GRGEN_LIBGR.IIncidenceIndex)graph.Indices.GetIndex(\"" + ia.getTarget().getIdent() + "\")).GetIncidenceCount(");
+				sb.append("((GRGEN_LIBGR.IIncidenceCountIndex)graph.Indices.GetIndex(\"" + ia.getTarget().getIdent() + "\")).GetIncidenceCount(");
 //				sb.append("(" + formatElementInterfaceRef(ia.getKeyExpr().getType()) + ")(");
 				genExpression(sb, ia.getKeyExpr(), modifyGenerationState);
 //				sb.append(")");

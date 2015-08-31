@@ -1,0 +1,16 @@
+new graph Manual
+
+debug set layout Organic
+dump add node N infotag i
+
+new n1:N(i=42)
+new n2a:Node
+new n2b:Node
+new n3:Node
+new n1 -:Edge-> n2a
+new n1 -:Edge-> n2b
+new n2a -:Edge-> n2b
+new n3 -:Edge-> n1
+
+debug exec r
+

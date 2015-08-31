@@ -3762,14 +3762,14 @@ exitSecondLoop: ;
                         sb.AppendFrontFormat("IEnumerator<{0}> {1};\n",
                            TypesHelper.TypeName(so.IndexAccess.Index is AttributeIndexDescription ?
                                ((AttributeIndexDescription)so.IndexAccess.Index).GraphElementType :
-                               ((IncidenceIndexDescription)so.IndexAccess.Index).StartNodeType),
+                               ((IncidenceCountIndexDescription)so.IndexAccess.Index).StartNodeType),
                            NamesOfEntities.IterationParallelizationIterator(((SearchPlanNode)so.Element).PatternElement.Name));
                         break;
                     case SearchOperationType.SetupParallelPickFromIndexDependent:
                         sb.AppendFrontFormat("IEnumerator<{0}> {1};\n",
                            TypesHelper.TypeName(so.IndexAccess.Index is AttributeIndexDescription ?
                                ((AttributeIndexDescription)so.IndexAccess.Index).GraphElementType :
-                               ((IncidenceIndexDescription)so.IndexAccess.Index).StartNodeType),
+                               ((IncidenceCountIndexDescription)so.IndexAccess.Index).StartNodeType),
                            NamesOfEntities.IterationParallelizationIterator(((SearchPlanNode)so.Element).PatternElement.Name));
                         break;
                     case SearchOperationType.SetupParallelIncoming:

@@ -130,7 +130,7 @@ public class ForIndexAccessOrderingYieldNode extends EvalStatementNode  {
 
 		boolean res = true;
 		AttributeIndexDeclNode attributeIndex = index instanceof AttributeIndexDeclNode ? (AttributeIndexDeclNode)index : null;
-		IncidenceIndexDeclNode incidenceIndex = index instanceof IncidenceIndexDeclNode ? (IncidenceIndexDeclNode)index : null;
+		IncidenceCountIndexDeclNode incidenceCountIndex = index instanceof IncidenceCountIndexDeclNode ? (IncidenceCountIndexDeclNode)index : null;
 		if(expr!=null) {
 			TypeNode expectedIndexAccessType = attributeIndex!=null ? attributeIndex.member.getDeclType() : IntTypeNode.intType;
 			TypeNode indexAccessType = expr.getType();
@@ -153,7 +153,7 @@ public class ForIndexAccessOrderingYieldNode extends EvalStatementNode  {
 			}
 		}
 		TypeNode expectedEntityType = iterationVariable.getDeclType();
-		TypeNode entityType = attributeIndex!=null ? attributeIndex.type : incidenceIndex.getType();
+		TypeNode entityType = attributeIndex!=null ? attributeIndex.type : incidenceCountIndex.getType();
 		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
 			String expTypeName = expectedEntityType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)expectedEntityType).getIdentNode().toString() : expectedEntityType.toString();
 			String typeName = entityType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)entityType).getIdentNode().toString() : entityType.toString();

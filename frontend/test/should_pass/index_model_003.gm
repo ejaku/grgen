@@ -5,22 +5,22 @@ node class N
 
 edge class E;
 
-index foo { incident(Node) }
-index bar { incoming(Node) }
-index baz { outgoing(Node) }
+index foo { countIncident(Node) }
+index bar { countIncoming(Node) }
+index baz { countOutgoing(Node) }
 
-index foo2 { incident(N) }
-index bar2 { incoming(N) }
-index baz2 { outgoing(N) }
+index foo2 { countIncident(N) }
+index bar2 { countIncoming(N) }
+index baz2 { countOutgoing(N) }
 
-index foo3 { incident(N, E) }
-index bar3 { incoming(N, E) }
-index baz3 { outgoing(N, E) }
+index foo3 { countIncident(N, E) }
+index bar3 { countIncoming(N, E) }
+index baz3 { countOutgoing(N, E) }
 
-index foo4 { incident(N, E, N) }
-index bar4 { incoming(N, E, N) }
-index baz4 { outgoing(N, E, N) }
+index foo4 { countIncident(N, E, N) }
+index bar4 { countIncoming(N, E, N) }
+index baz4 { countOutgoing(N, E, N) }
 
-index foo5 { incident(Node, Edge, Node) }
-index bar5 { incoming(Node, Edge, Node) }
-index baz5 { outgoing(Node, Edge, Node) }
+index foo5 { countIncident(Node, Edge, Node) }
+index bar5 { countIncoming(Node, Edge, Node) }
+index baz5 { countOutgoing(Node, Edge, Node) }
