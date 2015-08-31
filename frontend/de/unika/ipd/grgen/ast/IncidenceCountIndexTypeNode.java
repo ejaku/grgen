@@ -11,11 +11,11 @@ import java.util.Collection;
 import java.util.Vector;
 
 /**
- * Type of incidence index node declaration.
+ * Type of incidence count index node declaration.
  */
-public class IncidenceIndexTypeNode extends TypeNode {
+public class IncidenceCountIndexTypeNode extends TypeNode {
 	static {
-		setName(IncidenceIndexTypeNode.class, "incidence index type");
+		setName(IncidenceCountIndexTypeNode.class, "incidence count index type");
 	}
 
 	/** returns children of this node */

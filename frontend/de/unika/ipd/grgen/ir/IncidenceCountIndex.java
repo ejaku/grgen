@@ -12,19 +12,19 @@
 package de.unika.ipd.grgen.ir;
 
 /**
- * An incidence index.
+ * An incidence count index.
  */
-public class IncidenceIndex extends Index {
+public class IncidenceCountIndex extends Index {
 	private final NodeType startNodeType;
 	private final EdgeType incidentEdgeType;
-	private final int direction; // one of INCIDENT|INCOMING|OUTGOING in IncidentEdgeExpr
+	private final int direction; // one of INCIDENT|INCOMING|OUTGOING in CountIncidentEdgeExpr
 	private final NodeType adjacentNodeType;
 	
 	/**
-	 * @param name The name of the incidence index.
+	 * @param name The name of the incidence count index.
 	 * @param ident The identifier that identifies this object.
 	 */
-	public IncidenceIndex(String name, Ident ident, 
+	public IncidenceCountIndex(String name, Ident ident, 
 			NodeType startNodeType,
 			EdgeType incidentEdgeType, int direction,
 			NodeType adjacentNodeType) {

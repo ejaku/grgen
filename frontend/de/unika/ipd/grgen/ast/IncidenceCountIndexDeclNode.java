@@ -11,12 +11,12 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.exprevals.IncidentEdgeExprNode;
+import de.unika.ipd.grgen.ast.exprevals.CountIncidentEdgeExprNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.IncidenceIndex;
+import de.unika.ipd.grgen.ir.IncidenceCountIndex;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 
@@ -25,15 +25,15 @@ import java.util.Vector;
 
 
 /**
- * AST node class representing incidence index declarations
+ * AST node class representing incidence count index declarations
  */
-public class IncidenceIndexDeclNode extends IndexDeclNode {
+public class IncidenceCountIndexDeclNode extends IndexDeclNode {
 	static {
-		setName(IncidenceIndexDeclNode.class, "incidence index declaration");
+		setName(IncidenceCountIndexDeclNode.class, "incidence count index declaration");
 	}
 
 	private String functionName; // input string, "resolved" to direction
-	private int direction; // one of INCIDENT|INCOMING|OUTGOING in IncidentEdgeExprNode
+	private int direction; // one of INCIDENT|INCOMING|OUTGOING in CountIncidentEdgeExprNode
 	private IdentNode startNodeTypeUnresolved;
 	private InheritanceTypeNode startNodeType;
 	private IdentNode incidentEdgeTypeUnresolved;
@@ -41,16 +41,16 @@ public class IncidenceIndexDeclNode extends IndexDeclNode {
 	private IdentNode adjacentNodeTypeUnresolved;
 	private InheritanceTypeNode adjacentNodeType;
 
-	private static final IncidenceIndexTypeNode incidenceIndexType =
-		new IncidenceIndexTypeNode();
+	private static final IncidenceCountIndexTypeNode incidenceCountIndexType =
+		new IncidenceCountIndexTypeNode();
 
 	private static final DeclarationTypeResolver<InheritanceTypeNode> typeResolver = 
 		new DeclarationTypeResolver<InheritanceTypeNode>(InheritanceTypeNode.class);
 
-	public IncidenceIndexDeclNode(IdentNode id, String functionName, 
+	public IncidenceCountIndexDeclNode(IdentNode id, String functionName, 
 			IdentNode startNodeType, IdentNode incidentEdgeType, IdentNode adjacentNodeType,
 			ParserEnvironment env) {
-		super(id, incidenceIndexType);
+		super(id, incidenceCountIndexType);
 		this.functionName = functionName;
 		this.startNodeTypeUnresolved = becomeParent(startNodeType);
 		this.incidentEdgeTypeUnresolved = becomeParent(incidentEdgeType!=null ? incidentEdgeType : env.getDirectedEdgeRoot());
@@ -117,14 +117,14 @@ public class IncidenceIndexDeclNode extends IndexDeclNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean checkLocal() {
-		if(functionName.equals("incoming"))
-			direction = IncidentEdgeExprNode.INCOMING;
-		else if(functionName.equals("outgoing"))
-			direction = IncidentEdgeExprNode.OUTGOING;
-		else if(functionName.equals("incident"))
-			direction = IncidentEdgeExprNode.INCIDENT;
+		if(functionName.equals("countIncoming"))
+			direction = CountIncidentEdgeExprNode.INCOMING;
+		else if(functionName.equals("countOutgoing"))
+			direction = CountIncidentEdgeExprNode.OUTGOING;
+		else if(functionName.equals("countIncident"))
+			direction = CountIncidentEdgeExprNode.INCIDENT;
 		else {
-			reportError(functionName + "() is not valid, use incoming|outgoing|incident for defining an incidence index.");
+			reportError(functionName + "() is not valid, use countIncoming|countOutgoing|countIncident for defining an incidence count index.");
 			return false;
 		}
 		
@@ -147,7 +147,7 @@ public class IncidenceIndexDeclNode extends IndexDeclNode {
 	public TypeNode getDeclType() {
 		assert isResolved();
 	
-		return incidenceIndexType;
+		return incidenceCountIndexType;
 	}
 	
 	public TypeNode getType() {
@@ -158,11 +158,11 @@ public class IncidenceIndexDeclNode extends IndexDeclNode {
 
 	@Override
 	protected IR constructIR() {
-		IncidenceIndex incidenceIndex = new IncidenceIndex(getIdentNode().toString(),
+		IncidenceCountIndex incidenceCountIndex = new IncidenceCountIndex(getIdentNode().toString(),
 				getIdentNode().getIdent(), startNodeType.checkIR(NodeType.class),
 				incidentEdgeType.checkIR(EdgeType.class), direction,
 				adjacentNodeType.checkIR(NodeType.class));
-		return incidenceIndex;
+		return incidenceCountIndex;
 	}	
 }
 

@@ -177,9 +177,9 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// A single incidence index.
+    /// A single incidence count index.
     /// </summary>
-    public interface IIncidenceIndex : IAttributeIndex
+    public interface IIncidenceCountIndex : IAttributeIndex
     {
         /// <summary>
         /// Lookup the incidence count of the graph element given.

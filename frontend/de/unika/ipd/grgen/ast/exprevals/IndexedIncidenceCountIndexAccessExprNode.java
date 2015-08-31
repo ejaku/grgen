@@ -17,22 +17,22 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.IndexedIncidenceIndexAccessExpr;
+import de.unika.ipd.grgen.ir.exprevals.IndexedIncidenceCountIndexAccessExpr;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.IncidenceIndex;
+import de.unika.ipd.grgen.ir.IncidenceCountIndex;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class IndexedIncidenceIndexAccessExprNode extends ExprNode
+public class IndexedIncidenceCountIndexAccessExprNode extends ExprNode
 {
 	static {
-		setName(IndexedIncidenceIndexAccessExprNode.class, "indexed incidence index access expression");
+		setName(IndexedIncidenceCountIndexAccessExprNode.class, "indexed incidence count index access expression");
 	}
 
 	private IdentNode targetUnresolved;
-	private IncidenceIndexDeclNode target;
+	private IncidenceCountIndexDeclNode target;
 	private ExprNode keyExpr;
 
-	public IndexedIncidenceIndexAccessExprNode(Coords coords, IdentNode target, ExprNode keyExpr)
+	public IndexedIncidenceCountIndexAccessExprNode(Coords coords, IdentNode target, ExprNode keyExpr)
 	{
 		super(coords);
 		this.targetUnresolved = becomeParent(target);
@@ -55,8 +55,8 @@ public class IndexedIncidenceIndexAccessExprNode extends ExprNode
 		return childrenNames;
 	}
 
-	private static DeclarationResolver<IncidenceIndexDeclNode> indexResolver =
-		new DeclarationResolver<IncidenceIndexDeclNode>(IncidenceIndexDeclNode.class);
+	private static DeclarationResolver<IncidenceCountIndexDeclNode> indexResolver =
+		new DeclarationResolver<IncidenceCountIndexDeclNode>(IncidenceCountIndexDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
@@ -105,8 +105,8 @@ public class IndexedIncidenceIndexAccessExprNode extends ExprNode
 
 	@Override
 	protected IR constructIR() {
-		return new IndexedIncidenceIndexAccessExpr(
-				target.checkIR(IncidenceIndex.class),
+		return new IndexedIncidenceCountIndexAccessExpr(
+				target.checkIR(IncidenceCountIndex.class),
 				keyExpr.checkIR(Expression.class));
 	}
 }

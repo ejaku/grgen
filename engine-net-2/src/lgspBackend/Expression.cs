@@ -2620,11 +2620,11 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an incidence index access expression.
+    /// Class representing an incidence count index access expression.
     /// </summary>
-    public class IncidenceIndexAccess : Expression
+    public class IncidenceCountIndexAccess : Expression
     {
-        public IncidenceIndexAccess(String target, Expression keyExpr, String type)
+        public IncidenceCountIndexAccess(String target, Expression keyExpr, String type)
         {
             Target = target;
             KeyExpr = keyExpr;
@@ -2633,12 +2633,12 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new IncidenceIndexAccess(Target, KeyExpr.Copy(renameSuffix), Type);
+            return new IncidenceCountIndexAccess(Target, KeyExpr.Copy(renameSuffix), Type);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("((GRGEN_LIBGR.IIncidenceIndex)graph.Indices.GetIndex(\"" + Target + "\")).GetIncidenceCount(");
+            sourceCode.Append("((GRGEN_LIBGR.IIncidenceCountIndex)graph.Indices.GetIndex(\"" + Target + "\")).GetIncidenceCount(");
             sourceCode.Append("(" + Type + ")");
             KeyExpr.Emit(sourceCode);
             sourceCode.Append(")");

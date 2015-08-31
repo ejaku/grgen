@@ -1,0 +1,45 @@
+#using "Debugging.gm"
+
+rule r
+{
+	n:N --> m:Node;
+	if{ n.i == 42; }
+	
+	modify {
+		delete(m);
+		n --> o:Node;
+		eval { n.i = 43; }
+	}
+}
+
+test db(root:Node)
+{
+	iterated {
+		root --> child:N;
+	}	
+	dbc:chain(root);
+}
+
+pattern chain(begin:Node)
+{
+	alternative {
+		again {
+			begin --> next:Node;
+			c:chain(next);
+		}
+		end {
+			negative {
+				begin --> .;
+			}
+		}
+	}
+}
+
+pattern chain2(begin:Node)
+{
+	optional {
+		begin --> next:Node;
+		c:chain2(next);
+	}
+}
+

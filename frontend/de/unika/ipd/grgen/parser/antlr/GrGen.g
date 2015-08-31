@@ -1967,7 +1967,7 @@ indexDeclBody [ IdentNode id ]
 		}
 	| i=IDENT LPAREN startNodeType=typeIdentUse (COMMA incidentEdgeType=typeIdentUse (COMMA adjacentNodeType=typeIdentUse)?)? RPAREN 
 		{
-			id.setDecl(new IncidenceIndexDeclNode(id, i.getText(), startNodeType, incidentEdgeType, adjacentNodeType, env));
+			id.setDecl(new IncidenceCountIndexDeclNode(id, i.getText(), startNodeType, incidentEdgeType, adjacentNodeType, env));
 		}
 	;
 
@@ -3338,7 +3338,7 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 		}
 	| { env.test(ParserEnvironment.INDICES, input.LT(1).getText()) }?
 		i=IDENT l=LBRACK key=expr[inEnumInit] RBRACK
-			{ res = new IndexedIncidenceIndexAccessExprNode(getCoords(l), new IdentNode(env.occurs(ParserEnvironment.INDICES, i.getText(), getCoords(i))), key); }
+			{ res = new IndexedIncidenceCountIndexAccessExprNode(getCoords(l), new IdentNode(env.occurs(ParserEnvironment.INDICES, i.getText(), getCoords(i))), key); }
 	| e=primaryExpr[inEnumInit] ((LBRACK ~PLUS | DOT) => e=selectorExpr[e, inEnumInit])* { res = e; }
 	; 
 

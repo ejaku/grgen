@@ -5,11 +5,11 @@ node class N
 
 edge class E;
 
-index foo { incident(Node) }
-index bar { incoming(Node) }
-index baz { outgoing(Node) }
+index foo { countIncident(Node) }
+index bar { countIncoming(Node) }
+index baz { countOutgoing(Node) }
 
-index qux { incident(N, E, N) }
-index pix { incoming(N, E, N) }
-index xom { outgoing(N, E, N) }
+index qux { countIncident(N, E, N) }
+index pix { countIncoming(N, E, N) }
+index xom { countOutgoing(N, E, N) }
 
