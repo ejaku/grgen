@@ -789,9 +789,10 @@ namespace de.unika.ipd.grGen.lgsp
                     e.Cancel = true;        // we handled the cancel event
             };
 
+            ProcessStartInfo startInfo = null;
+            String javaString = null;
             try
             {
-                String javaString;
                 if(Environment.OSVersion.Platform == PlatformID.Unix) javaString = "java";
                 else javaString = "javaw";
 
@@ -803,7 +804,7 @@ namespace de.unika.ipd.grGen.lgsp
                     + ((flags & ProcessSpecFlags.NoDebugEvents) != 0 ? " --nodebugevents" : "")
                     + ((flags & ProcessSpecFlags.Profile) != 0 ? " --profile" : "")
                     + " \"" + String.Join("\" \"", sourceFiles) + "\"";
-                ProcessStartInfo startInfo = new ProcessStartInfo(javaString, execStr);
+                startInfo = new ProcessStartInfo(javaString, execStr);
                 startInfo.CreateNoWindow = true;
                 startInfo.UseShellExecute = false;
                 try
@@ -821,6 +822,12 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     Console.CancelKeyPress -= ctrlCHandler;
                 }
+            }
+            catch(System.ComponentModel.Win32Exception e)
+            {
+                Console.Error.WriteLine("Unable to process specification: " + e.Message);
+                Console.Error.WriteLine("Is Java installed and the executable " + javaString + " available in one of the folders of the search path? Search path: " + startInfo.EnvironmentVariables["path"]);
+                return false;
             }
             catch(Exception e)
             {
