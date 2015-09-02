@@ -1,2 +1,2 @@
-java -classpath ..\..\csharpcc.jar csharpcc grshell.csc
+java -classpath ..\..\csharpcc.jar csharpcc GrShell.csc
 @if ERRORLEVEL 1 PAUSE
