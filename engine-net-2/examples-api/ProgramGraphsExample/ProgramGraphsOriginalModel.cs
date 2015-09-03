@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Mon Jul 28 08:46:09 CEST 2014
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Thu Sep 03 09:30:48 CEST 2015
 
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	// *** Node Node ***
 
 
-	public sealed class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
+	public sealed partial class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
@@ -129,7 +129,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class NodeType_Node : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_Node : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Node typeVar = new GRGEN_MODEL.NodeType_Node();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, false, false, };
@@ -178,7 +178,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class NodeType_Entity : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_Entity : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Entity typeVar = new GRGEN_MODEL.NodeType_Entity();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, };
@@ -226,7 +226,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @MethodBody : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IMethodBody
+	public sealed partial class @MethodBody : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IMethodBody
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@MethodBody[] pool = new GRGEN_MODEL.@MethodBody[10];
@@ -337,7 +337,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class NodeType_MethodBody : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_MethodBody : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_MethodBody typeVar = new GRGEN_MODEL.NodeType_MethodBody();
 		public static bool[] isA = new bool[] { true, true, true, false, false, false, false, false, false, false, false, };
@@ -386,7 +386,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @Expression : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IExpression
+	public sealed partial class @Expression : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IExpression
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Expression[] pool = new GRGEN_MODEL.@Expression[10];
@@ -497,7 +497,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class NodeType_Expression : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_Expression : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Expression typeVar = new GRGEN_MODEL.NodeType_Expression();
 		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, false, false, false, };
@@ -546,7 +546,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class NodeType_Declaration : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_Declaration : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Declaration typeVar = new GRGEN_MODEL.NodeType_Declaration();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, false, false, false, };
@@ -594,7 +594,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @Class : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IClass
+	public sealed partial class @Class : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IClass
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Class[] pool = new GRGEN_MODEL.@Class[10];
@@ -711,7 +711,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class NodeType_Class : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_Class : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Class typeVar = new GRGEN_MODEL.NodeType_Class();
 		public static bool[] isA = new bool[] { true, true, false, false, true, true, false, false, false, false, false, };
@@ -760,7 +760,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class NodeType_Feature : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_Feature : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Feature typeVar = new GRGEN_MODEL.NodeType_Feature();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, true, false, false, false, false, };
@@ -808,7 +808,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @MethodSignature : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IMethodSignature
+	public sealed partial class @MethodSignature : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IMethodSignature
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@MethodSignature[] pool = new GRGEN_MODEL.@MethodSignature[10];
@@ -931,7 +931,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class NodeType_MethodSignature : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_MethodSignature : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_MethodSignature typeVar = new GRGEN_MODEL.NodeType_MethodSignature();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, true, true, false, false, false, };
@@ -980,7 +980,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class NodeType_Attribute : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_Attribute : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Attribute typeVar = new GRGEN_MODEL.NodeType_Attribute();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, true, false, true, false, false, };
@@ -1028,7 +1028,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @Constant : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IConstant
+	public sealed partial class @Constant : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IConstant
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Constant[] pool = new GRGEN_MODEL.@Constant[10];
@@ -1157,7 +1157,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class NodeType_Constant : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_Constant : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Constant typeVar = new GRGEN_MODEL.NodeType_Constant();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, true, false, true, true, false, };
@@ -1206,7 +1206,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @Variabel : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IVariabel
+	public sealed partial class @Variabel : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IVariabel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Variabel[] pool = new GRGEN_MODEL.@Variabel[10];
@@ -1335,7 +1335,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class NodeType_Variabel : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_Variabel : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Variabel typeVar = new GRGEN_MODEL.NodeType_Variabel();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, true, false, true, false, true, };
@@ -1387,7 +1387,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	// *** Edge AEdge ***
 
 
-	public sealed class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, false, false, false, };
@@ -1438,7 +1438,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	// *** Edge Edge ***
 
 
-	public sealed class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
@@ -1540,7 +1540,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class EdgeType_Edge : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_Edge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, };
@@ -1592,7 +1592,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	// *** Edge UEdge ***
 
 
-	public sealed class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
@@ -1694,7 +1694,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, false, false, false, false, };
@@ -1749,7 +1749,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @contains : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Icontains
+	public sealed partial class @contains : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Icontains
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@contains[] pool = new GRGEN_MODEL.@contains[10];
@@ -1857,7 +1857,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class EdgeType_contains : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_contains : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_contains typeVar = new GRGEN_MODEL.EdgeType_contains();
 		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, false, false, false, false, };
@@ -1912,7 +1912,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @references : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Ireferences
+	public sealed partial class @references : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Ireferences
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@references[] pool = new GRGEN_MODEL.@references[10];
@@ -2020,7 +2020,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class EdgeType_references : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_references : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_references typeVar = new GRGEN_MODEL.EdgeType_references();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, false, false, false, false, };
@@ -2075,7 +2075,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @hasType : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IhasType
+	public sealed partial class @hasType : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IhasType
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@hasType[] pool = new GRGEN_MODEL.@hasType[10];
@@ -2189,7 +2189,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class EdgeType_hasType : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_hasType : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_hasType typeVar = new GRGEN_MODEL.EdgeType_hasType();
 		public static bool[] isA = new bool[] { true, true, false, false, true, true, false, false, false, false, false, false, };
@@ -2244,7 +2244,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @bindsTo : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IbindsTo
+	public sealed partial class @bindsTo : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IbindsTo
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@bindsTo[] pool = new GRGEN_MODEL.@bindsTo[10];
@@ -2358,7 +2358,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class EdgeType_bindsTo : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_bindsTo : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_bindsTo typeVar = new GRGEN_MODEL.EdgeType_bindsTo();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, true, false, false, false, false, false, };
@@ -2413,7 +2413,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @uses : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iuses
+	public sealed partial class @uses : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iuses
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@uses[] pool = new GRGEN_MODEL.@uses[10];
@@ -2527,7 +2527,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class EdgeType_uses : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_uses : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_uses typeVar = new GRGEN_MODEL.EdgeType_uses();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, true, false, false, false, false, };
@@ -2582,7 +2582,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @writesTo : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IwritesTo
+	public sealed partial class @writesTo : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IwritesTo
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@writesTo[] pool = new GRGEN_MODEL.@writesTo[10];
@@ -2696,7 +2696,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class EdgeType_writesTo : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_writesTo : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_writesTo typeVar = new GRGEN_MODEL.EdgeType_writesTo();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, true, false, false, false, };
@@ -2751,7 +2751,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @calls : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Icalls
+	public sealed partial class @calls : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Icalls
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@calls[] pool = new GRGEN_MODEL.@calls[10];
@@ -2865,7 +2865,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class EdgeType_calls : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_calls : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_calls typeVar = new GRGEN_MODEL.EdgeType_calls();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, false, true, false, false, };
@@ -2920,7 +2920,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @methodBodyContains : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.ImethodBodyContains
+	public sealed partial class @methodBodyContains : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.ImethodBodyContains
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@methodBodyContains[] pool = new GRGEN_MODEL.@methodBodyContains[10];
@@ -3028,7 +3028,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class EdgeType_methodBodyContains : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_methodBodyContains : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_methodBodyContains typeVar = new GRGEN_MODEL.EdgeType_methodBodyContains();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, true, false, };
@@ -3083,7 +3083,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	{
 	}
 
-	public sealed class @classContainsClass : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IclassContainsClass
+	public sealed partial class @classContainsClass : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IclassContainsClass
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@classContainsClass[] pool = new GRGEN_MODEL.@classContainsClass[10];
@@ -3197,7 +3197,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		}
 	}
 
-	public sealed class EdgeType_classContainsClass : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_classContainsClass : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_classContainsClass typeVar = new GRGEN_MODEL.EdgeType_classContainsClass();
 		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, false, false, false, true, };

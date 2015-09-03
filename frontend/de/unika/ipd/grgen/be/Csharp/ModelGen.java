@@ -493,7 +493,7 @@ public class ModelGen extends CSharpBase {
 		String routedDeclName = elemref;
 
 		if(extName == null) {
-			sb.append("\n\tpublic sealed class " + elemname + " : GRGEN_LGSP.LGSP"
+			sb.append("\n\tpublic sealed partial class " + elemname + " : GRGEN_LGSP.LGSP"
 					+ kindStr + ", " + ielemref + "\n\t{\n");
 		}
 		else { // what's that?
@@ -1504,7 +1504,7 @@ deque_init_loop:
 		String kindStr = isNode ? "Node" : "Edge";
 
 		sb.append("\n");
-		sb.append("\tpublic sealed class " + typename + " : GRGEN_LIBGR." + kindStr + "Type\n");
+		sb.append("\tpublic sealed partial class " + typename + " : GRGEN_LIBGR." + kindStr + "Type\n");
 		sb.append("\t{\n");
 
 		sb.append("\t\tpublic static " + typeref + " typeVar = new " + typeref + "();\n");

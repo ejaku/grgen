@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Jul 28 08:45:28 CEST 2014
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Thu Sep 03 09:30:09 CEST 2015
 
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	// *** Node Node ***
 
 
-	public sealed class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
+	public sealed partial class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
@@ -129,7 +129,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class NodeType_Node : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_Node : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Node typeVar = new GRGEN_MODEL.NodeType_Node();
 		public static bool[] isA = new bool[] { true, false, false, false, };
@@ -179,7 +179,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		int @value { get; set; }
 	}
 
-	public sealed class @BandPosition : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IBandPosition
+	public sealed partial class @BandPosition : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IBandPosition
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@BandPosition[] pool = new GRGEN_MODEL.@BandPosition[10];
@@ -304,7 +304,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class NodeType_BandPosition : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_BandPosition : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_BandPosition typeVar = new GRGEN_MODEL.NodeType_BandPosition();
 		public static bool[] isA = new bool[] { true, true, false, false, };
@@ -430,7 +430,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 	}
 
-	public sealed class @State : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IState
+	public sealed partial class @State : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IState
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@State[] pool = new GRGEN_MODEL.@State[10];
@@ -535,7 +535,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class NodeType_State : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_State : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_State typeVar = new GRGEN_MODEL.NodeType_State();
 		public static bool[] isA = new bool[] { true, false, true, false, };
@@ -585,7 +585,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		int @value { get; set; }
 	}
 
-	public sealed class @WriteValue : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IWriteValue
+	public sealed partial class @WriteValue : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IWriteValue
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@WriteValue[] pool = new GRGEN_MODEL.@WriteValue[10];
@@ -710,7 +710,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class NodeType_WriteValue : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_WriteValue : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_WriteValue typeVar = new GRGEN_MODEL.NodeType_WriteValue();
 		public static bool[] isA = new bool[] { true, false, false, true, };
@@ -839,7 +839,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	// *** Edge AEdge ***
 
 
-	public sealed class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, };
@@ -890,7 +890,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	// *** Edge Edge ***
 
 
-	public sealed class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
@@ -992,7 +992,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_Edge : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_Edge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, };
@@ -1044,7 +1044,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	// *** Edge UEdge ***
 
 
-	public sealed class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
@@ -1146,7 +1146,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, };
@@ -1201,7 +1201,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 	}
 
-	public sealed class @right : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iright
+	public sealed partial class @right : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iright
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@right[] pool = new GRGEN_MODEL.@right[10];
@@ -1309,7 +1309,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_right : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_right : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_right typeVar = new GRGEN_MODEL.EdgeType_right();
 		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, };
@@ -1364,7 +1364,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 	}
 
-	public sealed class @readZero : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IreadZero
+	public sealed partial class @readZero : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IreadZero
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@readZero[] pool = new GRGEN_MODEL.@readZero[10];
@@ -1472,7 +1472,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_readZero : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_readZero : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_readZero typeVar = new GRGEN_MODEL.EdgeType_readZero();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, };
@@ -1527,7 +1527,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 	}
 
-	public sealed class @readOne : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IreadOne
+	public sealed partial class @readOne : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IreadOne
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@readOne[] pool = new GRGEN_MODEL.@readOne[10];
@@ -1635,7 +1635,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_readOne : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_readOne : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_readOne typeVar = new GRGEN_MODEL.EdgeType_readOne();
 		public static bool[] isA = new bool[] { true, true, false, false, false, true, false, false, };
@@ -1690,7 +1690,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 	}
 
-	public sealed class @moveLeft : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.ImoveLeft
+	public sealed partial class @moveLeft : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.ImoveLeft
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@moveLeft[] pool = new GRGEN_MODEL.@moveLeft[10];
@@ -1798,7 +1798,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_moveLeft : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_moveLeft : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_moveLeft typeVar = new GRGEN_MODEL.EdgeType_moveLeft();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, true, false, };
@@ -1853,7 +1853,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 	}
 
-	public sealed class @moveRight : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.ImoveRight
+	public sealed partial class @moveRight : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.ImoveRight
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@moveRight[] pool = new GRGEN_MODEL.@moveRight[10];
@@ -1961,7 +1961,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_moveRight : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_moveRight : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_moveRight typeVar = new GRGEN_MODEL.EdgeType_moveRight();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, true, };

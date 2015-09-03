@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Mon Jul 28 08:45:22 CEST 2014
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Thu Sep 03 09:30:02 CEST 2015
 
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	// *** Node Node ***
 
 
-	public sealed class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
+	public sealed partial class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
@@ -129,7 +129,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 	}
 
-	public sealed class NodeType_Node : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_Node : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Node typeVar = new GRGEN_MODEL.NodeType_Node();
 		public static bool[] isA = new bool[] { true, false, false, false, false, };
@@ -180,7 +180,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		int @pheromones { get; set; }
 	}
 
-	public sealed class @GridNode : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IGridNode
+	public sealed partial class @GridNode : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IGridNode
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@GridNode[] pool = new GRGEN_MODEL.@GridNode[10];
@@ -319,7 +319,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 	}
 
-	public sealed class NodeType_GridNode : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_GridNode : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_GridNode typeVar = new GRGEN_MODEL.NodeType_GridNode();
 		public static bool[] isA = new bool[] { true, true, false, false, false, };
@@ -502,7 +502,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 	}
 
-	public sealed class @GridCornerNode : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IGridCornerNode
+	public sealed partial class @GridCornerNode : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IGridCornerNode
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@GridCornerNode[] pool = new GRGEN_MODEL.@GridCornerNode[10];
@@ -647,7 +647,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 	}
 
-	public sealed class NodeType_GridCornerNode : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_GridCornerNode : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_GridCornerNode typeVar = new GRGEN_MODEL.NodeType_GridCornerNode();
 		public static bool[] isA = new bool[] { true, true, true, false, false, };
@@ -834,7 +834,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		int @foodCountdown { get; set; }
 	}
 
-	public sealed class @AntHill : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IAntHill
+	public sealed partial class @AntHill : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IAntHill
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@AntHill[] pool = new GRGEN_MODEL.@AntHill[10];
@@ -997,7 +997,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 	}
 
-	public sealed class NodeType_AntHill : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_AntHill : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_AntHill typeVar = new GRGEN_MODEL.NodeType_AntHill();
 		public static bool[] isA = new bool[] { true, true, false, true, false, };
@@ -1239,7 +1239,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		bool @hasFood { get; set; }
 	}
 
-	public sealed class @Ant : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IAnt
+	public sealed partial class @Ant : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IAnt
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Ant[] pool = new GRGEN_MODEL.@Ant[10];
@@ -1364,7 +1364,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 	}
 
-	public sealed class NodeType_Ant : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_Ant : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Ant typeVar = new GRGEN_MODEL.NodeType_Ant();
 		public static bool[] isA = new bool[] { true, false, false, false, true, };
@@ -1493,7 +1493,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	// *** Edge AEdge ***
 
 
-	public sealed class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, };
@@ -1544,7 +1544,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	// *** Edge Edge ***
 
 
-	public sealed class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
@@ -1646,7 +1646,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 	}
 
-	public sealed class EdgeType_Edge : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_Edge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, };
@@ -1698,7 +1698,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	// *** Edge UEdge ***
 
 
-	public sealed class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
@@ -1800,7 +1800,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 	}
 
-	public sealed class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, };
@@ -1855,7 +1855,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 	}
 
-	public sealed class @GridEdge : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IGridEdge
+	public sealed partial class @GridEdge : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IGridEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@GridEdge[] pool = new GRGEN_MODEL.@GridEdge[10];
@@ -1963,7 +1963,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 	}
 
-	public sealed class EdgeType_GridEdge : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_GridEdge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_GridEdge typeVar = new GRGEN_MODEL.EdgeType_GridEdge();
 		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, };
@@ -2018,7 +2018,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 	}
 
-	public sealed class @PathToHill : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IPathToHill
+	public sealed partial class @PathToHill : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IPathToHill
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@PathToHill[] pool = new GRGEN_MODEL.@PathToHill[10];
@@ -2132,7 +2132,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 	}
 
-	public sealed class EdgeType_PathToHill : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_PathToHill : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_PathToHill typeVar = new GRGEN_MODEL.EdgeType_PathToHill();
 		public static bool[] isA = new bool[] { true, true, false, true, true, false, false, };
@@ -2187,7 +2187,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 	}
 
-	public sealed class @AntPosition : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IAntPosition
+	public sealed partial class @AntPosition : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IAntPosition
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@AntPosition[] pool = new GRGEN_MODEL.@AntPosition[10];
@@ -2295,7 +2295,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 	}
 
-	public sealed class EdgeType_AntPosition : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_AntPosition : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_AntPosition typeVar = new GRGEN_MODEL.EdgeType_AntPosition();
 		public static bool[] isA = new bool[] { true, true, false, false, false, true, false, };
@@ -2350,7 +2350,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 	}
 
-	public sealed class @NextAnt : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.INextAnt
+	public sealed partial class @NextAnt : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.INextAnt
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@NextAnt[] pool = new GRGEN_MODEL.@NextAnt[10];
@@ -2458,7 +2458,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 	}
 
-	public sealed class EdgeType_NextAnt : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_NextAnt : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_NextAnt typeVar = new GRGEN_MODEL.EdgeType_NextAnt();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, true, };

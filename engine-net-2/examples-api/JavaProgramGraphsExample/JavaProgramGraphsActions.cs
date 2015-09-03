@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Mon Jul 28 08:45:57 CEST 2014
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Thu Sep 03 09:30:38 CEST 2015
 
 using System;
 using System.Collections.Generic;
@@ -23610,7 +23610,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] insertMethodGetter_node_v_IsAllowedType = null;
 		public enum insertMethodGetter_NodeNums { @c, @v, };
 		public enum insertMethodGetter_EdgeNums { };
-		public enum insertMethodGetter_VariableNums { @name, @isStatic, };
+		public enum insertMethodGetter_VariableNums { @isStatic, @name, };
 		public enum insertMethodGetter_SubNums { };
 		public enum insertMethodGetter_AltNums { };
 		public enum insertMethodGetter_IterNums { };
@@ -23644,8 +23644,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool[,] insertMethodGetter_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			bool[] insertMethodGetter_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] insertMethodGetter_isEdgeTotallyHomomorphic = new bool[0] ;
-			GRGEN_LGSP.PatternVariable insertMethodGetter_var_name = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(string)), "insertMethodGetter_var_name", "name", 2, false, null);
 			GRGEN_LGSP.PatternVariable insertMethodGetter_var_isStatic = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(bool)), "insertMethodGetter_var_isStatic", "isStatic", 3, false, null);
+			GRGEN_LGSP.PatternVariable insertMethodGetter_var_name = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(string)), "insertMethodGetter_var_name", "name", 2, false, null);
 			GRGEN_LGSP.PatternNode insertMethodGetter_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, GRGEN_MODEL.NodeType_Class.typeVar, "GRGEN_MODEL.IClass", "insertMethodGetter_node_c", "c", insertMethodGetter_node_c_AllowedTypes, insertMethodGetter_node_c_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
 			GRGEN_LGSP.PatternNode insertMethodGetter_node_v = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Variable, GRGEN_MODEL.NodeType_Variable.typeVar, "GRGEN_MODEL.IVariable", "insertMethodGetter_node_v", "v", insertMethodGetter_node_v_AllowedTypes, insertMethodGetter_node_v_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false,null);
 			pat_insertMethodGetter = new GRGEN_LGSP.PatternGraph(
@@ -23655,7 +23655,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { insertMethodGetter_node_c, insertMethodGetter_node_v }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] { insertMethodGetter_var_name, insertMethodGetter_var_isStatic }, 
+				new GRGEN_LGSP.PatternVariable[] { insertMethodGetter_var_isStatic, insertMethodGetter_var_name }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.Iterated[] {  }, 
@@ -23674,8 +23674,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				insertMethodGetter_isEdgeTotallyHomomorphic
 			);
 
-			insertMethodGetter_var_name.pointOfDefinition = null;
 			insertMethodGetter_var_isStatic.pointOfDefinition = null;
+			insertMethodGetter_var_name.pointOfDefinition = null;
 			insertMethodGetter_node_c.pointOfDefinition = null;
 			insertMethodGetter_node_v.pointOfDefinition = null;
 
@@ -23742,8 +23742,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IVariable node_v { get; set; }
 			//Edges
 			//Variables
-			string @var_name { get; set; }
 			bool @var_isStatic { get; set; }
+			string @var_name { get; set; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -23796,27 +23796,27 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public string var_name { get { return _var_name; } set { _var_name = value; } }
 			public bool var_isStatic { get { return _var_isStatic; } set { _var_isStatic = value; } }
-			public string _var_name;
+			public string var_name { get { return _var_name; } set { _var_name = value; } }
 			public bool _var_isStatic;
-			public enum insertMethodGetter_VariableNums { @name, @isStatic, END_OF_ENUM };
+			public string _var_name;
+			public enum insertMethodGetter_VariableNums { @isStatic, @name, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
 			public int NumberOfVariables { get { return 2;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
-				case (int)insertMethodGetter_VariableNums.@name: return _var_name;
 				case (int)insertMethodGetter_VariableNums.@isStatic: return _var_isStatic;
+				case (int)insertMethodGetter_VariableNums.@name: return _var_name;
 				default: return null;
 				}
 			}
 			public object getVariable(string name)
 			{
 				switch(name) {
-				case "name": return _var_name;
 				case "isStatic": return _var_isStatic;
+				case "name": return _var_name;
 				default: return null;
 				}
 			}
@@ -23914,8 +23914,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			{
 				_node_c = that._node_c;
 				_node_v = that._node_v;
-				_var_name = that._var_name;
 				_var_isStatic = that._var_isStatic;
+				_var_name = that._var_name;
 			}
 
 			public Match_insertMethodGetter(Match_insertMethodGetter that)
@@ -23931,8 +23931,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				if(that==null) return false;
 				if(_node_c != that._node_c) return false;
 				if(_node_v != that._node_v) return false;
-				if(_var_name != that._var_name) return false;
 				if(_var_isStatic != that._var_isStatic) return false;
+				if(_var_name != that._var_name) return false;
 				return true;
 			}
 		}
@@ -23954,7 +23954,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] insertMethodSetter_edge__edge0_IsAllowedType = null;
 		public enum insertMethodSetter_NodeNums { @v, @type, @c, };
 		public enum insertMethodSetter_EdgeNums { @_edge0, };
-		public enum insertMethodSetter_VariableNums { @name, @isStatic, };
+		public enum insertMethodSetter_VariableNums { @isStatic, @name, };
 		public enum insertMethodSetter_SubNums { };
 		public enum insertMethodSetter_AltNums { };
 		public enum insertMethodSetter_IterNums { };
@@ -23991,8 +23991,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			};
 			bool[] insertMethodSetter_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] insertMethodSetter_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternVariable insertMethodSetter_var_name = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(string)), "insertMethodSetter_var_name", "name", 2, false, null);
 			GRGEN_LGSP.PatternVariable insertMethodSetter_var_isStatic = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(bool)), "insertMethodSetter_var_isStatic", "isStatic", 3, false, null);
+			GRGEN_LGSP.PatternVariable insertMethodSetter_var_name = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(string)), "insertMethodSetter_var_name", "name", 2, false, null);
 			GRGEN_LGSP.PatternNode insertMethodSetter_node_v = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Variable, GRGEN_MODEL.NodeType_Variable.typeVar, "GRGEN_MODEL.IVariable", "insertMethodSetter_node_v", "v", insertMethodSetter_node_v_AllowedTypes, insertMethodSetter_node_v_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false,null);
 			GRGEN_LGSP.PatternNode insertMethodSetter_node_type = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, GRGEN_MODEL.NodeType_Class.typeVar, "GRGEN_MODEL.IClass", "insertMethodSetter_node_type", "type", insertMethodSetter_node_type_AllowedTypes, insertMethodSetter_node_type_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
 			GRGEN_LGSP.PatternNode insertMethodSetter_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, GRGEN_MODEL.NodeType_Class.typeVar, "GRGEN_MODEL.IClass", "insertMethodSetter_node_c", "c", insertMethodSetter_node_c_AllowedTypes, insertMethodSetter_node_c_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
@@ -24004,7 +24004,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				false, false,
 				new GRGEN_LGSP.PatternNode[] { insertMethodSetter_node_v, insertMethodSetter_node_type, insertMethodSetter_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] { insertMethodSetter_edge__edge0 }, 
-				new GRGEN_LGSP.PatternVariable[] { insertMethodSetter_var_name, insertMethodSetter_var_isStatic }, 
+				new GRGEN_LGSP.PatternVariable[] { insertMethodSetter_var_isStatic, insertMethodSetter_var_name }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.Iterated[] {  }, 
@@ -24028,8 +24028,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_insertMethodSetter.edgeToSourceNode.Add(insertMethodSetter_edge__edge0, insertMethodSetter_node_v);
 			pat_insertMethodSetter.edgeToTargetNode.Add(insertMethodSetter_edge__edge0, insertMethodSetter_node_type);
 
-			insertMethodSetter_var_name.pointOfDefinition = null;
 			insertMethodSetter_var_isStatic.pointOfDefinition = null;
+			insertMethodSetter_var_name.pointOfDefinition = null;
 			insertMethodSetter_node_v.pointOfDefinition = null;
 			insertMethodSetter_node_type.pointOfDefinition = pat_insertMethodSetter;
 			insertMethodSetter_node_c.pointOfDefinition = null;
@@ -24105,8 +24105,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Edges
 			GRGEN_MODEL.Itype_ edge__edge0 { get; set; }
 			//Variables
-			string @var_name { get; set; }
 			bool @var_isStatic { get; set; }
+			string @var_name { get; set; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -24167,27 +24167,27 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public string var_name { get { return _var_name; } set { _var_name = value; } }
 			public bool var_isStatic { get { return _var_isStatic; } set { _var_isStatic = value; } }
-			public string _var_name;
+			public string var_name { get { return _var_name; } set { _var_name = value; } }
 			public bool _var_isStatic;
-			public enum insertMethodSetter_VariableNums { @name, @isStatic, END_OF_ENUM };
+			public string _var_name;
+			public enum insertMethodSetter_VariableNums { @isStatic, @name, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
 			public int NumberOfVariables { get { return 2;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
-				case (int)insertMethodSetter_VariableNums.@name: return _var_name;
 				case (int)insertMethodSetter_VariableNums.@isStatic: return _var_isStatic;
+				case (int)insertMethodSetter_VariableNums.@name: return _var_name;
 				default: return null;
 				}
 			}
 			public object getVariable(string name)
 			{
 				switch(name) {
-				case "name": return _var_name;
 				case "isStatic": return _var_isStatic;
+				case "name": return _var_name;
 				default: return null;
 				}
 			}
@@ -24287,8 +24287,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				_node_type = that._node_type;
 				_node_c = that._node_c;
 				_edge__edge0 = that._edge__edge0;
-				_var_name = that._var_name;
 				_var_isStatic = that._var_isStatic;
+				_var_name = that._var_name;
 			}
 
 			public Match_insertMethodSetter(Match_insertMethodSetter that)
@@ -24306,8 +24306,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				if(_node_type != that._node_type) return false;
 				if(_node_c != that._node_c) return false;
 				if(_edge__edge0 != that._edge__edge0) return false;
-				if(_var_name != that._var_name) return false;
 				if(_var_isStatic != that._var_isStatic) return false;
+				if(_var_name != that._var_name) return false;
 				return true;
 			}
 		}
@@ -56480,8 +56480,8 @@ label33: ;
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
             int isoSpace = 0;
-            System.String var_insertMethodGetter_var_name = (System.String)insertMethodGetter_var_name;
             System.Boolean var_insertMethodGetter_var_isStatic = (System.Boolean)insertMethodGetter_var_isStatic;
+            System.String var_insertMethodGetter_var_name = (System.String)insertMethodGetter_var_name;
             // Preset insertMethodGetter_node_c 
             GRGEN_LGSP.LGSPNode candidate_insertMethodGetter_node_c = (GRGEN_LGSP.LGSPNode)insertMethodGetter_node_c;
             if(candidate_insertMethodGetter_node_c.lgspType.TypeID!=3) {
@@ -56495,8 +56495,8 @@ label33: ;
             Rule_insertMethodGetter.Match_insertMethodGetter match = matches.GetNextUnfilledPosition();
             match._node_c = candidate_insertMethodGetter_node_c;
             match._node_v = candidate_insertMethodGetter_node_v;
-            match._var_name = var_insertMethodGetter_var_name;
             match._var_isStatic = var_insertMethodGetter_var_isStatic;
+            match._var_name = var_insertMethodGetter_var_name;
             matches.PositionWasFilledFixIt();
             // if enough matches were found, we leave
             if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -56741,8 +56741,8 @@ label33: ;
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
             matches.Clear();
             int isoSpace = 0;
-            System.String var_insertMethodSetter_var_name = (System.String)insertMethodSetter_var_name;
             System.Boolean var_insertMethodSetter_var_isStatic = (System.Boolean)insertMethodSetter_var_isStatic;
+            System.String var_insertMethodSetter_var_name = (System.String)insertMethodSetter_var_name;
             // Preset insertMethodSetter_node_v 
             GRGEN_LGSP.LGSPNode candidate_insertMethodSetter_node_v = (GRGEN_LGSP.LGSPNode)insertMethodSetter_node_v;
             if(candidate_insertMethodSetter_node_v.lgspType.TypeID!=5) {
@@ -56780,8 +56780,8 @@ label33: ;
                     match._node_type = candidate_insertMethodSetter_node_type;
                     match._node_c = candidate_insertMethodSetter_node_c;
                     match._edge__edge0 = candidate_insertMethodSetter_edge__edge0;
-                    match._var_name = var_insertMethodSetter_var_name;
                     match._var_isStatic = var_insertMethodSetter_var_isStatic;
+                    match._var_name = var_insertMethodSetter_var_name;
                     matches.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.Count >= maxMatches)
