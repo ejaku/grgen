@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Jul 28 08:46:04 CEST 2014
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Thu Sep 03 09:30:44 CEST 2015
 
 using System;
 using System.Collections.Generic;
@@ -7543,8 +7543,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_annotationTestRule.edgeToTargetNode.Add(annotationTestRule_edge_e1, annotationTestRule_node_n1);
 
 			annotationTestRule_node_n1.pointOfDefinition = pat_annotationTestRule;
-			annotationTestRule_node_n1.annotations.Add("foo", "bar");
 			annotationTestRule_node_n1.annotations.Add("bar", "foo");
+			annotationTestRule_node_n1.annotations.Add("foo", "bar");
 			annotationTestRule_edge_e1.pointOfDefinition = pat_annotationTestRule;
 
 			patternGraph = pat_annotationTestRule;

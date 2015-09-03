@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Mon Jul 28 08:45:40 CEST 2014
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Thu Sep 03 09:30:22 CEST 2015
 
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	// *** Node Node ***
 
 
-	public sealed class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
+	public sealed partial class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
@@ -136,7 +136,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		}
 	}
 
-	public sealed class NodeType_Node : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_Node : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Node typeVar = new GRGEN_MODEL.NodeType_Node();
 		public static bool[] isA = new bool[] { true, false, };
@@ -196,7 +196,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		GRGEN_LIBGR.Deque<double> @de { get; set; }
 	}
 
-	public sealed class @N : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IN
+	public sealed partial class @N : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IN
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@N[] pool = new GRGEN_MODEL.@N[10];
@@ -469,7 +469,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		}
 	}
 
-	public sealed class NodeType_N : GRGEN_LIBGR.NodeType
+	public sealed partial class NodeType_N : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_N typeVar = new GRGEN_MODEL.NodeType_N();
 		public static bool[] isA = new bool[] { true, true, };
@@ -908,7 +908,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	// *** Edge AEdge ***
 
 
-	public sealed class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
 		public static bool[] isA = new bool[] { true, false, false, false, };
@@ -959,7 +959,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	// *** Edge Edge ***
 
 
-	public sealed class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
@@ -1061,7 +1061,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		}
 	}
 
-	public sealed class EdgeType_Edge : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_Edge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
 		public static bool[] isA = new bool[] { true, true, false, false, };
@@ -1113,7 +1113,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	// *** Edge UEdge ***
 
 
-	public sealed class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
@@ -1215,7 +1215,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		}
 	}
 
-	public sealed class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
 		public static bool[] isA = new bool[] { true, false, true, false, };
@@ -1270,7 +1270,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	{
 	}
 
-	public sealed class @E : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IE
+	public sealed partial class @E : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IE
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@E[] pool = new GRGEN_MODEL.@E[10];
@@ -1378,7 +1378,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		}
 	}
 
-	public sealed class EdgeType_E : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_E : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_E typeVar = new GRGEN_MODEL.EdgeType_E();
 		public static bool[] isA = new bool[] { true, true, false, true, };

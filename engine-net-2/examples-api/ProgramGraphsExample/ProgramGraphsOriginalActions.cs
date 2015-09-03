@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Mon Jul 28 08:46:09 CEST 2014
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Thu Sep 03 09:30:48 CEST 2015
 
 using System;
 using System.Collections.Generic;
