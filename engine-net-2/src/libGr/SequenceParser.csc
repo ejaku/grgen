@@ -1,3 +1,5 @@
+// by Edgar Jakumeit, Moritz Kroll
+
 options {
 	STATIC = false;
 	IGNORE_CASE = false;

@@ -1,3 +1,5 @@
+// by Maneesh Yadav
+
 /*
  * Based on:
  *  1. WEININGER D,                                                                                                                                                                                                                         

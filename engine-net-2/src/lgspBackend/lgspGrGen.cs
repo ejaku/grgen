@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Moritz Kroll, Edgar Jakumeit
+
 //#define DUMP_PATTERNS
 //#define USE_NET_3_5 // use .NET 3.5 for compiling the generated code (not needed) and the user extensions (maybe needed there)
 

@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Moritz Kroll, Edgar Jakumeit
+
 //#define USE_HIGHPERFORMANCE_COUNTER
 
 using System;

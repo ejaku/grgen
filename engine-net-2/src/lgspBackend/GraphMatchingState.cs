@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Edgar Jakumeit
+
 #define MONO_MULTIDIMARRAY_WORKAROUND // must be equally set to the same flag in LGSPGraphStatistics.cs!
 //#define LOG_ISOMORPHY_CHECKING
 #define COMPILE_MATCHERS

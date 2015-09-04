@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Moritz Kroll, Edgar Jakumeit
+
 using System;
 using System.Collections.Generic;
 using System.CodeDom.Compiler;

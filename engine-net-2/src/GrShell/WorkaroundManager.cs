@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Moritz Kroll, Edgar Jakumeit
+
 #define MONO_WORKAROUND
 //#define MONO_WINDOWS_WORKAROUND
 

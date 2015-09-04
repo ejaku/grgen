@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Edgar Jakumeit
+
 namespace de.unika.ipd.grGen.lgsp
 {
     public class Pair<S, T>

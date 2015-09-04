@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Edgar Jakumeit, Moritz Kroll
+
 //#define NO_ADJUST_LIST_HEADS
 
 using System;

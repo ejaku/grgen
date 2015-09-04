@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Edgar Jakumeit, Moritz Kroll
+
 //#define LOG_SEQUENCE_EXECUTION
 
 using System;

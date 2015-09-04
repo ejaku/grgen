@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Moritz Kroll, Edgar Jakumeit
+
 #define MONO_MULTIDIMARRAY_WORKAROUND       // must be equally set to the same flag in lgspGraphStatistics.cs!
 //#define RANDOM_LOOKUP_LIST_START      // currently broken
 //#define DUMP_SCHEDULED_SEARCH_PLAN
