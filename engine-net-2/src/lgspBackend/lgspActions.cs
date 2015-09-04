@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Moritz Kroll, Edgar Jakumeit
+
 //#define ASSERT_ALL_UNMAPPED_AFTER_MATCH
 
 using System;

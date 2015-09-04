@@ -5,7 +5,7 @@
  * www.grgen.net
  */
 
-// author: Moritz Kroll, Nicholas Tung
+// by: Moritz Kroll, Nicholas Tung, Edgar Jakumeit, Sebastian Buchwald
 
 using System;
 using System.Collections.Generic;

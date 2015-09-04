@@ -1,5 +1,7 @@
 using System;
 
+// by Maneesh Yadav
+
 namespace de.unika.ipd.grGen.lgsp
 {
 	//Graph canonizer interface

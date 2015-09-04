@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Moritz Kroll, Edgar Jakumeit
+
 //#define LOG_TRANSACTION_HANDLING
 //#define CHECK_RINGLISTS
 

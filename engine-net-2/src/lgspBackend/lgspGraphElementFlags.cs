@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Edgar Jakumeit, Moritz Kroll 
+
 using System;
 
 namespace de.unika.ipd.grGen.lgsp

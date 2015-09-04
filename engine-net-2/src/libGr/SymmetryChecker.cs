@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Edgar Jakumeit
+
 //#define LOG_MATCHES
 
 using System;

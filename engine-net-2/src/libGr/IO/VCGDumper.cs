@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Moritz Kroll, Sebastian Buchwald, Edgar Jakumeit
+
 namespace de.unika.ipd.grGen.libGr
 {
     using System;

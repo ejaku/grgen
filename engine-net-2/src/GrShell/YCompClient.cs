@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Moritz Kroll, Edgar Jakumeit
+
 //#define DUMP_COMMANDS_TO_YCOMP
 
 using System;

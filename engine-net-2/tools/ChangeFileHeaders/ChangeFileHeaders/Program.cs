@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Edgar Jakumeit
+
 //todo: auch ANTLR-header umschreiben - dazu .g-Datei, 2te Zeile nach header { verarbeiten
 
 using System;

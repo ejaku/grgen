@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Moritz Kroll
+
 #define DUMP_MATCHERPROGRAMS
 //#define DUMP_INITIALGRAPH
 #define NEWCOSTMODEL

@@ -5,6 +5,7 @@
  * www.grgen.net
  */
 
+// by Edgar Jakumeit
 
 using System;
 using System.Collections.Generic;

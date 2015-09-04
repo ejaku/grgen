@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Edgar Jakumeit, Moritz Kroll
+
 using System;
 using System.Diagnostics;
 

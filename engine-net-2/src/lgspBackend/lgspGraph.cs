@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// by Moritz Kroll, Edgar Jakumeit
+
 //#define CHECK_ISOCOMPARE_CANONIZATION_AGREE
 //#define CHECK_RINGLISTS
 //#define CHECK_VISITED_FLAGS_CLEAR_ON_FREE
