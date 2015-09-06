@@ -7904,9 +7904,9 @@
             Class representing a deque access expression.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.IncidenceIndexAccess">
+        <member name="T:de.unika.ipd.grGen.expression.IncidenceCountIndexAccess">
             <summary>
-            Class representing an incidence index access expression.
+            Class representing an incidence count index access expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.MapSize">

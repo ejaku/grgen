@@ -5550,27 +5550,27 @@
             The attribute type the index is declared on.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.libGr.IncidenceIndexDescription">
+        <member name="T:de.unika.ipd.grGen.libGr.IncidenceCountIndexDescription">
             <summary>
-            The description of a single incidence index.
+            The description of a single incidence count index.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.IncidenceIndexDescription.Direction">
+        <member name="F:de.unika.ipd.grGen.libGr.IncidenceCountIndexDescription.Direction">
             <summary>
             The direction of incidence followed.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.IncidenceIndexDescription.StartNodeType">
+        <member name="F:de.unika.ipd.grGen.libGr.IncidenceCountIndexDescription.StartNodeType">
             <summary>
             The type of the start node that is taken into account for the incidence count.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.IncidenceIndexDescription.IncidentEdgeType">
+        <member name="F:de.unika.ipd.grGen.libGr.IncidenceCountIndexDescription.IncidentEdgeType">
             <summary>
             The type of the incident edge that is taken into account for the incidence count.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.IncidenceIndexDescription.AdjacentNodeType">
+        <member name="F:de.unika.ipd.grGen.libGr.IncidenceCountIndexDescription.AdjacentNodeType">
             <summary>
             The type of the adjacent node that is taken into account for the incidence count.
             </summary>
@@ -9100,12 +9100,12 @@
             in descending order.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.libGr.IIncidenceIndex">
+        <member name="T:de.unika.ipd.grGen.libGr.IIncidenceCountIndex">
             <summary>
-            A single incidence index.
+            A single incidence count index.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IIncidenceIndex.GetIncidenceCount(de.unika.ipd.grGen.libGr.IGraphElement)">
+        <member name="M:de.unika.ipd.grGen.libGr.IIncidenceCountIndex.GetIncidenceCount(de.unika.ipd.grGen.libGr.IGraphElement)">
             <summary>
             Lookup the incidence count of the graph element given.
             </summary>
