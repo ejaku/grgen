@@ -2582,6 +2582,11 @@ public abstract class CSharpBase {
 				return formatType(cast.getType());
 			case Type.IS_EDGE:
 				return formatType(cast.getType());
+			case Type.IS_SET:
+			case Type.IS_MAP:
+			case Type.IS_ARRAY:
+			case Type.IS_DEQUE:
+				return "object"; // only the null type can/will be casted into a container type, so the most specific base type is sufficient, which is object
 			default:
 				throw new UnsupportedOperationException(
 					"This is either a forbidden cast, which should have been " +
