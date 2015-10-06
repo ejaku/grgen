@@ -1,0 +1,7 @@
+// test from bitbucket issue #5 by Peter Grüner
+
+#using "bitbucket5.gm"
+
+sequence TestSequence {
+    nodes:set<Node> ;> { nodes = nodes(TestPackage::TestNode);}
+}

@@ -1,0 +1,3 @@
+package TestPackage {
+    node class TestNode;
+}

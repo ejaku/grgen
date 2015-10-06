@@ -1,0 +1,5 @@
+node class MyNode;
+
+package TestPackage {
+    node class TestNode;
+}
