@@ -1,0 +1,28 @@
+// test from bitbucket issue #6 by Peter Grüner
+
+#using "bitbucket6.gm"
+
+//Does not work:
+rule TestRule:(set<TestPackage::TestNode>) {
+    modify {
+        def ref nodeSet:set<TestPackage::TestNode> = set<TestPackage::TestNode>{}; 
+        return(nodeSet);
+    }
+}
+
+sequence TestSequence {
+    (nodeSet:set<TestPackage::TestNode>) = TestRule
+}
+
+//Works:
+
+rule TestRule2:(set<MyNode>) {
+    modify {
+        def ref nodeSet:set<MyNode> = set<MyNode>{}; 
+        return(nodeSet);
+    }
+}
+
+sequence TestSequence2 {
+    (nodeSet:set<MyNode>) = TestRule2
+}

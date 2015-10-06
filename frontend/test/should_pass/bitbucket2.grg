@@ -1,0 +1,17 @@
+// test from bitbucket issue #2 by Peter Grüner
+
+#using "bitbucket2.gm"
+
+sequence DoesNotWork {
+    ret:int ;> {ret = TestFunction();} &
+    {TestProcedure();}
+}
+
+rule Works {
+    modify {
+        eval {
+            def var ret:int = TestFunction();
+            TestProcedure();    
+        }
+    }
+}

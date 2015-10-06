@@ -1,0 +1,23 @@
+// test from bitbucket issue #3 by Peter Grüner
+
+procedure Works(){
+    for(n:Node in nodes()) {
+        def t:Node = n;
+        emit(typeof(t));
+    }
+    for(e:Edge in edges()) {
+        def -t:Edge-> = e;
+        emit(typeof(t));
+    }
+    return();
+}
+
+procedure DoesNotWork(){
+    for(n:Node in nodes()) {
+        emit(typeof(n));
+    }
+    for(e:Edge in edges()) {
+        emit(typeof(e));
+    }
+    return();
+}

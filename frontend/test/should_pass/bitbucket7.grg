@@ -1,0 +1,13 @@
+// test from bitbucket issue #7 by Peter Grüner
+
+rule TestRule {
+    modify {
+        eval {
+            def ref mySet:set<string>;
+
+            if(mySet == null) {
+                emit("Test Set is null!\n");
+            }
+        }
+    }
+}

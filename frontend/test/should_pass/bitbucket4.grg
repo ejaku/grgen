@@ -1,0 +1,21 @@
+// test from bitbucket issue #4 by Peter Grüner
+
+rule DoesNotWork {
+    def var i:int;
+    yield {
+        yield i = 5;
+        emit("Yield Test with new line!\n");
+    }
+    modify {
+    }
+}
+
+rule Works {
+    def var i:int;
+    yield {
+        yield i = 5;
+        emit("Yield Test with new line!\\n");
+    }
+    modify {
+    }
+}
