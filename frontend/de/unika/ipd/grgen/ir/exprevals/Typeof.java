@@ -28,8 +28,12 @@ public class Typeof extends Expression {
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		if(!isGlobalVariable(entity))
-			needs.add((GraphEntity) entity);
+		if(!isGlobalVariable(entity)) {
+			if(entity instanceof GraphEntity)
+				needs.add((GraphEntity) entity);
+			else
+				needs.add((Variable) entity);
+		}
 	}
 }
 

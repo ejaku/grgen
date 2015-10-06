@@ -11,8 +11,8 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-import de.unika.ipd.grgen.ast.util.Pair;
+import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
+import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.Typeof;
@@ -30,6 +30,7 @@ public class TypeofNode extends ExprNode {
 	private IdentNode entityUnresolved;
 	private EdgeDeclNode entityEdgeDecl = null;
 	private NodeDeclNode entityNodeDecl = null;
+	private VarDeclNode entityVarDecl = null;
 
 	public TypeofNode(Coords coords, IdentNode entity) {
 		super(coords);
@@ -41,7 +42,7 @@ public class TypeofNode extends ExprNode {
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(entityUnresolved, entityEdgeDecl, entityNodeDecl));
+		children.add(getValidVersion(entityUnresolved, entityEdgeDecl, entityNodeDecl, entityVarDecl));
 		return children;
 	}
 
@@ -53,18 +54,19 @@ public class TypeofNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationPairResolver<EdgeDeclNode, NodeDeclNode> entityResolver =
-		new DeclarationPairResolver<EdgeDeclNode, NodeDeclNode>(EdgeDeclNode.class, NodeDeclNode.class);
+	private static final DeclarationTripleResolver<EdgeDeclNode, NodeDeclNode, VarDeclNode> entityResolver =
+		new DeclarationTripleResolver<EdgeDeclNode, NodeDeclNode, VarDeclNode>(EdgeDeclNode.class, NodeDeclNode.class, VarDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
 		boolean res = fixupDefinition(entityUnresolved, entityUnresolved.getScope());
 		
-		Pair<EdgeDeclNode, NodeDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
+		Triple<EdgeDeclNode, NodeDeclNode, VarDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
 		if (resolved != null) {
-			entityEdgeDecl = resolved.fst;
-			entityNodeDecl = resolved.snd;
+			entityEdgeDecl = resolved.first;
+			entityNodeDecl = resolved.second;
+			entityVarDecl = resolved.third;
 		}
 
 		return res && resolved != null;
@@ -75,12 +77,19 @@ public class TypeofNode extends ExprNode {
 	 */
 	@Override
 	protected boolean checkLocal() {
+		if(entityVarDecl != null
+				&& !(entityVarDecl.getDeclType() instanceof NodeTypeNode)
+				&& !(entityVarDecl.getDeclType() instanceof EdgeTypeNode))
+		{
+			reportError("the variable for a typeof must be of node or edge type.");
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		Entity entity = getValidResolvedVersion(entityEdgeDecl, entityNodeDecl).checkIR(Entity.class);
+		Entity entity = getValidResolvedVersion(entityEdgeDecl, entityNodeDecl, entityVarDecl).checkIR(Entity.class);
 
 		return new Typeof(entity);
 	}
@@ -88,7 +97,7 @@ public class TypeofNode extends ExprNode {
 	protected DeclNode getEntity() {
 		assert isResolved();
 
-		return getValidResolvedVersion(entityEdgeDecl, entityNodeDecl);
+		return getValidResolvedVersion(entityEdgeDecl, entityNodeDecl, entityVarDecl);
 	}
 
 	@Override
@@ -106,6 +115,12 @@ public class TypeofNode extends ExprNode {
 		if(entityNodeDecl!=null) {
 			if(entityNodeDecl.defEntityToBeYieldedTo) {
 				entityNodeDecl.reportError("A def variable ("+entityNodeDecl+") can't be accessed from an if");
+				return false;
+			}
+		}
+		if(entityVarDecl!=null) {
+			if(entityVarDecl.defEntityToBeYieldedTo) {
+				entityVarDecl.reportError("A def variable ("+entityVarDecl+") can't be accessed from an if");
 				return false;
 			}
 		}
