@@ -159,10 +159,11 @@ namespace de.unika.ipd.grGen.libGr
                 case "LGSPNamedGraph": return "graph";
             }
 
+            String package;
+            String type = GetNameAndPackageFromFullTypeName(fullTypeName, out package);
+
             if(typeName.StartsWith("ENUM_"))
             {
-                String package;
-                String type = GetNameAndPackageFromFullTypeName(fullTypeName, out package);
                 if(package == null)
                     return type.Substring(5); // remove "ENUM_"
                 else
@@ -171,8 +172,6 @@ namespace de.unika.ipd.grGen.libGr
 
             if(typeName.StartsWith("NodeType_"))
             {
-                String package;
-                String type = GetNameAndPackageFromFullTypeName(fullTypeName, out package);
                 if(package == null)
                     return type.Substring(9); // remove "NodeType_"
                 else
@@ -180,15 +179,16 @@ namespace de.unika.ipd.grGen.libGr
             }
             if(typeName.StartsWith("EdgeType_"))
             {
-                String package;
-                String type = GetNameAndPackageFromFullTypeName(fullTypeName, out package);
                 if(package == null)
                     return type.Substring(9); // remove "EdgeType_"
                 else
                     return package + "::" + type.Substring(9); // remove "EdgeType_"
             }
 
-            return typeName.Substring(1); // remove I from class name
+            if(package == null)
+                return typeName.Substring(1); // remove I from class name
+            else
+                return package + "::" + typeName.Substring(1); // remove I from class name
         }
 
         public static String AttributeTypeToXgrsType(AttributeType attributeType)
