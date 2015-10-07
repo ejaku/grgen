@@ -56,12 +56,12 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(NodeType nodeType in model.NodeModel.Types)
             {
-                if(nodeType.Name == typeName) return nodeType;
+                if(nodeType.PackagePrefixedName == typeName) return nodeType;
             }
 
             foreach(EdgeType edgeType in model.EdgeModel.Types)
             {
-                if(edgeType.Name == typeName) return edgeType;
+                if(edgeType.PackagePrefixedName == typeName) return edgeType;
             }
 
             return null;
