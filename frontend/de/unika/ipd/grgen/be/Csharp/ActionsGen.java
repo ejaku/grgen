@@ -307,7 +307,7 @@ public class ActionsGen extends CSharpBase {
 		if(!isExternalSequence) {
 			sb.append("\t\t\t\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ", ");
 			sb.append("\"" + (packageName!=null ? packageName + "::" + sequenceName : sequenceName) + "\",\n");
-			sb.append("\t\t\t\t\t\t\"" + sequence.getExec().getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\",\n");
+			sb.append("\t\t\t\t\t\t\"" + escapeBackslashAndDoubleQuotes(sequence.getExec().getXGRSString()) + "\",\n");
 		}
 		sb.append("\t\t\t\t\t\t" + sequence.getExec().getLineNr() + "\n");
 		sb.append("\t\t\t\t\t  )\n");
@@ -2075,7 +2075,7 @@ public class ActionsGen extends CSharpBase {
 				}
 				sb.append("},\n");
 				sb.append("\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ",\n");
-				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\",\n");
+				sb.append("\t\t\t\"" + escapeBackslashAndDoubleQuotes(exec.getXGRSString()) + "\",\n");
 				sb.append("\t\t\t" + exec.getLineNr() + "\n");
 				sb.append("\t\t);\n");
 				
@@ -2219,7 +2219,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append("},\n");
 		sb.append("\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ",\n");
-		sb.append("\t\t\t\"" + execStmt.getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\",\n");
+		sb.append("\t\t\t\"" + escapeBackslashAndDoubleQuotes(execStmt.getXGRSString()) + "\",\n");
 		sb.append("\t\t\t" + execStmt.getLineNr() + "\n");
 		sb.append("\t\t);\n");
 		
@@ -2432,7 +2432,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append("},\n");
 		sb.append("\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ",\n");
-		sb.append("\t\t\t\"" + exec.getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\",\n");
+		sb.append("\t\t\t\"" + escapeBackslashAndDoubleQuotes(exec.getXGRSString()) + "\",\n");
 		sb.append("\t\t\t" + exec.getLineNr() + "\n");
 		sb.append("\t\t);\n");
 		
@@ -2568,7 +2568,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if(expr instanceof Constant) { // gen C-code for constant expressions
 			Constant constant = (Constant) expr;
-			sb.append("new GRGEN_EXPR.Constant(\"" + escapeDoubleQuotes(getValueAsCSSharpString(constant)) + "\")");
+			sb.append("new GRGEN_EXPR.Constant(\"" + escapeBackslashAndDoubleQuotes(getValueAsCSSharpString(constant)) + "\")");
 		}
 		else if(expr instanceof Nameof) {
 			Nameof no = (Nameof) expr;

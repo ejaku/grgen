@@ -2629,19 +2629,11 @@ public abstract class CSharpBase {
 		}
 	}
 
-	protected String escapeDoubleQuotes(String input)
+	protected String escapeBackslashAndDoubleQuotes(String input)
 	{
-		StringBuffer sb = new StringBuffer(input.length()+2);
-		for(int i=0; i<input.length(); ++i) {
-			if(input.charAt(i)=='"') {
-				sb.append("\\\"");
-			} else {
-				sb.append(input.charAt(i));
-			}
-		}
-		return sb.toString();
+		return input.replace("\\", "\\\\").replace("\"", "\\\"");
 	}
-
+	
 	protected abstract void genQualAccess(StringBuffer sb, Qualification qual, Object modifyGenerationState);
 	protected abstract void genMemberAccess(StringBuffer sb, Entity member);
 
