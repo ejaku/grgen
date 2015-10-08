@@ -1,0 +1,13 @@
+// test from bitbucket issue #4 by Peter Grüner, adapted to cover condition instead of yielding
+
+rule DoesNotWork(var s:string) {
+	if{ "foo\n"==s; }
+    modify {
+    }
+}
+
+rule Works(var s:string) {
+	if{ "foo\\n"==s; }
+    modify {
+    }
+}
