@@ -1,0 +1,9 @@
+new graph "bitbucket/bitbucket8"
+
+exec Test
+
+clear graph
+
+exec Test2
+
+quit

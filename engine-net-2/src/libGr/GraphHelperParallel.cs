@@ -2976,6 +2976,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IEnumerable<IEdge> ReachableEdges(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int threadId)
         {
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
+            visitedNodes.Add(startNode, null);
             foreach(IEdge edge in ReachableEdgesRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
                 yield return edge;
         }
@@ -2983,6 +2984,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IEnumerable<IEdge> ReachableEdges(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
+            visitedNodes.Add(startNode, null);
             foreach(IEdge edge in ReachableEdgesRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
                 yield return edge;
         }
@@ -3052,6 +3054,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IEnumerable<IEdge> ReachableEdgesIncoming(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int threadId)
         {
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
+            visitedNodes.Add(startNode, null);
             foreach(IEdge edge in ReachableEdgesIncomingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
                 yield return edge;
         }
@@ -3059,6 +3062,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IEnumerable<IEdge> ReachableEdgesIncoming(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
+            visitedNodes.Add(startNode, null);
             foreach(IEdge edge in ReachableEdgesIncomingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
                 yield return edge;
         }
@@ -3101,6 +3105,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IEnumerable<IEdge> ReachableEdgesOutgoing(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, int threadId)
         {
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
+            visitedNodes.Add(startNode, null);
             foreach(IEdge edge in ReachableEdgesOutgoingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
                 yield return edge;
         }
@@ -3108,6 +3113,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IEnumerable<IEdge> ReachableEdgesOutgoing(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
+            visitedNodes.Add(startNode, null);
             foreach(IEdge edge in ReachableEdgesOutgoingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
                 yield return edge;
         }

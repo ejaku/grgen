@@ -3843,6 +3843,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 flag = graph.AllocateVisitedFlag();
                 visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
+                graph.SetVisited(startNode, flag, true);
+                visitedNodes.Add(startNode);
                 foreach(IEdge edge in ReachableEdgesRec(startNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
                     yield return edge;
             }
@@ -3862,6 +3864,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 flag = graph.AllocateVisitedFlag();
                 visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
+                graph.SetVisited(startNode, flag, true);
+                visitedNodes.Add(startNode);
                 foreach(IEdge edge in ReachableEdgesRec(startNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes, actionEnv))
                     yield return edge;
             }
@@ -3947,6 +3951,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 flag = graph.AllocateVisitedFlag();
                 visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
+                graph.SetVisited(startNode, flag, true);
+                visitedNodes.Add(startNode);
                 foreach(IEdge edge in ReachableEdgesIncomingRec(startNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
                     yield return edge;
             }
@@ -3966,6 +3972,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 flag = graph.AllocateVisitedFlag();
                 visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
+                graph.SetVisited(startNode, flag, true);
+                visitedNodes.Add(startNode);
                 foreach(IEdge edge in ReachableEdgesIncomingRec(startNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes, actionEnv))
                     yield return edge;
             }
@@ -4023,6 +4031,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 flag = graph.AllocateVisitedFlag();
                 visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
+                graph.SetVisited(startNode, flag, true);
+                visitedNodes.Add(startNode);
                 foreach(IEdge edge in ReachableEdgesOutgoingRec(startNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes))
                     yield return edge;
             }
@@ -4043,6 +4053,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 flag = graph.AllocateVisitedFlag();
                 visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
+                graph.SetVisited(startNode, flag, true);
+                visitedNodes.Add(startNode);
                 foreach(IEdge edge in ReachableEdgesOutgoingRec(startNode, incidentEdgeType, adjacentNodeType, graph, flag, visitedNodes, actionEnv))
                     yield return edge;
             }

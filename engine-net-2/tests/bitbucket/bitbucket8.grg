@@ -1,0 +1,45 @@
+// test based on bitbucket issue #8 by Peter Grüner, adapted to incoming and outgoing reachable edges, and to checking edges visited 
+
+rule Test {
+    modify {
+        a:Node --> b:Node --> c:Node;
+
+        eval {
+            //Broken: Somehow returns a set of nodes and fails while casting Nodes to Edges
+            //Broken: The undirected version returns reachable edges more than twice
+            for(e:Edge in reachableEdges(b)){
+				emit("1 value of attribute found edge " + nameof(e) + "\n");
+            }
+			emit("1 value of attribute 5 6 -----\n");
+			for(e:Edge in reachableEdgesIncoming(b)){
+				emit("1 value of attribute found edge " + nameof(e) + "\n");
+            }
+			emit("1 value of attribute 5 6 -----\n");
+			for(e:Edge in reachableEdgesOutgoing(b)){
+				emit("1 value of attribute found edge " + nameof(e) + "\n");
+            }
+			emit("1 value of attribute 5 6 -----\n");
+        }
+    }
+}
+
+rule Test2 {
+    modify {
+        a:Node --> b:Node --> c:Node --> a;
+
+        eval {
+            for(e:Edge in reachableEdges(b)){
+				emit("1 value of attribute found edge " + nameof(e) + "\n");
+            }
+			emit("1 value of attribute 5 6 -----\n");
+			for(e:Edge in reachableEdgesIncoming(b)){
+				emit("1 value of attribute found edge " + nameof(e) + "\n");
+            }
+			emit("1 value of attribute 5 6 -----\n");
+			for(e:Edge in reachableEdgesOutgoing(b)){
+				emit("1 value of attribute found edge " + nameof(e) + "\n");
+            }
+			emit("1 value of attribute 5 6 -----\n");
+        }
+    }
+}

@@ -3767,7 +3767,7 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getStartNodeExpr(), state);	        
 		        sb.append(";\n");
 		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id 
-		        		+ " in GRGEN_LIBGR.GraphHelper.Reachable(node_" + id + ",");
+		        		+ " in GRGEN_LIBGR.GraphHelper.ReachableEdges(node_" + id + ",");
 				genExpression(sb, reachable.getIncidentEdgeTypeExpr(), state);	        
 		        sb.append(",");
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
@@ -3787,7 +3787,7 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getStartNodeExpr(), state);	        
 		        sb.append(";\n");
 		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id 
-		        		+ " in GRGEN_LIBGR.GraphHelper.ReachableIncoming(node_" + id + ",");
+		        		+ " in GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming(node_" + id + ",");
 				genExpression(sb, reachable.getIncidentEdgeTypeExpr(), state);	        
 		        sb.append(",");
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
@@ -3807,7 +3807,7 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, reachable.getStartNodeExpr(), state);	        
 		        sb.append(";\n");
 		        sb.append("\t\t\tforeach(GRGEN_LIBGR.IEdge edge_" + id 
-		        		+ " in GRGEN_LIBGR.GraphHelper.ReachableOutgoing(node_" + id + ",");
+		        		+ " in GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing(node_" + id + ",");
 				genExpression(sb, reachable.getIncidentEdgeTypeExpr(), state);	        
 		        sb.append(",");
 				genExpression(sb, reachable.getAdjacentNodeTypeExpr(), state);	        
