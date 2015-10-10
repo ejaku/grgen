@@ -870,6 +870,20 @@ public class PatternGraphNode extends GraphNode {
 		return gr;
 	}
 
+	protected void addNeededEntities(PatternGraph gr, NeededEntities needs) {
+		for(Node neededNode : needs.nodes) {
+			addNodeIfNotYetContained(gr, neededNode);
+		}
+		for(Edge neededEdge : needs.edges) {
+			addEdgeIfNotYetContained(gr, neededEdge);
+		}
+		for(Variable neededVariable : needs.variables) {
+			if(!gr.hasVar(neededVariable)) {
+				gr.addVariable(neededVariable);
+			}
+		}
+	}
+
 	/**
 	 * Split one hom statement into two parts, so deleted and reuse nodes/edges
 	 * can't be matched homomorphically.

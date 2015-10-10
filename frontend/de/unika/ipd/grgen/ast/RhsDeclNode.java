@@ -19,10 +19,14 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 import de.unika.ipd.grgen.ir.exprevals.EvalStatements;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
+import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.OrderedReplacement;
+import de.unika.ipd.grgen.ir.OrderedReplacements;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Variable;
 
@@ -201,6 +205,49 @@ public abstract class RhsDeclNode extends DeclNode {
 		Collection<EvalStatements> evalStatements = graph.getYieldEvalStatements();
 		for(EvalStatements eval : evalStatements) {
 			eval.collectNeededEntities(needs);
+		}
+
+		for(Node neededNode : needs.nodes) {
+			if(neededNode.directlyNestingLHSGraph!=left) {
+				if(!right.hasNode(neededNode)) {
+					right.addSingleNode(neededNode);
+					right.addHomToAll(neededNode);
+				}
+			}
+		}
+		for(Edge neededEdge : needs.edges) {
+			if(neededEdge.directlyNestingLHSGraph!=left) {
+				if(!right.hasEdge(neededEdge)) {
+					right.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+					right.addHomToAll(neededEdge);
+				}
+			}
+		}
+		for(Variable neededVariable : needs.variables) {
+			if(neededVariable.directlyNestingLHSGraph!=left) {
+				if(!right.hasVar(neededVariable)) {
+					right.addVariable(neededVariable);
+				}
+			}
+		}
+	}
+
+	protected void insertElementsFromOrderedReplacementsIntoRhs(PatternGraph left, PatternGraph right)
+	{
+		// insert all elements, which are used in ordered replacements (of the right hand side) and
+		// neither declared on the local left hand nor on the right hand side to the right hand side
+		// further code (PatternGraph::insertElementsFromRhsDeclaredInNestingLhsToLocalLhs)
+		// will add them to the left hand side, too
+
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false, false);
+		Collection<OrderedReplacements> evalStatements = graph.getOrderedReplacements();
+		for(OrderedReplacements eval : evalStatements) {
+			for(OrderedReplacement orderedReplacement : eval.orderedReplacements) {
+				if(orderedReplacement instanceof EvalStatement)
+					((EvalStatement)orderedReplacement).collectNeededEntities(needs);
+				else if(orderedReplacement instanceof Emit)
+					((Emit)orderedReplacement).collectNeededEntities(needs);					
+			}
 		}
 
 		for(Node neededNode : needs.nodes) {

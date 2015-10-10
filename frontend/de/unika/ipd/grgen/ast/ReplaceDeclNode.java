@@ -65,6 +65,7 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	protected PatternGraph getPatternGraph(PatternGraph left) {
 		PatternGraph right = graph.getGraph();
 		insertElementsFromEvalIntoRhs(left, right);
+		insertElementsFromOrderedReplacementsIntoRhs(left, right);
 		insertElementsFromLeftToRightIfTheyAreFromNestingPattern(left, right);
 		return right;
 	}

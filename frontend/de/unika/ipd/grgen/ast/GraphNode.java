@@ -19,7 +19,6 @@ import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.EvalStatements;
 import de.unika.ipd.grgen.ir.Exec;
@@ -32,7 +31,6 @@ import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.OrderedReplacements;
 import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.OrderedReplacement;
 import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Variable;
@@ -400,17 +398,8 @@ public class GraphNode extends BaseNode {
 			}
 		}
 
-		// add emithere elements only mentioned there to the IR
-		// (they're declared in an enclosing graph and locally only show up in the emithere)
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
-		for(OrderedReplacements ors : gr.getOrderedReplacements()) {
-			for(OrderedReplacement orderedRepl : ors.orderedReplacements) {
-				if(orderedRepl instanceof Emit) {
-					((Emit)orderedRepl).collectNeededEntities(needs);
-				}
-			}
-		}
-		addNeededEntities(gr, needs);
+		// don't add elements only mentioned in ordered replacements here to the pattern, it prevents them from being deleted
+		// in general we must be cautious with adding stuff to rhs because of that problem
 
 		// don't add elements only mentioned in typeof here to the pattern, it prevents them from being deleted
 		// in general we must be cautious with adding stuff to rhs because of that problem
@@ -459,20 +448,6 @@ public class GraphNode extends BaseNode {
 		}
 
 		return gr;
-	}
-
-	protected void addNeededEntities(PatternGraph gr, NeededEntities needs) {
-		for(Node neededNode : needs.nodes) {
-			addNodeIfNotYetContained(gr, neededNode);
-		}
-		for(Edge neededEdge : needs.edges) {
-			addEdgeIfNotYetContained(gr, neededEdge);
-		}
-		for(Variable neededVariable : needs.variables) {
-			if(!gr.hasVar(neededVariable)) {
-				gr.addVariable(neededVariable);
-			}
-		}
 	}
 
 	protected void addNodeIfNotYetContained(PatternGraph gr, Node neededNode) {
@@ -540,6 +515,16 @@ public class GraphNode extends BaseNode {
 
 		for (EvalStatementsNode n : yieldsEvals.getChildren()) {
 			ret.add(n.checkIR(EvalStatements.class));
+		}
+
+		return ret;
+	}
+	
+	public Collection<OrderedReplacements> getOrderedReplacements() {
+		Collection<OrderedReplacements> ret = new LinkedList<OrderedReplacements>();
+
+		for (OrderedReplacementsNode n : orderedReplacements.getChildren()) {
+			ret.add(n.checkIR(OrderedReplacements.class));
 		}
 
 		return ret;

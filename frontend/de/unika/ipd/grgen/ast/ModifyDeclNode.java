@@ -207,6 +207,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 		}
 
 		insertElementsFromEvalIntoRhs(left, right);
+		insertElementsFromOrderedReplacementsIntoRhs(left, right);
 
 	    return right;
 	}
