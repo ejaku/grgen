@@ -110,6 +110,13 @@ OK     should_pass/basic_070.grg
 OK     should_pass/basic_100.grg
 OK     should_pass/basic_300.grg
 OK     should_pass/basic_400.grg
+FAILED should_pass/bitbucket2.grg
+OK     should_pass/bitbucket3.grg
+OK     should_pass/bitbucket4.grg
+OK     should_pass/bitbucket4b.grg
+OK     should_pass/bitbucket5.grg
+OK     should_pass/bitbucket6.grg
+OK     should_pass/bitbucket7.grg
 OK     should_pass/break.grg
 OK     should_pass/bubbleUpYield.grg
 OK     should_pass/cast.grg
@@ -244,6 +251,7 @@ OK     should_pass/emit_005.grg
 OK     should_pass/emit_007.grg
 OK     should_pass/emit_011.grg
 OK     should_pass/emithere_001.grg
+OK     should_pass/emithere_002.grg
 OK     should_pass/empty_001.grg
 OK     should_pass/enum_001.grg
 OK     should_pass/enum_002.grg
@@ -999,6 +1007,7 @@ ERROR  should_fail/edge_into_neg_003.grg
 ERROR  should_fail/edge_into_neg_004.grg
 ERROR  should_fail/edge_into_neg_005.grg
 ERROR  should_fail/edge_into_neg_006.grg
+ERROR  should_fail/emit_deleted.grg
 ERROR  should_fail/empty_001.grg
 ERROR  should_fail/enum_001.grg
 ERROR  should_fail/enum_002.grg
