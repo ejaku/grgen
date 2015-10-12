@@ -294,6 +294,78 @@ public class RuleDeclNode extends TestDeclNode {
 		return valid;
 	}
 
+	private HashSet<ConstraintDeclNode> collectNeededElements(ExprNode expr)
+	{
+		HashSet<ConstraintDeclNode> neededElements = new HashSet<ConstraintDeclNode>();
+		if(expr instanceof MemberAccessExprNode) // attribute access is decoupled via temporary variable, so deletion of element is ok
+			return neededElements;
+		for(BaseNode child : expr.getChildren())
+		{
+			if(child instanceof ExprNode) {
+				neededElements.addAll(collectNeededElements((ExprNode)child));
+			}
+			if(child instanceof DeclExprNode) {
+				neededElements.add(((DeclExprNode) child).getConstraintDeclNode());
+			} else if(child instanceof ConstraintDeclNode) {
+				neededElements.add((ConstraintDeclNode)child);
+			}
+		}
+		return neededElements;
+	}
+
+	/**
+	 * Check that emit elems are not deleted.
+	 *
+	 * The check consider the case that parameters are deleted due to
+	 * homomorphic matching.
+	 */
+	private boolean checkEmitElemsNotDeleted() {
+		assert isResolved();
+
+		boolean valid = true;
+		Set<DeclNode> delete = right.getDelete(pattern);
+		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
+
+		for (BaseNode x : right.graph.imperativeStmts.getChildren()) {
+			if(!(x instanceof EmitNode)) continue;
+
+			EmitNode emit = (EmitNode) x;
+			for(BaseNode child : emit.getChildren()) {
+				ExprNode expr = (ExprNode)child;
+				for(ConstraintDeclNode declNode : collectNeededElements(expr)) {
+					if(declNode != null) {
+						if(delete.contains(declNode)) {
+							expr.reportError("The deleted " + declNode.getUseString()
+									+ " \"" + declNode.ident + "\" must not be used in an emit statement (you may use an emithere instead)");
+							valid = false;
+						}
+						else if (maybeDeleted.contains(declNode)) {
+							declNode.maybeDeleted = true;
+
+							if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
+								valid = false;
+
+								String errorMessage = "Element \"" + declNode.ident + "\" used in emit statement may be deleted"
+										+ ", possibly it's homomorphic with a deleted " + declNode.getUseString();
+								errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
+
+								if(declNode instanceof EdgeDeclNode) {
+									errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getUseString()
+											+ " and a deleted node exists";
+								}
+								
+								errorMessage += " (you may use an emithere instead)";
+
+								expr.reportError(errorMessage);
+							}
+						}
+					}
+				}
+			}
+		}
+		return valid;
+	}
+
 	// TODO: pull this and the other code duplications up to ActionDeclNode
 	/**
 	 * Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
@@ -538,7 +610,7 @@ public class RuleDeclNode extends TestDeclNode {
 				& noReturnInPatternOk & abstr & checkRetypedElemsNotDeleted()
 				& checkReturnedElemsNotDeleted() & checkElemsNotRetypedToDifferentTypes()
 				& checkReturnedElemsNotRetyped() & checkExecParamsNotDeleted()
-				& checkReturns(right.returns);
+				& checkEmitElemsNotDeleted() & checkReturns(right.returns);
 	}
 
 	public NodeDeclNode tryGetNode(IdentNode ident) {
