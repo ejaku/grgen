@@ -1,11 +1,26 @@
-﻿v4.4.2 (2015-09-06)
+﻿v4.4.3 (2015-10-12)
+ Bugfixes:
+  - bitbucket #3: typeof now also works for _variables_ of node/edge type (not the same as nodes/edges)
+  - bitbucket #4: control characters are now correctly escaped in constants of expressions and yields
+  - bitbucket #5, #6: fixed usage of node/edge types from a package under certain conditions (esp. in containers)
+  - bitbucket #7: fixed comparison of a container with null (container type with null type)
+  - bitbucket #8: reachableEdges loop now really iterates the reachable edges instead of the nodes
+    related: reachableEdges and its incoming/outgoing versions now lock the root node at start,
+	         so each edge is visited at most twice (once for incoming/outgoing)
+  - bitbucket #9: emithere, evalhere, eval don't add elements explicitly deleted to right pattern anymore,
+                  just because they are mentioned in a RHS expression
+    related: added semantic check that causes an error message if deleted elements are emitted
+             (the emit comes after the delete, so zombie elements would be/are accessed;
+              the emithere in contrast comes before the delete, so it can be used instead)
+
+v4.4.2 (2015-09-06)
  Changed incidence count index declaration to use the counted function names
    so "countIncident" | "countIncoming" | "countOutgoing" instead of "incident" | "incoming" | "outgoing"
  Node and edge classes are generated as partial now
    so that they can be extended with own code, and thus integrated into own programs in an easier way
  Now hinting at maybe missing Java and printing search path when executing java/javaw fails
  Some user manual polishings
-   
+
 v4.4.1 (2015-03-26)
  Bugfixes and language construct polishings:
   - fixed grgen compiler not working under Windows 8 because of a failing ShellExecute of javaw
