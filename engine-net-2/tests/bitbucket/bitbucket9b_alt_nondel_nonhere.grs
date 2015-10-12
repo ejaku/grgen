@@ -1,0 +1,7 @@
+new graph "bitbucket/bitbucket9b_alt_nondel_nonhere"
+
+exec TestSequence
+
+show num nodes
+
+quit
