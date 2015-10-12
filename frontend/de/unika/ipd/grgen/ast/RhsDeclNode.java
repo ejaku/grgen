@@ -209,17 +209,21 @@ public abstract class RhsDeclNode extends DeclNode {
 
 		for(Node neededNode : needs.nodes) {
 			if(neededNode.directlyNestingLHSGraph!=left) {
-				if(!right.hasNode(neededNode)) {
-					right.addSingleNode(neededNode);
-					right.addHomToAll(neededNode);
+				if(!right.getDeletedElements().contains(neededNode)) {
+					if(!right.hasNode(neededNode)) {
+						right.addSingleNode(neededNode);
+						right.addHomToAll(neededNode);
+					}
 				}
 			}
 		}
 		for(Edge neededEdge : needs.edges) {
 			if(neededEdge.directlyNestingLHSGraph!=left) {
-				if(!right.hasEdge(neededEdge)) {
-					right.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-					right.addHomToAll(neededEdge);
+				if(!right.getDeletedElements().contains(neededEdge)) {
+					if(!right.hasEdge(neededEdge)) {
+						right.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+						right.addHomToAll(neededEdge);
+					}
 				}
 			}
 		}
@@ -252,17 +256,21 @@ public abstract class RhsDeclNode extends DeclNode {
 
 		for(Node neededNode : needs.nodes) {
 			if(neededNode.directlyNestingLHSGraph!=left) {
-				if(!right.hasNode(neededNode)) {
-					right.addSingleNode(neededNode);
-					right.addHomToAll(neededNode);
+				if(!right.getDeletedElements().contains(neededNode)) {
+					if(!right.hasNode(neededNode)) {
+						right.addSingleNode(neededNode);
+						right.addHomToAll(neededNode);
+					}
 				}
 			}
 		}
 		for(Edge neededEdge : needs.edges) {
 			if(neededEdge.directlyNestingLHSGraph!=left) {
-				if(!right.hasEdge(neededEdge)) {
-					right.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-					right.addHomToAll(neededEdge);
+				if(!right.getDeletedElements().contains(neededEdge)) {
+					if(!right.hasEdge(neededEdge)) {
+						right.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+						right.addHomToAll(neededEdge);
+					}
 				}
 			}
 		}

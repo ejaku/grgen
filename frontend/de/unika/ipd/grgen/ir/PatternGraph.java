@@ -198,6 +198,10 @@ public class PatternGraph extends Graph {
 		deletedElements.add(entity);
 	}
 
+	public HashSet<GraphEntity> getDeletedElements() {
+		return deletedElements;
+	}
+
 	/** Add a replacement parameter to the rule. */
 	public void addReplParameter(Entity entity) {
 		replParams.add(entity);

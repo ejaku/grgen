@@ -1,0 +1,14 @@
+sequence TestSequence {
+    {add(Node); emit("Created one node!\n");} &
+    [DeleteRule] &
+    [DeleteRule]
+}
+
+rule DeleteRule {
+	n:Node;
+	optional {
+		modify{
+			emithere("1 value of attribute found node " + nameof(n) +"\n");
+		}
+	}
+}
