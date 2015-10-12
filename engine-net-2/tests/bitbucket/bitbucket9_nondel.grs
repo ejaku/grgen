@@ -1,0 +1,7 @@
+new graph "bitbucket/bitbucket9_nondel"
+
+exec TestSequence
+
+show num nodes
+
+quit
