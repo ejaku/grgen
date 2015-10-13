@@ -1,0 +1,67 @@
+// test from bitbucket issue #10 by Peter Grüner
+
+#using "bitbucket10.gm"
+
+//Works
+rule findMyNode(var key:int) {
+    n:MyNode{MyNode_Key == key};
+
+    modify {
+        emit("Found node!\n");
+    }
+}
+
+//Does not compile
+rule findMyNode2(var key:int) {
+
+    alternative {
+        exists {
+            n:MyNode{MyNode_Key == key};
+
+            modify {
+                emit("Found node!\n");
+            }
+        }
+        doesnotexist {
+            negative {
+                n:MyNode{MyNode_Key == key};
+            }
+
+            modify {
+                emit("Did not find node!\n");
+            }
+        }
+    }
+}
+
+//Works
+rule findMyNodeFromOtherNode(otherNode:MyOtherNode) {
+    n:MyNode{MyNode_Key == otherNode.foreignKey};
+
+    modify{
+        emit("Found node key!\n");
+    }
+}
+
+//Does not compile
+rule findMyNodeFromOtherNode2(otherNode:MyOtherNode) {
+
+    alternative {
+        exists {
+            n:MyNode{MyNode_Key == otherNode.foreignKey};
+
+            modify {
+                emit("Found node!\n");
+            }
+        }
+        doesnotexist {
+            negative {
+                n:MyNode{MyNode_Key == otherNode.foreignKey};
+            }
+
+            modify {
+                emit("Did not find node!\n");
+            }
+        }
+    }
+}
