@@ -816,6 +816,21 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
+		// add index access elements only mentioned there to the IR
+		// (they're declared in an enclosing graph and locally only show up in the index access)
+		needs = new NeededEntities(true, true, true, false, false, true, false, false);
+		for(Node node : gr.getNodes()) {
+			if(node.indexAccess!=null) {
+				node.indexAccess.collectNeededEntities(needs);
+			}
+		}
+		for(Edge edge : gr.getEdges()) {
+			if(edge.indexAccess!=null) {
+				edge.indexAccess.collectNeededEntities(needs);
+			}
+		}
+		addNeededEntities(gr, needs);
+
 		// add elements which we could not be added before because their container was iterated over
 		for(Node n : nodesToAdd)
 			addNodeIfNotYetContained(gr, n);
