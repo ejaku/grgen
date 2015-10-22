@@ -742,7 +742,7 @@ public class ModelGen extends CSharpBase {
 				} else if(t instanceof FloatType) {
 					sb.append("0f;\n");
 				} else if(t instanceof LongType) {
-					sb.append("0l;\n");
+					sb.append("0L;\n");
 				} else if(t instanceof BooleanType) {
 					sb.append("false;\n");
 				} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType 

@@ -74,7 +74,7 @@ public class ExecNode extends BaseNode {
 			else if(type instanceof FloatTypeNode)
 				sb.append(value + "f");
 			else if(type instanceof LongTypeNode)
-				sb.append(value + "l");
+				sb.append(value + "L");
 			else if(type instanceof BooleanTypeNode)
 				sb.append(((Boolean) value).booleanValue() ? "true" : "false");
 			else if(type instanceof NullTypeNode)
