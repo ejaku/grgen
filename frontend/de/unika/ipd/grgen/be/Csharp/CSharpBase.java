@@ -2520,7 +2520,7 @@ public abstract class CSharpBase {
 			case Type.IS_DOUBLE:
 				return constant.getValue().toString();
 			case Type.IS_LONG:
-				return constant.getValue().toString() + "l";
+				return constant.getValue().toString() + "L";
 			case Type.IS_FLOAT:
 				return constant.getValue().toString() + "f";
 			case Type.IS_TYPE:
@@ -2545,7 +2545,7 @@ public abstract class CSharpBase {
 		} else if(type instanceof FloatType) {
 			return "0f";
 		} else if(type instanceof LongType) {
-			return "0l";
+			return "0L";
 		} else if(type instanceof BooleanType) {
 			return "false";
 		} else {
