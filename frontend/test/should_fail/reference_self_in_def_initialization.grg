@@ -1,0 +1,9 @@
+// test from bitbucket issue #11 by Peter Grüner
+
+rule testRule {
+    modify {
+        eval {
+            def var i:int = i + 5;
+        }
+    }
+}
