@@ -157,6 +157,8 @@ public class VarDeclNode extends DeclNode {
 				directlyNestingLHSGraph!=null ? directlyNestingLHSGraph.getGraph() : null,
 				context);
 		
+		setIR(var);
+		
 		if(initialization!=null) {
 			initialization = initialization.evaluate();
 			var.setInitialization(initialization.checkIR(Expression.class));
