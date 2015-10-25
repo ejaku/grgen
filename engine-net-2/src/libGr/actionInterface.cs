@@ -269,6 +269,11 @@ namespace de.unika.ipd.grGen.libGr
         GrGenType[] Outputs { get; }
 
         /// <summary>
+        // Tells whether the procedure is an externally defined one or an internal one
+        /// </summary>
+        bool IsExternal { get; }
+
+        /// <summary>
         /// Applies this procedure with the given action environment on the given graph.
         /// Takes the parameters from paramBindings as inputs.
         /// Returns an array of output values.
@@ -317,6 +322,11 @@ namespace de.unika.ipd.grGen.libGr
         /// The GrGen type of the function return value.
         /// </summary>
         GrGenType Output { get; }
+
+        /// <summary>
+        // Tells whether the function is an externally defined one or an internal one
+        /// </summary>
+        bool IsExternal { get; }
 
         /// <summary>
         /// Applies this function with the given action environment on the given graph.

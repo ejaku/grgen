@@ -2500,6 +2500,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceComputationProcedureCall : SequenceComputation
     {
         public ProcedureInvocationParameterBindings ParamBindings;
+        public bool IsExternalProcedureCalled;
 
         public SequenceComputationProcedureCall(ProcedureInvocationParameterBindings paramBindings)
             : base(SequenceComputationType.ProcedureCall)
@@ -2516,6 +2517,7 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             env.CheckProcedureCall(this);
+            IsExternalProcedureCalled = env.IsProcedureCallExternal(ParamBindings);
         }
 
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)

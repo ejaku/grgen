@@ -5579,6 +5579,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionFunctionCall : SequenceExpression
     {
         public FunctionInvocationParameterBindings ParamBindings;
+        public bool IsExternalFunctionCalled;
 
         public SequenceExpressionFunctionCall(FunctionInvocationParameterBindings paramBindings)
             : base(SequenceExpressionType.FunctionCall)
@@ -5595,6 +5596,7 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             env.CheckFunctionCall(this);
+            IsExternalFunctionCalled = env.IsFunctionCallExternal(ParamBindings);
         }
 
         public override String Type(SequenceCheckingEnvironment env)

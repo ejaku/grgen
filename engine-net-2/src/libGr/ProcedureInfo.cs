@@ -25,15 +25,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="package">null if this is a global pattern graph, otherwise the package the pattern graph is contained in.</param>
         /// <param name="packagePrefixedName">The name of the pattern graph in case of a global type,
         /// the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).</param>
+        /// <param name="isExternal">Tells whether the procedure is an externally defined one or an internal one.</param>
         /// <param name="inputNames">The names of the input parameters.</param>
         /// <param name="inputs">The types of the input parameters.</param>
         /// <param name="outputs">The types of the output parameters.</param>
-        public ProcedureInfo(String name, String package, String packagePrefixedName, 
+        public ProcedureInfo(String name, String package, String packagePrefixedName, bool isExternal,
             String[] inputNames, GrGenType[] inputs, GrGenType[] outputs)
         {
             this.name = name;
             this.package = package;
             this.packagePrefixedName = packagePrefixedName;
+            this.isExternal = isExternal;
             this.inputNames = inputNames;
             this.inputs = inputs;
             this.outputs = outputs;
@@ -50,6 +52,7 @@ namespace de.unika.ipd.grGen.libGr
         public string[] InputNames { get { return inputNames; } }
         public GrGenType[] Inputs { get { return inputs; } }
         public GrGenType[] Outputs { get { return outputs; } }
+        public bool IsExternal { get { return isExternal; } }
 
         /// <summary>
         /// The name of the procedure.
@@ -91,6 +94,11 @@ namespace de.unika.ipd.grGen.libGr
         /// Performance optimization: saves us usage of new in implementing the Apply method for returning an array.
         /// </summary>
         protected object[] ReturnArray;
+
+        /// <summary>
+        /// Tells whether the procedure is an externally defined one or an internal one
+        /// </summary>
+        public bool isExternal;
 
         /// <summary>
         /// Applies this procedure with the given action environment on the given graph.

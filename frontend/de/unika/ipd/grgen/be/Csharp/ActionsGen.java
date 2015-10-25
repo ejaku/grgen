@@ -92,7 +92,9 @@ public class ActionsGen extends CSharpBase {
 		}
 
 		genBearer(sb, be.unit, null);
-
+		genExternalFunctionInfos(sb);
+		genExternalProcedureInfos(sb);
+		
 		sb.append("\n\t//-----------------------------------------------------------\n\n");
 
 		ActionsBearer bearer = new ComposedActionsBearer(be.unit);
@@ -106,8 +108,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\trulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern["+
 				bearer.getSubpatternRules().size()+"+"+bearer.getActionRules().size()+"];\n");
 		sb.append("\t\t\tdefinedSequences = new GRGEN_LIBGR.DefinedSequenceInfo["+bearer.getSequences().size()+"];\n");
-		sb.append("\t\t\tfunctions = new GRGEN_LIBGR.FunctionInfo["+bearer.getFunctions().size()+"];\n");	
-		sb.append("\t\t\tprocedures = new GRGEN_LIBGR.ProcedureInfo["+bearer.getProcedures().size()+"];\n");	
+		sb.append("\t\t\tfunctions = new GRGEN_LIBGR.FunctionInfo["+bearer.getFunctions().size()+"+"+model.getExternalFunctions().size()+"];\n");	
+		sb.append("\t\t\tprocedures = new GRGEN_LIBGR.ProcedureInfo["+bearer.getProcedures().size()+"+"+model.getExternalProcedures().size()+"];\n");	
 		sb.append("\t\t\tpackages = new string["+be.unit.getPackages().size()+"];\n");	
 		int i = 0;
 		for(Rule subpatternRule : bearer.getSubpatternRules()) {
@@ -131,9 +133,17 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t\tfunctions["+i+"] = " + getPackagePrefixDot(function) + "FunctionInfo_"+formatIdentifiable(function)+".Instance;\n");
 			++i;
 		}
+		for(ExternalFunction function : model.getExternalFunctions()) {
+			sb.append("\t\t\tfunctions["+i+"] = " + "FunctionInfo_"+formatIdentifiable(function)+".Instance;\n");
+			++i;
+		}
 		i = 0;
 		for(Procedure procedure : bearer.getProcedures()) {
 			sb.append("\t\t\tprocedures["+i+"] = " + getPackagePrefixDot(procedure) + "ProcedureInfo_"+formatIdentifiable(procedure)+".Instance;\n");
+			++i;
+		}
+		for(ExternalProcedure procedure : model.getExternalProcedures()) {
+			sb.append("\t\t\tprocedures["+i+"] = " + "ProcedureInfo_"+formatIdentifiable(procedure)+".Instance;\n");
 			++i;
 		}
 		i = 0;
@@ -185,7 +195,161 @@ public class ActionsGen extends CSharpBase {
 
 		genFilterFunctions(sb, bearer, packageName);
 	}
-	
+
+	private void genExternalFunctionInfos(StringBuffer sb) {
+		for(ExternalFunction ef : model.getExternalFunctions()) {
+			genExternalFunctionInfo(sb, ef);
+		}
+	}
+
+	private void genExternalProcedureInfos(StringBuffer sb) {
+		for(ExternalProcedure ep : model.getExternalProcedures()) {
+			genExternalProcedureInfo(sb, ep);
+		}
+	}
+
+	private void genExternalFunctionInfo(StringBuffer sb, ExternalFunction function) {
+		String functionName = formatIdentifiable(function);
+		String className = "FunctionInfo_"+functionName;
+
+		sb.append("\tpublic class " + className + " : GRGEN_LIBGR.FunctionInfo\n");
+		sb.append("\t{\n");
+		sb.append("\t\tprivate static " + className + " instance = null;\n");
+		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
+				+ "instance = new " + className + "(); } return instance; } }\n");
+		sb.append("\n");
+
+		sb.append("\t\tprivate " + className + "()\n");
+		sb.append("\t\t\t\t\t: base(\n");
+		sb.append("\t\t\t\t\t\t\"" + functionName + "\",\n");
+		sb.append("\t\t\t\t\t\t" + "null" + ", ");
+		sb.append("\"" + functionName + "\",\n");
+		sb.append("\t\t\t\t\t\ttrue,\n");
+		sb.append("\t\t\t\t\t\tnew String[] { ");
+		int i = 0;
+		for(@SuppressWarnings("unused") Type inType : function.getParameterTypes()) {
+			sb.append("\"in_" + i + "\", ");
+			++i;
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Type inType : function.getParameterTypes()) {
+			if(inType instanceof InheritanceType && !(inType instanceof ExternalType)) {
+				sb.append(formatTypeClassRef(inType) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inType) + ")), ");
+			}
+		}
+		sb.append(" },\n");
+		Type outType = function.getReturnType();
+		if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+			sb.append("\t\t\t\t\t\t" + formatTypeClassRef(outType) + ".typeVar\n");
+		} else {
+			sb.append("\t\t\t\t\t\tGRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
+		}
+		sb.append("\t\t\t\t\t  )\n");
+		sb.append("\t\t{\n");
+		addAnnotations(sb, function, "annotations");
+		sb.append("\t\t}\n");
+		
+		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\treturn GRGEN_EXPR.ExternalFunctions." + functionName + "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
+		i = 0;
+		for(Type inType : function.getParameterTypes()) {			
+			sb.append(", (" + formatType(inType) + ")paramBindings.Arguments[" + i + "]");
+			++i;
+		}
+		sb.append(");\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t}\n");
+		sb.append("\n");
+	}
+
+	private void genExternalProcedureInfo(StringBuffer sb, ExternalProcedure procedure) {
+		String procedureName = formatIdentifiable(procedure);
+		String className = "ProcedureInfo_"+procedureName;
+
+		sb.append("\tpublic class " + className + " : GRGEN_LIBGR.ProcedureInfo\n");
+		sb.append("\t{\n");
+		sb.append("\t\tprivate static " + className + " instance = null;\n");
+		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
+				+ "instance = new " + className + "(); } return instance; } }\n");
+		sb.append("\n");
+
+		sb.append("\t\tprivate " + className + "()\n");
+		sb.append("\t\t\t\t\t: base(\n");
+		sb.append("\t\t\t\t\t\t\"" + procedureName + "\",\n");
+		sb.append("\t\t\t\t\t\t" + "null" + ", ");
+		sb.append("\"" + procedureName + "\",\n");
+		sb.append("\t\t\t\t\t\ttrue,\n");
+		sb.append("\t\t\t\t\t\tnew String[] { ");
+		int i = 0;
+		for(@SuppressWarnings("unused") Type inType : procedure.getParameterTypes()) {
+			sb.append("\"in_" + i + "\", ");
+			++i;
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Type inType : procedure.getParameterTypes()) {
+			if(inType instanceof InheritanceType && !(inType instanceof ExternalType)) {
+				sb.append(formatTypeClassRef(inType) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inType) + ")), ");
+			}
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(Type outType : procedure.getReturnTypes()) {
+			if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
+			} else {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + ")), ");
+			}
+		}
+		sb.append(" }\n");
+		sb.append("\t\t\t\t\t  )\n");
+		sb.append("\t\t{\n");
+		addAnnotations(sb, procedure, "annotations");
+		sb.append("\t\t}\n");
+		
+		sb.append("\t\tpublic override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\t{\n");
+		
+		i = 0;
+		for(Type outType : procedure.getReturnTypes()) {
+			sb.append("\t\t\t" + formatType(outType));
+			sb.append(" ");
+			sb.append("_out_param_" + i + ";\n");
+			++i;
+		}
+
+		sb.append("\t\t\tGRGEN_EXPR.ExternalProcedures." + procedureName + "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
+		i = 0;
+		for(Type inType : procedure.getParameterTypes()) {
+			sb.append(", (" + formatType(inType) + ")paramBindings.Arguments[" + i + "]");
+			++i;
+		}
+		for(i=0; i<procedure.getReturnTypes().size(); ++i) {
+			sb.append(", out ");
+			sb.append("_out_param_" + i);
+		}
+		sb.append(");\n");
+
+		for(i=0; i<procedure.getReturnTypes().size(); ++i) {
+			sb.append("\t\t\tReturnArray[" + i + "] = ");
+			sb.append("_out_param_" + i + ";\n");
+		}
+
+		sb.append("\t\t\treturn ReturnArray;\n");
+
+		sb.append("\t\t}\n");
+
+		sb.append("\t}\n");
+		sb.append("\n");
+	}
+
 	/**
 	 * Generates the subpattern action representation sourcecode for the given subpattern-matching-action
 	 */
@@ -396,6 +560,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\t\t\t\"" + functionName + "\",\n");
 		sb.append("\t\t\t\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ", ");
 		sb.append("\"" + (packageName!=null ? packageName + "::" + functionName : functionName) + "\",\n");
+		sb.append("\t\t\t\t\t\tfalse,\n");
 		sb.append("\t\t\t\t\t\tnew String[] { ");
 		for(Entity inParam : function.getParameters()) {
 			sb.append("\"" + inParam.getIdent() + "\", ");
@@ -532,6 +697,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\t\t\t\"" + procedureName + "\",\n");
 		sb.append("\t\t\t\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ", ");
 		sb.append("\"" + (packageName!=null ? packageName + "::" + procedureName : procedureName) + "\",\n");
+		sb.append("\t\t\t\t\t\tfalse,\n");
 		sb.append("\t\t\t\t\t\tnew String[] { ");
 		for(Entity inParam : procedure.getParameters()) {
 			sb.append("\"" + inParam.getIdent() + "\", ");
