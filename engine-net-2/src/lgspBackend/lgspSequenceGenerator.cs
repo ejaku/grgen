@@ -6238,11 +6238,11 @@ namespace de.unika.ipd.grGen.lgsp
             switch(ex.Kind)
             {
                 case SequenceParserError.BadNumberOfParametersOrReturnParameters:
-                    if(rulesToInputTypes[ex.Name].Count != ex.NumGivenInputs && rulesToOutputTypes[ex.Name].Count != ex.NumGivenOutputs)
+                    if(InputTypes(ex.Name).Count != ex.NumGivenInputs && OutputTypes(ex.Name).Count != ex.NumGivenOutputs)
                         Console.Error.WriteLine("Wrong number of parameters and return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                    else if(rulesToInputTypes[ex.Name].Count != ex.NumGivenInputs)
+                    else if(InputTypes(ex.Name).Count != ex.NumGivenInputs)
                         Console.Error.WriteLine("Wrong number of parameters for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                    else if(rulesToOutputTypes[ex.Name].Count != ex.NumGivenOutputs)
+                    else if(OutputTypes(ex.Name).Count != ex.NumGivenOutputs)
                         Console.Error.WriteLine("Wrong number of return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                     else
                         goto default;
@@ -6325,6 +6325,50 @@ namespace de.unika.ipd.grGen.lgsp
                 Console.Error.Write(functionsToOutputType[ex.Name]);
                 Console.Error.WriteLine();
             }
+        }
+
+        List<String> InputTypes(string actionName)
+        {
+            if(rulesToInputTypes.ContainsKey(actionName))
+            {
+                return rulesToInputTypes[actionName];
+            }
+            else if(sequencesToInputTypes.ContainsKey(actionName))
+            {
+                return sequencesToInputTypes[actionName];
+            }
+            else if(proceduresToInputTypes.ContainsKey(actionName))
+            {
+                return proceduresToInputTypes[actionName];
+            }
+            else if(functionsToInputTypes.ContainsKey(actionName))
+            {
+                return functionsToInputTypes[actionName];
+            }
+            return null;
+        }
+
+        List<String> OutputTypes(string actionName)
+        {
+            if(rulesToOutputTypes.ContainsKey(actionName))
+            {
+                return rulesToOutputTypes[actionName];
+            }
+            else if(sequencesToOutputTypes.ContainsKey(actionName))
+            {
+                return sequencesToOutputTypes[actionName];
+            }
+            else if(proceduresToOutputTypes.ContainsKey(actionName))
+            {
+                return proceduresToOutputTypes[actionName];
+            }
+            else if(functionsToOutputType.ContainsKey(actionName))
+            {
+                List<String> ret = new List<String>();
+                ret.Add(functionsToOutputType[actionName]);
+                return ret;
+            }
+            return null;
         }
 
         void PrintInputParams(List<String> nameToInputTypes)
