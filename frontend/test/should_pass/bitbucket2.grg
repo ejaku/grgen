@@ -1,10 +1,20 @@
-// test from bitbucket issue #2 by Peter Grüner
+// test based on bitbucket issue #2 by Peter Grüner
 
 #using "bitbucket2.gm"
 
 sequence DoesNotWork {
     ret:int ;> {ret = TestFunction();} &
     {TestProcedure();}
+}
+
+rule CheckWorks {
+    modify {
+        eval {
+            def var ret:int = TestFunction2("haha");
+            (ret)=TestProcedure2("hoho");    
+        }
+		exec(rt:int ;> {rt = TestFunction2("haha")} & {(rt)=TestProcedure2("hoho")});
+    }
 }
 
 rule Works {
@@ -14,4 +24,15 @@ rule Works {
             TestProcedure();    
         }
     }
+}
+
+function tf():int
+{
+	return(TestFunction());
+}
+
+procedure tp()
+{
+	TestProcedure();
+	return;
 }

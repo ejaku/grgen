@@ -1,0 +1,14 @@
+new graph "bitbucket/bitbucket2"
+
+exec {::v = TestFunction()}
+show var v
+show num nodes
+exec {TestProcedure()}
+show num nodes
+exec {::v = TestFunction2("haha")}
+show var v
+exec {(::v) = TestProcedure2("pah")}
+show var v
+show num nodes
+
+quit

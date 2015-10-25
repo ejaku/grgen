@@ -1,0 +1,19 @@
+// test based on bitbucket issue #2 by Peter Grüner
+
+#using "bitbucket2.gm"
+
+sequence STestFunction {
+    {::v = TestFunction()}
+}
+
+sequence STestProcedure {
+    {TestProcedure()}
+}
+
+sequence STestFunction2 {
+    {::v = TestFunction2("haha")}
+}
+
+sequence STestProcedure2 {
+    {(::v) = TestProcedure2("pah")}
+}

@@ -1,0 +1,14 @@
+new graph "bitbucket/bitbucket2"
+
+exec STestFunction
+show var v
+show num nodes
+exec STestProcedure
+show num nodes
+exec STestFunction2
+show var v
+exec STestProcedure2
+show var v
+show num nodes
+
+quit
