@@ -2120,6 +2120,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t\t\t\t\"" + functionMethodName + "\",\n");
 		sb.append("\t\t\t\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ", ");
 		sb.append("\"" + (packageName!=null ? packageName + "::" + functionMethodName : functionMethodName) + "\",\n");
+		sb.append("\t\t\t\t\t\tfalse,\n");
 		sb.append("\t\t\t\t\t\tnew String[] { ");
 		for(Entity inParam : fm.getParameters()) {
 			sb.append("\"" + inParam.getIdent() + "\", ");
@@ -2172,6 +2173,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t\t\t\t\"" + procedureMethodName + "\",\n");
 		sb.append("\t\t\t\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ", ");
 		sb.append("\"" + (packageName!=null ? packageName + "::" + procedureMethodName : procedureMethodName) + "\",\n");
+		sb.append("\t\t\t\t\t\tfalse,\n");
 		sb.append("\t\t\t\t\t\tnew String[] { ");
 		for(Entity inParam : pm.getParameters()) {
 			sb.append("\"" + inParam.getIdent() + "\", ");
@@ -4704,6 +4706,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t\t\t\t\"" + externalFunctionMethodName + "\",\n");
 		sb.append("\t\t\t\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ", ");
 		sb.append("\"" + (packageName!=null ? packageName + "::" + externalFunctionMethodName : externalFunctionMethodName) + "\",\n");
+		sb.append("\t\t\t\t\t\ttrue,\n");
 		sb.append("\t\t\t\t\t\tnew String[] { ");
 		int i = 0;
 		for(@SuppressWarnings("unused") Type inParamType : efm.getParameterTypes()) {
@@ -4758,6 +4761,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t\t\t\t\"" + externalProcedureMethodName + "\",\n");
 		sb.append("\t\t\t\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ", ");
 		sb.append("\"" + (packageName!=null ? packageName + "::" + externalProcedureMethodName : externalProcedureMethodName) + "\",\n");
+		sb.append("\t\t\t\t\t\ttrue,\n");
 		sb.append("\t\t\t\t\t\tnew String[] { ");
 		int i = 0;
 		for(@SuppressWarnings("unused") Type inParamType : epm.getParameterTypes()) {

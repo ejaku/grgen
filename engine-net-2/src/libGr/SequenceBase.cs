@@ -286,6 +286,8 @@ namespace de.unika.ipd.grGen.libGr
             CheckProcedureCallBase(seq, null);
         }
 
+        public abstract bool IsProcedureCallExternal(ProcedureInvocationParameterBindings paramBindings);
+
         /// <summary>
         /// Helper for checking procedure method calls.
         /// Checks whether called entity exists, type checks the input, type checks the output.
@@ -346,6 +348,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             CheckFunctionCallBase(seq, null);
         }
+
+        public abstract bool IsFunctionCallExternal(FunctionInvocationParameterBindings paramBindings);
 
         /// <summary>
         /// Helper for checking function method calls.
@@ -416,6 +420,16 @@ namespace de.unika.ipd.grGen.libGr
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public override IGraphModel Model { get { return actions.Graph.Model; } }
+
+        public override bool IsProcedureCallExternal(ProcedureInvocationParameterBindings paramBindings)
+        {
+            return paramBindings.ProcedureDef.IsExternal;
+        }
+
+        public override bool IsFunctionCallExternal(FunctionInvocationParameterBindings paramBindings)
+        {
+            return paramBindings.FunctionDef.IsExternal;
+        }
 
         public override string TypeOfTopLevelEntityInRule(string ruleName, string entityName)
         {
@@ -695,8 +709,8 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
             Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
-            Dictionary<String, List<String>> proceduresToInputTypes, Dictionary<String, List<String>> proceduresToOutputTypes,
-            Dictionary<String, List<String>> functionsToInputTypes, Dictionary<String, String> functionsToOutputType,
+            Dictionary<String, List<String>> proceduresToInputTypes, Dictionary<String, List<String>> proceduresToOutputTypes, Dictionary<String, bool> proceduresToIsExternal,
+            Dictionary<String, List<String>> functionsToInputTypes, Dictionary<String, String> functionsToOutputType, Dictionary<String, bool> functionsToIsExternal,
             IGraphModel model)
         {
             this.ruleNames = ruleNames;
@@ -713,8 +727,10 @@ namespace de.unika.ipd.grGen.libGr
             this.sequencesToOutputTypes = sequencesToOutputTypes;
             this.proceduresToInputTypes = proceduresToInputTypes;
             this.proceduresToOutputTypes = proceduresToOutputTypes;
+            this.proceduresToIsExternal = proceduresToIsExternal;
             this.functionsToInputTypes = functionsToInputTypes;
             this.functionsToOutputType = functionsToOutputType;
+            this.functionsToIsExternal = functionsToIsExternal;
             this.model = model;
         }
 
@@ -756,11 +772,15 @@ namespace de.unika.ipd.grGen.libGr
         private Dictionary<String, List<String>> proceduresToInputTypes;
         // maps procedure names available in the .grg to compile to the list of the output typ names
         private Dictionary<String, List<String>> proceduresToOutputTypes;
+        // tells for a procedure given by its name whether it is external
+        private Dictionary<String, bool> proceduresToIsExternal;
 
         // maps function names available in the .grg to compile to the list of the input typ names
         private Dictionary<String, List<String>> functionsToInputTypes;
         // maps function names available in the .grg to compile to the list of the output typ name
         private Dictionary<String, String> functionsToOutputType;
+        // tells for a function given by its name whether it is external
+        private Dictionary<String, bool> functionsToIsExternal;
 
         // returns rule or sequence name to input types dictionary depending on argument
         private Dictionary<String, List<String>> toInputTypes(bool rule) { return rule ? rulesToInputTypes : sequencesToInputTypes; }
@@ -777,6 +797,16 @@ namespace de.unika.ipd.grGen.libGr
         /// the model giving access to graph element types for checking
         /// </summary>
         public override IGraphModel Model { get { return model; } }
+
+        public override bool IsProcedureCallExternal(ProcedureInvocationParameterBindings paramBindings)
+        {
+            return proceduresToIsExternal[paramBindings.PackagePrefixedName];
+        }
+
+        public override bool IsFunctionCallExternal(FunctionInvocationParameterBindings paramBindings)
+        {
+            return functionsToIsExternal[paramBindings.PackagePrefixedName];
+        }
 
         public override string TypeOfTopLevelEntityInRule(string ruleName, string entityName)
         {

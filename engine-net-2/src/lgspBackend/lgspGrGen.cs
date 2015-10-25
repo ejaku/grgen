@@ -1102,8 +1102,10 @@ namespace de.unika.ipd.grGen.lgsp
             Dictionary<String, List<String>> sequencesToOutputTypes;
             Dictionary<String, List<String>> proceduresToInputTypes;
             Dictionary<String, List<String>> proceduresToOutputTypes;
+            Dictionary<String, bool> proceduresToIsExternal;
             Dictionary<String, List<String>> functionsToInputTypes;
             Dictionary<String, String> functionsToOutputType;
+            Dictionary<String, bool> functionsToIsExternal;
             Dictionary<String, List<String>> rulesToTopLevelEntities;
             Dictionary<String, List<String>> rulesToTopLevelEntityTypes;
             CollectActionParameterTypes(ruleAndMatchingPatterns, model,
@@ -1111,16 +1113,16 @@ namespace de.unika.ipd.grGen.lgsp
                 out rulesToInputTypes, out rulesToOutputTypes,
                 out rulesToTopLevelEntities, out rulesToTopLevelEntityTypes,
                 out sequencesToInputTypes, out sequencesToOutputTypes,
-                out proceduresToInputTypes, out proceduresToOutputTypes,
-                out functionsToInputTypes, out functionsToOutputType);
+                out proceduresToInputTypes, out proceduresToOutputTypes, out proceduresToIsExternal,
+                out functionsToInputTypes, out functionsToOutputType, out functionsToIsExternal);
 
             LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(this, model,
                 rulesToFilters, filterFunctionsToInputTypes,
                 rulesToInputTypes, rulesToOutputTypes,
                 rulesToTopLevelEntities, rulesToTopLevelEntityTypes,
                 sequencesToInputTypes, sequencesToOutputTypes,
-                proceduresToInputTypes, proceduresToOutputTypes,
-                functionsToInputTypes, functionsToOutputType);
+                proceduresToInputTypes, proceduresToOutputTypes, proceduresToIsExternal,
+                functionsToInputTypes, functionsToOutputType, functionsToIsExternal);
 
             ///////////////////////////////////////////////
             // generate external extension source if needed (cause there are external action extension)
@@ -1880,8 +1882,8 @@ namespace de.unika.ipd.grGen.lgsp
             out Dictionary<String, List<String>> rulesToInputTypes, out Dictionary<String, List<String>> rulesToOutputTypes,
             out Dictionary<String, List<String>> rulesToTopLevelEntities, out Dictionary<String, List<String>> rulesToTopLevelEntityTypes,
             out Dictionary<String, List<String>> sequencesToInputTypes, out Dictionary<String, List<String>> sequencesToOutputTypes,
-            out Dictionary<String, List<String>> proceduresToInputTypes, out Dictionary<String, List<String>> proceduresToOutputTypes,
-            out Dictionary<String, List<String>> functionsToInputTypes, out Dictionary<String, String> functionsToOutputType)
+            out Dictionary<String, List<String>> proceduresToInputTypes, out Dictionary<String, List<String>> proceduresToOutputTypes, out Dictionary<String, bool> proceduresToIsExternal,
+            out Dictionary<String, List<String>> functionsToInputTypes, out Dictionary<String, String> functionsToOutputType, out Dictionary<String, bool> functionsToIsExternal)
         {
             rulesToFilters = new Dictionary<String, List<IFilter>>();
             filterFunctionsToInputTypes = new Dictionary<String, List<String>>();
@@ -1897,9 +1899,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             proceduresToInputTypes = new Dictionary<String, List<String>>();
             proceduresToOutputTypes = new Dictionary<String, List<String>>();
+            proceduresToIsExternal = new Dictionary<String, bool>();
 
             functionsToInputTypes = new Dictionary<String, List<String>>();
             functionsToOutputType = new Dictionary<String, String>();
+            functionsToIsExternal = new Dictionary<String, bool>();
 
             foreach(LGSPRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
             {
@@ -1998,6 +2002,8 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     outputTypes.Add(TypesHelper.DotNetTypeToXgrsType(outputType));
                 }
+
+                proceduresToIsExternal.Add(procedure.packagePrefixedName, procedure.IsExternal);
             }
 
             foreach(FunctionInfo function in ruleAndMatchingPatterns.Functions)
@@ -2010,6 +2016,8 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 
                 functionsToOutputType.Add(function.packagePrefixedName, TypesHelper.DotNetTypeToXgrsType(function.output));
+
+                functionsToIsExternal.Add(function.packagePrefixedName, function.IsExternal);
             }
         }
 

@@ -25,15 +25,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="package">null if this is a global pattern graph, otherwise the package the pattern graph is contained in.</param>
         /// <param name="packagePrefixedName">The name of the pattern graph in case of a global type,
         /// the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).</param>
+        /// <param name="isExternal">Tells whether the function is an externally defined one or an internal one.</param>
         /// <param name="inputNames">The names of the input parameters.</param>
         /// <param name="inputs">The types of the input parameters.</param>
         /// <param name="output">The type of the output parameter.</param>
-        public FunctionInfo(String name, String package, String packagePrefixedName, 
+        public FunctionInfo(String name, String package, String packagePrefixedName, bool isExternal,
             String[] inputNames, GrGenType[] inputs, GrGenType output)
         {
             this.name = name;
             this.package = package;
             this.packagePrefixedName = packagePrefixedName;
+            this.isExternal = isExternal;
             this.inputNames = inputNames;
             this.inputs = inputs;
             this.output = output;
@@ -48,6 +50,7 @@ namespace de.unika.ipd.grGen.libGr
         public string[] InputNames { get { return inputNames; } }
         public GrGenType[] Inputs { get { return inputs; } }
         public GrGenType Output { get { return output; } }
+        public bool IsExternal { get { return isExternal; } }
 
         /// <summary>
         /// The name of the function.
@@ -84,6 +87,11 @@ namespace de.unika.ipd.grGen.libGr
         /// The GrGen type of the function return value.
         /// </summary>
         public GrGenType output;
+
+        /// <summary>
+        /// Tells whether the function is an externally defined one or an internal one
+        /// </summary>
+        public bool isExternal;
 
         /// <summary>
         /// Applies this function with the given action environment on the given graph.

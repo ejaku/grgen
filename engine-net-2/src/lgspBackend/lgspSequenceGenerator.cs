@@ -72,11 +72,15 @@ namespace de.unika.ipd.grGen.lgsp
         Dictionary<String, List<String>> proceduresToInputTypes;
         // maps procedure names available in the .grg to compile to the list of the output typ names
         Dictionary<String, List<String>> proceduresToOutputTypes;
+        // tells for a procedure given by its name whether it is external
+        Dictionary<String, bool> proceduresToIsExternal;
         
         // maps function names available in the .grg to compile to the list of the input typ names
         Dictionary<String, List<String>> functionsToInputTypes;
         // maps function names available in the .grg to compile to the output typ name
         Dictionary<String, String> functionsToOutputType;
+        // tells for a function given by its name whether it is external
+        Dictionary<String, bool> functionsToIsExternal;
 
         // array containing the names of the rules available in the .grg to compile
         String[] ruleNames;
@@ -110,8 +114,8 @@ namespace de.unika.ipd.grGen.lgsp
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
             Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
-            Dictionary<String, List<String>> proceduresToInputTypes, Dictionary<String, List<String>> proceduresToOutputTypes,
-            Dictionary<String, List<String>> functionsToInputTypes, Dictionary<String, String> functionsToOutputType)
+            Dictionary<String, List<String>> proceduresToInputTypes, Dictionary<String, List<String>> proceduresToOutputTypes, Dictionary<String, bool> proceduresToIsExternal,
+            Dictionary<String, List<String>> functionsToInputTypes, Dictionary<String, String> functionsToOutputType, Dictionary<String, bool> functionsToIsExternal)
         {
             this.gen = gen;
             this.model = model;
@@ -125,8 +129,10 @@ namespace de.unika.ipd.grGen.lgsp
             this.sequencesToOutputTypes = sequencesToOutputTypes;
             this.proceduresToInputTypes = proceduresToInputTypes;
             this.proceduresToOutputTypes = proceduresToOutputTypes;
+            this.proceduresToIsExternal = proceduresToIsExternal;
             this.functionsToInputTypes = functionsToInputTypes;
             this.functionsToOutputType = functionsToOutputType;
+            this.functionsToIsExternal = functionsToIsExternal;
 
             // extract rule names from domain of rule names to input types map
             ruleNames = new String[rulesToInputTypes.Count];
@@ -185,8 +191,8 @@ namespace de.unika.ipd.grGen.lgsp
                 rulesToInputTypes, rulesToOutputTypes, 
                 rulesToTopLevelEntities, rulesToTopLevelEntityTypes,
                 sequencesToInputTypes, sequencesToOutputTypes,
-                proceduresToInputTypes, proceduresToOutputTypes,
-                functionsToInputTypes, functionsToOutputType,
+                proceduresToInputTypes, proceduresToOutputTypes, proceduresToIsExternal,
+                functionsToInputTypes, functionsToOutputType, functionsToIsExternal,
                 model);
         }
 
@@ -3310,8 +3316,10 @@ namespace de.unika.ipd.grGen.lgsp
                     if(returnParameterDeclarations.Length != 0)
                         source.AppendFront(returnParameterDeclarations + "\n");
 
-                    source.AppendFrontFormat("GRGEN_ACTIONS.{0}Procedures.", 
-                        TypesHelper.GetPackagePrefixDot(seqCall.ParamBindings.Package));
+                    if(seqCall.IsExternalProcedureCalled)
+                        source.AppendFront("GRGEN_EXPR.ExternalProcedures.");
+                    else
+                        source.AppendFrontFormat("GRGEN_ACTIONS.{0}Procedures.", TypesHelper.GetPackagePrefixDot(seqCall.ParamBindings.Package));
                     source.Append(seqCall.ParamBindings.Name);
                     source.Append("(procEnv, graph");
                     source.Append(BuildParameters(seqCall.ParamBindings));
@@ -5217,7 +5225,10 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionFunctionCall seqFuncCall = (SequenceExpressionFunctionCall)expr;
                     StringBuilder sb = new StringBuilder();
-                    sb.AppendFormat("GRGEN_ACTIONS.{0}Functions.", TypesHelper.GetPackagePrefixDot(seqFuncCall.ParamBindings.Package));
+                    if(seqFuncCall.IsExternalFunctionCalled)
+                        sb.Append("GRGEN_EXPR.ExternalFunctions.");
+                    else
+                        sb.AppendFormat("GRGEN_ACTIONS.{0}Functions.", TypesHelper.GetPackagePrefixDot(seqFuncCall.ParamBindings.Package));
                     sb.Append(seqFuncCall.ParamBindings.Name);
                     sb.Append("(procEnv, graph");
                     sb.Append(BuildParameters(seqFuncCall.ParamBindings));
