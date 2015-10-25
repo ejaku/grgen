@@ -69,7 +69,7 @@ rule create_personToMovie
 	modify {
 		delete(pm);
 		delete(mp);
-		emit("new @(\""+nameof(p)+"\") -:personToMovie($=\""+nameof(pm)+"\")-> @(\""+nameof(m)+"\")\n");
+		emithere("new @(\""+nameof(p)+"\") -:personToMovie($=\""+nameof(pm)+"\")-> @(\""+nameof(m)+"\")\n");
 	}
 }
 
