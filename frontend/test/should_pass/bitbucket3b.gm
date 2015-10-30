@@ -1,0 +1,4 @@
+node class MyNode {
+    testAttribute:string = "the test string!";
+}
+
