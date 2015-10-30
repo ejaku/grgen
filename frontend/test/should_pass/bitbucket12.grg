@@ -1,0 +1,10 @@
+rule other {
+    modify {
+    }
+}
+package Foo {
+    rule find {
+        modify {
+        }
+    }
+}
