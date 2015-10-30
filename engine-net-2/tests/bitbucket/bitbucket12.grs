@@ -1,0 +1,13 @@
+new graph "bitbucket/bitbucket12"
+
+new :Node
+
+exec Foo::find
+
+show num nodes
+
+exec Foo::find2
+
+show num nodes
+
+quit
