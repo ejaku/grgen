@@ -4820,6 +4820,14 @@ public class ModifyGen extends CSharpBase {
 			kindStr = "Edge";
 			isDeletedElem = state.delEdges().contains(element);
 		}
+		else if(element instanceof Variable && ((Variable)element).getType() instanceof NodeType) {
+			kindStr = "Node";
+			isDeletedElem = state.delNodes().contains(element);
+		}
+		else if(element instanceof Variable && ((Variable)element).getType() instanceof EdgeType) {
+			kindStr = "Edge";
+			isDeletedElem = state.delEdges().contains(element);
+		}
 		else assert false : "Entity is neither a node nor an edge (" + element + ")!";
 
 		if(!isDeletedElem && be.system.mayFireEvents()) {
@@ -4855,6 +4863,14 @@ public class ModifyGen extends CSharpBase {
 			isDeletedElem = state.delNodes().contains(element);
 		}
 		else if(element instanceof Edge) {
+			kindStr = "Edge";
+			isDeletedElem = state.delEdges().contains(element);
+		}
+		else if(element instanceof Variable && ((Variable)element).getType() instanceof NodeType) {
+			kindStr = "Node";
+			isDeletedElem = state.delNodes().contains(element);
+		}
+		else if(element instanceof Variable && ((Variable)element).getType() instanceof EdgeType) {
 			kindStr = "Edge";
 			isDeletedElem = state.delEdges().contains(element);
 		}

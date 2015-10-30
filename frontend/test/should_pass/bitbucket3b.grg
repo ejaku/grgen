@@ -1,0 +1,17 @@
+#using "bitbucket3b.gm"
+
+procedure DoesNotWork(){
+    for(n:Node in nodes()) {
+        emit(typeof(n));
+    }
+    for(e:Edge in edges()) {
+        emit(typeof(e));
+    }
+    def ref myNodes:array<Node> = nodes(MyNode).asArray();
+    for(n:MyNode in myNodes) {
+        n.testAttribute = "new value";
+        emit(typeof(n));
+        emit(": " + n.testAttribute + "\n");
+    }
+    return();
+}
