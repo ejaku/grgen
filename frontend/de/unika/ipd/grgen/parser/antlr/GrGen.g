@@ -208,13 +208,12 @@ textActions returns [ UnitNode main = null ]
 
 	: ( usingDecl[modelChilds] )*
 	
-	( globalVarDecl )*
-
-	( pack=packageActionDecl { packages.addChild(pack); } )*
-
-	( declsPatternMatchingOrAttributeEvaluationUnits[
-			patternChilds, actionChilds, filterChilds, functionChilds, procedureChilds, sequenceChilds]
-	)? EOF
+       ( globalVarDecl
+       | ( pack=packageActionDecl { packages.addChild(pack); } )
+       | (declsPatternMatchingOrAttributeEvaluationUnitWithModifier[
+                       patternChilds, actionChilds, filterChilds, functionChilds, procedureChilds, sequenceChilds])
+       )*
+       EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
@@ -370,9 +369,9 @@ packageActionDecl returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode<IdentNode> filterChilds = new CollectNode<IdentNode>();
 	}
 	: PACKAGE id=packageIdentDecl LBRACE { env.pushScope(id); }
-		( declsPatternMatchingOrAttributeEvaluationUnits[
+               ( declsPatternMatchingOrAttributeEvaluationUnitWithModifier[
 			patternChilds, actionChilds, filterChilds, functionChilds, procedureChilds, sequenceChilds]
-		)?
+               )*
 	  RBRACE
 	  {
 			PackageActionTypeNode pt = new PackageActionTypeNode(patternChilds, actionChilds, filterChilds,
@@ -382,16 +381,16 @@ packageActionDecl returns [ IdentNode res = env.getDummyIdent() ]
 	  }
 	  { env.popScope(); }
 	;
-	
-declsPatternMatchingOrAttributeEvaluationUnits [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds,
+
+declsPatternMatchingOrAttributeEvaluationUnitWithModifier [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds,
 													CollectNode<IdentNode> filterChilds, CollectNode<IdentNode> functionChilds, 
 													CollectNode<IdentNode> procedureChilds, CollectNode<IdentNode> sequenceChilds ]
 	@init{ mod = 0; }
 	: ( mod=patternModifiers declPatternMatchingOrAttributeEvaluationUnit[
 			patternChilds, actionChilds, filterChilds, functionChilds, procedureChilds, sequenceChilds, mod]
-	  )+
+         )
 	;
-	
+
 patternModifiers returns [ int res = 0 ]
 	: ( m=patternModifier[ res ]  { res = m; } )*
 	;
