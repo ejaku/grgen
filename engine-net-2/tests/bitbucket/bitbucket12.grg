@@ -1,0 +1,22 @@
+rule other {
+	modify {
+	}
+}
+package Foo {
+	// this checks whether the dpo modifier is applied only to its target find
+	// or forwarded due to a badly formulated modifier grammar also to the next rule
+	dpo rule find {
+		a:Node; b:Node; hom(a,b);
+		modify {
+			delete(a);
+			// keep b --> according to dpo this is forbidden if a==b
+		}
+	}
+	rule find2 {
+		a:Node; b:Node; hom(a,b);
+		modify {
+			delete(a);
+			// keep b --> with non-dpo, default spo, this must delete the node in case of a==b
+		}
+	}
+}
