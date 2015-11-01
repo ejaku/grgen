@@ -6688,7 +6688,8 @@
             The GrGen types of the procedure return values.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ProcedureInfo.#ctor(System.String,System.String,System.String,System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType[])">
+        <!-- Ungültiger XML-Kommentar wurde für den Member "P:de.unika.ipd.grGen.libGr.IProcedureDefinition.IsExternal" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.ProcedureInfo.#ctor(System.String,System.String,System.String,System.Boolean,System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType[])">
             <summary>
             Constructs a ProcedureInfo object.
             </summary>
@@ -6696,6 +6697,7 @@
             <param name="package">null if this is a global pattern graph, otherwise the package the pattern graph is contained in.</param>
             <param name="packagePrefixedName">The name of the pattern graph in case of a global type,
             the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).</param>
+            <param name="isExternal">Tells whether the procedure is an externally defined one or an internal one.</param>
             <param name="inputNames">The names of the input parameters.</param>
             <param name="inputs">The types of the input parameters.</param>
             <param name="outputs">The types of the output parameters.</param>
@@ -6739,6 +6741,11 @@
         <member name="F:de.unika.ipd.grGen.libGr.ProcedureInfo.ReturnArray">
             <summary>
             Performance optimization: saves us usage of new in implementing the Apply method for returning an array.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ProcedureInfo.isExternal">
+            <summary>
+            Tells whether the procedure is an externally defined one or an internal one
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ProcedureInfo.Apply(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.ProcedureInvocationParameterBindings)">
@@ -8363,7 +8370,8 @@
             The GrGen type of the function return value.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.FunctionInfo.#ctor(System.String,System.String,System.String,System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType)">
+        <!-- Ungültiger XML-Kommentar wurde für den Member "P:de.unika.ipd.grGen.libGr.IFunctionDefinition.IsExternal" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.FunctionInfo.#ctor(System.String,System.String,System.String,System.Boolean,System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType)">
             <summary>
             Constructs a FunctionInfo object.
             </summary>
@@ -8371,6 +8379,7 @@
             <param name="package">null if this is a global pattern graph, otherwise the package the pattern graph is contained in.</param>
             <param name="packagePrefixedName">The name of the pattern graph in case of a global type,
             the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).</param>
+            <param name="isExternal">Tells whether the function is an externally defined one or an internal one.</param>
             <param name="inputNames">The names of the input parameters.</param>
             <param name="inputs">The types of the input parameters.</param>
             <param name="output">The type of the output parameter.</param>
@@ -8409,6 +8418,11 @@
         <member name="F:de.unika.ipd.grGen.libGr.FunctionInfo.output">
             <summary>
             The GrGen type of the function return value.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FunctionInfo.isExternal">
+            <summary>
+            Tells whether the function is an externally defined one or an internal one
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.FunctionInfo.Apply(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.FunctionInvocationParameterBindings)">
