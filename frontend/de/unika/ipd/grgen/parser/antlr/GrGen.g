@@ -7,8 +7,7 @@
  
 /*
  * GrGen model and rule specification language grammar for ANTLR 3
- * @author Sebastian Hack, Daniel Grund, Rubino Geiss, Adam Szalkowski, Veit Batz, Edgar Jakumeit, Sebastian Buchwald, Moritz Kroll
- * @version $Id: base.g 20237 2008-06-24 15:59:24Z eja $
+ * @author Sebastian Hack, Daniel Grund, Rubino Geiss, Adam Szalkowski, Veit Batz, Edgar Jakumeit, Sebastian Buchwald, Moritz Kroll, Peter Grüner
 */
 
 grammar GrGen;

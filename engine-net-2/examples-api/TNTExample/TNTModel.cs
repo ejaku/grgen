@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Thu Sep 03 09:30:56 CEST 2015
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Nov 01 11:28:41 CET 2015
 
 using System;
 using System.Collections.Generic;

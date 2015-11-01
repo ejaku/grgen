@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Thu Sep 03 09:30:22 CEST 2015
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sun Nov 01 11:28:10 CET 2015
 
 using System;
 using System.Collections.Generic;
@@ -1952,8 +1952,8 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 			rules = new GRGEN_LGSP.LGSPRulePattern[5];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+5];
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[9];
-			functions = new GRGEN_LIBGR.FunctionInfo[0];
-			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
+			functions = new GRGEN_LIBGR.FunctionInfo[0+0];
+			procedures = new GRGEN_LIBGR.ProcedureInfo[0+0];
 			packages = new string[0];
 			rules[0] = Rule_filterBase.Instance;
 			rulesAndSubpatterns[0+0] = Rule_filterBase.Instance;
