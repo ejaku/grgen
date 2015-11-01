@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Thu Sep 03 09:30:17 CEST 2015
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Nov 01 11:28:05 CET 2015
 
 using System;
 using System.Collections.Generic;
@@ -767,6 +767,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"fn",
 						null, "fn",
+						false,
 						new String[] { "ss",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)),  },
 						GRGEN_LIBGR.VarType.GetVarType(typeof(string))
@@ -788,6 +789,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"fn2",
 						null, "fn2",
+						false,
 						new String[] { "oo",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPownHome)),  },
 						GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPownHome))
@@ -809,6 +811,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"pc",
 						null, "pc",
+						false,
 						new String[] { "ss",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)),  },
 						new GRGEN_LIBGR.GrGenType[] {  }
@@ -830,6 +833,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"pc2",
 						null, "pc2",
+						false,
 						new String[] { "ss", "oo",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)), GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPown)),  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)), GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPown)),  }
@@ -1908,6 +1912,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"fn",
 						null, "fn",
+						false,
 						new String[] { "ss",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)),  },
 						GRGEN_LIBGR.VarType.GetVarType(typeof(string))
@@ -1929,6 +1934,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"fn2",
 						null, "fn2",
+						false,
 						new String[] { "oo",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPownHome)),  },
 						GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPownHome))
@@ -1950,6 +1956,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"pc",
 						null, "pc",
+						false,
 						new String[] { "ss",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)),  },
 						new GRGEN_LIBGR.GrGenType[] {  }
@@ -1971,6 +1978,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"pc2",
 						null, "pc2",
+						false,
 						new String[] { "ss", "oo",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)), GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPown)),  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)), GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPown)),  }
@@ -3096,6 +3104,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"fn",
 						null, "fn",
+						true,
 						new String[] { "in_0",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)),  },
 						GRGEN_LIBGR.VarType.GetVarType(typeof(string))
@@ -3117,6 +3126,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"pc",
 						null, "pc",
+						true,
 						new String[] { "in_0",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)),  },
 						new GRGEN_LIBGR.GrGenType[] {  }
@@ -3184,6 +3194,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"fn",
 						null, "fn",
+						true,
 						new String[] { "in_0",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)),  },
 						GRGEN_LIBGR.VarType.GetVarType(typeof(string))
@@ -3205,6 +3216,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"fn2",
 						null, "fn2",
+						true,
 						new String[] { "in_0",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPownHome)),  },
 						GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPownHome))
@@ -3226,6 +3238,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"fn3",
 						null, "fn3",
+						true,
 						new String[] {  },
 						new GRGEN_LIBGR.GrGenType[] {  },
 						GRGEN_LIBGR.VarType.GetVarType(typeof(string))
@@ -3247,6 +3260,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"pc",
 						null, "pc",
+						true,
 						new String[] { "in_0",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)),  },
 						new GRGEN_LIBGR.GrGenType[] {  }
@@ -3268,6 +3282,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 					: base(
 						"pc2",
 						null, "pc2",
+						true,
 						new String[] { "in_0", "in_1",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)), GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.Own)),  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)), GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.Own)),  }

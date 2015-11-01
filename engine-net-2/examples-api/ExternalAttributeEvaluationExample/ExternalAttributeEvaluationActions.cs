@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Thu Sep 03 09:30:17 CEST 2015
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Nov 01 11:28:06 CET 2015
 
 using System;
 using System.Collections.Generic;
@@ -1852,6 +1852,448 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 	}
 
+	public class FunctionInfo_foo : GRGEN_LIBGR.FunctionInfo
+	{
+		private static FunctionInfo_foo instance = null;
+		public static FunctionInfo_foo Instance { get { if (instance==null) { instance = new FunctionInfo_foo(); } return instance; } }
+
+		private FunctionInfo_foo()
+					: base(
+						"foo",
+						null, "foo",
+						true,
+						new String[] { "in_0", "in_1", "in_2", "in_3",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), GRGEN_LIBGR.VarType.GetVarType(typeof(double)), GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.ENUM_Enu)), GRGEN_LIBGR.VarType.GetVarType(typeof(string)),  },
+						GRGEN_LIBGR.VarType.GetVarType(typeof(bool))
+					  )
+		{
+		}
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		{
+			return GRGEN_EXPR.ExternalFunctions.foo((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (int)paramBindings.Arguments[0], (double)paramBindings.Arguments[1], (GRGEN_MODEL.ENUM_Enu)paramBindings.Arguments[2], (string)paramBindings.Arguments[3]);
+		}
+	}
+
+	public class FunctionInfo_bar : GRGEN_LIBGR.FunctionInfo
+	{
+		private static FunctionInfo_bar instance = null;
+		public static FunctionInfo_bar Instance { get { if (instance==null) { instance = new FunctionInfo_bar(); } return instance; } }
+
+		private FunctionInfo_bar()
+					: base(
+						"bar",
+						null, "bar",
+						true,
+						new String[] { "in_0", "in_1",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(object)), GRGEN_LIBGR.VarType.GetVarType(typeof(object)),  },
+						GRGEN_LIBGR.VarType.GetVarType(typeof(object))
+					  )
+		{
+		}
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		{
+			return GRGEN_EXPR.ExternalFunctions.bar((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (object)paramBindings.Arguments[0], (object)paramBindings.Arguments[1]);
+		}
+	}
+
+	public class FunctionInfo_isnull : GRGEN_LIBGR.FunctionInfo
+	{
+		private static FunctionInfo_isnull instance = null;
+		public static FunctionInfo_isnull Instance { get { if (instance==null) { instance = new FunctionInfo_isnull(); } return instance; } }
+
+		private FunctionInfo_isnull()
+					: base(
+						"isnull",
+						null, "isnull",
+						true,
+						new String[] { "in_0",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(object)),  },
+						GRGEN_LIBGR.VarType.GetVarType(typeof(bool))
+					  )
+		{
+		}
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		{
+			return GRGEN_EXPR.ExternalFunctions.isnull((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (object)paramBindings.Arguments[0]);
+		}
+	}
+
+	public class FunctionInfo_bla : GRGEN_LIBGR.FunctionInfo
+	{
+		private static FunctionInfo_bla instance = null;
+		public static FunctionInfo_bla Instance { get { if (instance==null) { instance = new FunctionInfo_bla(); } return instance; } }
+
+		private FunctionInfo_bla()
+					: base(
+						"bla",
+						null, "bla",
+						true,
+						new String[] { "in_0", "in_1",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_N.typeVar, GRGEN_MODEL.EdgeType_E.typeVar,  },
+						GRGEN_LIBGR.VarType.GetVarType(typeof(bool))
+					  )
+		{
+		}
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		{
+			return GRGEN_EXPR.ExternalFunctions.bla((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.IN)paramBindings.Arguments[0], (GRGEN_MODEL.IE)paramBindings.Arguments[1]);
+		}
+	}
+
+	public class FunctionInfo_blo : GRGEN_LIBGR.FunctionInfo
+	{
+		private static FunctionInfo_blo instance = null;
+		public static FunctionInfo_blo Instance { get { if (instance==null) { instance = new FunctionInfo_blo(); } return instance; } }
+
+		private FunctionInfo_blo()
+					: base(
+						"blo",
+						null, "blo",
+						true,
+						new String[] { "in_0", "in_1",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.EdgeType_Edge.typeVar,  },
+						GRGEN_MODEL.NodeType_N.typeVar
+					  )
+		{
+		}
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		{
+			return GRGEN_EXPR.ExternalFunctions.blo((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_LIBGR.INode)paramBindings.Arguments[0], (GRGEN_LIBGR.IEdge)paramBindings.Arguments[1]);
+		}
+	}
+
+	public class FunctionInfo_har : GRGEN_LIBGR.FunctionInfo
+	{
+		private static FunctionInfo_har instance = null;
+		public static FunctionInfo_har Instance { get { if (instance==null) { instance = new FunctionInfo_har(); } return instance; } }
+
+		private FunctionInfo_har()
+					: base(
+						"har",
+						null, "har",
+						true,
+						new String[] { "in_0", "in_1",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.Own)), GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPown)),  },
+						GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPown))
+					  )
+		{
+		}
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		{
+			return GRGEN_EXPR.ExternalFunctions.har((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.Own)paramBindings.Arguments[0], (GRGEN_MODEL.OwnPown)paramBindings.Arguments[1]);
+		}
+	}
+
+	public class FunctionInfo_hur : GRGEN_LIBGR.FunctionInfo
+	{
+		private static FunctionInfo_hur instance = null;
+		public static FunctionInfo_hur Instance { get { if (instance==null) { instance = new FunctionInfo_hur(); } return instance; } }
+
+		private FunctionInfo_hur()
+					: base(
+						"hur",
+						null, "hur",
+						true,
+						new String[] { "in_0",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPown)),  },
+						GRGEN_LIBGR.VarType.GetVarType(typeof(bool))
+					  )
+		{
+		}
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		{
+			return GRGEN_EXPR.ExternalFunctions.hur((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.OwnPown)paramBindings.Arguments[0]);
+		}
+	}
+
+	public class FunctionInfo_hurdur : GRGEN_LIBGR.FunctionInfo
+	{
+		private static FunctionInfo_hurdur instance = null;
+		public static FunctionInfo_hurdur Instance { get { if (instance==null) { instance = new FunctionInfo_hurdur(); } return instance; } }
+
+		private FunctionInfo_hurdur()
+					: base(
+						"hurdur",
+						null, "hurdur",
+						true,
+						new String[] { "in_0",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPownHome)),  },
+						GRGEN_LIBGR.VarType.GetVarType(typeof(bool))
+					  )
+		{
+		}
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		{
+			return GRGEN_EXPR.ExternalFunctions.hurdur((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.OwnPownHome)paramBindings.Arguments[0]);
+		}
+	}
+
+	public class FunctionInfo_own : GRGEN_LIBGR.FunctionInfo
+	{
+		private static FunctionInfo_own instance = null;
+		public static FunctionInfo_own Instance { get { if (instance==null) { instance = new FunctionInfo_own(); } return instance; } }
+
+		private FunctionInfo_own()
+					: base(
+						"own",
+						null, "own",
+						true,
+						new String[] {  },
+						new GRGEN_LIBGR.GrGenType[] {  },
+						GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.Own))
+					  )
+		{
+		}
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		{
+			return GRGEN_EXPR.ExternalFunctions.own((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph);
+		}
+	}
+
+	public class FunctionInfo_ownPown : GRGEN_LIBGR.FunctionInfo
+	{
+		private static FunctionInfo_ownPown instance = null;
+		public static FunctionInfo_ownPown Instance { get { if (instance==null) { instance = new FunctionInfo_ownPown(); } return instance; } }
+
+		private FunctionInfo_ownPown()
+					: base(
+						"ownPown",
+						null, "ownPown",
+						true,
+						new String[] {  },
+						new GRGEN_LIBGR.GrGenType[] {  },
+						GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPown))
+					  )
+		{
+		}
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		{
+			return GRGEN_EXPR.ExternalFunctions.ownPown((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph);
+		}
+	}
+
+	public class FunctionInfo_ownPownHome : GRGEN_LIBGR.FunctionInfo
+	{
+		private static FunctionInfo_ownPownHome instance = null;
+		public static FunctionInfo_ownPownHome Instance { get { if (instance==null) { instance = new FunctionInfo_ownPownHome(); } return instance; } }
+
+		private FunctionInfo_ownPownHome()
+					: base(
+						"ownPownHome",
+						null, "ownPownHome",
+						true,
+						new String[] {  },
+						new GRGEN_LIBGR.GrGenType[] {  },
+						GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPownHome))
+					  )
+		{
+		}
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		{
+			return GRGEN_EXPR.ExternalFunctions.ownPownHome((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph);
+		}
+	}
+
+	public class ProcedureInfo_fooProc : GRGEN_LIBGR.ProcedureInfo
+	{
+		private static ProcedureInfo_fooProc instance = null;
+		public static ProcedureInfo_fooProc Instance { get { if (instance==null) { instance = new ProcedureInfo_fooProc(); } return instance; } }
+
+		private ProcedureInfo_fooProc()
+					: base(
+						"fooProc",
+						null, "fooProc",
+						true,
+						new String[] { "in_0", "in_1", "in_2", "in_3",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), GRGEN_LIBGR.VarType.GetVarType(typeof(double)), GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.ENUM_Enu)), GRGEN_LIBGR.VarType.GetVarType(typeof(string)),  },
+						new GRGEN_LIBGR.GrGenType[] {  }
+					  )
+		{
+		}
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		{
+			GRGEN_EXPR.ExternalProcedures.fooProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (int)paramBindings.Arguments[0], (double)paramBindings.Arguments[1], (GRGEN_MODEL.ENUM_Enu)paramBindings.Arguments[2], (string)paramBindings.Arguments[3]);
+			return ReturnArray;
+		}
+	}
+
+	public class ProcedureInfo_barProc : GRGEN_LIBGR.ProcedureInfo
+	{
+		private static ProcedureInfo_barProc instance = null;
+		public static ProcedureInfo_barProc Instance { get { if (instance==null) { instance = new ProcedureInfo_barProc(); } return instance; } }
+
+		private ProcedureInfo_barProc()
+					: base(
+						"barProc",
+						null, "barProc",
+						true,
+						new String[] { "in_0", "in_1",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(object)), GRGEN_LIBGR.VarType.GetVarType(typeof(object)),  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(object)),  }
+					  )
+		{
+		}
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		{
+			object _out_param_0;
+			GRGEN_EXPR.ExternalProcedures.barProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (object)paramBindings.Arguments[0], (object)paramBindings.Arguments[1], out _out_param_0);
+			ReturnArray[0] = _out_param_0;
+			return ReturnArray;
+		}
+	}
+
+	public class ProcedureInfo_isnullProc : GRGEN_LIBGR.ProcedureInfo
+	{
+		private static ProcedureInfo_isnullProc instance = null;
+		public static ProcedureInfo_isnullProc Instance { get { if (instance==null) { instance = new ProcedureInfo_isnullProc(); } return instance; } }
+
+		private ProcedureInfo_isnullProc()
+					: base(
+						"isnullProc",
+						null, "isnullProc",
+						true,
+						new String[] { "in_0",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(object)),  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(bool)),  }
+					  )
+		{
+		}
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		{
+			bool _out_param_0;
+			GRGEN_EXPR.ExternalProcedures.isnullProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (object)paramBindings.Arguments[0], out _out_param_0);
+			ReturnArray[0] = _out_param_0;
+			return ReturnArray;
+		}
+	}
+
+	public class ProcedureInfo_blaProc : GRGEN_LIBGR.ProcedureInfo
+	{
+		private static ProcedureInfo_blaProc instance = null;
+		public static ProcedureInfo_blaProc Instance { get { if (instance==null) { instance = new ProcedureInfo_blaProc(); } return instance; } }
+
+		private ProcedureInfo_blaProc()
+					: base(
+						"blaProc",
+						null, "blaProc",
+						true,
+						new String[] { "in_0", "in_1",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_N.typeVar, GRGEN_MODEL.EdgeType_E.typeVar,  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(bool)), GRGEN_LIBGR.VarType.GetVarType(typeof(bool)),  }
+					  )
+		{
+		}
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		{
+			bool _out_param_0;
+			bool _out_param_1;
+			GRGEN_EXPR.ExternalProcedures.blaProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.IN)paramBindings.Arguments[0], (GRGEN_MODEL.IE)paramBindings.Arguments[1], out _out_param_0, out _out_param_1);
+			ReturnArray[0] = _out_param_0;
+			ReturnArray[1] = _out_param_1;
+			return ReturnArray;
+		}
+	}
+
+	public class ProcedureInfo_bloProc : GRGEN_LIBGR.ProcedureInfo
+	{
+		private static ProcedureInfo_bloProc instance = null;
+		public static ProcedureInfo_bloProc Instance { get { if (instance==null) { instance = new ProcedureInfo_bloProc(); } return instance; } }
+
+		private ProcedureInfo_bloProc()
+					: base(
+						"bloProc",
+						null, "bloProc",
+						true,
+						new String[] { "in_0", "in_1",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.EdgeType_Edge.typeVar,  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_N.typeVar,  }
+					  )
+		{
+		}
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		{
+			GRGEN_MODEL.IN _out_param_0;
+			GRGEN_EXPR.ExternalProcedures.bloProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_LIBGR.INode)paramBindings.Arguments[0], (GRGEN_LIBGR.IEdge)paramBindings.Arguments[1], out _out_param_0);
+			ReturnArray[0] = _out_param_0;
+			return ReturnArray;
+		}
+	}
+
+	public class ProcedureInfo_harProc : GRGEN_LIBGR.ProcedureInfo
+	{
+		private static ProcedureInfo_harProc instance = null;
+		public static ProcedureInfo_harProc Instance { get { if (instance==null) { instance = new ProcedureInfo_harProc(); } return instance; } }
+
+		private ProcedureInfo_harProc()
+					: base(
+						"harProc",
+						null, "harProc",
+						true,
+						new String[] { "in_0", "in_1",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.Own)), GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPown)),  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPown)), GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.Own)), GRGEN_MODEL.NodeType_N.typeVar,  }
+					  )
+		{
+		}
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		{
+			GRGEN_MODEL.OwnPown _out_param_0;
+			GRGEN_MODEL.Own _out_param_1;
+			GRGEN_MODEL.IN _out_param_2;
+			GRGEN_EXPR.ExternalProcedures.harProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.Own)paramBindings.Arguments[0], (GRGEN_MODEL.OwnPown)paramBindings.Arguments[1], out _out_param_0, out _out_param_1, out _out_param_2);
+			ReturnArray[0] = _out_param_0;
+			ReturnArray[1] = _out_param_1;
+			ReturnArray[2] = _out_param_2;
+			return ReturnArray;
+		}
+	}
+
+	public class ProcedureInfo_hurProc : GRGEN_LIBGR.ProcedureInfo
+	{
+		private static ProcedureInfo_hurProc instance = null;
+		public static ProcedureInfo_hurProc Instance { get { if (instance==null) { instance = new ProcedureInfo_hurProc(); } return instance; } }
+
+		private ProcedureInfo_hurProc()
+					: base(
+						"hurProc",
+						null, "hurProc",
+						true,
+						new String[] { "in_0",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPown)),  },
+						new GRGEN_LIBGR.GrGenType[] {  }
+					  )
+		{
+		}
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		{
+			GRGEN_EXPR.ExternalProcedures.hurProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.OwnPown)paramBindings.Arguments[0]);
+			return ReturnArray;
+		}
+	}
+
+	public class ProcedureInfo_hurdurProc : GRGEN_LIBGR.ProcedureInfo
+	{
+		private static ProcedureInfo_hurdurProc instance = null;
+		public static ProcedureInfo_hurdurProc Instance { get { if (instance==null) { instance = new ProcedureInfo_hurdurProc(); } return instance; } }
+
+		private ProcedureInfo_hurdurProc()
+					: base(
+						"hurdurProc",
+						null, "hurdurProc",
+						true,
+						new String[] { "in_0",  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(GRGEN_MODEL.OwnPownHome)),  },
+						new GRGEN_LIBGR.GrGenType[] {  }
+					  )
+		{
+		}
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		{
+			GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.OwnPownHome)paramBindings.Arguments[0]);
+			return ReturnArray;
+		}
+	}
+
 
 	//-----------------------------------------------------------
 
@@ -1863,8 +2305,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			rules = new GRGEN_LGSP.LGSPRulePattern[6];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+6];
 			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
-			functions = new GRGEN_LIBGR.FunctionInfo[0];
-			procedures = new GRGEN_LIBGR.ProcedureInfo[0];
+			functions = new GRGEN_LIBGR.FunctionInfo[0+11];
+			procedures = new GRGEN_LIBGR.ProcedureInfo[0+8];
 			packages = new string[0];
 			rules[0] = Rule_init.Instance;
 			rulesAndSubpatterns[0+0] = Rule_init.Instance;
@@ -1878,6 +2320,25 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			rulesAndSubpatterns[0+4] = Rule_testCopy.Instance;
 			rules[5] = Rule_testComparison.Instance;
 			rulesAndSubpatterns[0+5] = Rule_testComparison.Instance;
+			functions[0] = FunctionInfo_foo.Instance;
+			functions[1] = FunctionInfo_bar.Instance;
+			functions[2] = FunctionInfo_isnull.Instance;
+			functions[3] = FunctionInfo_bla.Instance;
+			functions[4] = FunctionInfo_blo.Instance;
+			functions[5] = FunctionInfo_har.Instance;
+			functions[6] = FunctionInfo_hur.Instance;
+			functions[7] = FunctionInfo_hurdur.Instance;
+			functions[8] = FunctionInfo_own.Instance;
+			functions[9] = FunctionInfo_ownPown.Instance;
+			functions[10] = FunctionInfo_ownPownHome.Instance;
+			procedures[0] = ProcedureInfo_fooProc.Instance;
+			procedures[1] = ProcedureInfo_barProc.Instance;
+			procedures[2] = ProcedureInfo_isnullProc.Instance;
+			procedures[3] = ProcedureInfo_blaProc.Instance;
+			procedures[4] = ProcedureInfo_bloProc.Instance;
+			procedures[5] = ProcedureInfo_harProc.Instance;
+			procedures[6] = ProcedureInfo_hurProc.Instance;
+			procedures[7] = ProcedureInfo_hurdurProc.Instance;
 		}
 		public override GRGEN_LGSP.LGSPRulePattern[] Rules { get { return rules; } }
 		private GRGEN_LGSP.LGSPRulePattern[] rules;
@@ -3621,6 +4082,25 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             analyzer.AnalyzeNestingOfPatternGraph(Rule_testCopy.Instance.patternGraph, true);
             analyzer.AnalyzeNestingOfPatternGraph(Rule_testComparison.Instance.patternGraph, true);
             analyzer.ComputeInterPatternRelations(true);
+            namesToFunctionDefinitions.Add("foo", FunctionInfo_foo.Instance);
+            namesToFunctionDefinitions.Add("bar", FunctionInfo_bar.Instance);
+            namesToFunctionDefinitions.Add("isnull", FunctionInfo_isnull.Instance);
+            namesToFunctionDefinitions.Add("bla", FunctionInfo_bla.Instance);
+            namesToFunctionDefinitions.Add("blo", FunctionInfo_blo.Instance);
+            namesToFunctionDefinitions.Add("har", FunctionInfo_har.Instance);
+            namesToFunctionDefinitions.Add("hur", FunctionInfo_hur.Instance);
+            namesToFunctionDefinitions.Add("hurdur", FunctionInfo_hurdur.Instance);
+            namesToFunctionDefinitions.Add("own", FunctionInfo_own.Instance);
+            namesToFunctionDefinitions.Add("ownPown", FunctionInfo_ownPown.Instance);
+            namesToFunctionDefinitions.Add("ownPownHome", FunctionInfo_ownPownHome.Instance);
+            namesToProcedureDefinitions.Add("fooProc", ProcedureInfo_fooProc.Instance);
+            namesToProcedureDefinitions.Add("barProc", ProcedureInfo_barProc.Instance);
+            namesToProcedureDefinitions.Add("isnullProc", ProcedureInfo_isnullProc.Instance);
+            namesToProcedureDefinitions.Add("blaProc", ProcedureInfo_blaProc.Instance);
+            namesToProcedureDefinitions.Add("bloProc", ProcedureInfo_bloProc.Instance);
+            namesToProcedureDefinitions.Add("harProc", ProcedureInfo_harProc.Instance);
+            namesToProcedureDefinitions.Add("hurProc", ProcedureInfo_hurProc.Instance);
+            namesToProcedureDefinitions.Add("hurdurProc", ProcedureInfo_hurdurProc.Instance);
         }
         
         public IAction_init @init;
