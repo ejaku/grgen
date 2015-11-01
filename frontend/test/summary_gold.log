@@ -110,8 +110,11 @@ OK     should_pass/basic_070.grg
 OK     should_pass/basic_100.grg
 OK     should_pass/basic_300.grg
 OK     should_pass/basic_400.grg
+OK     should_pass/bitbucket10.grg
+OK     should_pass/bitbucket12.grg
 FAILED should_pass/bitbucket2.grg
 OK     should_pass/bitbucket3.grg
+OK     should_pass/bitbucket3b.grg
 OK     should_pass/bitbucket4.grg
 OK     should_pass/bitbucket4b.grg
 OK     should_pass/bitbucket5.grg
@@ -1289,6 +1292,8 @@ ERROR  should_fail/redirect_003.grg
 ERROR  should_fail/redirect_004.grg
 ERROR  should_fail/redirect_005.grg
 ERROR  should_fail/redirect_006.grg
+FAILED should_fail/reference_order_in_def_initialization.grg
+FAILED should_fail/reference_self_in_def_initialization.grg
 ERROR  should_fail/repl_000.grg
 ERROR  should_fail/repl_000b.grg
 ERROR  should_fail/repl_001a.grg
