@@ -181,6 +181,8 @@ Visualization:
   Debugging3.grs -> 0
   Debugging3when.grs -> 0
   Highlighting.grs -> 0
+  Manual.grs -> 0
+  Manual2.grs -> 0
   Visualization.grs -> 0
 WeakComponents:
   visit.grs -> 0
