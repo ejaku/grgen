@@ -1,4 +1,15 @@
-﻿v4.4.3 (2015-10-12)
+﻿v4.4.4 (2015-11-01)
+ Bugfixes / language constraint removals:
+  - bitbucket #2: _external_ functions can now be called also from sequence expressions,
+                  _external_ procedures can now be called also from sequence computations
+  - bitbucket #12: global variable declarations and package definitions can be mixed with action definitions now,
+                   previously they had to be given in the order global variables then packages then actions
+  - bitbucket #3 related: writing attributes now also works for _variables_ of node/edge type
+  - bitbucket #10: it is now ensured elements needed in index access expressions are available in the pattern
+                   (when they are not contained/directly mentioned in the nesting pattern)
+  - some further improvements/fixes in error handling
+
+v4.4.3 (2015-10-12)
  Bugfixes:
   - bitbucket #3: typeof now also works for _variables_ of node/edge type (not the same as nodes/edges)
   - bitbucket #4: control characters are now correctly escaped in constants of expressions and yields
@@ -6,7 +17,7 @@
   - bitbucket #7: fixed comparison of a container with null (container type with null type)
   - bitbucket #8: reachableEdges loop now really iterates the reachable edges instead of the nodes
     related: reachableEdges and its incoming/outgoing versions now lock the root node at start,
-	         so each edge is visited at most twice (once for incoming/outgoing)
+             so each edge is visited at most twice (once for incoming/outgoing)
   - bitbucket #9: emithere, evalhere, eval don't add elements explicitly deleted to right pattern anymore,
                   just because they are mentioned in a RHS expression
     related: added semantic check that causes an error message if deleted elements are emitted
