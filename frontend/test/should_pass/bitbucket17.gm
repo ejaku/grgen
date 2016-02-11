@@ -1,0 +1,8 @@
+node class MyNode {
+    procedure init2(var a:int, var b:int){
+        return;
+    }
+    procedure init3(var a:int, var b:int, var c:int){
+        return;
+    }
+}
