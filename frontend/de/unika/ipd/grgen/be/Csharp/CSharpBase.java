@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.be.Csharp;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,7 +24,6 @@ import java.util.Map;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.ir.containers.*;
-
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.Util;
 
@@ -2650,6 +2648,251 @@ public abstract class CSharpBase {
 		for(String annotationKey : ident.getAnnotations().keySet()) {
 			String annotationValue = ident.getAnnotations().get(annotationKey).toString();
 			sb.append("\t\t\t" + targetName+ ".Add(\"" +annotationKey + "\", \"" + annotationValue + "\");\n");
+		}
+	}
+
+	protected void forceNotConstant(List<EvalStatement> statements) {
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
+		for(EvalStatement eval : statements) {
+			eval.collectNeededEntities(needs);
+		}
+		forceNotConstant(needs);
+	}
+
+	protected void forceNotConstant(NeededEntities needs) {
+		// todo: more fine-grained never assigned, the important thing is that the constant constructor is temporary, not assigned to a variable
+		for(Expression containerExpr : needs.containerExprs) {
+			if(containerExpr instanceof MapInit) {
+				MapInit mapInit = (MapInit)containerExpr;
+				mapInit.forceNotConstant();
+			} else if(containerExpr instanceof SetInit) {
+				SetInit setInit = (SetInit)containerExpr;
+				setInit.forceNotConstant();
+			} else if(containerExpr instanceof ArrayInit) {
+				ArrayInit arrayInit = (ArrayInit)containerExpr;
+				arrayInit.forceNotConstant();
+			} else if(containerExpr instanceof DequeInit) {
+				DequeInit dequeInit = (DequeInit)containerExpr;
+				dequeInit.forceNotConstant();
+			}
+		}
+	}
+
+	protected void genLocalContainersEvals(StringBuffer sb, Collection<EvalStatement> evals,
+			List<String> staticInitializers, String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
+		for(EvalStatement eval : evals) {
+			eval.collectNeededEntities(needs);
+		}
+		genLocalContainers(sb, needs, staticInitializers, false);
+	}
+
+	protected void genLocalContainers(StringBuffer sb, NeededEntities needs, List<String> staticInitializers, boolean neverAssigned) {
+		// todo: more fine-grained never assigned, the important thing is that the constant constructor is temporary, not assigned to a variable
+		sb.append("\n");
+		for(Expression containerExpr : needs.containerExprs) {
+			if(containerExpr instanceof MapInit) {
+				MapInit mapInit = (MapInit)containerExpr;
+				if(!neverAssigned)
+					mapInit.forceNotConstant();
+				genLocalMap(sb, mapInit, staticInitializers);
+			} else if(containerExpr instanceof SetInit) {
+				SetInit setInit = (SetInit)containerExpr;
+				if(!neverAssigned)
+					setInit.forceNotConstant();
+				genLocalSet(sb, setInit, staticInitializers);
+			} else if(containerExpr instanceof ArrayInit) {
+				ArrayInit arrayInit = (ArrayInit)containerExpr;
+				if(!neverAssigned)
+					arrayInit.forceNotConstant();
+				genLocalArray(sb, arrayInit, staticInitializers);
+			} else if(containerExpr instanceof DequeInit) {
+				DequeInit dequeInit = (DequeInit)containerExpr;
+				if(!neverAssigned)
+					dequeInit.forceNotConstant();
+				genLocalDeque(sb, dequeInit, staticInitializers);
+			}
+		}
+	}
+
+	protected void genLocalMap(StringBuffer sb, MapInit mapInit, List<String> staticInitializers) {
+		String mapName = mapInit.getAnonymousMapName();
+		String attrType = formatAttributeType(mapInit.getType());
+		if(mapInit.isConstant()) {
+			sb.append("\t\tpublic static readonly " + attrType + " " + mapName + " = " +
+					"new " + attrType + "();\n");
+			staticInitializers.add("init_" + mapName);
+			sb.append("\t\tstatic void init_" + mapName + "() {\n");
+			for(MapItem item : mapInit.getMapItems()) {
+				sb.append("\t\t\t");
+				sb.append(mapName);
+				sb.append("[");
+				genExpression(sb, item.getKeyExpr(), null);
+				sb.append("] = ");
+				genExpression(sb, item.getValueExpr(), null);
+				sb.append(";\n");
+			}
+			sb.append("\t\t}\n");
+		} else {
+			sb.append("\t\tpublic static " + attrType + " fill_" + mapName + "(");
+			int itemCounter = 0;
+			boolean first = true;
+			for(MapItem item : mapInit.getMapItems()) {
+				String itemKeyType = formatType(item.getKeyExpr().getType());
+				String itemValueType = formatType(item.getValueExpr().getType());
+				if(first) {
+					sb.append(itemKeyType + " itemkey" + itemCounter + ",");
+					sb.append(itemValueType + " itemvalue" + itemCounter);
+					first = false;
+				} else {
+					sb.append(", " + itemKeyType + " itemkey" + itemCounter + ",");
+					sb.append(itemValueType + " itemvalue" + itemCounter);
+				}
+				++itemCounter;
+			}
+			sb.append(") {\n");
+			sb.append("\t\t\t" + attrType + " " + mapName + " = " +
+					"new " + attrType + "();\n");
+	
+			int itemLength = mapInit.getMapItems().size();
+			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
+				sb.append("\t\t\t" + mapName);
+				sb.append("[" + "itemkey" + itemCounter + "] = itemvalue" + itemCounter + ";\n");
+			}
+			sb.append("\t\t\treturn " + mapName + ";\n");
+			sb.append("\t\t}\n");
+		}
+	}
+
+	protected void genLocalSet(StringBuffer sb, SetInit setInit, List<String> staticInitializers) {
+		String setName = setInit.getAnonymousSetName();
+		String attrType = formatAttributeType(setInit.getType());
+		if(setInit.isConstant()) {
+			sb.append("\t\tpublic static readonly " + attrType + " " + setName + " = " +
+					"new " + attrType + "();\n");
+			staticInitializers.add("init_" + setName);
+			sb.append("\t\tstatic void init_" + setName + "() {\n");
+			for(SetItem item : setInit.getSetItems()) {
+				sb.append("\t\t\t");
+				sb.append(setName);
+				sb.append("[");
+				genExpression(sb, item.getValueExpr(), null);
+				sb.append("] = null;\n");
+			}
+			sb.append("\t\t}\n");
+		} else {
+			sb.append("\t\tpublic static " + attrType + " fill_" + setName + "(");
+			int itemCounter = 0;
+			boolean first = true;
+			for(SetItem item : setInit.getSetItems()) {
+				String itemType = formatType(item.getValueExpr().getType());
+				if(first) {
+					sb.append(itemType + " item" + itemCounter);
+					first = false;
+				} else {
+					sb.append(", " + itemType + " item" + itemCounter);
+				}
+				++itemCounter;
+			}
+			sb.append(") {\n");
+			sb.append("\t\t\t" + attrType + " " + setName + " = " +
+					"new " + attrType + "();\n");
+	
+			int itemLength = setInit.getSetItems().size();
+			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
+				sb.append("\t\t\t" + setName);
+				sb.append("[" + "item" + itemCounter + "] = null;\n");
+			}
+			sb.append("\t\t\treturn " + setName + ";\n");
+			sb.append("\t\t}\n");
+		}
+	}
+
+	protected void genLocalArray(StringBuffer sb, ArrayInit arrayInit, List<String> staticInitializers) {
+		String arrayName = arrayInit.getAnonymousArrayName();
+		String attrType = formatAttributeType(arrayInit.getType());
+		if(arrayInit.isConstant()) {
+			sb.append("\t\tpublic static readonly " + attrType + " " + arrayName + " = " +
+					"new " + attrType + "();\n");
+			staticInitializers.add("init_" + arrayName);
+			sb.append("\t\tstatic void init_" + arrayName + "() {\n");
+			for(ArrayItem item : arrayInit.getArrayItems()) {
+				sb.append("\t\t\t");
+				sb.append(arrayName);
+				sb.append(".Add(");
+				genExpression(sb, item.getValueExpr(), null);
+				sb.append(");\n");
+			}
+			sb.append("\t\t}\n");
+		} else {
+			sb.append("\t\tpublic static " + attrType + " fill_" + arrayName + "(");
+			int itemCounter = 0;
+			boolean first = true;
+			for(ArrayItem item : arrayInit.getArrayItems()) {
+				String itemType = formatType(item.getValueExpr().getType());
+				if(first) {
+					sb.append(itemType + " item" + itemCounter);
+					first = false;
+				} else {
+					sb.append(", " + itemType + " item" + itemCounter);
+				}
+				++itemCounter;
+			}
+			sb.append(") {\n");
+			sb.append("\t\t\t" + attrType + " " + arrayName + " = " +
+					"new " + attrType + "();\n");
+	
+			int itemLength = arrayInit.getArrayItems().size();
+			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
+				sb.append("\t\t\t" + arrayName);
+				sb.append(".Add(" + "item" + itemCounter + ");\n");
+			}
+			sb.append("\t\t\treturn " + arrayName + ";\n");
+			sb.append("\t\t}\n");
+		}
+	}
+
+	protected void genLocalDeque(StringBuffer sb, DequeInit dequeInit, List<String> staticInitializers) {
+		String dequeName = dequeInit.getAnonymousDequeName();
+		String attrType = formatAttributeType(dequeInit.getType());
+		if(dequeInit.isConstant()) {
+			sb.append("\t\tpublic static readonly " + attrType + " " + dequeName + " = " +
+					"new " + attrType + "();\n");
+			staticInitializers.add("init_" + dequeName);
+			sb.append("\t\tstatic void init_" + dequeName + "() {\n");
+			for(DequeItem item : dequeInit.getDequeItems()) {
+				sb.append("\t\t\t");
+				sb.append(dequeName);
+				sb.append(".Add(");
+				genExpression(sb, item.getValueExpr(), null);
+				sb.append(");\n");
+			}
+			sb.append("\t\t}\n");
+		} else {
+			sb.append("\t\tpublic static " + attrType + " fill_" + dequeName + "(");
+			int itemCounter = 0;
+			boolean first = true;
+			for(DequeItem item : dequeInit.getDequeItems()) {
+				String itemType = formatType(item.getValueExpr().getType());
+				if(first) {
+					sb.append(itemType + " item" + itemCounter);
+					first = false;
+				} else {
+					sb.append(", " + itemType + " item" + itemCounter);
+				}
+				++itemCounter;
+			}
+			sb.append(") {\n");
+			sb.append("\t\t\t" + attrType + " " + dequeName + " = " +
+					"new " + attrType + "();\n");
+	
+			int itemLength = dequeInit.getDequeItems().size();
+			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
+				sb.append("\t\t\t" + dequeName);
+				sb.append(".Enqueue(" + "item" + itemCounter + ");\n");
+			}
+			sb.append("\t\t\treturn " + dequeName + ";\n");
+			sb.append("\t\t}\n");
 		}
 	}
 

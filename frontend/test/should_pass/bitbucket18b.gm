@@ -1,0 +1,7 @@
+node class MyNode {
+    procedure myProcedure(var bar:string){
+        def ref myArray:array<string> = array<string>["foo", bar, baz];
+        return();
+    }
+	baz:string;
+}

@@ -1,0 +1,6 @@
+node class MyNode {
+    procedure myProcedure(){
+        def ref myArray:array<string> = array<string>[];
+        return();
+    }
+}
