@@ -5145,7 +5145,17 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceExpressionAttributeAccess seqAttr = (SequenceExpressionAttributeAccess)expr;
                     string element = "((GRGEN_LIBGR.IGraphElement)" + GetVar(seqAttr.SourceVar) + ")";
                     string value = element + ".GetAttribute(\"" + seqAttr.AttributeName + "\")";
-                    return "GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(" + element + ", \"" + seqAttr.AttributeName + "\", " + value + ")";
+                    switch(seqAttr.Type(env))
+                    {
+                        // for numeric types extract the exact type, later type balancing may cast it to the result type, works only for a non-object value
+                        case "byte": return "(sbyte)(" + value + ")";
+                        case "short": return "(short)(" + value + ")";
+                        case "int": return "(int)(" + value + ")";
+                        case "long": return "(long)(" + value + ")";
+                        case "float": return "(float)(" + value + ")";
+                        case "double": return "(double)(" + value + ")";
+                        default: return "GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(" + element + ", \"" + seqAttr.AttributeName + "\", " + value + ")";
+                    }
                 }
 
                 case SequenceExpressionType.ElementOfMatch:
