@@ -1,0 +1,9 @@
+#using "bitbucket16"
+
+sequence MySequence {
+    n:MyNode ;>
+    {(n)=add(MyNode)} &
+
+    //Fails with InvalidCastException: Die angegebene Umwandlung ist ungültig.
+    {n.doubleAttribute = n.doubleAttribute * n.intAttribute;}
+}

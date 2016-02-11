@@ -1,0 +1,4 @@
+node class MyNode {
+    doubleAttribute:double;
+    intAttribute:int;
+}
