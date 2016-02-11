@@ -17,6 +17,7 @@ import java.util.BitSet;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -1378,6 +1379,7 @@ deque_init_loop:
 		sb.append("\t\t\tswitch(name)\n");
 		sb.append("\t\t\t{\n");
 		for(FunctionMethod fm : type.getAllFunctionMethods()) {
+			forceNotConstant(fm.getComputationStatements());
 			genParameterPassingMethodCall(type, fm);
 		}
 		sb.append("\t\t\t\tdefault: throw new NullReferenceException(\"" + formatIdentifiable(type) + " does not have the function method \" + name + \"!\");\n");
@@ -1385,6 +1387,12 @@ deque_init_loop:
 		sb.append("\t\t}\n");
 
 		for(FunctionMethod fm : type.getAllFunctionMethods()) {
+			List<String> staticInitializers = new LinkedList<String>();
+			String pathPrefixForElements = "";
+			HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
+			genLocalContainersEvals(sb, fm.getComputationStatements(), staticInitializers,
+					pathPrefixForElements, alreadyDefinedEntityToName);
+
 			sb.append("\t\tpublic " + formatType(fm.getReturnType()) + " ");
 			sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
 			for(Entity inParam : fm.getParameters()) {
@@ -1441,10 +1449,17 @@ deque_init_loop:
 		sb.append("\t\t\t}\n");
 		sb.append("\t\t}\n");
 		for(ProcedureMethod pm : type.getAllProcedureMethods()) {
+			forceNotConstant(pm.getComputationStatements());
 			genParameterPassingReturnArray(type, pm);
 		}
 
 		for(ProcedureMethod pm : type.getAllProcedureMethods()) {
+			List<String> staticInitializers = new LinkedList<String>();
+			String pathPrefixForElements = "";
+			HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
+			genLocalContainersEvals(sb, pm.getComputationStatements(), staticInitializers,
+					pathPrefixForElements, alreadyDefinedEntityToName);
+
 			sb.append("\t\tpublic void ");
 			sb.append(pm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
 			for(Entity inParam : pm.getParameters()) {
@@ -1485,7 +1500,7 @@ deque_init_loop:
 			sb.append("\t\t}\n");
 		}
 	}
-
+	
 	////////////////////////////////////
 	// Type implementation generation //
 	////////////////////////////////////
