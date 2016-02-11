@@ -1,0 +1,11 @@
+#using "bitbucket17"
+
+sequence MySequence {
+    n:MyNode ;>
+    {(n)=add(MyNode)} &
+
+        //Works
+    {n.init2(1, 2);} &
+        //Compilation Error: no viable alternative at input 'n'
+    {n.init3(1, 2, 3);}
+}

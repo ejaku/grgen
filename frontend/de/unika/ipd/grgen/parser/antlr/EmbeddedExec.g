@@ -442,7 +442,7 @@ functionCallParameters[ExecNode xg] returns [ CollectNode<ExprNode> params = new
 	
 methodCall[ExecNode xg]
 	: xgrsVarUse[xg] d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
-			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])? )? RPAREN { xg.append(")"); }
+			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])* )? RPAREN { xg.append(")"); }
 	;
 
 xgrsConstant[ExecNode xg] returns[ExprNode res = env.initExprNode()]
