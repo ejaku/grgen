@@ -1,0 +1,22 @@
+//Works
+rule myRule {
+    m:Node;
+    if{typeof(m) == Node;}
+    modify{
+    }
+}
+
+sequence mySequence {
+    (numNodes:int) ;>
+    {numNodes = countNodes(Node);}
+}
+
+//Fails
+rule myRule2 {
+    m:Node;
+    //Error: Unkown Identifier MyNode
+    if{typeof(m) == Node;}
+
+    modify{
+    }
+}
