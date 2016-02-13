@@ -135,7 +135,7 @@ options { k = 3; }
 			id=entIdentUse LPAREN // deliver understandable error message for case of missing parenthesis at rule result assignment
 				{ reportError(id.getCoords(), "the destination variable(s) of a rule result assignment must be enclosed in parenthesis"); }
 		|
-			xgrsConstant[xg]
+			(xgrsConstant[null]) => xgrsConstant[xg]
 		|
 			xgrsVarUse[xg]
 		|
@@ -152,7 +152,7 @@ options { k = 3; }
 		)
 	| xgrsVarDecl=xgrsEntityDecl[xg, true]
 	| YIELD { xg.append("yield "); } lhsent=entIdentUse { xg.append(lhsent); xg.addUsage(lhsent); } ASSIGN { xg.append('='); } 
-	    ( xgrsConstant[xg]
+	    ( (xgrsConstant[null]) => xgrsConstant[xg]
 		| xgrsVarUse[xg]
 		)
 	| TRUE { xg.append("true"); }
@@ -447,6 +447,7 @@ methodCall[ExecNode xg]
 
 xgrsConstant[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 options { k = 4; }
+@init{ IdentNode id; }
 	: b=NUM_BYTE { xg.append(b.getText()); res = new ByteConstNode(getCoords(b), Byte.parseByte(ByteConstNode.removeSuffix(b.getText()), 10)); }
 	| sh=NUM_SHORT { xg.append(sh.getText()); res = new ShortConstNode(getCoords(sh), Short.parseShort(ShortConstNode.removeSuffix(sh.getText()), 10)); }
 	| i=NUM_INTEGER { xg.append(i.getText()); res = new IntConstNode(getCoords(i), Integer.parseInt(i.getText(), 10)); }
@@ -460,12 +461,37 @@ options { k = 4; }
 	| tt=TRUE { xg.append(tt.getText()); res = new BoolConstNode(getCoords(tt), true); }
 	| ff=FALSE { xg.append(ff.getText()); res = new BoolConstNode(getCoords(ff), false); }
 	| n=NULL { xg.append(n.getText()); res = new NullConstNode(getCoords(n)); }
-	| i=IDENT d=DOUBLECOLON id=entIdentUse { xg.append(i.getText() + "::" + id); res = new DeclExprNode(new EnumExprNode(getCoords(d), new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i))), id)); }
-	| p=IDENT DOUBLECOLON i=IDENT d=DOUBLECOLON id=entIdentUse { xg.append(p.getText() + "::" + i.getText() + "::" + id); res = new DeclExprNode(new EnumExprNode(getCoords(d), new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i))), id)); }
 	| MAP LT typeName=typeIdentUse COMMA toTypeName=typeIdentUse GT { xg.append("map<"+typeName+","+toTypeName+">"); } e1=seqInitMapExpr[xg, MapTypeNode.getMapType(typeName, toTypeName)] { res = e1; }
 	| SET LT typeName=typeIdentUse GT { xg.append("set<"+typeName+">"); } e2=seqInitSetExpr[xg, SetTypeNode.getSetType(typeName)] { res = e2; }
 	| ARRAY LT typeName=typeIdentUse GT { xg.append("array<"+typeName+">"); } e3=seqInitArrayExpr[xg, ArrayTypeNode.getArrayType(typeName)] { res = e3; }
 	| DEQUE LT typeName=typeIdentUse GT { xg.append("deque<"+typeName+">"); } e4=seqInitDequeExpr[xg, DequeTypeNode.getDequeType(typeName)] { res = e4; }
+	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT
+		{
+			id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
+			res = new IdentExprNode(id);
+			xg.append(i.getText());
+		}
+	| pen=IDENT d=DOUBLECOLON i=IDENT 
+		{
+			if(env.test(ParserEnvironment.PACKAGES, pen.getText()) || !env.test(ParserEnvironment.TYPES, pen.getText())) {
+				id = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, pen.getText(), getCoords(pen)), 
+					env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
+				res = new IdentExprNode(id);
+			} else {
+				res = new DeclExprNode(new EnumExprNode(getCoords(d), 
+					new IdentNode(env.occurs(ParserEnvironment.TYPES, pen.getText(), getCoords(pen))),
+					new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
+			}
+			xg.append(pen.getText() + "::" + i.getText());
+		}
+	| p=IDENT DOUBLECOLON en=IDENT d=DOUBLECOLON i=IDENT
+		{
+			res = new DeclExprNode(new EnumExprNode(getCoords(d), 
+				new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)),
+					env.occurs(ParserEnvironment.TYPES, en.getText(), getCoords(en))),
+				new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
+			xg.append(p.getText() + "::" + en.getText() + "::" + i.getText());
+		}
 	;
 
 seqInitMapExpr [ExecNode xg, MapTypeNode mapType] returns [ MapInitNode res = null ]
