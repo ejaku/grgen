@@ -1,4 +1,12 @@
-﻿v4.4.4 (2015-11-01)
+﻿v4.4.5 (2016-02-14)
+ Bugfixes:
+  - bitbucket issue #15: constants of type type (given as their type name) work now in the compiled sequences
+  - bitbucket issue #16: fixed implicit casts when accessing attributes of numeric types in the sequence expressions
+                         by unboxing to a values of their exact type first 
+  - bitbucket issue #17: method calls in sequence computations now support more than 2 arguments
+  - bitbucket issue #18: container constructors used in (function or procedure) methods in the model work now
+
+v4.4.4 (2015-11-01)
  Bugfixes / language constraint removals:
   - bitbucket #2: _external_ functions can now be called also from sequence expressions,
                   _external_ procedures can now be called also from sequence computations
