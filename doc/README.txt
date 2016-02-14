@@ -1,4 +1,4 @@
-GrGen.NET v4.4.3 (2015-10-12)
+GrGen.NET v4.4.5 (2016-02-14)
 -----------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -163,7 +163,7 @@ Caroline von Totth
 COPYING
 -------
 
-Copyright (C) 2003-2015 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
+Copyright (C) 2003-2016 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
 This file is part of GrGen, Version GrGen.NET 4.4
 
