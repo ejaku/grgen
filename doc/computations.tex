@@ -649,7 +649,7 @@ separated into pattern and rewrite part, and into expressions and statements.
 \hline
 \texttt{eval\{stmt\}} & A computation assigning to attributes or def variables.\\
 \hline
-\texttt{exec(s ;> yield o=i)} & Executes the sequence \texttt{s}, and then yields the value of an inner variable \texttt{i} to an outer variable \texttt{o}. Yielding from an \texttt{exec} is only possible in the top-level \texttt{exec} of a rule, in nested patterns and subpatterns the \texttt{exec} is executed deferred.\\
+\texttt{exec(s ;> yield o=i)} & Executes the sequence \texttt{s}, and then yields the value of an inner variable \texttt{i} to an outer variable \texttt{o}. Yielding from an \texttt{exec} is only possible in the top-level \texttt{exec} of a rule, in nested patterns and subpatterns the \texttt{exec}ution is deferred.\\
 \hline
 \texttt{delete(p)} & Deletes the subpattern used as \texttt{p}.\\
 \texttt{:P()} & Creates a simple subpattern of type \texttt{P}.\\
@@ -717,7 +717,7 @@ separated into pattern and rewrite part, and into expressions and statements.
 \hline
 \texttt{if(cond) \{S1\} else \{S2\}} & Executes \texttt{S1} iff \texttt{cond} evaluates to \texttt{true}, or \texttt{S2} otherwise.\\
 \texttt{switch(exp) \{ cases \}} & Evaluates \texttt{exp}, then dispatches to one of the cases, see below.\\
-\texttt{case c-exp \{S1\} else \{S2\}} & If the \texttt{c}onstant \texttt{exp} matches the value switched upon, \texttt{S1} is executed, if none of the cases matches, \texttt{else} is executed (if available).\\
+\texttt{case c-exp \{S1\} else \{S2\}} & If the \texttt{c}onstant \texttt{exp} matches the value switched upon, \texttt{S1} is executed, if none of the cases matches, \texttt{else} is executed (if given).\\
 \texttt{while(cond) \{S1\} } & Executes \texttt{S1} as long as \texttt{cond} evaluates to s\texttt{true}.\\
 \texttt{do \{S1\} while(cond) } & Executes \texttt{S1} until \texttt{cond} evaluates to \texttt{false}.\\
 \texttt{for(v:T in c) \{S1\} } & Executes \texttt{S1} for each value \texttt{v} contained in container \texttt{c}.\\

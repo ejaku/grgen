@@ -712,7 +712,7 @@ The figure to the right shows how the modifications of the rewrite part are appl
 Node \verb#$2# bound to \texttt{m} is \text{delete}d, this is shown with gray color ("fade to gray"); according to SPO semantics, it drags edges \verb#$4# and \verb#$5# with it.
 Node \verb#$8# is created for pattern node \texttt{o}, and edge \verb#$9# for pattern edge \texttt{\_edge1} (which is again an auto-generated name, which is what \GrG\ does under the covers for anonymous pattern elements.)
 Graph element creation is visualized in green color.
-Additionally, the attribute assignment \verb#n.i = 43# was carried out.
+Additionally, the attribute assignment \verb#n.i = n.i + 1# was carried out.
 
 \begin{grgen}
 rule r
@@ -723,7 +723,7 @@ rule r
   modify {
     delete(m);
     n --> o:Node;
-    eval { n.i = 43; }
+    eval { n.i = n.i + 1; }
   }
 }
 \end{grgen}

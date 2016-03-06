@@ -120,7 +120,7 @@ show graph ycomp
     \label{fig:quick:shell}
 \end{figure}
 
-The graph viewer \yComp\ opens and after clicking the blue ``layout graph'' button on the very right side of the button bar, you get a window similar to figure \ref{fig:quick:ycomp} (see also Section~\ref{tools:ycomp}).
+The graph viewer \yComp\ opens and after clicking the blue play ``layout graph'' button on the very right side of the button bar, you get a window similar to figure \ref{fig:quick:ycomp} (see also Section~\ref{tools:ycomp}).
 Quit \yComp\ and exit the \GrShell\ by typing \texttt{exit}.
 
 \begin{figure}[htbp]
@@ -243,7 +243,7 @@ That means that the newly created node \texttt{y} can be found at the position o
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Applying the Rules}
 
-The created rewrite rules are rewrite primitives, we must compose them in order to implement more complex functionality.
+The created rewrite rules are transformation primitives, we must compose them in order to implement more complex functionality.
 For instance we don't want to forward just one $\varepsilon$-transition as \texttt{forwardTransition} would do; we want to forward them all.
 Such a rule composition is called a \emph{graph rewrite sequence} (see Chapter~\ref{cha:xgrs}).
 We add the following line to our shell script \texttt{removeEpsilons.grs}:

@@ -274,7 +274,7 @@ Both combined allow to match \emph{entire tree like structures} within a single 
 Subpatterns and nested patterns are matched from the outermost to the innermost patterns with \emph{recursive descent}, handing already matched elements down; on \emph{ascend}, they can \texttt{yield} elements found out to the \texttt{def} elements of their containing pattern.
 The nested patterns and subpatterns also support \emph{nested rewrite parts}, so that complex structures are not only matched (parsing), but can also get rewritten (transduction) --- yielding \emph{structure directed transformation}, alongside structures defined by graphlets combined in an EBNF-grammar-like way\cite{EBNFAGTIVE}.
 
-Those features and their optimized implementation crown \GrG\ the king of graph pattern matching and rewriting, and allow you to process graph representations at their natural level of abstraction, with a flexibility and performance coming near to what you can achieve by programming things by hand.
+Those features and their optimized implementation (offering e.g. pattern matcher parallelization with a simple annotation) crown \GrG\ the king of graph pattern matching and rewriting, and allow you to process graph representations at their natural level of abstraction, with a flexibility and performance coming near to what you can achieve by programming things by hand.
 
 A graph rewrite system described in those languages can be employed via an \emph{API} by .NET-applications, typically written in C\# (see Chapter \ref{cha:api}).
 %The API is provided in two versions --- for one named and typed entities which get generated, and for the other a string and object based interface on top of it offered by \LibGr. The \LibGr-based API is needed to work with arbitrary systems.
@@ -314,7 +314,7 @@ which offers besides some common commands, variable handling constructs, and fil
 Furthermore, some switches are available to configure the shell and the graph processing environment, as well as the \texttt{grgen} compiler.
 
 Regarding graph handling you find commands for graph creation and manipulation, graph export and import, and graph change recording plus replaying (see Chapter \ref{chapgrshell}).
-For graph creation 3 simple \texttt{new} commands are available, one for creating an empty graph, one for creating a node, and one for creation an edge.
+For graph creation 3 simple \texttt{new} commands are available, one for creating an empty graph, one for creating a node, and one for creating an edge (in between two nodes).
 The GRS exporter serializes with the same syntax, which is also expected by the GRS importer.
 Write a file in this simple format if the available import formats are not supported by your data source.
 
@@ -323,7 +323,7 @@ Moreover, \texttt{export} and \texttt{import} commands are available for seriali
 Changes that are occurring to a graph may be \texttt{record}ed to a \texttt{GRS} and later \texttt{replay}ed or simply \texttt{import}ed.
 Change recording allows for post-problem debugging, but allows also to use \GrG\ as a kind of embedded database that persists changes as they appear. %(at the price of replaying changes that are rendered futile by later changes).
 
-The graph and the model can be queried furtheron for e.g. the defined types or the attributes of a graph element.
+The graph and the model can be queried furtheron for e.g. the defined types (utilizing a reflection-like interface) or the attributes of a graph element.
 The graph may be validated against the connection assertions specified in the model, or against a sequence that gets executed on a clone of the host graph.
 
 Regarding sequence execution you find the central \texttt{exec} command that is \emph{interpreting} the following sequence (in fact by delegating the parsing and execution to \texttt{libGr}).
@@ -345,5 +345,5 @@ or exclude uninteresting types altogether from the display.
 You can pick the attributes that are to be shown directly (normally they are only displayed on mouse-over).
 Furthermore, you can configure \emph{visual graph nesting} by declaring edges as containment edges, thus keeping large graphs with containment or tree relations \emph{understandable}.
 For large graphs that are beyond the capabilities of the graph viewer you can define that only the matches plus their context up to a certain depth are displayed.
-Altogether, you can tailor the graph display to what you need, transforming an unreadable haystack which is what large graphs tend to become into a well-readable representation.
+Altogether, you can tailor the graph display to what you need, transforming an unreadable haystack which is what large graphs tend to become (if not rendered utilizing the means from above) into a well-readable representation.
 

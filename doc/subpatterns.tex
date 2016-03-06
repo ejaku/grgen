@@ -93,7 +93,7 @@ pattern IteratedPath(prev:Node)
   
 The code above searches an \indexed{iterated path} from the root node on, here an assignment list. 
 The iterated \indexed{path} with the optional is equivalent to the code below. Note the negative which ensures you get a longest match -- without it the empty case may be chosen lazily just in the beginning.
-Please note that if you only need to check for the existence of such a simple iterated path you can use the \texttt{reachable} functions introduced in \ref{transitiveneighbour}.
+Please note that if you only need to check for the existence of such a simple iterated path you can use the \texttt{reachable} functions, or even better \texttt{isReachable} predicates introduced in \ref{transitiveneighbour}.
 
   \begin{grgen}
 pattern IteratedPath(prev:Node)
@@ -169,7 +169,7 @@ Here, three nodes \texttt{a1},\texttt{a2},\texttt{a3} of type \texttt{Assign} fo
 The path may contain the host graph node matched to \texttt{a2} again.
 Without the \texttt{independent} this would not be possible, as all pattern elements -- including the ones originating from subpatterns -- get matched isomorphically. 
 The same path specified in the pattern of the rule -- not in the independent -- would not get matched if it would go through the host graph node matched to b, as it is locked by the isomorphy constraint.
-Again, the \texttt{reachable} functions introduced in \ref{transitiveneighbour} are the better choice here.
+Again, the \texttt{reachable} functions and \texttt{isReachable} predicates introduced in \ref{transitiveneighbour} are the better choice here.
 They always match independently from the patterns (so when you need locking, you cannot employ them), can be used directly, and are implemented (more) efficiently. 
 \end{example}
 
@@ -246,7 +246,7 @@ It uses itself recursively with the subpattern instance \texttt{c}, from the nod
 The \verb#/dbc/(.|.)/again/next# at the middle node of the chain tells that the node was matched on the subpattern instance named \texttt{dbc}, in an alternative (using regular expression syntax for the alternative), in the pattern of the \texttt{again} case, to the pattern node named \texttt{next}.
 The same node is annotated with an\verb#/dbc/(.|.)/again/c/begin#, which stems from the fact that the node appears also in the next nesting step (subpattern call), in the instance \texttt{c} of the subpattern instantiated in the branch \texttt{again}; as \texttt{begin} node handed in to \texttt{chain}.
 
-Breadth-splitting structure-matching is typically following \texttt{contains} edges, while depth-extending structure-matching is typically following \texttt{next} edges, see Note~\ref{modelcontainsnext} for hints on the modeling. 
+Breadth-splitting structure-matching is typically following \texttt{contains} edges, while depth-extending structure-matching is typically following \texttt{next} edges, please take a look at the Hints on Modeling~\ref{modelcontainsnext}. 
 
 The (sub)pattern nesting paths can get long, cluttering display, so from a certain size on, only the size of the path is printed in the debugger. 
 
@@ -667,60 +667,60 @@ Let's have a look at two examples for yielding:
   \begin{grgen}
 pattern Chain(begin:Node, def end:Node)
 {
-	alternative {
-		further {
-			begin --> next:Node;
-			:Chain(next, yield end);
-		}
-		done {
-		  negative {
-		    begin --> ;
-		  }
-			yield {
-				yield end = begin;
-			}
-		}
-	}
+  alternative {
+    further {
+      begin --> next:Node;
+      :Chain(next, yield end);
+    }
+    done {
+      negative {
+        begin --> ;
+      }
+      yield {
+        yield end = begin;
+      }
+    }
+  }
 }
 
 pattern LinkChainTo(begin:Node) modify(n:Node)
 {
-	alternative {
-		further {
-			begin --> next:Node;
-			o:LinkChainTo(next);
+  alternative {
+    further {
+      begin --> next:Node;
+      o:LinkChainTo(next);
 
-			modify {
-			  next --> n;
-			  o(n);
-			}
-		}
-		done {
-		  negative {
-		    begin --> ;
-		  }
+      modify {
+        next --> n;
+        o(n);
+      }
+    }
+    done {
+      negative {
+        begin --> ;
+      }
 		  
-			modify {
-			}
-		}
-	}
+      modify {
+      }
+    }
+  }
 
-	modify { }
+  modify { }
 }
 
 rule linkChainEndToStartIndependent(begin:Node) : (Node)
 {
-	def end:Node;
+  def end:Node;
 	
-	independent {
-		c:Chain(begin, yield end);
-	}
+  independent {
+    c:Chain(begin, yield end);
+  }
   o:LinkChainTo(begin);
   	
-	modify {
-	  o(end);
-		return(end);
-	}
+  modify {
+    o(end);
+    return(end);
+  }
 }
   \end{grgen}
 \end{example}
@@ -736,28 +736,28 @@ This is shown in the second example for LHS yielding, summing the integer attrib
   \begin{grgen}
 test sumOfWeight(start:Node) : (int,int)
 {
-	def var sum:int = 0;
-	def var v:int = 0;
+  def var sum:int = 0;
+  def var v:int = 0;
 	
-	iterated it {
-		def var i:int;
+  iterated it {
+    def var i:int;
 		
-		start --> n:N; // node class N { a:int; }
+    start --> n:N; // node class N { a:int; }
 		
-		yield {
-			yield i = n.a;
-			yield v = 42; // v is assigned 42 multiple times
-		}
-	} 
+    yield {
+      yield i = n.a;
+      yield v = 42; // v is assigned 42 multiple times
+    }
+  } 
 
-	yield {
-		for(i in it)
-		{
-		  yield sum = sum + i;
-		}
-	}
+  yield {
+    for(i in it)
+    {
+      yield sum = sum + i;
+    }
+  }
 
-	return (sum,v);
+  return (sum,v);
 }
   \end{grgen}
 \end{example}
@@ -768,17 +768,17 @@ In case no accumulation is needed but a simple \indexed{count} of the iterated m
   \begin{grgen}
 test countOfEdges(start:Node) : (int)
 {
-	def var sum:int = 0;
+  def var sum:int = 0;
 	
-	iterated it {
-		start -->;
-	} 
+  iterated it {
+    start -->;
+  } 
 
-	yield {
-	  yield sum = count(it);
-	}
+  yield {
+    yield sum = count(it);
+  }
 
-	return (sum);
+  return (sum);
 }
   \end{grgen}
 \end{example}
@@ -810,30 +810,30 @@ Let's take a look at an example, with Figure \ref{figmatchingparameterflow} depi
   \begin{grgen}
 rule r(a:Node) : (Node, int)
 {
-	a --> b:Node;
+  a --> b:Node;
 	
-	def var i:int;
-	optional o {
-		a --> . --> c:N;
-		yield { yield i = c.i; }
+  def var i:int;
+  optional o {
+    a --> . --> c:N;
+    yield { yield i = c.i; }
 		
-		modify {
-		}
-	}
+    modify {
+    }
+  }
 
-	def d:Node;
-	p:P(b, yield d);
+  def d:Node;
+  p:P(b, yield d);
 	
-	modify {
-		b --> u:Node;
-		return(d, i);
-	}
+  modify {
+    b --> u:Node;
+    return(d, i);
+  }
 }
 
 pattern P(n:Node, def rm:Node)
 {
-	n --> . --> m:Node;
-	yield { yield rm = m; }
+  n --> . --> m:Node;
+  yield { yield rm = m; }
 }
   \end{grgen}
 \end{example}\label{exmatchingparameterflow}
@@ -848,34 +848,34 @@ pattern P(n:Node, def rm:Node)
 \begin{example}
   \begin{grgen}
 rule r(a:Node) : (Node, int, Node, int) {
-	a --> b:Node;
-	def var i:int;
-	optional o {
-		a --> . --> c:N;
-		yield {	yield i = c.i; }
+  a --> b:Node;
+  def var i:int;
+  optional o {
+    a --> . --> c:N;
+    yield {	yield i = c.i; }
 		
-		modify {
-			eval { yield j = i + u.i; }
-		}
-	}
-	def d:Node;
-	p:P(b, yield d);
+    modify {
+      eval { yield j = i + u.i; }
+    }
+  }
+  def d:Node;
+  p:P(b, yield d);
 	
-	modify {
-		def e:Node; def var j:int;
-		b --> u:N;
-		p(u, yield e);
-		return(d, i, e, j);
-	}
+  modify {
+    def e:Node; def var j:int;
+    b --> u:N;
+    p(u, yield e);
+    return(d, i, e, j);
+  }
 }
 pattern P(n:Node, def rm:Node) modify(k:Node, def x:Node) {
-	n --> . --> m:Node;
-	yield {	yield rm = m; }
+  n --> . --> m:Node;
+  yield {	yield rm = m; }
 	
-	modify {
-		m --> k; m --> l:Node;
-		eval { yield x = l; }
-	}
+  modify {
+    m --> k; m --> l:Node;
+    eval { yield x = l; }
+  }
 }
   \end{grgen}
 \end{example}\label{exrewritingparameterflow}
