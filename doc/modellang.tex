@@ -1,16 +1,10 @@
 \chapter{Graph Model Language}\indexmain{graph model language}
 \label{chapmodellang}
-The key features of \GrG\ \emph{graph models}\indexmain{graph model} as described by Geiß et al.~\cite{GBGHS:06,KG:07} are given below:
+The graph model language lays the foundation for \GrG.
+It allows to specify \emph{node} and \emph{edge classes} bearing typed \emph{attributes} that are used in building and wiring the graph. 
+Additionally, \emph{enumeration types} can be declared, to be used as \emph{attribute types} (the other available attribute types are built-in and don't need to be declared, they can be just used).
 
-\begin{description}
-\item[Types] Nodes and edges are typed.
-  This is similar to classes in common programming languages. \GrG\ edge types can be directed and undirected.
-\item[Attributes] Nodes and edges may possess attributes. The set of attributes assigned to a node or edge is determined by its type. The attributes themselves are typed, too.
-\item[Inheritance] Node and edge types (classes) can be composed by multiple \indexed{inheritance}. \texttt{Node} and \texttt{Edge} are built-in root types of node and edge types, respectively. Inheritance eases the specification of attributes because subtypes inherit the attributes of their super types. Note that \GrG\ lacks a concept of overwriting for attributes. On a path in the \indexed{type hierarchy} graph from a type up to the built-in root type there must be exactly one declaration for each attribute identifier. Furthermore, if multiple paths from a type up to the built-in root type exist, the declaring types for an attribute identifier must be the same on all such paths. (Virtual inheritance in C++ parlance.)
-\item[Connection Assertions] To specify that certain edge types should only connect specific node types a given number of times, we include connection assertions.
-\end{description}
-
-\begin{figure}[htbf]
+\begin{figure}[htbp]
 \begin{example}\label{ex:model:map}
 The following toy example of a model of road maps gives a rough picture of the language:
 \begin{grgen}
@@ -39,8 +33,26 @@ edge class Highway extends Street
 \end{grgen}
 \end{example}
 \end{figure}
+
 In this chapter as well as in Chapter~\ref{chapgrshell} (\GrShell) we use excerpts of Example~\ref{ex:model:map} (the \texttt{Map} model) for illustration purposes.
 
+%\pagebreak
+
+The key features of \GrG\ \emph{graph models}\indexmain{graph model} as described by Geiß et al.~\cite{GBGHS:06,KG:07} are given below:
+
+\begin{description}
+\item[Types] Nodes and edges are typed.
+  This is similar to classes in common (object-oriented) programming languages. \GrG\ edge types can be directed or undirected.
+\item[Attributes] Nodes and edges may possess attributes. The set of attributes assigned to a node or edge is determined by its type. The attributes themselves are typed, too.
+\item[Inheritance] Node and edge types (classes) can be composed by multiple \indexed{inheritance}. \texttt{Node} and \texttt{Edge} are built-in root types of node and edge types, respectively. Inheritance eases the specification of attributes because subtypes inherit the attributes of their super types. 
+\item[Connection Assertions] To specify that certain edge types should only connect specific node types a given number of times, we include connection assertions.
+\end{description}
+
+Furthermore, node and edge types may be extended with \emph{methods} in addition to attributes.
+They may get bundled into \emph{packages}, preventing name collisions.
+And they support the concept of \emph{graph nesting} with attributes of type \texttt{graph}.
+You find more regarding this in Chapter~\ref{cha:modeladvanced}.
+In Chapter~\ref{sec:performance} do you find more on \emph{indices}, which allow you to quickly access the elements of the graph that are of interest to you.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Building Blocks}
@@ -49,10 +61,11 @@ In this chapter as well as in Chapter~\ref{chapgrshell} (\GrShell) we use excerp
 \begin{note}
 The following syntax specifications make heavy use of \newtermsee{syntax diagram}{rail diagram}s (also known as \indexed{rail diagram}s).
 Syntax diagrams provide a visualization of EBNF\footnote{Extended Backus–Naur Form.}\indexmainsee{EBNF}{rail diagram} grammars.
-Follow a path along the arrows through a diagram to get a valid sentence (or subsentence) of the language.
-Ellipses represent terminals whereas rectangles represent non-terminals. For further information on syntax diagrams see~\cite{MMJW:91}.
+Follow a path along the arrows through a diagram to get a valid sentence of the nonterminal defined by the diagram (and in combination the language).
+Ellipses represent terminals whereas rectangles represent non-terminal uses.
+For further information on syntax diagrams see~\cite{MMJW:91}.
 \end{note}
-Basic elements of the \GrG\ graph model language are identifiers to denominate nodes, edges, and attributes.
+Basic elements of the \GrG\ graph model language are identifiers to denominate node types, edge types, and attributes.
 The model's name itself is given by its file name.
 The \GrG\ graph model language is \indexed{case sensitive}.\\
 \\
@@ -60,7 +73,7 @@ The \GrG\ graph model language is \indexed{case sensitive}.\\
 A non-empty character sequence of arbitrary length consisting of letters, digits, or underscores.
 The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role:
 While \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurrence.
-An \emph{IdentDecl} non-terminal may be annotated\indexmain{annotation}. See Section~\ref{annotations} for annotations of declarations.
+An \emph{IdentDecl} may be annotated\indexmain{annotation}. See Section~\ref{annotations} for annotations of declarations.
 \begin{note}
 \label{note:modeldecl}
   The \GrG\ model language does not distinguish between \indexed{declaration}s and \indexed{definition}s. More precisely, every declaration is also a definition. For instance, the following C-like pseudo \GrG\ model language code is illegal:
@@ -72,8 +85,8 @@ node class t_node {
 \end{grgen}
 Using an identifier before defining it is allowed. Every used identifier has to be defined exactly once.
 \end{note}
-\pagebreak
-\emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\ \nopagebreak
+%\pagebreak
+\emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\ %\nopagebreak
 These are (semantic) specializations of \emph{Ident} to restrict an identifier to denote a node type, an edge type, or an enum type, respectively.
 
 %-----------------------------------------------------------------------------------------------
@@ -82,12 +95,13 @@ These are (semantic) specializations of \emph{Ident} to restrict an identifier t
 The \GrG\ model language has built-in types for nodes and edges.
 All nodes have the attribute-less, built-in type \texttt{Node} as their ancestor.
 All edges have the abstract (see Section~\ref{typedecl}), attribute-less, built-in type \texttt{\indexed{AEdge}} as their ancestor.
+
 The \texttt{AEdge} has two non-abstract built-in children: \texttt{\indexed{UEdge}} as base type for undirected edges and \texttt{\indexed{Edge}} as base type for directed edges.
 The direction for \texttt{AEdge} and its anchestors that do not inherit from \texttt{Edge} or \texttt{UEdge} is undefined or \newterm{arbitrary}.
-Because there is the ``magic of direction'' linked to the edge base types, its recommended to use the keywords \texttt{directed}, \texttt{undirected}, and \texttt{arbitrary} in order to specify inheritance (see Section~\ref{typedecl}).
+Because there is the ``magic of direction'' linked to the edge base types, it is recommended to use the keywords \texttt{directed}, \texttt{undirected}, and \texttt{arbitrary} in order to specify inheritance (see Section~\ref{typedecl}).
 As soon as you decided for directed or undirected edge classes within your type hierarchy, you are not able to let ancestor classes inherited from a contradicting base type, of course.
 That is, no edge may be directed \emph{and} undirected.
-This is an exception of the concept multi-inheritance.
+This is an exception of the concept of multi-inheritance.
 Figure~\ref{fig:basetypes} shows the edge \indexed{type hierarchy}.
 \begin{figure}[htbp]
 	\centering
@@ -109,44 +123,11 @@ Figure~\ref{fig:basetypes} shows the edge \indexed{type hierarchy}.
 \end{rail}\ixnterm{GraphModel}
 The \indexed{graph model} consists of zero or multiple type declarations.
 \emph{ClassDeclaration} defines a node type or an edge type.
-\emph{EnumDeclaration} defines an enum type to be used as a type for a attributes of nodes or edges.
+\emph{EnumDeclaration} defines an enum type to be used as a type for attributes of nodes or edges.
 Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used (but of course must be declared somewhere).
-The \emph{AdvancedModelDeclarations} are differentiated in Chapter \ref{cha:modeladvanced} (forwarding to even further ones).
-In addition, other models may be used (esp. supplying base classes to extend); this happens in the same way as models are used from the rules, see section \ref{ruledecls} for more on this.
+The \emph{AdvancedModelDeclarations} are differentiated in Chapter \ref{cha:modeladvanced}.
+In addition, other models may be used (esp. supplying base classes to extend); this happens in the same way as models are used from the rules, see section \ref{ruledecls} and the \verb/#using/ directive for more on this.
 
-%-----------------------------------------------------------------------------------------------
-\subsection{Enumeration Types}
-\begin{rail}
-  EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
-\end{rail}\ixkeyw{enum}\ixnterm{EnumDeclaration}
-Defines an \indexed{enum type}.
-An enum type is a collection of so called \emph{\indexed{enum item}s} that are associated with integral numbers, each.
-Accordingly, a \GrG\ enum is internally represented as \texttt{int} (see Section~\ref{sec:builtintypes}).
-\begin{note}
-	An enum type and an {\tt int} are different things, but in expressions enum values are implicitly casted to {\tt int} values 	(see Section~\ref{sec:builtintypes}).
-\end{note}
-\begin{warning}
-	Normally, assignments of {\tt int} values to something that has an enum type are forbidden (see Section~\ref{sec:builtintypes}).
-	Only inside a declaration of an enum type an int value may be assigned to the enum item that is currently declared.
-	This also includes the usage of items taken from other enum types (because they are implicitly casted to {\tt int}).
-	However, items from other enum types must be written fully qualified in this case (which, e.g., looks like {\tt MyEnum::a}, where {\tt MyEnum} is the name of the other enum type).
-\end{warning}
-
-\begin{example}
-\begin{grgen}
-enum Color {RED, GREEN, BLUE}
-enum Resident {VILLAGE = 500, TOWN = 5000, CITY = 50000}
-enum AsInC {A = 2, B, C = 1, D, e = (int)Resident::VILLAGE + C}
-\end{grgen}
-Consider, e.g., the declaration of the enum item {\tt e}:
-By implicit casts of   {\tt Resident::VILLAGE } and {\tt C} to {\tt int} we get the {\tt int} value 501, which is assigned to {\tt E}.
-Moreover, the semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following holds: $\texttt{RED} = 0$, $\texttt{GREEN} = 1$, $\texttt{BLUE} = 2$, $\texttt{A}=2$, $\texttt{B}=3$, $\texttt{C}=1$, $\texttt{D}=2$, and $\texttt{E}=501$.
-\end{example}
-\begin{note}
-	The C-like semantics of enum item declarations implies, that multiple items of one enum type can be associated with the same same {\tt int} value.
-	Moreover, it implies, that an enum item must not be used \emph{before} its definition.
-	This also holds for items of other enum types, meaning that the items of another enum type can only be used in the definition of an enum item, when the other enum type is defined \emph{before} the enum type currently defined.
-\end{note}
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Node and Edge Types}\label{nodeandedgetypes}
@@ -156,8 +137,8 @@ Moreover, the semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following hold
 \end{rail}\ixkeyw{abstract}\ixkeyw{const}\ixnterm{ClassDeclaration}\ixkeyw{arbitrary}\ixkeyw{directed}\ixkeyw{undirected}
 Defines a new node type or edge type.
 The keyword \texttt{abstract} indicates that you cannot instantiate graph elements of this type.
-Instead you have to derive non-abstract types to create graph elements.
-The abstract-property will not be inherited by subclasses, of course.
+Instead non-abstract types must be derived from the type in order to create graph elements.
+The abstract-property will not be inherited by subclasses.
 
 \begin{example}
 We adjust our map model and make \texttt{city} abstract:
@@ -196,10 +177,31 @@ Optionally edges can possess attributes.
 A \newterm{connection assertion} specifies that certain edge types should only connect specific nodes a given number of times.
 (see Section~\ref{sct:basetypes})
 
+\begin{note}
+\GrG~supports multiple inheritance on nodes and edges -- use it!
+
+$\bullet$ Your nodes have something in common?
+Then factor it out into some base class.
+This works very well because of the support for multiple inheritance; you don't have to decide what is the primary hierarchy, forcing you to fall back to alternative patterns in the situations you need a different classification.
+Fine grain type hierarchies not only allow for concise matching patterns and rules,
+but deliver good matching performance, too (the search space is reduced early).
+
+$\bullet$ Your edges have something in common?
+Then just do the same, edges are first class citizens.
+\end{note}
+
+\pagebreak
+
+\subsection*{Connection Assertions}
+A \emph{\indexed{connection assertion}} allow you to specify a \emph{constraint} on the topology.
+It allows you to specify the node types an edge may connect to, and the multiplicities with which such edges appear on the nodes.
+It is denoted as a pair of node types, optionally with their multiplicities\indexmainsee{multiplicity}{connection assertion}.
+
 \begin{warning}
 It is not forbidden to create graphs that are invalid according to \indexed{connection assertion}s.
-\GrG\ just enables you to check, whether a graph is valid or not.
+\GrG\ just enables you to check whether a graph is valid or not.
 See also Section~\ref{sec:validate}, \texttt{validate}.
+This is in contrast to type graphs as implemented by tools leaning further towards theory, and more practically useful -- often, constraints need to be violated temporarily during transformation. 
 \end{warning}
 
 \begin{rail}
@@ -208,16 +210,19 @@ See also Section~\ref{sec:validate}, \texttt{validate}.
   MultiplicityConstraint: '[' ('*' | '+' | Number | RangeConstraint) ']' ;
   RangeConstraint: Number ':' ('*' | Number) ;
 \end{rail}\ixkeyw{connect}\ixkeyw{copy}\ixkeyw{extends}\ixnterm{ConnectionAssertion}\ixnterm{NodeConstraint}\ixnterm{MultiplicityConstraint}\ixnterm{RangeConstraint}\label{sct:ConnectionAssertions}
-A \emph{\indexed{connection assertion}} is denoted as a pair of node types, optionally with their multiplicities\indexmainsee{multiplicity}{connection assertion}.
-It allows you to specify the node types an edge may connect and the multiplicities with which such edges appear on the nodes.
-It is best understood as a simple pattern of the form(cf. ~\ref{sct:graphlets}) \texttt{:SourceNodeType -:EdgeType-> :TargetNodeType}, of which every occurrence in the graph is searched.
+
+\pagebreak
+
+A connection assertion is best understood as a simple pattern of the form (cf. graphlets~\ref{sct:graphlets})\\
+\texttt{:SourceNodeType -:EdgeType-> :TargetNodeType}, of which every occurrence in the graph is searched.
 In contrast to a real such pattern and the node types only edges of exactly the given edge type are taken into account.
 Per node of \texttt{SourceNodeType} (or a subtype) it is counted how often it was covered by a match of the pattern starting at it,
 and per node of \texttt{TargetNodeType} (or a subtype) it is counted how often it was covered by a match of the pattern ending at it.
 The numbers must be in the range specified at the \texttt{SourceNodeType} and the \texttt{TargetNodeType} for the connection assertion to be fulfilled.
 Giving no multiplicity constraint is equivalent to \verb#[*]#, i.e. $[0,\infty[$, i.e. unconstrained.
+
 Please take care of non-disjoint source/target types/subtypes in the case of undirected and especially arbitrary edges.
-In the case of multiple connection assertions all are checked and errors for each one reported; for strict validation to succeed at least one of them must match.
+In the case of multiple connection assertions, all are checked and errors for each one reported; for strict validation to succeed at least one of them must match.
 It might happen that none of the connection assertions of an \texttt{EdgeType} are matching an edge of this type in the graph.
 This is accepted in the case of normal validation (throwing connection assertions without multiplicities effectively back to nops);
 but as you normally want to see \emph{only} the specified connections occurring in the graph,
@@ -230,7 +235,7 @@ The different kinds of arrows distinguish between directed, undirected, and arbi
 The \texttt{-->} arrow means a directed edge aiming towards a node of the target node type (or one of its subtypes).
 The \texttt{A<--B} connection assertion is equivalent to the \texttt{B-->A} connection assertion.
 The \texttt{--} arrow is used for undirected edges.
-The \texttt{?--?} arrow means an arbitrary edge, i.e. directed as well as undirected possible (fixed by the concrete type inheriting from it); in case of an directed edge the connection pattern gets matched in both directions.
+The \texttt{?--?} arrow means an arbitrary edge, i.e. directed as well as undirected ia possible (fixed by the concrete type inheriting from it); in case of a directed edge the connection pattern gets matched in both directions.
 \emph{Number} is an \texttt{int} constant as defined in Chapter~\ref{cha:typeexpr}.
 Table~\ref{multiplicities} describes the multiplicity definitions.
 
@@ -260,37 +265,32 @@ This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt
 %	The \GrG\ compiler will warn you, if you're using inconsistent connection assertions.
 %\end{note}
 
-\begin{note}
-\GrG~supports multiple inheritance on nodes and edges -- use it!
-
-$\bullet$ Your nodes have something in common?
-Then factor it out into some base class.
-This works very well because of the support for multiple inheritance; you don't have to decide what is the primary hierarchy, forcing you to fall back to alternative patterns in the situations you need a different classification.
-Fine grain type hierarchies not only allow for concise matching patterns and rules,
-but deliver good matching performance, too (the search space is reduced early).
-
-$\bullet$ Your edges have something in common?
-Then just do the same, edges are first class citizens.
-\end{note}
+\pagebreak
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Attributes and Attribute Types}
 \label{sct:attrtypes}
+
+With attributes you model the specific properties of your node and edge classes.
+They are typed variables contained in the class, which are instantiated together with the node or edge.
 
 \begin{rail}
   AttributeDeclaration: 'const'? IdentDecl ':' AttributeType (() | '=' Expression) ';' | AttributeOverwrite ;
   AttributeType: PrimitiveType | EnumType | ContainerType;
   AttributeOverwrite: Ident '=' Expression
 \end{rail}\ixnterm{AttributeDeclaration}\ixnterm{AttributeType}\ixnterm{AttributeOverwrite}\ixkeyw{const}
-Defines a node or edge \indexed{attribute}.
-Possible types are enumeration types (\texttt{enum}) and primitive types or container types.
-See Section~\ref{sec:builtintypes} for a list of built-in primitive and Section~\ref{sec:builtingenerictypes} for a list of built-in container types.
-Furthermore, attributes may be of nodes or edge or graph type (directly linking to a node or an edge, or to a subgraph; containers may contain that types, too).
-Optionally attributes may be initialized with a \emph{constant} expression.
-The expression has to be of a compatible type of the declared attribute.
+
+An \emph{AttributeDeclaration} defines an \indexed{attribute} of a node or edge class.
+Possible types are \emph{primitive types}, \emph{enumeration types} (\texttt{enum}, cf. Section~\ref{sct:enumtypes}), and \emph{container types}.
+See Section~\ref{sec:builtintypes} for a list of built-in primitive types, and Section~\ref{sec:builtingenerictypes} for a list of built-in container types.
+Furthermore, attributes may be of node or edge or graph type, so they may be directly pointing to a node or an edge (seldom useful and discouraged), or to a subgraph (containers may contain that types, too, this holds also for container-typed attributes).
+
+Optionally, attributes may be initialized with a \emph{constant} expression (meaning only constants and other attributes are allowed).
+The expression has to be of a type compatible to the type of the declared attribute.
 See Chapter~\ref{cha:typeexpr} for the \GrG\ types and expressions reference.
-The \emph{AttributeOverwrite} clause lets you overwrite initialization values for attributes of super classes.
-The initialization values are evaluated in the order as they appear in the rule set file.
+The \emph{AttributeOverwrite} clause lets you overwrite initialization values of attributes of super classes.
+The initialization values are evaluated in the order as they appear in the graph model file.
+
 \begin{warning}
 	The following attribute declarations are \emph{illegal} because of the order of evaluation of initialization values:
 	\begin{grgen}
@@ -299,7 +299,56 @@ y:int = 42;
 	\end{grgen}
 \end{warning}
 
+Note that \GrG\ lacks a concept of overwriting for attributes (in contrast to their values).
+On a path in the \indexed{type hierarchy} graph from a type up to the built-in root type there must be exactly one declaration for each attribute identifier. Furthermore, if multiple paths from a type up to the built-in root type exist, the declaring types for an attribute identifier must be the same on all such paths.
+This is equivalent to virtual inheritance in C++ parlance.
+
+\pagebreak
+
+%-----------------------------------------------------------------------------------------------
+\subsection{Enumeration Types}
+\label{sct:enumtypes}
+\begin{rail}
+  EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
+\end{rail}\ixkeyw{enum}\ixnterm{EnumDeclaration}
+Defines an \indexed{enum type}.
+An \texttt{enum} type is a collection of so called \emph{\indexed{enum item}s}, which are used to define and name the values you want to distinguish (when using this type within your model). 
+Those are internally associated with integral numbers, which may be specified explicitly.
+Accordingly, a \GrG\ enum can be casted to an \texttt{int} (see Section~\ref{sec:builtintypes}).
+The following notes and examples highlight the relationship of \texttt{enum} items to \texttt{int}egers, but most often you are only interested in the main functionality: the \emph{case distinction} encoded in the enum (and are then free to ignore these finer points). 
+
 \begin{note}
+	An enum type and an {\tt int} are different things, but in expressions enum values are implicitly casted to {\tt int} values as needed (see Section~\ref{sec:builtintypes}). The other direction is not available at all, cf. the following Note.
+\end{note}
+
+\begin{warning}
+	Assignments of {\tt int} values to something that has an enum type are forbidden (see Section~\ref{sec:builtintypes}).
+	Only inside a declaration of an enum type an int value may be assigned to the enum item that is currently declared.
+%	This also includes the usage of items taken from other enum types (because they are implicitly casted to {\tt int}).
+%	Items from (other) enum types must be written fully qualified (which, e.g., looks like {\tt MyEnum::a}, where {\tt MyEnum} is the name of the other enum type).
+\end{warning}
+
+\begin{example}
+\begin{grgen}
+enum Color {RED, GREEN, BLUE}
+enum Resident {VILLAGE = 500, TOWN = 5000, CITY = 50000}
+enum AsInC {A = 2, B, C = 1, D, E = (int)Resident::VILLAGE + C}
+\end{grgen}
+Consider, e.g., the declaration of the enum item {\tt E}:
+By explicit and implicit casts of {\tt Resident::VILLAGE } and {\tt C} to {\tt int} we get the {\tt int} value 501, which is assigned to {\tt E}.
+Moreover, the semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following holds: $\texttt{RED} = 0$, $\texttt{GREEN} = 1$, $\texttt{BLUE} = 2$, $\texttt{A}=2$, $\texttt{B}=3$, $\texttt{C}=1$, $\texttt{D}=2$, and $\texttt{E}=501$.
+\end{example}
+
+\begin{note}
+	The C-like semantics of enum item declarations implies that multiple items of one enum type can be associated with the same same {\tt int} value.
+	Moreover, it implies, that an enum item must not be used \emph{before} its definition.
+	This also holds for items of other enum types, meaning that the items of another enum type can only be used in the definition of an enum item, when the other enum type is defined \emph{before} the enum type currently defined.
+\end{note}
+
+
+%-----------------------------------------------------------------------------------------------
+\subsection{Hints on Modeling}\label{modelcontainsnext}
+
 The modeling of the example from the introduction (cf. \ref{sub:examplegraphrep}) that was chosen for the compiler case\cite{CompilerCase} is suboptimal regarding its usage of integer attributes to denote positions.
 This stems from the usage of indices into arrays in its originating compiler intermediate representation \Firm, and esp. its implementation.
 The right way to handle this in \GrG\ are edges explicitly denoting the successor relationship.
@@ -313,14 +362,17 @@ The basic points in modeling with \GrG\ are:
 	\item Use edges of type \texttt{next} to denote orderings or successor relationships, pointing from the predecessor to the successor element in the ordering. If you have distinguished types of ordering, use \texttt{next} as abstract base class, from which the concrete ones that get instantiated are inheriting.
 	\item If you have an ordered containment, up to a statically not known depth, use edges of both kinds at the same time. With \texttt{contains} to denote the containment in the ordered tree, and \texttt{next} to order the contained children of an element (so a node is incident to both kinds of edges).
 	\item If you have an ordered containment with a statically known depth, use containment edges of dedicated types, with the type representing the order. Example: if you implement binary trees, use an edge of type \texttt{left} and an edge of type \texttt{right} to point to the left and right sibling. This is easier to process and less memory hungry than the modeling needed for the full case.
-If you implement an if-then-else, use a node of type \texttt{IfThenElse} that points with a \texttt{condition} edge to the starting node of the condition expression, and a \texttt{then} edge to the starting node of the true case statements, and an \texttt{else} edge to the starting node of the false case statements (with statements inheriting from a \texttt{Statement} node class, being linked by \texttt{next} edges, and expressions being typically binary trees, inheriting from an \texttt{Expression} node class, being linked by edges of a type representing an ordered containment). 
 \end{itemize}
 
-\end{note}\label{modelcontainsnext}
+\begin{note}
+If you implement an if-then-else in a syntax graph, use a node of type \texttt{IfThenElse} that points with a \texttt{condition} edge to the starting node of the condition expression, and a \texttt{then} edge to the starting node of the true case statements, and an \texttt{else} edge to the starting node of the false case statements (with statements inheriting from a \texttt{Statement} node class, being linked by \texttt{next} edges, and expressions being typically binary trees, inheriting from an \texttt{Expression} node class, being linked by edges of a type representing an ordered containment). This modeling of the syntax tree backbone is complemented with edges from the uses (nodes representing entities using other entities) to the definitions (nodes representing entities that can be used, in a textual syntax typically defined by a name that is mentioned when used) to build the full syntax graph.
+\end{note}
+
+\pagebreak
 
 \begin{note}
 Don't materialize transitive relationsships. 
-Point only to the immediate/direct successor, and compute transitive reachability as needed (with the \texttt{reachable} functions or recursive subpatterns).
+Point only to the immediate/direct successor, and compute transitive reachability as needed (with the \texttt{isReachable} predicates, or the \texttt{reachable} functions, or recursive subpatterns).
 \end{note}
 
 \begin{note}
