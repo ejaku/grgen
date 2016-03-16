@@ -187,10 +187,14 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
     	for(BaseNode n : body.getChildren()) {
 			if(n instanceof FunctionDeclNode) {
 				FunctionDeclNode function = (FunctionDeclNode)n;
+				if(!function.isChecked())
+					continue;
 				for(InheritanceTypeNode base : getAllSuperTypes()) {
 					for(BaseNode c : base.body.getChildren()) {
 						if(c instanceof FunctionDeclNode) {
 							FunctionDeclNode functionBase = (FunctionDeclNode)c;
+							if(!functionBase.isChecked())
+								continue;
 							if(function.ident.toString().equals(functionBase.ident.toString()))
 								checkSignatureAdhered(functionBase, function);
 						} 
@@ -198,10 +202,14 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 				}
 			} else if(n instanceof ProcedureDeclNode) {
 				ProcedureDeclNode procedure = (ProcedureDeclNode)n;
+				if(!procedure.isChecked())
+					continue;
 				for(InheritanceTypeNode base : getAllSuperTypes()) {
 					for(BaseNode c : base.body.getChildren()) {
 						if(c instanceof ProcedureDeclNode) {
 							ProcedureDeclNode procedureBase = (ProcedureDeclNode)c;
+							if(!procedureBase.isChecked())
+								continue;
 							if(procedure.ident.toString().equals(procedureBase.ident.toString()))
 								checkSignatureAdhered(procedureBase, procedure);
 						} 
