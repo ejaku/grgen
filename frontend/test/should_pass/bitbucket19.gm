@@ -1,0 +1,20 @@
+abstract node class ColorNodeBase {
+    color:string = "-";
+
+    // Compiles if only this method is removed
+    procedure foo() {
+        emit("ColorNodeBase");
+        return;
+    }
+}
+
+node class RedNode extends ColorNodeBase {
+    // Compiles if only this line is removed 
+    color = "Red";    
+
+    // Compiles if only this method is removed
+    procedure foo() {
+        emit("RedNode");
+        return;
+    }
+}
