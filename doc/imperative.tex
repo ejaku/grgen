@@ -2,35 +2,14 @@
 \label{cha:imperativeandstate}
 \indexmain{imperative statements}\label{sct:imperative}
 
-In this chapter we'll have a look at language constructs which allow to emit text from rules/subpatterns and which allow to execute a graph rewrite sequence at the end of a rule invocation.
-The ability to execute a sequence at the end of a rule invocation allows to combine rules and build complex rules.
-
-
-%-----------------------------------------------------------------------------------------------
-\section{Exec and Emit in Rules}
-
-The following syntax diagram gives an extensions to the syntax diagrams of the Rule Set Language chapter \ref{chaprulelang}:
-\begin{rail}
-  ExecStatement: 'emit' '(' (StringExpr + ',') ')' ';' | 'exec' '(' RewriteSequence ')' ';'
-	;
-\end{rail}\ixkeyw{emit}\ixkeyw{exec}\ixnterm{ExecStatement}
-The statements \texttt{emit} and \texttt{exec} enhance the declarative rewrite part by imperative clauses.
-That means, i) these statements are executed in the same order as they appear within the rule,
-and ii) they are executed after all the rewrite operations are done, i.e.\ they operate on the modified host graph.
-However, \emph{attribute} values of deleted graph elements are still available for reading.
-The \texttt{eval} statements are executed before the execution statements, i.e.\ the execution statements work on the recalculated attributes.
-\begin{description}
-  \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. Graph elements may be yielded to def variables in the RHS pattern. See Chapter~\ref{cha:xgrs} for a description of graph rewrite sequences. The \texttt{exec} statement is one of the means available in \GrG~to build complex rules and split work into several parts, see \ref{sub:mergesplit} for a discussion of this topic.
-  \item[Text Output] The \texttt{emit} statement prints a string or a comma-separated sequence of strings to the currently associated output stream (default is \texttt{stdout}). See Chapter~\ref{cha:typeexpr} for a description of string expressions.
-	The argument(s) must be of string type, but any type is automatically casted into its string representation as needed. Prefer comma separated arguments over string concatenation, they are are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
-  For emitting in between the emits from subpatterns, there is an additional \texttt{emithere} statement available.
-\end{description}
+In this chapter we'll have a look at language constructs which allow you to emit text from rules, and which allow you to execute a graph rewrite sequence at the end of a rule invocation (with direct access to the elements of the left and right patterns).
+Similar constructs are available for nested and subpatterns.
 
 \begin{figure}[htbp]
 \begin{example}
-	The following example works on a hypothetical network flow.
-	We don't define all the rules nor the graph meta model.
-	It's just about the look and feel of the \texttt{exec} and \texttt{emit} statements
+	The example rule below works on a hypothetical network flow.
+	We neither define all the rules nor the graph meta model,
+	we just want to introduce you to the usage of the \texttt{exec} and \texttt{emit} statements, as well as their look and feel.
 	\begin{grgen}
 rule AddRedundancy
 {
@@ -47,6 +26,33 @@ rule AddRedundancy
 	\end{grgen}
 \end{example}
 \end{figure}
+
+%-----------------------------------------------------------------------------------------------
+\section{Exec and Emit in Rules}\label{sct:execemitrules}
+
+The following syntax diagram gives an extensions to the syntax diagrams of the Rule Set Language chapter \ref{chaprulelang}:
+\begin{rail}
+  ExecStatement: 'emit' '(' (StringExpr + ',') ')' ';' | 'exec' '(' RewriteSequence ')' ';'
+	;
+\end{rail}\ixkeyw{emit}\ixkeyw{exec}\ixnterm{ExecStatement}
+
+The statements \texttt{emit} and \texttt{exec} enhance the declarative rewrite part by imperative clauses.
+This means that these statements are executed in the same order as they appear within the rule,
+but particularly that they operate on the modified host graph, as they are executed \emph{after} the rewrite part.
+
+The rewrite part contains the \texttt{eval} statements, i.e.\ the execution statements work on the recalculated attributes.
+The rewrite part especially \texttt{delete}s pattern elements (explicitly in \texttt{modify} mode, implicitly in \texttt{replace} mode) -- those consequently cannot be accessed in the execution statements anymore.
+\emph{Attribute} values of deleted graph elements are still available for reading, though -- the compiler temporarily stores them as needed, for your convenience.
+
+\subsection*{Sequence execution}
+The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules.
+See Chapter~\ref{cha:xgrs} for a description of graph rewrite sequences.
+
+The potential input to the embedded sequence are the graph elements declared in the LHS and RHS patterns (or their attributes), the actual \emph{input} are the ones really referenced by the sequence. 
+The \emph{output} from an embedded sequence is defined with \texttt{yield}s to \texttt{def} variables from the RHS pattern --
+to be used by following \texttt{exec}ution statements, or by the \texttt{return} statement that is executed last.  
+
+The \texttt{exec} statement is one of the means available in \GrG~to build complex rules and split work into several parts, see Chapter~\ref{sub:mergesplit} for a discussion of this topic. The noteworthy point is that this happens rule-internally, without having to pass parameters out into an enclosing sequence and in again from the enclosing sequence to following rule applications (as it is required by external composition).
 
 \begin{example}
 This is an example for returning elements yielded from an \texttt{exec} statement.
@@ -65,6 +71,14 @@ rule foo : (A,B)
 	\end{grgen}
 \end{example}
 
+\subsection*{Text output}
+The \texttt{emit} statement prints a string or a comma-separated sequence of strings to the currently associated output stream. See Chapter~\ref{cha:typeexpr} for a description of string expressions.
+
+The argument(s) must be of string type, but any type is automatically casted into its string representation as needed. Prefer comma separated arguments over string concatenation, they are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
+
+The currently associated output stream is by default \texttt{stdout}, you use the emit then typically to print debug or execution state information to the console.
+It may be a text file (the one output was redirected to, see the \texttt{redirect emit} command in Chapter~\ref{chapgrshell}), you use the emit then commonly to write a file format of your choice (maybe a simple extract, maybe a full-blown graph export), building a model-to-text transformation.
+
 %-----------------------------------------------------------------------------------------------
 \section{Deferred Exec and Emithere in Nested and Subpatterns}\label{sec:deferredexecemithere}
 
@@ -77,39 +91,18 @@ The following syntax diagram gives an extensions to the syntax diagrams of the S
 	;
 \end{rail}\ixnterm{SubpatternExecEmit}\ixkeyw{emithere}
 
-The statements \texttt{emit}, \texttt{emithere} and \texttt{exec} enhance the declarative nested (and subpattern) rewrite part by imperative clauses.
+The statements \texttt{emit}, \texttt{emithere} and \texttt{exec} enhance the declarative rewrite part of nested and subpatterns by imperative clauses.
+
 The \texttt{emit} and \texttt{emithere} statements get executed during rewriting before the \texttt{exec} statements;
 the \texttt{emithere}-statements get executed before the \texttt{emit} statements,
 in the order in between the subpattern rewrite applications they are specified syntactically
 (see \ref{sec:localvarorderedevalyield} for more on this).
-The \texttt{exec} statements are executed i) after the rule which used the pattern they are contained in was executed and ii) in the order as they appear within the rule.
-They are a slightly different version of the \texttt{exec}-statements from the \emph{ExecStatement} introduced in \ref{replclause}, only available in the rewrite parts of subpatterns or nested alternatives/iterateds
-(but not in the rewrite part of rules as the original embedded sequences).
-They are executed after the original rule calling them was executed,
+
+The \emph{deferred} \texttt{exec} statements are executed in the order as they appear syntactically, but particularly after the top-level rule which employed the pattern they are contained in was executed.
+They are a variant of the rule-based embedded \texttt{exec}-statements from the \emph{ExecStatement} (mentioned in \ref{replclause} and explained above in \ref{sct:execemitrules}), only available in the rewrite parts of subpatterns or nested alternatives/iterateds.
+They are executed after the original rule employing them was executed (which may be syntactically separated by a deep nesting of patterns or a deep chain of subpattern usages in between),
 so they can't get extended by \texttt{yield}s,
-as the containing rule is not available any more when they get executed.
-
-\begin{note}
-The embedded sequences are executed after the top-level rule which contains them (in a nested pattern or in a used subpattern) was executed; they are \emph{not} executed during subpattern rewriting.
-They allow you to put work you can't do while executing the rule proper (e.g. because an element was already matched and is now locked due to the isomorphy constraint) to a waiting queue which gets processed afterwards --- with access to the elements of the rule and contained parts which are available when the rule gets executed.
-Or to just split the work into several parts, reusing already available functionality, see \ref{sub:mergesplit} for a discussion on this topic.
-\end{note}
-
-\begin{warning}
-And again --- the embedded sequences are executed \emph{after} the rule containing them;
-thus rule execution is split into two parts, a declarative of parts a) and b), and an imperative.
-The declarative is split into two subparts:
-First the rule including all its nested and subpatterns is matched.
-Then the rule modifications are applied, including all nested and subpattern modification.
-
-After this declarative step, containing only the changes of the rule and its nested and used subpatterns,
-the deferred execs which were spawned during the main rewriting are executed in a second, imperative step;
-during this, a rule called from the sequence to execute may do other nifty things,
-using further own sequences, even calling itself recursively with them.
-First all sequences from a called rule are executed, before the current sequences is continued or other sequences of its parent rule get executed (depth first).
-
-Note: all changes from such dynamically nested sequences are rolled back if a transaction/a backtrack enclosing a parent rule is to be rolled back (but no pending sequences of a parent of this parent).
-\end{warning}
+as the containing rule is not available anymore when they get executed (and in case they appear inside a subpattern maybe not even known statically).
 
 \begin{example}
 	The exec from \texttt{Subpattern sub} gets executed after the exec from \texttt{rule caller} was executed.
@@ -151,5 +144,27 @@ pattern BinaryExpression(root:Expr)
 }
 	\end{grgen}
 \end{example}
+
+\begin{note}
+The embedded sequences are executed after the top-level rule which contains them (in a nested pattern or in a used subpattern) was executed; they are \emph{not} executed during subpattern rewriting.
+They allow you to put work you can't do while executing the rule proper (e.g. because an element was already matched and is now locked due to the isomorphy constraint) to a waiting queue which gets processed afterwards --- with access to the elements of the rule and contained parts which are available when the rule gets executed.
+Or to just split the work into several parts, reusing already available functionality, see \ref{sub:mergesplit} for a discussion on this topic.
+\end{note}
+
+\begin{warning}
+And again --- the embedded sequences are executed \emph{after} the rule containing them;
+thus rule execution is split into two parts, a declarative of parts a) and b), and an imperative.
+The declarative is split into two subparts:
+First the rule including all its nested and subpatterns is matched.
+Then the rule modifications are applied, including all nested and subpattern modification.
+
+After this declarative step, containing only the changes of the rule and its nested and used subpatterns,
+the deferred execs which were spawned during the main rewriting are executed in a second, imperative step;
+during this, a rule called from the sequence to execute may do other nifty things,
+using further own sequences, even calling itself recursively with them.
+First all sequences from a called rule are executed, before the current sequences is continued or other sequences of its parent rule get executed (depth first).
+
+Note: all changes from such dynamically nested sequences are rolled back if a transaction/a backtrack enclosing a parent rule is to be rolled back (but no pending sequences of a parent of this parent).
+\end{warning}
 
 
