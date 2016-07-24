@@ -145,7 +145,7 @@ For further information about the \GrShell\ language see Chapter~\ref{chapgrshel
     \begin{tabularx}{\linewidth}{lX}
       \texttt{-N} & Enables non-debug non-gui mode which exits on error with an error code instead of waiting for user input.\\
       \texttt{-SI} & Show Includes prints out to the console when includes are entered and left.\\
-      \texttt{-C} & Execute the quoted \GrShell\ commands immediately (before the first script file). Instead of a line break use a double semicolon \texttt{;;} to separate commands. Take care that an exec inside such a command line needs to be exited with \indexed{\texttt{\#\S}} (to open and immediately close a shell comment, needed as exec terminator, because newline termination is not available here).
+      \texttt{-C} & Execute the quoted \GrShell\ commands immediately (before the first script file). If you want the quoted part on a single line (so without line breaks), you have to use a double semicolon \texttt{;;} to separate commands. Take care that an exec inside such a command line needs to be exited with \indexed{\texttt{\#\S}} then (to open and immediately close a shell comment, needed as exec terminator in face of missing newline termination).
     \end{tabularx}
   \item[Requires] .NET 2.0 (or above) or Mono 1.2.3 (or above).
 \end{description}
@@ -155,22 +155,7 @@ The shell supports some \texttt{new set} configuration options that map to the \
 \end{note}
 
 \begin{example}
-The \texttt{-C} option is often not as helpful as needed because bash splits the command given inside "" alongside spaces.
-Unless you are a shell wizard in control of escaping and unescaping, you want to work with here documents.
-The following example shell script from \texttt{examples/MovieDatabase-TTC2014} shows how to execute an \GrShell-script embedded as here document on all files in a folder.
-\begin{grshell}
-#!/bin/bash
-for file in *.xmi; do	
-    GrShell -N << HERE
-import movies.ecore $file GrgenifyMovieDatabase.grg
-redirect emit $file.grs
-exec create_MovieDatabaseModel ;> [create_Movie] ;> [create_Actor] ;> [create_Actress] ;> [create_personToMovie]
-redirect emit - 
-validate exitonfailure exec noEdgesLeft
-quit
-HERE
-done
-\end{grshell}
+The shell script \texttt{GrgenifyMovieDatabase.sh} from \texttt{examples/MovieDatabase-TTC2014} shows how to execute an embedded \GrShell-script on all files in a folder, in a version with the \texttt{-C} option with line breaks, a version on a single line, and a version employing a here-document circumventing the option this way.
 \end{example}
 
 %-----------------------------------------------------------------------------------------------

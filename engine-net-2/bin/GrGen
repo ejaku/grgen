@@ -2,7 +2,7 @@
 GRGEN=`readlink -f "$0"`
 GRGEN_PATH=`dirname "$GRGEN"`
 if which mono &> /dev/null; then
-	mono "$GRGEN_PATH/GrGen.exe" $*
+	mono "$GRGEN_PATH/GrGen.exe" ${1+"$@"}
 else
-	"$GRGEN_PATH/GrGen.exe" $*
+	"$GRGEN_PATH/GrGen.exe" ${1+"$@"}
 fi
