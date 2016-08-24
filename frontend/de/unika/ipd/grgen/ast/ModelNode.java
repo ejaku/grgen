@@ -209,6 +209,10 @@ public class ModelNode extends DeclNode {
 	public CollectNode<ModelNode> getUsedModels() {
 		return usedModels;
 	}
+	
+	public CollectNode<TypeDeclNode> getPackages() {
+		return packages;
+	}
 
 	/**
 	 * Get the IR model node for this AST node.
