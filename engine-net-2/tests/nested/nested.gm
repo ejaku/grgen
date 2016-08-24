@@ -1,0 +1,7 @@
+node class Class;
+node class Method;
+node class Variable;
+node class Constant;
+
+edge class cts;
+edge class ref;

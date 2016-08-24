@@ -1,0 +1,34 @@
+new graph nested/nested
+
+debug set layout Organic
+dump set node Class color gold
+dump set node Class textcolor white
+dump set node Method color pink
+dump set node Method textcolor white
+dump set node Variable color cyan
+dump set node Constant color lightcyan
+
+new c:Class
+new m1:Method
+new m2:Method
+new m3:Method
+new v:Variable
+new v2:Variable
+new ct:Constant
+new v3:Variable
+new v4:Variable
+new c -:cts-> m1
+new c -:cts-> m2
+new c -:cts-> m3
+new c -:cts-> v
+new c -:cts-> v2
+new c -:cts-> ct
+new m1 -:ref-> v3
+new m2 -:ref-> v3
+new m2 -:ref-> v4
+new m3 -:ref-> v4
+
+exec (::ret)=classWithStuffReturn
+show var ret
+
+quit
