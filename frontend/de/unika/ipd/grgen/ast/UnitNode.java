@@ -181,9 +181,13 @@ public class UnitNode extends BaseNode {
 		Checker modelChecker = new CollectChecker(new SimpleChecker(ModelNode.class));
 		boolean res = modelChecker.check(models, error);
 		for(ModelNode model : models.getChildren()) {
-			res = checkModelTypes(res, model);
+			res = checkModelTypes(res, model.getTypeDecls());
 			for(ModelNode usedModel : model.getUsedModels().getChildren()) {
-				res = checkModelTypes(res, usedModel);
+				res = checkModelTypes(res, usedModel.getTypeDecls());
+			}
+			for(TypeDeclNode package_ : model.getPackages().getChildren()) {
+				PackageTypeNode packageType = (PackageTypeNode)package_.getDeclType();
+				res = checkModelTypes(res, packageType.getTypeDecls());
 			}
 		}
 		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {	
@@ -211,8 +215,8 @@ public class UnitNode extends BaseNode {
 		return res;
 	}
 
-	private boolean checkModelTypes(boolean res, ModelNode model) {
-		for(TypeDeclNode typeDecl : model.getTypeDecls().getChildren()) {
+	private boolean checkModelTypes(boolean res, CollectNode<TypeDeclNode> typeDecls) {
+		for(TypeDeclNode typeDecl : typeDecls.getChildren()) {
 			DeclaredTypeNode declType = typeDecl.getDeclType();
 			if(declType instanceof InheritanceTypeNode) {
 				InheritanceTypeNode inhType = (InheritanceTypeNode)declType;
