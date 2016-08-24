@@ -99,11 +99,16 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(index == 1)
                 {
+                    List<String> matchingPatternClassTypeNames = new List<String>();
+                    List<Dictionary<PatternGraph, bool>> nestedIndependents = new List<Dictionary<PatternGraph, bool>>();
+                    ExtractNestedIndependents(matchingPatternClassTypeNames, nestedIndependents, rulePattern, patternGraph);
+
                     searchProgram = new SearchProgramOfActionParallelizationBody(
                         rulePatternClassName,
                         patternGraph.name, name + "_parallelized_body",
                         rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
                         containsSubpatterns, wasIndependentInlined(patternGraph, index), 
+                        matchingPatternClassTypeNames, nestedIndependents,
                         emitProfiling, patternGraph.PackagePrefixedName);
                 }
                 else // index == 0
@@ -116,11 +121,16 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else
             {
+                List<String> matchingPatternClassTypeNames = new List<String>();
+                List<Dictionary<PatternGraph, bool>> nestedIndependents = new List<Dictionary<PatternGraph, bool>>();
+                ExtractNestedIndependents(matchingPatternClassTypeNames, nestedIndependents, rulePattern, patternGraph);
+
                 searchProgram = new SearchProgramOfAction(
                     rulePatternClassName,
                     patternGraph.name, parameterTypes, parameterNames, name,
                     rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
-                    containsSubpatterns, wasIndependentInlined(patternGraph, indexOfSchedule), 
+                    containsSubpatterns, wasIndependentInlined(patternGraph, indexOfSchedule),
+                    matchingPatternClassTypeNames, nestedIndependents,
                     emitProfiling, patternGraph.PackagePrefixedName,
                     patternGraph.maybeNullElementNames, suffixedMatcherNameList, paramNamesList);
             } 
@@ -200,13 +210,19 @@ namespace de.unika.ipd.grGen.lgsp
             packagePrefixedActionName = null;
             firstLoopPassed = false;
 
+            List<String> matchingPatternClassTypeNames = new List<String>();
+            List<Dictionary<PatternGraph, bool>> nestedIndependents = new List<Dictionary<PatternGraph, bool>>();
+            ExtractNestedIndependents(matchingPatternClassTypeNames, nestedIndependents, matchingPattern, patternGraph);
+
             // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfSubpattern(
                 rulePatternClassName,
                 patternGraph.Name,
                 matchingPattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
                 "myMatch",
-                wasIndependentInlined(patternGraph, indexOfSchedule), parallelized);
+                wasIndependentInlined(patternGraph, indexOfSchedule),
+                matchingPatternClassTypeNames, nestedIndependents,
+                parallelized);
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
@@ -255,15 +271,21 @@ namespace de.unika.ipd.grGen.lgsp
 
             // build combined list of namesOfPatternGraphsOnPathToEnclosedPatternpath
             // from the namesOfPatternGraphsOnPathToEnclosedPatternpath of the alternative cases
+            // also build combined lists of matching pattern class type names and nested independents
             List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath = new List<string>();
+            List<string> matchingPatternClassTypeNames = new List<string>();
+            List<Dictionary<PatternGraph, bool>> nestedIndependents = new List<Dictionary<PatternGraph, bool>>();
             for (int i = 0; i < alternative.alternativeCases.Length; ++i)
             {
                 PatternGraph altCase = alternative.alternativeCases[i];
+
                 foreach (String name in altCase.patternGraphsOnPathToEnclosedPatternpath)
                 {
                     if(!namesOfPatternGraphsOnPathToEnclosedPatternpath.Contains(name))
                         namesOfPatternGraphsOnPathToEnclosedPatternpath.Add(name);
                 }
+
+                ExtractNestedIndependents(matchingPatternClassTypeNames, nestedIndependents, matchingPattern, altCase);
             }
 
             // build outermost search program operation, create the list anchor starting its program
@@ -271,6 +293,7 @@ namespace de.unika.ipd.grGen.lgsp
                 rulePatternClassName,
                 namesOfPatternGraphsOnPathToEnclosedPatternpath,
                 "myMatch",
+                matchingPatternClassTypeNames, nestedIndependents,
                 parallelized);
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
@@ -365,6 +388,10 @@ namespace de.unika.ipd.grGen.lgsp
             packagePrefixedActionName = null;
             firstLoopPassed = false;
 
+            List<String> matchingPatternClassTypeNames = new List<String>();
+            List<Dictionary<PatternGraph, bool>> nestedIndependents = new List<Dictionary<PatternGraph, bool>>();
+            ExtractNestedIndependents(matchingPatternClassTypeNames, nestedIndependents, matchingPattern, iter);
+
             // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfIterated(
                 rulePatternClassName,
@@ -373,7 +400,9 @@ namespace de.unika.ipd.grGen.lgsp
                 iter.pathPrefix,
                 matchingPattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
                 "myMatch",
-                wasIndependentInlined(iter, indexOfSchedule), parallelized);
+                wasIndependentInlined(iter, indexOfSchedule), 
+                matchingPatternClassTypeNames, nestedIndependents,
+                parallelized);
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
@@ -430,6 +459,18 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             return insertionPoint;
+        }
+
+        private void ExtractNestedIndependents(List<String> matchingPatternClassTypeNames, List<Dictionary<PatternGraph, bool>> nestedIndependents,
+            LGSPMatchingPattern matchingPattern, PatternGraph patternGraph)
+        {
+            matchingPatternClassTypeNames.Add(matchingPattern.GetType().Name);
+            nestedIndependents.Add(patternGraph.nestedIndependents);
+
+            foreach (PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
+            {
+                ExtractNestedIndependents(matchingPatternClassTypeNames, nestedIndependents, matchingPattern, idpt);
+            }
         }
 
         ///////////////////////////////////////////////////////////////////////////////////
@@ -4893,7 +4934,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             if (patternGraph.nestedIndependents != null)
             {
-                foreach (KeyValuePair<PatternGraph,PatternGraph> nestedIndependent in patternGraph.nestedIndependents)
+                foreach (KeyValuePair<PatternGraph, bool> nestedIndependent in patternGraph.nestedIndependents)
                 {
                     string inlinedMatchObjectName = null;
                     string unprefixedName = nestedIndependent.Key.name;

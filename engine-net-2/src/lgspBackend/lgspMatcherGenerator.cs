@@ -4023,9 +4023,12 @@ exitSecondLoop: ;
         {
             if (patternGraph.nestedIndependents != null)
             {
-                foreach (KeyValuePair<PatternGraph, PatternGraph> nestedIndependent in patternGraph.nestedIndependents)
+                foreach (KeyValuePair<PatternGraph, bool> nestedIndependent in patternGraph.nestedIndependents)
                 {
-                    if(nestedIndependent.Key.originalPatternGraph != null)
+                    if (nestedIndependent.Value == true)
+                        continue; // if independent is nested in iterated with potentially more than one match we need stack-based match variables for the multiple matches living at a time
+
+                    if (nestedIndependent.Key.originalPatternGraph != null)
                     {
                         sb.AppendFrontFormat("private {0} {1} = new {0}();",
                             nestedIndependent.Key.originalSubpatternEmbedding.matchingPatternOfEmbeddedGraph.GetType().Name + "." + NamesOfEntities.MatchClassName(nestedIndependent.Key.originalPatternGraph.pathPrefix + nestedIndependent.Key.originalPatternGraph.name),
