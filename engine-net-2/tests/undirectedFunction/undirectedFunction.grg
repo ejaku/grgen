@@ -1,0 +1,37 @@
+#using "undirectedFunction.gm"
+
+test arbitraryDir(root:Node, -inc:ue-) : (set<Edge>, set<Edge>, set<Node>, set<Edge>, int, int, int, int, boolean, boolean)
+{
+	return(edges(), incident(root), adjacent(root), reachableEdges(root),
+			countEdges(), countIncident(root), countAdjacent(root), countReachableEdges(root),
+			isIncident(root, inc), isReachableEdges(root, inc));
+}
+
+test arbitraryDirExplicit(root:Node, -inc:ue-) : (set<Edge>, set<Edge>, set<Node>, set<Edge>, int, int, int, int, boolean, boolean)
+{
+	return(edges(AEdge), incident(root, AEdge), adjacent(root, AEdge), reachableEdges(root, AEdge),
+			countEdges(AEdge), countIncident(root, AEdge), countAdjacent(root, AEdge), countReachableEdges(root, AEdge),
+			isIncident(root, inc, AEdge), isReachableEdges(root, inc, AEdge));
+}
+
+test directedDirExplicit(root:Node, -inc:ue-) : (set<Edge>, set<Edge>, set<Node>, set<Edge>, int, int, int, int, boolean, boolean)
+{
+	return(edges(Edge), incident(root, Edge), adjacent(root, Edge), reachableEdges(root, Edge),
+			countEdges(Edge), countIncident(root, Edge), countAdjacent(root, Edge), countReachableEdges(root, Edge),
+			isIncident(root, inc, Edge), isReachableEdges(root, inc, Edge));
+}
+
+test undirectedDirExplicit(root:Node, -inc:ue-) : (set<Edge>, set<Edge>, set<Node>, set<Edge>, int, int, int, int, boolean, boolean)
+{
+	return(edges(UEdge), incident(root, UEdge), adjacent(root, UEdge), reachableEdges(root, UEdge),
+			countEdges(UEdge), countIncident(root, UEdge), countAdjacent(root, UEdge), countReachableEdges(root, UEdge),
+			isIncident(root, inc, UEdge), isReachableEdges(root, inc, UEdge));
+}
+
+test undirectedDirExact(root:Node, -inc:ue-) : (set<Edge>, set<Edge>, set<Node>, set<Edge>, int, int, int, int, boolean, boolean)
+{
+	return(edges(ue), incident(root, ue), adjacent(root, ue), reachableEdges(root, ue),
+			countEdges(ue), countIncident(root, ue), countAdjacent(root, ue), countReachableEdges(root, ue),
+			isIncident(root, inc, ue), isReachableEdges(root, inc, ue));
+}
+
