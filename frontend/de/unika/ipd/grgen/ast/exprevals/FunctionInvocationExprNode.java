@@ -332,7 +332,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 			else {
-				result = new EdgesExprNode(getCoords(), params.size()==1 ? params.get(0) : new IdentExprNode(env.getDirectedEdgeRoot()), env.getDirectedEdgeRoot());
+				result = new EdgesExprNode(getCoords(), params.size()==1 ? params.get(0) : new IdentExprNode(env.getArbitraryEdgeRoot()), env.getDirectedEdgeRoot());
 			}
 		}
 		else if(functionName.equals("countNodes")) {
@@ -350,7 +350,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				return false;
 			}
 			else {
-				result = new CountEdgesExprNode(getCoords(), params.size()==1 ? params.get(0) : new IdentExprNode(env.getDirectedEdgeRoot()));
+				result = new CountEdgesExprNode(getCoords(), params.size()==1 ? params.get(0) : new IdentExprNode(env.getArbitraryEdgeRoot()));
 			}
 		}
 		else if(functionName.equals("nowTime")) {
@@ -455,7 +455,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = IncidentEdgeExprNode.INCIDENT;
 			
 			if(params.size() == 1) {
-				result = new IncidentEdgeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getDirectedEdgeRoot());
+				result = new IncidentEdgeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getDirectedEdgeRoot());
 			}
 			else if(params.size() == 2) {
 				result = new IncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), direction, new IdentExprNode(env.getNodeRoot()), env.getDirectedEdgeRoot());
@@ -480,7 +480,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = AdjacentNodeExprNode.ADJACENT;
 			
 			if(params.size() == 1) {
-				result = new AdjacentNodeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
+				result = new AdjacentNodeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
 			}
 			else if(params.size() == 2) {
 				result = new AdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
@@ -505,7 +505,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = CountIncidentEdgeExprNode.INCIDENT;
 			
 			if(params.size() == 1) {
-				result = new CountIncidentEdgeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				result = new CountIncidentEdgeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 2) {
 				result = new CountIncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), direction, new IdentExprNode(env.getNodeRoot()));
@@ -530,7 +530,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = CountAdjacentNodeExprNode.ADJACENT;
 			
 			if(params.size() == 1) {
-				result = new CountAdjacentNodeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				result = new CountAdjacentNodeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 2) {
 				result = new CountAdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), direction, new IdentExprNode(env.getNodeRoot()));
@@ -555,7 +555,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = IsIncidentEdgeExprNode.INCIDENT;
 			
 			if(params.size() == 2) {
-				result = new IsIncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				result = new IsIncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 3) {
 				result = new IsIncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()));
@@ -580,7 +580,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = IsAdjacentNodeExprNode.ADJACENT;
 			
 			if(params.size() == 2) {
-				result = new IsAdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				result = new IsAdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 3) {
 				result = new IsAdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()));
@@ -605,7 +605,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = ReachableEdgeExprNode.INCIDENT;
 			
 			if(params.size() == 1) {
-				result = new ReachableEdgeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getDirectedEdgeRoot());
+				result = new ReachableEdgeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getDirectedEdgeRoot());
 			}
 			else if(params.size() == 2) {
 				result = new ReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), direction, new IdentExprNode(env.getNodeRoot()), env.getDirectedEdgeRoot());
@@ -630,7 +630,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = ReachableNodeExprNode.ADJACENT;
 
 			if(params.size() == 1) {
-				result = new ReachableNodeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
+				result = new ReachableNodeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
 			}
 			else if(params.size() == 2) {
 				result = new ReachableNodeExprNode(getCoords(), params.get(0), params.get(1), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
@@ -655,7 +655,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = CountReachableEdgeExprNode.INCIDENT;
 			
 			if(params.size() == 1) {
-				result = new CountReachableEdgeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				result = new CountReachableEdgeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 2) {
 				result = new CountReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), direction, new IdentExprNode(env.getNodeRoot()));
@@ -680,7 +680,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = CountReachableNodeExprNode.ADJACENT;
 
 			if(params.size() == 1) {
-				result = new CountReachableNodeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				result = new CountReachableNodeExprNode(getCoords(), params.get(0), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 2) {
 				result = new CountReachableNodeExprNode(getCoords(), params.get(0), params.get(1), direction, new IdentExprNode(env.getNodeRoot()));
@@ -705,7 +705,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = IsReachableNodeExprNode.ADJACENT;
 			
 			if(params.size() == 2) {
-				result = new IsReachableNodeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				result = new IsReachableNodeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 3) {
 				result = new IsReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()));
@@ -730,7 +730,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = IsReachableEdgeExprNode.INCIDENT;
 			
 			if(params.size() == 2) {
-				result = new IsReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				result = new IsReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 3) {
 				result = new IsReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()));
@@ -755,7 +755,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = BoundedReachableEdgeExprNode.INCIDENT;
 			
 			if(params.size() == 2) {
-				result = new BoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getDirectedEdgeRoot());
+				result = new BoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getDirectedEdgeRoot());
 			}
 			else if(params.size() == 3) {
 				result = new BoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()), env.getDirectedEdgeRoot());
@@ -780,7 +780,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = BoundedReachableNodeExprNode.ADJACENT;
 
 			if(params.size() == 2) {
-				result = new BoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
+				result = new BoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
 			}
 			else if(params.size() == 3) {
 				result = new BoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
@@ -805,7 +805,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = BoundedReachableNodeWithRemainingDepthExprNode.ADJACENT;
 
 			if(params.size() == 2) {
-				result = new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
+				result = new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
 			}
 			else if(params.size() == 3) {
 				result = new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()), env.getNodeRoot());
@@ -830,7 +830,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = CountBoundedReachableEdgeExprNode.INCIDENT;
 			
 			if(params.size() == 2) {
-				result = new CountBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				result = new CountBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 3) {
 				result = new CountBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()));
@@ -855,7 +855,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = CountBoundedReachableNodeExprNode.ADJACENT;
 
 			if(params.size() == 2) {
-				result = new CountBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				result = new CountBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 3) {
 				result = new CountBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction, new IdentExprNode(env.getNodeRoot()));
@@ -880,7 +880,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = IsBoundedReachableNodeExprNode.ADJACENT;
 			
 			if(params.size() == 3) {
-				result = new IsBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				result = new IsBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 4) {
 				result = new IsBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), params.get(3), direction, new IdentExprNode(env.getNodeRoot()));
@@ -905,7 +905,7 @@ public class FunctionInvocationExprNode extends ExprNode
 				direction = IsBoundedReachableEdgeExprNode.INCIDENT;
 			
 			if(params.size() == 3) {
-				result = new IsBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), new IdentExprNode(env.getDirectedEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				result = new IsBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
 			}
 			else if(params.size() == 4) {
 				result = new IsBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), params.get(3), direction, new IdentExprNode(env.getNodeRoot()));
