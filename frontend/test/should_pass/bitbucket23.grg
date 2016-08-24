@@ -1,0 +1,7 @@
+#using "bitbucket23"
+
+test tst() : (string)
+{
+	n:tst::Test;
+	return(n.toText());
+}
