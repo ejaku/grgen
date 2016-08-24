@@ -1,0 +1,71 @@
+new graph undirectedFunction/undirectedFunction
+
+new n1:Node
+new n2:Node
+new n3:Node
+new n4:Node
+new n1 -:UEdge- n2
+new n1 -e:ue-> n3
+new n1 -:Edge-> n4
+
+exec (::v1,::v2,::v3,::v4,::v5,::v6,::v7,::v8,::v9,::v10)=arbitraryDir(::n1,::e)
+show var v1
+show var v2
+show var v3
+show var v4
+show var v5
+show var v6
+show var v7
+show var v8
+show var v9
+show var v10
+
+exec (::v1,::v2,::v3,::v4,::v5,::v6,::v7,::v8,::v9,::v10)=arbitraryDirExplicit(::n1,::e)
+show var v1
+show var v2
+show var v3
+show var v4
+show var v5
+show var v6
+show var v7
+show var v8
+show var v9
+show var v10
+
+exec (::v1,::v2,::v3,::v4,::v5,::v6,::v7,::v8,::v9,::v10)=directedDirExplicit(::n1,::e)
+show var v1
+show var v2
+show var v3
+show var v4
+show var v5
+show var v6
+show var v7
+show var v8
+show var v9
+show var v10
+
+exec (::v1,::v2,::v3,::v4,::v5,::v6,::v7,::v8,::v9,::v10)=undirectedDirExplicit(::n1,::e)
+show var v1
+show var v2
+show var v3
+show var v4
+show var v5
+show var v6
+show var v7
+show var v8
+show var v9
+show var v10
+
+exec (::v1,::v2,::v3,::v4,::v5,::v6,::v7,::v8,::v9,::v10)=undirectedDirExact(::n1,::e)
+show var v1
+show var v2
+show var v3
+show var v4
+show var v5
+show var v6
+show var v7
+show var v8
+show var v9
+show var v10
+
+quit
