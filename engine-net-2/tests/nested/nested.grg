@@ -1,0 +1,47 @@
+#using "nested.gm"
+
+test classWithStuff
+{
+  c:Class; // get a class
+	
+  multiple { // get all of its methods, expect at least one
+    c -:cts-> m:Method;
+    independent { // expect an argument variable
+      m -:ref-> v:Variable;
+    }
+  }	
+
+  alternative // additionally, match one of either
+  {
+    FeatureVariable { // a variable
+      c -:cts-> v:Variable;
+    }
+    FeatureConstant { // or a constant
+      c -:cts-> ct:Constant;
+    }
+  }
+}
+
+test classWithStuffReturn : (set<Node>)
+{
+  c:Class; // get a class
+	
+  multiple mu { // get all of its methods, expect at least one
+    c -:cts-> m:Method;
+	
+	def var n:Node;
+    independent { // expect an argument variable
+      m -:ref-> v:Variable;
+	  yield { yield n = v; }
+    }
+  }	
+  
+  def ref s:set<Node> = set<Node>{};
+  yield {
+	for(n in mu) {
+		s.add(n);
+	}
+  }
+  
+  return (s);
+}
