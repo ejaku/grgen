@@ -989,10 +989,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The independents nested within this pattern graph,
         /// but only independents not nested within negatives.
-        /// Set of pattern graphs, with dummy null pattern graph due to lacking set class in c#.
+        /// Map of pattern graphs to the fact whether they are contained in an iterated pattern with potentially more than 1 match.
+        /// Then match building must occur on the call stack cause there are multiple matches living at a time, otherwise it can be limited to the matcher class (and done only as needed).
         /// Contains first the nested independents before inlinig, afterwards the ones after inlining.
         /// </summary>
-        public Dictionary<PatternGraph, PatternGraph> nestedIndependents;
+        public Dictionary<PatternGraph, bool> nestedIndependents;
 
         /// <summary>
         /// The nodes from the enclosing graph(s) used in this graph or one of it's subgraphs.
