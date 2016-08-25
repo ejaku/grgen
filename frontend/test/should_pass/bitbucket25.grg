@@ -1,0 +1,31 @@
+package x {
+        rule a() {
+                iterated {
+                        :Node;
+                        modify {
+                                exec(b());
+                        }
+                }
+                modify {
+                        exec(b());
+                }
+        }
+        rule b() {
+        }
+}
+
+package y {
+        rule a() {
+                iterated {
+                        :Node;
+                        modify {
+                                exec(y::b());
+                        }
+                }
+                modify {
+                        exec(y::b());
+                }
+        }
+        rule b() {
+        }
+}
