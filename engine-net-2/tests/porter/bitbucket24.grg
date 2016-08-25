@@ -1,0 +1,7 @@
+#using "bitbucket24.gm"
+
+test tst() : (A,B)
+{
+	a:A; b:B;
+	return(a,b);
+}

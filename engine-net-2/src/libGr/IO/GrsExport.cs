@@ -519,7 +519,7 @@ restart:
             case AttributeKind.NodeAttr:
             case AttributeKind.EdgeAttr:
                 if(value != null)
-                    return "\"" + graph.GetElementName((IGraphElement)value) + "\"";
+                    return "@(\"" + graph.GetElementName((IGraphElement)value) + "\")";
                 else
                     return "null";
             default:

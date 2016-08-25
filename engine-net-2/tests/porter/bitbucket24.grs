@@ -1,0 +1,25 @@
+new graph "porter/bitbucket24"
+
+new b1:B
+new a1:A(b=b1)
+
+show var a1
+show var b1
+show a1.b
+
+export porter/testgraph.grs
+
+import porter/testgraph.grs porter/bitbucket24.gm
+
+select actions porter/lgsp-bitbucket24Actions.dll
+
+exec (::a1,::b1)=tst()
+
+show var a1
+show var b1
+show a1.b
+
+# the test script tries to test all available .grs; no sense in trying to test the exported graph
+!rm porter/testgraph.grs
+
+quit
