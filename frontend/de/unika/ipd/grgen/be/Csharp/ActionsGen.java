@@ -374,7 +374,7 @@ public class ActionsGen extends CSharpBase {
 
 		mg.genModify(sb, subpatternRule, packageName, true);
 
-		genImperativeStatements(sb, subpatternRule, formatIdentifiable(subpatternRule) + "_", true, true);
+		genImperativeStatements(sb, subpatternRule, formatIdentifiable(subpatternRule) + "_", subpatternRule.getPackageContainedIn(), true, true);
 		genImperativeStatementClosures(sb, subpatternRule, formatIdentifiable(subpatternRule) + "_", false);
 
 		genStaticConstructor(sb, className, staticInitializers);
@@ -409,7 +409,7 @@ public class ActionsGen extends CSharpBase {
 
 		mg.genModify(sb, actionRule, packageName, false);
 
-		genImperativeStatements(sb, actionRule, formatIdentifiable(actionRule) + "_", true, false);
+		genImperativeStatements(sb, actionRule, formatIdentifiable(actionRule) + "_", actionRule.getPackageContainedIn(), true, false);
 		genImperativeStatementClosures(sb, actionRule, formatIdentifiable(actionRule) + "_", true);
 
 		genStaticConstructor(sb, className, staticInitializers);
@@ -1909,7 +1909,7 @@ public class ActionsGen extends CSharpBase {
 	// Imperative statement/exec generation //
 	//////////////////////////////////////////
 
-	private void genImperativeStatements(StringBuffer sb, Rule rule, String pathPrefix,
+	private void genImperativeStatements(StringBuffer sb, Rule rule, String pathPrefix, String packageName,
 			boolean isTopLevel, boolean isSubpattern) {
 		if(rule.getRight()==null) {
 			return;
@@ -1920,7 +1920,7 @@ public class ActionsGen extends CSharpBase {
 					+ getPackagePrefixDoubleColon(rule) + (isSubpattern ? "Pattern_" : "Rule_") + formatIdentifiable(rule) + "\n");
 		}
 		
-		genImperativeStatements(sb, rule, pathPrefix, rule.getPackageContainedIn());
+		genImperativeStatements(sb, rule, pathPrefix, packageName);
 				
 		PatternGraph pattern = rule.getPattern();
 		for(Alternative alt : pattern.getAlts()) {
@@ -1928,7 +1928,7 @@ public class ActionsGen extends CSharpBase {
 			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				genImperativeStatements(sb, altCase,
-						pathPrefix + altName + "_" + altCasePattern.getNameOfGraph() + "_",
+						pathPrefix + altName + "_" + altCasePattern.getNameOfGraph() + "_", packageName,
 						false, isSubpattern);
 			}
 		}
@@ -1936,7 +1936,7 @@ public class ActionsGen extends CSharpBase {
 		for(Rule iter : pattern.getIters()) {
 			String iterName = iter.getLeft().getNameOfGraph();
 			genImperativeStatements(sb, iter,
-					pathPrefix + iterName + "_",
+					pathPrefix + iterName + "_", packageName,
 					false, isSubpattern);
 		}
 		
