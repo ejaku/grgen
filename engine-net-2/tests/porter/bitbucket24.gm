@@ -1,0 +1,4 @@
+node class B;
+node class A {
+        b:B;
+}

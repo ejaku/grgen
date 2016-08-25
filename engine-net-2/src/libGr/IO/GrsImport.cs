@@ -1052,12 +1052,32 @@ namespace de.unika.ipd.grGen.libGr
 
         private INode ParseNodeValue(string typeName)
         {
-            return GetNodeByName(ParseText());
+            String nodeName;
+            if (LookaheadToken() == TokenKind.AT)
+            {
+                Match(TokenKind.AT);
+                Match(TokenKind.LPARENTHESIS);
+                nodeName = ParseText();
+                Match(TokenKind.RPARENTHESIS);
+            }
+            else
+                nodeName = ParseText();
+            return GetNodeByName(nodeName);
         }
 
         private IEdge ParseEdgeValue(string typeName)
         {
-            return GetEdgeByName(ParseText());
+            String edgeName;
+            if (LookaheadToken() == TokenKind.AT)
+            {
+                Match(TokenKind.AT);
+                Match(TokenKind.LPARENTHESIS);
+                edgeName = ParseText();
+                Match(TokenKind.RPARENTHESIS);
+            }
+            else
+                edgeName = ParseText();
+            return GetEdgeByName(edgeName);
         }
 
         void TransformDoubleQuotedToByte()
