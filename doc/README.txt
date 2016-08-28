@@ -1,4 +1,4 @@
-GrGen.NET v4.4.5 (2016-02-14)
+GrGen.NET v4.4.6 (2016-08-28)
 -----------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -130,6 +130,7 @@ Paolo Bonzini
 Philip Daubmeier
 Peter Grüner
 Philip Lorenz
+Carl Mai
 Julian Reich
 Nicholas Tung
 Maneesh Yadav

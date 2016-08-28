@@ -1,4 +1,17 @@
-﻿v4.4.5 (2016-02-14)
+﻿v4.4.6 (2016-08-28)
+ Bugfixes:
+  - independents in iterateds that are matched more than once yield their correct/corresponding match object
+  - bitbucket #21: the graph query functions involving edge types when the edge type is not specified explicitly
+                   default to AEdge now instead of Edge - this way also undirected edges are counted
+  - bitbucket #23, #25: code generation works now for methods of node/edge types nested within a model package
+                        and for deferred embedded sequences appearing nested within an actions package
+  - bitbucket #24: standard syntax @("name") is supported now for deferred assignments of attributes of node/edge type
+                   both in the grs exporter as well as in the grs importer
+  - bitbucket #20: arguments to GrShell calls going through the shell wrapper are now correctly escaped,
+                   meaning spaces are supported, so the -C option of GrShell is usable now
+ Some user manual polishings
+ 
+v4.4.5 (2016-02-14)
  Bugfixes:
   - bitbucket issue #15: constants of type type (given as their type name) work now in the compiled sequences
   - bitbucket issue #16: fixed implicit casts when accessing attributes of numeric types in the sequence expressions
