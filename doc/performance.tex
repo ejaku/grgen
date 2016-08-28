@@ -116,7 +116,7 @@ We consider this the best you can get for the task of efficient pattern matching
 You can only improve on this by exploiting the specifics of a less general graph model, a less general processing strategy supporting less change operations optimally out-of-the box, or by restricting yourself to less general and non-automatic pattern matching.
 E.g. by using only single-linked ringlists for the types and incident elements we could reduce memory consumption considerably and thus increase query performance, but deletion and retyping would require to iterate the full list to get to the predecessor to link it to the new successor, so rewriting would not be $O(1)$ anymore.
 Or by always entering the graph at some elsewhere stored root nodes we could save the type ringlists (that give us the modularity of the rules).
-Or by using less general edges/edges that appear only with a statically fixed association cardinality, we could reduce them to mere pointers stored in the nodes.
+Or by using less general edges/edges that appear only with a statically fixed association cardinality, we could reduce them to mere pointers stored in the nodes (not supporting attributes, not allowing to wire nodes at runtime flexibly with an arbitrary number of edges).
 
 \GrG\ was built for general-purpose graph pattern matching and rewriting on a general model, to perform well on \emph{any} task, with \emph{minimum programming effort} for the user; regarding this it is implemented in a way we consider optimal and not improvable.
 If you are willing to invest extra programming and understanding effort to exploit the specifics of your task at hand, you \emph{can} manually code a higher-performance solution, by stripping away features from the model you don't need.

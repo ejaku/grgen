@@ -628,13 +628,13 @@ rule outCount(head:Node) : (int)
   iterated {
     head --> .;
     modify {
-      eval { yield count = count + 1; }
+      eval { yield cnt = cnt + 1; }
     }
   }
 
   modify {
-    def var count:int = 0;
-    return (count);
+    def var cnt:int = 0;
+    return (cnt);
   }
 }
   \end{grgen}

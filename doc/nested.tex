@@ -376,6 +376,52 @@ test refineFeature
 \end{example}
 
 
+\begin{example}
+
+\begin{center}
+  \parbox{0.99\linewidth}{\includegraphics[width=\linewidth]{fig/exnested}}
+\end{center}
+
+The image from above shows an example how a structure is matched by several pieces.
+At the left, the plain host graph, at the right with the match of \texttt{classWithStuff} inscribed.
+
+\begin{grgen}
+test classWithStuff
+{
+  c:Class; // get a class
+	
+  multiple { // get all of its methods, expect at least one
+    c --> m:Method;
+		independent { // expect an argument variable
+		  m -:ref-> v:Variable;
+		}
+  }	
+
+  alternative // additionally, match one of either
+  {
+    FeatureVariable { // a variable
+      c --> v:Variable;
+    }
+    FeatureConstant { // or a constant
+      c --> ct:Constant;
+    }
+  }
+}
+\end{grgen}
+
+The example matches a class node \texttt{c} and its contained methods with a \texttt{multiple} pattern -- note the 3 instances of the pattern in the host graph getting captured by the single pattern description
+(\verb#/(.)+/1/m# reads as multiple pattern (see Table~\ref{keywordregexpsyntax} explaining the regular expression syntax), match instance \texttt{1} (starting at \texttt{0}), pattern element \texttt{m}.)
+
+Additionally, one of the alternative cases of a variable or a constant is matched -- here we got two potential patterns, from which only one is matched, capturing node \verb#$4# out of the potential targets \verb#$4#, \verb#$5#, \verb#$6#
+(\verb#/(.|.)/FeatureVariable/v# reads as alternative, case \texttt{FeatureVariable}, pattern element \texttt{v}.)
+
+The independent that is used to reference a parameter variable \texttt{v} from method \texttt{m} allows to re-match an already matched variable that would be otherwise shut out from getting matched again
+(happened here with node \verb#$7#, matched from instances $0$ and $1$ of the multiple pattern; a graph element is annotated with all matching pattern elements).
+
+\end{example}
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Nested Pattern Rewriting}
 \indexmain{nested pattern rewrite}\label{sec:nestedrewrite}
