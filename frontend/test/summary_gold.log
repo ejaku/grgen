@@ -112,7 +112,15 @@ OK     should_pass/basic_300.grg
 OK     should_pass/basic_400.grg
 OK     should_pass/bitbucket10.grg
 OK     should_pass/bitbucket12.grg
+OK     should_pass/bitbucket15.grg
+OK     should_pass/bitbucket17.grg
+OK     should_pass/bitbucket18.grg
+OK     should_pass/bitbucket18a.grg
+OK     should_pass/bitbucket18b.grg
+OK     should_pass/bitbucket19.grg
 FAILED should_pass/bitbucket2.grg
+OK     should_pass/bitbucket23.grg
+OK     should_pass/bitbucket25.grg
 OK     should_pass/bitbucket3.grg
 OK     should_pass/bitbucket3b.grg
 OK     should_pass/bitbucket4.grg
