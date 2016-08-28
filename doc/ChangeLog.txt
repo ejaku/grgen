@@ -9,6 +9,7 @@
                    both in the grs exporter as well as in the grs importer
   - bitbucket #20: arguments to GrShell calls going through the shell wrapper are now correctly escaped,
                    meaning spaces are supported, so the -C option of GrShell is usable now
+  - bitbucket #19: fixed crash in premature signature check for method overriding
  Some user manual polishings
  
 v4.4.5 (2016-02-14)
