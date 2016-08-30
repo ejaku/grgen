@@ -1,0 +1,8 @@
+package tst {
+        node class Test {
+            a:string;
+            function toText() : string {
+                return("ASD");
+            }
+        }
+}

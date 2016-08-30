@@ -184,6 +184,10 @@ public class UnitNode extends BaseNode {
 			res = checkModelTypes(res, model.getTypeDecls());
 			for(ModelNode usedModel : model.getUsedModels().getChildren()) {
 				res = checkModelTypes(res, usedModel.getTypeDecls());
+				for(TypeDeclNode package_ : usedModel.getPackages().getChildren()) {
+					PackageTypeNode packageType = (PackageTypeNode)package_.getDeclType();
+					res = checkModelTypes(res, packageType.getTypeDecls());
+				}
 			}
 			for(TypeDeclNode package_ : model.getPackages().getChildren()) {
 				PackageTypeNode packageType = (PackageTypeNode)package_.getDeclType();
