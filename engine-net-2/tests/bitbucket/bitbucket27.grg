@@ -1,0 +1,8 @@
+#using "bitbucket27.gm"
+
+rule merge(a:Node, b:Node) : (Node) {
+        modify {
+                x:typeof(a)<a,b>;
+				return(x);
+        }
+}

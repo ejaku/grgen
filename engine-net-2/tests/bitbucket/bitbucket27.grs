@@ -1,0 +1,17 @@
+new graph "bitbucket/bitbucket27"
+
+new a:p::A(x="x")
+new b:p::B
+
+exec (::v)=merge(::a, ::b)
+show var v
+v.x
+
+new a:A(x="x")
+new b:B
+
+exec (::v)=merge(::a, ::b)
+show var v
+v.x
+
+quit

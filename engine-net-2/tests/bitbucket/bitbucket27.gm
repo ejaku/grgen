@@ -1,0 +1,7 @@
+package p {
+        node class B;
+        node class A { x:string; }
+}
+
+node class B;
+node class A { x:string; }
