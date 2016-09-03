@@ -1981,8 +1981,8 @@ deque_init_loop:
 		Map<BitSet, LinkedList<InheritanceType>> commonGroups = new LinkedHashMap<BitSet, LinkedList<InheritanceType>>();
 
 		Collection<? extends InheritanceType> typeSet =
-			isNode ? (Collection<? extends InheritanceType>) model.getNodeTypes()
-			: (Collection<? extends InheritanceType>) model.getEdgeTypes();
+			isNode ? (Collection<? extends InheritanceType>) model.getAllNodeTypes()
+			: (Collection<? extends InheritanceType>) model.getAllEdgeTypes();
 		for(InheritanceType itype : typeSet) {
 			if(itype.isAbstract()) continue;
 
