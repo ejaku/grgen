@@ -1,4 +1,10 @@
-﻿v4.4.6 (2016-08-28)
+﻿v4.4.7 (2016-09-21)
+ Bugfixes:
+  - bitbucket #26: code generation works now for methods of node/edge types nested within a model package,
+                   even if the package is only used from a main model not contained in a package (so more general #23)
+  - bitbucket #27: copying of attributes of common ancestors during retyping now also works for types nested in packages
+  
+v4.4.6 (2016-08-28)
  Bugfixes:
   - independents in iterateds that are matched more than once yield their correct/corresponding match object
   - bitbucket #21: the graph query functions involving edge types when the edge type is not specified explicitly
