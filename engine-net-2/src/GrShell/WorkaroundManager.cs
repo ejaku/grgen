@@ -348,8 +348,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 if(workaround == null)
                 {
-                    Type t = Type.GetType("System.Int32");
-                    if(t.GetType().ToString() == "System.MonoType")
+                    if(Type.GetType("Mono.Runtime") != null)
                     {
                         if(Environment.OSVersion.Platform == PlatformID.Unix)
                             workaround = new MonoLinuxWorkaroundConsoleIO();
@@ -357,7 +356,9 @@ namespace de.unika.ipd.grGen.grShell
                             workaround = new MonoWindowsWorkaroundConsoleIO();
                     }
                     else
+                    {
                         workaround = new NoWorkaroundConsoleIO();
+                    }
                 }
                 return workaround;
             }
