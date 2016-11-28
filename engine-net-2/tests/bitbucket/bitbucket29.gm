@@ -1,0 +1,4 @@
+node class MyNode {
+    id:string;
+}
+index IdIndex { MyNode.id }

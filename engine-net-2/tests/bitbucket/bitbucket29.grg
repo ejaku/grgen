@@ -1,0 +1,24 @@
+#using "bitbucket29.gm"
+
+rule initRule {
+    modify {
+        firstNode:MyNode --> secondNode:MyNode;
+        thirdNode:MyNode;
+        eval {
+            firstNode.id = "1";
+            secondNode.id = "2";
+            thirdNode.id = "1";
+        }
+    }
+}
+
+rule search()  {
+    n:MyNode { IdIndex == "1"};
+    modify {
+        eval {
+			// output scheme stemming from value of attribute printing that gets inserted into test data file
+			emit("1 value of attribute 5 6 " + nameof(n) + "\n");
+ 			emit("1 value of attribute 5 6 " + n.id + "\n");
+       }
+    }
+}
