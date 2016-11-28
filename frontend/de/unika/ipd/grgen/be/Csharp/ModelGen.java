@@ -2541,6 +2541,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\tcount = 0;\n");
 		sb.append("\t\t\tversion = 0;\n");
 		sb.append("\t\t\t\n");
+		sb.append("\t\t\tgraph.OnClearingGraph += ClearingGraph;\n");
 		if(index.type instanceof NodeType) {
 			sb.append("\t\t\tgraph.OnNodeAdded += Added;\n");
 			sb.append("\t\t\tgraph.OnRemovingNode += Removing;\n");
@@ -3109,6 +3110,17 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		String attributeType = formatAttributeType(index.entity);
 		String attributeName = index.entity.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(index.type);
+
+		sb.append("\t\tvoid ClearingGraph()\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\t// ReInitialize AA tree to clear the index\n");
+		sb.append("\t\t\tbottom = new TreeNode();\n");
+		sb.append("\t\t\troot = bottom;\n");
+		sb.append("\t\t\tdeleted = bottom;\n");
+		sb.append("\t\t\tlast = null;\n");
+		sb.append("\t\t\tcount = 0;\n");
+		sb.append("\t\t\tversion = 0;\n");
+		sb.append("\t\t}\n\n");
 		
 		sb.append("\t\tvoid Added(GRGEN_LIBGR.IGraphElement elem)\n");
 		sb.append("\t\t{\n");
@@ -3433,6 +3445,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\tcount = 0;\n");
 		sb.append("\t\t\tversion = 0;\n");
 		sb.append("\t\t\t\n");
+		sb.append("\t\t\tgraph.OnClearingGraph += ClearingGraph;\n");
 		sb.append("\t\t\tgraph.OnEdgeAdded += EdgeAdded;\n");
 		sb.append("\t\t\tgraph.OnNodeAdded += NodeAdded;\n");
 		sb.append("\t\t\tgraph.OnRemovingEdge += RemovingEdge;\n");
@@ -3778,6 +3791,17 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		String startNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
 		String incidentEdgeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getIncidentEdgeType());
 		String incidentEdgeTypeType = formatTypeClassRefInstance(((IncidenceCountIndex)index).getIncidentEdgeType());
+		
+		sb.append("\t\tvoid ClearingGraph()\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\t// ReInitialize AA tree to clear the index\n");
+		sb.append("\t\t\tbottom = new TreeNode();\n");
+		sb.append("\t\t\troot = bottom;\n");
+		sb.append("\t\t\tdeleted = bottom;\n");
+		sb.append("\t\t\tlast = null;\n");
+		sb.append("\t\t\tcount = 0;\n");
+		sb.append("\t\t\tversion = 0;\n");
+		sb.append("\t\t}\n\n");
 
 		sb.append("\t\tvoid EdgeAdded(GRGEN_LIBGR.IEdge edge)\n");
 		sb.append("\t\t{\n");

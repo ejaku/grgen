@@ -1,0 +1,11 @@
+new graph "bitbucket/bitbucket29"
+
+exec initRule
+
+exec [search]
+
+clear graph
+
+exec [search]
+
+quit
