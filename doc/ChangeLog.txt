@@ -1,4 +1,9 @@
-﻿v4.4.7 (2016-09-21)
+﻿v4.4.8 (2016-11-29)
+ Bugfixes:
+  - bitbucket #28: switched to the officially supported way of detecting mono
+  - bitbucket #29: indices are now cleared when their graph is cleared
+  
+v4.4.7 (2016-09-21)
  Bugfixes:
   - bitbucket #26: code generation works now for methods of node/edge types nested within a model package,
                    even if the package is only used from a main model not contained in a package (so more general #23)
