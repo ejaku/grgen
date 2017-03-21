@@ -1,0 +1,13 @@
+#using "bitbucket30.gm"
+
+sequence EmitEdge {
+    for{e:Edge in edges(Edge); {emit(e + "\n")}}
+}
+
+sequence EmitDirectedEdge {                     // works!
+    for{e:MyDirectedEdge in edges(MyDirectedEdge); {emit(e + "\n")}}
+}
+
+sequence EmitUndirectedEdge {                   // build fails!
+    for{e:MyUndirectedEdge in edges(MyUndirectedEdge); {emit(e + "\n")}}
+}

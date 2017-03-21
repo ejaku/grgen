@@ -3224,7 +3224,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 if(SequenceType == SequenceType.ForEdges)
                 {
-                    if(!TypesHelper.IsSameOrSubtype(Var.Type, "Edge", env.Model))
+                    if(!TypesHelper.IsSameOrSubtype(Var.Type, "AEdge", env.Model))
                         throw new SequenceParserException(Var.Name, "an edge type", Var.Type);
                     //if(Expr != null && TypesHelper.GetEdgeType(Expr.Type(env), env.Model) == null)
                     //    throw new SequenceParserException(Expr.Symbol, "an edge type", Expr.Type(env));
