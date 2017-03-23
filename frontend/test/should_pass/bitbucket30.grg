@@ -4,10 +4,19 @@ sequence EmitEdge {
     for{e:Edge in edges(Edge); {emit(e + "\n")}}
 }
 
+sequence EmitUEdge {
+    for{e:UEdge in edges(UEdge); {emit(e + "\n")}}
+}
+
+sequence EmitAEdge {
+    for{e:AEdge in edges(AEdge); {emit(e + "\n")}}
+}
+
 sequence EmitDirectedEdge {                     // works!
     for{e:MyDirectedEdge in edges(MyDirectedEdge); {emit(e + "\n")}}
 }
 
-sequence EmitUndirectedEdge {                   // build fails!
+sequence EmitUndirectedEdge {                   // build fails! not anymore, fixed
     for{e:MyUndirectedEdge in edges(MyUndirectedEdge); {emit(e + "\n")}}
 }
+

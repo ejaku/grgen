@@ -1,0 +1,101 @@
+#using "bitbucket30.gm"
+
+rule rEmitEdge {
+    modify {
+        eval {
+			for (e:Edge in edges(Edge)) {
+				emit(e, "\n");
+			}
+		}
+    }
+}
+
+rule rEmitUEdge {
+    modify {
+        eval {
+			for (e:UEdge in edges(UEdge)) {
+				emit(e, "\n");
+			}
+		}
+    }
+}
+
+rule rEmitAEdge {
+    modify {
+        eval {
+			for (e:AEdge in edges(AEdge)) {
+				emit(e, "\n");
+			}
+		}
+    }
+}
+
+rule rEmitEdgeNoArgument {
+    modify {
+        eval {
+			for (e:Edge in edges()) { // may fail at runtime
+				emit(e, "\n");
+			}
+		}
+    }
+}
+
+rule rEmitUEdgeNoArgument {
+    modify {
+        eval {
+			for (e:UEdge in edges()) { // may fail at runtime
+				emit(e, "\n");
+			}
+		}
+    }
+}
+
+rule rEmitAEdgeNoArgument {
+    modify {
+        eval {
+			for (e:AEdge in edges()) {
+				emit(e, "\n");
+			}
+		}
+    }
+}
+
+rule rEmitDirectedEdge {
+    modify {
+        eval {
+			for (e:MyDirectedEdge in edges(MyDirectedEdge)) {
+				emit(e, "\n");
+			}
+		}
+    }
+}
+
+rule rEmitUndirectedEdge {
+    modify {
+        eval {
+			for (e:MyUndirectedEdge in edges(MyUndirectedEdge)) {
+				emit(e, "\n");
+			}
+		}
+    }
+}
+
+rule rEmitDirectedEdgeNoArgument {
+    modify {
+        eval {
+			for (e:MyDirectedEdge in edges()) { // may fail at runtime
+				emit(e, "\n");
+			}
+		}
+    }
+}
+
+rule rEmitUndirectedEdgeNoArgument {
+    modify {
+        eval {
+			for (e:MyUndirectedEdge in edges()) { // may fail at runtime
+				emit(e, "\n");
+			}
+		}
+    }
+}

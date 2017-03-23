@@ -187,12 +187,15 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 			}
 		}
 		else if(procedureName.equals("emit")) {
-			if(params.size() != 1) {
-				reportError("emit(value) takes one parameter.");
+			if(params.size() >= 1) {
+				EmitProcNode emit = new EmitProcNode(getCoords());
+				for(ExprNode param : params.getChildren()) {
+					emit.addExpression(param);
+				}
+				result = emit;
+			} else {
+				reportError("emit() takes at least one parameter.");
 				return false;
-			}
-			else {
-				result = new EmitProcNode(getCoords(), params.get(0));
 			}
 		}
 		else if(procedureName.equals("exportFile")) {
@@ -239,11 +242,11 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 		}
 		else if(procedureName.equals("emitDebug")) {
 			if(params.size() >= 1) {
-				DebugEmitProcNode rem = new DebugEmitProcNode(getCoords());
+				DebugEmitProcNode emit = new DebugEmitProcNode(getCoords());
 				for(ExprNode param : params.getChildren()) {
-					rem.addExpression(param);
+					emit.addExpression(param);
 				}
-				result = rem;
+				result = emit;
 			} else {
 				reportError("Debug::emit() takes at least one parameter, the message to report.");
 				return false;				
@@ -251,11 +254,11 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 		}
 		else if(procedureName.equals("haltDebug")) {
 			if(params.size() >= 1) {
-				DebugHaltProcNode rem = new DebugHaltProcNode(getCoords());
+				DebugHaltProcNode halt = new DebugHaltProcNode(getCoords());
 				for(ExprNode param : params.getChildren()) {
-					rem.addExpression(param);
+					halt.addExpression(param);
 				}
-				result = rem;
+				result = halt;
 			} else {
 				reportError("Debug::halt() takes at least one parameter, the message to report.");
 				return false;				

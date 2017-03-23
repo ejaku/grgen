@@ -7,16 +7,18 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class EmitProc extends ProcedureInvocationBase {
-	private Expression toEmitExpr;
+import java.util.Collection;
 
-	public EmitProc(Expression toEmitExpr) {
+public class EmitProc extends ProcedureInvocationBase {
+	private Collection<Expression> exprs;
+
+	public EmitProc(Collection<Expression> expressions) {
 		super("emit procedure");
-		this.toEmitExpr = toEmitExpr;
+		this.exprs = expressions;
 	}
 
-	public Expression getToEmitExpr() {
-		return toEmitExpr;
+	public Collection<Expression> getExpressions() {
+		return exprs;
 	}
 
 	public ProcedureBase getProcedureBase() {
@@ -25,6 +27,8 @@ public class EmitProc extends ProcedureInvocationBase {
 
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		toEmitExpr.collectNeededEntities(needs);
+		for(Expression expr : exprs) {
+			expr.collectNeededEntities(needs);
+		}
 	}
 }

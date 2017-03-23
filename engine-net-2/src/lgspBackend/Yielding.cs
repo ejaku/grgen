@@ -2006,33 +2006,41 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class EmitStatement : Yielding
     {
-        public EmitStatement(Expression toEmit)
+        public EmitStatement(Expression[] values)
         {
-            ToEmitExpression = toEmit;
+            Values = values;
         }
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new EmitStatement(ToEmitExpression.Copy(renameSuffix));
+            Expression[] valuesCopy = new Expression[Values.Length];
+            for (int i = 0; i < Values.Length; ++i)
+                valuesCopy[i] = Values[i].Copy(renameSuffix);
+            return new EmitStatement(valuesCopy);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             String emitVar = "emit_value_" + fetchId().ToString();
-            sourceCode.AppendFront("object " + emitVar + " = ");
-            ToEmitExpression.Emit(sourceCode);
-            sourceCode.Append(";\n");
-            sourceCode.AppendFront("if(" + emitVar + " != null)\n");
-            sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
-                    + "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph));\n");
+            sourceCode.AppendFront("object " + emitVar + ";\n");
+            foreach (Expression value in Values)
+            {
+                sourceCode.AppendFront(emitVar + " = ");
+                value.Emit(sourceCode);
+                sourceCode.Append(";\n");
+                sourceCode.AppendFront("if(" + emitVar + " != null)\n");
+                sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
+                        + "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph));\n");
+            }
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return ToEmitExpression;
+            foreach (Expression expr in Values)
+                yield return expr;
         }
 
-        Expression ToEmitExpression;
+        Expression[] Values;
     }
 
     /// <summary>
@@ -2051,7 +2059,7 @@ namespace de.unika.ipd.grGen.expression
             Expression[] valuesCopy = new Expression[Values.Length];
             for(int i = 0; i < Values.Length; ++i)
                 valuesCopy[i] = Values[i].Copy(renameSuffix);
-            return new DebugAddStatement(Message.Copy(renameSuffix), Values);
+            return new DebugAddStatement(Message.Copy(renameSuffix), valuesCopy);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2093,7 +2101,7 @@ namespace de.unika.ipd.grGen.expression
             Expression[] valuesCopy = new Expression[Values.Length];
             for(int i = 0; i < Values.Length; ++i)
                 valuesCopy[i] = Values[i].Copy(renameSuffix);
-            return new DebugRemStatement(Message.Copy(renameSuffix), Values);
+            return new DebugRemStatement(Message.Copy(renameSuffix), valuesCopy);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2135,7 +2143,7 @@ namespace de.unika.ipd.grGen.expression
             Expression[] valuesCopy = new Expression[Values.Length];
             for(int i = 0; i < Values.Length; ++i)
                 valuesCopy[i] = Values[i].Copy(renameSuffix);
-            return new DebugEmitStatement(Message.Copy(renameSuffix), Values);
+            return new DebugEmitStatement(Message.Copy(renameSuffix), valuesCopy);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2177,7 +2185,7 @@ namespace de.unika.ipd.grGen.expression
             Expression[] valuesCopy = new Expression[Values.Length];
             for(int i = 0; i < Values.Length; ++i)
                 valuesCopy[i] = Values[i].Copy(renameSuffix);
-            return new DebugHaltStatement(Message.Copy(renameSuffix), Values);
+            return new DebugHaltStatement(Message.Copy(renameSuffix), valuesCopy);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2223,7 +2231,7 @@ namespace de.unika.ipd.grGen.expression
             Expression[] sourceNamesCopy = new Expression[SourceNames.Length];
             for(int i = 0; i < SourceNames.Length; ++i)
                 sourceNamesCopy[i] = SourceNames[i].Copy(renameSuffix);
-            return new DebugHighlightStatement(Message.Copy(renameSuffix), Values, SourceNames);
+            return new DebugHighlightStatement(Message.Copy(renameSuffix), valuesCopy, sourceNamesCopy);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2276,7 +2284,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new EmitStatement(ToRecordExpression.Copy(renameSuffix));
+            return new RecordStatement(ToRecordExpression.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
