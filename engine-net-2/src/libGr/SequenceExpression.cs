@@ -5275,7 +5275,7 @@ namespace de.unika.ipd.grGen.libGr
                 base.Check(env); // check children
 
                 if(!TypesHelper.IsSameOrSubtype(NamedEntity.Type(env), "Node", env.Model)
-                    && !TypesHelper.IsSameOrSubtype(NamedEntity.Type(env), "Edge", env.Model)
+                    && !TypesHelper.IsSameOrSubtype(NamedEntity.Type(env), "AEdge", env.Model)
                     && !TypesHelper.IsSameOrSubtype(NamedEntity.Type(env), "graph", env.Model))
                 {
                     throw new SequenceParserException(Symbol, "node or edge or graph type", NamedEntity.Type(env));
@@ -5333,7 +5333,7 @@ namespace de.unika.ipd.grGen.libGr
                 base.Check(env); // check children
 
                 if(!TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "Node", env.Model)
-                    && !TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "Edge", env.Model)
+                    && !TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "AEdge", env.Model)
                     && !TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "graph", env.Model))
                 {
                     throw new SequenceParserException(Symbol, "node or edge or graph type", UniquelyIdentifiedEntity.Type(env));

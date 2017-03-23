@@ -2565,7 +2565,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(Var.Type == "")
                 throw new SequenceParserException(Var.Name, "a node or edge type", "statically unknown type");
-            if(!TypesHelper.IsSameOrSubtype(Var.Type, "Node", env.Model) && !TypesHelper.IsSameOrSubtype(Var.Type, "Edge", env.Model))
+            if(!TypesHelper.IsSameOrSubtype(Var.Type, "Node", env.Model) && !TypesHelper.IsSameOrSubtype(Var.Type, "AEdge", env.Model))
                 throw new SequenceParserException(Symbol + " - " + Var.Name, "Node or Edge", Var.Type);
             
             Expr.Check(env);
@@ -3271,7 +3271,7 @@ namespace de.unika.ipd.grGen.libGr
                     || SequenceType == SequenceType.ForBoundedReachableEdgesViaIncoming
                     || SequenceType == SequenceType.ForBoundedReachableEdgesViaOutgoing)
                 {
-                    if(!TypesHelper.IsSameOrSubtype(Var.Type, "Edge", env.Model))
+                    if(!TypesHelper.IsSameOrSubtype(Var.Type, "AEdge", env.Model))
                         throw new SequenceParserException(Var.Name, "an edge type", Var.Type);
                 }
 
