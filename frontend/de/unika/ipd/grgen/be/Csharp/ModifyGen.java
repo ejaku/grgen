@@ -4443,13 +4443,16 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void genEmitProc(StringBuffer sb, ModifyGenerationStateConst state, EmitProc ep) {
-    	String emitVar = "emit_value_" + tmpVarID++;
-		sb.append("\t\t\tobject " + emitVar + " = ");
-		genExpression(sb, ep.getToEmitExpr(), state);
-		sb.append(";\n");
-		sb.append("\t\t\tif(" + emitVar + " != null)\n");
-		sb.append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
-				+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph));\n");
+		String emitVar = "emit_value_" + tmpVarID++;
+		sb.append("\t\t\tobject " + emitVar + ";\n");
+		for(Expression expr : ep.getExpressions()) {
+			sb.append("\t\t\t" + emitVar + " = ");
+			genExpression(sb, expr, state);
+			sb.append(";\n");
+			sb.append("\t\t\tif(" + emitVar + " != null)\n");
+			sb.append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
+					+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph));\n");
+		}
 	}
 
 	private void genDebugAddProc(StringBuffer sb, ModifyGenerationStateConst state, DebugAddProc dap) {

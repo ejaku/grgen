@@ -25,25 +25,29 @@ public class EmitProcNode extends ProcedureInvocationBaseNode {
 		setName(EmitProcNode.class, "emit procedure");
 	}
 
-	private ExprNode exprToEmit;
+	private CollectNode<ExprNode> exprs = new CollectNode<ExprNode>();
 
-	public EmitProcNode(Coords coords, ExprNode exprToEmit) {
+	public EmitProcNode(Coords coords) {
 		super(coords);
 
-		this.exprToEmit = becomeParent(exprToEmit);
+		this.exprs = becomeParent(exprs);
+	}
+
+	public void addExpression(ExprNode expr) {
+		exprs.addChild(expr);
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(exprToEmit);
+		children.add(exprs);
 		return children;
 	}
 
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("exprToEmit");
+		childrenNames.add("exprs");
 		return childrenNames;
 	}
 
@@ -64,6 +68,10 @@ public class EmitProcNode extends ProcedureInvocationBaseNode {
 
 	@Override
 	protected IR constructIR() {
-		return new EmitProc(exprToEmit.checkIR(Expression.class));
+		Vector<Expression> expressions = new Vector<Expression>();
+		for(ExprNode expr : exprs.getChildren()) {
+			expressions.add(expr.checkIR(Expression.class));
+		}
+		return new EmitProc(expressions);
 	}
 }

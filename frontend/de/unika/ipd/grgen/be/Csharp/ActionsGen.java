@@ -5399,7 +5399,12 @@ public class ActionsGen extends CSharpBase {
 	private void genEmitProc(StringBuffer sb, EmitProc ep,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		sb.append("\t\t\t\tnew GRGEN_EXPR.EmitStatement(");
-		genExpressionTree(sb, ep.getToEmitExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append("new GRGEN_EXPR.Expression[] { ");
+		for(Expression expr : ep.getExpressions()) {
+			genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+		}
+		sb.append("}");
 		sb.append(")");
 	}
 
