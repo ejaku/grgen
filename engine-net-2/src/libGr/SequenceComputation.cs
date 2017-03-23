@@ -1639,7 +1639,7 @@ namespace de.unika.ipd.grGen.libGr
             if(Expr.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), "Node", env.Model)
-                    && !TypesHelper.IsSameOrSubtype(Expr.Type(env), "Edge", env.Model))
+                    && !TypesHelper.IsSameOrSubtype(Expr.Type(env), "AEdge", env.Model))
                 {
                     throw new SequenceParserException(Symbol, "node or edge", Expr.Type(env));
                 }
@@ -1727,7 +1727,7 @@ namespace de.unika.ipd.grGen.libGr
             if(ElemExpr.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(ElemExpr.Type(env), "Node", env.Model)
-                    && !TypesHelper.IsSameOrSubtype(ElemExpr.Type(env), "Edge", env.Model))
+                    && !TypesHelper.IsSameOrSubtype(ElemExpr.Type(env), "AEdge", env.Model))
                 {
                     throw new SequenceParserException(Symbol + ", first argument", "node or edge", ElemExpr.Type(env));
                 }
@@ -1821,7 +1821,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(ExprSrc != null)
                 {
-                    if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), "Edge", env.Model))
+                    if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), "AEdge", env.Model))
                     {
                         throw new SequenceParserException(Symbol + "first argument", "edge", Expr.Type(env));
                     }
@@ -1970,7 +1970,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(EdgeExpr.Type(env) != "")
             {
-                if(!TypesHelper.IsSameOrSubtype(EdgeExpr.Type(env), "Edge", env.Model))
+                if(!TypesHelper.IsSameOrSubtype(EdgeExpr.Type(env), "AEdge", env.Model))
                 {
                     throw new SequenceParserException(Symbol + "first argument", "edge", EdgeExpr.Type(env));
                 }
@@ -2033,7 +2033,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(EdgeExpr.Type(env) != "")
             {
-                if(!TypesHelper.IsSameOrSubtype(EdgeExpr.Type(env), "Edge", env.Model))
+                if(!TypesHelper.IsSameOrSubtype(EdgeExpr.Type(env), "AEdge", env.Model))
                 {
                     throw new SequenceParserException(Symbol + "first argument", "edge", EdgeExpr.Type(env));
                 }
@@ -2098,7 +2098,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(EdgeExpr.Type(env) != "")
             {
-                if(!TypesHelper.IsSameOrSubtype(EdgeExpr.Type(env), "Edge", env.Model))
+                if(!TypesHelper.IsSameOrSubtype(EdgeExpr.Type(env), "AEdge", env.Model))
                 {
                     throw new SequenceParserException(Symbol + "first argument", "edge", EdgeExpr.Type(env));
                 }

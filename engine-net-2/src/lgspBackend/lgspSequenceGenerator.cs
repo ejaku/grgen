@@ -3159,7 +3159,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront("GRGEN_LIBGR.INode " + remVal + " = (GRGEN_LIBGR.INode)" + seqRemExpr + ";\n");
                             source.AppendFront("graph.RemoveEdges(" + remVal + "); graph.Remove(" + remVal + ");\n");
                         }
-                        else if(TypesHelper.IsSameOrSubtype(seqRem.Expr.Type(env), "Edge", model))
+                        else if(TypesHelper.IsSameOrSubtype(seqRem.Expr.Type(env), "AEdge", model))
                         {
                             source.AppendFront("GRGEN_LIBGR.IEdge " + remVal + " = (GRGEN_LIBGR.IEdge)" + seqRemExpr + ";\n");
                             source.AppendFront("\tgraph.Remove(" + remVal + ");\n");
