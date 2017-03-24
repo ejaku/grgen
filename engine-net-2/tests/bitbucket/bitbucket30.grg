@@ -1,0 +1,45 @@
+#using "bitbucket30.gm"
+
+rule init {
+	modify {
+		n:MyNode;
+		n -:MyDirectedEdge-> n;
+		n -:MyUndirectedEdge- n;
+	}
+}
+
+sequence EmitEdge {
+    for{e:Edge in edges(Edge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+}
+
+sequence EmitEdgeFail {
+    for{e:Edge in edges(AEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+}
+
+sequence EmitUEdge {
+    for{e:UEdge in edges(UEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+}
+
+sequence EmitUEdgeFail {
+    for{e:UEdge in edges(AEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+}
+
+sequence EmitAEdge {
+    for{e:AEdge in edges(AEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+}
+
+sequence EmitDirectedEdge {
+    for{e:MyDirectedEdge in edges(MyDirectedEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+}
+
+sequence EmitDirectedEdgeFail {
+    for{e:MyDirectedEdge in edges(AEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+}
+
+sequence EmitUndirectedEdge {
+    for{e:MyUndirectedEdge in edges(MyUndirectedEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+}
+
+sequence EmitUndirectedEdgeFail {
+    for{e:MyUndirectedEdge in edges(AEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+}

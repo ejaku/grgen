@@ -224,7 +224,12 @@ namespace de.unika.ipd.grGen.lgsp
             else
             {
                 String cast = "(" + TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model) + ")";
-                return "var_" + seqVar.Prefix + seqVar.PureName + " = " + cast + "(" + valueToWrite + ");\n";
+                if (seqVar.Type == "Edge")
+                    return "var_" + seqVar.Prefix + seqVar.PureName + " = GRGEN_LIBGR.TypesHelper.EnsureIsDirectedEdge(" + cast + "(" + valueToWrite + "));\n";
+                else if(seqVar.Type == "UEdge")
+                    return "var_" + seqVar.Prefix + seqVar.PureName + " = GRGEN_LIBGR.TypesHelper.EnsureIsUndirectedEdge(" + cast + "(" + valueToWrite + "));\n";
+                else
+                    return "var_" + seqVar.Prefix + seqVar.PureName + " = " + cast + "(" + valueToWrite + ");\n";
             }
         }
 
