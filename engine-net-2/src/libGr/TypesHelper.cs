@@ -706,5 +706,19 @@ namespace de.unika.ipd.grGen.libGr
             else
                 return ContainerHelper.Clone(toBeCloned);
         }
+
+        public static IEdge EnsureIsDirectedEdge(IEdge edge)
+        {
+            if (edge.Type.Directedness != Directedness.Directed)
+                throw new InvalidCastException("Directed edge expected");
+            return edge;
+        }
+
+        public static IEdge EnsureIsUndirectedEdge(IEdge edge)
+        {
+            if (edge.Type.Directedness != Directedness.Undirected)
+                throw new InvalidCastException("Undirected edge expected");
+            return edge;
+        }
     }
 }
