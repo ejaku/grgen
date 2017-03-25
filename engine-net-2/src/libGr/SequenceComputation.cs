@@ -2357,7 +2357,9 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     throw new SequenceParserException(Symbol, "set<Edge> type", EdgeSet.Type(env));
                 }
-                if(TypesHelper.ExtractSrc(EdgeSet.Type(env)) != "Edge")
+                if(TypesHelper.ExtractSrc(EdgeSet.Type(env)) != "AEdge"
+                    && TypesHelper.ExtractSrc(EdgeSet.Type(env)) != "Edge"
+                    && TypesHelper.ExtractSrc(EdgeSet.Type(env)) != "UEdge")
                 {
                     throw new SequenceParserException(Symbol, "set<Edge> type", EdgeSet.Type(env));
                 }
@@ -2365,7 +2367,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(RootEdge.Type(env) != "")
             {
-                if(!TypesHelper.IsSameOrSubtype(RootEdge.Type(env), "Edge", env.Model))
+                if(!TypesHelper.IsSameOrSubtype(RootEdge.Type(env), "AEdge", env.Model))
                 {
                     throw new SequenceParserException(Symbol, "Edge", RootEdge.Type(env));
                 }
