@@ -2657,7 +2657,15 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionEdges : SequenceExpression
+    public abstract class SequenceExpressionGraphQuery : SequenceExpression
+    {
+        public SequenceExpressionGraphQuery(SequenceExpressionType type)
+            : base(type)
+        {
+        }
+    }
+
+    public class SequenceExpressionEdges : SequenceExpressionGraphQuery
     {
         public SequenceExpression EdgeType;
         public bool EmitProfiling;
@@ -3041,7 +3049,7 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "size()"; } }
     }
 
-    public class SequenceExpressionAdjacentIncident : SequenceExpression
+    public class SequenceExpressionAdjacentIncident : SequenceExpressionGraphQuery
     {
         public SequenceExpression SourceNode;
         public SequenceExpression EdgeType;
@@ -3230,7 +3238,7 @@ namespace de.unika.ipd.grGen.libGr
         }
         public override string Symbol
         {
-            get { return FunctionSymbol + SourceNode.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+            get { return FunctionSymbol + "(" + SourceNode.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
         }
     }
 
@@ -3416,15 +3424,12 @@ namespace de.unika.ipd.grGen.libGr
         {
             get
             {
-                if(SequenceExpressionType == SequenceExpressionType.CountAdjacentNodes || SequenceExpressionType == SequenceExpressionType.CountAdjacentNodesViaIncoming || SequenceExpressionType == SequenceExpressionType.CountAdjacentNodesViaOutgoing)
-                    return FunctionSymbol + "graph, " + SourceNode.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")";
-                else
-                    return FunctionSymbol + SourceNode.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")";
+                return FunctionSymbol + "(" + SourceNode.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")";
             }
         }
     }
 
-    public class SequenceExpressionReachable : SequenceExpression
+    public class SequenceExpressionReachable : SequenceExpressionGraphQuery
     {
         public SequenceExpression SourceNode;
         public SequenceExpression EdgeType;
@@ -3613,7 +3618,7 @@ namespace de.unika.ipd.grGen.libGr
         }
         public override string Symbol
         {
-            get { return FunctionSymbol + SourceNode.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+            get { return FunctionSymbol + "(" + SourceNode.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
         }
     }
 
@@ -3797,11 +3802,11 @@ namespace de.unika.ipd.grGen.libGr
         }
         public override string Symbol
         {
-            get { return FunctionSymbol + SourceNode.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+            get { return FunctionSymbol + "(" + SourceNode.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
         }
     }
 
-    public class SequenceExpressionBoundedReachable : SequenceExpression
+    public class SequenceExpressionBoundedReachable : SequenceExpressionGraphQuery
     {
         public SequenceExpression SourceNode;
         public SequenceExpression Depth;
@@ -4002,7 +4007,7 @@ namespace de.unika.ipd.grGen.libGr
         }
         public override string Symbol
         {
-            get { return FunctionSymbol + SourceNode.Symbol + "," + Depth.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+            get { return FunctionSymbol + "(" + SourceNode.Symbol + "," + Depth.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
         }
     }
 
@@ -4179,7 +4184,7 @@ namespace de.unika.ipd.grGen.libGr
         }
         public override string Symbol
         {
-            get { return FunctionSymbol + SourceNode.Symbol + "," + Depth.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+            get { return FunctionSymbol + "(" + SourceNode.Symbol + "," + Depth.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
         }
     }
 
@@ -4375,7 +4380,7 @@ namespace de.unika.ipd.grGen.libGr
         }
         public override string Symbol
         {
-            get { return FunctionSymbol + SourceNode.Symbol + "," + Depth.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+            get { return FunctionSymbol + "(" + SourceNode.Symbol + "," + Depth.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
         }
     }
 
@@ -4595,7 +4600,7 @@ namespace de.unika.ipd.grGen.libGr
         }
         public override string Symbol
         {
-            get { return FunctionSymbol + SourceNode.Symbol + "," + EndElement.Symbol + "," + Depth.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+            get { return FunctionSymbol + "(" + SourceNode.Symbol + "," + EndElement.Symbol + "," + Depth.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
         }
     }
 
@@ -4803,7 +4808,7 @@ namespace de.unika.ipd.grGen.libGr
         }
         public override string Symbol
         {
-            get { return FunctionSymbol + SourceNode.Symbol + "," + EndElement.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+            get { return FunctionSymbol + "(" + SourceNode.Symbol + "," + EndElement.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
         }
     }
 
@@ -5011,7 +5016,7 @@ namespace de.unika.ipd.grGen.libGr
         }
         public override string Symbol
         {
-            get { return FunctionSymbol + SourceNode.Symbol + "," + EndElement.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+            get { return FunctionSymbol + "(" + SourceNode.Symbol + "," + EndElement.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
         }
     }
 
