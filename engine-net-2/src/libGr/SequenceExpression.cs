@@ -2663,6 +2663,37 @@ namespace de.unika.ipd.grGen.libGr
             : base(type)
         {
         }
+
+        protected string GetEdgeRootTypeWithDirection(SequenceExpression EdgeType, SequenceCheckingEnvironment env)
+        {
+            if (EdgeType == null)
+                return "AEdge";
+            if (EdgeType.Type(env) == "")
+                return "AEdge";
+
+            string typeString = null;
+            if (EdgeType.Type(env) == "string")
+            {
+                if (EdgeType is SequenceExpressionConstant)
+                    typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
+            }
+            else
+            {
+                typeString = EdgeType.Type(env);
+            }
+            EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
+            if (edgeType == null)
+            {
+                return "AEdge";
+            }
+
+            if (edgeType.Directedness == Directedness.Directed)
+                return "Edge";
+            if (edgeType.Directedness == Directedness.Undirected)
+                return "UEdge";
+
+            return "AEdge";
+        }
     }
 
     public class SequenceExpressionEdges : SequenceExpressionGraphQuery
@@ -2702,7 +2733,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            return "set<Edge>";
+            return "set<" + GetEdgeRootTypeWithDirection(EdgeType, env) + ">";
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3127,7 +3158,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else // SequenceExpressionType.IncidentEdges || SequenceExpressionType.IncomingEdges || SequenceExpressionType.OutgoingEdges
             {
-                return "set<Edge>";
+                return "set<" + GetEdgeRootTypeWithDirection(EdgeType, env) + ">";
             }
         }
 
@@ -3507,7 +3538,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else // SequenceExpressionType.ReachableEdges || SequenceExpressionType.ReachableEdgesViaIncoming || SequenceExpressionType.ReachableEdgesViaOutgoing
             {
-                return "set<Edge>";
+                return "set<" + GetEdgeRootTypeWithDirection(EdgeType, env) + ">";
             }
         }
 
@@ -3893,7 +3924,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else // SequenceExpressionType.BoundedReachableEdges || SequenceExpressionType.BoundedReachableEdgesViaIncoming || SequenceExpressionType.BoundedReachableEdgesViaOutgoing
             {
-                return "set<Edge>";
+                return "set<" + GetEdgeRootTypeWithDirection(EdgeType, env) + ">";
             }
         }
 
@@ -5097,7 +5128,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 throw new SequenceParserException(Symbol, "set<Edge> type", EdgeSet.Type(env));
             }
-            if(TypesHelper.ExtractSrc(EdgeSet.Type(env)) != "Edge")
+            if(TypesHelper.ExtractSrc(EdgeSet.Type(env)) != "AEdge"
+                && TypesHelper.ExtractSrc(EdgeSet.Type(env)) != "Edge"
+                && TypesHelper.ExtractSrc(EdgeSet.Type(env)) != "UEdge")
             {
                 throw new SequenceParserException(Symbol, "set<Edge> type", EdgeSet.Type(env));
             }
