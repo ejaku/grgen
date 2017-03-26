@@ -3401,7 +3401,13 @@ public class ModifyGen extends CSharpBase {
             sb.append("\t\t\t{\n");
 
     		if(!Expression.isGlobalVariable(cay.getIterationVar()) || (cay.getIterationVar().getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION) {
-                sb.append("\t\t\t" + entryVarTypeStr + " " + formatEntity(cay.getIterationVar()) + " = (" + entryVarTypeStr + ")" + entryVar + ".Key;\n");
+            	sb.append("\t\t\t" + entryVarTypeStr + " " + formatEntity(cay.getIterationVar()));
+	            if(IsDirectednessCheckRequired(cay.getIterationVar().getType(), setValueType.getIdent().toString()))
+	            	sb.append(" = GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected((" + entryVarTypeStr + ")" + entryVar + ".Key);\n");
+	            else if(IsUndirectednessCheckRequired(cay.getIterationVar().getType(), setValueType.getId().toString()))
+	            	sb.append(" = GRGEN_LIBGR.TypesHelper.EnsureEdgeIsUndirected((" + entryVarTypeStr + ")" + entryVar + ".Key);\n");
+	            else
+	            	sb.append(" = (" + entryVarTypeStr + ")" + entryVar + ".Key;\n");
     		} else {
     			sb.append("\t\t\t" + formatGlobalVariableWrite(cay.getIterationVar(), entryVar + ".Key") + ";\n");
     		}
@@ -3531,7 +3537,8 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, adjacent.getAdjacentNodeTypeExpr(), state);	        
 				sb.append("))\n");
 		        sb.append("\t\t\t\tcontinue;\n");
-		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ".Opposite(node_" + id + ");\n");
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+		        sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ".Opposite(node_" + id + ");\n");
 			}
 			else if(adjacent.Direction()==AdjacentNodeExpr.INCOMING) {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
@@ -3563,7 +3570,8 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, adjacent.getAdjacentNodeTypeExpr(), state);	        
 				sb.append("))\n");
 		        sb.append("\t\t\t\tcontinue;\n");
-		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ".Source;\n");
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+		        sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ".Source;\n");
 			}
 			else if(adjacent.Direction()==AdjacentNodeExpr.OUTGOING) {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
@@ -3595,7 +3603,8 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, adjacent.getAdjacentNodeTypeExpr(), state);	        
 				sb.append("))\n");
 		        sb.append("\t\t\t\tcontinue;\n");
-		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ".Target;\n");
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+		        sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ".Target;\n");
 			}
 		}
 		else if(ff.getFunction() instanceof IncidentEdgeExpr) {
@@ -3630,7 +3639,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, incident.getAdjacentNodeTypeExpr(), state);	        
 				sb.append("))\n");
 		        sb.append("\t\t\t\tcontinue;\n");
-		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+	            if(IsDirectednessCheckRequired(ff.getIterationVar(), incident.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else if(IsUndirectednessCheckRequired(ff.getIterationVar(), incident.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsUndirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else
+	            	sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 			else if(incident.Direction()==IncidentEdgeExpr.INCOMING) {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
@@ -3662,7 +3677,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, incident.getAdjacentNodeTypeExpr(), state);	        
 				sb.append("))\n");
 		        sb.append("\t\t\t\tcontinue;\n");
-		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+	            if(IsDirectednessCheckRequired(ff.getIterationVar(), incident.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else if(IsUndirectednessCheckRequired(ff.getIterationVar(), incident.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsUndirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else
+	            	sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 			else if(incident.Direction()==IncidentEdgeExpr.OUTGOING) {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
@@ -3694,7 +3715,13 @@ public class ModifyGen extends CSharpBase {
 				genExpression(sb, incident.getAdjacentNodeTypeExpr(), state);	        
 				sb.append("))\n");
 		        sb.append("\t\t\t\tcontinue;\n");
-		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+	            if(IsDirectednessCheckRequired(ff.getIterationVar(), incident.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else if(IsUndirectednessCheckRequired(ff.getIterationVar(), incident.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsUndirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else
+	            	sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 		}
 		else if(ff.getFunction() instanceof ReachableNodeExpr) {
@@ -3717,7 +3744,8 @@ public class ModifyGen extends CSharpBase {
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+		        sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
 			else if(reachable.Direction()==ReachableNodeExpr.INCOMING) {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
@@ -3737,7 +3765,8 @@ public class ModifyGen extends CSharpBase {
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+		        sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
 			else if(reachable.Direction()==ReachableNodeExpr.OUTGOING) {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
@@ -3757,7 +3786,8 @@ public class ModifyGen extends CSharpBase {
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+		        sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
 		}
 		else if(ff.getFunction() instanceof ReachableEdgeExpr) {
@@ -3780,7 +3810,13 @@ public class ModifyGen extends CSharpBase {
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+	            if(IsDirectednessCheckRequired(ff.getIterationVar(), reachable.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else if(IsUndirectednessCheckRequired(ff.getIterationVar(), reachable.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsUndirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else
+	            	sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 			else if(reachable.Direction()==ReachableEdgeExpr.INCOMING) {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
@@ -3800,7 +3836,13 @@ public class ModifyGen extends CSharpBase {
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+	            if(IsDirectednessCheckRequired(ff.getIterationVar(), reachable.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else if(IsUndirectednessCheckRequired(ff.getIterationVar(), reachable.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsUndirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else
+	            	sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 			else if(reachable.Direction()==ReachableEdgeExpr.OUTGOING) {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
@@ -3820,7 +3862,13 @@ public class ModifyGen extends CSharpBase {
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+	            if(IsDirectednessCheckRequired(ff.getIterationVar(), reachable.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else if(IsUndirectednessCheckRequired(ff.getIterationVar(), reachable.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsUndirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else
+	            	sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 		}
 		else if(ff.getFunction() instanceof BoundedReachableNodeExpr) {
@@ -3845,7 +3893,8 @@ public class ModifyGen extends CSharpBase {
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+		        sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
 			else if(reachable.Direction()==BoundedReachableNodeExpr.INCOMING) {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
@@ -3867,7 +3916,8 @@ public class ModifyGen extends CSharpBase {
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+		        sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
 			else if(reachable.Direction()==BoundedReachableNodeExpr.OUTGOING) {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
@@ -3889,7 +3939,8 @@ public class ModifyGen extends CSharpBase {
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
+		        sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+		        sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
 			}
 		}
 		else if(ff.getFunction() instanceof BoundedReachableEdgeExpr) {
@@ -3914,7 +3965,13 @@ public class ModifyGen extends CSharpBase {
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 
-			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+	            if(IsDirectednessCheckRequired(ff.getIterationVar(), reachable.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else if(IsUndirectednessCheckRequired(ff.getIterationVar(), reachable.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsUndirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else
+	            	sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 			else if(reachable.Direction()==BoundedReachableEdgeExpr.INCOMING) {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
@@ -3936,7 +3993,13 @@ public class ModifyGen extends CSharpBase {
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+	            if(IsDirectednessCheckRequired(ff.getIterationVar(), reachable.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else if(IsUndirectednessCheckRequired(ff.getIterationVar(), reachable.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsUndirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else
+	            	sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 			else if(reachable.Direction()==BoundedReachableEdgeExpr.OUTGOING) {
 				sb.append("\t\t\tGRGEN_LIBGR.INode node_" + id + " = ");
@@ -3958,7 +4021,13 @@ public class ModifyGen extends CSharpBase {
 				sb.append("))\n");
 		        sb.append("\t\t\t{\n");
 		        
-			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+			    sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+	            if(IsDirectednessCheckRequired(ff.getIterationVar(), reachable.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else if(IsUndirectednessCheckRequired(ff.getIterationVar(), reachable.getIncidentEdgeTypeExpr()))
+	                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsUndirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+	            else
+	            	sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 			}
 		}
 		else if(ff.getFunction() instanceof NodesExpr) {
@@ -3975,7 +4044,8 @@ public class ModifyGen extends CSharpBase {
 					sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
 			}
 
-            sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = " + "(" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")node_" + id + ";\n");
+            sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+            sb.append(" = " + "(" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")node_" + id + ";\n");
 		}
 		else if(ff.getFunction() instanceof EdgesExpr) {
             EdgesExpr edges = (EdgesExpr)ff.getFunction();
@@ -3991,12 +4061,46 @@ public class ModifyGen extends CSharpBase {
 					sb.append("++actionEnv.PerformanceInfo.SearchSteps;\n");
 			}
 
-            sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()) + " = " + "(" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+            sb.append("\t\t\t" + formatElementInterfaceRef(ff.getIterationVar().getType()) + " " + formatEntity(ff.getIterationVar()));
+            if(IsDirectednessCheckRequired(ff.getIterationVar(), edges.getEdgeTypeExpr()))
+                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+            else if(IsUndirectednessCheckRequired(ff.getIterationVar(), edges.getEdgeTypeExpr()))
+                sb.append(" = " + "GRGEN_LIBGR.TypesHelper.EnsureEdgeIsUndirected((" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ");\n");
+            else
+            	sb.append(" = " + "(" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
 		}
 
 		genEvals(sb, state, ff.getLoopedStatements());
 
         sb.append("\t\t\t}\n");
+	}
+
+	private static boolean IsDirectednessCheckRequired(Variable iterationVar, Expression edgeTypeExpr)
+	{
+		Type typeOfIterationVar = iterationVar.getType();
+		String typeOfGraphQuery = edgeTypeExpr instanceof Constant ? ((EdgeType)(((Constant)edgeTypeExpr).getValue())).getIdent().toString() : edgeTypeExpr.getType().getIdent().toString();
+		return IsDirectednessCheckRequired(typeOfIterationVar, typeOfGraphQuery);
+	}
+
+	private static boolean IsDirectednessCheckRequired(Type typeOfIterationVar, String typeOfGraphQuery)
+	{
+		if(typeOfIterationVar.getIdent().toString().equals("Edge") && typeOfGraphQuery.equals("AEdge"))
+			return true;
+		return false;
+	}
+
+	private static boolean IsUndirectednessCheckRequired(Variable iterationVar, Expression edgeTypeExpr)
+	{
+		Type typeOfIterationVar = iterationVar.getType();
+		String typeOfGraphQuery = edgeTypeExpr instanceof Constant ? ((EdgeType)(((Constant)edgeTypeExpr).getValue())).getIdent().toString() : edgeTypeExpr.getType().getIdent().toString();
+		return IsUndirectednessCheckRequired(typeOfIterationVar, typeOfGraphQuery);
+	}
+
+	private static boolean IsUndirectednessCheckRequired(Type typeOfIterationVar, String typeOfGraphQuery)
+	{
+		if(typeOfIterationVar.getIdent().toString().equals("UEdge") && typeOfGraphQuery.equals("AEdge"))
+			return true;
+		return false;
 	}
 
 	private void genForIndexAccessEquality(StringBuffer sb, ModifyGenerationStateConst state, ForIndexAccessEquality fiae) {
