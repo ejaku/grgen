@@ -23,9 +23,9 @@ rule re : (Edge)
 	modify {
 		def -n:Edge->;
 		eval {
-			yield n = edgeByUnique(42);
+			yield n = (Edge)edgeByUnique(42);
 		}
-		return(edgeByUnique(0));
+		return((Edge)edgeByUnique(0));
 		exec ( { yield n = edgeByUnique(uniqueof(edgeByUnique(42))) } );
 	}
 }
