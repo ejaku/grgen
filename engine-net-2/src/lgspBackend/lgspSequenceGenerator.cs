@@ -224,12 +224,39 @@ namespace de.unika.ipd.grGen.lgsp
             else
             {
                 String cast = "(" + TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model) + ")";
-                if (seqVar.Type == "Edge")
-                    return "var_" + seqVar.Prefix + seqVar.PureName + " = GRGEN_LIBGR.TypesHelper.EnsureIsDirectedEdge(" + cast + "(" + valueToWrite + "));\n";
-                else if(seqVar.Type == "UEdge")
-                    return "var_" + seqVar.Prefix + seqVar.PureName + " = GRGEN_LIBGR.TypesHelper.EnsureIsUndirectedEdge(" + cast + "(" + valueToWrite + "));\n";
-                else
-                    return "var_" + seqVar.Prefix + seqVar.PureName + " = " + cast + "(" + valueToWrite + ");\n";
+                return "var_" + seqVar.Prefix + seqVar.PureName + " = " + cast + "(" + valueToWrite + ");\n";
+            }
+        }
+
+        /// <summary>
+        /// Returns string containing a C# assignment to set the sequence-local variable / graph-global variable given
+        /// to the value as computed by the C# expression in the string given; special version with a runtime directedness check,
+        /// to be used in contexts where at compile time we allow to get an Edge/UEdge from an AEdge/unknown type
+        /// </summary>
+        public string SetVar(SequenceVariable seqVar, String valueToWrite, String typeOfValue)
+        {
+            if (seqVar.Type == "")
+            {
+                return "procEnv.SetVariableValue(\"" + seqVar.PureName + "\", " + valueToWrite + ");\n";
+            }
+            else
+            {
+                String cast = "(" + TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model) + ")";
+
+                if (seqVar.Type.StartsWith("set<"))
+                {
+                    if (TypesHelper.ExtractSrc(seqVar.Type) == "Edge" && (typeOfValue == "" || TypesHelper.ExtractSrc(typeOfValue) == "AEdge"))
+                        return "var_" + seqVar.Prefix + seqVar.PureName + " = GRGEN_LIBGR.ContainerHelper.EnsureAllEdgesAreDirected(" + cast + "(" + valueToWrite + "));\n";
+                    if (TypesHelper.ExtractSrc(seqVar.Type) == "UEdge" && (typeOfValue == "" || TypesHelper.ExtractSrc(typeOfValue) == "AEdge"))
+                        return "var_" + seqVar.Prefix + seqVar.PureName + " = GRGEN_LIBGR.ContainerHelper.EnsureAllEdgesAreUndirected(" + cast + "(" + valueToWrite + "));\n";
+                }
+
+                if (seqVar.Type == "Edge" && (typeOfValue == "" || typeOfValue == "string" || typeOfValue == "AEdge"))
+                    return "var_" + seqVar.Prefix + seqVar.PureName + " = GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected(" + cast + "(" + valueToWrite + "));\n";
+                if (seqVar.Type == "UEdge" && (typeOfValue == "" || typeOfValue == "string" || typeOfValue == "AEdge"))
+                    return "var_" + seqVar.Prefix + seqVar.PureName + " = GRGEN_LIBGR.TypesHelper.EnsureEdgeIsUndirected(" + cast + "(" + valueToWrite + "));\n";
+
+                return "var_" + seqVar.Prefix + seqVar.PureName + " = " + cast + "(" + valueToWrite + ");\n";
             }
         }
 
@@ -938,7 +965,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("foreach(DictionaryEntry entry_" + seqFor.Id + " in (IDictionary)" + GetVar(seqFor.Container) + ")\n");
                         source.AppendFront("{\n");
                         source.Indent();
-                        source.AppendFront(SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
+                        source.AppendFront(SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key", ""));
                         if(seqFor.VarDst != null)
                         {
                             source.AppendFront(SetVar(seqFor.VarDst, "entry_" + seqFor.Id + ".Value"));
@@ -1001,14 +1028,20 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     else
                     {
-                        String srcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqFor.Container.Type), model);
-                        String dstType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractDst(seqFor.Container.Type), model);
+                        String srcTypeXgrs = TypesHelper.ExtractSrc(seqFor.Container.Type);
+                        String srcType = TypesHelper.XgrsTypeToCSharpType(srcTypeXgrs, model);
+                        String dstTypeXgrs = TypesHelper.ExtractDst(seqFor.Container.Type);
+                        String dstType = TypesHelper.XgrsTypeToCSharpType(dstTypeXgrs, model);
                         source.AppendFront("foreach(KeyValuePair<" + srcType + "," + dstType + "> entry_" + seqFor.Id + " in " + GetVar(seqFor.Container) + ")\n");
                         source.AppendFront("{\n");
                         source.Indent();
 
-                        source.AppendFront(SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
-                        if(seqFor.VarDst != null)
+                        if(dstTypeXgrs== "SetValueType")
+                            source.AppendFront(SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key", srcTypeXgrs));
+                        else
+                            source.AppendFront(SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
+
+                        if (seqFor.VarDst != null)
                             source.AppendFront(SetVar(seqFor.VarDst, "entry_" + seqFor.Id + ".Value"));
 
                         EmitSequence(seqFor.Seq, source);
@@ -1178,6 +1211,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string adjacentNodeTypeExpr = ExtractNodeType(source, AdjacentNodeType);
 
                     string iterationVariable; // valid for incident/adjacent and reachable
+                    string iterationType;
                     string edgeMethod = null; // only valid for incident/adajcent
                     string theOther = null; // only valid for incident/adjacent
                     string reachableMethod = null; // only valid for reachable
@@ -1187,58 +1221,70 @@ namespace de.unika.ipd.grGen.lgsp
                             edgeMethod = "Incident";
                             theOther = "edge_" + seqFor.Id + ".Opposite(node_" + seqFor.Id + ")";
                             iterationVariable = theOther;
+                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                             break;
                         case SequenceType.ForAdjacentNodesViaIncoming:
                             edgeMethod = "Incoming";
                             theOther = "edge_" + seqFor.Id + ".Source";
                             iterationVariable = theOther;
+                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                             break;
                         case SequenceType.ForAdjacentNodesViaOutgoing:
                             edgeMethod = "Outgoing";
                             theOther = "edge_" + seqFor.Id + ".Target";
                             iterationVariable = theOther;
+                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                             break;
                         case SequenceType.ForIncidentEdges:
                             edgeMethod = "Incident";
                             theOther = "edge_" + seqFor.Id + ".Opposite(node_" + seqFor.Id + ")";
                             iterationVariable = "edge_" + seqFor.Id;
+                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                             break;
                         case SequenceType.ForIncomingEdges:
                             edgeMethod = "Incoming";
                             theOther = "edge_" + seqFor.Id + ".Source";
                             iterationVariable = "edge_" + seqFor.Id;
+                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                             break;
                         case SequenceType.ForOutgoingEdges:
                             edgeMethod = "Outgoing";
                             theOther = "edge_" + seqFor.Id + ".Target";
                             iterationVariable = "edge_" + seqFor.Id;
+                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                             break;
                         case SequenceType.ForReachableNodes:
                             reachableMethod = "";
                             iterationVariable = "iter_" + seqFor.Id; ;
+                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                             break;
                         case SequenceType.ForReachableNodesViaIncoming:
                             reachableMethod = "Incoming";
                             iterationVariable = "iter_" + seqFor.Id; ;
+                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                             break;
                         case SequenceType.ForReachableNodesViaOutgoing:
                             reachableMethod = "Outgoing";
                             iterationVariable = "iter_" + seqFor.Id; ;
+                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                             break;
                         case SequenceType.ForReachableEdges:
                             reachableMethod = "Edges";
                             iterationVariable = "edge_" + seqFor.Id;
+                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                             break;
                         case SequenceType.ForReachableEdgesViaIncoming:
                             reachableMethod = "EdgesIncoming";
                             iterationVariable = "edge_" + seqFor.Id;
+                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                             break;
                         case SequenceType.ForReachableEdgesViaOutgoing:
                             reachableMethod = "EdgesOutgoing";
                             iterationVariable = "edge_" + seqFor.Id;
+                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                             break;
                         default:
-                            edgeMethod = theOther = iterationVariable = "INTERNAL ERROR";
+                            edgeMethod = theOther = iterationVariable = iterationType = "INTERNAL ERROR";
                             break;
                     }
 
@@ -1284,7 +1330,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("\tcontinue;\n");
                     }
 
-                    source.AppendFront(SetVar(seqFor.Var, iterationVariable));
+                    source.AppendFront(SetVar(seqFor.Var, iterationVariable, iterationType));
 
                     EmitSequence(seqFor.Seq, source);
 
@@ -1317,6 +1363,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string adjacentNodeTypeExpr = ExtractNodeType(source, AdjacentNodeType);
 
                     string iterationVariable; // valid for incident/adjacent and reachable
+                    string iterationType;
                     string edgeMethod = null; // only valid for incident/adajcent
                     string theOther = null; // only valid for incident/adjacent
                     string reachableMethod = null; // only valid for reachable
@@ -1324,30 +1371,36 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         case SequenceType.ForBoundedReachableNodes:
                             reachableMethod = "";
-                            iterationVariable = "iter_" + seqFor.Id; ;
+                            iterationVariable = "iter_" + seqFor.Id;
+                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                             break;
                         case SequenceType.ForBoundedReachableNodesViaIncoming:
                             reachableMethod = "Incoming";
-                            iterationVariable = "iter_" + seqFor.Id; ;
+                            iterationVariable = "iter_" + seqFor.Id;
+                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                             break;
                         case SequenceType.ForBoundedReachableNodesViaOutgoing:
                             reachableMethod = "Outgoing";
-                            iterationVariable = "iter_" + seqFor.Id; ;
+                            iterationVariable = "iter_" + seqFor.Id;
+                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                             break;
                         case SequenceType.ForBoundedReachableEdges:
                             reachableMethod = "Edges";
                             iterationVariable = "edge_" + seqFor.Id;
+                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                             break;
                         case SequenceType.ForBoundedReachableEdgesViaIncoming:
                             reachableMethod = "EdgesIncoming";
                             iterationVariable = "edge_" + seqFor.Id;
+                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                             break;
                         case SequenceType.ForBoundedReachableEdgesViaOutgoing:
                             reachableMethod = "EdgesOutgoing";
                             iterationVariable = "edge_" + seqFor.Id;
+                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                             break;
                         default:
-                            edgeMethod = theOther = iterationVariable = "INTERNAL ERROR";
+                            edgeMethod = theOther = iterationVariable = iterationType = "INTERNAL ERROR";
                             break;
                     }
 
@@ -1365,7 +1418,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("{\n");
                     source.Indent();
 
-                    source.AppendFront(SetVar(seqFor.Var, iterationVariable));
+                    source.AppendFront(SetVar(seqFor.Var, iterationVariable, iterationType));
 
                     EmitSequence(seqFor.Seq, source);
 
@@ -1383,24 +1436,27 @@ namespace de.unika.ipd.grGen.lgsp
 
                     source.AppendFront(SetResultVar(seqFor, "true"));
 
-                    if(seqFor.SequenceType == SequenceType.ForNodes)
+                    string iterationType;
+                    if (seqFor.SequenceType == SequenceType.ForNodes)
                     {
                         SequenceExpression AdjacentNodeType = seqFor.ArgExprs.Count >= 1 ? seqFor.ArgExprs[0] : null;
                         string adjacentNodeTypeExpr = ExtractNodeType(source, AdjacentNodeType);
                         source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode elem_{0} in graph.GetCompatibleNodes({1}))\n", seqFor.Id, adjacentNodeTypeExpr);
+                        iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                     }
                     else
                     {
                         SequenceExpression IncidentEdgeType = seqFor.ArgExprs.Count >= 1 ? seqFor.ArgExprs[0] : null;
                         string incidentEdgeTypeExpr = ExtractEdgeType(source, IncidentEdgeType);
                         source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge elem_{0} in graph.GetCompatibleEdges({1}))\n", seqFor.Id, incidentEdgeTypeExpr);
+                        iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                     }
                     source.AppendFront("{\n");
                     source.Indent();
                     
                     if(gen.EmitProfiling)
                         source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
-                    source.AppendFront(SetVar(seqFor.Var, "elem_" + seqFor.Id));
+                    source.AppendFront(SetVar(seqFor.Var, "elem_" + seqFor.Id, iterationType));
 
                     EmitSequence(seqFor.Seq, source);
 
@@ -1529,7 +1585,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.AssignVarToVar:
                 {
                     SequenceAssignVarToVar seqToVar = (SequenceAssignVarToVar)seq;
-                    source.AppendFront(SetVar(seqToVar.DestVar, GetVar(seqToVar.Variable)));
+                    source.AppendFront(SetVar(seqToVar.DestVar, GetVar(seqToVar.Variable), seqToVar.Variable.Type));
                     source.AppendFront(SetResultVar(seqToVar, "true"));
                     break;
                 }
@@ -2123,13 +2179,13 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seqAssign.SourceValueProvider is SequenceComputationAssignment)
                     {
                         EmitSequenceComputation(seqAssign.SourceValueProvider, source);
-                        EmitAssignment(seqAssign.Target, GetResultVar(seqAssign.SourceValueProvider), source);
+                        EmitAssignment(seqAssign.Target, GetResultVar(seqAssign.SourceValueProvider), seqAssign.SourceValueProvider.Type(env), source);
                         source.AppendFront(SetResultVar(seqAssign, GetResultVar(seqAssign.Target)));
                     }
                     else
                     {
                         string comp = GetSequenceExpression((SequenceExpression)seqAssign.SourceValueProvider, source);
-                        EmitAssignment(seqAssign.Target, comp, source);
+                        EmitAssignment(seqAssign.Target, comp, seqAssign.SourceValueProvider.Type(env), source);
                         source.AppendFront(SetResultVar(seqAssign, GetResultVar(seqAssign.Target)));
                     }
                     break;
@@ -3298,7 +3354,7 @@ namespace de.unika.ipd.grGen.lgsp
                     EmitSequenceComputation(seqCall.BuiltinProcedure, sb);
                     if(seqCall.ReturnVars.Count > 0)
                     {
-                        source.AppendFront(SetVar(seqCall.ReturnVars[0], sb.ToString()));
+                        source.AppendFront(SetVar(seqCall.ReturnVars[0], sb.ToString(), seqCall.BuiltinProcedure.Type(env)));
                         source.AppendFront(SetResultVar(seqCall, GetVar(seqCall.ReturnVars[0])));
                     }
                     else
@@ -3392,14 +3448,14 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
-   		void EmitAssignment(AssignmentTarget tgt, string sourceValueComputation, SourceBuilder source)
+   		void EmitAssignment(AssignmentTarget tgt, string sourceValueComputation, string sourceValueType, SourceBuilder source)
 		{
 			switch(tgt.AssignmentTargetType)
 			{
                 case AssignmentTargetType.YieldingToVar:
                 {
                     AssignmentTargetYieldingVar tgtYield = (AssignmentTargetYieldingVar)tgt;
-                    source.AppendFront(SetVar(tgtYield.DestVar, sourceValueComputation));
+                    source.AppendFront(SetVar(tgtYield.DestVar, sourceValueComputation, sourceValueType));
                     source.AppendFront(SetResultVar(tgtYield, GetVar(tgtYield.DestVar)));
                     break;
                 }
@@ -3512,7 +3568,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case AssignmentTargetType.Var:
 				{
                     AssignmentTargetVar tgtVar = (AssignmentTargetVar)tgt;
-                    source.AppendFront(SetVar(tgtVar.DestVar, sourceValueComputation));
+                    source.AppendFront(SetVar(tgtVar.DestVar, sourceValueComputation, sourceValueType));
                     source.AppendFront(SetResultVar(tgtVar, GetVar(tgtVar.DestVar)));
 					break;
 				}
