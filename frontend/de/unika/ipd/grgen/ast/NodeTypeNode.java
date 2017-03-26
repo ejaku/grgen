@@ -31,6 +31,8 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		setName(NodeTypeNode.class, "node type");
 	}
 
+	public static IdentNode nodeTypeIdent;
+
 	private CollectNode<NodeTypeNode> extend;
 
 	/**

@@ -30,6 +30,10 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 		setName(EdgeTypeNode.class, "edge type");
 	}
 
+	public static IdentNode arbitraryEdgeTypeIdent;
+	public static IdentNode directedEdgeTypeIdent;
+	public static IdentNode undirectedEdgeTypeIdent;
+
 	@SuppressWarnings("unchecked")
 	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
 			new DeclarationResolver<BaseNode>(MemberDeclNode.class, MemberInitNode.class, ConstructorDeclNode.class,

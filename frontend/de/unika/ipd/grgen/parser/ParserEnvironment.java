@@ -120,19 +120,23 @@ public abstract class ParserEnvironment extends Base {
 				false, false, false, false, false, false, false, 0);
 
 		// The node type root
-		nodeRoot = predefineType("Node",
-				new NodeTypeNode(new CollectNode<IdentNode>(), new CollectNode<BaseNode>(), 0, null));
+		NodeTypeNode nodeRootType = new NodeTypeNode(new CollectNode<IdentNode>(), new CollectNode<BaseNode>(), 0, null);
+		nodeRoot = predefineType("Node", nodeRootType);
+		NodeTypeNode.nodeTypeIdent = nodeRoot;
 
 		// The edge type roots
-		arbitraryEdgeRoot = predefineType("AEdge",
-				new ArbitraryEdgeTypeNode(new CollectNode<IdentNode>(), new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), InheritanceTypeNode.MOD_ABSTRACT, null));
+		ArbitraryEdgeTypeNode arbitraryEdgeRootType = new ArbitraryEdgeTypeNode(new CollectNode<IdentNode>(), new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), InheritanceTypeNode.MOD_ABSTRACT, null);
+		arbitraryEdgeRoot = predefineType("AEdge", arbitraryEdgeRootType);
 		CollectNode<IdentNode> superTypes = new CollectNode<IdentNode>();
 		superTypes.addChild(arbitraryEdgeRoot);
+		EdgeTypeNode.arbitraryEdgeTypeIdent = arbitraryEdgeRoot;
 
-		directedEdgeRoot = predefineType("Edge",
-				new DirectedEdgeTypeNode(superTypes, new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null));
-		undirectedEdgeRoot = predefineType("UEdge",
-				new UndirectedEdgeTypeNode(superTypes, new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null));
+		DirectedEdgeTypeNode directedEdgeRootType = new DirectedEdgeTypeNode(superTypes, new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null);
+		directedEdgeRoot = predefineType("Edge", directedEdgeRootType);
+		EdgeTypeNode.directedEdgeTypeIdent = directedEdgeRoot;
+		UndirectedEdgeTypeNode undirectedEdgeRootType = new UndirectedEdgeTypeNode(superTypes, new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null);
+		undirectedEdgeRoot = predefineType("UEdge", undirectedEdgeRootType);
+		EdgeTypeNode.undirectedEdgeTypeIdent = undirectedEdgeRoot;
 
 		stdModelChilds.addChild(nodeRoot);
 		stdModelChilds.addChild(arbitraryEdgeRoot);
