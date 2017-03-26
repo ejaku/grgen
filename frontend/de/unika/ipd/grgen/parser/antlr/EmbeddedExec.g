@@ -191,7 +191,7 @@ options { k = 4; }
 			|| input.LT(1).getText().equals("nodes") || input.LT(1).getText().equals("edges")
 		 }?
 			i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); }
-			expr1=seqExpression[xg] (COMMA { xg.append(","); } expr2=seqExpression[xg] (COMMA { xg.append(","); } expr3=seqExpression[xg] (COMMA { xg.append(","); } expr4=seqExpression[xg])? )? )?
+			(expr1=seqExpression[xg] (COMMA { xg.append(","); } expr2=seqExpression[xg] (COMMA { xg.append(","); } expr3=seqExpression[xg] (COMMA { xg.append(","); } expr4=seqExpression[xg])? )? )? )?
 			RPAREN { xg.append(")"); }
 			SEMI { xg.append("; "); } xgrs[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	| IN { xg.append(" in "); } LBRACE { xg.append("{"); } xgrsIndex[xg] EQUAL { xg.append(" == "); } seqExpression[xg] 
