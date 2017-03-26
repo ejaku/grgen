@@ -984,6 +984,14 @@ public abstract class CSharpBase {
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
 					sb.append(", graph)");
 				}
+			} else if(typeName == "directed set") {
+				sb.append("GRGEN_LIBGR.ContainerHelper.EnsureAllEdgesAreDirected(");
+				genExpression(sb, cast.getExpression(), modifyGenerationState);
+				sb.append(")");
+			} else if(typeName == "undirected set") {
+				sb.append("GRGEN_LIBGR.ContainerHelper.EnsureAllEdgesAreUndirected(");
+				genExpression(sb, cast.getExpression(), modifyGenerationState);
+				sb.append(")");
 			} else if(typeName == "object") {
 				// no cast needed
 				genExpression(sb, cast.getExpression(), modifyGenerationState);
@@ -2584,7 +2592,14 @@ public abstract class CSharpBase {
 			case Type.IS_MAP:
 			case Type.IS_ARRAY:
 			case Type.IS_DEQUE:
-				return "object"; // only the null type can/will be casted into a container type, so the most specific base type is sufficient, which is object
+				if(cast.getType().classify()==Type.IS_SET) {
+					// cast to set<Edge> or set<UEdge> from set<AEdge> allowed at compile time, requires check at runtime for directedness
+					if(((SetType)cast.getType()).getValueType().getIdent().toString().equals("Edge"))
+						return "directed set";
+					else if(((SetType)cast.getType()).getValueType().getIdent().toString().equals("UEdge")) 
+						return "undirected set";
+				}
+				return "object"; // besides, only the null type can/will be casted into a container type, so the most specific base type is sufficient, which is object
 			default:
 				throw new UnsupportedOperationException(
 					"This is either a forbidden cast, which should have been " +

@@ -106,6 +106,14 @@ public class SetTypeNode extends DeclaredTypeNode {
 				OperatorSignature.setEvaluator);
 
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
+		if(valueTypeUnresolved.toString().equals(EdgeTypeNode.arbitraryEdgeTypeIdent.toString())) {
+			TypeNode.addCompatibility(this, getSetType(EdgeTypeNode.directedEdgeTypeIdent));
+			TypeNode.addCompatibility(this, getSetType(EdgeTypeNode.undirectedEdgeTypeIdent));
+		}
+		if(valueTypeUnresolved.toString().equals(EdgeTypeNode.directedEdgeTypeIdent.toString()))
+			TypeNode.addCompatibility(this, getSetType(EdgeTypeNode.arbitraryEdgeTypeIdent));
+		if(valueTypeUnresolved.toString().equals(EdgeTypeNode.undirectedEdgeTypeIdent.toString()))
+			TypeNode.addCompatibility(this, getSetType(EdgeTypeNode.arbitraryEdgeTypeIdent));
 
 		return true;
 	}
