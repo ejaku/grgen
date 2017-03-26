@@ -23,9 +23,9 @@ rule re : (Edge)
 	modify {
 		def -n:Edge->;
 		eval {
-			yield n = edgeByName("$42");
+			yield n = (Edge)edgeByName("$42");
 		}
-		return(edgeByName("$0"));
+		return((Edge)edgeByName("$0"));
 		exec ( { yield n = edgeByName(nameof(edgeByName("$42"))) } );
 	}
 }
