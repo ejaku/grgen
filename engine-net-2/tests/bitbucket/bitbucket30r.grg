@@ -1,0 +1,176 @@
+#using "bitbucket30.gm"
+
+rule init {
+	modify {
+		n:MyNode;
+		n -:MyDirectedEdge-> n;
+		n -:MyUndirectedEdge- n;
+	}
+}
+
+rule rEmitSetAEdge {
+    modify {
+        eval {
+			def ref s:set<AEdge>;
+			s=edges();
+			emit("1 value of attribute 5 6 " + s + "\n");
+		}
+    }
+}
+
+rule rEmitSetAEdgeFailDirected {
+    modify {
+        eval {
+			def ref s:set<Edge> =edges();
+			emit("1 value of attribute 5 6 " + s + "\n");
+		}
+    }
+}
+
+rule rEmitSetAEdgeFailUndirected {
+    modify {
+        eval {
+			def ref s:set<UEdge>;
+			s=edges();
+			emit("1 value of attribute 5 6 " + s + "\n");
+		}
+    }
+}
+
+rule rEmitSetEdge {
+    modify {
+        eval {
+			def ref s:set<Edge>;
+			s=edges(Edge);
+			emit("1 value of attribute 5 6 " + s + "\n");
+		}
+    }
+}
+
+rule rEmitSetEdgeReverse {
+    modify {
+        eval {
+			def ref s:set<AEdge> =edges(Edge);
+			emit("1 value of attribute 5 6 " + s + "\n");
+		}
+    }
+}
+
+rule rEmitSetUEdge {
+    modify {
+        eval {
+			def ref s:set<UEdge> =edges(UEdge);
+			emit("1 value of attribute 5 6 " + s + "\n");
+		}
+    }
+}
+
+rule rEmitSetUEdgeReverse {
+    modify {
+        eval {
+			def ref s:set<AEdge>;
+			s=edges(UEdge);
+			emit("1 value of attribute 5 6 " + s + "\n");
+		}
+    }
+}
+
+rule rEmitEdge {
+    modify {
+        eval {
+			for (e:Edge in edges(Edge)) {
+				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+			}
+		}
+    }
+}
+
+rule rEmitEdgeFail {
+    modify {
+        eval {
+			for (e:Edge in edges()) { // may fail at runtime
+				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+			}
+		}
+    }
+}
+
+rule rEmitUEdge {
+    modify {
+        eval {
+			for (e:UEdge in edges(UEdge)) {
+				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+			}
+		}
+    }
+}
+
+rule rEmitUEdgeFail {
+    modify {
+        eval {
+			for (e:UEdge in edges()) { // may fail at runtime
+				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+			}
+		}
+    }
+}
+
+rule rEmitAEdge {
+    modify {
+        eval {
+			for (e:AEdge in edges(AEdge)) {
+				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+			}
+		}
+    }
+}
+
+rule rEmitAEdgeNoArgument {
+    modify {
+        eval {
+			for (e:AEdge in edges()) {
+				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+			}
+		}
+    }
+}
+
+rule rEmitDirectedEdge {
+    modify {
+        eval {
+			for (e:MyDirectedEdge in edges(MyDirectedEdge)) {
+				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+			}
+		}
+    }
+}
+
+rule rEmitDirectedEdgeFail {
+    modify {
+        eval {
+			for (e:MyDirectedEdge in edges()) { // may fail at runtime
+				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+			}
+		}
+    }
+}
+
+rule rEmitUndirectedEdge {
+    modify {
+        eval {
+			for (e:MyUndirectedEdge in edges(MyUndirectedEdge)) {
+				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+			}
+		}
+    }
+}
+
+rule rEmitUndirectedEdgeFail {
+    modify {
+        eval {
+			for (e:MyUndirectedEdge in edges()) { // may fail at runtime
+				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+			}
+		}
+    }
+}
