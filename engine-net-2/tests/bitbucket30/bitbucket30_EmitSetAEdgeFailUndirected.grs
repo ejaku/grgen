@@ -1,9 +1,0 @@
-new graph "bitbucket30/bitbucket30"
-
-exec init
-show num nodes
-show num edges
-
-exec EmitSetAEdgeFailUndirected
-
-quit
