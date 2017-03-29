@@ -243,14 +243,6 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String cast = "(" + TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model) + ")";
 
-                if (seqVar.Type.StartsWith("set<"))
-                {
-                    if (TypesHelper.ExtractSrc(seqVar.Type) == "Edge" && (typeOfValue == "" || TypesHelper.ExtractSrc(typeOfValue) == "AEdge"))
-                        return "var_" + seqVar.Prefix + seqVar.PureName + " = GRGEN_LIBGR.ContainerHelper.EnsureAllEdgesAreDirected(" + cast + "(" + valueToWrite + "));\n";
-                    if (TypesHelper.ExtractSrc(seqVar.Type) == "UEdge" && (typeOfValue == "" || TypesHelper.ExtractSrc(typeOfValue) == "AEdge"))
-                        return "var_" + seqVar.Prefix + seqVar.PureName + " = GRGEN_LIBGR.ContainerHelper.EnsureAllEdgesAreUndirected(" + cast + "(" + valueToWrite + "));\n";
-                }
-
                 if (seqVar.Type == "Edge" && (typeOfValue == "" || typeOfValue == "string" || typeOfValue == "AEdge"))
                     return "var_" + seqVar.Prefix + seqVar.PureName + " = GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected(" + cast + "(" + valueToWrite + "));\n";
                 if (seqVar.Type == "UEdge" && (typeOfValue == "" || typeOfValue == "string" || typeOfValue == "AEdge"))
@@ -1585,7 +1577,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.AssignVarToVar:
                 {
                     SequenceAssignVarToVar seqToVar = (SequenceAssignVarToVar)seq;
-                    source.AppendFront(SetVar(seqToVar.DestVar, GetVar(seqToVar.Variable), seqToVar.Variable.Type));
+                    source.AppendFront(SetVar(seqToVar.DestVar, GetVar(seqToVar.Variable)));
                     source.AppendFront(SetResultVar(seqToVar, "true"));
                     break;
                 }
@@ -2179,13 +2171,13 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seqAssign.SourceValueProvider is SequenceComputationAssignment)
                     {
                         EmitSequenceComputation(seqAssign.SourceValueProvider, source);
-                        EmitAssignment(seqAssign.Target, GetResultVar(seqAssign.SourceValueProvider), seqAssign.SourceValueProvider.Type(env), source);
+                        EmitAssignment(seqAssign.Target, GetResultVar(seqAssign.SourceValueProvider), source);
                         source.AppendFront(SetResultVar(seqAssign, GetResultVar(seqAssign.Target)));
                     }
                     else
                     {
                         string comp = GetSequenceExpression((SequenceExpression)seqAssign.SourceValueProvider, source);
-                        EmitAssignment(seqAssign.Target, comp, seqAssign.SourceValueProvider.Type(env), source);
+                        EmitAssignment(seqAssign.Target, comp, source);
                         source.AppendFront(SetResultVar(seqAssign, GetResultVar(seqAssign.Target)));
                     }
                     break;
@@ -3448,14 +3440,14 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
-   		void EmitAssignment(AssignmentTarget tgt, string sourceValueComputation, string sourceValueType, SourceBuilder source)
+   		void EmitAssignment(AssignmentTarget tgt, string sourceValueComputation, SourceBuilder source)
 		{
 			switch(tgt.AssignmentTargetType)
 			{
                 case AssignmentTargetType.YieldingToVar:
                 {
                     AssignmentTargetYieldingVar tgtYield = (AssignmentTargetYieldingVar)tgt;
-                    source.AppendFront(SetVar(tgtYield.DestVar, sourceValueComputation, sourceValueType));
+                    source.AppendFront(SetVar(tgtYield.DestVar, sourceValueComputation));
                     source.AppendFront(SetResultVar(tgtYield, GetVar(tgtYield.DestVar)));
                     break;
                 }
@@ -3568,7 +3560,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case AssignmentTargetType.Var:
 				{
                     AssignmentTargetVar tgtVar = (AssignmentTargetVar)tgt;
-                    source.AppendFront(SetVar(tgtVar.DestVar, sourceValueComputation, sourceValueType));
+                    source.AppendFront(SetVar(tgtVar.DestVar, sourceValueComputation));
                     source.AppendFront(SetResultVar(tgtVar, GetVar(tgtVar.DestVar)));
 					break;
 				}

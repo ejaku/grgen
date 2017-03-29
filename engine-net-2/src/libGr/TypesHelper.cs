@@ -631,31 +631,6 @@ namespace de.unika.ipd.grGen.libGr
             return IsSameOrSubtype(xgrsTypeSameOrSub, xgrsTypeBase, model);
         }
 
-        public static bool IsSameOrSubtypeDisregardingDirectednessOfEdgesInSets(string xgrsTypeSameOrSub, string xgrsTypeBase, IGraphModel model)
-        {
-            if(xgrsTypeBase == "")
-                return true;
-
-            // the sets returned from the graph query functions receive a special handling for increased convenience/compatibility, at the price of runtime checks
-            // for everything else the static types must be satisfied (but there, types are explicitly declared)
-            if (xgrsTypeSameOrSub.StartsWith("set<"))
-            {
-                if (!xgrsTypeBase.StartsWith("set<")) return false;
-                return IsSameOrDirectednessAddingEdge(ExtractSrc(xgrsTypeSameOrSub), ExtractSrc(xgrsTypeBase));
-            }
-
-            return IsSameOrSubtype(xgrsTypeSameOrSub, xgrsTypeBase, model);
-        }
-
-        public static bool IsSameOrDirectednessAddingEdge(String left, String right)
-        {
-            if (left == "AEdge")
-                return right == "AEdge" || right == "Edge" || right == "UEdge"; // not type safe, to be compensated by type checks, allowed so people can work with set<Edge> and set<UEdge> even though graph query functions return set<AEdge>
-            if (right == "AEdge")
-                return left == "AEdge" || left == "Edge" || left == "UEdge"; // not type safe, to be compensated by type checks, allowed so people can work with set<Edge> and set<UEdge> even though graph query functions return set<AEdge>
-            return left == right;
-        }
-
         public static string GetStorageKeyTypeName(VarType storage)
         {
             return storage.Type.GetGenericArguments()[0].FullName;
