@@ -1,0 +1,3 @@
+sequence EmitSetAEdgeFailDirected {
+     {s:set<Edge>=edges(AEdge); emit("1 value of attribute 5 6 " + s + "\n")}
+}
