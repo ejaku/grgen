@@ -984,14 +984,6 @@ public abstract class CSharpBase {
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
 					sb.append(", graph)");
 				}
-			} else if(typeName == "directed set") {
-				sb.append("GRGEN_LIBGR.ContainerHelper.EnsureAllEdgesAreDirected(");
-				genExpression(sb, cast.getExpression(), modifyGenerationState);
-				sb.append(")");
-			} else if(typeName == "undirected set") {
-				sb.append("GRGEN_LIBGR.ContainerHelper.EnsureAllEdgesAreUndirected(");
-				genExpression(sb, cast.getExpression(), modifyGenerationState);
-				sb.append(")");
 			} else if(typeName == "object") {
 				// no cast needed
 				genExpression(sb, cast.getExpression(), modifyGenerationState);

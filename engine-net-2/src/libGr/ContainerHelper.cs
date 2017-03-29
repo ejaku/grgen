@@ -1937,25 +1937,5 @@ namespace de.unika.ipd.grGen.libGr
             return IfAttributeOfElementIsContainerThenCloneContainer(
                 element, AttributeName, value, out attrType);
         }
-
-        public static Dictionary<IEdge, SetValueType> EnsureAllEdgesAreDirected(Dictionary<IEdge, SetValueType> set)
-        {
-            foreach (KeyValuePair<IEdge, SetValueType> edge in set)
-            {
-                if (edge.Key.Type.Directedness != Directedness.Directed)
-                    throw new InvalidCastException("Directed edge expected");
-            }
-            return set;
-        }
-
-        public static Dictionary<IEdge, SetValueType> EnsureAllEdgesAreUndirected(Dictionary<IEdge, SetValueType> set)
-        {
-            foreach (KeyValuePair<IEdge, SetValueType> edge in set)
-            {
-                if (edge.Key.Type.Directedness != Directedness.Undirected)
-                    throw new InvalidCastException("Undirected edge expected");
-            }
-            return set;
-        }
     }
 }

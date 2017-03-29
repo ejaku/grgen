@@ -122,21 +122,21 @@ public abstract class ParserEnvironment extends Base {
 		// The node type root
 		NodeTypeNode nodeRootType = new NodeTypeNode(new CollectNode<IdentNode>(), new CollectNode<BaseNode>(), 0, null);
 		nodeRoot = predefineType("Node", nodeRootType);
-		NodeTypeNode.nodeTypeIdent = nodeRoot;
+		NodeTypeNode.nodeType = nodeRootType;
 
 		// The edge type roots
 		ArbitraryEdgeTypeNode arbitraryEdgeRootType = new ArbitraryEdgeTypeNode(new CollectNode<IdentNode>(), new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), InheritanceTypeNode.MOD_ABSTRACT, null);
 		arbitraryEdgeRoot = predefineType("AEdge", arbitraryEdgeRootType);
 		CollectNode<IdentNode> superTypes = new CollectNode<IdentNode>();
 		superTypes.addChild(arbitraryEdgeRoot);
-		EdgeTypeNode.arbitraryEdgeTypeIdent = arbitraryEdgeRoot;
+		EdgeTypeNode.arbitraryEdgeType = arbitraryEdgeRootType;
 
 		DirectedEdgeTypeNode directedEdgeRootType = new DirectedEdgeTypeNode(superTypes, new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null);
 		directedEdgeRoot = predefineType("Edge", directedEdgeRootType);
-		EdgeTypeNode.directedEdgeTypeIdent = directedEdgeRoot;
+		EdgeTypeNode.directedEdgeType = directedEdgeRootType;
 		UndirectedEdgeTypeNode undirectedEdgeRootType = new UndirectedEdgeTypeNode(superTypes, new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null);
 		undirectedEdgeRoot = predefineType("UEdge", undirectedEdgeRootType);
-		EdgeTypeNode.undirectedEdgeTypeIdent = undirectedEdgeRoot;
+		EdgeTypeNode.undirectedEdgeType = undirectedEdgeRootType;
 
 		stdModelChilds.addChild(nodeRoot);
 		stdModelChilds.addChild(arbitraryEdgeRoot);

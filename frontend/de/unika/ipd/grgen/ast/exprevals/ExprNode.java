@@ -131,4 +131,20 @@ public abstract class ExprNode extends BaseNode {
 		}
 		return res;
 	}
+	
+	public static IdentNode getEdgeRootOfMatchingDirectedness(ExprNode edgeTypeExpr)
+	{
+		IdentExprNode ident = (IdentExprNode)edgeTypeExpr;
+		TypeNode type = ident.getType();
+		if(type.isCompatibleTo(EdgeTypeNode.directedEdgeType))
+			return EdgeTypeNode.directedEdgeType.getIdentNode();
+		if(type.isCompatibleTo(EdgeTypeNode.undirectedEdgeType))
+			return EdgeTypeNode.undirectedEdgeType.getIdentNode();
+		return EdgeTypeNode.arbitraryEdgeType.getIdentNode();
+	}
+	
+	public static IdentNode getNodeRoot(ExprNode nodeTypeExpr)
+	{
+		return NodeTypeNode.nodeType.getIdentNode();
+	}
 }

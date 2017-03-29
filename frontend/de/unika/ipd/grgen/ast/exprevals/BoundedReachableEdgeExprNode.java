@@ -29,7 +29,6 @@ public class BoundedReachableEdgeExprNode extends ExprNode {
 	private ExprNode depthExpr;
 	private ExprNode incidentTypeExpr;
 	private ExprNode adjacentTypeExpr;
-	private IdentNode resultEdgeType;
 
 	private int direction;
 	
@@ -41,8 +40,7 @@ public class BoundedReachableEdgeExprNode extends ExprNode {
 	public BoundedReachableEdgeExprNode(Coords coords,
 			ExprNode startNodeExpr, ExprNode depthExpr,
 			ExprNode incidentTypeExpr, int direction,
-			ExprNode adjacentTypeExpr,
-			IdentNode resultEdgeType) {
+			ExprNode adjacentTypeExpr) {
 		super(coords);
 		this.startNodeExpr = startNodeExpr;
 		becomeParent(this.startNodeExpr);
@@ -53,7 +51,6 @@ public class BoundedReachableEdgeExprNode extends ExprNode {
 		this.direction = direction;
 		this.adjacentTypeExpr = adjacentTypeExpr;
 		becomeParent(this.adjacentTypeExpr);
-		this.resultEdgeType = resultEdgeType;
 	}
 
 	/** returns children of this node */
@@ -118,6 +115,6 @@ public class BoundedReachableEdgeExprNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(resultEdgeType);
+		return SetTypeNode.getSetType(getEdgeRootOfMatchingDirectedness(incidentTypeExpr));
 	}
 }

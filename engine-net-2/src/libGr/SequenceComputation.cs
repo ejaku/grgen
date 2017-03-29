@@ -820,9 +820,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env); // check children
 
-            // the assignment of an untyped variable to a typed variable is ok, cause we want access to persistency
-            // which is only offered by the untyped variables; it is checked at runtime / causes an invalid cast exception
-            if(!TypesHelper.IsSameOrSubtypeDisregardingDirectednessOfEdgesInSets(SourceValueProvider.Type(env), Target.Type(env), env.Model))
+            if(!TypesHelper.IsSameOrSubtype(SourceValueProvider.Type(env), Target.Type(env), env.Model))
             {
                 throw new SequenceParserException(Symbol, Target.Type(env), SourceValueProvider.Type(env));
             }
