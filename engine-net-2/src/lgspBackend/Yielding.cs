@@ -1941,6 +1941,9 @@ namespace de.unika.ipd.grGen.expression
             if(Initialization != null)
             {
                 sourceCode.Append(" = ");
+                sourceCode.Append("(");
+                sourceCode.Append(Type);
+                sourceCode.Append(")");
                 Initialization.Emit(sourceCode);
             }
             sourceCode.Append(";\n");
