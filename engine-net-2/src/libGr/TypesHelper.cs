@@ -44,8 +44,8 @@ namespace de.unika.ipd.grGen.libGr
                 switch (type.Name)
                 {
                     case "Node": return "GRGEN_LIBGR.INode";
-                    case "Edge": return "GRGEN_LIBGR.IEdge";
-                    case "UEdge": return "GRGEN_LIBGR.IEdge";
+                    case "Edge": return "GRGEN_LIBGR.IDEdge";
+                    case "UEdge": return "GRGEN_LIBGR.IUEdge";
                     case "AEdge": return "GRGEN_LIBGR.IEdge";
                     default: return "GRGEN_MODEL." + GetPackagePrefixDot(type.Package) + "I" + type.Name;
                 }
@@ -185,10 +185,18 @@ namespace de.unika.ipd.grGen.libGr
                     return package + "::" + type.Substring(9); // remove "EdgeType_"
             }
 
+            typeName = typeName.Substring(1); // remove I from class name
+            if(typeName == "Edge")  // special handling for IEdge,IDEdge,IUEdge, they map to AEdge,Edge,UEdge resp.
+                typeName = "AEdge";
+            else if(typeName == "DEdge")
+                typeName = "Edge";
+            else if(typeName == "UEdge")
+                typeName = "UEdge";
+
             if(package == null)
-                return typeName.Substring(1); // remove I from class name
+                return typeName;
             else
-                return package + "::" + typeName.Substring(1); // remove I from class name
+                return package + "::" + typeName;
         }
 
         public static String AttributeTypeToXgrsType(AttributeType attributeType)
@@ -457,6 +465,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(type.Name == "INode") return "GRGEN_LIBGR.INode";
             if(type.Name == "IEdge") return "GRGEN_LIBGR.IEdge";
+            if(type.Name == "IDEdge") return "GRGEN_LIBGR.IDEdge";
+            if(type.Name == "IUEdge") return "GRGEN_LIBGR.IUEdge";
 
             if(type.Name == "SetValueType") return "GRGEN_LIBGR.SetValueType";
 
@@ -487,7 +497,9 @@ namespace de.unika.ipd.grGen.libGr
         public static string XgrsTypeToCSharpType(string type, IGraphModel model)
         {
             if(type == "Node") return "GRGEN_LIBGR.INode";
-            if(type == "AEdge" || type == "Edge" || type == "UEdge") return "GRGEN_LIBGR.IEdge";
+            if(type == "AEdge") return "GRGEN_LIBGR.IEdge";
+            if(type == "Edge") return "GRGEN_LIBGR.IDEdge";
+            if(type == "UEdge") return "GRGEN_LIBGR.IUEdge";
             if(type == "short" || type == "int" || type == "long" || type == "bool" || type == "string" || type == "float" || type == "double" || type == "object") return type;
             if(type == "byte") return "sbyte";
             if(type == "boolean") return "bool";
@@ -519,7 +531,9 @@ namespace de.unika.ipd.grGen.libGr
         public static string XgrsTypeToCSharpTypeNodeEdge(string type)
         {
             if(type == "Node") return "GRGEN_LIBGR.INode";
-            if(type == "AEdge" || type == "Edge" || type == "UEdge") return "GRGEN_LIBGR.IEdge";
+            if(type == "AEdge") return "GRGEN_LIBGR.IEdge";
+            if(type == "Edge") return "GRGEN_LIBGR.IDEdge";
+            if(type == "UEdge") return "GRGEN_LIBGR.IUEdge";
 
             if(type.Contains("::"))
             {
@@ -713,20 +727,6 @@ namespace de.unika.ipd.grGen.libGr
                 return ((IMatch)toBeCloned).Clone();
             else
                 return ContainerHelper.Clone(toBeCloned);
-        }
-
-        public static IEdge EnsureEdgeIsDirected(IEdge edge)
-        {
-            if (edge.Type.Directedness != Directedness.Directed)
-                throw new InvalidCastException("Directed edge expected");
-            return edge;
-        }
-
-        public static IEdge EnsureEdgeIsUndirected(IEdge edge)
-        {
-            if (edge.Type.Directedness != Directedness.Undirected)
-                throw new InvalidCastException("Undirected edge expected");
-            return edge;
         }
     }
 }

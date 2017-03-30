@@ -167,7 +167,7 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// A GrGen edge
+    /// A GrGen edge (arbitrary direction)
     /// </summary>
     public interface IEdge : IGraphElement
     {
@@ -210,5 +210,19 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newTarget">The new target node for the new edge.</param>
         /// <returns>A copy of this edge.</returns>
         IEdge Clone(INode newSource, INode newTarget);
+    }
+
+    /// <summary>
+    /// A directed GrGen edge
+    /// </summary>
+    public interface IDEdge : IEdge
+    {
+    }
+
+    /// <summary>
+    /// An undirected GrGen edge
+    /// </summary>
+    public interface IUEdge : IEdge
+    {
     }
 }

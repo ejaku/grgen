@@ -371,29 +371,16 @@ public class ModelGen extends CSharpBase {
 	 * Generate a list of direct supertypes of the given type.
 	 */
 	private void genDirectSuperTypeList(InheritanceType type) {
-		boolean isNode = type instanceof NodeType;
-		String kindStr = isNode ? "Node" : "Edge";
-
 		String iprefix = "I" + getNodeOrEdgeTypePrefix(type);
 		Collection<InheritanceType> directSuperTypes = type.getDirectSuperTypes();
 
-		if(directSuperTypes.isEmpty())
-		{
-			sb.append("GRGEN_LIBGR.I" + formatNodeOrEdge(type));		// INode or IEdge
-		}
-
-		boolean hasRootType = false;
 		boolean first = true;
 		for(Iterator<InheritanceType> i = directSuperTypes.iterator(); i.hasNext(); ) {
 			InheritanceType superType = i.next();
 			if(rootTypes.contains(superType.getIdent().toString())) {
-				// avoid problems with "extends Edge, AEdge" mapping to "IEdge, IEdge"
-				if(hasRootType) continue;
-				hasRootType = true;
-
 				if(first) first = false;
 				else sb.append(", ");
-				sb.append("GRGEN_LIBGR.I" + kindStr);
+				sb.append(getRootElementInterfaceRef(superType));
 			}
 			else {
 				if(first) first = false;
@@ -1536,12 +1523,18 @@ deque_init_loop:
 		sb.append("\t\tpublic override string Name { get { return \"" + typeident + "\"; } }\n");
 		sb.append("\t\tpublic override string Package { get { return " + (!getPackagePrefix(type).equals("") ? "\""+getPackagePrefix(type)+"\"" : "null") + "; } }\n");
 		sb.append("\t\tpublic override string PackagePrefixedName { get { return \"" + getPackagePrefixDoubleColon(type) + typeident + "\"; } }\n");
-		if(type.getIdent().toString()=="Node") {
+		if(type.getIdent().toString().equals("Node")) {
 				sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
 						+ "\"de.unika.ipd.grGen.libGr.INode\"; } }\n");
-		} else if(type.getIdent().toString()=="AEdge" || type.getIdent().toString()=="Edge" || type.getIdent().toString()=="UEdge") {
+		} else if(type.getIdent().toString().equals("AEdge")) {
 				sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
 						+ "\"de.unika.ipd.grGen.libGr.IEdge\"; } }\n");
+		} else if(type.getIdent().toString().equals("Edge")) {
+			sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
+					+ "\"de.unika.ipd.grGen.libGr.IDEdge\"; } }\n");
+		} else if(type.getIdent().toString().equals("UEdge")) {
+			sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
+					+ "\"de.unika.ipd.grGen.libGr.IUEdge\"; } }\n");
 		} else {
 			sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
 				+ "\"de.unika.ipd.grGen.Model_" + model.getIdent() + "."

@@ -229,30 +229,6 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns string containing a C# assignment to set the sequence-local variable / graph-global variable given
-        /// to the value as computed by the C# expression in the string given; special version with a runtime directedness check,
-        /// to be used in contexts where at compile time we allow to get an Edge/UEdge from an AEdge/unknown type
-        /// </summary>
-        public string SetVar(SequenceVariable seqVar, String valueToWrite, String typeOfValue)
-        {
-            if (seqVar.Type == "")
-            {
-                return "procEnv.SetVariableValue(\"" + seqVar.PureName + "\", " + valueToWrite + ");\n";
-            }
-            else
-            {
-                String cast = "(" + TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model) + ")";
-
-                if (seqVar.Type == "Edge" && (typeOfValue == "" || typeOfValue == "string" || typeOfValue == "AEdge"))
-                    return "var_" + seqVar.Prefix + seqVar.PureName + " = GRGEN_LIBGR.TypesHelper.EnsureEdgeIsDirected(" + cast + "(" + valueToWrite + "));\n";
-                if (seqVar.Type == "UEdge" && (typeOfValue == "" || typeOfValue == "string" || typeOfValue == "AEdge"))
-                    return "var_" + seqVar.Prefix + seqVar.PureName + " = GRGEN_LIBGR.TypesHelper.EnsureEdgeIsUndirected(" + cast + "(" + valueToWrite + "));\n";
-
-                return "var_" + seqVar.Prefix + seqVar.PureName + " = " + cast + "(" + valueToWrite + ");\n";
-            }
-        }
-
-        /// <summary>
         /// Returns string containing a C# declaration of the variable given
         /// </summary>
         public string DeclareVar(SequenceVariable seqVar)
@@ -957,7 +933,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("foreach(DictionaryEntry entry_" + seqFor.Id + " in (IDictionary)" + GetVar(seqFor.Container) + ")\n");
                         source.AppendFront("{\n");
                         source.Indent();
-                        source.AppendFront(SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key", ""));
+                        source.AppendFront(SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
                         if(seqFor.VarDst != null)
                         {
                             source.AppendFront(SetVar(seqFor.VarDst, "entry_" + seqFor.Id + ".Value"));
@@ -1029,7 +1005,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.Indent();
 
                         if(dstTypeXgrs== "SetValueType")
-                            source.AppendFront(SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key", srcTypeXgrs));
+                            source.AppendFront(SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
                         else
                             source.AppendFront(SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
 
@@ -1322,7 +1298,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("\tcontinue;\n");
                     }
 
-                    source.AppendFront(SetVar(seqFor.Var, iterationVariable, iterationType));
+                    source.AppendFront(SetVar(seqFor.Var, iterationVariable));
 
                     EmitSequence(seqFor.Seq, source);
 
@@ -1410,7 +1386,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("{\n");
                     source.Indent();
 
-                    source.AppendFront(SetVar(seqFor.Var, iterationVariable, iterationType));
+                    source.AppendFront(SetVar(seqFor.Var, iterationVariable));
 
                     EmitSequence(seqFor.Seq, source);
 
@@ -1428,27 +1404,24 @@ namespace de.unika.ipd.grGen.lgsp
 
                     source.AppendFront(SetResultVar(seqFor, "true"));
 
-                    string iterationType;
                     if (seqFor.SequenceType == SequenceType.ForNodes)
                     {
                         SequenceExpression AdjacentNodeType = seqFor.ArgExprs.Count >= 1 ? seqFor.ArgExprs[0] : null;
                         string adjacentNodeTypeExpr = ExtractNodeType(source, AdjacentNodeType);
                         source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode elem_{0} in graph.GetCompatibleNodes({1}))\n", seqFor.Id, adjacentNodeTypeExpr);
-                        iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                     }
                     else
                     {
                         SequenceExpression IncidentEdgeType = seqFor.ArgExprs.Count >= 1 ? seqFor.ArgExprs[0] : null;
                         string incidentEdgeTypeExpr = ExtractEdgeType(source, IncidentEdgeType);
                         source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge elem_{0} in graph.GetCompatibleEdges({1}))\n", seqFor.Id, incidentEdgeTypeExpr);
-                        iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                     }
                     source.AppendFront("{\n");
                     source.Indent();
                     
                     if(gen.EmitProfiling)
                         source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
-                    source.AppendFront(SetVar(seqFor.Var, "elem_" + seqFor.Id, iterationType));
+                    source.AppendFront(SetVar(seqFor.Var, "elem_" + seqFor.Id));
 
                     EmitSequence(seqFor.Seq, source);
 
@@ -3346,7 +3319,7 @@ namespace de.unika.ipd.grGen.lgsp
                     EmitSequenceComputation(seqCall.BuiltinProcedure, sb);
                     if(seqCall.ReturnVars.Count > 0)
                     {
-                        source.AppendFront(SetVar(seqCall.ReturnVars[0], sb.ToString(), seqCall.BuiltinProcedure.Type(env)));
+                        source.AppendFront(SetVar(seqCall.ReturnVars[0], sb.ToString()));
                         source.AppendFront(SetResultVar(seqCall, GetVar(seqCall.ReturnVars[0])));
                     }
                     else

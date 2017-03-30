@@ -272,13 +272,25 @@ public abstract class CSharpBase {
 
 		InheritanceType nodeEdgeType = (InheritanceType)type;
 		String ident = formatIdentifiable(type);
-		if(nodeEdgeType.isAbstract()) {
-			if(ident == "AEdge") return "GRGEN_LIBGR.IEdge";
-		}
-		else if(ident == "Node") return "GRGEN_LIBGR.INode";
-		else if(ident == "Edge" || ident == "UEdge") return "GRGEN_LIBGR.IEdge";
+		if(ident.equals("Node") || ident.equals("AEdge") || ident.equals("Edge") || ident.equals("UEdge")) 
+			return getRootElementInterfaceRef(nodeEdgeType);
 
 		return "GRGEN_MODEL." + getPackagePrefixDot(type) + "I" + formatElementClassRaw(type);
+	}
+	
+	public String getRootElementInterfaceRef(InheritanceType nodeOrEdgeType)
+	{
+		if(nodeOrEdgeType instanceof NodeType) {
+			return "GRGEN_LIBGR.INode";
+		} else { // instanceof EdgeType
+			EdgeType edgeType = (EdgeType)nodeOrEdgeType;
+			if(edgeType.getDirectedness() == EdgeType.Directedness.Directed)
+				return "GRGEN_LIBGR.IDEdge";
+			else if(edgeType.getDirectedness() == EdgeType.Directedness.Undirected)
+				return "GRGEN_LIBGR.IUEdge";
+			else
+				return "GRGEN_LIBGR.IEdge";
+		}
 	}
 
 	public String formatVarDeclWithCast(String type, String varName) {
