@@ -2664,7 +2664,7 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected string GetEdgeRootTypeWithDirection(SequenceExpression EdgeType, SequenceCheckingEnvironment env)
+        public static string GetEdgeRootTypeWithDirection(SequenceExpression EdgeType, SequenceCheckingEnvironment env)
         {
             if (EdgeType == null)
                 return "AEdge";

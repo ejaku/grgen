@@ -4306,8 +4306,10 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionEdges seqEdges = (SequenceExpressionEdges)expr;
                     string edgeType = ExtractEdgeType(source, seqEdges.EdgeType);
+                    string edgeRootType = SequenceExpressionGraphQuery.GetEdgeRootTypeWithDirection(seqEdges.EdgeType, env);
+                    string directedness = GetDirectedness(edgeRootType);
                     string profilingArgument = seqEdges.EmitProfiling ? ", procEnv" : "";
-                    return "GRGEN_LIBGR.GraphHelper.Edges(graph, (GRGEN_LIBGR.EdgeType)" + edgeType + profilingArgument + ")";
+                    return "GRGEN_LIBGR.GraphHelper.Edges" + directedness + "(graph, (GRGEN_LIBGR.EdgeType)" + edgeType + profilingArgument + ")";
                 }
 
                 case SequenceExpressionType.CountNodes:
@@ -4355,6 +4357,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string sourceNode = GetSequenceExpression(seqAdjInc.SourceNode, source);
                     string incidentEdgeType = ExtractEdgeType(source, seqAdjInc.EdgeType);
                     string adjacentNodeType = ExtractNodeType(source, seqAdjInc.OppositeNodeType);
+                    string directedness = GetDirectedness(SequenceExpressionGraphQuery.GetEdgeRootTypeWithDirection(seqAdjInc.EdgeType, env));
                     string function;
                     switch(seqAdjInc.SequenceExpressionType)
                     {
@@ -4365,11 +4368,11 @@ namespace de.unika.ipd.grGen.lgsp
                         case SequenceExpressionType.AdjacentNodesViaOutgoing:
                             function = "AdjacentOutgoing"; break;
                         case SequenceExpressionType.IncidentEdges:
-                            function = "Incident"; break;
+                            function = "Incident" + directedness; break;
                         case SequenceExpressionType.IncomingEdges:
-                            function = "Incoming"; break;
+                            function = "Incoming" + directedness; break;
                         case SequenceExpressionType.OutgoingEdges:
-                            function = "Outgoing"; break;
+                            function = "Outgoing" + directedness; break;
                         default:
                             function = "INTERNAL ERROR"; break;
                     }
@@ -4433,6 +4436,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string sourceNode = GetSequenceExpression(seqReach.SourceNode, source);
                     string incidentEdgeType = ExtractEdgeType(source, seqReach.EdgeType);
                     string adjacentNodeType = ExtractNodeType(source, seqReach.OppositeNodeType);
+                    string directedness = GetDirectedness(SequenceExpressionGraphQuery.GetEdgeRootTypeWithDirection(seqReach.EdgeType, env));
                     string function;
                     switch(seqReach.SequenceExpressionType)
                     {
@@ -4443,11 +4447,11 @@ namespace de.unika.ipd.grGen.lgsp
                         case SequenceExpressionType.ReachableNodesViaOutgoing:
                             function = "ReachableOutgoing"; break;
                         case SequenceExpressionType.ReachableEdges:
-                            function = "ReachableEdges"; break;
+                            function = "ReachableEdges" + directedness; break;
                         case SequenceExpressionType.ReachableEdgesViaIncoming:
-                            function = "ReachableEdgesIncoming"; break;
+                            function = "ReachableEdgesIncoming" + directedness; break;
                         case SequenceExpressionType.ReachableEdgesViaOutgoing:
-                            function = "ReachableEdgesOutgoing"; break;
+                            function = "ReachableEdgesOutgoing" + directedness; break;
                         default:
                             function = "INTERNAL ERROR"; break;
                     }
@@ -4522,6 +4526,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string depth = GetSequenceExpression(seqBoundReach.Depth, source);
                     string incidentEdgeType = ExtractEdgeType(source, seqBoundReach.EdgeType);
                     string adjacentNodeType = ExtractNodeType(source, seqBoundReach.OppositeNodeType);
+                    string directedness = GetDirectedness(SequenceExpressionGraphQuery.GetEdgeRootTypeWithDirection(seqBoundReach.EdgeType, env));
                     string function;
                     switch(seqBoundReach.SequenceExpressionType)
                     {
@@ -4532,11 +4537,11 @@ namespace de.unika.ipd.grGen.lgsp
                         case SequenceExpressionType.BoundedReachableNodesViaOutgoing:
                             function = "BoundedReachableOutgoing"; break;
                         case SequenceExpressionType.BoundedReachableEdges:
-                            function = "BoundedReachableEdges"; break;
+                            function = "BoundedReachableEdges" + directedness; break;
                         case SequenceExpressionType.BoundedReachableEdgesViaIncoming:
-                            function = "BoundedReachableEdgesIncoming"; break;
+                            function = "BoundedReachableEdgesIncoming" + directedness; break;
                         case SequenceExpressionType.BoundedReachableEdgesViaOutgoing:
-                            function = "BoundedReachableEdgesOutgoing"; break;
+                            function = "BoundedReachableEdgesOutgoing" + directedness; break;
                         default:
                             function = "INTERNAL ERROR"; break;
                     }
@@ -5347,6 +5352,16 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
             return "(" + incidentEdgeType + ")";
+        }
+
+        private string GetDirectedness(String edgeRootType)
+        {
+            if(edgeRootType == "Edge")
+                return "Directed";
+            else if(edgeRootType == "UEdge")
+                return "Undirected";
+            else
+                return "";
         }
 
         string GetContainerValue(SequenceExpressionContainer container, SourceBuilder source)

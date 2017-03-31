@@ -3177,6 +3177,8 @@ public class ActionsGen extends CSharpBase {
 			EdgesExpr e = (EdgesExpr) expr;
 			sb.append("new GRGEN_EXPR.Edges(");
 			genExpressionTree(sb, e.getEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(",");
+			sb.append(getDirectedness(e.getType()));
 			sb.append(")");
 		}
 		else if (expr instanceof NodesExpr) {
@@ -3270,6 +3272,8 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, ie.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, ie.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(",");
+			sb.append(getDirectedness(ie.getType()));
 			sb.append(")");
 		}
 		else if (expr instanceof AdjacentNodeExpr) {
@@ -3370,6 +3374,8 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, re.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, re.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(",");
+			sb.append(getDirectedness(re.getType()));
 			sb.append(")");
 		}
 		else if (expr instanceof ReachableNodeExpr) {
@@ -3472,6 +3478,8 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, bre.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, bre.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(",");
+			sb.append(getDirectedness(bre.getType()));
 			sb.append(")");
 		}
 		else if (expr instanceof BoundedReachableNodeExpr) {
