@@ -4591,19 +4591,25 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Edges : Expression
     {
-        public Edges(Expression edgeType)
+        public Edges(Expression edgeType, Directedness directedness)
         {
             EdgeType = edgeType;
+            Directedness = directedness;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Edges(EdgeType.Copy(renameSuffix));
+            return new Edges(EdgeType.Copy(renameSuffix), Directedness);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Edges(graph, ");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Edges");
+            if(Directedness == Directedness.Directed)
+                sourceCode.Append("Directed");
+            if(Directedness == Directedness.Undirected)
+                sourceCode.Append("Undirected");
+            sourceCode.Append("(graph, ");
             EdgeType.Emit(sourceCode);
             if(Profiling)
                 sourceCode.AppendFront(", actionEnv");
@@ -4628,6 +4634,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         public Expression EdgeType;
+        public Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -5068,21 +5075,27 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Outgoing : Expression
     {
-        public Outgoing(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        public Outgoing(Expression node, Expression incidentEdgeType, Expression adjacentNodeType, Directedness directedness)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
             AdjacentNodeType = adjacentNodeType;
+            Directedness = directedness;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Outgoing(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+            return new Outgoing(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix), Directedness);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Outgoing((GRGEN_LIBGR.INode)");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Outgoing");
+            if(Directedness == Directedness.Directed)
+                sourceCode.Append("Directed");
+            if(Directedness == Directedness.Undirected)
+                sourceCode.Append("Undirected");
+            sourceCode.Append("((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
             sourceCode.Append(", ");
             IncidentEdgeType.Emit(sourceCode);
@@ -5115,6 +5128,7 @@ namespace de.unika.ipd.grGen.expression
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -5124,21 +5138,27 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Incoming : Expression
     {
-        public Incoming(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        public Incoming(Expression node, Expression incidentEdgeType, Expression adjacentNodeType, Directedness directedness)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
             AdjacentNodeType = adjacentNodeType;
+            Directedness = directedness;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Incoming(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+            return new Incoming(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix), Directedness);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Incoming((GRGEN_LIBGR.INode)");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Incoming");
+            if(Directedness == Directedness.Directed)
+                sourceCode.Append("Directed");
+            if(Directedness == Directedness.Undirected)
+                sourceCode.Append("Undirected");
+            sourceCode.Append("((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
             sourceCode.Append(", ");
             IncidentEdgeType.Emit(sourceCode);
@@ -5171,6 +5191,7 @@ namespace de.unika.ipd.grGen.expression
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -5180,21 +5201,27 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Incident : Expression
     {
-        public Incident(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        public Incident(Expression node, Expression incidentEdgeType, Expression adjacentNodeType, Directedness directedness)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
             AdjacentNodeType = adjacentNodeType;
+            Directedness = directedness;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Incident(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+            return new Incident(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix), Directedness);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Incident((GRGEN_LIBGR.INode)");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Incident");
+            if(Directedness == Directedness.Directed)
+                sourceCode.Append("Directed");
+            if(Directedness == Directedness.Undirected)
+                sourceCode.Append("Undirected");
+            sourceCode.Append("((GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
             sourceCode.Append(", ");
             IncidentEdgeType.Emit(sourceCode);
@@ -5227,6 +5254,7 @@ namespace de.unika.ipd.grGen.expression
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -6124,21 +6152,27 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ReachableEdgesOutgoing : Expression
     {
-        public ReachableEdgesOutgoing(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        public ReachableEdgesOutgoing(Expression node, Expression incidentEdgeType, Expression adjacentNodeType, Directedness directedness)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
             AdjacentNodeType = adjacentNodeType;
+            Directedness = directedness;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ReachableEdgesOutgoing(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+            return new ReachableEdgesOutgoing(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix), Directedness);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing(graph, (GRGEN_LIBGR.INode)");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing");
+            if(Directedness == Directedness.Directed)
+                sourceCode.Append("Directed");
+            if(Directedness == Directedness.Undirected)
+                sourceCode.Append("Undirected");
+            sourceCode.Append("(graph, (GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
             sourceCode.Append(", ");
             IncidentEdgeType.Emit(sourceCode);
@@ -6171,6 +6205,7 @@ namespace de.unika.ipd.grGen.expression
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -6180,21 +6215,27 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ReachableEdgesIncoming : Expression
     {
-        public ReachableEdgesIncoming(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        public ReachableEdgesIncoming(Expression node, Expression incidentEdgeType, Expression adjacentNodeType, Directedness directedness)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
             AdjacentNodeType = adjacentNodeType;
+            Directedness = directedness;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ReachableEdgesIncoming(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+            return new ReachableEdgesIncoming(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix), Directedness);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming(graph, (GRGEN_LIBGR.INode)");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming");
+            if(Directedness == Directedness.Directed)
+                sourceCode.Append("Directed");
+            if(Directedness == Directedness.Undirected)
+                sourceCode.Append("Undirected");
+            sourceCode.Append("(graph, (GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
             sourceCode.Append(", ");
             IncidentEdgeType.Emit(sourceCode);
@@ -6227,6 +6268,7 @@ namespace de.unika.ipd.grGen.expression
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -6236,21 +6278,27 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ReachableEdges : Expression
     {
-        public ReachableEdges(Expression node, Expression incidentEdgeType, Expression adjacentNodeType)
+        public ReachableEdges(Expression node, Expression incidentEdgeType, Expression adjacentNodeType, Directedness directedness)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
             AdjacentNodeType = adjacentNodeType;
+            Directedness = directedness;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ReachableEdges(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+            return new ReachableEdges(Node.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix), Directedness);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableEdges(graph, (GRGEN_LIBGR.INode)");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.ReachableEdges");
+            if(Directedness == Directedness.Directed)
+                sourceCode.Append("Directed");
+            if(Directedness == Directedness.Undirected)
+                sourceCode.Append("Undirected");
+            sourceCode.Append("(graph, (GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
             sourceCode.Append(", ");
             IncidentEdgeType.Emit(sourceCode);
@@ -6283,6 +6331,7 @@ namespace de.unika.ipd.grGen.expression
         public Expression Node;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -6796,22 +6845,28 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class BoundedReachableEdgesOutgoing : Expression
     {
-        public BoundedReachableEdgesOutgoing(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        public BoundedReachableEdgesOutgoing(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType, Directedness directedness)
         {
             Node = node;
             Depth = depth;
             IncidentEdgeType = incidentEdgeType;
             AdjacentNodeType = adjacentNodeType;
+            Directedness = directedness;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new BoundedReachableEdgesOutgoing(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+            return new BoundedReachableEdgesOutgoing(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix), Directedness);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesOutgoing(graph, (GRGEN_LIBGR.INode)");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesOutgoing");
+            if(Directedness == Directedness.Directed)
+                sourceCode.Append("Directed");
+            if(Directedness == Directedness.Undirected)
+                sourceCode.Append("Undirected");
+            sourceCode.Append("(graph, (GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
             sourceCode.Append(", ");
             Depth.Emit(sourceCode);
@@ -6848,6 +6903,7 @@ namespace de.unika.ipd.grGen.expression
         public Expression Depth;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -6857,22 +6913,28 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class BoundedReachableEdgesIncoming : Expression
     {
-        public BoundedReachableEdgesIncoming(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        public BoundedReachableEdgesIncoming(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType, Directedness directedness)
         {
             Node = node;
             Depth = depth;
             IncidentEdgeType = incidentEdgeType;
             AdjacentNodeType = adjacentNodeType;
+            Directedness = directedness;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new BoundedReachableEdgesIncoming(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+            return new BoundedReachableEdgesIncoming(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix), Directedness);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesIncoming(graph, (GRGEN_LIBGR.INode)");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesIncoming");
+            if(Directedness == Directedness.Directed)
+                sourceCode.Append("Directed");
+            if(Directedness == Directedness.Undirected)
+                sourceCode.Append("Undirected");
+            sourceCode.Append("(graph, (GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
             sourceCode.Append(", ");
             Depth.Emit(sourceCode);
@@ -6909,6 +6971,7 @@ namespace de.unika.ipd.grGen.expression
         public Expression Depth;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -6918,22 +6981,28 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class BoundedReachableEdges : Expression
     {
-        public BoundedReachableEdges(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType)
+        public BoundedReachableEdges(Expression node, Expression depth, Expression incidentEdgeType, Expression adjacentNodeType, Directedness directedness)
         {
             Node = node;
             Depth = depth;
             IncidentEdgeType = incidentEdgeType;
             AdjacentNodeType = adjacentNodeType;
+            Directedness = directedness;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new BoundedReachableEdges(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix));
+            return new BoundedReachableEdges(Node.Copy(renameSuffix), Depth.Copy(renameSuffix), IncidentEdgeType.Copy(renameSuffix), AdjacentNodeType.Copy(renameSuffix), Directedness);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdges(graph, (GRGEN_LIBGR.INode)");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdges");
+            if(Directedness == Directedness.Directed)
+                sourceCode.Append("Directed");
+            if(Directedness == Directedness.Undirected)
+                sourceCode.Append("Undirected");
+            sourceCode.Append("(graph, (GRGEN_LIBGR.INode)");
             Node.Emit(sourceCode);
             sourceCode.Append(", ");
             Depth.Emit(sourceCode);
@@ -6970,6 +7039,7 @@ namespace de.unika.ipd.grGen.expression
         public Expression Depth;
         public Expression IncidentEdgeType;
         public Expression AdjacentNodeType;
+        public Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }

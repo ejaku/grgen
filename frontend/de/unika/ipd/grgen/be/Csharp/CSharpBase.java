@@ -293,6 +293,30 @@ public abstract class CSharpBase {
 		}
 	}
 
+	public String getDirectedness(Type type)
+	{
+		SetType setType = (SetType)type;
+		EdgeType edgeType = (EdgeType)setType.getValueType();
+		if(edgeType.getDirectedness() == EdgeType.Directedness.Directed)
+			return "GRGEN_LIBGR.Directedness.Directed";
+		else if(edgeType.getDirectedness() == EdgeType.Directedness.Undirected)
+			return "GRGEN_LIBGR.Directedness.Undirected";
+		else
+			return "GRGEN_LIBGR.Directedness.Arbitrary";
+	}
+
+	public String getDirectednessSuffix(Type type)
+	{
+		SetType setType = (SetType)type;
+		EdgeType edgeType = (EdgeType)setType.getValueType();
+		if(edgeType.getDirectedness() == EdgeType.Directedness.Directed)
+			return "Directed";
+		else if(edgeType.getDirectedness() == EdgeType.Directedness.Undirected)
+			return "Undirected";
+		else
+			return "";
+	}
+
 	public String formatVarDeclWithCast(String type, String varName) {
 		return type + " " + varName + " = (" + type + ") ";
 	}
@@ -1785,7 +1809,9 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof EdgesExpr) {
 			EdgesExpr e = (EdgesExpr) expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.Edges(graph, ");
+			sb.append("GRGEN_LIBGR.GraphHelper.Edges");
+			sb.append(getDirectednessSuffix(e.getType()));
+			sb.append("(graph, ");
 			genExpression(sb, e.getEdgeTypeExpr(), modifyGenerationState);
 			if(modifyGenerationState.emitProfilingInstrumentation())
 				sb.append(", actionEnv");
@@ -1898,12 +1924,14 @@ public abstract class CSharpBase {
 		else if (expr instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr ie = (IncidentEdgeExpr) expr;
 			if(ie.Direction()==IncidentEdgeExpr.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.Outgoing(");
+				sb.append("GRGEN_LIBGR.GraphHelper.Outgoing");
 			} else if(ie.Direction()==IncidentEdgeExpr.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.Incoming(");
+				sb.append("GRGEN_LIBGR.GraphHelper.Incoming");
 			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.Incident(");
+				sb.append("GRGEN_LIBGR.GraphHelper.Incident");
 			}
+			sb.append(getDirectednessSuffix(ie.getType()));
+			sb.append("(");
 			genExpression(sb, ie.getStartNodeExpr(), modifyGenerationState);
 			sb.append(", ");
 			genExpression(sb, ie.getIncidentEdgeTypeExpr(), modifyGenerationState);
@@ -2022,12 +2050,14 @@ public abstract class CSharpBase {
 		else if (expr instanceof ReachableEdgeExpr) {
 			ReachableEdgeExpr re = (ReachableEdgeExpr) expr;
 			if(re.Direction()==ReachableEdgeExpr.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing(graph, ");
+				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing");
 			} else if(re.Direction()==ReachableEdgeExpr.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming(graph, ");
+				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming");
 			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdges(graph, ");
+				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdges");
 			}
+			sb.append(getDirectednessSuffix(re.getType()));
+			sb.append("(graph, ");
 			genExpression(sb, re.getStartNodeExpr(), modifyGenerationState);
 			sb.append(", ");
 			genExpression(sb, re.getIncidentEdgeTypeExpr(), modifyGenerationState);
@@ -2146,12 +2176,14 @@ public abstract class CSharpBase {
 		else if (expr instanceof BoundedReachableEdgeExpr) {
 			BoundedReachableEdgeExpr bre = (BoundedReachableEdgeExpr) expr;
 			if(bre.Direction()==BoundedReachableEdgeExpr.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesOutgoing(graph, ");
+				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesOutgoing");
 			} else if(bre.Direction()==BoundedReachableEdgeExpr.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesIncoming(graph, ");
+				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesIncoming");
 			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdges(graph, ");
+				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdges");
 			}
+			sb.append(getDirectednessSuffix(bre.getType()));
+			sb.append("(graph, ");
 			genExpression(sb, bre.getStartNodeExpr(), modifyGenerationState);
 			sb.append(", ");
 			genExpression(sb, bre.getDepthExpr(), modifyGenerationState);
