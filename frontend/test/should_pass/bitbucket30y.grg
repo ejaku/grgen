@@ -1,0 +1,81 @@
+#using "bitbucket30.gm"
+
+test yEmitEdge {
+	yield {
+		for (e:Edge in edges(Edge)) {
+			emit(e, "\n");
+		}
+	}
+}
+
+test yEmitUEdge {
+	yield {
+		for (e:UEdge in edges(UEdge)) {
+			emit(e, "\n");
+		}
+	}
+}
+
+test yEmitAEdge {
+	yield {
+		for (e:AEdge in edges(AEdge)) {
+			emit(e, "\n");
+		}
+    }
+}
+
+test yEmitEdgeNoArgument {
+	yield {
+		for (e:Edge in edges()) { // may fail at runtime
+			emit(e, "\n");
+		}
+    }
+}
+
+test yEmitUEdgeNoArgument {
+	yield {
+		for (e:UEdge in edges()) { // may fail at runtime
+			emit(e, "\n");
+		}
+	}
+}
+
+test yEmitAEdgeNoArgument {
+	yield {
+		for (e:AEdge in edges()) {
+			emit(e, "\n");
+		}
+	}
+}
+
+test yEmitDirectedEdge {
+	yield {
+		for (e:MyDirectedEdge in edges(MyDirectedEdge)) {
+			emit(e, "\n");
+		}
+	}
+}
+
+test yEmitUndirectedEdge {
+	yield {
+		for (e:MyUndirectedEdge in edges(MyUndirectedEdge)) {
+			emit(e, "\n");
+		}
+	}
+}
+
+test yEmitDirectedEdgeNoArgument {
+	yield {
+		for (e:MyDirectedEdge in edges()) { // may fail at runtime
+			emit(e, "\n");
+		}
+	}
+}
+
+test yEmitUndirectedEdgeNoArgument {
+	yield {
+		for (e:MyUndirectedEdge in edges()) { // may fail at runtime
+			emit(e, "\n");
+		}
+	}
+}

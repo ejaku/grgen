@@ -1,0 +1,9 @@
+new graph "bitbucket30/bitbucket30y"
+
+exec init
+show num nodes
+show num edges
+
+exec yEmitDirectedEdge
+
+quit

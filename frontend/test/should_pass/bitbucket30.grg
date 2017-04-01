@@ -12,11 +12,31 @@ sequence EmitAEdge {
     for{e:AEdge in edges(AEdge); {emit(e + "\n")}}
 }
 
+sequence EmitEdgeNoArgument {
+    for{e:Edge in edges(); {emit(e + "\n")}}
+}
+
+sequence EmitUEdgeNoArgument {
+    for{e:UEdge in edges(); {emit(e + "\n")}}
+}
+
+sequence EmitAEdgeNoArgument {
+    for{e:AEdge in edges(); {emit(e + "\n")}}
+}
+
 sequence EmitDirectedEdge {                     // works!
     for{e:MyDirectedEdge in edges(MyDirectedEdge); {emit(e + "\n")}}
 }
 
 sequence EmitUndirectedEdge {                   // build fails! not anymore, fixed
     for{e:MyUndirectedEdge in edges(MyUndirectedEdge); {emit(e + "\n")}}
+}
+
+sequence EmitDirectedEdgeNoArgument {
+    for{e:MyDirectedEdge in edges(); {emit(e + "\n")}}
+}
+
+sequence EmitUndirectedEdgeNoArgument {
+    for{e:MyUndirectedEdge in edges(); {emit(e + "\n")}}
 }
 
