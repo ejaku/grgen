@@ -68,6 +68,13 @@ public class InsertDefinedSubgraphProcNode extends ProcedureInvocationBaseNode {
 			edgeSetExpr.reportError("set of edges expected as 1st argument to insertDefinedSubgraph");
 			return false;
 		}
+		EdgeTypeNode edgeValueType = (EdgeTypeNode)type.valueType;
+		if(edgeValueType != EdgeTypeNode.arbitraryEdgeType
+				&& edgeValueType != EdgeTypeNode.directedEdgeType
+				&& edgeValueType != EdgeTypeNode.undirectedEdgeType) {
+			edgeSetExpr.reportError("set<AEdge> or set<Edge> or set<UEdge> expected as 1st argument to insertDefinedSubgraph");
+			return false;
+		}
 		if(!(edgeExpr.getType() instanceof EdgeTypeNode)) {
 			edgeExpr.reportError("edge expected as 2nd argument to insertDefinedSubgraph");
 			return false;
