@@ -77,28 +77,36 @@ namespace de.unika.ipd.grGen.expression
     /// <summary>
     /// Class representing a yielding indexed assignment executed after the match was found
     /// writing a value computed from the right expression
-    /// into the position at the given index of the left def variable of type array (TODO: extend to map)
+    /// into the position at the given index of the left def variable
     /// </summary>
     public class YieldAssignmentIndexed : Yielding
     {
-        public YieldAssignmentIndexed(String left, Expression right, Expression index)
+        public YieldAssignmentIndexed(String left, Expression right, Expression index, string typeRight, string typeIndex)
         {
             Left = left;
             Right = right;
             Index = index;
+            TypeRight = typeRight;
+            TypeIndex = typeIndex;
         }
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new YieldAssignmentIndexed(Left + renameSuffix, Right.Copy(renameSuffix), Index.Copy(renameSuffix));
+            return new YieldAssignmentIndexed(Left + renameSuffix, Right.Copy(renameSuffix), Index.Copy(renameSuffix), TypeRight, TypeIndex);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append("[");
+            sourceCode.Append("(");
+            sourceCode.Append(TypeIndex);
+            sourceCode.Append(")");
             Index.Emit(sourceCode);
             sourceCode.Append("] = ");
+            sourceCode.Append("(");
+            sourceCode.Append(TypeRight);
+            sourceCode.Append(")");
             Right.Emit(sourceCode);
             sourceCode.Append(";\n");
         }
@@ -111,7 +119,9 @@ namespace de.unika.ipd.grGen.expression
 
         String Left;
         Expression Right;
+        String TypeRight;
         Expression Index;
+        String TypeIndex;
     }
 
     /// <summary>
@@ -245,24 +255,30 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class SetMapRemove : YieldMethod
     {
-        public SetMapRemove(String left, Expression right)
+        public SetMapRemove(String left, Expression right, String rightType)
             : base(left, right)
         {
+            RightType = rightType;
         }
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new SetMapRemove(Left + renameSuffix, Right.Copy(renameSuffix));
+            return new SetMapRemove(Left + renameSuffix, Right.Copy(renameSuffix), RightType);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append(".Remove(");
+            sourceCode.Append("(");
+            sourceCode.Append(RightType);
+            sourceCode.Append(")");
             Right.Emit(sourceCode);
             sourceCode.Append(")");
             sourceCode.Append(";\n");
         }
+
+        String RightType;
     }
 
     /// <summary>
@@ -282,7 +298,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new ArrayRemove(Left + renameSuffix, null);
+            return new ArrayRemove(Left + renameSuffix, Right);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -321,7 +337,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new DequeRemove(Left + renameSuffix, null);
+            return new DequeRemove(Left + renameSuffix, Right);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -378,24 +394,30 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class SetAdd : YieldMethod
     {
-        public SetAdd(String left, Expression value)
+        public SetAdd(String left, Expression value, String valueType)
             : base(left, value)
         {
+            ValueType = valueType;
         }
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new SetAdd(Left + renameSuffix, Right.Copy(renameSuffix));
+            return new SetAdd(Left + renameSuffix, Right.Copy(renameSuffix), ValueType);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append("[");
+            sourceCode.Append("(");
+            sourceCode.Append(ValueType);
+            sourceCode.Append(")");
             Right.Emit(sourceCode);
             sourceCode.Append("] = null");
             sourceCode.Append(";\n");
         }
+
+        String ValueType;
     }
 
     /// <summary>
@@ -403,23 +425,31 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class MapAdd : YieldMethod
     {
-        public MapAdd(String left, Expression key, Expression value)
+        public MapAdd(String left, Expression key, Expression value, String keyType, String valueType)
             : base(left, key)
         {
             Value = value;
+            KeyType = keyType;
+            ValueType = valueType;
         }
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new MapAdd(Left + renameSuffix, Right.Copy(renameSuffix), Value.Copy(renameSuffix));
+            return new MapAdd(Left + renameSuffix, Right.Copy(renameSuffix), Value.Copy(renameSuffix), KeyType, ValueType);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append("[");
+            sourceCode.Append("(");
+            sourceCode.Append(KeyType);
+            sourceCode.Append(")");
             Right.Emit(sourceCode);
             sourceCode.Append("] = ");
+            sourceCode.Append("(");
+            sourceCode.Append(ValueType);
+            sourceCode.Append(")");
             Value.Emit(sourceCode);
             sourceCode.Append(";\n");
         }
@@ -431,6 +461,8 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Value;
+        String KeyType;
+        String ValueType;
     }
 
     /// <summary>
@@ -438,21 +470,23 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ArrayAdd : YieldMethod
     {
-        public ArrayAdd(String left, Expression value, Expression index)
+        public ArrayAdd(String left, Expression value, String valueType, Expression index)
             : base(left, value)
         {
             Index = index;
+            ValueType = valueType;
         }
 
-        public ArrayAdd(String left, Expression value)
+        public ArrayAdd(String left, Expression value, String valueType)
             : base(left, value)
         {
             Index = null;
+            ValueType = valueType;
         }
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new ArrayAdd(Left + renameSuffix, Right.Copy(renameSuffix), Index != null ? Index.Copy(renameSuffix) : Index);
+            return new ArrayAdd(Left + renameSuffix, Right.Copy(renameSuffix), ValueType, Index != null ? Index.Copy(renameSuffix) : Index);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -463,6 +497,9 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append(".Insert(");
                 Index.Emit(sourceCode);
                 sourceCode.Append(", ");
+                sourceCode.Append("(");
+                sourceCode.Append(ValueType);
+                sourceCode.Append(")");
                 Right.Emit(sourceCode);
                 sourceCode.Append(")");
                 sourceCode.Append(";\n");
@@ -470,6 +507,9 @@ namespace de.unika.ipd.grGen.expression
             else
             {
                 sourceCode.Append(".Add(");
+                sourceCode.Append("(");
+                sourceCode.Append(ValueType);
+                sourceCode.Append(")");
                 Right.Emit(sourceCode);
                 sourceCode.Append(")");
                 sourceCode.Append(";\n");
@@ -483,6 +523,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Index;
+        String ValueType;
     }
 
     /// <summary>
@@ -490,21 +531,23 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DequeAdd : YieldMethod
     {
-        public DequeAdd(String left, Expression value, Expression index)
+        public DequeAdd(String left, Expression value, String valueType, Expression index)
             : base(left, value)
         {
             Index = index;
+            ValueType = valueType;
         }
 
-        public DequeAdd(String left, Expression value)
+        public DequeAdd(String left, Expression value, String valueType)
             : base(left, value)
         {
             Index = null;
+            ValueType = valueType;
         }
 
         public override Yielding Copy(string renameSuffix)
         {
-            return new DequeAdd(Left + renameSuffix, Right.Copy(renameSuffix), Index != null ? Index.Copy(renameSuffix) : Index);
+            return new DequeAdd(Left + renameSuffix, Right.Copy(renameSuffix), ValueType, Index != null ? Index.Copy(renameSuffix) : Index);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -515,6 +558,9 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append(".EnqueueAt(");
                 Index.Emit(sourceCode);
                 sourceCode.Append(", ");
+                sourceCode.Append("(");
+                sourceCode.Append(ValueType);
+                sourceCode.Append(")");
                 Right.Emit(sourceCode);
                 sourceCode.Append(")");
                 sourceCode.Append(";\n");
@@ -522,6 +568,9 @@ namespace de.unika.ipd.grGen.expression
             else
             {
                 sourceCode.Append(".Enqueue(");
+                sourceCode.Append("(");
+                sourceCode.Append(ValueType);
+                sourceCode.Append(")");
                 Right.Emit(sourceCode);
                 sourceCode.Append(")");
                 sourceCode.Append(";\n");
@@ -535,6 +584,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Index;
+        String ValueType;
     }
 
     /// <summary>
