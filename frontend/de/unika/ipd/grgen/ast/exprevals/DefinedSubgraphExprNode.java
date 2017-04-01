@@ -67,6 +67,13 @@ public class DefinedSubgraphExprNode extends ExprNode {
 			edgeSetExpr.reportError("set of edges expected as argument to definedSubgraph");
 			return false;
 		}
+		EdgeTypeNode edgeValueType = (EdgeTypeNode)type.valueType;
+		if(edgeValueType != EdgeTypeNode.arbitraryEdgeType
+				&& edgeValueType != EdgeTypeNode.directedEdgeType
+				&& edgeValueType != EdgeTypeNode.undirectedEdgeType) {
+			edgeSetExpr.reportError("set<AEdge> or set<Edge> or set<UEdge> expected as argument to definedSubgraph");
+			return false;
+		}
 		return true;
 	}
 
