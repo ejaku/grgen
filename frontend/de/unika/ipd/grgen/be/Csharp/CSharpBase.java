@@ -2341,7 +2341,17 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof DefinedSubgraphExpr) {
 			DefinedSubgraphExpr ds = (DefinedSubgraphExpr) expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
+			sb.append("GRGEN_LIBGR.GraphHelper.DefinedSubgraph");
+			if(getDirectednessSuffix(ds.getSetExpr().getType()).equals("Directed")) {
+				sb.append("Directed(");
+				sb.append("(IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)");
+			} else if(getDirectednessSuffix(ds.getSetExpr().getType()).equals("Undirected")) {
+				sb.append("Undirected(");
+				sb.append("(IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)");
+			} else {
+				sb.append("(");
+				sb.append("(IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
+			}
 			genExpression(sb, ds.getSetExpr(), modifyGenerationState);
 			sb.append(", graph)");
 		}

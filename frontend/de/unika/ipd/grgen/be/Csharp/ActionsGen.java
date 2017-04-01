@@ -3604,6 +3604,8 @@ public class ActionsGen extends CSharpBase {
 			DefinedSubgraphExpr ds = (DefinedSubgraphExpr) expr;
 			sb.append("new GRGEN_EXPR.DefinedSubgraph(");
 			genExpressionTree(sb, ds.getSetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(",");
+			sb.append(getDirectedness(ds.getSetExpr().getType()));
 			sb.append(")");
 		}
 		else if (expr instanceof EqualsAnyExpr) {

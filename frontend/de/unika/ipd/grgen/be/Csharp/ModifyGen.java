@@ -4772,9 +4772,23 @@ public class ModifyGen extends CSharpBase {
 	private void genInsertDefinedSubgraphProc(StringBuffer sb, ModifyGenerationStateConst state, InsertDefinedSubgraphProc idsp) {
 		sb.append("((");
 		sb.append(formatType(idsp.getEdgeExpr().getType()));
-		sb.append(")GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
-		genExpression(sb, idsp.getSetExpr(), state);
-		sb.append(", ");
+		sb.append(")GRGEN_LIBGR.GraphHelper.InsertDefined");
+		if(getDirectednessSuffix(idsp.getSetExpr().getType()).equals("Directed")) {
+			sb.append("Directed(");
+			sb.append("(IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)");
+			genExpression(sb, idsp.getSetExpr(), state);
+			sb.append(",(GRGEN_LIBGR.IDEdge)");
+		} else if(getDirectednessSuffix(idsp.getSetExpr().getType()).equals("Undirected")) {
+			sb.append("Undirected(");
+			sb.append("(IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)");
+			genExpression(sb, idsp.getSetExpr(), state);
+			sb.append(",(GRGEN_LIBGR.IUEdge)");
+		} else {
+			sb.append("(");
+			sb.append("(IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
+			genExpression(sb, idsp.getSetExpr(), state);
+			sb.append(",(GRGEN_LIBGR.IEdge)");
+		}
 		genExpression(sb, idsp.getEdgeExpr(), state);
 		sb.append(", graph))");
 	}
