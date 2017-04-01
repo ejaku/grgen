@@ -1,0 +1,21 @@
+new graph "incadjreachcount/incadjreachcount"
+
+exec init
+
+exec rreachein_
+
+show var res1e_
+show var res1ecount
+
+show var res2e_
+show var res2ecount
+
+show var res3e_
+show var res3ecount
+
+exec { ::res4e_ = reachableEdgesIncoming(::start); ::res4ecount = countReachableEdgesIncoming(::start) }
+
+show var res4e_
+show var res4ecount
+
+quit

@@ -13,7 +13,7 @@ show var res2ecount
 show var res3e
 show var res3ecount
 
-exec { ::res4e = outgoing(::start); ::res4ecount = countOutgoing(::start) }
+exec { ::res4e = outgoing(::start, Edge); ::res4ecount = countOutgoing(::start, Edge) }
 
 show var res4e
 show var res4ecount

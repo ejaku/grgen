@@ -3,18 +3,21 @@
 ref ::res1:set<Node>;
 var ::res1count:int;
 ref ::res1e:set<Edge>;
+ref ::res1e_:set<AEdge>;
 var ::res1ecount:int;
 ref ::res1m:map<Node,int>;
 
 ref ::res2:set<Node>;
 var ::res2count:int;
 ref ::res2e:set<Edge>;
+ref ::res2e_:set<AEdge>;
 var ::res2ecount:int;
 ref ::res2m:map<Node,int>;
 
 ref ::res3:set<Node>;
 var ::res3count:int;
 ref ::res3e:set<Edge>;
+ref ::res3e_:set<AEdge>;
 var ::res3ecount:int;
 ref ::res3m:map<Node,int>;
 
@@ -62,20 +65,45 @@ rule redges
 	def var _res1ecount:int;
 
 	yield {
-		yield _res1e = edges();
-		yield _res1ecount = countEdges();
+		yield _res1e = edges(Edge);
+		yield _res1ecount = countEdges(Edge);
 	}
 	
 	modify {
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
-			::res2e = edges();
+			::res2e = edges(Edge);
+			::res2ecount = countEdges(Edge);
+		}
+		
+		exec({ 
+			::res3e = edges(Edge);
+			::res3ecount = countEdges(Edge);
+		});
+	}
+}
+
+rule redges_
+{
+	def ref _res1e:set<AEdge>;
+	def var _res1ecount:int;
+
+	yield {
+		yield _res1e = edges();
+		yield _res1ecount = countEdges();
+	}
+	
+	modify {
+		eval {
+			::res1e_ = _res1e;
+			::res1ecount = _res1ecount;
+			::res2e_ = edges();
 			::res2ecount = countEdges();
 		}
 		
 		exec({ 
-			::res3e = edges();
+			::res3e_ = edges();
 			::res3ecount = countEdges();
 		});
 	}
@@ -89,20 +117,45 @@ rule rinc
 	def var _res1ecount:int;
 
 	yield {
-		yield _res1e = incident(::start);
-		yield _res1ecount = countIncident(::start);
+		yield _res1e = incident(::start, Edge);
+		yield _res1ecount = countIncident(::start, Edge);
 	}
 	
 	modify {
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
-			::res2e = incident(::start);
+			::res2e = incident(::start, Edge);
+			::res2ecount = countIncident(::start, Edge);
+		}
+		
+		exec({ 
+			::res3e = incident(::start, Edge);
+			::res3ecount = countIncident(::start, Edge);
+		});
+	}
+}
+
+rule rinc_
+{
+	def ref _res1e:set<AEdge>;
+	def var _res1ecount:int;
+
+	yield {
+		yield _res1e = incident(::start);
+		yield _res1ecount = countIncident(::start);
+	}
+	
+	modify {
+		eval {
+			::res1e_ = _res1e;
+			::res1ecount = _res1ecount;
+			::res2e_ = incident(::start);
 			::res2ecount = countIncident(::start);
 		}
 		
 		exec({ 
-			::res3e = incident(::start);
+			::res3e_ = incident(::start);
 			::res3ecount = countIncident(::start);
 		});
 	}
@@ -114,20 +167,45 @@ rule rincin
 	def var _res1ecount:int;
 
 	yield {
-		yield _res1e = incoming(::start);
-		yield _res1ecount = countIncoming(::start);
+		yield _res1e = incoming(::start, Edge);
+		yield _res1ecount = countIncoming(::start, Edge);
 	}
 	
 	modify {
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
-			::res2e = incoming(::start);
+			::res2e = incoming(::start, Edge);
+			::res2ecount = countIncoming(::start, Edge);
+		}
+		
+		exec({ 
+			::res3e = incoming(::start, Edge);
+			::res3ecount = countIncoming(::start, Edge);
+		});
+	}
+}
+
+rule rincin_
+{
+	def ref _res1e:set<AEdge>;
+	def var _res1ecount:int;
+
+	yield {
+		yield _res1e = incoming(::start);
+		yield _res1ecount = countIncoming(::start);
+	}
+	
+	modify {
+		eval {
+			::res1e_ = _res1e;
+			::res1ecount = _res1ecount;
+			::res2e_ = incoming(::start);
 			::res2ecount = countIncoming(::start);
 		}
 		
 		exec({ 
-			::res3e = incoming(::start);
+			::res3e_ = incoming(::start);
 			::res3ecount = countIncoming(::start);
 		});
 	}
@@ -139,20 +217,45 @@ rule rincout
 	def var _res1ecount:int;
 
 	yield {
-		yield _res1e = outgoing(::start);
-		yield _res1ecount = countOutgoing(::start);
+		yield _res1e = outgoing(::start, Edge);
+		yield _res1ecount = countOutgoing(::start, Edge);
 	}
 	
 	modify {
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
-			::res2e = outgoing(::start);
+			::res2e = outgoing(::start, Edge);
+			::res2ecount = countOutgoing(::start, Edge);
+		}
+		
+		exec({ 
+			::res3e = outgoing(::start, Edge);
+			::res3ecount = countOutgoing(::start, Edge);
+		});
+	}
+}
+
+rule rincout_
+{
+	def ref _res1e:set<AEdge>;
+	def var _res1ecount:int;
+
+	yield {
+		yield _res1e = outgoing(::start);
+		yield _res1ecount = countOutgoing(::start);
+	}
+	
+	modify {
+		eval {
+			::res1e_ = _res1e;
+			::res1ecount = _res1ecount;
+			::res2e_ = outgoing(::start);
 			::res2ecount = countOutgoing(::start);
 		}
 		
 		exec({ 
-			::res3e = outgoing(::start);
+			::res3e_ = outgoing(::start);
 			::res3ecount = countOutgoing(::start);
 		});
 	}
@@ -241,20 +344,45 @@ rule rreache
 	def var _res1ecount:int;
 
 	yield {
-		yield _res1e = reachableEdges(::start);
-		yield _res1ecount = countReachableEdges(::start);
+		yield _res1e = reachableEdges(::start, Edge);
+		yield _res1ecount = countReachableEdges(::start, Edge);
 	}
 	
 	modify {
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
-			::res2e = reachableEdges(::start);
+			::res2e = reachableEdges(::start, Edge);
+			::res2ecount = countReachableEdges(::start, Edge);
+		}
+		
+		exec({ 
+			::res3e = reachableEdges(::start, Edge);
+			::res3ecount = countReachableEdges(::start, Edge);
+		});
+	}
+}
+
+rule rreache_
+{
+	def ref _res1e:set<AEdge>;
+	def var _res1ecount:int;
+
+	yield {
+		yield _res1e = reachableEdges(::start);
+		yield _res1ecount = countReachableEdges(::start);
+	}
+	
+	modify {
+		eval {
+			::res1e_ = _res1e;
+			::res1ecount = _res1ecount;
+			::res2e_ = reachableEdges(::start);
 			::res2ecount = countReachableEdges(::start);
 		}
 		
 		exec({ 
-			::res3e = reachableEdges(::start);
+			::res3e_ = reachableEdges(::start);
 			::res3ecount = countReachableEdges(::start);
 		});
 	}
@@ -266,20 +394,45 @@ rule rreachein
 	def var _res1ecount:int;
 
 	yield {
-		yield _res1e = reachableEdgesIncoming(::start);
-		yield _res1ecount = countReachableEdgesIncoming(::start);
+		yield _res1e = reachableEdgesIncoming(::start, Edge);
+		yield _res1ecount = countReachableEdgesIncoming(::start, Edge);
 	}
 	
 	modify {
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
-			::res2e = reachableEdgesIncoming(::start);
+			::res2e = reachableEdgesIncoming(::start, Edge);
+			::res2ecount = countReachableEdgesIncoming(::start, Edge);
+		}
+		
+		exec({ 
+			::res3e = reachableEdgesIncoming(::start, Edge);
+			::res3ecount = countReachableEdgesIncoming(::start, Edge);
+		});
+	}
+}
+
+rule rreachein_
+{
+	def ref _res1e:set<AEdge>;
+	def var _res1ecount:int;
+
+	yield {
+		yield _res1e = reachableEdgesIncoming(::start);
+		yield _res1ecount = countReachableEdgesIncoming(::start);
+	}
+	
+	modify {
+		eval {
+			::res1e_ = _res1e;
+			::res1ecount = _res1ecount;
+			::res2e_ = reachableEdgesIncoming(::start);
 			::res2ecount = countReachableEdgesIncoming(::start);
 		}
 		
 		exec({ 
-			::res3e = reachableEdgesIncoming(::start);
+			::res3e_ = reachableEdgesIncoming(::start);
 			::res3ecount = countReachableEdgesIncoming(::start);
 		});
 	}
@@ -291,20 +444,45 @@ rule rreacheout
 	def var _res1ecount:int;
 
 	yield {
-		yield _res1e = reachableEdgesOutgoing(::start);
-		yield _res1ecount = countReachableEdgesOutgoing(::start);
+		yield _res1e = reachableEdgesOutgoing(::start, Edge);
+		yield _res1ecount = countReachableEdgesOutgoing(::start, Edge);
 	}
 	
 	modify {
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
-			::res2e = reachableEdgesOutgoing(::start);
+			::res2e = reachableEdgesOutgoing(::start, Edge);
+			::res2ecount = countReachableEdgesOutgoing(::start, Edge);
+		}
+		
+		exec({ 
+			::res3e = reachableEdgesOutgoing(::start, Edge);
+			::res3ecount = countReachableEdgesOutgoing(::start, Edge);
+		});
+	}
+}
+
+rule rreacheout_
+{
+	def ref _res1e:set<AEdge>;
+	def var _res1ecount:int;
+
+	yield {
+		yield _res1e = reachableEdgesOutgoing(::start);
+		yield _res1ecount = countReachableEdgesOutgoing(::start);
+	}
+	
+	modify {
+		eval {
+			::res1e_ = _res1e;
+			::res1ecount = _res1ecount;
+			::res2e_ = reachableEdgesOutgoing(::start);
 			::res2ecount = countReachableEdgesOutgoing(::start);
 		}
 		
 		exec({ 
-			::res3e = reachableEdgesOutgoing(::start);
+			::res3e_ = reachableEdgesOutgoing(::start);
 			::res3ecount = countReachableEdgesOutgoing(::start);
 		});
 	}
@@ -393,20 +571,45 @@ rule rboundreache
 	def var _res1ecount:int;
 
 	yield {
-		yield _res1e = boundedReachableEdges(::start, 2);
-		yield _res1ecount = countBoundedReachableEdges(::start, 2);
+		yield _res1e = boundedReachableEdges(::start, 2, Edge);
+		yield _res1ecount = countBoundedReachableEdges(::start, 2, Edge);
 	}
 	
 	modify {
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
-			::res2e = boundedReachableEdges(::start, 2);
+			::res2e = boundedReachableEdges(::start, 2, Edge);
+			::res2ecount = countBoundedReachableEdges(::start, 2, Edge);
+		}
+		
+		exec({ 
+			::res3e = boundedReachableEdges(::start, 2, Edge);
+			::res3ecount = countBoundedReachableEdges(::start, 2, Edge);
+		});
+	}
+}
+
+rule rboundreache_
+{
+	def ref _res1e:set<AEdge>;
+	def var _res1ecount:int;
+
+	yield {
+		yield _res1e = boundedReachableEdges(::start, 2);
+		yield _res1ecount = countBoundedReachableEdges(::start, 2);
+	}
+	
+	modify {
+		eval {
+			::res1e_ = _res1e;
+			::res1ecount = _res1ecount;
+			::res2e_ = boundedReachableEdges(::start, 2);
 			::res2ecount = countBoundedReachableEdges(::start, 2);
 		}
 		
 		exec({ 
-			::res3e = boundedReachableEdges(::start, 2);
+			::res3e_ = boundedReachableEdges(::start, 2);
 			::res3ecount = countBoundedReachableEdges(::start, 2);
 		});
 	}
@@ -418,20 +621,45 @@ rule rboundreachein
 	def var _res1ecount:int;
 
 	yield {
-		yield _res1e = boundedReachableEdgesIncoming(::start, 2);
-		yield _res1ecount = countBoundedReachableEdgesIncoming(::start, 2);
+		yield _res1e = boundedReachableEdgesIncoming(::start, 2, Edge);
+		yield _res1ecount = countBoundedReachableEdgesIncoming(::start, 2, Edge);
 	}
 	
 	modify {
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
-			::res2e = boundedReachableEdgesIncoming(::start, 2);
+			::res2e = boundedReachableEdgesIncoming(::start, 2, Edge);
+			::res2ecount = countBoundedReachableEdgesIncoming(::start, 2, Edge);
+		}
+		
+		exec({ 
+			::res3e = boundedReachableEdgesIncoming(::start, 2, Edge);
+			::res3ecount = countBoundedReachableEdgesIncoming(::start, 2, Edge);
+		});
+	}
+}
+
+rule rboundreachein_
+{
+	def ref _res1e:set<AEdge>;
+	def var _res1ecount:int;
+
+	yield {
+		yield _res1e = boundedReachableEdgesIncoming(::start, 2);
+		yield _res1ecount = countBoundedReachableEdgesIncoming(::start, 2);
+	}
+	
+	modify {
+		eval {
+			::res1e_ = _res1e;
+			::res1ecount = _res1ecount;
+			::res2e_ = boundedReachableEdgesIncoming(::start, 2);
 			::res2ecount = countBoundedReachableEdgesIncoming(::start, 2);
 		}
 		
 		exec({ 
-			::res3e = boundedReachableEdgesIncoming(::start, 2);
+			::res3e_ = boundedReachableEdgesIncoming(::start, 2);
 			::res3ecount = countBoundedReachableEdgesIncoming(::start, 2);
 		});
 	}
@@ -443,20 +671,45 @@ rule rboundreacheout
 	def var _res1ecount:int;
 
 	yield {
-		yield _res1e = boundedReachableEdgesOutgoing(::start, 2);
-		yield _res1ecount = countBoundedReachableEdgesOutgoing(::start, 2);
+		yield _res1e = boundedReachableEdgesOutgoing(::start, 2, Edge);
+		yield _res1ecount = countBoundedReachableEdgesOutgoing(::start, 2, Edge);
 	}
 	
 	modify {
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
-			::res2e = boundedReachableEdgesOutgoing(::start, 2);
+			::res2e = boundedReachableEdgesOutgoing(::start, 2, Edge);
+			::res2ecount = countBoundedReachableEdgesOutgoing(::start, 2, Edge);
+		}
+		
+		exec({ 
+			::res3e = boundedReachableEdgesOutgoing(::start, 2, Edge);
+			::res3ecount = countBoundedReachableEdgesOutgoing(::start, 2, Edge);
+		});
+	}
+}
+
+rule rboundreacheout_
+{
+	def ref _res1e:set<AEdge>;
+	def var _res1ecount:int;
+
+	yield {
+		yield _res1e = boundedReachableEdgesOutgoing(::start, 2);
+		yield _res1ecount = countBoundedReachableEdgesOutgoing(::start, 2);
+	}
+	
+	modify {
+		eval {
+			::res1e_ = _res1e;
+			::res1ecount = _res1ecount;
+			::res2e_ = boundedReachableEdgesOutgoing(::start, 2);
 			::res2ecount = countBoundedReachableEdgesOutgoing(::start, 2);
 		}
 		
 		exec({ 
-			::res3e = boundedReachableEdgesOutgoing(::start, 2);
+			::res3e_ = boundedReachableEdgesOutgoing(::start, 2);
 			::res3ecount = countBoundedReachableEdgesOutgoing(::start, 2);
 		});
 	}

@@ -42,7 +42,7 @@ rule reachab(start:Node, var k:int) : (set<Node>)
 
 rule reachabEdgesOutgoing(start:Node, var k:int) : (set<Edge>)
 {
-	def ref res:set<Edge> = boundedReachableEdgesOutgoing(start, k);
+	def ref res:set<Edge> = boundedReachableEdgesOutgoing(start, k, Edge);
 	modify {
 		return(res);
 	}
@@ -50,7 +50,7 @@ rule reachabEdgesOutgoing(start:Node, var k:int) : (set<Edge>)
 
 rule reachabEdgesIncoming(start:Node, var k:int) : (set<Edge>)
 {
-	def ref res:set<Edge> = boundedReachableEdgesIncoming(start, k);
+	def ref res:set<Edge> = boundedReachableEdgesIncoming(start, k, Edge);
 	modify {
 		return(res);
 	}
@@ -58,7 +58,7 @@ rule reachabEdgesIncoming(start:Node, var k:int) : (set<Edge>)
 
 rule reachabEdges(start:Node, var k:int) : (set<Edge>)
 {
-	def ref res:set<Edge> = boundedReachableEdges(start, k);
+	def ref res:set<Edge> = boundedReachableEdges(start, k, Edge);
 	modify {
 		return(res);
 	}
