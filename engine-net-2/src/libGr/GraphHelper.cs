@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 
 // this is not related in any way to IGraphHelpers.cs
 // don't forget GraphHelperParallel.cs for the parallelized versions
@@ -4314,6 +4315,19 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Returns the edge induced/defined subgraph of the given edge set of unknown direction
+        /// </summary>
+        public static IGraph DefinedSubgraph(IDictionary edgeSet, IGraph graph)
+        {
+            if (edgeSet is IDictionary<IDEdge, SetValueType>)
+                return DefinedSubgraphDirected((IDictionary<IDEdge, SetValueType>)edgeSet, graph);
+            else if (edgeSet is IDictionary<IUEdge, SetValueType>)
+                return DefinedSubgraphUndirected((IDictionary<IUEdge, SetValueType>)edgeSet, graph);
+            else
+                return DefinedSubgraph((IDictionary<IEdge, SetValueType>)edgeSet, graph);
+        }
+
+        /// <summary>
         /// Returns the edge induced/defined subgraph of the given edge set
         /// </summary>
         public static IGraph DefinedSubgraph(IDictionary<IEdge, SetValueType> edgeSet, IGraph graph)
@@ -4341,6 +4355,84 @@ namespace de.unika.ipd.grGen.libGr
             //definedGraph.Check();
 
             foreach(KeyValuePair<IEdge, SetValueType> edgeEntry in edgeSet)
+            {
+                IEdge edge = edgeEntry.Key;
+                IEdge clone = edge.Clone(nodeToCloned[edge.Source], nodeToCloned[edge.Target]);
+                definedGraph.AddEdge(clone);
+            }
+            //graph.Check();
+            //definedGraph.Check();
+
+            return definedGraph;
+        }
+
+        /// <summary>
+        /// Returns the edge induced/defined subgraph of the given directed edge set
+        /// </summary>
+        public static IGraph DefinedSubgraphDirected(IDictionary<IDEdge, SetValueType> edgeSet, IGraph graph)
+        {
+            IGraph definedGraph = graph.CreateEmptyEquivalent("defined_from_" + graph.Name);
+            Dictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(edgeSet.Count * 2);
+            foreach(KeyValuePair<IDEdge, SetValueType> edgeEntry in edgeSet)
+            {
+                IEdge edge = edgeEntry.Key;
+                if (!nodeToCloned.ContainsKey(edge.Source))
+                {
+                    INode clone = edge.Source.Clone();
+                    nodeToCloned.Add(edge.Source, clone);
+                    definedGraph.AddNode(clone);
+
+                }
+                if (!nodeToCloned.ContainsKey(edge.Target))
+                {
+                    INode clone = edge.Target.Clone();
+                    nodeToCloned.Add(edge.Target, clone);
+                    definedGraph.AddNode(clone);
+                }
+            }
+            //graph.Check();
+            //definedGraph.Check();
+
+            foreach(KeyValuePair<IDEdge, SetValueType> edgeEntry in edgeSet)
+            {
+                IEdge edge = edgeEntry.Key;
+                IEdge clone = edge.Clone(nodeToCloned[edge.Source], nodeToCloned[edge.Target]);
+                definedGraph.AddEdge(clone);
+            }
+            //graph.Check();
+            //definedGraph.Check();
+
+            return definedGraph;
+        }
+
+        /// <summary>
+        /// Returns the edge induced/defined subgraph of the given undirected edge set
+        /// </summary>
+        public static IGraph DefinedSubgraphUndirected(IDictionary<IUEdge, SetValueType> edgeSet, IGraph graph)
+        {
+            IGraph definedGraph = graph.CreateEmptyEquivalent("defined_from_" + graph.Name);
+            Dictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(edgeSet.Count * 2);
+            foreach(KeyValuePair<IUEdge, SetValueType> edgeEntry in edgeSet)
+            {
+                IUEdge edge = edgeEntry.Key;
+                if(!nodeToCloned.ContainsKey(edge.Source))
+                {
+                    INode clone = edge.Source.Clone();
+                    nodeToCloned.Add(edge.Source, clone);
+                    definedGraph.AddNode(clone);
+
+                }
+                if(!nodeToCloned.ContainsKey(edge.Target))
+                {
+                    INode clone = edge.Target.Clone();
+                    nodeToCloned.Add(edge.Target, clone);
+                    definedGraph.AddNode(clone);
+                }
+            }
+            //graph.Check();
+            //definedGraph.Check();
+
+            foreach(KeyValuePair<IUEdge, SetValueType> edgeEntry in edgeSet)
             {
                 IEdge edge = edgeEntry.Key;
                 IEdge clone = edge.Clone(nodeToCloned[edge.Source], nodeToCloned[edge.Target]);
@@ -4418,6 +4510,21 @@ namespace de.unika.ipd.grGen.libGr
         /// returns the copy of the dedicated root edge
         /// the root edge is processed as if it was in the given edge set even if it isn't
         /// </summary>
+        public static IEdge InsertDefined(IDictionary edgeSet, IEdge rootEdge, IGraph graph)
+        {
+            if(edgeSet is Dictionary<IDEdge, SetValueType>)
+                return InsertDefinedDirected((IDictionary<IDEdge, SetValueType>)edgeSet, (IDEdge)rootEdge, graph);
+            else if(edgeSet is Dictionary<IUEdge, SetValueType>)
+                return InsertDefinedUndirected((IDictionary<IUEdge, SetValueType>)edgeSet, (IUEdge)rootEdge, graph);
+            else
+                return InsertDefined((IDictionary<IEdge, SetValueType>)edgeSet, rootEdge, graph);
+        }
+
+        /// <summary>
+        /// Inserts a copy of the edge induced/defined subgraph of the given edge set to the graph
+        /// returns the copy of the dedicated root edge
+        /// the root edge is processed as if it was in the given edge set even if it isn't
+        /// </summary>
         public static IEdge InsertDefined(IDictionary<IEdge, SetValueType> edgeSet, IEdge rootEdge, IGraph graph)
         {
             Dictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(edgeSet.Count*2 + 1);
@@ -4480,6 +4587,152 @@ namespace de.unika.ipd.grGen.libGr
                 IEdge rootClone = rootEdge.Clone(nodeToCloned[rootEdge.Source], nodeToCloned[rootEdge.Target]);
                 graph.AddEdge(rootClone);
                 clonedEdge = rootClone;
+            }
+            //graph.Check();
+
+            return clonedEdge;
+        }
+
+        /// <summary>
+        /// Inserts a copy of the edge induced/defined subgraph of the given directed edge set to the graph
+        /// returns the copy of the dedicated directed root edge
+        /// the root edge is processed as if it was in the given edge set even if it isn't
+        /// </summary>
+        public static IDEdge InsertDefinedDirected(IDictionary<IDEdge, SetValueType> edgeSet, IDEdge rootEdge, IGraph graph)
+        {
+            Dictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(edgeSet.Count * 2 + 1);
+            foreach(KeyValuePair<IDEdge, SetValueType> edgeEntry in edgeSet)
+            {
+                IDEdge edge = edgeEntry.Key;
+                if(!nodeToCloned.ContainsKey(edge.Source))
+                {
+                    INode clone = edge.Source.Clone();
+                    nodeToCloned.Add(edge.Source, clone);
+                    graph.AddNode(clone);
+
+                }
+                if(!nodeToCloned.ContainsKey(edge.Target))
+                {
+                    INode clone = edge.Target.Clone();
+                    nodeToCloned.Add(edge.Target, clone);
+                    graph.AddNode(clone);
+                }
+            }
+            if(!edgeSet.ContainsKey(rootEdge))
+            {
+                if(!nodeToCloned.ContainsKey(rootEdge.Source))
+                {
+                    INode clone = rootEdge.Source.Clone();
+                    nodeToCloned.Add(rootEdge.Source, clone);
+                    graph.AddNode(clone);
+
+                }
+                if(!nodeToCloned.ContainsKey(rootEdge.Target))
+                {
+                    INode clone = rootEdge.Target.Clone();
+                    nodeToCloned.Add(rootEdge.Target, clone);
+                    graph.AddNode(clone);
+                }
+            }
+            //graph.Check();
+
+            IDEdge clonedEdge = null;
+            if(edgeSet.ContainsKey(rootEdge))
+            {
+                foreach(KeyValuePair<IDEdge, SetValueType> edgeEntry in edgeSet)
+                {
+                    IEdge edge = edgeEntry.Key;
+                    IEdge clone = edge.Clone(nodeToCloned[edge.Source], nodeToCloned[edge.Target]);
+                    graph.AddEdge(clone);
+                    if (edge == rootEdge)
+                        clonedEdge = (IDEdge)clone;
+                }
+            }
+            else
+            {
+                foreach(KeyValuePair<IDEdge, SetValueType> edgeEntry in edgeSet)
+                {
+                    IEdge edge = edgeEntry.Key;
+                    IEdge clone = edge.Clone(nodeToCloned[edge.Source], nodeToCloned[edge.Target]);
+                    graph.AddEdge(clone);
+                }
+
+                IEdge rootClone = rootEdge.Clone(nodeToCloned[rootEdge.Source], nodeToCloned[rootEdge.Target]);
+                graph.AddEdge(rootClone);
+                clonedEdge = (IDEdge)rootClone;
+            }
+            //graph.Check();
+
+            return clonedEdge;
+        }
+
+        /// <summary>
+        /// Inserts a copy of the edge induced/defined subgraph of the given undirected edge set to the graph
+        /// returns the copy of the dedicated undirected root edge
+        /// the root edge is processed as if it was in the given edge set even if it isn't
+        /// </summary>
+        public static IUEdge InsertDefinedUndirected(IDictionary<IUEdge, SetValueType> edgeSet, IUEdge rootEdge, IGraph graph)
+        {
+            Dictionary<INode, INode> nodeToCloned = new Dictionary<INode, INode>(edgeSet.Count * 2 + 1);
+            foreach(KeyValuePair<IUEdge, SetValueType> edgeEntry in edgeSet)
+            {
+                IUEdge edge = edgeEntry.Key;
+                if(!nodeToCloned.ContainsKey(edge.Source))
+                {
+                    INode clone = edge.Source.Clone();
+                    nodeToCloned.Add(edge.Source, clone);
+                    graph.AddNode(clone);
+
+                }
+                if(!nodeToCloned.ContainsKey(edge.Target))
+                {
+                    INode clone = edge.Target.Clone();
+                    nodeToCloned.Add(edge.Target, clone);
+                    graph.AddNode(clone);
+                }
+            }
+            if(!edgeSet.ContainsKey(rootEdge))
+            {
+                if(!nodeToCloned.ContainsKey(rootEdge.Source))
+                {
+                    INode clone = rootEdge.Source.Clone();
+                    nodeToCloned.Add(rootEdge.Source, clone);
+                    graph.AddNode(clone);
+
+                }
+                if(!nodeToCloned.ContainsKey(rootEdge.Target))
+                {
+                    INode clone = rootEdge.Target.Clone();
+                    nodeToCloned.Add(rootEdge.Target, clone);
+                    graph.AddNode(clone);
+                }
+            }
+            //graph.Check();
+
+            IUEdge clonedEdge = null;
+            if(edgeSet.ContainsKey(rootEdge))
+            {
+                foreach(KeyValuePair<IUEdge, SetValueType> edgeEntry in edgeSet)
+                {
+                    IEdge edge = edgeEntry.Key;
+                    IEdge clone = edge.Clone(nodeToCloned[edge.Source], nodeToCloned[edge.Target]);
+                    graph.AddEdge(clone);
+                    if (edge == rootEdge)
+                        clonedEdge = (IUEdge)clone;
+                }
+            }
+            else
+            {
+                foreach(KeyValuePair<IUEdge, SetValueType> edgeEntry in edgeSet)
+                {
+                    IEdge edge = edgeEntry.Key;
+                    IEdge clone = edge.Clone(nodeToCloned[edge.Source], nodeToCloned[edge.Target]);
+                    graph.AddEdge(clone);
+                }
+
+                IEdge rootClone = rootEdge.Clone(nodeToCloned[rootEdge.Source], nodeToCloned[rootEdge.Target]);
+                graph.AddEdge(rootClone);
+                clonedEdge = (IUEdge)rootClone;
             }
             //graph.Check();
 
