@@ -19,7 +19,7 @@ rule r(ref n:set<Node>, ref a:set<Node>, ref e:set<Edge>, ref nn:set<Node>, ref 
 	yield {
 		def ref _n:set<Node> = nodes();
 		def ref _a:set<Node> = nodes(A);
-		def ref _e:set<Edge> = edges();
+		def ref _e:set<Edge> = edges(Edge);
 		for(el:Node in _n) {
 			n.add(el);
 		}
@@ -39,7 +39,7 @@ rule r(ref n:set<Node>, ref a:set<Node>, ref e:set<Edge>, ref nn:set<Node>, ref 
 		eval {
 			def ref _n:set<Node> = nodes();
 			def ref _a:set<Node> = nodes(A);
-			def ref _e:set<Edge> = edges();
+			def ref _e:set<Edge> = edges(Edge);
 			for(el:Node in _n) {
 				nn.add(el);
 			}
