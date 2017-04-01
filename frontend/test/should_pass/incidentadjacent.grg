@@ -65,7 +65,7 @@ rule t
 		
 
 		def ref rn:set<Node>;
-		def ref re:set<Edge>;
+		def ref re:set<AEdge>;
 
 		exec ( { re = edges() } );
 		exec ( { rn = nodes() } );

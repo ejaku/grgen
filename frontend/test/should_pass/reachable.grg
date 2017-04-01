@@ -75,7 +75,7 @@ rule t(var k:int)
 		
 
 		def ref rn:set<Node>;
-		def ref re:set<Edge>;
+		def ref re:set<AEdge>;
 		def ref rm:map<Node,int>;
 		
 		exec ( { re = reachableEdges(::g_n); re = reachableEdgesIncoming(::g_n); re = reachableEdgesOutgoing(::g_n); } );

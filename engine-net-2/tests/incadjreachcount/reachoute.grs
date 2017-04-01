@@ -13,7 +13,7 @@ show var res2ecount
 show var res3e
 show var res3ecount
 
-exec { ::res4e = reachableEdgesOutgoing(::start); ::res4ecount = countReachableEdgesOutgoing(::start) }
+exec { ::res4e = reachableEdgesOutgoing(::start, Edge); ::res4ecount = countReachableEdgesOutgoing(::start, Edge) }
 
 show var res4e
 show var res4ecount

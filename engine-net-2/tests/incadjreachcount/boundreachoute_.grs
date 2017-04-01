@@ -1,0 +1,21 @@
+new graph "incadjreachcount/incadjreachcount"
+
+exec init
+
+exec rboundreacheout_
+
+show var res1e_
+show var res1ecount
+
+show var res2e_
+show var res2ecount
+
+show var res3e_
+show var res3ecount
+
+exec { ::res4e_ = boundedReachableEdgesOutgoing(::start, 2); ::res4ecount = countBoundedReachableEdgesOutgoing(::start, 2) }
+
+show var res4e_
+show var res4ecount
+
+quit
