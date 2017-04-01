@@ -9,69 +9,45 @@ rule init {
 }
 
 sequence EmitSetAEdge {
-     {s:set<AEdge>=edges(); emit("1 value of attribute 5 6 " + s + "\n")}
-}
-
-sequence EmitSetAEdgeFailDirected {
-     {s:set<Edge>=edges(); emit("1 value of attribute 5 6 " + s + "\n")}
-}
-
-sequence EmitSetAEdgeFailUndirected {
-     {s:set<UEdge>=edges(); emit("1 value of attribute 5 6 " + s + "\n")}
-}
-
-sequence EmitSetEdge {
-     {s:set<Edge>=edges(Edge); emit("1 value of attribute 5 6 " + s + "\n")}
-}
-
-sequence EmitSetEdgeReverse {
-     {s:set<AEdge>=edges(Edge); emit("1 value of attribute 5 6 " + s + "\n")}
-}
-
-sequence EmitSetUEdge {
-     {s:set<UEdge>=edges(UEdge); emit("1 value of attribute 5 6 " + s + "\n")}
-}
-
-sequence EmitSetUEdgeReverse {
-     {s:set<AEdge>=edges(UEdge); emit("1 value of attribute 5 6 " + s + "\n")}
+     {s:set<AEdge>=edges(); emit("1 value of attribute 5 6 ", s, "\n")}
 }
 
 sequence EmitEdge {
-    for{e:Edge in edges(Edge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+    for{e:Edge in edges(Edge); {emit("1 value of attribute 5 6 ", nameof(e), "\n")}}
 }
 
 sequence EmitEdgeFail {
-    for{e:Edge in edges(AEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+    for{e:Edge in edges(AEdge); {emit("1 value of attribute 5 6 ", nameof(e), "\n")}}
 }
 
 sequence EmitUEdge {
-    for{e:UEdge in edges(UEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+    for{e:UEdge in edges(UEdge); {emit("1 value of attribute 5 6 ", nameof(e), "\n")}}
 }
 
 sequence EmitUEdgeFail {
-    for{e:UEdge in edges(AEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+    for{e:UEdge in edges(AEdge); {emit("1 value of attribute 5 6 ", nameof(e), "\n")}}
 }
 
 sequence EmitAEdge {
-    for{e:AEdge in edges(AEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+    for{e:AEdge in edges(AEdge); {emit("1 value of attribute 5 6 ", nameof(e), "\n")}}
 }
 
 sequence EmitAEdgeNoArgument {
-    for{e:AEdge in edges(); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+    for{e:AEdge in edges(); {emit("1 value of attribute 5 6 ", nameof(e), "\n")}}
 }
 
 sequence EmitDirectedEdge {
-    for{e:MyDirectedEdge in edges(MyDirectedEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+    for{e:MyDirectedEdge in edges(MyDirectedEdge); {emit("1 value of attribute 5 6 ", nameof(e), "\n")}}
 }
 
 sequence EmitDirectedEdgeFail {
-    for{e:MyDirectedEdge in edges(AEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+    for{e:MyDirectedEdge in edges(AEdge); {emit("1 value of attribute 5 6 ", nameof(e), "\n")}}
 }
 
 sequence EmitUndirectedEdge {
-    for{e:MyUndirectedEdge in edges(MyUndirectedEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+    for{e:MyUndirectedEdge in edges(MyUndirectedEdge); {emit("1 value of attribute 5 6 ", nameof(e), "\n")}}
 }
 
 sequence EmitUndirectedEdgeFail {
-    for{e:MyUndirectedEdge in edges(AEdge); {emit("1 value of attribute 5 6 " + nameof(e) + "\n")}}
+    for{e:MyUndirectedEdge in edges(AEdge); {emit("1 value of attribute 5 6 ", nameof(e), "\n")}}
 }

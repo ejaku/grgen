@@ -1,0 +1,119 @@
+#using "bitbucket30.gm"
+
+rule init {
+	modify {
+		n:MyNode;
+		n -:MyDirectedEdge-> n;
+		n -:MyUndirectedEdge- n;
+	}
+}
+
+test yEmitSetAEdge {
+	def var s:string;
+	yield {
+		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
+		def ref se:set<AEdge>;
+		se=edges();
+		emit("1 value of attribute 5 6 " + se + "\n");
+	}
+}
+
+test yEmitEdge {
+	def var s:string;
+	yield {
+		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
+		for (e:Edge in edges(Edge)) {
+			emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+		}
+	}
+}
+
+test yEmitEdgeFail {
+	def var s:string;
+	yield {
+		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
+		for (e:Edge in edges()) { // may fail at runtime
+			emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+		}
+	}
+}
+
+test yEmitUEdge {
+	def var s:string;
+	yield {
+		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
+		for (e:UEdge in edges(UEdge)) {
+			emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+		}
+	}
+}
+
+test yEmitUEdgeFail {
+	def var s:string;
+	yield {
+		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
+		for (e:UEdge in edges()) { // may fail at runtime
+			emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+		}
+	}
+}
+
+test yEmitAEdge {
+	def var s:string;
+	yield {
+		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
+		for (e:AEdge in edges(AEdge)) {
+			emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+		}
+	}
+}
+
+test yEmitAEdgeNoArgument {
+	def var s:string;
+	yield {
+		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
+		for (e:AEdge in edges()) {
+			emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+		}
+	}
+}
+
+test yEmitDirectedEdge {
+	def var s:string;
+	yield {
+		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
+		for (e:MyDirectedEdge in edges(MyDirectedEdge)) {
+			emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+		}
+	}
+}
+
+test yEmitDirectedEdgeFail {
+	def var s:string;
+	yield {
+		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
+		for (e:MyDirectedEdge in edges()) { // may fail at runtime
+			emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+		}
+	}
+}
+
+test yEmitUndirectedEdge {
+	def var s:string;
+	yield {
+		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
+		for (e:MyUndirectedEdge in edges(MyUndirectedEdge)) {
+			emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+		}
+	}
+}
+
+test yEmitUndirectedEdgeFail {
+	def var s:string;
+	yield {
+		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
+		for (e:MyUndirectedEdge in edges()) { // may fail at runtime
+			emit("1 value of attribute 5 6 " + nameof(e) + "\n");
+		}
+	}
+}

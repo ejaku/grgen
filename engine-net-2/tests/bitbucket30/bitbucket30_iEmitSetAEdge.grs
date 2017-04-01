@@ -4,6 +4,6 @@ exec init
 show num nodes
 show num edges
 
-exec EmitAEdgeNoArgument
+exec {s:set<AEdge>=edges(); emit("1 value of attribute 5 6 ", s, "\n")}
 
 quit
