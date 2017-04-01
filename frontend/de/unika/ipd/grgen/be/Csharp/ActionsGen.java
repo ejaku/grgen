@@ -4812,6 +4812,10 @@ public class ActionsGen extends CSharpBase {
 		genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
 		sb.append(", ");
 		genExpressionTree(sb, index, className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(", ");
+		sb.append("\"" + formatType(expr.getType()) + "\"");
+		sb.append(", ");
+		sb.append("\"" + formatType(index.getType()) + "\"");
 		sb.append(")");
 	}
 
@@ -4879,6 +4883,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
 		sb.append(keyExprStr);
+		sb.append(", ");
+		sb.append("\"" + formatType(mvri.getKeyExpr().getType()) + "\"");
 		sb.append(")");
 		
 		assert mvri.getNext()==null;
@@ -4912,6 +4918,10 @@ public class ActionsGen extends CSharpBase {
 		sb.append(keyExprStr);
 		sb.append(", ");
 		sb.append(valueExprStr);
+		sb.append(", ");
+		sb.append("\"" + formatType(mvai.getKeyExpr().getType()) + "\"");
+		sb.append(", ");
+		sb.append("\"" + formatType(mvai.getValueExpr().getType()) + "\"");
 		sb.append(")");
 
 		assert mvai.getNext()==null;
@@ -4929,6 +4939,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
 		sb.append(valueExprStr);
+		sb.append(", ");
+		sb.append("\"" + formatType(svri.getValueExpr().getType()) + "\"");
 		sb.append(")");
 		
 		assert svri.getNext()==null;
@@ -4957,6 +4969,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
 		sb.append(valueExprStr);
+		sb.append(", ");
+		sb.append("\"" + formatType(svai.getValueExpr().getType()) + "\"");
 		sb.append(")");
 		
 		assert svai.getNext()==null;
@@ -5003,6 +5017,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
 		sb.append(valueExprStr);
+		sb.append(", ");
+		sb.append("\"" + formatType(avai.getValueExpr().getType()) + "\"");
 		if(avai.getIndexExpr()!=null) {
 			sbtmp = new StringBuffer();
 			genExpressionTree(sbtmp, avai.getIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);
@@ -5056,6 +5072,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
 		sb.append(valueExprStr);
+		sb.append(", ");
+		sb.append("\"" + formatType(dvai.getValueExpr().getType()) + "\"");
 		if(dvai.getIndexExpr()!=null) {
 			sbtmp = new StringBuffer();
 			genExpressionTree(sbtmp, dvai.getIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);
