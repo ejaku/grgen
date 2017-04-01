@@ -3301,10 +3301,12 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceComputationType.InsertDefined:
                 {
                     SequenceComputationInsertDefined seqInsDef = (SequenceComputationInsertDefined)seqComp;
-                    if(seqInsDef.Type(env)=="Edge")
+                    if(seqInsDef.EdgeSet.Type(env)=="set<Edge>")
                         source.Append("GRGEN_LIBGR.GraphHelper.InsertDefinedDirected((IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IDEdge)" + GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
-                    else if (seqInsDef.Type(env) == "UEdge")
+                    else if (seqInsDef.EdgeSet.Type(env) == "set<UEdge>")
                         source.Append("GRGEN_LIBGR.GraphHelper.InsertDefinedUndirected((IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IUEdge)" + GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
+                    else if (seqInsDef.EdgeSet.Type(env) == "set<AEdge>")
+                        source.Append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
                     else
                         source.Append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary)" + GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
                     break;
@@ -4791,7 +4793,14 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceExpressionType.DefinedSubgraph:
                 {
                     SequenceExpressionDefinedSubgraph seqDefined = (SequenceExpressionDefinedSubgraph)expr;
-                    return "GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary)" + GetSequenceExpression(seqDefined.EdgeSet, source) + ", graph)";
+                    if (seqDefined.EdgeSet.Type(env) == "set<Edge>")
+                        return "GRGEN_LIBGR.GraphHelper.DefinedSubgraphDirected((IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqDefined.EdgeSet, source) + ", graph)";
+                    else if (seqDefined.EdgeSet.Type(env) == "set<UEdge>")
+                        return "GRGEN_LIBGR.GraphHelper.DefinedSubgraphUndirected((IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqDefined.EdgeSet, source) + ", graph)";
+                    else if (seqDefined.EdgeSet.Type(env) == "set<AEdge>")
+                        return "GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqDefined.EdgeSet, source) + ", graph)";
+                    else
+                        return "GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary)" + GetSequenceExpression(seqDefined.EdgeSet, source) + ", graph)";
                 }
 
                 case SequenceExpressionType.EqualsAny:
