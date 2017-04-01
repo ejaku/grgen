@@ -5151,7 +5151,7 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             object edgeSet = EdgeSet.Evaluate(procEnv);
-            return GraphHelper.DefinedSubgraph((IDictionary<IEdge, SetValueType>)edgeSet, procEnv.Graph);
+            return GraphHelper.DefinedSubgraph((IDictionary)edgeSet, procEnv.Graph);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,

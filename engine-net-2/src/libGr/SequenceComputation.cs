@@ -2389,7 +2389,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             object edgeSet = EdgeSet.Evaluate(procEnv);
             object rootEdge = RootEdge.Evaluate(procEnv);
-            return GraphHelper.InsertDefined((IDictionary<IEdge, SetValueType>)edgeSet, (IEdge)rootEdge, procEnv.Graph);
+            return GraphHelper.InsertDefined((IDictionary)edgeSet, (IEdge)rootEdge, procEnv.Graph);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
