@@ -8615,19 +8615,31 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DefinedSubgraph : Expression
     {
-        public DefinedSubgraph(Expression edgeSet)
+        public DefinedSubgraph(Expression edgeSet, Directedness directedness)
         {
             EdgeSet = edgeSet;
+            Directedness = directedness;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new DefinedSubgraph(EdgeSet.Copy(renameSuffix));
+            return new DefinedSubgraph(EdgeSet.Copy(renameSuffix), Directedness);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.DefinedSubgraph");
+            if (Directedness == Directedness.Directed)
+                sourceCode.Append("Directed");
+            if (Directedness == Directedness.Undirected)
+                sourceCode.Append("Undirected");
+            sourceCode.Append("(");
+            if (Directedness == Directedness.Directed)
+                sourceCode.Append("(IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)");
+            if (Directedness == Directedness.Undirected)
+                sourceCode.Append("(IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)");
+            if (Directedness == Directedness.Arbitrary)
+                sourceCode.Append("(IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
             EdgeSet.Emit(sourceCode);
             sourceCode.Append(", graph)");
         }
@@ -8638,6 +8650,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression EdgeSet;
+        Directedness Directedness;
     }
 
     /// <summary>
