@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.EdgeByNameExpr;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
@@ -26,16 +25,14 @@ public class EdgeByNameExprNode extends ExprNode {
 	}
 
 	private ExprNode name;
+	private ExprNode edgeType;
 	
-	private IdentNode edgeTypeUnresolved;
-	private EdgeTypeNode edgeType;
-	
-	public EdgeByNameExprNode(Coords coords, ExprNode name, IdentNode edgeType) {
+	public EdgeByNameExprNode(Coords coords, ExprNode name, ExprNode edgeType) {
 		super(coords);
 		this.name = name;
 		becomeParent(this.name);
-		this.edgeTypeUnresolved = edgeType;
-		becomeParent(this.edgeTypeUnresolved);
+		this.edgeType = edgeType;
+		becomeParent(this.edgeType);
 	}
 
 	/** returns children of this node */
@@ -43,7 +40,7 @@ public class EdgeByNameExprNode extends ExprNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(name);
-		children.add(getValidVersion(edgeTypeUnresolved, edgeType));
+		children.add(edgeType);
 		return children;
 	}
 
@@ -56,21 +53,21 @@ public class EdgeByNameExprNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<EdgeTypeNode> edgeTypeResolver =
-		new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class);
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		edgeType = edgeTypeResolver.resolve(edgeTypeUnresolved, this);
-		return edgeType!=null && getType().resolve();
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal() {
 		if(!(name.getType() instanceof StringTypeNode)) {
-			reportError("argument of edgeByName(.) must be of type string");
+			reportError("first argument of edgeByName(.,.) must be of type string");
+			return false;
+		}
+		if(!(edgeType.getType() instanceof EdgeTypeNode)) {
+			reportError("second argument of edgeByName(.,.) must be an edge type");
 			return false;
 		}
 		return true;
@@ -78,11 +75,11 @@ public class EdgeByNameExprNode extends ExprNode {
 
 	@Override
 	protected IR constructIR() {
-		return new EdgeByNameExpr(name.checkIR(Expression.class), getType().getType());
+		return new EdgeByNameExpr(name.checkIR(Expression.class), edgeType.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
 	public TypeNode getType() {
-		return edgeType;
+		return edgeType.getType();
 	}
 }

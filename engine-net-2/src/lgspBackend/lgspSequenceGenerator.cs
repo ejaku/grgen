@@ -5228,28 +5228,44 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionNodeByName seqNodeByName = (SequenceExpressionNodeByName)expr;
                     string profilingArgument = seqNodeByName.EmitProfiling ? ", procEnv" : "";
-                    return "GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, (string)" + GetSequenceExpression(seqNodeByName.NodeName, source) + profilingArgument + ")";
+                    string nodeType = seqNodeByName.NodeType!=null ? ExtractNodeType(source, seqNodeByName.NodeType) : null;
+                    if(nodeType != null)
+                        return "GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, (string)" + GetSequenceExpression(seqNodeByName.NodeName, source) + ", " + nodeType + profilingArgument + ")";
+                    else
+                        return "GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, (string)" + GetSequenceExpression(seqNodeByName.NodeName, source) + profilingArgument + ")";
                 }
 
                 case SequenceExpressionType.EdgeByName:
                 {
                     SequenceExpressionEdgeByName seqEdgeByName = (SequenceExpressionEdgeByName)expr;
                     string profilingArgument = seqEdgeByName.EmitProfiling ? ", procEnv" : "";
-                    return "GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, (string)" + GetSequenceExpression(seqEdgeByName.EdgeName, source) + profilingArgument + ")";
+                    string edgeType = seqEdgeByName.EdgeType != null ? ExtractEdgeType(source, seqEdgeByName.EdgeType) : null;
+                    if (edgeType != null)
+                        return "GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, (string)" + GetSequenceExpression(seqEdgeByName.EdgeName, source) + ", " + edgeType + profilingArgument + ")";
+                    else
+                        return "GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, (string)" + GetSequenceExpression(seqEdgeByName.EdgeName, source) + profilingArgument + ")";
                 }
 
                 case SequenceExpressionType.NodeByUnique:
                 {
                     SequenceExpressionNodeByUnique seqNodeByUnique = (SequenceExpressionNodeByUnique)expr;
                     string profilingArgument = seqNodeByUnique.EmitProfiling ? ", procEnv" : "";
-                    return "GRGEN_LIBGR.GraphHelper.GetNode(graph, (int)" + GetSequenceExpression(seqNodeByUnique.NodeUniqueId, source) + profilingArgument + ")";
+                    string nodeType = seqNodeByUnique.NodeType != null ? ExtractNodeType(source, seqNodeByUnique.NodeType) : null;
+                    if (nodeType != null)
+                        return "GRGEN_LIBGR.GraphHelper.GetNode(graph, (int)" + GetSequenceExpression(seqNodeByUnique.NodeUniqueId, source) + ", " + nodeType + profilingArgument + ")";
+                    else
+                        return "GRGEN_LIBGR.GraphHelper.GetNode(graph, (int)" + GetSequenceExpression(seqNodeByUnique.NodeUniqueId, source) + profilingArgument + ")";
                 }
 
                 case SequenceExpressionType.EdgeByUnique:
                 {
                     SequenceExpressionEdgeByUnique seqEdgeByUnique = (SequenceExpressionEdgeByUnique)expr;
                     string profilingArgument = seqEdgeByUnique.EmitProfiling ? ", procEnv" : "";
-                    return "GRGEN_LIBGR.GraphHelper.GetEdge(graph, (int)" + GetSequenceExpression(seqEdgeByUnique.EdgeUniqueId, source) + profilingArgument + ")";
+                    string edgeType = seqEdgeByUnique.EdgeType != null ? ExtractEdgeType(source, seqEdgeByUnique.EdgeType) : null;
+                    if (edgeType != null)
+                        return "GRGEN_LIBGR.GraphHelper.GetEdge(graph, (int)" + GetSequenceExpression(seqEdgeByUnique.EdgeUniqueId, source) + ", " + edgeType + profilingArgument + ")";
+                    else
+                        return "GRGEN_LIBGR.GraphHelper.GetEdge(graph, (int)" + GetSequenceExpression(seqEdgeByUnique.EdgeUniqueId, source) + profilingArgument + ")";
                 }
 
                 case SequenceExpressionType.Source:

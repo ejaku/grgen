@@ -4891,20 +4891,32 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class NodeByName : Expression
     {
+        public NodeByName(Expression name, Expression nodeType)
+        {
+            Name = name;
+            NodeType = nodeType;
+        }
+
         public NodeByName(Expression name)
         {
             Name = name;
+            NodeType = null;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new NodeByName(Name.Copy(renameSuffix));
+            return new NodeByName(Name.Copy(renameSuffix), NodeType != null ? NodeType.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, ");
             Name.Emit(sourceCode);
+            if(NodeType != null)
+            {
+                sourceCode.Append(", ");
+                NodeType.Emit(sourceCode);
+            }
             if(Profiling)
                 sourceCode.AppendFront(", actionEnv");
             if(Parallel)
@@ -4915,6 +4927,7 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Name;
+            if(NodeType != null) yield return NodeType;
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -4928,6 +4941,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Name;
+        Expression NodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -4937,20 +4951,32 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class EdgeByName : Expression
     {
+        public EdgeByName(Expression name, Expression edgeType)
+        {
+            Name = name;
+            EdgeType = edgeType;
+        }
+
         public EdgeByName(Expression name)
         {
             Name = name;
+            EdgeType = null;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new EdgeByName(Name.Copy(renameSuffix));
+            return new EdgeByName(Name.Copy(renameSuffix), EdgeType != null ? EdgeType.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, ");
             Name.Emit(sourceCode);
+            if(EdgeType != null)
+            {
+                sourceCode.Append(", ");
+                EdgeType.Emit(sourceCode);
+            }
             if(Profiling)
                 sourceCode.AppendFront(", actionEnv");
             if(Parallel)
@@ -4961,6 +4987,7 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Name;
+            if(EdgeType != null) yield return EdgeType;
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -4974,6 +5001,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Name;
+        Expression EdgeType;
         bool Parallel;
         bool Profiling;
     }
@@ -4983,20 +5011,32 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class NodeByUnique : Expression
     {
+        public NodeByUnique(Expression unique, Expression nodeType)
+        {
+            Unique = unique;
+            NodeType = nodeType;
+        }
+
         public NodeByUnique(Expression unique)
         {
             Unique = unique;
+            NodeType = null;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new NodeByUnique(Unique.Copy(renameSuffix));
+            return new NodeByUnique(Unique.Copy(renameSuffix), NodeType != null ? NodeType.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.GetNode(graph, ");
             Unique.Emit(sourceCode);
+            if(NodeType != null)
+            {
+                sourceCode.Append(", ");
+                NodeType.Emit(sourceCode);
+            }
             if(Profiling)
                 sourceCode.AppendFront(", actionEnv");
             if(Parallel)
@@ -5007,6 +5047,7 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Unique;
+            if(NodeType != null) yield return NodeType;
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -5020,6 +5061,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Unique;
+        Expression NodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -5029,20 +5071,32 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class EdgeByUnique : Expression
     {
+        public EdgeByUnique(Expression unique, Expression edgeType)
+        {
+            Unique = unique;
+            EdgeType = edgeType;
+        }
+
         public EdgeByUnique(Expression unique)
         {
             Unique = unique;
+            EdgeType = null;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new EdgeByUnique(Unique.Copy(renameSuffix));
+            return new EdgeByUnique(Unique.Copy(renameSuffix), EdgeType != null ? EdgeType.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.GetEdge(graph, ");
             Unique.Emit(sourceCode);
+            if(EdgeType != null)
+            {
+                sourceCode.Append(", ");
+                EdgeType.Emit(sourceCode);
+            }
             if(Profiling)
                 sourceCode.AppendFront(", actionEnv");
             if(Parallel)
@@ -5053,6 +5107,7 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Unique;
+            if(EdgeType != null) yield return EdgeType;
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -5066,6 +5121,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Unique;
+        Expression EdgeType;
         bool Parallel;
         bool Profiling;
     }

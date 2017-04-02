@@ -3532,8 +3532,8 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 				|| (i.getText().equals("empty") || i.getText().equals("size")) && params.getChildren().size()==0
 				|| (i.getText().equals("source") || i.getText().equals("target")) && params.getChildren().size()==1
 				|| i.getText().equals("opposite") && params.getChildren().size()==2
-				|| (i.getText().equals("nodeByName") || i.getText().equals("edgeByName")) && params.getChildren().size()==1
-				|| (i.getText().equals("nodeByUnique") || i.getText().equals("edgeByUnique")) && params.getChildren().size()==1
+				|| (i.getText().equals("nodeByName") || i.getText().equals("edgeByName")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
+				|| (i.getText().equals("nodeByUnique") || i.getText().equals("edgeByUnique")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
 				|| (i.getText().equals("incoming") || i.getText().equals("outgoing") || i.getText().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (i.getText().equals("adjacentIncoming") || i.getText().equals("adjacentOutgoing") || i.getText().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
 				|| (i.getText().equals("reachableIncoming") || i.getText().equals("reachableOutgoing") || i.getText().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3

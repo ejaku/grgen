@@ -408,38 +408,38 @@ public class FunctionInvocationExprNode extends ExprNode
 			}
 		}
 		else if(functionName.equals("nodeByName")) {			
-			if(params.size() == 1) {
-				result = new NodeByNameExprNode(getCoords(), params.get(0), env.getNodeRoot());
+			if(params.size() >= 1 && params.size() <= 2) {
+				result = new NodeByNameExprNode(getCoords(), params.get(0), params.size()==2 ? params.get(1) : new IdentExprNode(env.getNodeRoot()));
 			}
 			else {
-				reportError(functionName + "() takes 1 parameter.");
+				reportError(functionName + "() takes one or two parameters.");
 				return false;
 			}
 		}
 		else if(functionName.equals("edgeByName")) {			
-			if(params.size() == 1) {
-				result = new EdgeByNameExprNode(getCoords(), params.get(0), env.getArbitraryEdgeRoot());
+			if(params.size() >= 1 && params.size() <= 2) {
+				result = new EdgeByNameExprNode(getCoords(), params.get(0), params.size()==2 ? params.get(1) : new IdentExprNode(env.getArbitraryEdgeRoot()));
 			}
 			else {
-				reportError(functionName + "() takes 1 parameter.");
+				reportError(functionName + "() takes one or two parameters.");
 				return false;
 			}
 		}
 		else if(functionName.equals("nodeByUnique")) {			
-			if(params.size() == 1) {
-				result = new NodeByUniqueExprNode(getCoords(), params.get(0), env.getNodeRoot());
+			if(params.size() >= 1 && params.size() <= 2) {
+				result = new NodeByUniqueExprNode(getCoords(), params.get(0), params.size()==2 ? params.get(1) : new IdentExprNode(env.getNodeRoot()));
 			}
 			else {
-				reportError(functionName + "() takes 1 parameter.");
+				reportError(functionName + "() takes one or two parameters.");
 				return false;
 			}
 		}
 		else if(functionName.equals("edgeByUnique")) {			
-			if(params.size() == 1) {
-				result = new EdgeByUniqueExprNode(getCoords(), params.get(0), env.getArbitraryEdgeRoot());
+			if(params.size() >= 1 && params.size() <= 2) {
+				result = new EdgeByUniqueExprNode(getCoords(), params.get(0), params.size()==2 ? params.get(1) : new IdentExprNode(env.getArbitraryEdgeRoot()));
 			}
 			else {
-				reportError(functionName + "() takes 1 parameter.");
+				reportError(functionName + "() takes one or two parameters.");
 				return false;
 			}
 		}

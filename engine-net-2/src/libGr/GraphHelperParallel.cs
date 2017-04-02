@@ -180,6 +180,40 @@ namespace de.unika.ipd.grGen.libGr
             return graph.GetEdge(name);
         }
 
+        public static INode GetNode(INamedGraph graph, string name, NodeType nodeType, int threadId)
+        {
+            INode node = graph.GetNode(name);
+            if(node == null)
+                return null;
+            return node.InstanceOf(nodeType) ? node : null;
+        }
+
+        public static INode GetNode(INamedGraph graph, string name, NodeType nodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            INode node = graph.GetNode(name);
+            ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+            if(node == null)
+                return null;
+            return node.InstanceOf(nodeType) ? node : null;
+        }
+
+        public static IEdge GetEdge(INamedGraph graph, string name, EdgeType edgeType, int threadId)
+        {
+            IEdge edge = graph.GetEdge(name);
+            if(edge == null)
+                return null;
+            return edge.InstanceOf(edgeType) ? edge : null;
+        }
+
+        public static IEdge GetEdge(INamedGraph graph, string name, EdgeType edgeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            IEdge edge = graph.GetEdge(name);
+            ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+            if(edge == null)
+                return null;
+            return edge.InstanceOf(edgeType) ? edge : null;
+        }
+
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         public static INode GetNode(IGraph graph, int uniqueId, int threadId)
@@ -202,6 +236,40 @@ namespace de.unika.ipd.grGen.libGr
         {
             ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
             return graph.GetEdge(uniqueId);
+        }
+
+        public static INode GetNode(IGraph graph, int uniqueId, NodeType nodeType, int threadId)
+        {
+            INode node = graph.GetNode(uniqueId);
+            if(node == null)
+                return null;
+            return node.InstanceOf(nodeType) ? node : null;
+        }
+
+        public static INode GetNode(IGraph graph, int uniqueId, NodeType nodeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            INode node = graph.GetNode(uniqueId);
+            ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+            if(node == null)
+                return null;
+            return node.InstanceOf(nodeType) ? node : null;
+        }
+
+        public static IEdge GetEdge(IGraph graph, int uniqueId, EdgeType edgeType, int threadId)
+        {
+            IEdge edge = graph.GetEdge(uniqueId);
+            if(edge == null)
+                return null;
+            return edge.InstanceOf(edgeType) ? edge : null;
+        }
+
+        public static IEdge GetEdge(IGraph graph, int uniqueId, EdgeType edgeType, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            IEdge edge = graph.GetEdge(uniqueId);
+            ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+            if(edge == null)
+                return null;
+            return edge.InstanceOf(edgeType) ? edge : null;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////

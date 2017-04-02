@@ -26,7 +26,7 @@ rule re : (Edge)
 			yield n = (Edge)edgeByUnique(42);
 		}
 		return((Edge)edgeByUnique(0));
-		exec ( { yield n = edgeByUnique(uniqueof(edgeByUnique(42))) } );
+		exec ( { yield n = (Edge)edgeByUnique(uniqueof(edgeByUnique(42))) } );
 	}
 }
 

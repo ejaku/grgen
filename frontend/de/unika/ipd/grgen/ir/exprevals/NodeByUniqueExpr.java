@@ -11,20 +11,27 @@ import de.unika.ipd.grgen.ir.*;
 
 public class NodeByUniqueExpr extends Expression {
 	private final Expression unique;
+	private final Expression nodeType;
 
-	public NodeByUniqueExpr(Expression unique, Type type) {
+	public NodeByUniqueExpr(Expression unique, Expression nodeType, Type type) {
 		super("node by unique id expression", type);
 		this.unique = unique;
+		this.nodeType = nodeType;
 	}
 
 	public Expression getUniqueExpr() {
 		return unique;
 	}
 
+	public Expression getNodeTypeExpr() {
+		return nodeType;
+	}
+
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
 		unique.collectNeededEntities(needs);
+		nodeType.collectNeededEntities(needs);
 	}
 }
 

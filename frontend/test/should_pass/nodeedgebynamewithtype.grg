@@ -1,0 +1,40 @@
+#using "nodeedgebynameuniquemodel.gm"
+
+rule rn : (N)
+{
+	-e:Edge->;
+	if { nodeByName("$0", Node)==source(e); }
+	if { nodeByName("$0", N)==source(e); }
+	if { nameof(nodeByName("$0", Node))=="$0"; }
+	if { nameof(nodeByName("$0", N))=="$0"; }
+	
+	modify {
+		def n:N;
+		eval {
+			yield n = nodeByName("$42", N);
+		}
+		return(nodeByName("$0", N));
+		exec ( { yield n = nodeByName(nameof(nodeByName("$42", Node)), N) } );
+	}
+}
+
+rule re : (E)
+{
+	-e:Edge->;
+	if { edgeByName("$0", AEdge)==e; }
+	if { edgeByName("$0", Edge)==e; }
+	if { edgeByName("$0", E)==e; }
+	if { nameof(edgeByName("$0", AEdge))=="$0"; }
+	if { nameof(edgeByName("$0", Edge))=="$0"; }
+	if { nameof(edgeByName("$0", E))=="$0"; }
+	
+	modify {
+		def -n:E->;
+		eval {
+			yield n = edgeByName("$42", E);
+		}
+		return(edgeByName("$0", E));
+		exec ( { yield n = edgeByName(nameof(edgeByName("$42", AEdge)), E) } );
+	}
+}
+
