@@ -2037,12 +2037,14 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionNodeByName : SequenceExpression
     {
         public SequenceExpression NodeName;
+        public SequenceExpression NodeType;
         public bool EmitProfiling;
 
-        public SequenceExpressionNodeByName(SequenceExpression nodeName)
+        public SequenceExpressionNodeByName(SequenceExpression nodeName, SequenceExpression nodeType)
             : base(SequenceExpressionType.NodeByName)
         {
             NodeName = nodeName;
+            NodeType = nodeType;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -2053,20 +2055,41 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(NodeName.Type(env) != "string")
                 {
-                    throw new SequenceParserException(Symbol + ", argument", "string", NodeName.Type(env));
+                    throw new SequenceParserException(Symbol + ", (first) argument", "string", NodeName.Type(env));
+                }
+            }
+
+            if(NodeType != null && NodeType.Type(env) != "")
+            {
+                string typeString = null;
+                if(NodeType.Type(env) == "string")
+                {
+                    if(NodeType is SequenceExpressionConstant)
+                        typeString = (string)((SequenceExpressionConstant)NodeType).Constant;
+                }
+                else
+                {
+                    typeString = NodeType.Type(env);
+                }
+                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
+                if(nodeType == null && typeString != null)
+                {
+                    throw new SequenceParserException(Symbol + ", second argument", "node type or string denoting node type", typeString);
                 }
             }
         }
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            return "Node";
+            return NodeType!=null ? NodeType.Type(env) : "Node";
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionNodeByName copy = (SequenceExpressionNodeByName)MemberwiseClone();
             copy.NodeName = NodeName.CopyExpression(originalToCopy, procEnv);
+            if(NodeType != null)
+               copy.NodeType = NodeType.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
@@ -2075,10 +2098,24 @@ namespace de.unika.ipd.grGen.libGr
             if(!(procEnv.Graph is INamedGraph))
                 throw new InvalidOperationException("The nodeByName(.) call can only be used with named graphs!");
             INamedGraph namedGraph = (INamedGraph)procEnv.Graph;
-            if(EmitProfiling)
-                return GraphHelper.GetNode(namedGraph, (string)NodeName.Evaluate(procEnv), procEnv);
+
+            NodeType nodeType = null;
+            if(NodeType != null)
+            {
+                object tmp = NodeType.Evaluate(procEnv);
+                if(tmp is string) nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
+                else if (tmp is NodeType) nodeType = (NodeType)tmp;
+                if(nodeType == null) throw new Exception("node type argument to nodeByName is not a node type");
+            }
             else
-                return GraphHelper.GetNode(namedGraph, (string)NodeName.Evaluate(procEnv));
+            {
+                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            }
+
+            if(EmitProfiling)
+                return GraphHelper.GetNode(namedGraph, (string)NodeName.Evaluate(procEnv), nodeType, procEnv);
+            else
+                return GraphHelper.GetNode(namedGraph, (string)NodeName.Evaluate(procEnv), nodeType);
         }
 
         public override void SetNeedForProfiling(bool profiling)
@@ -2086,20 +2123,22 @@ namespace de.unika.ipd.grGen.libGr
             EmitProfiling = profiling;
         }
 
-        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return NodeName; } }
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return NodeName; if(NodeType != null) yield return NodeType; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "getNodeByName(" + NodeName.Symbol + ")"; } }
+        public override string Symbol { get { return "nodeByName(" + NodeName.Symbol + (NodeType != null ? ", " + NodeType.Symbol : "") + ")"; } }
     }
 
     public class SequenceExpressionEdgeByName : SequenceExpression
     {
         public SequenceExpression EdgeName;
+        public SequenceExpression EdgeType;
         public bool EmitProfiling;
 
-        public SequenceExpressionEdgeByName(SequenceExpression edgeName)
+        public SequenceExpressionEdgeByName(SequenceExpression edgeName, SequenceExpression edgeType)
             : base(SequenceExpressionType.EdgeByName)
         {
             EdgeName = edgeName;
+            EdgeType = edgeType;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -2110,20 +2149,41 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(EdgeName.Type(env) != "string")
                 {
-                    throw new SequenceParserException(Symbol + ", argument", "string", EdgeName.Type(env));
+                    throw new SequenceParserException(Symbol + ", (first) argument", "string", EdgeName.Type(env));
+                }
+            }
+
+            if(EdgeType != null && EdgeType.Type(env) != "")
+            {
+                string typeString = null;
+                if(EdgeType.Type(env) == "string")
+                {
+                    if(EdgeType is SequenceExpressionConstant)
+                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
+                }
+                else
+                {
+                    typeString = EdgeType.Type(env);
+                }
+                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
+                if(edgeType == null && typeString != null)
+                {
+                    throw new SequenceParserException(Symbol + ", second argument", "edge type or string denoting edge type", typeString);
                 }
             }
         }
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            return "Edge";
+            return EdgeType != null ? EdgeType.Type(env) : "AEdge";
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionEdgeByName copy = (SequenceExpressionEdgeByName)MemberwiseClone();
             copy.EdgeName = EdgeName.CopyExpression(originalToCopy, procEnv);
+            if(EdgeType != null)
+                copy.EdgeType = EdgeType.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
@@ -2132,10 +2192,24 @@ namespace de.unika.ipd.grGen.libGr
             if(!(procEnv.Graph is INamedGraph))
                 throw new InvalidOperationException("The edgeByName(.) call can only be used with named graphs!");
             INamedGraph namedGraph = (INamedGraph)procEnv.Graph;
-            if(EmitProfiling)
-                return GraphHelper.GetEdge(namedGraph, (string)EdgeName.Evaluate(procEnv), procEnv);
+
+            EdgeType edgeType = null;
+            if(EdgeType != null)
+            {
+                object tmp = EdgeType.Evaluate(procEnv);
+                if (tmp is string) edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
+                else if (tmp is EdgeType) edgeType = (EdgeType)tmp;
+                if (edgeType == null) throw new Exception("edge type argument to edgeByName is not an edge type");
+            }
             else
-                return GraphHelper.GetEdge(namedGraph, (string)EdgeName.Evaluate(procEnv));
+            {
+                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
+            }
+
+            if(EmitProfiling)
+                return GraphHelper.GetEdge(namedGraph, (string)EdgeName.Evaluate(procEnv), edgeType, procEnv);
+            else
+                return GraphHelper.GetEdge(namedGraph, (string)EdgeName.Evaluate(procEnv), edgeType);
         }
 
         public override void SetNeedForProfiling(bool profiling)
@@ -2143,20 +2217,22 @@ namespace de.unika.ipd.grGen.libGr
             EmitProfiling = profiling;
         }
 
-        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return EdgeName; } }
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return EdgeName; if(EdgeType != null) yield return EdgeType; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "getEdgeByName(" + EdgeName.Symbol + ")"; } }
+        public override string Symbol { get { return "edgeByName(" + EdgeName.Symbol + (EdgeType != null ? ", " + EdgeType.Symbol : "") + ")"; } }
     }
 
     public class SequenceExpressionNodeByUnique : SequenceExpression
     {
         public SequenceExpression NodeUniqueId;
+        public SequenceExpression NodeType;
         public bool EmitProfiling;
 
-        public SequenceExpressionNodeByUnique(SequenceExpression nodeUniqueId)
+        public SequenceExpressionNodeByUnique(SequenceExpression nodeUniqueId, SequenceExpression nodeType)
             : base(SequenceExpressionType.NodeByUnique)
         {
             NodeUniqueId = nodeUniqueId;
+            NodeType = nodeType;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -2167,20 +2243,41 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(NodeUniqueId.Type(env) != "int")
                 {
-                    throw new SequenceParserException(Symbol + ", argument", "int", NodeUniqueId.Type(env));
+                    throw new SequenceParserException(Symbol + ", (first) argument", "int", NodeUniqueId.Type(env));
+                }
+            }
+
+            if(NodeType != null && NodeType.Type(env) != "")
+            {
+                string typeString = null;
+                if(NodeType.Type(env) == "string")
+                {
+                    if(NodeType is SequenceExpressionConstant)
+                        typeString = (string)((SequenceExpressionConstant)NodeType).Constant;
+                }
+                else
+                {
+                    typeString = NodeType.Type(env);
+                }
+                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
+                if(nodeType == null && typeString != null)
+                {
+                    throw new SequenceParserException(Symbol + ", second argument", "node type or string denoting node type", typeString);
                 }
             }
         }
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            return "Node";
+            return NodeType != null ? NodeType.Type(env) : "Node";
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionNodeByUnique copy = (SequenceExpressionNodeByUnique)MemberwiseClone();
             copy.NodeUniqueId = NodeUniqueId.CopyExpression(originalToCopy, procEnv);
+            if(NodeType != null)
+                copy.NodeType = NodeType.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
@@ -2188,10 +2285,24 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(!(procEnv.Graph.Model.GraphElementsAreAccessibleByUniqueId))
                 throw new InvalidOperationException("The nodeByUnique(.) call can only be used on graphs with a node edge unique definition!");
-            if(EmitProfiling)
-                return GraphHelper.GetNode(procEnv.Graph, (int)NodeUniqueId.Evaluate(procEnv), procEnv);
+
+            NodeType nodeType = null;
+            if(NodeType != null)
+            {
+                object tmp = NodeType.Evaluate(procEnv);
+                if(tmp is string) nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
+                else if (tmp is NodeType) nodeType = (NodeType)tmp;
+                if(nodeType == null) throw new Exception("node type argument to nodeByUnique is not a node type");
+            }
             else
-                return GraphHelper.GetNode(procEnv.Graph, (int)NodeUniqueId.Evaluate(procEnv));
+            {
+                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            }
+
+            if(EmitProfiling)
+                return GraphHelper.GetNode(procEnv.Graph, (int)NodeUniqueId.Evaluate(procEnv), nodeType, procEnv);
+            else
+                return GraphHelper.GetNode(procEnv.Graph, (int)NodeUniqueId.Evaluate(procEnv), nodeType);
         }
 
         public override void SetNeedForProfiling(bool profiling)
@@ -2199,20 +2310,22 @@ namespace de.unika.ipd.grGen.libGr
             EmitProfiling = profiling;
         }
 
-        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return NodeUniqueId; } }
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return NodeUniqueId; if(NodeType != null) yield return NodeType; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "getNodeByUnique(" + NodeUniqueId.Symbol + ")"; } }
+        public override string Symbol { get { return "nodeByUnique(" + NodeUniqueId.Symbol + (NodeType != null ? ", " + NodeType.Symbol : "") + ")"; } }
     }
 
     public class SequenceExpressionEdgeByUnique : SequenceExpression
     {
         public SequenceExpression EdgeUniqueId;
+        public SequenceExpression EdgeType;
         public bool EmitProfiling;
 
-        public SequenceExpressionEdgeByUnique(SequenceExpression edgeName)
+        public SequenceExpressionEdgeByUnique(SequenceExpression edgeName, SequenceExpression edgeType)
             : base(SequenceExpressionType.EdgeByUnique)
         {
             EdgeUniqueId = edgeName;
+            EdgeType = edgeType;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -2223,20 +2336,41 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(EdgeUniqueId.Type(env) != "int")
                 {
-                    throw new SequenceParserException(Symbol + ", argument", "int", EdgeUniqueId.Type(env));
+                    throw new SequenceParserException(Symbol + ", (first) argument", "int", EdgeUniqueId.Type(env));
+                }
+            }
+
+            if(EdgeType != null && EdgeType.Type(env) != "")
+            {
+                string typeString = null;
+                if(EdgeType.Type(env) == "string")
+                {
+                    if(EdgeType is SequenceExpressionConstant)
+                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
+                }
+                else
+                {
+                    typeString = EdgeType.Type(env);
+                }
+                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
+                if(edgeType == null && typeString != null)
+                {
+                    throw new SequenceParserException(Symbol + ", second argument", "edge type or string denoting edge type", typeString);
                 }
             }
         }
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            return "Edge";
+            return EdgeType != null ? EdgeType.Type(env) : "AEdge";
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionEdgeByUnique copy = (SequenceExpressionEdgeByUnique)MemberwiseClone();
             copy.EdgeUniqueId = EdgeUniqueId.CopyExpression(originalToCopy, procEnv);
+            if(EdgeType != null)
+               copy.EdgeType = EdgeType.CopyExpression(originalToCopy, procEnv);
             return copy;
         }
 
@@ -2244,11 +2378,24 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(!(procEnv.Graph.Model.GraphElementsAreAccessibleByUniqueId))
                 throw new InvalidOperationException("The edgeByUnique(.) call can only be used on graphs with a node edge unique definition!");
-            IEdge edge = procEnv.Graph.GetEdge((int)EdgeUniqueId.Evaluate(procEnv));
-            if(EmitProfiling)
-                return GraphHelper.GetEdge(procEnv.Graph, (int)EdgeUniqueId.Evaluate(procEnv), procEnv);
+
+            EdgeType edgeType = null;
+            if(EdgeType != null)
+            {
+                object tmp = EdgeType.Evaluate(procEnv);
+                if(tmp is string) edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
+                else if (tmp is EdgeType) edgeType = (EdgeType)tmp;
+                if(edgeType == null) throw new Exception("edge type argument to edgeByUnique is not an edge type");
+            }
             else
-                return GraphHelper.GetEdge(procEnv.Graph, (int)EdgeUniqueId.Evaluate(procEnv));
+            {
+                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
+            }
+
+            if(EmitProfiling)
+                return GraphHelper.GetEdge(procEnv.Graph, (int)EdgeUniqueId.Evaluate(procEnv), edgeType, procEnv);
+            else
+                return GraphHelper.GetEdge(procEnv.Graph, (int)EdgeUniqueId.Evaluate(procEnv), edgeType);
         }
 
         public override void SetNeedForProfiling(bool profiling)
@@ -2256,9 +2403,9 @@ namespace de.unika.ipd.grGen.libGr
             EmitProfiling = profiling;
         }
 
-        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return EdgeUniqueId; } }
+        public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield return EdgeUniqueId; if(EdgeType != null) yield return EdgeType; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "getEdgeByUnique(" + EdgeUniqueId.Symbol + ")"; } }
+        public override string Symbol { get { return "edgeByUnique(" + EdgeUniqueId.Symbol + (EdgeType != null ? ", " + EdgeType.Symbol : "") + ")"; } }
     }
 
     public class SequenceExpressionSource : SequenceExpression

@@ -1956,17 +1956,17 @@ SequenceExpression FunctionCall():
 			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the graph to generate the canonical string representation for)");
 			return new SequenceExpressionCanonize(getArgument(argExprs, 0));
 		} else if(function=="nodeByName") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the name of the node to retrieve)");
-			return new SequenceExpressionNodeByName(getArgument(argExprs, 0));
+			if(argExprs.Count<1 || argExprs.Count>2) throw new ParseException("\"" + function + "\" expects 1 parameter (the name of the node to retrieve) or 2 parameters (name of node, type of node)");
+			return new SequenceExpressionNodeByName(getArgument(argExprs, 0), getArgument(argExprs, 1));
 		} else if(function=="edgeByName") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the name of the edge to retrieve)");
-			return new SequenceExpressionEdgeByName(getArgument(argExprs, 0));
+			if(argExprs.Count<1 || argExprs.Count>2) throw new ParseException("\"" + function + "\" expects 1 parameter (the name of the edge to retrieve) or 2 parameters (name of edge, type of edge)");
+			return new SequenceExpressionEdgeByName(getArgument(argExprs, 0), getArgument(argExprs, 1));
 		} else if(function=="nodeByUnique") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the unique id of the node to retrieve)");
-			return new SequenceExpressionNodeByUnique(getArgument(argExprs, 0));
+			if(argExprs.Count<1 || argExprs.Count>2) throw new ParseException("\"" + function + "\" expects 1 parameter (the unique id of the node to retrieve) or 2 parameters (unique id of node, type of node)");
+			return new SequenceExpressionNodeByUnique(getArgument(argExprs, 0), getArgument(argExprs, 1));
 		} else if(function=="edgeByUnique") {
-			if(argExprs.Count!=1) throw new ParseException("\"" + function + "\" expects 1 parameter (the unique if of the edge to retrieve)");
-			return new SequenceExpressionEdgeByUnique(getArgument(argExprs, 0));
+			if(argExprs.Count<1 || argExprs.Count>2) throw new ParseException("\"" + function + "\" expects 1 parameter (the unique if of the edge to retrieve) or 2 parameters (unique id of edge, type of edge)");
+			return new SequenceExpressionEdgeByUnique(getArgument(argExprs, 0), getArgument(argExprs, 1));
 		} else {
 			if(IsFunctionName(function, package)) {
 				return new SequenceExpressionFunctionCall(CreateFunctionInvocationParameterBindings(function, package, argExprs));

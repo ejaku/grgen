@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.exprevals.NodeByNameExpr;
@@ -26,16 +25,14 @@ public class NodeByNameExprNode extends ExprNode {
 	}
 
 	private ExprNode name;
+	private ExprNode nodeType;
 	
-	private IdentNode nodeTypeUnresolved;
-	private NodeTypeNode nodeType;
-	
-	public NodeByNameExprNode(Coords coords, ExprNode name, IdentNode nodeType) {
+	public NodeByNameExprNode(Coords coords, ExprNode name, ExprNode nodeType) {
 		super(coords);
 		this.name = name;
 		becomeParent(this.name);
-		this.nodeTypeUnresolved = nodeType;
-		becomeParent(this.nodeTypeUnresolved);
+		this.nodeType = nodeType;
+		becomeParent(this.nodeType);
 	}
 
 	/** returns children of this node */
@@ -43,7 +40,7 @@ public class NodeByNameExprNode extends ExprNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(name);
-		children.add(getValidVersion(nodeTypeUnresolved, nodeType));
+		children.add(nodeType);
 		return children;
 	}
 
@@ -56,21 +53,21 @@ public class NodeByNameExprNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<NodeTypeNode> nodeTypeResolver =
-		new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		nodeType = nodeTypeResolver.resolve(nodeTypeUnresolved, this);
-		return nodeType!=null && getType().resolve();
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal() {
 		if(!(name.getType() instanceof StringTypeNode)) {
-			reportError("argument of nodeByName(.) must be of type string");
+			reportError("first argument of nodeByName(.,.) must be of type string");
+			return false;
+		}
+		if(!(nodeType.getType() instanceof NodeTypeNode)) {
+			reportError("second argument of nodeByName(.,.) must be a node type");
 			return false;
 		}
 		return true;
@@ -78,11 +75,11 @@ public class NodeByNameExprNode extends ExprNode {
 
 	@Override
 	protected IR constructIR() {
-		return new NodeByNameExpr(name.checkIR(Expression.class), getType().getType());
+		return new NodeByNameExpr(name.checkIR(Expression.class), nodeType.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
 	public TypeNode getType() {
-		return nodeType;
+		return nodeType.getType();
 	}
 }
