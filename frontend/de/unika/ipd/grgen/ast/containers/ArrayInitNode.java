@@ -183,7 +183,7 @@ public class ArrayInitNode extends ExprNode
 		assert(isResolved());
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
-			return (SetTypeNode) type;
+			return (ArrayTypeNode) type;
 		} else if(arrayType!=null) {
 			return arrayType;
 		} else {

@@ -183,7 +183,7 @@ public class DequeInitNode extends ExprNode
 		assert(isResolved());
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
-			return (SetTypeNode) type;
+			return (DequeTypeNode) type;
 		} else if(dequeType!=null) {
 			return dequeType;
 		} else {
