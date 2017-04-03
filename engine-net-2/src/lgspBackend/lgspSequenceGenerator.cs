@@ -5135,6 +5135,22 @@ namespace de.unika.ipd.grGen.lgsp
                     return "graph";
                 }
 
+                case SequenceExpressionType.SetCopyConstructor:
+                {
+                    SequenceExpressionSetCopyConstructor seqConstr = (SequenceExpressionSetCopyConstructor)expr;
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.Append("GRGEN_LIBGR.ContainerHelper.FillSet(new Dictionary<");
+                    sb.Append(TypesHelper.XgrsTypeToCSharpType(seqConstr.ValueType, model));
+                    sb.Append(", GRGEN_LIBGR.SetValueType>(), ");
+                    sb.Append("\"");
+                    sb.Append(seqConstr.ValueType);
+                    sb.Append("\", ");
+                    sb.Append(GetSequenceExpression(seqConstr.SetToCopy, source));
+                    sb.Append(", graph.Model)");
+                    return sb.ToString();
+                }
+
                 case SequenceExpressionType.SetConstructor:
                 case SequenceExpressionType.ArrayConstructor:
                 case SequenceExpressionType.DequeConstructor:

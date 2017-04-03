@@ -3081,6 +3081,35 @@ public class ActionsGen extends CSharpBase {
 				sb.append(")");
 			}
 		}
+		else if (expr instanceof MapCopyConstructor) {
+			MapCopyConstructor mcc = (MapCopyConstructor)expr;
+			sb.append("new GRGEN_EXPR.MapCopyConstructor(\"" + formatType(mcc.getMapType()) + "\", ");
+			sb.append("\"" + formatSequenceType(mcc.getMapType().getKeyType()) + "\", ");
+			sb.append("\"" + formatSequenceType(mcc.getMapType().getValueType()) + "\", ");
+			genExpressionTree(sb, mcc.getMapToCopy(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof SetCopyConstructor) {
+			SetCopyConstructor scc = (SetCopyConstructor)expr;
+			sb.append("new GRGEN_EXPR.SetCopyConstructor(\"" + formatType(scc.getSetType()) + "\", ");
+			sb.append("\"" + formatSequenceType(scc.getSetType().getValueType()) + "\", ");
+			genExpressionTree(sb, scc.getSetToCopy(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayCopyConstructor) {
+			ArrayCopyConstructor acc = (ArrayCopyConstructor)expr;
+			sb.append("new GRGEN_EXPR.ArrayCopyConstructor(\"" + formatType(acc.getArrayType()) + "\", ");
+			sb.append("\"" + formatSequenceType(acc.getArrayType().getValueType()) + "\", ");
+			genExpressionTree(sb, acc.getArrayToCopy(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof DequeCopyConstructor) {
+			DequeCopyConstructor dcc = (DequeCopyConstructor)expr;
+			sb.append("new GRGEN_EXPR.DequeCopyConstructor(\"" + formatType(dcc.getDequeType()) + "\", ");
+			sb.append("\"" + formatSequenceType(dcc.getDequeType().getValueType()) + "\", ");
+			genExpressionTree(sb, dcc.getDequeToCopy(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof FunctionInvocationExpr) {
 			FunctionInvocationExpr fi = (FunctionInvocationExpr) expr;
 			sb.append("new GRGEN_EXPR.FunctionInvocation(\"GRGEN_ACTIONS." + getPackagePrefixDot(fi.getFunction()) + "\", \"" + fi.getFunction().getIdent() + "\", new GRGEN_EXPR.Expression[] {");

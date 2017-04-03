@@ -147,4 +147,30 @@ public abstract class ExprNode extends BaseNode {
 	{
 		return NodeTypeNode.nodeType.getIdentNode();
 	}
+	
+	protected boolean checkCopyConstructorTypes(TypeNode declaredType, TypeNode givenType, String containerType, String amendment)
+	{
+		if(declaredType instanceof NodeTypeNode && !(givenType instanceof NodeTypeNode))
+		{
+			reportError(containerType + " copy constructor of node type expects " + containerType + " of node type" + amendment);
+			return false;
+		}
+		if(declaredType instanceof EdgeTypeNode && !(givenType instanceof EdgeTypeNode))
+		{
+			reportError(containerType + " copy constructor of edge type expects " + containerType + " of edge type" + amendment);
+			return false;
+		}
+		if(!(declaredType instanceof NodeTypeNode) && !(declaredType instanceof EdgeTypeNode))
+		{
+			if(givenType instanceof NodeTypeNode || givenType instanceof EdgeTypeNode) {
+				reportError(containerType + " copy constructor of non-node and non-edge type cannot be given a " + containerType + " of node or edge type" + amendment);
+				return false;
+			}
+			if(!declaredType.isEqual(givenType)) {
+				reportError(containerType + " copy constructor non-node/edge type not equal to " + containerType + " of given type" + amendment);
+				return false;
+			}
+		}
+		return true;
+	}
 }

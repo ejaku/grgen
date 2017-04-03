@@ -28,7 +28,7 @@ namespace de.unika.ipd.grGen.libGr
         Equal, NotEqual, Lower, LowerEqual, Greater, GreaterEqual, StructuralEqual,
         Plus, Minus, Mul, Div, Mod, // nice-to-have addition: all the other operators and functions/methods from the rule language expressions
         Constant, Variable, This,
-        SetConstructor, MapConstructor, ArrayConstructor, DequeConstructor,
+        SetConstructor, MapConstructor, ArrayConstructor, DequeConstructor, SetCopyConstructor, 
         Random,
         Def,
         IsVisited,
@@ -1415,6 +1415,83 @@ namespace de.unika.ipd.grGen.libGr
                     if(i != ContainerItems.Length - 1) sb.Append(",");
                 }
                 sb.Append("[");
+                return sb.ToString();
+            }
+        }
+    }
+
+    public class SequenceExpressionSetCopyConstructor : SequenceExpression
+    {
+        public String ValueType;
+        public SequenceExpression SetToCopy;
+
+        public SequenceExpressionSetCopyConstructor(String valueType, SequenceExpression setToCopy)
+            : base(SequenceExpressionType.SetCopyConstructor)
+        {
+            ValueType = valueType;
+            SetToCopy = setToCopy;
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "set<" + ValueType + ">";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if (SetToCopy.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                if (!SetToCopy.Type(env).StartsWith("set<"))
+                {
+                    throw new SequenceParserException(Symbol + ", argument", "set type", SetToCopy.Type(env));
+                }
+
+                // TODO: check ValueType with compatibility with value type of SetToCopy
+            }
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionSetCopyConstructor copy = (SequenceExpressionSetCopyConstructor)MemberwiseClone();
+            copy.SetToCopy = SetToCopy.CopyExpression(originalToCopy, procEnv);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            Type srcType = ContainerHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
+            Type dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
+            IDictionary set = ContainerHelper.NewDictionary(srcType, dstType);
+            ContainerHelper.FillSet(set, ValueType, SetToCopy.Evaluate(procEnv), procEnv.Graph.Model);
+            return set;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            base.GetLocalVariables(variables, containerConstructors);
+            SetToCopy.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get { yield return SetToCopy; }
+        }
+
+        public override int Precedence { get { return 8; } }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("set<");
+                sb.Append(ValueType);
+                sb.Append(">(");
+                sb.Append(SetToCopy.Symbol);
+                sb.Append(")");
                 return sb.ToString();
             }
         }

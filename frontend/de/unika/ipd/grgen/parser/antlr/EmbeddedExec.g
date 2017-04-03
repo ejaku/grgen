@@ -494,36 +494,52 @@ options { k = 4; }
 		}
 	;
 
-seqInitMapExpr [ExecNode xg, MapTypeNode mapType] returns [ MapInitNode res = null ]
-	: l=LBRACE { xg.append("{"); } { res = new MapInitNode(getCoords(l), null, mapType); }
-		( item1=seqMapItem[xg] { res.addMapItem(item1); }
-			( COMMA { xg.append(","); } item2=seqMapItem[xg] { res.addMapItem(item2); } )*
+seqInitMapExpr [ExecNode xg, MapTypeNode mapType] returns [ ExprNode res = null ]
+	@init{ MapInitNode mapInit = null; }
+	: l=LBRACE { xg.append("{"); } { res = mapInit = new MapInitNode(getCoords(l), null, mapType); }
+		( item1=seqMapItem[xg] { mapInit.addMapItem(item1); }
+			( COMMA { xg.append(","); } item2=seqMapItem[xg] { mapInit.addMapItem(item2); } )*
 		)?
 	  RBRACE { xg.append("}"); }
+	/*| l=LPAREN { xg.append("("); } value=seqExpression[xg]
+		{ res = new MapCopyConstructorNode(getCoords(l), null, mapType, value); }
+	  RPAREN { xg.append(")"); }*/
 	;
 
-seqInitSetExpr [ExecNode xg, SetTypeNode setType] returns [ SetInitNode res = null ]
-	: l=LBRACE { xg.append("{"); } { res = new SetInitNode(getCoords(l), null, setType); }	
-		( item1=seqSetItem[xg] { res.addSetItem(item1); }
-			( COMMA { xg.append(","); } item2=seqSetItem[xg] { res.addSetItem(item2); } )*
+seqInitSetExpr [ExecNode xg, SetTypeNode setType] returns [ ExprNode res = null ]
+	@init{ SetInitNode setInit = null; }
+	: l=LBRACE { xg.append("{"); } { res = setInit = new SetInitNode(getCoords(l), null, setType); }	
+		( item1=seqSetItem[xg] { setInit.addSetItem(item1); }
+			( COMMA { xg.append(","); } item2=seqSetItem[xg] { setInit.addSetItem(item2); } )*
 		)?
 	  RBRACE { xg.append("}"); }
+	| l=LPAREN { xg.append("("); } value=seqExpression[xg]
+		{ res = new SetCopyConstructorNode(getCoords(l), null, setType, value); }
+	  RPAREN { xg.append(")"); }
 	;
 
-seqInitArrayExpr [ExecNode xg, ArrayTypeNode arrayType] returns [ ArrayInitNode res = null ]
-	: l=LBRACK { xg.append("["); } { res = new ArrayInitNode(getCoords(l), null, arrayType); }	
-		( item1=seqArrayItem[xg] { res.addArrayItem(item1); }
-			( COMMA { xg.append(","); } item2=seqArrayItem[xg] { res.addArrayItem(item2); } )*
+seqInitArrayExpr [ExecNode xg, ArrayTypeNode arrayType] returns [ ExprNode res = null ]
+	@init{ ArrayInitNode arrayInit = null; }
+	: l=LBRACK { xg.append("["); } { res = arrayInit = new ArrayInitNode(getCoords(l), null, arrayType); }	
+		( item1=seqArrayItem[xg] { arrayInit.addArrayItem(item1); }
+			( COMMA { xg.append(","); } item2=seqArrayItem[xg] { arrayInit.addArrayItem(item2); } )*
 		)?
 	  RBRACK { xg.append("]"); }
+	/*| l=LPAREN { xg.append("("); } value=seqExpression[xg]
+		{ res = new ArrayCopyConstructorNode(getCoords(l), null, arrayType, value); }
+	  RPAREN { xg.append(")"); }*/
 	;
 
-seqInitDequeExpr [ExecNode xg, DequeTypeNode dequeType] returns [ DequeInitNode res = null ]
-	: l=RBRACK { xg.append("]"); } { res = new DequeInitNode(getCoords(l), null, dequeType); }	
-		( item1=seqDequeItem[xg] { res.addDequeItem(item1); }
-			( COMMA { xg.append(","); } item2=seqDequeItem[xg] { res.addDequeItem(item2); } )*
+seqInitDequeExpr [ExecNode xg, DequeTypeNode dequeType] returns [ ExprNode res = null ]
+	@init{ DequeInitNode dequeInit = null; }
+	: l=RBRACK { xg.append("]"); } { res = dequeInit = new DequeInitNode(getCoords(l), null, dequeType); }	
+		( item1=seqDequeItem[xg] { dequeInit.addDequeItem(item1); }
+			( COMMA { xg.append(","); } item2=seqDequeItem[xg] { dequeInit.addDequeItem(item2); } )*
 		)?
 	  LBRACK { xg.append("["); }
+	/*| l=LPAREN { xg.append("("); } value=seqExpression[xg]
+		{ res = new DequeCopyConstructorNode(getCoords(l), null, dequeType, value); }
+	  RPAREN { xg.append(")"); }*/
 	;
 
 seqMapItem [ExecNode xg] returns [ MapItemNode res = null ]
