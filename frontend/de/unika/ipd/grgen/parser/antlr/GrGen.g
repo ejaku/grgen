@@ -2482,36 +2482,52 @@ initExprDecl [IdentNode id] returns [ MemberInitNode res = null ]
 		}
 	;
 
-initMapExpr [IdentNode id, MapTypeNode mapType] returns [ MapInitNode res = null ]
-	: l=LBRACE { res = new MapInitNode(getCoords(l), id, mapType); }
-		( item1=mapItem { res.addMapItem(item1); }
-			( COMMA item2=mapItem { res.addMapItem(item2); } )*
+initMapExpr [IdentNode id, MapTypeNode mapType] returns [ ExprNode res = null ]
+	@init{ MapInitNode mapInit = null; }
+	: l=LBRACE { res = mapInit = new MapInitNode(getCoords(l), id, mapType); }
+		( item1=mapItem { mapInit.addMapItem(item1); }
+			( COMMA item2=mapItem { mapInit.addMapItem(item2); } )*
 		)?
 	  RBRACE
+	| lp=LPAREN value=expr[false]
+		{ res = new MapCopyConstructorNode(getCoords(lp), id, mapType, value); }
+	  RPAREN 
 	;
 
-initSetExpr [IdentNode id, SetTypeNode setType] returns [ SetInitNode res = null ]
-	: l=LBRACE { res = new SetInitNode(getCoords(l), id, setType); }	
-		( item1=setItem { res.addSetItem(item1); }
-			( COMMA item2=setItem { res.addSetItem(item2); } )*
+initSetExpr [IdentNode id, SetTypeNode setType] returns [ ExprNode res = null ]
+	@init{ SetInitNode setInit = null; }
+	: l=LBRACE { res = setInit = new SetInitNode(getCoords(l), id, setType); }	
+		( item1=setItem { setInit.addSetItem(item1); }
+			( COMMA item2=setItem { setInit.addSetItem(item2); } )*
 		)?
 	  RBRACE
+	| lp=LPAREN value=expr[false]
+		{ res = new SetCopyConstructorNode(getCoords(lp), id, setType, value); }
+	  RPAREN 
 	;
 
-initArrayExpr [IdentNode id, ArrayTypeNode arrayType] returns [ ArrayInitNode res = null ]
-	: l=LBRACK { res = new ArrayInitNode(getCoords(l), id, arrayType); }	
-		( item1=arrayItem { res.addArrayItem(item1); }
-			( COMMA item2=arrayItem { res.addArrayItem(item2); } )*
+initArrayExpr [IdentNode id, ArrayTypeNode arrayType] returns [ ExprNode res = null ]
+	@init{ ArrayInitNode arrayInit = null; }
+	: l=LBRACK { res = arrayInit = new ArrayInitNode(getCoords(l), id, arrayType); }	
+		( item1=arrayItem { arrayInit.addArrayItem(item1); }
+			( COMMA item2=arrayItem { arrayInit.addArrayItem(item2); } )*
 		)?
 	  RBRACK
+	| lp=LPAREN value=expr[false]
+		{ res = new ArrayCopyConstructorNode(getCoords(lp), id, arrayType, value); }
+	  RPAREN 
 	;
 
-initDequeExpr [IdentNode id, DequeTypeNode dequeType] returns [ DequeInitNode res = null ]
-	: l=RBRACK { res = new DequeInitNode(getCoords(l), id, dequeType); }	
-		( item1=dequeItem { res.addDequeItem(item1); }
-			( COMMA item2=dequeItem { res.addDequeItem(item2); } )*
+initDequeExpr [IdentNode id, DequeTypeNode dequeType] returns [ ExprNode res = null ]
+	@init{ DequeInitNode dequeInit = null; }
+	: l=RBRACK { res = dequeInit = new DequeInitNode(getCoords(l), id, dequeType); }	
+		( item1=dequeItem { dequeInit.addDequeItem(item1); }
+			( COMMA item2=dequeItem { dequeInit.addDequeItem(item2); } )*
 		)?
 	  LBRACK
+	| lp=LPAREN value=expr[false]
+		{ res = new DequeCopyConstructorNode(getCoords(lp), id, dequeType, value); }
+	  RPAREN 
 	;
 
 mapItem returns [ MapItemNode res = null ]

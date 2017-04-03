@@ -335,6 +335,62 @@ public abstract class CSharpBase {
 			return "LGSPEdge " + formatEntity(edge) + " = ";
 	}
 
+	public String formatSequenceType(Type t) {
+		if (t instanceof ByteType)
+			return "byte";
+		if (t instanceof ShortType)
+			return "short";
+		if (t instanceof IntType)
+			return "int";
+		if (t instanceof LongType)
+			return "long";
+		else if (t instanceof BooleanType)
+			return "boolean";
+		else if (t instanceof FloatType)
+			return "float";
+		else if (t instanceof DoubleType)
+			return "double";
+		else if (t instanceof StringType)
+			return "string";
+		else if (t instanceof EnumType)
+			return getPackagePrefixDoubleColon(t) + formatIdentifiable(t);
+		else if (t instanceof ObjectType || t instanceof VoidType)
+			return "object";
+		else if (t instanceof MapType) {
+			MapType mapType = (MapType) t;
+			return "map<" + formatSequenceType(mapType.getKeyType())
+					+ ", " + formatSequenceType(mapType.getValueType()) + ">";
+		}
+		else if (t instanceof SetType) {
+			SetType setType = (SetType) t;
+			return "set<" + formatType(setType.getValueType()) + ">";
+		}
+		else if (t instanceof ArrayType) {
+			ArrayType arrayType = (ArrayType) t;
+			return "array<" + formatType(arrayType.getValueType()) + ">";
+		}
+		else if (t instanceof DequeType) {
+			DequeType dequeType = (DequeType) t;
+			return "deque<" + formatType(dequeType.getValueType()) + ">";
+		}
+		else if (t instanceof GraphType) {
+			return "graph";
+		}
+		else if (t instanceof ExternalType) {
+			ExternalType extType = (ExternalType) t;
+			return extType.getIdent().toString();
+		}
+		else if(t instanceof InheritanceType) {
+			return getPackagePrefixDoubleColon(t) + formatIdentifiable(t);
+		}
+		else if(t instanceof MatchType) {
+			MatchType matchType = (MatchType) t;
+			String actionName = matchType.getAction().getIdent().toString();
+			return "match<" + actionName + ">";
+		}
+		else throw new IllegalArgumentException("Illegal type: " + t);
+	}
+
 	public String formatAttributeType(Type t) {
 		if (t instanceof ByteType)
 			return "sbyte";
@@ -1740,6 +1796,43 @@ public abstract class CSharpBase {
 				}
 				sb.append(")");
 			}
+		}
+		else if (expr instanceof MapCopyConstructor) {
+			MapCopyConstructor mcc = (MapCopyConstructor)expr;
+			sb.append("GRGEN_LIBGR.ContainerHelper.FillMap(");
+			sb.append("new " + formatType(mcc.getMapType()) + "(), ");
+			sb.append("\"" + formatSequenceType(mcc.getMapType().getKeyType()) + "\", ");
+			sb.append("\"" + formatSequenceType(mcc.getMapType().getValueType()) + "\", ");
+			genExpression(sb, mcc.getMapToCopy(), modifyGenerationState);
+			sb.append(", graph.Model");
+			sb.append(")");
+		}
+		else if (expr instanceof SetCopyConstructor) {
+			SetCopyConstructor scc = (SetCopyConstructor)expr;
+			sb.append("GRGEN_LIBGR.ContainerHelper.FillSet(");
+			sb.append("new " + formatType(scc.getSetType()) + "(), ");
+			sb.append("\"" + formatSequenceType(scc.getSetType().getValueType()) + "\", ");
+			genExpression(sb, scc.getSetToCopy(), modifyGenerationState);
+			sb.append(", graph.Model");
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayCopyConstructor) {
+			ArrayCopyConstructor acc = (ArrayCopyConstructor)expr;
+			sb.append("GRGEN_LIBGR.ContainerHelper.FillArray(");
+			sb.append("new " + formatType(acc.getArrayType()) + "(), ");
+			sb.append("\"" + formatSequenceType(acc.getArrayType().getValueType()) + "\", ");
+			genExpression(sb, acc.getArrayToCopy(), modifyGenerationState);
+			sb.append(", graph.Model");
+			sb.append(")");
+		}
+		else if (expr instanceof DequeCopyConstructor) {
+			DequeCopyConstructor dcc = (DequeCopyConstructor)expr;
+			sb.append("GRGEN_LIBGR.ContainerHelper.FillDeque(");
+			sb.append("new " + formatType(dcc.getDequeType()) + "(), ");
+			sb.append("\"" + formatSequenceType(dcc.getDequeType().getValueType()) + "\", ");
+			genExpression(sb, dcc.getDequeToCopy(), modifyGenerationState);
+			sb.append(", graph.Model");
+			sb.append(")");
 		}
 		else if (expr instanceof FunctionInvocationExpr) {
 			FunctionInvocationExpr fi = (FunctionInvocationExpr) expr;

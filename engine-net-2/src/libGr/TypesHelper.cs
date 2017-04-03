@@ -97,6 +97,36 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
+        public static Type GetType(String typeName, IGraphModel model)
+        {
+            if (typeName == null) return null;
+
+            switch (typeName)
+            {
+                case "boolean": return typeof(bool);
+                case "byte": return typeof(sbyte);
+                case "short": return typeof(short);
+                case "int": return typeof(int);
+                case "long": return typeof(long);
+                case "float": return typeof(float);
+                case "double": return typeof(double);
+                case "string": return typeof(string);
+                case "object": return typeof(object);
+                case "graph": return typeof(IGraph);
+            }
+
+            if (model == null) return null;
+
+            // No standard type, so check enums
+            foreach (EnumAttributeType enumAttrType in model.EnumAttributeTypes)
+            {
+                if (enumAttrType.PackagePrefixedName == typeName)
+                    return enumAttrType.EnumType;
+            }
+
+            return null;
+        }
+
         public static String DotNetTypeToXgrsType(GrGenType type)
         {
             if (type is VarType)
@@ -635,14 +665,6 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             return false;
-        }
-
-        public static bool IsSameOrSubtypeDisregardingDirectednessOfEdges(string xgrsTypeSameOrSub, string xgrsTypeBase, IGraphModel model)
-        {
-            if (xgrsTypeSameOrSub == "AEdge" && (xgrsTypeBase == "Edge" || xgrsTypeBase == "UEdge"))
-                return true; // not type safe, to be compensated by type checks, allowed so people can work with Edge and UEdge even though graph query functions return AEdge
-
-            return IsSameOrSubtype(xgrsTypeSameOrSub, xgrsTypeBase, model);
         }
 
         public static string GetStorageKeyTypeName(VarType storage)

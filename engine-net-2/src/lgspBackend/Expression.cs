@@ -4021,6 +4021,45 @@ namespace de.unika.ipd.grGen.expression
         String DequeName;
     }
 
+    public class MapCopyConstructor : Expression
+    {
+        public MapCopyConstructor(String mapType, String mapKeyType, String mapValueType, Expression sourceMap)
+        {
+            MapType = mapType;
+            MapKeyType = mapKeyType;
+            MapValueType = mapValueType;
+            SourceMap = sourceMap;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new MapCopyConstructor(MapType, MapKeyType, MapValueType, SourceMap.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.FillMap(new ");
+            sourceCode.Append(MapType);
+            sourceCode.Append("(), \"");
+            sourceCode.Append(MapKeyType);
+            sourceCode.Append("\", \"");
+            sourceCode.Append(MapValueType);
+            sourceCode.Append("\", ");
+            SourceMap.Emit(sourceCode);
+            sourceCode.Append(", graph.Model)");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return SourceMap;
+        }
+
+        String MapType;
+        String MapKeyType;
+        String MapValueType;
+        Expression SourceMap;
+    }
+
     /// <summary>
     /// Class representing a rule-local map to be filled with the given map items.
     /// </summary>
@@ -4115,6 +4154,41 @@ namespace de.unika.ipd.grGen.expression
         MapItem Next;
     }
 
+    public class SetCopyConstructor : Expression
+    {
+        public SetCopyConstructor(String setType, String setValueType, Expression sourceSet)
+        {
+            SetType = setType;
+            SetValueType = setValueType;
+            SourceSet = sourceSet;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new SetCopyConstructor(SetType, SetValueType, SourceSet.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.FillSet(new ");
+            sourceCode.Append(SetType);
+            sourceCode.Append("(), \"");
+            sourceCode.Append(SetValueType);
+            sourceCode.Append("\", ");
+            SourceSet.Emit(sourceCode);
+            sourceCode.Append(", graph.Model)");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return SourceSet;
+        }
+
+        String SetType;
+        String SetValueType;
+        Expression SourceSet;
+    }
+
     /// <summary>
     /// Class representing a rule-local set to be filled with the given set items.
     /// </summary>
@@ -4192,6 +4266,41 @@ namespace de.unika.ipd.grGen.expression
         SetItem Next;
     }
 
+    public class ArrayCopyConstructor : Expression
+    {
+        public ArrayCopyConstructor(String arrayType, String arrayValueType, Expression sourceArray)
+        {
+            ArrayType = arrayType;
+            ArrayValueType = arrayValueType;
+            SourceArray = sourceArray;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayCopyConstructor(ArrayType, ArrayValueType, SourceArray.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.FillArray(new ");
+            sourceCode.Append(ArrayType);
+            sourceCode.Append("(), \"");
+            sourceCode.Append(ArrayValueType);
+            sourceCode.Append("\", ");
+            SourceArray.Emit(sourceCode);
+            sourceCode.Append(", graph.Model)");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return SourceArray;
+        }
+
+        String ArrayType;
+        String ArrayValueType;
+        Expression SourceArray;
+    }
+
     /// <summary>
     /// Class representing a rule-local array to be filled with the given array items.
     /// </summary>
@@ -4267,6 +4376,41 @@ namespace de.unika.ipd.grGen.expression
         Expression Value;
         String ValueType;
         ArrayItem Next;
+    }
+
+    public class DequeCopyConstructor : Expression
+    {
+        public DequeCopyConstructor(String dequeType, String dequeValueType, Expression sourceDeque)
+        {
+            DequeType = dequeType;
+            DequeValueType = dequeValueType;
+            SourceDeque = sourceDeque;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new DequeCopyConstructor(DequeType, DequeValueType, SourceDeque.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.FillDeque(new ");
+            sourceCode.Append(DequeType);
+            sourceCode.Append("(), \"");
+            sourceCode.Append(DequeValueType);
+            sourceCode.Append("\", ");
+            SourceDeque.Emit(sourceCode);
+            sourceCode.Append(", graph.Model)");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return SourceDeque;
+        }
+
+        String DequeType;
+        String DequeValueType;
+        Expression SourceDeque;
     }
 
     /// <summary>

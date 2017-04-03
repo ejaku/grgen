@@ -492,45 +492,60 @@ SequenceExpression InitContainerExpr():
 	string typeName, typeNameDst;
 	List<SequenceExpression> srcItems = null;
 	List<SequenceExpression> dstItems = null;
-	SequenceExpression src = null, dst = null, res = null;
+	SequenceExpression src = null, dst = null, res = null, value = null;
 }
 {
 	(
 		"set" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
-		"{"
-			( src=Expression() { srcItems.Add(src); } )?
-				( "," src=Expression() { srcItems.Add(src); })*
-		"}"
-		{
-			res = new SequenceExpressionSetConstructor(typeName, srcItems.ToArray());
-		}
+		(
+			"{"
+				( src=Expression() { srcItems.Add(src); } )?
+					( "," src=Expression() { srcItems.Add(src); })*
+			"}"
+			{
+				res = new SequenceExpressionSetConstructor(typeName, srcItems.ToArray());
+			}
+		|
+			"("
+				value=Expression()
+			")"
+			{
+				res = new SequenceExpressionSetCopyConstructor(typeName, value);
+			}
+		)
 	|
 		"map" "<" typeName=TypeNonGeneric() "," typeNameDst=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); dstItems = new List<SequenceExpression>(); }
-		"{"
-			( src=Expression() "->" dst=Expression() { srcItems.Add(src); dstItems.Add(dst); } )?
-				( "," src=Expression() "->" dst=Expression() { srcItems.Add(src); dstItems.Add(dst); } )*
-		"}"
-		{
-			res = new SequenceExpressionMapConstructor(typeName, typeNameDst, srcItems.ToArray(), dstItems.ToArray());
-		}
+		(
+			"{"
+				( src=Expression() "->" dst=Expression() { srcItems.Add(src); dstItems.Add(dst); } )?
+					( "," src=Expression() "->" dst=Expression() { srcItems.Add(src); dstItems.Add(dst); } )*
+			"}"
+			{
+				res = new SequenceExpressionMapConstructor(typeName, typeNameDst, srcItems.ToArray(), dstItems.ToArray());
+			}
+		)
 	|
 		"array" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
-		"["
-			( src=Expression() { srcItems.Add(src); } )?
-				( "," src=Expression() { srcItems.Add(src); })*
-		"]"
-		{
-			res = new SequenceExpressionArrayConstructor(typeName, srcItems.ToArray());
-		}
+		(
+			"["
+				( src=Expression() { srcItems.Add(src); } )?
+					( "," src=Expression() { srcItems.Add(src); })*
+			"]"
+			{
+				res = new SequenceExpressionArrayConstructor(typeName, srcItems.ToArray());
+			}
+		)
 	|
 		"deque" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
-		"]"
-			( src=Expression() { srcItems.Add(src); } )?
-				( "," src=Expression() { srcItems.Add(src); })*
-		"["
-		{
-			res = new SequenceExpressionDequeConstructor(typeName, srcItems.ToArray());
-		}
+		(
+			"]"
+				( src=Expression() { srcItems.Add(src); } )?
+					( "," src=Expression() { srcItems.Add(src); })*
+			"["
+			{
+				res = new SequenceExpressionDequeConstructor(typeName, srcItems.ToArray());
+			}
+		)
 	)
 	{
 		return res;
