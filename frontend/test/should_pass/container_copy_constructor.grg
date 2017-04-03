@@ -1,0 +1,217 @@
+#using "container_copy_constructor.gm"
+
+rule r
+{
+	def n:Node;
+	yield {
+		yield n = nodes(NN).peek(0);
+		
+		def ref s:set<N> = set<N>(nodes(Node));
+		def ref m:map<int,N> = map<int,N>(nodes(Node).asArray().asMap());
+		def ref a:array<N> = array<N>(nodes(Node).asArray());
+		def ref d:deque<N> = deque<N>(nodes(Node).asArray().asDeque());
+	}
+	
+	modify {
+		eval {
+			def ref s:set<N> = set<N>(nodes(Node));
+			def ref m:map<int,N> = map<int,N>(nodes(Node).asArray().asMap());
+			def ref a:array<N> = array<N>(nodes(Node).asArray());
+			def ref d:deque<N> = deque<N>(nodes(Node).asArray().asDeque());
+		}
+		exec({s:set<N> = set<N>(nodes(Node))});
+		exec({s:set<N> = set<N>(adjacent(n,AEdge,Node))});
+	}
+}
+
+rule rr
+{
+	def n:Node;
+	yield {
+		yield n = nodes(NN).peek(0);
+		
+		def ref s:set<NN> = set<NN>(nodes(N));
+		def ref m:map<int,NN> = map<int,NN>(nodes(N).asArray().asMap());
+		def ref a:array<NN> = array<NN>(nodes(N).asArray());
+		def ref d:deque<NN> = deque<NN>(nodes(N).asArray().asDeque());
+	}
+	
+	modify {
+		eval {
+			def ref s:set<NN> = set<NN>(nodes(N));
+			def ref m:map<int,NN> = map<int,NN>(nodes(N).asArray().asMap());
+			def ref a:array<NN> = array<NN>(nodes(N).asArray());
+			def ref d:deque<NN> = deque<NN>(nodes(N).asArray().asDeque());
+		}
+		exec({s:set<NN> = set<NN>(nodes(N))});
+		exec({s:set<NN> = set<NN>(adjacent(n,AEdge,N))});
+	}
+}
+
+rule rrev
+{
+	def n:Node;
+	yield {
+		yield n = nodes(NN).peek(0);
+		
+		def ref s:set<Node> = set<Node>(nodes(NN));
+		def ref m:map<int,Node> = map<int,Node>(nodes(NN).asArray().asMap());
+		def ref a:array<Node> = array<Node>(nodes(NN).asArray());
+		def ref d:deque<Node> = deque<Node>(nodes(NN).asArray().asDeque());
+	}
+	
+	modify {
+		eval {
+			def ref s:set<Node> = set<Node>(nodes(NN));
+			def ref m:map<int,Node> = map<int,Node>(nodes(NN).asArray().asMap());
+			def ref a:array<Node> = array<Node>(nodes(NN).asArray());
+			def ref d:deque<Node> = deque<Node>(nodes(NN).asArray().asDeque());
+		}
+		exec({s:set<Node> = set<Node>(nodes(NN))});
+		exec({s:set<Node> = set<Node>(adjacent(n,AEdge,NN))});
+	}
+}
+
+rule re
+{
+	def n:Node;
+	yield {
+		yield n = nodes(NN).peek(0);
+		
+		def ref s:set<E> = set<E>(edges());
+		def ref m:map<int,E> = map<int,E>(edges().asArray().asMap());
+		def ref a:array<E> = array<E>(edges().asArray());
+		def ref d:deque<E> = deque<E>(edges().asArray().asDeque());
+	}
+	
+	modify {
+		eval {
+			def ref s:set<E> = set<E>(edges());
+			def ref m:map<int,E> = map<int,E>(edges().asArray().asMap());
+			def ref a:array<E> = array<E>(edges().asArray());
+			def ref d:deque<E> = deque<E>(edges().asArray().asDeque());
+		}
+		exec({s:set<E> = set<E>(edges())});
+		exec({s:set<E> = set<E>(incident(n))});
+	}
+}
+
+rule rer
+{
+	def n:Node;
+	yield {
+		yield n = nodes(NN).peek(0);
+		
+		def ref s:set<EE> = set<EE>(edges(E));
+		def ref m:map<int,EE> = map<int,EE>(edges(E).asArray().asMap());
+		def ref a:array<EE> = array<EE>(edges(E).asArray());
+		def ref d:deque<EE> = deque<EE>(edges(E).asArray().asDeque());
+	}
+	
+	modify {
+		eval {
+			def ref s:set<EE> = set<EE>(edges(E));
+			def ref m:map<int,EE> = map<int,EE>(edges(E).asArray().asMap());
+			def ref a:array<EE> = array<EE>(edges(E).asArray());
+			def ref d:deque<EE> = deque<EE>(edges(E).asArray().asDeque());
+		}
+		exec({s:set<EE> = set<EE>(edges(E))});
+		exec({s:set<EE> = set<EE>(incident(n, E))});
+	}
+}
+
+rule rerev
+{
+	def n:Node;
+	yield {
+		yield n = nodes(NN).peek(0);
+		
+		def ref s:set<AEdge> = set<AEdge>(edges(EE));
+		def ref m:map<int,AEdge> = map<int,AEdge>(edges(EE).asArray().asMap());
+		def ref a:array<AEdge> = array<AEdge>(edges(EE).asArray());
+		def ref d:deque<AEdge> = deque<AEdge>(edges(EE).asArray().asDeque());
+	}
+	
+	modify {
+		eval {
+			def ref s:set<AEdge> = set<AEdge>(edges(EE));
+			def ref m:map<int,AEdge> = map<int,AEdge>(edges(EE).asArray().asMap());
+			def ref a:array<AEdge> = array<AEdge>(edges(EE).asArray());
+			def ref d:deque<AEdge> = deque<AEdge>(edges(EE).asArray().asDeque());
+		}
+		exec({s:set<AEdge> = set<AEdge>(edges(EE))});
+		exec({s:set<AEdge> = set<AEdge>(incident(n, EE))});
+	}
+}
+
+rule reu
+{
+	def n:Node;
+	yield {
+		yield n = nodes(NN).peek(0);
+		
+		def ref s:set<EU> = set<EU>(edges());
+		def ref m:map<int,EU> = map<int,EU>(edges().asArray().asMap());
+		def ref a:array<EU> = array<EU>(edges().asArray());
+		def ref d:deque<EU> = deque<EU>(edges().asArray().asDeque());
+	}
+	
+	modify {
+		eval {
+			def ref s:set<EU> = set<EU>(edges());
+			def ref m:map<int,EU> = map<int,EU>(edges().asArray().asMap());
+			def ref a:array<EU> = array<EU>(edges().asArray());
+			def ref d:deque<EU> = deque<EU>(edges().asArray().asDeque());
+		}
+		exec({s:set<EU> = set<EU>(edges())});
+		exec({s:set<EU> = set<EU>(incident(n))});
+	}
+}
+
+rule reur
+{
+	def n:Node;
+	yield {
+		yield n = nodes(NN).peek(0);
+		
+		def ref s:set<EEU> = set<EEU>(edges(EU));
+		def ref m:map<int,EEU> = map<int,EEU>(edges(EU).asArray().asMap());
+		def ref a:array<EEU> = array<EEU>(edges(EU).asArray());
+		def ref d:deque<EEU> = deque<EEU>(edges(EU).asArray().asDeque());
+	}
+	
+	modify {
+		eval {
+			def ref s:set<EEU> = set<EEU>(edges(EU));
+			def ref m:map<int,EEU> = map<int,EEU>(edges(EU).asArray().asMap());
+			def ref a:array<EEU> = array<EEU>(edges(EU).asArray());
+			def ref d:deque<EEU> = deque<EEU>(edges(EU).asArray().asDeque());
+		}
+		exec({s:set<EEU> = set<EEU>(edges(EU))});
+		exec({s:set<EEU> = set<EEU>(incident(n, EU))});
+	}
+}
+
+rule reurev
+{
+	def n:Node;
+	yield {
+		yield n = nodes(NN).peek(0);
+		
+		def ref s:set<AEdge> = set<AEdge>(edges(EEU));
+		def ref m:map<int,AEdge> = map<int,AEdge>(edges(EEU).asArray().asMap());
+		def ref a:array<AEdge> = array<AEdge>(edges(EEU).asArray());
+		def ref d:deque<AEdge> = deque<AEdge>(edges(EEU).asArray().asDeque());
+	}
+	
+	modify {
+		eval {
+			def ref s:set<AEdge> = set<AEdge>(edges(EEU));
+			def ref m:map<int,AEdge> = map<int,AEdge>(edges(EEU).asArray().asMap());
+			def ref a:array<AEdge> = array<AEdge>(edges(EEU).asArray());
+			def ref d:deque<AEdge> = deque<AEdge>(edges(EEU).asArray().asDeque());
+		}
+		exec({s:set<AEdge> = set<AEdge>(edges(EEU))});
+		exec({s:set<AEdge> = set<AEdge>(incident(n, EEU))});
+	}
+}

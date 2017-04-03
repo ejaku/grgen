@@ -1,0 +1,6 @@
+test t
+{
+	if {
+		set<int>(set<double>{}).empty();
+	}
+}

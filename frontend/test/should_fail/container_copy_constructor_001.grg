@@ -1,0 +1,6 @@
+test t
+{
+	if {
+		set<Node>(set<Edge>{}).empty();
+	}
+}

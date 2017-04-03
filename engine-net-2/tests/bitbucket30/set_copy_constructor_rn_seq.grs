@@ -1,0 +1,14 @@
+new graph "bitbucket30/set_copy_constructor"
+
+exec init
+show num nodes
+show num edges
+
+exec (::s1,::s2)=seqn ;> { ::s3=set<Node>(nodes(N)); ::s4=set<N>(nodes()) }
+
+show var s1
+show var s2
+show var s3
+show var s4
+
+quit

@@ -1,0 +1,8 @@
+node class N;
+node class NN extends N;
+
+edge class E;
+edge class EE extends E;
+
+undirected edge class EU;
+undirected edge class EEU;

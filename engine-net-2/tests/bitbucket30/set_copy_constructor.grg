@@ -1,0 +1,66 @@
+#using "set_copy_constructor.gm"
+
+rule init {
+	modify {
+		n:N -e:E -> . --> n;
+	}
+}
+
+rule rn : (set<Node>, set<N>, set<Node>, set<N>)
+{
+	def ref snode:set<Node>;
+	def ref sn:set<N>;
+	yield {
+		yield snode = set<Node>(nodes(N));
+		yield sn = set<N>(nodes());
+	}
+	
+	modify {
+		def ref snode_:set<Node>;
+		def ref sn_:set<N>;
+		eval {
+			yield snode_ = set<Node>(nodes(N));
+			yield sn_ = set<N>(nodes());
+		}
+		
+		return(snode,sn,snode_,sn_);
+	}
+}
+
+rule re : (set<Edge>, set<E>, set<Edge>, set<E>)
+{
+	def ref sedge:set<Edge>;
+	def ref se:set<E>;
+	yield {
+		yield sedge = set<Edge>(edges(E));
+		yield se = set<E>(edges());
+	}
+	
+	modify {
+		def ref sedge_:set<Edge>;
+		def ref se_:set<E>;
+		eval {
+			yield sedge_ = set<Edge>(edges(E));
+			yield se_ = set<E>(edges());
+		}
+		
+		return(sedge,se,sedge_,se_);
+	}
+}
+
+sequence seqn : (snode:set<Node>, sn:set<N>)
+{
+	{ snode=set<Node>(nodes(N)); sn=set<N>(nodes()) }
+}
+
+sequence seqe : (sedge:set<Edge>, se:set<E>)
+{
+	{ sedge=set<Edge>(edges(E)); se=set<E>(edges()) }
+}
+
+rule ra : (array<Node>, array<N>)
+{
+	modify {
+		return(array<Node>(nodes(N).asArray()), array<N>(nodes().asArray()));
+	}
+}
