@@ -123,6 +123,9 @@ OK     should_pass/bitbucket23.grg
 OK     should_pass/bitbucket25.grg
 OK     should_pass/bitbucket26.grg
 OK     should_pass/bitbucket3.grg
+OK     should_pass/bitbucket30.grg
+OK     should_pass/bitbucket30r.grg
+OK     should_pass/bitbucket30y.grg
 OK     should_pass/bitbucket3b.grg
 OK     should_pass/bitbucket4.grg
 OK     should_pass/bitbucket4b.grg
@@ -189,6 +192,7 @@ OK     should_pass/computations_while2b.grg
 OK     should_pass/conn_001.grg
 OK     should_pass/constr_001.grg
 OK     should_pass/container.grg
+OK     should_pass/container_copy_constructor.grg
 OK     should_pass/containerAsContainer.grg
 OK     should_pass/containerGaggl.grg
 OK     should_pass/copy.grg
@@ -476,7 +480,9 @@ OK     should_pass/node_by_storage_access.grg
 OK     should_pass/node_from_storage.grg
 OK     should_pass/nodeedgeattr_001.grg
 OK     should_pass/nodeedgebyname.grg
+OK     should_pass/nodeedgebynamewithtype.grg
 OK     should_pass/nodeedgebyunique.grg
+OK     should_pass/nodeedgebyuniquewithtype.grg
 OK     should_pass/nodeedgetypeof.grg
 OK     should_pass/now.grg
 OK     should_pass/numberTypeMinMax.grg
@@ -835,6 +841,10 @@ ERROR  should_fail/basic_108.grg
 ERROR  should_fail/basic_109.grg
 ERROR  should_fail/basic_110.grg
 ERROR  should_fail/basic_111.grg
+FAILED should_fail/bitbucket30_001.grg
+FAILED should_fail/bitbucket30_002.grg
+ERROR  should_fail/bitbucket30_003.grg
+ERROR  should_fail/bitbucket30_004.grg
 ERROR  should_fail/cast_001.grg
 ERROR  should_fail/cast_002.grg
 ERROR  should_fail/cast_003.grg
@@ -931,6 +941,12 @@ ERROR  should_fail/constr_001.grg
 ERROR  should_fail/constr_002.grg
 ERROR  should_fail/constr_003.grg
 ERROR  should_fail/constraint_in_replacement.grg
+ERROR  should_fail/container_copy_constructor_001.grg
+ERROR  should_fail/container_copy_constructor_002.grg
+ERROR  should_fail/container_copy_constructor_003.grg
+ERROR  should_fail/container_copy_constructor_004.grg
+ERROR  should_fail/container_copy_constructor_005.grg
+ERROR  should_fail/container_copy_constructor_006.grg
 ERROR  should_fail/copy.grg
 ERROR  should_fail/copyEdgeDangling.grg
 ERROR  should_fail/dangle_001.grg
