@@ -1,6 +1,6 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 4.4
- * Copyright (C) 2003-2016 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 4.5
+ * Copyright (C) 2003-2017 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
  */
@@ -131,8 +131,8 @@ namespace ChangeFileHeaders
             string[] lines = File.ReadAllLines(file.FullName, encoding);
 
             lines[0] = "/*";
-            lines[1] = " * GrGen: graph rewrite generator tool -- release GrGen.NET 4.4";
-            lines[2] = " * Copyright (C) 2003-2016 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers";
+            lines[1] = " * GrGen: graph rewrite generator tool -- release GrGen.NET 4.5";
+            lines[2] = " * Copyright (C) 2003-2017 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers";
             lines[3] = " * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)";
             lines[4] = " * www.grgen.net";
             lines[5] = " */";
@@ -144,13 +144,13 @@ namespace ChangeFileHeaders
                 for (int i = 0; i < lines.Length; ++i)
                 {
                     if (lines[i].StartsWith("[assembly: AssemblyVersion("))
-                        lines[i] = "[assembly: AssemblyVersion(\"4.4.0.0\")]";
+                        lines[i] = "[assembly: AssemblyVersion(\"4.5.0.0\")]";
                     if (lines[i].StartsWith("[assembly: AssemblyInformationalVersionAttribute("))
-                        lines[i] = "[assembly: AssemblyInformationalVersionAttribute(\"GrGen.NET 4.4\")]";
+                        lines[i] = "[assembly: AssemblyInformationalVersionAttribute(\"GrGen.NET 4.5\")]";
                     if (lines[i].StartsWith("[assembly: AssemblyFileVersion("))
-                        lines[i] = "[assembly: AssemblyFileVersion(\"4.4.0.0\")]";
+                        lines[i] = "[assembly: AssemblyFileVersion(\"4.5.0.0\")]";
                     if (lines[i].StartsWith("[assembly: AssemblyCopyright("))
-                        lines[i] = "[assembly: AssemblyCopyright(\"Copyright © 2003-2016 Universität Karlsruhe, IPD Goos; and free programmers\")]";
+                        lines[i] = "[assembly: AssemblyCopyright(\"Copyright © 2003-2017 Universität Karlsruhe, IPD Goos; and free programmers\")]";
                     if (lines[i].StartsWith("[assembly: AssemblyCompany("))
                         lines[i] = "[assembly: AssemblyCompany(\"Universität Karlsruhe, IPD Goos\")]";
                 }
@@ -170,8 +170,8 @@ namespace ChangeFileHeaders
             lines.CopyTo(extendedLines, NUM_LINES_TO_ADD);
             
             extendedLines[0] = "/*";
-            extendedLines[1] = " * GrGen: graph rewrite generator tool -- release GrGen.NET 4.4";
-            extendedLines[2] = " * Copyright (C) 2003-2016 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers";
+            extendedLines[1] = " * GrGen: graph rewrite generator tool -- release GrGen.NET 4.5";
+            extendedLines[2] = " * Copyright (C) 2003-2017 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers";
             extendedLines[3] = " * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)";
             extendedLines[4] = " * www.grgen.net";
             extendedLines[5] = " */";

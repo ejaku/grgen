@@ -1,6 +1,6 @@
 ﻿/*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 4.4
- * Copyright (C) 2003-2016 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 4.5
+ * Copyright (C) 2003-2017 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
  */
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ASTdapter")]
 [assembly: AssemblyProduct("ASTdapter")]
 [assembly: AssemblyCompany("Universität Karlsruhe, IPD Goos")]
-[assembly: AssemblyCopyright("Copyright © 2003-2016 Universität Karlsruhe, IPD Goos; and free programmers")]
+[assembly: AssemblyCopyright("Copyright © 2003-2017 Universität Karlsruhe, IPD Goos; and free programmers")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -39,6 +39,6 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("4.4.0.0")]
-[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 4.4")]
-[assembly: AssemblyFileVersion("4.4.0.0")]
+[assembly: AssemblyVersion("4.5.0.0")]
+[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 4.5")]
+[assembly: AssemblyFileVersion("4.5.0.0")]
