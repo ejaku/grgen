@@ -6,8 +6,8 @@ external sequence foo(v1:int, v2:double, v3:Enu, v4:string, v5:boolean) : (r1:in
 external sequence bar(v1:object, v2:object) : (r1:object);
 external sequence isnull(v1:object);
 external sequence bla(v1:N, v2:E) : (r1:N, r2:E);
-external sequence blo(v1:Node, v2:Edge) : (r1:Node, r2:Edge);
-external sequence createEdge(n1:Node, n2:Node) : (e:Edge);
+external sequence blo(v1:Node, v2:Edge) : (r1:Node, r2:AEdge);
+external sequence createEdge(n1:Node, n2:Node) : (e:AEdge);
 external sequence huh;
 
 sequence counterExample1(v1:int, v2:Node) : (r1:int, r2:Node) { {r1=v1; r2=v2;} }
@@ -65,7 +65,7 @@ rule r
 				;> (::a,::b) = bla(m, e)
 				;> (::a,::b) = blo(m, e)
 				;> huh
-				;> (ehh:Edge)=createEdge(n, n)
+				;> (ehh:AEdge)=createEdge(n, n)
 		);
 		exec(filterBase\f1
 				;> filterBase\nomnomnom

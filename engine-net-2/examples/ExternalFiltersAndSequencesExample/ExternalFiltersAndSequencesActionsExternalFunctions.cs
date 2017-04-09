@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "ExternalFiltersAndSequences.grg" on 28.08.2016 22:26:11 Mitteleuropäische Zeit
+// Generated from "ExternalFiltersAndSequences.grg" on 09.04.2017 00:09:37 Mitteleuropäische Zeit
 using System;
 using System.Collections.Generic;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
     public partial class Sequence_blo
     {
         // You must implement the following function in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
-        //public static bool ApplyXGRS_blo(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode var_v1, GRGEN_LIBGR.IEdge var_v2, ref GRGEN_LIBGR.INode var_r1, ref GRGEN_LIBGR.IEdge var_r2)
+        //public static bool ApplyXGRS_blo(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode var_v1, GRGEN_LIBGR.IDEdge var_v2, ref GRGEN_LIBGR.INode var_r1, ref GRGEN_LIBGR.IEdge var_r2)
     }
 
     public partial class Sequence_createEdge
@@ -354,7 +354,7 @@ label_auto_Rule_filterBass: ;
         public static Sequence_blo Instance { get { if(instance==null) instance = new Sequence_blo(); return instance; } }
         private Sequence_blo() : base("blo", SequenceInfo_blo.Instance) { }
 
-        public static bool Apply_blo(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode var_v1, GRGEN_LIBGR.IEdge var_v2, ref GRGEN_LIBGR.INode var_r1, ref GRGEN_LIBGR.IEdge var_r2)
+        public static bool Apply_blo(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode var_v1, GRGEN_LIBGR.IDEdge var_v2, ref GRGEN_LIBGR.INode var_r1, ref GRGEN_LIBGR.IEdge var_r2)
         {
             GRGEN_LIBGR.INode vari_r1 = null;
             GRGEN_LIBGR.IEdge vari_r2 = null;
@@ -369,7 +369,7 @@ label_auto_Rule_filterBass: ;
         public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)        {
             GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;
             GRGEN_LIBGR.INode var_v1 = (GRGEN_LIBGR.INode)sequenceInvocation.ArgumentExpressions[0].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
-            GRGEN_LIBGR.IEdge var_v2 = (GRGEN_LIBGR.IEdge)sequenceInvocation.ArgumentExpressions[1].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
+            GRGEN_LIBGR.IDEdge var_v2 = (GRGEN_LIBGR.IDEdge)sequenceInvocation.ArgumentExpressions[1].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);
             GRGEN_LIBGR.INode var_r1 = null;
             GRGEN_LIBGR.IEdge var_r2 = null;
             if(sequenceInvocation.Subgraph!=null)
