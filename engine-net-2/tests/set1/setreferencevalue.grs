@@ -1,0 +1,8 @@
+new graph set1/set1
+
+new na:A
+
+exec ::m=set<string>{"qux"}
+exec byReference(m)
+
+quit
