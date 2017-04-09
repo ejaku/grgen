@@ -77,3 +77,26 @@ rule useSetVar(ref niceSet:set<string>)
     }
 }
 
+rule byReference(ref storage:set<string>) // parameter passed by-reference
+{
+  n:A;
+	
+  modify {
+    eval {
+      def ref s:set<string> = storage; // by-reference
+      s.add("baz"); // now s and storage are changed
+      emit("1 value of attribute 5 6 ", s, "\n");
+      emit("1 value of attribute 5 6 ", storage, "\n");
+      emit("1 value of attribute 5 6 ", n.a, "\n");
+      n.a = s; // by-value -- different containers
+      n.a.rem("qux"); // only n.a changed
+	  emit("1 value of attribute 5 6 ", s, "\n");
+      emit("1 value of attribute 5 6 ", storage, "\n");
+      emit("1 value of attribute 5 6 ", n.a, "\n");
+      s.rem("baz"); // now s and storage are changed
+	  emit("1 value of attribute 5 6 ", s, "\n");
+      emit("1 value of attribute 5 6 ", storage, "\n");
+      emit("1 value of attribute 5 6 ", n.a, "\n");
+    }
+  }
+}

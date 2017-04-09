@@ -51,3 +51,38 @@ sequence EmitUndirectedEdge {
 sequence EmitUndirectedEdgeFail {
     for{e:MyUndirectedEdge in edges(AEdge); {emit("1 value of attribute 5 6 ", nameof(e), "\n")}}
 }
+
+
+
+rule init2 {
+	modify {
+		n:MyNode -:MyDirectedEdge-> m:Node -:MyUndirectedEdge- n;
+	}
+}
+
+rule copyconstructor
+{
+  modify {
+    eval {
+		def ref snode:set<Node> = nodes(MyNode);
+		def ref sn:set<MyNode> = set<MyNode>(snode);
+		emit("1 value of attribute 5 6 ", snode, "\n");
+		emit("1 value of attribute 5 6 ", sn, "\n");
+		snode = nodes();
+		sn = set<MyNode>(snode);
+		emit("1 value of attribute 5 6 ", snode, "\n");
+		emit("1 value of attribute 5 6 ", sn, "\n");
+		def ref sedge:set<Edge> = edges(MyDirectedEdge);
+		def ref saedge:set<AEdge> = set<AEdge>(sedge);
+		def ref suedge:set<UEdge> = edges(MyUndirectedEdge);
+		emit("1 value of attribute 5 6 ", sedge, "\n");
+		emit("1 value of attribute 5 6 ", saedge, "\n");
+		emit("1 value of attribute 5 6 ", suedge, "\n");
+		saedge.add(suedge.peek(0)); 
+		sedge = set<Edge>(suedge);
+		emit("1 value of attribute 5 6 ", sedge, "\n");
+		emit("1 value of attribute 5 6 ", saedge, "\n");
+		emit("1 value of attribute 5 6 ", suedge, "\n");
+    }
+  }
+}
