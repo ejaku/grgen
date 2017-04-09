@@ -52,7 +52,7 @@ Furthermore, node and edge types may be extended with \emph{methods} in addition
 They may get bundled into \emph{packages}, preventing name collisions.
 And they support the concept of \emph{graph nesting} with attributes of type \texttt{graph}.
 You find more regarding this in Chapter~\ref{cha:modeladvanced}.
-In Chapter~\ref{sec:performance} do you find more on \emph{indices}, which allow you to quickly access the elements of the graph that are of interest to you.
+In Chapter~\ref{cha:performance} do you find more on \emph{indices}, which allow you to quickly access the elements of the graph that are of interest to you.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Building Blocks}
@@ -315,7 +315,7 @@ Defines an \indexed{enum type}.
 An \texttt{enum} type is a collection of so called \emph{\indexed{enum item}s}, which are used to define and name the values you want to distinguish (when using this type within your model). 
 Those are internally associated with integral numbers, which may be specified explicitly.
 Accordingly, a \GrG\ enum can be casted to an \texttt{int} (see Section~\ref{sec:builtintypes}).
-The following notes and examples highlight the relationship of \texttt{enum} items to \texttt{int}egers, but most often you are only interested in the main functionality: the \emph{case distinction} encoded in the enum (and are then free to ignore these finer points). 
+The following notes and examples highlight the relationship of \texttt{enum} items to \texttt{int}egers, but most often you are only interested in the main functionality: the \emph{case distinction} with names encoded in the enum (and are then free to ignore these finer points). 
 
 \begin{note}
 	An enum type and an {\tt int} are different things, but in expressions enum values are implicitly casted to {\tt int} values as needed (see Section~\ref{sec:builtintypes}). The other direction is not available at all, cf. the following Note.
@@ -383,5 +383,10 @@ Use undirected edges, or pretend they are unidirectional.
 \begin{note}
 If you need to mark nodes in the graph, but only very few of them at the same time, think of reflexive edges of a special type. If the marking is sparse, they are the most efficient solution, before attributes, even before visited flags.
 \end{note}
+
+As a concluding remark: the graph model is the thing everything else is built upon.
+It is worthwhile your continued attention.
+When you model things for the first time, you may be lucky in getting it fully right from the start, but it is more likely you find possibilities to make it better and increase its amenability for processing later on -- don't hesitate to improve it then.
+The real star when working with \GrG{} is the adequately-modeled graph representation.
 
 % todo: graphik die ein beispielmodell zeigt und mit pfeilen die konstrukte benennt
