@@ -1,4 +1,4 @@
-\chapter{Indices and Performance Optimization}\label{sec:performance} \indexmain{performance}\indexmain{optimization}
+\chapter{Indices and Performance Optimization}\label{cha:performance} \indexmain{performance}\indexmain{optimization}
 
 The most important point to understand when optimizing for speed is that the expensive task is the search carried out during pattern matching. The effort for rewriting (the dominant theme in graph rewriting literature) is negligible.
 
@@ -341,7 +341,7 @@ rule r {
   n:N{ascending(foo>=5, foo<13)};
 
   modify {
-    emit("The value of attribute i is " + n.i + "\n");
+    emit("The value of attribute i is ", n.i, "\n");
   }
 }
 \end{grgen}
@@ -471,8 +471,8 @@ Please note that the (string-)expression used to compute the name is only allowe
 The name index may be further queried from the rule language expressions with 3 functions:
 \begin{description}
 \item[\texttt{nameof(.)}] returns the name (type string) of the given node or edge (or (sub)graph, a missing argument amounts to the host graph).
-\item[\texttt{nodeByName(.)}] returns the node of the given name, or null if no node of that name exists.
-\item[\texttt{edgeByName(.)}] returns the edge of the given name, or null if no edge of that name exists.
+\item[\texttt{nodeByName(.)}] returns the node of the given name, or null if no node of that name exists. Optionally, a target node type may be given as second argument, then you receive a node of that type as result, or null if no node of that name \emph{and type} exists.
+\item[\texttt{edgeByName(.)}] returns the edge of the given name, or null if no edge of that name exists. Optionally, a target edge type may be given as second argument, then you receive an edge of that type as result, or null if no edge of that name \emph{and type} exists.
 \end{description}
 
 The names are normally automatically assigned (computed from a global counter increased with each element, prepended by the dollar symbol -- unless you specify a name with an attribute initialization list, cf.\ref{sec:attribinitrule}), but you may assign a different name to an attribute element.
@@ -509,7 +509,7 @@ rule r() {
     eval {
       nameof(n) = nameof() + "_" + oldname;
     }
-    emit("The name of the graph element bound to e is " + nameof(e) + "\n");
+    emit("The name of the graph element bound to e is ", nameof(e), "\n");
   }
 }
 \end{grgen}
@@ -554,9 +554,9 @@ Please note that the (int-)expression used to compute the unique id is only allo
 The unique constraint may be further queried from the rule language expressions with the \texttt{uniqueof} function,
 the unique index with the \texttt{nodeByUnique} and \texttt{edgeByUnique} functions:
 \begin{description}
-\item[\texttt{uniqueof(.)}] returns the unqiue id (type int) of the given node or edge (or (sub)graph, a missing argument amounts to the host graph).
-\item[\texttt{nodeByUnique(.)}] returns the node of the given unique id, or null if no node of that unique id exists.
-\item[\texttt{edgeByUnique(.)}] returns the edge of the given unique id, or null if no edge of that unique id exists.
+\item[\texttt{uniqueof(.)}] returns the unique id (type int) of the given node or edge (or (sub)graph, a missing argument amounts to the host graph).
+\item[\texttt{nodeByUnique(.)}] returns the node of the given unique id, or null if no node of that unique id exists. Optionally, a target node type may be given as second argument, then you receive a node of that type as result, or null if no node of that unique id \emph{and type} exists.
+\item[\texttt{edgeByUnique(.)}] returns the edge of the given unique id, or null if no edge of that unique id exists. Optionally, a target edge type may be given as second argument, then you receive a edge of that type as result, or null if no edge of that name \emph{and type} exists.
 \end{description}
 
 The unique ids are automatically assigned (from a global counter increased with each element, but reusing already handed out ids that return to the pool once their element is removed from the graph). In contrast to the names you cannot change the id assignment.
@@ -589,7 +589,7 @@ rule r() {
   if{ uniqueof(n) < uniqueof(m); }
 		
   modify {
-    emit("The unique id of the graph element bound to n is " + uniqueof(n) + "\n");
+    emit("The unique id of the graph element bound to n is ", uniqueof(n), "\n");
   }
 }
 \end{grgen}

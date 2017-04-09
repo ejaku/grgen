@@ -346,6 +346,67 @@ The four argument version behaves as the three argument version, but additionall
 The depth value for the minimum distance of the node to the root node in the result map is counted downwards from the depth requested originally, you must subtract it from the depth requested to get the real distance.
 
 %-----------------------------------------------------------------------------------------------
+\subsection{Subtle Points in the Semantics}\label{sub:subtle}
+
+\subsubsection*{Loops versus Containers}
+A graph query with a for loop iterates the type and/or incidence ringlists which define the graph.
+A graph query returning a set builds a set -- employing the same iteration -- and returns that set.
+That yields two differences:
+\begin{itemize}
+	\item If you iterate the set, this happens in the iteration order of the container that was built -- you'll visit the elements in an order that is different from the original iteration order.
+	\item Duplicates during graph iteration are removed -- this holds for reflexive edges that are visited twice during an incident-edges iteration, once in their role of incoming edge, and once in their role of outgoing edge.
+\end{itemize}
+
+\subsubsection*{Types}
+Graph functions without specified type return a node of type \texttt{Node} or an edge of type \texttt{AEdge}. 
+If a type is specified, they return a node or edge of the specified type.
+
+Graph queries which return a set type return for nodes a \texttt{set<Node>}, irrespective of a/the specified node type. 
+You won't receive a \texttt{set<N>} with \texttt{N} being a node type from your model that you requested in the query.
+
+Graph queries which return a set type return for edges
+\begin{itemize}
+	\item a \texttt{set<Edge>} in case the requested edge type is a directed edge.
+	\item a \texttt{set<UEdge>} in case the requested edge type is an undirected edge.
+	\item a \texttt{set<AEdge>} in case the requested edge type is an arbitrary directed edge, \\or no edge type was specified.
+\end{itemize}
+You won't receive a \texttt{set<E>} with \texttt{E} being an edge type from your model that you requested in the query, but you get a set of the edge root type matching your requested type. 
+This way, you can evade the unspecific \texttt{AEdge}, a recommended practice if you always only use directed edges.
+
+If the behavior regarding set types is not what you want, you can employ a container copy constructor (cf. Chapter~\ref{cha:container}) to obtain a container of your desired type (containing only the elements that match the container element type), see the following two examples.
+
+\begin{example}
+\begin{grgen}
+def ref snode:set<Node> = nodes(N); // nodes returns set<Node> as static type,
+                                    // even if only nodes of type N are returned at runtime
+def ref sn:set<N> = set<N>(snode); // use a container copy constructor for getting
+                                   // a set of intended type (here more concrete type)
+for(n:N in snode) { // this works because the for loop applies an implicit type cast
+                    // this will fail at runtime if snode contains a node
+                    // that is not of type N or one of its subtypes
+}
+for(n:N in sn) { // this will not fail as the container copy constructor 
+                 // filters out nodes of not matching type (without runtime failure)
+}
+\end{grgen}
+\end{example}
+
+\begin{example}
+\begin{grgen}
+def ref sedge:set<Edge> = edges(E); // edges returns set<Edge> as static type
+                                    // (for E extends Edge), even if only edges 
+                                    // of type E are returned at runtime
+def ref saedge:set<AEdge> = set<AEdge>(sedge); // use a container copy constructor 
+                                               // for getting a set of intended type
+                                               // (here more general type)
+saedge.add(uedge); // works for uedge:UEdge, 
+                   // a set of AEdge can also contain undirected edges
+sedge.add(uedge); // fails for the same operation, an undirected edge 
+                  // cannot be added to a set of directed edges
+\end{grgen}
+\end{example}
+
+%-----------------------------------------------------------------------------------------------
 \section{Subgraph Operations}\label{sec:subgraphop}
 
 Several functions and procedures returning and accepting subgraphs are available;

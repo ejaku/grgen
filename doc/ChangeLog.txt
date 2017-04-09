@@ -1,4 +1,35 @@
-﻿v4.4.8 (2016-11-29)
+﻿v4.5 (2017-04-09)
+ Symmetric behavior of UEdge and Edge instead of Edge primacy
+  the graph query functions returning a set of edges return by now:
+   - set<Edge> in case the requested edge type is a directed edge,
+   - set<UEdge> in case the requested edge type is an undirected edge,
+   - set<AEdge> in case the requested edge type is an arbitrarily directed edge, or no edge type is specified
+  
+ The nodeByName, edgeByName, nodeByUnique, edgeByUnique functions support a second type parameter now:
+  the node/edge returned is of the requested type in case they are employed, or null if the type does not match
+  (so the type of return value of the corresponding untyped function is checked, and null is returned in case of mismatch)
+ 
+ Added container copy constructor to rule language
+  for sets: set<S>(o) with o:set<U>
+  for maps: map<S,T>(o) with o:map<U,V>
+  for arrays: array<S>(o) with o:array<U>
+  for deques: deque<S>(o) with o:deque<U>
+ A container is created and filled with the elements of the origin container,
+  which must be of the same type, or in case of nodes/edges of a node/edge type,
+  but not neccessarily the same -- only the elements matching the new type are carried over then
+
+ Added set copy constructor to sequences language
+  (the copy constructors of type map<.,.>/array<.>/deque<.> are not available)
+
+ All emit procedures support multiple comma-separated parameters now
+ 
+ Fixes for a few minor bugs
+
+ Some user manual polishings
+ 
+--------------------------------------------------------------------------------------------------------
+ 
+v4.4.8 (2016-11-29)
  Bugfixes:
   - bitbucket #28: switched to the officially supported way of detecting mono
   - bitbucket #29: indices are now cleared when their graph is cleared

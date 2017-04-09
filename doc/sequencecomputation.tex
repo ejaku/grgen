@@ -19,7 +19,7 @@ As long as the set is still filled the final expression, thus the computation, r
 
 Sequence computations are made available in the sequences for tasks that benefit from state changes and comparisons being embedded directly in the controlling sequence, esp. for variable initializations and loop control.
 But as sequences are existing to control rules and not to do the bulk of the computational work,
-is only a small subset of the rule computations language available in the sequence compuations. 
+is only a small subset of the rule computations language available in the sequence computations. 
 \end{example}
 
 
@@ -218,7 +218,7 @@ The index functions allow to fetch elements based on the name or the unique-id, 
 Available are \texttt{nameof} to fetch the name of a node or edge or graph and \texttt{uniqueof} to fetch the unique id of a node or edge or graph.
 The function \texttt{nodeByName} allows to retrieve a node by its name, \texttt{edgeByName()} does the same for an edge.
 The function \texttt{nodeByUnique} allows to retrieve a node by its unique id, \texttt{edgeByUnique} does the same for an edge.
-You find more on them in \ref{sec:performance}.
+You find more on them in Chapter~\ref{cha:performance}.
 
 \begin{example}
 The sequence expression \verb#{{ def(y) && y.meth(x)>=y.a || @("$1").a+1 != func(x) }}# checks whether the node typed variable \texttt{y} is defined, i.e. not null, and if so compares the return value of a method of that type with an attribute value. If the comparison succeeds, it defines the return value of the expression; in case the definedness check failed or the comparison yields false, is a graph element fetched from the graph by its persistent name \verb#$1#, and its attribute \texttt{a} plus 1 compared against the result of a function call. Then the result of this latter comparison defines the outcome of the expression.
@@ -236,7 +236,7 @@ Elements may be added, removed, or retyped, and nodes may be merged or edges red
 Not available are numerical functions, they are only offered by the computations of the rules. 
 
 \begin{example}
-The sequence compuation \verb#{ (::x)=add(N); (::x)=retype(::x,M); rem(::x) }# adds a newly created node of type \texttt{N} to the graph (storing it in the global variable \verb#::x#), retypes it to \texttt{M}, and finally removes it again from the graph.
+The sequence computation \verb#{ (::x)=add(N); (::x)=retype(::x,M); rem(::x) }# adds a newly created node of type \texttt{N} to the graph (storing it in the global variable \verb#::x#), retypes it to \texttt{M}, and finally removes it again from the graph.
 \end{example}
 
 The second group is built from the operators querying primarily the connectedness of graph elements,
@@ -295,6 +295,7 @@ In addition, they may be read in the sequence expressions, and written in the se
 
 In the sequences only the sequence expressions are available to compute the parameters for the functions and procedures, compared to the full-fledged expressions of the computations language.
 
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Storage Handling in the Sequences}\label{sec:storages}\indexmain{storage}
@@ -312,9 +313,12 @@ Their return value is the changed container, thus they allow to chain method cal
 The methods \texttt{size,empty,peek} in contrast return the size of the container, whether the container is empty, or a certain element from the container and thus can't be chained.
 The indexed query \texttt{v=m[k]} is available on map and array and deque types and returns the element at the specified index,
 the indexed assignment \texttt{a[i]=v} overwrites the element at the specified index.
-Further available are the sequence expression operator \texttt{in} for membership query.
+Further available is the sequence expression operator \texttt{in} for membership query.
 
-The infix operators, the methods specific to a certain container type (i.e. not available for all container types), and the change assignments in contrast are \emph{not} available in the sequence computations, they are \emph{only} supported by the computations in the rule language .
+The infix operators, the methods specific to a certain container type (i.e. not available for all container types), and the change assignments in contrast are \emph{not} available in the sequence computations, they are \emph{only} supported by the computations in the rule language.
+The set copy constructor is supported, the other copy constructors are \emph{not} supported.
+
+\pagebreak
 
 You may iterate in the sequences with a for loop over the elements contained in a storage.
 
@@ -351,6 +355,8 @@ Use the \texttt{copy(.:container):container} function to clone the container bef
 %The first line declares or references a global variable \texttt{x} (without static type) and assigns the newly created, empty set of type \texttt{set<NodeTypeA>} to it as value.
 %The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} and assigns the newly created map of the same type containing a key value pair build from u mapping to v, where u is assumed to be a variable of node type and v to be a variable of edge type.
 %\end{example}
+
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quick Reference Table}

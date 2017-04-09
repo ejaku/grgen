@@ -54,6 +54,15 @@ If you want to use the type-safe interface, use the interface \texttt{IBar}, and
 If you want to use the generic interface, your entry point is the \texttt{IGraphModel}, with \texttt{INodeModel.GetType("Bar")} returning a \texttt{NodeType}, used in \texttt{IGraph.AddNode(NodeType)} returning an \texttt{INode}.
 \end{note}
 
+The interface types for the node and edge root types are supplied already in libGr and are thus common to all graph rewrite systems (this allows for the generic handling); 
+they are available as the \texttt{INode} interface for the \texttt{Node} root node type, 
+as the \texttt{IEdge} interface for the \texttt{AEdge} root edge type, 
+as well as the \texttt{IDEdge} interface for the directed \texttt{Edge} root edge type and the \texttt{IUEdge} interface for the undirected \texttt{UEdge} root edge type 
+(in signatures \texttt{IEdge} is used, the more concrete interface types allow to obtain directedness information directly from the .NET type).
+
+The interfaces of the types you specified in the model are generated, as well as the backing implementation types of all those interface types.
+
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interface to the Rules}

@@ -85,8 +85,8 @@ It may be a text file (the one output was redirected to, see the \texttt{redirec
 The following syntax diagram gives an extensions to the syntax diagrams of the Subpatterns chapter \ref{cha:sub}:
 \begin{rail}
   SubpatternExecEmit:
-		'emithere' '(' StringExpr ')' ';' |
-		'emit' '(' StringExpr ')' ';' |
+		'emithere' '(' (StringExpr + ',') ')' ';' |
+		'emit' '(' (StringExpr + ',') ')' ';' |
 		'exec' '(' RewriteSequence ')' ';'
 	;
 \end{rail}\ixnterm{SubpatternExecEmit}\ixkeyw{emithere}

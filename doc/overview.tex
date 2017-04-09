@@ -205,7 +205,7 @@ This process is programmed at specification time utilizing a graph model languag
 
 %------------------------------------------------------------------------------------
 \subsection{Graph Model Language}
-At the foundation you find the graph model (meta-model) language given with \texttt{class} definitions in the style of an object-oriented language, with some influences of data definition languages as offered by databases. 
+At the foundation you find the graph model (meta-model) language given with \texttt{class} definitions in the style of an object-oriented programming language, with some influences of data definition languages as offered by databases. 
 
 It allows you to specify \emph{node} and \emph{edge types}, with \emph{multiple inheritance} on the types (see Chapter \ref{chapmodellang}).
 They are used in building a typed, directed multigraph (supporting multiple edges of the same type between two nodes).
@@ -215,7 +215,7 @@ Furthermore, connection assertions allow you to restrict the ``shape'' of the gr
 Node and edge types can be equipped with \emph{typed attributes}, of the commonly known elementary types (integer and floating-point numbers, strings, booleans, and enums) or of some container types (available are hashmap and array based types).
 In addition, methods supporting dynamic dispatch may be given.%(they are seldom needed for tasks based on graph-representations, though). 
 
-Moreover, you may configure indices (see Chapter \ref{sec:performance}): attribute indices for a quick lookup of a graph element based on the attribute value, or incidence count indices for a quick lookup based on the number of incident edges.
+Moreover, you may configure indices (see Chapter~\ref{cha:performance}): attribute indices for a quick lookup of a graph element based on the attribute value, or incidence count indices for a quick lookup based on the number of incident edges.
 Several indices are already built-in and automatically used by the pattern matchers, notably the type index for quick lookups based on element type, and the incident elements index giving access to the neighbouring elements in constant time.
 
 %------------------------------------------------------------------------------------

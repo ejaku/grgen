@@ -34,12 +34,15 @@ and \texttt{peek} to return an element from the container.
 
 In addition to those common methods there is special syntax support available.
 Left associative binary expressions allow to compute a new container from two input containers, or to compare two containers.
-Indexed access returns an element at an index position, and indexed assignment overwrites an element at a specified position with another one.
-Container typed variables as such may be assigned a container, employing value semantics.
-Compound assignments combine a binary expression with an assignment.
 The \texttt{in} operator allows to query for containment.
-Constructor literals may be used to create and initialize containers.
+Indexed access returns an element at an index position, and indexed assignment overwrites an element at a specified position with another one.
+Container typed variables as such may be assigned a container (with value semantics if the target is a graph element attribute, in all other cases with reference semantics).
+Compound assignments combine a binary expression with an assignment.
+
+Constructor literals may be used to create and initialize containers;
+a copy constructor allows to get a new container, of duplicated content and potentially different type.
 And finally iteration over the elements in the container is supported with a \texttt{for} loop.
+
 These operations are available in the rule language, as an extension of the expressions from \ref{cha:typeexpr} and the computation statements from \ref{cha:computations}; 
 most of them are available in the sequence computations language, too
 (\ref{sec:storages} will tell about the differences compared to the rule language).
@@ -58,7 +61,8 @@ Set expressions consist of the known mathematical set operations, plus some oper
   Assignment: SetEntity '=' SetExpr ;
   CompoundAssignment: SetEntity SetOperator '=' Expr ChangeAssignment? ;
   SetConstructor: 'set' '<' Type '>' \\ lbrace ( Expression*',' ) rbrace ;
-\end{rail}\ixnterm{MethodCall}\ixnterm{SetExpr}\ixkeyw{in}\ixnterm{SetOperator}\ixnterm{CompoundAssignment}\ixnterm{SetConstructor}
+  SetCopyConstructor: 'set' '<' Type '>' '(' SetExpr ')' ;
+\end{rail}\ixnterm{MethodCall}\ixnterm{SetExpr}\ixkeyw{in}\ixnterm{SetOperator}\ixnterm{CompoundAssignment}\ixnterm{SetConstructor}\ixnterm{SetCopyConstructor}
 
 \noindent The query method calls on sets are:
 
@@ -134,6 +138,9 @@ The \emph{SetConstructor} extends the \emph{Literal} from \ref{literaldef} (as a
 It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
 It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
 The elements given in the type constructor are casted to the specified member type if needed and possible.
+The \emph{SetCopyConstructor} creates a new set of the specified type, filling it with the elements from the old set. 
+In case of a node or edge type, the types of the original and the constructed set are allowed to differ, 
+only the elements from the old set that match the type of the new set are taken over then (this is a remedy for set value type invariance).
 
 %\begin{note}
 %To add a value to a set you may use set union with a single valued set constructor,
@@ -181,7 +188,8 @@ Map expressions consist of the known mathematical set operations extended to map
   IndexedAssignment: MapEntity '[' IndexExpr ']' '=' Expr ;
   CompoundAssignment: MapEntity MapOperator '=' Expr ChangeAssignment? ;
   MapConstructor: 'map' '<' Type ',' Type '>' \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
-\end{rail}\ixnterm{MethodCall}\ixnterm{MapExpr}\ixkeyw{in}\ixnterm{MapOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{MapConstructor}
+  MapCopyConstructor: 'map' '<' Type ',' Type '>' '(' MapExpr ')' ;
+\end{rail}\ixnterm{MethodCall}\ixnterm{MapExpr}\ixkeyw{in}\ixnterm{MapOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{MapConstructor}\ixnterm{MapCopyConstructor}
 
 \noindent The query method calls on maps are:
 
@@ -253,6 +261,9 @@ The \emph{MapConstructor} extends the \emph{Literal} from \ref{literaldef} (as a
 It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
 It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
 The elements given in the type constructor are casted to the specified member types if needed and possible.
+The \emph{MapCopyConstructor} creates a new map of the specified types, filling it with the elements from the old map. 
+In case of a node or edge type, the types of the original and the constructed map are allowed to differ, 
+only the elements from the old map that match the type of the new map are taken over then (this is a remedy for map key/value type invariance).
 
 %\begin{note}
 %To add a (key,value)-pair to a map you may use map union with a single valued map constructor,
@@ -302,7 +313,8 @@ Array expressions consist of array membership checking, array value lookup, and 
   IndexedAssignment: ArrayEntity '[' IndexExpr ']' '=' Expr ;
   CompoundAssignment: ArrayEntity ArrayOperator '=' Expr ChangeAssignment? ;
   ArrayConstructor: 'array' '<' Type '>' \\ '[' ( Expression*',' ) ']' ;
-\end{rail}\ixnterm{MethodCall}\ixnterm{ArrayExpr}\ixkeyw{in}\ixnterm{ArrayOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{ArrayConstructor}
+  ArrayCopyConstructor: 'array' '<' Type '>' '(' ArrayExpr ')' ;
+\end{rail}\ixnterm{MethodCall}\ixnterm{ArrayExpr}\ixkeyw{in}\ixnterm{ArrayOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{ArrayConstructor}\ixnterm{ArrayCopyConstructor}
 
 \noindent The query method calls on arrays are:
 
@@ -396,6 +408,9 @@ The \emph{ArrayConstructor} extends the \emph{Literal} from \ref{literaldef} (as
 It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
 It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
 The elements given in the type constructor are casted to the specified member types if needed and possible.
+The \emph{ArrayCopyConstructor} creates a new array of the specified type, filling it with the elements from the old array. 
+In case of a node or edge type, the types of the original and the constructed array are allowed to differ, 
+only the elements from the old array that match the type of the new array are taken over then (this is a remedy for array value type invariance).
 
 \begin{example}
 An example explaining some array operations.
@@ -434,7 +449,8 @@ Deque expressions consist of deque membership checking, deque value lookup, and 
   IndexedAssignment: DequeEntity '[' IndexExpr ']' '=' Expr ;
   CompoundAssignment: DequeEntity DequeOperator '=' Expr ChangeAssignment? ;
   DequeConstructor: 'deque' '<' Type '>' \\ ']' ( Expression*',' ) '[' ;
-\end{rail}\ixnterm{MethodCall}\ixnterm{DequeExpr}\ixkeyw{in}\ixnterm{DequeOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{DequeConstructor}
+  DequeCopyConstructor: 'deque' '<' Type '>' '(' DequeExpr ')' ;
+\end{rail}\ixnterm{MethodCall}\ixnterm{DequeExpr}\ixkeyw{in}\ixnterm{DequeOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{DequeConstructor}\ixnterm{DequeCopyConstructor}
 
 \noindent The query method calls on deques are:
 
@@ -510,6 +526,9 @@ The \emph{DequeConstructor} extends the \emph{Literal} from \ref{literaldef} (as
 It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
 It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
 The elements given in the type constructor are casted to the specified member types if needed and possible.
+The \emph{DequeCopyConstructor} creates a new deque of the specified type, filling it with the elements from the old deque. 
+In case of a node or edge type, the types of the original and the constructed deque are allowed to differ, 
+only the elements from the old deque that match the type of the new deque are taken over then (this is a remedy for deque value type invariance).
 
 \begin{note}
 The double ended queue allows for fast addition and removal both at the frond and at the back, in contrast to arrays that only support this at the end.
@@ -617,6 +636,9 @@ As remedy the \texttt{copy} function may be used to clone the container before t
 \item[\texttt{copy(deque<T>):deque<T>}] returns a clone of the original deque given as argument.
 \end{description}
 
+The container copy constructors could be used instead, but they are syntactically a bit less convenient as the type must be specified
+ -- which is important for their intended use, to get a storage with a different node or edge type, containing only the elements matching that type.
+
 \begin{example}
 The container state change methods \texttt{add} and \texttt{rem} allow to add graph elements to storages or remove graph elements from storages, i.e. sets or maps or arrays or deques holding nodes and edges used for rewrite in the calling sequence (cf. \ref{sec:storages}).
 This way you can write transformations consisting of several passes with one pass operating on nodes/edges determined in a previous pass,
@@ -635,6 +657,29 @@ rule foo(ref storage:set<Node>)
 \end{example}
 
 \begin{example}
+The containers are passed as parameters by reference, so only a reference is copied, and changes inside are visible outside.
+The containers are assigned between variables in computations by reference, so only a reference is copied, and changes of one variable are visible in other variables referencing the same container.
+But when a container is assigned to a node or edge attribute, it is copied by value. 
+So this is an O(n) operation instead of an O(1) operation, yielding clearly worse performance -- but the side effects of having references to a shared container would be mind-wrecking here.
+If you want to change a node or edge attribute of container type, you should use for performance reasons \texttt{add}, \texttt{rem}, and indexed assignments (this esp. holds if you are using transactions).
+	\begin{grgen}
+rule foo(ref storage:set<Node>) // parameter passed by-reference
+{
+  n:N; // assuming an attribute a:set<Node>
+	
+  modify {
+    eval {
+      def ref s:set<Node> = storage; // by-reference
+      s.add(n); // now s and storage are changed
+      n.a = s; // by-value -- different containers
+      n.a.rem(n); // only n.a changed
+    }
+  }
+}
+	\end{grgen}
+\end{example}
+
+\begin{example}
 Some examples of container literals:
 \begin{grgen}
 set<string>{ "foo", "bar" } // a constant set<string> constructor
@@ -644,3 +689,19 @@ deque<int>] 1,2,3 [ // a constant deque<int> constructor
 \end{grgen}
 \end{example}\label{containerconstructorex}
 
+\begin{example}
+A container copy constructor creates a full copy for storages of a more general or the same graph element type than the one stored in the original container.
+It creates a partial copy with only the elements matching if the type specified is more specific than the one of the original container.
+	\begin{grgen}
+procedure foo(ref storage:set<Node>)
+{
+    def ref s:set<N> = set<N>(storage); // constructs new set containing the elements 
+                                        // from storage that are of type N or a subtype
+    for(n:N in s) { // safe at runtime, only N contained
+      doSomething(n);
+    }
+    // for(n:N in storage) is allowed - implicitly casted - but could fail at runtime
+    return;
+}
+	\end{grgen}
+\end{example}
