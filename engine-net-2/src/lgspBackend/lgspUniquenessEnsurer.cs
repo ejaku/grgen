@@ -40,6 +40,7 @@ namespace de.unika.ipd.grGen.lgsp
             heap.Add(-1); // we start at index 1, yields simpler arithmetic
 
             // subscribe to events we've to listen to ensure unique ids for the graph elements with a minimum amount of gaps
+            graph.OnClearingGraph += ClearingGraph;
             graph.OnNodeAdded += NodeAdded;
             graph.OnEdgeAdded += EdgeAdded;
             graph.OnRemovingNode += RemovingNode;
@@ -57,6 +58,14 @@ namespace de.unika.ipd.grGen.lgsp
             heap.Clear(); // remove the -1
             heap.Capacity = original.heap.Capacity;
             heap.AddRange(original.heap);
+        }
+
+        public virtual void ClearingGraph()
+        {
+            nextNewId = 0;
+
+            heap.Clear();
+            heap.Add(-1); // we start at index 1, yields simpler arithmetic
         }
 
         public virtual void NodeAdded(INode node)
@@ -252,6 +261,13 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new Exception("Internal error, uniqueness index constructed although access by unique id was not requested");
 
             index = new List<IGraphElement>();
+        }
+
+        public override void ClearingGraph()
+        {
+            base.ClearingGraph();
+
+            index.Clear();
         }
 
         public override void FillAsClone(LGSPGraph originalGraph, IDictionary<IGraphElement, IGraphElement> oldToNewMap)

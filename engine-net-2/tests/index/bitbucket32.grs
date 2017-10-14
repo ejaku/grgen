@@ -1,0 +1,15 @@
+new graph "index/bitbucket32"
+
+exec setup
+
+exec search
+
+exec searchNonIndex
+
+clear graph
+
+exec search
+
+exec searchNonIndex
+
+quit
