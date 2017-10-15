@@ -1,0 +1,11 @@
+new graph "index/bitbucket32"
+
+exec setup
+
+exec onCloneSearch
+
+exec setup
+
+exec onCloneSearchNonIndex
+
+quit
