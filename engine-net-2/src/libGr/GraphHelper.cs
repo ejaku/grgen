@@ -4814,15 +4814,10 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static IGraph Copy(IGraph sourceGraph)
         {
-            IGraph targetGraph = sourceGraph.CreateEmptyEquivalent(sourceGraph.Name);
-            if(sourceGraph is INamedGraph)
-                CopyNamed((INamedGraph)sourceGraph, (INamedGraph)targetGraph, null);
-            else
-                CopyUnnamed(sourceGraph, targetGraph, null);
-            return targetGraph;
+            return sourceGraph.Clone(sourceGraph.Name);
         }
 
-        private static INode CopyNamed(INamedGraph sourceGraph, INamedGraph targetGraph, INode rootNode)
+        /*private static INode CopyNamed(INamedGraph sourceGraph, INamedGraph targetGraph, INode rootNode)
         {
             Dictionary<INode, INode> originalToCopy = new Dictionary<INode, INode>();
             foreach(INode node in sourceGraph.Nodes)
@@ -4837,7 +4832,7 @@ namespace de.unika.ipd.grGen.libGr
                 targetGraph.AddEdge(copy, sourceGraph.GetElementName(edge));
             }
             return rootNode != null ? originalToCopy[rootNode] : null;
-        }
+        }*/
 
         private static INode CopyUnnamed(IGraph sourceGraph, IGraph targetGraph, INode rootNode)
         {

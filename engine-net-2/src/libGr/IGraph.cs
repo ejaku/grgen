@@ -410,7 +410,7 @@ namespace de.unika.ipd.grGen.libGr
         IGraph Clone(String newName);
 
         /// <summary>
-        /// Duplicates a graph, assigning names.
+        /// Duplicates a graph, assigning names. (Don't use this on a named graph.)
         /// The new graph will use the same model and backend as the other.
         /// </summary>
         /// <returns>A new named graph with the same structure as this graph.</returns>
