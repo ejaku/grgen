@@ -1319,7 +1319,17 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Edges(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.EdgeType)">
             <summary>
-            Returns the edges in the graph of the type given, as set
+            Returns the edges in the graph of the type given, as set of IEdge
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.EdgesDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.EdgeType)">
+            <summary>
+            Returns the directed edges in the graph of the type given, as set of IDEdge
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.EdgesUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.EdgeType)">
+            <summary>
+            Returns the undirected edges in the graph of the type given, as set of IUEdge
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.CountNodes(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.NodeType)">
@@ -1367,14 +1377,44 @@
             Returns set of edges incident to the start node, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IncidentDirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of directed edges incident to the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IncidentUndirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of undirected edges incident to the start node, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Outgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
             Returns set of edges outgoing from the start node, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.OutgoingDirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of directed edges outgoing from the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.OutgoingUndirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of undirected edges outgoing from the start node, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Incoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
             Returns set of edges incoming to the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IncomingDirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of directed edges incoming to the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IncomingUndirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of undirected edges incoming to the start node, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.CountIncident(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
@@ -1442,9 +1482,29 @@
             Returns set of edges reachable from the start node, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of edges reachable from the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of edges reachable from the start node, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdges(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Fills set of edges reachable from the start node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesDirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Fills set of directed edges reachable from the start node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesUndirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Fills set of undirected edges reachable from the start node, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
@@ -1452,9 +1512,29 @@
             Returns set of outgoing edges reachable from the start node, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoingDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of outgoing directed edges reachable from the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoingUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of outgoing undirected edges reachable from the start node, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Fills set of outgoing edges reachable from the start node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoingDirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Fills set of outgoing directed edges reachable from the start node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoingUndirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Fills set of outgoing undirected edges reachable from the start node, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncoming(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
@@ -1462,9 +1542,29 @@
             Returns set of incoming edges reachable from the start node, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncomingDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of incoming edges reachable from the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncomingUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of incoming edges reachable from the start node, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Fills set of incoming edges reachable from the start node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncomingDirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Fills set of incoming directed edges reachable from the start node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncomingUndirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Fills set of incoming undirected edges reachable from the start node, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.CountReachableEdges(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
@@ -1547,9 +1647,29 @@
             Returns set of edges reachable from the start node within the given depth, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of directed edges reachable from the start node within the given depth, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of undirected edges reachable from the start node within the given depth, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdges(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Fills set of edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesDirected(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Fills set of directed edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesUndirected(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Fills set of undirected edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
@@ -1557,9 +1677,29 @@
             Returns set of outgoing edges reachable from the start node within the given depth, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesOutgoingDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of outgoing directed edges reachable from the start node within the given depth, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesOutgoingUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of outgoing undirected edges reachable from the start node within the given depth, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Fills set of outgoing edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesOutgoingDirected(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Fills set of outgoing directed edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesOutgoingUndirected(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Fills set of outgoing undirected edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesIncoming(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
@@ -1567,9 +1707,29 @@
             Returns set of incoming edges reachable from the start node within the given depth, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesIncomingDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of incoming directed edges reachable from the start node within the given depth, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesIncomingUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Returns set of incoming undirected edges reachable from the start node within the given depth, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesIncoming(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Fills set of incoming edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesIncomingDirected(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Fills set of incoming directed edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesIncomingUndirected(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Fills set of incoming undirected edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.CountBoundedReachableEdges(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
@@ -1742,9 +1902,24 @@
             Returns the induced subgraph of the given node set
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.DefinedSubgraph(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns the edge induced/defined subgraph of the given edge set of unknown direction
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.DefinedSubgraph(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Returns the edge induced/defined subgraph of the given edge set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.DefinedSubgraphDirected(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns the edge induced/defined subgraph of the given directed edge set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.DefinedSubgraphUndirected(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns the edge induced/defined subgraph of the given undirected edge set
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.InsertInduced(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IGraph)">
@@ -1754,10 +1929,31 @@
             the root node is processed as if it was in the given node set even if it isn't
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.InsertDefined(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Inserts a copy of the edge induced/defined subgraph of the given edge set to the graph
+            returns the copy of the dedicated root edge
+            the root edge is processed as if it was in the given edge set even if it isn't
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.InsertDefined(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Inserts a copy of the edge induced/defined subgraph of the given edge set to the graph
             returns the copy of the dedicated root edge
+            the root edge is processed as if it was in the given edge set even if it isn't
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.InsertDefinedDirected(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Inserts a copy of the edge induced/defined subgraph of the given directed edge set to the graph
+            returns the copy of the dedicated directed root edge
+            the root edge is processed as if it was in the given edge set even if it isn't
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.InsertDefinedUndirected(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Inserts a copy of the edge induced/defined subgraph of the given undirected edge set to the graph
+            returns the copy of the dedicated undirected root edge
             the root edge is processed as if it was in the given edge set even if it isn't
             </summary>
         </member>
@@ -1857,6 +2053,16 @@
             Returns the edges in the graph of the type given, as set
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.EdgesDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.EdgeType,System.Int32)">
+            <summary>
+            Returns the directed edges in the graph of the type given, as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.EdgesUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.EdgeType,System.Int32)">
+            <summary>
+            Returns the undirected edges in the graph of the type given, as set
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.CountNodes(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
             <summary>
             Returns the count of the nodes in the graph of the type given
@@ -1902,14 +2108,44 @@
             Returns set of edges incident to the start node, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IncidentDirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of directed edges incident to the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IncidentUndirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of undirected edges incident to the start node, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Outgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
             <summary>
             Returns set of edges outgoing from the start node, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.OutgoingDirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of directed edges outgoing from the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.OutgoingUndirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of undirected edges outgoing from the start node, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Incoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
             <summary>
             Returns set of edges incoming to the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IncomingDirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of directed edges incoming to the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.IncomingUndirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of undirected edges incoming to the start node, under the type constraints given
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.CountIncident(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
@@ -1977,9 +2213,29 @@
             Returns set of edges reachable from the start node, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of directed edges reachable from the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of undirected edges reachable from the start node, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdges(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
             <summary>
             Fills set of edges reachable from the start node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesDirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
+            <summary>
+            Fills set of directed edges reachable from the start node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesUndirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
+            <summary>
+            Fills set of undirectd edges reachable from the start node, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
@@ -1987,9 +2243,29 @@
             Returns set of outgoing edges reachable from the start node, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoingDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of outgoing directed edges reachable from the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoingUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of outgoing undirected edges reachable from the start node, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
             <summary>
             Fills set of outgoing edges reachable from the start node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoingDirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
+            <summary>
+            Fills set of outgoing directed edges reachable from the start node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesOutgoingUndirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
+            <summary>
+            Fills set of outgoing undirected edges reachable from the start node, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncoming(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
@@ -1997,9 +2273,29 @@
             Returns set of incoming edges reachable from the start node, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncomingDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of incoming directed edges reachable from the start node, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncomingUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of incoming undirected edges reachable from the start node, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncoming(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
             <summary>
             Fills set of incoming edges reachable from the start node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncomingDirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
+            <summary>
+            Fills set of incoming directed edges reachable from the start node, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.ReachableEdgesIncomingUndirected(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,System.Int32)">
+            <summary>
+            Fills set of incoming undirected edges reachable from the start node, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.CountReachableEdges(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
@@ -2082,9 +2378,29 @@
             Returns set of edges reachable from the start node within the given depth, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of directed edges reachable from the start node within the given depth, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of undirected edges reachable from the start node within the given depth, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdges(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,System.Int32)">
             <summary>
             Fills set of edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesDirected(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,System.Int32)">
+            <summary>
+            Fills set of directed edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesUndirected(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,System.Int32)">
+            <summary>
+            Fills set of undirected edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
@@ -2092,14 +2408,54 @@
             Returns set of outgoing edges reachable from the start node within the given depth, under the type constraints given
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesOutgoingDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of outgoing directed edges reachable from the start node within the given depth, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesOutgoingUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of outgoing undirected edges reachable from the start node within the given depth, under the type constraints given
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesOutgoing(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,System.Int32)">
             <summary>
             Fills set of outgoing edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesOutgoingDirected(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,System.Int32)">
+            <summary>
+            Fills set of outgoing directed edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesOutgoingUndirected(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,System.Int32)">
+            <summary>
+            Fills set of outgoing undirected edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesIncoming(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
             <summary>
             Returns set of incoming edges reachable from the start node within the given depth, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesIncomingDirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of incoming directed edges reachable from the start node within the given depth, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesIncomingUndirected(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Returns set of incoming undirected edges reachable from the start node within the given depth, under the type constraints given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesIncomingDirected(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IDEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,System.Int32)">
+            <summary>
+            Fills set of incoming directed edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesIncomingUndirected(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IUEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,System.Int32)">
+            <summary>
+            Fills set of incoming undirected edges reachable from the start node within the given depth, under the type constraints given, in a depth-first walk
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.BoundedReachableEdgesIncoming(de.unika.ipd.grGen.libGr.INode,System.Int32,de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.INode,System.Int32},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,System.Int32)">
@@ -3390,7 +3746,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IEdge">
             <summary>
-            A GrGen edge
+            A GrGen edge (arbitrary direction)
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IEdge.Type">
@@ -3432,6 +3788,16 @@
             <param name="newSource">The new source node for the new edge.</param>
             <param name="newTarget">The new target node for the new edge.</param>
             <returns>A copy of this edge.</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IDEdge">
+            <summary>
+            A directed GrGen edge
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IUEdge">
+            <summary>
+            An undirected GrGen edge
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.DumpMatchSpecial">
             <summary>
@@ -4047,7 +4413,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.CloneAndAssignNames">
             <summary>
-            Duplicates a graph, assigning names.
+            Duplicates a graph, assigning names. (Don't use this on a named graph.)
             The new graph will use the same model and backend as the other.
             </summary>
             <returns>A new named graph with the same structure as this graph.</returns>

@@ -1329,7 +1329,7 @@
             <summary>
             Class representing a yielding indexed assignment executed after the match was found
             writing a value computed from the right expression
-            into the position at the given index of the left def variable of type array (TODO: extend to map)
+            into the position at the given index of the left def variable
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.YieldChangeAssignment">
