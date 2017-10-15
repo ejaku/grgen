@@ -220,7 +220,7 @@ but persistence of online modifications is only offered via recording to a chang
 (besides writing a full dump from memory at session end, as it is common to batch-wise offline processing).
 
 \GrG\ is not suited for scenarios where the limits of main memory are exceeded.
-A well equipped single sever with 128GB of main memory is capable of storing somewhat under about 500 Million nodes plus 1 Billion edges (naked, without attributes and without names), see Chapter \ref{sec:performance} for the maths.
+A well equipped single sever with 128GB of main memory is capable of storing somewhat under about 500 Million nodes plus 1 Billion edges (naked, without attributes and without names), see Chapter \ref{cha:performance} for the maths.
 This should be sufficient for many tasks, but still there are task that grow beyond it.
 Besides, other things come into play at that sizes: importing such a graph will take some time, maybe longer than you're willing to wait -- the GRS importer is munching at some ten thousand elements per second.
 Databases that work on a backing store and only shuffle in the data visited are at an advantage here (amortizing import cost over the course of processing).
