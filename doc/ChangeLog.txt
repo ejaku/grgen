@@ -1,5 +1,14 @@
-﻿v4.5 (2017-04-09)
+﻿v4.5.1 (2017-10-15)
+ Bugfixes for bitbucket #32:
+  - uniqueness constraint and index are now cleared when their graph is cleared
+  - copy(graph):graph is now implemented with IGraph.Clone() (also cloning the indices),
+    instead of an element-wise copy from the outside (being unstable regarding indices)
+  
+  A few user manual polishings and fixes
+  
+v4.5 (2017-04-09)
  Symmetric behavior of UEdge and Edge instead of Edge primacy
+  introduced IDEdge and IUEdge interface types in addition to IEdge (representing AEdge)
   the graph query functions returning a set of edges return by now:
    - set<Edge> in case the requested edge type is a directed edge,
    - set<UEdge> in case the requested edge type is an undirected edge,

@@ -527,7 +527,7 @@ The uniqueness \emph{index} ensures in addition that you can fetch a graph eleme
 You may see it as a key-value store from the unique ids to their graph elements.
 This one is realized with an array of unique ids to graph elements.
 So lookup is carried out efficiently in $O(1)$ either way.
-Maintaining the uniqueness information is somewhere between $O(1)$ and $O(log(n))$, as the ids of deleted elements have to be stored in a heap (the data structure, not the memory model) for quick reuse of the lowest one (this way we ensure a maximally packed id range, which is of importance to keep the index array and the is-matched-bit-arrays of the parallelized matchers small and packed).
+Maintaining the uniqueness information is in $O(log(n))$, but much less on average, as the ids of deleted elements have to be stored in a heap (the data structure, not the memory model) for quick reuse of the lowest one upon graph element addition (this way we ensure a maximally packed id range, which is of importance to keep the index array and the is-matched-bit-arrays of the parallelized matchers small and packed).
 A uniqueness index does not allow multiple elements per indexed property (which is here the unique id), like the name index, and in contrast to the attribute and incidence count indices.
 
 \subsubsection*{Declaration in the model}
@@ -599,7 +599,7 @@ rule r() {
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Location passing and memorization}
+\section{Location Passing and Memorization}
 Often in a transformation you know the location that needs processing from a previous step.
 In this case, return these locations out from the rules, store them in variables of node (or edge) type, and hand them in again via rule arguments to the follow-up rules.
 Or call embedded rules, directly handing elements from the rule, saving you the intermediate assignments.
