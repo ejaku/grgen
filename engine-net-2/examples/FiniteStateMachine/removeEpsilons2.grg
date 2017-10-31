@@ -1,8 +1,11 @@
 // graph rewrite rule file, shows how tests (rules without rewrite) look like,
 // how negative patterns look like, preventing the nesting pattern to match if they match,
 // and showing the non-extending semantics of negatives,
-//  i.e. elements from the outside can get matched again unless they are referenced by name
-// before was removeEpsilons1.grg, next is removeEpsilons2b.grg
+//  i.e. elements from the outside can get matched again (hom to all outside elements) unless they are referenced by name
+// the rule will match again and again the same spot, uncommenting the contained negative will prevent this,
+//  but it will also prevent the rule from matching in the example, because a transition is already existing in between x and z
+//  the pattern is too coarse grain, we need type and attribute constraints
+// before was removeEpsilons1b.grg, next is removeEpsilons2b.grg
 
 #using "NFAModel.gm"
 
@@ -23,9 +26,9 @@ test checkDoublettes {
 rule forwardTransition {
     x:State -:EpsilonTransition-> y:State -e:Transition-> z:State;
     hom(y,z);
-    negative {
+    /*negative {
         x -exists:Transition-> z;
-    }
+    }*/
 
     modify {
         x -forward:typeof(e)-> z;

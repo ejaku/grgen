@@ -1,6 +1,6 @@
 // rule file containing rules and subpatterns, with the subpattern using itself recursively
 // and, in contrast to the previous example containing a modify part to change the structure (reversing the edges just for the sake of example)
-// plus creating another list being equivalent in structure
+// plus creating another list being equivalent in structure, attaching it to another method body handed in (to-parameter)
 // to achive this goal a subpattern modify parameter is used to hand in the newly created previous point of the list duplicate
 //  (which is not/can't be available in the pattern); rewriting/creation part by part
 // before was ProgramGraphs3b.grg, next is ProgramGraphs3d.grg
@@ -25,11 +25,13 @@ pattern Statements(exOrMb:Entity) modify(to:Entity)
 		Assignment {
 			exOrMb -n:next-> e:Expression;
 			e -:writesTo->;
+			
 			st:Statements(e);
 
 			modify {
 				delete(n);
 				exOrMb <-:next- e;
+				
 				to -:next-> ne:Expression;
 				st(ne);
 			}
@@ -37,11 +39,13 @@ pattern Statements(exOrMb:Entity) modify(to:Entity)
 		Call {
 			exOrMb -n:next-> e:Expression;
 			e -:calls->;
+			
 			st:Statements(e);
 
 			modify {
 				delete(n);
 				exOrMb <-:next- e;
+				
 				to -:next-> ne:Expression;
 				st(ne);
 			}
@@ -49,11 +53,13 @@ pattern Statements(exOrMb:Entity) modify(to:Entity)
 		Return {
 			exOrMb -n:next-> e:Expression;
 			e -:uses->;
+			
 			st:Statements(e);
 
 			modify {
 				delete(n);
 				exOrMb <-:next- e;
+				
 				to -:next-> ne:Expression;
 				st(ne);
 			}

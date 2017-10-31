@@ -1,9 +1,12 @@
 // rule file containing rules/tests containing alternative patterns showing how to match patterns
-//  with a common part and different alternative parts
+//  with a common part and different alternative parts (variants, comparable to switch-case-constructs in common programming languages)
 // showing how alternatives can be nested, and that an alternative case may need a negative to prevent a match,
 //  esp. of the empty pattern, as the order of trying the alternative cases is undefined
 // showing that alternatives may contain a nested rewrite part,
 //  i.e. they allow you to specify a change, not only a pattern
+// conceptually, we match the first statement inside a method body,
+//  which is distinguished into assignments, calls, returns, or simply an empty method body by a pattern and the usage of different edges in those cases
+// the extended rule also modifies the found spots, and matches the value-yielding expression of an assignment, distinguishing it into a call or an attribute usage
 // before was ProgramGraphs0.grg, next is ProgramGraphs2.grg
 
 #using "ProgramGraphs.gm"

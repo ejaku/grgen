@@ -19,16 +19,19 @@ pattern Statements(exOrMb:Entity)
 		Assignment {
 			exOrMb -:next-> e:Expression;
 			e -:writesTo->;
+			
 			st:Statements(e);
 		}
 		Call {
 			exOrMb -:next-> e:Expression;
 			e -:calls->;
+			
 			st:Statements(e);
 		}
 		Return {
 			exOrMb -:next-> e:Expression;
 			e -:uses->;
+			
 			st:Statements(e);
 		}
 		EndOfList {

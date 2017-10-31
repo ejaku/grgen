@@ -1,10 +1,25 @@
 # graph rewrite shell script file, shows how to create an empty graph from a model describing it's buildup,
-# how to create an instance graph (by including a further script with "new"-operations), and displaying it in yComp
+# how to create an instance graph with shell commands, and displaying it in yComp
+# the new node command creates nodes, expecting the node type, attribute initializers, and the persistent name
+# the new edge command creates edges between source and target nodes referenced by their persistent name,
+#  expecting the edge type, attribute initializers, and the persistent name
 # hint: press the play button to get it layouted
 # next is removeEpsilons1.grs
 
 new graph NFAModel.gm "StateMachine"
 
-include NFA.grsi
+new :StartState($=S, id=0)
+new :FinalState($=F, id=4)
+new :State($="1", id=1)
+new :State($="2", id=2)
+new :State($="3", id=3)
+new @(S) -:Transition(Trigger="a")-> @("1")
+new @("1") -:Transition(Trigger="b")-> @("2")
+new @("2") -:Transition(Trigger="c")-> @(F)
+new @(S) -:EpsilonTransition-> @("2")
+new @("1") -:EpsilonTransition-> @(F)
+new @(S) -:EpsilonTransition-> @(F)
+new @(S) -:EpsilonTransition-> @("3")
+new @("3") -:EpsilonTransition-> @(F)
 
 show graph yComp

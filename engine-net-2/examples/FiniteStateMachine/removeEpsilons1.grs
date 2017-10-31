@@ -1,5 +1,6 @@
 # graph rewrite shell script file, shows how to create an empty graph from a rule file giving the rewrite rules (using the model),
-# and how to apply a rule from the rule file in debug mode (on a graph built by an included shell script)
+# how to fill it with another script which is included (with the same "new"-operations contained before directly)
+# and how to apply a rule from the rule file (exec-ution) in debug mode
 # before was removeEpsilons0.grs, next is removeEpsilons2.grs
 
 new graph removeEpsilons1.grg "StateMachine"

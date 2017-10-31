@@ -14,9 +14,9 @@ exec InsertHelperEdgesForNestedLayout
 
 debug enable
 
-from = askfor MethodBody
-to = askfor MethodBody
-debug exec CopyStatements(::from, ::to)
+_from = askfor MethodBody
+_to = askfor MethodBody
+debug exec CopyStatements(::_from, ::_to)
 
 validate strict
 

@@ -2,6 +2,7 @@
 // with iterateds over subpatterns and subpatterns using other subpatterns, even recursively
 // this allows to match and transform structures extending into depth and breadth,
 // like the abstract syntax graph given (abstract syntax tree along contains edges plus crossing def-use edges)
+// this is similar to matching an EBNF grammar that describes the buildup of the program graph
 // before was ProgramGraphs3d.grg
 
 #using "ProgramGraphs.gm"

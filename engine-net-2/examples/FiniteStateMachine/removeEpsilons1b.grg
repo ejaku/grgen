@@ -1,0 +1,16 @@
+// graph rewrite rule file, shows in addition to the previous rule
+// how to allow pattern elements to match the same graph element by the hom operator,
+//  so we can capture States with reflexive Transitions
+// and how to create elements of statically unknown exact dynamical type by the typeof operator
+// before was removeEpsilons1.grg, next is removeEpsilons2.grg
+
+#using "NFAModel.gm"
+
+rule forwardTransition {
+    x:State -:EpsilonTransition-> y:State -e:Transition-> z:State;
+    hom(y,z);
+
+    modify {
+        x -forward:typeof(e)-> z;
+    }
+}

@@ -1,4 +1,8 @@
 # this is a graph rewrite shell file with layout instructions to be included
+# it configures the layout to be more similar to common automaton renderings (states in circle shape),
+# displaying additionally the id and the trigger as information in the graph (in short form, without attribute name,
+#  and instead of the persistent name (labels off))
+# if furthermore applies color coding to distinguish the special states and transitions from the noremal ones
 
 debug set layout Hierarchic
 
