@@ -1,5 +1,6 @@
-// graph rewrite rule file, shows how node retypings look like, keeping the incident edges while changing the type,
-// how type constraints look like, and shows edges matching in both directions
+// graph rewrite rule file, shows how node retypings look like (new name colon new type, and old element name in angle brackets),
+//  keeping the incident edges while changing the type (similar to a cast in common programming languages),
+// how type constraints look like (types to exclude follow a backspace), and shows edges matching in both directions
 // the rules needed for freeing the nfa from epsilon transitions are now complete
 // before was removeEpsilons2b.grg, next is simulate4.grg
 

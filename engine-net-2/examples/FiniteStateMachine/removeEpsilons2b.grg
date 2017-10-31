@@ -1,4 +1,6 @@
 // graph rewrite rule file, shows how attribute conditions look like, and how attribute evaluations look like
+// in the pattern part we have to check that the transition types are equivalent, and the trigger character is the same
+// in the rewrite part we have to ensure that the trigger of the newly inserted transition is the same as the one of the originating forwarded transition
 // before was removeEpsilons2.grg, next is removeEpsilons3.grg
 
 #using "NFAModel.gm"

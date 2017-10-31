@@ -1,5 +1,5 @@
 # graph rewrite shell script file, shows nothing new, interesting part is the rule file
-# shows how a breadth structure can get matched and rewritten (here several arguments linked to a call)
+# shows how a breadth-extending structure can get matched and rewritten (here several arguments linked to a call)
 # before was ProgramGraphs1b.grs, next is ProgramGraphs3a.grs
 
 new graph "ProgramGraphs2"

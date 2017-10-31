@@ -3,6 +3,7 @@
 // to be distinguished: the subpattern type declaration defining the structure and the parameters/attachement points
 //  from the subpattern entity declaration in the pattern using the subpattern, i.e. requesting it to match, from the nodes/edges given on
 //  from the subpattern replacement usage by using call syntax on the subpattern entity in the rewrite part of the pattern containing the entity declaration
+// if the subpattern entity name would not be used in the rewrite part, the subpattern would only get matched, but no rewrite would be applied
 // before was ProgramGraphs2.grg, next is ProgramGraphs3b.grg
 
 #using "ProgramGraphs.gm"

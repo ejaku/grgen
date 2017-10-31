@@ -13,4 +13,7 @@ new graph removeEpsilons2.grg "StateMachine"
 #include NFADublette.grsi
 include NFA.grsi
 
+# graph rewrite rules are combined into complete transformations via graph rewrite sequences
+# consisting of boolean operators and loop operators
+# single rule/test application succeeds (true) or fails (false)
 debug exec checkStartState && !checkDoublettes && forwardTransition*

@@ -1,5 +1,6 @@
 // rule file containing rules containing iterated patterns showing how to match a pattern several times
 //  this allows to match and transform structures extending into breadth, e.g. all incident edges of an node
+// conceputally, all arguments of a method call are captured this way (their number is not known statically)
 // before was ProgramGraphs1.grg, next is ProgramGraphs3a.grg
 
 #using "ProgramGraphs.gm"

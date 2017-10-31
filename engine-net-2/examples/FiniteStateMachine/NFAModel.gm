@@ -1,5 +1,7 @@
 // file with the graph elements utilized in modeling an nfa as grgen-graph
 // features shown: node classes, edge classes, attributes of basic types, multiple inheritance (diamond)
+// main node class is the State, main edge class is the Transition linking States,
+// the id of the State is used to uniquely identify it, the Trigger of the Transitions gives the character to be seen for switching states 
 
 node class State
 {

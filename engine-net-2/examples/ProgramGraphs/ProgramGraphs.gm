@@ -1,6 +1,12 @@
 // GrGen graph model for Program Graphs similar to the ones in "Adaptive Star Grammars for Graph Models"
 // features shown: node classes, edge classes, abstract classes, connection assertions
 //  constraining the types and multiplicities of the nodes allowed to be incident to the edges
+// main node type is the Entity, distinguished into method bodies, expressions (including statements, those are distinguished based on context/incident edges), and declarations
+// the declarations are distinguished furthermore into more specialized types
+// main edge types are the contains edges defining a containment hierarchy, with the special form of next edges defining a chain of statements in a method body,
+//  those define an abstract syntax tree backbone of our abstract semantic graph
+// and the references edges that point from entity uses to their declarations, distinguished more fine grain into diverse types
+//  those cross-edges extend the AST backbone to a complete graph containing all informations (in tradition compiler construction, those are stored in dictionaries)
 
 // nodes //
 
@@ -17,12 +23,12 @@ node class Variabel extends Attribute;
 
 // edges //
 
-edge class contains
+edge class contains /* abstract syntax tree part */
 	connect Entity --> Entity[0:1];
 edge class next extends contains
 	connect MethodBody[0:1] --> Expression[0:1],
 			Expression[0:1] --> Expression[0:1];
-edge class references
+edge class references /* enriched by use-to-definition-edges */
 	connect Entity --> Declaration;
 edge class hasType extends references
 	connect Feature[0:1] --> Class,

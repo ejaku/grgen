@@ -13,9 +13,9 @@ test getStartState : (StartState)
 	return(start);
 }
 
-dpo rule accept(state:State, var input:string) : (State)
+rule accept(state:State, var input:string) : (State)
 {
-	state -t:Transition\EpsilonTransition-> successor:State;
+	state -t:Transition-> successor:State;
 	if { input.length()>0 && t.Trigger==input.substring(0, 1); }
 
 	modify {
