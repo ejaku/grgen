@@ -707,6 +707,7 @@ Besides there are procedures to emit text or record graph changes available:
 
 \begin{description}
 \item[\texttt{emit(.(,.)*)}] writes the argument value, or the comma separated list of argument values, to stdout, or to a file if output was redirected. The argument(s) must be of string type, but any type is automatically casted into its string representation as needed. Prefer comma separated arguments over string concatenation, they are are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
+\item[\texttt{emitdebug(.(,.)*)}] writes the argument value, or the comma separated list of argument values, always to stdout, even if file output was redirected. Besides that, the other explanations for \texttt{emit} apply.
 \item[\texttt{record(.)}] writes the argument value, typically a text string, to the graph change record.
 \end{description}
 

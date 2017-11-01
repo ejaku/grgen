@@ -1,4 +1,25 @@
-﻿v4.5.1 (2017-10-15)
+﻿v4.5.2 (2017-11-01)
+ Added emitdebug command to the rule language and the sequences
+  it works like emit, but can't be redirected to a file, it always prints out to the console 
+  it allows to display debug messages even while building a text file with emits redirected to a file
+  (also added emitheredebug, which works like emithere, but can't be redirected to a file, too)
+  
+ Extended export command of the GrShell (and on API level) with a nonewgraph parameter for .grs/.grsi format
+  when given, the initial new graph command at file begin is omitted
+  such a file cannot be imported, but only included, as it is incomplete
+  you have to ensure an empty graph of correct model exists before you can include it 
+
+ Extended export command of the GrShell (and on API level) with skip parameters for .grs/.grsi format
+  they allow to exclude attributes from the node/edge attribute initializer lists
+  the parameter skip/TYPE.attr causes omission of attribute "attr" from node or edge type "TYPE" during graph serialization
+  this way you can get an importable graph if you intend to remove some attributes
+   - otherwise import fails due to an unknown attribute getting initialized (in the file adhering to the old graph model)
+  
+ Improved the series of FiniteStateMachine and ProgramGraph examples
+
+ Added new commands/parameters to the user manual
+ 
+v4.5.1 (2017-10-15)
  Bugfixes for bitbucket #32:
   - uniqueness constraint and index are now cleared when their graph is cleared
   - copy(graph):graph is now implemented with IGraph.Clone() (also cloning the indices),

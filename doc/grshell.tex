@@ -363,7 +363,7 @@ but not necessarily using the same commands you typed in during construction.
 Such a script can be loaded and executed by the \texttt{include} command (see Section~\ref{commcommands}).
 
 \begin{rail}
-  'export' Filename ('.grs' | '.grsi') ('.gz')?
+  'export' Filename ('.grs' | '.grsi') ('.gz')? \\ ( () | 'nonewgraph') (('skip/type.attr')*)
 \end{rail}\ixkeyw{export}\indexmain{export}
 Exports an instance graph in GRS (.grs/.grsi) format, which is a reduced \GrShell\ script
 (it can get imported and exported on API level without using the \GrShell, see \ref{sub:imexport}).
@@ -372,7 +372,16 @@ The file contains a \texttt{new graph} command, followed by \texttt{new node} co
 If the \texttt{.gz} suffix is given the graph is saved zipped.
 The export is only complete with the model of the graph given in the \texttt{.gm} file.
 Exporting fails if the graph model contains attributes of \texttt{object}-type; you may add support for storing them, too, see \ref{sub:extemitparse} for more on this.
-The \texttt{save} command is for saving a \GrShell\ session including graph global variables and visualization commands,
+
+When the optional parameter \texttt{nonewgraph} is given, the initial \texttt{new graph} command at file begin is omitted.
+Such a file cannot be \texttt{import}ed, but only \texttt{include}d, as it is incomplete.
+You have to ensure an empty graph of correct model exists before you can include a file exported this way.
+	
+The skip parameters allow to exclude attributes from the node/edge attribute initializer lists of the \texttt{new node} or \texttt{new edge} commands.
+The parameter \texttt{skip/type.attr} causes omission of attribute \texttt{attr} from graph element type \texttt{type} during graph serialization.
+This way you can get an importable graph if you intend to remove some attributes -- otherwise import fails due to an unknown attribute getting initialized (in the file adhering to the old graph model).
+
+The \texttt{save} command from above is for saving a \GrShell\ session including graph global variables and visualization commands,
 the goal of the \texttt{export} command is simply persistent storing of graphs;
 esp. for applications that use \GrG{ }to get an algorithmic core, but are not built on the \GrShell.
 
@@ -529,7 +538,7 @@ Sets the random seed to the given number for reproducible results when using the
 \begin{rail}
 'redirect' 'emit' Filename
 \end{rail}\ixkeyw{redirect}\ixkeyw{emit}
-Redirects the output of the emit-statements in the rules from stdout to the given file.
+Redirects the output of the emit-statements (but not the emitdebug-statements) in the rules from stdout to the given file.
 
 \begin{rail}
 'redirect' 'emit' '-'
