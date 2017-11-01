@@ -60,6 +60,7 @@ namespace de.unika.ipd.grGen.libGr
         public Dictionary<string, GraphExportContext> nameToContext = new Dictionary<string, GraphExportContext>();
 
         public bool noNewGraph = false;
+        public Dictionary<String, Dictionary<String, String>> typesToAttributesToSkip = null;
     }
 
     /// <summary>
@@ -94,10 +95,24 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="exportFilename">The filename for the exported file.</param>
-        public static void Export(INamedGraph graph, String exportFilename, bool noNewGraph)
+        public static void Export(INamedGraph graph, String exportFilename)
+        {
+            using (GRSExport export = new GRSExport(exportFilename))
+                export.Export(graph, false, null);
+        }
+
+        /// <summary>
+        /// Exports the given graph to a GRS file with the given filename.
+        /// Any errors will be reported by exception.
+        /// </summary>
+        /// <param name="graph">The graph to export. Must be a named graph.</param>
+        /// <param name="exportFilename">The filename for the exported file.</param>
+        /// <param name="nonewgraph">If true, the new graph command is not emitted.</param>
+        /// <param name="typesToAttributesToSkip">Gives a dictionary with type names containing a dictionary with attribute names that are not to be emitted</param>
+        public static void Export(INamedGraph graph, String exportFilename, bool noNewGraph, Dictionary<String, Dictionary<String, String>> typesToAttributesToSkip)
         {
             using(GRSExport export = new GRSExport(exportFilename))
-                export.Export(graph, noNewGraph);
+                export.Export(graph, noNewGraph, typesToAttributesToSkip);
         }
 
         /// <summary>
@@ -106,15 +121,29 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="writer">The stream writer to export to.</param>
-        public static void Export(INamedGraph graph, StreamWriter writer, bool noNewGraph)
+        public static void Export(INamedGraph graph, StreamWriter writer)
         {
             using(GRSExport export = new GRSExport(writer))
-                export.Export(graph, noNewGraph);
+                export.Export(graph, false, null);
         }
 
-        protected void Export(INamedGraph graph, bool noNewGraph)
+        /// <summary>
+        /// Exports the given graph to the file given by the stream writer in grs format.
+        /// Any errors will be reported by exception.
+        /// </summary>
+        /// <param name="graph">The graph to export. Must be a named graph.</param>
+        /// <param name="writer">The stream writer to export to.</param>
+        /// <param name="nonewgraph">If true, the new graph command is not emitted.</param>
+        /// <param name="typesToAttributesToSkip">Gives a dictionary with type names containing a dictionary with attribute names that are not to be emitted</param>
+        public static void Export(INamedGraph graph, StreamWriter writer, bool noNewGraph, Dictionary<String, Dictionary<String, String>> typesToAttributesToSkip)
         {
-            ExportYouMustCloseStreamWriter(graph, writer, "", noNewGraph);
+            using (GRSExport export = new GRSExport(writer))
+                export.Export(graph, noNewGraph, typesToAttributesToSkip);
+        }
+
+        protected void Export(INamedGraph graph, bool noNewGraph, Dictionary<String, Dictionary<String, String>> typesToAttributesToSkip)
+        {
+            ExportYouMustCloseStreamWriter(graph, writer, "", noNewGraph, typesToAttributesToSkip);
         }
 
         /// <summary>
@@ -125,13 +154,27 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
         /// <param name="modelPathPrefix">Path to the model.</param>
-        public static MainGraphExportContext ExportYouMustCloseStreamWriter(INamedGraph graph, StreamWriter sw, string modelPathPrefix, bool noNewGraph)
+        /// <param name="nonewgraph">If true, the new graph command is not emitted.</param>
+        /// <param name="typesToAttributesToSkip">Gives a dictionary with type names containing a dictionary with attribute names that are not to be emitted</param>
+        public static MainGraphExportContext ExportYouMustCloseStreamWriter(INamedGraph graph, StreamWriter sw, string modelPathPrefix, bool noNewGraph, Dictionary<String, Dictionary<String, String>> typesToAttributesToSkip)
         {
             MainGraphExportContext mainGraphContext = new MainGraphExportContext(graph);
             mainGraphContext.graphToContext[mainGraphContext.graph] = mainGraphContext;
             mainGraphContext.nameToContext[mainGraphContext.name] = mainGraphContext;
             mainGraphContext.modelPathPrefix = modelPathPrefix;
             mainGraphContext.noNewGraph = noNewGraph;
+            if(typesToAttributesToSkip != null)
+            {
+                mainGraphContext.typesToAttributesToSkip = new Dictionary<string, Dictionary<string, string>>();
+                foreach(KeyValuePair<String, Dictionary<String, String>> typeContainingAttributeToSkip in typesToAttributesToSkip)
+                {
+                    mainGraphContext.typesToAttributesToSkip.Add(typeContainingAttributeToSkip.Key, new Dictionary<string, string>());
+                    foreach(KeyValuePair<String, String> attributeToSkip in typeContainingAttributeToSkip.Value)
+                    {
+                        mainGraphContext.typesToAttributesToSkip[typeContainingAttributeToSkip.Key].Add(attributeToSkip.Key, null);
+                    }
+                }
+            }
 
             sw.WriteLine("# begin of graph \"{0}\" saved by GrsExport", mainGraphContext.name);
             sw.WriteLine();
@@ -187,6 +230,8 @@ restart:
                 sw.Write("new :{0}($ = \"{1}\"", node.Type.PackagePrefixedName, context.graph.GetElementName(node));
                 foreach(AttributeType attrType in node.Type.AttributeTypes)
                 {
+                    if(IsAttributeToBeSkipped(mainGraphContext, attrType))
+                        continue;
                     if(IsNodeOrEdgeUsedInAttribute(attrType))
                     {
                         context.nodeOrEdgeUsedInAttribute = true;
@@ -221,6 +266,8 @@ restart:
                         edge.Type.PackagePrefixedName, context.graph.GetElementName(edge));
                     foreach(AttributeType attrType in edge.Type.AttributeTypes)
                     {
+                        if(IsAttributeToBeSkipped(mainGraphContext, attrType))
+                            continue;
                         if(IsNodeOrEdgeUsedInAttribute(attrType))
                         {
                             context.nodeOrEdgeUsedInAttribute = true;
@@ -257,6 +304,8 @@ restart:
                 {
                     foreach(AttributeType attrType in node.Type.AttributeTypes)
                     {
+                        if(IsAttributeToBeSkipped(mainGraphContext, attrType))
+                            continue;
                         if(!IsNodeOrEdgeUsedInAttribute(attrType))
                             continue;
                         if(IsGraphUsedInAttribute(attrType))
@@ -272,6 +321,8 @@ restart:
                     {
                         foreach(AttributeType attrType in edge.Type.AttributeTypes)
                         {
+                            if(IsAttributeToBeSkipped(mainGraphContext, attrType))
+                                continue;
                             if(!IsNodeOrEdgeUsedInAttribute(attrType))
                                 continue;
                             if(IsGraphUsedInAttribute(attrType))
@@ -383,6 +434,8 @@ restart:
             {
                 foreach(AttributeType attrType in node.Type.AttributeTypes)
                 {
+                    if(IsAttributeToBeSkipped(mainGraphContext, attrType))
+                        continue;
                     if(!IsGraphUsedInAttribute(attrType))
                         continue;
 
@@ -396,6 +449,8 @@ restart:
                 {
                     foreach(AttributeType attrType in edge.Type.AttributeTypes)
                     {
+                        if(IsAttributeToBeSkipped(mainGraphContext, attrType))
+                            continue;
                         if(!IsGraphUsedInAttribute(attrType))
                             continue;
 
@@ -531,6 +586,18 @@ restart:
             default:
                 throw new Exception("Unsupported attribute kind in export");
             }
+        }
+
+        private static bool IsAttributeToBeSkipped(MainGraphExportContext mainGraphContext, AttributeType attrType)
+        {
+            if (mainGraphContext.typesToAttributesToSkip != null
+                && mainGraphContext.typesToAttributesToSkip.ContainsKey(attrType.OwnerType.PackagePrefixedName)
+                && mainGraphContext.typesToAttributesToSkip[attrType.OwnerType.PackagePrefixedName].ContainsKey(attrType.Name))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private static bool IsNodeOrEdgeUsedInAttribute(AttributeType attrType)
