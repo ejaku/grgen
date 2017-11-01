@@ -1,0 +1,69 @@
+new graph "porter/porter"
+
+xgrs createTestGraph
+
+show num nodes only Node
+show num nodes only N1
+show num nodes only N2a
+show num nodes only N2b
+show num nodes only N3
+show num nodes only N4
+
+show num edges only Edge
+show num edges only UEdge 
+show num edges only E1
+show num edges only E2a
+show num edges only E2b
+show num edges only E3
+show num edges only E4
+
+xgrs [checkForTestGraph]
+
+export porter/testgraph.grs skip/N2a.f skip/N2a.fo skip/N2a.foo skip/N2a.fooo skip/N2b.bar skip/N4.huh skip/N4.lal skip/E2a.f skip/E2a.fo skip/E2a.foo skip/E2a.fooo skip/E2b.bar skip/E4.huh skip/E4.lal
+
+import porter/testgraph.grs porter/porterwithoutattributes.grg
+
+show num nodes only Node
+show num nodes only N1
+show num nodes only N2a
+show num nodes only N2b
+show num nodes only N3
+show num nodes only N4
+
+show num edges only Edge
+show num edges only UEdge 
+show num edges only E1
+show num edges only E2a
+show num edges only E2b
+show num edges only E3
+show num edges only E4
+
+xgrs [checkForTestGraph]
+
+export porter/testgraph.grs nonewgraph
+
+clear graph
+
+include porter/testgraph.grs
+
+show num nodes only Node
+show num nodes only N1
+show num nodes only N2a
+show num nodes only N2b
+show num nodes only N3
+show num nodes only N4
+
+show num edges only Edge
+show num edges only UEdge 
+show num edges only E1
+show num edges only E2a
+show num edges only E2b
+show num edges only E3
+show num edges only E4
+
+xgrs [checkForTestGraph]
+
+# the test script tries to test all available .grs; no sense in trying to test the exported graph
+!rm porter/testgraph.grs
+
+quit

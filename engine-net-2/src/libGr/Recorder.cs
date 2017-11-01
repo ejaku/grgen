@@ -83,7 +83,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(lastIndex==-1) lastIndex = filename.LastIndexOf("\\");
                     pathPrefix = filename.Substring(0, lastIndex+1);
                 }
-                MainGraphExportContext mainGraphContext = GRSExport.ExportYouMustCloseStreamWriter(graph, writer, pathPrefix, false);
+                MainGraphExportContext mainGraphContext = GRSExport.ExportYouMustCloseStreamWriter(graph, writer, pathPrefix, false, null);
 
                 recordings.Add(new KeyValuePair<string, RecordingState>(filename, 
                     new RecordingState(writer, mainGraphContext)));

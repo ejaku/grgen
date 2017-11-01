@@ -1,0 +1,29 @@
+// model derived from porter by stripping away the attributes, with exception of one attribute
+
+node class N1;
+
+node class N2a extends N1;
+
+node class N2b extends N1;
+
+node class N3
+{
+	bla : double;
+}
+
+node class N4 extends N2a, N2b, N3;
+
+///////////////////////////////////////////
+
+edge class E1;
+
+edge class E2a extends E1;
+
+edge class E2b extends E1;
+
+edge class E3
+{
+	bla : float;
+}
+
+edge class E4 extends E2a, E2b, E3;

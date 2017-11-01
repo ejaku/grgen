@@ -248,7 +248,7 @@ namespace de.unika.ipd.grGen.grShell
 
     public class GrShellImpl
     {
-        public static readonly String VersionString = "GrShell v4.5";
+        public static readonly String VersionString = "GrShell v4.5.2";
 
         IBackend curGraphBackend = new LGSPBackend();
         String backendFilename = null;
@@ -4651,7 +4651,7 @@ showavail:
 
                 // save graph
 
-                GRSExport.ExportYouMustCloseStreamWriter(graph, sw, "", false);
+                GRSExport.ExportYouMustCloseStreamWriter(graph, sw, "", false, null);
 
                 // save variables
 

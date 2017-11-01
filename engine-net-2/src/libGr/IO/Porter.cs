@@ -96,8 +96,26 @@ namespace de.unika.ipd.grGen.libGr
                 else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
                     || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    String second = ListGet(filenameParameters, 1);
-                    GRSExport.Export(graph, writer, second == "nonewgraph");
+                    bool noNewGraph = false;
+                    Dictionary<String, Dictionary<String, String>> typesToAttributesToSkip = new Dictionary<string, Dictionary<string, string>>();
+                    for(int i=1; i<filenameParameters.Count; ++i)
+                    {
+                        if(filenameParameters[i].StartsWith("skip/") || filenameParameters[i].StartsWith("skip\\"))
+                        {
+                            String toSkip = filenameParameters[i].Substring(5);
+                            String type = toSkip.Substring(0, toSkip.IndexOf('.'));
+                            String attribute = toSkip.Substring(toSkip.IndexOf('.') + 1);
+                            Dictionary<String, String> attributesToSkip;
+                            if(!typesToAttributesToSkip.TryGetValue(type, out attributesToSkip))
+                                typesToAttributesToSkip[type] = new Dictionary<string, string>();
+                            typesToAttributesToSkip[type].Add(attribute, null);
+                        }
+                        else if(filenameParameters[i] == "nonewgraph")
+                            noNewGraph = true;
+                        else
+                            throw new NotSupportedException("Export Parameter " + i + " not supported: " + filenameParameters[i]);
+                    }
+                    GRSExport.Export(graph, writer, noNewGraph, typesToAttributesToSkip.Count > 0 ? typesToAttributesToSkip : null);
                 }
                 else if(first.EndsWith(".xmi", StringComparison.InvariantCultureIgnoreCase))
                 {

@@ -1,0 +1,7 @@
+using porterwithoutattributes;
+
+test checkForTestGraph
+{
+	. <-- n1:N4 -e1:E4-> n2:N4 -e2:E4-> n3:N4 -e3:E4-> n1;
+	n4:N3 -e4:E2a-> n5:N2a; n4 -e5:E2b-> n6:N2b; n4 -e6:E3-> n4;	
+}

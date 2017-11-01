@@ -3129,7 +3129,6 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("GRGEN_LIBGR.IGraph " + expGraph + " = (GRGEN_LIBGR.IGraph)" + GetSequenceExpression(seqExp.Graph, source) + ";\n");
                     else
                         source.AppendFront("GRGEN_LIBGR.IGraph " + expGraph + " = graph;\n");
-                    source.AppendFront(expArguments + ".Add(" + expFileName + ".ToString());\n");
                     source.AppendFront("if(" + expGraph + " is GRGEN_LIBGR.INamedGraph)\n");
                     source.AppendFront("\tGRGEN_LIBGR.Porter.Export((GRGEN_LIBGR.INamedGraph)" + expGraph + ", " + expArguments + ");\n");
                     source.AppendFront("else\n");
