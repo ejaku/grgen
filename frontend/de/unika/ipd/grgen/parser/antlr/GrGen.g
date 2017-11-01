@@ -1822,10 +1822,10 @@ execStmt[CollectNode<BaseNode> imperativeStmts, int context, PatternGraphNode di
 	;
 
 emitStmt[CollectNode<BaseNode> imperativeStmts, CollectNode<OrderedReplacementsNode> orderedReplacements]
-	@init{ EmitNode emit = null; boolean isHere = false;}
+	@init{ EmitNode emit = null; boolean isHere = false; boolean isDebug = false; }
 	
-	: (e=EMIT | e=EMITHERE { isHere = true; })
-		{ emit = new EmitNode(getCoords(e)); }
+	: (e=EMIT | e=EMITDEBUG { isDebug = true; } | e=EMITHERE { isHere = true; } | e=EMITHEREDEBUG { isHere = true; isDebug = true; })
+		{ emit = new EmitNode(getCoords(e), isDebug); }
 		LPAREN
 			exp=expr[false] { emit.addChild(exp); }
 			( COMMA exp=expr[false] { emit.addChild(exp); } )*
@@ -2871,7 +2871,7 @@ options { k = 5; }
 	|
 	  (l=LPAREN tgts=targets[onLHS, getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
 		( (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse d=DOT { methodCall = true; } (member=entIdentUse DOT { attributeMethodCall = true; })? )?
-		(pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=EMIT | i=DELETE) params=paramExprs[false] SEMI
+		(pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=EMIT | i=EMITDEBUG | i=DELETE) params=paramExprs[false] SEMI
 			{ 
 				if(!methodCall)
 				{
@@ -2896,7 +2896,7 @@ options { k = 5; }
 						)
 						|| i.getText().equals("valloc") && params.getChildren().size()==0
 						|| i.getText().equals("vfree") || i.getText().equals("vfreenonreset") || i.getText().equals("vreset") 
-						|| i.getText().equals("record") || i.getText().equals("emit") 					
+						|| i.getText().equals("record") || i.getText().equals("emit") || i.getText().equals("emitdebug")
 						|| i.getText().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()==3)
 						|| i.getText().equals("rem") || i.getText().equals("clear")
 						|| i.getText().equals("retype") && params.getChildren().size()==2
@@ -3843,7 +3843,9 @@ DO : 'do';
 EDGE : 'edge';
 ELSE : 'else';
 EMIT : 'emit';
+EMITDEBUG : 'emitdebug';
 EMITHERE : 'emithere';
+EMITHEREDEBUG : 'emitheredebug';
 ENUM : 'enum';
 EVAL : 'eval';
 EVALHERE : 'evalhere';

@@ -1,0 +1,9 @@
+new graph "debugemitemit/debugemitemit"
+
+exec sDebugEmitEmit
+
+exec rDebugEmitEmit
+
+exec rsDebugEmitEmit
+
+quit

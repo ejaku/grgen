@@ -188,13 +188,25 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 		}
 		else if(procedureName.equals("emit")) {
 			if(params.size() >= 1) {
-				EmitProcNode emit = new EmitProcNode(getCoords());
+				EmitProcNode emit = new EmitProcNode(getCoords(), false);
 				for(ExprNode param : params.getChildren()) {
 					emit.addExpression(param);
 				}
 				result = emit;
 			} else {
 				reportError("emit() takes at least one parameter.");
+				return false;
+			}
+		}
+		else if(procedureName.equals("emitdebug")) {
+			if(params.size() >= 1) {
+				EmitProcNode emit = new EmitProcNode(getCoords(), true);
+				for(ExprNode param : params.getChildren()) {
+					emit.addExpression(param);
+				}
+				result = emit;
+			} else {
+				reportError("emitdebug() takes at least one parameter.");
 				return false;
 			}
 		}
@@ -381,6 +393,7 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 	protected boolean checkLocal() {
 		if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION
 				&& !procedureIdent.toString().equals("emit")
+				&& !procedureIdent.toString().equals("emitdebug")
 				&& !procedureIdent.toString().equals("addDebug")
 				&& !procedureIdent.toString().equals("remDebug")
 				&& !procedureIdent.toString().equals("emitDebug")

@@ -355,7 +355,9 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("edge");
 		keywords.add("else");
 		keywords.add("emit");
+		keywords.add("emitdebug");
 		keywords.add("emithere");
+		keywords.add("emitheredebug");
 		keywords.add("enum");
 		keywords.add("eval");
 		keywords.add("evalhere");

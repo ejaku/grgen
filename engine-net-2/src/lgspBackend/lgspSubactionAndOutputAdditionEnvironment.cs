@@ -69,7 +69,12 @@ namespace de.unika.ipd.grGen.lgsp
             get { return emitWriter; }
             set { emitWriter = value; }
         }
-                
+
+        public TextWriter EmitWriterDebug
+        {
+            get { return Console.Out; }
+        }
+
         #region Events
 
         public event SwitchToSubgraphHandler OnSwitchingToSubgraph;

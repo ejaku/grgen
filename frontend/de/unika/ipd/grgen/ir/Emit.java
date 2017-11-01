@@ -22,12 +22,18 @@ import de.unika.ipd.grgen.ir.exprevals.*;;
 public class Emit extends IR implements ImperativeStmt, OrderedReplacement {
 
 	private List<Expression> arguments;
+	private boolean isDebug;
 
-	public Emit(List<Expression> arguments) {
+	public Emit(List<Expression> arguments, boolean isDebug) {
 		super("emit");
 		this.arguments = arguments;
+		this.isDebug = isDebug;
 	}
 
+	public boolean isDebug() {
+		return isDebug;
+	}
+	
 	/**
 	 * Returns Arguments
 	 */
