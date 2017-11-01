@@ -33,9 +33,11 @@ public class EmitNode extends OrderedReplacementNode {
 	}
 
 	private Vector<ExprNode> childrenUnresolved = new Vector<ExprNode>();
+	private boolean isDebug;
 
-	public EmitNode(Coords coords) {
+	public EmitNode(Coords coords, boolean isDebug) {
 		super(coords);
+		this.isDebug = isDebug;
 	}
 
 	public void addChild(ExprNode n) {
@@ -83,7 +85,7 @@ public class EmitNode extends OrderedReplacementNode {
 		List<Expression> arguments = new ArrayList<Expression>();
 		for(BaseNode child : getChildren())
 			arguments.add(child.checkIR(Expression.class));
-		Emit res= new Emit(arguments);
+		Emit res= new Emit(arguments, isDebug);
 		return res;
 	}
 }

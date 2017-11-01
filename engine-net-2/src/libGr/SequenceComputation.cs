@@ -1218,8 +1218,9 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceComputationEmit : SequenceComputation
     {
         public List<SequenceExpression> Expressions;
+        public bool IsDebug;
 
-        public SequenceComputationEmit(List<SequenceExpression> exprs)
+        public SequenceComputationEmit(List<SequenceExpression> exprs, bool isDebug)
             : base(SequenceComputationType.Emit)
         {
             Expressions = exprs;
@@ -1238,6 +1239,7 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
             }
+            IsDebug = isDebug;
         }
 
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -1248,6 +1250,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 copy.Expressions[i] = Expressions[i].CopyExpression(originalToCopy, procEnv);
             }
+            copy.IsDebug = IsDebug;
             return copy;
         }
 
@@ -1257,8 +1260,16 @@ namespace de.unika.ipd.grGen.libGr
             for(int i = 0; i < Expressions.Count; ++i)
             {
                 value = Expressions[i].Evaluate(procEnv);
-                if(value != null)
-                    procEnv.EmitWriter.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph));
+                if (IsDebug)
+                {
+                    if (value != null)
+                        procEnv.EmitWriterDebug.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph));
+                }
+                else
+                {
+                    if (value != null)
+                        procEnv.EmitWriter.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph));
+                }
             }
             return value;
         }
@@ -1277,7 +1288,10 @@ namespace de.unika.ipd.grGen.libGr
             get
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append("emit(");
+                if(IsDebug)
+                    sb.Append("emitdebug(");
+                else
+                    sb.Append("emit(");
                 for(int i = 0; i < Expressions.Count; ++i)
                 {
                     if(i != 0)

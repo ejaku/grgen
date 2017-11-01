@@ -1,0 +1,20 @@
+sequence sDebugEmitEmit {
+    {emit("1 value of attribute 5 6 emit\n"); emitdebug("1 value of attribute 5 6 emitdebug\n")}
+}
+
+rule rDebugEmitEmit
+{
+	modify {
+		emit("1 value of attribute 5 6 emit\n");
+		emithere("1 value of attribute 5 6 emithere\n");
+		emitdebug("1 value of attribute 5 6 emitdebug\n");
+		emitheredebug("1 value of attribute 5 6 emitheredebug\n");
+	}
+}
+
+rule rsDebugEmitEmit
+{
+	modify {
+		exec({emit("1 value of attribute 5 6 emit\n"); emitdebug("1 value of attribute 5 6 emitdebug\n")});
+	}
+}

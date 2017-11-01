@@ -336,7 +336,7 @@ public class RuleDeclNode extends TestDeclNode {
 					if(declNode != null) {
 						if(delete.contains(declNode)) {
 							expr.reportError("The deleted " + declNode.getUseString()
-									+ " \"" + declNode.ident + "\" must not be used in an emit statement (you may use an emithere instead)");
+									+ " \"" + declNode.ident + "\" must not be used in an emit(/emitdebug) statement (you may use an emithere(/emitheredebug) instead)");
 							valid = false;
 						}
 						else if (maybeDeleted.contains(declNode)) {

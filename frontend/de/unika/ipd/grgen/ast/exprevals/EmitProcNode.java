@@ -26,11 +26,13 @@ public class EmitProcNode extends ProcedureInvocationBaseNode {
 	}
 
 	private CollectNode<ExprNode> exprs = new CollectNode<ExprNode>();
+	boolean isDebug;
 
-	public EmitProcNode(Coords coords) {
+	public EmitProcNode(Coords coords, boolean isDebug) {
 		super(coords);
 
 		this.exprs = becomeParent(exprs);
+		this.isDebug = isDebug;
 	}
 
 	public void addExpression(ExprNode expr) {
@@ -72,6 +74,6 @@ public class EmitProcNode extends ProcedureInvocationBaseNode {
 		for(ExprNode expr : exprs.getChildren()) {
 			expressions.add(expr.checkIR(Expression.class));
 		}
-		return new EmitProc(expressions);
+		return new EmitProc(expressions, isDebug);
 	}
 }

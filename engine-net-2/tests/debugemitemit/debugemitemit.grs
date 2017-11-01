@@ -1,0 +1,11 @@
+new graph "debugemitemit/debugemitemit"
+
+redirect emit blackhole
+
+exec sDebugEmitEmit
+
+exec rDebugEmitEmit
+
+exec rsDebugEmitEmit
+
+quit

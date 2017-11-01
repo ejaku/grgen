@@ -2059,9 +2059,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class EmitStatement : Yielding
     {
-        public EmitStatement(Expression[] values)
+        public EmitStatement(Expression[] values, bool isDebug)
         {
             Values = values;
+            IsDebug = isDebug;
         }
 
         public override Yielding Copy(string renameSuffix)
@@ -2069,7 +2070,7 @@ namespace de.unika.ipd.grGen.expression
             Expression[] valuesCopy = new Expression[Values.Length];
             for (int i = 0; i < Values.Length; ++i)
                 valuesCopy[i] = Values[i].Copy(renameSuffix);
-            return new EmitStatement(valuesCopy);
+            return new EmitStatement(valuesCopy, IsDebug);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -2082,7 +2083,8 @@ namespace de.unika.ipd.grGen.expression
                 value.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 sourceCode.AppendFront("if(" + emitVar + " != null)\n");
-                sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
+                String emitWriter = IsDebug ? "EmitWriterDebug" : "EmitWriter";
+                sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv)." + emitWriter + ".Write("
                         + "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph));\n");
             }
         }
@@ -2094,6 +2096,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression[] Values;
+        bool IsDebug;
     }
 
     /// <summary>

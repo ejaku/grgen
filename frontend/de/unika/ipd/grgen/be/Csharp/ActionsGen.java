@@ -5478,6 +5478,8 @@ public class ActionsGen extends CSharpBase {
 			sb.append(", ");
 		}
 		sb.append("}");
+		sb.append(", ");
+		sb.append(ep.isDebug());
 		sb.append(")");
 	}
 

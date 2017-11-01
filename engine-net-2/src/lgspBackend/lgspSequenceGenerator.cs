@@ -3035,6 +3035,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceComputationEmit seqEmit = (SequenceComputationEmit)seqComp;
                     bool declarationEmitted = false;
+                    String emitWriter = seqEmit.IsDebug ? "EmitWriterDebug" : "EmitWriter";
                     for(int i = 0; i < seqEmit.Expressions.Count; ++i)
                     {
                         if(!(seqEmit.Expressions[i] is SequenceExpressionConstant))
@@ -3050,14 +3051,14 @@ namespace de.unika.ipd.grGen.lgsp
                                 || seqEmit.Expressions[i].Type(env).StartsWith("array<") || seqEmit.Expressions[i].Type(env).StartsWith("deque<"))
                             {
                                 source.AppendFront("if(" + emitVal + " is IDictionary)\n");
-                                source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToString((IDictionary)" + emitVal + ", graph));\n");
+                                source.AppendFront("\tprocEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString((IDictionary)" + emitVal + ", graph));\n");
                                 source.AppendFront("else if(" + emitVal + " is IList)\n");
-                                source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToString((IList)" + emitVal + ", graph));\n");
+                                source.AppendFront("\tprocEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString((IList)" + emitVal + ", graph));\n");
                                 source.AppendFront("else if(" + emitVal + " is GRGEN_LIBGR.IDeque)\n");
-                                source.AppendFront("\tprocEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToString((GRGEN_LIBGR.IDeque)" + emitVal + ", graph));\n");
+                                source.AppendFront("\tprocEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString((GRGEN_LIBGR.IDeque)" + emitVal + ", graph));\n");
                                 source.AppendFront("else\n\t");
                             }
-                            source.AppendFront("procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToString(" + emitVal + ", graph));\n");
+                            source.AppendFront("procEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString(" + emitVal + ", graph));\n");
                         }
                         else
                         {
@@ -3068,10 +3069,10 @@ namespace de.unika.ipd.grGen.lgsp
                                 text = text.Replace("\n", "\\n");
                                 text = text.Replace("\r", "\\r");
                                 text = text.Replace("\t", "\\t");
-                                source.AppendFront("procEnv.EmitWriter.Write(\"" + text + "\");\n");
+                                source.AppendFront("procEnv." + emitWriter + ".Write(\"" + text + "\");\n");
                             }
                             else
-                                source.AppendFront("procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToString(" + GetSequenceExpression(seqEmit.Expressions[i], source) + ", graph));\n");
+                                source.AppendFront("procEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString(" + GetSequenceExpression(seqEmit.Expressions[i], source) + ", graph));\n");
                         }
                     }
                     source.AppendFront(SetResultVar(seqEmit, "null"));

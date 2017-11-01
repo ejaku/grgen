@@ -113,6 +113,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         TextWriter EmitWriter { get; set; }
 
+        /// <summary>
+        /// The writer used by emitdebug statements. This is Console.Out, and can't be redirected to a file in contrast to the EmitWriter.
+        /// </summary>
+        TextWriter EmitWriterDebug { get; }
+
         
         #region Events
 

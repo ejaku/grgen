@@ -11,14 +11,20 @@ import java.util.Collection;
 
 public class EmitProc extends ProcedureInvocationBase {
 	private Collection<Expression> exprs;
+	private boolean isDebug;
 
-	public EmitProc(Collection<Expression> expressions) {
+	public EmitProc(Collection<Expression> expressions, boolean isDebug) {
 		super("emit procedure");
 		this.exprs = expressions;
+		this.isDebug = isDebug;
 	}
 
 	public Collection<Expression> getExpressions() {
 		return exprs;
+	}
+	
+	public boolean isDebug() {
+		return isDebug;
 	}
 
 	public ProcedureBase getProcedureBase() {

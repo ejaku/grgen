@@ -1619,7 +1619,10 @@ SequenceComputation ProcedureOrMethodCall():
 				return new SequenceComputationVReset(getArgument(argExprs, 0));
 			} else if(procedure=="emit" && package==null) {
 				if(argExprs.Count==0) throw new ParseException("\"" + procedure + "\" expects at least 1 parameter)");
-				return new SequenceComputationEmit(argExprs);
+				return new SequenceComputationEmit(argExprs, false);
+			} else if(procedure=="emitdebug" && package==null) {
+				if(argExprs.Count==0) throw new ParseException("\"" + procedure + "\" expects at least 1 parameter)");
+				return new SequenceComputationEmit(argExprs, true);
 			} else if(procedure=="record" && package==null) {
 				if(argExprs.Count!=1) throw new ParseException("\"" + procedure + "\" expects 1 parameter)");
 				return new SequenceComputationRecord(getArgument(argExprs, 0));
@@ -1687,7 +1690,7 @@ SequenceComputation ProcedureOrMethodCall():
 				if(IsProcedureName(procedure, package)) {
 					return new SequenceComputationProcedureCall(CreateProcedureInvocationParameterBindings(procedure, package, argExprs, returnVars));
 				} else {
-					throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|record|File::export|File::delete|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget|insert|insertCopy|insertInduced|insertDefined or one of the procedures defined in the .grg: " + GetProcedureNames() + ")");
+					throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|emitdebug|record|File::export|File::delete|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget|insert|insertCopy|insertInduced|insertDefined or one of the procedures defined in the .grg: " + GetProcedureNames() + ")");
 				}
 			}
 		} else { // method call

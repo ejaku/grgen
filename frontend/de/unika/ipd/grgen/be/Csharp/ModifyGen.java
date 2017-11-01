@@ -1210,8 +1210,9 @@ public class ModifyGen extends CSharpBase {
 		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
 			if(istmt instanceof Emit) {
 				Emit emit = (Emit) istmt;
+				String emitWriter = emit.isDebug() ? "EmitWriterDebug" : "EmitWriter";
 				for(Expression arg : emit.getArguments()) {
-					sb.append("\t\t\tprocEnv.EmitWriter.Write(");
+					sb.append("\t\t\tprocEnv." + emitWriter+ ".Write(");
 					sb.append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
 					genExpression(sb, arg, state);
 					sb.append(", graph)");
@@ -1637,8 +1638,9 @@ public class ModifyGen extends CSharpBase {
 					sb.append(");\n");
 				} else if(orderedRep instanceof Emit) { // emithere
 					Emit emit = (Emit)orderedRep;
+					String emitWriter = emit.isDebug() ? "EmitWriterDebug" : "EmitWriter";
 					for(Expression arg : emit.getArguments()) {
-						sb.append("\t\t\tprocEnv.EmitWriter.Write(");
+						sb.append("\t\t\tprocEnv." + emitWriter + ".Write(");
 						sb.append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
 						genExpression(sb, arg, state);
 						sb.append(", graph)");
@@ -4465,13 +4467,14 @@ public class ModifyGen extends CSharpBase {
 
 	private void genEmitProc(StringBuffer sb, ModifyGenerationStateConst state, EmitProc ep) {
 		String emitVar = "emit_value_" + tmpVarID++;
+		String emitWriter = ep.isDebug() ? "EmitWriterDebug" : "EmitWriter";
 		sb.append("\t\t\tobject " + emitVar + ";\n");
 		for(Expression expr : ep.getExpressions()) {
 			sb.append("\t\t\t" + emitVar + " = ");
 			genExpression(sb, expr, state);
 			sb.append(";\n");
 			sb.append("\t\t\tif(" + emitVar + " != null)\n");
-			sb.append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).EmitWriter.Write("
+			sb.append("\t\t\t\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv)." + emitWriter + ".Write("
 					+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph));\n");
 		}
 	}
