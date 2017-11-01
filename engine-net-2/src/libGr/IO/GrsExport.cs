@@ -58,6 +58,8 @@ namespace de.unika.ipd.grGen.libGr
         // here we ensure the uniqueness needed for an export / for getting an importable serialization
         public Dictionary<INamedGraph, GraphExportContext> graphToContext = new Dictionary<INamedGraph, GraphExportContext>();
         public Dictionary<string, GraphExportContext> nameToContext = new Dictionary<string, GraphExportContext>();
+
+        public bool noNewGraph = false;
     }
 
     /// <summary>
@@ -92,10 +94,10 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="exportFilename">The filename for the exported file.</param>
-        public static void Export(INamedGraph graph, String exportFilename)
+        public static void Export(INamedGraph graph, String exportFilename, bool noNewGraph)
         {
             using(GRSExport export = new GRSExport(exportFilename))
-                export.Export(graph);
+                export.Export(graph, noNewGraph);
         }
 
         /// <summary>
@@ -104,15 +106,15 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="writer">The stream writer to export to.</param>
-        public static void Export(INamedGraph graph, StreamWriter writer)
+        public static void Export(INamedGraph graph, StreamWriter writer, bool noNewGraph)
         {
             using(GRSExport export = new GRSExport(writer))
-                export.Export(graph);
+                export.Export(graph, noNewGraph);
         }
 
-        protected void Export(INamedGraph graph)
+        protected void Export(INamedGraph graph, bool noNewGraph)
         {
-            ExportYouMustCloseStreamWriter(graph, writer, "");
+            ExportYouMustCloseStreamWriter(graph, writer, "", noNewGraph);
         }
 
         /// <summary>
@@ -123,12 +125,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
         /// <param name="modelPathPrefix">Path to the model.</param>
-        public static MainGraphExportContext ExportYouMustCloseStreamWriter(INamedGraph graph, StreamWriter sw, string modelPathPrefix)
+        public static MainGraphExportContext ExportYouMustCloseStreamWriter(INamedGraph graph, StreamWriter sw, string modelPathPrefix, bool noNewGraph)
         {
             MainGraphExportContext mainGraphContext = new MainGraphExportContext(graph);
             mainGraphContext.graphToContext[mainGraphContext.graph] = mainGraphContext;
             mainGraphContext.nameToContext[mainGraphContext.name] = mainGraphContext;
             mainGraphContext.modelPathPrefix = modelPathPrefix;
+            mainGraphContext.noNewGraph = noNewGraph;
 
             sw.WriteLine("# begin of graph \"{0}\" saved by GrsExport", mainGraphContext.name);
             sw.WriteLine();
@@ -169,8 +172,11 @@ restart:
         {
             bool subgraphAdded = false;
 
-            if(context.modelPathPrefix != null)
-                sw.WriteLine("new graph \"" + context.modelPathPrefix + context.graph.Model.ModelName + "\" \"" + context.name + "\"");
+            if (context.modelPathPrefix != null)
+            {
+                if(!mainGraphContext.noNewGraph)
+                    sw.WriteLine("new graph \"" + context.modelPathPrefix + context.graph.Model.ModelName + "\" \"" + context.name + "\"");
+            }
             else
                 sw.WriteLine("add new graph \"" + context.name + "\"");
 

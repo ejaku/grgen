@@ -96,7 +96,8 @@ namespace de.unika.ipd.grGen.libGr
                 else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
                     || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    GRSExport.Export(graph, writer);
+                    String second = ListGet(filenameParameters, 1);
+                    GRSExport.Export(graph, writer, second == "nonewgraph");
                 }
                 else if(first.EndsWith(".xmi", StringComparison.InvariantCultureIgnoreCase))
                 {
