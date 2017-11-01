@@ -2,8 +2,8 @@
 // how negative patterns look like, preventing the nesting pattern to match if they match,
 // and showing the non-extending semantics of negatives,
 //  i.e. elements from the outside can get matched again (hom to all outside elements) unless they are referenced by name
-// the rule will match again and again the same spot, uncommenting the contained negative will prevent this,
-//  but it will also prevent the rule from matching in the example, because a transition is already existing in between x and z
+// the rule with the negative commented will match again and again the same spot, the current version prevents this,
+//  but it also prevents the rule from matching in the example, because a transition is already existing in between x and z
 //  the pattern is too coarse grain, we need type and attribute constraints
 // before was removeEpsilons1b.grg, next is removeEpsilons2b.grg
 
@@ -26,9 +26,11 @@ test checkDoublettes {
 rule forwardTransition {
     x:State -:EpsilonTransition-> y:State -e:Transition-> z:State;
     hom(y,z);
-    /*negative {
+    negative {
         x -exists:Transition-> z;
-    }*/
+    }
+	// comment the negative above to see the rule matching, but repeteadly matching
+	// (without the negative, the loop matches again and again; with it the loop is terminated, but too early)
 
     modify {
         x -forward:typeof(e)-> z;
