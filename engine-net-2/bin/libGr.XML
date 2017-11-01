@@ -5510,6 +5510,16 @@
             <param name="graph">The graph to export. Must be a named graph.</param>
             <param name="exportFilename">The filename for the exported file.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.Export(de.unika.ipd.grGen.libGr.INamedGraph,System.String,System.Boolean,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.String,System.String}})">
+            <summary>
+            Exports the given graph to a GRS file with the given filename.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="graph">The graph to export. Must be a named graph.</param>
+            <param name="exportFilename">The filename for the exported file.</param>
+            <param name="nonewgraph">If true, the new graph command is not emitted.</param>
+            <param name="typesToAttributesToSkip">Gives a dictionary with type names containing a dictionary with attribute names that are not to be emitted</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GRSExport.Export(de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter)">
             <summary>
             Exports the given graph to the file given by the stream writer in grs format.
@@ -5518,7 +5528,17 @@
             <param name="graph">The graph to export. Must be a named graph.</param>
             <param name="writer">The stream writer to export to.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.ExportYouMustCloseStreamWriter(de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter,System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.Export(de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter,System.Boolean,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.String,System.String}})">
+            <summary>
+            Exports the given graph to the file given by the stream writer in grs format.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="graph">The graph to export. Must be a named graph.</param>
+            <param name="writer">The stream writer to export to.</param>
+            <param name="nonewgraph">If true, the new graph command is not emitted.</param>
+            <param name="typesToAttributesToSkip">Gives a dictionary with type names containing a dictionary with attribute names that are not to be emitted</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.ExportYouMustCloseStreamWriter(de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter,System.String,System.Boolean,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.String,System.String}})">
             <summary>
             Exports the given graph to the file given by the stream writer in grs format.
             Any errors will be reported by exception.
@@ -5527,6 +5547,8 @@
             <param name="graph">The graph to export. Must be a named graph.</param>
             <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
             <param name="modelPathPrefix">Path to the model.</param>
+            <param name="nonewgraph">If true, the new graph command is not emitted.</param>
+            <param name="typesToAttributesToSkip">Gives a dictionary with type names containing a dictionary with attribute names that are not to be emitted</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttributeInitialization(de.unika.ipd.grGen.libGr.MainGraphExportContext,de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter)">
             <summary>
@@ -5815,6 +5837,11 @@
         <member name="P:de.unika.ipd.grGen.libGr.ISubactionAndOutputAdditionEnvironment.EmitWriter">
             <summary>
             The writer used by emit statements. By default this is Console.Out.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ISubactionAndOutputAdditionEnvironment.EmitWriterDebug">
+            <summary>
+            The writer used by emitdebug statements. This is Console.Out, and can't be redirected to a file in contrast to the EmitWriter.
             </summary>
         </member>
         <member name="E:de.unika.ipd.grGen.libGr.ISubactionAndOutputAdditionEnvironment.OnSwitchingToSubgraph">
