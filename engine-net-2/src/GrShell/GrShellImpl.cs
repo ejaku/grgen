@@ -4651,7 +4651,7 @@ showavail:
 
                 // save graph
 
-                GRSExport.ExportYouMustCloseStreamWriter(graph, sw, "");
+                GRSExport.ExportYouMustCloseStreamWriter(graph, sw, "", false);
 
                 // save variables
 
