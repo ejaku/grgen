@@ -32,11 +32,11 @@ rule AddRedundancy
 
 The following syntax diagram gives an extensions to the syntax diagrams of the Rule Set Language chapter \ref{chaprulelang}:
 \begin{rail}
-  ExecStatement: 'emit' '(' (StringExpr + ',') ')' ';' | 'exec' '(' RewriteSequence ')' ';'
+  ExecStatement: ('emit' | 'emitdebug') '(' (StringExpr + ',') ')' ';' | 'exec' '(' RewriteSequence ')' ';'
 	;
-\end{rail}\ixkeyw{emit}\ixkeyw{exec}\ixnterm{ExecStatement}
+\end{rail}\ixkeyw{emit}\ixkeyw{emitdebug}\ixkeyw{exec}\ixnterm{ExecStatement}
 
-The statements \texttt{emit} and \texttt{exec} enhance the declarative rewrite part by imperative clauses.
+The statements \texttt{emit} and \texttt{emitdebug} as well as \texttt{exec} enhance the declarative rewrite part by imperative clauses.
 This means that these statements are executed in the same order as they appear within the rule,
 but particularly that they operate on the modified host graph, as they are executed \emph{after} the rewrite part.
 
@@ -72,12 +72,13 @@ rule foo : (A,B)
 \end{example}
 
 \subsection*{Text output}
-The \texttt{emit} statement prints a string or a comma-separated sequence of strings to the currently associated output stream. See Chapter~\ref{cha:typeexpr} for a description of string expressions.
+The \texttt{emit} and the \texttt{emitdebug} statement prints a string or a comma-separated sequence of strings to the currently associated output stream or always the console. See Chapter~\ref{cha:typeexpr} for a description of string expressions.
 
 The argument(s) must be of string type, but any type is automatically casted into its string representation as needed. Prefer comma separated arguments over string concatenation, they are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
 
 The currently associated output stream is by default \texttt{stdout}, you use the emit then typically to print debug or execution state information to the console.
 It may be a text file (the one output was redirected to, see the \texttt{redirect emit} command in Chapter~\ref{chapgrshell}), you use the emit then commonly to write a file format of your choice (maybe a simple extract, maybe a full-blown graph export), building a model-to-text transformation.
+The \texttt{emithere} statement always prints out to the console, even if output was redirected.
 
 %-----------------------------------------------------------------------------------------------
 \section{Deferred Exec and Emithere in Nested and Subpatterns}\label{sec:deferredexecemithere}
@@ -85,18 +86,19 @@ It may be a text file (the one output was redirected to, see the \texttt{redirec
 The following syntax diagram gives an extensions to the syntax diagrams of the Subpatterns chapter \ref{cha:sub}:
 \begin{rail}
   SubpatternExecEmit:
-		'emithere' '(' (StringExpr + ',') ')' ';' |
-		'emit' '(' (StringExpr + ',') ')' ';' |
+		('emithere' | 'emitheredebug') '(' (StringExpr + ',') ')' ';' |
+		('emit' | 'emitdebug') '(' (StringExpr + ',') ')' ';' |
 		'exec' '(' RewriteSequence ')' ';'
 	;
-\end{rail}\ixnterm{SubpatternExecEmit}\ixkeyw{emithere}
+\end{rail}\ixnterm{SubpatternExecEmit}\ixkeyw{emithere}\ixkeyw{emitheredebug}
 
-The statements \texttt{emit}, \texttt{emithere} and \texttt{exec} enhance the declarative rewrite part of nested and subpatterns by imperative clauses.
+The statements \texttt{emit} and \texttt{emitdebug}, \texttt{emithere} and \texttt{emitheredebug}, as well as \texttt{exec} enhance the declarative rewrite part of nested and subpatterns by imperative clauses.
 
-The \texttt{emit} and \texttt{emithere} statements get executed during rewriting before the \texttt{exec} statements;
+The \texttt{emit} and \texttt{emithere} statements (as well as \texttt{emitdebug} and \texttt{emitheredebug}) get executed during rewriting before the \texttt{exec} statements;
 the \texttt{emithere}-statements get executed before the \texttt{emit} statements,
 in the order in between the subpattern rewrite applications they are specified syntactically
 (see \ref{sec:localvarorderedevalyield} for more on this).
+The \texttt{debug}-suffixed versions always print to the console, the plain versions may get redirected to a file.
 
 The \emph{deferred} \texttt{exec} statements are executed in the order as they appear syntactically, but particularly after the top-level rule which employed the pattern they are contained in was executed.
 They are a variant of the rule-based embedded \texttt{exec}-statements from the \emph{ExecStatement} (mentioned in \ref{replclause} and explained above in \ref{sct:execemitrules}), only available in the rewrite parts of subpatterns or nested alternatives/iterateds.
