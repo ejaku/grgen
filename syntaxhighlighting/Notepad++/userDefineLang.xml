@@ -1,68 +1,126 @@
 <NotepadPlus>
-    <UserLang name="GrGen" ext="grg gm gri">
+    <UserLang name="GrGen" ext="grg gm gri" udlVersion="2.1">
         <Settings>
-            <Global caseIgnored="no" />
-            <TreatAsSymbol comment="no" commentLine="no" />
-            <Prefix words1="no" words2="no" words3="no" words4="no" />
+            <Global caseIgnored="no" allowFoldOfComments="no" foldCompact="no" forcePureLC="0" decimalSeparator="0" />
+            <Prefix Keywords1="no" Keywords2="no" Keywords3="no" Keywords4="no" Keywords5="no" Keywords6="no" Keywords7="no" Keywords8="no" />
         </Settings>
         <KeywordLists>
-            <Keywords name="Delimiters">&quot;&apos;0&quot;&apos;0</Keywords>
-            <Keywords name="Folder+">{</Keywords>
-            <Keywords name="Folder-">}</Keywords>
-            <Keywords name="Operators">- ! $ % &amp; ( ) * , . : ; \ { | } ~ + &lt; = &gt;</Keywords>
-            <Keywords name="Comment">1/* 2*/ 0//</Keywords>
-            <Keywords name="Words1">#include #using abstract alternative arbitrary auto break case class copy connect const continue count def delete directed do edge else emit emithere enum eval evalhere exact exec extends external filter for function hom if in independent index induced iterated modify multiple nameof negative node optional package pattern patternpath procedure replace return rule sequence switch test typeof undirected using visited while yield</Keywords>
-            <Keywords name="Words2">array boolean byte Debug deque double false File float graph int long map Math match null object short string set Time Transaction true</Keywords>
-            <Keywords name="Words3">abs add addCopy adjacent adjacentIncoming adjacentOutgoing arcsin arccos arctan ascending asArray asDeque asMap asSet asString boundedReachable boundedReachableIncoming boundedReachableOutgoing boundedReachableEdges boundedReachableEdgesIncoming boundedReachableEdgesOutgoing boundedReachableWithRemainingDepth boundedReachableWithRemainingDepthIncoming boundedReachableWithRemainingDepthOutgoing byteMax byteMin canonize clear commit cos countNodes countEdges countAdjacent countAdjacentIncoming countAdjacentOutgoing countIncident countIncoming countOutgoing countReachable countReachableIncoming countReachableOutgoing countReachableEdges countReachableEdgesIncoming countReachableEdgesOutgoing countBoundedReachable countBoundedReachableIncoming countBoundedReachableOutgoing countBoundedReachableEdges countBoundedReachableEdgesIncoming countBoundedReachableEdgesOutgoing dangling definedSubgraph delete descending domain doubleMax doubleMin dpo edges edgeByName edgeByUnique empty endsWith equalsAny equalsAnyStructurally exists export floatMax floatMin groupBy halt highlight identification import incident incoming indexOf indexOfBy indexOfOrdered indexOfOrderedBy inducedSubgraph insert insertCopy insertDefined insertInduced intMax intMin isAdjacent isAdjacentIncoming isAdjacentOutgoing isIncoming isOutgoing isIncident isReachable isReachableIncoming isReachableOutgoing isReachableEdges isReachableEdgesIncoming isReachableEdgesOutgoing isBoundedReachable isBoundedReachableIncoming isBoundedReachableOutgoing isBoundedReachableEdges isBoundedReachableEdgesIncoming isBoundedReachableEdgesOutgoing keepFirst keepFirstFraction keepLast keepLastFraction keepOneForEach keepSameAsFirst keepSameAsLast lastIndexOf lastIndexOfBy length log longMax longMin max merge min nodes nodeByName nodeByUnique opposite orderAscending orderAscendingBy orderDescendingBy outgoing pause peek pow random range reachable reachableIncoming reachableOutgoing reachableEdges reachableEdgesIncoming reachableEdgesOutgoing record redirectSource redirectTarget redirectSourceAndTarget ref rem removeFirst removeLast removeFirstFraction removeLastFraction resume retype reverse rollback shortMax shortMin sin size source start startsWith substring subarray subdeque tan target this toUpper toLower uniqueof valloc var vfree vfreenonreset vreset</Keywords>
-            <Keywords name="Words4"></Keywords>
+            <Keywords name="Comments">00// 01 02 03/* 04*/</Keywords>
+            <Keywords name="Numbers, prefix1"></Keywords>
+            <Keywords name="Numbers, prefix2">0x</Keywords>
+            <Keywords name="Numbers, extras1">A B C D E F a b c d e f</Keywords>
+            <Keywords name="Numbers, extras2"></Keywords>
+            <Keywords name="Numbers, suffix1"></Keywords>
+            <Keywords name="Numbers, suffix2"></Keywords>
+            <Keywords name="Numbers, range"></Keywords>
+            <Keywords name="Operators1">- ! $ % &amp; ( ) * , . : ; \ { | } ~ + &lt; = &gt;</Keywords>
+            <Keywords name="Operators2">in</Keywords>
+            <Keywords name="Folders in code1, open">{</Keywords>
+            <Keywords name="Folders in code1, middle"></Keywords>
+            <Keywords name="Folders in code1, close">}</Keywords>
+            <Keywords name="Folders in code2, open"></Keywords>
+            <Keywords name="Folders in code2, middle"></Keywords>
+            <Keywords name="Folders in code2, close"></Keywords>
+            <Keywords name="Folders in comment, open"></Keywords>
+            <Keywords name="Folders in comment, middle"></Keywords>
+            <Keywords name="Folders in comment, close"></Keywords>
+            <Keywords name="Keywords1">#include #using abstract alternative arbitrary auto break case class copy connect const continue count def delete directed do edge else emit emitdebug emithere emitheredebug enum eval evalhere exact exec extends external filter for function hom if independent index induced iterated modify multiple nameof negative node optional package pattern patternpath procedure replace return rule sequence switch test typeof undirected using visited while yield</Keywords>
+            <Keywords name="Keywords2">array boolean byte Debug deque double false File float graph int long map Math match null object short string set Time Transaction true</Keywords>
+            <Keywords name="Keywords3">abs add addCopy adjacent adjacentIncoming adjacentOutgoing arcsin arccos arctan ascending asArray asDeque asMap asSet asString boundedReachable boundedReachableIncoming boundedReachableOutgoing boundedReachableEdges boundedReachableEdgesIncoming boundedReachableEdgesOutgoing boundedReachableWithRemainingDepth boundedReachableWithRemainingDepthIncoming boundedReachableWithRemainingDepthOutgoing byteMax byteMin canonize clear commit cos countNodes countEdges countAdjacent countAdjacentIncoming countAdjacentOutgoing countIncident countIncoming countOutgoing countReachable countReachableIncoming countReachableOutgoing countReachableEdges countReachableEdgesIncoming countReachableEdgesOutgoing countBoundedReachable countBoundedReachableIncoming countBoundedReachableOutgoing countBoundedReachableEdges countBoundedReachableEdgesIncoming countBoundedReachableEdgesOutgoing dangling definedSubgraph delete descending domain doubleMax doubleMin dpo edges edgeByName edgeByUnique empty endsWith equalsAny equalsAnyStructurally exists export floatMax floatMin groupBy halt highlight identification import incident incoming indexOf indexOfBy indexOfOrdered indexOfOrderedBy inducedSubgraph insert insertCopy insertDefined insertInduced intMax intMin isAdjacent isAdjacentIncoming isAdjacentOutgoing isIncoming isOutgoing isIncident isReachable isReachableIncoming isReachableOutgoing isReachableEdges isReachableEdgesIncoming isReachableEdgesOutgoing isBoundedReachable isBoundedReachableIncoming isBoundedReachableOutgoing isBoundedReachableEdges isBoundedReachableEdgesIncoming isBoundedReachableEdgesOutgoing keepFirst keepFirstFraction keepLast keepLastFraction keepOneForEach keepSameAsFirst keepSameAsLast lastIndexOf lastIndexOfBy length log longMax longMin max merge min nodes nodeByName nodeByUnique opposite orderAscending orderAscendingBy orderDescendingBy outgoing pause peek pow random range reachable reachableIncoming reachableOutgoing reachableEdges reachableEdgesIncoming reachableEdgesOutgoing record redirectSource redirectTarget redirectSourceAndTarget ref rem removeFirst removeLast removeFirstFraction removeLastFraction resume retype reverse rollback shortMax shortMin sin size source start startsWith substring subarray subdeque tan target this toUpper toLower uniqueof valloc var vfree vfreenonreset vreset</Keywords>
+            <Keywords name="Keywords4"></Keywords>
+            <Keywords name="Keywords5"></Keywords>
+            <Keywords name="Keywords6"></Keywords>
+            <Keywords name="Keywords7"></Keywords>
+            <Keywords name="Keywords8"></Keywords>
+            <Keywords name="Delimiters">00&quot; 01\ 02&quot; 03&apos; 04\ 05&apos; 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23</Keywords>
         </KeywordLists>
         <Styles>
-            <WordsStyle name="DEFAULT" styleID="11" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="FOLDEROPEN" styleID="12" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="FOLDERCLOSE" styleID="13" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="KEYWORD1" styleID="5" fgColor="0000FF" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="KEYWORD2" styleID="6" fgColor="8080FF" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="KEYWORD3" styleID="7" fgColor="000088" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="KEYWORD4" styleID="8" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="COMMENT" styleID="1" fgColor="008000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="008000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="NUMBER" styleID="4" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="OPERATOR" styleID="10" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="DELIMINER1" styleID="14" fgColor="800000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="DELIMINER2" styleID="15" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="DELIMINER3" styleID="16" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
+            <WordsStyle name="DEFAULT" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="COMMENTS" fgColor="008000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="LINE COMMENTS" fgColor="008000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="NUMBERS" fgColor="004040" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS1" fgColor="0000FF" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS2" fgColor="8080FF" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS3" fgColor="000088" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS4" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS5" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS6" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS7" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS8" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="OPERATORS" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="FOLDER IN CODE1" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="FOLDER IN CODE2" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="FOLDER IN COMMENT" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS1" fgColor="800000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS2" fgColor="800000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS3" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS4" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS5" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS6" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS7" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS8" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
         </Styles>
     </UserLang>
-    <UserLang name="GrShell" ext="grs grsi">
+    <UserLang name="GrShell" ext="grs grsi" udlVersion="2.1">
         <Settings>
-            <Global caseIgnored="no" />
-            <TreatAsSymbol comment="no" commentLine="no" />
-            <Prefix words1="no" words2="no" words3="no" words4="no" />
+            <Global caseIgnored="no" allowFoldOfComments="no" foldCompact="no" forcePureLC="0" decimalSeparator="0" />
+            <Prefix Keywords1="no" Keywords2="no" Keywords3="no" Keywords4="no" Keywords5="no" Keywords6="no" Keywords7="no" Keywords8="no" />
         </Settings>
         <KeywordLists>
-            <Keywords name="Delimiters">&quot;&apos;0&quot;&apos;0</Keywords>
-            <Keywords name="Comment">0#</Keywords>
-            <Keywords name="Words1">add askfor clear custom debug def delete dump echo exec exit export external help import in include new on open quit randomseed record recordflush redirect replay retype save select show silence validate xgrs</Keywords>
-            <Keywords name="Words2">actions any attributes backend bordercolor break by color continue disable edge edges emit enable exitonfailure exclude from get graph graphs group halt hidden highlight if incoming infotag is labels layout linestyle map match mode no node nodes num off on only option options outgoing rem reset set shape shortinfotag source specified start statistics stop strict sub super target textcolor thickness time to types var with withvariables</Keywords>
-            <Keywords name="Words3">black blue green cyan red purple brown grey lightgrey lightblue lightgreen lightcyan lightred lightpurple lightyellow yellow white darkblue darkred darkgreen darkyellow darkmagenta darkcyan gold lilac turquoise aquamarine khaki pink orange orchid yellowgreen
-				matched created deleted retyped box triangle circle ellipse rhomb hexagon trapeze uptrapeze lparallelogram rparallelogram continuous dotted dashed Random Organic Orthogonal Circular Tree Diagonal Incremental Hierarchic Compilergraph.</Keywords>
-            <Keywords name="Words4"></Keywords>
+            <Keywords name="Comments">00# 01 02</Keywords>
+            <Keywords name="Numbers, prefix1"></Keywords>
+            <Keywords name="Numbers, prefix2"></Keywords>
+            <Keywords name="Numbers, extras1"></Keywords>
+            <Keywords name="Numbers, extras2"></Keywords>
+            <Keywords name="Numbers, suffix1"></Keywords>
+            <Keywords name="Numbers, suffix2"></Keywords>
+            <Keywords name="Numbers, range"></Keywords>
+            <Keywords name="Operators1"></Keywords>
+            <Keywords name="Operators2"></Keywords>
+            <Keywords name="Folders in code1, open"></Keywords>
+            <Keywords name="Folders in code1, middle"></Keywords>
+            <Keywords name="Folders in code1, close"></Keywords>
+            <Keywords name="Folders in code2, open"></Keywords>
+            <Keywords name="Folders in code2, middle"></Keywords>
+            <Keywords name="Folders in code2, close"></Keywords>
+            <Keywords name="Folders in comment, open"></Keywords>
+            <Keywords name="Folders in comment, middle"></Keywords>
+            <Keywords name="Folders in comment, close"></Keywords>
+            <Keywords name="Keywords1">add askfor clear custom debug def delete dump echo exec exit export external help import in include new on open quit randomseed record recordflush redirect replay retype save select show silence validate xgrs</Keywords>
+            <Keywords name="Keywords2">actions any attributes backend bordercolor break by color continue disable edge edges emit enable exitonfailure exclude from get graph graphs group halt hidden highlight if incoming infotag is labels layout linestyle map match mode no nonewgraph node nodes num off on only option options outgoing rem reset set shape shortinfotag source specified start statistics stop strict sub super target textcolor thickness time to types var with withvariables</Keywords>
+            <Keywords name="Keywords3">black blue green cyan red purple brown grey lightgrey lightblue lightgreen lightcyan lightred lightpurple lightyellow yellow white darkblue darkred darkgreen darkyellow darkmagenta darkcyan gold lilac turquoise aquamarine khaki pink orange orchid yellowgreen matched created deleted retyped box triangle circle ellipse rhomb hexagon trapeze uptrapeze lparallelogram rparallelogram continuous dotted dashed Random Organic Orthogonal Circular Tree Diagonal Incremental Hierarchic Compilergraph.</Keywords>
+            <Keywords name="Keywords4"></Keywords>
+            <Keywords name="Keywords5"></Keywords>
+            <Keywords name="Keywords6"></Keywords>
+            <Keywords name="Keywords7"></Keywords>
+            <Keywords name="Keywords8"></Keywords>
+            <Keywords name="Delimiters">00&quot; 01\ 02&quot; 03&apos; 04\ 05&apos; 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23</Keywords>
         </KeywordLists>
         <Styles>
-            <WordsStyle name="DEFAULT" styleID="11" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="FOLDEROPEN" styleID="12" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="FOLDERCLOSE" styleID="13" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="KEYWORD1" styleID="5" fgColor="0000FF" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="KEYWORD2" styleID="6" fgColor="8080FF" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="KEYWORD3" styleID="7" fgColor="8000FF" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="KEYWORD4" styleID="8" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="COMMENT" styleID="1" fgColor="008000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="008000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="NUMBER" styleID="4" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="OPERATOR" styleID="10" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="DELIMINER1" styleID="14" fgColor="800000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="DELIMINER2" styleID="15" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="DELIMINER3" styleID="16" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
+            <WordsStyle name="DEFAULT" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="COMMENTS" fgColor="008000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="LINE COMMENTS" fgColor="008000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="NUMBERS" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS1" fgColor="0000FF" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS2" fgColor="8080FF" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS3" fgColor="8000FF" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS4" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS5" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS6" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS7" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS8" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="OPERATORS" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="FOLDER IN CODE1" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="FOLDER IN CODE2" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="FOLDER IN COMMENT" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS1" fgColor="800000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS2" fgColor="800000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS3" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS4" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS5" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS6" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS7" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS8" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
         </Styles>
     </UserLang>
 </NotepadPlus>
