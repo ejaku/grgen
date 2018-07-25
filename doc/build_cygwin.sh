@@ -39,7 +39,7 @@ for F in $@ ; do
       pdflatex --interaction=nonstopmode "$F".tex > /dev/null
 
       echo Building thumbnails...
-      thumbpdf "$F".pdf > /dev/null
+      thumbpdf  --gscmd gswin64 "$F".pdf > /dev/null
       echo pdfLaTeX [6]...
       pdflatex --interaction=nonstopmode "$F".tex > /dev/null
 
