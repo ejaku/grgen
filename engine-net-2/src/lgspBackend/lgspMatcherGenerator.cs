@@ -3230,7 +3230,7 @@ exitSecondLoop: ;
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)\n");
+            sb.AppendFront("public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)\n");
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFront("if(filter.IsAutoSupplied) {\n");
