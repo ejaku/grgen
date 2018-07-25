@@ -1248,7 +1248,7 @@ namespace de.unika.ipd.grGen.libGr
             copy.Expressions = new List<SequenceExpression>(Expressions.Count);
             for(int i = 0; i < Expressions.Count; ++i)
             {
-                copy.Expressions[i] = Expressions[i].CopyExpression(originalToCopy, procEnv);
+                copy.Expressions.Add(Expressions[i].CopyExpression(originalToCopy, procEnv));
             }
             copy.IsDebug = IsDebug;
             return copy;
