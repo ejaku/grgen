@@ -92,6 +92,7 @@ namespace de.unika.ipd.grGen.lgsp
                     var.Value = newLgspNode;
                 ElementMap.Remove(oldLgspNode);
                 ElementMap[newLgspNode] = varList;
+                oldLgspNode.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
                 newLgspNode.lgspFlags |= (uint)LGSPElemFlags.HAS_VARIABLES;
             }
         }
@@ -107,6 +108,7 @@ namespace de.unika.ipd.grGen.lgsp
                     var.Value = newLgspEdge;
                 ElementMap.Remove(oldLgspEdge);
                 ElementMap[newLgspEdge] = varList;
+                oldLgspEdge.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
                 newLgspEdge.lgspFlags |= (uint)LGSPElemFlags.HAS_VARIABLES;
             }
         }
