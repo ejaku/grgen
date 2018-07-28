@@ -46,6 +46,11 @@ namespace de.unika.ipd.grGen.lgsp
         public bool CommentSourceCode = false;
 
         /// <summary>
+        /// If true, validity checks are added at some places, to support debugging/developments.
+        /// </summary>
+        public bool EmitDebugValidityChecks = false;
+
+        /// <summary>
         /// If true, the source code of dynamically generated matcher functions are dumped to a file in the current directory.
         /// </summary>
         public bool DumpDynSourceCode = false;
@@ -2914,6 +2919,25 @@ exitSecondLoop: ;
             sb.AppendFrontFormat("public {0} Match(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, int maxMatches{1})\n", matchesType, inParameters);
             sb.AppendFront("{\n");
             sb.Indent();
+
+            if (EmitDebugValidityChecks)
+            {
+                // throw a source-level early exception instead of an internal NPE in case a parameter is null (that is not explicitly allowed to be null)
+                for (int i = 0; i < matchingPattern.Inputs.Length; ++i)
+                {
+                    String inputName = matchingPattern.InputNames[i];
+                    if (Array.IndexOf(matchingPattern.patternGraph.maybeNullElementNames, inputName) != -1)
+                        continue;
+                    GrGenType inputType = matchingPattern.Inputs[i];
+                    if (inputType is NodeType || inputType is EdgeType
+                        /*|| inputType is VarType && (inputType as VarType).Type.IsGenericType*/)
+                    {
+                        sb.AppendFrontFormat("if({0}==null) throw new ArgumentNullException(\"{0}\", \"The graph element handed in is null. Common causes are uninitialized variables, or the automatic null-ing of graph global variables upon graph element removal.\");\n", inputName);
+                        sb.AppendFrontFormat("if(!{0}.Valid) throw new ArgumentException(\"The graph element handed in is invalid by now, i.e. not contained in the graph anymore. A common cause is a remaining reference in a local variable or a storage after element removal from the graph.\", \"{0}\");\n", inputName);
+                    }
+                }
+            }
+
             sb.AppendFrontFormat("return DynamicMatch((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, maxMatches{0});\n", inArguments);
             sb.Unindent();
             sb.AppendFront("}\n");
@@ -2921,6 +2945,12 @@ exitSecondLoop: ;
             sb.AppendFrontFormat("public void Modify(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, {0} match{1})\n", matchType, outParameters);
             sb.AppendFront("{\n");
             sb.Indent();
+
+            if (EmitDebugValidityChecks)
+            {
+                sb.AppendFront("GRGEN_LIBGR.MatchedElementsValidityChecker.Check(match);\n");
+            }
+
             sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match{0});\n", outArguments);
             sb.Unindent();
             sb.AppendFront("}\n");
