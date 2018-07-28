@@ -1260,6 +1260,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
             if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0) matcherGen.CommentSourceCode = true;
+            if((flags & ProcessSpecFlags.CompileWithDebug) != 0) matcherGen.EmitDebugValidityChecks = true;
             if((flags & ProcessSpecFlags.LazyNIC) != 0) matcherGen.LazyNegativeIndependentConditionEvaluation = true;
             if((flags & ProcessSpecFlags.Noinline) != 0) matcherGen.InlineIndependents = false;
             if((flags & ProcessSpecFlags.Profile) != 0) matcherGen.Profile = true;
