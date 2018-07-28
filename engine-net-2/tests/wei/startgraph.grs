@@ -1,0 +1,75 @@
+new graph "wei/rules.grg"
+
+new s1:Stmt
+new s7:Stmt
+new s2:Stmt
+new s0:Stmt
+new s5:Helper
+new s9:Helper
+new s13:Branch
+new s8:LoopHead
+new s3:Stmt
+new s6:Stmt
+new s12:Helper
+new s4:LoopHead
+new s11:LoopHead
+new s10:Stmt
+new s14:Helper
+new s15:Stmt
+new s16:Stmt
+new s17:Stmt
+new s18:Stmt
+
+new s4-:Forward->s5
+new s5-:Forward->s7
+new s13-:Forward->s15
+new s15-:Forward->s14
+new s13-:Forward->s14
+new s11-:Forward->s13
+new s14-:Backward->s11
+new s11-:Forward->s12
+new s10-:Forward->s11
+new s8-:Forward->s10
+new s8-:Forward->s9
+new s16-:Forward->s17
+new s17-:Forward->s18
+new s1-:Forward->s8
+new s0-:Forward->s1
+new s4-:Forward->s6
+new s6-:Backward->s4
+new s9-:Forward->s2
+new s2-:Forward->s4
+new s7-:Forward->s3
+new s12-:Forward->s16
+new s18-:Backward->s8
+
+def rec(level:int) { true }
+def rec(level:int) {\
+  if{ {{level < 3}};\
+    << radixsort ;; {emit("value of variable 4 5 6 7 8 9 rule1@",level,"\n")} ;> {emit("value of variable 4 5 6 7 8 9 ",nodes(),"\n")} ;> rec(level+1) >>\
+    ;> << buildheap2 ;; {emit("value of variable 4 5 6 7 8 9 rule2@",level,"\n")} ;> {emit("value of variable 4 5 6 7 8 9 ",nodes(),"\n")} ;> rec(level+1) >> \
+    ;> << swap ;; {emit("value of variable 4 5 6 7 8 9 rule3@",level,"\n")} ;> {emit("value of variable 4 5 6 7 8 9 ",nodes(),"\n")} ;> rec(level+1) >> \
+    ; false } \
+}
+
+show num nodes
+show num edges
+show num nodes "Helper"
+show num nodes "Branch"
+show num nodes "Stmt"
+show num nodes "LoopHead"
+show num edges "Forward"
+show num edges "Backward"
+
+exec rec(0)
+
+show num nodes
+show num edges
+show num nodes "Helper"
+show num nodes "Branch"
+show num nodes "Stmt"
+show num nodes "LoopHead"
+show num edges "Forward"
+show num edges "Backward"
+
+exit
