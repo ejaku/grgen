@@ -1,0 +1,41 @@
+#using "types.gm"
+
+rule radixsort{
+	s2:LoopHead;
+	s3:Helper;
+	s4:Stmt;
+	s2-:Forward->s4;
+	s4-:Backward->s2;
+	s2-:Forward->s3;
+
+	replace {
+	_f:Stmt<s2,s3>;
+	}
+}
+
+rule buildheap2{
+	s2:Stmt;
+	s3:LoopHead;
+	s4:Helper;
+	s5:Stmt;
+	s3-:Forward->s5;
+	s5-:Backward->s3;
+	s3-:Forward->s4;
+	s2-:Forward->s3;
+
+	replace {
+		_f:Stmt<s2,s4>;
+	}
+}
+
+rule swap {	
+	e1:Stmt;
+	e2:Stmt;
+	e3:Stmt;
+	e1-:Forward->e2;	
+	e2-:Forward->e3;
+		
+	replace {
+	_f:Stmt<e1,e3>;
+	}		
+}
