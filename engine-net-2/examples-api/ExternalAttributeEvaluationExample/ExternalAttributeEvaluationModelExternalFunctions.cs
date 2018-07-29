@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Nov 01 11:28:06 CET 2015
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jul 29 09:00:50 CEST 2018
 
 using System;
 using System.Collections.Generic;
@@ -155,7 +155,7 @@ namespace de.unika.ipd.grGen.expression
 		//public static object bar(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, object, object);
 		//public static bool isnull(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, object);
 		//public static bool bla(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_MODEL.IN, GRGEN_MODEL.IE);
-		//public static GRGEN_MODEL.IN blo(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_LIBGR.INode, GRGEN_LIBGR.IEdge);
+		//public static GRGEN_MODEL.IN blo(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_LIBGR.INode, GRGEN_LIBGR.IDEdge);
 		//public static GRGEN_MODEL.OwnPown har(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_MODEL.Own, GRGEN_MODEL.OwnPown);
 		//public static bool hur(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_MODEL.OwnPown);
 		//public static bool hurdur(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_MODEL.OwnPownHome);
@@ -175,7 +175,7 @@ namespace de.unika.ipd.grGen.expression
 		//public static void barProc(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, object, object, out object);
 		//public static void isnullProc(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, object, out bool);
 		//public static void blaProc(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_MODEL.IN, GRGEN_MODEL.IE, out bool, out bool);
-		//public static void bloProc(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_LIBGR.INode, GRGEN_LIBGR.IEdge, out GRGEN_MODEL.IN);
+		//public static void bloProc(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_LIBGR.INode, GRGEN_LIBGR.IDEdge, out GRGEN_MODEL.IN);
 		//public static void harProc(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_MODEL.Own, GRGEN_MODEL.OwnPown, out GRGEN_MODEL.OwnPown, out GRGEN_MODEL.Own, out GRGEN_MODEL.IN);
 		//public static void hurProc(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_MODEL.OwnPown);
 		//public static void hurdurProc(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph, GRGEN_MODEL.OwnPownHome);

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Nov 01 11:28:05 CET 2015
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jul 29 09:00:50 CEST 2018
 
 using System;
 using System.Collections.Generic;
@@ -513,12 +513,14 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 				default: throw new NullReferenceException("N does not have the function method " + name + "!");
 			}
 		}
+
 		public string fn(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, string var_ss)
 		{
 			GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;
 			GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;
 			return ((var_ss + this.@s) + ((GRGEN_MODEL.IN) this).@fn(actionEnv, graph, var_ss));
 		}
+
 		public GRGEN_MODEL.OwnPownHome fn2(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, GRGEN_MODEL.OwnPownHome var_oo)
 		{
 			GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;
@@ -552,6 +554,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		}
 		private static object[] ReturnArray_pc_N = new object[0]; // helper array for multi-value-returns, to allow for contravariant parameter assignment
 		private static object[] ReturnArray_pc2_N = new object[2]; // helper array for multi-value-returns, to allow for contravariant parameter assignment
+
 		public void pc(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, string var_ss)
 		{
 			GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;
@@ -565,6 +568,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting("pc");
 			return;
 		}
+
 		public void pc2(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, string var_ss, GRGEN_MODEL.OwnPown var_oo, out string _out_param_0, out GRGEN_MODEL.OwnPown _out_param_1)
 		{
 			GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;
@@ -1677,12 +1681,14 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 				default: throw new NullReferenceException("NN does not have the function method " + name + "!");
 			}
 		}
+
 		public string fn(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, string var_ss)
 		{
 			GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;
 			GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;
 			return ((var_ss + this.@s) + ((GRGEN_MODEL.IN) this).@fn(actionEnv, graph, var_ss));
 		}
+
 		public GRGEN_MODEL.OwnPownHome fn2(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, GRGEN_MODEL.OwnPownHome var_oo)
 		{
 			GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;
@@ -1716,6 +1722,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		}
 		private static object[] ReturnArray_pc_NN = new object[0]; // helper array for multi-value-returns, to allow for contravariant parameter assignment
 		private static object[] ReturnArray_pc2_NN = new object[2]; // helper array for multi-value-returns, to allow for contravariant parameter assignment
+
 		public void pc(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, string var_ss)
 		{
 			GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;
@@ -1729,6 +1736,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting("pc");
 			return;
 		}
+
 		public void pc2(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, string var_ss, GRGEN_MODEL.OwnPown var_oo, out string _out_param_0, out GRGEN_MODEL.OwnPown _out_param_1)
 		{
 			GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;
@@ -2560,7 +2568,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	// *** Edge Edge ***
 
 
-	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IDEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
@@ -2675,7 +2683,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public override string Name { get { return "Edge"; } }
 		public override string Package { get { return null; } }
 		public override string PackagePrefixedName { get { return "Edge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IDEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ExternalAttributeEvaluation.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
@@ -2714,7 +2722,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	// *** Edge UEdge ***
 
 
-	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IUEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
@@ -2829,7 +2837,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public override string Name { get { return "UEdge"; } }
 		public override string Package { get { return null; } }
 		public override string PackagePrefixedName { get { return "UEdge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IUEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ExternalAttributeEvaluation.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
@@ -2867,7 +2875,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 
 	// *** Edge E ***
 
-	public interface IE : GRGEN_LIBGR.IEdge
+	public interface IE : GRGEN_LIBGR.IDEdge
 	{
 	}
 
