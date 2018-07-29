@@ -379,7 +379,7 @@ You have to ensure an empty graph of correct model exists before you can include
 	
 The skip parameters allow to exclude attributes from the node/edge attribute initializer lists of the \texttt{new node} or \texttt{new edge} commands.
 The parameter \texttt{skip/type.attr} causes omission of attribute \texttt{attr} from graph element type \texttt{type} during graph serialization.
-This way you can get an importable graph if you intend to remove some attributes -- otherwise import fails due to an unknown attribute getting initialized (in the file adhering to the old graph model).
+This way you can export an again importable graph if you intend to remove some attributes -- otherwise import would fail due to an unknown attribute getting initialized (in the file exported adhering to the old graph model that is not existing in the new graph model).
 
 The \texttt{save} command from above is for saving a \GrShell\ session including graph global variables and visualization commands,
 the goal of the \texttt{export} command is simply persistent storing of graphs;
@@ -557,7 +557,7 @@ Configures a reference to an external assembly \emph{Filename} to be linked into
 \begin{rail}
   'new' 'set' ('keepdebug'|'lazynic'|'noinline'|'profile') ('on'|'off')
 \end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{noinline}\ixkeyw{profile}\ixkeyw{on}\ixkeyw{off}
-Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols,
+Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols (includes emitting of some validity checking code),
 or configures the generation of the matchers.
 The latter to either execute negatives, independents, and conditions only at the end of matching (normally asap),
 or to never inline subpatterns,
