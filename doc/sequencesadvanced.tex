@@ -29,7 +29,7 @@ The interpreted sequences in the shell must start with the \texttt{def} keyword;
 \label{ex:recseq}
 \begin{grgen}
 def rec(depth:int) {\
-  if{ {depth<::MAXDEPTH}; foo() ;> rec(depth+1); bar() }\
+  if{ {{depth<::MAXDEPTH}}; foo() ;> rec(depth+1); bar() }\
 }
 \end{grgen}
 This example shows a sequence defined in the shell which is executing itself recursively.

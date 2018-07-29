@@ -58,7 +58,6 @@ this means above all that you are not allowed to ship it with a release of your 
 
 Executing a generated graph rewrite system requires .NET 2.0 or later; compiling and debugging a graph rewrite system in addition requires JAVA 1.5 or later. 
 You find the tools in the \texttt{bin} subdirectory of your \GrG\ installation.
-%\pagebreak
 
 %-----------------------------------------------------------------------------------------------
 \subsection{\texttt{\indexed{GrGen.exe}}} \label{grgenoptions}
@@ -88,8 +87,10 @@ By default \GrG\ tries to write the compiled assemblies into the same directory 
 	This file is for internal debug purposes only (it contains the frontend actions output).
   \item \emph{Name}\texttt{Actions.cs}---the C\# source file of the \emph{rule-set}\texttt{Actions.dll} assembly.
 \end{itemize}\\
+\end{tabularx}
+\begin{tabularx}{\linewidth}{lX}
       \texttt{-use} & Don't re-generate C\# source files. Instead use the files in \emph{existing-dir} to build the assemblies.\\
-      \texttt{-debug} & Compile the assemblies with debug information.\\
+      \texttt{-debug} & Compile the assemblies with debug information (also adds some validity checking code).\\
       \texttt{-lazynic} & Negatives, Independents, and Conditions are only executed at the end of matching (normally asap).\\
       \texttt{-noinline} & Subpattern usages and independents are not inlined.\\
       \texttt{-profile} & Instruments the matcher code to count the search steps carried out.\\
