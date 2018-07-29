@@ -3837,6 +3837,11 @@
             If true, the generated matcher functions are commented to improve understanding the source code.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.EmitDebugValidityChecks">
+            <summary>
+            If true, validity checks are added at some places, to support debugging/developments.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.DumpDynSourceCode">
             <summary>
             If true, the source code of dynamically generated matcher functions are dumped to a file in the current directory.
