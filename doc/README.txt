@@ -1,4 +1,4 @@
-GrGen.NET v4.5.2 (2017-11-01)
+GrGen.NET v4.5.3 (2018-07-29)
 -----------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -154,6 +154,7 @@ Enno Hofmann
 Tassilo Horn
 Yuan Jochen Kang
 Mathias Landhäußer
+Wei Le
 Robert C. Metzger
 Normen Müller
 Clemens Münzer
