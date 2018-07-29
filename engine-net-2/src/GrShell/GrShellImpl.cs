@@ -248,7 +248,7 @@ namespace de.unika.ipd.grGen.grShell
 
     public class GrShellImpl
     {
-        public static readonly String VersionString = "GrShell v4.5.2";
+        public static readonly String VersionString = "GrShell v4.5.3";
 
         IBackend curGraphBackend = new LGSPBackend();
         String backendFilename = null;
