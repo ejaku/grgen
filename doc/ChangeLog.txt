@@ -1,4 +1,18 @@
-﻿v4.5.2 (2017-11-01)
+﻿v4.5.3 (2018-07-29)
+ Fixed a crash in case of retyping of graph elements which have graph global variables pointing to them
+ Fixed a crash when using emit in the interpreted sequences
+ 
+ Improved debugging support/understandability with optional validity checks,
+  which get emitted when the -debug option is given to grgen.
+ The validity checks ensure that:
+ - the rule parameters are not null (unless declared as maybe null),
+   and throw an early ArgumentNullException specifying the parameter, instead of a NPE from inside the matcher
+ - the graph elements handed in to a rule are really contained in the graph (in a graph to be more precise),
+   and throw an early ArgumentException specifying the parameter, instead of a NPE from inside some graph modification methods
+ - the graph elements in the matches handed in to the rewrite code are still contained in the graph (in a graph to be more precise),
+   and throw an early Exception specifying the pattern element, instead of a NPE from inside some graph modification methods
+  
+v4.5.2 (2017-11-01)
  Added emitdebug command to the rule language and the sequences
   it works like emit, but can't be redirected to a file, it always prints out to the console 
   it allows to display debug messages even while building a text file with emits redirected to a file
