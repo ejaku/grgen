@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Nov 01 11:28:24 CET 2015
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Jul 29 09:00:58 CEST 2018
 
 using System;
 using System.Collections.Generic;
@@ -5036,7 +5036,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	// *** Edge Edge ***
 
 
-	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IDEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
@@ -5151,7 +5151,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override string Name { get { return "Edge"; } }
 		public override string Package { get { return null; } }
 		public override string PackagePrefixedName { get { return "Edge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IDEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
@@ -5190,7 +5190,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	// *** Edge UEdge ***
 
 
-	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IUEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
@@ -5305,7 +5305,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override string Name { get { return "UEdge"; } }
 		public override string Package { get { return null; } }
 		public override string PackagePrefixedName { get { return "UEdge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IUEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
@@ -5343,7 +5343,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	// *** Edge belongsTo ***
 
-	public interface IbelongsTo : GRGEN_LIBGR.IEdge
+	public interface IbelongsTo : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -5506,7 +5506,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	// *** Edge type_ ***
 
-	public interface Itype_ : GRGEN_LIBGR.IEdge
+	public interface Itype_ : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -5669,7 +5669,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	// *** Edge extends_ ***
 
-	public interface Iextends_ : GRGEN_LIBGR.IEdge
+	public interface Iextends_ : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -5832,7 +5832,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	// *** Edge imports ***
 
-	public interface Iimports : GRGEN_LIBGR.IEdge
+	public interface Iimports : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -5995,7 +5995,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	// *** Edge implements ***
 
-	public interface Iimplements : GRGEN_LIBGR.IEdge
+	public interface Iimplements : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -6158,7 +6158,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	// *** Edge parameter ***
 
-	public interface Iparameter : GRGEN_LIBGR.IEdge
+	public interface Iparameter : GRGEN_LIBGR.IDEdge
 	{
 		int @order { get; set; }
 	}
@@ -6419,7 +6419,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	// *** Edge actualParameter ***
 
-	public interface IactualParameter : GRGEN_LIBGR.IEdge
+	public interface IactualParameter : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -6582,7 +6582,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	// *** Edge binding ***
 
-	public interface Ibinding : GRGEN_LIBGR.IEdge
+	public interface Ibinding : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -6745,7 +6745,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	// *** Edge link ***
 
-	public interface Ilink : GRGEN_LIBGR.IEdge
+	public interface Ilink : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -6908,7 +6908,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	// *** Edge expression ***
 
-	public interface Iexpression : GRGEN_LIBGR.IEdge
+	public interface Iexpression : GRGEN_LIBGR.IDEdge
 	{
 		int @order { get; set; }
 	}
@@ -7169,7 +7169,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	// *** Edge inBlock ***
 
-	public interface IinBlock : GRGEN_LIBGR.IEdge
+	public interface IinBlock : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -7332,7 +7332,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	// *** Edge inClass ***
 
-	public interface IinClass : GRGEN_LIBGR.IEdge
+	public interface IinClass : GRGEN_LIBGR.IDEdge
 	{
 	}
 

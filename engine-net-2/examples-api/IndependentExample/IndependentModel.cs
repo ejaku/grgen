@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Sun Nov 01 11:28:17 CET 2015
+// Generated from "..\..\tests\independent\Independent.grg" on Sun Jul 29 09:00:55 CEST 2018
 
 using System;
 using System.Collections.Generic;
@@ -484,7 +484,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 	// *** Edge Edge ***
 
 
-	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IDEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
@@ -599,7 +599,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 		public override string Name { get { return "Edge"; } }
 		public override string Package { get { return null; } }
 		public override string PackagePrefixedName { get { return "Edge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IDEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Independent.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
@@ -638,7 +638,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 	// *** Edge UEdge ***
 
 
-	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IUEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
@@ -753,7 +753,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 		public override string Name { get { return "UEdge"; } }
 		public override string Package { get { return null; } }
 		public override string PackagePrefixedName { get { return "UEdge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IUEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Independent.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)

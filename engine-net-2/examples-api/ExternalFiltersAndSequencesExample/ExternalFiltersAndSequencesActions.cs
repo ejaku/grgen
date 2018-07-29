@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sun Nov 01 11:28:10 CET 2015
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sun Jul 29 09:00:51 CEST 2018
 
 using System;
 using System.Collections.Generic;
@@ -1211,7 +1211,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
         {
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
-            procEnv.DebugEntering("r.exec_0", "(::x,::y,::z,::u,::v)=foo(42,3.141,Enu::hurz,\"S21-heiteitei\",true) ;> foo(n.i,n.d,n.enu,n.s,n.b) ;> (::nul)=bar(null,n.o) ;> isnull(::x) ;> (::a,::b)=bla(m,e) ;> (::a,::b)=blo(m,e) ;> huh ;> (ehh:Edge)=createEdge(n,n)");
+            procEnv.DebugEntering("r.exec_0", "(::x,::y,::z,::u,::v)=foo(42,3.141,Enu::hurz,\"S21-heiteitei\",true) ;> foo(n.i,n.d,n.enu,n.s,n.b) ;> (::nul)=bar(null,n.o) ;> isnull(::x) ;> (::a,::b)=bla(m,e) ;> (::a,::b)=blo(m,e) ;> huh ;> (ehh:AEdge)=createEdge(n,n)");
             bool res_64;
             bool res_58;
             bool res_56;
@@ -1241,14 +1241,14 @@ procEnv.SetVariableValue("v", tmpvar_4v);
                 res_10 = (bool)(false);
             }
             int tmpvar_5 = 0;double tmpvar_6 = 0.0;GRGEN_MODEL.ENUM_Enu tmpvar_7 = (GRGEN_MODEL.ENUM_Enu)0;string tmpvar_8 = "";bool tmpvar_9 = false;
-            if(Sequence_foo.ApplyXGRS_foo(procEnv, (int)GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(((GRGEN_LIBGR.IGraphElement)var_n), "i", ((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("i")), (double)GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(((GRGEN_LIBGR.IGraphElement)var_n), "d", ((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("d")), (GRGEN_MODEL.ENUM_Enu)GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(((GRGEN_LIBGR.IGraphElement)var_n), "enu", ((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("enu")), (string)GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(((GRGEN_LIBGR.IGraphElement)var_n), "s", ((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("s")), (bool)GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(((GRGEN_LIBGR.IGraphElement)var_n), "b", ((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("b")), ref tmpvar_5, ref tmpvar_6, ref tmpvar_7, ref tmpvar_8, ref tmpvar_9)) {
+            if(Sequence_foo.ApplyXGRS_foo(procEnv, (int)(int)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("i")), (double)(double)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("d")), (GRGEN_MODEL.ENUM_Enu)(GRGEN_MODEL.ENUM_Enu)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("enu")), (string)(string)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("s")), (bool)(bool)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("b")), ref tmpvar_5, ref tmpvar_6, ref tmpvar_7, ref tmpvar_8, ref tmpvar_9)) {
                 res_31 = (bool)(true);
             } else {
                 res_31 = (bool)(false);
             }
             res_32 = (bool)(res_31);
             object tmpvar_10nul = null;
-            if(Sequence_bar.ApplyXGRS_bar(procEnv, (object)null, (object)GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(((GRGEN_LIBGR.IGraphElement)var_n), "o", ((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("o")), ref tmpvar_10nul)) {
+            if(Sequence_bar.ApplyXGRS_bar(procEnv, (object)null, (object)(object)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("o")), ref tmpvar_10nul)) {
                 procEnv.SetVariableValue("nul", tmpvar_10nul);
 
                 res_39 = (bool)(true);
@@ -1273,7 +1273,7 @@ procEnv.SetVariableValue("b", tmpvar_12b);
             }
             res_50 = (bool)(res_49);
             GRGEN_LIBGR.INode tmpvar_13a = null;GRGEN_LIBGR.IEdge tmpvar_14b = null;
-            if(Sequence_blo.ApplyXGRS_blo(procEnv, (GRGEN_LIBGR.INode)var_m, (GRGEN_LIBGR.IEdge)var_e, ref tmpvar_13a, ref tmpvar_14b)) {
+            if(Sequence_blo.ApplyXGRS_blo(procEnv, (GRGEN_LIBGR.INode)var_m, (GRGEN_LIBGR.IDEdge)var_e, ref tmpvar_13a, ref tmpvar_14b)) {
                 procEnv.SetVariableValue("a", tmpvar_13a);
 procEnv.SetVariableValue("b", tmpvar_14b);
 
@@ -1833,7 +1833,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 						new String[] { "v1", "v2",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.EdgeType_Edge.typeVar,  },
 						new String[] { "r1", "r2",  },
-						new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.EdgeType_Edge.typeVar,  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.EdgeType_AEdge.typeVar,  },
 						"blo",
 						9
 					  )
@@ -1851,7 +1851,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 						new String[] { "n1", "n2",  },
 						new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar,  },
 						new String[] { "e",  },
-						new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.EdgeType_Edge.typeVar,  },
+						new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.EdgeType_AEdge.typeVar,  },
 						"createEdge",
 						10
 					  )
@@ -2217,7 +2217,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
             if(filter.IsAutoSupplied) {
                 switch(filter.Name) {
@@ -2486,7 +2486,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
             if(filter.IsAutoSupplied) {
                 switch(filter.Name) {
@@ -2758,7 +2758,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IN) parameters[0]);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
             if(filter.IsAutoSupplied) {
                 switch(filter.Name) {
@@ -3018,7 +3018,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
             if(filter.IsAutoSupplied) {
                 switch(filter.Name) {
@@ -3284,7 +3284,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
             if(filter.IsAutoSupplied) {
                 switch(filter.Name) {

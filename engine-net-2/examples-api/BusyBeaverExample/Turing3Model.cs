@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Nov 01 11:27:59 CET 2015
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Jul 29 09:00:47 CEST 2018
 
 using System;
 using System.Collections.Generic;
@@ -890,7 +890,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	// *** Edge Edge ***
 
 
-	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IDEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
@@ -1005,7 +1005,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override string Name { get { return "Edge"; } }
 		public override string Package { get { return null; } }
 		public override string PackagePrefixedName { get { return "Edge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IDEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
@@ -1044,7 +1044,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	// *** Edge UEdge ***
 
 
-	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IUEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
@@ -1159,7 +1159,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override string Name { get { return "UEdge"; } }
 		public override string Package { get { return null; } }
 		public override string PackagePrefixedName { get { return "UEdge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IUEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
@@ -1197,7 +1197,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	// *** Edge right ***
 
-	public interface Iright : GRGEN_LIBGR.IEdge
+	public interface Iright : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -1360,7 +1360,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	// *** Edge readZero ***
 
-	public interface IreadZero : GRGEN_LIBGR.IEdge
+	public interface IreadZero : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -1523,7 +1523,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	// *** Edge readOne ***
 
-	public interface IreadOne : GRGEN_LIBGR.IEdge
+	public interface IreadOne : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -1686,7 +1686,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	// *** Edge moveLeft ***
 
-	public interface ImoveLeft : GRGEN_LIBGR.IEdge
+	public interface ImoveLeft : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -1849,7 +1849,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	// *** Edge moveRight ***
 
-	public interface ImoveRight : GRGEN_LIBGR.IEdge
+	public interface ImoveRight : GRGEN_LIBGR.IDEdge
 	{
 	}
 

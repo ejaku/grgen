@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Nov 01 11:28:06 CET 2015
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jul 29 09:00:50 CEST 2018
 
 using System;
 using System.Collections.Generic;
@@ -373,7 +373,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
                         procEnv.SetVariableValue("nn", var_n);
             res_0 = procEnv.GetVariableValue("nn");
             res_3 = res_0;
-            procEnv.SetVariableValue("v", GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(((GRGEN_LIBGR.IGraphElement)var_n), "ow", ((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("ow")));
+            procEnv.SetVariableValue("v", (object)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("ow")));
             res_4 = procEnv.GetVariableValue("v");
             res_9 = res_4;
             res_10 = res_9;
@@ -1958,7 +1958,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 		}
 		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
 		{
-			return GRGEN_EXPR.ExternalFunctions.blo((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_LIBGR.INode)paramBindings.Arguments[0], (GRGEN_LIBGR.IEdge)paramBindings.Arguments[1]);
+			return GRGEN_EXPR.ExternalFunctions.blo((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_LIBGR.INode)paramBindings.Arguments[0], (GRGEN_LIBGR.IDEdge)paramBindings.Arguments[1]);
 		}
 	}
 
@@ -2213,7 +2213,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
 		{
 			GRGEN_MODEL.IN _out_param_0;
-			GRGEN_EXPR.ExternalProcedures.bloProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_LIBGR.INode)paramBindings.Arguments[0], (GRGEN_LIBGR.IEdge)paramBindings.Arguments[1], out _out_param_0);
+			GRGEN_EXPR.ExternalProcedures.bloProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_LIBGR.INode)paramBindings.Arguments[0], (GRGEN_LIBGR.IDEdge)paramBindings.Arguments[1], out _out_param_0);
 			ReturnArray[0] = _out_param_0;
 			return ReturnArray;
 		}
@@ -2582,7 +2582,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
             if(filter.IsAutoSupplied) {
                 switch(filter.Name) {
@@ -2829,7 +2829,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
             if(filter.IsAutoSupplied) {
                 switch(filter.Name) {
@@ -3111,7 +3111,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
             if(filter.IsAutoSupplied) {
                 switch(filter.Name) {
@@ -3377,7 +3377,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
             if(filter.IsAutoSupplied) {
                 switch(filter.Name) {
@@ -3634,7 +3634,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
             if(filter.IsAutoSupplied) {
                 switch(filter.Name) {
@@ -3982,7 +3982,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        void GRGEN_LIBGR.IAction.Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
         {
             if(filter.IsAutoSupplied) {
                 switch(filter.Name) {

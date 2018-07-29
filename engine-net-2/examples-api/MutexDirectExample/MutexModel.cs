@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Nov 01 11:28:30 CET 2015
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Jul 29 09:01:00 CEST 2018
 
 using System;
 using System.Collections.Generic;
@@ -695,7 +695,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	// *** Edge Edge ***
 
 
-	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IDEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
@@ -810,7 +810,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override string Name { get { return "Edge"; } }
 		public override string Package { get { return null; } }
 		public override string PackagePrefixedName { get { return "Edge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IDEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
@@ -849,7 +849,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	// *** Edge UEdge ***
 
 
-	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
+	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IUEdge
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
@@ -964,7 +964,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override string Name { get { return "UEdge"; } }
 		public override string Package { get { return null; } }
 		public override string PackagePrefixedName { get { return "UEdge"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IUEdge"; } }
 		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
@@ -1002,7 +1002,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	// *** Edge next ***
 
-	public interface Inext : GRGEN_LIBGR.IEdge
+	public interface Inext : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -1165,7 +1165,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	// *** Edge blocked ***
 
-	public interface Iblocked : GRGEN_LIBGR.IEdge
+	public interface Iblocked : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -1328,7 +1328,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	// *** Edge held_by ***
 
-	public interface Iheld_by : GRGEN_LIBGR.IEdge
+	public interface Iheld_by : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -1491,7 +1491,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	// *** Edge token ***
 
-	public interface Itoken : GRGEN_LIBGR.IEdge
+	public interface Itoken : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -1654,7 +1654,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	// *** Edge release ***
 
-	public interface Irelease : GRGEN_LIBGR.IEdge
+	public interface Irelease : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -1817,7 +1817,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	// *** Edge request ***
 
-	public interface Irequest : GRGEN_LIBGR.IEdge
+	public interface Irequest : GRGEN_LIBGR.IDEdge
 	{
 	}
 
@@ -1980,7 +1980,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	// *** Edge annotationTestEdge ***
 
-	public interface IannotationTestEdge : GRGEN_LIBGR.IEdge
+	public interface IannotationTestEdge : GRGEN_LIBGR.IDEdge
 	{
 		int @attrib { get; set; }
 	}
