@@ -25,7 +25,8 @@ May be one of the following:
   \item Arbitrary text enclosed by double quotes (\texttt{""}).
   \item Arbitrary text enclosed by single quotes (\texttt{''}).
 \end{itemize}
-Due to the chosen parser generator shell keywords are not allowed for type names, attribute values and other entities (even if they are legal in the rule language). If this hits you, you can enclose the identifier by single or double quotes, i.e. Text can be used everywhere an identifier is required.
+Shell keywords are not allowed for type names, attribute values and other entities (even if they are legal in the rule language, this is a constraint of the chosen parser generator).
+If this hits you, you can enclose the identifier by single or double quotes, i.e. Text can be used everywhere an identifier is required.
 
 \mbox{ }\\
 \emph{Number}\\
@@ -190,7 +191,7 @@ On a Linux machine you might execute
 \section{Graph Creation}
 \label{graphcreationcommands}
 
-The command most shell scripts starts with is graph creation.
+The command most shell scripts start with is graph creation.
 
 \begin{rail}
   'new' (() | 'new') 'graph' Filename Text
@@ -215,22 +216,24 @@ These are the commands you may find in the GRS export/import files.
 
 
 \begin{note}
-If you need to import data in a format not supported by \GrG, serialize data into the simple format explained here in \ref{graphcreationcommands} with its few \texttt{new} commands and the attribute initialization lists.
-It can be written easily.
+If you need to import data that comes in a format that is not directly supported by \GrG,
+we recommend to serialize it into \texttt{GRS} format,
+as it can be written easily.
+It consists of the few \texttt{new} commands and the attribute initialization lists explained here in \ref{graphcreationcommands}.
 \end{note}
 
 \begin{rail}
   'new' (() | Text) (() | ':' NodeType (() | Constructor))
 \end{rail}\ixkeyw{new}
 Creates a new node within the current graph.
-Optionally a variable \emph{Text} is assigned to the new node.
+Optionally, the new node is assigned to a variable \emph{Text}.
 If \emph{NodeType} is supplied, the new node will be of type \emph{NodeType} and attributes can be initialized by a constructor.
 Otherwise the node will be of the base node class type \emph{Node}.
 
 \begin{note}
 The \GrShell\ can reassign \indexed{variable}s.
 This is in contrast to the rule language (Chapter~\ref{chaprulelang}), where we mainly use \emph{names}\indexmain{name}\indexmain{expression variable}\indexmainsee{expression variable}{name}
-(with exception of var and ref input variables and def entities).
+(bound once -- with exception of var and ref input variables and def entities).
 \end{note}
 
 \begin{rail}
@@ -239,10 +242,10 @@ EdgeEntityConstructor:
   (()|Text) (() | ':' EdgeType (() | Constructor)) ;
 \end{rail}\ixkeyw{new}
 Creates a new edge within the current graph between the specified nodes,
-directed from the first to the second \emph{Node} in the case of \texttt{-->},
-directed from the second to the first \emph{Node} in the case of \texttt{<--},
-or undirected in the case of \texttt{--}.
-Optionally a variable \emph{Text} is assigned to the new edge.
+in direction of the first to the second \emph{Node} in case of \texttt{-->},
+in direction of the second to the first \emph{Node} in case of \texttt{<--},
+or undirected in case of \texttt{--}.
+Optionally, the new edge is assigned to a variable \emph{Text}.
 If \emph{EdgeType} is supplied, the new edge will be of type \emph{EdgeType} and attributes can be initialized by a constructor.
 Otherwise the edge will be of the base edge class type \texttt{Edge} for \texttt{-->} or \texttt{UEdge} for \texttt{--}.
 
@@ -418,7 +421,7 @@ If the \texttt{.gz} suffix is given the graph is saved zipped.
   'import' Filename ('.grs' | '.grsi' ) ('.gz')? (ModelOverride)?
 \end{rail}\ixkeyw{import}
 Imports the specified graph instance in GRS (.grs/.grsi) format (the \emph{reduced} \GrShell\ script,
-a \texttt{save}d graph can only be imported by \texttt{include} (but an exported graph can be imported by \texttt{include}, too)).
+a \texttt{save}d graph can only be imported by \texttt{include} due to commands not supported by the importer (but an exported graph can be imported by \texttt{include}, too)).
 The graph model referenced in the .grs/.grsi must be available as \texttt{.gm}-file.
 If a model override of the form \texttt{Filename.gm} is specified, the given model will be used instead of the model referenced in the GRS file.
 If a model override of the form \texttt{Filename.grg} is specified, the model(s) of the given rule file will be used instead of the model in the GRS file.
@@ -467,8 +470,8 @@ and all types are prefixed by an underscore to prevent name clashes with keyword
 Edge type declarations are annotated with a \verb#[containment=true]# annotation if they originate from a containment reference.)
 After this metamodel transformation the instance graph XMI adhering to the Ecore model thus adhering to the just
 generated equivalent GrGen graph model gets imported.
-Furthermore, you can specify a \texttt{.grg} containing the rules to apply (using further rule and model files).
-Some examples stemming from old GraBaTs/TTC challenges export XMI with emit statements, this is not needed anymore with the built-in XMI export.
+Furthermore, you can specify a \texttt{.grg} containing the rules to apply (including further rule and using further model files -- this way you can use additional custom graph models).
+Some examples stemming from old GraBaTs/TTC challenges export XMI with emit statements (e.g. the Program-Comprehension example in \texttt{examples/ProgramComprehension-GraBaTs09}), this is not needed anymore with the built-in XMI export.
 
 \begin{rail}
   'import' 'add' FileSpec
@@ -519,7 +522,7 @@ An example for record and replay is given in \texttt{tests/recordreplay}.
 \begin{rail}
 'silence' ('on'|'off')
 \end{rail}\ixkeyw{silence}\ixkeyw{on}\ixkeyw{off}
-Switches the new node / edge created / deleted messages on(default) or off.
+Switches the new node/edge created/deleted messages on(default) or off.
 Switching them off allows for much faster execution of scripts containing a lot of creation commands.
 
 \begin{rail}
@@ -559,7 +562,7 @@ Configures a reference to an external assembly \emph{Filename} to be linked into
 \end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{noinline}\ixkeyw{profile}\ixkeyw{on}\ixkeyw{off}
 Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols (includes emitting of some validity checking code),
 or configures the generation of the matchers.
-The latter to either execute negatives, independents, and conditions only at the end of matching (normally asap),
+The latter in order to either execute negatives, independents, and conditions only at the end of matching (normally asap),
 or to never inline subpatterns,
 or to include profiling information.
 Those flags are mapped to the \texttt{-keep} and the \texttt{-debug} options, or to the \texttt{-lazynic}, \texttt{-noinline}, or  \texttt{-profile} options of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
@@ -569,7 +572,7 @@ A search step is a binding of a graph element to a pattern entity in case there 
 Fetching an element by type chooses from all elements of that type in the graph, following an incident edge chooses from all incident edges of the corresponding node, and matching by storage access chooses from all elements in that storage, whereas getting the source or target node from an edge or mapping with a storage map just grabs the target element from the source element.
 (Each binding from a choice counts as one step, the non-choice-bindings are not counted.)
 Profiling the search steps allows you to assess the work needed for a transformation, to find the hot spots worth optimizing.
-The less search steps are needed to find a match the better (we want to efficiently find patterns, want to minimize the amount of search needed to do so). 
+The less search steps are needed to find a match the better (you typically want to efficiently find patterns and minimize the amount of search needed in order to do so). 
 
 The flags are applied when the actions are generated anew because the model or rule files changed. They are not when you just switch them in the shell script. It's your responsibility to delete the old generated dlls when you change those options (by switching them, or by introducing them differently from the compiler options used to generate the dlls)!
 
@@ -852,20 +855,21 @@ If set to true, new elements may not be discriminable anymore from already delet
 Creates a search plan (and executable code from it) for each rewrite rule \emph{Action} using the data from analyzing the graph (\texttt{custom graph analyze}).
 Otherwise a \indexed{default search plan} is used.
 If no rewrite rule is specified, all rewrite rules are compiled anew.
-Analyzing and search plan/code generation themselves take some time, but they can lead to (massively) faster pattern matching, thus overall execution times;
+Analyzing and search plan/code generation themselves take some time, but they can lead to (massively) faster pattern matching, thus overall reduced execution times;
 the less uniform the type distribution and edge wiring between the nodes, the higher the improvements.
 During the analysis phase the host graph must be in a shape ``similar'' to its shape when the main amount of work is done
 (there may be some trial-and-error steps at different time points needed to get the overall most efficient search plan.)
 A search plan is available as long as the current rule set remains loaded.
-Specify multiple rewrite rules instead of using multiple commands for each rule to improve the search plan generation performance.
+Specify multiple rewrite rules with one command instead of using multiple commands, one for each rule, in order to improve search plan generation performance (this avoids superfluous compilation runs).
 
 \begin{rail}
   'custom' 'actions' 'explain' Action
 \end{rail}\ixkeyw{custom}\ixkeyw{actions}\ixkeyw{explain}
-Shows the search plan currently in use for \emph{Action}, plus the subpatterns called by it.
-This is an inspection tool comparable to the \texttt{explain} command offered by SQL-databases to inspect the search plans of their queries.
-The explain command allows to evaluate the effects of performance optimization, esp. it allows to change the graph which serves as analysis data source for matcher regeneration, or to annotate the static rules with priorities (cf. \ref{annotations}), until a good search plan is built.
-The search plan is shown as a list of search commands (with commands not doing real matching work shown in parenthesis), which is executed from top to bottom; for more on the search commands have a look at section \ref{searchplanning}.
+Shows the search plan currently in use for the \emph{Action}, plus the subpatterns called by it.
+The search plan highlights \emph{how} the pattern gets matched, and thus allows to understand the performance characteristics of executing the action.
+It is a list of search commands (with commands not doing real matching work shown in parenthesis), which is executed from top to bottom; for more on the search commands have a look at section \ref{searchplanning}.
+The search plan helps in optimizing for performance, as it shows the effects of pattern changes, e.g. the introduction of parameters, or the annotation of pattern elements with priorities (cf. \ref{annotations})), and of changes of the statistical data (stemming from a re-analyzation of a modified graph, or loading of analysis data).
+This is an inspection tool comparable to the \texttt{explain} command offered by SQL-databases, which shows the search plan for a query.
 
 \begin{rail}
   'custom' 'actions' dumpsourcecode BoolLit

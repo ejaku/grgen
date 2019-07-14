@@ -1,51 +1,59 @@
 \chapter{Understanding and Extending GrGen.NET}\indexmain{internals}\indexmain{Developing GrGen.NET} \label{cha:developing}
 
-This chapter describes the inner workings of \GrG~to allow external developers
+This chapter describes the inner workings of \GrG~to allow you
 \begin{itemize}
 \item to understand how \GrG~works
 \item esp. in order to extend it with new features
 \footnote{which may be special extensions for a dedicated task, but also may be of general interest to other users}
 \end{itemize}
-It starts with a section on describing how to build \GrG, followed by a section giving an introduction into the generated code, then an introduction into the mechanism of search planning, ending with a section giving some details of the structure of, and the data flow in the \GrG-code generator.
-Here we repeat some content from chapter \ref{cha:performance}, refining it with more detail.
+It starts with a section that describes how to build \GrG, followed by an introduction into the generated code, then an introduction into the mechanism of search planning, and ends with a section giving some details of the structure of, and the data flow in the \GrG-code generator.
+Here we repeat some content from chapter \ref{cha:performance}, refining it with more details.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{How to Build}\label{sub:building}\indexmain{building GrGen}
 
-In case you want to build \GrG~on your own you should recall the system layout \ref{figsys}. 
+In case you want to build \GrG~on your own, you should recall the system layout \ref{figsys}. 
 The graph rewrite generator consists of a frontend written in Java and a backend written in C\#.
 The frontend was extended and changed since its first version, but not replaced.
 In contrast to the backend, which has seen multiple engines and versions: a MySQL database based version, a PSQL database based version, 
-a C version executing a search plan with a virtual machine, a C\# engine executing code generated from a search plan and finally the current C\# engine version 2 capable of matching nested and subpatterns.
+a C version executing a search plan with a virtual machine, a C\# engine executing code generated from a search plan and finally the current C\# engine version 2 being capable of matching nested and subpatterns.
+
 The frontend is available in the \texttt{frontend} subdirectory of the public mercurial repository at \texttt{https://bitbucket.org/eja/grgen}.
-It can be built with the included \texttt{Makefile} on Linux or the \texttt{Makefile\_Cygwin} on Windows with the cygwin environment yielding a \texttt{grgen.jar}. 
-Alternatively you may add the \texttt{de} subfolder and the jars in the \texttt{jars} subfolder to your favourite IDE, but then you must take care of the ANTLR parser generation pre-build-step on your own. 
+It can be built with the included \texttt{Makefile} on Linux or the \texttt{Makefile\_Cygwin} on Windows with the cygwin environment, yielding a \texttt{grgen.jar}. 
+Alternatively, you may add the \texttt{de} subfolder and the jars in the \texttt{jars} subfolder to your favourite IDE, but then you must take care of the ANTLR parser generation pre-build-step on your own. 
+
 The backend is available in the \texttt{engine-net-2} subdirectory. 
-It contains a VisualStudio 2008 solution file containing projects for the \texttt{libGr}, the \texttt{lgspBackend} (libGr-Search-Plan-Backend) and the \texttt{GrShell}.
-Before you can build the solution you must execute \texttt{./src/libGr/genparser.bat} and \texttt{./src/Gr\-Shell/genparser.bat}
+It contains a VisualStudio 2008 solution file containing projects for the \texttt{libGr}, the \texttt{lgspBackend} (libGr-Search-Plan-Backend), and the \texttt{GrShell}.
+Before you can build the solution, you have to execute \texttt{./src/libGr/genparser.bat} and \texttt{./src/Gr\-Shell/genparser.bat} in order 
 to get the CSharpCC parsers for the rewrite sequences and the shell generated.
 Under LINUX you may use \texttt{make\_linux.sh} to get a complete build.
 To get the API examples generated you must execute \texttt{./genlibs.bat}.
-The \texttt{doc} subdirectory contains the sources of the user manual, for building say \texttt{./build\_cygwin.sh grgen} on Windows in \texttt{cygwin-bash} or \texttt{./build grgen} on Linux in \texttt{bash}.
-The \texttt{syntaxhighlighting} subdirectory contains syntax highlighting specifications for the GrGen-files for \texttt{Notepad++}, \texttt{vim}, and \texttt{Emacs}.
+
+The \texttt{doc} subdirectory contains the sources of the user manual, for building on Windows enter \texttt{./build\_cygwin.sh grgen} in \texttt{cygwin-bash} or on Linux \texttt{./build grgen} in \texttt{bash}.
+The \texttt{syntaxhighlighting} subdirectory contains syntax highlighting specifications for the \texttt{.gm},\texttt{.grg}, and \texttt{.grs}-files for \texttt{Notepad++}, \texttt{vim}, and \texttt{Emacs}.
 
 You can check the result of your build with the test suite we use to check against regressions.
-It is split into syntactic tests in \texttt{frontend/test} checking that example model and rule files can get compiled by \texttt{grgen} (or not compiled, or only compiled emitting warnings) and the resulting code can get compiled by \texttt{csc}.
-The tests get executed by calling \texttt{./test.sh} or \texttt{./testpar.sh} from \texttt{bash} or \texttt{cygwin-bash} (\texttt{testpar.sh} executes them in parallel speeding up execution on multi core systems considerably at the price of potential false positive reports); deviations from a gold standard are reported.
-And semantic tests in \texttt{engine-net-2/tests} checking that executing example shell scripts on example models and rules yields the expected results. 
+It is split into syntactic tests and semantic tests. 
+The syntactic tests reside in \texttt{frontend/test}, they are checking that example model and rule files can get compiled by \texttt{grgen} (or not compiled, or only compiled emitting warnings) and that the resulting code can get compiled by \texttt{csc}.
+The tests get executed by calling \texttt{./test.sh} or \texttt{./testpar.sh} from \texttt{bash} or \texttt{cygwin-bash} (\texttt{testpar.sh} executes them in parallel speeding up execution on multi core systems considerably, at the price of potential false positive reports); deviations from a gold standard are reported.
+
+The semantic tests reside in \texttt{engine-net-2/tests}, they are checking that executing example shell scripts on example models and rules yields the expected results. 
 They get executed by calling \texttt{./test.sh}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Generated Code}\indexmain{generated code}\label{sec:generatedcode}
-In this section we'll have a look at what is generated by \GrG~out of your specifications: firstly the model, secondly the rules, better matching their patterns, ending thirdly with an explanation of the matching of nested and subpatterns.
+In this section we'll have a look at what is generated by \GrG~out of your specifications: firstly the implementation of the model, secondly the implementation of the rules, better their pattern matchers, ending thirdly with an explanation of the matching of nested and subpatterns.
 
 \subsection*{Internal Graph Representation}\indexmain{internal graph representation}\indexmain{ringlists}
 The graph structure is maintained in an \texttt{LGSPGraph} built of \texttt{LGSPNode} and \texttt{LGSPEdge} objects, basically without type and attribute information.
-The types defined in the model are realized by generated node and edge interfaces defining the user visible types and attributes, which are implemented by generated node and edge classes inheriting from and working like \texttt{LGSPNode}s and \texttt{LGSPEdge}s in the graph, additionally implementing the type and attribute bearing interfaces.
-
+The types defined in the model are realized by generated node and edge interfaces and generated node and edge classes.
+The interfaces define the user visible types and attributes, the classes inherit from and work like \texttt{LGSPNode}s and \texttt{LGSPEdge}s in the graph, additionally they implement the type and attribute bearing interfaces.
 The nodes and edges are contained in a system of ringlists.
-Top level there are the type ringlists, every node or edge is contained in the linked list of its specific type; the dummy head nodes or head edges serving as entry points into these structures are accessible from an array in the graph, storing as many heads as there are types.
+
+Top level do you find type ringlists, every node or edge is contained in a linked list of its specific type.
+Each list contains a dummy head node or head edge that serves as entry point, 
+these are accessible from an array in the graph, storing as many heads as there are types.
 Every node or edge contains a field \texttt{typeNext} giving the next element of the type.
 These lists allow to quickly look up all elements from the graph bearing a certain type.
 Figure \ref{figtyperinglists} gives an example for a graph with 3 node types, one having no instance nodes, one having only one instance node, and one having 5 instance nodes; the same holds for the edge types.
@@ -57,12 +65,17 @@ Figure \ref{figtyperinglists} gives an example for a graph with 3 node types, on
   \label{figtyperinglists}
 \end{figure}
 
-The connectedness information is stored in a ringlist containing the incoming edges and a ringlist containing the outgoing edges for every node object; the node object contains a field \texttt{inHead} referencing an arbitrary edge object of the incoming edges (or \texttt{null} of there is none) and a field \texttt{outHead} referencing an arbitrary edge object of the outgoing edges (or \texttt{null} if there is none).
+The connectedness information is also stored in ringlists, two ringlists per node object,
+one containing the incoming edges and one containing the outgoing edges.
+The node object contains a field \texttt{inHead} referencing an arbitrary edge object of the incoming edges (or \texttt{null} of there is none) and a field \texttt{outHead} referencing an arbitrary edge object of the outgoing edges (or \texttt{null} if there is none).
 These lists allow to quickly retrieve all incoming or all outgoing edges of a node.
+
 The edge objects contain fields \texttt{source} and \texttt{target} referencing the source and the target node.
 They give instant access to the source and target nodes of an edge.
-Edges furthermore contain a field \texttt{inNext} to give the next edge in the incoming ringlist and a field \texttt{outNext} to give the next edge in the outgoing ringlist they are contained in.
-All the 3 ringlists (type, in, out) are doubly linked (to allow for fast insertion and deletion), so for every \texttt{next} field there is also a \texttt{prev} field available.
+Furthermore, edges contain a field \texttt{inNext} referencing the next edge in the incoming ringlist they are contained in, and a field \texttt{outNext} referencing the next edge in the outgoing ringlist they are contained in.
+
+All the 3 ringlists (type, in, out) are doubly linked to allow for fast insertion and deletion.
+For every \texttt{next} field there is also a \texttt{prev} field available that references the previous element in the ringlist (\texttt{typePrev}, \texttt{inPrev}, \texttt{outPrev}).
 The figure \ref{figincidenceexampleringlists} gives the ringlist implementation of the example graph depicted in figure \ref{figincidenceexample}. 
 
 \begin{figure}[htbp]
@@ -83,8 +96,14 @@ In case attribute indices were declared, a balanced search tree (an AA-tree) is 
 The tree is maintained by event handlers that listen to graph element creation and deletion, but esp. for attribute assignment.
  
 \subsection*{Pattern Matching and Search Programs}\indexmain{pattern matching implementation}\indexmain{search program}
-The pattern of a rule (or test) is matched with a backtracking algorithm binding one pattern element after another to a graph element, checking if it fits to the already bound parts. If it does fit search continues trying to bind the next pattern element (or succeeds building the match object from all the elements bound if the last check succeeds), if it does not fit search continues with the next graph element; if all graph element candidates for this pattern element are exhausted, search backtracks to the previous decision point and continues there with the next element.
-For every pattern to match a search program implementing this algorithm is generated, basically consisting of nested loops iterating the available graph elements for each pattern element and condition checking code continuing search with the next element to investigate.
+
+The pattern of an action (rule or test) is matched with a backtracking algorithm that is binding one pattern element after another to a graph element, while checking if it fits to the already bound parts. 
+If it does fit, search continues trying to bind the next pattern element, 
+or succeeds in case the last check succeeded, building the match object from all the elements bound.
+If it does not fit, search continues with the next graph element candidate for the pattern element.
+If all graph element candidates for this pattern element are exhausted, search backtracks to the previous decision point and continues there with the next graph element candidate, or fails in case the first check failed.
+
+For every pattern that is to be matched, a search program implementing this algorithm is generated, basically consisting of nested loops iterating the available graph element candidates for each pattern element, and condition checking code that continues search with the next graph element candidate in case of a failing check.
 Figure \ref{figpatterntosearchfirst} shows a pattern and a search program generated for it.
 
 \begin{figure}[htbp]
@@ -114,40 +133,51 @@ foreach(v1:A in graph) {
 }
 \end{csharp}
 
-If a non-leaf-type (regarding inheritance hierarchy) is to be matched with a graph lookup (the outermost loop in the example), then an additional loop is used iterating all subtypes of the type of the pattern element.
-If a pattern is given one or more parameters, search normally follows the graph structure by iterating the incoming or outgoing edges of a node or determining the source or target node of an edge, instead of looking up a type in the graph.
+\pagebreak
+
+\subsection*{Search Programs Refined And Rewriting} %kraut und rüben
+
+If a non-leaf-type (regarding the inheritance hierarchy) is to be matched with a graph \emph{lookup} (the outermost loop in the example, defining the root element for pattern matching), then an additional loop is used that is iterating all the subtypes of the type of the pattern element.
+After an initial lookup, search normally follows the pattern structure (matching it against graph structure), by iterating the \emph{incoming} or \emph{outgoing} edges of a node, or determining the \emph{source} or \emph{target} node of an edge.
+If a pattern is given one or more parameters, search normally continues from the parameters on, picking those as roots, instead of looking up by type in the graph.
 If a pattern consists of several unconnected components, several lookups are needed.
-Undirected or arbitrary directed pattern edges are searched in both, the incoming and the outgoing ringlist; undirected edges are implemented by normal directed edges which can get matched in both directions.
-Constraints which might cause an candidate to get rejected are the type of the element as shown in the example, structural connections to already bound elements and the isomorphy constraint.
-Furthermore there are negative checking, independent checking, and attribute checking, which are normally depending on multiple elements.
-Other matching operations are storage access, storage attribute access and storage mapping.
 
-Compared to pattern matching which may need a long time, pattern rewriting is a very simple task following a simple sequence of node or edge operations, first creating all new nodes then edges, followed by an evaluation of the attributes, then deleting all edges and nodes, finally executing embedded sequences (see table \ref{table:executionorderrewriting} for more on this).
+Undirected or arbitrarily directed pattern edges are searched in both ringlists, the ringlist of the incoming and the ringlist of the outgoing edges (undirected edge types are otherwise implemented like directed edge types).
+Other matching operations besides graph lookup and incoming/outgoing or source/target following are storage access, storage attribute access and storage mapping.
+The condition checking code may be targeted at different constraints:
+a graph element candidate may get rejected because of its type, missing structural connections to already bound elements, or because the graph element is already matched to another pattern element (isomorphy checking).
+Furthermore, attribute conditions may have to be checked, negative patterns for non-matches, and independent patterns for matches (these conditions are normally depending on multiple elements).
 
-A notable performance optimization allowed by the graph model is \indexed{search state space stepping}: 
-after a pattern was matched, the list heads of the type lookup ring lists, the incoming ring lists and the outgoing  ring lists are moved to the position of the matched entries with \texttt{MoveHeadAfter}, \texttt{MoveInHeadAfter} and \texttt{MoveOutHeadAfter}.
-With this optimization the pattern matching during an iteration \texttt{r*} will start where the previous iteration step left of, saving the cost of iterating again through all the elements which failed in the previous iteration.
+Compared with pattern matching, a search task that may need a long time, pattern rewriting is a simple task that executes quickly. 
+It consists of a sequence of operations, most notably: i) new nodes creation, then new edge creation, ii) attribute evaluation and assignment, iii) edge deletion, then node deletion, iv) embedded sequences execution (see table \ref{table:executionorderrewriting} for more on this).
 
-\vspace{1cm} %manual layout so the pushdown machine simulation starts on its own page
+A notable performance optimization allowed by the graph model is \indexed{search state space stepping}: after a pattern was matched, the list heads of the type ringlists, the incoming ringlists and the outgoing ringlists are moved to the position of the matched entries with \texttt{MoveHeadAfter}, \texttt{MoveInHeadAfter} and \texttt{MoveOutHeadAfter}.
+With this optimization, the pattern matching during an iteration \texttt{r*} will start where the previous iteration step left, saving the cost of iterating again through all the elements that failed in the previous iteration.
 
 \subsection*{Pushdown Machine for Nested and Subpatterns}\indexmain{pushdown machine}\indexmain{stack machine}\label{pushdownmachine}
-Every subpattern (as introduced in chapter \ref{cha:sub}) is handled with a search program corresponding to its pattern as introduced in the previous section. 
-The interesting part is how the subpatterns used get combined, which happens with a $2+n$ pushdown machine.
-It consists of a call stack, containing the subpattern instances found with the bound elements in the local variables of the search program frame, an open tasks stack containing the subpatterns to match (when a subpattern was matched its contained subpatterns are pushed to that open tasks stack, then the top of the stack gets processed), and $n$ result stacks containing the (partial) match object trees; for a normal rule application $n=1$, for an all-bracketed rule the number of matches is unbound.
+Every subpattern (as introduced in chapter \ref{cha:sub}) is matched with a search program that is generated from its pattern, in the way introduced in the previous section. 
+The interesting part is how the subpatterns get combined, this is carried out with a $2+n$ pushdown machine.
+
+It consists of a call stack, containing the subpattern instances found, an open tasks stack containing the subpatterns to match, and $n$ result stacks containing the (partial) match object trees.
+The subpattern instances on the call stack consist of the currently bound elements in the local variables of the stack frame of the search program.
+A task denotes the pattern to match, and the parameters where to start; when a subpattern was matched, its contained subpatterns are pushed to the open tasks stack, then the top of the stack gets processed.
+For a normal rule application holds $n=1$, while the number of matches is unbound for an all-bracketed rule.
 A simulation of this machine, i.e. the matching process of a pattern using subpatterns is shown on the following pages.
 
-Alternatives are handled like a subpattern with several possible patterns which are tried out, the first one matching is accepted.
-Iterateds are handled like subpatterns whose tasks are not removed when they get matched, but only if matching failed or the maximum amount of matches was reached. In case of a failure the minimum required amount of matches is inspected, if the amount of found matches is larger or equal then matching partially succeeds and continues with the next open task (or plain succeeds if there are no open tasks left), otherwise matching of the given partial match fails causing matching to backtrack (to the previous decision point of influence).
+Alternatives are handled like a subpattern with several possible patterns that are tried out, the first pattern that is matching is accepted.
+Iterateds are handled like subpatterns whose tasks are not removed from the open tasks stack when they get matched, but only if matching failed or the maximum amount of matches was reached.
+In case of a failure the minimum required amount of matches is inspected, if the amount of found matches is larger or equal then matching partially succeeds and continues with the next open task (or plain succeeds if there are no open tasks left), otherwise matching of the given partial match fails, causing matching to backtrack (to the previous decision point).
 
-The advantages of this design linearizing the pattern tree on the call stack are the rather low usage of heap memory, the ability to reuse the match programs for the patterns as introduced in the previous section, and the ability to find all matches (the $n$ in $2+n$ pushdown machine stands for the number of matches found).
+The advantages of this design linearizing the pattern tree on the call stack are the rather low usage of heap memory, the ability to reuse the matcher programs for the patterns as introduced in the previous section, and the ability to find all matches (the $n$ in $2+n$ pushdown machine stands for the number of matches found).
 
-Rewriting is carried out by a depth-first traversal of the match object tree, creating new elements before descending, evaluating attributes and deleting old elements before ascending. For each pattern piece matched the modification specified in the rewrite part is carried out, i.e. the overall rewrite gets combined from the rewrites of the pattern pieces (cf. table \ref{table:executionorderrewriting} for the order of rewriting).
+Rewriting is carried out by a depth-first traversal of the match object tree, creating new elements before descending, evaluating attributes and deleting old elements before ascending. 
+For each pattern piece matched, the modification specified in the rewrite part is carried out, i.e. the overall rewrite gets combined from the rewrites of the pattern pieces (cf. table \ref{table:executionorderrewriting} for the order of rewriting).
 
-The subpattern usage parameters are computed during matching from matched elements and call expressions (inherited attribution), LHS yielding is carried out after the match was found during match object building within yield statements (synthesized attribution), RHS yielding is carried out during match object tree rewriting within eval statements (left attribution, with a user defined left-relation).
+The subpattern usage parameters are computed during matching from matched elements and call expressions (inherited attribution), LHS yielding is carried out after the match was found during match object building with the yield statements (synthesized attribution), RHS yielding is carried out during match object tree rewriting with the eval statements (left attribution, with a user defined left-relation).
 
 In the following, an example run of the $2+n$ pushdown machine is given:
 
-\vspace{2cm} % manual layout so the pushdown simulation starts on its own page
+\vspace{16cm} % manual layout so the pushdown simulation starts on its own page
 
 \begin{figure}[htbp]
   \centering
@@ -254,18 +284,25 @@ In the following, an example run of the $2+n$ pushdown machine is given:
 \section{Search Planning in Code Generation}\indexmain{search plan}\indexmain{schedule}\indexmain{arborescence}\indexmain{search program}
 \indexmain{host graph sensitive search plan driven graph pattern matching}\label{searchplanning}
 
-In the previous section a search program for the pattern (repeated in figure \ref{figpatterntosearch}) was given.
+In the previous section, a search program for the pattern repeated in figure \ref{figpatterntosearch} was given.
 It follows the schedule\\
-\texttt{lkp(v1:A); out(v1,e1:a); tgt(e1,v2:B); out(v2,e3:b); tgt(e3,v3:C); out(v3,e2:a)}\\
-A schedule is a more abstract version of a search program, with search operations \texttt{lkp} denoting node (or edge) lookup in the graph by iterating the type list, \texttt{out} iterating the outgoing edges of the given source node and \texttt{in} iterating the incoming edges of the given target node, \texttt{src} fetching the source from the given edge and \texttt{tgt} fetching the target from the given edge.
-For some graphs it might work well, but for the graph given in figure \ref{figgraphtosearchin} is is a bad search plan. Why so can be seen in the search order sketched in figure \ref{figbadsearch}.
-Due to the multiple outgoing edges of \texttt{v1} of which only one leads to a match it has to backtrack several times. A better search order would be one matching this edge from \texttt{v2} on in reverse direction; due to the graph model containing a list of outgoing and a list of incoming edges, each edge can be traversed in either direction.
+\texttt{lkp(v1:A); out(v1,e1:a); tgt(e1,v2:B); out(v2,e3:b); tgt(e3,v3:C); out(v3,e2:a)}
 
-For every pattern there are normally multiple search programs available,
-each able to find all the matches which exist, but with vastly different performance characteristics.
-In order to improve performance, \GrG~tries to prevent following graph structures splitting into breadth as given in this example or lookups on types which are available in high quantities, by first executing a planning phase to choose a good schedule. Due to the planning phase this schedule is chosen:\\
-\texttt{lkp(v3:C); out(v3,e2:a); tgt(e2,v2:B); out(v2,e3:b); in(v2,e1:a); src(e1,v1:A)}\\
-corresponding to the search order depicted in figure \ref{figgoodsearch} and the search program:
+A \emph{schedule} is a more abstract version of a search program, consisting of a list of search operations.
+Available are the search operations \texttt{lkp}, denoting node (or edge) lookup in the graph by iterating the type list, 
+\texttt{out} iterating the outgoing edges of the given source node and \texttt{in} iterating the incoming edges of the given target node,
+as well as \texttt{src} fetching the source node from the given edge and \texttt{tgt} fetching the target node from the given edge.
+
+The schedule might work well for some graphs, but for the graph given in figure \ref{figgraphtosearchin} it is a bad schedule.
+Why so can be seen on inspecting the search order illustration in figure \ref{figbadsearch}.
+Because only one of the multiple outgoing edges of \texttt{v1} leads to a match for \texttt{e1}, it has to backtrack several times.
+A better search order would be one matching edge \texttt{e1} from \texttt{v2} on in reverse direction 
+(this is possible in \GrGen\~because the graph model contains a list of outgoing as well as a list of incoming edges, so each edge can be traversed in either direction).
+
+And indeed, the search planning component of \GrG~chooses such a schedule:\\
+\texttt{lkp(v3:C); out(v3,e2:a); tgt(e2,v2:B); out(v2,e3:b); in(v2,e1:a); src(e1,v1:A)}
+
+It leads to the search order depicted in figure \ref{figgoodsearch}, and the search program:
 
 \begin{csharp}
 foreach(v3:C in graph) {
@@ -303,12 +340,25 @@ foreach(v3:C in graph) {
   \label{figgoodsearch}
 \end{figure}
 
-The mechanism of search planning works by computing from the pattern graph a search plan graph.
-A search plan graph is an edge-weighted graph, with nodes corresponding to the pattern elements -- both nodes and edges -- and edges corresponding to operations to match them, with weight attributes giving an estimated cost of the operation. 
-A search plan graph contains an additional root node, with an outgoing edge to each other node defining a \texttt{lookup} operation. From plan nodes created for nodes there are \texttt{outgoing} and \texttt{incoming} operations leaving towards plan nodes created from edges, from plan nodes created for edges there are \texttt{source} and \texttt{target} operations leaving towards plan nodes created from nodes.
-The cost is determined by analyzing the amount of splitting between adjacent nodes for every triple of $(node type, edge type, node type)$ in the graph -- called a \indexed{V-Structure} -- and by counting the number of elements of every node type or edge type.
-In the plan graph a minimum spanning arborescence, i.e. directed tree is computed. 
-The arborescence defining the matching operations causing least cost is then linearized into a schedule, which is a list of the search operations chosen as already introduced with the good and the bad schedules.
+For every pattern, there are normally multiple potential search programs existing,
+each capable of finding all the matches, but with vastly different performance characteristics.
+In order to improve performance, \GrG~ executes a search planning phase.
+With the goal of finding a good schedule, it tries to prevent
+\begin{itemize}
+	\item following graph structures splitting into breadth as given in this example, or
+	\item lookups on types that are available in high quantities.
+\end{itemize}
+
+In more detail, the mechanism of search planning works by constructing a \emph{search plan graph} from the pattern graph.
+A search plan graph is an edge-weighted graph, with nodes corresponding to the pattern elements -- both nodes and edges -- and edges representing operations to match them, with weight attributes giving an estimated cost of the operation. 
+A search plan graph contains an additional root node, with an outgoing edge to each other node defining a \texttt{lookup} operation. 
+From plan nodes created for nodes, edges are leading to plan nodes created for edges, denoting \texttt{outgoing} and \texttt{incoming} operations.
+From plan nodes created for edges, edges are leading to plan nodes created for nodes, denoting \texttt{source} and \texttt{target} operations.
+The cost of the operations is determined by analyzing the amount of splitting between adjacent nodes for every triple of $(node type, edge type, node type)$ in the graph -- called a \indexed{V-Structure} -- and by counting the number of elements of every node type or edge type.
+
+Then, a \emph{spanning arborescence}\footnote{directed tree} of minimum overall cost is selected from the search plan graph. 
+The spanning arborescence is further linearized into a \emph{schedule}, a list of the selected search operations  (as already introduced with the good and the bad schedules).
+
 The details of search planning and some evaluation how well it works are given in \cite{searchplangrgen} and in \cite{BKG:07}.
 
 \begin{figure}[htbp]
@@ -352,9 +402,9 @@ The details of search planning and some evaluation how well it works are given i
   \label{fig:plan-graph}
 \end{figure}
 
-
-A search program is a lower abstraction version of a schedule.
-Structurally it is a tree data structure reflecting the syntax tree of the code to generate (with list entries maybe containing further lists), as sketched in figure \ref{figsearchprogram}; in contrast to the schedule which is a simple list data structure.
+Afterwards, a search program is constructed from the schedule. 
+It is situated at a level of abstraction in between the schedule and the code finally emitted.
+Structurally, it is a tree resembling the syntax tree of the code to generate, as sketched in figure \ref{figsearchprogram} (with list entries maybe containing further lists). 
 
 \begin{figure}[htbp]
   \centering
@@ -363,14 +413,19 @@ Structurally it is a tree data structure reflecting the syntax tree of the code 
   \label{figsearchprogram}
 \end{figure}
 
-It contains explicit instructions for isomorphy checking and connectedness checking, which are inserted after the schedule was determined along the exact sequence of instructions.
-Connectedness checking can be seen in the good search program of the example in the check that the target of \texttt{e3} is indeed \texttt{v3};
+It contains explicit instructions for isomorphy checking and connectedness checking (whose are depending on the exact schedule).
+Furthermore, it contains exact locations where to continue at; these target search operations may be different from the directly preceding search operation (because that one does not define a choice point of influence).
+
+Connectedness checking can be seen in the search program of the good example in the check that the target of \texttt{e3} is indeed \texttt{v3};
 a target matching operation \texttt{tgt(e3,v3:C)} is not used because \texttt{v3} was already matched by the lookup operation, and is already contained in the spanning tree.
-Furthermore it contains exact locations where to continue at, which might be different than the directly preceding search operation (because that one does not define a choice point of influence).
 
-A remark on isomorphy handling: As a consequence of the simple loop based graph element binding to pattern elements, without an explicit check all pattern elements could get matched completely homomorphically to each other (due to the loops starting with the same elements, the homomorphic matches \emph{are} normally the first to be found).
-To ensure that two pattern elements are not bound to the same graph element, flags contained in the graph elements are set when a graph element is bound to a pattern variable and reset when the binding is given up again (one flag for each negative/independent nesting level, until the implementation defined limit of flags available in the graph elements is reached, then a list of dictionaries is used); the flags are checked then in the following, nested matching operations. An iso-check scheduling pass ensures that checks are only inserted if the elements must be isomorphic and their types do not already ensure that they can't get matched to the same elements.
-
+A remark on isomorphy checking that ensures that two pattern elements are not bound to the same graph element:
+as a consequence of the simple loop-after-loop based assignment of graph elements to pattern elements, the pattern elements would get matched homomorphically to each other by default, 
+if an explicit check against would not be inserted (because assignment starts with the same graph elements, the homomorphic matches often \emph{are} the first ones found).
+Isomorphy checking is implemented by flags that are contained in the graph elements, and are set when a graph element is bound to a pattern variable, and reset when the binding is given up again 
+(one flag for each negative/independent nesting level, until the implementation defined limit of flags available in the graph elements is reached, then a list of dictionaries is used).
+The flags are then checked in the following, nested matching operations. 
+An iso-check scheduling pass ensures that checks are only inserted if the elements must be isomorphic and their types do not already ensure that they cannot get matched to the same elements.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Code Generator}\indexmain{code generator}
@@ -390,104 +445,111 @@ The frontend is spread over the directories \texttt{parser}, \texttt{ast}, \text
 The directory \texttt{parser} contains parser helpers like the symbol table and scopes and within the \texttt{antlr} subdirectory the ANTLR parser grammar of \GrG~in the file \texttt{Grgen.g}.
 The semantic actions of the parser build an abstract syntax tree consisting of instances of the classes given in the directory \texttt{ast}, with the base class \texttt{BaseNode}.
 The AST is operated upon in three passes, first resolving by \texttt{resolve} and \texttt{resolveLocal}, mainly replacing identifier nodes by their declaration nodes during a (largely) preorder walk.
-Afterwards the AST is checked by \texttt{check} and \texttt{checkLocal} during a (largely) postorder walk for type and other semantic constraints.
-Finally an intermediate representation is built from the abstract syntax tree by the \texttt{getIR} and \texttt{constructIR} methods.
+Afterwards, the AST is checked by \texttt{check} and \texttt{checkLocal} during a (largely) postorder walk for type and other semantic constraints.
+Finally, an intermediate representation is built from the abstract syntax tree by the \texttt{getIR} and \texttt{constructIR} methods.
 
 \subsubsection*{Intermediate Representation}
 The IR classes given in the \texttt{ir} folder can be seen as more lightweight AST classes; their name is often the same as for their corresponding AST classes, but without the \texttt{Node}-suffix which is appended to all AST classes.
 The most interesting classes are \texttt{Rule} used for rules, alternative cases and iterateds, as well as \texttt{PatternGraph} used for all pattern graphs including negatives and independents;
 several data flow analyses are contained in \texttt{PatternGraph}, some covering the nesting of patterns, some being even global.
-A particularly interesting one is \texttt{ensure\-Directly\-Nesting\-Pattern\-Contains\-All\-Non\-Local\-Elements\-Of\-Nested\-Pattern} which ensures that, from a pattern which contains a certain entity the first time, up to every pattern that references this entity, all intermediate patterns contain that entity, too.
 
-This is done in a recursive walk over the nested patterns in the IR-structure. 
-Each pattern receives the set of already known elements as parameter,
-before descending the elements available in the current pattern are added to the set of already known elements,
-then recursive descent into the directly nested patterns follows handing down the already known elements.
-On ascending elements are added to the current pattern if they are contained in a directly nested pattern, but not in the current pattern, although they are known in the current pattern.
+A particularly interesting one is \texttt{ensure\-Directly\-Nesting\-Pattern\-Contains\-All\-Non\-Local\-Elements\-Of\-Nested\-Pattern}, it ensures that, from a pattern which contains a certain entity the first time, up to every pattern that references this entity, all intermediate patterns contain that entity, too.
+It is implemented with a recursive walk over the nested patterns in the IR-structure. 
+Each pattern receives the set of already known elements as parameter.
+Before descending, the elements available in the current pattern are added to the set of already known elements,
+then recursive descent into the directly nested patterns follows, handing down the already known elements.
+On ascending, elements are added to the current pattern if they are contained in a directly nested pattern, but not in the current pattern, although they are known in the current pattern.
+This function allows keep the backends simple.
 
-This is done in the IR to keep the backends simple.
-The IR classes are the input to the two backends of the frontend, as given in the folders \texttt{be/C} and \texttt{be/Csharp}.
+The IR classes are the input to the two backends of the JAVA frontend.
+They can be found in the folders \texttt{be/C} and \texttt{be/Csharp}.
 
 
 \subsubsection*{Backends}
 
-The directory \texttt{be/C} contains the code generator for the C based backend integrated into the IPD C compiler.
+The directory \texttt{be/C} contains the code generator for the C based backend, which is integrated into the IPD C compiler.
 (The compiler transforms a C program into a graph and SSA based compiler intermediate representation named FIRM using libFirm (see \url{libfirm.org}, \cite{TBL:99}, \cite{Lin:02}) and further on to x86 machine code.)
 
 The directory \texttt{be/Csharp} contains the code generator for the C\# based backend of \GrG. 
-It generates the model source code \texttt{FooModel.cs} with the node and edge classes for a rule file named \texttt{Foo.grg}, 
-and the intermediate rules source code \texttt{FooActions\_intermediate} with a description of the patterns to match, a description of the embedded graph rewrite sequences, and the rewriting code.
+It generates the source code for the model with the node and edge classes, in \texttt{FooModel.cs} for a rule file named \texttt{Foo.grg},
+and the intermediate source code for the rules, consisting of a specification of the patterns to match, a listing of the embedded graph rewrite sequences, and the rewriting code, in \texttt{Foo\-Actions\_intermediate.cs}.
 This is done in several recursive passes over the nesting structure of the patterns in the IR. 
 
-The backend of the frontend does \emph{not} generate the complete rules source code with the matcher code or the code for the embedded rewrite sequences --- this is done by \texttt{grgen.exe} which only calls the \texttt{grgen.jar} of the frontend.
-You may call the Java archive on your own to get a visualization of the model and rewrite rules from a \texttt{.vcg}-dump of the IR, cf. Note\ref{note:modelruledump}.
+The backend of the frontend does \emph{not} generate the complete source code for the rules including the matcher code or the code for the embedded rewrite sequences --- this is done by \texttt{grgen.exe}, which calls the \texttt{grgen.jar} of the frontend.
+You may call the Java archive on your own in order to get a visualization of the model and rewrite rules, in the form of a \texttt{.vcg}-dump of the IR, cf. Note\ref{note:modelruledump}.
 
 
 \subsubsection*{Model Generation}
 
 The model generation code in \texttt{ModelGen} is rather straight forward:
 \begin{enumerate}
-	\item first code for the user defined enums is generated,
+	\item first, code for the user defined enums is generated,
 	\item then the node classes are generated,
 	\item followed by the node model,
-	\item then the the edge classes are generated,
+	\item then the edge classes are generated,
 	\item followed by the edge model,
-	\item and finally the graph model is generated.
+	\item and finally, the graph model is generated.
 \end{enumerate}
 
-\noindent For the nodes as well as for the edges three classes are generated:
+\noindent For the nodes as well as for the edges, three classes are generated:
 \begin{enumerate}
-	\item the first being the interface visible to the user, giving access to the attributes,
-	\item the second being the implementation implementing the interface and inheriting from \texttt{LGSPNode} or \texttt{LGSPEdge},
-	\item and the third being a type representation class inheriting from \texttt{NodeType} or \texttt{EdgeType} giving informations about the type and its attributes, used in the node/edge model and thus graph model.
+	\item the first is the interface visible to the user, giving access to the attributes,
+	\item the second is the implementation of the interface, also inheriting from \texttt{LGSPNode} or \texttt{LGSPEdge},
+	\item and the third is a type representation class, which is inheriting from \texttt{NodeType} or \texttt{EdgeType}, that is giving information about the type and its attributes, and is used in the node/edge model and thus the graph model.
 \end{enumerate}
 
 
 \subsubsection*{Rule Representation Pass}
 
-The action code, better representation generation is implemented in \texttt{ActionsGen}, in the code called from \texttt{gen\-Subpattern} for the subpatterns and \texttt{gen\-Action} for the rules and tests on.
+The code -- better representation -- generation of the actions is implemented in \texttt{ActionsGen}, in the code called from \texttt{gen\-Subpattern} for the subpatterns and \texttt{gen\-Action} for the rules and tests.
 
-In a prerun from \texttt{gen\-Rule\-Or\-Subpattern\-Class\-Entities} on some needed entities are generated, e.g. type arrays for the allowed types of the pattern elements (the arrays are only filled if the base type was constrained), or indexing enums, which map the pattern element names to their index in the arrays of the matched host graph elements in the match objects of the generic match interface.
+In a prerun from \texttt{gen\-Rule\-Or\-Subpattern\-Class\-Entities} on, some needed entities are generated, e.g. type arrays for the allowed types of the pattern elements (the arrays are only filled if the base type was constrained), or indexing enums, which map the pattern element names to their index in the arrays of the matched host graph elements in the match objects of the generic match interface.
 
-In the rule representation pass from \texttt{gen\-Rule\-Or\-Subpattern\-Init} on the subpattern- and rule representations of type \texttt{Matching\-Pattern} and \texttt{Rule\-Pattern} are generated, including the contained \texttt{Pattern\-Graph}-objects for the (nested) pattern graph(s), in a mutual recursion game of \texttt{gen\-Pattern\-Graph} and \texttt{gen\-Elements\-Required\-By\-Pattern\-Graph}.
+In the rule representation pass, from \texttt{gen\-Rule\-Or\-Subpattern\-Init} on, the subpattern- and rule representations of type \texttt{Matching\-Pattern} and \texttt{Rule\-Pattern} are generated, including the contained \texttt{Pattern\-Graph}-objects for the (nested) pattern graph(s), by mutually recursive calls of \texttt{gen\-Pattern\-Graph} and \texttt{gen\-Elements\-Required\-By\-Pattern\-Graph}.
 
-The method \texttt{gen\-Elements\-Required\-By\-Pattern\-Graph} generates for a pattern graph its contained elements, the pattern nodes, the pattern edges, the used subpatterns as \texttt{Pattern\-Graph\-Embedding} members, the contained alternatives, and the iterateds; the representations of contained negative subpatterns and alternative cases get generated via \texttt{gen\-Pattern\-Graph} before the containing pattern. 
+The method \texttt{gen\-Elements\-Required\-By\-Pattern\-Graph} generates for a pattern graph its contained elements, the pattern nodes, the pattern edges, the used subpatterns as \texttt{Pattern\-Graph\-Embedding} members, the contained alternatives, and the iterateds; the representations of contained negative subpatterns and alternative cases are generated by \texttt{gen\-Pattern\-Graph} before the containing pattern. 
 
-A graph element contained in pattern, but defined in a nesting pattern, is saved in the pattern as a reference to the element in the nesting pattern. 
-The \texttt{Pattern\-Graph} in which it was used first is remembered in a \texttt{Point\-Of\-Definition}-membervariable.
-The source and target nodes of edges are saved in the \texttt{Pattern\-Graph} in hash tables (so that an edge with an undefined target can receive a target in a nested pattern), source and target nodes are determined by ascending along the pattern nesting until a definition is found.
+A graph element contained in a pattern, but defined in a nesting pattern, is saved in the pattern as a reference to the element in the nesting pattern. 
+The \texttt{Pattern\-Graph} in which it was used first is remembered in a \texttt{Point\-Of\-Definition} member variable.
+The source and target nodes of edges are saved in the \texttt{Pattern\-Graph} in hash tables (so that an edge with an undefined source or target can be refined in a nested pattern); source and target nodes are determined by ascending alongside the pattern nesting until a definition is found.
 
 As all graph elements, including the ones of the nested patterns, are created flatly in the \texttt{initialize}-method of the \texttt{Matching\-Pattern}, name prefixes are needed to prevent name clashes; this is ensured by the parameter \texttt{path\-Prefix}.
 Correct naming of already declared elements is ensured with a \texttt{already\-Defined\-Entity\-To\-Name}-hash-table.
-The split into constructor and \texttt{initialize}-Methode ist needed because a recursive \texttt{Matching\-Pattern} must reference itself at construction.
+The split into constructor and \texttt{initialize} method is needed because a recursive \texttt{Matching\-Pattern} must reference itself at construction.
 
-Furthermore expressions trees for the attribute checks are generated, as well as local and global homomorphy tables for the nodes and the edges, defining which pattern elements may match the same host graph element (the global tables specify the homomorphy in between elements from the \texttt{Pattern\-Graph} of an alternative case or an iterated and an enclosing \texttt{Pattern\-Graph}).
+Furthermore, expression trees for the attribute checks are generated, as well as local and global homomorphy tables for the nodes and the edges, defining which pattern elements are allowed to match the same host graph element (the global tables specify the homomorphy in between elements from the \texttt{Pattern\-Graph} of an alternative case or an iterated, and an enclosing \texttt{Pattern\-Graph}).
 
 
 \subsubsection*{Rewrite Code Pass}
-In the rewrite pass the rewrite code gets generated, via \texttt{gen\-Modify} of \texttt{Modify\-Gen};
-the nesting of negative or independent patterns does not need to be taken care of here as they don't possess rewrite parts.
+In the rewrite pass, the rewrite code gets generated, via \texttt{gen\-Modify} of \texttt{Modify\-Gen}.
+The nesting of negative or independent patterns does not need to be taken care of here, as they come without rewrite parts.
 
-For every pattern piece and its rewrite role (dependent rewriting, creation, deletion) are local rewrite methods generated, bringing at runtime the overall rewriting into effect by calling each other.
-\texttt{Modify\-Generation\-State} holds the state during generation, while the \texttt{Modify\-Generation\-Task}s allow to give a left and right graph independent of the rewriting specified with the rule. The code for subpattern creation is generated by using an empty graph as left graph and the pattern graph as right graph, the code for subpattern deletion is generated by using the pattern graph as left graph and an empty graph as right graph, for a dependent rewrite the graphs from \texttt{IR::Rule} are simply referenced, for a test the pattern graph is used as left and right graph.
-For alternatives and iterateds dispatching methods get generated calling the rewrite methods of the instances of the patterns matched.
+For every pattern piece and its rewrite role (dependent rewriting, creation, deletion) are local rewrite methods generated, carrying out the complete rewriting by calling each other at runtime.
+\texttt{Modify\-Generation\-State} holds the state during generation, while the \texttt{Modify\-Generation\-Task}s allow to give a left and right graph independent of the rewriting specified with the rule (so the creation and deletion code can be generated in addition to the dependent rewrite).
+The code for subpattern creation is generated by using an empty graph as left graph and the pattern graph as right graph.
+The code for subpattern deletion is generated by using the pattern graph as left graph and an empty graph as right graph.
+The code for dependent rewriting is generated by simply referencing the graphs from \texttt{IR::Rule}.
+For a test, the pattern graph is used as left and right graph.
+For alternatives and iterateds, dispatching methods are generated, calling the rewrite methods of the instances of the patterns matched.
 Rewrite parameters are mapped to local parameters of the rewrite methods.
 
-The core method of rewrite code generation \texttt{gen\-Modify\-Rule\-Or-Subrule} generates the rewriting of the given pattern and the calls to the rewrite methods of the nested patterns.
-Because the rewrite methods of the nested patterns are placed flatly in their \texttt{Matching\-Pattern} or \texttt{Rule\-Pattern}, they receive their nesting path as name prefix, their role is distinguished by one of the name postfixs \texttt{Modify}, \texttt{Create} or \texttt{Delete}; for keeping a pattern unmodified obviously no methods are needed.
+The core method of rewrite code generation named \texttt{gen\-Modify\-Rule\-Or-Subrule} generates the rewriting of the given pattern and the calls to the rewrite methods of the nested patterns.
+The rewrite methods of the nested patterns are prefixed with their nesting path, in order to avoid name conflicts, which may occur as they are placed flatly in their \texttt{Matching\-Pattern} or \texttt{Rule\-Pattern}.
+Their role is distinguished by one of the name postfixes \texttt{Modify}, \texttt{Create} or \texttt{Delete}; for keeping a pattern unmodified obviously no methods are needed.
 
-For embedded sequences \texttt{LGSPEmbeddedSequenceInfo} objects are generated, which do contain the sequence as string plus additional parameter informations, the real sequence code is generated in the backend.
-For sequences embedded in alternatives, iterateds, or subpatterns additionally closure classes inheriting from \texttt{LGSPEmbeddedSequenceClosure} are generated.
-They store the graph elements the pattern elements were bound to of the pattern containing the exec; the sequence execution function is then called from this closure, which is stored in a queue and executed from the top level rule.
+For embedded sequences, \texttt{LGSPEmbeddedSequenceInfo} objects are generated, which contain the sequence as string, plus additional parameter information; the real sequence code is generated in the backend.
+For sequences embedded in alternatives, iterateds, or subpatterns, additionally closure classes inheriting from \texttt{LGSPEmbeddedSequenceClosure} are generated.
+They store the graph elements the pattern elements from the pattern containing the exec were bound to; the sequence execution function is then called on this closure, which is stored in a queue, and executed from the top level rule.
 
 Finally match classes are generated, for every pattern besides negative patterns an interface and a class implementing this interface.
-The match classes are instantiated after a match of the corresponding pattern was found, giving a highly convenient and type safe interface to the matched entities to the user at API level.
+The match classes are instantiated after a match of the corresponding pattern was found, giving a highly convenient and type safe interface to the matched entities at API level.
 
 
 \subsection{Backend}
 
-The real matcher code is generated by the backend given in \texttt{engine-net-2}, in the \texttt{src/lgspBackend} subdirectory.
-The processing is done in several passes in \texttt{lgsp\-Matcher\-Generator.cs}; the base data structure is the \texttt{PatternGraph}, resp. the nesting of the \texttt{PatternGraph}-objects, contained in the \texttt{RulePattern}-objects of the rules/tests or the \texttt{Matching\-Pattern}-objects of the subpatterns.
+The real matcher code is generated by the backend given in \texttt{engine-net-2}, in the \texttt{src/lgsp\-Backend} subdirectory.
+The generation is carried out in several passes in \texttt{lgsp\-Matcher\-Generator.cs}.
+The base data structure is the \texttt{PatternGraph}, resp. the nesting of the \texttt{PatternGraph}-objects, contained in the \texttt{RulePattern}-objects of the rules/tests or the \texttt{Matching\-Pattern}-objects of the subpatterns.
 
 \pagebreak
 
@@ -500,9 +562,10 @@ The processing is done in several passes in \texttt{lgsp\-Matcher\-Generator.cs}
   \label{figbackendcodegen1}
 \end{figure}
 
-First the subpattern usages are inlined when \indexed{inlining} is assumed to be beneficial; this allows the programmer to extract common patterns into subpatterns increasing readability and modularity without loosing performance (but as of now only one level of inlining is supported, so beware of too much subpattern extraction, especially if the containing pattern would get disconnected by this). 
-After (and partly before) this pattern rewriting the patterns and their relations are analyzed by the \texttt{PatternGraphAnalyzer} -- the analyze results are used for emitting better code later on (choosing more efficient but more limited implementations for language features which are not sufficient in the general case but are so for the specification at hand).
-Then a \texttt{PlanGraph} is created from the \texttt{PatternGraph} and data from analyzing the host graph (for generating the initial matcher some default data given from the frontend is used).
+First, the subpattern usages are inlined when \indexed{inlining} is assumed to be beneficial.
+(This allows you to extract common patterns into subpatterns increasing readability and modularity without loosing performance (but as of now only one level of inlining is supported, so beware of too much subpattern extraction, especially if the containing pattern would get disconnected by this). 
+After (and partly before) this kind of pattern rewriting, the patterns and their relations are analyzed by the \texttt{PatternGraphAnalyzer} -- the analyzation results are used for emitting better code later on (choosing more efficient but more limited implementations of language features, which are not sufficient in the general case but are so for the specification at hand).
+Then a \texttt{PlanGraph} is created from the \texttt{PatternGraph} and data from analyzing the host graph (for generating the initial matcher some default data from the frontend is used).
 A minimum spanning arborescence is computed defining a hopefully optimal set of operations for matching the pattern (the hopes are founded, see \cite{BKG:07}).
 A \texttt{SearchPlanGraph} is built from the arborescence marked in the \texttt{PlanGraph} and used thereafter for scheduling the operations into a \texttt{ScheduledSearchPlan}, which gets completed by \texttt{Append\-Homomorphy\-Information} with isomorphy checking information.
 The \texttt{ScheduledSearchPlan} is then stored in the \texttt{PatternGraph} it was computed from.
@@ -517,8 +580,8 @@ The \texttt{ScheduledSearchPlan} is then stored in the \texttt{PatternGraph} it 
   \label{figbackendcodegen2}
 \end{figure}
 
-In a second step the \texttt{Schedules} of the negative or independent \texttt{Pattern\-Graph}s are integrated into the \texttt{Schedule} of the enclosing \texttt{Pattern\-Graph}, by \texttt{Merge\-Negative\-And\-Independent\-Schedules\-Into\-Enclosing\-Schedules} in a recursive run over the nesting structure of the \texttt{Pattern\-Graph}s in the \texttt{Matching\-Pattern}s or \texttt{Rule\-Pattern}s.
-Due to nested negative or independent graphs this may happen spanning several nesting levels;
+In a second step, the \texttt{Schedules} of the negative or independent \texttt{Pattern\-Graph}s are integrated into the \texttt{Schedule} of the enclosing \texttt{Pattern\-Graph}, by \texttt{Merge\-Negative\-And\-Independent\-Schedules\-Into\-Enclosing\-Schedules}, in a recursive run over the nesting structure of the \texttt{Pattern\-Graph}s in the \texttt{Matching\-Pattern}s or \texttt{Rule\-Pattern}s.
+Due to nested negative or independent graphs, this may happen spanning several nesting levels;
 the result is saved in the \texttt{Schedule\-Including\-Negatives\-And\-Independents} field of the non-negative/independent \texttt{Pattern\-Graph}s.
 
 
@@ -531,23 +594,23 @@ the result is saved in the \texttt{Schedule\-Including\-Negatives\-And\-Independ
   \label{figbackendcodegen3}
 \end{figure}
 
-Finally, in a third step code is generated by \texttt{Generate\-Matcher\-Source\-Code},
+Finally, in a third step, code is generated by \texttt{Generate\-Matcher\-Source\-Code},
 again in a recursive run over the nesting structure of the \texttt{Pattern\-Graph}s, 
 using the \texttt{Schedule\-Including\-Negatives\-And\-Independents} stored in them. 
 
-For each \texttt{Rule\-Pattern} an \texttt{Action}-class is generated, 
-and for each \texttt{Matching\-Pattern} a \texttt{Subpattern\-Action}-class is generated.
-Additionally for each alternative or iterated which is nested in a rule, test, or subpattern,
-an \texttt{Alternative\-Action}-class or an \texttt{Iterated\-Action}-class are generated;
+For each \texttt{Rule\-Pattern}, an \texttt{Action}-class is generated, 
+and for each \texttt{Matching\-Pattern}, a \texttt{Subpattern\-Action}-class is generated.
+Additionally, for each alternative an \texttt{Alternative\-Action}-class is generated,
 the alternative matcher will contain code for all alternative cases.
+For each iterated, an \texttt{Iterated\-Action}-class is generated.
 The real matching code is then generated into these classes.
 
 The \texttt{SearchProgramBuilder} builds a \texttt{SearchProgram} tree data structure resembling the syntax tree of the code to generate out of the \texttt{Schedule\-Including\-Negatives\-And\-Independents} in the \texttt{Pattern\-Graph}s. 
-In a further pass the \texttt{SearchProgram} is completed by the \texttt{Search\-Program\-Completer},
+In a further pass, the \texttt{SearchProgram} is completed by the \texttt{Search\-Program\-Completer},
 determining the locations to continue at when a check fails,
 writing undo code for the effects which were applied from that point on to the current one.
-Finally the C\# code gets generated by calling the \texttt{Emit} methods of the \texttt{SearchProgram}.
-If you want to extends this code you may be interested in the \texttt{Dump} methods which dump the \texttt{SearchProgram} in an easier readable form into text files.
+Finally, the C\# code gets generated by calling the \texttt{Emit} methods of the \texttt{SearchProgram}.
+If you want to extend this code, you may be interested in the \texttt{Dump} methods which dump the \texttt{SearchProgram} in an easier readable form into text files.
 
 The \texttt{Subpattern\-Action}-classes do not only contain the matcher code, 
 but are at the same time the tasks of the $2+n$ pushdown machine, which are pushed on the open tasks stack;
@@ -558,50 +621,54 @@ which do not hold parameters but entities from the nesting pattern they referenc
 
 \subsubsection*{Nested and Subpattern Matching}
 
-The higher levels of code generation are in large parts independent from nested and subpattern matching and control of the $2+n$ pushdown machine.
-Only on the level of search programs it becomes visible,  
+The higher levels of code generation are in large parts independent of nested and subpattern matching and control of the $2+n$ pushdown machine.
+Only on the level of search programs does it become visible,  
 with an \texttt{Initialize\-Subpattern\-Matching}-search program operation at the begin of a search program
 and a \texttt{Finalize\-Subpattern\-Matching}-search program operation at the end of a search program;
 but mainly with a call to \texttt{build\-Match\-Complete} when the end of the schedule is reached during search program building.
 This corresponds to the innermost location in the search program,
-the location at which during execution the local pattern was just found;
+the location at which the local pattern was just found (during execution);
 now the control code is inserted by \texttt{insert\-Push\-Subpattern\-Tasks},
 pushing the tasks for the subpatterns used from this pattern, as well as alternatives and iterateds nested in this pattern.
 To execute the open tasks a \texttt{Match\-Subpatterns} operation is inserted into the search program. 
-Afterwards \texttt{insert\-Pop\-Subpattern\-Tasks} inserts the operations for cleaning the task stack,
+Afterwards, \texttt{insert\-Pop\-Subpattern\-Tasks} inserts the operations for cleaning the task stack,
 \texttt{insert\-Check\-For\-Subpatterns\-Found} the operations to handle success and failure, 
 and \texttt{insert\-Match\-Object\-Building} the code for maintaining the result stack.
 
 
 \subsubsection*{Further Functionality}
 
-The compiled graph rewrite sequences are handled by the \texttt{lgsp\-Sequence\-Checker} and \texttt{lgsp\-Sequence\-Generator} (together with the sequence parser from the libGr).
-The \texttt{src/GrGen} subdirectory contains the \texttt{grgen.exe} compiler driver procedure.
-The \texttt{src/libGr} subdirectory contains the libGr, offering the base interfaces a user of \GrG~sees on the API level for the model, the actions, the pattern graphs and the host graph.
-The interfaces get implemented by code from the libGr search plan (lgsp) backend and by the generated code.
-The libGr further offers a generic, name string and object based interface to access the named entities of the generated code.
-In addition it offers the rewrite sequence parser which gets generated out of \texttt{SequenceParser.csc},
-building the rewrite sequence AST from the classes in \texttt{Sequence.cs} further utilizing \texttt{SymbolTable.cs}.
-The rewrite sequence classes contain a method \texttt{ApplyImpl(IGraph graph)} which executes them.
-Finally the libGr offers several importers and exporters in the \texttt{src/libGr/IO} subfolder.
+The \texttt{src/GrGen} subdirectory contains the driver procedure of the \texttt{grgen.exe} compiler.
+The \texttt{src/libGr} subdirectory contains the libGr, offering the base interfaces you see on the API level for the model, the actions, the pattern graphs and the host graph.
+The interfaces are implemented by code from the libGr search plan (lgsp) backend and by the generated code.
+The generated code defines a type-safe interface of named and typed entities, which is more convenient to use at API level, but bound to a specification.
+The libGr in contrast offers a generic, name string and object or root type based interface.
+Also, the libGr offers several importers and exporters in the \texttt{src/libGr/IO} subfolder.
+
+In addition, it offers the graph rewrite sequence parser, which gets generated from \texttt{Sequence\-Parser.csc},
+and is building a graph rewrite sequence AST out of a sequence string, from the classes in \texttt{Sequence.cs}, further utilizing \texttt{Symbol\-Table.cs}.
+The graph rewrite sequence classes contain a method \texttt{ApplyImpl(IGraph graph)}, which is called at runtime for executing the sequence.
+The compiled graph rewrite sequences are also parsed by the regular sequence parser from libGr. 
+But instead of getting interpreted at runtime of the transformation, they are type checked by the \texttt{lgsp\-Sequence\-Checker}, and emitted as source code by the \texttt{lgsp\-Sequence\-Generator}.
 
 When GrGen rules are matched, as well as when the graph is changed, events are fired.
-They allow to to display the matches and changes to the user in the debugger,
-to record changes to a file for later playback, or record changes to a transaction undo log for later rollback, 
-or to execute user code if event handlers are registered to them,
-allowing users to build an event based graph rewriting mechanism on API level.
+They allow to display the matches and graph changes in the debugger,
+to record changes to a file for later playback, or record changes to a transaction undo log for later rollback.
+You can register event handlers to them, in order to execute your own code (allowing you to build an event based graph rewriting mechanism on API level).
 The graph delegates fired are given in \texttt{IGraph.cs}.
-Graph events recording is implemented in \texttt{Recorder.cs} (replaying is normal \texttt{.grs} execution);
-graph transaction handling is implemented in \texttt{lgspTransactionManager.cs}, with a list of undo items which know how to undo the effect on the graph which created them, which are purged on commit or executed on rollback.
+Graph events recording is implemented in \texttt{Recorder.cs}, replaying amounts to a normal \texttt{.grs} execution.
+Graph transaction handling is implemented in \texttt{lgspTransactionManager.cs}, with a list of undo items, which know how to undo the effect that created them.
+They are purged on commit or executed on rollback.
 Backtracking is implemented with nested transactions.
-If you are changing the graph programmatically not using GrGen rules you have to fire the events on your own in case you want to use any of the mechanisms (graphical debugging, record and replay, transactions and backtracking, event based programming) above.
+If you are changing the graph programmatically at API level (not using GrGen rules), you have to fire some of the events (esp. the ones for attribute assignment) on your own in case you want to use any of the mechanisms (graphical debugging, record and replay, transactions and backtracking, event based programming) above.
 
-The \texttt{src/GrShell} subdirectory contains the GrShell application, which builds upon the generic interface (as it must be capable of coping with arbitrary used defined models and actions at runtime) and the sequence interpretation facilities offered by the libGr.
+The \texttt{src/GrShell} subdirectory contains the GrShell application, which builds upon the sequence interpretation facilities offered by libGr, and the generic interface of libGr, because it has to be capable of coping with arbitrary used defined models and actions at runtime.
 The command line parser of GrShell gets generated out of \texttt{GrShell.csc}, the shell implementation is given in \texttt{GrShellImpl.cs}.
-Graphical debugging is offered by the \texttt{Debugger.cs} together with the \texttt{YCompClient.cs}, which implements the protocol available for controlling yComp, communicating with yComp over a tcp connection to localhost.
+Graphical debugging is offered by the \texttt{Debugger.cs}, together with the \texttt{YCompClient.cs}, which implements the protocol available for controlling yComp, communicating with yComp over a tcp connection to localhost.
 
 The \texttt{examples} subdirectory of \texttt{engine-net-2} contains a bunch of examples for using \GrG~with GrShell.
 The \texttt{examples-api} subdirectory contains several examples of how to use \GrG~from the API.
+
 In case you want to contribute and got further questions don't hesitate to contact us 
 (via email to \texttt{grgen} at the host given by \texttt{ipd.info.uni-karlsruhe.de}).
 

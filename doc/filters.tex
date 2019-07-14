@@ -33,7 +33,7 @@ But in the following the first entry and the last entry are deleted (again); the
 rule foo
 {
 	n:Node;
-	modify{
+	modify {
 		nn:Node;
 	}
 }
@@ -59,7 +59,7 @@ rule incidency
 	def var i:int;
 	yield { yield i = incident(n).size(); }
 	
-	modify{
+	modify {
 		eval { n.j = i; }
 	}
 }
@@ -78,7 +78,7 @@ The following call triples the count of incident edges that is finally written t
 \end{grshell}
 \end{example}
 
-You may declare external filters you must implement then in a C\# accompanying file, see \ref{sub:extflt} for more on that.
+You may declare external filters that you have to implement then in a C\# accompanying file, see \ref{sub:extflt} for more on that.
 With filter functions and external filter functions, you may implement matches-list modifications exceeding the available pre-implemented functionality.
 
 
@@ -106,7 +106,7 @@ They filter based on certain conditions regarding that variable; filtering may m
 \end{description}
  
 Besides those variable-based filters you may use the automorphic matches filter to purge \indexed{symmetric matches}.
-In order to do so specify the special filter named \texttt{auto} at the rule declaration, and use it with the same name at the an application of that action (with the known backslash syntax).
+In order to do so, specify the special filter named \texttt{auto} at the rule declaration, and use it with the same name at an application of that action (with the known backslash syntax).
 The filter is removing matches due to an \indexed{automorphic} pattern, matches which are covering the same spot in the host graph with a permutation of the nodes, the edges, or subpatterns of the same type at the same level.
 Other nested pattern constructs which are structurally identical are not recognized to be identical when they appear as commuted subparts; but they are so when they are factored into a subpattern which is instantiated multiple times.
 It is highly recommended to use this \indexed{symmetry reduction} technique when building state spaces including isomorphic state collapsing, as puring the matches which lead to isomorphic states early saves expensive graph comparisons -- and often it gives the semantics you are interested in anyway.
@@ -154,7 +154,7 @@ rule deleteNode
 		yield i = outgoing(n).size();
 	}
 	
-	modify{
+	modify {
 		delete(n);
 	}
 } \ orderAscendingBy<i>

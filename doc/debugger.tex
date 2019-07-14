@@ -3,13 +3,6 @@
 
 This chapter gives an introduction into the visualization capabilities of yComp and into the graphical debugger of \GrG, which is offered by \GrShell\ in combination with yComp.
 
-Other commands of use for debugging were already introduced in the shell chapter:
-\verb#show var <Variable># to print the content of a variable (but pressing the \texttt{v} key in the shell debugger is a lot more convenient) and \verb#show <GraphElement>.<AttributeName># to print the content of an attribute (but searching with \texttt{Ctrl-f} or \texttt{/} in yComp for the persistent name or an attribute value, hovering over the then highlighted graph element is more convenient, again); furthermore \verb#record# and \verb#replay# are interesting when you are debugging a transformation where you are choosing from the available matches by hand and want to try other paths later by choosing differently on a previous match: they allow you to save and restore graph states of interest, and to inspect the sequence of changes which lead to them in the \texttt{.grs}.
-
-A further development aide is available with the \texttt{-debug} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}), when supplied some validity checking code is emitted (the usage of that option can be also configured in the shell, cf. \ref{sec:compilerconfigshell}).
-The validity checking code ensures at runtime that rules are not called with null parameters (unless specified to be allowed; this typically happens when initialization is missing, or when a graph global variable is getting auto-nulled when the graph element is deleted) and that rules are not called with graph elements that are not contained in the graph anymore as parameters (this typically happens when a node or edge was removed from the graph but is still held in a local variable or a storage).
-It also ensures before rewriting that the graph elements from a match are still contained in the graph (this can be violated for all-bracketed rule applications, maybe without causing a real issue, but maybe conflicting modifications will arise, e.g. the rewrite of a match deletes a node, while the rewrite of another match of the rule tries to retype the same node (the node could be matched to the same pattern element, but also to a different pattern element)).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Visualization Commands (Nested Layout)}\label{sub:visual}\indexmain{visualization}\indexmainsee{layout}{visualization}\indexmainsee{visualization}{group node}\indexmain{nested layout}\indexmainsee{nested layout}{group node}\indexmain{nested graph}\indexmainsee{nested graph}{group node}
@@ -24,14 +17,17 @@ If you use \yComp\footnote{See Section~\ref{tools:ycomp}.}\indexmain{yComp} as e
 \begin{center}
   \includegraphics[width=0.85\linewidth]{fig/showgraph}
 \end{center}
-The temporary file will be deleted, when the application \emph{Filename} is terminated if \GrShell\ is still running at this time.
+The temporary file will be deleted when the application \emph{Filename} is terminated, in case \GrShell\ is still running at this time.
+
+\pagebreak
 
 \begin{rail}
   'dump' 'graph' Filename
 \end{rail}\ixkeyw{dump}\ixkeyw{graph}
 Dumps the current graph in \indexed{VCG} format into the file \emph{Filename}.\\
 
-The following commands control the style of the VCG output. This affects \texttt{dump graph}, \texttt{show graph}, and \texttt{enable debug}.
+The following commands control the style of the VCG output.
+This affects \texttt{dump graph}, \texttt{show graph}, and \texttt{enable debug}.
 \begin{rail}
   'dump' 'set' 'node' (() | 'only') NodeType DumpNodeContinuation;
 DumpNodeContinuation:
@@ -44,7 +40,7 @@ Those are shape names of \yComp\ (for a VCG definition see~\cite{vcg}).
 The following colors are supported: \texttt{Black}, \texttt{Blue}, \texttt{Green}, \texttt{Cyan}, \texttt{Red}, \texttt{Purple}, \texttt{Brown}, \texttt{Grey}, \texttt{LightGrey}, \texttt{LightBlue}, \texttt{LightGreen}, \texttt{LightCyan}, \texttt{LightRed}, \texttt{LightPurple}, \texttt{Yel\-low} (default), \texttt{White}, \texttt{DarkBlue}, \texttt{DarkRed}, \texttt{Dark\-Green}, \texttt{DarkYellow}, \texttt{DarkMagenta}, \texttt{DarkCyan}, \texttt{Gold}, \texttt{Lilac}, \texttt{Turquoise}, \texttt{Aquamarine}, \texttt{Khaki}, \texttt{Pink}, \texttt{Orange}, \texttt{Orchid}, \texttt{LightYellow}, \texttt{YellowGreen}.
 These are the same color identifiers as in \indexed{VCG}/\yComp\ files (for a VCG definition see~\cite{vcg}).
 
-The default labeling is set to \texttt{on} with \texttt{Name:Type}, it can be overwritten by an specified label string (e.g. the source code line originating the node in a program graph) or switched off.
+The default labeling is set to \texttt{on} with \texttt{Name:Type}, it can be overwritten by a specified label string (e.g. a source code line originating a node in a program graph) or switched off.
 
 \begin{rail}
   'dump' 'set' 'edge' (() | 'only') EdgeType DumpEdgeContinuation;
@@ -52,8 +48,9 @@ DumpEdgeContinuation:
   (('color' | 'textcolor') Color | 'linestyle' (Text) | 'thickness' (Number) | 'labels' ('on' | 'off' | Text));
 \end{rail}\ixkeyw{dump}\ixkeyw{set}\ixkeyw{edge}\ixkeyw{only}\ixkeyw{color}\ixkeyw{textcolor}\ixkeyw{labels}\ixkeyw{on}\ixkeyw{off}\ixkeyw{linestyle}\ixkeyw{thickness}\ixnterm{DumpEdgeContinuation}
 Sets the color, text color, the linestyle, the thickness of the line, or the label of the edges of type \emph{EdgeType} and all of its subtypes.
-The keyword \texttt{only} excludes the subtypes. The available colors are specified above.
-The default labeling is set to \texttt{on} with \texttt{Name:Type}, it can be overwritten by an specified label string or switched off.
+The keyword \texttt{only} excludes the subtypes. 
+The available colors are given above with the \texttt{dump set node} specification.
+The default labeling is set to \texttt{on} with \texttt{Name:Type}, it can be overwritten by a specified label string or switched off.
 The following linestyles are supported: \texttt{continuous} (default), \texttt{dotted}, \texttt{dashed}.
 The following thicknesses are supported: \texttt{1} (default), \texttt{2}, \texttt{3}, \texttt{4}, \texttt{5}.
 
@@ -72,7 +69,7 @@ IncAdjTypeConstraints:
 \end{rail}\ixkeyw{dump}\ixkeyw{add}\ixkeyw{node}\ixkeyw{only}\ixkeyw{group}\ixkeyw{by}\ixkeyw{hidden}\ixkeyw{with}\ixnterm{GroupConstraints}\ixnterm{IncAdjTypeConstraints}
 Declares \emph{NodeType} and subtypes of \emph{NodeType} as \indexed{group node}\indexmainsee{hierarchic}{group node} type.
 All the differently typed nodes that point to a node of type \emph{NodeType}
-(i.e.\ there is a directed edge between such nodes) will be grouped and visibly enclosed by the \emph{NodeType}-node (nested graph).
+(i.e.\ there is a directed edge between such nodes) will be grouped and visibly enclosed by the \emph{NodeType}-node (leading to the rendering of a nested graph).
 \texttt{GroupMode} is one of \texttt{no},\texttt{incoming},\texttt{outgoing},\texttt{any}; \texttt{hidden} causes hiding of the edges by which grouping happens.
 The \texttt{EdgeType} constrains the type of the edges which cause grouping, the \texttt{with} clause additionally constrains the type of the adjacent node;
 \texttt{only} excludes subtypes.
@@ -98,6 +95,9 @@ The following example shows \emph{metropolis} ungrouped and grouped:
 Declares the \indexed{attribute} \emph{AttributeName} to be an ``\indexed{info tag}'' or ``\indexed{short info tag}''.
 Info tags are displayed like additional node/edge \indexed{label}s, in format \texttt{Name=Value}, or \texttt{Value} only for short info tags.
 The keyword \texttt{only} excludes the subtypes of \emph{NodeType} resp.\ \emph{EdgeType}.
+
+\pagebreak
+
 In the following example \emph{river} and \emph{jam} are info tags:
 \begin{center}
   \fbox{\includegraphics[width=0.5\linewidth]{fig/infotag}}
@@ -107,7 +107,10 @@ In the following example \emph{river} and \emph{jam} are info tags:
   'dump' 'add' 'graph' 'exclude';
   'dump' 'set' 'graph' 'exclude' 'option' ContextDepth;  
 \end{rail}\ixkeyw{dump}\ixkeyw{add}\ixkeyw{graph}\ixkeyw{exclude}\ixkeyw{option}
-The dump graph exclude commands allow to suppress the display of the graph during debugging. Instead only the match of the current rule is shown, plus some context up do a certain depth, plus the parent nodes according to the nesting commands. The default depth is 1, i.e. the match plus its direct neighbours are displayed (plus the nesting nodes); you may set it to 0 or a higher value. These commands allow you to still use the debugger if the graph as such is too large to be layed out (or laying it out takes too long to be convenient).
+The dump graph exclude commands allow to suppress the display of the graph during debugging.
+Instead, only the match of the current rule is shown, plus some context up to a certain depth, plus the parent nodes according to the nesting commands.
+The default depth is 1, i.e. the match plus its direct neighbours are displayed (plus the nesting nodes); you may set it to 0 or a higher value.
+These commands allow you to still use the debugger if the graph as such is too large to be layed out (or laying it out takes too long to be convenient).
 
 \begin{rail}
   'dump' 'reset'
@@ -117,8 +120,8 @@ Resets all style options (\texttt{dump set}\dots) and (\texttt{dump add}\dots) t
 
 \begin{note}\label{note:visual}
 Small graphs allow for fast visual understanding, but with an increasing number of nodes and edges they quickly loose this property.
-The group commands are of outstanding importance to keep readability with increasing graph sizes
-(e.g. for program graphs it allows to lump together expressions of a method inside the method node and attributes of the class inside the class node).
+The group commands are of outstanding importance to maintain readability with increasing graph sizes
+(e.g. for program graphs it allows to lump together expressions of a method inside the method node and attributes of a class inside the class node).
 Additional helpers in keeping the graph readable are:
 the capability to exclude elements from dumping (the less hay in the stack the easier to find the needle),
 the different colors and shapes to quickly find the elements of interest,
@@ -131,7 +134,7 @@ should be tried first.
 The following example consisting of Figures~\ref{figprogramgraph1} and \ref{figprogramgraph2} shows several of the layout options employed to considerably increase the readability of a program graph (as given in \texttt{examples/JavaProgramGraphs-GraBaTs08}), with:
 \begin{itemize}
 	\item nesting to show containment
-	\item color coding to distinguish different classes of elements (yellow for classes, magenta for methods, cyan for variables, green for expressions and statements)
+	\item color coding to distinguish different classes of elements (yellow for classes, magenta for methods, cyan for variables, and green for expressions and statements)
 	\item the typical rendering of the \texttt{Hierarchic} layout (it's advanced version \texttt{Compilergraph} to be more exact)
 \end{itemize}
 
@@ -154,7 +157,7 @@ The following example consisting of Figures~\ref{figprogramgraph1} and \ref{figp
 
 
 You see the \texttt{exclude} option applied in Figures~\ref{figimdb} and \ref{figimdb2}, stemming from the \GrG{} solution \cite{MovieDatabase} of the TTC14 Movie Database case \cite{MovieDatabaseCase} (you find it under \texttt{examples/MovieDatabase-TTC2014}) .
-There, a rule \texttt{couplesWithRating} (whose pattern consists of a \texttt{c:Couple} referencing its actors \texttt{pn1:Person} and \texttt{pn2:Person}) is used in in order to fetch the couples of actors who performed together in a movie, for one the couples whose common movies have the highest rating, and for the other the couples with the highest number of common movies. 
+There, a rule \texttt{couplesWithRating} (whose pattern consists of a \texttt{c:Couple} referencing its actors \texttt{pn1:Person} and \texttt{pn2:Person}) is used in order to fetch the couples of actors who performed together in a movie, for one the couples whose common movies have the highest rating, and for the other the couples with the highest number of common movies. 
 The match with the highest rating or highest number is obtained by ordering with an auto-generated filter (cf. \ref{sub:filters}) alongside an appropriately filled \texttt{def} variable, and throwing away the results below with an auto-supplied filter.
 
 \begin{figure}[htbp]
@@ -164,13 +167,14 @@ The match with the highest rating or highest number is obtained by ordering with
   \label{figimdb}
 \end{figure}
 
-The first screenshot depicted in Figure~\ref{figimdb} was taken from the 10,000 movies file from IMDB (98,388 nodes, 124,638 edges), and executed under Windows 10. 
+The first screenshot depicted in Figure~\ref{figimdb} was taken on Windows 10 during processing of the 10,000 movies file from IMDB (98,388 nodes, 124,638 edges). 
 It is displayed with layout \texttt{Circular} and shows the match of the couple with the highest rating. 
 
-The second screenshot depicted in Figure~\ref{figimdb2} was taken from the generated N=50,000 example (1,000,000 nodes, 1,600,000 edges), and executed under openSUSE LINUX 13.2. 
+The second screenshot depicted in Figure~\ref{figimdb2} was taken on openSUSE LINUX 13.2 during processing of the generated N=50,000 example (1,000,000 nodes, 1,600,000 edges). 
 It is displayed with layout \texttt{Organic} and shows the match of the couple with the highest number of common movies.
 
-The graphs as such are beyond the capabilities of the graph viewer (several thousand graph elements work well, up to a few ten thousand ones), without the \texttt{exclude} we'd be blind, this way we're endowed with partial sight (on the important part, the match plus its context). Notice the infotags on the \texttt{rating} and \texttt{avgRating} attributes.
+The graphs as such are beyond the capabilities of the graph viewer (several thousand graph elements work well, up to a few ten thousand ones), without the \texttt{exclude} we'd be blind, this way we're endowed with partial sight (on the important part, the match plus its context).
+Notice the infotags on the \texttt{rating} and \texttt{avgRating} attributes.
 
 \begin{figure}[htbp]
   \centering
@@ -195,7 +199,7 @@ Besides the things already mentioned in \ref{tools:ycomp}, we want to give the f
 	\item you can zoom with the mouse wheel at the position of the cursor
 	\item hovering over graph elements displays the attributes
 	\item you can select graph elements with the left mouse button and delete them with \texttt{del} to gain a better overview
-	\item by activating edit mode with the 3rd rightmost button you can move nodes around, which allows you to fix a bad layout (rather seldom needed)
+	\item by activating edit mode with the 3rd rightmost button in the toolbar you can move nodes around, which allows you to fix a bad layout (rather seldomly needed)
 	\item the context menu opened by pressing the right mouse button over a graph element allows you to explore the adjacent nodes in non-edit-mode, or delete the element in edit mode
 	\item you can search with \texttt{Ctrl-f} or \texttt{/} for the persistent name or an attribute value (or by clicking into the left search field), the matching elements get highlighted
 \end{itemize}
@@ -217,14 +221,15 @@ All changes to the working graph are tracked by \yComp\ immediately.
 Sets the default graph \indexed{layout algorithm} to \emph{Text}.
 If \emph{Text} is omitted, a list of the available layout algorithms is displayed.
 The following layout algorithms are supported: \texttt{Random}, \texttt{Hierarchic}, \texttt{Organic}, \texttt{Orthogonal}, \texttt{Circular}, \texttt{Tree}, \texttt{Diagonal}, \texttt{Incremental Hierarchic}, \texttt{Compilergraph}.
-For technical graphs \texttt{Hierarchic} works normally best; \texttt{Compilergraph} is a version of \texttt{Hierarchic} cutting some edges, it may be of interest if \texttt{Hierarchic} contains too many crossing edges. \texttt{Organic} is the other general purpose layout available, the other layouts are rather special, but this should not prevent you from using them if they fit to your task ;).
+For technical graphs \texttt{Hierarchic} works normally best; \texttt{Compilergraph} is a version of \texttt{Hierarchic} cutting some edges, it may be of interest if \texttt{Hierarchic} contains too many crossing edges.
+\texttt{Organic} is the other general purpose layout algorithm available to be tried out early; the other layout algorithms are rather special, but this should not deter you from using them if they fit to your task ;).
 The \texttt{option} version allows to specify layout options by name value pairs.
 The available layout options can be listed by the following command.
 
 \begin{rail}
   'debug' 'get' 'layout' 'options';
 \end{rail}\ixkeyw{debug}\ixkeyw{get}\ixkeyw{layout}\ixkeyw{options}
-Prints a list of the available layout options of the layout algorithm.
+Prints a list of the available layout options of the currently active layout algorithm.
 
 \begin{rail}
   'debug' 'layout';
@@ -239,83 +244,105 @@ Forces re-layout of the graph shown in yComp (same as pressing the play button w
 \end{rail}\ixkeyw{debug}\ixkeyw{set}\ixkeyw{mode}
 Configures the display of the visual debug states for the nodes/edges.
 The following modes are supported: \texttt{matched}, \texttt{created}, \texttt{deleted}, \texttt{retyped}.
-Change this if you e.g. want the matched elements to be marked more visibly, or added/deleted elements to be colored green/red.
+Change this if you e.g. want the matched elements to be marked more visibly, or added/deleted elements to be colored green/red (instead of red/grey).
 
 \begin{rail}
   GraphRewriteSequence: 'debug' ('exec'|'xgrs') SimpleRewriteSequence ;
 \end{rail}\ixkeyw{debug}\ixkeyw{exec}\ixkeyw{xgrs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence} in the debugger\indexmain{debugger}.
-Same as \texttt{exec SimpleRewriteSequence} in the previous chapter, but allows tracing the rewriting process step-by-step.
-
+The semantics is the same as for \texttt{exec SimpleRewriteSequence} already introduced in Chapter~\ref{chapgrshell}, but you can trace the execution step-by-step.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Using the Debugger}
 
-The debugging process follows of a series of debug situations,
-which result from a user selection of the underlying execution situations according to interest.
-During each debugging step the debugger\indexmain{debugger} -- which is a part of the \GrShell~--
+Put abstractly, a graph rewrite sequence is executed step-by-step, one rule application after the other, yielding a series of execution states.
+Each step has a current point of execution in the sequence, referencing the rule that is to be or gets applied.
+The debugging process can be described as a reduced view on such a series of execution states,
+consisting of a series of debugging situations, which are a subset of your choice of the execution states reached in time.
+In each debugging situation or step, the execution state or a a subset of it is rendered.
+
+This means concretely, that the debugger\indexmain{debugger} -- which is a part of the \GrShell~--
 prints the debugged sequence with the currently focused/active rule highlighted yellow.
-What will be shown from executing this rule depends on the commands chosen by the user;
+What will be shown from executing this rule depends on the chosen debug command,
 and on the fact whether the focused rule matches or not.
 An active rule which is already known to match is highlighted green.
-The rules which matched during sequence execution are shown on dark green background,
-the rules which failed during sequence execution are shown on dark red background;
-at the begin of a new loop iteration the highlighting state of the contained rules is reset.
-During execution \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp}
-will display the changes to the graph from every single step.
-Besides deciding on what is shown from the execution of the current rule,
-the user determines with the debug commands where to continue the execution
-(the rule focused next; but again this depends on success/failure of the currently active rule).
-The debug commands are given in Table~\ref{tabdebug}.
-A run is shown in the following example \ref{ex:debug}.
+The rules that matched the last time during sequence execution are shown on dark green background,
+the rules that failed the last time during sequence execution are shown on dark red background;
+at the begin of a new loop iteration the highlighting state of the rules contained in the loop is reset.
+
+During execution, \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp}
+displays the current graph at each single step, and on request highlights a rule application, marking the matches in the graph, and showing the changes to the graph stemming from that rule application.
 
 \pagebreak %manual break to get two pages with halfway broken layout instead of one with deeply broken
 
+Besides deciding on what is shown from the application of the current rule, you also determine with the debug commands where to continue debugging, i.e. the rule focused next;
+but of course this depends strongly on the following flow of execution, esp. the fact whether the execution of the currently active rule succeeds/fails, and the execution state in general.
+
+With the \texttt{s} debug command (step) you execute the current rewrite rule (trying to match it, applying the rewrite on success) and then continue with the next rule in the sequence.
+With the \texttt{n} debug command (next) you fast-forward to the next rule \emph{that matches}, and apply it when pressed again.
+With the \texttt{r} debug command (run) you continue execution until sequence termination or until a breakpoint is hit.
+With the \texttt{d} debug command (detailed step) you execute the current rewrite rule, if it matches highlighting its match and the changes in the graph, and then continue with the next rule in the sequence.
+
+All the available debug commands are given in Table~\ref{tabdebug}.
+An example debugging run is shown in the following example \ref{ex:debug}.
+
+
 In addition to the commands for actively stepping or skipping through the sequence execution,
-there are breakpoints and choicepoints available (toggled with the \texttt{b} and \texttt{c} commands)
-which are only processed when they are reached, but on the other hand are also processed if a user command would skip them.
+there are breakpoints and choicepoints available (toggled with the \texttt{b} and \texttt{c} commands),
+which become active if execution reaches them, even if a user command would skip over them in the debugging process.
 The \indexed{break point}s halt execution, focus the reached sequence, and cause the debugger to wait for further commands
 (e.g. \texttt{d} to inspect the rule execution en detail versus \texttt{s} for just applying it).
 The \indexed{choice point}s halt execution, focus the reached sequence in magenta, and ask for some user input;
 after the input was received, execution continues according to the command previously issued.
 
 Both break points and choice points are denoted by the \texttt{\%} modifier.
-The \texttt{\%} modifier works as a break point if it is given before: a rule, an all bracketed rule, a variable predicate, or the constants \texttt{true}/\texttt{false}.
-The \texttt{\%} modifier works as a choice point if it is appended to the \texttt{\$} randomize modifier switching a random decision into a user decision.
-This holds for the binary operators, the random match selector of all bracketed rules, the random-all-of operators and the one-of-set braces.
-The idea behind this is: you need some randomization for \indexed{simulation} purposes --- then use the randomize modifier \texttt{\$}.
-You want to force a certain decision overriding the random decision to try out another execution path while debugging the simulation flow --- then modify the randomize modifier with the user (choice) modifier \texttt{\%}.
+The \texttt{\%} modifier acts as a break point if it is given before: a rule, an all bracketed rule, a variable predicate, or the constants \texttt{true}/\texttt{false}.
+The \texttt{\%} modifier acts as a choice point if it is appended to the \texttt{\$} randomize modifier, switching a random decision into a user decision.
+The dollar randomize modifier can be applied to the binary operators, the random match selector of all bracketed rules, the random-all-of operators and the one-of-set braces.
+The idea behind this is: you need some randomization for \indexed{simulation} purpose --- then use the randomize modifier \texttt{\$}.
+You want to force a certain decision, overriding the random decision, in order to try out another execution path while debugging the simulation --- then modify the randomize modifier with the user (choice) modifier \texttt{\%}.
 
 The initial breakpoint and choicepoint assignment is given with the \texttt{\%} characters in the sequences after the \texttt{debug exec} commands in the \texttt{.grs} file.
 The breakpoint and choicepoint commands of the debugger allow to toggle them at runtime, overriding the initial assignment (notationally yielding a sequence with added or removed \texttt{\%} characters).
-The user input commands \texttt{\$\%(type)} define choice points which can't be toggled off.
+The user input commands \texttt{\$\%(type)} define choice points which cannot be switched off.
 
-Further commands allow to print the variables at a given situation, the sequence call stack, or a full state dump of the call stack and the variables.
-Or allow to dump the current graph, or highlight elements in the graph, defined by being contained in a (possibly container valued) variable, or being visited according to a visited flag.
+Moreover, there are commands available that allow to print the variables at a given situation, or the sequence call stack, or a full state dump of the call stack and the variables.
+Further commands allow to dump the current graph, or highlight elements in the graph, defined by being contained in a (possibly container valued) variable, or being marked according to a visited flag.
 
-\pagebreak
+%\pagebreak
 
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|}
 \hline
-  \texttt{s}(tep) & Execute the current rewrite rule (match, and rewrite in case it matched; the resulting graph is shown).\\
-  \texttt{d}(etailed step) & Execute the current rewrite rule in a three-step procedure: matching - highlighting the found match, rewriting - highlighting the changing elements, and application - doing the rewrite showing the resulting graph. In addition, afterwards the execution of subrules from embedded sequences (\texttt{exec}) is shown step by step. \\
-  (step) \texttt{o}(ut) & Continue execution until the end of the current loop. If the execution is not in a loop at this moment, but in a sequence called, the called sequence will be executed until its end. If neither is the case, the complete sequence will be executed.\\
+  \texttt{s}(tep) & Execute the current rewrite rule (matching it, and rewriting in case it matched; the resulting graph is shown).\\
+  \texttt{d}(etailed step) & Execute the current rewrite rule in a three-step procedure: 
+    matching - highlighting the found match, rewriting - highlighting the changing elements, 
+    and completion - carrying out the rewrite, showing the resulting graph, then executing subrules from embedded sequences (\texttt{exec}), step by step. \\
+  (step) \texttt{o}(ut) & Continue execution until the end of the current loop. 
+    If execution is not in a loop at this moment, but in a sequence called, the called sequence will be executed until its end.
+    If neither is the case, the complete sequence will be executed.\\
   (step) \texttt{u}(p) & Ascend one level up within the \indexed{Kantorowitsch tree} of the current rewrite sequence (i.e. rule; see Example~\ref{ex:debug}; at the moment the command is pretty useless because only the serialized form is displayed).\\
   \texttt{r}(un) & Continue execution (until the end or a breakpoint).\\
-  \texttt{a}(bort) & Cancel the execution immediately.\\
-  \texttt{n}(ext) & Go to the next rewrite rule which matches, make it current.\\
+  \texttt{a}(bort) & Cancel execution immediately.\\
+  \texttt{n}(ext) & Go to the next rewrite rule that matches, make it current.\\
 \hline
   (toggle) \texttt{b}(reakpoint) & Toggle a breakpoint at one of the breakpointable locations.\\
   (toggle) \texttt{c}(choicepoint) & Toggle a choicepoint at one of the choicepointable locations.\\
-	(edit) \texttt{w}(atchpoints) & Allows to edit data breakpoints or the behaviour for programmed debug messages.\\
+  (edit) \texttt{w}(atchpoints) & Allows to edit data breakpoints or the behaviour of programmed debug messages.\\
 \hline
-  \texttt{v}(ariables) & Prints the global variables and the local variables of the sequence currently executed, which is the topmost sequence of the sequence call stack. Plus the allocated visited flags. To be more precise regarding local variables: all variables which were defined (and have not fallen out of scope again) up to the sequence position focussed.\\
-  \texttt{t}(race) & Prints the stack trace of the current sequence call stack; the stack trace includes the body of each sequence called at its execution state.\\
+  \texttt{v}(ariables) & Prints the global variables and the local variables of the sequence currently executed, which is the topmost sequence of the sequence call stack.
+    Plus the allocated visited flags. To be more precise regarding local variables: all variables which were defined (and have not fallen out of scope again) up to the sequence position focussed.\\
+  \texttt{t}(race) & Prints the stack trace of the current sequence call stack.
+     The stack trace includes the body of each sequence called at its execution state.\\
   \texttt{f}(ull dump) & Prints the stack trace including the local variables of each stack frame plus the global variables.\\
-  (dum)\texttt{p} (graph)\label{dumpgraph} & Dumps the current graph as a \texttt{.vcg} file and shows it in yComp. This can be used as a workaround to check the real state in case transaction/backtracking rollback is used on a graph with node nesting, which may lead to a buggy display. In addition, an \texttt{undo.log} is written with the undo commands for \emph{change reversal} of the open transactions that will be applied on rollback.\\
-  (as)-\texttt{g}(raph) & Asks for the value of the externally defined type that is to be shown in the debugger in graph form (you must implement an extension handler able to return an \texttt{INamedGraph} on request for this to work, see \ref{sub:apiextemitparse}). Alternatively, you may specify a graph value, which is then displayed directly.\\
-  \texttt{h}(ighlight)\label{highlight} & Highlights the elements in the graph which are marked with the visited flag given, or are contained in the variable given (which might be a simple scalar variable containing a graph element, or a container variable). Multiple variables or visited flags may be given separated by commas.\\
+  (dum)\texttt{p} (graph)\label{dumpgraph} & Dumps the current graph as a \texttt{.vcg} file and shows it in yComp. 
+    This can be used as a workaround to check the real state in case transaction/backtracking rollback is used on a graph with node nesting, which may lead to a buggy display.
+    In addition, an \texttt{undo.log} is written with the undo commands of the open transactions for \emph{change reversal}, which would be applied on rollback.\\
+  (as)-\texttt{g}(raph) & Asks for the value of the externally defined type that is to be shown in the debugger in graph form 
+    (you must implement an extension handler able to return an \texttt{INamedGraph} on request for this to work, see \ref{sub:apiextemitparse}). 
+    Alternatively, you may specify a graph value, which is then displayed directly.\\
+  \texttt{h}(ighlight)\label{highlight} & Highlights the elements in the graph that are marked with the visited flag given, or are contained in the variable given (which might be a simple scalar variable containing one graph element, or a container variable potentially containing multiple ones). 
+     Multiple variables or visited flags may be given separated by commas.\\
 \hline
   \end{tabularx}
   \caption{\GrShell\ debug commands}
@@ -328,23 +355,24 @@ Or allow to dump the current graph, or highlight elements in the graph, defined 
 %  \label{figdebug}
 %\end{figure}
 
-\pagebreak
+%\pagebreak
 
 \begin{figure}[htbp]
 \begin{example}\label{ex:debug}
-We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also Section~\ref{fractals}). The graph rewriting sequence is
+We demonstrate the debug commands by executing a slightly adjusted script for generating the Koch snowflake from \GrG's examples (see also Section~\ref{fractals}).
+The graph rewrite sequence is
 \begin{grshell}
 debug exec (makeFlake1* & (beautify & doNothing)* & makeFlake2* & beautify*)[1]
 \end{grshell}
-\yComp\ will be opened with an initial graph (resulting from \texttt{grs init}):
+\yComp\ will be opened with an initial graph:
 \begin{center}
   \includegraphics[width=0.3\linewidth]{fig/debug0tra}
 \end{center}
-We type \texttt{d}(etailed step) to apply \texttt{makeFlake1} step by step resulting in the following graphs:
+We type \texttt{d}(etailed step) to apply \texttt{makeFlake1} in detail mode with a matching, rewriting, and completion substep, resulting in the following graphs:
 \begin{center}
   \parbox{0.2\linewidth}{\includegraphics[width=\linewidth]{fig/debug1tra}}\parbox{0.375\linewidth}{\includegraphics[width=\linewidth]{fig/debug2tra}}\parbox{0.375\linewidth}{\includegraphics[width=\linewidth]{fig/debug3tra}}
 \end{center}
-The following table shows the ``break points'' of further debug commands, entered one after another:
+The following table shows the active rule reached after having entered the preceeding debug command, for a series of debug commands:
 \begin{center}
   \begin{tabular}{|l|l|} \hline
     \textbf{Command} & \textbf{Active rule} \\ \hline
@@ -373,13 +401,13 @@ The following table shows the ``break points'' of further debug commands, entere
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Subrule Debugging and Programmed Halts}\label{secdebuggersubrule}
 
-The basic granularity of debugging in \GrG{} is the single rule called from an interpreted sequence.
-But with embedded execs there are further sequences and actions available outside direct control and visibility of the debugger.
-At least the actions called from the embedded sequences are shown in the debugger -- in case detailed mode is used.
+The basic granularity of debugging in \GrG{} is the single rule (with its pattern matched and its rewrite carried out) executed from an interpreted sequence.
+But with embedded execs there are further sequences and actions available outside direct control of and visibility in the debugger.
+At least some debugging aide is available for them, at least the actions called from the embedded sequences are shown in the debugger -- in case detailed mode is used.
 But the local execution state of imperative code which may be used for tasks where pattern matching is not beneficial is completely invisible to the debugger.
 Only the effects on the graph become visible.
 
-There is a remedy for this situation, code-embedded debugging commands, in the form of calls to procedures from the built-in package \texttt{Debug}.
+There is a remedy available for this situation in the form of code-embedded debugging commands, realized by calls to procedures from the built-in package \texttt{Debug}.
 With them you can punch holes into the covering blanket that allow you to peek at what's going on under the covers.
 The debugging commands are used for one to directly display information, but for the other for handling a stack of debug messages, intended for representing the current state of the call nesting of the executing code.
 
@@ -391,14 +419,16 @@ Besides the mandatory \texttt{message:string}, an arbitrary number of other para
 \item[\texttt{Debug::rem(message(,object)*)}] to be called when a subrule computation or an interesting piece of code is exited.
 The topmost entry message on the messages stack is removed.
 It is checked that the message of the topmost added entry is identical to the message of current removal -- you must always call \texttt{add} and \texttt{rem} in pairs!
-The \texttt{emit} messages on the way to the topmost \texttt{add} are removed. Besides the mandatory \texttt{message:string}, an arbitrary number of other parameters may be given (of arbitrary type).
+The \texttt{emit} messages on the way to the topmost \texttt{add} are removed. 
+Besides the mandatory \texttt{message:string}, an arbitrary number of other parameters may be given (of arbitrary type).
 \item[\texttt{Debug::emit(message(,object)*)}] to be called when some interesting points in the code are passed.
 The message is added to the debug messages stack of the debugger.
 Besides the mandatory \texttt{message:string}, an arbitrary number of other parameters may be given (of arbitrary type).
 \item[\texttt{Debug::halt(message(,object)*)}] to be called when some point in the code is reached that is so interesting that you want the execution to break in the debugger. 
 If called, the debugger halts execution, displays the messages stack in its current state, and prints out the halt message with its parameters.
 Besides the mandatory \texttt{message:string}, an arbitrary number of other parameters may be given (of arbitrary type).
-\item[\texttt{Debug::highlight(message(,object,string)*)}] to be called when some point in the code is reached that is so interesting that you want the execution to break in the debugger, in order to display some variable values highlighted graphically in the debugger, in the same way they are highlighted when an action is matched.
+\item[\texttt{Debug::highlight(message(,object,string)*)}] to be called when some point in the code is reached that is so interesting that you want the execution to break in the debugger, 
+in order to highlight some nodes or edges graphically in the debugger, in the same way they are highlighted when an action is matched.
 If called, the debugger halts execution, displays the messages stack in its current state, and displays the nodes and edges passed with the additional parameters highlighted in the graph.
 The additional parameters must be given in pairs, first the entity to display, then the string that entry will be annotated with in the debugger.
 The entity to display may be a node or edge, which is then directly highlighted,
@@ -414,13 +444,14 @@ For the other for procedures and compiled sequence definitions, a debug message 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Watchpoint configuration}
 
-The behaviour of the debugger upon receiving certain events can be defined with configuration rules or watchpoints.
-When a subrule debugging event (aka debug message), or a graph change event, or an action match event occurs,
-is the list visited one entry after the other, and one configuration rule checked for a match.
-When a configuration rule or watchpoint matches, is its decision applied.
+The behaviour of the debugger upon receiving certain events can be defined with configuration rules aka watchpoints.
+They are contained in a list, ordered by time of insertion.
+When a subrule debugging event (a debug message as introduced in the previous section), or a graph change event, or an action match event occurs,
+the list of watchpoints is visited one entry after the other, and one configuration rule checked for a match after the other.
+When a configuration rule or watchpoint matches, its decision is applied.
 The decision may be to break execution and display the current execution state, or to continue execution, which is of interest for events that normally break execution but should be better ignored.
 
-Besides defining the configuration rules of the watchpoints beforehand with shell commands, can you edit them interactively with the edit \texttt{w}atchpoint command inside the debugger. 
+Besides defining the configuration rules of the watchpoints beforehand with shell commands, you can edit them interactively with the edit \texttt{w}atchpoint command inside the debugger. 
 
 \subsection*{Subrule messages}
 
@@ -431,9 +462,9 @@ Besides defining the configuration rules of the watchpoints beforehand with shel
 \end{rail}\ixkeyw{debug}\ixkeyw{on}\ixkeyw{add}\ixkeyw{rem}\ixkeyw{emit}\ixkeyw{halt}\ixkeyw{highlight}\ixkeyw{break}\ixkeyw{continue}\ixnterm{MessageFilter}\ixkeyw{equals}\ixkeyw{startsWith}\ixkeyw{endsWith}\ixkeyw{contains}
 
 When the string specified matches the message of the debug event according to the message filter given,
-is execution interrupted by the debugger in case of an \texttt{Debug::add}, \texttt{Debug::rem}, \texttt{Debug::emit}
-which normally occurs silently, those events are typically only used to represent the execution state of the code in the debugger.
-When a match happens for a \texttt{Debug::halt} or \texttt{Debug::highlight} is execution continued without interruption, while normally those messages break execution in the debugger.
+execution is interrupted by the debugger in case of a \texttt{Debug::add}, or \texttt{Debug::rem}, or \texttt{Debug::emit}, and the execution state of the code (esp. specified by those commands) is presented in the debugger.
+Normally, those events are handled silently.
+When a match happens for a \texttt{Debug::halt} or \texttt{Debug::highlight}, execution is continued without interruption, while normally those messages break execution in the debugger.
 
 \subsection*{Action match event}
 
@@ -441,15 +472,16 @@ When a match happens for a \texttt{Debug::halt} or \texttt{Debug::highlight} is 
   'debug' 'on' 'match' RuleName ('break'|'continue') ('if' SequenceExpression)?;
 \end{rail}\ixkeyw{debug}\ixkeyw{on}\ixkeyw{match}\ixkeyw{break}\ixkeyw{continue}\ixkeyw{if}
 
-When the action specified was matched, is execution halted in the debugger in case of a \texttt{break}.
-This is of interest for rules executed from execs, as normal breakpoints don't apply to them, this way we can set a breakpoint on a rule irrespective from where it is called (allowing us to just \texttt{r}un a sequence until an action match of interest happens).
-In case of a \texttt{continue} is execution forced to continue.
+When the action specified was matched, execution is halted in the debugger in case of a \texttt{break}.
+This is of interest for rules executed from execs, as normal breakpoints don't apply to them, this way we can set a breakpoint on a rule irrespective from where it is called 
+(allowing us to just \texttt{r}un a sequence until an action match of interest happens).
+In case of a \texttt{continue}, execution is forced to continue.
 This is of interest for detail mode debugging that normally breaks on each matched rule.
-It allows us to leave out uninteresting rules from detail mode debugging, to skip over rules in execs without the need to acknowledge them.
+It allows us to skip over uninteresting rules in execs without the need to acknowledge them.
 
 The sequence expression finally allows us to decide conditionally.
-It is evaluated when the configuration rule is evaluated because its event occured, if it returns true the configuration rule matches, otherwise it does not match.
-The \texttt{this} entity is overloaded for the sequence expression (normally it denotes the graph).
+It is evaluated when its corresponding configuration rule is evaluated because its match event occurred, if it returns true the configuration rule matches, otherwise it does not match.
+The \texttt{this} entity is overloaded in the sequence expression (normally it denotes the graph).
 It gives access to the match found, you can access the entities of the match in dot-Notation (e.g. \texttt{this.node1}).
 The configuration rule is evaluated for all matches in case of an all-bracketed match, if one returns true, the decision is carried out.
 
@@ -460,14 +492,43 @@ The configuration rule is evaluated for all matches in case of an all-bracketed 
 	TypeNameSpec: ('only')? Type | railat '(' Name')';
 \end{rail}\ixkeyw{debug}\ixkeyw{on}\ixkeyw{new}\ixkeyw{delete}\ixkeyw{retype}\ixkeyw{set}\ixkeyw{attributes}\ixkeyw{break}\ixnterm{TypeNameSpec}\ixkeyw{only}\ixkeyw{if}
 
-When the graph change specified occured (its corresponding event was fired), is execution halted in the debugger.
-The supported graph changes are graph element creation, deletion, retyping, or attribute assignment.
+When the graph change specified occurred (its corresponding event was fired), execution is halted in the debugger.
+The supported graph changes are graph element creation, deletion, retyping, and attribute assignment.
 The \emph{TypeNameSpec} constrains this by type or by name.
 The first form matches only when the element is of the specified type, in case of \texttt{only} only if it is of exactly that type and not a subtype.
-The second form matches only when the element is of the specified name, given as string constant (rules of that kind are typically created interactively, but due to the persistence of persistent names and the execution of GrGen being as deterministic as possible in between single runs make even static rules sense -- even more so if you assign the names on your own).
+The second form matches only when the element is of the specified name, given as string constant 
+(rules of that kind are typically created interactively, but due to the persistence of persistent names and the execution of GrGen being as deterministic as possible in between single runs, even static rules make sense -- even more so if you assign the names on your own).
 
 The sequence expression finally allows us to decide conditionally.
-It is evaluated when the configuration rule is evaluated because its event occured, if it returns true the configuration rule matches, otherwise it does not match.
-The \texttt{this} entity is overloaded for the sequence expression (normally it denotes the graph).
-It gives access to the node or edge that was just created, is getting deleted, is getting retyped, or was assigned to.
+It is evaluated when its corresponding configuration rule is evaluated because its graph change event occurred, if it returns true the configuration rule matches, otherwise it does not match.
+The \texttt{this} entity is overloaded in the sequence expression (normally it denotes the graph).
+It gives access to the node or edge that was just created, or is getting deleted, or is getting retyped, or was assigned to.
 So here we find support for conditional data breakpoints.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Debugging related functionality}
+
+Other commands that are of use for debugging were already introduced in the shell chapter:\\
+\verb#show var <Variable># to print the content of a variable and \\
+\verb#show <GraphElement>.<AttributeName># to print the content of an attribute.\\
+But pressing the \texttt{v} key in the shell debugger is more convenient in the former case, as is searching with \texttt{Ctrl-f} or \texttt{/} in yComp for the persistent name or an attribute value, hovering over the then highlighted graph element, in the latter case.
+
+The commands \verb#record# and \verb#replay# are of interest when you want to follow different paths during a transformation, they allow you to save the graph states before choosing in between the different paths, and to restore them later on (and to inspect the sequence of changes leading to a graph state).
+
+Another development aide comes in the form of validity checking code that gets emitted when the \texttt{-debug} option is supplied to \texttt{grgen.exe} (cf. \ref{grgenoptions}), the usage of that option can be also configured in the shell (cf. \ref{sec:compilerconfigshell}).
+The validity checking code detects with runtime checks situations in which: 
+\begin{enumerate}
+	\item a rule is called with a null argument (unless it was specified that null parameters are allowed, in that case the missing element is searched for in the graph)
+	\item a rule is called with a graph element as parameter that is not contained in the graph anymore
+	\item a match is about to be rewritten with a matched graph element that is not contained in the graph anymore
+\end{enumerate}
+
+The first case typically happens when an initialization of a variable is missing, or when a graph global variable gets auto-nulled, because the graph element was deleted. 
+
+The second case typically happens when a node or edge was removed from the graph but is still held in a local variable or a storage. 
+
+The third case typically happens during an all-bracketed rule application that matched a certain graph element multiple times, and now wants to retype the graph element, after having executed a previous rewrite, that deleted that particular graph element (an all-bracketed rule application rewrites one match after the other). 
+The situation may be rather obvious, when the graph element was bound to the same pattern element in different matches, it may be also quite difficult to grasp, because the graph element was bound to different pattern elements in different matches.
+The check may fail without uncovering a real issue, because the already deleted element is not to be modified with the rewrite of the current match (or only to be deleted again, deletion after deletion is not causing a crash).
+

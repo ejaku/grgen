@@ -420,7 +420,7 @@ The second pass is started after the structure matching ended by executing the d
 Each \texttt{exec} copies all outgoing edges (one could process all incoming edges instead) of a node:
 for each edge leaving the original node towards another original node a copy is created in between the copy of the original node and the copy of the other node.
 The copies are looked up with the original nodes from the storage map (which fails for target nodes outside of the subgraph of interest).
-Here too one could constrain the subgraph copied by filtering certain edges.
+Here too, one could constrain the subgraph copied by filtering certain edges.
 In case of undirected edges one would have to prevent that edges get copied twice (once for every incident node). This would require a visited flag for marking the already copied edges or a storage receiving them, queried in the edge copying pattern and set/filled in the edge copying rewrite part.
 
 The example can be found in the \texttt{tests/copyStructure} directory.
@@ -435,7 +435,7 @@ Before you can apply these operations you must collect the nodes or edges which 
 Besides building the sets element-by-element with \texttt{add}-methods you may use set returning functions, e.g. \texttt{adjacent} introduced in \ref{neighbouringelementsfunctions}, which returns the set of all the nodes adjacent to the node given as (first) argument.
 
 Employing \texttt{insertInduced(adjacent())} is a common idiom for copying a subgraph when the host graph is partitioned into multiple subgraphs in the following way:
-A special node type \texttt{Graph} and a special edge type \texttt{contains} are introduced into the graph model. 
+a special node type \texttt{Graph} and a special edge type \texttt{contains} are introduced into the graph model. 
 Every subgraph is represented by a \texttt{Graph} anchor node.
 From these anchor nodes on \texttt{contains} edges lead to all the non-subgraph nodes contained in the corresponding subgraph.
 With this modelling, all nodes in a subgraph are easily reachable from one anchor node via \texttt{adjacent}, and the entire subgraph can be easily retrieved by using \texttt{inducedSubgraph} or copied by \texttt{insertInduced}.

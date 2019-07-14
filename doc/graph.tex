@@ -5,7 +5,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Built-In Types}
 \label{sec:builtingenerictypes}
-Besides the types already introduced, \GrG\ offers supports for a \texttt{\indexed{graph}} type.
+Besides the types already introduced, \GrG\ offers support for a \texttt{\indexed{graph}} type.
 If used explicitly, it denotes a subgraph of the host graph, which can be used for storing and comparing subgraphs of the current host graph. (Because of the "there is only a single host graph"-design of GrGen you must explicitly descend to the nested subgraph if you intend to process it, see \ref{sec:graphnesting}).
 
 But more important are the large number of global functions (with call syntax as already introduced in \ref{sec:primexpr}) and global procedures (with call syntax as already introduced in \ref{sec:proccall}) that implicitly operate on the single host graph (and thus on the graph type).
@@ -353,7 +353,7 @@ A graph query with a for loop iterates the type and/or incidence ringlists which
 A graph query returning a set builds a set -- employing the same iteration -- and returns that set.
 That yields two differences:
 \begin{itemize}
-	\item If you iterate the set, this happens in the iteration order of the container that was built -- you'll visit the elements in an order that is different from the original iteration order.
+	\item If you iterate the set, this happens in the iteration order of the container that was built -- very likely you will visit the elements in an order that is different from the original iteration order.
 	\item Duplicates during graph iteration are removed -- this holds for reflexive edges that are visited twice during an incident-edges iteration, once in their role of incoming edge, and once in their role of outgoing edge.
 \end{itemize}
 
@@ -370,7 +370,7 @@ Graph queries which return a set type return for edges
 	\item a \texttt{set<UEdge>} in case the requested edge type is an undirected edge.
 	\item a \texttt{set<AEdge>} in case the requested edge type is an arbitrary directed edge, \\or no edge type was specified.
 \end{itemize}
-You won't receive a \texttt{set<E>} with \texttt{E} being an edge type from your model that you requested in the query, but you get a set of the edge root type matching your requested type. 
+You won't receive a \texttt{set<E>} with \texttt{E} being an edge type from your model that you requested in the query, but at least you get a set of the edge root type matching your requested type. 
 This way, you can evade the unspecific \texttt{AEdge}, a recommended practice if you always only use directed edges.
 
 If the behavior regarding set types is not what you want, you can employ a container copy constructor (cf. Chapter~\ref{cha:container}) to obtain a container of your desired type (containing only the elements that match the container element type), see the following two examples.

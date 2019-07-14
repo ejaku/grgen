@@ -205,12 +205,12 @@ Besides, several built-in functions and procedures are available, ready to be ca
 
 Functions return exactly one output value, and can thus be used from the expressions with their compositional semantics.
 They are side-effect free, meaning they are not allowed to change the graph while being executed ---
-so you are not allowed to call procedures (self-defined as well as built-in) from with a function definition.
+so you are not allowed to call procedures (self-defined as well as built-in) from within a function definition.
 On the other hand do we consider pure functional programming not a help but a burden, so you are free to declare local variables and assign them as you like inside the function definitions; they only must behave as functions at the outside.
 
 \begin{rail} 
   FunctionDefinition: 
-	'function' Name '(' Parameters ')' ':' ReturnType \\
+	'function' Name '(' Parameters ')' ':' ReturnType\\
 	lbrace (Statement+) rbrace;
   Parameters: (Parameter * ',');
   Parameter: IdentDecl ':' NodeType |

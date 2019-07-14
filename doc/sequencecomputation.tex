@@ -2,7 +2,7 @@
 
 \chapter{Sequence Computations}\indexmain{sequence computations}\label{seqcomp}
 
-In this chapter we'll take a look at sequence computations, which are not concerned with directly controlling rules, but with computing values or causing side effects, that are then used to control rules.
+In this chapter we take a look at sequence computations, which are not concerned with directly controlling rules, but with computing values (sequence expressions) or causing side effects (sequence statements), that are then used to control rules.
 
 \begin{example}
 Sequence computations are typically employed when storages have to be maintained:
@@ -15,13 +15,13 @@ A set \texttt{now} of current nodes is processed, filling a set of output nodes 
 The sequence computation for switching in between the sets is given enclosed in braces in the sequence, 
 the sequence expression to determine whether the wavefront came to a halt is given at the end of the computation,
 enclosed a level deeper in braces.
-As long as the set is still filled the final expression, thus the computation, returns \texttt{true}, continuing with the loop -- when it gets empty, the expression yields \texttt{false}, henceforth terminating the loop and the wavefront algorithm.
-
-Sequence computations are made available in the sequences for tasks that benefit from state changes and comparisons being embedded directly in the controlling sequence, esp. for variable initializations and loop control.
-But as sequences are existing to control rules and not to do the bulk of the computational work,
-is only a small subset of the rule computations language available in the sequence computations. 
+As long as the set is still filled, the final expression, thus the computation, returns \texttt{true}, continuing with the loop -- when it gets empty, the expression yields \texttt{false}, henceforth terminating the loop and the wavefront algorithm.
 \end{example}
 
+Sequences are existing to control rules and not to carry out the bulk of the computational work,
+so only a subset of the rule computations is available in the sequence computations.
+The sequence computations are embedded directly in the controlling sequence on the other hand, in contrast to the computations from the rule language that can only be used by calling their named abstractions.
+In particular, the subset that is needed in order to draw decisions (esp. comparison operators) and to assign variables (so for sequence variable initialization you need to employ a sequence computation) is available.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Sequence Statements} \label{sec:seqcomp}
@@ -30,7 +30,7 @@ is only a small subset of the rule computations language available in the sequen
   RewriteComputationUsage: (percent)? lbrace CompoundComputation rbrace; 
 \end{rail}\ixnterm{RewriteFactor}
 
-The non-computational constructs introduced before are used for executing rules, to determine which rule to execute next depending on success and failure of the previous rule applications, and where to apply it next by transmitting atomic variables of node or edge type in between the rules.
+The non-computational sequence constructs introduced before in \ref{cha:xgrs} are used for executing rules, to determine which rule to execute next depending on success and failure of the previous rule applications, and where to apply it next by transmitting atomic variables of node or edge type in between the rules.
 Sequence computations in contrast are used for manipulating container variables, evaluating computational expressions, or for causing side effects like output or element markings.
 A computation returns always true, with exception of an expression used as a computation (explained below).
 A prepended \texttt{\%} attaches a \indexed{break point} to the computation.
@@ -44,6 +44,7 @@ The computations are executed from left to right;
 the value of the compound computation is the value of the last computation.
 So you must give an expression at that point in order to return a value, 
 whereas it is pointless to specify an expression before.
+(But typically, when you are interested in a return value in a certain context, you only give a single computation, being an embraced sequence expression, which is then automatically the last computation.)
 
 \begin{rail} 
   Computation:
@@ -59,10 +60,24 @@ whereas it is pointless to specify an expression before.
 A variable declaration declares a local variable in the same way as in the sequences.
 An assignment assigns the value of a sequence expression to an assignment target.
 It may be chained; such an assignment chain is executed from right to left, assigning the rightmost value to all the assignment targets given.
-The expression used as computation -- denoted by and enclosed in braces -- will return a boolean value by comparing the return value of the expression to the default value of the corresponding type, returning false if equal, or true if unequal.
+The expression used as computation -- denoted by and enclosed in braces -- will return a boolean value by comparing the return value of the expression to the default value of the corresponding type (e.g. 0 for an integer), returning false if equal, or true if not equal.
 So just using a boolean variable as expression returns the value of the variable.
-For returning an expression evaluation result value to a sequence you need two opening braces, one for entering the sequence computations, and the other for entering the sequence expressions.
 The form of expressions and assignment targets will be specified below.
+
+\begin{note}
+For returning an expression evaluation result value to a sequence you need two opening braces! 
+One for entering the sequence computations, and the other for entering the sequence expressions.
+\end{note}
+
+\begin{example}
+The example sequence
+\verb#b:boolean ;> {b=true} ;> {{b}}#
+shows a sequence with a variable declaration on sequence level, an assignment on sequence computation level (to initialize the variable), and a sequence expression defining the return value of the sequence to be the value of the variable.
+
+The example sequence
+\verb#if{ {{::i<10}}; {::i=::i+1}; false }*#
+increments the graph global variable \texttt{i} until it becomes greater than \texttt{10}.
+\end{example}
 
 \begin{rail} 
 	ProcedureMethodCall: ('(' Variables ')' '=')? (Variable | GraphElement '.' Attribute) \\ '.' MethodName '(' Arguments ')';
@@ -75,11 +90,17 @@ A method call executes a method on a variable, passing further arguments.
 The method may be one of the predefined container methods, or a user-defined method (cf. \ref{sec:objectoriented}).
 
 A procedure call executes a (built-in or user defined) procedure, passing further arguments.
-In addition to the graph type based functions and procedures which will be explained in more detail further below,
-\texttt{emit}, \texttt{emitdebug}, \texttt{record}, and \texttt{export} procedure calls can be given here: the emit procedure writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit} -- in case of emitdebug, the target is always stdout; in fact a sequence of the former arguments may be given, which is to be preferred over string concatenation for performance reasons).
-The record procedure writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
-The export procedure exports the current graph to the path specified if called with one argument, or it exports the subgraph specified as first argument to the path specified as second argument.
-It behaves like the export command from the GrShell, see \ref{outputcmds}.
+In addition to the graph type based functions and procedures that will be explained in more detail further below,
+\texttt{emit}, \texttt{emitdebug}, \texttt{record}, and \texttt{export} procedure calls can be given here. 
+The \texttt{emit} procedure writes a double quoted string or the value of a variable to the emit target.
+The emit target is stdout as default, or a file specified with the shell command \texttt{redirect emit}. 
+In case of \texttt{emitdebug}, the target is always stdout.
+For both emit procedures, a comma-separated sequence of arguments may be given, which is preferable to string concatenation for performance reasons.
+The \texttt{record} procedure writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). 
+This feature allows to mark states reached during the transformation process in order to replay only interesting parts of a recording.
+It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
+The \texttt{export} procedure exports the current graph to the path specified if called with one argument, or it exports the subgraph specified as first argument to the path specified as second argument.
+It behaves like the \texttt{export} command from the GrShell, see \ref{outputcmds}.
 Having it available in the sequences allows for programmed exporting, and exporting of parts of the graph, with the subgraph containment just computed.
 
 Furthermore, a function \texttt{canonize(g:graph):string} is available,
@@ -125,11 +146,11 @@ The example \verb#{ x:array<int>=array<int>[]; x.add(42); x[0]=1; {x.size()>0} }
     ConditionalSequenceExpression |
     BooleanSequenceExpression |
     RelationalSequenceExpression |
-    ArtihemticSequenceExpression |
+    ArithmeticSequenceExpression |
     PrimarySequenceExpression;
 \end{rail}\ixnterm{SequenceExpression}
 
-Sequence expressions are a subset of the expressions introduced in \ref{sub:expr}, containing the boolean and comparison operators, but only plus and minus as further operators.
+Sequence expressions are a subset of the expressions introduced in \ref{sub:expr}, containing the boolean and comparison operators, but only the basic arithmetic operators.
 
 \begin{rail}
   ConditionalSequenceExpression: 
@@ -216,7 +237,7 @@ There is no type type supporting type comparisons as in the rule language existi
 
 The index functions allow to fetch elements based on the name or the unique-id, or to retrieve the name or the unique-id.
 Available are \texttt{nameof} to fetch the name of a node or edge or graph and \texttt{uniqueof} to fetch the unique id of a node or edge or graph.
-The function \texttt{nodeByName} allows to retrieve a node by its name, \texttt{edgeByName()} does the same for an edge.
+The function \texttt{nodeByName} allows to retrieve a node by its name, \texttt{edgeByName} does the same for an edge.
 The function \texttt{nodeByUnique} allows to retrieve a node by its unique id, \texttt{edgeByUnique} does the same for an edge.
 You find more on them in Chapter~\ref{cha:performance}.
 
@@ -271,7 +292,7 @@ In a later step, you may then conditionally add exported graphs to the host grap
 \begin{example}
 When you model a state space with \texttt{Graph} representative nodes (\emph{not} \texttt{graph} standing for a real (sub)graph), which are pointing with \texttt{contains} edges to the nodes contained in their state (i.e. subgraph), and store additionally a replica of the subgraph in a \texttt{sub} attribute of the \texttt{Graph} node, so it is readily available for comparisons,
 then the step of a state space enumeration with isomorphic state pruning is controlled with code like this:\\
-\verb#<< modifiyCurrent(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)}#\\
+\verb#<< modifyCurrent(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)}#\\
 Inside the backtracking double angles, a new state is computed as first step by modifying the currently focused state received as input \texttt{gr:Graph} from the previous step. The modified subgraph is extracted for comparison by computing the \texttt{inducedSubgraph} from the nodes \texttt{adjacent} via \texttt{contains}-edges to the \texttt{gr}-node.\\
 \verb#;> for{others:Graph in nodes(Graph); {{sub!=others.sub}} } && #\\
 The extracted subgraph is compared with all already enumerated subgraphs that can be accessed by their \texttt{Graph} representative node. Only if none is isomorphic to it, do we continue with making the state persistent.\\
@@ -332,7 +353,7 @@ The \texttt{for} command iterates over all elements in the set or array or deque
 
 \begin{example}
 The following XGRS is a typical storage usage.
-First an empty set \texttt{x} is created, which gets populated by an rule \texttt{t} executed iteratedly, returning a node which is written to the set.
+First an empty set \texttt{x} is created, which gets populated by a rule \texttt{t} executed iteratedly, returning a node which is written to the set.
 Then another rule is executed iterated for every member of the set doing the main work, and finally the set gets cleared to prevent memory leaks or later mistakes.
 If the graph should stay untouched during set filling you may need \texttt{visited} flags to prevent endless looping.
 \verb#x=set<Node>{} ;> ( (v)=t() && {x.add(v)} )+ && for{v in x; r(v)} <; {x.clear()}#
