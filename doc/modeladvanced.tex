@@ -1,10 +1,10 @@
 \chapter{Advanced Modelling (Object-Oriented and Graph-Oriented Programming)}\indexmain{methods}\indexmain{graph-oriented programming}\indexmain{object-oriented programming}
 \label{cha:modeladvanced}
 
-In addition to the key features of \GrG\ \emph{graph models}\indexmain{graph model} as already described in Chapter~\ref{chapmodellang}, you may specify \emph{methods} in the node or edge classes.
+In addition to the key features of the \emph{graph models}\indexmain{graph model} of \GrG\ as already described in Chapter~\ref{chapmodellang}, you may specify \emph{methods} in the node or edge classes.
 Methods are functions or procedures that are declared inside class scope.
 In contrast to attributes that do not support overwriting -- each attribute of a type is added to all subtypes, with multiple declarations being forbidden -- methods support overwriting.
-Independent of the statically known type of the variable, the method that was defined nearest to the exact dynamic type of the value is executed if a method is called.
+Independent of the statically known type of the variable, the method gets executed that was defined nearest to the exact dynamic type of the value, in case a method is called.
 
 This \emph{dynamic dispatch} is the defining feature of object-oriented programming.
 For graph-oriented programming, the defining feature is \emph{pattern-matching}.
@@ -21,8 +21,8 @@ Graph-oriented programming can be made scalable to large tasks with hierarchical
 										 | EqualsAnyParallelization);
 \end{rail}\ixnterm{AdvancedModelDeclarations}
 
-The \emph{ExternalClassDeclaration} registers an \indexed{external class}, including its subtype hierarchy, excluding any attributes with \GrG~which can subsequently be used in attribute computations with \indexed{external function} calls;
-the \emph{EmitParseDeclaration} declares that the user defines emit and parse functions for external or object type values,
+The \emph{ExternalClassDeclaration} registers an \indexed{external class} with \GrG -- including its subtype hierarchy, excluding any attributes -- which can be used subsequently in attribute computations in \indexed{external function}s.
+The \emph{EmitParseDeclaration} declares that the user defines emit and parse functions for external or object type values,
 whereas the \emph{CopyCompareDeclaration} declares that the user defines copy and compare functions for external or object type values.
 You find more on them in \ref{chapextensions}, here we will take a closer look on the \emph{FunctionMethodDefinition} and \emph{ProcedureMethodDefinition}, followed by the \emph{PackageDefinitionModel}.
 The \emph{EqualsAnyParallelization} is explained in \ref{sec:performanceparallel}.
@@ -59,7 +59,7 @@ The built-in function methods listed in \ref{funcmethstab} are called with the s
 Inside the function methods, the special entity \texttt{this} is available.
 It allows to access the attributes and methods of the type the method is contained in.
 In contrast to Java, C++, or C\# where \texttt{this} may be used optionally to denote member or method access,
-the usage of \texttt{this} is mandatory in \GrG~to access the attributes of the type or call the methods of the type.
+the usage of \texttt{this} is mandatory in \GrG~in order to access the attributes of the type or call the methods of the type.
 
 \begin{table}[htbp]
 \centering
@@ -126,8 +126,8 @@ the usage of \texttt{this} is mandatory in \GrG~to access the attributes of the 
 
 Procedure methods are defined in exactly the same way as a procedure is defined, just inside the hosting class.
 They may return an arbitrary number of return values, and are thus only callable as a statement.
-They are allowed to manipulate the graph and esp. the element they are contained in as needed while being executed;
-so you are free to call other procedures -- but in contrast to global procedures, you can not include exec statements.
+They are allowed to manipulate the graph and esp. the element they are contained in as needed, while being executed;
+so you are free to call other procedures -- but in contrast to global procedures, you cannot include exec statements.
 
 \begin{rail} 
   ProcedureMethodDefinition: ProcedureDefinition;
@@ -144,7 +144,7 @@ The built-in procedure methods listed in \ref{procmethstab} are called with the 
 Inside the procedure method, the special entity \texttt{this} is available.
 It allows to access the attributes and methods of the type the method is contained in.
 In contrast to Java, C++, or C\# where \texttt{this} may be used optionally to denote member or method access,
-the usage of \texttt{this} is mandatory in \GrG~to access the attributes of the type or call the methods of the type.
+the usage of \texttt{this} is mandatory in \GrG~in order to access the attributes of the type or call the methods of the type.
 
 
 %\makeatletter
@@ -219,7 +219,7 @@ rule foo : (int)
 The following listing highlights the effect of dynamic dispatch (the heart and soul of object-oriented programming): 
 the method finally called depends not simply on the static type we know for sure the object is an instance of,
 but on the real dynamic type of the object, that it was created with.
-Please note that in reality you use this language device to achieve the \emph{same behaviour} as seen from the outside of objects of different types, but implemented \emph{internally consistent} regarding the exact type, taking all of its members into account (including the ones unknown to parent types).
+Please note that in reality you use this language device to achieve the \emph{same behaviour} at the outside for objects of different types, but implemented \emph{internally consistent} regarding the exact type, taking all of its members into account (including the ones unknown to parent types).
 	\begin{grgen}
 node class N
 {	
@@ -278,12 +278,12 @@ Package definitions \emph{cannot} be nested.
   PackageUsageModel: Ident '::' Ident;
 \end{rail}\ixnterm{PackageUsageModel}
 
-In every context where a node type, an edge type or an enum type can be referenced,
+In every context where a node, edge, or enum type can be referenced,
 by noting down its declared identifier, 
-can also a type from a package be referenced,
+also a type from a package can be referenced,
 by noting down its package as a prefix.
 The package prefix may be omitted inside the package for other entities from the same package.
-But only for them, outside that package you must always use the package prefixed form for referencing identifiers from the package.
+But only for them, outside of that package you must always use the package prefixed form for referencing identifiers from the package.
 
 \begin{example}
 Types from a model defined like this:
@@ -331,14 +331,14 @@ It furthermore consists of \emph{FunctionDefinition}s and \emph{ProcedureDefinit
 The file header constructs for using models, including other actions, or declaring global variables are \emph{not} available inside a package.
 \emph{Neither} can package definitions be nested.
 
-The packages \texttt{Math}, \texttt{File}, and \texttt{Time} are built-in, their functions and procedures can be used directly (see \ref{sec:primexpr} and \ref{sec:subgraphop} for their content).
+The packages \texttt{Math}, \texttt{File}, \texttt{Time}, \texttt{Transaction}, and \texttt{Debug} are built-in, their functions and procedures can be used directly (see \ref{sec:primexpr}, \ref{sec:subgraphop}, \ref{sub:transaction} and \ref{secdebuggersubrule} for their content).
 
 \begin{rail}
   PackageUsageActions: Ident '::' Ident;
 \end{rail}\ixnterm{PackageUsageActions}
 
 In every context where a rule, a test, a subpattern type, a filter function, a function, a procedure, or a sequence can be referenced, by noting down its declared identifier, 
-can also an entity from a package be referenced,
+also an entity from a package can be referenced,
 by noting down its package as a prefix.
 The package prefix may be omitted inside the package for other entities from the same package.
 But only for them, outside that package you must always use the package prefixed form for referencing identifiers from the package.
@@ -411,29 +411,31 @@ sequence s2 {
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Nesting}\label{sec:graphnesting}
 
-Graph nesting is possible with nodes or edges of a graph bearing attributes of graph type (cf. \ref{cha:graph}).
-They can then be filled with other graphs, employing the operations in \ref{sec:subgraphop}.
+You can nest graphs by defining attributes of graph type (cf. \ref{cha:graph}) inside node or edge classes (cf. \ref{chapmodellang}) at modelling time, 
+filling them at runtime with assignments of values of graph type, created with the operations introduced in \ref{sec:subgraphop}.
+Thus, in contrast to certain modellings identifying nested graphs with nodes, a host graph contains further graphs in the \emph{attributes} of its nodes or edges.
 
-Attributes of graph type are opaque to the processing of the host graph containing them; 
-their only direct usage is comparison, i.e. isomorphy checking against other graphs,
-as needed for state space enumeration (cf. \ref{sec:statespaceenum}),
-in this case only immutable subgraphs are stored.
+Values of graph type are opaque and inaccessible to the computations that are available in -- and automatically apply to -- the host graph; 
+from the outside, they can only be compared, i.e. isomorphy checked against other graphs
+(a feature needed for state space enumeration (cf. \ref{sec:statespaceenum}), in this case only immutable subgraphs are stored).
 
 \begin{rail} 
   ExtendedControl: 
     'in' (GraphVariable | NodeOrEdge '.' Attribute) lbrace RewriteSequence rbrace;
 \end{rail}\ixkeyw{in}
 
-But they can be opened up and made modifiable by switching the location of processing with the \verb#in g { seq }# sequence.
-Inside the braces is the host graph switched to \texttt{g}, the sequence \texttt{seq} is executed in the host graph switched to, all queries and updates are carried out on the new graph; after executing the construct the old graph that was previously used is made the current host graph again.
+But they can be opened up by switching the location of processing with the \verb#in g { seq }# sequence.
+Inside the braces, the host graph is switched to \texttt{g}, the sequence \texttt{seq} is executed in that new host graph, all queries and updates are carried out on it. 
+After executing the construct, the old graph that was previously used is made the current host graph again.
+
+Switching the location of processing is a feature only available in the sequences, (re)defining the execution context for the rules; it is not available on lower levels, it is esp. not possible to access multiple graphs from within a single rule (a rule application is always carried out on a single by-then current host graph).
 
 \begin{rail}
   Rule: GraphVariable '.' RuleIdent (() | '(' (Variable+',') ')');
 \end{rail}\ixnterm{Rule}
 
-The rules are always applied on the current host graph without any ability to switch to a subgraph;
-switching the location of processing is only available in the sequences.
-But a simplified and more lightweight version of the full switch is available for single rule calls with \verb#g.r#; so a method call in the plain sequences (above the sequence computations) denotes in fact a temporary subgraph switch.
+A simplified and more lightweight version of the full switch just introduced is available for single rule calls with syntax \verb#g.r#; so a method call in the plain sequences (above the sequence computations) denotes in fact a temporary subgraph switch.
+This is syntactic sugar for the dedicated switch containing only a single rule application as sequence.
 The syntax of rule application is extended by the grammar rule above to allow for this is.
 
 The \emph{information hiding} shown by the graph attributes is comparable to the information hiding shown by the objects in \emph{object-oriented programming}, there the attributes but especially the neighbouring elements are only known to the containing object and accessible to the methods of the object.

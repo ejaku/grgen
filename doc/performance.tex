@@ -14,7 +14,7 @@ Typically, first a graph element is determined with a lookup operation reaching 
 
 A search plan for the pattern in figure \ref{perf:figpatterntosearch} is:\\
 \texttt{lkp(v1:A); out(v1,e1:a); tgt(e1,v2:B); out(v2,e3:b); tgt(e3,v3:C); out(v3,e2:a)}\\
-The search operations \texttt{lkp} denotes a node (or edge) lookup in the graph, \texttt{out} follows the outgoing edges of the given source node and \texttt{in} follows the incoming edges of the given target node, while \texttt{src} fetches the source from the given edge and \texttt{tgt} fetches the target from the given edge.
+The search operation \texttt{lkp} denotes a node (or edge) lookup in the graph, \texttt{out} follows the outgoing edges of the given source node and \texttt{in} follows the incoming edges of the given target node, while \texttt{src} fetches the source from the given edge and \texttt{tgt} fetches the target from the given edge.
 
 For some graphs the search plan might work well, but for the graph given in figure \ref{perf:figgraphtosearchin} it is a bad search plan.
 Why so can be seen in the search order sketched in figure \ref{perf:figbadsearch}.
@@ -59,13 +59,12 @@ It is crucial for achieving high performance to prevent following graph structur
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Find, Don't Search}
-Better than searching for elements with certain characteristics, 
-traversing each and every node or edge in the graph, 
-subjecting it to a test for the characteristic,
-is to find them straight ahead without search,
-utilizing a data structure that allows to tell the elements that follow the characteristic apart from the ones that do not.
+It is better to find elements with certain characteristics straight ahead without search,
+utilizing a data structure that allows to tell the elements that follow the characteristic apart from the ones that do not,
+than to search for them, traversing each and every node or edge in the graph, subjecting it to a test for the characteristic.
+
 Welcome to indices as known from database parlance.
-In \GrG{} they following types of indices are supported:
+In \GrG{} the following types of indices are supported:
 \begin{enumerate}
 	\item Type indices
 	\item Neighbourhood indices
@@ -102,7 +101,7 @@ both lists -- the outgoing list as well as the incoming list -- are crawled.
 %-----------------------------------------------------------------------------
 \subsection{The Costs}\label{sec:performancememory} 
 The type and neighbourhood indices are built into each and every \GrG{} graph, wired into a system of ringlists (cf. \ref{sec:generatedcode}).
-They are implicitly used by \GrG{}, pattern matching is just carried out alongside them, in an order decided upon by the search planner. 
+They are implicitly used by \GrG{}, pattern matching is carried out alongside them, in an order decided upon by the search planner. 
 
 You always benefit from them during matching (most if you are using statistics-based search planning), but you must always pay their price:
 The memory consumption of a \GrG{} node without attributes is 36 bytes using a 32bit CLR (5 pointers a 4 bytes, a 4 bytes flags field/bitvector, a 4 bytes unique id field, plus 8 bytes .NET object overhead), it is 64 bytes for a 64bit CLR (5 pointers a 8 bytes, a 4bytes flags field, a 4 bytes unique id field, plus 16 bytes .NET object overhead).
@@ -110,11 +109,11 @@ The memory consumption of a \GrG{} edge without attributes is 52 bytes using a 3
 Attributes are cheap, they only increase this by the .NET-memory-footprint of their underlying objects.
 
 The runtime price of maintaining those indices during graph manipulation is low, adding a graph element is done in $O(1)$, removing a graph element is done in $O(1)$, too. 
-Furthermore, those indices allow to optimize loops by starting matching of the next iteration where the previous iteration left of (search state space stepping -- a further built-in contribution to the motto "Find, Don't Search")).
+Furthermore, those indices allow to optimize loops by letting the pattern matching of the next iteration start where the previous iteration left of (search state space stepping -- a further built-in contribution to the motto "Find, Don't Search")).
 
 We consider this the best you can get for the task of efficient pattern matching and rewriting on typed, attributed multigraphs, with multiple inheritance and attributes on nodes as well as edge types -- those indices are simply worth their price in the general case.
 You can only improve on this by exploiting the specifics of a less general graph model, a less general processing strategy supporting less change operations optimally out-of-the box, or by restricting yourself to less general and non-automatic pattern matching.
-E.g. by using only single-linked ringlists for the types and incident elements we could reduce memory consumption considerably and thus increase query performance, but deletion and retyping would require to iterate the full list to get to the predecessor to link it to the new successor, so rewriting would not be $O(1)$ anymore.
+E.g. by using only single-linked ringlists for the types and incident elements, we could reduce memory consumption considerably and thus increase query performance, but deletion and retyping would require to iterate the full list to get to the predecessor to link it to the new successor, so rewriting would not be $O(1)$ anymore.
 Or by always entering the graph at some elsewhere stored root nodes we could save the type ringlists (that give us the modularity of the rules).
 Or by using less general edges/edges that appear only with a statically fixed association cardinality, we could reduce them to mere pointers stored in the nodes (not supporting attributes, not allowing to wire nodes at runtime flexibly with an arbitrary number of edges).
 
@@ -130,7 +129,7 @@ Saving on the memory needed for the generality and programming productivity is w
 \subsubsection*{Use types!}
 Fine grain types cause a fast lookup of the first pattern element(s), or more exactly: they cause a small list of candidate elements for the first pattern element to be tried.
 And they cause quicker pruning of search branches because of early failing type checks.
-Using fine-grain types is easy in GrGen, for multiple inheritance on node and edge types (cf. \ref{nodeandedgetypes}) is supported.
+Using fine-grain types is easy in GrGen, as multiple inheritance on node and edge types (cf. \ref{nodeandedgetypes}) is supported.
 Besides, the more fine grain the graph is typed, the better are the statistics, allowing \GrG{ } to find better search plans (see more for this below).
 
 \subsubsection*{Prune early}
@@ -156,7 +155,7 @@ Besides, the vstructure statistics are more discriminating in case of directed e
 Disconnected patterns cause a combinatorial explosion of the matches, because the overall number of matches equals the cartesian product of the partial matches of the disconnected parts. 
 
 This is inevitable and a price that must be simply paid if this is really needed.
-But it is normally not needed, and, most important, is not specified accidentally, as a disconnected pattern in single flat pattern is typically immediately visible.
+But it is normally not needed, and, most importantly, is not specified accidentally, as a disconnected pattern in a single flat pattern is typically immediately visible.
 But take care of nested patterns or subpatterns.
 You might overlook that nested patterns and subpatterns are matched strictly one after the other and especially after their containing pattern.
 You cannot ignore block borders and subpattern calls, they disconnect otherwise connected components.
@@ -170,20 +169,20 @@ This holds for sure for alternative and iterated patterns.
 So you must take care of pattern cardinality ...
 \begin{grgen}
 test bad {
-	n1:Node; n2:Node; // builds cartesian product of all nodes in the graph (O(n*n))
+  n1:Node; n2:Node; // builds cartesian product of all nodes in the graph (O(n*n))
   multiple {
-		n1 --> n2; // then filters it down to the connected nodes
+    n1 --> n2; // then filters it down to the connected nodes
   }
 }
 \end{grgen}
 ... and alternatives ...
 \begin{grgen}
 test bad {
-	n1:Node; n2:Node; // builds cartesian product of all nodes in the graph (O(n*n))
+  n1:Node; n2:Node; // builds cartesian product of all nodes in the graph (O(n*n))
   alternative {
-		single {
-			n1 --> n2; // then filters it down to the connected nodes
-		}
+    single {
+      n1 --> n2; // then filters it down to the connected nodes
+    }
   }
 }
 \end{grgen}
@@ -196,20 +195,20 @@ This may hold for independent and subpatterns -- but inlining is of help here.
 The edge from the independent in the example is typically inlined into the pattern removing the issue...
 \begin{grgen}
 test bad {
-	n1:Node; n2:Node; // builds cartesian product of all nodes in the graph (O(n*n))
+  n1:Node; n2:Node; // builds cartesian product of all nodes in the graph (O(n*n))
   independent {
-		n1 --> n2; // then filters it down to the connected nodes
+    n1 --> n2; // then filters it down to the connected nodes
   }
 }
 \end{grgen}
 ... as is the subpattern body inlined into the pattern, removing the performance issue.
 \begin{grgen}
 test bad {
-	n1:Node; n2:Node; // builds cartesian product of all nodes in the graph (O(n*n))
+  n1:Node; n2:Node; // builds cartesian product of all nodes in the graph (O(n*n))
   :P(n1,n2);
 }
 pattern P(n1:Node, n2:Node) {
-	n1 --> n2; // then filters it down to the connected nodes
+  n1 --> n2; // then filters it down to the connected nodes
 }
 \end{grgen}
 Take a look at the output of the \texttt{explain} command to check whether inlining occurred.
@@ -219,62 +218,75 @@ The need to take nested pattern borders and subpattern calls into account is due
 
 Subpatterns are matched top-down, from the input parameters on.
 If the input arguments are disconnected in the pattern containing the subpattern, the containing pattern enumerates the cross product of the matches of the disconnected parts, which is only later on filtered for the ones which are connected.
-This will likely wreak havoc on the search performance.
+This will likely wreak havoc on search performance.
 Even if you don't search for all matches, if you only compute a single overall match --- the calling pattern must enumerate a lot of combinations of its parts (worsened by the fact that those are typically found often because of their simplicity), until the nested pattern finally is able to connect one of the disconnected pairs fed into it.
-It might be more efficient to just search from a start parameter towards a connected end location, and yield the found one out (cf. \ref{sec:localvarorderedevalyield}), or to search from a start parameter all connected end locations, collecting the found ones in a result set; and then to check the ones found alongside connectedness in a second step.
+It might be more efficient to just search from a start parameter towards a connected end location, and yield the found one out (cf. \ref{sec:localvarorderedevalyield}); or to search from a start parameter on all connected end locations, collecting the found ones in a result set -- and then to check the ones found alongside connectedness in a second step.
 
-Nested patterns are matched top-down, from the input parameters on, just that parameter passing is implicit there, the elements from the containing pattern which are referenced in the nested pattern are passed in automatically as arguments.
-The holds especially for the \texttt{alternative} and \texttt{iterated} constructs which are matched with the pushdown machine (cf. \ref{pushdownmachine}), too, but also for the \texttt{negative} and \texttt{independent} constructs which are matched with nested local code embedded into the matcher code of their containing pattern.
+Nested patterns are also matched top-down, from the input parameters on. 
+But parameter passing is implicit here, the elements from the containing pattern that are referenced in the nested pattern are passed in automatically as arguments.
+This holds especially for the \texttt{alternative} and \texttt{iterated} constructs, which are matched with the pushdown machine (cf. \ref{pushdownmachine}), too, but also for the \texttt{negative} and \texttt{independent} constructs, which are matched with nested local code embedded into the matcher code of their containing pattern.
 
-But don't shy away from using subpatterns or independents too easily, \indexed{inlining} is helping here!
+But don't shy away from using subpatterns or independents too early, \indexed{inlining} is of help here!
 
 The elements from an independent that are linking a disconnected pattern are typically inlined into their using pattern.
 The elements from a subpattern are often inlined into their using pattern, causing the pattern to get connected (again), 
 but also removing the pushdown machine overhead.
 But you must take into account that the \emph{inlining} implemented in GrGen is limited to depth one.
 If a pattern is disconnected over two or more levels of subpattern usage (which might happen statically with one subpattern using another subpattern, and will for sure dynamically on a subpattern recursion path), it will hit performance.
-You may have a look at the output of the \texttt{explain} command (cf. \ref{custom}) to see if the subpatterns are disconnected; this is typically indicated by multiple lookups in the containing pattern, and the fact that the starting points passed as preset parameters to the nested or subpatterns get connected only there with search commands.
-
+You may have a look at the output of the \texttt{explain} command (cf. \ref{custom}) to see if the subpatterns are disconnected.
+This is typically indicated by multiple lookups in the containing pattern, 
+for fetching the disconnected starting points,
+which are then handed down with preset parameters to the nested or subpatterns,
+and only get connected there,
+with search commands following their outgoing or incoming edges.
 
 %-----------------------------------------------------------------------------
 \subsection{Search Planning On Request}
 Search planning at runtime is only carried out on request!
-You must analyze the graph and then re-generate the matchers at runtime,
-with \texttt{custom graph analyze} and \texttt{custom actions gen\_searchplans} (issued on the command line or to the \texttt{Custom}methods of the graph and the actions objects);
-you may have a look at the effects of replanning with the \texttt{custom actions explain <actionname>} command.
+You must analyze the graph and then re-generate the matchers manually,
+with \texttt{custom graph analyze} and \texttt{custom actions gen\_searchplans} issued on the command line, 
+or with calls of the \texttt{Custom} methods of the \texttt{IGraph} and the \texttt{IActions} objects.
+Unless you do so, the static search plan is kept in place.
+
+You can display the search plan currently employed with the \texttt{custom actions explain <actionname>} command,
+in order to inspect how the pattern elements are matched.
+Issue it before search planning to show the statically generated search plan, issue it afterwards to show the dynamically re-generated search plan.
 See subsection \ref{custom} for more on this.
 
-The initial static search plans start with a lookup of an arbitrary edge, and then arbitrarily follow graph structure.
-Interestingly, in many cases this still works quite well because of the quick pruning of the type checks in a well-typed graph.
-In addition, often the rules work from some parameter nodes onwards, which are typically well suited start points for search.
+The initial static search plan typically starts with a lookup of an arbitrary edge, and then arbitrarily follows the pattern graph structure.
+Interestingly, in many cases this still works quite well because of the quick pruning by the type checks in a well-typed graph.
+In addition, often the rules match from some parameter nodes onwards, which are typically well-suited starting points for searching.
 
-You can inspect the current search plan employed wit the explain command.
-Use it before search planning to inspect the statically generated search plans.
-Use it afterwards to inspect how the elements are matched then.
+Beware: the \texttt{analyze} command is costly.
+It helps in improving the matching performance, but requires execution time on its own.
+Don't use it freely.
 
-Beware: the analyze command is not for free, it visited all the nodes and edges in the graph, computing for each start node of a $(NodeType, EdgeType, NodeType)$-triple the number of edges of the edge type leading to an end node of the end node type -- for all node and edge types known.
-Given that information search planning can compute a search plan that avoids structures splitting into breadth (V-structures);
-given the information about the element counts per type (which is directly available from the host graph), 
-search planning can avoid lookups on populated types.
-This typically leads to the best results, but not always -- sometimes you may fare better by manually assigning priorities to the pattern elements, thus influencing the search order of the initial static search plan (high-prio elements are matched first) -- if you don't re-generated the search plan for that rule at runtime the static search plan is kept in place.
+It is costly because it has to visit all the nodes and edges in the graph,
+in order to gather statistical data about the amount of breadth-splitting per node and edge-types. 
+For each $(NodeType, EdgeType, NodeType\ast)$-triple (for all node and edge types), it counts for each start node of $NodeType$ the number of edges of $EdgeType$, which are leading to an end node of $NodeType\ast$.
+Given that information, search planning is able compute a search plan that avoids to follow structures splitting into breadth (V-structures) that occur often in the host graph.
+Given the information about the element counts per type (which is directly available from the host graph), 
+search planning is able to compute a search plan that avoids lookups on populated types.
+
+Such a dynamically generated search plan typically leads to minimum matching durations, but not always -- sometimes you may fare better by manually assigning priorities to the pattern elements, thus influencing the search order in the initial static search plan (high-prio elements are matched first).
 
 Again: Use types!
-The more fine grain a graph is typed, the better are the statistics regarding the splitting factors (V-Structures) and the number of elements of a certain type, and the better are then in consequence the search plans in their ability of evading splitting structures and avoiding lookups of often occurring types.
+The more fine grain a graph is typed, the better are the statistics regarding the breadth-splitting and the number of elements of a certain type, and the better are then in consequence the search plans in their ability of evading breadth-splitting structures and avoiding lookups of often occurring types.
 
 %-----------------------------------------------------------------------------
 \subsection{Attribute Indices}
 In addition to the built-in type and neighbourhood indices, you may declare attribute indices.
-An attribute index allows to do a lookup based on an attributes value, or a range of attribute values.
-This stands in contrast to the default behaviour of carrying out a lookup on the type, visiting all $n$ elements of the type, filtering them down to the elements of interest (within range) with an attribute condition.
+An attribute index allows to do a lookup based on an attribute value, or a range of attribute values.
+This stands in contrast to the default behaviour of carrying out a lookup on a type, visiting all $n$ elements of the type, filtering them down to the elements of interest (within range) with an attribute condition.
 If this means you have to inspect a lot of values while searching only for a few ones, you should use an attribute index and benefit from its massively improved selectivity for the lookup.
 It requires only $O(log(n))$ to search for the first element, and $O(k)$ for the $k$ elements within the bounds specified.
 It is implemented with a balanced binary search tree (an AA-tree\cite{Andersson93balancedsearch} to be exact) that requires three pointers plus one 4 byte integer per element contained in the index (two pointers to the left and right tree nodes, and one to the graph element as value), which is really cheap.
 But it must be maintained on graph changes, which is less cheap.
-On each and every graph element insertion and removal, but esp. attribute assignment, the index needs to be updated, which is an $O(log(n))$ operation.
+On each and every graph element insertion and removal, but esp. attribute assignment, the index has to be updated, which is an $O(log(n))$ operation.
 That's only logarithmic, but clearly worse than the default $O(1)$ behaviour of \GrG{}, so if you do a lot of graph manipulations and only few lookups based on it, an index may in fact degrade performance.
 
 \subsubsection*{Declaration in the model}
-In contrast to type and neighbourhood indices which are always available (they define the core of a \GrG{}-graph) and are implicitly used (by matching the specified pattern), all other indices must be worked with explicitly.
+In contrast to type and neighbourhood indices that are always available (they define the core of a \GrG{}-graph) and implicitly used (when matching a specified pattern), all other indices have to be worked with explicitly.
 
 An attribute index must be declared in the model.
 
@@ -301,7 +313,7 @@ The elements from the index are successively bound to the pattern element, then 
 
 The pattern element may be bound to the elements from the index with an attribute value equal to a specified value,
 or to the elements from the index in ascending or descending order.
-In case of ordered access, you may specify no bound, this is typically only of interest when only one match is requested, the one with the highest or lowest attribute value (satisfying the other constraints of the pattern), or you may specify a lower or an upper bound, or you may specify a lower \emph{and} an upper bound.
+In case of ordered access, you may specify no bound, this is typically only of interest when a single match is requested, the one with the highest or lowest attribute value (satisfying the other constraints of the pattern), or you may specify a lower bound, or an upper bound, or a lower \emph{and} an upper bound.
 
 \begin{rail}
   IndexAccessLoopStatement:
@@ -314,7 +326,8 @@ In case of ordered access, you may specify no bound, this is typically only of i
 
 The index can be accessed furtheron from the statements of the rule language in the form of a loop.
 The \emph{IndexAccess} in the loop header follows the format used in the index access in the pattern.
-The iteration variable is bound to the graph element retrieved from the index, for each such element, then the body is executed for each such element.
+The iteration variable is bound to the graph element retrieved from the index, and then, for each such element, the body is executed.
+
 Moreover, the index can be iterated over in the sequences.
 
 \begin{example}
@@ -330,7 +343,7 @@ index foo { N.i }
 Fetching typically occurs in the rules, binding a pattern element based on the constraints specified with the lookup.
 The test \texttt{t} only matches if a node is found whose attribute \texttt{i} matches the parameter \texttt{j}.
 The rule \texttt{r} ascendingly binds the nodes whose attribute \texttt{i} is greater than or equal $5$ and lower than $13$.
-The ascendingly means that the node \texttt{n} with smallest attribute \texttt{i} is matched that satisfies the further constraints in the pattern (if there are no further constraints like in this example, its the node with smallest attribute satisfying the limits of the index access).
+The ascendingly means that the node \texttt{n} with smallest attribute \texttt{i} is matched that satisfies the other constraints of the pattern (if there are no further constraints like in this example, it is the node with smallest attribute satisfying the limits of the index access).
 
 \begin{grgen}
 test t(var j:int) {
@@ -353,12 +366,12 @@ or with a \texttt{for} loop from the sequences.
 rule rd {
   modify {
     eval {
-      for(n:E in {descending(foo<=13)}) {
+      for(n:N in {descending(foo<=13)}) {
         emit("The value of attribute i is ", n.i, "\n");
       }
     }
     exec (
-      for{n:E in {descending(foo<=13)}; {emit("The value of attribute i is ", n.i, "\n")} }
+      for{n:N in {descending(foo<=13)}; {emit("The value of attribute i is ", n.i, "\n")} }
     );
   }
 }
@@ -369,13 +382,12 @@ rule rd {
 %-----------------------------------------------------------------------------
 \subsection{Incidence Count Indices}
 Attribute indices can be seen as a general-purpose device, that extends the built-in ability of quick lookup by-type and of quick lookup by-neighbourhood with a quick lookup by-attribute, thus giving complete quick-lookup coverage for all foundational elements of the graph model.
-Incidence count indices in contrast are more of a special-purpose device for a certain abstraction that can applied to the graph -- the \emph{count} of incident edges -- and are beneficial only if that abstraction is of importance.
-They allow you to quickly lookup nodes based on their number of incident edges.
-This is beneficial if you need to quickly fetch nodes with a certain number of incident edges;
-but especially for algorithms that work best when starting with the nodes with the highest number of incident edges, going downwards, or the other way round.
+Incidence count indices in contrast are more of a special-purpose device for a certain abstraction that can be applied to a graph -- the \emph{count} of incident edges -- and are beneficial only if that abstraction is of importance.
+They allow you to quickly look up nodes based on their number of incident edges.
+This is especially beneficial for algorithms that work best when they traverse the nodes from the ones with the highest number of incident edges to the ones with the lowest number of incident edges (or the other way round).
 
 The index furtheron allows to fetch the incidence count for a node quickly with just an index lookup, 
-but typically no considerable gains can be made from this, as counting the incident edges of a node is commonly cheap (an $O(log(n)$ index lookup versus an $O(k)$ counting enumeration, with $k$ being the number of edges incident to the focused node).
+but typically no gain can be made from this, as counting the incident edges of a node is commonly cheap (an $O(log(n)$ index lookup versus an $O(k)$ counting enumeration, with $k$ being the number of edges incident to the focused node).
 
 \subsubsection*{Declaration in the model}
 
@@ -391,8 +403,8 @@ CountIncidenceFunction:
 \end{rail}\label{IncidenceCountIndexDecl}
 
 Following the \texttt{index} keyword, a name for the index is specified; in the body of the index, the incidence function and its types are given.
-The admissible count incidence functions are \texttt{countIncident}, \texttt{countIncoming}, and \texttt{countOutgoing}, with their obvious meanings (as already introduced in \ref{sub:querybyneighbourhood}).
-The count of the edges complying to the specified incidence function is indexed, for all nodes in the graph of the type of the first node in the couint incidence function.
+The admissible count incidence functions are \texttt{countIncident}, \texttt{countIncoming}, and \texttt{countOutgoing}, with semantics as already introduced in \ref{sub:querybyneighbourhood}.
+(The count of the edges complying to the specified incidence function is stored in an index, for all nodes in the graph of the type of the first node in the count incidence function.)
 
 \subsubsection*{Usage in the rules}
 An incidence count index can be used in the pattern in exactly the same way as an attribute index, see above \ref{sub:indexusage}.
@@ -405,7 +417,7 @@ the count may be queried from the rule language expressions (the attributes can 
     IndexName '[' Expression ']';
 \end{rail}\ixnterm{IncidenceCountIndexAccessExpr}
 
-The index access specfied in indexer notation expects a node (of the type as specified with the first node type in the incidence function) as input argument, and returns the incidence count for that node as stored in the index as \texttt{int}.
+The index access specified in indexer notation expects a node (of the type as specified with the first node type in the incidence function) as input argument, and returns the incidence count for that node as stored in the index as \texttt{int}.
 
 \begin{example}
 The following index \texttt{bar} allows to quickly fetch nodes based on the number of \texttt{outgoing} edges, \texttt{qux} allows to quickly fetch nodes of type \texttt{N} based on the number of \texttt{incoming} edges of type \texttt{E}, stemming from a source node of type \texttt{N}.
@@ -443,22 +455,24 @@ rule r() {
 %-----------------------------------------------------------------------------
 \subsection{Name Index}\label{sec:nameindex}
 A named graph is a graph where each element bears a unique name and can be looked up quickly by that name.
-So basically it works as a graph with an integrated key-value store from a string to graph elements; and from graph elements to their string.
-It is implemented with two hash maps, one from the name to the elements, and the other from the elements to the name.
+So basically it works as a graph with an integrated key-value store from a string to a graph element, and one from a graph element to a string.
+It is implemented with two hash maps, one from the names to the elements, and the other from the elements to the names.
 Lookup is carried out in $O(1)$ (either way).
 Maintaining the index on graph insertions and removals is carried out in $O(1)$, too.
 So in contrast to the attribute index and the incidence count index, a name index does not allow multiple elements per indexed property (which is here the name).
 
 \subsubsection*{No declaration needed}
 The name index does not need to be declared, it is implemented with the named graph, which is always generated together with its sibling, the non-named graph.
-If you are working with the Shell, this is the only kind of graph you'll be working with, as the shell always instantiates the named graph (it delivers the \emph{persistent names} you see in the debugger).
-At API level you may opt for the non-named graph that is considerably cheaper regarding memory usage -- a named graph requires not much less than about twice the amount of memory of a plain graph.
-But please note that the export and import capabilities require uniquely named elements and thus only work with named graphs.
-If given a plain graph the exporters just create a named graph, and a graph is always read in as a named graph.
+If you are working with the \GrShell, this is the only kind of graph you'll be working with, as the shell always instantiates the named graph (it delivers the \emph{persistent names} you see in the debugger).
+At API level you may opt for the non-named graph that is considerably cheaper regarding memory usage -- a named graph requires not much less than about twice the amount of memory of a plain graph (unless heavily attributed).
+
+But please note in that case that the export and import capabilities require uniquely named elements and thus only work with named graphs.
+If given a plain graph, the exporters just create a named graph.
+A graph is always created as a named graph by the importers.
 So non-named graphs are typically only of interest if you don't need to persist them into a serialization format.
 
 \subsubsection*{Usage in the rules}
-The name index can be used in the pattern to lookup graph elements by their name, with the same syntax as used in the Shell for accessing elements by their (persistent) name.
+The name index can be used in the pattern to look up graph elements by their name, with the same syntax as used in the GrShell for accessing elements by their (persistent) name.
 
 \begin{rail}
   NamedIndexAccessExpr:
@@ -483,7 +497,7 @@ This can be only done in an \texttt{eval}-block, or a \texttt{procedure}, with a
     nameof '(' Element ')' '=' Expression;
 \end{rail}\ixnterm{NameofAssignment}
 
-When you do so, it is your responsibility to ensure the name does not already exists, otherwise the assignment will cause a runtime exception.
+When you do so, it is your responsibility to ensure that the name does not already exist, otherwise the assignment will cause a runtime exception.
 The same syntax may be used to assign the name of a (sub)graph, a missing element amounts to the host graph.
 
 \begin{example}
@@ -496,7 +510,7 @@ test t(var s:string) {
 }
 \end{grgen}
 
-The rule \texttt{r} \texttt{yield}s the name of the node matched to \texttt{n} to \texttt{oldname}, and changes the name of the node in the \texttt{modify} part by prepending the name of the host graph. Furthermore, it prints the name of the edge bound to \texttt{e}.
+The rule \texttt{r} \texttt{yield}s the name of the node matched to \texttt{n} out to \texttt{oldname}, and changes the name of the node in the \texttt{modify} part by prepending the name of the host graph. Furthermore, it prints the name of the edge bound to \texttt{e}.
 
 \begin{grgen}
 rule r() {
@@ -520,18 +534,23 @@ rule r() {
 %-----------------------------------------------------------------------------
 \subsection{Uniqueness Index}\label{sec:uniqueness}
 Uniqueness can be applied in two parts, the i) uniqueness \emph{constraint}, and ii) the uniqueness \emph{index}.
+
 The uniqueness \emph{constraint} ensures that each element in the graph has a unique id. 
-But only for a given graph element can the unique id be obtained.
+It allows in addition to fetch the unique id from a graph element.
 You may see it as a key-value store from graph elements to their ids -- it is a very efficient one, as the unique-id is stored in the graph elements. 
-The uniqueness \emph{index} ensures in addition that you can fetch a graph element by its unique id, extending the uniqueness property to an index allowing for quick graph element lookup.
+
+The uniqueness \emph{index} allows in addition to fetch a graph element by its unique id, extending the uniqueness property to an index allowing for quick graph element lookup.
 You may see it as a key-value store from the unique ids to their graph elements.
 This one is realized with an array of unique ids to graph elements.
+
 So lookup is carried out efficiently in $O(1)$ either way.
-Maintaining the uniqueness information is in $O(log(n))$, but much less on average, as the ids of deleted elements have to be stored in a heap (the data structure, not the memory model) for quick reuse of the lowest one upon graph element addition (this way we ensure a maximally packed id range, which is of importance to keep the index array and the is-matched-bit-arrays of the parallelized matchers small and packed).
+Maintaining the uniqueness information is in $O(log(n))$, but much less on average, as the ids of deleted elements have to be stored in a heap (the data structure, not the memory model) for quick reuse of the lowest one upon graph element addition (this way we ensure a maximally packed id range, which keeps the index array and the is-matched-bit-arrays of the parallelized matchers small and packed).
+
 A uniqueness index does not allow multiple elements per indexed property (which is here the unique id), like the name index, and in contrast to the attribute and incidence count indices.
 
 \subsubsection*{Declaration in the model}
-The space for the unique id is always reserved in the graph elements, but only if an uniqueness constraint is declared is it really filled with unique ids (and in case when you declare another index in the model, as they depend on the unique ids, and in case you use parallelize annotations, as the parallelized matchers depend on the unique ids, too).
+The space for the unique id is always reserved in the graph elements, but unique ids are only assigned if you declare an uniqueness constraint.
+Or if you declare another index in the model, as indices depend on the unique ids, or if you use parallelize annotations, as the parallelized matchers depend on the unique ids, too.
 If you need to fetch graph elements by their unique ids, you must declare an unique index (in addition or instead).
 
 \begin{rail}
@@ -549,7 +568,7 @@ The unique index can be used in the pattern to lookup graph elements by their un
 \end{rail}\ixnterm{UniqueIndexAccessExpr}
 
 There is at most one element existing with the unique id asked for; if no graph element with that unique id exists, matching fails and backtracks, if an element exists, the pattern element is bound to it, and matching continues.
-Please note that the (int-)expression used to compute the unique id is only allowed to reference at most one other pattern element (not handed in as parameter).
+Please note that the expression used to compute the unique id is only allowed to reference at most one pattern element (not handed in as parameter).
 
 The unique constraint may be further queried from the rule language expressions with the \texttt{uniqueof} function,
 the unique index with the \texttt{nodeByUnique} and \texttt{edgeByUnique} functions:
@@ -559,7 +578,8 @@ the unique index with the \texttt{nodeByUnique} and \texttt{edgeByUnique} functi
 \item[\texttt{edgeByUnique(.)}] returns the edge of the given unique id, or null if no edge of that unique id exists. Optionally, a target edge type may be given as second argument, then you receive a edge of that type as result, or null if no edge of that name \emph{and type} exists.
 \end{description}
 
-The unique ids are automatically assigned (from a global counter increased with each element, but reusing already handed out ids that return to the pool once their element is removed from the graph). In contrast to the names you cannot change the id assignment.
+The unique ids are automatically assigned (utilizing an id pool that is enlarged with newly allocated ids when an element is added to the graph but the pool is empty, or reusing an already existing id; when an element is removed from the graph, its id returns to the id pool).
+In contrast to the names, you cannot change the id assignment.
 
 \begin{example}
 
@@ -600,28 +620,29 @@ rule r() {
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Location Passing and Memorization}
-Often in a transformation you know the location that needs processing from a previous step.
+Often in a transformation, you know the location that needs processing from a previous step.
 In this case, return these locations out from the rules, store them in variables of node (or edge) type, and hand them in again via rule arguments to the follow-up rules.
-Or call embedded rules, directly handing elements from the rule, saving you the intermediate assignments.
+Or call embedded rules, directly handing in elements from the containing rule, saving you the intermediate assignments.
 
 Commonly, this is just the right way of handling this situation, 
 as you must continue processing the very spot you just processed with the previous rule(s) to achieve a valid result.
 Sometimes you don't need to, but gain higher performance when you do so.
 Optimize this way then, use \emph{rooted} pattern matching, with roots defined by previous rules, it's cheaper as it saves you the lookup in the graph.
+
 A different way of parameter passing is adding reflexive edges to the graph to mark the spot of processing.
 This is normally working well, too, but the parameter passing is typically easier and does not "pollute" the graph with processing information.
 
-In case of a statically not known number of locations as they appear e.g. in wavefront algorithm, you may store the locations in storages (cf. chapter \ref{cha:container}), i.e. collection valued variables (which are iterated over in the sequences or passed to the rules as \texttt{ref} parameters).
-Search will then start from these parameters, instead of a looking up a value in the graph by type (unless search planning taking the statistics about the graph into account comes to the conclusion that a lookup on a super-seldom type is still the better approach).
+In case of a statically not known number of locations as they appear e.g. in a wavefront algorithm, you may store the locations in storages (cf. chapter \ref{cha:container}), i.e. collection valued variables (which are iterated over in the sequences or passed to the rules as \texttt{ref} parameters).
+Search will then start at these parameters, instead of looking up a value in the graph by type (unless search planning taking the statistics about the graph into account comes to the conclusion that a lookup on a super-seldom type is still the better approach).
 
-A sophisticated way of remembering facts about non-local properties is to computed them with data flow analyses (see section \ref{subsub:flow}) and store them as attributes in the graph elements.
+A sophisticated way of remembering facts about non-local properties is to compute them with data flow analyses (see section \ref{subsub:flow}) and store them as attributes in the graph elements.
 This allows to replace searching for distant values, or global properties like reachability, by checking a local property, at the price of re-running an analysis every time the graph changes in an important way.
 
-With variables and storages you build indices into the graph, indices which are typically more selective than the automatically supplied indices; 
-but in contrast to the automatically built ones, you must maintain them by hand.
+Variables and storages can be seen as indices into the graph, indices that are typically more selective than the automatically supplied indices; 
+but in contrast to the automatically supplied ones, you must maintain them by hand.
 Beware of elements already deleted from the graph still hanging out in your storage because you forgot to remove them.
 
-The approach of remembering state instead of searching when needed has a clear caveat: the code becomes susceptible to ordering effects (more brittle), it may become less readable. 
+The approach of remembering state instead of searching when needed has a clear caveat: the code becomes susceptible to ordering effects (more brittle) and less readable. 
 As in normal programming, you must balance performance optimizations against maintainability.
 
 \begin{note}
@@ -633,21 +654,20 @@ You must weight programming time esp. including the long term costs of maintenan
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Profile and Parallelize}\label{sec:performanceparallel}
 
-A basic and often sufficient means of profiling is built-in into GrShell:
-After each sequence execution the time required to carry it out is printed.
+A basic and often sufficient means of profiling is built into GrShell:
+After each sequence execution, the time required to carry it out is printed.
 
 Sometimes you need further information about what's going on.
-Use the built-in profiling then (you may of course apply a profiler on the generated code, but then you descend to the level of implementation of \GrG).
-
-You can do so by specifying the \texttt{profile} compiler option (cf. \ref{grgenoptions}) to request search code instrumentation, or better the \texttt{set profile on} shell command (cf. \ref{sec:compilerconfigshell}).
-You will receive two kinds of results when executing matchers instrumented that way.
+Use the built-in profiling\footnote{You may of course apply a profiler on the generated code, but then you descend to the level of implementation of \GrG} then, by specifying the \texttt{profile} compiler option (cf. \ref{grgenoptions}) to request search code instrumentation, or better the \texttt{set profile on} shell command (cf. \ref{sec:compilerconfigshell}).
+You receive two kinds of results when executing matchers instrumented this way.
 
 \begin{enumerate}
-	\item After each sequence execution, the shell will print out the number of search steps that occurred, in addition to the time. A search step consists of binding a graph element to a pattern element.
+	\item After each sequence execution, the shell prints out the number of search steps that were carried out, in addition to the time. 
+		A search step consists of binding a graph element to a pattern element.
 	\item You can request a detailed per-action profile with the \texttt{show profile} shell command (cf. \ref{grsthings}).
 \end{enumerate}
 
-The detailed per-action profile contains a value that gives you a hint about the expected use of matcher parallelization, the higher the number the better is the rule suited.
+The detailed per-action profile contains a value that gives you a hint regarding the expected use of matcher parallelization, the higher the number the better is the rule suited.
 
 \subsubsection*{Parallelize}
 A rule or test annotated with \texttt{[parallelize=k]} will be matched with \texttt{k} worker threads from a thread pool.
@@ -659,14 +679,14 @@ If that loops only once nothing is gained.
 If each loop iteration only executes very few search work following candidate assignment,
 things become \emph{slower} because of threading and locking overhead.
 Don't just append the parallelize annotation to each and every rule in the hope things will become faster!
-Only search intensive-tasks benefit, only for them the overhead of parallelization pays off.
+Only search-intensive tasks benefit, only for them does the overhead of parallelization pay off.
 But for those search-intensive tasks, you can achieve high speedups, reaping benefits from our-days multicore machines. 
 
 Remark: Only the pattern matcher of an action is parallelized, so only the search process is parallelized.
 This offers the biggest bang for the bucks invested, as search is \emph{the} expensive task, and it allows you to stick to the much simpler sequential programming model.
 A parallelization of the kind presented in \cite{ParGraErs} offers potentially even higher speedups, but at the price of dealing with a parallel programming model, and at the price of graph partitioning that is very hard to get right in a general-purpose tool.
 
-There's a second part that can be parallelized, the \texttt{equalsAny} function checking for graph isomorphy of a new candidate against a set of known graphs.
+There's a second part that can be parallelized, the \texttt{equalsAny} function checking for graph isomorphy of a new candidate graph against a set of known graphs.
 The \emph{EqualsAnyParallelization} clause in the model must specify the number of worker threads used in parallel.
 A \verb#for equalsAny[parallelize=8];# requests 8 worker threads for checking whether there's already a graph existing that is isomorphic to the candidate.
 Graph isomorphy checking is expensive, you may gain considerable speed-ups in state space enumeration (at the price of having to maintain a set of already known graphs).
@@ -676,23 +696,24 @@ Graph isomorphy checking is expensive, you may gain considerable speed-ups in st
 
 \subsubsection*{Use saved graph analysis data}
 The different instance graphs for a certain graph-based problem you work with often show similar characteristics regarding the types and their connectedness.
-If this holds, you can do the graph analysis when such a characteristic graph is reached, once, and save the results,
+You can analyze such a characteristic graph, once, and save the results,
 with the \texttt{custom graph statistics save} command, cf. \ref{custom}.
-And at each following static action generation build the static matchers based on it, by loading that statistics file. 
+And build the static matchers based on it, at each following static action generation, by loading that statistics file. 
 This is possible with the \texttt{statistics} compiler option, cf. \ref{grgenoptions},
 and with the shell \texttt{new set statistics} command, cf. \ref{sec:compilerconfigshell}. 
 It is seldom that up-to-the-point dynamic information about the host graph makes a real difference,
-and graph analysis and matcher re-generation at runtime are \emph{costly} -- push this effort from runtime to compilation time.
+while graph analysis and matcher re-generation at runtime are \emph{costly} -- push this effort from runtime to compilation time.
 
 \subsubsection*{Use Compiled Sequences}
-The compiled sequences given in the rules file are executed a good deal faster than the interpreted sequences given in the shell.
-So if you need speed, replace interpreted sequences by compiled ones.
-The price you pay is a loss of debuggability, a compiled sequence can only be executed as one big step (the introduction of subrule debugging -- see \ref{secdebuggersubrule} -- improved a bit on this, but the differences regarding state introspection and control are still huge).
+The compiled sequences from the rules file are executed a good deal faster than the interpreted sequences from the shell.
+So if you have to optimize for performance, replace interpreted sequences by compiled ones.
+The price you pay is a loss of debuggability, a compiled sequence can only be executed as one big step 
+(the introduction of subrule debugging -- see \ref{secdebuggersubrule} -- improved on this, but the differences regarding state introspection and control are still considerable).
 
 \subsubsection*{Use Pre-Compiled Code}
 For shortly-running tasks the JIT-compiling overhead dominates the execution runtimes.
-The times in the range of a few dozen milliseconds printed out for most of our tests are the times needed for just-in-time compilation of the .NET bytecode of the matchers into machine code, the matching itself is typically several orders of magnitude faster, for simple patterns it is in the range of microseconds or below.
-You see this effect in place when your code takes some hundred milliseconds to execute the first time, but afterwards completes immediately for a task of the same size.
+The times in the range of a few dozen milliseconds printed out for most of our tests are the times needed for just-in-time compilation of the .NET bytecode of the matchers into machine code --- the matching itself is typically several orders of magnitude faster, it is in the range of microseconds or below (for the small example graphs and simple patterns used).
+This effect can be seen when a sequence takes some hundred milliseconds to execute when executed for the first time, but afterwards completes immediately (for a task of the same size).
 You may cut down on this overhead by utilizing the \texttt{ngen} tool of .NET for pre-compiling the \GrG-dlls (the supplied as well as the generated ones, cf. \ref{systemoverview}), or the \texttt{--aot} option of mono, for ahead-of-time compilation.
 
 
@@ -700,71 +721,76 @@ You may cut down on this overhead by utilizing the \texttt{ngen} tool of .NET fo
 \section{Miscellaneous Things}
 
 \subsubsection*{Visited Flags versus Storages versus Reflexive Edges}
-Visited flags are the most efficient way of marking elements, if a large number of elements gets marked, or if all elements -- irrespective whether marked or not -- need to be iterated.
-(This holds because they are stored in the flags integer of the graph elements themselves (the first $k$ ones, afterwards they need to be stored outside the graph)).
+Visited flags are the most efficient way of marking elements, in case a large number of elements has to be marked, or if all elements -- irrespective whether marked or not -- need to be iterated.
+(This holds because they are stored in a flags variable of the graph elements themselves (the first $k$ flags, afterwards they need to be stored outside of the graph)).
 
-Otherwise they are inefficient because they do not allow to access(/lookup) the marked elements based on the marking information;
+Otherwise they are inefficient because they do not allow to access(/lookup) the marked elements based on the marking information ---
 a lot of elements need to be iterated for a lookup, just to filter the visited ones out.
-Storages which give quick access to their contained elements are better then.
+Storages that allow you to access their contained elements quickly are better then.
 
-An alternative are reflexive marker edges of a special type in the graph, search planning favors them (assuming they appear in much smaller quantities than normal edges),  so search starts at those elements. 
+An alternative are reflexive marker edges of a special type in the graph, search planning favors them (assuming they appear in much smaller quantities than normal edges), so search starts at those elements. 
 Besides they can be visualized directly in the graph (emulating a kind of "cursor").
 
 \subsubsection*{Loops versus All-Bracketing versus Iterated}
-Regarding performance you should prefer all-bracketing (cf. \ref{sec:ruleapplication}) over loops over iterateds.
+Regarding performance, you should prefer all-bracketing (cf. \ref{sec:ruleapplication}) to sequence loops and those to iterated patterns.
 Applying a rule on all matches is the most efficient way of processing multiple spots in a graph.
 This holds for normal matchers, but even more so for parallelized matchers.
-For a normal rule call, there is typically some of the search effort wasted because some workers already passed the point where the match was found; when all matches are sought, no effort is wasted -- and typically the entire search takes longer, which lowers the break-even point regarding the overhead incurred by the parallel matcher.
+For a normal rule call, typically a part of the concurrent search effort is wasted because some workers already passed the point where the match was found; 
+when all matches are sought, no effort is wasted -- and typically the entire search takes longer in that case, which lowers the break-even point regarding the overhead incurred by the parallel matcher.
 
 Loops are not much slower due to the search state space stepping, continuing where the last iteration left of.
 But they are semantically considerably different: each step of the loop operates on the then-changed graph, in contrast to applying a rule on all matches available at a certain point in time.
 If you have to explore new match possibilities created by applying the rule you need a loop, but even then you'll likely benefit from applying an all-bracketed rule in the loop.
 On the other hand you have to use a loop in case the parts of the matches which are to be modified, e.g. retyped, are not disjoint (an element can only be changed once).
 
-Iterateds are similar to all-bracketed rules insofar that they match all spots in the graph existing at a certain point in time.
-They can be embedded directly in a rule (which is considerably less heavyweight than declaring a rule and passing the attachment points as parameters), and they allow for easy yielding of elements back to the pattern (typically with an accumulating yield).
+Iterated patterns are similar to all-bracketed rules insofar that they match all spots in the graph existing at a certain point in time.
+They can be embedded directly in a rule (this is considerably less heavyweight than declaring a rule and passing the attachment points as parameters), and they allow for easy yielding of elements to the pattern (typically with an accumulating yield; this is also less heavyweight than returning elements back to a calling rule).
 But the overhead of the three pushdown machine must be payed for them, and they can't be matched in parallel.
 Using an iterated as the outermost block of a rule is wasteful, all-bracketing is to be preferred in this case.
-But other then that: don't replace them unless really needed, they are simply much more convenient.
+But don't replace iterateds unless really needed, they are simply much more convenient.
 
 \subsubsection*{Reachable versus Subpattern Recursion}
 Prefer the reachable predicate over subpattern recursion.
-The reachable predicate has a tight implementation, while subpattern recursion must pay for graph parsing with the three pushdown machine (which is not horrible expensive but can be clearly felt).
-Note the semantic difference: elements already matched in the pattern can't be matched again in case of subpattern recursion due to the isomorphy constraint. 
+The reachable predicate has a tight implementation, while subpattern recursion must pay for graph parsing with the three pushdown machine (whose execution overhead is not horrible but can be clearly felt).
+Note the semantic difference: elements already matched in the pattern cannot be matched again in case of subpattern recursion due to the isomorphy constraint. 
 The reachable predicate does not know about the pattern it is called from, so elements already matched in the pattern can get matched again.
-This is often what is wanted anyway, and together with the increased convenience of having only to call a pre-implemented functionality instead of programming an iterated path by yourself leads to the clear advice to favor the reachable predicate.
+This is often what is wanted anyway, and leads together with the increased convenience of having only to call a pre-implemented functionality instead of having to program an iterated path to the clear advice to favor the reachable predicate.
 You have to use subpattern recursion, though, if you want to impose a certain pattern of type alternation on the iterated path, 
-or if you want to match more than chains of single nodes linked by single edges, and esp. if you want to match tree-like structures;
+or if you want to match more than chains of single nodes linked by single edges (esp. attached tree-like structures), 
 or if you want to somehow change the elements on the path -- not searching merely for existence.
 
 \subsubsection*{Helper Programs versus Patterns}
 \GrG\ search planning can be compared to searching straw stars on a freshly harvested field,
-by looking at the places where the ground is only slightly covered, only reaching into the haystacks when
-they can't be circumvented at all, and only for peripheral parts.
+looking at the places where the ground is only slightly covered, 
+only reaching into the haystacks when they can't be circumvented at all, and only for peripheral parts.
 A pattern matcher is generated based on the assumption that search planning worked well in circumventing those haystacks. 
 It is based on nested loops for binding the pattern elements to the graph elements;
-and for a pattern node that is reached via multiple pattern edges on
-comparison code to check whether the node bound to the pattern node with the first loop
+and for a pattern node that is reached via multiple pattern edges
+on comparison code to check
+whether the node bound to the pattern node with the first loop
 is the same as the node that is reached later on from the other parts. 
 
 That approach works very well for sparse graphs with low incidence counts.
-But for graphs with massively linked parts that need to be reached on different ways you may need to overwrite this behaviour with hashset based connectedness checks.
+But for graphs with massively linked parts that need to be reached on different paths you may need to overwrite this behaviour with hashset based connectedness checks.
 
-That comparison code as such is a simple object identity comparison so it is very cheap, 
+The comparison code as such is a simple object identity comparison, so it is very cheap, 
 but what weights in here are the cycles needed to iterate through the many different edge candidates until one is found that indeed is incident to the current node candidate.
 Hashset based connectedness checks are a good deal more expensive than iteration and reference comparison (esp. due to hashset building and filling), but they can be done in $O(1)$ in contrast.
 For a handful of elements, they straight loose against the default code emitted by \GrG, but when we speak of hundreds or thousands of elements, they win.
 
-So for tasks where you must find all nodes that are adjacent to two different nodes at the same time, when both of those have a considerable amount of adjacent nodes in addition, you should switch to the following approach:
+So when you have to find all nodes that are adjacent to two different nodes at the same time, 
+and both of those have a considerable amount of adjacent nodes in addition,
+you should switch to the following approach:
 store the adjacent nodes of one node in a hash set, and query it with the adjacent nodes from the other node.
-This is only $O(n)$ instead of $O(n*n)$ due to the $O(1)$ hash lookup (applied as query, or implicitly used in a hash set intersection).
-But it holds especially when you are only interested whether a certain minimum number is reached -- in that case you may write a helper function that returns as soon as this amount is reached; see \cite{MovieDatabase} for an example of this.
+This is only $O(n)$ instead of $O(n*n)$ due to the $O(1)$ hash set lookup (applied as query, or implicitly used in a hash set intersection).
+
+This especially holds when you are only interested in the fact whether a certain minimum number is reached -- in that case you may write a helper function that returns as soon as this amount is reached; see \cite{MovieDatabase} for an example of this.
 Using a helper function is also commonly more lightweight than using a helper rule (in case the helper function does not get large, which is the case when a pattern containing more than a handful of elements is needed).
 
 \subsubsection*{Helper Programs versus Patterns on an Example}
 
-In the example \cite{MovieDatabase} mentioned above which is solving the TTC14 Movie Database Case \cite{MovieDatabaseCase} we started optimizing the rule shown in Fig. \ref{fig:findCouples.grg}
-with the search plan printed by the \texttt{explain} command (cf. \ref{custom}) in For. \ref{fig:InitialSP}.
+In the example \cite{MovieDatabase} mentioned above which is solving the TTC14 Movie Database Case \cite{MovieDatabaseCase}, we started optimizing the rule shown in Fig. \ref{fig:findCouples.grg}
+with the search plan printed by the \texttt{explain} command (cf. \ref{custom}) in Figure \ref{fig:InitialSP}.
 
 \begin{figure}[h]
 	\begin{verbatim}
@@ -798,22 +824,29 @@ findCouples:
 	\label{fig:findCouples.grg}
 \end{figure}
 
-The graph is entered with a lookup of a \texttt{personToMovie} edge, then the candidates for the source node \texttt{pn1} and the target node \texttt{m1} are extracted from it. Afterwards the other \texttt{personToMovie} edge is matched in reverse from the movie to \texttt{pn2}.
-Several elements in the independent are handed in as already matched presets from the outer pattern, then the \texttt{personToMovie} edges are taken from \texttt{pn1} to the movies \texttt{m2} and \texttt{m3}, and finally the \texttt{personToMovie} edges from \texttt{pn2} are matched, with an implicit check that the target movie is the same as the one already matched.
+The graph is entered with a lookup of a \texttt{personToMovie} edge, then the candidates for the source node \texttt{pn1} and the target node \texttt{m1} are extracted from it.
+Afterwards, the other \texttt{personToMovie} edge is matched in reverse from the movie to \texttt{pn2}.
+Several elements in the \texttt{independent} are handed in as already matched presets from the outer pattern, 
+then the \texttt{personToMovie} edges are taken from \texttt{pn1} to the movies \texttt{m2} and \texttt{m3}, 
+and finally the \texttt{personToMovie} edges from \texttt{pn2} are matched, with an implicit check that the target movie is the same as the one already matched.
 
-We see here an automatically applied optimization, the movie \texttt{m1} was inlined from the independent pattern to its containing pattern. Without this optimization, \texttt{pn1} and \texttt{pn2} would have to be enumerated in the main pattern \emph{unconnected}, resulting in the unfolding of the cartesian product of all \texttt{Person} nodes, before handing it in to the matcher of the nested independent pattern to purge the actors without a connecting movie.
+We see here an automatically applied optimization, the movie \texttt{m1} was inlined from the independent pattern to its containing pattern.
+Without this optimization, \texttt{pn1} and \texttt{pn2} would have to be enumerated in the main pattern \emph{unconnected}, resulting in the unfolding of the cartesian product of all \texttt{Person} nodes 
+--- before handing it in to the matcher of the nested independent pattern in order to purge the actors without a connecting movie.
 
-Take care that connectedness checks for nodes that are reached via multiple edges are not printed in the search plan -- but they \emph{are} carried out, as early as possible.
+Take care of the fact that connectedness checks for nodes that are reached via multiple edges are not printed in the search plan -- but they \emph{are} carried out, as early as possible.
 In the example search plan, take a look at the two latest lines:\\
 \verb#from pn2 outgoing -_edge3:personToMovie-> (target must equal m2)#\\
 \verb#from pn2 outgoing -_edge5:personToMovie-> (target must equal m3)#\\
-For those two lines, after the edges were matched, there are no get target operations as you would expect for \texttt{m2} and \texttt{m3}, because the targets \texttt{m2} and \texttt{m3} were already matched.
-Instead the connectedness check is carried out here, it is checked that the target node of \verb#_edge3# is equal to the target node already bound to \texttt{m2}, and that the target node of \verb#_edge5# is equal to the target node already bound to \texttt{m3}.
+For those two lines, after the edges were matched, there are no get target operations to fetch \texttt{m2} and \texttt{m3} existing, because the targets \texttt{m2} and \texttt{m3} were already matched from other edges on.
+Instead, the connectedness check is carried out here:
+it is checked that the target node of \verb#_edge3# is equal to the target node already bound to \texttt{m2}, and that the target node of \verb#_edge5# is equal to the target node already bound to \texttt{m3}.
 
 \subsubsection*{Helper Programs versus Patterns on an Example, Optimized}
 
-In the case we applied a succession of optimization steps,
-the final optimized rule is shown in \autoref{fig:findCouplesOpt.grg}, and its helper functions in \autoref{fig:atLeastThreeCommonMovies.grg} and \autoref{fig:getCommonMovies.grg}; its search plan is listed in \autoref{fig:FinalSP} below.
+In the example case \cite{MovieDatabase} we applied a succession of optimization steps.
+The final optimized rule is shown in \autoref{fig:findCouplesOpt.grg}, and its helper functions in \autoref{fig:atLeastThreeCommonMovies.grg} and \autoref{fig:getCommonMovies.grg}.
+Its search plan is listed in \autoref{fig:FinalSP} below.
 
 \begin{figure}[hptb]
 	\begin{verbatim}
@@ -839,7 +872,8 @@ findCouplesOpt:
 	\label{fig:FinalSP}
 \end{figure}
 
-Note the parallelized first lookup spreading matching work over multiple threads; in addition, the computation of the common movies is executed in parallel, materializing the results to a common movies set, per match.
+Note the parallelized first lookup that is spreading matching work over multiple threads.
+In addition, the computation of the common movies is executed in parallel, materializing the results to a common movies set, per match.
 Only a part of the original pattern is used here, because the connectedness check was moved to a helper function, called from an attribute condition.
 
 \begin{figure}[hptb]
@@ -864,7 +898,9 @@ Only a part of the original pattern is used here, because the connectedness chec
 
 When you enable profiling for the \verb#imdb-0005000-50176.movies.xmi# example, cf. \ref{sec:performanceparallel}, you see a drastic reduction in search operations for the optimized version compared to the non-optimized version (and a corresponding reduction in runtime), compare \ref{fig:profilefindCouples} to \ref{fig:profilefindCouplesOpt}. 
 
-Execution was carried out on a double core, the number of matches differs because of the automorphic matches filtering being executed during matching compared to post-matching, and in the optimized version there are no matches occuring from an embedded \emph{exec}, as all search work was shifted to the parallelized matcher.
+Execution was carried out on a double core.
+The number of matches differs because automorphic matches filtering was executed during matching in one case, and after matching in the other case.
+Also, in the optimized version there are no matches occurring from an embedded \emph{exec}, as all search work was shifted to the parallelized matcher.
 
 \begin{figure}[hptb]
 	\begin{verbatim}

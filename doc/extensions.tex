@@ -2,9 +2,10 @@
 
 This chapter explains how to customize \GrG\ with external code, or how to tightly integrate \GrG\ with external code.
 It lists the ways how you can interact with the external world outside of \GrG.
-The primary means available are: external attribute types and their methods, external functions and procedures, match filters, and external sequences; the secondary helpers available are annotations, command line parameters, and external shell commands.
+The primary means available are: external attribute types and their methods, external functions and procedures, external match filters, and external sequences; the secondary helpers available are annotations, command line parameters, and external shell commands.
 
-You typically want to use them for integrating functionality outside of graph representation processing, subtasks \GrG\ was not built for; you maybe want to use them for performance reasons to implement linked lists or trees more efficiently than with the nodes and edges supplied by \GrG.
+You typically want to use them for integrating functionality outside of graph representation processing, i.e. subtasks \GrG\ was \emph{not} built for.
+You maybe want to use them for performance reasons, to implement linked lists or trees more efficiently than with the nodes and edges supplied by \GrG.
 
 The languages of \GrG\ shield you from the details of the runtime and the framework below it; you can combine their constructs freely.
 But when you plug into the existing framework with your code, you must obey the expectations of that framework.
@@ -17,11 +18,15 @@ That said, there are plenty of possibilities to extend the framework with your o
   ExternalClassDeclaration: 'external' 'class' IdentDecl (() | 'extends' (ExternalClassType+',')) \\
 	(';' | lbrace ((ExternalFunctionDeclaration | ExternalProcedureDeclaration)*) rbrace);
 \end{rail}\ixnterm{ExternalClassDeclaration}\ixkeyw{external}\ixkeyw{class}\ixkeyw{extends}
-Registers a new attribute type with \GrG. You may declare the base types of the type, and you may specify external function methods or procedure methods. Attributes can't be specified. The attribute type (and the declared methods) must be implemented externally, see \ref{sub:extclsfctimpl}; for \GrG~the type is opaque, only external functions/procedures or the function/procedure methods can carry out computations on it. 
+Registers a new attribute type with \GrG. 
+You may declare the base types of the type, and you may specify external function methods or procedure methods.
+Attributes cannot be specified. 
+The attribute type (and the declared methods) must be implemented externally, see \ref{sub:extclsfctimpl}.
+For \GrG~the type is opaque, only the function/procedure methods or external functions/procedures can carry out computations on it. 
 
-You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs (because you need functionality not related to graph-rewriting, or because you want to implement lists or trees more efficiently than with the node and edge types built for general-purpose graph rewriting).
-(The external types can be explicitly casted to \texttt{object} but are not implicitly casted.)
-The methods may register own undo items with the transaction manager to realize rollback behaviour for external attributes (cf. \ref{ex:transman}).
+You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs (because you need functionality not related to graph-rewriting, or because you want to implement lists or trees more efficiently than with the implementation of the node and edge types built for general-purpose graph rewriting).
+The external types can be explicitly casted to \texttt{object} but are not implicitly casted.
+(The methods may register own undo items with the transaction manager to realize rollback behaviour for external attributes (cf. \ref{ex:transman})).
 
 %-----------------------------------------------------------------------------------------------
 \section{External Function Types}\label{sub:extfct}
@@ -29,8 +34,10 @@ The methods may register own undo items with the transaction manager to realize 
   ExternalFunctionDeclaration: 'external' 'function' IdentDecl '(' ( () | (Type + ',') ) ')' ':' Type ';';
 \end{rail}\ixnterm{ExternalFunctionDeclaration}\ixkeyw{external}\ixkeyw{function}
 Registers an \indexed{external function} with \GrG~to be used in attribute computations.
-An external function declaration specifies the expected input types and the output type. The function must be implemented externally, see \ref{sub:extclsfctimpl}.
-An external function call (cf. \ref{sec:primexpr}) may receive and return values of the built-in (attribute) types as well as of the external attribute types; the real arguments on the call sites are type-checked against the declared signature following the subtyping hierarchy of the built-in as well as of the external attribute types.
+An external function declaration specifies the expected input types and the delivered output type.
+The function must be implemented externally, see \ref{sub:extclsfctimpl}.
+An external function call (cf. \ref{sec:primexpr}) may receive and return values of the built-in (attribute) types, as well as of the external attribute types.
+The real arguments on the call sites are type-checked against the declared signature following the subtyping hierarchy of the built-in -- as well as of the external -- attribute types.
 You may extend \GrG~with external functions if the built-in attribute computation capabilities (cf. \ref{sub:expr}) or graph querying capabilities are insufficient for your needs.
 
 %-----------------------------------------------------------------------------------------------
@@ -39,8 +46,10 @@ You may extend \GrG~with external functions if the built-in attribute computatio
   ExternalProcedureDeclaration: 'external' 'procedure' IdentDecl '(' ( () | (Type + ',') ) ')' \\ ( ':' '(' (Type + ',') ')' )? ';';
 \end{rail}\ixnterm{ExternalProcedureDeclaration}\ixkeyw{external}\ixkeyw{procedure}
 Registers an \indexed{external procedure} with \GrG~to be used in attribute computations.
-An external procedure declaration specifies the expected input types and the output types. The procedure must be implemented externally, see \ref{sub:extclsfctimpl}.
-An external procedure call (cf. \ref{sec:primexpr}) may receive and return values of the built-in (attribute) types as well as of the external attribute types; the real arguments on the call sites are type-checked against the declared signature following the subtyping hierarchy of the built-in as well as of the external attribute types.
+An external procedure declaration specifies the expected input types and the delivered output types.
+The procedure must be implemented externally, see \ref{sub:extclsfctimpl}.
+An external procedure call (cf. \ref{sec:primexpr}) may receive and return values of the built-in (attribute) types as well as of the external attribute types.
+The real arguments on the call sites are type-checked against the declared signature following the subtyping hierarchy of the built-in -- as well as of the external -- attribute types.
 You may extend \GrG~with external procedures if the built-in attribute computation capabilities (cf. \ref{sub:expr}) or graph manipulation capabilities are insufficient for your needs.
 
 %-----------------------------------------------------------------------------------------------
@@ -50,21 +59,27 @@ You may extend \GrG~with external procedures if the built-in attribute computati
 	FilterFunctionDefinition: 'external' 'filter' FilterIdent '<' RuleIdent '>' (Parameters | ()) ';';
 \end{rail}\ixnterm{FilterFunctionDefinition}\ixkeyw{filter}\ixkeyw{external}
 
-The \emph{FilterFunctionDefinition} prepended with an \texttt{external} and deprived of its body (cf. \ref{sub:filters} for more on filters), 
-registers an \indexed{external filter function} with \GrG~ for the rule (or test) specified in angles.
+The \emph{FilterFunctionDefinition} prepended with an \texttt{external} and deprived of its body (cf. \ref{sub:filters} for more on filters)
+registers an \indexed{external filter function} with \GrG, for the rule (or test) specified in angles.
 It can then be used from applications of that rule (cf. \emph{FilterCalls} in \ref{sec:ruleapplication}).
-A filter function name -- irrespective whether external or internal -- must be globally unique (in contrast to the predefined filters, each rule may offer one with the same name).
+A filter function name -- irrespective whether external or internal -- must be globally unique (in contrast to the predefined filters --- each rule may offer one with the same name).
 The match filter function must be implemented externally, see \ref{sub:extfltseqimpl}.
-You may extend \GrG~with match filters if you need to inspect the matches found for a rule in order to decide which to apply (see note \ref{note:inspect}) or if you just need a post-match hook which informs you about the found matches.
+You may extend \GrG~with match filters if you need to inspect the matches found for a rule, in order to decide which one to apply (see note \ref{note:inspect}), or if you just need a post-match hook which informs you about the found matches.
 
 \subsubsection*{Match object}
 
-For a rule or subpattern \texttt{r} GrGen generates a match interface \texttt{IMatch\_r} extending the generic \texttt{IMatch} interface from the \texttt{libGr}.
+For a rule or subpattern \texttt{r}, a match interface \texttt{IMatch\_r} is generated, extending the generic \texttt{IMatch} interface from \texttt{libGr}.
 The basic constituents, i.e. nodes, edges and variables are mapped directly to members of their name and type, containing the graph element matched or the value computed.
-For alternatives nested inside the pattern a common base interface \texttt{IMatch\_r\_altName} is generated, plus for each alternative case an interface \texttt{IMatch\_r\_altName\_altCaseName}. When you walk the matches tree using the type exact interface (which is recommended), you must type switch on the match object in the alternative variable, to determine the case which was finally matched, and cast to its match type.
+
+For alternatives nested inside the pattern a common base interface \texttt{IMatch\_r\_altName} is generated, plus for each alternative case an interface \texttt{IMatch\_r\_altName\_altCaseName}.
+When you walk the matches tree using the type exact interface (which is recommended), you must type switch on the match object in the alternative variable, to determine the case which was finally matched, and cast to its match type.
+
 For iterateds nested inside the pattern, in the pattern match object an iterated variable of type \texttt{IMatchesExact<IMatch\_r\_iteratedName>} is created; the IMatchesExact allows you to iterate over the patterns finally found. 
+
 A subpattern usage is mapped directly to a variable in the match object typed with the match interface of the subpattern.
-The same holds for independent patterns; negative patterns do not appear in the match objects, for they prevent the matching and thus the building of a match object in the first place.
+
+The same holds for independent patterns.
+Negative patterns do not appear in the match objects, for they prevent the matching and thus the building of a match object in the first place.
 
 %-----------------------------------------------------------------------------------------------
 \section{External Sequences}\label{sub:extseq}
@@ -72,19 +87,22 @@ The same holds for independent patterns; negative patterns do not appear in the 
   ExternalSequenceDeclaration: 
     'external' 'sequence' RewriteSequenceSignature ';';
 \end{rail}\ixnterm{ExternalSequenceDeclaration}\ixkeyw{external}
-Registers an \indexed{external sequence} similar to a defined sequence (cf. \ref{sec:sequencedefinition}) but in contrast to that it must or can be implemented outside in C\# code.
-An external sequence declaration specifies the expected input types and the output types. The sequence must be implemented externally, see \ref{sub:extfltseqimpl}.
-You may extend \GrG~with external sequences if you want to call into external code to interface with libraries from outside the domain of graph rewriting, or if the \GrG-languages are not well suited for parts of the task at hand.
+Registers an \indexed{external sequence} similar to a defined sequence (cf. \ref{sec:sequencedefinition}), but in contrast to that one, it must or can be implemented outside in C\# code.
+An external sequence declaration specifies the expected input types and the delivered output types.
+The sequence must be implemented externally, see \ref{sub:extfltseqimpl}.
+You may extend \GrG~with external sequences if you want to call into external code,
+in order to interface with libraries outside of the domain of graph rewriting, 
+or if the \GrG-languages are not well suited for parts of the task at hand.
 
 %-----------------------------------------------------------------------------------------------
 \section{External Emitting and Parsing}\label{sub:extemitparse}
 \begin{rail}
   EmitParseDeclaration: 'external' 'emit' (|'graph') 'class' ';';
 \end{rail}\ixnterm{EmitParseDeclaration}\ixkeyw{external}\ixkeyw{emit}\ixkeyw{class}
-Tells \GrG~that the developer wants to extend grs importing and exporting, as well as emitting and debugger display, so that they can handle external types, or the type \texttt{object}.
-This allows for a tight integration of external types with the built-in functionality;
-it allows to inspect types not defined in \GrG~in the debugger (incl. yComp),
-and it allows to serialize/deserialize of graphs including types not defined in \GrG.
+Tells \GrG~that GRS importing and exporting is to be extended, as well as emitting and debugger display, so that these can handle external types, or the type \texttt{object}.
+This allows for a tight integration of external types with the built-in functionality.
+It allows to inspect types not defined in \GrG~in the debugger (incl. yComp),
+and it allows to serialize/deserialize graphs with types not defined in \GrG.
 See \ref{sub:apiextemitparse} for an explanation on what needs to be implemented in this case.
 
 %-----------------------------------------------------------------------------------------------
@@ -92,9 +110,9 @@ See \ref{sub:apiextemitparse} for an explanation on what needs to be implemented
 \begin{rail}
   CopyCompareDeclaration: 'external' ('copy' | '=''=' | '<' ) 'class' ';';
 \end{rail}\ixnterm{CopyCompareDeclaration}\ixkeyw{external}\ixkeyw{copy}\ixkeyw{class}
-Tells \GrG~that the developer wants to extend graph element copying or attribute type comparison (with equality esp. being used for graph isomorphy comparison), so that they can handle external types, or the type \texttt{object}.
+Tells \GrG~that graph element copying or attribute type comparisons (with equality esp. being used for graph isomorphy comparison) are to be extended, so that they can handle external types, or the type \texttt{object}.
 This allows for a tight integration of external types with the built-in functionality, 
-and allows to implement value semantics for objects that are normally compared by checking reference identity and cloned by copying the reference.
+and esp. allows to implement value semantics (objects are normally compared by checking reference identity and cloned by copying the reference).
 See \ref{sub:apiextcopycompare} for an explanation on what needs to be implemented in this case.
 
 %-----------------------------------------------------------------------------------------------
@@ -108,32 +126,36 @@ See \ref{sub:apiextcopycompare} for an explanation on what needs to be implement
 \begin{rail}
   'external' CommandLine
 \end{rail}\indexmain{external}
-An \texttt{External} method you must supply is called with the \emph{CommandLine}.
-This happens when \texttt{external emit class} was specified, see \ref{sub:extemitparse} above.
-See \ref{sub:apiextemitparse} for an explanation on what needs to be implemented in this case.
+A method in an extension file is called with the \emph{CommandLine} as string parameter.
+This is only possible after \texttt{external emit class} was specified, see \ref{sub:extemitparse} above.
+See \ref{sub:apiextemitparse} for an explanation of the method named \texttt{External} that needs to be implemented in this case.
 
 %-----------------------------------------------------------------------------------------------
 \section{Shell and Compiler Parameters}
 
-\noindent When executing the \GrG\ generator/compiler \texttt{GrGen.exe}, the follwing parameters are admissible:
+When you want to include external code, you likely have to reference external assemblies.
+You can do so by compiler parameters, that are also available as configuration options in the shell.
+Debug symbols and source code availability are also of increased importance in this case.
 
-\noindent \texttt{[mono] GrGen.exe } \texttt{[-keep [<dest-dir>]] [-debug]} \texttt{[-lazynic] [-noinline]} \texttt{[-r <assembly-path>]}
+When executing the compiler \texttt{GrGen.exe}, amongst others, the following parameters are admissible:
+
+\noindent \texttt{[mono] GrGen.exe } \texttt{[-keep [<dest-dir>]] [-debug]} \texttt{[-r <assembly-path>]}
 
 The assembly \emph{assembly-path} is linked as reference to the compilation result with the \texttt{-r} parameter.
+The \texttt{-keep} parameter causes the generated C\# source files to be kept. If \emph{dest-dir} is omitted, a subdirectory \texttt{tmpgrgen$n$}\footnote{$n$ is an increasing number.} within the current directory will be created. 
+When \texttt{-debug} is supplied, the assemblies are compiled with debug information (also some validity checking code is added).
 
-These compiler parameters can be configured in the GrShell to be used, too:
+These compiler parameters can be configured in the GrShell, too:
 \begin{rail}
   'new' 'add' 'reference' Filename
 \end{rail}\ixkeyw{new}\ixkeyw{add}\ixkeyw{reference}
 Configures a reference to an external assembly \emph{Filename} to be linked into the generated assemblies, maps to the \texttt{-r} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
 
 \begin{rail}
-  'new' 'set' ('keepdebug'|'lazynic'|'noinline') ('on'|'off')
-\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{on}\ixkeyw{off}
-Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols,
-or configures the generation of the matchers to execute negatives, independents, and conditions only at the end of matching (normally asap),
-or configures the generation of the matchers to never inline subpatterns.
-Maps to the \texttt{-keep} and the \texttt{-debug} options or to the \texttt{-lazynic} or to the \texttt{-noinline} option of \texttt{grgen.exe}.
+  'new' 'set' 'keepdebug' ('on'|'off')
+\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{on}\ixkeyw{off}
+Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols.
+Maps to the \texttt{-keep} and the \texttt{-debug} options of \texttt{grgen.exe}.
 
 
 %-----------------------------------------------------------------------------------------------
@@ -146,23 +168,34 @@ Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotat
 \end{rail}\ixnterm{IdentDecl}
 You can use any key-value pairs between the brackets.
 For \GrG\ only the identifiers \indexed{prio}, \indexed{containment}, and \indexed{parallelize} have an effect.
-But you may use the annotations to transmit information from the specification files to API level where they can be queried/enumerated.
+But you may use the annotations to transmit information from the specification files to API level where they can be queried.
 
 %\pagebreak %improve layout
 
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|lllX|} \hline
   \textbf{Key} & \textbf{Value Type} & \textbf{Applies to} & \textbf{Meaning} \\ \hline
-  \texttt{prio} & int & node, edge & Changes the ranking of a graph element for \indexed{search plan}s. The default is \texttt{prio}=1000. Graph elements with high values are likely to appear prior to graph elements with low values in search plans.\\ \hline
-  \texttt{containment} & boolean & edge type & Used for XMI export; typically defined by the ecore(/XMI) import. Declares an edge type to be an edge type defining a containment relation, which causes XML element containment in the exported XMI. Default is \texttt{containment}=false.\\ \hline
-  \texttt{parallelize} & int & actions (rule, test) & Causes parallelization of the pattern matcher of the action; the value specifies the number of threads to use.\\ \hline
+  \texttt{prio} & int & node, edge & Changes the ranking of a graph element for \indexed{search plan}s.
+    The default is \texttt{prio}=1000.
+    Graph elements with high values are likely to appear prior to graph elements with low values in search plans.\\
+\hline
+  \texttt{maybeDeleted} & boolean & node, edge & Prevents a compiler error when a graph element gets accessed that may be matched homomorphically with a graph element that gets deleted.\\
+\hline
+  \texttt{containment} & boolean & edge type & Used for XMI export; typically defined by the ecore(/XMI) import.
+    Declares an edge type to be an edge type defining a containment relation, which causes XML element containment in the exported XMI.
+    Default is \texttt{containment}=false.\\
+\hline
+  \texttt{parallelize} & int & actions (rule, test) & Causes parallelization of the pattern matcher of the action; the value specifies the number of threads to use.\\
+\hline
 \end{tabularx}
 \caption{Annotations}
 \label{tabannotations}
 \end{table}
 
 \begin{example}
-We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}. Furthermore we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}. \GrG\ can use this information to improve the initial search plan if we adjust the pattern like \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}.
+We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}.
+We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}.
+Furthermore, we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}.
+\GrG\ can use this information to improve the initial search plan if we adjust the pattern with \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}.
 \end{example}
 
-% todo: The maybeDeleted by Sebastian?

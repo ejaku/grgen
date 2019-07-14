@@ -552,7 +552,7 @@ rule R {
 \end{example}
 
 \begin{note}
-For rewriting the execution order of the parts can be defined, to allow programming attribute evaluation orders of interest, defining when to descend into which part and defining glueing/local computations in between.
+For rewriting, the execution order of the parts can be defined, to allow programming attribute evaluation orders of interest, defining when to descend into which part and defining glueing/local computations in between.
 (A depth first run with a defined order in between the siblings, comparable to an LAG/RAG run in compiler construction, but with an explicitly defined sequence of children visits, instead of a temporal succession implicitly induced by the syntactical left-to-right ordering).
 In contrast to rewriting, the \emph{matching} order of the pattern parts can \emph{not} be defined, to allow the compiler/the runtime to use the evaluation order it estimates to be the best.
 So we can't access attributes from sibling elements, we can only compute attributes top down from local elements or elements handed in on matching, and later on bottom up from local elements or elements bubbling up at match object tree construction.
@@ -788,7 +788,7 @@ test countOfEdges(start:Node) : (int)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flow Example, Regular Expression Syntax, and Locking}\indexmainsee{EBNF}{regular expression syntax}\indexmain{regular expression syntax}\label{matchingflow}
 
-Pattern matching and rewriting occurs in two completely distinct passes, separated by the part-pattern matches tree of the combined patterns.
+Pattern matching and rewriting occurs in two completely distinct passes, separated by the matches tree of the sub- and nested patterns.
 During each pass, input and output parameters may be computed and passed; with explicit passing for subpatterns, and implicit passing for nested patterns (which can directly access the content of their contained pattern).
 
 First the pattern is matched with recursive descent alongside pattern nesting and subpattern calling, employing some helper stacks in addition to the call stack (the pushdown machine is explained in more detail in \ref{sec:generatedcode}).
@@ -796,7 +796,7 @@ Matching occurs strictly top-down (or from the outside to the nested inside patt
 During matching, input parameters may be passed, esp. forwarding just matched elements or attributes from them; they allow to influence the matching process.
 
 When a complete match is found, while ascending again, unwinding the call stack, output pattern-\texttt{def} parameters are passed bottom-up (or from the inside to the containing outside patterns) with \texttt{yield} blocks and \texttt{yield} assignments within those blocks, or \texttt{yield} bindings of \texttt{def} parameters in a subpattern call.
-During this ascent, the part-pattern matches tree is assembled, each match of a pattern contains the matches of its nested patterns and used subpatterns when it is left.
+During this ascent, the matches tree is assembled, each match of a pattern contains the matches of its nested patterns and used subpatterns when it is left.
 
 In the rewrite step, the matches tree is visited recursively again, creating the new nodes of the current pattern, then descending to the nested patterns and subpatterns, executing their changes, and after they returned, executing all other changes of the pattern.
 During this visit, rewrite input parameters may be passed, for forwarding just created elements (or computed values). 

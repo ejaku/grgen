@@ -23,7 +23,8 @@ Thus a \indexed{sequence call} behaves as a rule call, cf. \ref{sec:ruleapplicat
 A sequence definition may call itself recursively, as can be seen in example \ref{ex:recseq}.
 
 The compiled sequences must start with the \texttt{sequence} keyword in the rule file.
-The interpreted sequences in the shell must start with the \texttt{def} keyword; a shell sequences can be overwritten with another shell sequence in case the signature is identical. (Overwriting is needed in the shell to define direct or mutually recursive sequences as a sequence must be defined before it can get used; apart from that it allows for a more rapid-prototyping like style of development in the shell.)
+The interpreted sequences in the shell must start with the \texttt{def} keyword; a shell sequence can be overwritten with another shell sequence in case the signature is identical.
+(Overwriting is needed in the shell to define directly or mutually recursive sequences, as a sequence must be defined before it can get used; apart from that it allows for a more rapid-prototyping like style of development in the shell.)
 
 \begin{example}
 \label{ex:recseq}
