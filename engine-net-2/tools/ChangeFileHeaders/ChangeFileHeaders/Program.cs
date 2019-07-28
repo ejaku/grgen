@@ -1,6 +1,6 @@
 /*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 4.5
- * Copyright (C) 2003-2018 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * Copyright (C) 2003-2019 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
  */
@@ -132,7 +132,7 @@ namespace ChangeFileHeaders
 
             lines[0] = "/*";
             lines[1] = " * GrGen: graph rewrite generator tool -- release GrGen.NET 4.5";
-            lines[2] = " * Copyright (C) 2003-2018 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers";
+            lines[2] = " * Copyright (C) 2003-2019 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers";
             lines[3] = " * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)";
             lines[4] = " * www.grgen.net";
             lines[5] = " */";
@@ -150,7 +150,7 @@ namespace ChangeFileHeaders
                     if (lines[i].StartsWith("[assembly: AssemblyFileVersion("))
                         lines[i] = "[assembly: AssemblyFileVersion(\"4.5.0.0\")]";
                     if (lines[i].StartsWith("[assembly: AssemblyCopyright("))
-                        lines[i] = "[assembly: AssemblyCopyright(\"Copyright © 2003-2018 Universität Karlsruhe, IPD Goos; and free programmers\")]";
+                        lines[i] = "[assembly: AssemblyCopyright(\"Copyright © 2003-2019 Universität Karlsruhe, IPD Goos; and free programmers\")]";
                     if (lines[i].StartsWith("[assembly: AssemblyCompany("))
                         lines[i] = "[assembly: AssemblyCompany(\"Universität Karlsruhe, IPD Goos\")]";
                 }
@@ -171,7 +171,7 @@ namespace ChangeFileHeaders
             
             extendedLines[0] = "/*";
             extendedLines[1] = " * GrGen: graph rewrite generator tool -- release GrGen.NET 4.5";
-            extendedLines[2] = " * Copyright (C) 2003-2018 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers";
+            extendedLines[2] = " * Copyright (C) 2003-2019 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers";
             extendedLines[3] = " * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)";
             extendedLines[4] = " * www.grgen.net";
             extendedLines[5] = " */";
