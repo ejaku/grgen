@@ -71,14 +71,16 @@ You may extend \GrG~with match filters if you need to inspect the matches found 
 For a rule or subpattern \texttt{r}, a match interface \texttt{IMatch\_r} is generated, extending the generic \texttt{IMatch} interface from \texttt{libGr}.
 The basic constituents, i.e. nodes, edges and variables are mapped directly to members of their name and type, containing the graph element matched or the value computed.
 
-For alternatives nested inside the pattern a common base interface \texttt{IMatch\_r\_altName} is generated, plus for each alternative case an interface \texttt{IMatch\_r\_altName\_altCaseName}.
+For alternatives nested inside the pattern, a common base interface \texttt{IMatch\_r\_altName} is generated, plus for each alternative case an interface \texttt{IMatch\_r\_altName\_altCaseName}.
 When you walk the matches tree using the type exact interface (which is recommended), you must type switch on the match object in the alternative variable, to determine the case which was finally matched, and cast to its match type.
 
-For iterateds nested inside the pattern, in the pattern match object an iterated variable of type \texttt{IMatchesExact<IMatch\_r\_iteratedName>} is created; the IMatchesExact allows you to iterate over the patterns finally found. 
+For iterated patterns nested inside the pattern, an iterated variable of type \texttt{IMatchesExact} \\
+\texttt{<IMatch\_r\_iteratedName>} is created in the pattern match object; the \texttt{IMatchesExact} allows you to iterate over the patterns finally found. 
 
 A subpattern usage is mapped directly to a variable in the match object typed with the match interface of the subpattern.
 
-The same holds for independent patterns.
+An independent pattern is mapped directly to a variable in the match object typed with the match interface of the independent pattern.
+
 Negative patterns do not appear in the match objects, for they prevent the matching and thus the building of a match object in the first place.
 
 %-----------------------------------------------------------------------------------------------
@@ -130,6 +132,8 @@ A method in an extension file is called with the \emph{CommandLine} as string pa
 This is only possible after \texttt{external emit class} was specified, see \ref{sub:extemitparse} above.
 See \ref{sub:apiextemitparse} for an explanation of the method named \texttt{External} that needs to be implemented in this case.
 
+\pagebreak %improve layout
+
 %-----------------------------------------------------------------------------------------------
 \section{Shell and Compiler Parameters}
 
@@ -162,15 +166,16 @@ Maps to the \texttt{-keep} and the \texttt{-debug} options of \texttt{grgen.exe}
 \section{Annotations}\indexmain{annotation}
 \label{annotations}
 
-Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotation}s. Annotations are key-value pairs.
+Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotation}s. 
+Annotations are key-value pairs.
 \begin{rail}
   IdentDecl: Ident (() | '[' (Ident '=' Constant + ',') ']');
 \end{rail}\ixnterm{IdentDecl}
 You can use any key-value pairs between the brackets.
-For \GrG\ only the identifiers \indexed{prio}, \indexed{containment}, and \indexed{parallelize} have an effect.
+For \GrG\ only the identifiers \indexed{prio}, \indexed{maybeDeleted}, \indexed{containment}, and \indexed{parallelize} have an effect, cf. Table \ref{tabannotations}.
 But you may use the annotations to transmit information from the specification files to API level where they can be queried.
 
-%\pagebreak %improve layout
+\pagebreak %improve layout
 
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|lllX|} \hline
@@ -185,7 +190,7 @@ But you may use the annotations to transmit information from the specification f
     Declares an edge type to be an edge type defining a containment relation, which causes XML element containment in the exported XMI.
     Default is \texttt{containment}=false.\\
 \hline
-  \texttt{parallelize} & int & actions (rule, test) & Causes parallelization of the pattern matcher of the action; the value specifies the number of threads to use.\\
+  \texttt{parallelize} & int & rule, test & Causes parallelization of the pattern matcher of the action; the value specifies the number of threads to use.\\
 \hline
 \end{tabularx}
 \caption{Annotations}
