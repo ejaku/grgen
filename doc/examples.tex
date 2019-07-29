@@ -134,10 +134,14 @@ rule readZeroRule {
 }
 \end{grgen}
 
+\vspace{5mm}
+
 We take the current state \texttt{s} and the current cell \texttt{tp} which is implicitly given by the unique \texttt{RWHead} edge and check whether the cell value is zero.
 Furthermore, we check if the state has a transition for zero. 
 The replacement part deletes the \texttt{RWHead} edge between \texttt{s} and \texttt{tp} and adds it between \texttt{wv} and \texttt{tp}. 
 The remaining rules are analogous:
+
+\vspace{5mm}
 
 \begin{grgen}[firstnumber=last]
 rule readOneRule {

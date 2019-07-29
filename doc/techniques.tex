@@ -449,7 +449,7 @@ Besides this simplified manipulation, the graph can be easily visualized as bein
 In compiler construction, given a program graph, one wants to compute non-local properties in order to transform the program graph.
 This is normally handled within the framework of data flow analysis, which employs flow equations telling how property values of a node are influenced by property values of the predecessor or successor nodes in addition to the node's local share on the overall information, with the predecessor or successor nodes being again influenced by their predecessor or successor nodes.
 Property values are modeled as sets; the information is propagated around the graph until a fix point is reached (the operations must be monotone in order for a fix point to exist on the finite domain of discourse).
-You might be interested in the transparencies under \url{http://www2.imm.dtu.dk/~riis/PPA/slides2.pdf} for some reading on this topic;
+You might be interested in the transparencies under \url{http://www.imm.dtu.dk/~hrni/PPA/slides2.pdf} for some reading on this topic;
 especially as this is a general method to compute non-local informations over graphs not limited to compiler construction.
 
 We'll apply a backward may analysis (with only $gen$ but no $kill$ information) to compute for each node the nodes which can be reached from this node.

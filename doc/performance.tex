@@ -792,7 +792,7 @@ Using a helper function is also commonly more lightweight than using a helper ru
 In the example \cite{MovieDatabase} mentioned above which is solving the TTC14 Movie Database Case \cite{MovieDatabaseCase}, we started optimizing the rule shown in Fig. \ref{fig:findCouples.grg}
 with the search plan printed by the \texttt{explain} command (cf. \ref{custom}) in Figure \ref{fig:InitialSP}.
 
-\begin{figure}[h]
+\begin{figure}[hp]
 	\begin{verbatim}
 findCouples:
     lookup -_edge0_inlined_idpt_0:personToMovie-> in graph
@@ -818,7 +818,7 @@ findCouples:
 	\label{fig:InitialSP}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[hp]
 	\lstinputlisting[language=LANGgrgen]{resources/findCouples.grg}
 	\caption{findCouples rule}
 	\label{fig:findCouples.grg}
@@ -893,6 +893,8 @@ Only a part of the original pattern is used here, because the connectedness chec
 	\caption{getCommonMovies rule}
 	\label{fig:getCommonMovies.grg}
 \end{figure}
+
+\pagebreak
 
 \subsubsection*{Helper Programs versus Patterns on an Example, Profiling}
 
