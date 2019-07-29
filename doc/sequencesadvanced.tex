@@ -137,7 +137,7 @@ So these constructs are not horribly inefficient, but they do have their price -
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{For Loops and Indeterministic Choice}\label{sec:indetchoice}
+\section{For Loops}
 
 \begin{rail}
   ExtendedControl:
@@ -181,6 +181,21 @@ The fifth \texttt{for} loop listed above allows to iterate the contents of an in
 The most important \texttt{for} loop, the one iterating a container, for enumerating the elements contained in storages, was already introduced here: \ref{forstorage}.
 All \texttt{for} loops fail if one of the sequence executions from the body failed (all are carried out, though, even after a failure), and succeed otherwise.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Indeterministic Choice}\label{sec:indetchoice}
+
+A graph rewrite system shows two points of indeterminism, the rule to apply next, and the place where to apply it.
+
+The match found by GrGen for a rule application is indeterministic (the where).
+It is not random, though, but implementation-specific -- it esp. depends on the order of elements in the ringlists (cf. Section \ref{sec:generatedcode}), which is opaque to the outside.
+Note that the system is implemented to be as deterministic as possible (that's easier to develop with), so when you are debugging the same unaltered project, you get the same results.
+You can switch to a more random behavior with the random selection modifier that allows you to choose randomly from the matches found for a rule (searching for all matches, then randomly choosing one, compared to aborting search after the first one was found); it is denoted by a dollar prefix for the all-matches-brackets, and was introduced in Section \ref{sec:ruleapplication}.
+
+The rule to apply next is normally defined by the sequence it is called from, which is executed deterministically by default, following the execution order programmed with the logical and sequential connectives.
+The evaluation order of the operands is from left to right, but it can be changed with the random execution order modifier (denoted by a dollar prefix for the logical connective), which was introduced in Section \ref{sec:connectives}.
+
+Further evaluation order randomizations, e.g. for simulation purpose, are possible with the \indexed{indeterministic choice} operators, which execute chosen elements from a set of rules or sequences.
+
 \begin{rail} 
   ExtendedControl: 
 	dollar (percent)? (ampersand | '|' | doubleampersand | '||') '(' SequencesList ')' |
@@ -198,7 +213,6 @@ All \texttt{for} loops fail if one of the sequence executions from the body fail
 	;
 \end{rail}\ixnterm{SequencesList}
 
-The \indexed{indeterministic choice} operators execute chosen elements from a sets of rules or sequences.
 The \indexed{random-all-of operators} given in function call notation with the dollar sign plus operator symbol as name have the following semantics:
 The strict operators \verb/|/ and \verb/&/ evaluate all their subsequences in random order returning the disjunction resp. conjunction of their truth values.
 The lazy operators \verb/||/ and \verb/&&/ evaluate the subsequences in random order as long as the outcome is not fixed or every subsequence was executed 
