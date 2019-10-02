@@ -633,14 +633,16 @@ namespace de.unika.ipd.grGen.lgsp
                     return buildLookup(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
                         (SearchPlanNode)op.Element,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.PickFromStorage:
                     return buildPickFromStorage(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
                         (SearchPlanNode)op.Element,
                         op.Storage,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.PickFromStorageDependent:
                     return buildPickFromStorageDependent(insertionPointWithinSearchProgram,
@@ -648,14 +650,16 @@ namespace de.unika.ipd.grGen.lgsp
                         op.SourceSPNode,
                         (SearchPlanNode)op.Element,
                         op.Storage,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.PickFromIndex:
                     return buildPickFromIndex(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
                         (SearchPlanNode)op.Element,
                         op.IndexAccess,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.PickFromIndexDependent:
                     return buildPickFromIndex(insertionPointWithinSearchProgram,
@@ -663,14 +667,16 @@ namespace de.unika.ipd.grGen.lgsp
                         //op.SourceSPNode,
                         (SearchPlanNode)op.Element,
                         op.IndexAccess,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.PickByName:
                     return buildPickByName(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
                         (SearchPlanNode)op.Element,
                         op.NameLookup,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.PickByNameDependent:
                     return buildPickByName(insertionPointWithinSearchProgram,
@@ -678,14 +684,16 @@ namespace de.unika.ipd.grGen.lgsp
                         //op.SourceSPNode,
                         (SearchPlanNode)op.Element,
                         op.NameLookup,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.PickByUnique:
                     return buildPickByUnique(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
                         (SearchPlanNode)op.Element,
                         op.UniqueLookup,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.PickByUniqueDependent:
                     return buildPickByUnique(insertionPointWithinSearchProgram,
@@ -693,21 +701,24 @@ namespace de.unika.ipd.grGen.lgsp
                         //op.SourceSPNode,
                         (SearchPlanNode)op.Element,
                         op.UniqueLookup,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.Cast:
                     return buildCast(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
                         op.SourceSPNode,
                         (SearchPlanNode)op.Element,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.Assign:
                     return buildAssign(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
                         op.SourceSPNode,
                         (SearchPlanNode)op.Element,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.Identity:
                     return buildIdentity(insertionPointWithinSearchProgram,
@@ -737,7 +748,8 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNode)op.Element,
                         op.Storage,
                         op.StorageIndex,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.ImplicitSource:
                     return buildImplicit(insertionPointWithinSearchProgram,
@@ -745,6 +757,7 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanEdgeNode)op.SourceSPNode,
                         (SearchPlanNodeNode)op.Element,
                         op.Isomorphy,
+                        op.ConnectednessCheck,
                         ImplicitNodeType.Source);
 
                 case SearchOperationType.ImplicitTarget:
@@ -753,6 +766,7 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanEdgeNode)op.SourceSPNode,
                         (SearchPlanNodeNode)op.Element,
                         op.Isomorphy,
+                        op.ConnectednessCheck,
                         ImplicitNodeType.Target);
 
                 case SearchOperationType.Implicit:
@@ -761,6 +775,7 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanEdgeNode)op.SourceSPNode,
                         (SearchPlanNodeNode)op.Element,
                         op.Isomorphy,
+                        op.ConnectednessCheck,
                         ImplicitNodeType.SourceOrTarget);
 
                 case SearchOperationType.Incoming:
@@ -769,6 +784,7 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNodeNode)op.SourceSPNode,
                         (SearchPlanEdgeNode)op.Element,
                         op.Isomorphy,
+                        op.ConnectednessCheck,
                         IncidentEdgeType.Incoming);
 
                 case SearchOperationType.Outgoing:
@@ -777,6 +793,7 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNodeNode)op.SourceSPNode,
                         (SearchPlanEdgeNode)op.Element,
                         op.Isomorphy,
+                        op.ConnectednessCheck,
                         IncidentEdgeType.Outgoing);
 
                 case SearchOperationType.Incident:
@@ -785,6 +802,7 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNodeNode)op.SourceSPNode,
                         (SearchPlanEdgeNode)op.Element,
                         op.Isomorphy,
+                        op.ConnectednessCheck,
                         IncidentEdgeType.IncomingOrOutgoing);
 
                 case SearchOperationType.Condition:
@@ -839,7 +857,8 @@ namespace de.unika.ipd.grGen.lgsp
                     return buildParallelLookup(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
                         (SearchPlanNode)op.Element,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.SetupParallelPickFromStorage:
                     Debug.Assert(indexOfScheduledSearchPlanOperationToBuild >= patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length - 1, "Setup parallel must be last operation in schedule");
@@ -852,7 +871,8 @@ namespace de.unika.ipd.grGen.lgsp
                         indexOfScheduledSearchPlanOperationToBuild,
                         (SearchPlanNode)op.Element,
                         op.Storage,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.SetupParallelPickFromStorageDependent:
                     Debug.Assert(indexOfScheduledSearchPlanOperationToBuild >= patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length - 1, "Setup parallel must be last operation in schedule");
@@ -867,7 +887,8 @@ namespace de.unika.ipd.grGen.lgsp
                         op.SourceSPNode,
                         (SearchPlanNode)op.Element,
                         op.Storage,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.SetupParallelPickFromIndex:
                     Debug.Assert(indexOfScheduledSearchPlanOperationToBuild >= patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length - 1, "Setup parallel must be last operation in schedule");
@@ -880,7 +901,8 @@ namespace de.unika.ipd.grGen.lgsp
                         indexOfScheduledSearchPlanOperationToBuild,
                         (SearchPlanNode)op.Element,
                         op.IndexAccess,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.SetupParallelPickFromIndexDependent:
                     Debug.Assert(indexOfScheduledSearchPlanOperationToBuild >= patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length - 1, "Setup parallel must be last operation in schedule");
@@ -895,7 +917,8 @@ namespace de.unika.ipd.grGen.lgsp
                         //op.SourceSPNode,
                         (SearchPlanNode)op.Element,
                         op.IndexAccess,
-                        op.Isomorphy);
+                        op.Isomorphy,
+                        op.ConnectednessCheck);
 
                 case SearchOperationType.SetupParallelOutgoing:
                     Debug.Assert(indexOfScheduledSearchPlanOperationToBuild >= patternGraph.parallelizedSchedule[indexOfSchedule].Operations.Length - 1, "Setup parallel must be last operation in schedule");
@@ -910,6 +933,7 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNodeNode)op.SourceSPNode,
                         (SearchPlanEdgeNode)op.Element,
                         op.Isomorphy,
+                        op.ConnectednessCheck,
                         IncidentEdgeType.Outgoing);
 
                 case SearchOperationType.SetupParallelIncoming:
@@ -925,6 +949,7 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNodeNode)op.SourceSPNode,
                         (SearchPlanEdgeNode)op.Element,
                         op.Isomorphy,
+                        op.ConnectednessCheck,
                         IncidentEdgeType.Incoming);
 
                 case SearchOperationType.SetupParallelIncident:
@@ -940,6 +965,7 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNodeNode)op.SourceSPNode,
                         (SearchPlanEdgeNode)op.Element,
                         op.Isomorphy,
+                        op.ConnectednessCheck,
                         IncidentEdgeType.IncomingOrOutgoing);
 
                 default:
@@ -1254,7 +1280,8 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation insertionPoint,
             int currentOperationIndex,
             SearchPlanNode target,
-            IsomorphyInformation isomorphy)
+            IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
@@ -1298,12 +1325,12 @@ namespace de.unika.ipd.grGen.lgsp
             if (isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanEdgeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
 
             // check candidate for isomorphy 
@@ -1420,7 +1447,8 @@ namespace de.unika.ipd.grGen.lgsp
             int currentOperationIndex,
             SearchPlanNode target,
             StorageAccess storage,
-            IsomorphyInformation isomorphy)
+            IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             bool isDict = TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("set") || TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("map");
@@ -1461,12 +1489,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanEdgeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
 
             // check candidate for isomorphy 
@@ -1577,7 +1605,8 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanNode source,
             SearchPlanNode target,
             StorageAccess storage,
-            IsomorphyInformation isomorphy)
+            IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             bool isDict = storage.Attribute.Attribute.Kind == AttributeKind.SetAttr || storage.Attribute.Attribute.Kind == AttributeKind.MapAttr;
@@ -1630,12 +1659,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanEdgeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
 
             // check candidate for isomorphy 
@@ -1745,7 +1774,8 @@ namespace de.unika.ipd.grGen.lgsp
             int currentOperationIndex,
             SearchPlanNode target,
             IndexAccess index,
-            IsomorphyInformation isomorphy)
+            IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
@@ -1846,12 +1876,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanEdgeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
 
             // check candidate for isomorphy 
@@ -1957,7 +1987,8 @@ namespace de.unika.ipd.grGen.lgsp
             int currentOperationIndex,
             SearchPlanNode target,
             NameLookup nameLookup,
-            IsomorphyInformation isomorphy)
+            IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
@@ -1989,12 +2020,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanEdgeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             if(continuationPointAfterConnectednessCheck == insertionPoint)
                 continuationPointAfterConnectednessCheck = null;
@@ -2101,7 +2132,8 @@ namespace de.unika.ipd.grGen.lgsp
             int currentOperationIndex,
             SearchPlanNode target,
             UniqueLookup uniqueLookup,
-            IsomorphyInformation isomorphy)
+            IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
@@ -2133,12 +2165,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanEdgeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             if(continuationPointAfterConnectednessCheck == insertionPoint)
                 continuationPointAfterConnectednessCheck = null;
@@ -2245,7 +2277,8 @@ namespace de.unika.ipd.grGen.lgsp
             int currentOperationIndex,
             SearchPlanNode source,
             SearchPlanNode target,
-            IsomorphyInformation isomorphy)
+            IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
@@ -2267,12 +2300,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanEdgeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
 
             // check candidate for isomorphy 
@@ -2374,7 +2407,8 @@ namespace de.unika.ipd.grGen.lgsp
             int currentOperationIndex,
             SearchPlanNode source,
             SearchPlanNode target,
-            IsomorphyInformation isomorphy)
+            IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
@@ -2396,12 +2430,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanEdgeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
 
             // mark element as visited
@@ -2522,7 +2556,8 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanNode target,
             StorageAccess storage,
             StorageAccessIndex index,
-            IsomorphyInformation isomorphy)
+            IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
@@ -2573,12 +2608,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanEdgeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             if(continuationPointAfterConnectednessCheck == insertionPoint)
                 continuationPointAfterConnectednessCheck = null;
@@ -2686,6 +2721,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanEdgeNode source,
             SearchPlanNodeNode target,
             IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck,
             ImplicitNodeType nodeType)
         {
             // get candidate = demanded node from edge
@@ -2706,7 +2742,7 @@ namespace de.unika.ipd.grGen.lgsp
             if (source.PatternEdgeTarget == source.PatternEdgeSource) // reflexive sign needed in unfixed direction case, too
                 otherNodeOfOriginatingEdge = source.PatternEdgeSource;
             insertionPoint = decideOnAndInsertCheckConnectednessOfImplicitNodeFromEdge(
-                insertionPoint, target, source, otherNodeOfOriginatingEdge, out continuationPointAfterConnectednessCheck);
+                insertionPoint, target, source, otherNodeOfOriginatingEdge, connectednessCheck, out continuationPointAfterConnectednessCheck);
             if (continuationPoint == null && continuationPointAfterConnectednessCheck != insertionPoint)
                 continuationPoint = continuationPointAfterConnectednessCheck;
 
@@ -2814,6 +2850,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanNodeNode source,
             SearchPlanEdgeNode target,
             IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck,
             IncidentEdgeType edgeType)
         {
 #if RANDOM_LOOKUP_LIST_START
@@ -2898,7 +2935,7 @@ namespace de.unika.ipd.grGen.lgsp
             // check connectedness of candidate
             SearchProgramOperation continuationPointOfConnectednessCheck;
             insertionPoint = decideOnAndInsertCheckConnectednessOfIncidentEdgeFromNode(
-                insertionPoint, target, source, edgeType==IncidentEdgeType.Incoming, 
+                insertionPoint, target, source, edgeType==IncidentEdgeType.Incoming, connectednessCheck,
                 out continuationPointOfConnectednessCheck);
 
             // check candidate for isomorphy 
@@ -3498,7 +3535,8 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation insertionPoint,
             int currentOperationIndex,
             SearchPlanNode target,
-            IsomorphyInformation isomorphy)
+            IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             string negativeIndependentNamePrefix = "";
@@ -3534,12 +3572,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanEdgeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
 
             // check candidate for isomorphy 
@@ -3656,7 +3694,8 @@ namespace de.unika.ipd.grGen.lgsp
             int currentOperationIndex,
             SearchPlanNode target,
             StorageAccess storage,
-            IsomorphyInformation isomorphy)
+            IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             bool isDict = TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("set") || TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("map");
@@ -3696,12 +3735,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanEdgeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
 
             // check candidate for isomorphy 
@@ -3832,7 +3871,8 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanNode source,
             SearchPlanNode target,
             StorageAccess storage,
-            IsomorphyInformation isomorphy)
+            IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             bool isDict = storage.Attribute.Attribute.Kind == AttributeKind.SetAttr || storage.Attribute.Attribute.Kind == AttributeKind.MapAttr;
@@ -3884,12 +3924,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanEdgeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
 
             // check candidate for isomorphy 
@@ -4071,7 +4111,8 @@ namespace de.unika.ipd.grGen.lgsp
             int currentOperationIndex,
             SearchPlanNode target,
             IndexAccess index,
-            IsomorphyInformation isomorphy)
+            IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             string negativeIndependentNamePrefix = "";
@@ -4169,12 +4210,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
-                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+                    insertionPoint, (SearchPlanEdgeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
             }
 
             // check candidate for isomorphy 
@@ -4332,6 +4373,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanNodeNode source,
             SearchPlanEdgeNode target,
             IsomorphyInformation isomorphy,
+            ConnectednessCheck connectednessCheck,
             IncidentEdgeType edgeType)
         {
 #if RANDOM_LOOKUP_LIST_START
@@ -4407,7 +4449,7 @@ namespace de.unika.ipd.grGen.lgsp
             // check connectedness of candidate
             SearchProgramOperation continuationPointOfConnectednessCheck;
             insertionPoint = decideOnAndInsertCheckConnectednessOfIncidentEdgeFromNode(
-                insertionPoint, target, source, edgeType == IncidentEdgeType.Incoming,
+                insertionPoint, target, source, edgeType == IncidentEdgeType.Incoming, connectednessCheck,
                 out continuationPointOfConnectednessCheck);
 
             // check candidate for isomorphy 
@@ -6425,6 +6467,7 @@ namespace de.unika.ipd.grGen.lgsp
         private SearchProgramOperation decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
             SearchProgramOperation insertionPoint,
             SearchPlanNodeNode node,
+            ConnectednessCheck connectednessCheck,
             out SearchProgramOperation continuationPoint)
         {
             continuationPoint = null;
@@ -6437,12 +6480,12 @@ namespace de.unika.ipd.grGen.lgsp
                     || edge.PatternEdgeSource == edge.PatternEdgeTarget)
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFixedDirection(
-                        insertionPoint, node, edge, CheckCandidateForConnectednessType.Source);
+                        insertionPoint, node, edge, CheckCandidateForConnectednessType.Source, connectednessCheck);
                 }
                 else
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfNodeBothDirections(
-                        insertionPoint, node, edge, out localContinuationPoint);
+                        insertionPoint, node, edge, connectednessCheck, out localContinuationPoint);
                     if (localContinuationPoint != insertionPoint && continuationPoint == null)
                         continuationPoint = localContinuationPoint;
                 }
@@ -6453,12 +6496,12 @@ namespace de.unika.ipd.grGen.lgsp
                     || edge.PatternEdgeSource == edge.PatternEdgeTarget)
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFixedDirection(
-                        insertionPoint, node, edge, CheckCandidateForConnectednessType.Target);
+                        insertionPoint, node, edge, CheckCandidateForConnectednessType.Target, connectednessCheck);
                 }
                 else
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfNodeBothDirections(
-                        insertionPoint, node, edge, out localContinuationPoint);
+                        insertionPoint, node, edge, connectednessCheck, out localContinuationPoint);
                     if (localContinuationPoint != insertionPoint && continuationPoint == null)
                         continuationPoint = localContinuationPoint;
                 }
@@ -6482,6 +6525,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanNodeNode node,
             SearchPlanEdgeNode originatingEdge,
             SearchPlanNodeNode otherNodeOfOriginatingEdge,
+            ConnectednessCheck connectednessCheck,
             out SearchProgramOperation continuationPoint)
         {
             continuationPoint = null;
@@ -6498,7 +6542,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFixedDirection(
-                            insertionPoint, node, edge, CheckCandidateForConnectednessType.Source);
+                            insertionPoint, node, edge, CheckCandidateForConnectednessType.Source, connectednessCheck);
                     }
                 }
                 else
@@ -6506,7 +6550,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfNodeBothDirections(
-                            insertionPoint, node, edge, out localContinuationPoint);
+                            insertionPoint, node, edge, connectednessCheck, out localContinuationPoint);
                         if (localContinuationPoint != insertionPoint && continuationPoint == null)
                             continuationPoint = localContinuationPoint;
                     }
@@ -6520,7 +6564,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFixedDirection(
-                            insertionPoint, node, edge, CheckCandidateForConnectednessType.Target);
+                            insertionPoint, node, edge, CheckCandidateForConnectednessType.Target, connectednessCheck);
                     }
                 }
                 else
@@ -6528,7 +6572,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfNodeBothDirections(
-                            insertionPoint, node, edge, out localContinuationPoint);
+                            insertionPoint, node, edge, connectednessCheck, out localContinuationPoint);
                         if (localContinuationPoint != insertionPoint && continuationPoint == null)
                             continuationPoint = localContinuationPoint;
                     }
@@ -6549,7 +6593,8 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation insertionPoint,
             SearchPlanNodeNode currentNode,
             SearchPlanEdgeNode edge,
-            CheckCandidateForConnectednessType connectednessType)
+            CheckCandidateForConnectednessType connectednessType,
+            ConnectednessCheck connectednessCheck)
         {
             Debug.Assert(connectednessType == CheckCandidateForConnectednessType.Source || connectednessType == CheckCandidateForConnectednessType.Target);
 
@@ -6565,6 +6610,10 @@ namespace de.unika.ipd.grGen.lgsp
                         edge.PatternElement.Name,
                         connectednessType);
                 insertionPoint = insertionPoint.Append(checkConnectedness);
+
+                connectednessCheck.PatternElementName = currentNode.PatternElement.UnprefixedName;
+                connectednessCheck.PatternNodeName = currentNode.PatternElement.UnprefixedName;
+                connectednessCheck.PatternEdgeName = edge.PatternElement.UnprefixedName;
             }
 
             return insertionPoint;
@@ -6581,6 +6630,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation insertionPoint,
             SearchPlanNodeNode currentNode,
             SearchPlanEdgeNode edge,
+            ConnectednessCheck connectednessCheck,
             out SearchProgramOperation continuationPoint)
         {
             Debug.Assert(edge.PatternEdgeSource != edge.PatternEdgeTarget);
@@ -6603,6 +6653,10 @@ namespace de.unika.ipd.grGen.lgsp
                         edge.PatternElement.Name,
                         CheckCandidateForConnectednessType.SourceOrTarget);
                 insertionPoint = directionsIteration.NestedOperationsList.Append(checkConnectedness);
+
+                connectednessCheck.PatternElementName = currentNode.PatternElement.UnprefixedName;
+                connectednessCheck.PatternNodeName = currentNode.PatternElement.UnprefixedName;
+                connectednessCheck.PatternEdgeName = edge.PatternElement.UnprefixedName;
             }
             if (currentNodeIsSecondIncidentNodeOfEdge(currentNode, edge))
             {
@@ -6615,6 +6669,10 @@ namespace de.unika.ipd.grGen.lgsp
                             : edge.PatternEdgeSource.PatternElement.Name,
                         CheckCandidateForConnectednessType.TheOther);
                 insertionPoint = insertionPoint.Append(checkConnectedness);
+
+                connectednessCheck.PatternElementName = currentNode.PatternElement.UnprefixedName;
+                connectednessCheck.PatternNodeName = currentNode.PatternElement.UnprefixedName;
+                connectednessCheck.PatternEdgeName = edge.PatternElement.UnprefixedName;
             }
 
             if (continuationPoint == null)
@@ -6633,6 +6691,7 @@ namespace de.unika.ipd.grGen.lgsp
         private SearchProgramOperation decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
             SearchProgramOperation insertionPoint,
             SearchPlanEdgeNode edge,
+            ConnectednessCheck connectednessCheck,
             out SearchProgramOperation continuationPoint)
         {
             continuationPoint = null;
@@ -6643,18 +6702,18 @@ namespace de.unika.ipd.grGen.lgsp
                 if (edge.PatternEdgeSource != null)
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(
-                        insertionPoint, edge, CheckCandidateForConnectednessType.Source);
+                        insertionPoint, edge, CheckCandidateForConnectednessType.Source, connectednessCheck);
                 }
                 if (edge.PatternEdgeTarget != null)
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(
-                        insertionPoint, edge, CheckCandidateForConnectednessType.Target);
+                        insertionPoint, edge, CheckCandidateForConnectednessType.Target, connectednessCheck);
                 }
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeBothDirections(
-                    insertionPoint, edge, false, out continuationPoint);
+                    insertionPoint, edge, false, connectednessCheck, out continuationPoint);
             }
 
             if (continuationPoint == null)
@@ -6672,6 +6731,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanEdgeNode edge,
             SearchPlanNodeNode originatingNode,
             bool edgeIncomingAtOriginatingNode,
+            ConnectednessCheck connectednessCheck,
             out SearchProgramOperation continuationPoint)
         {
             continuationPoint = null;
@@ -6686,7 +6746,7 @@ namespace de.unika.ipd.grGen.lgsp
                             && edge.PatternEdgeSource == originatingNode))
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(
-                            insertionPoint, edge, CheckCandidateForConnectednessType.Source);
+                            insertionPoint, edge, CheckCandidateForConnectednessType.Source, connectednessCheck);
                     }
                 }
                 if (edge.PatternEdgeTarget != null)
@@ -6695,14 +6755,14 @@ namespace de.unika.ipd.grGen.lgsp
                             && edge.PatternEdgeTarget == originatingNode))
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(
-                            insertionPoint, edge, CheckCandidateForConnectednessType.Target);
+                            insertionPoint, edge, CheckCandidateForConnectednessType.Target, connectednessCheck);
                     }
                 }
             }
             else
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeBothDirections(
-                    insertionPoint, edge, true, out continuationPoint);
+                    insertionPoint, edge, true, connectednessCheck, out continuationPoint);
             }
 
             if (continuationPoint == null)
@@ -6718,7 +6778,8 @@ namespace de.unika.ipd.grGen.lgsp
         private SearchProgramOperation decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(
             SearchProgramOperation insertionPoint,
             SearchPlanEdgeNode edge,
-            CheckCandidateForConnectednessType connectednessType)
+            CheckCandidateForConnectednessType connectednessType,
+            ConnectednessCheck connectednessCheck)
         {
             // check whether source/target-nodes of the candidate edge
             // are the same as the already found nodes to which the edge must be incident
@@ -6735,6 +6796,10 @@ namespace de.unika.ipd.grGen.lgsp
                         edge.PatternElement.Name,
                         connectednessType);
                 insertionPoint = insertionPoint.Append(checkConnectedness);
+
+                connectednessCheck.PatternElementName = edge.PatternElement.UnprefixedName;
+                connectednessCheck.PatternNodeName = nodeRequiringCheck.PatternElement.UnprefixedName;
+                connectednessCheck.PatternEdgeName = edge.PatternElement.UnprefixedName;
             }
 
             return insertionPoint;
@@ -6751,6 +6816,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation insertionPoint,
             SearchPlanEdgeNode edge,
             bool edgeDeterminationContainsFirstNodeLoop,
+            ConnectednessCheck connectednessCheck,
             out SearchProgramOperation continuationPoint)
         {
             continuationPoint = null;
@@ -6772,6 +6838,10 @@ namespace de.unika.ipd.grGen.lgsp
                             edge.PatternElement.Name,
                             CheckCandidateForConnectednessType.Source); // might be Target as well
                     insertionPoint = insertionPoint.Append(checkConnectedness);
+
+                    connectednessCheck.PatternElementName = edge.PatternElement.UnprefixedName;
+                    connectednessCheck.PatternNodeName = nodeRequiringFirstNodeLoop.PatternElement.UnprefixedName;
+                    connectednessCheck.PatternEdgeName = edge.PatternElement.UnprefixedName;
                 }
                 else
                 {
@@ -6790,6 +6860,10 @@ namespace de.unika.ipd.grGen.lgsp
                             edge.PatternElement.Name,
                             CheckCandidateForConnectednessType.SourceOrTarget);
                     insertionPoint = insertionPoint.Append(checkConnectedness);
+
+                    connectednessCheck.PatternElementName = edge.PatternElement.UnprefixedName;
+                    connectednessCheck.PatternNodeName = nodeRequiringFirstNodeLoop.PatternElement.UnprefixedName;
+                    connectednessCheck.PatternEdgeName = edge.PatternElement.UnprefixedName;
                 }
             }
             if (currentEdgeConnectsToSecondIncidentNode(edge))
@@ -6803,6 +6877,11 @@ namespace de.unika.ipd.grGen.lgsp
                         edge.PatternEdgeSource.PatternElement.Name,
                         CheckCandidateForConnectednessType.TheOther);
                 insertionPoint = insertionPoint.Append(checkConnectedness);
+
+                connectednessCheck.PatternElementName = edge.PatternElement.UnprefixedName;
+                connectednessCheck.PatternNodeName = edge.PatternEdgeTarget.PatternElement.UnprefixedName;
+                connectednessCheck.PatternEdgeName = edge.PatternEdgeSource.PatternElement.UnprefixedName;
+                connectednessCheck.TheOtherPatternNodeName = edge.PatternEdgeSource.PatternElement.UnprefixedName;
             }
 
             return insertionPoint;
