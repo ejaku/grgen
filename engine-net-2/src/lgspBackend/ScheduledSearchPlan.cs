@@ -118,6 +118,25 @@ namespace de.unika.ipd.grGen.lgsp
         }
     }
 
+    public class ConnectednessCheck : ICloneable
+    {
+        public string PatternElementName;
+        public string PatternNodeName;
+        public string PatternEdgeName;
+        public string TheOtherPatternNodeName;
+
+
+        public Object Clone()
+        {
+            ConnectednessCheck cc = new ConnectednessCheck();
+            cc.PatternElementName = PatternElementName;
+            cc.PatternNodeName = PatternNodeName;
+            cc.PatternEdgeName = PatternEdgeName;
+            cc.TheOtherPatternNodeName = TheOtherPatternNodeName;
+            return cc;
+        }
+    }
+
     /// <summary>
     /// Search operation with information about homomorphic mapping.
     /// Element of the scheduled search plan.
@@ -151,6 +170,8 @@ namespace de.unika.ipd.grGen.lgsp
         // used in check for isomorphic elements
         public IsomorphyInformation Isomorphy = new IsomorphyInformation();
 
+        public ConnectednessCheck ConnectednessCheck = new ConnectednessCheck();
+
 
         public SearchOperation(SearchOperationType type, object elem,
             SearchPlanNode srcSPNode, float costToEnd)
@@ -165,6 +186,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             SearchOperation so = new SearchOperation(Type, Element, SourceSPNode, CostToEnd);
             so.Isomorphy = (IsomorphyInformation)Isomorphy.Clone();
+            so.ConnectednessCheck = (ConnectednessCheck)ConnectednessCheck.Clone();
             so.Storage = Storage;
             so.StorageIndex = StorageIndex;
             so.IndexAccess = IndexAccess;
@@ -191,43 +213,52 @@ namespace de.unika.ipd.grGen.lgsp
         {
             SearchPlanNode src = SourceSPNode as SearchPlanNode;
             SearchPlanNode tgt = Element as SearchPlanNode;
+            String connectednessCheck = "";
+            if(ConnectednessCheck.PatternElementName != null)
+            {
+                connectednessCheck = " check " + ConnectednessCheck.PatternNodeName 
+                    + (ConnectednessCheck.TheOtherPatternNodeName != null ? " or " + ConnectednessCheck.TheOtherPatternNodeName : "")
+                    + " connected to " + ConnectednessCheck.PatternEdgeName;
+            }
+
             switch(Type)
             {
                 case SearchOperationType.Outgoing:
-                    sb.AppendFront("from " + src.PatternElement.UnprefixedName + " outgoing -" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "->\n");
+                    sb.AppendFront("from " + src.PatternElement.UnprefixedName + " outgoing -" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "->" + connectednessCheck + "\n");
                     break;
                 case SearchOperationType.Incoming:
-                    sb.AppendFront("from " + src.PatternElement.UnprefixedName + " incoming <-" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "-\n");
+                    sb.AppendFront("from " + src.PatternElement.UnprefixedName + " incoming <-" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "-" + connectednessCheck + "\n");
                     break;
                 case SearchOperationType.Incident:
-                    sb.AppendFront("from " + src.PatternElement.UnprefixedName + " incident <-" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "->\n"); 
+                    sb.AppendFront("from " + src.PatternElement.UnprefixedName + " incident <-" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "->" + connectednessCheck + "\n"); 
                     break;
                 case SearchOperationType.ImplicitSource:
-                    sb.AppendFront("from <-" + src.PatternElement.UnprefixedName + "- get source " + tgt.PatternElement.UnprefixedName + ":" + model.NodeModel.Types[tgt.PatternElement.TypeID].Name + "\n");
+                    sb.AppendFront("from <-" + src.PatternElement.UnprefixedName + "- get source " + tgt.PatternElement.UnprefixedName + ":" + model.NodeModel.Types[tgt.PatternElement.TypeID].Name + connectednessCheck + "\n");
                     break;
                 case SearchOperationType.ImplicitTarget:
-                    sb.AppendFront("from -" + src.PatternElement.UnprefixedName + "-> get target " + tgt.PatternElement.UnprefixedName + ":" + model.NodeModel.Types[tgt.PatternElement.TypeID].Name + "\n");
+                    sb.AppendFront("from -" + src.PatternElement.UnprefixedName + "-> get target " + tgt.PatternElement.UnprefixedName + ":" + model.NodeModel.Types[tgt.PatternElement.TypeID].Name + connectednessCheck + "\n");
                     break;
                 case SearchOperationType.Implicit:
-                    sb.AppendFront("from <-" + src.PatternElement.UnprefixedName + "-> get implicit " + tgt.PatternElement.UnprefixedName + ":" + model.NodeModel.Types[tgt.PatternElement.TypeID].Name + "\n"); 
+                    sb.AppendFront("from <-" + src.PatternElement.UnprefixedName + "-> get implicit " + tgt.PatternElement.UnprefixedName + ":" + model.NodeModel.Types[tgt.PatternElement.TypeID].Name + connectednessCheck + "\n"); 
                     break;
                 case SearchOperationType.Lookup:
                     if(tgt.PatternElement is PatternNode)
-                        sb.AppendFront("lookup " + tgt.PatternElement.UnprefixedName + ":" + model.NodeModel.Types[tgt.PatternElement.TypeID].Name + " in graph\n");
+                        sb.AppendFront("lookup " + tgt.PatternElement.UnprefixedName + ":" + model.NodeModel.Types[tgt.PatternElement.TypeID].Name + " in graph" + connectednessCheck + "\n");
                     else
-                        sb.AppendFront("lookup -" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "-> in graph\n");
+                        sb.AppendFront("lookup -" + tgt.PatternElement.UnprefixedName + ":" + model.EdgeModel.Types[tgt.PatternElement.TypeID].Name + "-> in graph" + connectednessCheck + "\n");
                     break;
                 case SearchOperationType.ActionPreset:
-                    sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + ")\n");
+                    sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + connectednessCheck + ")\n");
                     break;
                 case SearchOperationType.NegIdptPreset:
-                    sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + (tgt.PatternElement.PresetBecauseOfIndependentInlining ? " after independent inlining" : "") + ")\n");
+                    sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + (tgt.PatternElement.PresetBecauseOfIndependentInlining ? " after independent inlining" : "") + connectednessCheck + ")\n");
                     break;
                 case SearchOperationType.SubPreset:
-                    sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + ")\n");
+                    sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + connectednessCheck + ")\n");
                     break;
                 case SearchOperationType.Condition:
-                    sb.AppendFront("if { depending on " + String.Join(",", ((PatternCondition)Element).NeededNodes) + ","
+                    sb.AppendFront("if { depending on " + String.Join(",", ((PatternCondition)Element).NeededNodes)
+                        + (((PatternCondition)Element).NeededNodes.Length != 0 && ((PatternCondition)Element).NeededEdges.Length != 0 ? "," : "")
                         + String.Join(",", ((PatternCondition)Element).NeededEdges) + " }\n");
                     break;
                 case SearchOperationType.NegativePattern:
@@ -250,26 +281,26 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 case SearchOperationType.PickFromStorage:
                 case SearchOperationType.PickFromStorageDependent:
-                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + Storage.ToString() + "}\n");
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + Storage.ToString() + "}" + connectednessCheck + "\n");
                     break;
                 case SearchOperationType.MapWithStorage:
                 case SearchOperationType.MapWithStorageDependent:
-                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + Storage.ToString() + "[" + StorageIndex.ToString() + "]}\n");
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + Storage.ToString() + "[" + StorageIndex.ToString() + "]}" + connectednessCheck + "\n");
                     break;
                 case SearchOperationType.PickFromIndex:
                 case SearchOperationType.PickFromIndexDependent:
-                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + IndexAccess.ToString() + "}\n");
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + IndexAccess.ToString() + "}" + connectednessCheck + "\n");
                     break;
                 case SearchOperationType.PickByName:
                 case SearchOperationType.PickByNameDependent:
-                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + NameLookup.ToString() + "}\n");
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + NameLookup.ToString() + "}" + connectednessCheck + "\n");
                     break;
                 case SearchOperationType.PickByUnique:
                 case SearchOperationType.PickByUniqueDependent:
-                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + UniqueLookup.ToString() + "}\n");
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "{" + UniqueLookup.ToString() + "}" + connectednessCheck + "\n");
                     break;
                 case SearchOperationType.Cast:
-                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "<" + src.PatternElement.UnprefixedName + ">\n");
+                    sb.AppendFront(tgt.PatternElement.UnprefixedName + "<" + src.PatternElement.UnprefixedName + ">" + connectednessCheck + "\n");
                     break;
                 case SearchOperationType.Assign:
                     sb.AppendFront("(" + tgt.PatternElement.UnprefixedName + " = " + src.PatternElement.UnprefixedName + ")\n");
