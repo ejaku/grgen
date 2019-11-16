@@ -376,11 +376,12 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(grShellImpl.OperationCancelled)
                 grShellImpl.Cancel();
-            Console.TreatControlCAsInput = true;
-            ConsoleKeyInfo key = grShellImpl.Workaround.ReadKey(true);
-            Console.TreatControlCAsInput = false;
+
+            ConsoleKeyInfo key = grShellImpl.Workaround.ReadKeyWithControlCAsInput();
+
             if(key.Key == ConsoleKey.C && (key.Modifiers & ConsoleModifiers.Control) != 0)
                 grShellImpl.Cancel();
+
             return key;
         }
 
