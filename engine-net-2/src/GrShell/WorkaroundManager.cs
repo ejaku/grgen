@@ -70,6 +70,12 @@ namespace de.unika.ipd.grGen.grShell
         ConsoleKeyInfo ReadKey(bool intercept);
 
         /// <summary>
+        /// Reads a key from stdin. Does not display it. Also allows Control-C as input.
+        /// </summary>
+        /// <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
+        ConsoleKeyInfo ReadKeyWithControlCAsInput();
+
+        /// <summary>
         /// Prints the given text in a highlighted form.
         /// </summary>
         void PrintHighlighted(String text, HighlightingMode mode);
@@ -157,6 +163,14 @@ namespace de.unika.ipd.grGen.grShell
         public TextReader In { get { return pIn; } }
 
         public abstract ConsoleKeyInfo ReadKey(bool intercept);
+        public virtual ConsoleKeyInfo ReadKeyWithControlCAsInput()
+        {
+            Console.TreatControlCAsInput = true;
+            ConsoleKeyInfo consoleKeyInfo = ReadKey(true);
+            Console.TreatControlCAsInput = false;
+            return consoleKeyInfo;
+        }
+
         public abstract void PrintHighlighted(String text, HighlightingMode mode);
         public abstract void PreventComputerGoingIntoSleepMode(bool prevent);
     }
@@ -321,7 +335,19 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         public TextReader In { get { return Console.In; } }
-        public ConsoleKeyInfo ReadKey(bool intercept) { return Console.ReadKey(intercept); }
+
+        public virtual ConsoleKeyInfo ReadKey(bool intercept)
+        {
+            return Console.ReadKey(intercept);
+        }
+
+        public virtual ConsoleKeyInfo ReadKeyWithControlCAsInput()
+        {
+            Console.TreatControlCAsInput = true;
+            ConsoleKeyInfo consoleKeyInfo = ReadKey(true);
+            Console.TreatControlCAsInput = false;
+            return consoleKeyInfo;
+        }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
@@ -332,6 +358,25 @@ namespace de.unika.ipd.grGen.grShell
                 SetThreadExecutionState(EXECUTION_STATE.ES_SYSTEM_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);
             else
                 SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
+        }
+    }
+
+    public class CygwinBashWorkaroundConsoleIO : NoWorkaroundConsoleIO
+    {
+        public override ConsoleKeyInfo ReadKey(bool intercept)
+        {
+            Console.Write("cygwin bash compatibility mode - please enter key and press return:");
+            int key = Console.Read();
+            int returnKey = Console.Read();
+            return new ConsoleKeyInfo(Convert.ToChar(key), new ConsoleKey(), false, false, false); // todo: build better key info
+        }
+
+        public override ConsoleKeyInfo ReadKeyWithControlCAsInput()
+        {
+            Console.Write("cygwin bash compatibility mode - please enter key and press return (Ctrl-C not working):");
+            int key = Console.Read();
+            int returnKey = Console.Read();
+            return new ConsoleKeyInfo(Convert.ToChar(key), new ConsoleKey(), false, false, false); // todo: build better key info
         }
     }
 
@@ -357,11 +402,29 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     else
                     {
-                        workaround = new NoWorkaroundConsoleIO();
+                        if(IsCygwinBash())
+                            workaround = new CygwinBashWorkaroundConsoleIO();
+                        else
+                            workaround = new NoWorkaroundConsoleIO();
                     }
                 }
                 return workaround;
             }
+        }
+
+        private static bool IsCygwinBash()
+        {
+            try
+            {
+                Console.TreatControlCAsInput = true;
+                Console.TreatControlCAsInput = false;
+            }
+            catch(IOException)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
