@@ -2441,26 +2441,72 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        private string GetUniqueFilename(String baseFilename, String filenameSuffix)
+        {
+            String filename;
+            int id = 0;
+
+            do
+            {
+                filename = "tmpgraph" + id + "." + filenameSuffix;
+                id++;
+            }
+            while(File.Exists(filename));
+
+            return filename;
+        }
+
         public string ShowGraphWith(String programName, String arguments)
         {
             if(!GraphExists()) return "";
             if(nonDebugNonGuiExitOnError) return "";
 
-            String filename;
-            int id = 0;
-            do
+            if(programName.Equals("dot", StringComparison.InvariantCultureIgnoreCase)
+                || programName.Equals("neato", StringComparison.InvariantCultureIgnoreCase))
             {
-                filename = "tmpgraph" + id + ".vcg";
-                id++;
+                return ShowGraphWithDot(programName, arguments);
             }
-            while(File.Exists(filename));
 
-            VCGDumper dump = new VCGDumper(filename, curShellProcEnv.VcgFlags, debugLayout);
-            GraphDumper.Dump(curShellProcEnv.ProcEnv.NamedGraph, dump, curShellProcEnv.DumpInfo);
-            dump.FinishDump();
+            String filename = GetUniqueFilename("tmpgraph", "vcg");
+
+            VCGDumper dumper = new VCGDumper(filename, curShellProcEnv.VcgFlags, debugLayout);
+
+            GraphDumper.Dump(curShellProcEnv.ProcEnv.NamedGraph, dumper, curShellProcEnv.DumpInfo);
+            dumper.FinishDump();
 
             Thread t = new Thread(new ParameterizedThreadStart(ShowGraphThread));
             t.Start(new ShowGraphParam(programName, arguments, filename));
+
+            return filename;
+        }
+
+        public string ShowGraphWithDot(String programName, String arguments)
+        {
+            String filename = GetUniqueFilename("tmpgraph", "dot");
+
+            DOTDumper dumper = new DOTDumper(filename, curShellProcEnv.ProcEnv.NamedGraph.Name, curShellProcEnv.VcgFlags);
+
+            GraphDumper.Dump(curShellProcEnv.ProcEnv.NamedGraph, dumper, curShellProcEnv.DumpInfo);
+            dumper.FinishDump();
+
+            String pngFilename = filename.Substring(0, filename.Length - ".dot".Length) + ".png";
+            arguments += "-Tpng -o " + pngFilename;
+            Thread t = new Thread(new ParameterizedThreadStart(ShowGraphThread));
+            t.Start(new ShowGraphParam(programName, arguments, filename));
+            t.Join();
+
+            try
+            {
+                Process process = Process.Start(pngFilename);
+                if (process != null)
+                    process.WaitForExit();
+                else
+                    Thread.Sleep(1000);
+            }
+            finally
+            {
+                File.Delete(pngFilename);
+            }
 
             return filename;
         }
