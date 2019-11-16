@@ -78,6 +78,7 @@
     <Compile Include="IActions.cs" />
     <Compile Include="IIndexSet.cs" />
     <Compile Include="InvocationRepresentations.cs" />
+    <Compile Include="IO\DOTDumper.cs" />
     <Compile Include="IO\dumpInterface.cs" />
     <Compile Include="actionInterface.cs" />
     <Compile Include="elementInterface.cs" />

@@ -13,6 +13,7 @@ namespace de.unika.ipd.grGen.libGr
     using System.IO;
     using System.Collections.Generic;
 
+    // beware: when you change the order, also the dumpers must be adapted
     public enum GrColor
     {
         Default = -1,
@@ -22,6 +23,7 @@ namespace de.unika.ipd.grGen.libGr
         Turquoise, Aquamarine, Khaki, Pink, Orange, Orchid, LightYellow, YellowGreen
     }
 
+    // beware: when you change the order, also the helper code below must be adapted
     public enum GrElemDumpType
     {
         Normal,
@@ -30,6 +32,7 @@ namespace de.unika.ipd.grGen.libGr
         VirtualMatch
     }
 
+    // beware: when you change the order, also the dumpers must be adapted
     public enum GrLineStyle
     {
         Default = -1,
@@ -37,10 +40,12 @@ namespace de.unika.ipd.grGen.libGr
         MaxStyle = Invisible
     }
 
+    // beware: when you change the order, also the dumpers must be adapted
     public enum GrNodeShape
     {
         Default = -1,
-        Box, Triangle, Circle, Ellipse, Rhomb, Hexagon, Trapeze, UpTrapeze, LParallelogram, RParallelogram
+        Box, Triangle, Circle, Ellipse, Rhomb, Hexagon,
+        Trapeze, UpTrapeze, LParallelogram, RParallelogram
     }
 
     /// <summary>

@@ -87,13 +87,23 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class VCGDumper : IDumper
     {
-        static private string[] orientation = { "top_to_bottom", "bottom_to_top", "left_to_right", "right_to_left" };
+        //maps by index to GrColor defined in dumpInterface.cs:
+        //Black, Blue, Green, Cyan, Red, Purple, Brown, Grey,
+        //LightGrey, LightBlue, LightGreen, LightCyan, LightRed, LightPurple, Yellow, White,
+        //DarkBlue, DarkRed, DarkGreen, DarkYellow, DarkMagenta, DarkCyan, Gold, Lilac,
+        //Turquoise, Aquamarine, Khaki, Pink, Orange, Orchid, LightYellow, YellowGreen
         static private string[] colors = { "black", "blue", "green", "cyan", "red", "purple", "khaki", "darkgrey",
             "lightgrey", "lightblue", "lightgreen", "lightcyan", "lightred", "lightmagenta", "yellow", "white",
             "darkblue", "darkred", "darkgreen", "darkyellow", "darkmagenta", "darkcyan", "gold", "lilac",
             "turquoise", "aquamarine", "khaki", "pink", "orange", "orchid", "lightyellow", "yellowgreen"
         };
+        static private string[] orientation = { "top_to_bottom", "bottom_to_top", "left_to_right", "right_to_left" };
+        // maps by index to GrLineStyle defined in dumpInterface.cs:
+        // Continuous, Dotted, Dashed, Invisible
         static private string[] lineStyles = { "continuous", "dotted", "dashed", "invisible" };
+        // maps by index to GrNodeShape defined in dumpInterface.cs:
+        // Box, Triangle, Circle, Ellipse, Rhomb, Hexagon,
+        // Trapeze, UpTrapeze, LParallelogram, RParallelogram
         static private string[] nodeShapes = { "box", "triangle", "circle", "ellipse", "rhomb", "hexagon",
             "trapeze", "uptrapeze", "lparallelogram", "rparallelogram" };
 
@@ -154,7 +164,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Initializes a new instance of VCGDump.
+        /// Initializes a new instance of the VCGDumper.
         /// </summary>
         /// <param name="filename">Destination file.</param>
         /// <param name="flags">Flags to control the dumper's behavior.</param>
@@ -194,7 +204,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Initializes a new instance of VCGDump with standard flags (VCGFlags.OrientBottomToTop) and the "Orthogonal" layouter.
+        /// Initializes a new instance of the VCGDumper with standard flags (VCGFlags.OrientBottomToTop) and the "Orthogonal" layouter.
         /// </summary>
         /// <param name="filename">Destination file.</param>
         /// <exception cref="IOException">Thrown when the destination cannot be created.</exception>
@@ -207,8 +217,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="label">The label to use for the node.</param>
         /// <param name="attributes">An enumerable of attribute strings.</param>
         /// <param name="textColor">The color of the text.</param>
-        /// <param name="nodeColor">The color of the node border.</param>
-        /// <param name="borderColor">The color of the node.</param>
+        /// <param name="nodeColor">The color of the node.</param>
+        /// <param name="borderColor">The color of the node border.</param>
         /// <param name="nodeShape">The shape of the node.</param>
         ///
         /// TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()
@@ -220,7 +230,7 @@ namespace de.unika.ipd.grGen.libGr
             sw.Write("node:{{title:\"n{0}\"", node.GetHashCode());
             if(label != null) sw.Write(" label:\"{0}\"", label);
             if(textColor != GrColor.Default) sw.Write(" textcolor:" + GetColor(textColor));
-            if(nodeColor != GrColor.White) sw.Write(" color:" + GetColor(nodeColor));
+            if(nodeColor != GrColor.Default) sw.Write(" color:" + GetColor(nodeColor));
             if(borderColor != textColor) sw.Write(" bordercolor:" + GetColor(borderColor));
             if(nodeShape != GrNodeShape.Default) sw.Write(" shape:" + GetNodeShape(nodeShape));
             if(attributes != null)
