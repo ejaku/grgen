@@ -2408,12 +2408,14 @@ namespace de.unika.ipd.grGen.grShell
             public readonly String ProgramName;
             public readonly String Arguments;
             public readonly String GraphFilename;
+            public readonly bool KeepFile;
 
-            public ShowGraphParam(String programName, String arguments, String graphFilename)
+            public ShowGraphParam(String programName, String arguments, String graphFilename, bool keepFile)
             {
                 ProgramName = programName;
                 Arguments = arguments;
                 GraphFilename = graphFilename;
+                KeepFile = keepFile;
             }
         }
 
@@ -2437,7 +2439,8 @@ namespace de.unika.ipd.grGen.grShell
             }
             finally
             {
-                File.Delete(param.GraphFilename);
+                if(!param.KeepFile)
+                    File.Delete(param.GraphFilename);
             }
         }
 
@@ -2456,15 +2459,25 @@ namespace de.unika.ipd.grGen.grShell
             return filename;
         }
 
-        public string ShowGraphWith(String programName, String arguments)
+        static private string[] dotExecutables = { "dot", "neato", "fdp", "sfdp", "twopi", "circo" };
+        private bool IsDotExecutable(String programName)
+        {
+            foreach(String dotExecutable in dotExecutables)
+            {
+                if(programName.Equals(dotExecutable, StringComparison.InvariantCultureIgnoreCase))
+                    return true;
+            }
+            return false;
+        }
+
+        public string ShowGraphWith(String programName, String arguments, bool keep)
         {
             if(!GraphExists()) return "";
             if(nonDebugNonGuiExitOnError) return "";
 
-            if(programName.Equals("dot", StringComparison.InvariantCultureIgnoreCase)
-                || programName.Equals("neato", StringComparison.InvariantCultureIgnoreCase))
+            if(IsDotExecutable(programName))
             {
-                return ShowGraphWithDot(programName, arguments);
+                return ShowGraphWithDot(programName, arguments, keep);
             }
 
             String filename = GetUniqueFilename("tmpgraph", "vcg");
@@ -2475,12 +2488,12 @@ namespace de.unika.ipd.grGen.grShell
             dumper.FinishDump();
 
             Thread t = new Thread(new ParameterizedThreadStart(ShowGraphThread));
-            t.Start(new ShowGraphParam(programName, arguments, filename));
+            t.Start(new ShowGraphParam(programName, arguments, filename, keep));
 
             return filename;
         }
 
-        public string ShowGraphWithDot(String programName, String arguments)
+        public string ShowGraphWithDot(String programName, String arguments, bool keep)
         {
             String filename = GetUniqueFilename("tmpgraph", "dot");
 
@@ -2490,9 +2503,12 @@ namespace de.unika.ipd.grGen.grShell
             dumper.FinishDump();
 
             String pngFilename = filename.Substring(0, filename.Length - ".dot".Length) + ".png";
-            arguments += "-Tpng -o " + pngFilename;
+            if(arguments == null || !arguments.Contains("-T"))
+                arguments += " -Tpng";
+            if(arguments == null || !arguments.Contains("-o"))
+                arguments += " -o " + pngFilename;
             Thread t = new Thread(new ParameterizedThreadStart(ShowGraphThread));
-            t.Start(new ShowGraphParam(programName, arguments, filename));
+            t.Start(new ShowGraphParam(programName, arguments, filename, keep));
             t.Join();
 
             try
@@ -2505,7 +2521,8 @@ namespace de.unika.ipd.grGen.grShell
             }
             finally
             {
-                File.Delete(pngFilename);
+                if(!keep)
+                    File.Delete(pngFilename);
             }
 
             return filename;

@@ -126,6 +126,7 @@ namespace de.unika.ipd.grGen.libGr
             Indent();
             WriteLine("splines={0};", (flags & VCGFlags.Splines) != 0 ? "true" : "false");
             WriteLine("rankdir={0};", orientation[(int)(flags & VCGFlags.OrientMask)]);
+            WriteLine("compound=true;");
 
             // suggested layouters mapping in case the layout would not be specified by the "dot" or "neato" viewer parameter:
             //  - "Organic", "Random" -> neato

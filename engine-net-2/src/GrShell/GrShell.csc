@@ -315,6 +315,7 @@ TOKEN: {
 |   < IN: "in" >
 |   < IO: "io" >
 |   < IS: "is" >
+|   < KEEP: "keep" >
 |   < KEEPDEBUG: "keepdebug" >
 |   < LABELS: "labels" >
 |   < LAYOUT: "layout" >
@@ -1783,6 +1784,7 @@ void ShowCommand():
 	IGraphElement elem = null;
 	bool typeProvided = false;
 	bool only = false;
+	bool keep = false;
 }
 {
 	try
@@ -1818,9 +1820,9 @@ void ShowCommand():
 	|
 		"var" ShowVar()
 	|
-		"graph" str=Filename() (args=WordOrText())? LineEnd()
+		"graph" str=Filename() ("keep" { keep=true; })? (args=WordOrText())? LineEnd()
 		{
-			impl.ShowGraphWith(str, args);
+			impl.ShowGraphWith(str, args, keep);
 		}
 	|
 		"graphs" LineEnd()
