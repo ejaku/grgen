@@ -810,8 +810,8 @@ findCouples:
         from -_edge2-> get target m2:Movie
         from pn1 outgoing -_edge4:personToMovie->
         from -_edge4-> get target m3:Movie
-        from pn2 outgoing -_edge3:personToMovie->
-        from pn2 outgoing -_edge5:personToMovie->
+        from pn2 outgoing -_edge3:personToMovie-> check m2 connected to _edge3
+        from pn2 outgoing -_edge5:personToMovie-> check m3 connected to _edge5
     }
 \end{verbatim}
 	\caption{Initial search plan}
@@ -834,10 +834,10 @@ We see here an automatically applied optimization, the movie \texttt{m1} was inl
 Without this optimization, \texttt{pn1} and \texttt{pn2} would have to be enumerated in the main pattern \emph{unconnected}, resulting in the unfolding of the cartesian product of all \texttt{Person} nodes 
 --- before handing it in to the matcher of the nested independent pattern in order to purge the actors without a connecting movie.
 
-Take care of the fact that connectedness checks for nodes that are reached via multiple edges are not printed in the search plan -- but they \emph{are} carried out, as early as possible.
+Note that connectedness checks for nodes that are reached via multiple edges are carried out as early as possible.
 In the example search plan, take a look at the two latest lines:\\
-\verb#from pn2 outgoing -_edge3:personToMovie-> (target must equal m2)#\\
-\verb#from pn2 outgoing -_edge5:personToMovie-> (target must equal m3)#\\
+\verb#from pn2 outgoing -_edge3:personToMovie-> check m2 connected to _edge3#\\
+\verb#from pn2 outgoing -_edge5:personToMovie-> check m3 connected to _edge5#\\
 For those two lines, after the edges were matched, there are no get target operations to fetch \texttt{m2} and \texttt{m3} existing, because the targets \texttt{m2} and \texttt{m3} were already matched from other edges on.
 Instead, the connectedness check is carried out here:
 it is checked that the target node of \verb#_edge3# is equal to the target node already bound to \texttt{m2}, and that the target node of \verb#_edge5# is equal to the target node already bound to \texttt{m3}.
@@ -852,18 +852,18 @@ Its search plan is listed in \autoref{fig:FinalSP} below.
 	\begin{verbatim}
 findCouplesOpt:
     parallelized lookup pn1:Person in graph
-    if { depending on findCouplesOpt_node_pn1, }
+    if { depending on findCouplesOpt_node_pn1 }
     from pn1 outgoing -p2m1_inlined_idpt_0:personToMovie->
     from -p2m1_inlined_idpt_0-> get target m1_inlined_idpt_0:Movie
     from m1_inlined_idpt_0 incoming <-p2m2_inlined_idpt_0:personToMovie-
     from <-p2m2_inlined_idpt_0- get source pn2:Person
-    if { depending on findCouplesOpt_node_pn2, }
-    if { depending on findCouplesOpt_node_pn1,findCouplesOpt_node_pn2, }
+    if { depending on findCouplesOpt_node_pn2 }
+    if { depending on findCouplesOpt_node_pn1,findCouplesOpt_node_pn2 }
     independent {
         (preset: pn1)
         (preset: m1 after independent inlining)
         (preset: pn2)
-        if { depending on findCouplesOpt_node_pn1,findCouplesOpt_node_pn2, }
+        if { depending on findCouplesOpt_node_pn1,findCouplesOpt_node_pn2 }
         (preset: p2m1 after independent inlining)
         (preset: p2m2 after independent inlining)
     }
