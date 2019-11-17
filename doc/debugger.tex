@@ -8,23 +8,37 @@ This chapter gives an introduction into the visualization capabilities of yComp 
 \section{Graph Visualization Commands (Nested Layout)}\label{sub:visual}\indexmain{visualization}\indexmainsee{layout}{visualization}\indexmainsee{visualization}{group node}\indexmain{nested layout}\indexmainsee{nested layout}{group node}\indexmain{nested graph}\indexmainsee{nested graph}{group node}
 
 \begin{rail}
-  'show' 'graph' ExecutableName (() | Text)
+  'show' 'graph' ExecutableName (() | 'keep') (() | Text)
 \end{rail}\ixkeyw{show}\ixkeyw{graph}
-Dumps the current graph in \indexed{VCG} format into a temporary file.
-The temporary VCG file will be passed to the program \emph{ExecutableName} as first parameter;
+Dumps the current graph in \indexed{VCG} or \indexed{DOT} format into a temporary file.
+The temporary file will be passed to the program \emph{ExecutableName} as first parameter;
 further parameters, such as program options, can be specified by \emph{Text}.
+
 If you use \yComp\footnote{See Section~\ref{tools:ycomp}.}\indexmain{yComp} as executable (\texttt{show graph ycomp}), this may look like
 \begin{center}
   \includegraphics[width=0.85\linewidth]{fig/showgraph}
 \end{center}
-The temporary file will be deleted when the application \emph{Filename} is terminated, in case \GrShell\ is still running at this time.
 
 \pagebreak
+
+If you use one of the programs of the graphviz\indexmain{graphviz} package, e.g. dot\indexmain{DOT} (\texttt{show graph dot}), this may look like
+\begin{center}
+  \includegraphics[width=0.5\linewidth]{fig/showgraph2}
+\end{center}
+
+Available programs are \texttt{dot}, \texttt{neato}, \texttt{fdp}, \texttt{sfdp}, \texttt{twopi}, \texttt{circo}. 
+They are used to transform the graph dumped into a \texttt{dot}-file to a \texttt{png}-file that is then opened with the image viewer of the system.
+The executables must be available in the search path of the system (so you have to install graphviz and have to add the \texttt{bin} folder to the path for this to work).
+
+The temporary file(s) will be deleted when the application \emph{Filename} is terminated, in case \GrShell\ is still running at this time.
+If the \texttt{keep} parameter was specified, the file(s) will be kept instead.
 
 \begin{rail}
   'dump' 'graph' Filename
 \end{rail}\ixkeyw{dump}\ixkeyw{graph}
 Dumps the current graph in \indexed{VCG} format into the file \emph{Filename}.\\
+
+\pagebreak
 
 The following commands control the style of the VCG output.
 This affects \texttt{dump graph}, \texttt{show graph}, and \texttt{enable debug}.
