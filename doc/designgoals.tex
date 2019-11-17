@@ -213,7 +213,7 @@ Those tools -- e.g. ATL\cite{atl}, to a lesser degree Epsilon\cite{epsilon} -- t
 Furthermore, graph \emph{transformation} in contrast to graph \emph{databases}.
 The focus is on efficient \emph{pattern-based} matching, and rewritings that are strongly coupled to the query results, capable of executing fine-grain spot-wise changes (with transaction support for crawling search spaces). 
 Executed on an \emph{in-memory} graph-structure, by a \emph{single user} at a time.
-In contrast to e.g. Neo4J\cite{neo}, that offers non-pattern queries that are feeding loosely coupled simple updates via a query-result container in between, which is accumulating the matches but renders fine-grain changes based on the exact matches/spots difficult.
+In contrast to e.g. the graph database Neo4J\cite{neo}, that offers non-pattern queries that are feeding loosely coupled simple updates via a query-result container in between, which is accumulating the matches but renders fine-grain changes based on the exact matches/spots difficult.
 Executed on a \emph{backing-store}, by \emph{multiple users} that are working concurrently at the same time, isolated by transactions.
 
 So \GrG\ is not suited for scenarios where many users need to access data at the same time. 
