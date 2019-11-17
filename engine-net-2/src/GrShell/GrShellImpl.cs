@@ -248,7 +248,7 @@ namespace de.unika.ipd.grGen.grShell
 
     public class GrShellImpl
     {
-        public static readonly String VersionString = "GrShell v4.5.3";
+        public static readonly String VersionString = "GrShell v4.5.5";
 
         IBackend curGraphBackend = new LGSPBackend();
         String backendFilename = null;
@@ -856,8 +856,8 @@ namespace de.unika.ipd.grGen.grShell
                 + " - show <element>.<attribute>\n"
                 + "   Shows the value of the given attribute of the given value.\n\n"
                 + " - show graph <program> [<arguments>]\n"
-                + "   Shows the current graph in VCG format with the given program.\n"
-                + "   The name of the temporary VCG file will always be the first parameter.\n"
+                + "   Shows the current graph with the given program and optional arguments.\n"
+                + "   The program determines the format used for dumping (either .vcg or .dot)\n"
                 + "   Example: show graph ycomp\n\n"
                 + " - show graphs\n"
                 + "   Lists the names of the currently loaded graphs.\n\n"
