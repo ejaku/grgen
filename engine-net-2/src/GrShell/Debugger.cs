@@ -1093,7 +1093,7 @@ after_debugging_decision: ;
 
         void HandleDump()
         {
-            string filename = grShellImpl.ShowGraphWith("ycomp", "");
+            string filename = grShellImpl.ShowGraphWith("ycomp", "", false);
             Console.WriteLine("Showing dumped graph " + filename + " with ycomp");
 
             String undoLog = shellProcEnv.ProcEnv.TransactionManager.ToString();
