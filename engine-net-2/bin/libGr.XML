@@ -3046,6 +3046,98 @@
             <param name="argExprs">An array of expressions used to compute the arguments</param>
             <param name="arguments">An array of arguments.</param>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.DOTDumper">
+            <summary>
+            A VCG graph dumper.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DOTDumper.GetColor(de.unika.ipd.grGen.libGr.GrColor)">
+            <summary>
+            Gets the DOT string representation of a GrColor object.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DOTDumper.GetLineStyle(de.unika.ipd.grGen.libGr.GrLineStyle)">
+            <summary>
+            Gets the DOT string representation of a GrLineStyle object.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DOTDumper.GetNodeShape(de.unika.ipd.grGen.libGr.GrNodeShape)">
+            <summary>
+            Gets the DOT string representation of a GrNodeShape object.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DOTDumper.#ctor(System.String,System.String,de.unika.ipd.grGen.libGr.VCGFlags)">
+            <summary>
+            Initializes a new instance of the DOTDumper.
+            </summary>
+            <param name="filename">Destination file.</param>
+            <param name="graphname">Name of the host graph.</param>
+            <param name="flags">Flags to control the dumper's behavior.</param>
+            <exception cref="T:System.IO.IOException">Thrown when the destination cannot be created.</exception>
+            TODO: replace VCGFlags by generic GrFlags (to be introduced and mapped to VCG and DOT)
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DOTDumper.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the DOTDumper with standard flags (VCGFlags.OrientBottomToTop).
+            </summary>
+            <param name="filename">Destination file.</param>
+            <param name="graphname">Name of the host graph.</param>
+            <exception cref="T:System.IO.IOException">Thrown when the destination cannot be created.</exception>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DOTDumper.DumpNode(de.unika.ipd.grGen.libGr.INode,System.String,System.Collections.Generic.IEnumerable{System.String},de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrNodeShape)">
+            <summary>
+            Dump a node to the DOT language graph.
+            </summary>
+            <param name="node">The node to be dumped.</param>
+            <param name="label">The label to use for the node.</param>
+            <param name="attributes">An enumerable of attribute strings.</param>
+            <param name="textColor">The color of the text.</param>
+            <param name="nodeColor">The color of the node.</param>
+            <param name="borderColor">The color of the node border.</param>
+            <param name="nodeShape">The shape of the node.</param>
+            TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DOTDumper.DumpEdge(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,System.String,System.Collections.Generic.IEnumerable{System.String},de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrLineStyle,System.Int32)">
+            <summary>
+            Dump an edge to the DOT language graph
+            </summary>
+            <param name="srcNode">The source node of the edge</param>
+            <param name="tgtNode">The target node of the edge</param>
+            <param name="label">The label of the edge, may be null</param>
+            <param name="attributes">An enumerable of attribute strings</param>
+            <param name="textColor">The color of the text</param>
+            <param name="edgeColor">The color of the edge</param>
+            <param name="lineStyle">The linestyle of the edge</param>
+            <param name="thickness">The thickness of the edge (1-5)</param>
+            TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DOTDumper.StartSubgraph(de.unika.ipd.grGen.libGr.INode,System.String,System.Collections.Generic.IEnumerable{System.String},de.unika.ipd.grGen.libGr.GrColor,de.unika.ipd.grGen.libGr.GrColor)">
+            <summary>
+            Creates a new sub-graph to the DOT graph
+            </summary>
+            <param name="node">The node starting the new sub-graph</param>
+            <param name="label">The label to use for the node</param>
+            <param name="attributes">An enumerable of attribute strings</param>
+            <param name="textColor">The color of the text</param>
+            <param name="subgraphColor">The color of the subgraph node</param>
+            TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DOTDumper.FinishSubgraph">
+            <summary>
+            Finishes a subgraph
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DOTDumper.FinishDump">
+            <summary>
+            Finishes the dump and closes the file
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DOTDumper.Dispose">
+            <summary>
+            Disposes this object. If <see cref="M:de.unika.ipd.grGen.libGr.DOTDumper.FinishDump"/> has not been called yet, it is called.
+            This allows using "using" with the dumper object.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IDumper">
             <summary>
             A dumper for output of graphs.
@@ -9683,7 +9775,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.VCGDumper.#ctor(System.String,de.unika.ipd.grGen.libGr.VCGFlags,System.String)">
             <summary>
-            Initializes a new instance of VCGDump.
+            Initializes a new instance of the VCGDumper.
             </summary>
             <param name="filename">Destination file.</param>
             <param name="flags">Flags to control the dumper's behavior.</param>
@@ -9703,7 +9795,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.VCGDumper.#ctor(System.String)">
             <summary>
-            Initializes a new instance of VCGDump with standard flags (VCGFlags.OrientBottomToTop) and the "Orthogonal" layouter.
+            Initializes a new instance of the VCGDumper with standard flags (VCGFlags.OrientBottomToTop) and the "Orthogonal" layouter.
             </summary>
             <param name="filename">Destination file.</param>
             <exception cref="T:System.IO.IOException">Thrown when the destination cannot be created.</exception>
@@ -9716,8 +9808,8 @@
              <param name="label">The label to use for the node.</param>
              <param name="attributes">An enumerable of attribute strings.</param>
              <param name="textColor">The color of the text.</param>
-             <param name="nodeColor">The color of the node border.</param>
-             <param name="borderColor">The color of the node.</param>
+             <param name="nodeColor">The color of the node.</param>
+             <param name="borderColor">The color of the node border.</param>
              <param name="nodeShape">The shape of the node.</param>
             
              TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()

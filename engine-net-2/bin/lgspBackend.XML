@@ -8133,56 +8133,56 @@
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildLookup(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildLookup(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Search program operations implementing the
             Lookup search plan operation
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickFromStorage(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickFromStorage(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Search program operations implementing the
             PickFromStorage search plan operation
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickFromStorageDependent(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickFromStorageDependent(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Search program operations implementing the
             PickFromStorageDependent search plan operation
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickFromIndex(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IndexAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickFromIndex(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IndexAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Search program operations implementing the
             PickFromIndex search plan operation
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickByName(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.NameLookup,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickByName(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.NameLookup,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Search program operations implementing the
             PickByName or PickByNameDependent search plan operation
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickByUnique(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.UniqueLookup,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickByUnique(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.UniqueLookup,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Search program operations implementing the
             PickByUnique or PickByUniqueDependent search plan operation
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildCast(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildCast(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Search program operations implementing the
             Cast search plan operation
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildAssign(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildAssign(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Search program operations implementing the
             Assign search plan operation
@@ -8210,21 +8210,21 @@
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildMapWithStorageDependent(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildMapWithStorageDependent(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.StorageAccessIndex,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Search program operations implementing the
             MapWithStorageDependent search plan operation
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildImplicit(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ImplicitNodeType)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildImplicit(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck,de.unika.ipd.grGen.lgsp.ImplicitNodeType)">
             <summary>
             Search program operations implementing the
             Implicit Source|Target|SourceOrTarget search plan operation
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildIncident(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.IncidentEdgeType)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildIncident(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck,de.unika.ipd.grGen.lgsp.IncidentEdgeType)">
             <summary>
             Search program operations implementing the
             Extend Incoming|Outgoing|IncomingOrOutgoing search plan operation
@@ -8301,7 +8301,7 @@
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelLookup(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelLookup(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Search program operations implementing the
             parallelized Lookup search plan operation
@@ -8315,7 +8315,7 @@
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPickFromStorage(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPickFromStorage(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Search program operations implementing the
             parallelized PickFromStorage search plan operation
@@ -8329,7 +8329,7 @@
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPickFromStorageDependent(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPickFromStorageDependent(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.StorageAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Search program operations implementing the
             parallelized PickFromStorageDependent search plan operation
@@ -8343,7 +8343,7 @@
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPickFromIndex(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IndexAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelPickFromIndex(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IndexAccess,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Search program operations implementing the
             parallelized PickFromIndex search plan operation
@@ -8357,7 +8357,7 @@
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelIncident(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.IncidentEdgeType)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildParallelIncident(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ConnectednessCheck,de.unika.ipd.grGen.lgsp.IncidentEdgeType)">
             <summary>
             Search program operations implementing the
             parallelized Extend Incoming|Outgoing|IncomingOrOutgoing search plan operation
@@ -8496,7 +8496,7 @@
             Decides which check type operation to build and inserts it into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.ConnectednessCheck,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
             <summary>
             Decides which check connectedness operations are needed for the given node just determined by lookup
             and inserts them into the search program
@@ -8505,7 +8505,7 @@
             if no direction iteration was needed, insertion point == continuation point
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfImplicitNodeFromEdge(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfImplicitNodeFromEdge(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.ConnectednessCheck,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
             <summary>
             Decides which check connectedness operations are needed for the given node just drawn from edge
             and inserts them into the search program
@@ -8514,13 +8514,13 @@
             if no direction iteration was needed, insertion point == continuation point
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfNodeFixedDirection(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.CheckCandidateForConnectednessType)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfNodeFixedDirection(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.CheckCandidateForConnectednessType,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Decides which check connectedness operations are needed for the given node and edge of fixed direction
             and inserts them into the search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfNodeBothDirections(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfNodeBothDirections(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.ConnectednessCheck,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
             <summary>
             Decides which check connectedness operations are needed for the given node and edge in both directions
             and inserts them into the search program
@@ -8529,7 +8529,7 @@
             if no direction iteration was needed, insertion point == continuation point
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.ConnectednessCheck,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
             <summary>
             Decides which check connectedness operations are needed for the given edge determined by lookup
             and inserts them into the search program
@@ -8538,19 +8538,19 @@
             if no direction iteration was needed, insertion point == continuation point
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfIncidentEdgeFromNode(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,System.Boolean,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfIncidentEdgeFromNode(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,System.Boolean,de.unika.ipd.grGen.lgsp.ConnectednessCheck,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
             <summary>
             Decides which check connectedness operations are needed for the given edge determined from incident node
             and inserts them into the search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.CheckCandidateForConnectednessType)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.CheckCandidateForConnectednessType,de.unika.ipd.grGen.lgsp.ConnectednessCheck)">
             <summary>
             Decides which check connectedness operations are needed for the given edge of fixed direction
             and inserts them into the search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfEdgeBothDirections(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,System.Boolean,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfEdgeBothDirections(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,System.Boolean,de.unika.ipd.grGen.lgsp.ConnectednessCheck,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
             <summary>
             Decides which check connectedness operations are needed for the given edge in both directions
             and inserts them into the search program
