@@ -297,7 +297,7 @@ The schedule might work well for some graphs, but for the graph given in figure 
 Why so can be seen on inspecting the search order illustration in figure \ref{figbadsearch}.
 Because only one of the multiple outgoing edges of \texttt{v1} leads to a match for \texttt{e1}, it has to backtrack several times.
 A better search order would be one matching edge \texttt{e1} from \texttt{v2} on in reverse direction 
-(this is possible in \GrGen\~because the graph model contains a list of outgoing as well as a list of incoming edges, so each edge can be traversed in either direction).
+(this is possible in \GrG\~because the graph model contains a list of outgoing as well as a list of incoming edges, so each edge can be traversed in either direction).
 
 And indeed, the search planning component of \GrG~chooses such a schedule:\\
 \texttt{lkp(v3:C); out(v3,e2:a); tgt(e2,v2:B); out(v2,e3:b); in(v2,e1:a); src(e1,v1:A)}
@@ -359,7 +359,7 @@ The cost of the operations is determined by analyzing the amount of splitting be
 Then, a \emph{spanning arborescence}\footnote{directed tree} of minimum overall cost is selected from the search plan graph. 
 The spanning arborescence is further linearized into a \emph{schedule}, a list of the selected search operations  (as already introduced with the good and the bad schedules).
 
-The details of search planning and some evaluation how well it works are given in \cite{searchplangrgen} and in \cite{BKG:07}.
+The details of search planning and some evaluation how well it works are given in \cite{Bat:06} and in \cite{BKG:07}.
 
 \begin{figure}[htbp]
   \centering
