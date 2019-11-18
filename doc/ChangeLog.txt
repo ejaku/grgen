@@ -1,4 +1,22 @@
-﻿v4.5.4 (2019-07-29)
+﻿v4.5.5 (2019-11-18)
+ Added support for dumping graphs in dot format and rendering with the graphviz programs,
+  which are dot, neato, fdp, sfdp, twopi, circo
+  Example: show graph dot -- executes dot to render a png image from a dot language dump, 
+                              and displays it with the system image viewer
+  (you have to install graphviz and have to add it to the search path for this to work)
+ Added keep parameter to show graph command, causing the graph dumps to be kept
+ 
+ Improved explain custom action: now also connectedness checks are printed
+  (and unnecessary commas in conditions are omitted)
+ 
+ Added cygwin bash compatibility mode to shell debugger
+ (so you can interactively debug if really needed, although inconveniently, instead of crashing) 
+ 
+ Fixed crash in container operations on graph element attributes in interpreted sequences
+
+ Some user manual polishings and adaptations to the new features
+ 
+v4.5.4 (2019-07-29)
  Several user manual corrections and improvements.
  (Binaries are the same as in 4.5.3)
 
