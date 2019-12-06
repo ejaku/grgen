@@ -1,0 +1,8 @@
+rule create()
+{
+	modify
+	{
+		n1:Node --> n2:Node --> n3:Node;
+		n1 <-- n2 <-- n3;
+	}
+}

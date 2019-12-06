@@ -5236,5 +5236,11 @@ showavail:
                 errOut.WriteLine(e.Message);
             }
         }
+
+        public bool Evaluate(SequenceExpression if_)
+        {
+            object res = if_.Evaluate(curShellProcEnv.ProcEnv);
+            return (bool)res;
+        }
     }
 }

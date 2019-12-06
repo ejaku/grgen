@@ -1,0 +1,69 @@
+new graph if/If
+
+exec create
+
+cond = true
+
+if ::cond
+
+show num nodes
+
+if !::cond
+
+show num edges
+
+endif
+
+endif
+
+exec {emit("Passed 1st cond statement\n")}
+
+cond = false
+
+if ::cond
+
+show num nodes
+
+if !::cond
+
+show num edges
+
+endif
+
+endif
+
+exec {emit("Passed 2nd cond statement\n")}
+
+cond = true
+
+if ::cond
+
+show num nodes
+
+if ::cond
+
+show num edges
+
+endif
+
+endif
+
+exec {emit("Passed 3rd cond statement\n")}
+
+cond = false
+
+if ::cond
+
+show num nodes
+
+if ::cond
+
+show num edges
+
+endif
+
+endif
+
+exec {emit("Passed 4th cond statement\n")}
+
+quit

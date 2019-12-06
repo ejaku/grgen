@@ -1,7 +1,7 @@
 // by Moritz Kroll, Edgar Jakumeit
 
 options {
-	STATIC=false;
+    STATIC=false;
 }
 
 PARSER_BEGIN(GrShell)
@@ -25,11 +25,12 @@ PARSER_BEGIN(GrShell)
         public IWorkaround workaround;
         bool noError;
         bool exitOnError = false;
+        Stack ifNesting = new Stack();
 
-		public void SetImpl(GrShellImpl impl)
-		{
-			this.impl = impl;
-		}
+        public void SetImpl(GrShellImpl impl)
+        {
+            this.impl = impl;
+        }
 
         static int Main(string[] args)
         {
@@ -38,7 +39,7 @@ PARSER_BEGIN(GrShell)
             bool showUsage = false;
             bool nonDebugNonGuiExitOnError = false;
             bool showIncludes = false;
-			int errorCode = 0; // 0==success, the return value
+            int errorCode = 0; // 0==success, the return value
 
             GrShellImpl.PrintVersion();
 
@@ -76,7 +77,7 @@ PARSER_BEGIN(GrShell)
                     }
                     else if(args[i] == "--help")
                     {
-	                    Console.WriteLine("Displays help");
+                        Console.WriteLine("Displays help");
                         showUsage = true;
                         break;
                     }
@@ -162,17 +163,18 @@ PARSER_BEGIN(GrShell)
             shell.impl = new GrShellImpl();
             shell.impl.TokenSourceStack.AddFirst(shell.token_source);
             shell.impl.nonDebugNonGuiExitOnError = nonDebugNonGuiExitOnError;
-			shell.impl.showIncludes = showIncludes;
+            shell.impl.showIncludes = showIncludes;
             try
             {
+                shell.ifNesting.Push(true);
                 while(!shell.Quit && !shell.Eof)
                 {
                     bool noError = shell.ParseShellCommand();
                     if(!shell.readFromConsole && (shell.Eof || !noError))
                     {
-	                    if(nonDebugNonGuiExitOnError && !noError) {
-		                    return -1;
-	                    }
+                        if(nonDebugNonGuiExitOnError && !noError) {
+                            return -1;
+                        }
 
                         if(scriptFilename.Count != 0)
                         {
@@ -204,12 +206,13 @@ PARSER_BEGIN(GrShell)
                         }
                     }
                 }
+                shell.ifNesting.Pop();
             }
-			catch(Exception e)
-			{
-				Console.WriteLine("exit due to " + e.Message);
-				errorCode = -2;
-			}
+            catch(Exception e)
+            {
+                Console.WriteLine("exit due to " + e.Message);
+                errorCode = -2;
+            }
             finally
             {
                 shell.impl.Cleanup();
@@ -221,12 +224,12 @@ PARSER_END(GrShell)
 
 // characters to be skipped
 SKIP: {
-	" " |
-	"\t" |
-	"\r" |
-	"\\\r\n" |
-	"\\\n" |
-	"\\\r"
+    " " |
+    "\t" |
+    "\r" |
+    "\\\r\n" |
+    "\\\n" |
+    "\\\r"
 }
 
 TOKEN: {
@@ -289,8 +292,10 @@ TOKEN: {
 |   < ECHO: "echo">
 |   < EDGE: "edge" >
 |   < EDGES: "edges" >
+|   < ELSE: "else" >
 |   < EMIT: "emit" >
 |   < ENABLE: "enable" >
+|   < ENDIF: "endif" >
 |   < EXCLUDE: "exclude" >
 |   < EXEC: "exec" >
 |   < EXIT: "exit" >
@@ -1034,9 +1039,12 @@ void LineEnd():
 }
 
 bool ParseShellCommand():
-{}
 {
-    { noError = true; }
+	SequenceExpression seqExpr;
+	bool ifValue;
+}
+{
+	{ noError = true; }
 	try
 	{
 		{ if(ShowPrompt) Console.Write("> "); }
@@ -1045,7 +1053,11 @@ bool ParseShellCommand():
 			<NL>
 			| <DOUBLESEMICOLON>
 			| <EOF> { Eof = true; }
-			| ShellCommand()
+			| seqExpr=If(null, null) { ifNesting.Push((bool)ifNesting.Peek() && impl.Evaluate(seqExpr)); }
+			| "else" { ifValue=(bool)ifNesting.Peek(); ifNesting.Pop(); ifNesting.Push((bool)ifNesting.Peek() && !ifValue); }
+			| "endif" { ifNesting.Pop(); }
+			| LOOKAHEAD( { (bool)ifNesting.Peek() } ) ShellCommand()
+			| LOOKAHEAD( { !(bool)ifNesting.Peek() } ) { errorSkipSilent(); }
 		)
 	}
 	catch(ParseException ex)

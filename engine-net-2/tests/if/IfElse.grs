@@ -1,0 +1,73 @@
+new graph if/If
+
+exec create
+
+cond = true
+
+if ::cond
+
+show num nodes
+
+else
+
+show num edges
+
+endif
+
+x = "passed1st"
+show var x
+
+cond = false
+
+if ::cond
+
+show num nodes
+
+else
+
+show num edges
+
+endif
+
+x = "passed2nd"
+show var x
+
+cond = true
+
+if ::cond
+
+show num nodes
+
+if !::cond
+
+show num nodes
+
+else
+
+show num edges
+
+endif
+
+x = "passednested"
+show var x
+
+else
+
+show num edges
+
+if !::cond
+
+show num nodes
+
+else
+
+show num edges
+
+endif
+
+endif
+
+x = "passed3rd"
+show var x
+
+quit
