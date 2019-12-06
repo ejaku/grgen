@@ -2101,17 +2101,18 @@ Sequence Rule():
 
 FilterCall Filter(String action, String actionPackage) :
 {
-	String filterBase, filterVariable, package = null;
+	String filterBase, package = null;
 	List<SequenceExpression> argExprs = new List<SequenceExpression>();
+	List<String> words = new List<String>();
 }
 {
-	LOOKAHEAD(4) (LOOKAHEAD(2) package=Word() "::")? filterBase=Word() "<" filterVariable=Word() ">"
+	LOOKAHEAD(4) (LOOKAHEAD(2) package=Word() "::")? filterBase=Word() "<" WordList(words) ">"
 		{
 			if(filterBase!="orderAscendingBy" && filterBase!="orderDescendingBy" && filterBase!="groupBy"
 				&& filterBase!="keepSameAsFirst" && filterBase!="keepSameAsLast" && filterBase!="keepOneForEach")
 				throw new ParseException("Unknown def-variable-based filter " + filterBase + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
 			else
-				return new FilterCall(package, filterBase, filterVariable, packageContext, true);
+				return new FilterCall(package, filterBase, words.ToArray(), packageContext, true);
 		}
 |
 	(LOOKAHEAD(2) package=Word() "::")? filterBase=Word() ("(" (Arguments(argExprs))? ")")?
@@ -2132,6 +2133,14 @@ FilterCall Filter(String action, String actionPackage) :
 				return new FilterCall(package, filterBase, argExprs, packageContext);
 			}
 		}
+}
+
+void WordList(List<String> words) :
+{
+	String word;
+}
+{
+	word=Word() { words.Add(word); } ("," word=Word() { words.Add(word); })*
 }
 
 CSHARPCODE

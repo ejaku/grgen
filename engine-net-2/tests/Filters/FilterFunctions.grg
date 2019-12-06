@@ -242,3 +242,53 @@ rule init
 	}
 }
 
+rule init2
+{
+	replace {
+		n0:Node;
+		n1:Node@($="2") --> n2:Node;
+	}
+}
+
+rule incidency2
+{
+	def var i:int;
+	def var j:string;
+
+	n:Node;
+
+	yield {
+		yield i = incident(n).size();
+		yield j = nameof(n);
+	}
+	
+	modify{
+		emit("The value of variable i of type int is: ");
+		emit(i);
+		emit("\n");
+		emit("The value of variable j of type string is: \"");
+		emit(j);
+		emit("\"\n");
+	}
+} \ orderAscendingBy<i>, orderAscendingBy<i,j>, orderDescendingBy<i,j>
+
+rule incidency2orderAscendingByi
+{
+	modify {
+		exec([incidency2\orderAscendingBy<i>]);
+	}
+}
+
+rule incidency2orderAscendingByij
+{
+	modify {
+		exec([incidency2\orderAscendingBy<i,j>]);
+	}
+}
+
+rule incidency2orderDescendingByij
+{
+	modify {
+		exec([incidency2\orderDescendingBy<i,j>]);
+	}
+}

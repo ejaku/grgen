@@ -47,9 +47,9 @@ namespace de.unika.ipd.grGen.libGr
         public String PrePackageContext;
 
         /// <summary>
-        /// The entity the filter is based on, in case of a def-variable based auto-generated filter, otherwise null.
+        /// The entities the filter is based on, in case of a (def-variable based) auto-generated filter (empty for auto), otherwise null.
         /// </summary>
-        public String Entity;
+        public String[] Entities;
 
         /// <summary>
         /// True in case this is the call of an auto-supplied filter.
@@ -75,7 +75,7 @@ namespace de.unika.ipd.grGen.libGr
 
 
         /// <summary>
-        /// Instantiates a new FilterCall object for a filter function or auto
+        /// Instantiates a new FilterCall object for a filter function
         /// </summary>
         public FilterCall(String package, String name, List<SequenceExpression> argumentExpressions, String packageContext)
         {
@@ -93,13 +93,12 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Instantiates a new FilterCall object for an auto-generated filter
-        /// dummy is only existing so that FilterCall(null, "auto", null, null, true) can be resolved to this constructor
         /// </summary>
-        public FilterCall(String package, String name, String entity, String packageContext, bool dummy)
+        public FilterCall(String package, String name, String[] entities, String packageContext, bool dummy)
         {
             PrePackage = package;
             Name = name;
-            Entity = entity;
+            Entities = entities;
             ArgumentExpressions = new SequenceExpression[0];
             Arguments = new object[0];
             PrePackageContext = packageContext;
@@ -125,7 +124,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             get
             {
-                if(Entity != null)
+                if(Entities != null)
                     return true;
                 if(Name == "auto")
                     return true;
@@ -137,13 +136,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             get
             {
-                if(Entity != null)
+                if(Entities != null)
                 {
                     StringBuilder sb = new StringBuilder();
                     sb.Append(Name);
-                    sb.Append("<");
-                    sb.Append(Entity);
-                    sb.Append(">");
+                    sb.Append(EntitySuffix);
                     return sb.ToString();
                 }
                 else
@@ -155,7 +152,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             get
             {
-                if(Entity != null)
+                if(Entities != null)
                 {
                     StringBuilder sb = new StringBuilder();
                     if(Package != null)
@@ -164,15 +161,41 @@ namespace de.unika.ipd.grGen.libGr
                         sb.Append("::");
                     }
                     sb.Append(Name);
-                    sb.Append("<");
-                    sb.Append(Entity);
-                    sb.Append(">");
+                    sb.Append(EntitySuffix);
                     return sb.ToString();
                 }
                 else
                 {
                     return PackagePrefixedName;
                 }
+            }
+        }
+
+        private String EntitySuffix
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<");
+                bool first = true;
+                foreach(String entity in Entities)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(entity);
+                }
+                sb.Append(">");
+                return sb.ToString();
+            }
+        }
+
+        public String EntitySuffixForName
+        {
+            get
+            {
+                return String.Join("_", Entities);
             }
         }
 
@@ -192,8 +215,11 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         if(Name == "auto")
                             return true;
-                        else if(filter.Entity == Entity)
-                            return true;
+                        else
+                        {
+                            if(NameSuffixMatches(filter.Entities, Entities))
+                                return true;
+                        }
                     }
                 }
                 else //if(filters[i] is IFilterFunction)
@@ -206,16 +232,24 @@ namespace de.unika.ipd.grGen.libGr
             return false;
         }
 
+        public bool NameSuffixMatches(List<String> filterEntities, String[] entities)
+        {
+            if(filterEntities.Count != Entities.Length)
+                return false;
+            for(int i = 0; i < filterEntities.Count; ++i)
+            {
+                if(filterEntities[i] != entities[i])
+                    return false;
+            }
+            return true;
+        }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(Name);
-            if(Entity != null)
-            {
-                sb.Append("<");
-                sb.Append(Entity);
-                sb.Append(">");
-            }
+            if(Entities != null)
+                sb.Append(EntitySuffix);
             if(Arguments != null)
             {
                 sb.Append("(");
