@@ -1,0 +1,61 @@
+new graph if/If
+
+exec create
+
+if true
+
+show num nodes
+
+if !true
+
+show num edges
+
+endif
+
+endif
+
+exec {emit("Passed 1st cond statement\n")}
+
+if false
+
+show num nodes
+
+if !false
+
+show num edges
+
+endif
+
+endif
+
+exec {emit("Passed 2nd cond statement\n")}
+
+if true
+
+show num nodes
+
+if true
+
+show num edges
+
+endif
+
+endif
+
+exec {emit("Passed 3rd cond statement\n")}
+
+if false
+
+show num nodes
+
+if false
+
+show num edges
+
+endif
+
+endif
+
+exec {emit("Passed 4th cond statement\n")}
+
+quit
