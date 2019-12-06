@@ -309,7 +309,15 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 				if(filter.name.equals("orderAscendingBy") || filter.name.equals("orderDescendingBy")
 					|| filter.name.equals("groupBy") || filter.name.equals("keepSameAsFirst")
 					|| filter.name.equals("keepSameAsLast") || filter.name.equals("keepOneForEach")) {
-					allFilterEntitiesExistAndAreOfAdmissibleType = checkFilterVariable(filter.name, filter.entity);
+					for(String filterEntity : filter.entities) {
+						allFilterEntitiesExistAndAreOfAdmissibleType &= checkFilterVariable(filter.name, filterEntity);
+					}
+					if(filter.name.equals("groupBy") || filter.name.equals("keepSameAsFirst")
+						|| filter.name.equals("keepSameAsLast") || filter.name.equals("keepOneForEach")) {
+						if(filter.entities.size()!=1) {
+							reportError(filter.name + " must be declared with exactly one variable, but is declared with " + filter.entities.size() + " variables");
+						}
+					}
 				}
 			}
 		}

@@ -637,14 +637,16 @@ options { k = 5; }
 				}
 			}
 	| BACKSLASH { xg.append("\\"); } (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })?
-		filterBase=IDENT LT filterVariable=IDENT GT 
+		filterBase=IDENT LT { xg.append(filterBase.getText() + "<"); } filterCallVariableList[xg] GT { xg.append("> "); }
 		{
 			if(!filterBase.getText().equals("orderAscendingBy") && !filterBase.getText().equals("orderDescendingBy") && !filterBase.getText().equals("groupBy")
 				&& !filterBase.getText().equals("keepSameAsFirst") && !filterBase.getText().equals("keepSameAsLast") && !filterBase.getText().equals("keepOneForEach"))
 					reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBase.getText() + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
-			else
-					xg.append(filterBase.getText() + "<" + filterVariable.getText() + "> ");
 		}
+	;
+
+filterCallVariableList[ExecNode xg]
+	: filterVariable=IDENT { xg.append(filterVariable.getText()); } ( COMMA {xg.append(",");} filterVariable=IDENT { xg.append(filterVariable.getText()); } )*
 	;
 
 ruleParam[ExecNode xg, CollectNode<BaseNode> parameters]

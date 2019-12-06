@@ -1,0 +1,11 @@
+new graph "Filters/FilterFunctions"
+
+exec init2
+
+exec incidency2orderAscendingByi
+
+exec incidency2orderAscendingByij
+
+exec incidency2orderDescendingByij
+
+quit
