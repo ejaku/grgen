@@ -40,13 +40,13 @@ namespace de.unika.ipd.grGen.libGr
             this.inputs = inputs;
             this.outputs = outputs;
 
-            this.annotations = new Dictionary<String, String>();
+            this.annotations = new Annotations();
 
             this.ReturnArray = new object[outputs.Length];
         }
 
         public string Name { get { return name; } }
-        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+        public Annotations Annotations { get { return annotations; } }
         public string Package { get { return package; } }
         public string PackagePrefixedName { get { return packagePrefixedName; } }
         public string[] InputNames { get { return inputNames; } }
@@ -62,7 +62,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the procedure
         /// </summary>
-        public IDictionary<String, String> annotations;
+        public Annotations annotations;
 
         /// <summary>
         /// null if this is a global type, otherwise the package the type is contained in.

@@ -51,7 +51,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The annotations of the pattern element
         /// </summary>
-        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+        public Annotations Annotations { get { return annotations; } }
 
         /// <summary>
         /// The GrGen type of the pattern element, fake implementation overriden in subclasses
@@ -99,7 +99,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The annotations of the pattern element
         /// </summary>
-        public IDictionary<string, string> annotations = new Dictionary<string, string>();
+        public Annotations annotations = new Annotations();
 
         /// <summary>
         /// An array of allowed types for this pattern element.
@@ -614,7 +614,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The annotations of the pattern element
         /// </summary>
-        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+        public Annotations Annotations { get { return annotations; } }
 
         /// <summary>
         /// The GrGen type of the pattern variable.
@@ -658,7 +658,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The annotations of the pattern element
         /// </summary>
-        public IDictionary<string, string> annotations = new Dictionary<string, string>();
+        public Annotations annotations = new Annotations();
 
         /// <summary>
         /// Specifies to which rule parameter this variable corresponds.
@@ -1601,7 +1601,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The annotations of the pattern element
         /// </summary>
-        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+        public Annotations Annotations { get { return annotations; } }
 
         /// <summary>
         /// The pattern where this complex subpattern element gets matched.
@@ -1621,7 +1621,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The annotations of the pattern element
         /// </summary>
-        public IDictionary<string, string> annotations = new Dictionary<string, string>();
+        public Annotations annotations = new Annotations();
 
         /// <summary>
         /// An array with the expressions giving the arguments to the subpattern,

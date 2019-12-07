@@ -2809,7 +2809,7 @@ public abstract class CSharpBase {
 	{
 		for(String annotationKey : ident.getAnnotations().keySet()) {
 			String annotationValue = ident.getAnnotations().get(annotationKey).toString();
-			sb.append("\t\t\t" + targetName+ ".Add(\"" +annotationKey + "\", \"" + annotationValue + "\");\n");
+			sb.append("\t\t\t" + targetName+ ".annotations.Add(\"" +annotationKey + "\", \"" + annotationValue + "\");\n");
 		}
 	}
 
@@ -2817,7 +2817,7 @@ public abstract class CSharpBase {
 	{
 		for(String annotationKey : ident.getAnnotations().keySet()) {
 			String annotationValue = ident.getAnnotations().get(annotationKey).toString();
-			sb.append("\t\t\t" + targetName+ ".Add(\"" +annotationKey + "\", \"" + annotationValue + "\");\n");
+			sb.append("\t\t\t" + targetName+ ".annotations.Add(\"" +annotationKey + "\", \"" + annotationValue + "\");\n");
 		}
 	}
 

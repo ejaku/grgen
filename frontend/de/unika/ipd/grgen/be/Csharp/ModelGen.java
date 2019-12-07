@@ -1601,8 +1601,8 @@ deque_init_loop:
 		sb.append("\t\tpublic override bool IsAbstract { get { return " + (type.isAbstract() ? "true" : "false") + "; } }\n");
 		sb.append("\t\tpublic override bool IsConst { get { return " + (type.isConst() ? "true" : "false") + "; } }\n");
 
-		sb.append("\t\tpublic override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }\n");
-		sb.append("\t\tpublic IDictionary<string, string> annotations = new Dictionary<string, string>();\n");
+		sb.append("\t\tpublic override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }\n");
+		sb.append("\t\tpublic GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();\n");
 
 		sb.append("\t\tpublic override int NumAttributes { get { return " + type.getAllMembers().size() + "; } }\n");
 		genAttributeTypesEnumerator(type);
