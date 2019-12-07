@@ -104,6 +104,11 @@ namespace de.unika.ipd.grGen.libGr
         public bool InstanceOf(GrGenType type) { return type is VirtualNodeType; }
         public int GetUniqueId() { return 0; }
 
+        public object this[string attrName]
+        {
+            get { return GetAttribute(attrName); }
+            set { SetAttribute(attrName, value); }
+        }
         public object GetAttribute(String attrName)
         { throw new NotImplementedException("Get attribute not supported on virtual node!"); }
         public void SetAttribute(String attrName, object value)

@@ -47,11 +47,13 @@ namespace test
             n1.b42 = 42;
             n1.d231_4121 = 231;
 
-			B21 n2 = graph.CreateNodeB21();
+            n1["a4"] = 2 * (int)n1["a2"]; // dummy for testing indexer
+
+            B21 n2 = graph.CreateNodeB21();
             n2.a2 = 10002;
             n2.b21 = 10021;
 
-			D2211_2222_31 n3 = graph.CreateNodeD2211_2222_31();
+            D2211_2222_31 n3 = graph.CreateNodeD2211_2222_31();
             n3.a2 = 20002;
             n3.a3 = 20003;
             n3.a4 = 20004;
@@ -61,8 +63,8 @@ namespace test
             n3.c222_411 = 20222;
             n3.d2211_2222_31 = 22221;
 
-			graph.CreateEdgeEdge(n1, n2);
-			graph.CreateEdgeEdge(n2, n3);
+            graph.CreateEdgeEdge(n1, n2);
+            graph.CreateEdgeEdge(n2, n3);
 
             Action_testRule.Instance.Apply(procEnv);
 
