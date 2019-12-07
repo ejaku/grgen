@@ -4306,13 +4306,13 @@ namespace de.unika.ipd.grGen.libGr
     public abstract class SequenceDefinition : Sequence, ISequenceDefinition
     {
         public String SequenceName;
-        public IDictionary<String, String> SequenceAnnotations;
+        public Annotations SequenceAnnotations;
 
         public SequenceDefinition(SequenceType seqType, String sequenceName)
             : base(seqType)
         {
             SequenceName = sequenceName;
-            SequenceAnnotations = new Dictionary<String, String>();
+            SequenceAnnotations = new libGr.Annotations();
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -4339,7 +4339,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the sequence
         /// </summary>
-        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return SequenceAnnotations; } }
+        public Annotations Annotations { get { return SequenceAnnotations; } }
 
         public override int Precedence { get { return -1; } }
         public override string Symbol { get { return SequenceName; } }
@@ -4571,7 +4571,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             SeqInfo = seqInfo;
             foreach(KeyValuePair<string, string> annotation in seqInfo.annotations)
-                SequenceAnnotations.Add(annotation.Key, annotation.Value);
+                SequenceAnnotations.annotations.Add(annotation.Key, annotation.Value);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)

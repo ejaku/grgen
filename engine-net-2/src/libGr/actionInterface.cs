@@ -222,7 +222,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the sequence
         /// </summary>
-        IEnumerable<KeyValuePair<string, string>> Annotations { get; }
+        Annotations Annotations { get; }
 
         /// <summary>
         /// Applies this sequence.
@@ -252,7 +252,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the procedure
         /// </summary>
-        IEnumerable<KeyValuePair<string, string>> Annotations { get; }
+        Annotations Annotations { get; }
 
         /// <summary>
         /// null if this is a global type, otherwise the package the type is contained in.
@@ -307,7 +307,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the function
         /// </summary>
-        IEnumerable<KeyValuePair<string, string>> Annotations { get; }
+        Annotations Annotations { get; }
 
         /// <summary>
         /// null if this is a global type, otherwise the package the type is contained in.

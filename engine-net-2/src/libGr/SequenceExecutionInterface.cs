@@ -108,7 +108,7 @@ namespace de.unika.ipd.grGen.libGr
             Name = name;
             PackagePrefixedName = packagePrefixedName;
 
-            annotations = new Dictionary<String, String>();
+            annotations = new Annotations();
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the sequence definition
         /// </summary>
-        public IDictionary<String, String> annotations;
+        public Annotations annotations;
     }
 
     /// <summary>

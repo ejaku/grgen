@@ -1252,7 +1252,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The annotations of the matching pattern (test/rule/subpattern)
         /// </summary>
-        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+        public Annotations Annotations { get { return annotations; } }
 
         /// <summary>
         /// The main pattern graph.
@@ -1282,7 +1282,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The annotations of the matching pattern (test/rule/subpattern)
         /// </summary>
-        public IDictionary<string, string> annotations = new Dictionary<string, string>();
+        public Annotations annotations = new Annotations();
 
         /// <summary>
         /// Our name

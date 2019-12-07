@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Diagnostics;
 using System.IO;
+using System.Collections;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -603,12 +604,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the attribute
         /// </summary>
-        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+        public Annotations Annotations { get { return annotations; } }
 
         /// <summary>
         /// The annotations of the attribute
         /// </summary>
-        public IDictionary<string, string> annotations = new Dictionary<string, string>();
+        public Annotations annotations = new Annotations();
 
         /// <summary>
         /// Initializes an AttributeType instance.
@@ -1170,7 +1171,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the node type
         /// </summary>
-        public abstract IEnumerable<KeyValuePair<string, string>> Annotations { get; }
+        public abstract Annotations Annotations { get; }
     }
 
     /// <summary>
@@ -1306,7 +1307,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the edge type
         /// </summary>
-        public abstract IEnumerable<KeyValuePair<string, string>> Annotations { get; }
+        public abstract Annotations Annotations { get; }
     }
 
     /// <summary>
@@ -1587,5 +1588,34 @@ namespace de.unika.ipd.grGen.libGr
         {
             return Name;
         }
+    }
+
+    public class Annotations : IEnumerable<KeyValuePair<string, string>>
+    {
+        public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
+        {
+            return annotations.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return annotations.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Indexer for the annotations, returns annotation of the corresponding name (in O(1) by Dictionary lookup).
+        /// </summary>
+        object this[string key]
+        {
+            get
+            {
+                return annotations[key];
+            }
+        }
+
+        /// <summary>
+        /// The annotations of the attribute, use the methods above for access (member only available for post-generation changes)
+        /// </summary>
+        public IDictionary<string, string> annotations = new Dictionary<string, string>();
     }
 }

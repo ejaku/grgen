@@ -41,7 +41,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the pattern element.
         /// </summary>
-        IEnumerable<KeyValuePair<string, string>> Annotations { get; }
+        Annotations Annotations { get; }
 
         /// <summary>
         /// The base GrGenType of the pattern element (matching may be constrained further, this is only the base type)
@@ -211,7 +211,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the pattern element
         /// </summary>
-        IEnumerable<KeyValuePair<string, string>> Annotations { get; }
+        Annotations Annotations { get; }
     }
 
     /// <summary>
@@ -276,7 +276,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the matching pattern (test/rule/subpattern)
         /// </summary>
-        IEnumerable<KeyValuePair<string, string>> Annotations { get; }
+        Annotations Annotations { get; }
     }
 
     // TODO: split ISubpatternPattern out of IMatching pattern, def elements are a subpattern only thing 
