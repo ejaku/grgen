@@ -2132,7 +2132,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
             finally
             {
-                Directory.Delete(dirname, true);
+                if((flags & ProcessSpecFlags.KeepGeneratedFiles) == 0 && (flags & ProcessSpecFlags.UseExistingMask) == ProcessSpecFlags.UseNoExistingFiles)
+                    Directory.Delete(dirname, true);
             }
         }
     }
