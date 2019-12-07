@@ -165,7 +165,8 @@ namespace spBench
             MatchGen = new LGSPMatcherGenerator(graph.Model);
             Action = action;
             PatternGraph = (PatternGraph) action.rulePattern.PatternGraph;
-            SearchPlanGraph = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(graph.statistics, PatternGraph, 
+            PlanGraphGenerator planGraphGen = new PlanGraphGenerator(graph.Model);
+            SearchPlanGraph = GenSPGraphFromPlanGraph(planGraphGen.GeneratePlanGraph(graph.statistics, PatternGraph, 
                 false, false, new Dictionary<PatternElement, SetValueType>()));
 
 //            DumpSearchPlanGraph(GenerateSearchPlanGraphNewCost(graph, (PatternGraph) action.RulePattern.PatternGraph, false), action.Name, "initial");
@@ -435,7 +436,8 @@ namespace spBench
 
         private SearchPlanGraph GenSPGraphFromPlanGraph(PlanGraph planGraph)
         {
-            MatchGen.DumpPlanGraph(planGraph, Action.Name, "spBench");
+            PlanGraphGenerator planGraphGen = new PlanGraphGenerator(MatchGen.GetModel());
+            planGraphGen.DumpPlanGraph(planGraph, Action.Name, "spBench");
 
             SearchPlanNode root = new SearchPlanNode("search plan root");
             root.Visited = true;                // inverted logic
@@ -492,7 +494,8 @@ namespace spBench
             {
                 PatternGraph negPatternGraph = patternGraph.negativePatternGraphs[i];
                 NegPatternGraphs[i] = negPatternGraph;
-                NegSPGraphs[i] = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(Graph.statistics, negPatternGraph, 
+                PlanGraphGenerator planGraphGen = new PlanGraphGenerator(MatchGen.GetModel());
+                NegSPGraphs[i] = GenSPGraphFromPlanGraph(planGraphGen.GeneratePlanGraph(Graph.statistics, negPatternGraph, 
                     true, false, new Dictionary<PatternElement, SetValueType>()));
                 NegSPGraphs[i].Root.ElementID = i;
                 Dictionary<String, bool> neededElemNames = new Dictionary<String, bool>();
