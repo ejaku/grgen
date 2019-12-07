@@ -616,8 +616,9 @@ namespace de.unika.ipd.grGen.lgsp
             PlanGraph planGraph = planGraphGen.GeneratePlanGraph(graph.statistics, graph.matchingState.patternGraph, 
                 false, false, new Dictionary<PatternElement, SetValueType>());
             planGraphGen.MarkMinimumSpanningArborescence(planGraph, graph.matchingState.patternGraph.name);
-            SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
-            ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
+            SearchPlanGraphGeneratorAndScheduler searchPlanGraphGeneratorAndScheduler = new SearchPlanGraphGeneratorAndScheduler(graph.Model, matcherGen.LazyNegativeIndependentConditionEvaluation);
+            SearchPlanGraph searchPlanGraph = searchPlanGraphGeneratorAndScheduler.GenerateSearchPlanGraph(planGraph);
+            ScheduledSearchPlan scheduledSearchPlan = searchPlanGraphGeneratorAndScheduler.ScheduleSearchPlan(
                 searchPlanGraph, graph.matchingState.patternGraph, false);
             InterpretationPlanBuilder builder = new InterpretationPlanBuilder(scheduledSearchPlan, searchPlanGraph, graph.Model);
             graph.matchingState.interpretationPlan = builder.BuildInterpretationPlan("ComparisonMatcher_" + graph.graphID);

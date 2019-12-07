@@ -716,8 +716,9 @@ namespace de.unika.ipd.grGen.lgsp
                         isNegativeOrIndependent, isSubpatternLike, matcherGen.InlineIndependents,
                         LGSPMatcherGenerator.ExtractOwnElements(nestingScheduledSearchPlan, patternGraph));
                 planGraphGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
-                SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
-                ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
+                SearchPlanGraphGeneratorAndScheduler searchPlanGraphGeneratorAndScheduler = new SearchPlanGraphGeneratorAndScheduler(matcherGen.GetModel(), matcherGen.LazyNegativeIndependentConditionEvaluation);
+                SearchPlanGraph searchPlanGraph = searchPlanGraphGeneratorAndScheduler.GenerateSearchPlanGraph(planGraph);
+                ScheduledSearchPlan scheduledSearchPlan = searchPlanGraphGeneratorAndScheduler.ScheduleSearchPlan(
                     searchPlanGraph, patternGraph, isNegativeOrIndependent);
                 matcherGen.AppendHomomorphyInformation(scheduledSearchPlan);
                 patternGraph.schedules[i] = scheduledSearchPlan;
