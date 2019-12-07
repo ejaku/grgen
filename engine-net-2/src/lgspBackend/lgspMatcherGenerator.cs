@@ -2948,7 +2948,11 @@ exitSecondLoop: ;
 
             if (EmitDebugValidityChecks)
             {
-                sb.AppendFront("GRGEN_LIBGR.MatchedElementsValidityChecker.Check(match);\n");
+                bool validityCheckDisabled = false;
+                if(matchingPattern.annotations.ContainsAnnotation("validityCheck"))
+                    validityCheckDisabled = matchingPattern.annotations["validityCheck"].Equals("false");
+                if(!validityCheckDisabled)
+                   sb.AppendFront("GRGEN_LIBGR.MatchedElementsValidityChecker.Check(match);\n");
             }
 
             sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match{0});\n", outArguments);

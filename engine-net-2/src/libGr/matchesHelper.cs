@@ -94,6 +94,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             for (int i=0; i < match.NumberOfNodes; ++i)
             {
+                if(match.Pattern.Nodes[i].Annotations.ContainsAnnotation("validityCheck"))
+                    if(match.Pattern.Nodes[i].Annotations["validityCheck"].Equals("false"))
+                        continue;
+
                 INode node = match.getNodeAt(i);
                 if (!node.Valid)
                     throw new Exception(GetExceptionMessage("node", match.Pattern.Nodes[i].Name));
@@ -101,6 +105,10 @@ namespace de.unika.ipd.grGen.libGr
 
             for (int i=0; i < match.NumberOfEdges; ++i)
             {
+                if(match.Pattern.Edges[i].Annotations.ContainsAnnotation("validityCheck"))
+                    if(match.Pattern.Edges[i].Annotations["validityCheck"].Equals("false"))
+                        continue;
+
                 IEdge edge = match.getEdgeAt(i);
                 if (!edge.Valid)
                     throw new Exception(GetExceptionMessage("edge", match.Pattern.Edges[i].Name));

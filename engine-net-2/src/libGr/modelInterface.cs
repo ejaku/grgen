@@ -1605,12 +1605,20 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Indexer for the annotations, returns annotation of the corresponding name (in O(1) by Dictionary lookup).
         /// </summary>
-        object this[string key]
+        public object this[string key]
         {
             get
             {
                 return annotations[key];
             }
+        }
+
+        /// <summary>
+        /// Returns whether the annotations contain the given annotation.
+        /// </summary>
+        public bool ContainsAnnotation(string key)
+        {
+            return annotations.ContainsKey(key);
         }
 
         /// <summary>

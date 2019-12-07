@@ -1,0 +1,17 @@
+new set keepdebug on
+
+new graph debugValidityCheck/validityCheck
+
+exec init
+
+exec [ruleCheckDisabled]
+
+exec init
+
+exec [nodeCheckDisabled]
+
+exec init
+
+exec [edgeCheckDisabled]
+
+exit

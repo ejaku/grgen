@@ -1,0 +1,36 @@
+rule init()
+{
+	modify {
+		n1:Node -- n1;
+		n1 --> .;
+		n1 --> .;
+	}
+}
+
+rule ruleCheckDisabled[validityCheck=false]()
+{
+	n1:Node --> .;
+	
+	modify {
+		delete(n1);
+	}
+}
+
+rule nodeCheckDisabled()
+{
+	n1[validityCheck=false]:Node --> .;
+	
+	modify {
+		delete(n1);
+	}
+}
+
+rule edgeCheckDisabled()
+{
+	n1 -e[validityCheck=false]:UEdge- n1;
+	n1:Node --> .;
+	
+	modify {
+		delete(e);
+	}
+}
