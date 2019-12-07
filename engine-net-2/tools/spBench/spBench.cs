@@ -949,9 +949,10 @@ namespace spBench
                 ScheduledSearchPlan ssp = new ScheduledSearchPlan(
                     (PatternGraph)ctx.Action.rulePattern.PatternGraph, ops, spcostproduct);
 
-                ctx.MatchGen.AppendHomomorphyInformation(ssp);
+                ScheduleEnricher scheduleEnricher = new ScheduleEnricher(ctx.MatchGen.GetModel(), ctx.MatchGen.LazyNegativeIndependentConditionEvaluation);
+                scheduleEnricher.AppendHomomorphyInformation(ssp);
                 ((PatternGraph) ctx.Action.rulePattern.PatternGraph).schedules[0] = ssp;
-                ctx.MatchGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(ctx.Action.patternGraph);
+                scheduleEnricher.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(ctx.Action.patternGraph);
 
 #if DUMP_MATCHERPROGRAMS
                 String outputName = "test.cs";
