@@ -101,6 +101,7 @@
     <Compile Include="ScheduledSearchPlan.cs" />
     <Compile Include="SearchOperationType.cs" />
     <Compile Include="SearchPlanGraph.cs" />
+    <Compile Include="SearchPlanGraphGeneratorAndScheduler.cs" />
     <Compile Include="SearchProgram.cs" />
     <Compile Include="SearchProgramBuilder.cs" />
     <Compile Include="SearchProgramCompleter.cs" />
