@@ -449,6 +449,21 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Indexer that gives access to the attributes of the graph element.
+        /// </summary>
+        public object this[string attrName]
+        {
+            get
+            {
+                return GetAttribute(attrName);
+            }
+            set
+            {
+                SetAttribute(attrName, value);
+            }
+        }
+
+        /// <summary>
         /// Returns the graph element attribute with the given attribute name.
         /// If the graph element type doesn't have an attribute with this name, a NullReferenceException is thrown.
         /// </summary>
@@ -727,6 +742,21 @@ namespace de.unika.ipd.grGen.lgsp
         public int GetUniqueId()
         {
             return uniqueId;
+        }
+
+        /// <summary>
+        /// Indexer that gives access to the attributes of the graph element.
+        /// </summary>
+        public object this[string attrName]
+        {
+            get
+            {
+                return GetAttribute(attrName);
+            }
+            set
+            {
+                SetAttribute(attrName, value);
+            }
         }
 
         /// <summary>

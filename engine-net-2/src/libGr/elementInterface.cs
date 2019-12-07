@@ -47,6 +47,11 @@ namespace de.unika.ipd.grGen.libGr
         int GetUniqueId();
 
         /// <summary>
+        /// Indexer that gives access to the attributes of the graph element.
+        /// </summary>
+        object this[string attrName] { get; set; }
+
+        /// <summary>
         /// Returns the graph element attribute with the given attribute name.
         /// If the graph element type doesn't have an attribute with this name, a NullReferenceException is thrown.
         /// </summary>
