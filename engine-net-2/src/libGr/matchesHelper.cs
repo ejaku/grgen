@@ -110,7 +110,7 @@ namespace de.unika.ipd.grGen.libGr
                         continue;
 
                 IEdge edge = match.getEdgeAt(i);
-                if (!edge.Valid)
+                if (!edge.Valid && edge.Source.Valid && edge.Target.Valid) // an edge that is referenced by not in the graph anymore because its node was deleted is not causing an exception (SPO-like)
                     throw new Exception(GetExceptionMessage("edge", match.Pattern.Edges[i].Name));
             }
 
