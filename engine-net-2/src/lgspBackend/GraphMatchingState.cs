@@ -612,14 +612,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(graph.Model);
             graph.matchingState.patternGraph = matcherGen.BuildPatternGraph(graph);
-            PlanGraphGenerator planGraphGen = new PlanGraphGenerator(graph.Model);
-            PlanGraph planGraph = planGraphGen.GeneratePlanGraph(graph.statistics, graph.matchingState.patternGraph, 
-                false, false, new Dictionary<PatternElement, SetValueType>());
-            planGraphGen.MarkMinimumSpanningArborescence(planGraph, graph.matchingState.patternGraph.name);
-            SearchPlanGraphGeneratorAndScheduler searchPlanGraphGeneratorAndScheduler = new SearchPlanGraphGeneratorAndScheduler(graph.Model, matcherGen.LazyNegativeIndependentConditionEvaluation);
-            SearchPlanGraph searchPlanGraph = searchPlanGraphGeneratorAndScheduler.GenerateSearchPlanGraph(planGraph);
-            ScheduledSearchPlan scheduledSearchPlan = searchPlanGraphGeneratorAndScheduler.ScheduleSearchPlan(
-                searchPlanGraph, graph.matchingState.patternGraph, false);
+            PlanGraph planGraph = PlanGraphGenerator.GeneratePlanGraph(graph.Model, graph.statistics, graph.matchingState.patternGraph, 
+                false, false, matcherGen.InlineIndependents, new Dictionary<PatternElement, SetValueType>());
+            PlanGraphGenerator.MarkMinimumSpanningArborescence(planGraph, graph.matchingState.patternGraph.name, matcherGen.DumpSearchPlan);
+            SearchPlanGraph searchPlanGraph = SearchPlanGraphGeneratorAndScheduler.GenerateSearchPlanGraph(planGraph);
+            ScheduledSearchPlan scheduledSearchPlan = SearchPlanGraphGeneratorAndScheduler.ScheduleSearchPlan(
+                searchPlanGraph, graph.matchingState.patternGraph, false, matcherGen.LazyNegativeIndependentConditionEvaluation);
             InterpretationPlanBuilder builder = new InterpretationPlanBuilder(scheduledSearchPlan, searchPlanGraph, graph.Model);
             graph.matchingState.interpretationPlan = builder.BuildInterpretationPlan("ComparisonMatcher_" + graph.graphID);
             ++GraphMatchingState.numInterpretationPlans;

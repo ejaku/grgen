@@ -7,175 +7,20 @@
 
 // by Moritz Kroll, Edgar Jakumeit
 
-#define MONO_MULTIDIMARRAY_WORKAROUND       // must be equally set to the same flag in lgspGraphStatistics.cs!
-//#define RANDOM_LOOKUP_LIST_START      // currently broken
-//#define DUMP_SCHEDULED_SEARCH_PLAN
-//#define DUMP_SEARCHPROGRAMS
-
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-using de.unika.ipd.grGen.lgsp;
-using de.unika.ipd.grGen.expression;
 using System.IO;
 using de.unika.ipd.grGen.libGr;
-using System.Diagnostics;
-using Microsoft.CSharp;
-using System.CodeDom.Compiler;
-using System.Reflection;
 
 
 namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
-    /// Class generating matcher programs out of rules.
-    /// A PatternGraphAnalyzer must run before the matcher generator is used,
-    /// so that the analysis data is written the pattern graphs of the matching patterns to generate code for.
+    /// Class for generating a search plan graph out of a plan graph and for creating a schedule out of it.
     /// </summary>
     public class SearchPlanGraphGeneratorAndScheduler
     {
-        /// <summary>
-        /// The model for which the matcher functions shall be generated.
-        /// </summary>
-        private IGraphModel model;
-
-        /// <summary>
-        /// If true, the negatives, independents, and evaluations are inserted at the end of the schedule
-        /// instead of as early as possible; this is likely less efficient but allows to use checks 
-        /// which require that they are only called after a structural match was found
-        /// </summary>
-        public bool LazyNegativeIndependentConditionEvaluation = false;
-
-        /// <summary>
-        /// Instantiates a new instance of LGSPMatcherGenerator with the given graph model.
-        /// A PatternGraphAnalyzer must run before the matcher generator is used,
-        /// so that the analysis data is written the pattern graphs of the matching patterns to generate code for.
-        /// </summary>
-        /// <param name="model">The model for which the matcher functions shall be generated.</param>
-        public SearchPlanGraphGeneratorAndScheduler(IGraphModel model, bool lazyNegativeIndependentConditionEvaluation)
-        {
-            this.model = model;
-            this.LazyNegativeIndependentConditionEvaluation = lazyNegativeIndependentConditionEvaluation;
-        }
-
-        public IGraphModel GetModel()
-        {
-            return model;
-        }
-
-        public static void CostDecreaseForLeavingInlinedIndependent(SearchPlanEdge planEdge)
-        {
-            // considerably lower the costs for operations leaving the inlined independent part, so this is done early
-            if(planEdge.Target is SearchPlanEdgeNode) // we may leave the independent part only with an edge
-            {
-                if(planEdge.Source.PatternElement.OriginalIndependentElement != null) // when the start is a node from an inlined independent
-                {
-                    SearchPlanEdgeNode edge = (SearchPlanEdgeNode)planEdge.Target;
-                    if(edge.PatternEdgeSource.PatternElement.OriginalIndependentElement != null && edge.PatternEdgeTarget.PatternElement.OriginalIndependentElement == null
-                        || edge.PatternEdgeSource.PatternElement.OriginalIndependentElement == null && edge.PatternEdgeTarget.PatternElement.OriginalIndependentElement != null)
-                    { // and the edge is incident to elements inside and outside of the inlined independent
-                        planEdge.Cost = (float)Math.Sqrt(Math.Sqrt(planEdge.Cost));
-                    }
-                }
-            }
-        }
-
-#region Dump functions
-        private String GetDumpName(SearchPlanNode node)
-        {
-            if(node.NodeType == PlanNodeType.Root) return "root";
-            else if(node.NodeType == PlanNodeType.Node) return "node_" + node.PatternElement.Name;
-            else return "edge_" + node.PatternElement.Name;
-        }
-
-        private void DumpNode(StreamWriter sw, SearchPlanNode node)
-        {
-            if(node.NodeType == PlanNodeType.Edge)
-                sw.WriteLine("node:{{title:\"{0}\" label:\"{1} : {2}\" shape:ellipse}}",
-                    GetDumpName(node), node.PatternElement.TypeID, node.PatternElement.Name);
-            else
-                sw.WriteLine("node:{{title:\"{0}\" label:\"{1} : {2}\"}}",
-                    GetDumpName(node), node.PatternElement.TypeID, node.PatternElement.Name);
-        }
-
-        private void DumpEdge(StreamWriter sw, SearchOperationType opType, SearchPlanNode source, SearchPlanNode target, float cost, bool markRed)
-        {
-            String typeStr = " #";
-            switch(opType)
-            {
-                case SearchOperationType.Outgoing: typeStr = "--"; break;
-                case SearchOperationType.Incoming: typeStr = "->"; break;
-                case SearchOperationType.Incident: typeStr = "<->"; break;
-                case SearchOperationType.ImplicitSource: typeStr = "IS"; break;
-                case SearchOperationType.ImplicitTarget: typeStr = "IT"; break;
-                case SearchOperationType.Implicit: typeStr = "IM"; break;
-                case SearchOperationType.Lookup: typeStr = " *"; break;
-                case SearchOperationType.ActionPreset: typeStr = " p"; break;
-                case SearchOperationType.NegIdptPreset: typeStr = "np"; break;
-                case SearchOperationType.SubPreset: typeStr = "sp"; break;
-            }
-
-            sw.WriteLine("edge:{{sourcename:\"{0}\" targetname:\"{1}\" label:\"{2} / {3:0.00}\"{4}}}",
-                GetDumpName(source), GetDumpName(target), typeStr, cost, markRed ? " color:red" : "");
-        }
-
-        private void DumpScheduledSearchPlan(ScheduledSearchPlan ssp, String dumpname)
-        {
-            StreamWriter sw = new StreamWriter(dumpname + "-scheduledsp.txt", false);
-            SourceBuilder sb = new SourceBuilder();
-            ssp.Explain(sb, model);
-            sb.Append("\n");
-            sw.WriteLine(sb.ToString());
-            sw.Close();
-
-/*            StreamWriter sw = new StreamWriter(dumpname + "-scheduledsp.vcg", false);
-
-            sw.WriteLine("graph:{\ninfoname 1: \"Attributes\"\ndisplay_edge_labels: no\nport_sharing: no\nsplines: no\n"
-                + "\nmanhattan_edges: no\nsmanhattan_edges: no\norientation: bottom_to_top\nedges: yes\nnodes: yes\nclassname 1: \"normal\"");
-            sw.WriteLine("node:{title:\"root\" label:\"ROOT\"}\n");
-            SearchPlanNode root = new SearchPlanNode("root");
-
-            sw.WriteLine("graph:{{title:\"pattern\" label:\"{0}\" status:clustered color:lightgrey", dumpname);
-
-            foreach(SearchOperation op in ssp.Operations)
-            {
-                switch(op.Type)
-                {
-                    case SearchOperationType.Lookup:
-                    case SearchOperationType.Incoming:
-                    case SearchOperationType.Outgoing:
-                    case SearchOperationType.ImplicitSource:
-                    case SearchOperationType.ImplicitTarget:
-                    {
-                        SearchPlanNode spnode = (SearchPlanNode) op.Element;
-                        DumpNode(sw, spnode);
-                        SearchPlanNode src;
-                        switch(op.Type)
-                        {
-                            case SearchOperationType.Lookup:
-                            case SearchOperationType.ActionPreset:
-                            case SearchOperationType.NegPreset:
-                                src = root;
-                                break;
-                            default:
-                                src = op.SourceSPNode;
-                                break;
-                        }
-                        DumpEdge(sw, op.Type, src, spnode, op.CostToEnd, false);
-                        break;
-                    }
-                    case SearchOperationType.Condition:
-                        sw.WriteLine("node:{title:\"Condition\" label:\"CONDITION\"}\n");
-                        break;
-                    case SearchOperationType.NegativePattern:
-                        sw.WriteLine("node:{title:\"NAC\" label:\"NAC\"}\n");
-                        break;
-                }
-            }*/
-        }
-#endregion Dump functions
-
         /// <summary>
         /// Generate search plan graph out of the plan graph,
         /// search plan graph only contains edges chosen by the MSA algorithm.
@@ -184,7 +29,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="planGraph">The source plan graph</param>
         /// <returns>A new search plan graph</returns>
-        public SearchPlanGraph GenerateSearchPlanGraph(PlanGraph planGraph)
+        public static SearchPlanGraph GenerateSearchPlanGraph(PlanGraph planGraph)
         {
             SearchPlanNode searchPlanRoot = new SearchPlanNode("search plan root");
             SearchPlanNode[] searchPlanNodes = new SearchPlanNode[planGraph.Nodes.Length];
@@ -244,8 +89,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Generates a scheduled search plan for a given search plan graph
         /// </summary>
-        public ScheduledSearchPlan ScheduleSearchPlan(SearchPlanGraph spGraph,
-            PatternGraph patternGraph, bool isNegativeOrIndependent)
+        public static ScheduledSearchPlan ScheduleSearchPlan(SearchPlanGraph spGraph,
+            PatternGraph patternGraph, bool isNegativeOrIndependent, bool lazyNegativeIndependentConditionEvaluation)
         {
             // the schedule
             List<SearchOperation> operations = new List<SearchOperation>();
@@ -418,13 +263,30 @@ namespace de.unika.ipd.grGen.lgsp
             InsertInlinedVariableAssignmentsIntoSchedule(patternGraph, operations);
 
             // insert conditions into the schedule
-            InsertConditionsIntoSchedule(patternGraph.ConditionsPlusInlined, operations);
+            InsertConditionsIntoSchedule(patternGraph.ConditionsPlusInlined, operations, lazyNegativeIndependentConditionEvaluation);
 
             float cost = operations.Count > 0 ? operations[0].CostToEnd : 0;
             return new ScheduledSearchPlan(patternGraph, operations.ToArray(), cost);
         }
 
-        private void RemoveInlinedIndependentElementsAtEnd(List<SearchOperation> operations)
+        private static void CostDecreaseForLeavingInlinedIndependent(SearchPlanEdge planEdge)
+        {
+            // considerably lower the costs for operations leaving the inlined independent part, so this is done early
+            if(planEdge.Target is SearchPlanEdgeNode) // we may leave the independent part only with an edge
+            {
+                if(planEdge.Source.PatternElement.OriginalIndependentElement != null) // when the start is a node from an inlined independent
+                {
+                    SearchPlanEdgeNode edge = (SearchPlanEdgeNode)planEdge.Target;
+                    if(edge.PatternEdgeSource.PatternElement.OriginalIndependentElement != null && edge.PatternEdgeTarget.PatternElement.OriginalIndependentElement == null
+                        || edge.PatternEdgeSource.PatternElement.OriginalIndependentElement == null && edge.PatternEdgeTarget.PatternElement.OriginalIndependentElement != null)
+                    { // and the edge is incident to elements inside and outside of the inlined independent
+                        planEdge.Cost = (float)Math.Sqrt(Math.Sqrt(planEdge.Cost));
+                    }
+                }
+            }
+        }
+
+        private static void RemoveInlinedIndependentElementsAtEnd(List<SearchOperation> operations)
         {
             while(operations.Count > 0 &&
                 IsOperationAnInlinedIndependentElement(operations[operations.Count - 1]))
@@ -445,7 +307,7 @@ namespace de.unika.ipd.grGen.lgsp
             return false;
         }
 
-        private void InsertInlinedElementIdentityCheckIntoSchedule(PatternGraph patternGraph, List<SearchOperation> operations)
+        private static void InsertInlinedElementIdentityCheckIntoSchedule(PatternGraph patternGraph, List<SearchOperation> operations)
         {
             for(int i = 0; i < operations.Count; ++i)
             {
@@ -480,11 +342,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Inserts conditions into the schedule given by the operations list at their earliest possible position
-        /// todo: set/map operations are potentially expensive, 
-        /// they shouldn't be insertes asap, but depending an weight, 
+        /// todo: set/map operations are potentially expensive, they shouldn't be insertes asap, but depending an weight, 
         /// derived from statistics over set/map size for graph elements, quiet well known for anonymous rule sets
         /// </summary>
-        public void InsertConditionsIntoSchedule(PatternCondition[] conditions, List<SearchOperation> operations)
+        private static void InsertConditionsIntoSchedule(PatternCondition[] conditions, List<SearchOperation> operations, bool lazyNegativeIndependentConditionEvaluation)
         {
             // get needed (in order to evaluate it) elements of each condition 
             Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[conditions.Length];
@@ -518,7 +379,7 @@ namespace de.unika.ipd.grGen.lgsp
                         continue;
                     }
 
-                    if(LazyNegativeIndependentConditionEvaluation)
+                    if(lazyNegativeIndependentConditionEvaluation)
                     {
                         break;
                     }
@@ -548,7 +409,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Inserts inlined variable assignments into the schedule given by the operations list at their earliest possible position
         /// </summary>
-        public void InsertInlinedVariableAssignmentsIntoSchedule(PatternGraph patternGraph, List<SearchOperation> operations)
+        private static void InsertInlinedVariableAssignmentsIntoSchedule(PatternGraph patternGraph, List<SearchOperation> operations)
         {
             // compute the number of inlined parameter variables
             int numInlinedParameterVariables = 0;
@@ -616,5 +477,103 @@ namespace de.unika.ipd.grGen.lgsp
                 operations.Insert(j + 1, so);
             }
         }
+
+#region Dump functions
+        private static String GetDumpName(SearchPlanNode node)
+        {
+            if(node.NodeType == PlanNodeType.Root) return "root";
+            else if(node.NodeType == PlanNodeType.Node) return "node_" + node.PatternElement.Name;
+            else return "edge_" + node.PatternElement.Name;
+        }
+
+        private static void DumpNode(StreamWriter sw, SearchPlanNode node)
+        {
+            if(node.NodeType == PlanNodeType.Edge)
+                sw.WriteLine("node:{{title:\"{0}\" label:\"{1} : {2}\" shape:ellipse}}",
+                    GetDumpName(node), node.PatternElement.TypeID, node.PatternElement.Name);
+            else
+                sw.WriteLine("node:{{title:\"{0}\" label:\"{1} : {2}\"}}",
+                    GetDumpName(node), node.PatternElement.TypeID, node.PatternElement.Name);
+        }
+
+        private static void DumpEdge(StreamWriter sw, SearchOperationType opType, SearchPlanNode source, SearchPlanNode target, float cost, bool markRed)
+        {
+            String typeStr = " #";
+            switch(opType)
+            {
+                case SearchOperationType.Outgoing: typeStr = "--"; break;
+                case SearchOperationType.Incoming: typeStr = "->"; break;
+                case SearchOperationType.Incident: typeStr = "<->"; break;
+                case SearchOperationType.ImplicitSource: typeStr = "IS"; break;
+                case SearchOperationType.ImplicitTarget: typeStr = "IT"; break;
+                case SearchOperationType.Implicit: typeStr = "IM"; break;
+                case SearchOperationType.Lookup: typeStr = " *"; break;
+                case SearchOperationType.ActionPreset: typeStr = " p"; break;
+                case SearchOperationType.NegIdptPreset: typeStr = "np"; break;
+                case SearchOperationType.SubPreset: typeStr = "sp"; break;
+            }
+
+            sw.WriteLine("edge:{{sourcename:\"{0}\" targetname:\"{1}\" label:\"{2} / {3:0.00}\"{4}}}",
+                GetDumpName(source), GetDumpName(target), typeStr, cost, markRed ? " color:red" : "");
+        }
+
+        private static void DumpScheduledSearchPlan(ScheduledSearchPlan ssp, IGraphModel model, String dumpname)
+        {
+            StreamWriter sw = new StreamWriter(dumpname + "-scheduledsp.txt", false);
+            SourceBuilder sb = new SourceBuilder();
+            ssp.Explain(sb, model);
+            sb.Append("\n");
+            sw.WriteLine(sb.ToString());
+            sw.Close();
+        }
+
+        private static void DumpScheduledSearchPlanAsVcg(ScheduledSearchPlan ssp, IGraphModel model, String dumpname)
+        {
+            StreamWriter sw = new StreamWriter(dumpname + "-scheduledsp.vcg", false);
+
+            sw.WriteLine("graph:{\ninfoname 1: \"Attributes\"\ndisplay_edge_labels: no\nport_sharing: no\nsplines: no\n"
+                + "\nmanhattan_edges: no\nsmanhattan_edges: no\norientation: bottom_to_top\nedges: yes\nnodes: yes\nclassname 1: \"normal\"");
+            sw.WriteLine("node:{title:\"root\" label:\"ROOT\"}\n");
+            SearchPlanNode root = new SearchPlanNode("root");
+
+            sw.WriteLine("graph:{{title:\"pattern\" label:\"{0}\" status:clustered color:lightgrey", dumpname);
+
+            foreach(SearchOperation op in ssp.Operations)
+            {
+                switch(op.Type)
+                {
+                    case SearchOperationType.Lookup:
+                    case SearchOperationType.Incoming:
+                    case SearchOperationType.Outgoing:
+                    case SearchOperationType.ImplicitSource:
+                    case SearchOperationType.ImplicitTarget:
+                        {
+                            SearchPlanNode spnode = (SearchPlanNode)op.Element;
+                            DumpNode(sw, spnode);
+                            SearchPlanNode src;
+                            switch(op.Type)
+                            {
+                                case SearchOperationType.Lookup:
+                                case SearchOperationType.ActionPreset:
+                                case SearchOperationType.NegIdptPreset:
+                                    src = root;
+                                    break;
+                                default:
+                                    src = op.SourceSPNode;
+                                    break;
+                            }
+                            DumpEdge(sw, op.Type, src, spnode, op.CostToEnd, false);
+                            break;
+                        }
+                    case SearchOperationType.Condition:
+                        sw.WriteLine("node:{title:\"Condition\" label:\"CONDITION\"}\n");
+                        break;
+                    case SearchOperationType.NegativePattern:
+                        sw.WriteLine("node:{title:\"NAC\" label:\"NAC\"}\n");
+                        break;
+                }
+            }
+        }
+#endregion Dump functions
     }
 }

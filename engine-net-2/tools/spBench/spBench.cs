@@ -165,9 +165,8 @@ namespace spBench
             MatchGen = new LGSPMatcherGenerator(graph.Model);
             Action = action;
             PatternGraph = (PatternGraph) action.rulePattern.PatternGraph;
-            PlanGraphGenerator planGraphGen = new PlanGraphGenerator(graph.Model);
-            SearchPlanGraph = GenSPGraphFromPlanGraph(planGraphGen.GeneratePlanGraph(graph.statistics, PatternGraph, 
-                false, false, new Dictionary<PatternElement, SetValueType>()));
+            SearchPlanGraph = GenSPGraphFromPlanGraph(PlanGraphGenerator.GeneratePlanGraph(graph.Model, graph.statistics, PatternGraph, 
+                false, false, MatchGen.InlineIndependents, new Dictionary<PatternElement, SetValueType>()));
 
 //            DumpSearchPlanGraph(GenerateSearchPlanGraphNewCost(graph, (PatternGraph) action.RulePattern.PatternGraph, false), action.Name, "initial");
 
@@ -436,8 +435,7 @@ namespace spBench
 
         private SearchPlanGraph GenSPGraphFromPlanGraph(PlanGraph planGraph)
         {
-            PlanGraphGenerator planGraphGen = new PlanGraphGenerator(MatchGen.GetModel());
-            planGraphGen.DumpPlanGraph(planGraph, Action.Name, "spBench");
+            PlanGraphGenerator.DumpPlanGraph(planGraph, Action.Name, "spBench");
 
             SearchPlanNode root = new SearchPlanNode("search plan root");
             root.Visited = true;                // inverted logic
@@ -494,9 +492,8 @@ namespace spBench
             {
                 PatternGraph negPatternGraph = patternGraph.negativePatternGraphs[i];
                 NegPatternGraphs[i] = negPatternGraph;
-                PlanGraphGenerator planGraphGen = new PlanGraphGenerator(MatchGen.GetModel());
-                NegSPGraphs[i] = GenSPGraphFromPlanGraph(planGraphGen.GeneratePlanGraph(Graph.statistics, negPatternGraph, 
-                    true, false, new Dictionary<PatternElement, SetValueType>()));
+                NegSPGraphs[i] = GenSPGraphFromPlanGraph(PlanGraphGenerator.GeneratePlanGraph(MatchGen.GetModel(), Graph.statistics, negPatternGraph, 
+                    true, false, MatchGen.InlineIndependents, new Dictionary<PatternElement, SetValueType>()));
                 NegSPGraphs[i].Root.ElementID = i;
                 Dictionary<String, bool> neededElemNames = new Dictionary<String, bool>();
                 foreach(PatternNode node in negPatternGraph.Nodes)
@@ -949,10 +946,9 @@ namespace spBench
                 ScheduledSearchPlan ssp = new ScheduledSearchPlan(
                     (PatternGraph)ctx.Action.rulePattern.PatternGraph, ops, spcostproduct);
 
-                ScheduleEnricher scheduleEnricher = new ScheduleEnricher(ctx.MatchGen.GetModel(), ctx.MatchGen.LazyNegativeIndependentConditionEvaluation);
-                scheduleEnricher.AppendHomomorphyInformation(ssp);
+                ScheduleEnricher.AppendHomomorphyInformation(ctx.MatchGen.GetModel(), ssp);
                 ((PatternGraph) ctx.Action.rulePattern.PatternGraph).schedules[0] = ssp;
-                scheduleEnricher.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(ctx.Action.patternGraph);
+                ScheduleEnricher.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(ctx.Action.patternGraph, ctx.MatchGen.LazyNegativeIndependentConditionEvaluation);
 
 #if DUMP_MATCHERPROGRAMS
                 String outputName = "test.cs";

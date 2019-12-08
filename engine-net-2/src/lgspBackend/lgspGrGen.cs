@@ -705,23 +705,20 @@ namespace de.unika.ipd.grGen.lgsp
                 patternGraph.AdaptToMaybeNull(i);
                 if(matcherGen.Profile)
                     LGSPMatcherGenerator.SetNeedForProfiling(patternGraph);
-                PlanGraphGenerator planGraphGen = new PlanGraphGenerator(matcherGen.GetModel());
                 PlanGraph planGraph;
                 if(graphStatistics != null)
-                    planGraph = planGraphGen.GeneratePlanGraph(graphStatistics, patternGraph, 
-                        isNegativeOrIndependent, isSubpatternLike,
+                    planGraph = PlanGraphGenerator.GeneratePlanGraph(matcherGen.GetModel(), graphStatistics, patternGraph, 
+                        isNegativeOrIndependent, isSubpatternLike, matcherGen.InlineIndependents,
                         ScheduleEnricher.ExtractOwnElements(nestingScheduledSearchPlan, patternGraph));
                 else
                     planGraph = GenerateStaticPlanGraph(patternGraph,
                         isNegativeOrIndependent, isSubpatternLike, matcherGen.InlineIndependents,
                         ScheduleEnricher.ExtractOwnElements(nestingScheduledSearchPlan, patternGraph));
-                planGraphGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
-                SearchPlanGraphGeneratorAndScheduler searchPlanGraphGeneratorAndScheduler = new SearchPlanGraphGeneratorAndScheduler(matcherGen.GetModel(), matcherGen.LazyNegativeIndependentConditionEvaluation);
-                SearchPlanGraph searchPlanGraph = searchPlanGraphGeneratorAndScheduler.GenerateSearchPlanGraph(planGraph);
-                ScheduledSearchPlan scheduledSearchPlan = searchPlanGraphGeneratorAndScheduler.ScheduleSearchPlan(
-                    searchPlanGraph, patternGraph, isNegativeOrIndependent);
-                ScheduleEnricher scheduleEnricher = new ScheduleEnricher(matcherGen.GetModel(), matcherGen.LazyNegativeIndependentConditionEvaluation);
-                scheduleEnricher.AppendHomomorphyInformation(scheduledSearchPlan);
+                PlanGraphGenerator.MarkMinimumSpanningArborescence(planGraph, patternGraph.name, matcherGen.DumpSearchPlan);
+                SearchPlanGraph searchPlanGraph = SearchPlanGraphGeneratorAndScheduler.GenerateSearchPlanGraph(planGraph);
+                ScheduledSearchPlan scheduledSearchPlan = SearchPlanGraphGeneratorAndScheduler.ScheduleSearchPlan(
+                    searchPlanGraph, patternGraph, isNegativeOrIndependent, matcherGen.LazyNegativeIndependentConditionEvaluation);
+                ScheduleEnricher.AppendHomomorphyInformation(matcherGen.GetModel(), scheduledSearchPlan);
                 patternGraph.schedules[i] = scheduledSearchPlan;
                 patternGraph.RevertMaybeNullAdaption(i);
 
@@ -1273,8 +1270,7 @@ namespace de.unika.ipd.grGen.lgsp
                 GenerateScheduledSearchPlans(matchingPattern.patternGraph, graphStatistics, 
                     matcherGen, !(matchingPattern is LGSPRulePattern), false, null);
 
-                ScheduleEnricher scheduleEnricher = new ScheduleEnricher(model, matcherGen.LazyNegativeIndependentConditionEvaluation);
-                scheduleEnricher.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(matchingPattern.patternGraph);
+                ScheduleEnricher.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(matchingPattern.patternGraph, matcherGen.LazyNegativeIndependentConditionEvaluation);
 
                 ScheduleEnricher.ParallelizeAsNeeded(matchingPattern);
 
