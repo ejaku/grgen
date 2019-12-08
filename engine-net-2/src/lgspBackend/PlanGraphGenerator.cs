@@ -8,67 +8,28 @@
 // by Moritz Kroll, Edgar Jakumeit
 
 #define MONO_MULTIDIMARRAY_WORKAROUND       // must be equally set to the same flag in lgspGraphStatistics.cs!
-//#define RANDOM_LOOKUP_LIST_START      // currently broken
-//#define DUMP_SCHEDULED_SEARCH_PLAN
-//#define DUMP_SEARCHPROGRAMS
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-using de.unika.ipd.grGen.lgsp;
-using de.unika.ipd.grGen.expression;
 using System.IO;
 using de.unika.ipd.grGen.libGr;
-using System.Diagnostics;
-using Microsoft.CSharp;
-using System.CodeDom.Compiler;
-using System.Reflection;
 
 
 namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
-    /// Class generating matcher programs out of rules.
-    /// A PatternGraphAnalyzer must run before the matcher generator is used,
-    /// so that the analysis data is written the pattern graphs of the matching patterns to generate code for.
+    /// Class for generating a plan graph out of a pattern graph.
     /// </summary>
     public class PlanGraphGenerator
     {
-        /// <summary>
-        /// The model for which the matcher functions shall be generated.
-        /// </summary>
-        private IGraphModel model;
-
-        /// <summary>
-        /// If true, generated search plans are dumped in VCG and TXT files in the current directory.
-        /// </summary>
-        public bool DumpSearchPlan = false;
-
-        /// <summary>
-        /// If true, the independents are to be inlined
-        /// </summary>
-        public bool InlineIndependents = true;
-
-        /// <summary>
-        /// Instantiates a new instance of LGSPMatcherGenerator with the given graph model.
-        /// A PatternGraphAnalyzer must run before the matcher generator is used,
-        /// so that the analysis data is written the pattern graphs of the matching patterns to generate code for.
-        /// </summary>
-        /// <param name="model">The model for which the matcher functions shall be generated.</param>
-        public PlanGraphGenerator(IGraphModel model)
-        {
-            this.model = model;
-        }
-
         /// <summary>
         /// Generate plan graph for given pattern graph with costs from the analyzed host graph.
         /// Plan graph contains nodes representing the pattern elements (nodes and edges)
         /// and edges representing the matching operations to get the elements by.
         /// Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
-        /// </summary>
-        public PlanGraph GeneratePlanGraph(LGSPGraphStatistics graphStatistics, PatternGraph patternGraph,
-            bool isNegativeOrIndependent, bool isSubpatternLike, 
+        public static PlanGraph GeneratePlanGraph(IGraphModel model, LGSPGraphStatistics graphStatistics, PatternGraph patternGraph,
+            bool isNegativeOrIndependent, bool isSubpatternLike, bool InlineIndependents,
             IDictionary<PatternElement, SetValueType> presetsFromIndependentInlining)
         {
             // 
@@ -191,7 +152,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 
                 CreateSourceTargetIncomingOutgoingPlanEdges(edge, planNode, planEdges,
-                    originalToInlinedIndependent, graphStatistics, patternGraph, isPreset, zeroCost);
+                    originalToInlinedIndependent, model, graphStatistics, patternGraph, isPreset, zeroCost);
 
                 edge.TempPlanMapping = planNode;
                 ++nodesIndex;
@@ -220,7 +181,7 @@ namespace de.unika.ipd.grGen.lgsp
                         }
 
                         CreateSourceTargetIncomingOutgoingPlanEdges(edge, planNode, planEdges,
-                            originalToInlinedIndependent, graphStatistics, patternGraph, isPreset, zeroCost);
+                            originalToInlinedIndependent, model, graphStatistics, patternGraph, isPreset, zeroCost);
 
                         edge.TempPlanMapping = planNode;
                         ++nodesIndex;
@@ -482,9 +443,9 @@ namespace de.unika.ipd.grGen.lgsp
                 rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNode, cost);
         }
 
-        private void CreateSourceTargetIncomingOutgoingPlanEdges(PatternEdge edge, PlanNode planNode, 
+        private static void CreateSourceTargetIncomingOutgoingPlanEdges(PatternEdge edge, PlanNode planNode, 
             List<PlanEdge> planEdges, IDictionary<PatternNode, PatternNode> originalToInlinedIndependent,
-            LGSPGraphStatistics graphStatistics, PatternGraph patternGraph, bool isPreset, float zeroCost)
+            IGraphModel model, LGSPGraphStatistics graphStatistics, PatternGraph patternGraph, bool isPreset, float zeroCost)
         {
             // only add implicit source operation if edge source is needed and the edge source is 
             // not a preset node and not a storage node and not an index node and not a cast node
@@ -805,9 +766,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="planGraph">The plan graph to be marked</param>
         /// <param name="dumpName">Names the dump targets if dump compiler flags are set</param>
-        public void MarkMinimumSpanningArborescence(PlanGraph planGraph, String dumpName)
+        /// <param name="dumpSearchPlan">If true, generated search plans are dumped in VCG and TXT files in the current directory.</param>
+        public static void MarkMinimumSpanningArborescence(PlanGraph planGraph, String dumpName, bool dumpSearchPlan)
         {
-            if(DumpSearchPlan)
+            if(dumpSearchPlan)
                 DumpPlanGraph(planGraph, dumpName, "initial");
 
             // nodes not already looked at
@@ -861,7 +823,7 @@ namespace de.unika.ipd.grGen.lgsp
 exitSecondLoop: ;
             }
 
-            if(DumpSearchPlan)
+            if(dumpSearchPlan)
             {
                 DumpPlanGraph(planGraph, dumpName, "contracted");
                 DumpContractedPlanGraph(planGraph, dumpName);
@@ -880,19 +842,19 @@ exitSecondLoop: ;
                 if(curNode.IncomingMSAEdge == null) throw new Exception();
             }
 
-            if(DumpSearchPlan)
+            if(dumpSearchPlan)
                 DumpFinalPlanGraph(planGraph, dumpName);
         }
 
 #region Dump functions
-        private String GetDumpName(PlanNode node)
+        private static String GetDumpName(PlanNode node)
         {
             if(node.NodeType == PlanNodeType.Root) return "root";
             else if(node.NodeType == PlanNodeType.Node) return "node_" + node.PatternElement.Name;
             else return "edge_" + node.PatternElement.Name;
         }
 
-        public void DumpPlanGraph(PlanGraph planGraph, String dumpname, String namesuffix)
+        public static void DumpPlanGraph(PlanGraph planGraph, String dumpname, String namesuffix)
         {
             StreamWriter sw = new StreamWriter(dumpname + "-plangraph-" + namesuffix + ".vcg", false);
 
@@ -914,7 +876,7 @@ exitSecondLoop: ;
             sw.Close();
         }
 
-        private void DumpNode(StreamWriter sw, PlanNode node)
+        private static void DumpNode(StreamWriter sw, PlanNode node)
         {
             if(node.NodeType == PlanNodeType.Edge)
                 sw.WriteLine("node:{{title:\"{0}\" label:\"{1} : {2}\" shape:ellipse}}",
@@ -924,7 +886,7 @@ exitSecondLoop: ;
                     GetDumpName(node), node.PatternElement.TypeID, node.PatternElement.Name);
         }
 
-        private void DumpEdge(StreamWriter sw, PlanEdge edge, bool markRed)
+        private static void DumpEdge(StreamWriter sw, PlanEdge edge, bool markRed)
         {
             String typeStr = " #";
             switch(edge.Type)
@@ -946,7 +908,7 @@ exitSecondLoop: ;
                 markRed ? " color:red" : "");
         }
 
-        private void DumpSuperNode(StreamWriter sw, PlanSuperNode superNode, Dictionary<PlanSuperNode, bool> dumpedSuperNodes)
+        private static void DumpSuperNode(StreamWriter sw, PlanSuperNode superNode, Dictionary<PlanSuperNode, bool> dumpedSuperNodes)
         {
             PlanPseudoNode curNode = superNode.Child;
             sw.WriteLine("graph:{title:\"super node\" label:\"super node\" status:clustered color:lightgrey");
@@ -971,7 +933,7 @@ exitSecondLoop: ;
             sw.WriteLine("}");
         }
 
-        private void DumpContractedPlanGraph(PlanGraph planGraph, String dumpname)
+        private static void DumpContractedPlanGraph(PlanGraph planGraph, String dumpname)
         {
             StreamWriter sw = new StreamWriter(dumpname + "-contractedplangraph.vcg", false);
 
@@ -1003,7 +965,7 @@ exitSecondLoop: ;
             sw.Close();
         }
 
-        private void DumpFinalPlanGraph(PlanGraph planGraph, String dumpname)
+        private static void DumpFinalPlanGraph(PlanGraph planGraph, String dumpname)
         {
             StreamWriter sw = new StreamWriter(dumpname + "-finalplangraph.vcg", false);
 

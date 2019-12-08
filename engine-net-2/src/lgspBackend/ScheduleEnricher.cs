@@ -7,67 +7,27 @@
 
 // by Moritz Kroll, Edgar Jakumeit
 
-#define MONO_MULTIDIMARRAY_WORKAROUND       // must be equally set to the same flag in lgspGraphStatistics.cs!
-//#define RANDOM_LOOKUP_LIST_START      // currently broken
-//#define DUMP_SCHEDULED_SEARCH_PLAN
-//#define DUMP_SEARCHPROGRAMS
-
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.expression;
-using System.IO;
 using de.unika.ipd.grGen.libGr;
 using System.Diagnostics;
-using Microsoft.CSharp;
-using System.CodeDom.Compiler;
-using System.Reflection;
 
 
 namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
-    /// Class generating matcher programs out of rules.
-    /// A PatternGraphAnalyzer must run before the matcher generator is used,
-    /// so that the analysis data is written the pattern graphs of the matching patterns to generate code for.
+    /// Class enriching schedules with homomorphy information, 
+    /// merging negative and independent schedules into the main schedule,
+    /// and parallelizing schedules.
     /// </summary>
     public class ScheduleEnricher
     {
         /// <summary>
-        /// The model for which the matcher functions shall be generated.
-        /// </summary>
-        private IGraphModel model;
-
-        /// <summary>
-        /// If true, the negatives, independents, and evaluations are inserted at the end of the schedule
-        /// instead of as early as possible; this is likely less efficient but allows to use checks 
-        /// which require that they are only called after a structural match was found
-        /// </summary>
-        public bool LazyNegativeIndependentConditionEvaluation = false;
-
-        /// <summary>
-        /// Instantiates a new instance of LGSPMatcherGenerator with the given graph model.
-        /// A PatternGraphAnalyzer must run before the matcher generator is used,
-        /// so that the analysis data is written the pattern graphs of the matching patterns to generate code for.
-        /// </summary>
-        /// <param name="model">The model for which the matcher functions shall be generated.</param>
-        public ScheduleEnricher(IGraphModel model, bool lazyNegativeIndependentConditionEvaluation)
-        {
-            this.model = model;
-            this.LazyNegativeIndependentConditionEvaluation = lazyNegativeIndependentConditionEvaluation;
-        }
-
-        public IGraphModel GetModel()
-        {
-            return model;
-        }
-
-        /// <summary>
         /// Appends homomorphy information to each operation of the scheduled search plan
         /// </summary>
-        public void AppendHomomorphyInformation(ScheduledSearchPlan ssp)
+        public static void AppendHomomorphyInformation(IGraphModel model, ScheduledSearchPlan ssp)
         {
             // no operation -> nothing which could be homomorph
             if(ssp.Operations.Length == 0)
@@ -88,17 +48,17 @@ namespace de.unika.ipd.grGen.lgsp
 
                 if(ssp.Operations[i].Type == SearchOperationType.NegativePattern)
                 {
-                    AppendHomomorphyInformation((ScheduledSearchPlan)ssp.Operations[i].Element);
+                    AppendHomomorphyInformation(model, (ScheduledSearchPlan)ssp.Operations[i].Element);
                     continue;
                 }
 
                 if(ssp.Operations[i].Type == SearchOperationType.IndependentPattern)
                 {
-                    AppendHomomorphyInformation((ScheduledSearchPlan)ssp.Operations[i].Element);
+                    AppendHomomorphyInformation(model, (ScheduledSearchPlan)ssp.Operations[i].Element);
                     continue;
                 }
 
-                DetermineAndAppendHomomorphyChecks(ssp, i);
+                DetermineAndAppendHomomorphyChecks(model, ssp, i);
             }
         }
 
@@ -107,7 +67,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// at the operation of the given position within the scheduled search plan
         /// and appends them.
         /// </summary>
-        public void DetermineAndAppendHomomorphyChecks(ScheduledSearchPlan ssp, int j)
+        private static void DetermineAndAppendHomomorphyChecks(IGraphModel model, ScheduledSearchPlan ssp, int j)
         {
             // take care of global homomorphy
             FillInGlobalHomomorphyPatternElements(ssp, j);
@@ -268,7 +228,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// fill in globally homomorphic elements as exception to global isomorphy check
         /// </summary>
-        public void FillInGlobalHomomorphyPatternElements(ScheduledSearchPlan ssp, int j)
+        private static void FillInGlobalHomomorphyPatternElements(ScheduledSearchPlan ssp, int j)
         {
             SearchPlanNode spn_j = (SearchPlanNode)ssp.Operations[j].Element;
 
@@ -346,42 +306,42 @@ namespace de.unika.ipd.grGen.lgsp
         /// Negative/Independent schedules are merged as an operation into their enclosing schedules,
         /// at a position determined by their costs but not before all of their needed elements were computed
         /// </summary>
-        public void MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(PatternGraph patternGraph)
+        public static void MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(PatternGraph patternGraph, bool lazyNegativeIndependentConditionEvaluation)
         {
             foreach(PatternGraph neg in patternGraph.negativePatternGraphsPlusInlined)
             {
-                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(neg);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(neg, lazyNegativeIndependentConditionEvaluation);
             }
 
             foreach(PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
             {
-                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(idpt);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(idpt, lazyNegativeIndependentConditionEvaluation);
             }
 
             foreach(Alternative alt in patternGraph.alternativesPlusInlined)
             {
                 foreach(PatternGraph altCase in alt.alternativeCases)
                 {
-                    MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(altCase);
+                    MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(altCase, lazyNegativeIndependentConditionEvaluation);
                 }
             }
 
             foreach(Iterated iter in patternGraph.iteratedsPlusInlined)
             {
-                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(iter.iteratedPattern);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(iter.iteratedPattern, lazyNegativeIndependentConditionEvaluation);
             }
 
-            InsertNegativesAndIndependentsIntoSchedule(patternGraph);
+            InsertNegativesAndIndependentsIntoSchedule(patternGraph, lazyNegativeIndependentConditionEvaluation);
         }
 
         /// <summary>
         /// Inserts schedules of negative and independent pattern graphs into the schedule of the enclosing pattern graph
         /// </summary>
-        public void InsertNegativesAndIndependentsIntoSchedule(PatternGraph patternGraph)
+        private static void InsertNegativesAndIndependentsIntoSchedule(PatternGraph patternGraph, bool lazyNegativeIndependentConditionEvaluation)
         {
             for(int i=0; i<patternGraph.schedules.Length; ++i)
             {
-                InsertNegativesAndIndependentsIntoSchedule(patternGraph, i);
+                InsertNegativesAndIndependentsIntoSchedule(patternGraph, i, lazyNegativeIndependentConditionEvaluation);
             }
         }
 
@@ -389,7 +349,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Inserts schedules of negative and independent pattern graphs into the schedule of the enclosing pattern graph
         /// for the schedule with the given array index
         /// </summary>
-        public void InsertNegativesAndIndependentsIntoSchedule(PatternGraph patternGraph, int index)
+        private static void InsertNegativesAndIndependentsIntoSchedule(PatternGraph patternGraph, int index, bool lazyNegativeIndependentConditionEvaluation)
         {
             // todo: erst implicit node, dann negative/independent, auch wenn negative/independent mit erstem implicit moeglich wird
             patternGraph.schedulesIncludingNegativesAndIndependents[index] = null; // an explain might have filled this
@@ -428,7 +388,7 @@ namespace de.unika.ipd.grGen.lgsp
                         continue;
                     }
 
-                    if(LazyNegativeIndependentConditionEvaluation)
+                    if(lazyNegativeIndependentConditionEvaluation)
                     {
                         break;
                     }
@@ -484,7 +444,7 @@ namespace de.unika.ipd.grGen.lgsp
                         continue;
                     }
 
-                    if(LazyNegativeIndependentConditionEvaluation)
+                    if(lazyNegativeIndependentConditionEvaluation)
                     {
                         break;
                     }
@@ -532,7 +492,7 @@ namespace de.unika.ipd.grGen.lgsp
                 new ScheduledSearchPlan(patternGraph, operations.ToArray(), cost);
         }
 
-        private void InsertInlinedIndependentCheckForDuplicateMatch(List<SearchOperation> operations)
+        private static void InsertInlinedIndependentCheckForDuplicateMatch(List<SearchOperation> operations)
         {
             bool isInlinedIndependentElementExisting = false;
             foreach(SearchOperation op in operations)
@@ -772,7 +732,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Non- is-matched-flag-based isomorphy checking for nested alternative cases/iterateds
         /// </summary>
-        public static void ParallelizeAlternativeIterated(PatternGraph patternGraph)
+        private static void ParallelizeAlternativeIterated(PatternGraph patternGraph)
         {
             foreach(Alternative alt in patternGraph.alternativesPlusInlined)
             {
@@ -827,7 +787,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Non- is-matched-flag-based isomorphy checking for nested negatives/independents, 
         /// patch into already cloned parallel ssp
         /// </summary>
-        public static void ParallelizeNegativeIndependent(ScheduledSearchPlan ssp)
+        private static void ParallelizeNegativeIndependent(ScheduledSearchPlan ssp)
         {
             foreach(SearchOperation so in ssp.Operations)
             {
@@ -861,7 +821,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public static void ParallelizeYielding(PatternGraph patternGraph)
+        private static void ParallelizeYielding(PatternGraph patternGraph)
         {
             patternGraph.parallelizedYieldings = new PatternYielding[patternGraph.YieldingsPlusInlined.Length];
             for(int i = 0; i < patternGraph.YieldingsPlusInlined.Length; ++i)
@@ -874,7 +834,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public static void SetNeedForParallelizedVersion(ExpressionOrYielding expyield)
+        private static void SetNeedForParallelizedVersion(ExpressionOrYielding expyield)
         {
             expyield.SetNeedForParallelizedVersion(true);
             foreach(ExpressionOrYielding child in expyield)

@@ -1916,17 +1916,14 @@ namespace de.unika.ipd.grGen.lgsp
                 patternGraph.AdaptToMaybeNull(i);
                 if(Profile)
                     SetNeedForProfiling(patternGraph);
-                PlanGraphGenerator planGraphGen = new PlanGraphGenerator(model);
-                PlanGraph planGraph = planGraphGen.GeneratePlanGraph(graph.statistics, patternGraph,
-                    isNegativeOrIndependent, isSubpatternLike,
+                PlanGraph planGraph = PlanGraphGenerator.GeneratePlanGraph(model, graph.statistics, patternGraph,
+                    isNegativeOrIndependent, isSubpatternLike, InlineIndependents,
                     ScheduleEnricher.ExtractOwnElements(nestingScheduledSearchPlan, patternGraph));
-                planGraphGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
-                SearchPlanGraphGeneratorAndScheduler searchPlanGraphCreatorAndScheduler = new SearchPlanGraphGeneratorAndScheduler(model, LazyNegativeIndependentConditionEvaluation);
-                SearchPlanGraph searchPlanGraph = searchPlanGraphCreatorAndScheduler.GenerateSearchPlanGraph(planGraph);
-                ScheduledSearchPlan scheduledSearchPlan = searchPlanGraphCreatorAndScheduler.ScheduleSearchPlan(
-                    searchPlanGraph, patternGraph, isNegativeOrIndependent);
-                ScheduleEnricher scheduleEnricher = new ScheduleEnricher(model, LazyNegativeIndependentConditionEvaluation);
-                scheduleEnricher.AppendHomomorphyInformation(scheduledSearchPlan);
+                PlanGraphGenerator.MarkMinimumSpanningArborescence(planGraph, patternGraph.name, DumpSearchPlan);
+                SearchPlanGraph searchPlanGraph = SearchPlanGraphGeneratorAndScheduler.GenerateSearchPlanGraph(planGraph);
+                ScheduledSearchPlan scheduledSearchPlan = SearchPlanGraphGeneratorAndScheduler.ScheduleSearchPlan(
+                    searchPlanGraph, patternGraph, isNegativeOrIndependent, LazyNegativeIndependentConditionEvaluation);
+                ScheduleEnricher.AppendHomomorphyInformation(model, scheduledSearchPlan);
                 patternGraph.schedules[i] = scheduledSearchPlan;
                 patternGraph.RevertMaybeNullAdaption(i);
 
@@ -2090,8 +2087,7 @@ namespace de.unika.ipd.grGen.lgsp
                 LGSPGrGen.GenerateScheduledSearchPlans(smp.patternGraph, graphStatistics, 
                     this, true, false, null);
 
-                ScheduleEnricher scheduleEnricher = new ScheduleEnricher(model, LazyNegativeIndependentConditionEvaluation);
-                scheduleEnricher.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph);
+                ScheduleEnricher.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph, LazyNegativeIndependentConditionEvaluation);
 
                 ScheduleEnricher.ParallelizeAsNeeded(smp);
             }
@@ -2102,8 +2098,7 @@ namespace de.unika.ipd.grGen.lgsp
                 LGSPGrGen.GenerateScheduledSearchPlans(action.rulePattern.patternGraph, graphStatistics, 
                     this, false, false, null);
 
-                ScheduleEnricher scheduleEnricher = new ScheduleEnricher(model, LazyNegativeIndependentConditionEvaluation);
-                scheduleEnricher.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph);
+                ScheduleEnricher.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph, LazyNegativeIndependentConditionEvaluation);
 
                 ScheduleEnricher.ParallelizeAsNeeded(action.rulePattern);
             }
@@ -2141,8 +2136,7 @@ namespace de.unika.ipd.grGen.lgsp
                 GenerateScheduledSearchPlans(smp.patternGraph, graph, 
                     true, false, null);
 
-                ScheduleEnricher scheduleEnricher = new ScheduleEnricher(model, LazyNegativeIndependentConditionEvaluation);
-                scheduleEnricher.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph);
+                ScheduleEnricher.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph, LazyNegativeIndependentConditionEvaluation);
 
                 ScheduleEnricher.ParallelizeAsNeeded(smp);
 
@@ -2155,8 +2149,7 @@ namespace de.unika.ipd.grGen.lgsp
                 GenerateScheduledSearchPlans(action.rulePattern.patternGraph, graph,
                     false, false, null);
 
-                ScheduleEnricher scheduleEnricher = new ScheduleEnricher(model, LazyNegativeIndependentConditionEvaluation);
-                scheduleEnricher.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph);
+                ScheduleEnricher.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph, LazyNegativeIndependentConditionEvaluation);
 
                 ScheduleEnricher.ParallelizeAsNeeded(action.rulePattern);
 
