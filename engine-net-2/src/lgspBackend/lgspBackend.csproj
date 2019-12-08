@@ -64,6 +64,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContainerExpression.cs" />
     <Compile Include="Expression.cs" />
     <Compile Include="GraphComparisonMatcher.cs" />
     <Compile Include="GraphMatchingState.cs" />
