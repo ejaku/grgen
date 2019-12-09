@@ -94,6 +94,7 @@
     <Compile Include="lgspTransactionManagerUndoItems.cs" />
     <Compile Include="lgspUniquenessEnsurer.cs" />
     <Compile Include="NamesOfEntities.cs" />
+    <Compile Include="NeededEntitiesEmitter.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="PatternGraphAnalyzer.cs" />
     <Compile Include="PlanGraph.cs" />
