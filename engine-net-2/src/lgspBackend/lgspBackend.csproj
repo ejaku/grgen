@@ -113,6 +113,7 @@
     <Compile Include="SequenceComputationGenerator.cs" />
     <Compile Include="SequenceContainerConstructorEmitter.cs" />
     <Compile Include="SequenceExpressionGenerator.cs" />
+    <Compile Include="SequenceGenerator.cs" />
     <Compile Include="SequenceGeneratorHelper.cs" />
     <Compile Include="SourceBuilder.cs" />
     <Compile Include="GraphCanonizer.cs" />
