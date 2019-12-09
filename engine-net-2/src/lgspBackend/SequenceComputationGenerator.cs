@@ -13,37 +13,33 @@ using de.unika.ipd.grGen.libGr;
 namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
-    /// The sequence computation generator 
+    /// The sequence computation generator contains code to generate sequence computations,
+    /// it is in use by the sequence generator, also supplying result variable handling to it.
     /// </summary>
     public class SequenceComputationGenerator
     {
-        // the model object of the .grg to compile
         IGraphModel model;
 
-        SequenceGeneratorHelper helper;
-
-        SequenceExpressionGenerator seqExprGen;
-
-        // environment for (type) checking the compiled sequences
         SequenceCheckingEnvironmentCompiled env;
+
+        SequenceExpressionGenerator exprGen;
+
+        SequenceGeneratorHelper helper;
 
         bool fireDebugEvents;
 
 
-        /// <summary>
-        /// Constructs the sequence computation generator
-        /// </summary>
-        public SequenceComputationGenerator(IGraphModel model, SequenceGeneratorHelper helper, SequenceExpressionGenerator seqExprGen, SequenceCheckingEnvironmentCompiled env, bool fireDebugEvents)
+        public SequenceComputationGenerator(IGraphModel model, SequenceCheckingEnvironmentCompiled env, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper helper, bool fireDebugEvents)
         {
             this.model = model;
-            this.seqExprGen = seqExprGen;
             this.env = env;
+            this.exprGen = seqExprGen;
             this.helper = helper;
             this.fireDebugEvents = fireDebugEvents;
         }
 
         /// <summary>
-        /// Returns string containing a C# expression to get the value of the result variable of the sequence-like given
+        /// Returns a string containing a C# expression to get the value of the result variable of the sequence or sequence computation construct
         /// (every sequence part writes a success-value which is read by other parts determining execution flow)
         /// </summary>
         public string GetResultVar(SequenceBase seq)
@@ -52,7 +48,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns string containing a C# assignment to set the result variable of the sequence-like given
+        /// Returns a string containing a C# assignment to set the result variable of the sequence or sequence computation construct
         /// to the value as computed by the C# expression in the string given
         /// (every sequence part writes a success-value which is read by other parts determining execution flow)
         /// </summary>
@@ -65,7 +61,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns string containing C# declaration of the sequence-like result variable
+        /// Returns a string containing a C# declaration of the result variable of the sequence (or sequence computation) construct
         /// </summary>
         public string DeclareResultVar(SequenceBase seq)
         {
@@ -101,7 +97,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     else
                     {
-                        string comp = seqExprGen.GetSequenceExpression((SequenceExpression)seqAssign.SourceValueProvider, source);
+                        string comp = exprGen.GetSequenceExpression((SequenceExpression)seqAssign.SourceValueProvider, source);
                         EmitAssignment(seqAssign.Target, comp, source);
                         source.AppendFront(SetResultVar(seqAssign, GetResultVar(seqAssign.Target)));
                     }
@@ -132,7 +128,7 @@ namespace de.unika.ipd.grGen.lgsp
                         string containerVar = "tmp_eval_once_" + seqAdd.Id;
                         source.AppendFront("object " + containerVar + " = " + container + ";\n");
                         string sourceValue = "srcval_" + seqAdd.Id;
-                        source.AppendFront("object " + sourceValue + " = " + seqExprGen.GetSequenceExpression(seqAdd.Expr, source) + ";\n");
+                        source.AppendFront("object " + sourceValue + " = " + exprGen.GetSequenceExpression(seqAdd.Expr, source) + ";\n");
                         string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
                         source.AppendFront("if(" + containerVar + " is IList) {\n");
                         source.Indent();
@@ -143,7 +139,7 @@ namespace de.unika.ipd.grGen.lgsp
                         {
                             string array = "((System.Collections.IList)" + containerVar + ")";
                             if(destinationValue != null)
-                                source.AppendFront("int " + destinationValue + " = (int)" + seqExprGen.GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
+                                source.AppendFront("int " + destinationValue + " = (int)" + exprGen.GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
                             if(seqAdd.Attribute != null)
                             {
                                 if(destinationValue != null)
@@ -187,7 +183,7 @@ namespace de.unika.ipd.grGen.lgsp
                         {
                             string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
                             if(destinationValue != null)
-                                source.AppendFront("int " + destinationValue + " = (int)" + seqExprGen.GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
+                                source.AppendFront("int " + destinationValue + " = (int)" + exprGen.GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
                             if(seqAdd.Attribute != null)
                             {
                                 if(destinationValue != null)
@@ -226,7 +222,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.Indent();
 
                         if(destinationValue != null)
-                            source.AppendFront("object " + destinationValue + " = " + seqExprGen.GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
+                            source.AppendFront("object " + destinationValue + " = " + exprGen.GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
                         string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
                         if(seqAdd.Attribute != null)
                         {
@@ -269,10 +265,10 @@ namespace de.unika.ipd.grGen.lgsp
                         string array = container;
                         string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.ContainerType(env)), model);
                         string sourceValue = "srcval_" + seqAdd.Id;
-                        source.AppendFront(arrayValueType + " " + sourceValue + " = (" + arrayValueType + ")" + seqExprGen.GetSequenceExpression(seqAdd.Expr, source) + ";\n");
+                        source.AppendFront(arrayValueType + " " + sourceValue + " = (" + arrayValueType + ")" + exprGen.GetSequenceExpression(seqAdd.Expr, source) + ";\n");
                         string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
                         if(destinationValue != null)
-                            source.AppendFront("int " + destinationValue + " = (int)" + seqExprGen.GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
+                            source.AppendFront("int " + destinationValue + " = (int)" + exprGen.GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
                         if(seqAdd.Attribute != null)
                         {
                             source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqAdd.Id + " = (GRGEN_LIBGR.IGraphElement)" + helper.GetVar(seqAdd.Attribute.SourceVar) + ";\n");
@@ -313,10 +309,10 @@ namespace de.unika.ipd.grGen.lgsp
                         string deque = container;
                         string dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.ContainerType(env)), model);
                         string sourceValue = "srcval_" + seqAdd.Id;
-                        source.AppendFront(dequeValueType + " " + sourceValue + " = (" + dequeValueType + ")" + seqExprGen.GetSequenceExpression(seqAdd.Expr, source) + ";\n");
+                        source.AppendFront(dequeValueType + " " + sourceValue + " = (" + dequeValueType + ")" + exprGen.GetSequenceExpression(seqAdd.Expr, source) + ";\n");
                         string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
                         if(destinationValue != null)
-                            source.AppendFront("int " + destinationValue + " = (int)" + seqExprGen.GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
+                            source.AppendFront("int " + destinationValue + " = (int)" + exprGen.GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
                         if(seqAdd.Attribute != null)
                         {
                             source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqAdd.Id + " = (GRGEN_LIBGR.IGraphElement)" + helper.GetVar(seqAdd.Attribute.SourceVar) + ";\n");
@@ -357,11 +353,11 @@ namespace de.unika.ipd.grGen.lgsp
                         string dictionary = container;
                         string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.ContainerType(env)), model);
                         string sourceValue = " srcval_" + seqAdd.Id;
-                        source.AppendFront(dictSrcType + " " + sourceValue + " = (" + dictSrcType + ")" + seqExprGen.GetSequenceExpression(seqAdd.Expr, source) + ";\n");
+                        source.AppendFront(dictSrcType + " " + sourceValue + " = (" + dictSrcType + ")" + exprGen.GetSequenceExpression(seqAdd.Expr, source) + ";\n");
                         string dictDstType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractDst(seqAdd.ContainerType(env)), model);
                         string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
                         if(destinationValue != null)
-                            source.AppendFront(dictDstType + " " + destinationValue + " = (" + dictDstType + ")" + seqExprGen.GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
+                            source.AppendFront(dictDstType + " " + destinationValue + " = (" + dictDstType + ")" + exprGen.GetSequenceExpression(seqAdd.ExprDst, source) + ";\n");
                         if(seqAdd.Attribute != null)
                         {
                             source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqAdd.Id + " = (GRGEN_LIBGR.IGraphElement)" + helper.GetVar(seqAdd.Attribute.SourceVar) + ";\n");
@@ -425,7 +421,7 @@ namespace de.unika.ipd.grGen.lgsp
                         {
                             string array = "((System.Collections.IList)" + containerVar + ")";
                             if(sourceValue != null)
-                                source.AppendFront("int " + sourceValue + " = (int)" + seqExprGen.GetSequenceExpression(seqDel.Expr, source) + ";\n");
+                                source.AppendFront("int " + sourceValue + " = (int)" + exprGen.GetSequenceExpression(seqDel.Expr, source) + ";\n");
                             if(seqDel.Attribute != null)
                             {
                                 if(sourceValue != null)
@@ -469,7 +465,7 @@ namespace de.unika.ipd.grGen.lgsp
                         {
                             string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
                             if(sourceValue != null)
-                                source.AppendFront("int " + sourceValue + " = (int)" + seqExprGen.GetSequenceExpression(seqDel.Expr, source) + ";\n");
+                                source.AppendFront("int " + sourceValue + " = (int)" + exprGen.GetSequenceExpression(seqDel.Expr, source) + ";\n");
                             if(seqDel.Attribute != null)
                             {
                                 if(sourceValue != null)
@@ -509,7 +505,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                         string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
                         if(sourceValue != null)
-                            source.AppendFront("object " + sourceValue + " = " + seqExprGen.GetSequenceExpression(seqDel.Expr, source) + ";\n");
+                            source.AppendFront("object " + sourceValue + " = " + exprGen.GetSequenceExpression(seqDel.Expr, source) + ";\n");
                         if(seqDel.Attribute != null)
                         {
                             source.AppendFront("if(GRGEN_LIBGR.TypesHelper.ExtractDst(GRGEN_LIBGR.TypesHelper.AttributeTypeToXgrsType(attrType_" + seqDel.Id + ")) == \"SetValueType\")\n");
@@ -555,7 +551,7 @@ namespace de.unika.ipd.grGen.lgsp
                         string array = container;
                         string sourceValue = seqDel.Expr == null ? null : "srcval_" + seqDel.Id;
                         if(sourceValue != null)
-                            source.AppendFront("int " + sourceValue + " = (int)" + seqExprGen.GetSequenceExpression(seqDel.Expr, source) + ";\n");
+                            source.AppendFront("int " + sourceValue + " = (int)" + exprGen.GetSequenceExpression(seqDel.Expr, source) + ";\n");
                         if(seqDel.Attribute != null)
                         {
                             source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqDel.Id + " = (GRGEN_LIBGR.IGraphElement)" + helper.GetVar(seqDel.Attribute.SourceVar) + ";\n");
@@ -596,7 +592,7 @@ namespace de.unika.ipd.grGen.lgsp
                         string deque = container;
                         string sourceValue = seqDel.Expr == null ? null : "srcval_" + seqDel.Id;
                         if(sourceValue != null)
-                            source.AppendFront("int " + sourceValue + " = (int)" + seqExprGen.GetSequenceExpression(seqDel.Expr, source) + ";\n");
+                            source.AppendFront("int " + sourceValue + " = (int)" + exprGen.GetSequenceExpression(seqDel.Expr, source) + ";\n");
                         if(seqDel.Attribute != null)
                         {
                             source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqDel.Id + " = (GRGEN_LIBGR.IGraphElement)" + helper.GetVar(seqDel.Attribute.SourceVar) + ";\n");
@@ -637,7 +633,7 @@ namespace de.unika.ipd.grGen.lgsp
                         string dictionary = container;
                         string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqDel.ContainerType(env)), model);
                         string sourceValue = "srcval_" + seqDel.Id;
-                        source.AppendFront(dictSrcType + " " + sourceValue + " = (" + dictSrcType + ")" + seqExprGen.GetSequenceExpression(seqDel.Expr, source) + ";\n");
+                        source.AppendFront(dictSrcType + " " + sourceValue + " = (" + dictSrcType + ")" + exprGen.GetSequenceExpression(seqDel.Expr, source) + ";\n");
                         if(seqDel.Attribute != null)
                         {
                             source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqDel.Id + " = (GRGEN_LIBGR.IGraphElement)" + helper.GetVar(seqDel.Attribute.SourceVar) + ";\n");
@@ -883,9 +879,9 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceComputationVFree seqVFree = (SequenceComputationVFree)seqComp;
                     if(seqVFree.Reset)
-                        source.AppendFront("graph.FreeVisitedFlag((int)" + seqExprGen.GetSequenceExpression(seqVFree.VisitedFlagExpression, source) + ");\n");
+                        source.AppendFront("graph.FreeVisitedFlag((int)" + exprGen.GetSequenceExpression(seqVFree.VisitedFlagExpression, source) + ");\n");
                     else
-                        source.AppendFront("graph.FreeVisitedFlagNonReset((int)" + seqExprGen.GetSequenceExpression(seqVFree.VisitedFlagExpression, source) + ");\n");
+                        source.AppendFront("graph.FreeVisitedFlagNonReset((int)" + exprGen.GetSequenceExpression(seqVFree.VisitedFlagExpression, source) + ");\n");
                     source.AppendFront(SetResultVar(seqVFree, "null"));
                     break;
                 }
@@ -893,7 +889,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceComputationType.VReset:
                 {
                     SequenceComputationVReset seqVReset = (SequenceComputationVReset)seqComp;
-                    source.AppendFront("graph.ResetVisitedFlag((int)" + seqExprGen.GetSequenceExpression(seqVReset.VisitedFlagExpression, source) + ");\n");
+                    source.AppendFront("graph.ResetVisitedFlag((int)" + exprGen.GetSequenceExpression(seqVReset.VisitedFlagExpression, source) + ");\n");
                     source.AppendFront(SetResultVar(seqVReset, "null"));
                     break;
                 }
@@ -908,7 +904,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.Append("(string)");
                         else
                             source.Append(", ");
-                        source.Append(seqExprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
+                        source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
                     }
                     source.Append(");\n");
                     source.AppendFront(SetResultVar(seqDebug, "null"));
@@ -925,7 +921,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.Append("(string)");
                         else
                             source.Append(", ");
-                        source.Append(seqExprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
+                        source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
                     }
                     source.Append(");\n");
                     source.AppendFront(SetResultVar(seqDebug, "null"));
@@ -942,7 +938,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.Append("(string)");
                         else
                             source.Append(", ");
-                        source.Append(seqExprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
+                        source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
                     }
                     source.Append(");\n");
                     source.AppendFront(SetResultVar(seqDebug, "null"));
@@ -959,7 +955,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.Append("(string)");
                         else
                             source.Append(", ");
-                        source.Append(seqExprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
+                        source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
                     }
                     source.Append(");\n");
                     source.AppendFront(SetResultVar(seqDebug, "null"));
@@ -974,11 +970,11 @@ namespace de.unika.ipd.grGen.lgsp
                     for(int i = 1; i < seqDebug.ArgExprs.Count; ++i)
                     {
                         if(i % 2 == 1)
-                            source.AppendFront("values.Add(" + seqExprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source) + ");\n");
+                            source.AppendFront("values.Add(" + exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source) + ");\n");
                         else
-                            source.AppendFront("annotations.Add((string)" + seqExprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source) + ");\n");
+                            source.AppendFront("annotations.Add((string)" + exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source) + ");\n");
                     }
-                    source.AppendFront("procEnv.DebugHighlighting(" + seqExprGen.GetSequenceExpression(seqDebug.ArgExprs[0], source) + ", values, annotations);\n");
+                    source.AppendFront("procEnv.DebugHighlighting(" + exprGen.GetSequenceExpression(seqDebug.ArgExprs[0], source) + ", values, annotations);\n");
                     source.AppendFront(SetResultVar(seqDebug, "null"));
                     break;
                 }
@@ -997,7 +993,7 @@ namespace de.unika.ipd.grGen.lgsp
                                 source.AppendFront("object " + emitVal + ";\n");
                                 declarationEmitted = true;
                             }
-                            source.AppendFront(emitVal + " = " + seqExprGen.GetSequenceExpression(seqEmit.Expressions[i], source) + ";\n");
+                            source.AppendFront(emitVal + " = " + exprGen.GetSequenceExpression(seqEmit.Expressions[i], source) + ";\n");
                             if(seqEmit.Expressions[i].Type(env) == ""
                                 || seqEmit.Expressions[i].Type(env).StartsWith("set<") || seqEmit.Expressions[i].Type(env).StartsWith("map<")
                                 || seqEmit.Expressions[i].Type(env).StartsWith("array<") || seqEmit.Expressions[i].Type(env).StartsWith("deque<"))
@@ -1024,7 +1020,7 @@ namespace de.unika.ipd.grGen.lgsp
                                 source.AppendFront("procEnv." + emitWriter + ".Write(\"" + text + "\");\n");
                             }
                             else
-                                source.AppendFront("procEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString(" + seqExprGen.GetSequenceExpression(seqEmit.Expressions[i], source) + ", graph));\n");
+                                source.AppendFront("procEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString(" + exprGen.GetSequenceExpression(seqEmit.Expressions[i], source) + ", graph));\n");
                         }
                     }
                     source.AppendFront(SetResultVar(seqEmit, "null"));
@@ -1037,7 +1033,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if(!(seqRec.Expression is SequenceExpressionConstant))
                     {
                         string recVal = "recval_" + seqRec.Id;
-                        source.AppendFront("object " + recVal + " = " + seqExprGen.GetSequenceExpression(seqRec.Expression, source) + ";\n");
+                        source.AppendFront("object " + recVal + " = " + exprGen.GetSequenceExpression(seqRec.Expression, source) + ";\n");
                         if(seqRec.Expression.Type(env) == "" 
                             || seqRec.Expression.Type(env).StartsWith("set<") || seqRec.Expression.Type(env).StartsWith("map<")
                             || seqRec.Expression.Type(env).StartsWith("array<") || seqRec.Expression.Type(env).StartsWith("deque<"))
@@ -1062,7 +1058,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.AppendFront("procEnv.Recorder.Write(\"" + text + "\");\n");
                         }
                         else
-                            source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString(" + seqExprGen.GetSequenceExpression(seqRec.Expression, source) + ", graph));\n");
+                            source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString(" + exprGen.GetSequenceExpression(seqRec.Expression, source) + ", graph));\n");
                     }
                     source.AppendFront(SetResultVar(seqRec, "null"));
                     break;
@@ -1072,13 +1068,13 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceComputationExport seqExp = (SequenceComputationExport)seqComp;
                     string expFileName = "expfilename_" + seqExp.Id;
-                    source.AppendFront("object " + expFileName + " = " + seqExprGen.GetSequenceExpression(seqExp.Name, source) + ";\n");
+                    source.AppendFront("object " + expFileName + " = " + exprGen.GetSequenceExpression(seqExp.Name, source) + ";\n");
                     string expArguments = "exparguments_" + seqExp.Id;
                     source.AppendFront("List<string> " + expArguments + " = new List<string>();\n");
                     source.AppendFront(expArguments + ".Add(" + expFileName + ".ToString());\n");
                     string expGraph = "expgraph_" + seqExp.Id;
                     if(seqExp.Graph != null)
-                        source.AppendFront("GRGEN_LIBGR.IGraph " + expGraph + " = (GRGEN_LIBGR.IGraph)" + seqExprGen.GetSequenceExpression(seqExp.Graph, source) + ";\n");
+                        source.AppendFront("GRGEN_LIBGR.IGraph " + expGraph + " = (GRGEN_LIBGR.IGraph)" + exprGen.GetSequenceExpression(seqExp.Graph, source) + ";\n");
                     else
                         source.AppendFront("GRGEN_LIBGR.IGraph " + expGraph + " = graph;\n");
                     source.AppendFront("if(" + expGraph + " is GRGEN_LIBGR.INamedGraph)\n");
@@ -1093,7 +1089,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceComputationDeleteFile seqDelFile = (SequenceComputationDeleteFile)seqComp;
                     string delFileName = "delfilename_" + seqDelFile.Id;
-                    source.AppendFront("object " + delFileName + " = " + seqExprGen.GetSequenceExpression(seqDelFile.Name, source) + ";\n");
+                    source.AppendFront("object " + delFileName + " = " + exprGen.GetSequenceExpression(seqDelFile.Name, source) + ";\n");
                     source.AppendFront("\tSystem.IO.File.Delete((string)" + delFileName + ");\n");
                     source.AppendFront(SetResultVar(seqDelFile, "null"));
                     break;
@@ -1104,14 +1100,14 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceComputationGraphAdd seqAdd = (SequenceComputationGraphAdd)seqComp;
                     if(seqAdd.ExprSrc == null)
                     {
-                        string typeExpr = seqExprGen.GetSequenceExpression(seqAdd.Expr, source);
+                        string typeExpr = exprGen.GetSequenceExpression(seqAdd.Expr, source);
                         source.Append("GRGEN_LIBGR.GraphHelper.AddNodeOfType(" + typeExpr + ", graph)");
                     }
                     else
                     {
-                        string typeExpr = seqExprGen.GetSequenceExpression(seqAdd.Expr, source);
-                        string srcExpr = seqExprGen.GetSequenceExpression(seqAdd.ExprSrc, source);
-                        string tgtExpr = seqExprGen.GetSequenceExpression(seqAdd.ExprDst, source);
+                        string typeExpr = exprGen.GetSequenceExpression(seqAdd.Expr, source);
+                        string srcExpr = exprGen.GetSequenceExpression(seqAdd.ExprSrc, source);
+                        string tgtExpr = exprGen.GetSequenceExpression(seqAdd.ExprDst, source);
                         source.Append("GRGEN_LIBGR.GraphHelper.AddEdgeOfType(" + typeExpr + ", (GRGEN_LIBGR.INode)" + srcExpr + ", (GRGEN_LIBGR.INode)" + tgtExpr + ", graph)");
                     }
                     break;
@@ -1121,7 +1117,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceComputationGraphRem seqRem = (SequenceComputationGraphRem)seqComp;
                     string remVal = "remval_" + seqRem.Id;
-                    string seqRemExpr = seqExprGen.GetSequenceExpression(seqRem.Expr, source);
+                    string seqRemExpr = exprGen.GetSequenceExpression(seqRem.Expr, source);
                     if(seqRem.Expr.Type(env) == "")
                     {
                         source.AppendFront("GRGEN_LIBGR.IGraphElement " + remVal + " = (GRGEN_LIBGR.IGraphElement)" + seqRemExpr + ";\n");
@@ -1160,8 +1156,8 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceComputationType.GraphRetype:
                 {
                     SequenceComputationGraphRetype seqRetype = (SequenceComputationGraphRetype)seqComp;
-                    string typeExpr = seqExprGen.GetSequenceExpression(seqRetype.TypeExpr, source);
-                    string elemExpr = seqExprGen.GetSequenceExpression(seqRetype.ElemExpr, source);
+                    string typeExpr = exprGen.GetSequenceExpression(seqRetype.TypeExpr, source);
+                    string elemExpr = exprGen.GetSequenceExpression(seqRetype.ElemExpr, source);
                     source.Append("GRGEN_LIBGR.GraphHelper.RetypeGraphElement((GRGEN_LIBGR.IGraphElement)" + elemExpr + ", "  + typeExpr + ", graph)");
                     break;
                 }
@@ -1171,14 +1167,14 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceComputationGraphAddCopy seqAddCopy = (SequenceComputationGraphAddCopy)seqComp;
                     if(seqAddCopy.ExprSrc == null)
                     {
-                        string nodeExpr = seqExprGen.GetSequenceExpression(seqAddCopy.Expr, source);
+                        string nodeExpr = exprGen.GetSequenceExpression(seqAddCopy.Expr, source);
                         source.Append("GRGEN_LIBGR.GraphHelper.AddCopyOfNode(" + nodeExpr + ", graph)");
                     }
                     else
                     {
-                        string edgeExpr = seqExprGen.GetSequenceExpression(seqAddCopy.Expr, source);
-                        string srcExpr = seqExprGen.GetSequenceExpression(seqAddCopy.ExprSrc, source);
-                        string tgtExpr = seqExprGen.GetSequenceExpression(seqAddCopy.ExprDst, source);
+                        string edgeExpr = exprGen.GetSequenceExpression(seqAddCopy.Expr, source);
+                        string srcExpr = exprGen.GetSequenceExpression(seqAddCopy.ExprSrc, source);
+                        string tgtExpr = exprGen.GetSequenceExpression(seqAddCopy.ExprDst, source);
                         source.Append("GRGEN_LIBGR.GraphHelper.AddCopyOfEdge(" + edgeExpr + ", (GRGEN_LIBGR.INode)" + srcExpr + ", (GRGEN_LIBGR.INode)" + tgtExpr + ", graph)");
                     }
                     break;
@@ -1187,8 +1183,8 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceComputationType.GraphMerge:
                 {
                     SequenceComputationGraphMerge seqMrg = (SequenceComputationGraphMerge)seqComp;
-                    string tgtNodeExpr = seqExprGen.GetSequenceExpression(seqMrg.TargetNodeExpr, source);
-                    string srcNodeExpr = seqExprGen.GetSequenceExpression(seqMrg.SourceNodeExpr, source);
+                    string tgtNodeExpr = exprGen.GetSequenceExpression(seqMrg.TargetNodeExpr, source);
+                    string srcNodeExpr = exprGen.GetSequenceExpression(seqMrg.SourceNodeExpr, source);
                     source.AppendFrontFormat("graph.Merge((GRGEN_LIBGR.INode){0}, (GRGEN_LIBGR.INode){1}, \"merge\");\n", tgtNodeExpr, srcNodeExpr);
                     source.AppendFront(SetResultVar(seqMrg, "null"));
                     break;
@@ -1197,8 +1193,8 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceComputationType.GraphRedirectSource:
                 {
                     SequenceComputationGraphRedirectSource seqRedir = (SequenceComputationGraphRedirectSource)seqComp;
-                    string edgeExpr = seqExprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
-                    string srcNodeExpr = seqExprGen.GetSequenceExpression(seqRedir.SourceNodeExpr, source);
+                    string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
+                    string srcNodeExpr = exprGen.GetSequenceExpression(seqRedir.SourceNodeExpr, source);
                     source.AppendFrontFormat("graph.RedirectSource((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, \"old source\");\n", edgeExpr, srcNodeExpr);
                     source.AppendFront(SetResultVar(seqRedir, "null"));
                     break;
@@ -1207,8 +1203,8 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceComputationType.GraphRedirectTarget:
                 {
                     SequenceComputationGraphRedirectTarget seqRedir = (SequenceComputationGraphRedirectTarget)seqComp;
-                    string edgeExpr = seqExprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
-                    string tgtNodeExpr = seqExprGen.GetSequenceExpression(seqRedir.TargetNodeExpr, source);
+                    string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
+                    string tgtNodeExpr = exprGen.GetSequenceExpression(seqRedir.TargetNodeExpr, source);
                     source.AppendFrontFormat("graph.RedirectTarget((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, \"old target\");\n", edgeExpr, tgtNodeExpr);
                     source.AppendFront(SetResultVar(seqRedir, "null"));
                     break;
@@ -1217,9 +1213,9 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceComputationType.GraphRedirectSourceAndTarget:
                 {
                     SequenceComputationGraphRedirectSourceAndTarget seqRedir = (SequenceComputationGraphRedirectSourceAndTarget)seqComp;
-                    string edgeExpr = seqExprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
-                    string srcNodeExpr = seqExprGen.GetSequenceExpression(seqRedir.SourceNodeExpr, source);
-                    string tgtNodeExpr = seqExprGen.GetSequenceExpression(seqRedir.TargetNodeExpr, source);
+                    string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
+                    string srcNodeExpr = exprGen.GetSequenceExpression(seqRedir.SourceNodeExpr, source);
+                    string tgtNodeExpr = exprGen.GetSequenceExpression(seqRedir.TargetNodeExpr, source);
                     source.AppendFrontFormat("graph.RedirectSourceAndTarget((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, (GRGEN_LIBGR.INode){2}, \"old source\", \"old target\");\n", edgeExpr, srcNodeExpr, tgtNodeExpr);
                     source.AppendFront(SetResultVar(seqRedir, "null"));
                     break;
@@ -1228,7 +1224,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceComputationType.Insert:
                 {
                     SequenceComputationInsert seqIns = (SequenceComputationInsert)seqComp;
-                    string graphExpr = seqExprGen.GetSequenceExpression(seqIns.Graph, source);
+                    string graphExpr = exprGen.GetSequenceExpression(seqIns.Graph, source);
                     source.AppendFrontFormat("GRGEN_LIBGR.GraphHelper.Insert((GRGEN_LIBGR.IGraph){0}, graph);\n", graphExpr);
                     source.AppendFront(SetResultVar(seqIns, "null"));
                     break;
@@ -1237,8 +1233,8 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceComputationType.InsertCopy:
                 {
                     SequenceComputationInsertCopy seqInsCopy = (SequenceComputationInsertCopy)seqComp;
-                    string graphExpr = seqExprGen.GetSequenceExpression(seqInsCopy.Graph, source);
-                    string rootNodeExpr = seqExprGen.GetSequenceExpression(seqInsCopy.RootNode, source);
+                    string graphExpr = exprGen.GetSequenceExpression(seqInsCopy.Graph, source);
+                    string rootNodeExpr = exprGen.GetSequenceExpression(seqInsCopy.RootNode, source);
                     source.AppendFormat("GRGEN_LIBGR.GraphHelper.InsertCopy((GRGEN_LIBGR.IGraph){0}, (GRGEN_LIBGR.INode){1}, graph)", graphExpr, rootNodeExpr);
                     break;
                 }
@@ -1246,7 +1242,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceComputationType.InsertInduced:
                 {
                     SequenceComputationInsertInduced seqInsInd = (SequenceComputationInsertInduced)seqComp;
-                    source.Append("GRGEN_LIBGR.GraphHelper.InsertInduced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)" + seqExprGen.GetSequenceExpression(seqInsInd.NodeSet, source) + ", (GRGEN_LIBGR.INode)" + seqExprGen.GetSequenceExpression(seqInsInd.RootNode, source) + ", graph)");
+                    source.Append("GRGEN_LIBGR.GraphHelper.InsertInduced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsInd.NodeSet, source) + ", (GRGEN_LIBGR.INode)" + exprGen.GetSequenceExpression(seqInsInd.RootNode, source) + ", graph)");
                     break;
                 }
 
@@ -1254,20 +1250,20 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceComputationInsertDefined seqInsDef = (SequenceComputationInsertDefined)seqComp;
                     if(seqInsDef.EdgeSet.Type(env)=="set<Edge>")
-                        source.Append("GRGEN_LIBGR.GraphHelper.InsertDefinedDirected((IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)" + seqExprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IDEdge)" + seqExprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
+                        source.Append("GRGEN_LIBGR.GraphHelper.InsertDefinedDirected((IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IDEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
                     else if (seqInsDef.EdgeSet.Type(env) == "set<UEdge>")
-                        source.Append("GRGEN_LIBGR.GraphHelper.InsertDefinedUndirected((IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)" + seqExprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IUEdge)" + seqExprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
+                        source.Append("GRGEN_LIBGR.GraphHelper.InsertDefinedUndirected((IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IUEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
                     else if (seqInsDef.EdgeSet.Type(env) == "set<AEdge>")
-                        source.Append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + seqExprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + seqExprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
+                        source.Append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
                     else
-                        source.Append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary)" + seqExprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + seqExprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
+                        source.Append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
                     break;
                 }
 
                 case SequenceComputationType.Expression:
                 {
                     SequenceExpression seqExpr = (SequenceExpression)seqComp;
-                    source.AppendFront(SetResultVar(seqExpr, seqExprGen.GetSequenceExpression(seqExpr, source)));
+                    source.AppendFront(SetResultVar(seqExpr, exprGen.GetSequenceExpression(seqExpr, source)));
                     break;
                 }
 
@@ -1328,7 +1324,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("object[] " + tmpVarName + " = ");
                         source.Append("((GRGEN_LIBGR.IGraphElement)");
                         if(seqCall.TargetExpr != null)
-                            source.Append(seqExprGen.GetSequenceExpression(seqCall.TargetExpr, source));
+                            source.Append(exprGen.GetSequenceExpression(seqCall.TargetExpr, source));
                         else
                             source.Append(helper.GetVar(seqCall.TargetVar));
                         source.Append(").ApplyProcedureMethod(procEnv, graph, ");
@@ -1352,7 +1348,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.Append(TypesHelper.XgrsTypeToCSharpType(type, model));
                         source.Append(")");
                         if(seqCall.TargetExpr != null)
-                            source.Append(seqExprGen.GetSequenceExpression(seqCall.TargetExpr, source));
+                            source.Append(exprGen.GetSequenceExpression(seqCall.TargetExpr, source));
                         else
                             source.Append(helper.GetVar(seqCall.TargetVar));
                         source.Append(").");
@@ -1388,7 +1384,7 @@ namespace de.unika.ipd.grGen.lgsp
                     AssignmentTargetVisited tgtVisitedFlag = (AssignmentTargetVisited)tgt;
                     source.AppendFront("bool visval_"+tgtVisitedFlag.Id+" = (bool)"+sourceValueComputation+";\n");
                     source.AppendFront("graph.SetVisited((GRGEN_LIBGR.IGraphElement)"+helper.GetVar(tgtVisitedFlag.GraphElementVar)
-                        + ", (int)" + seqExprGen.GetSequenceExpression(tgtVisitedFlag.VisitedFlagExpression, source) + ", visval_" + tgtVisitedFlag.Id + ");\n");
+                        + ", (int)" + exprGen.GetSequenceExpression(tgtVisitedFlag.VisitedFlagExpression, source) + ", visval_" + tgtVisitedFlag.Id + ");\n");
                     source.AppendFront(SetResultVar(tgtVisitedFlag, "visval_"+tgtVisitedFlag.Id));
                     break;
                 }
@@ -1399,7 +1395,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string container = "container_" + tgtIndexedVar.Id;
                     source.AppendFront("object " + container + " = " + helper.GetVar(tgtIndexedVar.DestVar) + ";\n");
                     string key = "key_" + tgtIndexedVar.Id;
-                    source.AppendFront("object " + key + " = " + seqExprGen.GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
+                    source.AppendFront("object " + key + " = " + exprGen.GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
                     source.AppendFront(SetResultVar(tgtIndexedVar, container)); // container is a reference, so we can assign it already here before the changes
 
                     if(tgtIndexedVar.DestVar.Type == "")
@@ -1529,7 +1525,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string container = "container_" + tgtAttrIndexedVar.Id;
                     source.AppendFront("object " + container + " = elem_" + tgtAttrIndexedVar.Id + ".GetAttribute(\"" + tgtAttrIndexedVar.AttributeName + "\");\n");
                     string key = "key_" + tgtAttrIndexedVar.Id;
-                    source.AppendFront("object " + key + " = " + seqExprGen.GetSequenceExpression(tgtAttrIndexedVar.KeyExpression, source) + ";\n");
+                    source.AppendFront("object " + key + " = " + exprGen.GetSequenceExpression(tgtAttrIndexedVar.KeyExpression, source) + ";\n");
 
                     source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + tgtAttrIndexedVar.Id + " = elem_" + tgtAttrIndexedVar.Id + ".Type.GetAttributeType(\"" + tgtAttrIndexedVar.AttributeName + "\");\n");
                     source.AppendFront("if(elem_" + tgtAttrIndexedVar.Id + " is GRGEN_LIBGR.INode)\n");

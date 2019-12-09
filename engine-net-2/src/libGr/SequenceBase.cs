@@ -72,7 +72,7 @@ namespace de.unika.ipd.grGen.libGr
 
 
     /// <summary>
-    /// Environment for sequence checking giving access to model and action signatures.
+    /// Environment for sequence (esp. type) checking giving access to model and action signatures.
     /// Abstract base class, there are two concrete subclasses, one for interpreted, one for compiled sequences.
     /// The compiled version in addition resolves names that are given without package context but do not reference global names
     /// because they are used from a sequence that is contained in a package (only possible for compiled sequences from rule language).

@@ -18,39 +18,33 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// The sequence generator helper contains miscellaneous code in use by the
     /// sequence generator, sequence computation generator, and sequence expression generator.
-    /// It esp. contains parameter type information, and code for e.g. parameter building, variable access, type computation.
+    /// It esp. contains parameter type information and code for parameter building, as well as type computation, variable access and constant generation.
     /// </summary>
     public class SequenceGeneratorHelper
     {
-        // the model object of the .grg to compile
         IGraphModel model;
 
         public ActionsTypeInformation actionsTypeInformation;
 
-        // array containing the names of the rules available in the .grg to compile
-        // environment for (type) checking the compiled sequences
         SequenceCheckingEnvironment env;
+
+        SequenceExpressionGenerator exprGen;
 
         // a counter for unique temporary variables needed as dummy variables
         // to receive the return/out values of rules/sequnces in case no assignment is given
         int tmpVarCtr;
 
-        SequenceExpressionGenerator seqExprGen;
 
-
-        /// <summary>
-        /// Constructs the sequence generator helper
-        /// </summary>
-        public SequenceGeneratorHelper(IGraphModel model, SequenceCheckingEnvironmentCompiled env, ActionsTypeInformation actionsTypeInformation)
+        public SequenceGeneratorHelper(IGraphModel model, ActionsTypeInformation actionsTypeInformation, SequenceCheckingEnvironmentCompiled checkEnv)
         {
             this.model = model;
-            this.env = env;
             this.actionsTypeInformation = actionsTypeInformation;
+            this.env = checkEnv;
         }
 
-        public void SetSequenceExpressionGenerator(SequenceExpressionGenerator seqExprGen)
+        public void SetSequenceExpressionGenerator(SequenceExpressionGenerator exprGen)
         {
-            this.seqExprGen = seqExprGen;
+            this.exprGen = exprGen;
         }
 
         /// <summary>
@@ -131,7 +125,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         typeName = actionsTypeInformation.functionsToInputTypes[paramBindings.PackagePrefixedName][i];
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
-                    parameters += ", " + cast + seqExprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
+                    parameters += ", " + cast + exprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
                 }
                 else
                 {
@@ -151,7 +145,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     String typeName = TypesHelper.DotNetTypeToXgrsType(functionMethod.Inputs[i]);
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
-                    parameters += ", " + cast + seqExprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
+                    parameters += ", " + cast + exprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
                 }
                 else
                 {
@@ -171,7 +165,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     String typeName = TypesHelper.DotNetTypeToXgrsType(procedureMethod.Inputs[i]);
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
-                    parameters += ", " + cast + seqExprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
+                    parameters += ", " + cast + exprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
                 }
                 else
                 {
@@ -189,7 +183,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(paramBindings.ArgumentExpressions[i] != null)
                 {
-                    parameters += ", " + seqExprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
+                    parameters += ", " + exprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
                 }
                 else
                 {
@@ -215,7 +209,7 @@ namespace de.unika.ipd.grGen.lgsp
                         typeName = actionsTypeInformation.sequencesToInputTypes[paramBindings.PackagePrefixedName][i];
                     String type = TypesHelper.XgrsTypeToCSharpType(typeName, model);
                     String name = "tmpvar_" + GetUniqueId();
-                    declarations += type + " " + name + " = " + "(" + type + ")" + seqExprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null) + ";";
+                    declarations += type + " " + name + " = " + "(" + type + ")" + exprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null) + ";";
                     parameters += ", " + name;
                 }
                 else
@@ -377,15 +371,15 @@ namespace de.unika.ipd.grGen.lgsp
                 if(typeExpr.Type(env) != "")
                 {
                     if(typeExpr.Type(env) == "string")
-                        adjacentNodeType = "graph.Model.NodeModel.GetType((string)" + seqExprGen.GetSequenceExpression(typeExpr, source) + ")";
+                        adjacentNodeType = "graph.Model.NodeModel.GetType((string)" + exprGen.GetSequenceExpression(typeExpr, source) + ")";
                     else
-                        adjacentNodeType = "(GRGEN_LIBGR.NodeType)" + seqExprGen.GetSequenceExpression(typeExpr, source);
+                        adjacentNodeType = "(GRGEN_LIBGR.NodeType)" + exprGen.GetSequenceExpression(typeExpr, source);
                 }
                 else
                 {
-                    adjacentNodeType = seqExprGen.GetSequenceExpression(typeExpr, source) + " is string ? "
-                        + "graph.Model.NodeModel.GetType((string)" + seqExprGen.GetSequenceExpression(typeExpr, source) + ")"
-                        + " : " + "(GRGEN_LIBGR.NodeType)" + seqExprGen.GetSequenceExpression(typeExpr, source);
+                    adjacentNodeType = exprGen.GetSequenceExpression(typeExpr, source) + " is string ? "
+                        + "graph.Model.NodeModel.GetType((string)" + exprGen.GetSequenceExpression(typeExpr, source) + ")"
+                        + " : " + "(GRGEN_LIBGR.NodeType)" + exprGen.GetSequenceExpression(typeExpr, source);
                 }
             }
             return "(" + adjacentNodeType + ")";
@@ -399,15 +393,15 @@ namespace de.unika.ipd.grGen.lgsp
                 if(typeExpr.Type(env) != "")
                 {
                     if(typeExpr.Type(env) == "string")
-                        incidentEdgeType = "graph.Model.EdgeModel.GetType((string)" + seqExprGen.GetSequenceExpression(typeExpr, source) + ")";
+                        incidentEdgeType = "graph.Model.EdgeModel.GetType((string)" + exprGen.GetSequenceExpression(typeExpr, source) + ")";
                     else
-                        incidentEdgeType = "(GRGEN_LIBGR.EdgeType)" + seqExprGen.GetSequenceExpression(typeExpr, source);
+                        incidentEdgeType = "(GRGEN_LIBGR.EdgeType)" + exprGen.GetSequenceExpression(typeExpr, source);
                 }
                 else
                 {
-                    incidentEdgeType = seqExprGen.GetSequenceExpression(typeExpr, source) + " is string ? "
-                        + "graph.Model.EdgeModel.GetType((string)" + seqExprGen.GetSequenceExpression(typeExpr, source) + ")"
-                        + " : " + "(GRGEN_LIBGR.EdgeType)" + seqExprGen.GetSequenceExpression(typeExpr, source);
+                    incidentEdgeType = exprGen.GetSequenceExpression(typeExpr, source) + " is string ? "
+                        + "graph.Model.EdgeModel.GetType((string)" + exprGen.GetSequenceExpression(typeExpr, source) + ")"
+                        + " : " + "(GRGEN_LIBGR.EdgeType)" + exprGen.GetSequenceExpression(typeExpr, source);
                 }
             }
             return "(" + incidentEdgeType + ")";
