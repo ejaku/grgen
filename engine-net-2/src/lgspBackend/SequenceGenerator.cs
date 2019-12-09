@@ -1235,6 +1235,11 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
+        public String GetSequenceResult(Sequence seq)
+        {
+            return compGen.GetResultVar(seq);
+        }
+
         private void EmitSequenceBacktrack(SequenceBacktrack seq, SourceBuilder source)
         {
             RuleInvocationParameterBindings paramBindings = seq.Rule.ParamBindings;
