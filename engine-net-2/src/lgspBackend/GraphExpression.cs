@@ -4505,7 +4505,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Abs(Expr.Copy(renameSuffix));
+            return new Canonize(Expr.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
