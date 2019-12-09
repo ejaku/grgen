@@ -48,24 +48,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         SequenceComputationGenerator seqCompGen;
 
-        // array containing the names of the rules available in the .grg to compile
-        String[] ruleNames;
-        // array containing the names of the sequences available in the .grg to compile
-        String[] sequenceNames;
-        // array containing the names of the procedures available in the .grg to compile
-        String[] procedureNames;
-        // array containing the names of the functions available in the .grg to compile
-        String[] functionNames;
-        // array containing the output types names of the functions available in the .grg to compile
-        String[] functionOutputTypes;
-        // array containing the names of the filter functions available in the .grg to compile
-        String[] filterFunctionNames;
+        ActionNames actionNames;
 
         // environment for (type) checking the compiled sequences
         SequenceCheckingEnvironmentCompiled env;
 
         // the used rules (so that a variable was created for easy acess to them)
 		Dictionary<String, object> knownRules = new Dictionary<string, object>();
+
 
         bool fireDebugEvents;
         bool emitProfiling;
@@ -74,83 +64,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Constructs the sequence generator
         /// </summary>
-        public LGSPSequenceGenerator(IGraphModel model,
-            Dictionary<String, List<IFilter>> rulesToFilters, Dictionary<String, List<String>> filterFunctionsToInputTypes,
-            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
-            Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
-            Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
-            Dictionary<String, List<String>> proceduresToInputTypes, Dictionary<String, List<String>> proceduresToOutputTypes, Dictionary<String, bool> proceduresToIsExternal,
-            Dictionary<String, List<String>> functionsToInputTypes, Dictionary<String, String> functionsToOutputType, Dictionary<String, bool> functionsToIsExternal,
+        public LGSPSequenceGenerator(IGraphModel model, ActionsTypeInformation actionsTypeInformation,
             bool fireDebugEvents, bool emitProfiling)
         {
             this.model = model;
 
-            // extract rule names from domain of rule names to input types map
-            ruleNames = new String[rulesToInputTypes.Count];
-            int i = 0;
-            foreach(KeyValuePair<String, List<String>> ruleToInputTypes in rulesToInputTypes)
-            {
-                ruleNames[i] = ruleToInputTypes.Key;
-                ++i;
-         
-            }
-            // extract sequence names from domain of sequence names to input types map
-            sequenceNames = new String[sequencesToInputTypes.Count];
-            i = 0;
-            foreach(KeyValuePair<String, List<String>> sequenceToInputTypes in sequencesToInputTypes)
-            {
-                sequenceNames[i] = sequenceToInputTypes.Key;
-                ++i;
-            }
-            // extract procedure names from domain of procedure names to input types map
-            procedureNames = new String[proceduresToInputTypes.Count];
-            i = 0;
-            foreach(KeyValuePair<String, List<String>> procedureToInputTypes in proceduresToInputTypes)
-            {
-                procedureNames[i] = procedureToInputTypes.Key;
-                ++i;
-            }
-            // extract function names from domain of function names to input types map
-            functionNames = new String[functionsToInputTypes.Count];
-            i = 0;
-            foreach(KeyValuePair<String, List<String>> functionToInputTypes in functionsToInputTypes)
-            {
-                functionNames[i] = functionToInputTypes.Key;
-                ++i;
-            }
-            // extract function output types from range of function names to output types map
-            functionOutputTypes = new String[functionsToOutputType.Count];
-            i = 0;
-            foreach(KeyValuePair<String, String> functionToOutputType in functionsToOutputType)
-            {
-                functionOutputTypes[i] = functionToOutputType.Value;
-                ++i;
-            }
-            // extract filter function names from domain of filter functions to input types
-            filterFunctionNames = new String[filterFunctionsToInputTypes.Count];
-            i = 0;
-            foreach(KeyValuePair<String, List<String>> filterFunctionToInputType in filterFunctionsToInputTypes)
-            {
-                filterFunctionNames[i] = filterFunctionToInputType.Key;
-                ++i;
-            }
+            this.actionNames = new ActionNames(actionsTypeInformation);
 
             // create the environment for (type) checking the compiled sequences after parsing
-            env = new SequenceCheckingEnvironmentCompiled(
-                ruleNames, sequenceNames, procedureNames, functionNames,
-                rulesToFilters, filterFunctionsToInputTypes,
-                rulesToInputTypes, rulesToOutputTypes, 
-                rulesToTopLevelEntities, rulesToTopLevelEntityTypes,
-                sequencesToInputTypes, sequencesToOutputTypes,
-                proceduresToInputTypes, proceduresToOutputTypes, proceduresToIsExternal,
-                functionsToInputTypes, functionsToOutputType, functionsToIsExternal,
-                model);
+            env = new SequenceCheckingEnvironmentCompiled(actionNames, actionsTypeInformation, model);
 
-            this.helper = new SequenceGeneratorHelper(model, env, rulesToFilters, filterFunctionsToInputTypes,
-                rulesToInputTypes, rulesToOutputTypes, rulesToTopLevelEntities, rulesToTopLevelEntityTypes,
-                sequencesToInputTypes, sequencesToOutputTypes,
-                proceduresToInputTypes, proceduresToOutputTypes, proceduresToIsExternal,
-                functionsToInputTypes, functionsToOutputType, functionsToIsExternal);
+            this.helper = new SequenceGeneratorHelper(model, env, actionsTypeInformation);
 
             this.seqExprGen = new SequenceExpressionGenerator(model, env, helper);
 
@@ -1994,7 +1918,7 @@ namespace de.unika.ipd.grGen.lgsp
                     for(int i = 0; i < filterCall.ArgumentExpressions.Length; ++i)
                     {
                         source.AppendFormat(", ({0})({1})",
-                            TypesHelper.XgrsTypeToCSharpType(helper.filterFunctionsToInputTypes[filterCall.Name][i], model),
+                            TypesHelper.XgrsTypeToCSharpType(helper.actionsTypeInformation.filterFunctionsToInputTypes[filterCall.Name][i], model),
                             seqExprGen.GetSequenceExpression(filterCall.ArgumentExpressions[i], source));
                     } 
                     source.Append(");\n");
@@ -2022,8 +1946,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 List<string> warnings = new List<string>();
                 seq = SequenceParser.ParseSequence(xgrsStr, package,
-                    ruleNames, sequenceNames, procedureNames, functionNames,
-                    functionOutputTypes, filterFunctionNames, varDecls, model, warnings);
+                    actionNames, varDecls, model, warnings);
                 foreach(string warning in warnings)
                 {
                     Console.Error.WriteLine("The exec statement \"" + xgrsStr
@@ -2120,8 +2043,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 List<string> warnings = new List<string>();
                 seq = SequenceParser.ParseSequence(sequence.XGRS, sequence.Package,
-                    ruleNames, sequenceNames, procedureNames, functionNames, 
-                    functionOutputTypes, filterFunctionNames, varDecls, model, warnings);
+                    actionNames, varDecls, model, warnings);
                 foreach(string warning in warnings)
                 {
                     Console.Error.WriteLine("In the defined sequence " + sequence.Name
@@ -2861,11 +2783,11 @@ namespace de.unika.ipd.grGen.lgsp
             switch(ex.Kind)
             {
                 case SequenceParserError.BadNumberOfParametersOrReturnParameters:
-                    if(InputTypes(ex.Name).Count != ex.NumGivenInputs && OutputTypes(ex.Name).Count != ex.NumGivenOutputs)
+                    if(helper.actionsTypeInformation.InputTypes(ex.Name).Count != ex.NumGivenInputs && helper.actionsTypeInformation.OutputTypes(ex.Name).Count != ex.NumGivenOutputs)
                         Console.Error.WriteLine("Wrong number of parameters and return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                    else if(InputTypes(ex.Name).Count != ex.NumGivenInputs)
+                    else if(helper.actionsTypeInformation.InputTypes(ex.Name).Count != ex.NumGivenInputs)
                         Console.Error.WriteLine("Wrong number of parameters for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                    else if(OutputTypes(ex.Name).Count != ex.NumGivenOutputs)
+                    else if(helper.actionsTypeInformation.OutputTypes(ex.Name).Count != ex.NumGivenOutputs)
                         Console.Error.WriteLine("Wrong number of return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                     else
                         goto default;
@@ -2919,79 +2841,35 @@ namespace de.unika.ipd.grGen.lgsp
                     throw new ArgumentException("Invalid error kind: " + ex.Kind);
             }
 
-            if(helper.rulesToInputTypes.ContainsKey(ex.Name))
+            if(helper.actionsTypeInformation.rulesToInputTypes.ContainsKey(ex.Name))
             {
                 Console.Error.Write("Signature of rule/test: {0}", ex.Name);
-                PrintInputParams(helper.rulesToInputTypes[ex.Name]);
-                PrintOutputParams(helper.rulesToOutputTypes[ex.Name]);
+                PrintInputParams(helper.actionsTypeInformation.rulesToInputTypes[ex.Name]);
+                PrintOutputParams(helper.actionsTypeInformation.rulesToOutputTypes[ex.Name]);
                 Console.Error.WriteLine();
             }
-            else if(helper.sequencesToInputTypes.ContainsKey(ex.Name))
+            else if(helper.actionsTypeInformation.sequencesToInputTypes.ContainsKey(ex.Name))
             {
                 Console.Error.Write("Signature of sequence: {0}", ex.Name);
-                PrintInputParams(helper.sequencesToInputTypes[ex.Name]);
-                PrintOutputParams(helper.sequencesToOutputTypes[ex.Name]);
+                PrintInputParams(helper.actionsTypeInformation.sequencesToInputTypes[ex.Name]);
+                PrintOutputParams(helper.actionsTypeInformation.sequencesToOutputTypes[ex.Name]);
                 Console.Error.WriteLine();
             }
-            else if(helper.proceduresToInputTypes.ContainsKey(ex.Name))
+            else if(helper.actionsTypeInformation.proceduresToInputTypes.ContainsKey(ex.Name))
             {
                 Console.Error.Write("Signature procedure: {0}", ex.Name);
-                PrintInputParams(helper.proceduresToInputTypes[ex.Name]);
-                PrintOutputParams(helper.proceduresToOutputTypes[ex.Name]);
+                PrintInputParams(helper.actionsTypeInformation.proceduresToInputTypes[ex.Name]);
+                PrintOutputParams(helper.actionsTypeInformation.proceduresToOutputTypes[ex.Name]);
                 Console.Error.WriteLine();
             }
-            else if(helper.functionsToInputTypes.ContainsKey(ex.Name))
+            else if(helper.actionsTypeInformation.functionsToInputTypes.ContainsKey(ex.Name))
             {
                 Console.Error.Write("Signature of function: {0}", ex.Name);
-                PrintInputParams(helper.functionsToInputTypes[ex.Name]);
+                PrintInputParams(helper.actionsTypeInformation.functionsToInputTypes[ex.Name]);
                 Console.Error.Write(" : ");
-                Console.Error.Write(helper.functionsToOutputType[ex.Name]);
+                Console.Error.Write(helper.actionsTypeInformation.functionsToOutputType[ex.Name]);
                 Console.Error.WriteLine();
             }
-        }
-
-        private List<String> InputTypes(string actionName)
-        {
-            if(helper.rulesToInputTypes.ContainsKey(actionName))
-            {
-                return helper.rulesToInputTypes[actionName];
-            }
-            else if(helper.sequencesToInputTypes.ContainsKey(actionName))
-            {
-                return helper.sequencesToInputTypes[actionName];
-            }
-            else if(helper.proceduresToInputTypes.ContainsKey(actionName))
-            {
-                return helper.proceduresToInputTypes[actionName];
-            }
-            else if(helper.functionsToInputTypes.ContainsKey(actionName))
-            {
-                return helper.functionsToInputTypes[actionName];
-            }
-            return null;
-        }
-
-        private List<String> OutputTypes(string actionName)
-        {
-            if(helper.rulesToOutputTypes.ContainsKey(actionName))
-            {
-                return helper.rulesToOutputTypes[actionName];
-            }
-            else if(helper.sequencesToOutputTypes.ContainsKey(actionName))
-            {
-                return helper.sequencesToOutputTypes[actionName];
-            }
-            else if(helper.proceduresToOutputTypes.ContainsKey(actionName))
-            {
-                return helper.proceduresToOutputTypes[actionName];
-            }
-            else if(helper.functionsToOutputType.ContainsKey(actionName))
-            {
-                List<String> ret = new List<String>();
-                ret.Add(helper.functionsToOutputType[actionName]);
-                return ret;
-            }
-            return null;
         }
 
         private void PrintInputParams(List<String> nameToInputTypes)

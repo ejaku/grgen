@@ -25,35 +25,10 @@ PARSER_BEGIN(SequenceParser)
 		IActions actions;
 
 		/// <summary>
-		/// The names of the rules used in the specification, set if parsing an xgrs to be compiled
+		/// The names of the different kinds of action used in the specification, set if parsing an xgrs to be compiled
 		/// </summary>
-		String[] ruleNames;
-
-		/// <summary>
-		/// The names of the sequences used in the specification, set if parsing an xgrs to be compiled
-		/// </summary>
-		String[] sequenceNames;
-
-		/// <summary>
-		/// The names of the procedures used in the specification, set if parsing an xgrs to be compiled
-		/// </summary>
-		String[] procedureNames;
-
-		/// <summary>
-		/// The names of the functions used in the specification, set if parsing an xgrs to be compiled
-		/// </summary>
-		String[] functionNames;
-
-		/// <summary>
-		/// The output types of the functions used in the specification, set if parsing an xgrs to be compiled
-		/// </summary>
-		String[] functionOutputTypes;
-
-		/// <summary>
-		/// The names of the filter functions used in the specification, set if parsing an xgrs to be compiled
-		/// </summary>
-		String[] filterFunctionNames;
-
+		ActionNames actionNames;
+		
 		/// <summary>
 		/// The model used in the specification
 		/// </summary>
@@ -99,7 +74,7 @@ PARSER_BEGIN(SequenceParser)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
-			parser.ruleNames = null;
+			parser.actionNames = null;
 			parser.model = actions.Graph.Model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(null);
@@ -128,7 +103,7 @@ PARSER_BEGIN(SequenceParser)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceExprStr));
 			parser.actions = actions;
-			parser.ruleNames = null;
+			parser.actionNames = null;
 			parser.model = actions.Graph.Model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(predefinedVariables);
@@ -155,7 +130,7 @@ PARSER_BEGIN(SequenceParser)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
-			parser.ruleNames = null;
+			parser.actionNames = null;
 			parser.model = actions.Graph.Model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(null);
@@ -171,12 +146,7 @@ PARSER_BEGIN(SequenceParser)
         /// </summary>
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
         /// <param name="packageContext">The name of the package the sequence is contained in (defining some context), null if it is not contained in a package.</param>
-        /// <param name="ruleNames">An array containing the names of the rules used in the specification.</param>
-        /// <param name="sequenceNames">An array containing the names of the sequences used in the specification.</param>
-        /// <param name="procedureNames">An array containing the names of the procedures used in the specification.</param>
-        /// <param name="functionNames">An array containing the names of the functions used in the specification.</param>
-        /// <param name="functionOutputTypes">An array containing the output types of the functions used in the specification.</param>
-        /// <param name="filterFunctionNames">An array containing the names of the filter functions used in the specification.</param>
+        /// <param name="actionNames">Contains the names of the different kinds of actions used in the specification.</param>
         /// <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
         /// <param name="model">The model used in the specification.</param>
         /// <param name="warnings">A list which receives the warnings generated during parsing.</param>
@@ -184,18 +154,12 @@ PARSER_BEGIN(SequenceParser)
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static Sequence ParseSequence(String sequenceStr, String packageContext, String[] ruleNames, String[] sequenceNames,
-				String[] procedureNames, String[] functionNames, String[] functionOutputTypes, String[] filterFunctionNames,
+		public static Sequence ParseSequence(String sequenceStr, String packageContext, ActionNames actionNames, 
 		        Dictionary<String, String> predefinedVariables, IGraphModel model, List<String> warnings)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = null;
-			parser.ruleNames = ruleNames;
-			parser.sequenceNames = sequenceNames;
-			parser.procedureNames = procedureNames;
-			parser.functionNames = functionNames;
-			parser.functionOutputTypes = functionOutputTypes;
-			parser.filterFunctionNames = filterFunctionNames;
+			parser.actionNames = actionNames;
 			parser.model = model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(predefinedVariables);
@@ -2274,9 +2238,9 @@ FunctionInvocationParameterBindings CreateFunctionInvocationParameterBindings(St
 		paramBindings.PrePackage = packagePrefix;
 		paramBindings.PrePackageContext = packageContext;
 		
-		for(int i=0; i<functionNames.Length; ++i)
-			if(functionNames[i] == functionName)
-				paramBindings.ReturnType = functionOutputTypes[i];
+		for(int i=0; i<actionNames.functionNames.Length; ++i)
+			if(actionNames.functionNames[i] == functionName)
+				paramBindings.ReturnType = actionNames.functionOutputTypes[i];
 	}
 
 	return paramBindings;
@@ -2311,14 +2275,14 @@ bool IsSequenceName(String ruleOrSequenceName, String package)
 		}
 	} else {
 		if(package != null) {
-			foreach(String sequenceName in sequenceNames)
+			foreach(String sequenceName in actionNames.sequenceNames)
 			{
 				if(sequenceName == package + "::" + ruleOrSequenceName)
 					return true;
 			}
 			return false;
 		} else {
-			foreach(String sequenceName in sequenceNames)
+			foreach(String sequenceName in actionNames.sequenceNames)
 			{
 				if(sequenceName == ruleOrSequenceName)
 					return true;
@@ -2349,14 +2313,14 @@ bool IsFunctionName(String functionName, String package)
 	else
 	{
 		if(package != null) {
-			foreach(String funcName in functionNames)
+			foreach(String funcName in actionNames.functionNames)
 			{
 				if(funcName == package + "::" + functionName)
 					return true;
 			}
 			return false;
 		} else {
-			foreach(String funcName in functionNames)
+			foreach(String funcName in actionNames.functionNames)
 			{
 				if(funcName == functionName)
 					return true;
@@ -2376,7 +2340,7 @@ string GetFunctionNames()
 	} else {
 		StringBuilder sb = new StringBuilder();
 		bool first = true;
-		foreach(String funcName in functionNames)
+		foreach(String funcName in actionNames.functionNames)
 		{
 			if(first)
 				first = false;
@@ -2407,14 +2371,14 @@ bool IsProcedureName(String procedureName, String package)
 	else
 	{
 		if(package != null) {
-			foreach(String procName in procedureNames)
+			foreach(String procName in actionNames.procedureNames)
 			{
 				if(procName == package + "::" + procedureName)
 					return true;
 			}
 			return false;
 		} else {
-			foreach(String procName in procedureNames)
+			foreach(String procName in actionNames.procedureNames)
 			{
 				if(procName == procedureName)
 					return true;
@@ -2434,7 +2398,7 @@ string GetProcedureNames()
 	} else {
 		StringBuilder sb = new StringBuilder();
 		bool first = true;
-		foreach(String procName in procedureNames)
+		foreach(String procName in actionNames.procedureNames)
 		{
 			if(first)
 				first = false;
@@ -2483,7 +2447,7 @@ bool IsFilterFunctionName(String filterFunctionName, String package, String rule
 	else
 	{
 		if(package != null) {
-			foreach(String funcName in filterFunctionNames)
+			foreach(String funcName in actionNames.filterFunctionNames)
 			{
 				if(funcName == filterFunctionName)
 					return true;
@@ -2492,7 +2456,7 @@ bool IsFilterFunctionName(String filterFunctionName, String package, String rule
 			}
 			return false;
 		} else {
-			foreach(String funcName in filterFunctionNames)
+			foreach(String funcName in actionNames.filterFunctionNames)
 			{
 				if(funcName == filterFunctionName)
 					return true;

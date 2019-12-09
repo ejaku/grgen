@@ -25,40 +25,7 @@ namespace de.unika.ipd.grGen.lgsp
         // the model object of the .grg to compile
         IGraphModel model;
 
-        // maps rule names available in the .grg to compile to the list of the match filters
-        public Dictionary<String, List<IFilter>> rulesToFilters;
-
-        // maps filter function names available in the .grg to compile to the list of the input typ names
-        public Dictionary<String, List<String>> filterFunctionsToInputTypes;
-
-        // maps rule names available in the .grg to compile to the list of the input typ names
-        public Dictionary<String, List<String>> rulesToInputTypes;
-        // maps rule names available in the .grg to compile to the list of the output typ names
-        public Dictionary<String, List<String>> rulesToOutputTypes;
-        
-        // maps rule names available in the .grg to compile to the list of the top level entity names (nodes,edges,variables)
-        public Dictionary<String, List<String>> rulesToTopLevelEntities;
-        // maps rule names available in the .grg to compile to the list of the top level entity types
-        public Dictionary<String, List<String>> rulesToTopLevelEntityTypes;
-
-        // maps sequence names available in the .grg to compile to the list of the input typ names
-        public Dictionary<String, List<String>> sequencesToInputTypes;
-        // maps sequence names available in the .grg to compile to the list of the output typ names
-        public Dictionary<String, List<String>> sequencesToOutputTypes;
-
-        // maps procedure names available in the .grg to compile to the list of the input typ names
-        public Dictionary<String, List<String>> proceduresToInputTypes;
-        // maps procedure names available in the .grg to compile to the list of the output typ names
-        public Dictionary<String, List<String>> proceduresToOutputTypes;
-        // tells for a procedure given by its name whether it is external
-        public Dictionary<String, bool> proceduresToIsExternal;
-        
-        // maps function names available in the .grg to compile to the list of the input typ names
-        public Dictionary<String, List<String>> functionsToInputTypes;
-        // maps function names available in the .grg to compile to the output typ name
-        public Dictionary<String, String> functionsToOutputType;
-        // tells for a function given by its name whether it is external
-        public Dictionary<String, bool> functionsToIsExternal;
+        public ActionsTypeInformation actionsTypeInformation;
 
         // array containing the names of the rules available in the .grg to compile
         // environment for (type) checking the compiled sequences
@@ -74,30 +41,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Constructs the sequence generator helper
         /// </summary>
-        public SequenceGeneratorHelper(IGraphModel model, SequenceCheckingEnvironmentCompiled env,
-            Dictionary<String, List<IFilter>> rulesToFilters, Dictionary<String, List<String>> filterFunctionsToInputTypes,
-            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
-            Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
-            Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
-            Dictionary<String, List<String>> proceduresToInputTypes, Dictionary<String, List<String>> proceduresToOutputTypes, Dictionary<String, bool> proceduresToIsExternal,
-            Dictionary<String, List<String>> functionsToInputTypes, Dictionary<String, String> functionsToOutputType, Dictionary<String, bool> functionsToIsExternal)
+        public SequenceGeneratorHelper(IGraphModel model, SequenceCheckingEnvironmentCompiled env, ActionsTypeInformation actionsTypeInformation)
         {
             this.model = model;
             this.env = env;
-            this.rulesToFilters = rulesToFilters;
-            this.filterFunctionsToInputTypes = filterFunctionsToInputTypes;
-            this.rulesToInputTypes = rulesToInputTypes;
-            this.rulesToOutputTypes = rulesToOutputTypes;
-            this.rulesToTopLevelEntities = rulesToTopLevelEntities;
-            this.rulesToTopLevelEntityTypes = rulesToTopLevelEntityTypes;
-            this.sequencesToInputTypes = sequencesToInputTypes;
-            this.sequencesToOutputTypes = sequencesToOutputTypes;
-            this.proceduresToInputTypes = proceduresToInputTypes;
-            this.proceduresToOutputTypes = proceduresToOutputTypes;
-            this.proceduresToIsExternal = proceduresToIsExternal;
-            this.functionsToInputTypes = functionsToInputTypes;
-            this.functionsToOutputType = functionsToOutputType;
-            this.functionsToIsExternal = functionsToIsExternal;
+            this.actionsTypeInformation = actionsTypeInformation;
         }
 
         public void SetSequenceExpressionGenerator(SequenceExpressionGenerator seqExprGen)
@@ -174,14 +122,14 @@ namespace de.unika.ipd.grGen.lgsp
                 if (paramBindings.ArgumentExpressions[i] != null)
                 {
                     String typeName;
-                    if(rulesToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
-                        typeName = rulesToInputTypes[paramBindings.PackagePrefixedName][i];
-                    else if(sequencesToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
-                        typeName = sequencesToInputTypes[paramBindings.PackagePrefixedName][i];
-                    else if(proceduresToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
-                        typeName = proceduresToInputTypes[paramBindings.PackagePrefixedName][i];
+                    if(actionsTypeInformation.rulesToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
+                        typeName = actionsTypeInformation.rulesToInputTypes[paramBindings.PackagePrefixedName][i];
+                    else if(actionsTypeInformation.sequencesToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
+                        typeName = actionsTypeInformation.sequencesToInputTypes[paramBindings.PackagePrefixedName][i];
+                    else if(actionsTypeInformation.proceduresToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
+                        typeName = actionsTypeInformation.proceduresToInputTypes[paramBindings.PackagePrefixedName][i];
                     else
-                        typeName = functionsToInputTypes[paramBindings.PackagePrefixedName][i];
+                        typeName = actionsTypeInformation.functionsToInputTypes[paramBindings.PackagePrefixedName][i];
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
                     parameters += ", " + cast + seqExprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
                 }
@@ -261,10 +209,10 @@ namespace de.unika.ipd.grGen.lgsp
                 if(paramBindings.ArgumentExpressions[i] != null)
                 {
                     String typeName;
-                    if(rulesToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
-                        typeName = rulesToInputTypes[paramBindings.PackagePrefixedName][i];
+                    if(actionsTypeInformation.rulesToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
+                        typeName = actionsTypeInformation.rulesToInputTypes[paramBindings.PackagePrefixedName][i];
                     else 
-                        typeName = sequencesToInputTypes[paramBindings.PackagePrefixedName][i];
+                        typeName = actionsTypeInformation.sequencesToInputTypes[paramBindings.PackagePrefixedName][i];
                     String type = TypesHelper.XgrsTypeToCSharpType(typeName, model);
                     String name = "tmpvar_" + GetUniqueId();
                     declarations += type + " " + name + " = " + "(" + type + ")" + seqExprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null) + ";";
@@ -284,14 +232,14 @@ namespace de.unika.ipd.grGen.lgsp
             outParameterDeclarations = "";
             outArguments = "";
             outAssignments = "";
-            for(int i = 0; i < sequencesToOutputTypes[paramBindings.PackagePrefixedName].Count; i++)
+            for(int i = 0; i < actionsTypeInformation.sequencesToOutputTypes[paramBindings.PackagePrefixedName].Count; i++)
             {
                 String varName;
                 if(paramBindings.ReturnVars.Length != 0)
                     varName = GetUniqueId() + paramBindings.ReturnVars[i].PureName;
                 else
                     varName = GetUniqueId();
-                String typeName = sequencesToOutputTypes[paramBindings.PackagePrefixedName][i];
+                String typeName = actionsTypeInformation.sequencesToOutputTypes[paramBindings.PackagePrefixedName][i];
                 outParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName
                     + " = " + TypesHelper.DefaultValueString(typeName, model) + ";";
                 outArguments += ", ref tmpvar_" + varName;
@@ -316,14 +264,14 @@ namespace de.unika.ipd.grGen.lgsp
             StringBuilder sbIntermediateReturnAssignmentsAllCall = new StringBuilder();
             StringBuilder sbReturnAssignmentsAllCall = new StringBuilder();
 
-            for(int i = 0; i < rulesToOutputTypes[paramBindings.PackagePrefixedName].Count; i++)
+            for(int i = 0; i < actionsTypeInformation.rulesToOutputTypes[paramBindings.PackagePrefixedName].Count; i++)
             {
                 String varName;
                 if(paramBindings.ReturnVars.Length != 0)
                     varName = GetUniqueId() + paramBindings.ReturnVars[i].PureName;
                 else
                     varName = GetUniqueId();
-                String typeName = rulesToOutputTypes[paramBindings.PackagePrefixedName][i];
+                String typeName = actionsTypeInformation.rulesToOutputTypes[paramBindings.PackagePrefixedName][i];
                 
                 sbReturnParameterDeclarations.Append(TypesHelper.XgrsTypeToCSharpType(typeName, model));
                 sbReturnParameterDeclarations.Append(" tmpvar_");
@@ -381,14 +329,14 @@ namespace de.unika.ipd.grGen.lgsp
             returnParameterDeclarations = "";
             returnArguments = "";
             returnAssignments = "";
-            for(int i = 0; i < proceduresToOutputTypes[paramBindings.PackagePrefixedName].Count; i++)
+            for(int i = 0; i < actionsTypeInformation.proceduresToOutputTypes[paramBindings.PackagePrefixedName].Count; i++)
             {
                 String varName;
                 if(paramBindings.ReturnVars.Length != 0)
                     varName = GetUniqueId() + paramBindings.ReturnVars[i].PureName;
                 else
                     varName = GetUniqueId();
-                String typeName = proceduresToOutputTypes[paramBindings.PackagePrefixedName][i];
+                String typeName = actionsTypeInformation.proceduresToOutputTypes[paramBindings.PackagePrefixedName][i];
                 returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
                 if(paramBindings.ReturnVars.Length != 0)

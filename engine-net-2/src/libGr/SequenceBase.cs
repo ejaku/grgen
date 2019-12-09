@@ -704,89 +704,24 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceCheckingEnvironmentCompiled : SequenceCheckingEnvironment
     {
         // constructor for compiled sequences
-        public SequenceCheckingEnvironmentCompiled(String[] ruleNames, String[] sequenceNames, String[] procedureNames, String[] functionNames,
-            Dictionary<String, List<IFilter>> rulesToFilters, Dictionary<String, List<String>> filterFunctionsToInputTypes,
-            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
-            Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
-            Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
-            Dictionary<String, List<String>> proceduresToInputTypes, Dictionary<String, List<String>> proceduresToOutputTypes, Dictionary<String, bool> proceduresToIsExternal,
-            Dictionary<String, List<String>> functionsToInputTypes, Dictionary<String, String> functionsToOutputType, Dictionary<String, bool> functionsToIsExternal,
-            IGraphModel model)
+        public SequenceCheckingEnvironmentCompiled(ActionNames actionNames, ActionsTypeInformation actionsTypeInformation, IGraphModel model)
         {
-            this.ruleNames = ruleNames;
-            this.sequenceNames = sequenceNames;
-            this.procedureNames = procedureNames;
-            this.functionNames = functionNames;
-            this.rulesToFilters = rulesToFilters;
-            this.filterFunctionsToInputTypes = filterFunctionsToInputTypes;
-            this.rulesToInputTypes = rulesToInputTypes;
-            this.rulesToOutputTypes = rulesToOutputTypes;
-            this.rulesToTopLevelEntities = rulesToTopLevelEntities;
-            this.rulesToTopLevelEntityTypes = rulesToTopLevelEntityTypes;
-            this.sequencesToInputTypes = sequencesToInputTypes;
-            this.sequencesToOutputTypes = sequencesToOutputTypes;
-            this.proceduresToInputTypes = proceduresToInputTypes;
-            this.proceduresToOutputTypes = proceduresToOutputTypes;
-            this.proceduresToIsExternal = proceduresToIsExternal;
-            this.functionsToInputTypes = functionsToInputTypes;
-            this.functionsToOutputType = functionsToOutputType;
-            this.functionsToIsExternal = functionsToIsExternal;
+            this.actionNames = actionNames;
+            this.actionsTypeInformation = actionsTypeInformation;
             this.model = model;
         }
 
         // the information available if this is a compiled sequence 
 
-        // the rule names available in the .grg to compile
-        private String[] ruleNames;
+        ActionNames actionNames;
 
-        // the sequence names available in the .grg to compile
-        private String[] sequenceNames;
-
-        // the procedure names available in the .grg to compile
-        private String[] procedureNames;
-
-        // the function names available in the .grg to compile
-        private String[] functionNames;
-
-        // maps rule names available in the .grg to compile to the list of the match filters
-        private Dictionary<String, List<IFilter>> rulesToFilters;
-        // maps filter function names available in the .grg to compile to the list of the input typ names
-        Dictionary<String, List<String>> filterFunctionsToInputTypes;
-
-        // maps rule names available in the .grg to compile to the list of the input typ names
-        private Dictionary<String, List<String>> rulesToInputTypes;
-        // maps rule names available in the .grg to compile to the list of the output typ names
-        private Dictionary<String, List<String>> rulesToOutputTypes;
-
-        // maps rule names available in the .grg to compile to the list of the top level entity names (nodes,edges,variables)
-        private Dictionary<String, List<String>> rulesToTopLevelEntities;
-        // maps rule names available in the .grg to compile to the list of the top level entity types
-        private Dictionary<String, List<String>> rulesToTopLevelEntityTypes;
-
-        // maps sequence names available in the .grg to compile to the list of the input typ names
-        private Dictionary<String, List<String>> sequencesToInputTypes;
-        // maps sequence names available in the .grg to compile to the list of the output typ names
-        private Dictionary<String, List<String>> sequencesToOutputTypes;
-
-        // maps procedure names available in the .grg to compile to the list of the input typ names
-        private Dictionary<String, List<String>> proceduresToInputTypes;
-        // maps procedure names available in the .grg to compile to the list of the output typ names
-        private Dictionary<String, List<String>> proceduresToOutputTypes;
-        // tells for a procedure given by its name whether it is external
-        private Dictionary<String, bool> proceduresToIsExternal;
-
-        // maps function names available in the .grg to compile to the list of the input typ names
-        private Dictionary<String, List<String>> functionsToInputTypes;
-        // maps function names available in the .grg to compile to the list of the output typ name
-        private Dictionary<String, String> functionsToOutputType;
-        // tells for a function given by its name whether it is external
-        private Dictionary<String, bool> functionsToIsExternal;
+        ActionsTypeInformation actionsTypeInformation;
 
         // returns rule or sequence name to input types dictionary depending on argument
-        private Dictionary<String, List<String>> toInputTypes(bool rule) { return rule ? rulesToInputTypes : sequencesToInputTypes; }
+        private Dictionary<String, List<String>> toInputTypes(bool rule) { return rule ? actionsTypeInformation.rulesToInputTypes : actionsTypeInformation.sequencesToInputTypes; }
 
         // returns rule or sequence name to output types dictionary depending on argument
-        private Dictionary<String, List<String>> toOutputTypes(bool rule) { return rule ? rulesToOutputTypes : sequencesToOutputTypes; }
+        private Dictionary<String, List<String>> toOutputTypes(bool rule) { return rule ? actionsTypeInformation.rulesToOutputTypes : actionsTypeInformation.sequencesToOutputTypes; }
 
         // the model object of the .grg to compile
         private IGraphModel model;
@@ -800,24 +735,24 @@ namespace de.unika.ipd.grGen.libGr
 
         public override bool IsProcedureCallExternal(ProcedureInvocationParameterBindings paramBindings)
         {
-            return proceduresToIsExternal[paramBindings.PackagePrefixedName];
+            return actionsTypeInformation.proceduresToIsExternal[paramBindings.PackagePrefixedName];
         }
 
         public override bool IsFunctionCallExternal(FunctionInvocationParameterBindings paramBindings)
         {
-            return functionsToIsExternal[paramBindings.PackagePrefixedName];
+            return actionsTypeInformation.functionsToIsExternal[paramBindings.PackagePrefixedName];
         }
 
         public override string TypeOfTopLevelEntityInRule(string ruleName, string entityName)
         {
-            if(!rulesToTopLevelEntities.ContainsKey(ruleName))
+            if(!actionsTypeInformation.rulesToTopLevelEntities.ContainsKey(ruleName))
                 throw new SequenceParserException(ruleName, SequenceParserError.UnknownRule);
 
-            if(!rulesToTopLevelEntities[ruleName].Contains(entityName))
+            if(!actionsTypeInformation.rulesToTopLevelEntities[ruleName].Contains(entityName))
                 throw new SequenceParserException(ruleName, entityName, SequenceParserError.UnknownPatternElement);
 
-            int indexOfEntity = rulesToTopLevelEntities[ruleName].IndexOf(entityName);
-            return rulesToTopLevelEntityTypes[ruleName][indexOfEntity];
+            int indexOfEntity = actionsTypeInformation.rulesToTopLevelEntities[ruleName].IndexOf(entityName);
+            return actionsTypeInformation.rulesToTopLevelEntityTypes[ruleName][indexOfEntity];
         }
 
         protected override bool IsCalledEntityExisting(InvocationParameterBindings paramBindings, GrGenType ownerType)
@@ -833,11 +768,11 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     ruleParamBindings.Package = ruleParamBindings.PrePackage;
                     ruleParamBindings.PackagePrefixedName = ruleParamBindings.PrePackage + "::" + ruleParamBindings.Name;
-                    return Array.IndexOf(ruleNames, ruleParamBindings.PrePackage + "::" + ruleParamBindings.Name) != -1;
+                    return Array.IndexOf(actionNames.ruleNames, ruleParamBindings.PrePackage + "::" + ruleParamBindings.Name) != -1;
                 }
                 else
                 {
-                    if(Array.IndexOf(ruleNames, ruleParamBindings.Name) != -1)
+                    if(Array.IndexOf(actionNames.ruleNames, ruleParamBindings.Name) != -1)
                     {
                         ruleParamBindings.Package = null;
                         ruleParamBindings.PackagePrefixedName = ruleParamBindings.Name;
@@ -847,7 +782,7 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         ruleParamBindings.Package = ruleParamBindings.PrePackageContext;
                         ruleParamBindings.PackagePrefixedName = ruleParamBindings.PrePackageContext + "::" + ruleParamBindings.Name;
-                        return Array.IndexOf(ruleNames, ruleParamBindings.PrePackageContext + "::" + ruleParamBindings.Name) != -1;
+                        return Array.IndexOf(actionNames.ruleNames, ruleParamBindings.PrePackageContext + "::" + ruleParamBindings.Name) != -1;
                     }
                     return false;
                 }
@@ -859,11 +794,11 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     seqParamBindings.Package = seqParamBindings.PrePackage;
                     seqParamBindings.PackagePrefixedName = seqParamBindings.PrePackage + "::" + seqParamBindings.Name;
-                    return Array.IndexOf(sequenceNames, seqParamBindings.PrePackage + "::" + seqParamBindings.Name) != -1;
+                    return Array.IndexOf(actionNames.sequenceNames, seqParamBindings.PrePackage + "::" + seqParamBindings.Name) != -1;
                 }
                 else
                 {
-                    if(Array.IndexOf(sequenceNames, seqParamBindings.Name) != -1)
+                    if(Array.IndexOf(actionNames.sequenceNames, seqParamBindings.Name) != -1)
                     {
                         seqParamBindings.Package = null;
                         seqParamBindings.PackagePrefixedName = seqParamBindings.Name;
@@ -873,7 +808,7 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         seqParamBindings.Package = seqParamBindings.PrePackageContext;
                         seqParamBindings.PackagePrefixedName = seqParamBindings.PrePackageContext + "::" + seqParamBindings.Name;
-                        return Array.IndexOf(sequenceNames, seqParamBindings.PrePackageContext + "::" + seqParamBindings.Name) != -1;
+                        return Array.IndexOf(actionNames.sequenceNames, seqParamBindings.PrePackageContext + "::" + seqParamBindings.Name) != -1;
                     }
                     return false;
                 }
@@ -891,11 +826,11 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         procParamBindings.Package = procParamBindings.PrePackage;
                         procParamBindings.PackagePrefixedName = procParamBindings.PrePackage + "::" + procParamBindings.Name;
-                        return Array.IndexOf(procedureNames, procParamBindings.PrePackage + "::" + procParamBindings.Name) != -1;
+                        return Array.IndexOf(actionNames.procedureNames, procParamBindings.PrePackage + "::" + procParamBindings.Name) != -1;
                     }
                     else
                     {
-                        if(Array.IndexOf(procedureNames, procParamBindings.Name) != -1)
+                        if(Array.IndexOf(actionNames.procedureNames, procParamBindings.Name) != -1)
                         {
                             procParamBindings.Package = null;
                             procParamBindings.PackagePrefixedName = procParamBindings.Name;
@@ -905,7 +840,7 @@ namespace de.unika.ipd.grGen.libGr
                         {
                             procParamBindings.Package = procParamBindings.PrePackageContext;
                             procParamBindings.PackagePrefixedName = procParamBindings.PrePackageContext + "::" + procParamBindings.Name;
-                            return Array.IndexOf(procedureNames, procParamBindings.PrePackageContext + "::" + procParamBindings.Name) != -1;
+                            return Array.IndexOf(actionNames.procedureNames, procParamBindings.PrePackageContext + "::" + procParamBindings.Name) != -1;
                         }
                         return false;
                     }
@@ -924,11 +859,11 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         funcParamBindings.Package = funcParamBindings.PrePackage;
                         funcParamBindings.PackagePrefixedName = funcParamBindings.PrePackage + "::" + funcParamBindings.Name;
-                        return Array.IndexOf(functionNames, funcParamBindings.PrePackage + "::" + funcParamBindings.Name) != -1;
+                        return Array.IndexOf(actionNames.functionNames, funcParamBindings.PrePackage + "::" + funcParamBindings.Name) != -1;
                     }
                     else
                     {
-                        if(Array.IndexOf(functionNames, funcParamBindings.Name) != -1)
+                        if(Array.IndexOf(actionNames.functionNames, funcParamBindings.Name) != -1)
                         {
                             funcParamBindings.Package = null;
                             funcParamBindings.PackagePrefixedName = funcParamBindings.Name;
@@ -938,7 +873,7 @@ namespace de.unika.ipd.grGen.libGr
                         {
                             funcParamBindings.Package = funcParamBindings.PrePackageContext;
                             funcParamBindings.PackagePrefixedName = funcParamBindings.PrePackageContext + "::" + funcParamBindings.Name;
-                            return Array.IndexOf(functionNames, funcParamBindings.PrePackageContext + "::" + funcParamBindings.Name) != -1;
+                            return Array.IndexOf(actionNames.functionNames, funcParamBindings.PrePackageContext + "::" + funcParamBindings.Name) != -1;
                         }
                         return false;
                     }
@@ -952,12 +887,12 @@ namespace de.unika.ipd.grGen.libGr
             if(paramBindings is RuleInvocationParameterBindings)
             {
                 RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
-                return rulesToInputTypes[ruleParamBindings.PackagePrefixedName].Count;
+                return actionsTypeInformation.rulesToInputTypes[ruleParamBindings.PackagePrefixedName].Count;
             }
             else if(paramBindings is SequenceInvocationParameterBindings)
             {
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
-                return sequencesToInputTypes[seqParamBindings.PackagePrefixedName].Count;
+                return actionsTypeInformation.sequencesToInputTypes[seqParamBindings.PackagePrefixedName].Count;
             }
             else if(paramBindings is ProcedureInvocationParameterBindings)
             {
@@ -965,7 +900,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return ownerType.GetProcedureMethod(procParamBindings.Name).Inputs.Length;
                 else
-                    return proceduresToInputTypes[procParamBindings.PackagePrefixedName].Count;
+                    return actionsTypeInformation.proceduresToInputTypes[procParamBindings.PackagePrefixedName].Count;
             }
             else if(paramBindings is FunctionInvocationParameterBindings)
             {
@@ -973,7 +908,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return ownerType.GetFunctionMethod(funcParamBindings.Name).Inputs.Length;
                 else
-                    return functionsToInputTypes[funcParamBindings.PackagePrefixedName].Count;
+                    return actionsTypeInformation.functionsToInputTypes[funcParamBindings.PackagePrefixedName].Count;
             }
             throw new Exception("Internal error");
         }
@@ -983,12 +918,12 @@ namespace de.unika.ipd.grGen.libGr
             if(paramBindings is RuleInvocationParameterBindings)
             {
                 RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
-                return rulesToOutputTypes[ruleParamBindings.PackagePrefixedName].Count;
+                return actionsTypeInformation.rulesToOutputTypes[ruleParamBindings.PackagePrefixedName].Count;
             }
             else if(paramBindings is SequenceInvocationParameterBindings)
             {
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
-                return sequencesToOutputTypes[seqParamBindings.PackagePrefixedName].Count;
+                return actionsTypeInformation.sequencesToOutputTypes[seqParamBindings.PackagePrefixedName].Count;
             }
             else if(paramBindings is ProcedureInvocationParameterBindings)
             {
@@ -996,7 +931,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return ownerType.GetProcedureMethod(procParamBindings.Name).Outputs.Length;
                 else
-                    return proceduresToOutputTypes[procParamBindings.PackagePrefixedName].Count;
+                    return actionsTypeInformation.proceduresToOutputTypes[procParamBindings.PackagePrefixedName].Count;
             }
             throw new Exception("Internal error");
         }
@@ -1006,12 +941,12 @@ namespace de.unika.ipd.grGen.libGr
             if(paramBindings is RuleInvocationParameterBindings)
             {
                 RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
-                return rulesToInputTypes[ruleParamBindings.PackagePrefixedName][i];
+                return actionsTypeInformation.rulesToInputTypes[ruleParamBindings.PackagePrefixedName][i];
             }
             else if(paramBindings is SequenceInvocationParameterBindings)
             {
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
-                return sequencesToInputTypes[seqParamBindings.PackagePrefixedName][i];
+                return actionsTypeInformation.sequencesToInputTypes[seqParamBindings.PackagePrefixedName][i];
             }
             else if(paramBindings is ProcedureInvocationParameterBindings)
             {
@@ -1019,7 +954,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).Inputs[i]);
                 else
-                    return proceduresToInputTypes[procParamBindings.PackagePrefixedName][i];
+                    return actionsTypeInformation.proceduresToInputTypes[procParamBindings.PackagePrefixedName][i];
             }
             else if(paramBindings is FunctionInvocationParameterBindings)
             {
@@ -1027,7 +962,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return TypesHelper.DotNetTypeToXgrsType(ownerType.GetFunctionMethod(funcParamBindings.Name).Inputs[i]);
                 else
-                    return functionsToInputTypes[funcParamBindings.PackagePrefixedName][i];
+                    return actionsTypeInformation.functionsToInputTypes[funcParamBindings.PackagePrefixedName][i];
             }
             throw new Exception("Internal error");
         }
@@ -1037,12 +972,12 @@ namespace de.unika.ipd.grGen.libGr
             if(paramBindings is RuleInvocationParameterBindings)
             {
                 RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
-                return rulesToOutputTypes[ruleParamBindings.PackagePrefixedName][i];
+                return actionsTypeInformation.rulesToOutputTypes[ruleParamBindings.PackagePrefixedName][i];
             }
             else if(paramBindings is SequenceInvocationParameterBindings)
             {
                 SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
-                return sequencesToOutputTypes[seqParamBindings.PackagePrefixedName][i];
+                return actionsTypeInformation.sequencesToOutputTypes[seqParamBindings.PackagePrefixedName][i];
             }
             else if(paramBindings is ProcedureInvocationParameterBindings)
             {
@@ -1050,7 +985,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).Outputs[i]);
                 else
-                    return proceduresToOutputTypes[procParamBindings.PackagePrefixedName][i];
+                    return actionsTypeInformation.proceduresToOutputTypes[procParamBindings.PackagePrefixedName][i];
             }
             throw new Exception("Internal error");
         }
@@ -1071,26 +1006,26 @@ namespace de.unika.ipd.grGen.libGr
             {
                 filterCall.Package = filterCall.PrePackage;
                 filterCall.PackagePrefixedName = filterCall.PrePackage + "::" + filterCall.Name;
-                return filterCall.IsContainedIn(rulesToFilters[seq.ParamBindings.PackagePrefixedName]);
+                return filterCall.IsContainedIn(actionsTypeInformation.rulesToFilters[seq.ParamBindings.PackagePrefixedName]);
             }
             else
             {
                 filterCall.Package = null;
                 filterCall.PackagePrefixedName = filterCall.Name;
-                if(filterCall.IsContainedIn(rulesToFilters[seq.ParamBindings.PackagePrefixedName]))
+                if(filterCall.IsContainedIn(actionsTypeInformation.rulesToFilters[seq.ParamBindings.PackagePrefixedName]))
                     return true;
                 if(filterCall.PrePackageContext != null)
                 {
                     filterCall.Package = filterCall.PrePackageContext;
                     filterCall.PackagePrefixedName = filterCall.PrePackageContext + "::" + filterCall.Name;
-                    if(filterCall.IsContainedIn(rulesToFilters[seq.ParamBindings.PackagePrefixedName]))
+                    if(filterCall.IsContainedIn(actionsTypeInformation.rulesToFilters[seq.ParamBindings.PackagePrefixedName]))
                         return true;
                 }
                 if(filterCall.IsAutoGenerated && seq.ParamBindings.Package != null)
                 {
                     filterCall.Package = seq.ParamBindings.Package;
                     filterCall.PackagePrefixedName = seq.ParamBindings.Package + "::" + filterCall.Name;
-                    return filterCall.IsContainedIn(rulesToFilters[seq.ParamBindings.PackagePrefixedName]);
+                    return filterCall.IsContainedIn(actionsTypeInformation.rulesToFilters[seq.ParamBindings.PackagePrefixedName]);
                 }
                 return false;
             }
@@ -1105,8 +1040,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return 1;
             }
-            if(filterFunctionsToInputTypes.ContainsKey(filterCall.PackagePrefixedName))
-                return filterFunctionsToInputTypes[filterCall.PackagePrefixedName].Count;
+            if(actionsTypeInformation.filterFunctionsToInputTypes.ContainsKey(filterCall.PackagePrefixedName))
+                return actionsTypeInformation.filterFunctionsToInputTypes[filterCall.PackagePrefixedName].Count;
             else
                 return 0; // auto-supplied
         }
@@ -1121,7 +1056,7 @@ namespace de.unika.ipd.grGen.libGr
                 return "int";
             if(filterCall.Name == "keepLastFraction" || filterCall.Name == "removeLastFraction")
                 return "double";
-            return filterFunctionsToInputTypes[filterCall.PackagePrefixedName][i];
+            return actionsTypeInformation.filterFunctionsToInputTypes[filterCall.PackagePrefixedName][i];
         }
     }
 

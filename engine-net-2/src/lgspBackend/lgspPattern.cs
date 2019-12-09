@@ -1471,5 +1471,130 @@ namespace de.unika.ipd.grGen.lgsp
         /// All the packages defined
         /// </summary>
         public abstract string[] Packages { get; }
+
+        /// <summary>
+        /// Returns a string-dictionary representation of the different kinds of actions, esp. their types
+        /// </summary>
+        public ActionsTypeInformation CollectActionParameterTypes()
+        {
+            ActionsTypeInformation actionsTypeInformation = new ActionsTypeInformation();
+
+            foreach(LGSPRulePattern rulePattern in Rules)
+            {
+                List<IFilter> filters = new List<IFilter>();
+                actionsTypeInformation.rulesToFilters.Add(rulePattern.PatternGraph.PackagePrefixedName, filters);
+                foreach(IFilter filter in rulePattern.Filters)
+                {
+                    filters.Add(filter);
+
+                    if(filter is IFilterFunction)
+                    {
+                        IFilterFunction filterFunction = (IFilterFunction)filter;
+                        List<String> filterFunctionInputTypes = new List<String>();
+                        actionsTypeInformation.filterFunctionsToInputTypes.Add(filterFunction.PackagePrefixedName, filterFunctionInputTypes);
+                        foreach(GrGenType inputType in filterFunction.Inputs)
+                        {
+                            filterFunctionInputTypes.Add(TypesHelper.DotNetTypeToXgrsType(inputType));
+                        }
+                    }
+                }
+
+                List<String> inputTypes = new List<String>();
+                actionsTypeInformation.rulesToInputTypes.Add(rulePattern.PatternGraph.PackagePrefixedName, inputTypes);
+                foreach(GrGenType inputType in rulePattern.Inputs)
+                {
+                    inputTypes.Add(TypesHelper.DotNetTypeToXgrsType(inputType));
+                }
+
+                List<String> outputTypes = new List<String>();
+                actionsTypeInformation.rulesToOutputTypes.Add(rulePattern.PatternGraph.PackagePrefixedName, outputTypes);
+                foreach(GrGenType outputType in rulePattern.Outputs)
+                {
+                    outputTypes.Add(TypesHelper.DotNetTypeToXgrsType(outputType));
+                }
+
+                List<String> topLevelEntities = new List<String>();
+                actionsTypeInformation.rulesToTopLevelEntities.Add(rulePattern.PatternGraph.PackagePrefixedName, topLevelEntities);
+                foreach(IPatternNode node in rulePattern.PatternGraph.Nodes)
+                {
+                    topLevelEntities.Add(node.UnprefixedName);
+                }
+                foreach(IPatternEdge edge in rulePattern.PatternGraph.Edges)
+                {
+                    topLevelEntities.Add(edge.UnprefixedName);
+                }
+                foreach(IPatternVariable var in rulePattern.PatternGraph.Variables)
+                {
+                    topLevelEntities.Add(var.UnprefixedName);
+                }
+
+                List<String> topLevelEntityTypes = new List<String>();
+                actionsTypeInformation.rulesToTopLevelEntityTypes.Add(rulePattern.PatternGraph.PackagePrefixedName, topLevelEntityTypes);
+                foreach(IPatternNode node in rulePattern.PatternGraph.Nodes)
+                {
+                    topLevelEntityTypes.Add(TypesHelper.DotNetTypeToXgrsType(node.Type));
+                }
+                foreach(IPatternEdge edge in rulePattern.PatternGraph.Edges)
+                {
+                    topLevelEntityTypes.Add(TypesHelper.DotNetTypeToXgrsType(edge.Type));
+                }
+                foreach(IPatternVariable var in rulePattern.PatternGraph.Variables)
+                {
+                    topLevelEntityTypes.Add(TypesHelper.DotNetTypeToXgrsType(var.Type));
+                }
+            }
+
+            foreach(DefinedSequenceInfo sequence in DefinedSequences)
+            {
+                List<String> inputTypes = new List<String>();
+                actionsTypeInformation.sequencesToInputTypes.Add(sequence.PackagePrefixedName, inputTypes);
+                foreach(GrGenType inputType in sequence.ParameterTypes)
+                {
+                    inputTypes.Add(TypesHelper.DotNetTypeToXgrsType(inputType));
+                }
+
+                List<String> outputTypes = new List<String>();
+                actionsTypeInformation.sequencesToOutputTypes.Add(sequence.PackagePrefixedName, outputTypes);
+                foreach(GrGenType outputType in sequence.OutParameterTypes)
+                {
+                    outputTypes.Add(TypesHelper.DotNetTypeToXgrsType(outputType));
+                }
+            }
+
+            foreach(ProcedureInfo procedure in Procedures)
+            {
+                List<String> inputTypes = new List<String>();
+                actionsTypeInformation.proceduresToInputTypes.Add(procedure.packagePrefixedName, inputTypes);
+                foreach(GrGenType inputType in procedure.inputs)
+                {
+                    inputTypes.Add(TypesHelper.DotNetTypeToXgrsType(inputType));
+                }
+
+                List<String> outputTypes = new List<String>();
+                actionsTypeInformation.proceduresToOutputTypes.Add(procedure.packagePrefixedName, outputTypes);
+                foreach(GrGenType outputType in procedure.outputs)
+                {
+                    outputTypes.Add(TypesHelper.DotNetTypeToXgrsType(outputType));
+                }
+
+                actionsTypeInformation.proceduresToIsExternal.Add(procedure.packagePrefixedName, procedure.IsExternal);
+            }
+
+            foreach(FunctionInfo function in Functions)
+            {
+                List<String> inputTypes = new List<String>();
+                actionsTypeInformation.functionsToInputTypes.Add(function.packagePrefixedName, inputTypes);
+                foreach(GrGenType inputType in function.inputs)
+                {
+                    inputTypes.Add(TypesHelper.DotNetTypeToXgrsType(inputType));
+                }
+
+                actionsTypeInformation.functionsToOutputType.Add(function.packagePrefixedName, TypesHelper.DotNetTypeToXgrsType(function.output));
+
+                actionsTypeInformation.functionsToIsExternal.Add(function.packagePrefixedName, function.IsExternal);
+            }
+
+            return actionsTypeInformation;
+        }
     }
 }

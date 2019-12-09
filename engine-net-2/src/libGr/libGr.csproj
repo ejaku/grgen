@@ -65,6 +65,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionNames.cs" />
+    <Compile Include="ActionsTypeInformation.cs" />
     <Compile Include="backendInterface.cs" />
     <Compile Include="BaseActions.cs" />
     <Compile Include="BaseGraph.cs" />
