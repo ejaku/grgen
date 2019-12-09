@@ -47,10 +47,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         SequenceGenerator seqGen;
 
-        SequenceComputationGenerator compGen;
-
-        SequenceExpressionGenerator exprGen;
-
         SequenceGeneratorHelper helper;
 
         ActionNames actionNames;
@@ -70,11 +66,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             this.helper = new SequenceGeneratorHelper(model, actionsTypeInformation, env);
 
-            this.exprGen = new SequenceExpressionGenerator(model, env, helper);
+            SequenceExpressionGenerator exprGen = new SequenceExpressionGenerator(model, env, helper);
 
             this.helper.SetSequenceExpressionGenerator(exprGen);
 
-            this.compGen = new SequenceComputationGenerator(model, env, exprGen, helper, fireDebugEvents);
+            SequenceComputationGenerator compGen = new SequenceComputationGenerator(model, env, exprGen, helper, fireDebugEvents);
 
             this.seqGen = new SequenceGenerator(model, env, compGen, exprGen, helper, fireDebugEvents, emitProfiling);
 
@@ -162,7 +158,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFrontFormat("procEnv.DebugExiting(\"{0}\");\n", InjectExec(xgrsName));
             }
 
-            source.AppendFront("return " + compGen.GetResultVar(seq) + ";\n");
+            source.AppendFront("return " + seqGen.GetSequenceResult(seq) + ";\n");
 			source.Unindent();
 			source.AppendFront("}\n");
 
@@ -359,7 +355,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Append(");\n");
             }
 
-            source.AppendFront("return " + compGen.GetResultVar(seq) + ";\n");
+            source.AppendFront("return " + seqGen.GetSequenceResult(seq) + ";\n");
             source.Unindent();
             source.AppendFront("}\n");
 
