@@ -43,18 +43,6 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Emit variable declarations needed (only once for every variable)
-        /// </summary>
-        private void EmitVarIfNew(SequenceVariable var, SourceBuilder source)
-		{
-			if(!var.Visited)
-			{
-                var.Visited = true;
-                source.AppendFront(helper.DeclareVar(var));
-			}
-		}
-
-        /// <summary>
         /// pre-run for emitting the needed entities before emitting the real code
         /// - emits result variable declarations
         /// - emits sequence variable declarations (only once for every variable, declaration only possible at assignment targets)
@@ -209,6 +197,18 @@ namespace de.unika.ipd.grGen.lgsp
 					break;
 			}
 		}
+
+        /// <summary>
+        /// Emit variable declarations needed (only once for every variable)
+        /// </summary>
+        private void EmitVarIfNew(SequenceVariable var, SourceBuilder source)
+        {
+            if(!var.Visited)
+            {
+                var.Visited = true;
+                source.AppendFront(helper.DeclareVar(var));
+            }
+        }
 
         /// <summary>
         /// pre-run for emitting the needed entities before emitting the real code

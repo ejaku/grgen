@@ -55,222 +55,6 @@ namespace de.unika.ipd.grGen.lgsp
             this.emitProfiling = emitProfiling;
         }
 
-		private void EmitLazyOp(SequenceBinary seq, SourceBuilder source, bool reversed)
-		{
-            Sequence seqLeft;
-            Sequence seqRight;
-            if(reversed) {
-                Debug.Assert(seq.SequenceType != SequenceType.IfThen);
-                seqLeft = seq.Right;
-                seqRight = seq.Left;
-            } else {
-                seqLeft = seq.Left;
-                seqRight = seq.Right;
-            }
-
-			EmitSequence(seqLeft, source);
-
-            if(seq.SequenceType == SequenceType.LazyOr) {
-                source.AppendFront("if(" + compGen.GetResultVar(seqLeft) + ")\n");
-                source.Indent();
-                source.AppendFront(compGen.SetResultVar(seq, "true"));
-                source.Unindent();
-            } else if(seq.SequenceType == SequenceType.LazyAnd) {
-                source.AppendFront("if(!" + compGen.GetResultVar(seqLeft) + ")\n");
-                source.Indent();
-                source.AppendFront(compGen.SetResultVar(seq, "false"));
-                source.Unindent();
-            } else { //seq.SequenceType==SequenceType.IfThen -- lazy implication
-                source.AppendFront("if(!" + compGen.GetResultVar(seqLeft) + ")\n");
-                source.Indent();
-                source.AppendFront(compGen.SetResultVar(seq, "true"));
-                source.Unindent();
-            }
-
-			source.AppendFront("else\n");
-			source.AppendFront("{\n");
-			source.Indent();
-
-            EmitSequence(seqRight, source);
-            source.AppendFront(compGen.SetResultVar(seq, compGen.GetResultVar(seqRight)));
-
-            source.Unindent();
-			source.AppendFront("}\n");
-		}
-
-        private void EmitRuleOrRuleAllCall(SequenceRuleCall seqRule, SourceBuilder source)
-        {
-            RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
-            String specialStr = seqRule.Special ? "true" : "false";
-            String parameterDeclarations = null;
-            String parameters = null;
-            if(paramBindings.Subgraph != null)
-                parameters = helper.BuildParametersInDeclarations(paramBindings, out parameterDeclarations);
-            else
-                parameters = helper.BuildParameters(paramBindings);
-            String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Rule_" + paramBindings.Name;
-            String patternName = paramBindings.Name;
-            String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
-            String matchName = "match_" + seqRule.Id;
-            String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
-            String matchesName = "matches_" + seqRule.Id;
-
-            if(paramBindings.Subgraph != null)
-            {
-                source.AppendFront(parameterDeclarations + "\n");
-                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + helper.GetVar(paramBindings.Subgraph) + ");\n");
-                source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
-            }
-
-            source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name)
-                + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
-                + parameters + ");\n");
-            for(int i = 0; i < seqRule.Filters.Count; ++i)
-            {
-                EmitFilterCall(source, seqRule.Filters[i], patternName, matchesName);
-            }
-
-            if(fireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
-            if(seqRule is SequenceRuleCountAllCall)
-            {
-                SequenceRuleCountAllCall seqRuleCountAll = (SequenceRuleCountAllCall)seqRule;
-                source.AppendFront(helper.SetVar(seqRuleCountAll.CountResult, matchesName + ".Count"));
-            }
-
-            if(seqRule is SequenceRuleAllCall
-                && ((SequenceRuleAllCall)seqRule).ChooseRandom
-                && ((SequenceRuleAllCall)seqRule).MinSpecified)
-            {
-                SequenceRuleAllCall seqRuleAll = (SequenceRuleAllCall)seqRule;
-                source.AppendFrontFormat("int minmatchesvar_{0} = (int){1};\n", seqRuleAll.Id, helper.GetVar(seqRuleAll.MinVarChooseRandom));
-                source.AppendFrontFormat("if({0}.Count < minmatchesvar_{1}) {{\n", matchesName, seqRuleAll.Id);
-            }
-            else
-            {
-                source.AppendFront("if(" + matchesName + ".Count==0) {\n");
-            }
-            source.Indent();
-            source.AppendFront(compGen.SetResultVar(seqRule, "false"));
-            source.Unindent();
-            source.AppendFront("} else {\n");
-            source.Indent();
-            source.AppendFront(compGen.SetResultVar(seqRule, "true"));
-            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-            if(fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
-
-            String returnParameterDeclarations;
-            String returnArguments;
-            String returnAssignments;
-            String returnParameterDeclarationsAllCall;
-            String intermediateReturnAssignmentsAllCall;
-            String returnAssignmentsAllCall;
-            helper.BuildReturnParameters(paramBindings,
-                out returnParameterDeclarations, out returnArguments, out returnAssignments,
-                out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
-
-            if(seqRule.SequenceType == SequenceType.RuleCall)
-            {
-                source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
-                if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
-                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
-                if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
-                source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
-            }
-            else if(seqRule.SequenceType == SequenceType.RuleCountAllCall || !((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
-            {
-                // iterate through matches, use Modify on each, fire the next match event after the first
-                if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarationsAllCall + "\n");
-                String enumeratorName = "enum_" + seqRule.Id;
-                source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
-                source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
-                source.AppendFront("{\n");
-                source.Indent();
-                source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-                source.AppendFront("if(" + matchName + "!=" + matchesName + ".FirstExact) procEnv.RewritingNextMatch();\n");
-                if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
-                if(returnAssignments.Length != 0) source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
-                source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
-                source.Unindent();
-                source.AppendFront("}\n");
-                if(returnAssignments.Length != 0) source.AppendFront(returnAssignmentsAllCall + "\n");
-            }
-            else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
-            {
-                // as long as a further rewrite has to be selected: randomly choose next match, rewrite it and remove it from available matches; fire the next match event after the first
-                SequenceRuleAllCall seqRuleAll = (SequenceRuleAllCall)seqRule;
-                if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarationsAllCall + "\n");
-                source.AppendFrontFormat("int numchooserandomvar_{0} = (int){1};\n", seqRuleAll.Id, seqRuleAll.MaxVarChooseRandom != null ? helper.GetVar(seqRuleAll.MaxVarChooseRandom) : (seqRuleAll.MinSpecified ? "2147483647" : "1"));
-                source.AppendFrontFormat("if({0}.Count < numchooserandomvar_{1}) numchooserandomvar_{1} = {0}.Count;\n", matchesName, seqRule.Id);
-                source.AppendFrontFormat("for(int i = 0; i < numchooserandomvar_{0}; ++i)\n", seqRule.Id);
-                source.AppendFront("{\n");
-                source.Indent();
-                source.AppendFront("if(i != 0) procEnv.RewritingNextMatch();\n");
-                source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
-                if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
-                if(returnAssignments.Length != 0) source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
-                source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
-                source.Unindent();
-                source.AppendFront("}\n");
-                if(returnAssignments.Length != 0) source.AppendFront(returnAssignmentsAllCall + "\n");
-            }
-
-            if(fireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
-
-            source.Unindent();
-            source.AppendFront("}\n");
-
-            if(paramBindings.Subgraph != null)
-            {
-                source.AppendFront("procEnv.ReturnFromSubgraph();\n");
-                source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
-            }
-        }
-
-        private void EmitSequenceCall(SequenceSequenceCall seqSeq, SourceBuilder source)
-        {
-            SequenceInvocationParameterBindings paramBindings = seqSeq.ParamBindings;
-            String parameterDeclarations = null;
-            String parameters = null;
-            if(paramBindings.Subgraph != null)
-                parameters = helper.BuildParametersInDeclarations(paramBindings, out parameterDeclarations);
-            else
-                parameters = helper.BuildParameters(paramBindings);
-            String outParameterDeclarations;
-            String outArguments;
-            String outAssignments;
-            helper.BuildOutParameters(paramBindings, out outParameterDeclarations, out outArguments, out outAssignments);
-
-            if(paramBindings.Subgraph != null)
-            {
-                source.AppendFront(parameterDeclarations + "\n");
-                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + helper.GetVar(paramBindings.Subgraph) + ");\n");
-                source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
-            }
-
-            if(outParameterDeclarations.Length != 0)
-                source.AppendFront(outParameterDeclarations + "\n");
-            source.AppendFront("if(" + TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Sequence_" + paramBindings.Name + ".ApplyXGRS_" + paramBindings.Name
-                                + "(procEnv" + parameters + outArguments + ")) {\n");
-            source.Indent();
-            if(outAssignments.Length != 0)
-                source.AppendFront(outAssignments + "\n");
-            source.AppendFront(compGen.SetResultVar(seqSeq, "true"));
-            source.Unindent();
-            source.AppendFront("} else {\n");
-            source.Indent();
-            source.AppendFront(compGen.SetResultVar(seqSeq, "false"));
-            source.Unindent();
-            source.AppendFront("}\n");
-
-            if(paramBindings.Subgraph != null)
-            {
-                source.AppendFront("procEnv.ReturnFromSubgraph();\n");
-                source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
-            }
-        }
-
 		public void EmitSequence(Sequence seq, SourceBuilder source)
 		{
 			switch(seq.SequenceType)
@@ -1238,6 +1022,230 @@ namespace de.unika.ipd.grGen.lgsp
         public String GetSequenceResult(Sequence seq)
         {
             return compGen.GetResultVar(seq);
+        }
+
+        private void EmitLazyOp(SequenceBinary seq, SourceBuilder source, bool reversed)
+        {
+            Sequence seqLeft;
+            Sequence seqRight;
+            if(reversed)
+            {
+                Debug.Assert(seq.SequenceType != SequenceType.IfThen);
+                seqLeft = seq.Right;
+                seqRight = seq.Left;
+            }
+            else
+            {
+                seqLeft = seq.Left;
+                seqRight = seq.Right;
+            }
+
+            EmitSequence(seqLeft, source);
+
+            if(seq.SequenceType == SequenceType.LazyOr)
+            {
+                source.AppendFront("if(" + compGen.GetResultVar(seqLeft) + ")\n");
+                source.Indent();
+                source.AppendFront(compGen.SetResultVar(seq, "true"));
+                source.Unindent();
+            }
+            else if(seq.SequenceType == SequenceType.LazyAnd)
+            {
+                source.AppendFront("if(!" + compGen.GetResultVar(seqLeft) + ")\n");
+                source.Indent();
+                source.AppendFront(compGen.SetResultVar(seq, "false"));
+                source.Unindent();
+            }
+            else
+            { //seq.SequenceType==SequenceType.IfThen -- lazy implication
+                source.AppendFront("if(!" + compGen.GetResultVar(seqLeft) + ")\n");
+                source.Indent();
+                source.AppendFront(compGen.SetResultVar(seq, "true"));
+                source.Unindent();
+            }
+
+            source.AppendFront("else\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            EmitSequence(seqRight, source);
+            source.AppendFront(compGen.SetResultVar(seq, compGen.GetResultVar(seqRight)));
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitRuleOrRuleAllCall(SequenceRuleCall seqRule, SourceBuilder source)
+        {
+            RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
+            String specialStr = seqRule.Special ? "true" : "false";
+            String parameterDeclarations = null;
+            String parameters = null;
+            if(paramBindings.Subgraph != null)
+                parameters = helper.BuildParametersInDeclarations(paramBindings, out parameterDeclarations);
+            else
+                parameters = helper.BuildParameters(paramBindings);
+            String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Rule_" + paramBindings.Name;
+            String patternName = paramBindings.Name;
+            String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
+            String matchName = "match_" + seqRule.Id;
+            String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
+            String matchesName = "matches_" + seqRule.Id;
+
+            if(paramBindings.Subgraph != null)
+            {
+                source.AppendFront(parameterDeclarations + "\n");
+                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + helper.GetVar(paramBindings.Subgraph) + ");\n");
+                source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
+            }
+
+            source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name)
+                + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
+                + parameters + ");\n");
+            for(int i = 0; i < seqRule.Filters.Count; ++i)
+            {
+                EmitFilterCall(source, seqRule.Filters[i], patternName, matchesName);
+            }
+
+            if(fireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+            if(seqRule is SequenceRuleCountAllCall)
+            {
+                SequenceRuleCountAllCall seqRuleCountAll = (SequenceRuleCountAllCall)seqRule;
+                source.AppendFront(helper.SetVar(seqRuleCountAll.CountResult, matchesName + ".Count"));
+            }
+
+            if(seqRule is SequenceRuleAllCall
+                && ((SequenceRuleAllCall)seqRule).ChooseRandom
+                && ((SequenceRuleAllCall)seqRule).MinSpecified)
+            {
+                SequenceRuleAllCall seqRuleAll = (SequenceRuleAllCall)seqRule;
+                source.AppendFrontFormat("int minmatchesvar_{0} = (int){1};\n", seqRuleAll.Id, helper.GetVar(seqRuleAll.MinVarChooseRandom));
+                source.AppendFrontFormat("if({0}.Count < minmatchesvar_{1}) {{\n", matchesName, seqRuleAll.Id);
+            }
+            else
+            {
+                source.AppendFront("if(" + matchesName + ".Count==0) {\n");
+            }
+            source.Indent();
+            source.AppendFront(compGen.SetResultVar(seqRule, "false"));
+            source.Unindent();
+            source.AppendFront("} else {\n");
+            source.Indent();
+            source.AppendFront(compGen.SetResultVar(seqRule, "true"));
+            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
+            if(fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+
+            String returnParameterDeclarations;
+            String returnArguments;
+            String returnAssignments;
+            String returnParameterDeclarationsAllCall;
+            String intermediateReturnAssignmentsAllCall;
+            String returnAssignmentsAllCall;
+            helper.BuildReturnParameters(paramBindings,
+                out returnParameterDeclarations, out returnArguments, out returnAssignments,
+                out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
+
+            if(seqRule.SequenceType == SequenceType.RuleCall)
+            {
+                source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
+                if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
+                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+                source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
+            }
+            else if(seqRule.SequenceType == SequenceType.RuleCountAllCall || !((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
+            {
+                // iterate through matches, use Modify on each, fire the next match event after the first
+                if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarationsAllCall + "\n");
+                String enumeratorName = "enum_" + seqRule.Id;
+                source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
+                source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
+                source.AppendFront("{\n");
+                source.Indent();
+                source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
+                source.AppendFront("if(" + matchName + "!=" + matchesName + ".FirstExact) procEnv.RewritingNextMatch();\n");
+                if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
+                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                if(returnAssignments.Length != 0) source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
+                source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
+                source.Unindent();
+                source.AppendFront("}\n");
+                if(returnAssignments.Length != 0) source.AppendFront(returnAssignmentsAllCall + "\n");
+            }
+            else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
+            {
+                // as long as a further rewrite has to be selected: randomly choose next match, rewrite it and remove it from available matches; fire the next match event after the first
+                SequenceRuleAllCall seqRuleAll = (SequenceRuleAllCall)seqRule;
+                if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarationsAllCall + "\n");
+                source.AppendFrontFormat("int numchooserandomvar_{0} = (int){1};\n", seqRuleAll.Id, seqRuleAll.MaxVarChooseRandom != null ? helper.GetVar(seqRuleAll.MaxVarChooseRandom) : (seqRuleAll.MinSpecified ? "2147483647" : "1"));
+                source.AppendFrontFormat("if({0}.Count < numchooserandomvar_{1}) numchooserandomvar_{1} = {0}.Count;\n", matchesName, seqRule.Id);
+                source.AppendFrontFormat("for(int i = 0; i < numchooserandomvar_{0}; ++i)\n", seqRule.Id);
+                source.AppendFront("{\n");
+                source.Indent();
+                source.AppendFront("if(i != 0) procEnv.RewritingNextMatch();\n");
+                source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
+                if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
+                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                if(returnAssignments.Length != 0) source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
+                source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
+                source.Unindent();
+                source.AppendFront("}\n");
+                if(returnAssignments.Length != 0) source.AppendFront(returnAssignmentsAllCall + "\n");
+            }
+
+            if(fireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            if(paramBindings.Subgraph != null)
+            {
+                source.AppendFront("procEnv.ReturnFromSubgraph();\n");
+                source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
+            }
+        }
+
+        private void EmitSequenceCall(SequenceSequenceCall seqSeq, SourceBuilder source)
+        {
+            SequenceInvocationParameterBindings paramBindings = seqSeq.ParamBindings;
+            String parameterDeclarations = null;
+            String parameters = null;
+            if(paramBindings.Subgraph != null)
+                parameters = helper.BuildParametersInDeclarations(paramBindings, out parameterDeclarations);
+            else
+                parameters = helper.BuildParameters(paramBindings);
+            String outParameterDeclarations;
+            String outArguments;
+            String outAssignments;
+            helper.BuildOutParameters(paramBindings, out outParameterDeclarations, out outArguments, out outAssignments);
+
+            if(paramBindings.Subgraph != null)
+            {
+                source.AppendFront(parameterDeclarations + "\n");
+                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + helper.GetVar(paramBindings.Subgraph) + ");\n");
+                source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
+            }
+
+            if(outParameterDeclarations.Length != 0)
+                source.AppendFront(outParameterDeclarations + "\n");
+            source.AppendFront("if(" + TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Sequence_" + paramBindings.Name + ".ApplyXGRS_" + paramBindings.Name
+                                + "(procEnv" + parameters + outArguments + ")) {\n");
+            source.Indent();
+            if(outAssignments.Length != 0)
+                source.AppendFront(outAssignments + "\n");
+            source.AppendFront(compGen.SetResultVar(seqSeq, "true"));
+            source.Unindent();
+            source.AppendFront("} else {\n");
+            source.Indent();
+            source.AppendFront(compGen.SetResultVar(seqSeq, "false"));
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            if(paramBindings.Subgraph != null)
+            {
+                source.AppendFront("procEnv.ReturnFromSubgraph();\n");
+                source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
+            }
         }
 
         private void EmitSequenceBacktrack(SequenceBacktrack seq, SourceBuilder source)
