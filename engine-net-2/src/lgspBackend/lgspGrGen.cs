@@ -814,7 +814,7 @@ namespace de.unika.ipd.grGen.lgsp
                     externalSource.Append("\n");
                     foreach(LGSPRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
                     {
-                        seqGen.GenerateFilterStubs(externalSource, rulePattern);
+                        FilterGenerator.GenerateFilterStubs(externalSource, rulePattern);
                     }
                 }
 
@@ -827,7 +827,7 @@ namespace de.unika.ipd.grGen.lgsp
                     externalSource.Append("\n");
                     foreach(LGSPRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
                     {
-                        seqGen.GenerateFilters(externalSource, rulePattern);
+                        FilterGenerator.GenerateFilters(externalSource, rulePattern);
                     }
                 }
             }
