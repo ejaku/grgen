@@ -16,22 +16,17 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// The sequence expression generator contains code to generate a sequence expression,
     /// it is in use by the sequence computation generator and the sequence generator,
-    /// also called by the sequence generator helper.
+    /// and also called by the sequence generator helper.
     /// </summary>
     public class SequenceExpressionGenerator
     {
-        // the model object of the .grg to compile
         IGraphModel model;
 
-        // array containing the names of the rules available in the .grg to compile
-        // environment for (type) checking the compiled sequences
         SequenceCheckingEnvironment env;
 
         SequenceGeneratorHelper helper;
 
-        /// <summary>
-        /// Constructs the sequence expression generator
-        /// </summary>
+
         public SequenceExpressionGenerator(IGraphModel model, SequenceCheckingEnvironment env, SequenceGeneratorHelper helper)
         {
             this.model = model;
@@ -1435,7 +1430,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        string GetContainerValue(SequenceExpressionContainer container, SourceBuilder source)
+        private string GetContainerValue(SequenceExpressionContainer container, SourceBuilder source)
         {
             if(container.ContainerExpr is SequenceExpressionAttributeAccess)
             {
