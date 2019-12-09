@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="ContainerExpression.cs" />
     <Compile Include="Expression.cs" />
+    <Compile Include="FilterGenerator.cs" />
     <Compile Include="GraphComparisonMatcher.cs" />
     <Compile Include="GraphExpression.cs" />
     <Compile Include="GraphMatchingState.cs" />
