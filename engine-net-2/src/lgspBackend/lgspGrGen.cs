@@ -43,10 +43,6 @@ namespace de.unika.ipd.grGen.lgsp
             this.flags = flags;
         }
 
-        internal bool FireEvents { get { return (flags & ProcessSpecFlags.NoEvents) == 0; } }
-        internal bool FireDebugEvents { get { return (flags & ProcessSpecFlags.NoDebugEvents) == 0; } }
-        internal bool EmitProfiling { get { return (flags & ProcessSpecFlags.Profile) != 0; } }
-
         /// <summary>
         /// Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system 
         /// </summary>
@@ -592,13 +588,14 @@ namespace de.unika.ipd.grGen.lgsp
                 out proceduresToInputTypes, out proceduresToOutputTypes, out proceduresToIsExternal,
                 out functionsToInputTypes, out functionsToOutputType, out functionsToIsExternal);
 
-            LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(this, model,
+            LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(model,
                 rulesToFilters, filterFunctionsToInputTypes,
                 rulesToInputTypes, rulesToOutputTypes,
                 rulesToTopLevelEntities, rulesToTopLevelEntityTypes,
                 sequencesToInputTypes, sequencesToOutputTypes,
                 proceduresToInputTypes, proceduresToOutputTypes, proceduresToIsExternal,
-                functionsToInputTypes, functionsToOutputType, functionsToIsExternal);
+                functionsToInputTypes, functionsToOutputType, functionsToIsExternal,
+                (flags & ProcessSpecFlags.NoDebugEvents) == 0, (flags & ProcessSpecFlags.Profile) != 0);
 
             ///////////////////////////////////////////////
             // generate external extension source if needed (cause there are external action extension)

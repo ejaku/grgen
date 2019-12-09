@@ -39,9 +39,6 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPSequenceGenerator
     {
-        // the generator using us
-        LGSPGrGen gen;
-
         // the model object of the .grg to compile
         IGraphModel model;
 
@@ -70,19 +67,22 @@ namespace de.unika.ipd.grGen.lgsp
         // the used rules (so that a variable was created for easy acess to them)
 		Dictionary<String, object> knownRules = new Dictionary<string, object>();
 
+        bool fireDebugEvents;
+        bool emitProfiling;
+
 
         /// <summary>
         /// Constructs the sequence generator
         /// </summary>
-        public LGSPSequenceGenerator(LGSPGrGen gen, IGraphModel model,
+        public LGSPSequenceGenerator(IGraphModel model,
             Dictionary<String, List<IFilter>> rulesToFilters, Dictionary<String, List<String>> filterFunctionsToInputTypes,
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
             Dictionary<String, List<String>> rulesToTopLevelEntities, Dictionary<String, List<String>> rulesToTopLevelEntityTypes, 
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
             Dictionary<String, List<String>> proceduresToInputTypes, Dictionary<String, List<String>> proceduresToOutputTypes, Dictionary<String, bool> proceduresToIsExternal,
-            Dictionary<String, List<String>> functionsToInputTypes, Dictionary<String, String> functionsToOutputType, Dictionary<String, bool> functionsToIsExternal)
+            Dictionary<String, List<String>> functionsToInputTypes, Dictionary<String, String> functionsToOutputType, Dictionary<String, bool> functionsToIsExternal,
+            bool fireDebugEvents, bool emitProfiling)
         {
-            this.gen = gen;
             this.model = model;
 
             // extract rule names from domain of rule names to input types map
@@ -156,7 +156,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             this.helper.SetSequenceExpressionGenerator(seqExprGen);
 
-            this.seqCompGen = new SequenceComputationGenerator(gen, model, helper, seqExprGen, env);
+            this.seqCompGen = new SequenceComputationGenerator(model, helper, seqExprGen, env, fireDebugEvents);
+
+            this.fireDebugEvents = fireDebugEvents;
+            this.emitProfiling = emitProfiling;
         }
 
         /// <summary>
@@ -480,7 +483,7 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitFilterCall(source, seqRule.Filters[i], patternName, matchesName);
             }
 
-            if(gen.FireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+            if(fireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
             if(seqRule is SequenceRuleCountAllCall)
             {
                 SequenceRuleCountAllCall seqRuleCountAll = (SequenceRuleCountAllCall)seqRule;
@@ -506,7 +509,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFront(seqCompGen.SetResultVar(seqRule, "true"));
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-            if(gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+            if(fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 
             String returnParameterDeclarations;
             String returnArguments;
@@ -566,7 +569,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignmentsAllCall + "\n");
             }
 
-            if(gen.FireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+            if(fireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -945,7 +948,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("{\n");
                     source.Indent();
 
-                    if(gen.EmitProfiling)
+                    if(emitProfiling)
                         source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
                     source.AppendFront(helper.SetVar(seqFor.Var, entryVar));
 
@@ -1018,7 +1021,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("{\n");
                     source.Indent();
 
-                    if(gen.EmitProfiling)
+                    if(emitProfiling)
                         source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
                     source.AppendFront(helper.SetVar(seqFor.Var, entryVar));
 
@@ -1132,7 +1135,7 @@ namespace de.unika.ipd.grGen.lgsp
                             break;
                     }
 
-                    string profilingArgument = gen.EmitProfiling ? ", procEnv" : "";
+                    string profilingArgument = emitProfiling ? ", procEnv" : "";
                     if(seqFor.SequenceType == SequenceType.ForReachableNodes || seqFor.SequenceType == SequenceType.ForReachableNodesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableNodesViaOutgoing)
                     {
                         source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GraphHelper.Reachable{1}(node_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
@@ -1145,7 +1148,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     else
                     {
-                        if(gen.EmitProfiling)
+                        if(emitProfiling)
                             source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.{1})\n",
                                 seqFor.Id, edgeMethod);
                         else
@@ -1158,7 +1161,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seqFor.SequenceType != SequenceType.ForReachableNodes && seqFor.SequenceType != SequenceType.ForReachableNodesViaIncoming && seqFor.SequenceType != SequenceType.ForReachableNodesViaOutgoing
                         && seqFor.SequenceType != SequenceType.ForReachableEdges && seqFor.SequenceType != SequenceType.ForReachableEdgesViaIncoming || seqFor.SequenceType != SequenceType.ForReachableEdgesViaOutgoing)
                     {
-                        if(gen.EmitProfiling)
+                        if(emitProfiling)
                         {
                             source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
                             source.AppendFrontFormat("if(!edge_{0}.InstanceOf(", seqFor.Id);
@@ -1248,7 +1251,7 @@ namespace de.unika.ipd.grGen.lgsp
                             break;
                     }
 
-                    string profilingArgument = gen.EmitProfiling ? ", procEnv" : "";
+                    string profilingArgument = emitProfiling ? ", procEnv" : "";
                     if(seqFor.SequenceType == SequenceType.ForBoundedReachableNodes || seqFor.SequenceType == SequenceType.ForBoundedReachableNodesViaIncoming || seqFor.SequenceType == SequenceType.ForBoundedReachableNodesViaOutgoing)
                     {
                         source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachable{1}(node_{0}, depth_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
@@ -1295,7 +1298,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("{\n");
                     source.Indent();
                     
-                    if(gen.EmitProfiling)
+                    if(emitProfiling)
                         source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
                     source.AppendFront(helper.SetVar(seqFor.Var, "elem_" + seqFor.Id));
 
@@ -1335,7 +1338,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.Indent();
                     source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
                     source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-                    if(gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                    if(fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 
                     String returnParameterDeclarations;
                     String returnArguments;
@@ -1612,7 +1615,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(seqCompGen.SetResultVar(seq, "true")); // shut up compiler
             source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-            if(gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+            if(fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 
             String returnParameterDeclarations;
             String returnArguments;
@@ -1640,13 +1643,13 @@ namespace de.unika.ipd.grGen.lgsp
             // start a transaction
             source.AppendFront("int transID_" + seq.Id + " = procEnv.TransactionManager.Start();\n");
             source.AppendFront("int oldRewritesPerformed_" + seq.Id + " = procEnv.PerformanceInfo.RewritesPerformed;\n");
-            if(gen.FireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + matchName + ", " + specialStr + ");\n");
+            if(fireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + matchName + ", " + specialStr + ");\n");
             if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
 
             source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
-            if(gen.FireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+            if(fireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
 
             // rule applied, now execute the sequence
             EmitSequence(seq.Seq, source);
@@ -1829,8 +1832,8 @@ namespace de.unika.ipd.grGen.lgsp
                     }
 
                     source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
-                    if (gen.FireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
-                    if (gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                    if (fireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+                    if (fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                     source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                     source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
@@ -1860,8 +1863,8 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("{\n");
                     source.Indent();
                     source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-                    if (gen.FireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
-                    if (gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                    if (fireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+                    if (fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                     source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                     source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
@@ -1897,8 +1900,8 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("if(" + curTotalMatch + "==" + totalMatchToApply + ") {\n");
                         source.Indent();
                         source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-                        if (gen.FireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
-                        if (gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                        if (fireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+                        if (fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                         source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                         source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
@@ -1915,8 +1918,8 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         // randomly choose match, rewrite it and remove it from available matches
                         source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".GetMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
-                        if (gen.FireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
-                        if (gen.FireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                        if (fireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+                        if (fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                         source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                         source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
@@ -1926,7 +1929,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                if (gen.FireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+                if (fireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
 
                 source.Unindent();
                 source.AppendFront("}\n");
@@ -2027,7 +2030,7 @@ namespace de.unika.ipd.grGen.lgsp
                         + "\" given on line " + lineNr + " reported back:\n" + warning);
                 }
                 seq.Check(env);
-                seq.SetNeedForProfilingRecursive(gen.EmitProfiling);
+                seq.SetNeedForProfilingRecursive(emitProfiling);
             }
             catch(ParseException ex)
             {
@@ -2064,7 +2067,7 @@ namespace de.unika.ipd.grGen.lgsp
 
 			knownRules.Clear();
 
-            if(gen.FireDebugEvents)
+            if(fireDebugEvents)
             {
                 source.AppendFrontFormat("procEnv.DebugEntering(\"{0}\", \"{1}\");\n", InjectExec(xgrsName), xgrsStr.Replace("\\", "\\\\").Replace("\"", "\\\""));
             }
@@ -2073,7 +2076,7 @@ namespace de.unika.ipd.grGen.lgsp
 
 			EmitSequence(seq, source);
 
-            if(gen.FireDebugEvents)
+            if(fireDebugEvents)
             {
                 source.AppendFrontFormat("procEnv.DebugExiting(\"{0}\");\n", InjectExec(xgrsName));
             }
@@ -2126,7 +2129,7 @@ namespace de.unika.ipd.grGen.lgsp
                         + "\" reported back:\n" + warning);
                 }
                 seq.Check(env);
-                seq.SetNeedForProfilingRecursive(gen.EmitProfiling);
+                seq.SetNeedForProfilingRecursive(emitProfiling);
             }
             catch(ParseException ex)
             {
@@ -2250,7 +2253,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             knownRules.Clear();
 
-            if(gen.FireDebugEvents)
+            if(fireDebugEvents)
             {
                 source.AppendFrontFormat("procEnv.DebugEntering(\"{0}\"", sequence.Name);
                 for(int i = 0; i < sequence.Parameters.Length; ++i)
@@ -2265,7 +2268,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             EmitSequence(seq, source);
 
-            if(gen.FireDebugEvents)
+            if(fireDebugEvents)
             {
                 source.AppendFrontFormat("procEnv.DebugExiting(\"{0}\"", sequence.Name);
                 for(int i = 0; i < sequence.OutParameters.Length; ++i)
