@@ -108,6 +108,7 @@
     <Compile Include="SearchPlanGraph.cs" />
     <Compile Include="SearchPlanGraphGeneratorAndScheduler.cs" />
     <Compile Include="SearchProgram.cs" />
+    <Compile Include="SearchProgramBodyBuilder.cs" />
     <Compile Include="SearchProgramBuilder.cs" />
     <Compile Include="SearchProgramCompleter.cs" />
     <Compile Include="SequenceComputationGenerator.cs" />
