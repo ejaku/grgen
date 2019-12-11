@@ -49,7 +49,7 @@ namespace de.unika.ipd.grGen.lgsp
         private void CompleteCheckOperations(
             SearchProgramOperation currentOperation,
             SearchProgramOperation enclosingSearchProgram, // might be a negative/independent in case these are nested
-            GetPartialMatchOfAlternative enclosingAlternative,
+            AlternativeCaseMatching enclosingAlternativeCase,
             CheckPartialMatchByNegativeOrIndependent enclosingCheckNegativeOrIndependent,
             SearchProgram topLevelSearchProgram)
         {
@@ -75,7 +75,7 @@ namespace de.unika.ipd.grGen.lgsp
                     MoveOutwardsAppendingRemoveIsomorphyAndJump(
                         checkCandidate,
                         neededElementsForCheckOperation,
-                        enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram),
+                        enclosingCheckNegativeOrIndependent ?? (enclosingAlternativeCase ?? enclosingSearchProgram),
                         topLevelSearchProgram);
                 }
                 //////////////////////////////////////////////////////////
@@ -91,7 +91,7 @@ namespace de.unika.ipd.grGen.lgsp
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             checkCondition,
                             checkCondition.NeededElements,
-                            enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram),
+                            enclosingCheckNegativeOrIndependent ?? (enclosingAlternativeCase ?? enclosingSearchProgram),
                             topLevelSearchProgram);
                     }
                     else if(currentOperation is CheckPartialMatchForDuplicate)
@@ -103,7 +103,7 @@ namespace de.unika.ipd.grGen.lgsp
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             checkDuplicateMatch,
                             checkDuplicateMatch.NeededElements,
-                            enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram),
+                            enclosingCheckNegativeOrIndependent ?? (enclosingAlternativeCase ?? enclosingSearchProgram),
                             topLevelSearchProgram);
                     }
                     else if(currentOperation is CheckPartialMatchByNegativeOrIndependent)
@@ -116,7 +116,7 @@ namespace de.unika.ipd.grGen.lgsp
                         CompleteCheckOperations(
                             checkNegativeOrIndependent.NestedOperationsList,
                             enclosingCheckNegativeOrIndependent ?? enclosingSearchProgram,
-                            enclosingCheckNegativeOrIndependent!=null ? null : enclosingAlternative,
+                            enclosingCheckNegativeOrIndependent!=null ? null : enclosingAlternativeCase,
                             checkNegativeOrIndependent,
                             topLevelSearchProgram);
                     }
@@ -152,7 +152,7 @@ namespace de.unika.ipd.grGen.lgsp
                             MoveOutwardsAppendingRemoveIsomorphyAndJump(
                                 checkSubpatternsFound,
                                 null,
-                                enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram),
+                                enclosingCheckNegativeOrIndependent ?? (enclosingAlternativeCase ?? enclosingSearchProgram),
                                 topLevelSearchProgram);
                         }
 
@@ -162,7 +162,7 @@ namespace de.unika.ipd.grGen.lgsp
                         CompleteCheckOperations(
                             checkSubpatternsFound.CheckFailedOperations,
                             enclosingSearchProgram,
-                            enclosingAlternative,
+                            enclosingAlternativeCase,
                             enclosingCheckNegativeOrIndependent,
                             topLevelSearchProgram);
                     }
@@ -215,7 +215,7 @@ namespace de.unika.ipd.grGen.lgsp
                             MoveOutwardsAppendingRemoveIsomorphyAndJump(
                                 checkFailed,
                                 enclosingCheckNegativeOrIndependent.NeededElements,
-                                enclosingAlternative ?? enclosingSearchProgram,
+                                enclosingAlternativeCase ?? enclosingSearchProgram,
                                 topLevelSearchProgram);
                         }
                     }
@@ -250,7 +250,7 @@ namespace de.unika.ipd.grGen.lgsp
                             MoveOutwardsAppendingRemoveIsomorphyAndJump(
                                 checkFailed,
                                 checkFailed.CheckIndependent.NeededElements,
-                                enclosingAlternative ?? enclosingSearchProgram,
+                                enclosingAlternativeCase ?? enclosingSearchProgram,
                                 topLevelSearchProgram);
                         }
                     }
@@ -278,7 +278,7 @@ namespace de.unika.ipd.grGen.lgsp
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             tasksLeft,
                             null,
-                            enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram),
+                            enclosingCheckNegativeOrIndependent ?? (enclosingAlternativeCase ?? enclosingSearchProgram),
                             topLevelSearchProgram);
 
                         // check tasks left has a further check maximum matches nested within check failed code
@@ -286,7 +286,7 @@ namespace de.unika.ipd.grGen.lgsp
                         CompleteCheckOperations(
                             tasksLeft.CheckFailedOperations,
                             enclosingSearchProgram,
-                            enclosingAlternative,
+                            enclosingAlternativeCase,
                             enclosingCheckNegativeOrIndependent,
                             topLevelSearchProgram);
                     }
@@ -300,14 +300,14 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
                 //////////////////////////////////////////////////////////
-                else if (currentOperation is GetPartialMatchOfAlternative)
+                else if (currentOperation is AlternativeCaseMatching)
                 //////////////////////////////////////////////////////////
                 {
                     // depth first
                     CompleteCheckOperations(
                         currentOperation.GetNestedSearchOperationsList(),
                         enclosingSearchProgram,
-                        (GetPartialMatchOfAlternative)currentOperation,
+                        (AlternativeCaseMatching)currentOperation,
                         null,
                         topLevelSearchProgram);
                 }
@@ -319,7 +319,7 @@ namespace de.unika.ipd.grGen.lgsp
                     CompleteCheckOperations(
                         currentOperation.GetNestedSearchOperationsList(),
                         enclosingSearchProgram,
-                        enclosingAlternative,
+                        enclosingAlternativeCase,
                         enclosingCheckNegativeOrIndependent,
                         topLevelSearchProgram);
                 }
@@ -424,11 +424,11 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Next;
             }
 
-            // set outermost to iterated dummy iteration if iterated
+            // set outermost to iterated matching dummy loop if iterated
             if (outermostOperation is SearchProgramOfIterated)
             {
                 SearchProgramOperation cur = checkOperation;
-                while (!(cur is ReturnPreventingDummyIteration))
+                while (!(cur is IteratedMatchingDummyLoop))
                 {
                     cur = cur.Previous;
                 }
@@ -531,13 +531,13 @@ namespace de.unika.ipd.grGen.lgsp
                 op.Append(gotoLabel);
                 gotoLabelName = gotoLabel.LabelName;
             }
-            // if our continuation point is an alternative
-            // -> append label at the end of the alternative operations
-            else if (continuationPoint is GetPartialMatchOfAlternative)
+            // if our continuation point is an alternative case
+            // -> append label at the end of the alternative case operations
+            else if (continuationPoint is AlternativeCaseMatching)
             {
-                GetPartialMatchOfAlternative getAlternative =
-                    continuationPoint as GetPartialMatchOfAlternative;
-                op = getAlternative.OperationsList;
+                AlternativeCaseMatching alternativeCase =
+                    continuationPoint as AlternativeCaseMatching;
+                op = alternativeCase.OperationsList;
                 while (op.Next != null)
                 {
                     op = op.Next;
@@ -548,7 +548,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             // if our continuation point is the dummy loop of an iterated operation
             // -> we just jump to the label maxMatchesIterReached directly after the loop
-            else if (continuationPoint is ReturnPreventingDummyIteration)
+            else if (continuationPoint is IteratedMatchingDummyLoop)
             {
                 gotoLabelName = "maxMatchesIterReached";
             }

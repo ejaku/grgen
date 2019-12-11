@@ -310,16 +310,16 @@ namespace de.unika.ipd.grGen.lgsp
                     0
                 );
 
-                GetPartialMatchOfAlternative matchAlternative = new GetPartialMatchOfAlternative(
+                AlternativeCaseMatching alternativeCaseMatching = new AlternativeCaseMatching(
                     pathPrefixInInlinedPatternClass, 
                     unprefixedNameInInlinedPatternClass,
                     inlinedPatternClassName,
                     builder.wasIndependentInlined(altCase, 0));
-                matchAlternative.OperationsList = new SearchProgramList(matchAlternative);
-                SearchProgramOperation continuationPointAfterAltCase = insertionPoint.Append(matchAlternative);
+                alternativeCaseMatching.OperationsList = new SearchProgramList(alternativeCaseMatching);
+                SearchProgramOperation continuationPointAfterAltCase = insertionPoint.Append(alternativeCaseMatching);
                 
                 // at level of the current alt case
-                insertionPoint = matchAlternative.OperationsList;
+                insertionPoint = alternativeCaseMatching.OperationsList;
                 insertionPoint = insertVariableDeclarations(insertionPoint, altCase);
 
                 // start building with first operation in scheduled search plan
@@ -398,17 +398,17 @@ namespace de.unika.ipd.grGen.lgsp
                 new InitializeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Iteration);
             insertionPoint = insertionPoint.Append(initialize);
 
-            ReturnPreventingDummyIteration dummyIteration = new ReturnPreventingDummyIteration();
-            SearchProgramOperation continuationPointAfterDummyIteration = insertionPoint.Append(dummyIteration);
-            dummyIteration.NestedOperationsList = new SearchProgramList(dummyIteration);
-            insertionPoint = dummyIteration.NestedOperationsList;
+            IteratedMatchingDummyLoop iteratedMatchingDummyLoop = new IteratedMatchingDummyLoop();
+            SearchProgramOperation continuationPointAfterIteratedMatching = insertionPoint.Append(iteratedMatchingDummyLoop);
+            iteratedMatchingDummyLoop.NestedOperationsList = new SearchProgramList(iteratedMatchingDummyLoop);
+            insertionPoint = iteratedMatchingDummyLoop.NestedOperationsList;
 
             // start building with first operation in scheduled search plan
             insertionPoint = builder.BuildScheduledSearchPlanOperationIntoSearchProgram(
                 0,
                 insertionPoint);
 
-            insertionPoint = continuationPointAfterDummyIteration;
+            insertionPoint = continuationPointAfterIteratedMatching;
 
             // check whether iteration came to an end (pattern not found (again)) and handle it
             insertionPoint = builder.insertEndOfIterationHandling(insertionPoint);

@@ -12,9 +12,9 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Class representing "match the pattern of the alternative case" operation
     /// </summary>
-    class GetPartialMatchOfAlternative : SearchProgramOperation
+    class AlternativeCaseMatching : SearchProgramOperation
     {
-        public GetPartialMatchOfAlternative(string pathPrefix, string caseName, 
+        public AlternativeCaseMatching(string pathPrefix, string caseName, 
             string rulePatternClassName, bool wasIndependentInlined)
         {
             PathPrefix = pathPrefix;
@@ -26,7 +26,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             // first dump local content
-            builder.AppendFrontFormat("GetPartialMatchOfAlternative case {0}{1}\n", PathPrefix, CaseName);
+            builder.AppendFrontFormat("AlternativeCaseMatching {0}{1}\n", PathPrefix, CaseName);
 
             // then nested content
             if (OperationsList != null)
@@ -98,16 +98,16 @@ namespace de.unika.ipd.grGen.lgsp
     /// needed for iterated, to prevent a return out of the matcher program
     /// circumventing the maxMatchesIterReached code which must get called if matching fails
     /// </summary>
-    class ReturnPreventingDummyIteration : SearchProgramOperation
+    class IteratedMatchingDummyLoop : SearchProgramOperation
     {
-        public ReturnPreventingDummyIteration()
+        public IteratedMatchingDummyLoop()
         {
         }
 
         public override void Dump(SourceBuilder builder)
         {
             // first dump local content
-            builder.AppendFront("ReturnPreventingDummyIteration \n");
+            builder.AppendFront("IteratedMatchingDummyLoopPreventingReturn \n");
 
             // then nested content
             if (NestedOperationsList != null)
@@ -121,7 +121,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder sourceCode)
         {
             if (sourceCode.CommentSourceCode)
-                sourceCode.AppendFront("// dummy iteration for iterated return prevention\n");
+                sourceCode.AppendFront("// dummy loop for iterated matching return prevention\n");
 
             // open loop
             sourceCode.AppendFront("do\n");
