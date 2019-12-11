@@ -232,6 +232,43 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Class representing "assign variable from expression" operation,
+    /// </summary>
+    class AssignVariableFromExpression : SearchProgramOperation
+    {
+        public AssignVariableFromExpression(
+            string variableName,
+            string variableType,
+            string sourceExpression)
+        {
+            VariableName = variableName;
+            VariableType = variableType;
+            SourceExpression = sourceExpression;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("AssignVariableFromExpression {0} := {1}\n",
+                VariableName, SourceExpression);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(sourceCode.CommentSourceCode)
+                sourceCode.AppendFrontFormat("// Variable {0} assigned from expression {1} \n",
+                    VariableName, SourceExpression);
+            
+            // emit declaration of variable initialized with expression
+            sourceCode.AppendFrontFormat("{0} {1} = ({0}){2};\n",
+                VariableType, NamesOfEntities.Variable(VariableName), SourceExpression);
+        }
+
+        public string VariableName;
+        public string VariableType;
+        public string SourceExpression;
+    }
+
+    /// <summary>
     /// Available types of AdjustListHeads operations
     /// </summary>
     enum AdjustListHeadsTypes
@@ -697,42 +734,5 @@ namespace de.unika.ipd.grGen.lgsp
         string RulePatternClassName;
         string PatternGraphName;
         string MatchOfNestingPattern;
-    }
-
-    /// <summary>
-    /// Class representing "assign variable from expression" operation,
-    /// </summary>
-    class AssignVariableFromExpression : SearchProgramOperation
-    {
-        public AssignVariableFromExpression(
-            string variableName,
-            string variableType,
-            string sourceExpression)
-        {
-            VariableName = variableName;
-            VariableType = variableType;
-            SourceExpression = sourceExpression;
-        }
-
-        public override void Dump(SourceBuilder builder)
-        {
-            builder.AppendFrontFormat("AssignVariableFromExpression {0} := {1}\n",
-                VariableName, SourceExpression);
-        }
-
-        public override void Emit(SourceBuilder sourceCode)
-        {
-            if(sourceCode.CommentSourceCode)
-                sourceCode.AppendFrontFormat("// Variable {0} assigned from expression {1} \n",
-                    VariableName, SourceExpression);
-            
-            // emit declaration of variable initialized with expression
-            sourceCode.AppendFrontFormat("{0} {1} = ({0}){2};\n",
-                VariableType, NamesOfEntities.Variable(VariableName), SourceExpression);
-        }
-
-        public string VariableName;
-        public string VariableType;
-        public string SourceExpression;
     }
 }
