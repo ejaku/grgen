@@ -1,5 +1,6 @@
 \chapter{GrShell Language}\indexmain{GrShell}
 \label{chapgrshell}
+
 \GrShell\ is a \indexedsee{shell}{GrShell} application built on top of \LibGr\indexmain{libGr} that offers an execution environment for your generated graph transformations.
 It belongs to \GrG's standard equipment.
 \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing and esp. debugging graph rewriting.
@@ -8,56 +9,11 @@ The \GrShell\ provides a line oriented scripting language.
 
 %rewrite stuff to be command based instead of splitting commands over several sections?
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Building Blocks}
-
-\GrShell\ is \indexed{case sensitive}.
-A line may be empty, may contain a shell command, or may contain a comment.
-A \indexed{comment} starts with a \indexed{\texttt{\#}} and is terminated by end-of-line
- or end-of-file or \texttt{\S}.
-The following items are required for representing text, numbers, and rule parameters.\\
-\\
-\emph{Text}\\
-May be one of the following:
-\begin{itemize}
-  \item A non-empty character sequence consisting of letters, digits, and underscores. The first character must not be a digit.
-  \item Arbitrary text enclosed by double quotes (\texttt{""}).
-  \item Arbitrary text enclosed by single quotes (\texttt{''}).
-\end{itemize}
-Shell keywords are not allowed for type names, attribute values and other entities (even if they are legal in the rule language, this is a constraint of the chosen parser generator).
-If this hits you, you can enclose the identifier by single or double quotes, i.e. Text can be used everywhere an identifier is required.
-
-\mbox{ }\\
-\emph{Number}\\
-Is an \texttt{int} or \texttt{float} constant in decimal notation (see also Section~\ref{sec:builtintypes}).
-
-\begin{rail}
- Parameters : Text + ',' ;
- SpacedParameters: Text + ;
-\end{rail}\ixnterm{Parameters}\ixnterm{SpacedParameters}
-
-In order to describe the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:
-\begin{description}
-  \item[Filename]A fully qualified file name without spaces (e.g.\ \texttt{/Users/Bob/amazing\textunderscore file.txt}) or a single quoted or double quoted fully qualified file name that may contain spaces (\texttt{"/Users/Bob/amazing file.txt"}).
-  \item[Variable] Identifier of a (graph global) variable that contains a graph element or a value. \indexmainsee{GrShell variable}{graph global variable} A double colon prefix as required in the sequences may be given, but as the shell only knows graph global variables, it is optional.
-  \item[NodeType, EdgeType] Identifier of a node type resp.\ edge type defined in the model of the current graph.
-  \item[AttributeName] Identifier of an attribute.
-  \item[Graph] Identifies a graph by its name.
-  \item[Action] Identifies a rule by its name.
-\end{description}
-\makeatletter
-\begin{rail}
-  GraphElement: Text | ('@' '(' Text ')')
-\end{rail}\indexmain{\texttt{"@}}\ixnterm{GraphElement}
-\makeatother
-
-The elements of a graph (nodes and edges) can be accessed both by their (graph global) \indexed{variable}\indexmain{graph global variable} identifier and by their \newterm{persistent name} specified through a constructor (see Section~\ref{mani}).
-The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} require the corresponding graph element to be a node or an edge respectively.
+The elements of a graph (nodes and edges) can be accessed both by their (graph global) \indexed{variable}\indexmain{graph global variable} identifier and by their \newterm{persistent name} specified through a constructor (see Section~\ref{graphcreationcommands}).
 
 \begin{example}
 \label{persistentex}
-We insert a node, \indexed{anonymous}ly and with a \indexed{constructor} (see also Section~\ref{mani}):
+We insert a node, \indexed{anonymous}ly and with a \indexed{constructor} (see also Section~\ref{graphcreationcommands}):
 \begin{grshell}
 > new graph "../lib/lgsp-TuringModel.dll" G
 New graph "G" of model "Turing" created.
@@ -71,7 +27,7 @@ New node "$0" of type "State" has been created.
 # and now with constructor
 > new v:State($=start)
 new node "start" of type "State" has been created.
-# Now we have a node named "start" and a variable v assigned to "start"
+# Now we have a node named "start" (via $ assignment) and a variable v assigned to "start"
 \end{grshell}
 \end{example}
 
@@ -84,57 +40,18 @@ Persistent names have to be unique for a graph (the graph they belong to).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Variables}
-
-\begin{rail}
-  Variable '=' ( GraphElement | Variable | Literal )
-\end{rail}
-Assigns the variable or persistent name \emph{GraphElement} or literal to \emph{Variable}.
-If \emph{Variable} has not been defined yet, it will be defined implicitly.
-As usual for scripting languages, variables have neither static types nor declarations.
-The variables known to \GrShell\ are the graph global variables (see \ref{cha:xgrs} for the distinction between graph global and sequence local variables).
-
-\begin{rail}
-'show' 'var' Variable
-\end{rail}\ixkeyw{show}\ixkeyw{var}
-Prints the content of the specified variable.
-
-\begin{rail}
-  'askfor';
-  Variable '=' 'askfor' Type
-\end{rail}\ixkeyw{askfor}
-The \texttt{askfor} command just waits until the user presses enter.
-The \texttt{askfor} assignment interactively asks the user for a value of the specified type.
-The entered value is type checked against the expected type, and assigned to the given variable in case it matches.
-If the type is a value type, the user is prompted to enter a value literal with the keyboard.
-If the type is a graph element type, the user is prompted to enter the graph element by double clicking in yComp.
-Note that in this case the debug mode must have been enabled before.
-(The command is equivalent to \verb#debug exec Variable=$%(Type)#.)
-
-\begin{example}
-\begin{grshelllet}
-x = askfor int
-\end{grshelllet}
-asks the user to enter an integer value; pressing 4 then 2 then enter will do fine.
-\begin{grshelllet}
-x = askfor Node
-\end{grshelllet}
-asks the user to select a graph element in yComp; double clicking any node will do fine.
-\end{example}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Common and File System Commands}
+\section{Common Commands}
 \label{commcommands}
 
-Here and in the following sections we describes the \GrShell\ commands\ixnterm{Command}.
-Commands are assembled from basic elements.
-As stated before commands are terminated by line breaks.
-Alternatively commands can be terminated by the \indexed{\texttt{;;}} symbol.
-Like an operating system shell, the \GrShell\ allows you to span a single command over $n$ lines by terminating the first $n-1$ lines with a \indexed{backslash}.
+Here and in the following sections we describe the \GrShell\ commands\ixnterm{Command}.
+
 \begin{rail}
   Script: ((Command ('<line break>' | ';;'))+) '<end of file>' ;
 \end{rail}\ixnterm{Script}
+Commands are assembled from basic elements (see esp. Section \ref{shellbuildingblocks}).
+As stated before, commands are terminated by line breaks.
+Alternatively commands can be terminated by the \indexed{\texttt{;;}} symbol.
+Like an operating system shell, the \GrShell\ allows you to span a single command over $n$ lines by terminating the first $n-1$ lines with a \indexed{backslash}.
 
 \begin{rail}
   'help' (Command)?
@@ -152,56 +69,6 @@ Quits \GrShell. If \GrShell\ is opened in debug mode, a currently active graph v
 \end{rail}\ixkeyw{echo}
 Prints \emph{Text} onto the \GrShell\ command prompt.
 
-\begin{rail}
-  'pwd'
-\end{rail}\ixkeyw{pwd}
-Prints the path to the current working directory.
-
-\begin{rail}
-  'ls'
-\end{rail}\ixkeyw{ls}
-Lists the directories and files in the current working directory, files relevant to GrGen are printed highlighted.
-
-\begin{rail}
-  'cd' Path
-\end{rail}\ixkeyw{cd}
-Changes the current working directory to the path given.
-
-\begin{rail}
-  '!' CommandLine
-\end{rail}\indexmain{\texttt{"!}}
-\emph{CommandLine}\indexmain{command line} is an arbitrary text, the operating system attempts to execute.
-\begin{example}
-On a Linux machine you might execute
-\begin{grshell}
-!sh -c "ls | grep stuff"
-\end{grshell}
-\end{example}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Inclusion and Conditional Execution}
-\label{inclcondexeccommands}
-
-You may include further shell scripts, or execute parts of a shell script conditionally.
-
-\begin{rail}
-  'include' Filename ('.gz')?
-\end{rail}\ixkeyw{include}
-Executes the \GrShell\ script\indexmain{graph rewrite script} \emph{Filename} (which might be zipped).
-A \GrShell\ script is just a plain text file containing \GrShell\ commands.
-They are treated as they would be entered interactively, except for parser errors.
-If a parser error occurs, execution of the script will stop immediately.
-
-\begin{rail}
-  'if' SequenceExpression Commands ('else' Commands)? 'endif'
-\end{rail}\ixkeyw{if}\ixkeyw{else}\ixkeyw{endif}
-If the sequence expression evaluates to true, the following command lines are executed, until the corresponding \texttt{else} or \texttt{endif} is reached.
-If the sequence expression evaluates to false, the following command lines are skipped, until the corresponding \texttt{else} or \texttt{endif} is reached. 
-In case an \texttt{else} is given, the command lines following the else until the endif are executed in the first case, or skipped in the second case.
-The nature of shell execution is command-line based, without syntactic nesting.
-The \texttt{if} command is an exception, a corresponding amount of \texttt{endif} commands is required, and applies to its syntactically preceeding if command, as does the \texttt{else} command. 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Creation}
@@ -218,7 +85,7 @@ The model file can be either source code (e.g.\ \texttt{turing\textunderscore ma
 It's also possible to specify a rule set file as \emph{Filename} (this is the most common usage).
 In this case the necessary assemblies will be created on the fly (as needed).
 In case of a double \texttt{new}, the actions and model are created anew for sure, and not as needed according to the file change dates.
-Use this if you are working with one of the \texttt{new set} or \texttt{new add} commands from below.
+Use this if you are working with one of the \texttt{new set} or \texttt{new add} commands from Section \ref{sec:compilerconfigshell}.
 
 \begin{warning}
 You may run into unexpected results because some \texttt{new set} or \texttt{new add} options that you apply and see in the shell file are not the ones actually compiled into the generated code.
@@ -300,70 +167,6 @@ Using them directly is discouraged; you would have to ensure unique names in ord
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Attribute Assignment and Graph Manipulation}
-\label{mani}
-Graph manipulation commands alter existing graphs;
-they allow to retype and delete graph elements and change attributes.
-Creating elements was already introduced in the previous section.
-These are tasks which are or at least should be carried out by the rules of the rule language in the first place.
-On shell level they are available and mainly used as elementary instructions in creating an initial graph, in exporting and importing a graph, as well as in change recording and replaying.
-
-\begin{rail}
-  GraphElement '.' AttributeName '=' AttributeValue ;
-\end{rail}
-Set the \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} to the value \emph{AttributeValue} (for the different possible attribute values see above).
-
-\begin{rail}
-  GraphElement '.' AttributeName '[' Index ']' '=' AttributeValue ;
-\end{rail}
-Overwrite the value in the array or deque or map \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} at the integer position or key value \emph{Index} with the value \emph{AttributeValue}.
-
-\begin{rail}
-  GraphElement '.' AttributeName '.' 'add' '(' \\
-  	PrimitiveAttributeValue (',' PrimitiveAttributeValue)? ')' ;
-\end{rail}
-Add the value \emph{PrimitiveAttributeValue} (for the different possible primitive attribute values see above) to the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or add the key-value pair consisting of the two \emph{PrimitiveAttributeValue}s to the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement}.
-Or add the value \emph{PrimitiveAttributeValue} to the end of the array/deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the one parameter case or insert the \emph{PrimitiveAttributeValue} to the of the array/deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} at the index given by the second parameter in the two parameter case.
-
-\begin{rail}
-  GraphElement '.' AttributeName '.' 'rem' '(' (PrimitiveAttributeValue)? ')' ;
-\end{rail}
-Remove the value \emph{PrimitiveAttributeValue} from the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the key \emph{PrimitiveAttributeValue} from the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the end element from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case or remove the first element from the deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case.
-
-
-\begin{rail}
-  'retype' Node '<' Type '>'
-\end{rail}\ixkeyw{retype}
-Retypes the node \emph{Node} from its current type to the new type \emph{Type}. Attributes common to initial and final type are kept. Incident edges are kept as well. \indexmain{retype}
-
-\begin{rail}
-  'retype' ('-' Edge '<' Type '>' '->' | '-' Edge '<' Type '>' '-')
-\end{rail}\ixkeyw{retype}
-Retypes the edge \emph{Edge} from its current type to the new type \emph{Type}. Attributes common to initial and final type are kept. Incident nodes are kept as well.
-
-\begin{rail}
-  'redirect' Edge ('source'|'target') Node
-\end{rail}\ixkeyw{redirect}
-Redirects the edge \emph{Edge} from the old source or target node to the new source or target \emph{Node} given.
-
-\begin{rail}
-  'delete' 'node' Node
-\end{rail}\ixkeyw{delete}\ixkeyw{node}
-Deletes the node \emph{Node} from the current graph.
-Incident edges will be deleted as well.
-
-\begin{rail}
-  'delete' 'edge' Edge
-\end{rail}\ixkeyw{delete}\ixkeyw{edge}
-Deletes the edge \emph{Edge} from the current graph.
-
-\begin{rail}
-  'clear' 'graph' (() | Graph)
-\end{rail}\ixkeyw{clear}\ixkeyw{graph}
-Deletes all graph elements of the current working graph resp.\ the graph \emph{Graph}.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Input and Output}
 \label{outputcmds}
 
@@ -385,7 +188,7 @@ Such a script can be loaded and executed by the \texttt{include} command (see Se
   'export' Filename ('.grs' | '.grsi') ('.gz')? \\ ( () | 'nonewgraph') (('skip/type.attr')*)
 \end{rail}\ixkeyw{export}\indexmain{export}
 Exports an instance graph in GRS (.grs/.grsi) format, which is a reduced \GrShell\ script
-(it can get imported and exported on API level without using the \GrShell, see \ref{sub:imexport}).
+(it can get imported and exported on API level without using the \GrShell, see Section \ref{sub:imexport}).
 This is the recommended standard format (it is lightweight, human-readable and editable, and supported by an optimized importer).
 The file contains a \texttt{new graph} command, followed by \texttt{new node} commands, followed by \texttt{new edge} commands.
 If the \texttt{.gz} suffix is given the graph is saved zipped.
@@ -498,105 +301,197 @@ The \texttt{FileSpec} is of the same format as the file specification in the oth
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Graph Change Recording and Replaying}
-\label{recordnreplay}
+\section{Sequence Execution and Profiles}\label{grsthings}\indexmainsee{action}{graph rewrite sequence}
 
-Graph change recording and replaying is available 
+\begin{rail}
+  GraphRewriteSequence: ('exec'|'xgrs') SimpleRewriteSequence ;
+\end{rail}\ixkeyw{exec}\ixkeyw{xgrs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
+This executes the graph rewrite sequence \emph{SimpleRewriteSequence}.
+See Chapter~\ref{cha:xgrs} for graph rewrite sequences.
+
+Additionally to the variable assignment in rule-embedded graph rewrite sequences, you are also able to assign \emph{persistent names} to parameters via  \texttt{Variable = @(Text)}.
+Graph elements returned by rules can be assigned to variables\indexmain{variable} using \texttt{(Para\-meters) = \emph{Action}}\indexmain{parameter}.
+The desired variable identifiers have to be listed in \emph{Parameters}.
+Graph elements required by rules must be provided using \texttt{Action(Para\-meters)}, where \emph{Parameters} is a list of variable identifiers.
+For \indexed{undefined variables} see Section~\ref{ruledecls}, \emph{Parameters}.
+
+\begin{rail}
+  GraphRewriteSequence: RewriteSequenceDefinition;
+\end{rail}\ixkeyw{def}\indexmain{graph rewrite sequence definition}\indexmain{sequence definition}
+This command allows to define a named sequence at runtime, for $RewriteSequenceDefinition$ have a look here  \ref{sec:sequencedefinition} in the rule application control language chapter.
+Especially it allows to replace an old sequence definition, but only if the signature is identical.
+Compiled sequences defined in rule files can't be replaced.
+The defined sequence can then be used from following graph rewrite sequences (or following sequence definitions) in the shell.
+
+\begin{example}
+\begin{grgen}
+# a sequence definition (of an interpreted sequence) is only available
+# after it was registered the first time
+# but it can get overwritten with a sequence of the same signature
+# -> (self or mutually) recursive sequences must be constructed with empty body first
+def chain(first:A):(last:A){ true }
+def chain(first:A):(last:A){ if{(next:A)=chainPiece(first); (last)=chain(next); last=first} }
+\end{grgen}
+\end{example}
+
+An \emph{action} denotes a graph rewrite rule (or test).
+
+\begin{rail}
+  'show' 'profile' (Action)?
+\end{rail}\ixkeyw{show}\ixkeyw{profile}
+Shows the profile for the action specified by its name, or for all rules and tests in the rule set.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Variables}
+
+\begin{rail}
+  Variable '=' ( GraphElement | Variable | Literal )
+\end{rail}
+Assigns the variable or persistent name \emph{GraphElement} or literal to \emph{Variable}.
+If \emph{Variable} has not been defined yet, it will be defined implicitly.
+As usual for scripting languages, variables have neither static types nor declarations.
+The variables known to \GrShell\ are the graph global variables (see Chapter \ref{cha:xgrs} for the distinction between graph global and sequence local variables).
+
+\begin{rail}
+'show' 'var' Variable
+\end{rail}\ixkeyw{show}\ixkeyw{var}
+Prints the content of the specified variable.
+
+\begin{rail}
+  'askfor';
+  Variable '=' 'askfor' Type
+\end{rail}\ixkeyw{askfor}
+The \texttt{askfor} command just waits until the user presses enter.
+The \texttt{askfor} assignment interactively asks the user for a value of the specified type.
+The entered value is type checked against the expected type, and assigned to the given variable in case it matches.
+If the type is a value type, the user is prompted to enter a value literal with the keyboard.
+If the type is a graph element type, the user is prompted to enter the graph element by double clicking in yComp.
+Note that in this case the debug mode must have been enabled before.
+(The command is equivalent to \verb#debug exec Variable=$%(Type)#.)
+
+\begin{example}
+\begin{grshelllet}
+x = askfor int
+\end{grshelllet}
+asks the user to enter an integer value; pressing 4 then 2 then enter will do fine.
+\begin{grshelllet}
+x = askfor Node
+\end{grshelllet}
+asks the user to select a graph element in yComp; double clicking any node will do fine.
+\end{example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Building Blocks}\label{shellbuildingblocks}
+
+\GrShell\ is \indexed{case sensitive}.
+A line may be empty, may contain a shell command, or may contain a comment.
+A \indexed{comment} starts with a \indexed{\texttt{\#}} and is terminated by end-of-line
+ or end-of-file or \texttt{\S}.
+
+The following items are required for representing text, numbers, and rule parameters.\\
+\\
+\emph{Text}\\
+May be one of the following:
 \begin{itemize}
-	\item for one for post-problem debugging, you can execute your transformation, and after a problem occured inspect the changes that were leading to it
-	\item for the other for ensuring persistence of changes as they happen, in case you are using \GrG\ as an application-embedded in-memory graph-datebase
+  \item A non-empty character sequence consisting of letters, digits, and underscores. The first character must not be a digit.
+  \item Arbitrary text enclosed by double quotes (\texttt{""}).
+  \item Arbitrary text enclosed by single quotes (\texttt{''}).
 \end{itemize}
+Shell keywords are not allowed for type names, attribute values and other entities (even if they are legal in the rule language, this is a constraint of the chosen parser generator).
+If this hits you, you can enclose the identifier by single or double quotes, i.e. Text can be used everywhere an identifier is required.
+
+\mbox{ }\\
+\emph{Number}\\
+Is an \texttt{int} or \texttt{float} constant in decimal notation (see also Section~\ref{sec:builtintypes}).
 
 \begin{rail}
-  'record' Filename ('.gz')? ('start' | 'stop')?
-\end{rail}\ixkeyw{record}\ixkeyw{start}\ixkeyw{stop}\indexmain{record}
-The record command starts or stops recording of graph changes to the specified file. If neither start nor stop are given, recording to the specified file is toggled (i.e. started if no recording to the file is underway or stopped if the file is already recorded to).
-Recording starts with an export (cf. \ref{outputcmds}) of the instance graph in GRS (.grs/.grsi) format, afterwards the command returns but all changes to the instance graph are recorded to the file until the recording stop command is issued.
-Furthermore the values given in the \texttt{record} statements (cf. \ref{recstmt}) from the sequences are written to the recording (this allows you to mark states).
-If the \texttt{.gz} suffix is given the recording is saved zipped.
-You may start and stop recordings to different files at different times, every file receives the graph changes and records statements occurring during the time of the recording.
-Note: As a debugging help a recording does not only contain graph manipulation commands (cf. \ref{mani}) but also comments telling about the rewrites and transaction events which occurred (whose effects were recorded).
+ Parameters : Text + ',' ;
+ SpacedParameters: Text + ;
+\end{rail}\ixnterm{Parameters}\ixnterm{SpacedParameters}
 
+In order to describe the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:
+\begin{description}
+  \item[Filename]A fully qualified file name without spaces (e.g.\ \texttt{/Users/Bob/amazing\textunderscore file.txt}) or a single quoted or double quoted fully qualified file name that may contain spaces (\texttt{"/Users/Bob/amazing file.txt"}).
+  \item[Variable] Identifier of a (graph global) variable that contains a graph element or a value. \indexmainsee{GrShell variable}{graph global variable} A double colon prefix as required in the sequences may be given, but as the shell only knows graph global variables, it is optional (in plain shell commands, not in sequences or sequence expressions appearing within shell commands).
+  \item[NodeType, EdgeType] Identifier of a node type resp.\ edge type defined in the model of the current graph.
+  \item[AttributeName] Identifier of an attribute.
+  \item[Graph] Identifies a graph by its name.
+  \item[Action] Identifies a rule by its name.
+\end{description}
+\makeatletter
 \begin{rail}
-  'recordflush'
-\end{rail}\ixkeyw{recordflush}
-Flushes the buffers of the recordings to disk. 
-To be called to guarantee persistence if you use \GrG{} as a kind of online database, recording the graph changes while running to a redo log.
-
-\begin{rail}
-  'replay' Filename ('.gz')? ('from' Text)? ('to' Text)?
-\end{rail}\ixkeyw{replay}\ixkeyw{from}\ixkeyw{to}\indexmain{replay}
-The replay command plays a recording back: the graph at the time the recording was started is recreated, then the changes which occurred are carried out again, so you end up with the graph at the time the recording was stopped. Instead of replaying the entire GRS file you may restrict replaying to parts of the file by giving the line to start at and/or the line to stop at. Lines are specified by their textual content which is searched in the file.
-If a \emph{from} line is given, all lines from file begin on including this line are skipped, then replay starts. If a \emph{to} line is given, only the lines from the starting point on, until-excluding this one are executed (i.e. all lines from-including this one until file end are skipped).
-Normally you reference with \texttt{from} and \texttt{to} comment lines you write with the \texttt{record} statement (cf. \ref{recstmt}) in the sequences, marking relevant states during a transformation process.
-An example for record and replay is given in \texttt{tests/recordreplay}.
+  GraphElement: Text | ('@' '(' Text ')')
+\end{rail}\indexmain{\texttt{"@}}\ixnterm{GraphElement}
+\makeatother
+\begin{description}
+  \item[Node, Edge] The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} require the corresponding graph element to be a node or an edge respectively.
+\end{description}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Shell and Environment Configuration}
+\section{Attribute Assignment and Graph Manipulation}
+\label{mani}
+Graph manipulation commands alter existing graphs;
+they allow to retype and delete graph elements and change attributes.
+Creating elements was already introduced in the previous section.
+These are tasks which are or at least should be carried out by the rules of the rule language in the first place.
+On shell level they are available and mainly used as elementary instructions in creating an initial graph, in exporting and importing a graph, as well as in change recording and replaying.
 
 \begin{rail}
-'silence' ('on'|'off')
-\end{rail}\ixkeyw{silence}\ixkeyw{on}\ixkeyw{off}
-Switches the new node/edge created/deleted messages on(default) or off.
-Switching them off allows for much faster execution of scripts containing a lot of creation commands.
+  GraphElement '.' AttributeName '=' AttributeValue ;
+\end{rail}
+Set the \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} to the value \emph{AttributeValue} (for the different possible attribute values see above).
 
 \begin{rail}
-'silence' 'exec' ('on'|'off')
-\end{rail}\ixkeyw{silence}\ixkeyw{exec}\ixkeyw{on}\ixkeyw{off}
-During non-debug sequence execution every second match statistics are printed to the console;
-they allow to assess the progress of long-running transformations.
-With this command they can be disabled (or enabled again).
-Switching them off may be of interest if own debug messages printed via emit from the sequences (or rules) should not be disturbed.
+  GraphElement '.' AttributeName '[' Index ']' '=' AttributeValue ;
+\end{rail}
+Overwrite the value in the array or deque or map \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} at the integer position or key value \emph{Index} with the value \emph{AttributeValue}.
 
 \begin{rail}
-'randomseed' (Number | 'time')
-\end{rail}\ixkeyw{randomseed}\ixkeyw{time}
-Sets the random seed to the given number for reproducible results when using the \$-operator-prefix or the random-match-selector, whereas time sets the random seed to the current time in ms.
+  GraphElement '.' AttributeName '.' 'add' '(' \\
+  	PrimitiveAttributeValue (',' PrimitiveAttributeValue)? ')' ;
+\end{rail}
+Add the value \emph{PrimitiveAttributeValue} (for the different possible primitive attribute values see above) to the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or add the key-value pair consisting of the two \emph{PrimitiveAttributeValue}s to the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement}.
+Or add the value \emph{PrimitiveAttributeValue} to the end of the array/deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the one parameter case or insert the \emph{PrimitiveAttributeValue} to the of the array/deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} at the index given by the second parameter in the two parameter case.
 
 \begin{rail}
-'redirect' 'emit' Filename
-\end{rail}\ixkeyw{redirect}\ixkeyw{emit}
-Redirects the output of the emit-statements (but not the emitdebug-statements) in the rules from stdout to the given file.
+  GraphElement '.' AttributeName '.' 'rem' '(' (PrimitiveAttributeValue)? ')' ;
+\end{rail}
+Remove the value \emph{PrimitiveAttributeValue} from the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the key \emph{PrimitiveAttributeValue} from the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the end element from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case or remove the first element from the deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case.
+
 
 \begin{rail}
-'redirect' 'emit' '-'
-\end{rail}\ixkeyw{redirect}\ixkeyw{emit}
-Redirects the output of the emit-statements in the rules to stdout (again).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Compilation Configuration}\label{sec:compilerconfigshell}
+  'retype' Node '<' Type '>'
+\end{rail}\ixkeyw{retype}
+Retypes the node \emph{Node} from its current type to the new type \emph{Type}. Attributes common to initial and final type are kept. Incident edges are kept as well. \indexmain{retype}
 
 \begin{rail}
-  'new' 'add' 'reference' Filename
-\end{rail}\ixkeyw{new}\ixkeyw{add}\ixkeyw{reference}
-Configures a reference to an external assembly \emph{Filename} to be linked into the generated assemblies, maps to the \texttt{-r} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+  'retype' ('-' Edge '<' Type '>' '->' | '-' Edge '<' Type '>' '-')
+\end{rail}\ixkeyw{retype}
+Retypes the edge \emph{Edge} from its current type to the new type \emph{Type}. Attributes common to initial and final type are kept. Incident nodes are kept as well.
 
 \begin{rail}
-  'new' 'set' ('keepdebug'|'lazynic'|'noinline'|'profile') ('on'|'off')
-\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{noinline}\ixkeyw{profile}\ixkeyw{on}\ixkeyw{off}
-Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols (includes emitting of some validity checking code),
-or configures the generation of the matchers.
-The latter in order to either execute negatives, independents, and conditions only at the end of matching (normally asap),
-or to never inline subpatterns,
-or to include profiling information.
-Those flags are mapped to the \texttt{-keep} and the \texttt{-debug} options, or to the \texttt{-lazynic}, \texttt{-noinline}, or  \texttt{-profile} options of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
-
-When profiling is turned on, the number of search steps carried out is printed to the console after each sequence execution.
-A search step is a binding of a graph element to a pattern entity in case there are at least potentially several choices available.
-Fetching an element by type chooses from all elements of that type in the graph, following an incident edge chooses from all incident edges of the corresponding node, and matching by storage access chooses from all elements in that storage, whereas getting the source or target node from an edge or mapping with a storage map just grabs the target element from the source element.
-(Each binding from a choice counts as one step, the non-choice-bindings are not counted.)
-Profiling the search steps allows you to assess the work needed for a transformation, to find the hot spots worth optimizing.
-The less search steps are needed to find a match the better (you typically want to efficiently find patterns and minimize the amount of search needed in order to do so). 
-
-The flags are applied when the actions are generated anew because the model or rule files changed. They are not when you just switch them in the shell script. It's your responsibility to delete the old generated dlls when you change those options (by switching them, or by introducing them differently from the compiler options used to generate the dlls)!
+  'redirect' Edge ('source'|'target') Node
+\end{rail}\ixkeyw{redirect}
+Redirects the edge \emph{Edge} from the old source or target node to the new source or target \emph{Node} given.
 
 \begin{rail}
-  'new' 'set' 'statistics' Filename
-\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{statistics}
-Configures the compilation of the generated assemblies to use the statistics file specified, yielding pattern matchers adapted to the class of graphs described in that file.
-Maps to the \texttt{-statistics} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}, and see \ref{custom} on how to get such statistics).
+  'delete' 'node' Node
+\end{rail}\ixkeyw{delete}\ixkeyw{node}
+Deletes the node \emph{Node} from the current graph.
+Incident edges will be deleted as well.
+
+\begin{rail}
+  'delete' 'edge' Edge
+\end{rail}\ixkeyw{delete}\ixkeyw{edge}
+Deletes the edge \emph{Edge} from the current graph.
+
+\begin{rail}
+  'clear' 'graph' (() | Graph)
+\end{rail}\ixkeyw{clear}\ixkeyw{graph}
+Deletes all graph elements of the current working graph resp.\ the graph \emph{Graph}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -709,49 +604,163 @@ The graph is NOT valid:
 \end{example}
 
 
-\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph Change Recording and Replaying}
+\label{recordnreplay}
+
+Graph change recording and replaying is available 
+\begin{itemize}
+	\item for one for post-problem debugging, you can execute your transformation, and after a problem occured inspect the changes that were leading to it
+	\item for the other for ensuring persistence of changes as they happen, in case you are using \GrG\ as an application-embedded in-memory graph-datebase
+\end{itemize}
+
+\begin{rail}
+  'record' Filename ('.gz')? ('start' | 'stop')?
+\end{rail}\ixkeyw{record}\ixkeyw{start}\ixkeyw{stop}\indexmain{record}
+The record command starts or stops recording of graph changes to the specified file. If neither start nor stop are given, recording to the specified file is toggled (i.e. started if no recording to the file is underway or stopped if the file is already recorded to).
+Recording starts with an export (cf. \ref{outputcmds}) of the instance graph in GRS (.grs/.grsi) format, afterwards the command returns but all changes to the instance graph are recorded to the file until the recording stop command is issued.
+Furthermore the values given in the \texttt{record} statements (cf. \ref{recstmt}) from the sequences are written to the recording (this allows you to mark states).
+If the \texttt{.gz} suffix is given the recording is saved zipped.
+You may start and stop recordings to different files at different times, every file receives the graph changes and records statements occurring during the time of the recording.
+Note: As a debugging help a recording does not only contain graph manipulation commands (cf. \ref{mani}) but also comments telling about the rewrites and transaction events which occurred (whose effects were recorded).
+
+\begin{rail}
+  'recordflush'
+\end{rail}\ixkeyw{recordflush}
+Flushes the buffers of the recordings to disk. 
+To be called to guarantee persistence if you use \GrG{} as a kind of online database, recording the graph changes while running to a redo log.
+
+\begin{rail}
+  'replay' Filename ('.gz')? ('from' Text)? ('to' Text)?
+\end{rail}\ixkeyw{replay}\ixkeyw{from}\ixkeyw{to}\indexmain{replay}
+The replay command plays a recording back: the graph at the time the recording was started is recreated, then the changes which occurred are carried out again, so you end up with the graph at the time the recording was stopped. Instead of replaying the entire GRS file you may restrict replaying to parts of the file by giving the line to start at and/or the line to stop at. Lines are specified by their textual content which is searched in the file.
+If a \emph{from} line is given, all lines from file begin on including this line are skipped, then replay starts. If a \emph{to} line is given, only the lines from the starting point on, until-excluding this one are executed (i.e. all lines from-including this one until file end are skipped).
+Normally you reference with \texttt{from} and \texttt{to} comment lines you write with the \texttt{record} statement (cf. \ref{recstmt}) in the sequences, marking relevant states during a transformation process.
+An example for record and replay is given in \texttt{tests/recordreplay}.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Sequence Execution and Profiles}\label{grsthings}\indexmainsee{action}{graph rewrite sequence}
+\section{Inclusion and Conditional Execution}
+\label{inclcondexeccommands}
 
-An \emph{action} denotes a graph rewrite rule.
-
-\begin{rail}
-  'show' 'profile' (Actionname)?
-\end{rail}\ixkeyw{show}\ixkeyw{profile}
-Shows the profile for the action specified by its name, or for all rules and tests in the rule set.
+You may include further shell scripts, or execute parts of a shell script conditionally.
 
 \begin{rail}
-  GraphRewriteSequence: RewriteSequenceDefinition;
-\end{rail}\ixkeyw{def}\indexmain{graph rewrite sequence definition}\indexmain{sequence definition}
-This command allows to define a named sequence at runtime, for $RewriteSequenceDefinition$ have a look here  \ref{sec:sequencedefinition} in the rule application control language chapter.
-Especially it allows to replace an old sequence definition, but only if the signature is identical.
-Compiled sequences defined in rule files can't be replaced.
-The defined sequence can then be used from following graph rewrite sequences (or following sequence definitions) in the shell.
+  'include' Filename ('.gz')?
+\end{rail}\ixkeyw{include}
+Executes the \GrShell\ script\indexmain{graph rewrite script} \emph{Filename} (which might be zipped).
+A \GrShell\ script is just a plain text file containing \GrShell\ commands.
+They are treated as they would be entered interactively, except for parser errors.
+If a parser error occurs, execution of the script will stop immediately.
 
+\begin{rail}
+  'if' SequenceExpression Commands ('else' Commands)? 'endif'
+\end{rail}\ixkeyw{if}\ixkeyw{else}\ixkeyw{endif}
+If the sequence expression evaluates to true, the following command lines are executed, until the corresponding \texttt{else} or \texttt{endif} is reached.
+If the sequence expression evaluates to false, the following command lines are skipped, until the corresponding \texttt{else} or \texttt{endif} is reached. 
+In case an \texttt{else} is given, the command lines following the else until the endif are executed in the first case, or skipped in the second case.
+The nature of shell execution is command-line based, without syntactic nesting.
+The \texttt{if} command is an exception, a corresponding amount of \texttt{endif} commands is required, and applies to its syntactically preceeding if command, as does the \texttt{else} command. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{File System Commands and External Shell Execution}
+\label{filesyscommandsextex}
+
+Here we describe commands for inspecting and changing the working directory, and for executing an arbitrary command line in the shell of the hosting OS.
+
+\begin{rail}
+  'pwd'
+\end{rail}\ixkeyw{pwd}
+Prints the path to the current working directory.
+
+\begin{rail}
+  'ls'
+\end{rail}\ixkeyw{ls}
+Lists the directories and files in the current working directory, files relevant to GrGen are printed highlighted.
+
+\begin{rail}
+  'cd' Path
+\end{rail}\ixkeyw{cd}
+Changes the current working directory to the path given.
+
+\begin{rail}
+  '!' CommandLine
+\end{rail}\indexmain{\texttt{"!}}
+\emph{CommandLine}\indexmain{command line} is an arbitrary text, the operating system attempts to execute.
 \begin{example}
-\begin{grgen}
-# a sequence definition (of an interpreted sequence) is only available
-# after it was registered the first time
-# but it can get overwritten with a sequence of the same signature
-# -> (self or mutually) recursive sequences must be constructed with empty body first
-def chain(first:A):(last:A){ true }
-def chain(first:A):(last:A){ if{(next:A)=chainPiece(first); (last)=chain(next); last=first} }
-\end{grgen}
+On a Linux machine you might execute
+\begin{grshell}
+!sh -c "ls | grep stuff"
+\end{grshell}
 \end{example}
 
-\makeatletter
-\begin{rail}
-  GraphRewriteSequence: ('exec'|'xgrs') SimpleRewriteSequence ;
-\end{rail}\ixkeyw{exec}\ixkeyw{xgrs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
-This executes the graph rewrite sequence \emph{SimpleRewriteSequence}.
-See Chapter~\ref{cha:xgrs} for graph rewrite sequences.
-Additionally to the variable assignment in rule-embedded graph rewrite sequences, you are also able to assign \emph{persistent names} to parameters via  \texttt{Variable = \@(Text)}.
 
-Graph elements returned by rules can be assigned to variables\indexmain{variable} using \texttt{(Para\-meters) = \emph{Action}}\indexmain{parameter}.
-The desired variable identifiers have to be listed in \emph{Parameters}.
-Graph elements required by rules must be provided using \texttt{Action (Para\-meters)}, where \emph{Parameters} is a list of variable identifiers.
-For \indexed{undefined variables} see Section~\ref{ruledecls}, \emph{Parameters}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Shell and Environment Configuration}
+
+\begin{rail}
+'silence' ('on'|'off')
+\end{rail}\ixkeyw{silence}\ixkeyw{on}\ixkeyw{off}
+Switches the new node/edge created/deleted messages on(default) or off.
+Switching them off allows for much faster execution of scripts containing a lot of creation commands.
+
+\begin{rail}
+'silence' 'exec' ('on'|'off')
+\end{rail}\ixkeyw{silence}\ixkeyw{exec}\ixkeyw{on}\ixkeyw{off}
+During non-debug sequence execution every second match statistics are printed to the console;
+they allow to assess the progress of long-running transformations.
+With this command they can be disabled (or enabled again).
+Switching them off may be of interest if own debug messages printed via emit from the sequences (or rules) should not be disturbed.
+
+\begin{rail}
+'randomseed' (Number | 'time')
+\end{rail}\ixkeyw{randomseed}\ixkeyw{time}
+Sets the random seed to the given number for reproducible results when using the \$-operator-prefix or the random-match-selector, whereas time sets the random seed to the current time in ms.
+
+\begin{rail}
+'redirect' 'emit' Filename
+\end{rail}\ixkeyw{redirect}\ixkeyw{emit}
+Redirects the output of the emit-statements (but not the emitdebug-statements) in the rules from stdout to the given file.
+
+\begin{rail}
+'redirect' 'emit' '-'
+\end{rail}\ixkeyw{redirect}\ixkeyw{emit}
+Redirects the output of the emit-statements in the rules to stdout (again).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Compilation Configuration}\label{sec:compilerconfigshell}
+
+\begin{rail}
+  'new' 'add' 'reference' Filename
+\end{rail}\ixkeyw{new}\ixkeyw{add}\ixkeyw{reference}
+Configures a reference to an external assembly \emph{Filename} to be linked into the generated assemblies, maps to the \texttt{-r} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+
+\begin{rail}
+  'new' 'set' ('keepdebug'|'lazynic'|'noinline'|'profile') ('on'|'off')
+\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{noinline}\ixkeyw{profile}\ixkeyw{on}\ixkeyw{off}
+Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols (includes emitting of some validity checking code),
+or configures the generation of the matchers.
+The latter in order to either execute negatives, independents, and conditions only at the end of matching (normally asap),
+or to never inline subpatterns,
+or to include profiling information.
+Those flags are mapped to the \texttt{-keep} and the \texttt{-debug} options, or to the \texttt{-lazynic}, \texttt{-noinline}, or  \texttt{-profile} options of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+
+When profiling is turned on, the number of search steps carried out is printed to the console after each sequence execution.
+A search step is a binding of a graph element to a pattern entity in case there are at least potentially several choices available.
+Fetching an element by type chooses from all elements of that type in the graph, following an incident edge chooses from all incident edges of the corresponding node, and matching by storage access chooses from all elements in that storage, whereas getting the source or target node from an edge or mapping with a storage map just grabs the target element from the source element.
+(Each binding from a choice counts as one step, the non-choice-bindings are not counted.)
+Profiling the search steps allows you to assess the work needed for a transformation, to find the hot spots worth optimizing.
+The less search steps are needed to find a match the better (you typically want to efficiently find patterns and minimize the amount of search needed in order to do so). 
+
+The flags are applied when the actions are generated anew because the model or rule files changed. They are not when you just switch them in the shell script. It's your responsibility to delete the old generated dlls when you change those options (by switching them, or by introducing them differently from the compiler options used to generate the dlls)!
+
+\begin{rail}
+  'new' 'set' 'statistics' Filename
+\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{statistics}
+Configures the compilation of the generated assemblies to use the statistics file specified, yielding pattern matchers adapted to the class of graphs described in that file.
+Maps to the \texttt{-statistics} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}, and see \ref{custom} on how to get such statistics).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
