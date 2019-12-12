@@ -172,7 +172,7 @@ Annotations are key-value pairs.
   IdentDecl: Ident (() | '[' (Ident '=' Constant + ',') ']');
 \end{rail}\ixnterm{IdentDecl}
 You can use any key-value pairs between the brackets.
-For \GrG\ only the identifiers \indexed{prio}, \indexed{maybeDeleted}, \indexed{containment}, and \indexed{parallelize} have an effect, cf. Table \ref{tabannotations}.
+For \GrG\ only the identifiers \indexed{prio}, \indexed{maybeDeleted}, \indexed{containment}, \indexed{parallelize}, and \indexed{validityCheck} have an effect, cf. Table \ref{tabannotations}.
 But you may use the annotations to transmit information from the specification files to API level where they can be queried.
 
 \pagebreak %improve layout
@@ -191,6 +191,9 @@ But you may use the annotations to transmit information from the specification f
     Default is \texttt{containment}=false.\\
 \hline
   \texttt{parallelize} & int & rule, test & Causes parallelization of the pattern matcher of the action; the value specifies the number of threads to use.\\
+\hline
+  \texttt{validityCheck} & boolean & node, edge & In case of false, skips the contained-in-graph checks for that node/edge, which are executed in case the debug compiler flag (or shell option) is supplied, before a match is rewritten, esp. in between matches of an all-bracketed rule execution.\\
+  & & rule & In case of false, skips the contained-in-graph checks for all nodes/edges in the pattern(s) of the rule.\\
 \hline
 \end{tabularx}
 \caption{Annotations}

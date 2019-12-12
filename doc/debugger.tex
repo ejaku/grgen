@@ -542,7 +542,10 @@ The first case typically happens when an initialization of a variable is missing
 
 The second case typically happens when a node or edge was removed from the graph but is still held in a local variable or a storage. 
 
-The third case typically happens during an all-bracketed rule application that matched a certain graph element multiple times, and now wants to retype the graph element, after having executed a previous rewrite, that deleted that particular graph element (an all-bracketed rule application rewrites one match after the other). 
+The third case typically happens during an all-bracketed rule application that matched a graph element multiple times, and now wants to retype the graph element, after having executed a previous rewrite, that deleted that particular graph element (an all-bracketed rule application rewrites one match after the other). 
 The situation may be rather obvious, when the graph element was bound to the same pattern element in different matches, it may be also quite difficult to grasp, because the graph element was bound to different pattern elements in different matches.
 The check may fail without uncovering a real issue, because the already deleted element is not to be modified with the rewrite of the current match (or only to be deleted again, deletion after deletion is not causing a crash).
 
+Regarding the third case, note that an edge not contained in the graph anymore is not reported as invalid in case its source or target nodes are not contained in the graph anymore (this safes you from spurious error reports, at the price of potentially missing a situation where this is not anticipated).
+By annotating a node/edge with a \texttt{validityCheck=false}, cf. Section \ref{annotations}, you can disable the contained-in-graph check for that graph element.
+By using the same annotation on a rule (cf. Table \ref{tabannotations}), you can disable this validity check for all graph elements that were matched during the execution of the rule.
