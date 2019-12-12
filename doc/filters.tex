@@ -89,7 +89,7 @@ Auto-generated filters need to be \emph{declared} at their rule before they can 
 
 \begin{rail}
   FiltersDecl: ( backslash (FilterDecl + ',') )?;
-  FilterDecl: ( FilterIdent '<' VariableIdent '>' | 'auto' );
+  FilterDecl: ( FilterIdent '<' (VariableIdent + ',') '>' | 'auto' );
 \end{rail}\ixnterm{FiltersDecl}\ixnterm{FilterDecl}\ixkeyw{auto}
 
 The \indexed{auto-generated filters} must be declared at the end of a rule definition (cf. \ref{ruledecls}).
@@ -104,6 +104,9 @@ They filter based on certain conditions regarding that variable; filtering may m
 \item[\texttt{keepSameAsLast<v>}] filters away all matches with \texttt{v} values that are not equal to the \texttt{v} value of the last match.
 \item[\texttt{keepOneForEach<v>}] filters away all matches with duplicate \texttt{v} values, i.e. only one (prototypical) match is kept per \texttt{v} value. The list must have been grouped or ordered before, otherwise the result is undefined.
 \end{description}
+
+The \texttt{orderAscendingBy<.(,.)*>} and \texttt{orderDescendingBy<.(,.)*>} allow to specify more than one variable, whereas \texttt{keepSameAsFirst<.>}, \texttt{keepSameAsLast<.>} and \texttt{keepOneForEach<.>} support only one variable.
+The order-by filters order the matches in order of the def variables, e.g. \texttt{orderAscendingBy<v,w>} orders the matches primarily by \texttt{v} and secondarily by \texttt{w}, i.e in case the values of the first def variable are equal, the values of the second one decide.
  
 Besides those variable-based filters you may use the automorphic matches filter to purge \indexed{symmetric matches}.
 In order to do so, specify the special filter named \texttt{auto} at the rule declaration, and use it with the same name at an application of that action (with the known backslash syntax).
@@ -171,12 +174,12 @@ This way, the 50\% of the nodes with the smallest number of outgoing edges are d
 \centering
 \begin{tabular}{|l|}
 \hline
-\texttt{orderAscendingBy<def var:int|double|string>}\\
-\texttt{orderDescendingBy<def var:int|double|string>}\\
+\texttt{orderAscendingBy<def-Var (, def-Var)*>}\\
+\texttt{orderDescendingBy<def-Var (, def-Var)*>}\\
 %\texttt{groupBy<def var:int|double|string>}\\
-\texttt{keepSameAsFirst<def var:int|double|string>}\\
-\texttt{keepSameAsLast<def var>:int|double|string}\\
-\texttt{keepOneForEach<def var:int|double|string>}\\
+\texttt{keepSameAsFirst<def-Var>}\\
+\texttt{keepSameAsLast<def-Var>}\\
+\texttt{keepOneForEach<def-Var>}\\
 \texttt{auto}\\
 \hline
 \texttt{keepFirst(int-Number)}\\
@@ -189,6 +192,8 @@ This way, the 50\% of the nodes with the smallest number of outgoing edges are d
 \texttt{removeLastFraction(double-Number)}\\
 \hline
 \end{tabular}
+\\
+{\small def-Var may be of type \texttt{int} or \texttt{double} or \texttt{string}}
 \caption{Auto-generated and then auto-supplied filters at a glance}
 \label{filterstab}
 \end{table}

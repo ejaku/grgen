@@ -148,14 +148,6 @@ A command \texttt{Command} displayed with \texttt{...} has further help availabl
 Quits \GrShell. If \GrShell\ is opened in debug mode, a currently active graph viewer (such as \yComp) will be closed as well.
 
 \begin{rail}
-  'include' Filename ('.gz')?
-\end{rail}\ixkeyw{include}
-Executes the \GrShell\ script\indexmain{graph rewrite script} \emph{Filename} (which might be zipped).
-A \GrShell\ script is just a plain text file containing \GrShell\ commands.
-They are treated as they would be entered interactively, except for parser errors.
-If a parser error occurs, execution of the script will stop immediately.
-
-\begin{rail}
   'echo' Text
 \end{rail}\ixkeyw{echo}
 Prints \emph{Text} onto the \GrShell\ command prompt.
@@ -185,6 +177,30 @@ On a Linux machine you might execute
 !sh -c "ls | grep stuff"
 \end{grshell}
 \end{example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Inclusion and Conditional Execution}
+\label{inclcondexeccommands}
+
+You may include further shell scripts, or execute parts of a shell script conditionally.
+
+\begin{rail}
+  'include' Filename ('.gz')?
+\end{rail}\ixkeyw{include}
+Executes the \GrShell\ script\indexmain{graph rewrite script} \emph{Filename} (which might be zipped).
+A \GrShell\ script is just a plain text file containing \GrShell\ commands.
+They are treated as they would be entered interactively, except for parser errors.
+If a parser error occurs, execution of the script will stop immediately.
+
+\begin{rail}
+  'if' SequenceExpression Commands ('else' Commands)? 'endif'
+\end{rail}\ixkeyw{if}\ixkeyw{else}\ixkeyw{endif}
+If the sequence expression evaluates to true, the following command lines are executed, until the corresponding \texttt{else} or \texttt{endif} is reached.
+If the sequence expression evaluates to false, the following command lines are skipped, until the corresponding \texttt{else} or \texttt{endif} is reached. 
+In case an \texttt{else} is given, the command lines following the else until the endif are executed in the first case, or skipped in the second case.
+The nature of shell execution is command-line based, without syntactic nesting.
+The \texttt{if} command is an exception, a corresponding amount of \texttt{endif} commands is required, and applies to its syntactically preceeding if command, as does the \texttt{else} command. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -363,7 +379,7 @@ The created script includes
   \item restoring the visualisation styles
 \end{itemize}
 but not necessarily using the same commands you typed in during construction.
-Such a script can be loaded and executed by the \texttt{include} command (see Section~\ref{commcommands}).
+Such a script can be loaded and executed by the \texttt{include} command (see Section~\ref{inclcondexeccommands}).
 
 \begin{rail}
   'export' Filename ('.grs' | '.grsi') ('.gz')? \\ ( () | 'nonewgraph') (('skip/type.attr')*)
