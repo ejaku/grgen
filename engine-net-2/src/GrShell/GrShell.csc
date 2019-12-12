@@ -1255,8 +1255,9 @@ void ShellCommand():
 	    {
             try
             {
+				de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(impl.CurrentActions);
 				List<String> warnings = new List<String>();
-                seq = SequenceParser.ParseSequence(str1, impl.CurrentActions, warnings);
+                seq = SequenceParser.ParseSequence(str1, parserEnv, warnings);
                 foreach(string warning in warnings)
                 {
 					Console.WriteLine("The validate sequence at line " + tok.beginLine + " reported back: " + warning);
@@ -1301,8 +1302,9 @@ void ShellCommand():
     {
         try
         {
+			de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(impl.CurrentActions);
 			List<String> warnings = new List<String>();
-            seq = SequenceParser.ParseSequence(str1, impl.CurrentActions, warnings);
+            seq = SequenceParser.ParseSequence(str1, parserEnv, warnings);
 			foreach(string warning in warnings)
 			{
 				Console.WriteLine("The sequence at line " + tok.beginLine + " reported back: " + warning);
@@ -1333,8 +1335,9 @@ void ShellCommand():
     {
         try
         {
+			de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(impl.CurrentActions);
 			List<String> warnings = new List<String>();
-            seqDef = SequenceParser.ParseSequenceDefinition(str1, impl.CurrentActions, warnings);
+            seqDef = SequenceParser.ParseSequenceDefinition(str1, parserEnv, warnings);
 			foreach(string warning in warnings)
 			{
 				Console.WriteLine("The sequence definition at line " + tok.beginLine + " reported back: " + warning);
@@ -1970,8 +1973,9 @@ void DebugCommand():
 		{
 			try
 			{
+				de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(impl.CurrentActions);
 				List<String> warnings = new List<String>();
-				seq = SequenceParser.ParseSequence(str, impl.CurrentActions, warnings);
+				seq = SequenceParser.ParseSequence(str, parserEnv, warnings);
 				foreach(string warning in warnings)
 				{
 					Console.WriteLine("The debug sequence at line " + tok.beginLine + " reported back: " + warning);
@@ -2124,8 +2128,9 @@ SequenceExpression If(string ruleOfMatchThis, string typeOfGraphElementThis):
 	{
 		try
 		{
+			de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(impl.CurrentActions, ruleOfMatchThis, typeOfGraphElementThis);
 			List<String> warnings = new List<String>();
-			seqExpr = SequenceParser.ParseSequenceExpression(str1, predefinedVariables, impl.CurrentActions, ruleOfMatchThis, typeOfGraphElementThis, warnings);
+			seqExpr = SequenceParser.ParseSequenceExpression(str1, predefinedVariables, parserEnv, warnings);
 			foreach(string warning in warnings)
 			{
 				Console.WriteLine("The sequence expression at line " + tok.beginLine + " reported back: " + warning);

@@ -649,8 +649,9 @@ namespace de.unika.ipd.grGen.lgsp
 
         public Sequence ParseSequence(String seqStr)
         {
+            de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(curActions);
             List<string> warnings = new List<string>();
-            Sequence seq = de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(seqStr, curActions, warnings);
+            Sequence seq = de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(seqStr, parserEnv, warnings);
             foreach(string warning in warnings)
             {
                 System.Console.Error.WriteLine(warning);

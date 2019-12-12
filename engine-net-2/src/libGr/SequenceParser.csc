@@ -20,40 +20,15 @@ PARSER_BEGIN(SequenceParser)
 	public class SequenceParser
 	{
 		/// <summary>
-		/// The rules and sequences used in the specification, set if parsing an xgrs to be interpreted
+		/// The environment setting the context for the sequence parser, containing the entitites and types that can be referenced
 		/// </summary>
-		IActions actions;
-
-		/// <summary>
-		/// The names of the different kinds of action used in the specification, set if parsing an xgrs to be compiled
-		/// </summary>
-		ActionNames actionNames;
-		
-		/// <summary>
-		/// The model used in the specification
-		/// </summary>
-		IGraphModel model;
+		SequenceParserEnvironment env;
 
 		/// <summary>
 		/// Symbol table of the sequence variables, maps from name to the prefixed(by block nesting) name and the type;
 		/// a graph-global variable maps to type "", a sequence-local to its type
 		/// </summary>
 		SymbolTable varDecls;
-
-		/// <summary>
-		/// The name of the package the sequence is contained in (defining some context), null if it is not contained in a package. (Applies only to compiled sequences.)
-		/// </summary>
-		String packageContext;
-
-		/// <summary>
-		/// Gives the rule of the match this stands for in the if clause of the debug match event.
-		/// </summary>
-		string ruleOfMatchThis;
-
-		/// <summary>
-		/// Gives the graph element type of the graph element this stands for in the if clause of the debug new/delete/retype/set-attributes event.
-		/// </summary>
-		string typeOfGraphElementThis;
 		
 		/// <summary>
 		/// Stores the warnings which occur during parsing
@@ -64,24 +39,22 @@ PARSER_BEGIN(SequenceParser)
         /// Parses a given string in xgrs syntax and builds a Sequence object. Used for the interpreted xgrs.
         /// </summary>
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
-        /// <param name="actions">The IActions object containing the rules used in the string.</param>
+        /// <param name="env">The environment containing the entities and types that can be referenced.</param>
         /// <param name="warnings">A list which receives the warnings generated during parsing.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static Sequence ParseSequence(String sequenceStr, IActions actions, List<String> warnings)
+		public static Sequence ParseSequence(String sequenceStr, SequenceParserEnvironment env, List<String> warnings)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
-			parser.actions = actions;
-			parser.actionNames = null;
-			parser.model = actions.Graph.Model;
+			parser.env = env;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(null);
 			parser.warnings = warnings;
 			Sequence seq = parser.XGRS();
-			SequenceCheckingEnvironment env = new SequenceCheckingEnvironmentInterpreted(actions);
-			seq.Check(env);
+			SequenceCheckingEnvironment checkEnv = new SequenceCheckingEnvironmentInterpreted(env.actions);
+			seq.Check(checkEnv);
 			return seq;
 		}
 
@@ -91,28 +64,22 @@ PARSER_BEGIN(SequenceParser)
         /// </summary>
         /// <param name="sequenceExprStr">The string representing a xgrs expression (e.g. "func() &amp;&amp; (st[e]==0 || var + 1 < 42)")</param>
         /// <param name="predefinedVariables">A map from variables to types giving the predefined this variable for the sequence expression.</param>
-        /// <param name="actions">The IActions object containing the functions used in the string.</param>
-        /// <param name="ruleOfMatchThis">Gives the rule of the match this stands for in the if clause of the debug match event.</param>
-        /// <param name="typeOfGraphElementThis">Gives the graph element type of the graph element this stands for in the if clause of the debug new/delete/retype/set-attributes event.</param>
+        /// <param name="env">The environment containing the entities and types that can be referenced.</param>
         /// <param name="warnings">A list which receives the warnings generated during parsing.</param>
         /// <returns>The sequence expression object according to sequenceExprStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static SequenceExpression ParseSequenceExpression(String sequenceExprStr, Dictionary<String, String> predefinedVariables, IActions actions, string ruleOfMatchThis, string typeOfGraphElementThis, List<String> warnings)
+		public static SequenceExpression ParseSequenceExpression(String sequenceExprStr, Dictionary<String, String> predefinedVariables, SequenceParserEnvironment env, List<String> warnings)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceExprStr));
-			parser.actions = actions;
-			parser.actionNames = null;
-			parser.model = actions.Graph.Model;
+			parser.env = env;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(predefinedVariables);
-			parser.ruleOfMatchThis = ruleOfMatchThis;
-			parser.typeOfGraphElementThis = typeOfGraphElementThis;
 			parser.warnings = warnings;
 			SequenceExpression seqExpr = parser.Expression();
-			SequenceCheckingEnvironment env = new SequenceCheckingEnvironmentInterpreted(actions);
-			seqExpr.Check(env);
+			SequenceCheckingEnvironment checkEnv = new SequenceCheckingEnvironmentInterpreted(env.actions);
+			seqExpr.Check(checkEnv);
 			return seqExpr;
 		}
 
@@ -120,24 +87,22 @@ PARSER_BEGIN(SequenceParser)
         /// Parses a given string in sequence definition syntax and builds a SequenceDefinition object. Used for the interpreted xgrs.
         /// </summary>
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
-        /// <param name="actions">The IActions object containing the rules used in the string.</param>
+        /// <param name="env">The environment containing the entities and types that can be referenced.</param>
         /// <param name="warnings">A list which receives the warnings generated during parsing.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static ISequenceDefinition ParseSequenceDefinition(String sequenceStr, IActions actions, List<String> warnings)
+		public static ISequenceDefinition ParseSequenceDefinition(String sequenceStr, SequenceParserEnvironment env, List<String> warnings)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
-			parser.actions = actions;
-			parser.actionNames = null;
-			parser.model = actions.Graph.Model;
+			parser.env = env;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(null);
 			parser.warnings = warnings;
 			SequenceDefinition seq = parser.defXGRS();
-			SequenceCheckingEnvironment env = new SequenceCheckingEnvironmentInterpreted(actions);
-			seq.Check(env);
+			SequenceCheckingEnvironment checkEnv = new SequenceCheckingEnvironmentInterpreted(env.actions);
+			seq.Check(checkEnv);
 			return seq;
 		}
 
@@ -145,25 +110,20 @@ PARSER_BEGIN(SequenceParser)
         /// Parses a given string in xgrs syntax and builds a Sequence object. Used for the compiled xgrs.
         /// </summary>
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
-        /// <param name="packageContext">The name of the package the sequence is contained in (defining some context), null if it is not contained in a package.</param>
-        /// <param name="actionNames">Contains the names of the different kinds of actions used in the specification.</param>
+        /// <param name="env">The environment containing the entities and types that can be referenced.</param>
         /// <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
-        /// <param name="model">The model used in the specification.</param>
         /// <param name="warnings">A list which receives the warnings generated during parsing.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static Sequence ParseSequence(String sequenceStr, String packageContext, ActionNames actionNames, 
-		        Dictionary<String, String> predefinedVariables, IGraphModel model, List<String> warnings)
+		public static Sequence ParseSequence(String sequenceStr, SequenceParserEnvironment env, 
+		        Dictionary<String, String> predefinedVariables, List<String> warnings)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
-			parser.actions = null;
-			parser.actionNames = actionNames;
-			parser.model = model;
+			parser.env = env;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(predefinedVariables);
-			parser.packageContext = packageContext;
 			parser.warnings = warnings;
 			Sequence seq = parser.XGRS();
 			// check will be done by LGSPSequenceChecker from lgsp code afterwards outside of this libGr code
@@ -415,7 +375,7 @@ object Constant():
 		LOOKAHEAD(4)
 		package=Word() "::" type=Word() "::" value=Word()
 		{
-			attrType = TypesHelper.GetEnumAttributeType(package+"::"+type, model);
+			attrType = TypesHelper.GetEnumAttributeType(package+"::"+type, env.model);
 			if(attrType!=null)
 				constant = Enum.Parse(attrType.EnumType, value);
 			if(constant==null)
@@ -427,12 +387,12 @@ object Constant():
 		{
 			package = packageOrType;
 			type = typeOrValue;
-			constant = TypesHelper.GetNodeOrEdgeType(package+"::"+type, model);
+			constant = TypesHelper.GetNodeOrEdgeType(package+"::"+type, env.model);
 			if(constant==null)
 			{
 				type = packageOrType;
 				value = typeOrValue;
-				attrType = TypesHelper.GetEnumAttributeType(type, model);
+				attrType = TypesHelper.GetEnumAttributeType(type, env.model);
 				if(attrType!=null)
 					constant = Enum.Parse(attrType.EnumType, value);
 			}
@@ -440,10 +400,10 @@ object Constant():
 				throw new ParseException("Invalid constant \""+packageOrType+"::"+typeOrValue+"\"!");
 		}
 	|
-		LOOKAHEAD({ GetToken(1).kind==WORD && varDecls.Lookup(GetToken(1).image)==null && TypesHelper.GetNodeOrEdgeType(GetToken(1).image, model)!=null })
+		LOOKAHEAD({ GetToken(1).kind==WORD && varDecls.Lookup(GetToken(1).image)==null && TypesHelper.GetNodeOrEdgeType(GetToken(1).image, env.model)!=null })
 		type=Word()
 		{
-			constant = TypesHelper.GetNodeOrEdgeType(type, model);
+			constant = TypesHelper.GetNodeOrEdgeType(type, env.model);
 		}
 	)
 	{
@@ -1494,7 +1454,7 @@ SequenceExpression ExpressionBasic():
 		return new SequenceExpressionElementFromGraph(elemName);
 	}
 |
-	"this" { expr = new SequenceExpressionThis(ruleOfMatchThis, typeOfGraphElementThis); }
+	"this" { expr = new SequenceExpressionThis(env.ruleOfMatchThis, env.typeOfGraphElementThis); }
 		( LOOKAHEAD(2) expr=SelectorExpression(expr) )?
 	{
 		return expr;
@@ -1527,14 +1487,14 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
 				if(argExprs.Count!=0 && argExprs.Count!=1) throw new ParseException("\"" + methodOrAttrName + "\" expects none or one parameter)");
 				return new SequenceExpressionContainerPeek(fromExpr, argExprs.Count!=0 ? argExprs[0] : null);
 			} else {
-				return new SequenceExpressionFunctionMethodCall(fromExpr, CreateFunctionMethodInvocationParameterBindings(methodOrAttrName, argExprs));
+				return new SequenceExpressionFunctionMethodCall(fromExpr, env.CreateFunctionMethodInvocationParameterBindings(methodOrAttrName, argExprs));
 			}
 		}
 	|
 		{
 			if(fromExpr is SequenceExpressionThis)
 			{
-				if(ruleOfMatchThis != null)
+				if(env.ruleOfMatchThis != null)
 					return new SequenceExpressionMatchAccess((SequenceExpressionThis)fromExpr, methodOrAttrName);
 				else
 					return new SequenceExpressionAttributeAccess((SequenceExpressionThis)fromExpr, methodOrAttrName);
@@ -1651,10 +1611,10 @@ SequenceComputation ProcedureOrMethodCall():
 				if(argExprs.Count<1) throw new ParseException("\"Debug::highlight\" expects at least 1 parameter (the message)");
 				return new SequenceComputationDebugHighlight(argExprs);
 			} else {
-				if(IsProcedureName(procedure, package)) {
-					return new SequenceComputationProcedureCall(CreateProcedureInvocationParameterBindings(procedure, package, argExprs, returnVars));
+				if(env.IsProcedureName(procedure, package)) {
+					return new SequenceComputationProcedureCall(env.CreateProcedureInvocationParameterBindings(procedure, package, argExprs, returnVars));
 				} else {
-					throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|emitdebug|record|File::export|File::delete|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget|insert|insertCopy|insertInduced|insertDefined or one of the procedures defined in the .grg: " + GetProcedureNames() + ")");
+					throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|emitdebug|record|File::export|File::delete|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget|insert|insertCopy|insertInduced|insertDefined or one of the procedures defined in the .grg: " + env.GetProcedureNames() + ")");
 				}
 			}
 		} else { // method call
@@ -1670,7 +1630,7 @@ SequenceComputation ProcedureOrMethodCall():
 					if(argExprs.Count>0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
 					return new SequenceComputationContainerClear(fromVar);
 				} else {
-					return new SequenceComputationProcedureMethodCall(fromVar, CreateProcedureMethodInvocationParameterBindings(procedure, argExprs, returnVars));
+					return new SequenceComputationProcedureMethodCall(fromVar, env.CreateProcedureMethodInvocationParameterBindings(procedure, argExprs, returnVars));
 				}
 			} else { // attribute method call
 				SequenceExpressionAttributeAccess attrAcc = new SequenceExpressionAttributeAccess(fromVar, attrName);
@@ -1684,7 +1644,7 @@ SequenceComputation ProcedureOrMethodCall():
 					if(argExprs.Count>0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
 					return new SequenceComputationContainerClear(attrAcc);
 				} else {
-					return new SequenceComputationProcedureMethodCall(attrAcc, CreateProcedureMethodInvocationParameterBindings(procedure, argExprs, returnVars));
+					return new SequenceComputationProcedureMethodCall(attrAcc, env.CreateProcedureMethodInvocationParameterBindings(procedure, argExprs, returnVars));
 				}
 			}
 		}
@@ -1950,13 +1910,13 @@ SequenceExpression FunctionCall():
 			if(argExprs.Count<1 || argExprs.Count>2) throw new ParseException("\"" + function + "\" expects 1 parameter (the unique if of the edge to retrieve) or 2 parameters (unique id of edge, type of edge)");
 			return new SequenceExpressionEdgeByUnique(getArgument(argExprs, 0), getArgument(argExprs, 1));
 		} else {
-			if(IsFunctionName(function, package)) {
-				return new SequenceExpressionFunctionCall(CreateFunctionInvocationParameterBindings(function, package, argExprs));
+			if(env.IsFunctionName(function, package)) {
+				return new SequenceExpressionFunctionCall(env.CreateFunctionInvocationParameterBindings(function, package, argExprs));
 			} else {
 				if(function=="valloc" || function=="add" || function=="retype" || function=="insertInduced" || function=="insertDefined") {
 					throw new ParseException("\"" + function + "\" is a procedure, call with (var)=" + function + "();");
 				} else {
-					throw new ParseException("Unknown function name: \"" + function + "\"! (available are nodes|edges|empty|size|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|boundedReachable|boundedReachableIncoming|boundedReachableOutgoing|boundedReachableEdges|boundedReachableEdgesIncoming|boundedReachableEdgesOutgoing|boundedReachableWithRemainingDepth|boundedReachableWithRemainingDepthIncoming|boundedReachableWithRemainingDepthOutgoing|countNodes|countEdges|countAdjacent|countAdjacentIncoming|countAdjacentOutgoing|countIncident|countIncoming|countOutgoing|countReachable|countReachableIncoming|countReachableOutgoing|countReachableEdges|countReachableEdgesIncoming|countReachableEdgesOutgoing|countBoundedReachable|countBoundedReachableIncoming|countBoundedReachableOutgoing|countBoundedReachableEdges|countBoundedReachableEdgesIncoming|countBoundedReachableEdgesOutgoing|isAdjacent|isAdjacentIncoming|isAdjacentOutgoing|isIncident|isIncoming|isOutgoing|isReachable|isReachableIncoming|isReachableOutgoing|isReachableEdges|isReachableEdgeIncoming|isReachableEdgesOutgoing|isBoundedReachable|isBoundedReachableIncoming|isBoundedReachableOutgoing|isBoundedReachableEdges|isBoundedReachableEdgeIncoming|isBoundedReachableEdgesOutgoing|inducedSubgraph|definedSubgraph|equalsAny|equalsAnyStructurally|source|target|opposite|nameof|uniqueof|File::exists|File::import|copy|random|canonize|nodeByName|edgeByName|nodeByUnique|edgeByUnique|typeof or one of the functions defined in the .grg:" + GetFunctionNames() + ")");
+					throw new ParseException("Unknown function name: \"" + function + "\"! (available are nodes|edges|empty|size|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|boundedReachable|boundedReachableIncoming|boundedReachableOutgoing|boundedReachableEdges|boundedReachableEdgesIncoming|boundedReachableEdgesOutgoing|boundedReachableWithRemainingDepth|boundedReachableWithRemainingDepthIncoming|boundedReachableWithRemainingDepthOutgoing|countNodes|countEdges|countAdjacent|countAdjacentIncoming|countAdjacentOutgoing|countIncident|countIncoming|countOutgoing|countReachable|countReachableIncoming|countReachableOutgoing|countReachableEdges|countReachableEdgesIncoming|countReachableEdgesOutgoing|countBoundedReachable|countBoundedReachableIncoming|countBoundedReachableOutgoing|countBoundedReachableEdges|countBoundedReachableEdgesIncoming|countBoundedReachableEdgesOutgoing|isAdjacent|isAdjacentIncoming|isAdjacentOutgoing|isIncident|isIncoming|isOutgoing|isReachable|isReachableIncoming|isReachableOutgoing|isReachableEdges|isReachableEdgeIncoming|isReachableEdgesOutgoing|isBoundedReachable|isBoundedReachableIncoming|isBoundedReachableOutgoing|isBoundedReachableEdges|isBoundedReachableEdgeIncoming|isBoundedReachableEdgesOutgoing|inducedSubgraph|definedSubgraph|equalsAny|equalsAnyStructurally|source|target|opposite|nameof|uniqueof|File::exists|File::import|copy|random|canonize|nodeByName|edgeByName|nodeByUnique|edgeByUnique|typeof or one of the functions defined in the .grg:" + env.GetFunctionNames() + ")");
 				}
 			}
 		}
@@ -2005,7 +1965,7 @@ Sequence Rule():
 			if(varDecls.Lookup(str)!=null)
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
-			return new SequenceRuleAllCall(CreateRuleInvocationParameterBindings(str, package, argExprs, returnVars, subgraph),
+			return new SequenceRuleAllCall(env.CreateRuleInvocationParameterBindings(str, package, argExprs, returnVars, subgraph),
 					special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice, filters);
 		}
 	|
@@ -2020,7 +1980,7 @@ Sequence Rule():
 			if(varDecls.Lookup(str)!=null)
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
-			return new SequenceRuleCountAllCall(CreateRuleInvocationParameterBindings(str, package, argExprs, returnVars, subgraph),
+			return new SequenceRuleCountAllCall(env.CreateRuleInvocationParameterBindings(str, package, argExprs, returnVars, subgraph),
 					special, test, countResult, filters);
 		}
 	|
@@ -2048,15 +2008,15 @@ Sequence Rule():
 			if(varDecls.Lookup(str)!=null)
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
-			if(IsSequenceName(str, package)) {
+			if(env.IsSequenceName(str, package)) {
 				if(filters.Count > 0)
 					throw new SequenceParserException(str, FiltersToString(filters), SequenceParserError.FilterError);
 				return new SequenceSequenceCall(
-								CreateSequenceInvocationParameterBindings(str, package, argExprs, returnVars, subgraph),
+								env.CreateSequenceInvocationParameterBindings(str, package, argExprs, returnVars, subgraph),
 								special);
 			} else {
 				return new SequenceRuleCall(
-								CreateRuleInvocationParameterBindings(str, package, argExprs, returnVars, subgraph),
+								env.CreateRuleInvocationParameterBindings(str, package, argExprs, returnVars, subgraph),
 								special, test, filters);
 			}
 		}
@@ -2076,7 +2036,7 @@ FilterCall Filter(String action, String actionPackage) :
 				&& filterBase!="keepSameAsFirst" && filterBase!="keepSameAsLast" && filterBase!="keepOneForEach")
 				throw new ParseException("Unknown def-variable-based filter " + filterBase + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
 			else
-				return new FilterCall(package, filterBase, words.ToArray(), packageContext, true);
+				return new FilterCall(package, filterBase, words.ToArray(), env.packageContext, true);
 		}
 |
 	(LOOKAHEAD(2) package=Word() "::")? filterBase=Word() ("(" (Arguments(argExprs))? ")")?
@@ -2088,13 +2048,13 @@ FilterCall Filter(String action, String actionPackage) :
 			{
 				if(argExprs.Count!=1)
 					throw new ParseException("The auto-supplied filter " + filterBase + " expects exactly one parameter!");
-				return new FilterCall(package, filterBase, argExprs[0], packageContext);
+				return new FilterCall(package, filterBase, argExprs[0], env.packageContext);
 			}
 			else
 			{
 				if(filterBase=="auto")
-					return new FilterCall(package, "auto", null, packageContext, true);
-				return new FilterCall(package, filterBase, argExprs, packageContext);
+					return new FilterCall(package, "auto", null, env.packageContext, true);
+				return new FilterCall(package, filterBase, argExprs, env.packageContext);
 			}
 		}
 }
@@ -2107,366 +2067,6 @@ void WordList(List<String> words) :
 	word=Word() { words.Add(word); } ("," word=Word() { words.Add(word); })*
 }
 
-CSHARPCODE
-RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String ruleName, String packagePrefix,
-				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph)
-{
-	IAction action = null;
-	if(actions != null)
-	{
-		if(packagePrefix != null) {
-			action = actions.GetAction(packagePrefix + "::" + ruleName);
-			if(action == null)
-				throw new Exception("Unknown rule: " + packagePrefix + "::" + ruleName);
-		} else {
-			action = actions.GetAction(ruleName);
-			if(action == null && packageContext != null)
-				action = actions.GetAction(packageContext + "::" + ruleName);
-			if(action == null)
-				throw new Exception("Unknown rule: " + ruleName);
-		}
-	}
-
-	RuleInvocationParameterBindings paramBindings = new RuleInvocationParameterBindings(action,
-			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray(), subgraph);
-
-	if(action == null)
-	{
-		paramBindings.Name = ruleName;
-		paramBindings.PrePackage = packagePrefix;
-		paramBindings.PrePackageContext = packageContext;
-	}
-
-	return paramBindings;
-}
-
-CSHARPCODE
-SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(String sequenceName, String packagePrefix,
-				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph)
-{
-	ISequenceDefinition sequenceDef = null;
-	if(actions != null)
-	{
-		if(packagePrefix != null) {
-			sequenceDef = actions.GetSequenceDefinition(packagePrefix + "::" + sequenceName);
-			if(sequenceDef == null)
-				throw new Exception("Unknown sequence: " + packagePrefix + "::" + sequenceName);
-		} else {
-			sequenceDef = actions.GetSequenceDefinition(sequenceName);
-			if(sequenceDef == null && packageContext != null)
-				sequenceDef = actions.GetSequenceDefinition(packageContext + "::" + sequenceName);
-			if(sequenceDef == null)
-				throw new Exception("Unknown sequence: " + sequenceName);
-		}
-	}
-
-	SequenceInvocationParameterBindings paramBindings = new SequenceInvocationParameterBindings(sequenceDef,
-			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray(), subgraph);
-
-	if(sequenceDef == null)
-	{
-		paramBindings.Name = sequenceName;
-		paramBindings.PrePackage = packagePrefix;
-		paramBindings.PrePackageContext = packageContext;
-	}
-
-	return paramBindings;
-}
-
-CSHARPCODE
-ProcedureInvocationParameterBindings CreateProcedureInvocationParameterBindings(String procedureName, String packagePrefix,
-				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
-{
-	IProcedureDefinition procedureDef = null;
-	if(actions != null)
-	{
-		if(packagePrefix != null) {
-			procedureDef = actions.GetProcedureDefinition(packagePrefix + "::" + procedureName);
-		} else {
-			procedureDef = actions.GetProcedureDefinition(procedureName);
-			if(procedureDef == null && packageContext != null)
-				procedureDef = actions.GetProcedureDefinition(packageContext + "::" + procedureName);
-		}
-	}
-
-	ProcedureInvocationParameterBindings paramBindings = new ProcedureInvocationParameterBindings(procedureDef,
-			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());
-
-	if(procedureDef == null)
-	{
-		paramBindings.Name = procedureName;
-		paramBindings.PrePackage = packagePrefix;
-		paramBindings.PrePackageContext = packageContext;
-	}
-	
-	return paramBindings;
-}
-
-CSHARPCODE
-ProcedureInvocationParameterBindings CreateProcedureMethodInvocationParameterBindings(String procedureName,
-				List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
-{
-	ProcedureInvocationParameterBindings paramBindings = new ProcedureInvocationParameterBindings(null,
-			argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());
-
-	paramBindings.Name = procedureName;
-
-	return paramBindings;
-}
-
-CSHARPCODE
-FunctionInvocationParameterBindings CreateFunctionInvocationParameterBindings(String functionName, String packagePrefix,
-				List<SequenceExpression> argExprs)
-{
-	IFunctionDefinition functionDef = null;
-	if(actions != null)
-	{
-		if(packagePrefix != null) {
-			functionDef = actions.GetFunctionDefinition(packagePrefix + "::" + functionName);
-		} else {
-			functionDef = actions.GetFunctionDefinition(functionName);
-			if(functionDef == null && packageContext != null)
-				functionDef = actions.GetFunctionDefinition(packageContext + "::" + functionName);
-		}
-	}
-
-	FunctionInvocationParameterBindings paramBindings = new FunctionInvocationParameterBindings(functionDef,
-			argExprs.ToArray(), new object[argExprs.Count]);
-
-	if(functionDef == null) {
-		paramBindings.Name = functionName;
-		paramBindings.PrePackage = packagePrefix;
-		paramBindings.PrePackageContext = packageContext;
-		
-		for(int i=0; i<actionNames.functionNames.Length; ++i)
-			if(actionNames.functionNames[i] == functionName)
-				paramBindings.ReturnType = actionNames.functionOutputTypes[i];
-	}
-
-	return paramBindings;
-}
-
-CSHARPCODE
-FunctionInvocationParameterBindings CreateFunctionMethodInvocationParameterBindings(String functionMethodName,
-				List<SequenceExpression> argExprs)
-{
-	FunctionInvocationParameterBindings paramBindings = new FunctionInvocationParameterBindings(null,
-			argExprs.ToArray(), new object[argExprs.Count]);
-
-	paramBindings.Name = functionMethodName;
-	paramBindings.ReturnType = "";
-
-	return paramBindings;
-}
-
-CSHARPCODE
-bool IsSequenceName(String ruleOrSequenceName, String package)
-{
-	if(actions != null) {
-		if(package != null) {
-			return actions.GetSequenceDefinition(package + "::" + ruleOrSequenceName) != null;
-		} else {
-			ISequenceDefinition seqDef = actions.GetSequenceDefinition(ruleOrSequenceName);
-			if(seqDef != null)
-				return true;
-			if(packageContext != null)
-				seqDef = actions.GetSequenceDefinition(packageContext + "::" + ruleOrSequenceName);
-			return seqDef != null;
-		}
-	} else {
-		if(package != null) {
-			foreach(String sequenceName in actionNames.sequenceNames)
-			{
-				if(sequenceName == package + "::" + ruleOrSequenceName)
-					return true;
-			}
-			return false;
-		} else {
-			foreach(String sequenceName in actionNames.sequenceNames)
-			{
-				if(sequenceName == ruleOrSequenceName)
-					return true;
-				if(packageContext != null && sequenceName == packageContext + "::" + ruleOrSequenceName)
-					return true;
-			}
-			return false;
-		}
-	}
-}
-
-CSHARPCODE
-bool IsFunctionName(String functionName, String package)
-{
-	if(actions != null)
-	{
-		if(package != null) {
-			return actions.GetFunctionDefinition(package + "::" + functionName) != null;
-		} else {
-			IFunctionDefinition funcInfo = actions.GetFunctionDefinition(functionName);
-			if(funcInfo != null)
-				return true;
-			if(packageContext != null)
-				funcInfo = actions.GetFunctionDefinition(packageContext + "::" + functionName);
-			return funcInfo != null;
-		}
-	}
-	else
-	{
-		if(package != null) {
-			foreach(String funcName in actionNames.functionNames)
-			{
-				if(funcName == package + "::" + functionName)
-					return true;
-			}
-			return false;
-		} else {
-			foreach(String funcName in actionNames.functionNames)
-			{
-				if(funcName == functionName)
-					return true;
-				if(packageContext != null && funcName == packageContext + "::" + functionName)
-					return true;
-			}
-			return false;
-		}
-	}
-}
-
-CSHARPCODE
-string GetFunctionNames()
-{
-	if(actions != null) {
-		return ((BaseActions)actions).FunctionNames;
-	} else {
-		StringBuilder sb = new StringBuilder();
-		bool first = true;
-		foreach(String funcName in actionNames.functionNames)
-		{
-			if(first)
-				first = false;
-			else
-				sb.Append(",");
-			sb.Append(funcName);
-		}
-		return sb.ToString();
-	}
-}
-
-CSHARPCODE
-bool IsProcedureName(String procedureName, String package)
-{
-	if(actions != null)
-	{
-		if(package != null) {
-			return actions.GetProcedureDefinition(package + "::" + procedureName) != null;
-		} else {
-			IProcedureDefinition procInfo = actions.GetProcedureDefinition(procedureName);
-			if(procInfo != null)
-				return true;
-			if(packageContext != null)
-				procInfo = actions.GetProcedureDefinition(packageContext + "::" + procedureName);
-			return procInfo != null;
-		}
-	}
-	else
-	{
-		if(package != null) {
-			foreach(String procName in actionNames.procedureNames)
-			{
-				if(procName == package + "::" + procedureName)
-					return true;
-			}
-			return false;
-		} else {
-			foreach(String procName in actionNames.procedureNames)
-			{
-				if(procName == procedureName)
-					return true;
-				if(packageContext != null && procName == packageContext + "::" + procedureName)
-					return true;
-			}
-			return false;
-		}
-	}
-}
-
-CSHARPCODE
-string GetProcedureNames()
-{
-	if(actions != null) {
-		return ((BaseActions)actions).ProcedureNames;
-	} else {
-		StringBuilder sb = new StringBuilder();
-		bool first = true;
-		foreach(String procName in actionNames.procedureNames)
-		{
-			if(first)
-				first = false;
-			else
-				sb.Append(",");
-			sb.Append(procName);
-		}
-		return sb.ToString();
-	}
-}
-
-CSHARPCODE
-bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String actionPackage)
-{
-	if(actions != null)
-	{
-		IAction action = null;
-		if(actionPackage != null) {
-			action = actions.GetAction(actionPackage + "::" + ruleName);
-		} else {
-			action = actions.GetAction(ruleName);
-			if(action == null && packageContext != null)
-				action = actions.GetAction(packageContext + "::" + ruleName);
-		}
-
-		if(package != null) {
-			foreach(IFilter filterFunc in action.RulePattern.Filters)
-			{
-				if(filterFunc.PackagePrefixedName == filterFunctionName)
-					return true;
-				if(filterFunc.PackagePrefixedName == package + "::" + filterFunctionName)
-					return true;
-			}
-			return false;
-		} else {
-			foreach(IFilter filterFunc in action.RulePattern.Filters)
-			{
-				if(filterFunc.PackagePrefixedName == filterFunctionName)
-					return true;
-				if(packageContext != null && filterFunc.PackagePrefixedName == packageContext + "::" + filterFunctionName)
-					return true;
-			}
-			return false;
-		}
-	}
-	else
-	{
-		if(package != null) {
-			foreach(String funcName in actionNames.filterFunctionNames)
-			{
-				if(funcName == filterFunctionName)
-					return true;
-				if(funcName == package + "::" + filterFunctionName)
-					return true;
-			}
-			return false;
-		} else {
-			foreach(String funcName in actionNames.filterFunctionNames)
-			{
-				if(funcName == filterFunctionName)
-					return true;
-				if(packageContext != null && funcName == packageContext + "::" + filterFunctionName)
-					return true;
-			}
-			return false;
-		}
-	}
-}
 
 CSHARPCODE
 String RemoveTypeSuffix(String value)

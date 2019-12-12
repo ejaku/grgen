@@ -117,6 +117,7 @@
     <Compile Include="SequenceExpressionHelper.cs" />
     <Compile Include="SequenceParser.cs" />
     <Compile Include="SequenceParserConstants.cs" />
+    <Compile Include="SequenceParserEnvironment.cs" />
     <Compile Include="SequenceParserExceptions.cs" />
     <Compile Include="SequenceParserTokenManager.cs" />
     <Compile Include="SequenceVariable.cs" />
