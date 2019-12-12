@@ -1040,7 +1040,7 @@ after_debugging_decision: ;
                 }
                 try
                 {
-                    de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(shellProcEnv.ProcEnv.Actions, ruleOfMatchThis, typeOfGraphElementThis);
+                    SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(shellProcEnv.ProcEnv.Actions, ruleOfMatchThis, typeOfGraphElementThis);
                     List<String> warnings = new List<String>();
                     ifClause = SequenceParser.ParseSequenceExpression(ifClauseStr, predefinedVariables, parserEnv, warnings);
                     foreach(string warning in warnings)

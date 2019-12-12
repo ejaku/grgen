@@ -10,11 +10,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using Microsoft.CSharp;
-using System.CodeDom.Compiler;
-using System.Reflection;
 using de.unika.ipd.grGen.libGr;
+using de.unika.ipd.grGen.libGr.sequenceParser;
 
 namespace de.unika.ipd.grGen.lgsp
 {
@@ -649,9 +646,9 @@ namespace de.unika.ipd.grGen.lgsp
 
         public Sequence ParseSequence(String seqStr)
         {
-            de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(curActions);
+            SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(curActions);
             List<string> warnings = new List<string>();
-            Sequence seq = de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(seqStr, parserEnv, warnings);
+            Sequence seq = SequenceParser.ParseSequence(seqStr, parserEnv, warnings);
             foreach(string warning in warnings)
             {
                 System.Console.Error.WriteLine(warning);

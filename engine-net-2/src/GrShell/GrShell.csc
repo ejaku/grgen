@@ -13,7 +13,6 @@ PARSER_BEGIN(GrShell)
     using System.Text.RegularExpressions;
     using de.unika.ipd.grGen.libGr;
     using de.unika.ipd.grGen.libGr.sequenceParser;
-    using grIO;
 
     public class GrShell {
         GrShellImpl impl = null;
@@ -1255,7 +1254,7 @@ void ShellCommand():
 	    {
             try
             {
-				de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(impl.CurrentActions);
+				SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(impl.CurrentActions);
 				List<String> warnings = new List<String>();
                 seq = SequenceParser.ParseSequence(str1, parserEnv, warnings);
                 foreach(string warning in warnings)
@@ -1302,7 +1301,7 @@ void ShellCommand():
     {
         try
         {
-			de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(impl.CurrentActions);
+			SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(impl.CurrentActions);
 			List<String> warnings = new List<String>();
             seq = SequenceParser.ParseSequence(str1, parserEnv, warnings);
 			foreach(string warning in warnings)
@@ -1335,7 +1334,7 @@ void ShellCommand():
     {
         try
         {
-			de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(impl.CurrentActions);
+			SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(impl.CurrentActions);
 			List<String> warnings = new List<String>();
             seqDef = SequenceParser.ParseSequenceDefinition(str1, parserEnv, warnings);
 			foreach(string warning in warnings)
@@ -1973,7 +1972,7 @@ void DebugCommand():
 		{
 			try
 			{
-				de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(impl.CurrentActions);
+				SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(impl.CurrentActions);
 				List<String> warnings = new List<String>();
 				seq = SequenceParser.ParseSequence(str, parserEnv, warnings);
 				foreach(string warning in warnings)
@@ -2128,7 +2127,7 @@ SequenceExpression If(string ruleOfMatchThis, string typeOfGraphElementThis):
 	{
 		try
 		{
-			de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(impl.CurrentActions, ruleOfMatchThis, typeOfGraphElementThis);
+			SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(impl.CurrentActions, ruleOfMatchThis, typeOfGraphElementThis);
 			List<String> warnings = new List<String>();
 			seqExpr = SequenceParser.ParseSequenceExpression(str1, predefinedVariables, parserEnv, warnings);
 			foreach(string warning in warnings)
