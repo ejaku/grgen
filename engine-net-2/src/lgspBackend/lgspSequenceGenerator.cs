@@ -98,9 +98,9 @@ namespace de.unika.ipd.grGen.lgsp
 			Sequence seq;
             try
             {
+                de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(package, actionNames, model);
                 List<string> warnings = new List<string>();
-                seq = SequenceParser.ParseSequence(xgrsStr, package,
-                    actionNames, varDecls, model, warnings);
+                seq = SequenceParser.ParseSequence(xgrsStr, parserEnv, varDecls, warnings);
                 foreach(string warning in warnings)
                 {
                     Console.Error.WriteLine("The exec statement \"" + xgrsStr
@@ -195,9 +195,9 @@ namespace de.unika.ipd.grGen.lgsp
             Sequence seq;
             try
             {
+                de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(sequence.Package, actionNames, model);
                 List<string> warnings = new List<string>();
-                seq = SequenceParser.ParseSequence(sequence.XGRS, sequence.Package,
-                    actionNames, varDecls, model, warnings);
+                seq = SequenceParser.ParseSequence(sequence.XGRS, parserEnv, varDecls, warnings);
                 foreach(string warning in warnings)
                 {
                     Console.Error.WriteLine("In the defined sequence " + sequence.Name
