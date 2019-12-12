@@ -9,9 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.Text;
-using System.Diagnostics;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.libGr.sequenceParser;
 
@@ -98,7 +95,7 @@ namespace de.unika.ipd.grGen.lgsp
 			Sequence seq;
             try
             {
-                de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(package, actionNames, model);
+                SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(package, actionNames, model);
                 List<string> warnings = new List<string>();
                 seq = SequenceParser.ParseSequence(xgrsStr, parserEnv, varDecls, warnings);
                 foreach(string warning in warnings)
@@ -195,7 +192,7 @@ namespace de.unika.ipd.grGen.lgsp
             Sequence seq;
             try
             {
-                de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment parserEnv = new de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironment(sequence.Package, actionNames, model);
+                SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(sequence.Package, actionNames, model);
                 List<string> warnings = new List<string>();
                 seq = SequenceParser.ParseSequence(sequence.XGRS, parserEnv, varDecls, warnings);
                 foreach(string warning in warnings)
