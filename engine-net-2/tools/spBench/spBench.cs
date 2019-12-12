@@ -696,7 +696,8 @@ namespace spBench
         {
             LGSPGraph graph = (LGSPGraph) orgGraph.Clone("tempGraph");
             actions.Graph = graph;
-            Sequence seq = SequenceParser.ParseSequence(benchGRS, actions, new List<string>());
+            SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(actions);
+            Sequence seq = SequenceParser.ParseSequence(benchGRS, parserEnv, new List<string>());
 
             LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
             procEnv.ApplyGraphRewriteSequence(seq);
