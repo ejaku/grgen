@@ -1051,10 +1051,9 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
                 // build pass: build nested program from scheduled search plan
-                SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
                 if(matchingPattern is LGSPRulePattern)
                 {
-                    SearchProgram sp = searchProgramBuilder.BuildSearchProgram(model,
+                    SearchProgram sp = SearchProgramBuilder.BuildSearchProgram(model,
                         (LGSPRulePattern)matchingPattern, i, null, false, Profile);
                     if(i==0) searchProgramRoot = searchProgramListEnd = sp;
                     else searchProgramListEnd = (SearchProgram)searchProgramListEnd.Append(sp);
@@ -1062,7 +1061,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                 {
                     Debug.Assert(searchProgramRoot==null);
-                    searchProgramRoot = searchProgramListEnd = searchProgramBuilder.BuildSearchProgram(
+                    searchProgramRoot = searchProgramListEnd = SearchProgramBuilder.BuildSearchProgram(
                         model, matchingPattern, false, Profile);
                 }
             }
@@ -1120,17 +1119,16 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
                 // build pass: build nested program from scheduled search plan
-                SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
                 if(matchingPattern is LGSPRulePattern)
                 {
-                    SearchProgram sp = searchProgramBuilder.BuildSearchProgram(model, (LGSPRulePattern)matchingPattern, i, null, true, Profile);
+                    SearchProgram sp = SearchProgramBuilder.BuildSearchProgram(model, (LGSPRulePattern)matchingPattern, i, null, true, Profile);
                     if(i == 0) searchProgramRoot = searchProgramListEnd = sp;
                     else searchProgramListEnd = (SearchProgram)searchProgramListEnd.Append(sp);
                 }
                 else
                 {
                     Debug.Assert(searchProgramRoot == null);
-                    searchProgramRoot = searchProgramListEnd = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, true, Profile);
+                    searchProgramRoot = searchProgramListEnd = SearchProgramBuilder.BuildSearchProgram(model, matchingPattern, true, Profile);
                 }
             }
 
@@ -1165,8 +1163,7 @@ namespace de.unika.ipd.grGen.lgsp
         SearchProgram GenerateSearchProgramAlternative(LGSPMatchingPattern matchingPattern, Alternative alt)
         {
             // build pass: build nested program from scheduled search plans of the alternative cases
-            SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
-            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, alt, false, Profile);
+            SearchProgram searchProgram = SearchProgramBuilder.BuildSearchProgram(model, matchingPattern, alt, false, Profile);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
@@ -1202,8 +1199,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return null;
 
             // build pass: build nested program from scheduled search plans of the alternative cases
-            SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
-            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, alt, true, Profile);
+            SearchProgram searchProgram = SearchProgramBuilder.BuildSearchProgram(model, matchingPattern, alt, true, Profile);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
@@ -1236,8 +1232,7 @@ namespace de.unika.ipd.grGen.lgsp
         SearchProgram GenerateSearchProgramIterated(LGSPMatchingPattern matchingPattern, PatternGraph iter)
         {
             // build pass: build nested program from scheduled search plan of the all pattern
-            SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
-            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, iter, false, Profile);
+            SearchProgram searchProgram = SearchProgramBuilder.BuildSearchProgram(model, matchingPattern, iter, false, Profile);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
@@ -1273,8 +1268,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return null;
 
             // build pass: build nested program from scheduled search plan of the all pattern
-            SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
-            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, iter, true, Profile);
+            SearchProgram searchProgram = SearchProgramBuilder.BuildSearchProgram(model, matchingPattern, iter, true, Profile);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging

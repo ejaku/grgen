@@ -23,7 +23,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Builds search program from scheduled search plan at given index in pattern graph of the action rule pattern
         /// </summary>
-        public SearchProgram BuildSearchProgram(
+        public static SearchProgram BuildSearchProgram(
             IGraphModel model,
             LGSPRulePattern rulePattern,
             int index,
@@ -137,7 +137,7 @@ namespace de.unika.ipd.grGen.lgsp
             return searchProgram;
         }
 
-        private void GetFilteredParametersAndSuffixedMatcherName(
+        private static void GetFilteredParametersAndSuffixedMatcherName(
             LGSPRulePattern rulePattern, PatternGraph patternGraph, int index,
             out String[] paramTypesArray, out String[] paramNamesArray, out String suffixedMatcherName)
         {
@@ -175,7 +175,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Builds search program from scheduled search plan in pattern graph of the subpattern rule pattern
         /// </summary>
-        public SearchProgram BuildSearchProgram(
+        public static SearchProgram BuildSearchProgram(
             IGraphModel model,
             LGSPMatchingPattern matchingPattern,
             bool parallelized,
@@ -238,7 +238,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Builds search program for alternative from scheduled search plans of the alternative cases
         /// </summary>
-        public SearchProgram BuildSearchProgram(
+        public static SearchProgram BuildSearchProgram(
             IGraphModel model,
             LGSPMatchingPattern matchingPattern,
             Alternative alternative,
@@ -351,7 +351,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Builds search program for iterated from scheduled search plan of iterated pattern graph
         /// </summary>
-        public SearchProgram BuildSearchProgram(
+        public static SearchProgram BuildSearchProgram(
             IGraphModel model,
             LGSPMatchingPattern matchingPattern,
             PatternGraph iter,
@@ -424,7 +424,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Inserts declarations for variables extracted from parameters
         /// </summary>
-        private SearchProgramOperation insertVariableDeclarations(SearchProgramOperation insertionPoint, PatternGraph patternGraph)
+        private static SearchProgramOperation insertVariableDeclarations(SearchProgramOperation insertionPoint, PatternGraph patternGraph)
         {
             foreach(PatternVariable var in patternGraph.variablesPlusInlined)
             {
@@ -443,7 +443,7 @@ namespace de.unika.ipd.grGen.lgsp
             return insertionPoint;
         }
 
-        private void ExtractNestedIndependents(List<String> matchingPatternClassTypeNames, List<Dictionary<PatternGraph, bool>> nestedIndependents,
+        private static void ExtractNestedIndependents(List<String> matchingPatternClassTypeNames, List<Dictionary<PatternGraph, bool>> nestedIndependents,
             LGSPMatchingPattern matchingPattern, PatternGraph patternGraph)
         {
             matchingPatternClassTypeNames.Add(matchingPattern.GetType().Name);
