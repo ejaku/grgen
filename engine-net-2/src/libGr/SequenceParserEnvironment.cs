@@ -47,11 +47,22 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             this.model = model;
         }
 
-        abstract public RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String ruleName, String packagePrefix,
-            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph);
+
+        abstract public bool IsSequenceName(String ruleOrSequenceName, String package);
 
         abstract public SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(String sequenceName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph);
+
+
+        abstract public RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String ruleName, String packagePrefix,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph);
+
+        abstract public bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String actionPackage);
+
+
+        abstract public bool IsProcedureName(String procedureName, String package);
+
+        abstract public string GetProcedureNames();
 
         abstract public ProcedureInvocationParameterBindings CreateProcedureInvocationParameterBindings(String procedureName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars);
@@ -67,6 +78,11 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return paramBindings;
         }
 
+
+        abstract public bool IsFunctionName(String functionName, String package);
+
+        abstract public string GetFunctionNames();
+
         abstract public FunctionInvocationParameterBindings CreateFunctionInvocationParameterBindings(String functionName, String packagePrefix,
             List<SequenceExpression> argExprs);
 
@@ -81,17 +97,5 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
             return paramBindings;
         }
-
-        abstract public bool IsSequenceName(String ruleOrSequenceName, String package);
-
-        abstract public bool IsFunctionName(String functionName, String package);
-
-        abstract public string GetFunctionNames();
-
-        abstract public bool IsProcedureName(String procedureName, String package);
-
-        abstract public string GetProcedureNames();
-
-        abstract public bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String actionPackage);
     }
 }

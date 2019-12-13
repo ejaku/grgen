@@ -45,69 +45,6 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             this.packageContext = packageContext;
         }
 
-        public override RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String ruleName, String packagePrefix,
-            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph)
-        {
-            IAction action = null;
-
-            RuleInvocationParameterBindings paramBindings = new RuleInvocationParameterBindings(action,
-                argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray(), subgraph);
-
-            paramBindings.Name = ruleName;
-            paramBindings.PrePackage = packagePrefix;
-            paramBindings.PrePackageContext = packageContext;
-
-            return paramBindings;
-        }
-
-        public override SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(String sequenceName, String packagePrefix,
-            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph)
-        {
-            ISequenceDefinition sequenceDef = null;
-
-            SequenceInvocationParameterBindings paramBindings = new SequenceInvocationParameterBindings(sequenceDef,
-                argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray(), subgraph);
-
-            paramBindings.Name = sequenceName;
-            paramBindings.PrePackage = packagePrefix;
-            paramBindings.PrePackageContext = packageContext;
-
-            return paramBindings;
-        }
-
-        public override ProcedureInvocationParameterBindings CreateProcedureInvocationParameterBindings(String procedureName, String packagePrefix,
-            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
-        {
-            IProcedureDefinition procedureDef = null;
-
-            ProcedureInvocationParameterBindings paramBindings = new ProcedureInvocationParameterBindings(procedureDef,
-                argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());
-
-            paramBindings.Name = procedureName;
-            paramBindings.PrePackage = packagePrefix;
-            paramBindings.PrePackageContext = packageContext;
-    
-            return paramBindings;
-        }
-
-        public override FunctionInvocationParameterBindings CreateFunctionInvocationParameterBindings(String functionName, String packagePrefix,
-            List<SequenceExpression> argExprs)
-        {
-            IFunctionDefinition functionDef = null;
-
-            FunctionInvocationParameterBindings paramBindings = new FunctionInvocationParameterBindings(functionDef,
-                argExprs.ToArray(), new object[argExprs.Count]);
-
-            paramBindings.Name = functionName;
-            paramBindings.PrePackage = packagePrefix;
-            paramBindings.PrePackageContext = packageContext;
-        
-            for(int i=0; i<actionNames.functionNames.Length; ++i)
-                if(actionNames.functionNames[i] == functionName)
-                    paramBindings.ReturnType = actionNames.functionOutputTypes[i];
-
-            return paramBindings;
-        }
 
         public override bool IsSequenceName(String ruleOrSequenceName, String package)
         {
@@ -130,41 +67,56 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             }
         }
 
-        public override bool IsFunctionName(String functionName, String package)
+        public override SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(String sequenceName, String packagePrefix,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph)
+        {
+            SequenceInvocationParameterBindings paramBindings = new SequenceInvocationParameterBindings(null,
+                argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray(), subgraph);
+
+            paramBindings.Name = sequenceName;
+            paramBindings.PrePackage = packagePrefix;
+            paramBindings.PrePackageContext = packageContext;
+
+            return paramBindings;
+        }
+
+
+        public override RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String ruleName, String packagePrefix,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph)
+        {
+            RuleInvocationParameterBindings paramBindings = new RuleInvocationParameterBindings(null,
+                argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray(), subgraph);
+
+            paramBindings.Name = ruleName;
+            paramBindings.PrePackage = packagePrefix;
+            paramBindings.PrePackageContext = packageContext;
+
+            return paramBindings;
+        }
+
+        public override bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String actionPackage)
         {
             if(package != null) {
-                foreach(String funcName in actionNames.functionNames)
+                foreach(String funcName in actionNames.filterFunctionNames)
                 {
-                    if(funcName == package + "::" + functionName)
+                    if(funcName == filterFunctionName)
+                        return true;
+                    if(funcName == package + "::" + filterFunctionName)
                         return true;
                 }
                 return false;
             } else {
-                foreach(String funcName in actionNames.functionNames)
+                foreach(String funcName in actionNames.filterFunctionNames)
                 {
-                    if(funcName == functionName)
+                    if(funcName == filterFunctionName)
                         return true;
-                    if(packageContext != null && funcName == packageContext + "::" + functionName)
+                    if(packageContext != null && funcName == packageContext + "::" + filterFunctionName)
                         return true;
                 }
                 return false;
             }
         }
 
-        public override string GetFunctionNames()
-        {
-            StringBuilder sb = new StringBuilder();
-            bool first = true;
-            foreach(String funcName in actionNames.functionNames)
-            {
-                if(first)
-                    first = false;
-                else
-                    sb.Append(",");
-                sb.Append(funcName);
-            }
-            return sb.ToString();
-        }
 
         public override bool IsProcedureName(String procedureName, String package)
         {
@@ -202,27 +154,71 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return sb.ToString();
         }
 
-        public override bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String actionPackage)
+        public override ProcedureInvocationParameterBindings CreateProcedureInvocationParameterBindings(String procedureName, String packagePrefix,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+        {
+            ProcedureInvocationParameterBindings paramBindings = new ProcedureInvocationParameterBindings(null,
+                argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());
+
+            paramBindings.Name = procedureName;
+            paramBindings.PrePackage = packagePrefix;
+            paramBindings.PrePackageContext = packageContext;
+    
+            return paramBindings;
+        }
+
+
+        public override bool IsFunctionName(String functionName, String package)
         {
             if(package != null) {
-                foreach(String funcName in actionNames.filterFunctionNames)
+                foreach(String funcName in actionNames.functionNames)
                 {
-                    if(funcName == filterFunctionName)
-                        return true;
-                    if(funcName == package + "::" + filterFunctionName)
+                    if(funcName == package + "::" + functionName)
                         return true;
                 }
                 return false;
             } else {
-                foreach(String funcName in actionNames.filterFunctionNames)
+                foreach(String funcName in actionNames.functionNames)
                 {
-                    if(funcName == filterFunctionName)
+                    if(funcName == functionName)
                         return true;
-                    if(packageContext != null && funcName == packageContext + "::" + filterFunctionName)
+                    if(packageContext != null && funcName == packageContext + "::" + functionName)
                         return true;
                 }
                 return false;
             }
+        }
+
+        public override string GetFunctionNames()
+        {
+            StringBuilder sb = new StringBuilder();
+            bool first = true;
+            foreach(String funcName in actionNames.functionNames)
+            {
+                if(first)
+                    first = false;
+                else
+                    sb.Append(",");
+                sb.Append(funcName);
+            }
+            return sb.ToString();
+        }
+
+        public override FunctionInvocationParameterBindings CreateFunctionInvocationParameterBindings(String functionName, String packagePrefix,
+            List<SequenceExpression> argExprs)
+        {
+            FunctionInvocationParameterBindings paramBindings = new FunctionInvocationParameterBindings(null,
+                argExprs.ToArray(), new object[argExprs.Count]);
+
+            paramBindings.Name = functionName;
+            paramBindings.PrePackage = packagePrefix;
+            paramBindings.PrePackageContext = packageContext;
+        
+            for(int i=0; i<actionNames.functionNames.Length; ++i)
+                if(actionNames.functionNames[i] == functionName)
+                    paramBindings.ReturnType = actionNames.functionOutputTypes[i];
+
+            return paramBindings;
         }
     }
 }
