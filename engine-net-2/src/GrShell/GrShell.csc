@@ -15,10 +15,7 @@ PARSER_BEGIN(GrShell)
 
     public class GrShell {
         GrShellImpl impl = null;
-        public bool Quit = false;
         public bool Eof = false;
-        public bool ShowPrompt = true;
-        public bool readFromConsole = false;
         bool noError;
 
         public void SetImpl(GrShellImpl impl)
@@ -840,7 +837,7 @@ object Constant():
 void LineEnd():
 {}
 {
-    { if(Quit) return; }
+    { if(impl.Quitting) return; }
     (<NL> | <DOUBLESEMICOLON> | <EOF> { Eof = true; })
 }
 
@@ -853,7 +850,7 @@ bool ParseShellCommand():
     { noError = true; }
     try
     {
-        { if(ShowPrompt) Console.Write("> "); }
+        { impl.ShowPromptAsNeeded(); }
 
         (
             <NL>
@@ -992,7 +989,6 @@ void ShellCommand():
     ("quit" | "exit") LineEnd()
     {
         impl.Quit();
-        Quit = true;
     }
 |
     "randomseed"
