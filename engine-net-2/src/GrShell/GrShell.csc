@@ -12,207 +12,18 @@ PARSER_BEGIN(GrShell)
     using System.IO;
     using System.Text.RegularExpressions;
     using de.unika.ipd.grGen.libGr;
-    using de.unika.ipd.grGen.libGr.sequenceParser;
 
     public class GrShell {
         GrShellImpl impl = null;
         public bool Quit = false;
         public bool Eof = false;
         public bool ShowPrompt = true;
-        bool readFromConsole = false;
+        public bool readFromConsole = false;
         bool noError;
-        Stack ifNesting = new Stack();
 
         public void SetImpl(GrShellImpl impl)
         {
             this.impl = impl;
-        }
-
-        static int Main(string[] args)
-        {
-            String command = null;
-            ArrayList scriptFilename = new ArrayList();
-            bool showUsage = false;
-            bool nonDebugNonGuiExitOnError = false;
-            bool showIncludes = false;
-            int errorCode = 0; // 0==success, the return value
-
-            GrShellImpl.PrintVersion();
-
-            for(int i = 0; i < args.Length; i++)
-            {
-                if(args[i][0] == '-')
-                {
-                    if(args[i] == "-C")
-                    {
-                        if(command != null)
-                        {
-                            Console.WriteLine("Another command has already been specified with -C!");
-                            errorCode = -1;
-                            showUsage = true;
-                            break;
-                        }
-                        if(i + 1 >= args.Length)
-                        {
-                            Console.WriteLine("Missing parameter for -C option!");
-                            errorCode = -1;
-                            showUsage = true;
-                            break;
-                        }
-                        command = args[i + 1];
-                        Console.WriteLine("Will execute: \"" + command + "\"");
-                        i++;
-                    }
-                    else if(args[i] == "-N")
-                    {
-                        nonDebugNonGuiExitOnError = true;
-                    }
-                    else if(args[i] == "-SI")
-                    {
-                        showIncludes = true;
-                    }
-                    else if(args[i] == "--help")
-                    {
-                        Console.WriteLine("Displays help");
-                        showUsage = true;
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Illegal option: " + args[i]);
-                        showUsage = true;
-                        errorCode = -1;
-                        break;
-                    }
-                }
-                else
-                {
-                    String filename = args[i];
-                    if(!File.Exists(filename))
-                    {
-                        filename = filename + ".grs";
-                        if(!File.Exists(filename))
-                        {
-                            Console.WriteLine("The script file \"" + args[i] + "\" or \"" + filename + "\" does not exist!");
-                            showUsage = true;
-                            errorCode = -1;
-                            break;
-                        }
-                    }
-                    scriptFilename.Add(filename);
-                }
-            }
-
-            // if(args[args.Length - 1] == "--noquitateof") readFromConsole = false;    // TODO: Readd this?
-
-            if(showUsage)
-            {
-                Console.WriteLine("Usage: GrShell [-C <command>] [<grs-file>]...");
-                Console.WriteLine("If called without options, GrShell is started awaiting user input. (Type help for help.)");
-                Console.WriteLine("Options:");
-                Console.WriteLine("  -C <command> Specifies a command to be executed >first<. Using");
-                Console.WriteLine("               ';;' as a delimiter it can actually contain multiple shell commands");
-                Console.WriteLine("               Use '#\u00A7' in that case to terminate contained exec.");
-                Console.WriteLine("  -N           non-interactive non-gui shell which exits on error instead of waiting for user input");
-                Console.WriteLine("  -SI          prints to console when includes are entered and exited");
-                Console.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
-                return errorCode;
-            }
-
-            IWorkaround workaround = WorkaroundManager.Workaround;
-            TextReader reader;
-            bool showPrompt;
-            bool readFromConsole;
-
-            if(command != null)
-            {
-                reader = new StringReader(command);
-                showPrompt = false;
-                readFromConsole = false;
-            }
-            else if(scriptFilename.Count != 0)
-            {
-                try
-                {
-                    reader = new StreamReader((String) scriptFilename[0]);
-                }
-                catch(Exception e)
-                {
-                    Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
-                    return -1;
-                }
-                scriptFilename.RemoveAt(0);
-                showPrompt = false;
-                readFromConsole = false;
-            }
-            else
-            {
-                reader = workaround.In;
-                showPrompt = true;
-                readFromConsole = true;
-            }
-
-            GrShell shell = new GrShell(reader);
-            shell.ShowPrompt = showPrompt;
-            shell.readFromConsole = readFromConsole;
-            shell.impl = new GrShellImpl();
-            shell.impl.TokenSourceStack.AddFirst(shell.token_source);
-            shell.impl.nonDebugNonGuiExitOnError = nonDebugNonGuiExitOnError;
-            shell.impl.showIncludes = showIncludes;
-            try
-            {
-                shell.ifNesting.Push(true);
-                while(!shell.Quit && !shell.Eof)
-                {
-                    bool noError = shell.ParseShellCommand();
-                    if(!shell.readFromConsole && (shell.Eof || !noError))
-                    {
-                        if(nonDebugNonGuiExitOnError && !noError) {
-                            return -1;
-                        }
-
-                        if(scriptFilename.Count != 0)
-                        {
-                            TextReader newReader;
-                            try
-                            {
-                                newReader = new StreamReader((String) scriptFilename[0]);
-                            }
-                            catch(Exception e)
-                            {
-                                Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
-                                return -1;
-                            }
-                            scriptFilename.RemoveAt(0);
-                            shell.ReInit(newReader);
-                            shell.Eof = false;
-                            reader.Close();
-                            reader = newReader;
-                        }
-                        else
-                        {
-                            shell.ReInit(workaround.In);
-                            shell.impl.TokenSourceStack.RemoveFirst();
-                            shell.impl.TokenSourceStack.AddFirst(shell.token_source);
-                            shell.ShowPrompt = true;
-                            shell.readFromConsole = true;
-                            shell.Eof = false;
-                            reader.Close();
-                        }
-                    }
-                }
-                shell.ifNesting.Pop();
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine("exit due to " + e.Message);
-                errorCode = -2;
-            }
-            finally
-            {
-                shell.impl.Cleanup();
-            }
-            return errorCode;
         }
     }
 PARSER_END(GrShell)
@@ -1048,11 +859,11 @@ bool ParseShellCommand():
             <NL>
             | <DOUBLESEMICOLON>
             | <EOF> { Eof = true; }
-            | seqExpr=If(null, null) { ifNesting.Push((bool)ifNesting.Peek() && impl.Evaluate(seqExpr)); }
-            | "else" { ifValue=(bool)ifNesting.Peek(); ifNesting.Pop(); ifNesting.Push((bool)ifNesting.Peek() && !ifValue); }
-            | "endif" { ifNesting.Pop(); }
-            | LOOKAHEAD( { (bool)ifNesting.Peek() } ) ShellCommand()
-            | LOOKAHEAD( { !(bool)ifNesting.Peek() } ) { errorSkipSilent(); }
+            | seqExpr=If(null, null) { impl.ifNesting.Push(impl.ifNesting.Peek() && impl.Evaluate(seqExpr)); }
+            | "else" { ifValue=impl.ifNesting.Peek(); impl.ifNesting.Pop(); impl.ifNesting.Push(impl.ifNesting.Peek() && !ifValue); }
+            | "endif" { impl.ifNesting.Pop(); }
+            | LOOKAHEAD( { impl.ifNesting.Peek() } ) ShellCommand()
+            | LOOKAHEAD( { !impl.ifNesting.Peek() } ) { errorSkipSilent(); }
         )
     }
     catch(ParseException ex)
@@ -1071,8 +882,6 @@ void ShellCommand():
     INode node1, node2;
     IEdge edge1, edge2;
     ShellGraphProcessingEnvironment shellGraph = null;
-    Sequence seq;
-    ISequenceDefinition seqDef;
     bool shellGraphSpecified = false, boolVal = false, boolVal2 = false;
     bool strict = false, exitOnFailure = false, validated = false, onlySpecified = false;
     int num;
@@ -1248,35 +1057,7 @@ void ShellCommand():
     (
         ("xgrs" | "exec") str1=CommandLine()
         {
-            try
-            {
-                SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
-                List<String> warnings = new List<String>();
-                seq = SequenceParser.ParseSequence(str1, parserEnv, warnings);
-                foreach(string warning in warnings)
-                {
-                    Console.WriteLine("The validate sequence at line " + tok.beginLine + " reported back: " + warning);
-                }
-                seq.SetNeedForProfilingRecursive(impl.GetEmitProfiling());
-                validated = impl.ValidateWithSequence(seq);
-                noError = !impl.OperationCancelled;
-            }
-            catch(SequenceParserException ex)
-            {
-                Console.WriteLine("Unable to parse validate sequence at line " + tok.beginLine);
-                impl.HandleSequenceParserException(ex);
-                noError = false;
-            }
-            catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
-            {
-                Console.WriteLine("Unable to execute validate sequence at line " + tok.beginLine + ": " + ex.Message);
-                noError = false;
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine("Unable to execute validate sequence at line " + tok.beginLine + ": " + ex);
-                noError = false;
-            }
+            validated = impl.ValidateWithSequence(str1, tok, out noError);
             if((!validated || !noError) && exitOnFailure)
             {
                 throw new Exception("validate (at line " + tok.beginLine + ") failed");
@@ -1295,68 +1076,12 @@ void ShellCommand():
 |
     (tok="xgrs" | tok="exec") str1=CommandLine()
     {
-        try
-        {
-            SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
-            List<String> warnings = new List<String>();
-            seq = SequenceParser.ParseSequence(str1, parserEnv, warnings);
-            foreach(string warning in warnings)
-            {
-                Console.WriteLine("The sequence at line " + tok.beginLine + " reported back: " + warning);
-            }
-            seq.SetNeedForProfilingRecursive(impl.GetEmitProfiling());
-            impl.ApplyRewriteSequence(seq, false);
-            noError = !impl.OperationCancelled;
-        }
-        catch(SequenceParserException ex)
-        {
-            Console.WriteLine("Unable to parse sequence at line " + tok.beginLine);
-            impl.HandleSequenceParserException(ex);
-            noError = false;
-        }
-        catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
-        {
-            Console.WriteLine("Unable to execute sequence at line " + tok.beginLine + ": " + ex.Message);
-            noError = false;
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine("Unable to execute sequence at line " + tok.beginLine + ": " + ex);
-            noError = false;
-        }
+        impl.ParseAndApplySequence(str1, tok, out noError);
     }
 |
     tok="def" str1=CommandLine()
     {
-        try
-        {
-            SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
-            List<String> warnings = new List<String>();
-            seqDef = SequenceParser.ParseSequenceDefinition(str1, parserEnv, warnings);
-            foreach(string warning in warnings)
-            {
-                Console.WriteLine("The sequence definition at line " + tok.beginLine + " reported back: " + warning);
-            }
-            ((SequenceDefinition)seqDef).SetNeedForProfilingRecursive(impl.GetEmitProfiling());
-            impl.DefineRewriteSequence(seqDef);
-        }
-        catch(SequenceParserException ex)
-        {
-            Console.WriteLine("Unable to parse sequence definition at line " + tok.beginLine);
-            impl.HandleSequenceParserException(ex);
-            noError = false;
-        }
-        catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
-        {
-            Console.WriteLine("Unable to process sequence definition at line " + tok.beginLine + ": " + ex.Message);
-            noError = false;
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine("Unable to process sequence definition at line " + tok.beginLine + ": " + ex);
-            Console.WriteLine("(You tried to overwrite a compiled sequence?)");
-            noError = false;
-        }
+        impl.ParseAndDefineSequence(str1, tok, out noError);
     }
 |
     tok="external" str1=CommandLine()
@@ -1965,35 +1690,7 @@ void DebugCommand():
     {
         (tok="xgrs" | tok="exec") str=CommandLine()
         {
-            try
-            {
-                SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
-                List<String> warnings = new List<String>();
-                seq = SequenceParser.ParseSequence(str, parserEnv, warnings);
-                foreach(string warning in warnings)
-                {
-                    Console.WriteLine("The debug sequence at line " + tok.beginLine + " reported back: " + warning);
-                }
-                seq.SetNeedForProfilingRecursive(impl.GetEmitProfiling());
-                impl.DebugRewriteSequence(seq);
-                noError = !impl.OperationCancelled;
-            }
-            catch(SequenceParserException ex)
-            {
-                Console.WriteLine("Unable to parse debug sequence at line " + tok.beginLine);
-                impl.HandleSequenceParserException(ex);
-                noError = false;
-            }
-            catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
-            {
-                Console.WriteLine("Unable to execute debug sequence at line " + tok.beginLine + ": " + ex.Message);
-                noError = false;
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine("Unable to execute debug sequence at line " + tok.beginLine + ": " + ex);
-                noError = false;
-            }
+            impl.ParseAndDebugSequence(str, tok, out noError);
         }
     |
         "enable" LineEnd()
@@ -2113,43 +1810,11 @@ SequenceExpression If(string ruleOfMatchThis, string typeOfGraphElementThis):
 {
     Token tok;
     string str1 = "";
-    SequenceExpression seqExpr = null;
-    Dictionary<String, String> predefinedVariables = new Dictionary<String, String>();
-    predefinedVariables.Add("this", "");
 }
 {
     tok="if" str1=CommandLine()
     {
-        try
-        {
-            SequenceParserEnvironmentInterpretedDebugEventCondition parserEnv = new SequenceParserEnvironmentInterpretedDebugEventCondition(impl.CurrentActions, ruleOfMatchThis, typeOfGraphElementThis);
-            List<String> warnings = new List<String>();
-            seqExpr = SequenceParser.ParseSequenceExpression(str1, predefinedVariables, parserEnv, warnings);
-            foreach(string warning in warnings)
-            {
-                Console.WriteLine("The sequence expression at line " + tok.beginLine + " reported back: " + warning);
-            }
-            return seqExpr;
-        }
-        catch(SequenceParserException ex)
-        {
-            Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine);
-            impl.HandleSequenceParserException(ex);
-            noError = false;
-            return seqExpr;
-        }
-        catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
-        {
-            Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex.Message);
-            noError = false;
-            return seqExpr;
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex);
-            noError = false;
-            return seqExpr;
-        }
+        return impl.ParseSequenceExpression(str1, ruleOfMatchThis, typeOfGraphElementThis, tok, out noError);
     }
 }
 

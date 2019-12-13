@@ -18,6 +18,7 @@ using System.Threading;
 using ASTdapter;
 using grIO;
 using de.unika.ipd.grGen.libGr;
+using de.unika.ipd.grGen.libGr.sequenceParser;
 using de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.grShell
@@ -125,6 +126,15 @@ namespace de.unika.ipd.grGen.grShell
         IActionExecutionEnvironment actionEnv;
     }
 
+    class NewGraphOptions
+    {
+        public List<String> ExternalAssembliesReferenced = new List<String>();
+        public String Statistics = null;
+        public bool KeepDebug = false;
+        public bool LazyNIC = false;
+        public bool Noinline = false;
+        public bool Profile = false; // set to true to test profiling
+    }
 
     public class GrShellImpl
     {
@@ -153,13 +163,7 @@ namespace de.unika.ipd.grGen.grShell
         public TextWriter errOut = System.Console.Error;
         public IGrShellUI UserInterface = new GrShellConsoleUI(Console.In, Console.Out);
 
-        List<String> newGraphExternalAssembliesReferenced = new List<String>();
-        String newGraphStatistics = null;
-        bool newGraphKeepDebug = false;
-        bool newGraphLazyNIC = false;
-        bool newGraphNoinline = false;
-        bool newGraphProfile = false;
-        //bool newGraphProfile = true; // uncomment to test profiling
+        private NewGraphOptions newGraphOptions = new NewGraphOptions();
 
         /// <summary>
         /// Maps layouts to layout option names to their values.
@@ -170,10 +174,200 @@ namespace de.unika.ipd.grGen.grShell
 
         IWorkaround workaround = WorkaroundManager.Workaround;
         public LinkedList<GrShellTokenManager> TokenSourceStack = new LinkedList<GrShellTokenManager>();
+        public Stack<bool> ifNesting = new Stack<bool>();
 
         public GrShellImpl()
         {
             Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
+        }
+
+        static int Main(string[] args)
+        {
+            String command = null;
+            ArrayList scriptFilename = new ArrayList();
+            bool showUsage = false;
+            bool nonDebugNonGuiExitOnError = false;
+            bool showIncludes = false;
+            int errorCode = 0; // 0==success, the return value
+
+            GrShellImpl.PrintVersion();
+
+            for(int i = 0; i < args.Length; i++)
+            {
+                if(args[i][0] == '-')
+                {
+                    if(args[i] == "-C")
+                    {
+                        if(command != null)
+                        {
+                            Console.WriteLine("Another command has already been specified with -C!");
+                            errorCode = -1;
+                            showUsage = true;
+                            break;
+                        }
+                        if(i + 1 >= args.Length)
+                        {
+                            Console.WriteLine("Missing parameter for -C option!");
+                            errorCode = -1;
+                            showUsage = true;
+                            break;
+                        }
+                        command = args[i + 1];
+                        Console.WriteLine("Will execute: \"" + command + "\"");
+                        i++;
+                    }
+                    else if(args[i] == "-N")
+                    {
+                        nonDebugNonGuiExitOnError = true;
+                    }
+                    else if(args[i] == "-SI")
+                    {
+                        showIncludes = true;
+                    }
+                    else if(args[i] == "--help")
+                    {
+                        Console.WriteLine("Displays help");
+                        showUsage = true;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Illegal option: " + args[i]);
+                        showUsage = true;
+                        errorCode = -1;
+                        break;
+                    }
+                }
+                else
+                {
+                    String filename = args[i];
+                    if(!File.Exists(filename))
+                    {
+                        filename = filename + ".grs";
+                        if(!File.Exists(filename))
+                        {
+                            Console.WriteLine("The script file \"" + args[i] + "\" or \"" + filename + "\" does not exist!");
+                            showUsage = true;
+                            errorCode = -1;
+                            break;
+                        }
+                    }
+                    scriptFilename.Add(filename);
+                }
+            }
+
+            // if(args[args.Length - 1] == "--noquitateof") readFromConsole = false;    // TODO: Readd this?
+
+            if(showUsage)
+            {
+                Console.WriteLine("Usage: GrShell [-C <command>] [<grs-file>]...");
+                Console.WriteLine("If called without options, GrShell is started awaiting user input. (Type help for help.)");
+                Console.WriteLine("Options:");
+                Console.WriteLine("  -C <command> Specifies a command to be executed >first<. Using");
+                Console.WriteLine("               ';;' as a delimiter it can actually contain multiple shell commands");
+                Console.WriteLine("               Use '#\u00A7' in that case to terminate contained exec.");
+                Console.WriteLine("  -N           non-interactive non-gui shell which exits on error instead of waiting for user input");
+                Console.WriteLine("  -SI          prints to console when includes are entered and exited");
+                Console.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
+                return errorCode;
+            }
+
+            IWorkaround workaround = WorkaroundManager.Workaround;
+            TextReader reader;
+            bool showPrompt;
+            bool readFromConsole;
+
+            if(command != null)
+            {
+                reader = new StringReader(command);
+                showPrompt = false;
+                readFromConsole = false;
+            }
+            else if(scriptFilename.Count != 0)
+            {
+                try
+                {
+                    reader = new StreamReader((String)scriptFilename[0]);
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
+                    return -1;
+                }
+                scriptFilename.RemoveAt(0);
+                showPrompt = false;
+                readFromConsole = false;
+            }
+            else
+            {
+                reader = workaround.In;
+                showPrompt = true;
+                readFromConsole = true;
+            }
+
+            GrShell shell = new GrShell(reader);
+            shell.ShowPrompt = showPrompt;
+            shell.readFromConsole = readFromConsole;
+            GrShellImpl impl = new GrShellImpl();
+            shell.SetImpl(impl);
+            impl.TokenSourceStack.AddFirst(shell.token_source);
+            impl.nonDebugNonGuiExitOnError = nonDebugNonGuiExitOnError;
+            impl.showIncludes = showIncludes;
+            try
+            {
+                impl.ifNesting.Push(true);
+                while(!shell.Quit && !shell.Eof)
+                {
+                    bool noError = shell.ParseShellCommand();
+                    if(!shell.readFromConsole && (shell.Eof || !noError))
+                    {
+                        if(nonDebugNonGuiExitOnError && !noError)
+                        {
+                            return -1;
+                        }
+
+                        if(scriptFilename.Count != 0)
+                        {
+                            TextReader newReader;
+                            try
+                            {
+                                newReader = new StreamReader((String)scriptFilename[0]);
+                            }
+                            catch(Exception e)
+                            {
+                                Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
+                                return -1;
+                            }
+                            scriptFilename.RemoveAt(0);
+                            shell.ReInit(newReader);
+                            shell.Eof = false;
+                            reader.Close();
+                            reader = newReader;
+                        }
+                        else
+                        {
+                            shell.ReInit(workaround.In);
+                            impl.TokenSourceStack.RemoveFirst();
+                            impl.TokenSourceStack.AddFirst(shell.token_source);
+                            shell.ShowPrompt = true;
+                            shell.readFromConsole = true;
+                            shell.Eof = false;
+                            reader.Close();
+                        }
+                    }
+                }
+                impl.ifNesting.Pop();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("exit due to " + e.Message);
+                errorCode = -2;
+            }
+            finally
+            {
+                impl.Cleanup();
+            }
+            return errorCode;
         }
 
         public bool OperationCancelled { get { return cancelSequence; } }
@@ -1174,14 +1368,14 @@ namespace de.unika.ipd.grGen.grShell
 
         public bool NewGraphAddReference(String externalAssemblyReference)
         {
-            if(!newGraphExternalAssembliesReferenced.Contains(externalAssemblyReference))
-                newGraphExternalAssembliesReferenced.Add(externalAssemblyReference);
+            if(!newGraphOptions.ExternalAssembliesReferenced.Contains(externalAssemblyReference))
+                newGraphOptions.ExternalAssembliesReferenced.Add(externalAssemblyReference);
             return true;
         }
 
         public bool NewGraphSetKeepDebug(bool on)
         {
-            newGraphKeepDebug = on;
+            newGraphOptions.KeepDebug = on;
             return true;
         }
 
@@ -1192,31 +1386,31 @@ namespace de.unika.ipd.grGen.grShell
                 errOut.WriteLine("Can't find statistics file {0}!", filepath);
                 return false;
             }
-            newGraphStatistics = filepath;
+            newGraphOptions.Statistics = filepath;
             return true;
         }
 
         public bool NewGraphSetLazyNIC(bool on)
         {
-            newGraphLazyNIC = on;
+            newGraphOptions.LazyNIC = on;
             return true;
         }
 
         public bool NewGraphSetNoinline(bool on)
         {
-            newGraphNoinline = on;
+            newGraphOptions.Noinline = on;
             return true;
         }
 
         public bool NewGraphSetProfile(bool on)
         {
-            newGraphProfile = on;
+            newGraphOptions.Profile = on;
             return true;
         }
 
         public bool GetEmitProfiling()
         {
-            return newGraphProfile;
+            return newGraphOptions.Profile;
         }
 
         public bool NewGraph(String specFilename, String graphName, bool forceRebuild)
@@ -1275,13 +1469,13 @@ namespace de.unika.ipd.grGen.grShell
                     INamedGraph graph;
                     try
                     {
-                        ProcessSpecFlags flags = newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
-                        if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
-                        if(newGraphNoinline) flags |= ProcessSpecFlags.Noinline;
-                        if(newGraphProfile) flags |= ProcessSpecFlags.Profile;
+                        ProcessSpecFlags flags = newGraphOptions.KeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
+                        if(newGraphOptions.LazyNIC) flags |= ProcessSpecFlags.LazyNIC;
+                        if(newGraphOptions.Noinline) flags |= ProcessSpecFlags.Noinline;
+                        if(newGraphOptions.Profile) flags |= ProcessSpecFlags.Profile;
                         if(forceRebuild) flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
                         graph = curGraphBackend.CreateNamedFromSpec(specFilename, graphName, null,
-                            flags, newGraphExternalAssembliesReferenced, 0);
+                            flags, newGraphOptions.ExternalAssembliesReferenced, 0);
                     }
                     catch(Exception e)
                     {
@@ -1308,13 +1502,13 @@ namespace de.unika.ipd.grGen.grShell
                     
                     try
                     {
-                        ProcessSpecFlags flags = newGraphKeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
-                        if(newGraphLazyNIC) flags |= ProcessSpecFlags.LazyNIC;
-                        if(newGraphNoinline) flags |= ProcessSpecFlags.Noinline;
-                        if(newGraphProfile) flags |= ProcessSpecFlags.Profile;
+                        ProcessSpecFlags flags = newGraphOptions.KeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
+                        if(newGraphOptions.LazyNIC) flags |= ProcessSpecFlags.LazyNIC;
+                        if(newGraphOptions.Noinline) flags |= ProcessSpecFlags.Noinline;
+                        if(newGraphOptions.Profile) flags |= ProcessSpecFlags.Profile;
                         if(forceRebuild) flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
-                        curGraphBackend.CreateNamedFromSpec(specFilename, graphName, newGraphStatistics,
-                            flags, newGraphExternalAssembliesReferenced, 0,
+                        curGraphBackend.CreateNamedFromSpec(specFilename, graphName, newGraphOptions.Statistics,
+                            flags, newGraphOptions.ExternalAssembliesReferenced, 0,
                             out graph, out actions);
                     }
                     catch(Exception e)
@@ -3017,6 +3211,40 @@ namespace de.unika.ipd.grGen.grShell
             return false;
         }
 
+        public void ParseAndDefineSequence(String str, Token tok, out bool noError)
+        {
+            try
+            {
+                SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(CurrentActions);
+                List<String> warnings = new List<String>();
+                ISequenceDefinition seqDef = SequenceParser.ParseSequenceDefinition(str, parserEnv, warnings);
+                foreach(string warning in warnings)
+                {
+                    Console.WriteLine("The sequence definition at line " + tok.beginLine + " reported back: " + warning);
+                }
+                ((SequenceDefinition)seqDef).SetNeedForProfilingRecursive(GetEmitProfiling());
+                DefineRewriteSequence(seqDef);
+                noError = true;
+            }
+            catch(SequenceParserException ex)
+            {
+                Console.WriteLine("Unable to parse sequence definition at line " + tok.beginLine);
+                HandleSequenceParserException(ex);
+                noError = false;
+            }
+            catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+            {
+                Console.WriteLine("Unable to process sequence definition at line " + tok.beginLine + ": " + ex.Message);
+                noError = false;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Unable to process sequence definition at line " + tok.beginLine + ": " + ex);
+                Console.WriteLine("(You tried to overwrite a compiled sequence?)");
+                noError = false;
+            }
+        }
+
         public void DefineRewriteSequence(ISequenceDefinition seqDef)
         {
             bool overwritten = ((BaseActions)CurrentActions).RegisterGraphRewriteSequenceDefinition((SequenceDefinition)seqDef);
@@ -3024,6 +3252,78 @@ namespace de.unika.ipd.grGen.grShell
                 debugOut.WriteLine("Replaced old sequence definition by new one for " + seqDef.Name);
             else
                 debugOut.WriteLine("Registered sequence definition for " + seqDef.Name);
+        }
+
+        public SequenceExpression ParseSequenceExpression(String str, String ruleOfMatchThis, String typeOfGraphElementThis, Token tok, out bool noError)
+        {
+            SequenceExpression seqExpr = null;
+
+            try
+            {
+                Dictionary<String, String> predefinedVariables = new Dictionary<String, String>();
+                predefinedVariables.Add("this", "");
+                SequenceParserEnvironmentInterpretedDebugEventCondition parserEnv = new SequenceParserEnvironmentInterpretedDebugEventCondition(CurrentActions, ruleOfMatchThis, typeOfGraphElementThis);
+                List<String> warnings = new List<String>();
+                seqExpr = SequenceParser.ParseSequenceExpression(str, predefinedVariables, parserEnv, warnings);
+                foreach(string warning in warnings)
+                {
+                    Console.WriteLine("The sequence expression at line " + tok.beginLine + " reported back: " + warning);
+                }
+                noError = true;
+                return seqExpr;
+            }
+            catch(SequenceParserException ex)
+            {
+                Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine);
+                HandleSequenceParserException(ex);
+                noError = false;
+                return seqExpr;
+            }
+            catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+            {
+                Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex.Message);
+                noError = false;
+                return seqExpr;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex);
+                noError = false;
+                return seqExpr;
+            }
+        }
+
+        public void ParseAndApplySequence(String str, Token tok, out bool noError)
+        {
+            try
+            {
+                SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(CurrentActions);
+                List<String> warnings = new List<String>();
+                Sequence seq = SequenceParser.ParseSequence(str, parserEnv, warnings);
+                foreach(string warning in warnings)
+                {
+                    Console.WriteLine("The sequence at line " + tok.beginLine + " reported back: " + warning);
+                }
+                seq.SetNeedForProfilingRecursive(GetEmitProfiling());
+                ApplyRewriteSequence(seq, false);
+                noError = !OperationCancelled;
+            }
+            catch(SequenceParserException ex)
+            {
+                Console.WriteLine("Unable to parse sequence at line " + tok.beginLine);
+                HandleSequenceParserException(ex);
+                noError = false;
+            }
+            catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+            {
+                Console.WriteLine("Unable to execute sequence at line " + tok.beginLine + ": " + ex.Message);
+                noError = false;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Unable to execute sequence at line " + tok.beginLine + ": " + ex);
+                noError = false;
+            }
         }
 
         Sequence curGRS;
@@ -3068,7 +3368,7 @@ namespace de.unika.ipd.grGen.grShell
                 seq.ResetExecutionState();
                 debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result {1}:",
                     (curShellProcEnv.ProcEnv.PerformanceInfo.TimeNeeded * 1000).ToString("F1", System.Globalization.CultureInfo.InvariantCulture), result);
-                if(newGraphProfile)
+                if(newGraphOptions.Profile)
                     debugOut.WriteLine(" - {0} search steps executed", curShellProcEnv.ProcEnv.PerformanceInfo.SearchSteps);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
                 debugOut.WriteLine(" - {0} matches found in {1} ms", perfInfo.MatchesFound, perfInfo.TotalMatchTimeMS);
@@ -3291,6 +3591,39 @@ namespace de.unika.ipd.grGen.grShell
                 return false;
             }
             return true;
+        }
+
+        public void ParseAndDebugSequence(String str, Token tok, out bool noError)
+        {
+            try
+            {
+                SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(CurrentActions);
+                List<String> warnings = new List<String>();
+                Sequence seq = SequenceParser.ParseSequence(str, parserEnv, warnings);
+                foreach(string warning in warnings)
+                {
+                    Console.WriteLine("The debug sequence at line " + tok.beginLine + " reported back: " + warning);
+                }
+                seq.SetNeedForProfilingRecursive(GetEmitProfiling());
+                DebugRewriteSequence(seq);
+                noError = !OperationCancelled;
+            }
+            catch(SequenceParserException ex)
+            {
+                Console.WriteLine("Unable to parse debug sequence at line " + tok.beginLine);
+                HandleSequenceParserException(ex);
+                noError = false;
+            }
+            catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+            {
+                Console.WriteLine("Unable to execute debug sequence at line " + tok.beginLine + ": " + ex.Message);
+                noError = false;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Unable to execute debug sequence at line " + tok.beginLine + ": " + ex);
+                noError = false;
+            }
         }
 
         public void DebugRewriteSequence(Sequence seq)
@@ -4732,8 +5065,8 @@ showavail:
         {
             if(!BackendExists()) return false;
 
-            if(newGraphExternalAssembliesReferenced.Count > 0 || newGraphStatistics != null
-                || newGraphKeepDebug || newGraphLazyNIC || newGraphNoinline || newGraphProfile)
+            if(newGraphOptions.ExternalAssembliesReferenced.Count > 0 || newGraphOptions.Statistics != null
+                || newGraphOptions.KeepDebug || newGraphOptions.LazyNIC || newGraphOptions.Noinline || newGraphOptions.Profile)
             {
                 debugOut.WriteLine("Warning: \"new set\" and \"new add\" commands in force are ignored when the actions are built from an import. Ensure that the files are up to date, e.g. by using a \"new graph\" (or even \"new new graph\") before the import.");
             }
@@ -4930,6 +5263,43 @@ showavail:
                 debugOut.Write("\"{0}\"", curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem));
             }
             return first;
+        }
+
+        public bool ValidateWithSequence(String str, Token tok, out bool noError)
+        {
+            bool validated = false;
+
+            try
+            {
+                SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(CurrentActions);
+                List<String> warnings = new List<String>();
+                Sequence seq = SequenceParser.ParseSequence(str, parserEnv, warnings);
+                foreach(string warning in warnings)
+                {
+                    Console.WriteLine("The validate sequence at line " + tok.beginLine + " reported back: " + warning);
+                }
+                seq.SetNeedForProfilingRecursive(GetEmitProfiling());
+                validated = ValidateWithSequence(seq);
+                noError = !OperationCancelled;
+            }
+            catch(SequenceParserException ex)
+            {
+                Console.WriteLine("Unable to parse validate sequence at line " + tok.beginLine);
+                HandleSequenceParserException(ex);
+                noError = false;
+            }
+            catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+            {
+                Console.WriteLine("Unable to execute validate sequence at line " + tok.beginLine + ": " + ex.Message);
+                noError = false;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Unable to execute validate sequence at line " + tok.beginLine + ": " + ex);
+                noError = false;
+            }
+
+            return validated;
         }
 
         public bool Validate(bool strict, bool onlySpecified)
