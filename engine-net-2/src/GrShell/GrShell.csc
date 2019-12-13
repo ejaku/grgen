@@ -16,14 +16,11 @@ PARSER_BEGIN(GrShell)
 
     public class GrShell {
         GrShellImpl impl = null;
-        bool valid;
         public bool Quit = false;
         public bool Eof = false;
         public bool ShowPrompt = true;
         bool readFromConsole = false;
-        public IWorkaround workaround;
         bool noError;
-        bool exitOnError = false;
         Stack ifNesting = new Stack();
 
         public void SetImpl(GrShellImpl impl)
@@ -106,7 +103,7 @@ PARSER_BEGIN(GrShell)
                 }
             }
 
-            // if(args[args.Length - 1] == "--noquitateof") readFromConsole = false;	// TODO: Readd this?
+            // if(args[args.Length - 1] == "--noquitateof") readFromConsole = false;    // TODO: Readd this?
 
             if(showUsage)
             {
@@ -158,7 +155,6 @@ PARSER_BEGIN(GrShell)
             GrShell shell = new GrShell(reader);
             shell.ShowPrompt = showPrompt;
             shell.readFromConsole = readFromConsole;
-            shell.workaround = workaround;
             shell.impl = new GrShellImpl();
             shell.impl.TokenSourceStack.AddFirst(shell.token_source);
             shell.impl.nonDebugNonGuiExitOnError = nonDebugNonGuiExitOnError;
@@ -383,62 +379,62 @@ TOKEN: {
 }
 
 TOKEN: {
-	< NUMBER: ("-")? (["0"-"9"])+ >
-|	< NUMBER_BYTE: ("-")? (["0"-"9"])+ ("y"|"Y") >
-|	< NUMBER_SHORT: ("-")? (["0"-"9"])+ ("s"|"S") >
-|	< NUMBER_LONG: ("-")? (["0"-"9"])+ ("l"|"L") >
+    < NUMBER: ("-")? (["0"-"9"])+ >
+|   < NUMBER_BYTE: ("-")? (["0"-"9"])+ ("y"|"Y") >
+|   < NUMBER_SHORT: ("-")? (["0"-"9"])+ ("s"|"S") >
+|   < NUMBER_LONG: ("-")? (["0"-"9"])+ ("l"|"L") >
 |
-	< HEXNUMBER: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ >
-|	< HEXNUMBER_BYTE: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("y"|"Y") >
-|	< HEXNUMBER_SHORT: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("s"|"S") >
-|	< HEXNUMBER_LONG: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("l"|"L") >
+    < HEXNUMBER: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ >
+|   < HEXNUMBER_BYTE: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("y"|"Y") >
+|   < HEXNUMBER_SHORT: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("s"|"S") >
+|   < HEXNUMBER_LONG: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("l"|"L") >
 }
 
 TOKEN: {
-	< NUMFLOAT:
-			("-")? (["0"-"9"])+ ("." (["0"-"9"])+)? (<EXPONENT>)? ["f", "F"]
-		|	("-")? "." (["0"-"9"])+ (<EXPONENT>)? ["f", "F"]
-	>
+    < NUMFLOAT:
+            ("-")? (["0"-"9"])+ ("." (["0"-"9"])+)? (<EXPONENT>)? ["f", "F"]
+        |   ("-")? "." (["0"-"9"])+ (<EXPONENT>)? ["f", "F"]
+    >
 |
-	< NUMDOUBLE:
-			("-")? (["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
-		|	("-")? "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
-		|	("-")? (["0"-"9"])+ <EXPONENT> (["d", "D"])?
-		|	("-")? (["0"-"9"])+ ["d", "D"]
-	>
+    < NUMDOUBLE:
+            ("-")? (["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
+        |   ("-")? "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
+        |   ("-")? (["0"-"9"])+ <EXPONENT> (["d", "D"])?
+        |   ("-")? (["0"-"9"])+ ["d", "D"]
+    >
 |
-	< #EXPONENT: ["e", "E"] (["+", "-"])? (["0"-"9"])+ >
+    < #EXPONENT: ["e", "E"] (["+", "-"])? (["0"-"9"])+ >
 }
 
 TOKEN: {
-	< DOUBLEQUOTEDTEXT : "\"" (~["\"", "\n", "\r"])* "\"" >
-		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
-|	< SINGLEQUOTEDTEXT : "\'" (~["\'", "\n", "\r"])* "\'" >
-		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
-|	< WORD : ~["\'", "\"", "0"-"9", "=", ":", ";", ".", ",", "+", "-", "&", "%", "?", "$", "|", "<", ">", "(", ")", "{", "}", "[", "]", "*", "!", "#", " ", "@", "\n", "\r"]
-	     (~["\'", "\"", "=", ":", ";", ".", ",", "+", "-", "&", "%", "?", "$", "|", "<", ">", "(", ")", "{", "}", "[", "]", "*", "!", "#", " ", "@", "\n", "\r"])*	>
+    < DOUBLEQUOTEDTEXT : "\"" (~["\"", "\n", "\r"])* "\"" >
+        { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
+|   < SINGLEQUOTEDTEXT : "\'" (~["\'", "\n", "\r"])* "\'" >
+        { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
+|   < WORD : ~["\'", "\"", "0"-"9", "=", ":", ";", ".", ",", "+", "-", "&", "%", "?", "$", "|", "<", ">", "(", ")", "{", "}", "[", "]", "*", "!", "#", " ", "@", "\n", "\r"]
+         (~["\'", "\"", "=", ":", ";", ".", ",", "+", "-", "&", "%", "?", "$", "|", "<", ">", "(", ")", "{", "}", "[", "]", "*", "!", "#", " ", "@", "\n", "\r"])*    >
 }
 
 SPECIAL_TOKEN: {
-	< SINGLE_LINE_COMMENT: "#" (~["\n", "\r", "\u00A7"])* ("\u00A7")? > // \u00A7 == "§"
+    < SINGLE_LINE_COMMENT: "#" (~["\n", "\r", "\u00A7"])* ("\u00A7")? > // \u00A7 == "§"
 }
 
 <WithinFilename> SKIP: {
-	" " |
-	"\t" |
-	"\r"
+    " " |
+    "\t" |
+    "\r"
 }
 
 <WithinFilename> TOKEN: {
-	< DOUBLEQUOTEDFILENAME: "\"" (~["\"", "\n", "\r"])* "\"" >
-		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); } : DEFAULT
-|	< SINGLEQUOTEDFILENAME: "\'" (~["\'", "\n", "\r"])* "\'" >
-		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); } : DEFAULT
-|	< FILENAME: ~["\'", "\"", "=", ";", "$", "|", "*", " ", "?", "\n", "\r"]
-	     (~["\'", "\"", "=", ";", "$", "|", "*", " ", "?", "\n", "\r"])* > : DEFAULT
-|	< NLINFILENAME: "\n" > : DEFAULT
-|	< DOUBLESEMICOLONINFILENAME: ";;" > : DEFAULT
-|	< ERRORFILENAME: ~[] > : DEFAULT
+    < DOUBLEQUOTEDFILENAME: "\"" (~["\"", "\n", "\r"])* "\"" >
+        { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); } : DEFAULT
+|   < SINGLEQUOTEDFILENAME: "\'" (~["\'", "\n", "\r"])* "\'" >
+        { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); } : DEFAULT
+|   < FILENAME: ~["\'", "\"", "=", ";", "$", "|", "*", " ", "?", "\n", "\r"]
+         (~["\'", "\"", "=", ";", "$", "|", "*", " ", "?", "\n", "\r"])* > : DEFAULT
+|   < NLINFILENAME: "\n" > : DEFAULT
+|   < DOUBLESEMICOLONINFILENAME: ";;" > : DEFAULT
+|   < ERRORFILENAME: ~[] > : DEFAULT
 }
 
 // external shell command or graph rewrite sequence
@@ -447,9 +443,9 @@ SPECIAL_TOKEN: {
 }
 
 <WithinAnyString> SKIP: {
-	" " |
-	"\t" |
-	"\r"
+    " " |
+    "\t" |
+    "\r"
 }
 
 <WithinAnyString> TOKEN: {
@@ -483,12 +479,12 @@ SPECIAL_TOKEN: {
 }
 
 <WithinAnyStrings> SKIP: {
-	" " |
-	"\t" |
-	"\r" |
-	"\\\r\n" |
-	"\\\n" |
-	"\\\r"
+    " " |
+    "\t" |
+    "\r" |
+    "\\\r\n" |
+    "\\\n" |
+    "\\\r"
 }
 
 <WithinAnyStrings> TOKEN: {
@@ -527,168 +523,168 @@ String AttributeName():
 
 String WordOrText():
 {
-	Token tok;
+    Token tok;
 }
 {
-	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD>)
-	{
-		return tok.image;
-	}
+    (tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD>)
+    {
+        return tok.image;
+    }
 }
 
 String QuotedText():
 {
-	Token tok;
+    Token tok;
 }
 {
-	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT>)
-	{
-		return tok.image;
-	}
+    (tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT>)
+    {
+        return tok.image;
+    }
 }
 
 String TextOrNumber():
 {
-	Token tok;
+    Token tok;
 }
 {
-	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | tok=<NUMBER> | tok=<HEXNUMBER>)
-	{
-		return tok.image;
-	}
+    (tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | tok=<NUMBER> | tok=<HEXNUMBER>)
+    {
+        return tok.image;
+    }
 }
 
 String Variable():
 {
-	Token tok;
+    Token tok;
 }
 {
-	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | "::" tok=<WORD>)
-	{
-		return tok.image;
-	}
+    (tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | "::" tok=<WORD>)
+    {
+        return tok.image;
+    }
 }
 
 String AttributeValue():
 {
-	Token tok;
-	String package, enumName, enumValue=null, elemName;
+    Token tok;
+    String package, enumName, enumValue=null, elemName;
 }
 {
-	(
-		LOOKAHEAD(2)
-		package=WordOrText() "::" enumName=AttributeName() ("::" enumValue=AttributeName())?
-		{
-			if(enumValue!=null)
-				return package + "::" + enumName + "::" + enumValue;
-			else
-				return package + "::" + enumName; // package is enumName, enumName is enumValue
-		}
-	|
-		"@" "(" elemName=WordOrText() ")"
-		{
-			return "@(" + elemName + ")";
-		}
-	|
-		(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD>
-		| tok=<NUMBER> | tok=<NUMBER_BYTE> | tok=<NUMBER_SHORT> | tok=<NUMBER_LONG> 
-		| tok=<HEXNUMBER> | tok=<HEXNUMBER_BYTE> | tok=<HEXNUMBER_SHORT> | tok=<HEXNUMBER_LONG>
-		| tok=<NUMFLOAT> | tok=<NUMDOUBLE> | tok=<TRUE> | tok=<FALSE> | tok=<NULL>)
-		{
-			return tok.image;
-		}
-	)
+    (
+        LOOKAHEAD(2)
+        package=WordOrText() "::" enumName=AttributeName() ("::" enumValue=AttributeName())?
+        {
+            if(enumValue!=null)
+                return package + "::" + enumName + "::" + enumValue;
+            else
+                return package + "::" + enumName; // package is enumName, enumName is enumValue
+        }
+    |
+        "@" "(" elemName=WordOrText() ")"
+        {
+            return "@(" + elemName + ")";
+        }
+    |
+        (tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD>
+        | tok=<NUMBER> | tok=<NUMBER_BYTE> | tok=<NUMBER_SHORT> | tok=<NUMBER_LONG> 
+        | tok=<HEXNUMBER> | tok=<HEXNUMBER_BYTE> | tok=<HEXNUMBER_SHORT> | tok=<HEXNUMBER_LONG>
+        | tok=<NUMFLOAT> | tok=<NUMDOUBLE> | tok=<TRUE> | tok=<FALSE> | tok=<NULL>)
+        {
+            return tok.image;
+        }
+    )
 }
 
 int Number():
 {
-	Token t;
+    Token t;
 }
 {
-	(
-		t=<NUMBER>
-		{
-			return Convert.ToInt32(t.image);
-		}
-	|
-		t=<HEXNUMBER>
-		{
+    (
+        t=<NUMBER>
+        {
+            return Convert.ToInt32(t.image);
+        }
+    |
+        t=<HEXNUMBER>
+        {
             return Int32.Parse(t.image.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber);
-		}
-	)
+        }
+    )
 }
 
 float FloatNumber():
 {
-	Token t;
-	float val;
+    Token t;
+    float val;
 }
 {
-	t=<NUMFLOAT>
-	{
-		// Remove 'F' from the end of the image to parse it
-		if(!float.TryParse(t.image.Substring(0, t.image.Length - 1), System.Globalization.NumberStyles.Float,
-				System.Globalization.CultureInfo.InvariantCulture, out val))
-			throw new ParseException("float expected but found: \"" + t + "\" (" + t.kind + ")");
-		return val;
-	}
+    t=<NUMFLOAT>
+    {
+        // Remove 'F' from the end of the image to parse it
+        if(!float.TryParse(t.image.Substring(0, t.image.Length - 1), System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture, out val))
+            throw new ParseException("float expected but found: \"" + t + "\" (" + t.kind + ")");
+        return val;
+    }
 }
 
 double DoubleNumber():
 {
-	Token t;
-	String img;
-	double val;
+    Token t;
+    String img;
+    double val;
 }
 {
-	t=<NUMDOUBLE>
-	{
-		// Remove optional 'D' from the end of the image to parse it if necessary
-		if(t.image[t.image.Length - 1] == 'd' || t.image[t.image.Length - 1] == 'D')
-			img = t.image.Substring(0, t.image.Length - 1);
-		else
-			img = t.image;
-		if(!double.TryParse(img, System.Globalization.NumberStyles.Float,
-				System.Globalization.CultureInfo.InvariantCulture, out val))
-			throw new ParseException("double expected but found: \"" + t + "\" (" + t.kind + ")");
-		return val;
-	}
+    t=<NUMDOUBLE>
+    {
+        // Remove optional 'D' from the end of the image to parse it if necessary
+        if(t.image[t.image.Length - 1] == 'd' || t.image[t.image.Length - 1] == 'D')
+            img = t.image.Substring(0, t.image.Length - 1);
+        else
+            img = t.image;
+        if(!double.TryParse(img, System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture, out val))
+            throw new ParseException("double expected but found: \"" + t + "\" (" + t.kind + ")");
+        return val;
+    }
 }
 
 object NumberOrVar():
 {
-	Token t;
-	object val;
-	String str;
+    Token t;
+    object val;
+    String str;
 }
 {
-	t=<NUMBER>
-	{
-		return Convert.ToInt32(t.image);
-	}
+    t=<NUMBER>
+    {
+        return Convert.ToInt32(t.image);
+    }
 |
-	str=Variable() { val = impl.GetVarValue(str); return val; }
+    str=Variable() { val = impl.GetVarValue(str); return val; }
 }
 
 bool Bool():
 { }
 {
-	"true" { return true; }
+    "true" { return true; }
 |
-	"false" { return false; }
+    "false" { return false; }
 }
 
 object BoolOrVar():
 {
-	object val;
-	String str;
+    object val;
+    String str;
 }
 {
-	"true" { return true; }
+    "true" { return true; }
 |
-	"false" { return false; }
+    "false" { return false; }
 |
-	str=Variable() { val = impl.GetVarValue(str); return val; }
+    str=Variable() { val = impl.GetVarValue(str); return val; }
 }
 
 String Filename():
@@ -698,9 +694,9 @@ String Filename():
 {
     {token_source.SwitchTo(WithinFilename);}
     (tok=<DOUBLEQUOTEDFILENAME> | tok=<SINGLEQUOTEDFILENAME> | tok=<FILENAME>)
-	{
-		return tok.image.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
-	}
+    {
+        return tok.image.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+    }
 }
 
 String FilenameOptionalAtEndOfLine():
@@ -710,16 +706,16 @@ String FilenameOptionalAtEndOfLine():
 {
     {token_source.SwitchTo(WithinFilename);}
     (
-		(tok=<DOUBLEQUOTEDFILENAME> | tok=<SINGLEQUOTEDFILENAME> | tok=<FILENAME>) LineEnd()
-		{
-			return tok.image.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
-		}
-	|
-		(tok=<NLINFILENAME> | tok=<DOUBLESEMICOLONINFILENAME> | tok=<EOF>)
-		{
-			return null;
-		}
-	)
+        (tok=<DOUBLEQUOTEDFILENAME> | tok=<SINGLEQUOTEDFILENAME> | tok=<FILENAME>) LineEnd()
+        {
+            return tok.image.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+        }
+    |
+        (tok=<NLINFILENAME> | tok=<DOUBLESEMICOLONINFILENAME> | tok=<EOF>)
+        {
+            return null;
+        }
+    )
 }
 
 String FilenameParameterOrEndOfLine():
@@ -729,29 +725,29 @@ String FilenameParameterOrEndOfLine():
 {
     {token_source.SwitchTo(WithinFilename);}
     (
-		(tok=<DOUBLEQUOTEDFILENAME> | tok=<SINGLEQUOTEDFILENAME> | tok=<FILENAME>)
-		{
-			return tok.image.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
-		}
-	|
-		(tok=<NLINFILENAME> | tok=<DOUBLESEMICOLONINFILENAME> | tok=<EOF>)
-		{
-			return null;
-		}
-	)
+        (tok=<DOUBLEQUOTEDFILENAME> | tok=<SINGLEQUOTEDFILENAME> | tok=<FILENAME>)
+        {
+            return tok.image.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+        }
+    |
+        (tok=<NLINFILENAME> | tok=<DOUBLESEMICOLONINFILENAME> | tok=<EOF>)
+        {
+            return null;
+        }
+    )
 }
 
 List<String> FilenameParameterList():
 {
-	List<String> list = new List<String>();
-	String cur;
+    List<String> list = new List<String>();
+    String cur;
 }
 {
-	{
-		while((cur = FilenameParameterOrEndOfLine()) != null)
-			list.Add(cur);
-		return list;
-	}
+    {
+        while((cur = FilenameParameterOrEndOfLine()) != null)
+            list.Add(cur);
+        return list;
+    }
 }
 
 String CommandLine():
@@ -770,319 +766,319 @@ String CommandLine():
 
 IGraphElement GraphElement():
 {
-	IGraphElement elem;
-	String str;
+    IGraphElement elem;
+    String str;
 }
 {
-	(
-		"@" "(" str=WordOrText() ")" { elem = impl.GetElemByName(str); }
-	|
-		str=Variable() { elem = impl.GetElemByVar(str); }
-	)
-	{ return elem; }
+    (
+        "@" "(" str=WordOrText() ")" { elem = impl.GetElemByName(str); }
+    |
+        str=Variable() { elem = impl.GetElemByVar(str); }
+    )
+    { return elem; }
 }
 
 object GraphElementOrVar():
 {
-	object val;
-	String str;
+    object val;
+    String str;
 }
 {
-	(
-		"@" "(" str=WordOrText() ")" { val = impl.GetElemByName(str); }
-	|
-		str=Variable() { val = impl.GetVarValue(str); }
-	)
-	{ return val; }
+    (
+        "@" "(" str=WordOrText() ")" { val = impl.GetElemByName(str); }
+    |
+        str=Variable() { val = impl.GetVarValue(str); }
+    )
+    { return val; }
 }
 
 object GraphElementOrUnquotedVar():
 {
-	object val;
-	String str;
-	Token tok;
+    object val;
+    String str;
+    Token tok;
 }
 {
-	(
-		"@" "(" str=WordOrText() ")" { val = impl.GetElemByName(str); }
-	|
-		tok=<WORD> { val = impl.GetVarValue(tok.image); }
-	|
-		"::" tok=<WORD> { val = impl.GetVarValue(tok.image); }
-	)
-	{ return val; }
+    (
+        "@" "(" str=WordOrText() ")" { val = impl.GetElemByName(str); }
+    |
+        tok=<WORD> { val = impl.GetVarValue(tok.image); }
+    |
+        "::" tok=<WORD> { val = impl.GetVarValue(tok.image); }
+    )
+    { return val; }
 }
 
 object GraphElementOrVarOrNull():
 {
-	object val;
-	String str;
+    object val;
+    String str;
 }
 {
-	(
-		"@" "(" str=WordOrText() ")" { val = impl.GetElemByName(str); }
+    (
+        "@" "(" str=WordOrText() ")" { val = impl.GetElemByName(str); }
     |
         "null" { val = null; }
-	|
-		str=Variable() { val = impl.GetVarValue(str); }
-	)
-	{ return val; }
+    |
+        str=Variable() { val = impl.GetVarValue(str); }
+    )
+    { return val; }
 }
 
 INode Node():
 {
-	INode node;
-	String str;
+    INode node;
+    String str;
 }
 {
-	(
-		"@" "(" str=WordOrText() ")" { node = impl.GetNodeByName(str); }
-	|
-		str=Variable() { node = impl.GetNodeByVar(str); }
-	)
-	{ return node; }
+    (
+        "@" "(" str=WordOrText() ")" { node = impl.GetNodeByName(str); }
+    |
+        str=Variable() { node = impl.GetNodeByVar(str); }
+    )
+    { return node; }
 }
 
 IEdge Edge():
 {
-	IEdge edge;
-	String str;
+    IEdge edge;
+    String str;
 }
 {
-	(
-		"@" "(" str=WordOrText() ")" { edge = impl.GetEdgeByName(str); }
-	|
-		str=Variable() { edge = impl.GetEdgeByVar(str); }
-	)
-	{ return edge; }
+    (
+        "@" "(" str=WordOrText() ")" { edge = impl.GetEdgeByName(str); }
+    |
+        str=Variable() { edge = impl.GetEdgeByVar(str); }
+    )
+    { return edge; }
 }
 
 NodeType NodeType():
 {
-	String package=null, type;
+    String package=null, type;
 }
 {
-	(LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetNodeType(package!=null ? package+"::"+type : type); }
+    (LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetNodeType(package!=null ? package+"::"+type : type); }
 }
 
 EdgeType EdgeType():
 {
-	String package=null, type;
+    String package=null, type;
 }
 {
-	(LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetEdgeType(package!=null ? package+"::"+type : type); }
+    (LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetEdgeType(package!=null ? package+"::"+type : type); }
 }
 
 GrGenType GraphElementType():
 {
-	String package=null, type;
+    String package=null, type;
 }
 {
-	(LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetGraphElementType(package!=null ? package+"::"+type : type); }
+    (LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetGraphElementType(package!=null ? package+"::"+type : type); }
 }
 
 String TypeName():
 {
-	String package=null, type;
+    String package=null, type;
 }
 {
-	(LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return package!=null ? package+"::"+type : type; }
+    (LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return package!=null ? package+"::"+type : type; }
 }
 
 ShellGraphProcessingEnvironment Graph():
 {
-	String str;
-	int index;
+    String str;
+    int index;
 }
 {
     (
         index=Number() { return impl.GetShellGraphProcEnv(index); }
     |
-	    str=WordOrText() { return impl.GetShellGraphProcEnv(str); }
-	)
+        str=WordOrText() { return impl.GetShellGraphProcEnv(str); }
+    )
 }
 
 object SimpleConstant():
 {
-	object constant = null;
-	Token tok;
-	string package, type, value = null;
+    object constant = null;
+    Token tok;
+    string package, type, value = null;
 }
 {
-	(
-	  (
-		tok=<NUMBER> { constant = Convert.ToInt32(tok.image); }
-		| tok=<NUMBER_BYTE> { constant = Convert.ToSByte(impl.RemoveTypeSuffix(tok.image)); }
-		| tok=<NUMBER_SHORT> { constant = Convert.ToInt16(impl.RemoveTypeSuffix(tok.image)); }
-		| tok=<NUMBER_LONG> { constant = Convert.ToInt64(impl.RemoveTypeSuffix(tok.image)); }
-		| tok=<HEXNUMBER> { constant = Int32.Parse(tok.image.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber); }
-		| tok=<HEXNUMBER_BYTE> { constant = SByte.Parse(impl.RemoveTypeSuffix(tok.image.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber); }
-		| tok=<HEXNUMBER_SHORT> { constant = Int16.Parse(impl.RemoveTypeSuffix(tok.image.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber); }
-		| tok=<HEXNUMBER_LONG> { constant = Int64.Parse(impl.RemoveTypeSuffix(tok.image.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber); }
-	  )
-	|
-		constant=FloatNumber()
-	|
-		constant=DoubleNumber()
-	|
-		LOOKAHEAD(2) constant=QuotedText()
-	|
-		<TRUE> { constant = true; }
-	|
-		<FALSE> { constant = false; }
-	|
-		<NULL> { constant = null; }
-	|
-		package=WordOrText() "::" type=AttributeName() ("::" value=AttributeName())?
-		{
-			if(value!=null)
-			{
-				EnumAttributeType attrType = TypesHelper.GetEnumAttributeType(package+"::"+type, impl.CurrentGraph.Model);
-				if(attrType!=null)
-					constant = Enum.Parse(attrType.EnumType, value);
-				if(constant==null)
-					throw new ParseException("Invalid constant \""+package+"::"+type+"::"+value+"\"!");
-			}
-			else
-			{
-				value = type;
-				type = package;
-				EnumAttributeType attrType = TypesHelper.GetEnumAttributeType(type, impl.CurrentGraph.Model);
-				if(attrType!=null)
-					constant = Enum.Parse(attrType.EnumType, value);
-				if(constant==null)
-					throw new ParseException("Invalid constant \""+type+"::"+value+"\"!");
-			}
-		}
-	)
-	{
-		return constant;
-	}
+    (
+      (
+        tok=<NUMBER> { constant = Convert.ToInt32(tok.image); }
+        | tok=<NUMBER_BYTE> { constant = Convert.ToSByte(impl.RemoveTypeSuffix(tok.image)); }
+        | tok=<NUMBER_SHORT> { constant = Convert.ToInt16(impl.RemoveTypeSuffix(tok.image)); }
+        | tok=<NUMBER_LONG> { constant = Convert.ToInt64(impl.RemoveTypeSuffix(tok.image)); }
+        | tok=<HEXNUMBER> { constant = Int32.Parse(tok.image.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber); }
+        | tok=<HEXNUMBER_BYTE> { constant = SByte.Parse(impl.RemoveTypeSuffix(tok.image.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber); }
+        | tok=<HEXNUMBER_SHORT> { constant = Int16.Parse(impl.RemoveTypeSuffix(tok.image.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber); }
+        | tok=<HEXNUMBER_LONG> { constant = Int64.Parse(impl.RemoveTypeSuffix(tok.image.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber); }
+      )
+    |
+        constant=FloatNumber()
+    |
+        constant=DoubleNumber()
+    |
+        LOOKAHEAD(2) constant=QuotedText()
+    |
+        <TRUE> { constant = true; }
+    |
+        <FALSE> { constant = false; }
+    |
+        <NULL> { constant = null; }
+    |
+        package=WordOrText() "::" type=AttributeName() ("::" value=AttributeName())?
+        {
+            if(value!=null)
+            {
+                EnumAttributeType attrType = TypesHelper.GetEnumAttributeType(package+"::"+type, impl.CurrentGraph.Model);
+                if(attrType!=null)
+                    constant = Enum.Parse(attrType.EnumType, value);
+                if(constant==null)
+                    throw new ParseException("Invalid constant \""+package+"::"+type+"::"+value+"\"!");
+            }
+            else
+            {
+                value = type;
+                type = package;
+                EnumAttributeType attrType = TypesHelper.GetEnumAttributeType(type, impl.CurrentGraph.Model);
+                if(attrType!=null)
+                    constant = Enum.Parse(attrType.EnumType, value);
+                if(constant==null)
+                    throw new ParseException("Invalid constant \""+type+"::"+value+"\"!");
+            }
+        }
+    )
+    {
+        return constant;
+    }
 }
 
 object Constant():
 {
-	object constant = null;
-	object src = null, dst = null;
-	string typeName, typeNameDst;
-	Type srcType, dstType;
+    object constant = null;
+    object src = null, dst = null;
+    string typeName, typeNameDst;
+    Type srcType, dstType;
 }
 {
-	(
-		constant=SimpleConstant()
+    (
+        constant=SimpleConstant()
     |
-		"set" "<" typeName=TypeName() ">"
-		{
-			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
-			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
-			if(srcType!=null)
-				constant = ContainerHelper.NewDictionary(srcType, dstType);
-			if(constant==null)
-				throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
-		}
-		"{"
-			( src=SimpleConstant() { ((IDictionary)constant)[src] = null; } )?
-				( "," src=SimpleConstant() { ((IDictionary)constant)[src] = null; })*
-		"}"
-	|
-		"map" "<" typeName=TypeName() "," typeNameDst=TypeName() ">"
-		{
-			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
-			dstType = ContainerHelper.GetTypeFromNameForContainer(typeNameDst, impl.CurrentGraph.Model);
-			if(srcType!=null && dstType!=null)
-				constant = ContainerHelper.NewDictionary(srcType, dstType);
-			if(constant==null)
-				throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
-		}
-		"{"
-			( src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant)[src] = dst; } )?
-				( "," src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant)[src] = dst; } )*
-		"}"
-	|
-		"array" "<" typeName=TypeName() ">"
-		{
-			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
-			if(srcType!=null)
-				constant = ContainerHelper.NewList(srcType);
-			if(constant==null)
-				throw new ParseException("Invalid constant \"array<"+typeName+">\"!");
-		}
-		"["
-			( src=SimpleConstant() { ((IList)constant).Add(src); } )?
-				( "," src=SimpleConstant() { ((IList)constant).Add(src); })*
-		"]"
-	|
-		"deque" "<" typeName=TypeName() ">"
-		{
-			srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
-			if(srcType!=null)
-				constant = ContainerHelper.NewDeque(srcType);
-			if(constant==null)
-				throw new ParseException("Invalid constant \"deque<"+typeName+">\"!");
-		}
-		"]"
-			( src=SimpleConstant() { ((IDeque)constant).Enqueue(src); } )?
-				( "," src=SimpleConstant() { ((IDeque)constant).Enqueue(src); })*
-		"["
-	)
-	{
-		return constant;
-	}
+        "set" "<" typeName=TypeName() ">"
+        {
+            srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
+            dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
+            if(srcType!=null)
+                constant = ContainerHelper.NewDictionary(srcType, dstType);
+            if(constant==null)
+                throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
+        }
+        "{"
+            ( src=SimpleConstant() { ((IDictionary)constant)[src] = null; } )?
+                ( "," src=SimpleConstant() { ((IDictionary)constant)[src] = null; })*
+        "}"
+    |
+        "map" "<" typeName=TypeName() "," typeNameDst=TypeName() ">"
+        {
+            srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
+            dstType = ContainerHelper.GetTypeFromNameForContainer(typeNameDst, impl.CurrentGraph.Model);
+            if(srcType!=null && dstType!=null)
+                constant = ContainerHelper.NewDictionary(srcType, dstType);
+            if(constant==null)
+                throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
+        }
+        "{"
+            ( src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant)[src] = dst; } )?
+                ( "," src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant)[src] = dst; } )*
+        "}"
+    |
+        "array" "<" typeName=TypeName() ">"
+        {
+            srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
+            if(srcType!=null)
+                constant = ContainerHelper.NewList(srcType);
+            if(constant==null)
+                throw new ParseException("Invalid constant \"array<"+typeName+">\"!");
+        }
+        "["
+            ( src=SimpleConstant() { ((IList)constant).Add(src); } )?
+                ( "," src=SimpleConstant() { ((IList)constant).Add(src); })*
+        "]"
+    |
+        "deque" "<" typeName=TypeName() ">"
+        {
+            srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
+            if(srcType!=null)
+                constant = ContainerHelper.NewDeque(srcType);
+            if(constant==null)
+                throw new ParseException("Invalid constant \"deque<"+typeName+">\"!");
+        }
+        "]"
+            ( src=SimpleConstant() { ((IDeque)constant).Enqueue(src); } )?
+                ( "," src=SimpleConstant() { ((IDeque)constant).Enqueue(src); })*
+        "["
+    )
+    {
+        return constant;
+    }
 }
 
 void LineEnd():
 {}
 {
-	{ if(Quit) return; }
-	(<NL> | <DOUBLESEMICOLON> | <EOF> { Eof = true; })
+    { if(Quit) return; }
+    (<NL> | <DOUBLESEMICOLON> | <EOF> { Eof = true; })
 }
 
 bool ParseShellCommand():
 {
-	SequenceExpression seqExpr;
-	bool ifValue;
+    SequenceExpression seqExpr;
+    bool ifValue;
 }
 {
-	{ noError = true; }
-	try
-	{
-		{ if(ShowPrompt) Console.Write("> "); }
+    { noError = true; }
+    try
+    {
+        { if(ShowPrompt) Console.Write("> "); }
 
-		(
-			<NL>
-			| <DOUBLESEMICOLON>
-			| <EOF> { Eof = true; }
-			| seqExpr=If(null, null) { ifNesting.Push((bool)ifNesting.Peek() && impl.Evaluate(seqExpr)); }
-			| "else" { ifValue=(bool)ifNesting.Peek(); ifNesting.Pop(); ifNesting.Push((bool)ifNesting.Peek() && !ifValue); }
-			| "endif" { ifNesting.Pop(); }
-			| LOOKAHEAD( { (bool)ifNesting.Peek() } ) ShellCommand()
-			| LOOKAHEAD( { !(bool)ifNesting.Peek() } ) { errorSkipSilent(); }
-		)
-	}
-	catch(ParseException ex)
-	{
-		errorSkip(ex);
-		return false;
-	}
-	{ return noError; }
+        (
+            <NL>
+            | <DOUBLESEMICOLON>
+            | <EOF> { Eof = true; }
+            | seqExpr=If(null, null) { ifNesting.Push((bool)ifNesting.Peek() && impl.Evaluate(seqExpr)); }
+            | "else" { ifValue=(bool)ifNesting.Peek(); ifNesting.Pop(); ifNesting.Push((bool)ifNesting.Peek() && !ifValue); }
+            | "endif" { ifNesting.Pop(); }
+            | LOOKAHEAD( { (bool)ifNesting.Peek() } ) ShellCommand()
+            | LOOKAHEAD( { !(bool)ifNesting.Peek() } ) { errorSkipSilent(); }
+        )
+    }
+    catch(ParseException ex)
+    {
+        errorSkip(ex);
+        return false;
+    }
+    { return noError; }
 }
 
 void ShellCommand():
 {
-	String str1, str2 = null, str3 = null, graphName = null;
-	IGraphElement elem;
-	object obj, obj2;
-	INode node1, node2;
-	IEdge edge1, edge2;
-	ShellGraphProcessingEnvironment shellGraph = null;
-	Sequence seq;
-	ISequenceDefinition seqDef;
-	bool shellGraphSpecified = false, boolVal = false, boolVal2 = false;
-	bool strict = false, exitOnFailure = false, validated = false, onlySpecified = false;
-	int num;
-	List<String> parameters;
-	Param param;
-	Token tok;
+    String str1, str2 = null, str3 = null, graphName = null;
+    IGraphElement elem;
+    object obj, obj2;
+    INode node1, node2;
+    IEdge edge1, edge2;
+    ShellGraphProcessingEnvironment shellGraph = null;
+    Sequence seq;
+    ISequenceDefinition seqDef;
+    bool shellGraphSpecified = false, boolVal = false, boolVal2 = false;
+    bool strict = false, exitOnFailure = false, validated = false, onlySpecified = false;
+    int num;
+    List<String> parameters;
+    Param param;
+    Token tok;
 }
 {
     "!" str1=CommandLine()
@@ -1090,225 +1086,225 @@ void ShellCommand():
         impl.ExecuteCommandLine(str1);
     }
 |
-	"cd" str1=Filename() LineEnd()
-	{
-		noError = impl.ChangeDirectory(str1);
-	}
+    "cd" str1=Filename() LineEnd()
+    {
+        noError = impl.ChangeDirectory(str1);
+    }
 |
-	"ls" LineEnd()
-	{
-		noError = impl.ListDirectory();
-	}
+    "ls" LineEnd()
+    {
+        noError = impl.ListDirectory();
+    }
 |
-	"pwd" LineEnd()
-	{
-		noError = impl.PrintWorkingDirectory();
-	}
+    "pwd" LineEnd()
+    {
+        noError = impl.PrintWorkingDirectory();
+    }
 |
-	"askfor"
-	{
-		impl.Askfor(null);
-	}
+    "askfor"
+    {
+        impl.Askfor(null);
+    }
 |
-	"clear" "graph" (shellGraph=Graph() { shellGraphSpecified = true; })? LineEnd()
-	{
-	    if(shellGraphSpecified && shellGraph == null) noError = false;
-	    else impl.ClearGraph(shellGraph, shellGraphSpecified);
-	}
+    "clear" "graph" (shellGraph=Graph() { shellGraphSpecified = true; })? LineEnd()
+    {
+        if(shellGraphSpecified && shellGraph == null) noError = false;
+        else impl.ClearGraph(shellGraph, shellGraphSpecified);
+    }
 |
-	"custom" CustomCommand()
+    "custom" CustomCommand()
 |
     "debug" DebugCommand()
 |
-	"delete" DeleteCommand()
+    "delete" DeleteCommand()
 |
-	"dump" DumpCommand()
+    "dump" DumpCommand()
 |
-	"echo" str1=QuotedText() LineEnd()
-	{
+    "echo" str1=QuotedText() LineEnd()
+    {
         Console.WriteLine(Regex.Unescape(str1));
-	}
+    }
 |
-	"edge" "type" edge1=Edge() "is" edge2=Edge() LineEnd()
-	{
-		impl.EdgeTypeIsA(edge1, edge2);
-	}
+    "edge" "type" edge1=Edge() "is" edge2=Edge() LineEnd()
+    {
+        impl.EdgeTypeIsA(edge1, edge2);
+    }
 |
-	"export" parameters=FilenameParameterList()
-	{
-		noError = impl.Export(parameters);
-	}
+    "export" parameters=FilenameParameterList()
+    {
+        noError = impl.Export(parameters);
+    }
 |
-	"help" parameters=SpacedParametersAndLineEnd()
-	{
-		impl.Help(parameters);
-	}
+    "help" parameters=SpacedParametersAndLineEnd()
+    {
+        impl.Help(parameters);
+    }
 |
-	"import" parameters=FilenameParameterList()
-	{
-		noError = impl.Import(parameters);
-	}
+    "import" parameters=FilenameParameterList()
+    {
+        noError = impl.Import(parameters);
+    }
 |
     "include" str1=Filename() LineEnd()
     {
         noError = impl.Include(this, str1, null, null);
     }
 |
-	"new" NewCommand()
+    "new" NewCommand()
 |
-	"add" "new" "graph" graphName=WordOrText() LineEnd()
-	{
-		noError = impl.AddNewGraph(graphName);
-	}
+    "add" "new" "graph" graphName=WordOrText() LineEnd()
+    {
+        noError = impl.AddNewGraph(graphName);
+    }
 |
-	"in" graphName=WordOrText() LineEnd()
-	{
-		noError = impl.ChangeGraph(graphName);
-	}
+    "in" graphName=WordOrText() LineEnd()
+    {
+        noError = impl.ChangeGraph(graphName);
+    }
 |
-	"node" "type" node1=Node() "is" node2=Node() LineEnd()
-	{
-		impl.NodeTypeIsA(node1, node2);
-	}
+    "node" "type" node1=Node() "is" node2=Node() LineEnd()
+    {
+        impl.NodeTypeIsA(node1, node2);
+    }
 |
-	"parse"
-	(
-	    "file" str1=Filename() LineEnd()
-	    {
-		    noError = impl.ParseFile(str1);
-	    }
+    "parse"
+    (
+        "file" str1=Filename() LineEnd()
+        {
+            noError = impl.ParseFile(str1);
+        }
     |
-	    str1=WordOrText() LineEnd()
-	    {
-		    noError = impl.ParseString(str1);
-	    }
-	)
+        str1=WordOrText() LineEnd()
+        {
+            noError = impl.ParseString(str1);
+        }
+    )
 |
-	("quit" | "exit") LineEnd()
-	{
-		impl.Quit();
-		Quit = true;
-	}
+    ("quit" | "exit") LineEnd()
+    {
+        impl.Quit();
+        Quit = true;
+    }
 |
-	"randomseed"
-	(
-		num=Number()
-		{
-			impl.SetRandomSeed(num);
-		}
-	|
-		str1=WordOrText()
-		{
-			if(str1 != "time")
-			{
-				Console.WriteLine("The new seed as integer or the word \"time\" for setting the current time as seed expected!");
-				noError = false;
-			}
-			else impl.SetRandomSeed(Environment.TickCount);
-		}
-	)
+    "randomseed"
+    (
+        num=Number()
+        {
+            impl.SetRandomSeed(num);
+        }
+    |
+        str1=WordOrText()
+        {
+            if(str1 != "time")
+            {
+                Console.WriteLine("The new seed as integer or the word \"time\" for setting the current time as seed expected!");
+                noError = false;
+            }
+            else impl.SetRandomSeed(Environment.TickCount);
+        }
+    )
 |
-	"record" str1=Filename() { boolVal=false; boolVal2=false; } ("start" { boolVal=true; boolVal2=true; } | "stop" { boolVal=true; boolVal2=false; })? LineEnd()
-	{
-		noError = impl.Record(str1, boolVal, boolVal2);
-	}
+    "record" str1=Filename() { boolVal=false; boolVal2=false; } ("start" { boolVal=true; boolVal2=true; } | "stop" { boolVal=true; boolVal2=false; })? LineEnd()
+    {
+        noError = impl.Record(str1, boolVal, boolVal2);
+    }
 |
-	"recordflush" LineEnd()
-	{
-		noError = impl.RecordFlush();
-	}
+    "recordflush" LineEnd()
+    {
+        noError = impl.RecordFlush();
+    }
 |
     "redirect" RedirectCommand()
 |
-	"replay" str1=Filename() ("from" str2=QuotedText())? ("to" str3=QuotedText())? LineEnd()
-	{
-		noError = impl.Replay(str1, this, str2, str3);
-	}
+    "replay" str1=Filename() ("from" str2=QuotedText())? ("to" str3=QuotedText())? LineEnd()
+    {
+        noError = impl.Replay(str1, this, str2, str3);
+    }
 |
     "retype" RetypeCommand()
 |
-	"save" "graph" str1=Filename() LineEnd()
-	{
-		impl.SaveGraph(str1);
-	}
+    "save" "graph" str1=Filename() LineEnd()
+    {
+        impl.SaveGraph(str1);
+    }
 |
-	"select" SelectCommand()
+    "select" SelectCommand()
 |
-	"show" ShowCommand()
+    "show" ShowCommand()
 |
-	"silence" ("exec" { boolVal = true; } )?
-	(
-		"on" { if(boolVal) impl.SilenceExec = true; else impl.Silence = true; }
-	|
-		"off" { if(boolVal) impl.SilenceExec = false; else impl.Silence = false;}
-	)
+    "silence" ("exec" { boolVal = true; } )?
+    (
+        "on" { if(boolVal) impl.SilenceExec = true; else impl.Silence = true; }
+    |
+        "off" { if(boolVal) impl.SilenceExec = false; else impl.Silence = false;}
+    )
 |
-	"sync" "io" LineEnd()
-	{
-		impl.SyncIO();
-	}
+    "sync" "io" LineEnd()
+    {
+        impl.SyncIO();
+    }
 |
-	tok="validate" ("exitonfailure" {exitOnFailure = true;})?
-	(
-	    ("xgrs" | "exec") str1=CommandLine()
-	    {
+    tok="validate" ("exitonfailure" {exitOnFailure = true;})?
+    (
+        ("xgrs" | "exec") str1=CommandLine()
+        {
             try
             {
-				SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
-				List<String> warnings = new List<String>();
+                SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
+                List<String> warnings = new List<String>();
                 seq = SequenceParser.ParseSequence(str1, parserEnv, warnings);
                 foreach(string warning in warnings)
                 {
-					Console.WriteLine("The validate sequence at line " + tok.beginLine + " reported back: " + warning);
+                    Console.WriteLine("The validate sequence at line " + tok.beginLine + " reported back: " + warning);
                 }
                 seq.SetNeedForProfilingRecursive(impl.GetEmitProfiling());
-    	        validated = impl.ValidateWithSequence(seq);
+                validated = impl.ValidateWithSequence(seq);
                 noError = !impl.OperationCancelled;
             }
             catch(SequenceParserException ex)
             {
-	            Console.WriteLine("Unable to parse validate sequence at line " + tok.beginLine);
+                Console.WriteLine("Unable to parse validate sequence at line " + tok.beginLine);
                 impl.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
             {
-				Console.WriteLine("Unable to execute validate sequence at line " + tok.beginLine + ": " + ex.Message);
+                Console.WriteLine("Unable to execute validate sequence at line " + tok.beginLine + ": " + ex.Message);
                 noError = false;
             }
             catch(Exception ex)
             {
-				Console.WriteLine("Unable to execute validate sequence at line " + tok.beginLine + ": " + ex);
+                Console.WriteLine("Unable to execute validate sequence at line " + tok.beginLine + ": " + ex);
                 noError = false;
             }
-			if((!validated || !noError) && exitOnFailure)
-			{
-				throw new Exception("validate (at line " + tok.beginLine + ") failed");
-			}
+            if((!validated || !noError) && exitOnFailure)
+            {
+                throw new Exception("validate (at line " + tok.beginLine + ") failed");
+            }
         }
     |
-	    ( "strict" { strict = true; } ("only" "specified" { onlySpecified = true;})? )? LineEnd()
-	    {
-		    validated = impl.Validate(strict, onlySpecified);
-			if(!validated && exitOnFailure)
-			{
-				throw new Exception("validate (at line " + tok.beginLine + ") failed");
-			}
-	    }
-	)
+        ( "strict" { strict = true; } ("only" "specified" { onlySpecified = true;})? )? LineEnd()
+        {
+            validated = impl.Validate(strict, onlySpecified);
+            if(!validated && exitOnFailure)
+            {
+                throw new Exception("validate (at line " + tok.beginLine + ") failed");
+            }
+        }
+    )
 |
     (tok="xgrs" | tok="exec") str1=CommandLine()
     {
         try
         {
-			SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
-			List<String> warnings = new List<String>();
+            SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
+            List<String> warnings = new List<String>();
             seq = SequenceParser.ParseSequence(str1, parserEnv, warnings);
-			foreach(string warning in warnings)
-			{
-				Console.WriteLine("The sequence at line " + tok.beginLine + " reported back: " + warning);
-			}
-			seq.SetNeedForProfilingRecursive(impl.GetEmitProfiling());
+            foreach(string warning in warnings)
+            {
+                Console.WriteLine("The sequence at line " + tok.beginLine + " reported back: " + warning);
+            }
+            seq.SetNeedForProfilingRecursive(impl.GetEmitProfiling());
             impl.ApplyRewriteSequence(seq, false);
             noError = !impl.OperationCancelled;
         }
@@ -1334,13 +1330,13 @@ void ShellCommand():
     {
         try
         {
-			SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
-			List<String> warnings = new List<String>();
+            SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
+            List<String> warnings = new List<String>();
             seqDef = SequenceParser.ParseSequenceDefinition(str1, parserEnv, warnings);
-			foreach(string warning in warnings)
-			{
-				Console.WriteLine("The sequence definition at line " + tok.beginLine + " reported back: " + warning);
-			}
+            foreach(string warning in warnings)
+            {
+                Console.WriteLine("The sequence definition at line " + tok.beginLine + " reported back: " + warning);
+            }
             ((SequenceDefinition)seqDef).SetNeedForProfilingRecursive(impl.GetEmitProfiling());
             impl.DefineRewriteSequence(seqDef);
         }
@@ -1372,102 +1368,102 @@ void ShellCommand():
 
     try
     {
-	    LOOKAHEAD(GraphElement() ".") elem=GraphElement() "." str1=AttributeName()
-	    (
-	        LineEnd()
-	        {
-	            impl.ShowElementAttribute(elem, str1);
-	        }
-	    |
-	        "=" { param = new Param(str1); } AttributeParamValue(ref param) LineEnd()
-	        {
-		        impl.SetElementAttribute(elem, param);
-	        }
-	    |
-	        "[" obj=SimpleConstant() "]" "=" str2=AttributeValue() LineEnd()
-	        {
-		        impl.SetElementAttributeIndexed(elem, str1, str2, obj);
-	        }
-		|
-			LOOKAHEAD(2) "." "add" "(" obj=SimpleConstant()
-			(
-				"," obj2=SimpleConstant() ")" LineEnd()
-				{
-					impl.IndexedContainerAdd(elem, str1, obj, obj2);
-				}
-			|
-				")" LineEnd()
-				{
-					impl.ContainerAdd(elem, str1, obj);
-				}
-			)
-		|
-			"." "rem" "("
-			(
-				obj=SimpleConstant() ")" LineEnd()
-				{
-					impl.ContainerRemove(elem, str1, obj);
-				}
-			|
-				")" LineEnd()
-				{
-					impl.ContainerRemove(elem, str1, null);
-				}
-			)
-	    )
-	|
+        LOOKAHEAD(GraphElement() ".") elem=GraphElement() "." str1=AttributeName()
+        (
+            LineEnd()
+            {
+                impl.ShowElementAttribute(elem, str1);
+            }
+        |
+            "=" { param = new Param(str1); } AttributeParamValue(ref param) LineEnd()
+            {
+                impl.SetElementAttribute(elem, param);
+            }
+        |
+            "[" obj=SimpleConstant() "]" "=" str2=AttributeValue() LineEnd()
+            {
+                impl.SetElementAttributeIndexed(elem, str1, str2, obj);
+            }
+        |
+            LOOKAHEAD(2) "." "add" "(" obj=SimpleConstant()
+            (
+                "," obj2=SimpleConstant() ")" LineEnd()
+                {
+                    impl.IndexedContainerAdd(elem, str1, obj, obj2);
+                }
+            |
+                ")" LineEnd()
+                {
+                    impl.ContainerAdd(elem, str1, obj);
+                }
+            )
+        |
+            "." "rem" "("
+            (
+                obj=SimpleConstant() ")" LineEnd()
+                {
+                    impl.ContainerRemove(elem, str1, obj);
+                }
+            |
+                ")" LineEnd()
+                {
+                    impl.ContainerRemove(elem, str1, null);
+                }
+            )
+        )
+    |
         LOOKAHEAD(2) str1=Variable() "="
         (
-			"askfor"
-			(
-				str2=TypeName()
-				{
-					obj = impl.Askfor(str2);
-					if(obj == null) noError = false;
-				}
-			|
-				"set" "<" str2=TypeName() ">"
-				{
-					obj = impl.Askfor("set<"+str2+">");
-					if(obj == null) noError = false;
-				}
-			|
-				"map" "<" str2=TypeName() "," str3=TypeName() ">"
-				{
-					obj = impl.Askfor("map<"+str2+","+str3+">");
-					if(obj == null) noError = false;
-				}
-			|
-				"array" "<" str2=TypeName() ">"
-				{
-					obj = impl.Askfor("array<"+str2+">");
-					if(obj == null) noError = false;
-				}
-			|
-				"deque" "<" str2=TypeName() ">"
-				{
-					obj = impl.Askfor("deque<"+str2+">");
-					if(obj == null) noError = false;
-				}
-			) LineEnd()
-		|
-		    LOOKAHEAD(2) obj=GraphElementOrUnquotedVar()
-			( "." str2=AnyString() { obj = impl.GetElementAttribute((IGraphElement) obj, str2); } )? LineEnd()
-		|
-			obj=Constant() LineEnd()
-		)
+            "askfor"
+            (
+                str2=TypeName()
+                {
+                    obj = impl.Askfor(str2);
+                    if(obj == null) noError = false;
+                }
+            |
+                "set" "<" str2=TypeName() ">"
+                {
+                    obj = impl.Askfor("set<"+str2+">");
+                    if(obj == null) noError = false;
+                }
+            |
+                "map" "<" str2=TypeName() "," str3=TypeName() ">"
+                {
+                    obj = impl.Askfor("map<"+str2+","+str3+">");
+                    if(obj == null) noError = false;
+                }
+            |
+                "array" "<" str2=TypeName() ">"
+                {
+                    obj = impl.Askfor("array<"+str2+">");
+                    if(obj == null) noError = false;
+                }
+            |
+                "deque" "<" str2=TypeName() ">"
+                {
+                    obj = impl.Askfor("deque<"+str2+">");
+                    if(obj == null) noError = false;
+                }
+            ) LineEnd()
+        |
+            LOOKAHEAD(2) obj=GraphElementOrUnquotedVar()
+            ( "." str2=AnyString() { obj = impl.GetElementAttribute((IGraphElement) obj, str2); } )? LineEnd()
+        |
+            obj=Constant() LineEnd()
+        )
         {
-			if(noError) impl.SetVariable(str1, obj);
+            if(noError) impl.SetVariable(str1, obj);
         }
-	|
-		str1=Variable() "[" obj=SimpleConstant() "]" "=" obj2=SimpleConstant() LineEnd()
-		{
-			impl.SetVariableIndexed(str1, obj2, obj);
-		}
+    |
+        str1=Variable() "[" obj=SimpleConstant() "]" "=" obj2=SimpleConstant() LineEnd()
+        {
+            impl.SetVariableIndexed(str1, obj2, obj);
+        }
     }
     catch(ParseException ex)
     {
-		Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.Message);
         throw new ParseException("Unknown command. Enter \"help\" to get a list of commands.");
     }
 }
@@ -1478,162 +1474,162 @@ void ShellCommand():
 
 void NewCommand():
 {
-	String modelFilename, path, graphName = "DefaultGraph";
-	INode srcNode, tgtNode;
-	ElementDef elemDef;
-	bool directed, on = false;
+    String modelFilename, path, graphName = "DefaultGraph";
+    INode srcNode, tgtNode;
+    ElementDef elemDef;
+    bool directed, on = false;
 }
 {
-	try
-	{
-		("new" { on = true; })? "graph" modelFilename=Filename() (graphName=WordOrText())? LineEnd()
-		{
-			noError = impl.NewGraph(modelFilename, graphName, on);
-		}
-	|
-		"add" "reference" path=Filename() LineEnd()
-		{
-			noError = impl.NewGraphAddReference(path);
-		}
-	|
-		LOOKAHEAD(2) "set" "keepdebug" ("on" { on = true; } | "off" { on = false; }) LineEnd()
-		{
-			noError = impl.NewGraphSetKeepDebug(on);
-		}
-	|
-		LOOKAHEAD(2) "set" "statistics" path=Filename() LineEnd()
-		{
-			noError = impl.NewGraphSetStatistics(path);
-		}
-	|
-		LOOKAHEAD(2) "set" "lazynic" ("on" { on = true; } | "off" { on = false; }) LineEnd()
-		{
-			noError = impl.NewGraphSetLazyNIC(on);
-		}
-	|
-		LOOKAHEAD(2) "set" "noinline" ("on" { on = true; } | "off" { on = false; }) LineEnd()
-		{
-			noError = impl.NewGraphSetNoinline(on);
-		}
-	|
-		"set" "profile" ("on" { on = true; } | "off" { on = false; }) LineEnd()
-		{
-			noError = impl.NewGraphSetProfile(on);
-		}
-	|
-		LOOKAHEAD(3)
-		srcNode=Node() "-" elemDef=ElementDefinition() ( "->" { directed = true; } | "-" { directed = false; } ) tgtNode=Node() LineEnd()
-		{
-			noError = impl.NewEdge(elemDef, srcNode, tgtNode, directed) != null;
-		}
-	|
-		LOOKAHEAD(2)
-		tgtNode=Node() "<-" elemDef=ElementDefinition() "-" { directed = true; } srcNode=Node() LineEnd()
-		{
-			noError = impl.NewEdge(elemDef, srcNode, tgtNode, directed) != null;
-		}
-	|
-		elemDef=ElementDefinition() LineEnd()
-		{
-			noError = impl.NewNode(elemDef) != null;
-		}
-	}
-	catch(ParseException ex)
-	{
-		Console.WriteLine(ex.Message);
-		Console.WriteLine("Invalid command!");
-		impl.HelpNew(new List<String>());
-		errorSkipSilent();
-		noError = false;
-	}
+    try
+    {
+        ("new" { on = true; })? "graph" modelFilename=Filename() (graphName=WordOrText())? LineEnd()
+        {
+            noError = impl.NewGraph(modelFilename, graphName, on);
+        }
+    |
+        "add" "reference" path=Filename() LineEnd()
+        {
+            noError = impl.NewGraphAddReference(path);
+        }
+    |
+        LOOKAHEAD(2) "set" "keepdebug" ("on" { on = true; } | "off" { on = false; }) LineEnd()
+        {
+            noError = impl.NewGraphSetKeepDebug(on);
+        }
+    |
+        LOOKAHEAD(2) "set" "statistics" path=Filename() LineEnd()
+        {
+            noError = impl.NewGraphSetStatistics(path);
+        }
+    |
+        LOOKAHEAD(2) "set" "lazynic" ("on" { on = true; } | "off" { on = false; }) LineEnd()
+        {
+            noError = impl.NewGraphSetLazyNIC(on);
+        }
+    |
+        LOOKAHEAD(2) "set" "noinline" ("on" { on = true; } | "off" { on = false; }) LineEnd()
+        {
+            noError = impl.NewGraphSetNoinline(on);
+        }
+    |
+        "set" "profile" ("on" { on = true; } | "off" { on = false; }) LineEnd()
+        {
+            noError = impl.NewGraphSetProfile(on);
+        }
+    |
+        LOOKAHEAD(3)
+        srcNode=Node() "-" elemDef=ElementDefinition() ( "->" { directed = true; } | "-" { directed = false; } ) tgtNode=Node() LineEnd()
+        {
+            noError = impl.NewEdge(elemDef, srcNode, tgtNode, directed) != null;
+        }
+    |
+        LOOKAHEAD(2)
+        tgtNode=Node() "<-" elemDef=ElementDefinition() "-" { directed = true; } srcNode=Node() LineEnd()
+        {
+            noError = impl.NewEdge(elemDef, srcNode, tgtNode, directed) != null;
+        }
+    |
+        elemDef=ElementDefinition() LineEnd()
+        {
+            noError = impl.NewNode(elemDef) != null;
+        }
+    }
+    catch(ParseException ex)
+    {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine("Invalid command!");
+        impl.HelpNew(new List<String>());
+        errorSkipSilent();
+        noError = false;
+    }
 }
 
 ElementDef ElementDefinition():
 {
-	String varName = null, typeName = null, elemName = null;
-	ArrayList attributes = new ArrayList();
+    String varName = null, typeName = null, elemName = null;
+    ArrayList attributes = new ArrayList();
 }
 {
-	(varName=Variable())?
-	(
-		":" typeName=TypeName()
-		(
-			"("
-			(
-				"$" "=" elemName=WordOrText() ("," Attributes(attributes))?
-			|
-				Attributes(attributes)
-			)?
-			")"
-		)?
-	)?
-	{
-		return new ElementDef(elemName, varName, typeName, attributes);
-	}
+    (varName=Variable())?
+    (
+        ":" typeName=TypeName()
+        (
+            "("
+            (
+                "$" "=" elemName=WordOrText() ("," Attributes(attributes))?
+            |
+                Attributes(attributes)
+            )?
+            ")"
+        )?
+    )?
+    {
+        return new ElementDef(elemName, varName, typeName, attributes);
+    }
 }
 
 void Attributes(ArrayList attributes):
 {}
 {
-	SingleAttribute(attributes) ("," SingleAttribute(attributes) )*
+    SingleAttribute(attributes) ("," SingleAttribute(attributes) )*
 }
 
 void SingleAttribute(ArrayList attributes):
 {
-	String attribName;
-	Param param;
+    String attribName;
+    Param param;
 }
 {
-	attribName=WordOrText() "="
-		{ param = new Param(attribName); }
-		AttributeParamValue(ref param)
-			{ attributes.Add(param); }
+    attribName=WordOrText() "="
+        { param = new Param(attribName); }
+        AttributeParamValue(ref param)
+            { attributes.Add(param); }
 }
 
 void AttributeParamValue(ref Param param):
 {
-	String value, valueTgt;
-	String typeName, typeNameTgt;
+    String value, valueTgt;
+    String typeName, typeNameTgt;
 }
 {
-	value=AttributeValue()
-		{
-			param.Value = value;
-		}
-	| "set" "<" typeName=TypeName() ">"
-		{
-			param.Value = "set";
-			param.Type = typeName;
-			param.Values = new ArrayList();
-		}
-		"{" ( value=AttributeValue() { param.Values.Add(value); } )?
-			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "}"
-	| "map" "<" typeName=TypeName() "," typeNameTgt=TypeName() ">"
-		{
-			param.Value = "map";
-			param.Type = typeName;
-			param.TgtType = typeNameTgt;
-			param.Values = new ArrayList();
-			param.TgtValues = new ArrayList();
-		}
-		"{" ( value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )?
-			( <COMMA> value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )* "}"
-	| "array" "<" typeName=TypeName() ">"
-		{
-			param.Value = "array";
-			param.Type = typeName;
-			param.Values = new ArrayList();
-		}
-		"[" ( value=AttributeValue() { param.Values.Add(value); } )?
-			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "]"
-	| "deque" "<" typeName=TypeName() ">"
-		{
-			param.Value = "deque";
-			param.Type = typeName;
-			param.Values = new ArrayList();
-		}
-		"]" ( value=AttributeValue() { param.Values.Add(value); } )?
-			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "["
+    value=AttributeValue()
+        {
+            param.Value = value;
+        }
+    | "set" "<" typeName=TypeName() ">"
+        {
+            param.Value = "set";
+            param.Type = typeName;
+            param.Values = new ArrayList();
+        }
+        "{" ( value=AttributeValue() { param.Values.Add(value); } )?
+            (<COMMA> value=AttributeValue() { param.Values.Add(value); })* "}"
+    | "map" "<" typeName=TypeName() "," typeNameTgt=TypeName() ">"
+        {
+            param.Value = "map";
+            param.Type = typeName;
+            param.TgtType = typeNameTgt;
+            param.Values = new ArrayList();
+            param.TgtValues = new ArrayList();
+        }
+        "{" ( value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )?
+            ( <COMMA> value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )* "}"
+    | "array" "<" typeName=TypeName() ">"
+        {
+            param.Value = "array";
+            param.Type = typeName;
+            param.Values = new ArrayList();
+        }
+        "[" ( value=AttributeValue() { param.Values.Add(value); } )?
+            (<COMMA> value=AttributeValue() { param.Values.Add(value); })* "]"
+    | "deque" "<" typeName=TypeName() ">"
+        {
+            param.Value = "deque";
+            param.Type = typeName;
+            param.Values = new ArrayList();
+        }
+        "]" ( value=AttributeValue() { param.Values.Add(value); } )?
+            (<COMMA> value=AttributeValue() { param.Values.Add(value); })* "["
 }
 
 //////////////////////
@@ -1642,50 +1638,50 @@ void AttributeParamValue(ref Param param):
 
 void SelectCommand():
 {
-	String str, mainname;
-	ArrayList parameters = new ArrayList();
-	ShellGraphProcessingEnvironment shellGraph;
+    String str, mainname;
+    ArrayList parameters = new ArrayList();
+    ShellGraphProcessingEnvironment shellGraph;
 }
 {
-	try
-	{
-		"backend" str=Filename() (":" Parameters(parameters))? LineEnd()
-		{
-			noError = impl.SelectBackend(str, parameters);
-		}
-	|
-		"graph" shellGraph=Graph() LineEnd()
-		{
-			if(shellGraph == null) noError = false;
-			else impl.SelectShellGraphProcEnv(shellGraph);
-		}
-	|
-		"actions" str=Filename() LineEnd()
-		{
-			noError = impl.SelectActions(str);
-		}
-	|
-		"parser" str=Filename() mainname=WordOrText() LineEnd()
-		{
-			noError = impl.SelectParser(str, mainname);
-		}
-	}
-	catch(ParseException ex)
-	{
-		Console.WriteLine(ex.Message);
-		Console.WriteLine("Invalid command!");
-		impl.HelpSelect(new List<String>());
-		errorSkipSilent();
-		noError = false;
-	}
+    try
+    {
+        "backend" str=Filename() (":" Parameters(parameters))? LineEnd()
+        {
+            noError = impl.SelectBackend(str, parameters);
+        }
+    |
+        "graph" shellGraph=Graph() LineEnd()
+        {
+            if(shellGraph == null) noError = false;
+            else impl.SelectShellGraphProcEnv(shellGraph);
+        }
+    |
+        "actions" str=Filename() LineEnd()
+        {
+            noError = impl.SelectActions(str);
+        }
+    |
+        "parser" str=Filename() mainname=WordOrText() LineEnd()
+        {
+            noError = impl.SelectParser(str, mainname);
+        }
+    }
+    catch(ParseException ex)
+    {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine("Invalid command!");
+        impl.HelpSelect(new List<String>());
+        errorSkipSilent();
+        noError = false;
+    }
 }
 
 void Parameters(ArrayList parameters):
 {
-	String str;
+    String str;
 }
 {
-	str=WordOrText() { parameters.Add(str); } ("," str=WordOrText() { parameters.Add(str); })*
+    str=WordOrText() { parameters.Add(str); } ("," str=WordOrText() { parameters.Add(str); })*
 }
 
 //////////////////////////////////////////////////
@@ -1694,95 +1690,95 @@ void Parameters(ArrayList parameters):
 
 void DeleteCommand():
 {
-	INode node;
-	IEdge edge;
-	ShellGraphProcessingEnvironment shellGraph = null;
-	bool shellGraphSpecified = false;
+    INode node;
+    IEdge edge;
+    ShellGraphProcessingEnvironment shellGraph = null;
+    bool shellGraphSpecified = false;
 }
 {
-	try
-	{
-		"node" node=Node() LineEnd()
-		{
-			noError = impl.Remove(node);
-		}
-	|
-		"edge" edge=Edge() LineEnd()
-		{
-			noError = impl.Remove(edge);
-		}
-	|
-		"graph" (shellGraph=Graph() { shellGraphSpecified = true; })? LineEnd()
-		{
-			noError = impl.DestroyGraph(shellGraph, shellGraphSpecified);
-		}
-	}
-	catch(ParseException ex)
-	{
-		Console.WriteLine(ex.Message);
-		Console.WriteLine("Invalid command!");
-		impl.HelpDelete(new List<String>());
-		errorSkipSilent();
-		noError = false;
-	}
+    try
+    {
+        "node" node=Node() LineEnd()
+        {
+            noError = impl.Remove(node);
+        }
+    |
+        "edge" edge=Edge() LineEnd()
+        {
+            noError = impl.Remove(edge);
+        }
+    |
+        "graph" (shellGraph=Graph() { shellGraphSpecified = true; })? LineEnd()
+        {
+            noError = impl.DestroyGraph(shellGraph, shellGraphSpecified);
+        }
+    }
+    catch(ParseException ex)
+    {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine("Invalid command!");
+        impl.HelpDelete(new List<String>());
+        errorSkipSilent();
+        noError = false;
+    }
 }
 
 void RetypeCommand():
 {
-	INode node;
-	IEdge edge;
-	String typeName;
+    INode node;
+    IEdge edge;
+    String typeName;
 }
 {
-	try
-	{
-		"-" edge=Edge() "<" typeName=TypeName() ">" ( "->" | "-" ) LineEnd()
-		{
-			noError = impl.Retype(edge, typeName) != null;
-		}
-	|
-		node=Node() "<" typeName=TypeName() ">" LineEnd()
-		{
-			noError = impl.Retype(node, typeName) != null;
-		}
-	}
-	catch(ParseException ex)
-	{
-		Console.WriteLine(ex.Message);
-		Console.WriteLine("Invalid command!");
-		impl.HelpRetype(new List<String>());
-		errorSkipSilent();
-		noError = false;
-	}
+    try
+    {
+        "-" edge=Edge() "<" typeName=TypeName() ">" ( "->" | "-" ) LineEnd()
+        {
+            noError = impl.Retype(edge, typeName) != null;
+        }
+    |
+        node=Node() "<" typeName=TypeName() ">" LineEnd()
+        {
+            noError = impl.Retype(node, typeName) != null;
+        }
+    }
+    catch(ParseException ex)
+    {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine("Invalid command!");
+        impl.HelpRetype(new List<String>());
+        errorSkipSilent();
+        noError = false;
+    }
 }
 
 void RedirectCommand():
 {
-	INode node;
-	IEdge edge;
-	String str1;
+    INode node;
+    IEdge edge;
+    String str1;
 }
 {
-	try
-	{
-		"emit" str1=Filename() LineEnd()
-		{
-			noError = impl.RedirectEmit(str1);
-		}
-	|
-		edge=Edge() str1=WordOrText() node=Node() LineEnd()
-		{
-			noError = impl.Redirect(edge, str1, node);
-		}
-	}
-	catch(ParseException ex)
-	{
-		Console.WriteLine(ex.Message);
-		Console.WriteLine("Invalid command!");
-		impl.HelpRedirect(new List<String>());
-		errorSkipSilent();
-		noError = false;
-	}
+    try
+    {
+        "emit" str1=Filename() LineEnd()
+        {
+            noError = impl.RedirectEmit(str1);
+        }
+    |
+        edge=Edge() str1=WordOrText() node=Node() LineEnd()
+        {
+            noError = impl.Redirect(edge, str1, node);
+        }
+    }
+    catch(ParseException ex)
+    {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine("Invalid command!");
+        impl.HelpRedirect(new List<String>());
+        errorSkipSilent();
+        noError = false;
+    }
 }
 
 ////////////////////
@@ -1791,164 +1787,164 @@ void RedirectCommand():
 
 void ShowCommand():
 {
-	String str = null;
-	String args = null;
-	NodeType nodeType = null;
-	EdgeType edgeType = null;
-	IGraphElement elem = null;
-	bool typeProvided = false;
-	bool only = false;
-	bool keep = false;
+    String str = null;
+    String args = null;
+    NodeType nodeType = null;
+    EdgeType edgeType = null;
+    IGraphElement elem = null;
+    bool typeProvided = false;
+    bool only = false;
+    bool keep = false;
 }
 {
-	try
-	{
-		"nodes" (("only" { only=true; })? nodeType=NodeType() { typeProvided=true; })? LineEnd()
-		{
-			if(!typeProvided || nodeType != null)
-				impl.ShowNodes(nodeType, only);
-		}
-	|
-		"edges" (("only" { only=true; })? edgeType=EdgeType() { typeProvided=true; })? LineEnd()
-		{
-			if(!typeProvided || edgeType != null)
-				impl.ShowEdges(edgeType, only);
-		}
-	|
-		LOOKAHEAD(2)
-		"num" "nodes" (("only" { only=true; })? nodeType=NodeType() { typeProvided=true; })? LineEnd()
-		{
-			if(!typeProvided || nodeType != null)
-				impl.ShowNumNodes(nodeType, only);
-		}
-	|
-		"num" "edges" (("only" { only=true; })? edgeType=EdgeType() { typeProvided=true; })? LineEnd()
-		{
-			if(!typeProvided || edgeType != null)
-				impl.ShowNumEdges(edgeType, only);
-		}
-	|
-		"node" ShowNode()
-	|
-		"edge" ShowEdge()
-	|
-		"var" ShowVar()
-	|
-		"graph" str=Filename() ("keep" { keep=true; })? (args=WordOrText())? LineEnd()
-		{
-			impl.ShowGraphWith(str, args, keep);
-		}
-	|
-		"graphs" LineEnd()
-		{
-			impl.ShowGraphs();
-		}
-	|
-		"actions" LineEnd()
-		{
-			impl.ShowActions();
-		}
-	|
-		"backend" LineEnd()
-		{
-			impl.ShowBackend();
-		}
-	|
-		"profile" (str=WordOrText())? LineEnd()
-		{
-			impl.ShowProfile(str);
-		}
-	|
-		elem=GraphElement() "." str=AttributeName() LineEnd()
+    try
+    {
+        "nodes" (("only" { only=true; })? nodeType=NodeType() { typeProvided=true; })? LineEnd()
+        {
+            if(!typeProvided || nodeType != null)
+                impl.ShowNodes(nodeType, only);
+        }
+    |
+        "edges" (("only" { only=true; })? edgeType=EdgeType() { typeProvided=true; })? LineEnd()
+        {
+            if(!typeProvided || edgeType != null)
+                impl.ShowEdges(edgeType, only);
+        }
+    |
+        LOOKAHEAD(2)
+        "num" "nodes" (("only" { only=true; })? nodeType=NodeType() { typeProvided=true; })? LineEnd()
+        {
+            if(!typeProvided || nodeType != null)
+                impl.ShowNumNodes(nodeType, only);
+        }
+    |
+        "num" "edges" (("only" { only=true; })? edgeType=EdgeType() { typeProvided=true; })? LineEnd()
+        {
+            if(!typeProvided || edgeType != null)
+                impl.ShowNumEdges(edgeType, only);
+        }
+    |
+        "node" ShowNode()
+    |
+        "edge" ShowEdge()
+    |
+        "var" ShowVar()
+    |
+        "graph" str=Filename() ("keep" { keep=true; })? (args=WordOrText())? LineEnd()
+        {
+            impl.ShowGraphWith(str, args, keep);
+        }
+    |
+        "graphs" LineEnd()
+        {
+            impl.ShowGraphs();
+        }
+    |
+        "actions" LineEnd()
+        {
+            impl.ShowActions();
+        }
+    |
+        "backend" LineEnd()
+        {
+            impl.ShowBackend();
+        }
+    |
+        "profile" (str=WordOrText())? LineEnd()
+        {
+            impl.ShowProfile(str);
+        }
+    |
+        elem=GraphElement() "." str=AttributeName() LineEnd()
         {
             impl.ShowElementAttribute(elem, str);
         }
-	}
-	catch(ParseException ex)
-	{
-		Console.WriteLine(ex.Message);
-		Console.WriteLine("Invalid command!");
-		impl.HelpShow(new List<String>());
-		errorSkipSilent();
-		noError = false;
-	}
+    }
+    catch(ParseException ex)
+    {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine("Invalid command!");
+        impl.HelpShow(new List<String>());
+        errorSkipSilent();
+        noError = false;
+    }
 }
 
 void ShowNode():
 {
-	bool only = false;
-	INode node;
+    bool only = false;
+    INode node;
     NodeType nodeType = null;
 }
 {
-	"types" LineEnd()
-	{
-		impl.ShowNodeTypes();
-	}
+    "types" LineEnd()
+    {
+        impl.ShowNodeTypes();
+    }
 |
-	"super" "types" nodeType=NodeType() LineEnd()
-	{
-		impl.ShowSuperTypes(nodeType, true);
-	}
+    "super" "types" nodeType=NodeType() LineEnd()
+    {
+        impl.ShowSuperTypes(nodeType, true);
+    }
 |
-	"sub" "types" nodeType=NodeType() LineEnd()
-	{
-		impl.ShowSubTypes(nodeType, true);
-	}
+    "sub" "types" nodeType=NodeType() LineEnd()
+    {
+        impl.ShowSubTypes(nodeType, true);
+    }
 |
-	"attributes" (("only" { only=true; })? nodeType=NodeType())? LineEnd()
-	{
-		impl.ShowAvailableNodeAttributes(only, nodeType);
-	}
+    "attributes" (("only" { only=true; })? nodeType=NodeType())? LineEnd()
+    {
+        impl.ShowAvailableNodeAttributes(only, nodeType);
+    }
 |
-	node=Node() LineEnd()
-	{
-		impl.ShowElementAttributes(node);
-	}
+    node=Node() LineEnd()
+    {
+        impl.ShowElementAttributes(node);
+    }
 }
 
 void ShowEdge():
 {
-	bool only = false;
-	IEdge edge;
-	EdgeType edgeType = null;
+    bool only = false;
+    IEdge edge;
+    EdgeType edgeType = null;
 }
 {
-	"types" LineEnd()
-	{
-		impl.ShowEdgeTypes();
-	}
+    "types" LineEnd()
+    {
+        impl.ShowEdgeTypes();
+    }
 |
-	"super" "types" edgeType=EdgeType() LineEnd()
-	{
-		impl.ShowSuperTypes(edgeType, false);
-	}
+    "super" "types" edgeType=EdgeType() LineEnd()
+    {
+        impl.ShowSuperTypes(edgeType, false);
+    }
 |
-	"sub" "types" edgeType=EdgeType() LineEnd()
-	{
-		impl.ShowSubTypes(edgeType, false);
-	}
+    "sub" "types" edgeType=EdgeType() LineEnd()
+    {
+        impl.ShowSubTypes(edgeType, false);
+    }
 |
-	"attributes" (("only" { only = true; })? edgeType=EdgeType())? LineEnd()
-	{
-		impl.ShowAvailableEdgeAttributes(only, edgeType);
-	}
+    "attributes" (("only" { only = true; })? edgeType=EdgeType())? LineEnd()
+    {
+        impl.ShowAvailableEdgeAttributes(only, edgeType);
+    }
 |
-	edge=Edge() LineEnd()
-	{
-		impl.ShowElementAttributes(edge);
-	}
+    edge=Edge() LineEnd()
+    {
+        impl.ShowElementAttributes(edge);
+    }
 }
 
 void ShowVar():
 {
-	String str;
+    String str;
 }
 {
-	str=Variable() LineEnd()
-	{
-		impl.ShowVar(str);
-	}
+    str=Variable() LineEnd()
+    {
+        impl.ShowVar(str);
+    }
 }
 
 //////////////////////
@@ -1958,263 +1954,262 @@ void ShowVar():
 void DebugCommand():
 {
     Sequence seq;
-	SequenceExpression seqExpr = null;
+    SequenceExpression seqExpr = null;
     String str = null, str2, elemName = null;
-	Token tok;
-	bool break_ = false, only = false;
-	GrGenType graphElemType = null;
-	Dictionary<String, String> predefinedVariables;
+    Token tok;
+    bool break_ = false, only = false;
+    GrGenType graphElemType = null;
 }
 {
-	try
-	{
-		(tok="xgrs" | tok="exec") str=CommandLine()
-		{
-			try
-			{
-				SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
-				List<String> warnings = new List<String>();
-				seq = SequenceParser.ParseSequence(str, parserEnv, warnings);
-				foreach(string warning in warnings)
-				{
-					Console.WriteLine("The debug sequence at line " + tok.beginLine + " reported back: " + warning);
-				}
+    try
+    {
+        (tok="xgrs" | tok="exec") str=CommandLine()
+        {
+            try
+            {
+                SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
+                List<String> warnings = new List<String>();
+                seq = SequenceParser.ParseSequence(str, parserEnv, warnings);
+                foreach(string warning in warnings)
+                {
+                    Console.WriteLine("The debug sequence at line " + tok.beginLine + " reported back: " + warning);
+                }
                 seq.SetNeedForProfilingRecursive(impl.GetEmitProfiling());
-				impl.DebugRewriteSequence(seq);
-				noError = !impl.OperationCancelled;
-			}
-			catch(SequenceParserException ex)
-			{
-			    Console.WriteLine("Unable to parse debug sequence at line " + tok.beginLine);
-				impl.HandleSequenceParserException(ex);
-				noError = false;
-			}
-			catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
-			{
-				Console.WriteLine("Unable to execute debug sequence at line " + tok.beginLine + ": " + ex.Message);
-				noError = false;
-			}
-			catch(Exception ex)
-			{
-	            Console.WriteLine("Unable to execute debug sequence at line " + tok.beginLine + ": " + ex);
-				noError = false;
-			}
-		}
-	|
-		"enable" LineEnd()
-		{
-			impl.SetDebugMode(true);
-		}
-	|
-		"disable" LineEnd()
-		{
-			impl.SetDebugMode(false);
-		}
-	|
-		"layout" LineEnd()
-		{
-			impl.DebugLayout();
-		}
-	|
-		LOOKAHEAD(2)
-		"set" "layout"
-		(
-			"option" str=WordOrText() str2=AnyString() LineEnd()
-			{
-				impl.SetDebugLayoutOption(str, str2);
-			}
-		|
-			(str=WordOrText())? LineEnd()
-			{
-				impl.SetDebugLayout(str);
-			}
-		)
-	|
-		"get" "layout" "options" LineEnd()
-		{
-			impl.GetDebugLayoutOptions();
-		}
-	|
-		LOOKAHEAD(2)
-		"set" "node" DebugSetNode()
-	|
-		"set" "edge" DebugSetEdge()
-	|
-		LOOKAHEAD(2)
-		"on" "add" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
-		{ impl.DebugOnAdd(str, str2, break_); }
-	|
-		LOOKAHEAD(2)
-		"on" "rem" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
-		{ impl.DebugOnRem(str, str2, break_); }
-	|
-		LOOKAHEAD(2)
-		"on" "emit" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
-		{ impl.DebugOnEmit(str, str2, break_); }
-	|
-		LOOKAHEAD(2)
-		"on" "halt" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
-		{ impl.DebugOnHalt(str, str2, break_); }
-	|
-		LOOKAHEAD(2)
-		"on" "highlight" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
-		{ impl.DebugOnHighlight(str, str2, break_); }
-	|
-		LOOKAHEAD(2)
-		"on" "match" str=WordOrText() break_=Break() (seqExpr=If(str, null))?
-		{ impl.DebugOnMatch(str, break_, seqExpr); }
-	|
-		LOOKAHEAD(2)
-		"on" "new" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
-		{ impl.DebugOnNew(graphElemType, only, elemName, break_, seqExpr); }
-	|
-		LOOKAHEAD(2)
-		"on" "delete" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
-		{ impl.DebugOnDelete(graphElemType, only, elemName, break_, seqExpr); }
-	|
-		LOOKAHEAD(2)
-		"on" "retype" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
-		{ impl.DebugOnRetype(graphElemType, only, elemName, break_, seqExpr); }
-	|
-		"on" "set" "attributes" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
-		{ impl.DebugOnSetAttributes(graphElemType, only, elemName, break_, seqExpr); }
-	}
-	catch(ParseException ex)
-	{
-		Console.WriteLine(ex.Message);
-		Console.WriteLine("Invalid command!");
-		impl.HelpDebug(new List<String>());
-		errorSkipSilent();
-		noError = false;
-	}
+                impl.DebugRewriteSequence(seq);
+                noError = !impl.OperationCancelled;
+            }
+            catch(SequenceParserException ex)
+            {
+                Console.WriteLine("Unable to parse debug sequence at line " + tok.beginLine);
+                impl.HandleSequenceParserException(ex);
+                noError = false;
+            }
+            catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+            {
+                Console.WriteLine("Unable to execute debug sequence at line " + tok.beginLine + ": " + ex.Message);
+                noError = false;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Unable to execute debug sequence at line " + tok.beginLine + ": " + ex);
+                noError = false;
+            }
+        }
+    |
+        "enable" LineEnd()
+        {
+            impl.SetDebugMode(true);
+        }
+    |
+        "disable" LineEnd()
+        {
+            impl.SetDebugMode(false);
+        }
+    |
+        "layout" LineEnd()
+        {
+            impl.DebugLayout();
+        }
+    |
+        LOOKAHEAD(2)
+        "set" "layout"
+        (
+            "option" str=WordOrText() str2=AnyString() LineEnd()
+            {
+                impl.SetDebugLayoutOption(str, str2);
+            }
+        |
+            (str=WordOrText())? LineEnd()
+            {
+                impl.SetDebugLayout(str);
+            }
+        )
+    |
+        "get" "layout" "options" LineEnd()
+        {
+            impl.GetDebugLayoutOptions();
+        }
+    |
+        LOOKAHEAD(2)
+        "set" "node" DebugSetNode()
+    |
+        "set" "edge" DebugSetEdge()
+    |
+        LOOKAHEAD(2)
+        "on" "add" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+        { impl.DebugOnAdd(str, str2, break_); }
+    |
+        LOOKAHEAD(2)
+        "on" "rem" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+        { impl.DebugOnRem(str, str2, break_); }
+    |
+        LOOKAHEAD(2)
+        "on" "emit" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+        { impl.DebugOnEmit(str, str2, break_); }
+    |
+        LOOKAHEAD(2)
+        "on" "halt" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+        { impl.DebugOnHalt(str, str2, break_); }
+    |
+        LOOKAHEAD(2)
+        "on" "highlight" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+        { impl.DebugOnHighlight(str, str2, break_); }
+    |
+        LOOKAHEAD(2)
+        "on" "match" str=WordOrText() break_=Break() (seqExpr=If(str, null))?
+        { impl.DebugOnMatch(str, break_, seqExpr); }
+    |
+        LOOKAHEAD(2)
+        "on" "new" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
+        { impl.DebugOnNew(graphElemType, only, elemName, break_, seqExpr); }
+    |
+        LOOKAHEAD(2)
+        "on" "delete" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
+        { impl.DebugOnDelete(graphElemType, only, elemName, break_, seqExpr); }
+    |
+        LOOKAHEAD(2)
+        "on" "retype" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
+        { impl.DebugOnRetype(graphElemType, only, elemName, break_, seqExpr); }
+    |
+        "on" "set" "attributes" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
+        { impl.DebugOnSetAttributes(graphElemType, only, elemName, break_, seqExpr); }
+    }
+    catch(ParseException ex)
+    {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine("Invalid command!");
+        impl.HelpDebug(new List<String>());
+        errorSkipSilent();
+        noError = false;
+    }
 }
 
 bool Break():
 { }
 {
-	"break"
-	{
-		return true;
-	}
+    "break"
+    {
+        return true;
+    }
 |
-	"continue"
-	{
-		return false; 
-	}
+    "continue"
+    {
+        return false; 
+    }
 }
 
 string DebugRuleSet():
 {
-	string str = "";
+    string str = "";
 }
 {
-	("in" str=WordOrText())?
-	{
-		return str;
-	}
+    ("in" str=WordOrText())?
+    {
+        return str;
+    }
 }
 
 SequenceExpression If(string ruleOfMatchThis, string typeOfGraphElementThis):
 {
-	Token tok;
-	string str1 = "";
-	SequenceExpression seqExpr = null;
-	Dictionary<String, String> predefinedVariables = new Dictionary<String, String>();
-	predefinedVariables.Add("this", "");
+    Token tok;
+    string str1 = "";
+    SequenceExpression seqExpr = null;
+    Dictionary<String, String> predefinedVariables = new Dictionary<String, String>();
+    predefinedVariables.Add("this", "");
 }
 {
-	tok="if" str1=CommandLine()
-	{
-		try
-		{
-			SequenceParserEnvironmentInterpretedDebugEventCondition parserEnv = new SequenceParserEnvironmentInterpretedDebugEventCondition(impl.CurrentActions, ruleOfMatchThis, typeOfGraphElementThis);
-			List<String> warnings = new List<String>();
-			seqExpr = SequenceParser.ParseSequenceExpression(str1, predefinedVariables, parserEnv, warnings);
-			foreach(string warning in warnings)
-			{
-				Console.WriteLine("The sequence expression at line " + tok.beginLine + " reported back: " + warning);
-			}
-			return seqExpr;
-		}
-		catch(SequenceParserException ex)
-		{
-			Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine);
-			impl.HandleSequenceParserException(ex);
-			noError = false;
-			return seqExpr;
-		}
-		catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
-		{
-			Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex.Message);
-			noError = false;
-			return seqExpr;
-		}
-		catch(Exception ex)
-		{
-			Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex);
-			noError = false;
-			return seqExpr;
-		}
-	}
+    tok="if" str1=CommandLine()
+    {
+        try
+        {
+            SequenceParserEnvironmentInterpretedDebugEventCondition parserEnv = new SequenceParserEnvironmentInterpretedDebugEventCondition(impl.CurrentActions, ruleOfMatchThis, typeOfGraphElementThis);
+            List<String> warnings = new List<String>();
+            seqExpr = SequenceParser.ParseSequenceExpression(str1, predefinedVariables, parserEnv, warnings);
+            foreach(string warning in warnings)
+            {
+                Console.WriteLine("The sequence expression at line " + tok.beginLine + " reported back: " + warning);
+            }
+            return seqExpr;
+        }
+        catch(SequenceParserException ex)
+        {
+            Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine);
+            impl.HandleSequenceParserException(ex);
+            noError = false;
+            return seqExpr;
+        }
+        catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+        {
+            Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex.Message);
+            noError = false;
+            return seqExpr;
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex);
+            noError = false;
+            return seqExpr;
+        }
+    }
 }
 
 void DebugSetNode():
 {
-	String mode = null, colorName = null, shapeName = null;
+    String mode = null, colorName = null, shapeName = null;
 }
 {
-	"mode" mode=WordOrText()
-	(
-		"color" (colorName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDebugNodeModeColor(mode, colorName);
-		}
-	|
-		"bordercolor" (colorName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDebugNodeModeBorderColor(mode, colorName);
-		}
-	|
-		"shape" (shapeName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDebugNodeModeShape(mode, shapeName);
-		}
-	|
-		"textcolor" (colorName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDebugNodeModeTextColor(mode, colorName);
-		}
-	)
+    "mode" mode=WordOrText()
+    (
+        "color" (colorName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDebugNodeModeColor(mode, colorName);
+        }
+    |
+        "bordercolor" (colorName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDebugNodeModeBorderColor(mode, colorName);
+        }
+    |
+        "shape" (shapeName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDebugNodeModeShape(mode, shapeName);
+        }
+    |
+        "textcolor" (colorName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDebugNodeModeTextColor(mode, colorName);
+        }
+    )
 }
 
 void DebugSetEdge():
 {
-	String mode = null, colorName = null, styleName = null;
-	int thickness = 0;
+    String mode = null, colorName = null, styleName = null;
+    int thickness = 0;
 }
 {
-	"mode" mode=WordOrText()
-	(
-		"color" (colorName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDebugEdgeModeColor(mode, colorName);
-		}
-	|
-		"textcolor" (colorName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDebugEdgeModeTextColor(mode, colorName);
-		}
-	|
-		"thickness" (thickness=Number())? LineEnd()
-		{
-			noError = impl.SetDebugEdgeModeThickness(mode, thickness);
-		}
-	|
-		"linestyle" (styleName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDebugEdgeModeStyle(mode, styleName);
-		}
-	)
+    "mode" mode=WordOrText()
+    (
+        "color" (colorName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDebugEdgeModeColor(mode, colorName);
+        }
+    |
+        "textcolor" (colorName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDebugEdgeModeTextColor(mode, colorName);
+        }
+    |
+        "thickness" (thickness=Number())? LineEnd()
+        {
+            noError = impl.SetDebugEdgeModeThickness(mode, thickness);
+        }
+    |
+        "linestyle" (styleName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDebugEdgeModeStyle(mode, styleName);
+        }
+    )
 }
 
 /////////////////////
@@ -2223,223 +2218,223 @@ void DebugSetEdge():
 
 void DumpCommand():
 {
-	String filename;
+    String filename;
 }
 {
-	try
-	{
-		"graph" filename=Filename() LineEnd()
-		{
-			impl.DumpGraph(filename);
-		}
-	|
-		"set" DumpSet()
-	|
-		"add" DumpAdd()
-	|
-		"reset" LineEnd()
-		{
-			impl.DumpReset();
-		}
-	}
-	catch(ParseException ex)
-	{
-		Console.WriteLine(ex.Message);
-		Console.WriteLine("Invalid command!");
-		impl.HelpDump(new List<String>());
-		errorSkipSilent();
-		noError = false;
-	}
+    try
+    {
+        "graph" filename=Filename() LineEnd()
+        {
+            impl.DumpGraph(filename);
+        }
+    |
+        "set" DumpSet()
+    |
+        "add" DumpAdd()
+    |
+        "reset" LineEnd()
+        {
+            impl.DumpReset();
+        }
+    }
+    catch(ParseException ex)
+    {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine("Invalid command!");
+        impl.HelpDump(new List<String>());
+        errorSkipSilent();
+        noError = false;
+    }
 }
 
 void DumpSet():
 { 
-	int contextDepth = 1;
+    int contextDepth = 1;
 }
 {
-	"node" DumpSetNode()
+    "node" DumpSetNode()
 |
-	"edge" DumpSetEdge()
+    "edge" DumpSetEdge()
 |
-	"graph" "exclude" "option" contextDepth=Number() LineEnd()
-	{
-		noError = impl.SetDumpExcludeGraphOption(contextDepth);
-	}
+    "graph" "exclude" "option" contextDepth=Number() LineEnd()
+    {
+        noError = impl.SetDumpExcludeGraphOption(contextDepth);
+    }
 }
 
 void DumpSetNode():
 {
-	NodeType nodeType;
-	String colorName = null, shapeName = null, labelStr = null;
-	bool only = false;
+    NodeType nodeType;
+    String colorName = null, shapeName = null, labelStr = null;
+    bool only = false;
 }
 {
-	("only" { only=true; })? nodeType=NodeType()
-	(
-		"color" (colorName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDumpNodeTypeColor(nodeType, colorName, only);
-		}
-	|
-		"bordercolor" (colorName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDumpNodeTypeBorderColor(nodeType, colorName, only);
-		}
-	|
-		"shape" (shapeName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDumpNodeTypeShape(nodeType, shapeName, only);
-		}
-	|
-		"textcolor" (colorName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDumpNodeTypeTextColor(nodeType, colorName, only);
-		}
-	|
-		"labels" ("on" | "off" { labelStr = ""; } | labelStr=WordOrText()) LineEnd()
-		{
-			noError = impl.SetDumpLabel(nodeType, labelStr, only);
-		}
-	)
+    ("only" { only=true; })? nodeType=NodeType()
+    (
+        "color" (colorName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDumpNodeTypeColor(nodeType, colorName, only);
+        }
+    |
+        "bordercolor" (colorName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDumpNodeTypeBorderColor(nodeType, colorName, only);
+        }
+    |
+        "shape" (shapeName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDumpNodeTypeShape(nodeType, shapeName, only);
+        }
+    |
+        "textcolor" (colorName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDumpNodeTypeTextColor(nodeType, colorName, only);
+        }
+    |
+        "labels" ("on" | "off" { labelStr = ""; } | labelStr=WordOrText()) LineEnd()
+        {
+            noError = impl.SetDumpLabel(nodeType, labelStr, only);
+        }
+    )
 }
 
 void DumpSetEdge():
 {
-	EdgeType edgeType;
-	String colorName = null, styleName = null, labelStr = null;
-	bool only = false;
-	int thickness = 0;
+    EdgeType edgeType;
+    String colorName = null, styleName = null, labelStr = null;
+    bool only = false;
+    int thickness = 0;
 }
 {
-	("only" { only=true; })? edgeType=EdgeType()
-	(
-		"color" (colorName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDumpEdgeTypeColor(edgeType, colorName, only);
-		}
-	|
-		"textcolor" (colorName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDumpEdgeTypeTextColor(edgeType, colorName, only);
-		}
-	|
-		"thickness" (thickness=Number())? LineEnd()
-		{
-			noError = impl.SetDumpEdgeTypeThickness(edgeType, thickness, only);
-		}
-	|
-		"linestyle" (styleName=WordOrText())? LineEnd()
-		{
-			noError = impl.SetDumpEdgeTypeLineStyle(edgeType, styleName, only);
-		}
-	|
-		"labels" ("on" | "off" { labelStr = ""; } | labelStr=WordOrText()) LineEnd()
-		{
-			noError = impl.SetDumpLabel(edgeType, labelStr, only);
-		}
-	)
+    ("only" { only=true; })? edgeType=EdgeType()
+    (
+        "color" (colorName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDumpEdgeTypeColor(edgeType, colorName, only);
+        }
+    |
+        "textcolor" (colorName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDumpEdgeTypeTextColor(edgeType, colorName, only);
+        }
+    |
+        "thickness" (thickness=Number())? LineEnd()
+        {
+            noError = impl.SetDumpEdgeTypeThickness(edgeType, thickness, only);
+        }
+    |
+        "linestyle" (styleName=WordOrText())? LineEnd()
+        {
+            noError = impl.SetDumpEdgeTypeLineStyle(edgeType, styleName, only);
+        }
+    |
+        "labels" ("on" | "off" { labelStr = ""; } | labelStr=WordOrText()) LineEnd()
+        {
+            noError = impl.SetDumpLabel(edgeType, labelStr, only);
+        }
+    )
 }
 
 void DumpAdd():
 { }
 {
-	"node" DumpAddNode()
+    "node" DumpAddNode()
 |
-	"edge" DumpAddEdge()
+    "edge" DumpAddEdge()
 |
-	"graph" "exclude" LineEnd()
-	{
-		noError = impl.AddDumpExcludeGraph();
-	}
+    "graph" "exclude" LineEnd()
+    {
+        noError = impl.AddDumpExcludeGraph();
+    }
 }
 
 void DumpAddNode():
 {
-	NodeType nodeType, adjNodeType = impl.CurrentGraph.Model.NodeModel.RootType;
-	EdgeType edgeType = impl.CurrentGraph.Model.EdgeModel.RootType;
-	String attrName, groupModeStr = "incoming";
-	bool only = false, onlyEdge = false, onlyAdjNode = false, hidden = false;
-	GroupMode groupMode;
+    NodeType nodeType, adjNodeType = impl.CurrentGraph.Model.NodeModel.RootType;
+    EdgeType edgeType = impl.CurrentGraph.Model.EdgeModel.RootType;
+    String attrName, groupModeStr = "incoming";
+    bool only = false, onlyEdge = false, onlyAdjNode = false, hidden = false;
+    GroupMode groupMode;
 }
 {
-	("only" { only=true; })? nodeType=NodeType()
-	(
-		"exclude" LineEnd()
-		{
-			noError = impl.AddDumpExcludeNodeType(nodeType, only);
-		}
-	|
-		"group"
-		(
-		    "by" ("hidden" { hidden = true; })? groupModeStr=WordOrText()
-		    (
-	            ("only" { onlyEdge=true; })? edgeType=EdgeType()
-	            (
-	                "with" ("only" { onlyAdjNode=true; })? adjNodeType=NodeType()
-	            )?
-	        )?
-		)? LineEnd()
-		{
-	        switch(groupModeStr)
-	        {
-	            case "no":       groupMode = GroupMode.None;               break;
-	            case "incoming": groupMode = GroupMode.GroupIncomingNodes; break;
-	            case "outgoing": groupMode = GroupMode.GroupOutgoingNodes; break;
-	            case "any":      groupMode = GroupMode.GroupAllNodes;      break;
-	            default:
-	                Console.WriteLine("Group mode must be one of: no, incoming, outgoing, any");
-	                noError = false;
-	                return;
-	        }
-	        if(hidden)
-	        {
-	            if(groupMode == GroupMode.None)
-	            {
-	                Console.WriteLine("The 'hidden' modifier can not be used with the group mode 'no'!");
-	                noError = false;
-	                return;
-	            }
-	            groupMode |= GroupMode.Hidden;
-	        }
+    ("only" { only=true; })? nodeType=NodeType()
+    (
+        "exclude" LineEnd()
+        {
+            noError = impl.AddDumpExcludeNodeType(nodeType, only);
+        }
+    |
+        "group"
+        (
+            "by" ("hidden" { hidden = true; })? groupModeStr=WordOrText()
+            (
+                ("only" { onlyEdge=true; })? edgeType=EdgeType()
+                (
+                    "with" ("only" { onlyAdjNode=true; })? adjNodeType=NodeType()
+                )?
+            )?
+        )? LineEnd()
+        {
+            switch(groupModeStr)
+            {
+                case "no":       groupMode = GroupMode.None;               break;
+                case "incoming": groupMode = GroupMode.GroupIncomingNodes; break;
+                case "outgoing": groupMode = GroupMode.GroupOutgoingNodes; break;
+                case "any":      groupMode = GroupMode.GroupAllNodes;      break;
+                default:
+                    Console.WriteLine("Group mode must be one of: no, incoming, outgoing, any");
+                    noError = false;
+                    return;
+            }
+            if(hidden)
+            {
+                if(groupMode == GroupMode.None)
+                {
+                    Console.WriteLine("The 'hidden' modifier can not be used with the group mode 'no'!");
+                    noError = false;
+                    return;
+                }
+                groupMode |= GroupMode.Hidden;
+            }
             noError = impl.AddDumpGroupNodesBy(nodeType, only, edgeType, onlyEdge, adjNodeType, onlyAdjNode, groupMode);
-	    }
-	|
-		"infotag" attrName=WordOrText() LineEnd()
-		{
-		    noError = impl.AddDumpInfoTag(nodeType, attrName, only, false);
-	    }
-	|
-		"shortinfotag" attrName=WordOrText() LineEnd()
-		{
-		    noError = impl.AddDumpInfoTag(nodeType, attrName, only, true);
-	    }
+        }
+    |
+        "infotag" attrName=WordOrText() LineEnd()
+        {
+            noError = impl.AddDumpInfoTag(nodeType, attrName, only, false);
+        }
+    |
+        "shortinfotag" attrName=WordOrText() LineEnd()
+        {
+            noError = impl.AddDumpInfoTag(nodeType, attrName, only, true);
+        }
     )
 }
 
 void DumpAddEdge():
 {
-	EdgeType edgeType = impl.CurrentGraph.Model.EdgeModel.RootType;
-	String attrName;
-	bool only = false;
+    EdgeType edgeType = impl.CurrentGraph.Model.EdgeModel.RootType;
+    String attrName;
+    bool only = false;
 }
 {
-	("only" { only=true; })? edgeType=EdgeType()
-	(
-	    "exclude" LineEnd()
-	    {
-	        noError = impl.AddDumpExcludeEdgeType(edgeType, only);
-	    }
-	|
-	    "infotag" attrName=WordOrText() LineEnd()
-	    {
+    ("only" { only=true; })? edgeType=EdgeType()
+    (
+        "exclude" LineEnd()
+        {
+            noError = impl.AddDumpExcludeEdgeType(edgeType, only);
+        }
+    |
+        "infotag" attrName=WordOrText() LineEnd()
+        {
             noError = impl.AddDumpInfoTag(edgeType, attrName, only, false);
         }
-	|
-	    "shortinfotag" attrName=WordOrText() LineEnd()
-	    {
+    |
+        "shortinfotag" attrName=WordOrText() LineEnd()
+        {
             noError = impl.AddDumpInfoTag(edgeType, attrName, only, true);
         }
-	)
+    )
 }
 
 
@@ -2452,15 +2447,15 @@ void CustomCommand():
     List<String> parameters;
 }
 {
-	"graph" parameters=SpacedParametersAndLineEnd()
-	{
-		impl.CustomGraph(parameters);
-	}
+    "graph" parameters=SpacedParametersAndLineEnd()
+    {
+        impl.CustomGraph(parameters);
+    }
 |
-	"actions" parameters=SpacedParametersAndLineEnd()
-	{
-		impl.CustomActions(parameters);
-	}
+    "actions" parameters=SpacedParametersAndLineEnd()
+    {
+        impl.CustomActions(parameters);
+    }
 }
 
 List<String> SpacedParametersAndLineEnd():
@@ -2486,25 +2481,25 @@ List<String> SpacedParametersAndLineEnd():
 
 CSHARPCODE
 void errorSkip(ParseException ex) {
-	Console.WriteLine(ex.Message);
-	Token t;
-	do
-	{
-		t = GetNextToken();
-	}
-	while(t.kind != EOF && t.kind != NL && t.kind != NLINFILENAME);
+    Console.WriteLine(ex.Message);
+    Token t;
+    do
+    {
+        t = GetNextToken();
+    }
+    while(t.kind != EOF && t.kind != NL && t.kind != NLINFILENAME);
 }
 
 CSHARPCODE
 void errorSkipSilent() {
-	Token t;
-	do
-	{
-		t = GetNextToken();
-	}
-	while(t.kind != EOF && t.kind != NL && t.kind != NLINFILENAME);
+    Token t;
+    do
+    {
+        t = GetNextToken();
+    }
+    while(t.kind != EOF && t.kind != NL && t.kind != NLINFILENAME);
 }
 
 TOKEN: {
-	<ERROR: ~[]>
+    <ERROR: ~[]>
 }
