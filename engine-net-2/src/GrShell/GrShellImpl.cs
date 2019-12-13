@@ -151,6 +151,10 @@ namespace de.unika.ipd.grGen.grShell
         bool silenceExec = false; // print match statistics during sequence execution on timer
         bool cancelSequence = false;
 
+        public bool Quitting = false;
+        public bool ShowPrompt = true;
+        public bool readFromConsole = false;
+
         public ElementRealizers realizers = new ElementRealizers();
 
         Debugger debugger = null;
@@ -256,8 +260,6 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
 
-            // if(args[args.Length - 1] == "--noquitateof") readFromConsole = false;    // TODO: Readd this?
-
             if(showUsage)
             {
                 Console.WriteLine("Usage: GrShell [-C <command>] [<grs-file>]...");
@@ -306,20 +308,20 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             GrShell shell = new GrShell(reader);
-            shell.ShowPrompt = showPrompt;
-            shell.readFromConsole = readFromConsole;
             GrShellImpl impl = new GrShellImpl();
             shell.SetImpl(impl);
             impl.TokenSourceStack.AddFirst(shell.token_source);
             impl.nonDebugNonGuiExitOnError = nonDebugNonGuiExitOnError;
             impl.showIncludes = showIncludes;
+            impl.ShowPrompt = showPrompt;
+            impl.readFromConsole = readFromConsole;
             try
             {
                 impl.ifNesting.Push(true);
-                while(!shell.Quit && !shell.Eof)
+                while(!impl.Quitting && !shell.Eof)
                 {
                     bool noError = shell.ParseShellCommand();
-                    if(!shell.readFromConsole && (shell.Eof || !noError))
+                    if(!impl.readFromConsole && (shell.Eof || !noError))
                     {
                         if(nonDebugNonGuiExitOnError && !noError)
                         {
@@ -349,8 +351,8 @@ namespace de.unika.ipd.grGen.grShell
                             shell.ReInit(workaround.In);
                             impl.TokenSourceStack.RemoveFirst();
                             impl.TokenSourceStack.AddFirst(shell.token_source);
-                            shell.ShowPrompt = true;
-                            shell.readFromConsole = true;
+                            impl.ShowPrompt = true;
+                            impl.readFromConsole = true;
                             shell.Eof = false;
                             reader.Close();
                         }
@@ -368,6 +370,11 @@ namespace de.unika.ipd.grGen.grShell
                 impl.Cleanup();
             }
             return errorCode;
+        }
+
+        public void ShowPromptAsNeeded()
+        {
+            if(ShowPrompt) Console.Write("> ");
         }
 
         public bool OperationCancelled { get { return cancelSequence; } }
@@ -1269,12 +1276,12 @@ namespace de.unika.ipd.grGen.grShell
                     SimpleCharStream charStream = new SimpleCharStream(reader);
                     GrShellTokenManager tokenSource = new GrShellTokenManager(charStream);
                     TokenSourceStack.AddFirst(tokenSource);
-                    bool oldShowPrompt = grShell.ShowPrompt;
-                    grShell.ShowPrompt = false;
+                    bool oldShowPrompt = ShowPrompt;
+                    ShowPrompt = false;
                     try
                     {
                         grShell.ReInit(tokenSource);
-                        while(!grShell.Quit && !grShell.Eof)
+                        while(!Quitting && !grShell.Eof)
                         {
                             if(!grShell.ParseShellCommand())
                             {
@@ -1290,7 +1297,7 @@ namespace de.unika.ipd.grGen.grShell
                             debugOut.WriteLine("Leaving " + filename);
                         TokenSourceStack.RemoveFirst();
                         grShell.ReInit(TokenSourceStack.First.Value);
-                        grShell.ShowPrompt = oldShowPrompt;
+                        ShowPrompt = oldShowPrompt;
                     }
                 }
             }
@@ -1306,6 +1313,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(InDebugMode)
                 SetDebugMode(false);
+
+            Quitting = true;
 
             debugOut.WriteLine("Bye!\n");
         }
