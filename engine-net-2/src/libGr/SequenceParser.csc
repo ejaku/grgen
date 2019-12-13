@@ -44,7 +44,7 @@ PARSER_BEGIN(SequenceParser)
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-        public static Sequence ParseSequence(String sequenceStr, SequenceParserEnvironment env, List<String> warnings)
+        public static Sequence ParseSequence(String sequenceStr, SequenceParserEnvironmentInterpreted env, List<String> warnings)
         {
             SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
             parser.env = env;
@@ -52,7 +52,7 @@ PARSER_BEGIN(SequenceParser)
             parser.varDecls.PushFirstScope(null);
             parser.warnings = warnings;
             Sequence seq = parser.XGRS();
-            SequenceCheckingEnvironment checkEnv = new SequenceCheckingEnvironmentInterpreted(env.actions);
+            SequenceCheckingEnvironment checkEnv = new SequenceCheckingEnvironmentInterpreted(env.Actions);
             seq.Check(checkEnv);
             return seq;
         }
@@ -69,7 +69,7 @@ PARSER_BEGIN(SequenceParser)
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-        public static SequenceExpression ParseSequenceExpression(String sequenceExprStr, Dictionary<String, String> predefinedVariables, SequenceParserEnvironment env, List<String> warnings)
+        public static SequenceExpression ParseSequenceExpression(String sequenceExprStr, Dictionary<String, String> predefinedVariables, SequenceParserEnvironmentInterpreted env, List<String> warnings)
         {
             SequenceParser parser = new SequenceParser(new StringReader(sequenceExprStr));
             parser.env = env;
@@ -77,7 +77,7 @@ PARSER_BEGIN(SequenceParser)
             parser.varDecls.PushFirstScope(predefinedVariables);
             parser.warnings = warnings;
             SequenceExpression seqExpr = parser.Expression();
-            SequenceCheckingEnvironment checkEnv = new SequenceCheckingEnvironmentInterpreted(env.actions);
+            SequenceCheckingEnvironment checkEnv = new SequenceCheckingEnvironmentInterpreted(env.Actions);
             seqExpr.Check(checkEnv);
             return seqExpr;
         }
@@ -92,7 +92,7 @@ PARSER_BEGIN(SequenceParser)
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-        public static ISequenceDefinition ParseSequenceDefinition(String sequenceStr, SequenceParserEnvironment env, List<String> warnings)
+        public static ISequenceDefinition ParseSequenceDefinition(String sequenceStr, SequenceParserEnvironmentInterpreted env, List<String> warnings)
         {
             SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
             parser.env = env;
@@ -100,7 +100,7 @@ PARSER_BEGIN(SequenceParser)
             parser.varDecls.PushFirstScope(null);
             parser.warnings = warnings;
             SequenceDefinition seq = parser.defXGRS();
-            SequenceCheckingEnvironment checkEnv = new SequenceCheckingEnvironmentInterpreted(env.actions);
+            SequenceCheckingEnvironment checkEnv = new SequenceCheckingEnvironmentInterpreted(env.Actions);
             seq.Check(checkEnv);
             return seq;
         }
@@ -116,7 +116,7 @@ PARSER_BEGIN(SequenceParser)
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-        public static Sequence ParseSequence(String sequenceStr, SequenceParserEnvironment env, 
+        public static Sequence ParseSequence(String sequenceStr, SequenceParserEnvironmentCompiled env, 
                 Dictionary<String, String> predefinedVariables, List<String> warnings)
         {
             SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
@@ -374,7 +374,7 @@ object Constant():
         LOOKAHEAD(4)
         package=Word() "::" type=Word() "::" value=Word()
         {
-            attrType = TypesHelper.GetEnumAttributeType(package+"::"+type, env.model);
+            attrType = TypesHelper.GetEnumAttributeType(package+"::"+type, env.Model);
             if(attrType!=null)
                 constant = Enum.Parse(attrType.EnumType, value);
             if(constant==null)
@@ -386,12 +386,12 @@ object Constant():
         {
             package = packageOrType;
             type = typeOrValue;
-            constant = TypesHelper.GetNodeOrEdgeType(package+"::"+type, env.model);
+            constant = TypesHelper.GetNodeOrEdgeType(package+"::"+type, env.Model);
             if(constant==null)
             {
                 type = packageOrType;
                 value = typeOrValue;
-                attrType = TypesHelper.GetEnumAttributeType(type, env.model);
+                attrType = TypesHelper.GetEnumAttributeType(type, env.Model);
                 if(attrType!=null)
                     constant = Enum.Parse(attrType.EnumType, value);
             }
@@ -399,10 +399,10 @@ object Constant():
                 throw new ParseException("Invalid constant \""+packageOrType+"::"+typeOrValue+"\"!");
         }
     |
-        LOOKAHEAD({ GetToken(1).kind==WORD && varDecls.Lookup(GetToken(1).image)==null && TypesHelper.GetNodeOrEdgeType(GetToken(1).image, env.model)!=null })
+        LOOKAHEAD({ GetToken(1).kind==WORD && varDecls.Lookup(GetToken(1).image)==null && TypesHelper.GetNodeOrEdgeType(GetToken(1).image, env.Model)!=null })
         type=Word()
         {
-            constant = TypesHelper.GetNodeOrEdgeType(type, env.model);
+            constant = TypesHelper.GetNodeOrEdgeType(type, env.Model);
         }
     )
     {
@@ -1453,7 +1453,7 @@ SequenceExpression ExpressionBasic():
         return new SequenceExpressionElementFromGraph(elemName);
     }
 |
-    "this" { expr = new SequenceExpressionThis(env.ruleOfMatchThis, env.typeOfGraphElementThis); }
+    "this" { expr = new SequenceExpressionThis(env.RuleOfMatchThis, env.TypeOfGraphElementThis); }
         ( LOOKAHEAD(2) expr=SelectorExpression(expr) )?
     {
         return expr;
@@ -1486,14 +1486,14 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
                 if(argExprs.Count!=0 && argExprs.Count!=1) throw new ParseException("\"" + methodOrAttrName + "\" expects none or one parameter)");
                 return new SequenceExpressionContainerPeek(fromExpr, argExprs.Count!=0 ? argExprs[0] : null);
             } else {
-                return new SequenceExpressionFunctionMethodCall(fromExpr, env.CreateFunctionMethodInvocationParameterBindings(methodOrAttrName, argExprs));
+                return new SequenceExpressionFunctionMethodCall(fromExpr, SequenceParserEnvironment.CreateFunctionMethodInvocationParameterBindings(methodOrAttrName, argExprs));
             }
         }
     |
         {
             if(fromExpr is SequenceExpressionThis)
             {
-                if(env.ruleOfMatchThis != null)
+                if(env.RuleOfMatchThis != null)
                     return new SequenceExpressionMatchAccess((SequenceExpressionThis)fromExpr, methodOrAttrName);
                 else
                     return new SequenceExpressionAttributeAccess((SequenceExpressionThis)fromExpr, methodOrAttrName);
@@ -1629,7 +1629,7 @@ SequenceComputation ProcedureOrMethodCall():
                     if(argExprs.Count>0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
                     return new SequenceComputationContainerClear(fromVar);
                 } else {
-                    return new SequenceComputationProcedureMethodCall(fromVar, env.CreateProcedureMethodInvocationParameterBindings(procedure, argExprs, returnVars));
+                    return new SequenceComputationProcedureMethodCall(fromVar, SequenceParserEnvironment.CreateProcedureMethodInvocationParameterBindings(procedure, argExprs, returnVars));
                 }
             } else { // attribute method call
                 SequenceExpressionAttributeAccess attrAcc = new SequenceExpressionAttributeAccess(fromVar, attrName);
@@ -1643,7 +1643,7 @@ SequenceComputation ProcedureOrMethodCall():
                     if(argExprs.Count>0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
                     return new SequenceComputationContainerClear(attrAcc);
                 } else {
-                    return new SequenceComputationProcedureMethodCall(attrAcc, env.CreateProcedureMethodInvocationParameterBindings(procedure, argExprs, returnVars));
+                    return new SequenceComputationProcedureMethodCall(attrAcc, SequenceParserEnvironment.CreateProcedureMethodInvocationParameterBindings(procedure, argExprs, returnVars));
                 }
             }
         }
@@ -2035,7 +2035,7 @@ FilterCall Filter(String action, String actionPackage) :
                 && filterBase!="keepSameAsFirst" && filterBase!="keepSameAsLast" && filterBase!="keepOneForEach")
                 throw new ParseException("Unknown def-variable-based filter " + filterBase + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
             else
-                return new FilterCall(package, filterBase, words.ToArray(), env.packageContext, true);
+                return new FilterCall(package, filterBase, words.ToArray(), env.PackageContext, true);
         }
 |
     (LOOKAHEAD(2) package=Word() "::")? filterBase=Word() ("(" (Arguments(argExprs))? ")")?
@@ -2047,13 +2047,13 @@ FilterCall Filter(String action, String actionPackage) :
             {
                 if(argExprs.Count!=1)
                     throw new ParseException("The auto-supplied filter " + filterBase + " expects exactly one parameter!");
-                return new FilterCall(package, filterBase, argExprs[0], env.packageContext);
+                return new FilterCall(package, filterBase, argExprs[0], env.PackageContext);
             }
             else
             {
                 if(filterBase=="auto")
-                    return new FilterCall(package, "auto", null, env.packageContext, true);
-                return new FilterCall(package, filterBase, argExprs, env.packageContext);
+                    return new FilterCall(package, "auto", null, env.PackageContext, true);
+                return new FilterCall(package, filterBase, argExprs, env.PackageContext);
             }
         }
 }

@@ -1040,7 +1040,7 @@ after_debugging_decision: ;
                 }
                 try
                 {
-                    SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(shellProcEnv.ProcEnv.Actions, ruleOfMatchThis, typeOfGraphElementThis);
+                    SequenceParserEnvironmentInterpretedDebugEventCondition parserEnv = new SequenceParserEnvironmentInterpretedDebugEventCondition(shellProcEnv.ProcEnv.Actions, ruleOfMatchThis, typeOfGraphElementThis);
                     List<String> warnings = new List<String>();
                     ifClause = SequenceParser.ParseSequenceExpression(ifClauseStr, predefinedVariables, parserEnv, warnings);
                     foreach(string warning in warnings)

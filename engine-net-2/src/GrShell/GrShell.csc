@@ -1254,7 +1254,7 @@ void ShellCommand():
 	    {
             try
             {
-				SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(impl.CurrentActions);
+				SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
 				List<String> warnings = new List<String>();
                 seq = SequenceParser.ParseSequence(str1, parserEnv, warnings);
                 foreach(string warning in warnings)
@@ -1301,7 +1301,7 @@ void ShellCommand():
     {
         try
         {
-			SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(impl.CurrentActions);
+			SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
 			List<String> warnings = new List<String>();
             seq = SequenceParser.ParseSequence(str1, parserEnv, warnings);
 			foreach(string warning in warnings)
@@ -1334,7 +1334,7 @@ void ShellCommand():
     {
         try
         {
-			SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(impl.CurrentActions);
+			SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
 			List<String> warnings = new List<String>();
             seqDef = SequenceParser.ParseSequenceDefinition(str1, parserEnv, warnings);
 			foreach(string warning in warnings)
@@ -1972,7 +1972,7 @@ void DebugCommand():
 		{
 			try
 			{
-				SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(impl.CurrentActions);
+				SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(impl.CurrentActions);
 				List<String> warnings = new List<String>();
 				seq = SequenceParser.ParseSequence(str, parserEnv, warnings);
 				foreach(string warning in warnings)
@@ -2127,7 +2127,7 @@ SequenceExpression If(string ruleOfMatchThis, string typeOfGraphElementThis):
 	{
 		try
 		{
-			SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(impl.CurrentActions, ruleOfMatchThis, typeOfGraphElementThis);
+			SequenceParserEnvironmentInterpretedDebugEventCondition parserEnv = new SequenceParserEnvironmentInterpretedDebugEventCondition(impl.CurrentActions, ruleOfMatchThis, typeOfGraphElementThis);
 			List<String> warnings = new List<String>();
 			seqExpr = SequenceParser.ParseSequenceExpression(str1, predefinedVariables, parserEnv, warnings);
 			foreach(string warning in warnings)
