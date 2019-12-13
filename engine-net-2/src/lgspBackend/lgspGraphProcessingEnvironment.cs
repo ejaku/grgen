@@ -646,7 +646,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public Sequence ParseSequence(String seqStr)
         {
-            SequenceParserEnvironment parserEnv = new SequenceParserEnvironment(curActions);
+            SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(curActions);
             List<string> warnings = new List<string>();
             Sequence seq = SequenceParser.ParseSequence(seqStr, parserEnv, warnings);
             foreach(string warning in warnings)

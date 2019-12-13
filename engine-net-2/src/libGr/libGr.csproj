@@ -118,6 +118,9 @@
     <Compile Include="SequenceParser.cs" />
     <Compile Include="SequenceParserConstants.cs" />
     <Compile Include="SequenceParserEnvironment.cs" />
+    <Compile Include="SequenceParserEnvironmentCompiled.cs" />
+    <Compile Include="SequenceParserEnvironmentInterpreted.cs" />
+    <Compile Include="SequenceParserEnvironmentInterpretedDebugEventCondition.cs" />
     <Compile Include="SequenceParserExceptions.cs" />
     <Compile Include="SequenceParserTokenManager.cs" />
     <Compile Include="SequenceVariable.cs" />
