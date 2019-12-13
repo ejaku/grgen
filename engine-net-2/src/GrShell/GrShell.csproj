@@ -67,9 +67,11 @@
     <Compile Include="FromToReader.cs" />
     <Compile Include="Debugger.cs" />
     <Compile Include="GrShell.cs" />
+    <Compile Include="GrShellConsoleUI.cs" />
     <Compile Include="GrShellConstants.cs" />
     <Compile Include="GrShellImpl.cs" />
     <Compile Include="GrShellTokenManager.cs" />
+    <Compile Include="ShellGraphProcessingEnvironment.cs" />
     <Compile Include="WorkaroundManager.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
