@@ -15,12 +15,17 @@ PARSER_BEGIN(GrShell)
 
     public class GrShell {
         GrShellImpl impl = null;
-        public bool Eof = false;
+        GrShellDriver driver = null;
         bool noError;
 
         public void SetImpl(GrShellImpl impl)
         {
             this.impl = impl;
+        }
+
+        public void SetDriver(GrShellDriver driver)
+        {
+            this.driver = driver;
         }
     }
 PARSER_END(GrShell)
@@ -837,8 +842,8 @@ object Constant():
 void LineEnd():
 {}
 {
-    { if(impl.Quitting) return; }
-    (<NL> | <DOUBLESEMICOLON> | <EOF> { Eof = true; })
+    { if(driver.Quitting) return; }
+    (<NL> | <DOUBLESEMICOLON> | <EOF> { driver.Eof = true; })
 }
 
 bool ParseShellCommand():
@@ -850,17 +855,15 @@ bool ParseShellCommand():
     { noError = true; }
     try
     {
-        { impl.ShowPromptAsNeeded(); }
-
         (
             <NL>
             | <DOUBLESEMICOLON>
-            | <EOF> { Eof = true; }
-            | seqExpr=If(null, null) { impl.ifNesting.Push(impl.ifNesting.Peek() && impl.Evaluate(seqExpr)); }
-            | "else" { ifValue=impl.ifNesting.Peek(); impl.ifNesting.Pop(); impl.ifNesting.Push(impl.ifNesting.Peek() && !ifValue); }
-            | "endif" { impl.ifNesting.Pop(); }
-            | LOOKAHEAD( { impl.ifNesting.Peek() } ) ShellCommand()
-            | LOOKAHEAD( { !impl.ifNesting.Peek() } ) { errorSkipSilent(); }
+            | <EOF> { driver.Eof = true; }
+            | seqExpr=If(null, null) { driver.ifNesting.Push(driver.ifNesting.Peek() && impl.Evaluate(seqExpr)); }
+            | "else" { ifValue=driver.ifNesting.Peek(); driver.ifNesting.Pop(); driver.ifNesting.Push(driver.ifNesting.Peek() && !ifValue); }
+            | "endif" { driver.ifNesting.Pop(); }
+            | LOOKAHEAD( { driver.ifNesting.Peek() } ) ShellCommand()
+            | LOOKAHEAD( { !driver.ifNesting.Peek() } ) { errorSkipSilent(); }
         )
     }
     catch(ParseException ex)
@@ -953,7 +956,7 @@ void ShellCommand():
 |
     "include" str1=Filename() LineEnd()
     {
-        noError = impl.Include(this, str1, null, null);
+        noError = driver.Include(str1, null, null);
     }
 |
     "new" NewCommand()
@@ -988,7 +991,7 @@ void ShellCommand():
 |
     ("quit" | "exit") LineEnd()
     {
-        impl.Quit();
+        driver.Quit();
     }
 |
     "randomseed"
@@ -1023,7 +1026,7 @@ void ShellCommand():
 |
     "replay" str1=Filename() ("from" str2=QuotedText())? ("to" str3=QuotedText())? LineEnd()
     {
-        noError = impl.Replay(str1, this, str2, str3);
+        noError = impl.Replay(str1, str2, str3, driver);
     }
 |
     "retype" RetypeCommand()

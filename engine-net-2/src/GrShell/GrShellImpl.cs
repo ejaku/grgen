@@ -151,10 +151,6 @@ namespace de.unika.ipd.grGen.grShell
         bool silenceExec = false; // print match statistics during sequence execution on timer
         bool cancelSequence = false;
 
-        public bool Quitting = false;
-        public bool ShowPrompt = true;
-        public bool readFromConsole = false;
-
         public ElementRealizers realizers = new ElementRealizers();
 
         Debugger debugger = null;
@@ -162,7 +158,6 @@ namespace de.unika.ipd.grGen.grShell
         bool pendingDebugEnable = false;
         String debugLayout = "Orthogonal";
         public bool nonDebugNonGuiExitOnError = false;
-        public bool showIncludes = false;
         public TextWriter debugOut = System.Console.Out;
         public TextWriter errOut = System.Console.Error;
         public IGrShellUI UserInterface = new GrShellConsoleUI(Console.In, Console.Out);
@@ -177,204 +172,10 @@ namespace de.unika.ipd.grGen.grShell
         Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
 
         IWorkaround workaround = WorkaroundManager.Workaround;
-        public LinkedList<GrShellTokenManager> TokenSourceStack = new LinkedList<GrShellTokenManager>();
-        public Stack<bool> ifNesting = new Stack<bool>();
 
         public GrShellImpl()
         {
             Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
-        }
-
-        static int Main(string[] args)
-        {
-            String command = null;
-            ArrayList scriptFilename = new ArrayList();
-            bool showUsage = false;
-            bool nonDebugNonGuiExitOnError = false;
-            bool showIncludes = false;
-            int errorCode = 0; // 0==success, the return value
-
-            GrShellImpl.PrintVersion();
-
-            for(int i = 0; i < args.Length; i++)
-            {
-                if(args[i][0] == '-')
-                {
-                    if(args[i] == "-C")
-                    {
-                        if(command != null)
-                        {
-                            Console.WriteLine("Another command has already been specified with -C!");
-                            errorCode = -1;
-                            showUsage = true;
-                            break;
-                        }
-                        if(i + 1 >= args.Length)
-                        {
-                            Console.WriteLine("Missing parameter for -C option!");
-                            errorCode = -1;
-                            showUsage = true;
-                            break;
-                        }
-                        command = args[i + 1];
-                        Console.WriteLine("Will execute: \"" + command + "\"");
-                        i++;
-                    }
-                    else if(args[i] == "-N")
-                    {
-                        nonDebugNonGuiExitOnError = true;
-                    }
-                    else if(args[i] == "-SI")
-                    {
-                        showIncludes = true;
-                    }
-                    else if(args[i] == "--help")
-                    {
-                        Console.WriteLine("Displays help");
-                        showUsage = true;
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Illegal option: " + args[i]);
-                        showUsage = true;
-                        errorCode = -1;
-                        break;
-                    }
-                }
-                else
-                {
-                    String filename = args[i];
-                    if(!File.Exists(filename))
-                    {
-                        filename = filename + ".grs";
-                        if(!File.Exists(filename))
-                        {
-                            Console.WriteLine("The script file \"" + args[i] + "\" or \"" + filename + "\" does not exist!");
-                            showUsage = true;
-                            errorCode = -1;
-                            break;
-                        }
-                    }
-                    scriptFilename.Add(filename);
-                }
-            }
-
-            if(showUsage)
-            {
-                Console.WriteLine("Usage: GrShell [-C <command>] [<grs-file>]...");
-                Console.WriteLine("If called without options, GrShell is started awaiting user input. (Type help for help.)");
-                Console.WriteLine("Options:");
-                Console.WriteLine("  -C <command> Specifies a command to be executed >first<. Using");
-                Console.WriteLine("               ';;' as a delimiter it can actually contain multiple shell commands");
-                Console.WriteLine("               Use '#\u00A7' in that case to terminate contained exec.");
-                Console.WriteLine("  -N           non-interactive non-gui shell which exits on error instead of waiting for user input");
-                Console.WriteLine("  -SI          prints to console when includes are entered and exited");
-                Console.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
-                return errorCode;
-            }
-
-            IWorkaround workaround = WorkaroundManager.Workaround;
-            TextReader reader;
-            bool showPrompt;
-            bool readFromConsole;
-
-            if(command != null)
-            {
-                reader = new StringReader(command);
-                showPrompt = false;
-                readFromConsole = false;
-            }
-            else if(scriptFilename.Count != 0)
-            {
-                try
-                {
-                    reader = new StreamReader((String)scriptFilename[0]);
-                }
-                catch(Exception e)
-                {
-                    Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
-                    return -1;
-                }
-                scriptFilename.RemoveAt(0);
-                showPrompt = false;
-                readFromConsole = false;
-            }
-            else
-            {
-                reader = workaround.In;
-                showPrompt = true;
-                readFromConsole = true;
-            }
-
-            GrShell shell = new GrShell(reader);
-            GrShellImpl impl = new GrShellImpl();
-            shell.SetImpl(impl);
-            impl.TokenSourceStack.AddFirst(shell.token_source);
-            impl.nonDebugNonGuiExitOnError = nonDebugNonGuiExitOnError;
-            impl.showIncludes = showIncludes;
-            impl.ShowPrompt = showPrompt;
-            impl.readFromConsole = readFromConsole;
-            try
-            {
-                impl.ifNesting.Push(true);
-                while(!impl.Quitting && !shell.Eof)
-                {
-                    bool noError = shell.ParseShellCommand();
-                    if(!impl.readFromConsole && (shell.Eof || !noError))
-                    {
-                        if(nonDebugNonGuiExitOnError && !noError)
-                        {
-                            return -1;
-                        }
-
-                        if(scriptFilename.Count != 0)
-                        {
-                            TextReader newReader;
-                            try
-                            {
-                                newReader = new StreamReader((String)scriptFilename[0]);
-                            }
-                            catch(Exception e)
-                            {
-                                Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
-                                return -1;
-                            }
-                            scriptFilename.RemoveAt(0);
-                            shell.ReInit(newReader);
-                            shell.Eof = false;
-                            reader.Close();
-                            reader = newReader;
-                        }
-                        else
-                        {
-                            shell.ReInit(workaround.In);
-                            impl.TokenSourceStack.RemoveFirst();
-                            impl.TokenSourceStack.AddFirst(shell.token_source);
-                            impl.ShowPrompt = true;
-                            impl.readFromConsole = true;
-                            shell.Eof = false;
-                            reader.Close();
-                        }
-                    }
-                }
-                impl.ifNesting.Pop();
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine("exit due to " + e.Message);
-                errorCode = -2;
-            }
-            finally
-            {
-                impl.Cleanup();
-            }
-            return errorCode;
-        }
-
-        public void ShowPromptAsNeeded()
-        {
-            if(ShowPrompt) Console.Write("> ");
         }
 
         public bool OperationCancelled { get { return cancelSequence; } }
@@ -1256,67 +1057,10 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        public bool Include(GrShell grShell, String filename, String from, String to)
-        {
-            try
-            {
-                if(showIncludes)
-                    debugOut.WriteLine("Including " + filename);
-                TextReader reader = null;
-                if (filename.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase)) {
-                    FileStream filereader = new FileStream(filename, FileMode.Open,  FileAccess.Read);
-                    reader = new StreamReader(new GZipStream(filereader, CompressionMode.Decompress));
-                } else {
-                    reader = new StreamReader(filename);
-                }
-                if(from != null || to != null)
-                    reader = new FromToReader(reader, from, to);
-                using(reader)
-                {
-                    SimpleCharStream charStream = new SimpleCharStream(reader);
-                    GrShellTokenManager tokenSource = new GrShellTokenManager(charStream);
-                    TokenSourceStack.AddFirst(tokenSource);
-                    bool oldShowPrompt = ShowPrompt;
-                    ShowPrompt = false;
-                    try
-                    {
-                        grShell.ReInit(tokenSource);
-                        while(!Quitting && !grShell.Eof)
-                        {
-                            if(!grShell.ParseShellCommand())
-                            {
-                                errOut.WriteLine("Shell command parsing failed in include of \"" + filename + "\" (at nesting level " + TokenSourceStack.Count + ")");
-                                return false;
-                            }
-                        }
-                        grShell.Eof = false;
-                    }
-                    finally
-                    {
-                        if(showIncludes)
-                            debugOut.WriteLine("Leaving " + filename);
-                        TokenSourceStack.RemoveFirst();
-                        grShell.ReInit(TokenSourceStack.First.Value);
-                        ShowPrompt = oldShowPrompt;
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                errOut.WriteLine("Error during include of \"" + filename + "\": " + e.Message);
-                return false;
-            }
-            return true;
-        }
-
-        public void Quit()
+        public void QuitDebugMode()
         {
             if(InDebugMode)
                 SetDebugMode(false);
-
-            Quitting = true;
-
-            debugOut.WriteLine("Bye!\n");
         }
 
         public void Cleanup()
@@ -5228,7 +4972,7 @@ showavail:
             return true;
         }
 
-        public bool Replay(String filename, GrShell grShell, String from, String to)
+        public bool Replay(String filename, String from, String to, GrShellDriver driver)
         {
             if(!GraphExists()) return false;
 
@@ -5237,7 +4981,7 @@ showavail:
             if(to != null) debugOut.Write(" to \"" + to + "\"");
             debugOut.WriteLine("..");
 
-            if(Include(grShell, filename, from, to))
+            if(driver.Include(filename, from, to))
             {
                 debugOut.Write("..replaying \"" + filename + "\"");
                 if(from != null) debugOut.Write(" from \"" + from + "\"");
