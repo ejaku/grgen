@@ -849,7 +849,6 @@ void LineEnd():
 bool ParseShellCommand():
 {
     SequenceExpression seqExpr;
-    bool ifValue;
 }
 {
     { noError = true; }
@@ -859,11 +858,11 @@ bool ParseShellCommand():
             <NL>
             | <DOUBLESEMICOLON>
             | <EOF> { driver.Eof = true; }
-            | seqExpr=If(null, null) { driver.ifNesting.Push(driver.ifNesting.Peek() && impl.Evaluate(seqExpr)); }
-            | "else" { ifValue=driver.ifNesting.Peek(); driver.ifNesting.Pop(); driver.ifNesting.Push(driver.ifNesting.Peek() && !ifValue); }
-            | "endif" { driver.ifNesting.Pop(); }
-            | LOOKAHEAD( { driver.ifNesting.Peek() } ) ShellCommand()
-            | LOOKAHEAD( { !driver.ifNesting.Peek() } ) { errorSkipSilent(); }
+            | seqExpr=If(null, null) { driver.ParsedIf(seqExpr); }
+            | "else" { driver.ParsedElse(); }
+            | "endif" { driver.ParsedEndif(); }
+            | LOOKAHEAD( { driver.ExecuteCommandLine() } ) ShellCommand()
+            | LOOKAHEAD( { !driver.ExecuteCommandLine() } ) { errorSkipSilent(); }
         )
     }
     catch(ParseException ex)
@@ -892,7 +891,7 @@ void ShellCommand():
 {
     "!" str1=CommandLine()
     {
-        impl.ExecuteCommandLine(str1);
+        impl.ExecuteCommandLineInExternalShell(str1);
     }
 |
     "cd" str1=Filename() LineEnd()

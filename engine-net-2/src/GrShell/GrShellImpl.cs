@@ -952,7 +952,7 @@ namespace de.unika.ipd.grGen.grShell
             Infrastructure.Flush(curShellProcEnv.ProcEnv.NamedGraph);
         }
 
-        public void ExecuteCommandLine(String cmdLine)
+        public void ExecuteCommandLineInExternalShell(String cmdLine)
         {
             // treat first word as the filename and the rest as arguments
 
