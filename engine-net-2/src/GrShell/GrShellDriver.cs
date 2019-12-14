@@ -12,19 +12,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.grShell
 {
     public class GrShellDriver
     {
-        public LinkedList<GrShellTokenManager> TokenSourceStack = new LinkedList<GrShellTokenManager>();
-        public Stack<bool> ifNesting = new Stack<bool>();
+        private LinkedList<GrShellTokenManager> TokenSourceStack = new LinkedList<GrShellTokenManager>();
+        private Stack<bool> ifNesting = new Stack<bool>();
 
         public bool Quitting = false;
         public bool Eof = false;
-        public bool readFromConsole = false;
 
-        public bool showIncludes = false;
+        private bool showIncludes = false;
 
         GrShell grShell;
         GrShellImpl impl;
@@ -46,115 +46,37 @@ namespace de.unika.ipd.grGen.grShell
 
             GrShellImpl.PrintVersion();
 
-            for(int i = 0; i < args.Length; i++)
-            {
-                if(args[i][0] == '-')
-                {
-                    if(args[i] == "-C")
-                    {
-                        if(command != null)
-                        {
-                            Console.WriteLine("Another command has already been specified with -C!");
-                            errorCode = -1;
-                            showUsage = true;
-                            break;
-                        }
-                        if(i + 1 >= args.Length)
-                        {
-                            Console.WriteLine("Missing parameter for -C option!");
-                            errorCode = -1;
-                            showUsage = true;
-                            break;
-                        }
-                        command = args[i + 1];
-                        Console.WriteLine("Will execute: \"" + command + "\"");
-                        i++;
-                    }
-                    else if(args[i] == "-N")
-                    {
-                        nonDebugNonGuiExitOnError = true;
-                    }
-                    else if(args[i] == "-SI")
-                    {
-                        showIncludes = true;
-                    }
-                    else if(args[i] == "--help")
-                    {
-                        Console.WriteLine("Displays help");
-                        showUsage = true;
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Illegal option: " + args[i]);
-                        showUsage = true;
-                        errorCode = -1;
-                        break;
-                    }
-                }
-                else
-                {
-                    String filename = args[i];
-                    if(!File.Exists(filename))
-                    {
-                        filename = filename + ".grs";
-                        if(!File.Exists(filename))
-                        {
-                            Console.WriteLine("The script file \"" + args[i] + "\" or \"" + filename + "\" does not exist!");
-                            showUsage = true;
-                            errorCode = -1;
-                            break;
-                        }
-                    }
-                    scriptFilename.Add(filename);
-                }
-            }
+            ParseArguments(args,
+                out command,
+                out scriptFilename,
+                out showUsage,
+                out nonDebugNonGuiExitOnError,
+                out showIncludes,
+                out errorCode);
 
             if(showUsage)
             {
-                Console.WriteLine("Usage: GrShell [-C <command>] [<grs-file>]...");
-                Console.WriteLine("If called without options, GrShell is started awaiting user input. (Type help for help.)");
-                Console.WriteLine("Options:");
-                Console.WriteLine("  -C <command> Specifies a command to be executed >first<. Using");
-                Console.WriteLine("               ';;' as a delimiter it can actually contain multiple shell commands");
-                Console.WriteLine("               Use '#\u00A7' in that case to terminate contained exec.");
-                Console.WriteLine("  -N           non-interactive non-gui shell which exits on error instead of waiting for user input");
-                Console.WriteLine("  -SI          prints to console when includes are entered and exited");
-                Console.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
+                PrintUsage();
                 return errorCode;
             }
 
             IWorkaround workaround = WorkaroundManager.Workaround;
+
             TextReader reader;
             bool showPrompt;
             bool readFromConsole;
 
-            if(command != null)
+            try
             {
-                reader = new StringReader(command);
-                showPrompt = false;
-                readFromConsole = false;
+                DetermineAndOpenInputSource(command, scriptFilename, workaround, 
+                    out reader, 
+                    out showPrompt, 
+                    out readFromConsole);
             }
-            else if(scriptFilename.Count != 0)
+            catch(Exception e)
             {
-                try
-                {
-                    reader = new StreamReader((String)scriptFilename[0]);
-                }
-                catch(Exception e)
-                {
-                    Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
-                    return -1;
-                }
-                scriptFilename.RemoveAt(0);
-                showPrompt = false;
-                readFromConsole = false;
-            }
-            else
-            {
-                reader = workaround.In;
-                showPrompt = true;
-                readFromConsole = true;
+                Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
+                return -1;
             }
 
             GrShell shell = new GrShell(reader);
@@ -165,7 +87,6 @@ namespace de.unika.ipd.grGen.grShell
             driver.TokenSourceStack.AddFirst(shell.token_source);
             impl.nonDebugNonGuiExitOnError = nonDebugNonGuiExitOnError;
             driver.showIncludes = showIncludes;
-            driver.readFromConsole = readFromConsole;
             try
             {
                 driver.ifNesting.Push(true);
@@ -173,7 +94,7 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     driver.ShowPromptAsNeeded(showPrompt);
                     bool noError = shell.ParseShellCommand();
-                    if(!driver.readFromConsole && (driver.Eof || !noError))
+                    if(!readFromConsole && (driver.Eof || !noError))
                     {
                         if(nonDebugNonGuiExitOnError && !noError)
                         {
@@ -204,7 +125,7 @@ namespace de.unika.ipd.grGen.grShell
                             driver.TokenSourceStack.RemoveFirst();
                             driver.TokenSourceStack.AddFirst(shell.token_source);
                             showPrompt = true;
-                            driver.readFromConsole = true;
+                            readFromConsole = true;
                             driver.Eof = false;
                             reader.Close();
                         }
@@ -286,6 +207,147 @@ namespace de.unika.ipd.grGen.grShell
             Quitting = true;
 
             impl.debugOut.WriteLine("Bye!\n");
+        }
+
+        public void ParsedIf(SequenceExpression seqExpr)
+        {
+            ifNesting.Push(ifNesting.Peek() && impl.Evaluate(seqExpr));
+        }
+
+        public void ParsedElse()
+        {
+            bool ifValue = ifNesting.Peek();
+            ifNesting.Pop();
+            ifNesting.Push(ifNesting.Peek() && !ifValue);
+        }
+
+        public void ParsedEndif()
+        {
+            ifNesting.Pop();
+        }
+
+        public bool ExecuteCommandLine()
+        {
+            return ifNesting.Peek();
+        }
+
+        static void ParseArguments(string[] args,
+            out String command,
+            out ArrayList scriptFilename,
+            out bool showUsage,
+            out bool nonDebugNonGuiExitOnError,
+            out bool showIncludes,
+            out int errorCode)
+        {
+            command = null;
+            scriptFilename = new ArrayList();
+            showUsage = false;
+            nonDebugNonGuiExitOnError = false;
+            showIncludes = false;
+            errorCode = 0; // 0==success, the return value
+
+            for(int i = 0; i < args.Length; i++)
+            {
+                if(args[i][0] == '-')
+                {
+                    if(args[i] == "-C")
+                    {
+                        if(command != null)
+                        {
+                            Console.WriteLine("Another command has already been specified with -C!");
+                            errorCode = -1;
+                            showUsage = true;
+                            break;
+                        }
+                        if(i + 1 >= args.Length)
+                        {
+                            Console.WriteLine("Missing parameter for -C option!");
+                            errorCode = -1;
+                            showUsage = true;
+                            break;
+                        }
+                        command = args[i + 1];
+                        Console.WriteLine("Will execute: \"" + command + "\"");
+                        i++;
+                    }
+                    else if(args[i] == "-N")
+                    {
+                        nonDebugNonGuiExitOnError = true;
+                    }
+                    else if(args[i] == "-SI")
+                    {
+                        showIncludes = true;
+                    }
+                    else if(args[i] == "--help")
+                    {
+                        Console.WriteLine("Displays help");
+                        showUsage = true;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Illegal option: " + args[i]);
+                        showUsage = true;
+                        errorCode = -1;
+                        break;
+                    }
+                }
+                else
+                {
+                    String filename = args[i];
+                    if(!File.Exists(filename))
+                    {
+                        filename = filename + ".grs";
+                        if(!File.Exists(filename))
+                        {
+                            Console.WriteLine("The script file \"" + args[i] + "\" or \"" + filename + "\" does not exist!");
+                            showUsage = true;
+                            errorCode = -1;
+                            break;
+                        }
+                    }
+                    scriptFilename.Add(filename);
+                }
+            }
+        }
+
+        static void PrintUsage()
+        {
+            Console.WriteLine("Usage: GrShell [-C <command>] [<grs-file>]...");
+            Console.WriteLine("If called without options, GrShell is started awaiting user input. (Type help for help.)");
+            Console.WriteLine("Options:");
+            Console.WriteLine("  -C <command> Specifies a command to be executed >first<. Using");
+            Console.WriteLine("               ';;' as a delimiter it can actually contain multiple shell commands");
+            Console.WriteLine("               Use '#\u00A7' in that case to terminate contained exec.");
+            Console.WriteLine("  -N           non-interactive non-gui shell which exits on error instead of waiting for user input");
+            Console.WriteLine("  -SI          prints to console when includes are entered and exited");
+            Console.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
+        }
+
+        static void DetermineAndOpenInputSource(String command, ArrayList scriptFilename, IWorkaround workaround,
+            out TextReader reader,
+            out bool showPrompt,
+            out bool readFromConsole)
+        {
+            if(command != null)
+            {
+                reader = new StringReader(command);
+                showPrompt = false;
+                readFromConsole = false;
+            }
+            else if(scriptFilename.Count != 0)
+            {
+                reader = new StreamReader((String)scriptFilename[0]);
+                scriptFilename.RemoveAt(0);
+                showPrompt = false;
+                readFromConsole = false;
+            }
+            else
+            {
+                reader = workaround.In;
+                showPrompt = true;
+                readFromConsole = true;
+            }
         }
     }
 }
