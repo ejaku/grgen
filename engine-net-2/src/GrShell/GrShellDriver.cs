@@ -18,7 +18,7 @@ namespace de.unika.ipd.grGen.grShell
 {
     public class GrShellDriver
     {
-        private LinkedList<GrShellTokenManager> TokenSourceStack = new LinkedList<GrShellTokenManager>();
+        private Stack<GrShellTokenManager> TokenSourceStack = new Stack<GrShellTokenManager>();
         private Stack<bool> ifNesting = new Stack<bool>();
 
         public bool Quitting = false;
@@ -47,12 +47,8 @@ namespace de.unika.ipd.grGen.grShell
             GrShellImpl.PrintVersion();
 
             ParseArguments(args,
-                out command,
-                out scriptFilename,
-                out showUsage,
-                out nonDebugNonGuiExitOnError,
-                out showIncludes,
-                out errorCode);
+                out command, out scriptFilename, out showUsage,
+                out nonDebugNonGuiExitOnError, out showIncludes, out errorCode);
 
             if(showUsage)
             {
@@ -66,71 +62,37 @@ namespace de.unika.ipd.grGen.grShell
             bool showPrompt;
             bool readFromConsole;
 
-            try
-            {
-                DetermineAndOpenInputSource(command, scriptFilename, workaround, 
-                    out reader, 
-                    out showPrompt, 
-                    out readFromConsole);
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
-                return -1;
-            }
+            errorCode = DetermineAndOpenInputSource(command, scriptFilename, workaround, 
+                out reader, out showPrompt, out readFromConsole);
+            if(errorCode != 0)
+                return errorCode;
 
             GrShell shell = new GrShell(reader);
             GrShellImpl impl = new GrShellImpl();
             GrShellDriver driver = new GrShellDriver(shell, impl);
             shell.SetImpl(impl);
             shell.SetDriver(driver);
-            driver.TokenSourceStack.AddFirst(shell.token_source);
-            impl.nonDebugNonGuiExitOnError = nonDebugNonGuiExitOnError;
+            driver.TokenSourceStack.Push(shell.token_source);
             driver.showIncludes = showIncludes;
+            impl.nonDebugNonGuiExitOnError = nonDebugNonGuiExitOnError;
+
             try
             {
                 driver.ifNesting.Push(true);
+
                 while(!driver.Quitting && !driver.Eof)
                 {
                     driver.ShowPromptAsNeeded(showPrompt);
-                    bool noError = shell.ParseShellCommand();
-                    if(!readFromConsole && (driver.Eof || !noError))
-                    {
-                        if(nonDebugNonGuiExitOnError && !noError)
-                        {
-                            return -1;
-                        }
 
-                        if(scriptFilename.Count != 0)
-                        {
-                            TextReader newReader;
-                            try
-                            {
-                                newReader = new StreamReader((String)scriptFilename[0]);
-                            }
-                            catch(Exception e)
-                            {
-                                Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
-                                return -1;
-                            }
-                            scriptFilename.RemoveAt(0);
-                            shell.ReInit(newReader);
-                            driver.Eof = false;
-                            reader.Close();
-                            reader = newReader;
-                        }
-                        else
-                        {
-                            shell.ReInit(workaround.In);
-                            driver.TokenSourceStack.RemoveFirst();
-                            driver.TokenSourceStack.AddFirst(shell.token_source);
-                            showPrompt = true;
-                            readFromConsole = true;
-                            driver.Eof = false;
-                            reader.Close();
-                        }
-                    }
+                    bool noError = shell.ParseShellCommand();
+
+                    errorCode = HandleEofOrErrorIfNonConsoleShell(scriptFilename, noError, nonDebugNonGuiExitOnError,
+                        shell, driver, workaround,
+                        ref reader, ref showPrompt, ref readFromConsole);
+                    if(errorCode != 0)
+                        return errorCode;
                 }
+
                 driver.ifNesting.Pop();
             }
             catch(Exception e)
@@ -142,12 +104,14 @@ namespace de.unika.ipd.grGen.grShell
             {
                 impl.Cleanup();
             }
+
             return errorCode;
         }
 
         public void ShowPromptAsNeeded(bool ShowPrompt)
         {
-            if(ShowPrompt) Console.Write("> ");
+            if(ShowPrompt)
+                Console.Write("> ");
         }
 
         public bool Include(String filename, String from, String to)
@@ -156,6 +120,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 if(showIncludes)
                     impl.debugOut.WriteLine("Including " + filename);
+
                 TextReader reader = null;
                 if (filename.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase)) {
                     FileStream filereader = new FileStream(filename, FileMode.Open,  FileAccess.Read);
@@ -165,14 +130,17 @@ namespace de.unika.ipd.grGen.grShell
                 }
                 if(from != null || to != null)
                     reader = new FromToReader(reader, from, to);
+
                 using(reader)
                 {
                     SimpleCharStream charStream = new SimpleCharStream(reader);
                     GrShellTokenManager tokenSource = new GrShellTokenManager(charStream);
-                    TokenSourceStack.AddFirst(tokenSource);
+                    TokenSourceStack.Push(tokenSource);
+
                     try
                     {
                         grShell.ReInit(tokenSource);
+
                         while(!Quitting && !Eof)
                         {
                             if(!grShell.ParseShellCommand())
@@ -187,8 +155,9 @@ namespace de.unika.ipd.grGen.grShell
                     {
                         if(showIncludes)
                             impl.debugOut.WriteLine("Leaving " + filename);
-                        TokenSourceStack.RemoveFirst();
-                        grShell.ReInit(TokenSourceStack.First.Value);
+
+                        TokenSourceStack.Pop();
+                        grShell.ReInit(TokenSourceStack.Peek());
                     }
                 }
             }
@@ -197,6 +166,7 @@ namespace de.unika.ipd.grGen.grShell
                 impl.errOut.WriteLine("Error during include of \"" + filename + "\": " + e.Message);
                 return false;
             }
+
             return true;
         }
 
@@ -232,12 +202,8 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         static void ParseArguments(string[] args,
-            out String command,
-            out ArrayList scriptFilename,
-            out bool showUsage,
-            out bool nonDebugNonGuiExitOnError,
-            out bool showIncludes,
-            out int errorCode)
+            out String command, out ArrayList scriptFilename, out bool showUsage,
+            out bool nonDebugNonGuiExitOnError, out bool showIncludes, out int errorCode)
         {
             command = null;
             scriptFilename = new ArrayList();
@@ -324,10 +290,8 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
         }
 
-        static void DetermineAndOpenInputSource(String command, ArrayList scriptFilename, IWorkaround workaround,
-            out TextReader reader,
-            out bool showPrompt,
-            out bool readFromConsole)
+        static int DetermineAndOpenInputSource(String command, ArrayList scriptFilename, IWorkaround workaround,
+            out TextReader reader, out bool showPrompt, out bool readFromConsole)
         {
             if(command != null)
             {
@@ -337,7 +301,18 @@ namespace de.unika.ipd.grGen.grShell
             }
             else if(scriptFilename.Count != 0)
             {
-                reader = new StreamReader((String)scriptFilename[0]);
+                try
+                {
+                    reader = new StreamReader((String)scriptFilename[0]);
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
+                    reader = null;
+                    showPrompt = false;
+                    readFromConsole = false;
+                    return -1;
+                }
                 scriptFilename.RemoveAt(0);
                 showPrompt = false;
                 readFromConsole = false;
@@ -348,6 +323,50 @@ namespace de.unika.ipd.grGen.grShell
                 showPrompt = true;
                 readFromConsole = true;
             }
+
+            return 0;
+        }
+
+        static int HandleEofOrErrorIfNonConsoleShell(ArrayList scriptFilename, bool noError, bool nonDebugNonGuiExitOnError, 
+            GrShell shell, GrShellDriver driver, IWorkaround workaround, 
+            ref TextReader reader, ref bool showPrompt, ref bool readFromConsole)
+        {
+            if(readFromConsole || (!driver.Eof && noError))
+                return 0;
+
+            if(nonDebugNonGuiExitOnError && !noError)
+                return -1;
+
+            if(scriptFilename.Count != 0)
+            {
+                TextReader newReader;
+                try
+                {
+                    newReader = new StreamReader((String)scriptFilename[0]);
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
+                    return -1;
+                }
+                scriptFilename.RemoveAt(0);
+                shell.ReInit(newReader);
+                driver.Eof = false;
+                reader.Close();
+                reader = newReader;
+            }
+            else
+            {
+                shell.ReInit(workaround.In);
+                driver.TokenSourceStack.Pop();
+                driver.TokenSourceStack.Push(shell.token_source);
+                showPrompt = true;
+                readFromConsole = true;
+                driver.Eof = false;
+                reader.Close();
+            }
+
+            return 0;
         }
     }
 }
