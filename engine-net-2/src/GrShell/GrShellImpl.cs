@@ -212,6 +212,19 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        public bool SilenceExec
+        {
+            set
+            {
+                seqApplierAndDebugger.SilenceExec = value;
+            }
+        }
+
+        public bool SetDebugMode(bool enable)
+        {
+            return seqApplierAndDebugger.SetDebugMode(enable);
+        }
+
         public IGraphElement GetElemByVar(String varName)
         {
             if(!GraphExists()) return null;
