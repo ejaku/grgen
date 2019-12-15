@@ -16,7 +16,7 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.grShell
 {
-    public class StatisticsSource
+    class StatisticsSource
     {
         public StatisticsSource(IGraph graph, IActionExecutionEnvironment actionEnv)
         {
@@ -50,22 +50,20 @@ namespace de.unika.ipd.grGen.grShell
 
     public class GrShellSequenceApplierAndDebugger
     {
-        bool silenceExec = false; // print match statistics during sequence execution on timer
-        public bool cancelSequence = false;
+        private bool silenceExec = false; // print match statistics during sequence execution on timer
+        private bool cancelSequence = false;
 
-        public Debugger debugger = null;
+        private Debugger debugger = null;
 
-        public bool pendingDebugEnable = false;
-        public TextWriter debugOut;
-        public TextWriter errOut;
-        public IGrShellUI UserInterface = new GrShellConsoleUI(Console.In, Console.Out);
+        private bool pendingDebugEnable = false;
+        private TextWriter debugOut;
+        private TextWriter errOut;
+        private IGrShellUI UserInterface = new GrShellConsoleUI(Console.In, Console.Out);
 
+        private Sequence curGRS;
+        private SequenceRuleCall curRule;
 
-
-        Sequence curGRS;
-        SequenceRuleCall curRule;
-
-        GrShellImpl impl;
+        private GrShellImpl impl;
 
         public GrShellSequenceApplierAndDebugger(GrShellImpl impl, TextWriter debugOut, TextWriter errOut)
         {
@@ -76,9 +74,89 @@ namespace de.unika.ipd.grGen.grShell
             this.errOut = errOut;
         }
 
-        public bool OperationCancelled { get { return cancelSequence; } }
-        public bool InDebugMode { get { return debugger != null && !debugger.ConnectionLost; } }
+        public bool OperationCancelled
+        {
+            get { return cancelSequence; }
+        }
 
+        private bool InDebugMode
+        {
+            get { return debugger != null && !debugger.ConnectionLost; }
+        }
+
+        public void QuitDebugModeAsNeeded()
+        {
+            if(InDebugMode)
+                SetDebugMode(false);
+        }
+
+        public void RestartDebuggerOnNewGraphAsNeeded()
+        {
+            if(InDebugMode)
+            { // switch to new graph from old graph
+                SetDebugMode(false);
+                pendingDebugEnable = true;
+            }
+
+            if(pendingDebugEnable)
+                SetDebugMode(true);
+        }
+
+        public void UpdateDebuggerDisplayAsNeeded()
+        {
+            if(InDebugMode)
+                debugger.UpdateYCompDisplay();
+        }
+
+        public void DisableDebuggerAfterDeletionAsNeeded(ShellGraphProcessingEnvironment deletedShellGraphProcEnv)
+        {
+            if(InDebugMode && debugger.ShellProcEnv == deletedShellGraphProcEnv)
+                SetDebugMode(false);
+        }
+
+        public void ChangeDebuggerGraphAsNeeded(ShellGraphProcessingEnvironment curShellProcEnv)
+        {
+            if(InDebugMode)
+                debugger.ShellProcEnv = curShellProcEnv; // TODO: this is sufficient for the dependencies within debugger?
+        }
+
+        public void DebugDoLayout()
+        {
+            if(!CheckDebuggerAlive())
+            {
+                debugOut.WriteLine("YComp is not active, yet!");
+                return;
+            }
+
+            debugger.ForceLayout();
+        }
+
+        public void SetDebugLayout(String layout)
+        {
+            if(InDebugMode)
+                debugger.SetLayout(layout);
+        }
+
+        public void GetDebugLayoutOptions()
+        {
+            if(!CheckDebuggerAlive())
+            {
+                errOut.WriteLine("Layout options can only be read, when YComp is active!");
+                return;
+            }
+
+            debugger.GetLayoutOptions();
+        }
+
+        public bool SetDebugLayoutOption(String optionName, String optionValue)
+        {
+            if(!CheckDebuggerAlive())
+            {
+                return true;
+            }
+
+            return debugger.SetLayoutOption(optionName, optionValue);
+        }
 
         public bool SilenceExec
         {
@@ -89,21 +167,22 @@ namespace de.unika.ipd.grGen.grShell
             set
             {
                 silenceExec = value;
-                if(silenceExec) errOut.WriteLine("Disabled printing match statistics during non-debug sequence execution every second");
-                else errOut.WriteLine("Enabled printing match statistics during non-debug sequence execution every second");
+                if(silenceExec)
+                    errOut.WriteLine("Disabled printing match statistics during non-debug sequence execution every second");
+                else
+                    errOut.WriteLine("Enabled printing match statistics during non-debug sequence execution every second");
             }
         }
 
-
-
-        bool ContainsSpecial(Sequence seq)
+        private bool ContainsSpecial(Sequence seq)
         {
             if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall) 
                 && ((SequenceRuleCall)seq).Special)
                 return true;
 
             foreach(Sequence child in seq.Children)
-                if(ContainsSpecial(child)) return true;
+                if(ContainsSpecial(child))
+                    return true;
 
             return false;
         }
@@ -112,7 +191,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             bool installedDumpHandlers = false;
 
-            if(!impl.ActionsExists()) return;
+            if(!impl.ActionsExists())
+                return;
 
             if(debug || CheckDebuggerAlive())
             {
@@ -142,7 +222,8 @@ namespace de.unika.ipd.grGen.grShell
             try
             {
                 bool result = impl.curShellProcEnv.ProcEnv.ApplyGraphRewriteSequence(seq);
-                if(timer != null) timer.Dispose();
+                if(timer != null)
+                    timer.Dispose();
 
                 seq.ResetExecutionState();
                 debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result {1}:",
@@ -164,7 +245,8 @@ namespace de.unika.ipd.grGen.grShell
             catch(OperationCanceledException)
             {
                 cancelSequence = true;      // make sure cancelSequence is set to true
-                if(timer != null) timer.Dispose();
+                if(timer != null)
+                    timer.Dispose();
                 if(curRule == null)
                     errOut.WriteLine("Rewrite sequence aborted!");
                 else
@@ -212,7 +294,7 @@ namespace de.unika.ipd.grGen.grShell
             throw new OperationCanceledException();                 // abort rewrite sequence
         }
 
-        void NormalEnteringSequenceHandler(Sequence seq)
+        private void NormalEnteringSequenceHandler(Sequence seq)
         {
             if(cancelSequence)
                 Cancel();
@@ -221,7 +303,7 @@ namespace de.unika.ipd.grGen.grShell
                 curRule = (SequenceRuleCall) seq;
         }
 
-        void DumpOnEntereringSequence(Sequence seq)
+        private void DumpOnEntereringSequence(Sequence seq)
         {
             if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall)
             {
@@ -231,7 +313,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void DumpOnExitingSequence(Sequence seq)
+        private void DumpOnExitingSequence(Sequence seq)
         {
             if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall)
             {
@@ -244,7 +326,7 @@ namespace de.unika.ipd.grGen.grShell
                 Cancel();
         }
 
-        void DumpOnFinishing(IMatches matches, bool special)
+        private void DumpOnFinishing(IMatches matches, bool special)
         {
             int i = 1;
             debugOut.WriteLine("Matched " + matches.Producer.Name + " rule:");
@@ -256,7 +338,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void DumpMatch(IMatch match, String indentation)
+        private void DumpMatch(IMatch match, String indentation)
         {
             int i = 0;
             foreach (INode node in match.Nodes)
@@ -290,11 +372,14 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+        private void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            if(curGRS == null || cancelSequence) return;
-            if(curRule == null) errOut.WriteLine("Cancelling...");
-            else errOut.WriteLine("Cancelling: Waiting for \"" + curRule.ParamBindings.Action.Name + "\" to finish...");
+            if(curGRS == null || cancelSequence)
+                return;
+            if(curRule == null)
+                errOut.WriteLine("Cancelling...");
+            else
+                errOut.WriteLine("Cancelling: Waiting for \"" + curRule.ParamBindings.Action.Name + "\" to finish...");
             e.Cancel = true;        // we handled the cancel event
             cancelSequence = true;
         }
@@ -361,9 +446,10 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        public bool CheckDebuggerAlive()
+        private bool CheckDebuggerAlive()
         {
-            if(!InDebugMode) return false;
+            if(!InDebugMode)
+                return false;
             if(!debugger.YCompClient.Sync())
             {
                 debugger = null;
@@ -384,7 +470,8 @@ namespace de.unika.ipd.grGen.grShell
 
             if(!CheckDebuggerAlive())
             {
-                if(!SetDebugMode(true)) return;
+                if(!SetDebugMode(true))
+                    return;
                 debugModeActivated = true;
             }
             else debugModeActivated = false;
@@ -452,6 +539,5 @@ namespace de.unika.ipd.grGen.grShell
                 return val;
             }
         }
-
     }
 }

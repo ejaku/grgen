@@ -23,7 +23,7 @@ using System.Text;
 
 namespace de.unika.ipd.grGen.grShell
 {
-    public class Debugger : IUserProxyForSequenceExecution
+    class Debugger : IUserProxyForSequenceExecution
     {
         GrShellImpl grShellImpl;
         ShellGraphProcessingEnvironment shellProcEnv;
