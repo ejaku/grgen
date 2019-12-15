@@ -23,7 +23,7 @@ using System.Text;
 
 namespace de.unika.ipd.grGen.grShell
 {
-    class Debugger : IUserProxyForSequenceExecution
+    public class Debugger : IUserProxyForSequenceExecution
     {
         GrShellImpl grShellImpl;
         ShellGraphProcessingEnvironment shellProcEnv;
@@ -374,13 +374,13 @@ namespace de.unika.ipd.grGen.grShell
         /// <returns>The ConsoleKeyInfo object for the pressed key.</returns>
         ConsoleKeyInfo ReadKeyWithCancel()
         {
-            if(grShellImpl.OperationCancelled)
-                grShellImpl.Cancel();
+            if(grShellImpl.seqApplierAndDebugger.OperationCancelled)
+                grShellImpl.seqApplierAndDebugger.Cancel();
 
             ConsoleKeyInfo key = grShellImpl.Workaround.ReadKeyWithControlCAsInput();
 
             if(key.Key == ConsoleKey.C && (key.Modifiers & ConsoleModifiers.Control) != 0)
-                grShellImpl.Cancel();
+                grShellImpl.seqApplierAndDebugger.Cancel();
 
             return key;
         }
@@ -451,7 +451,7 @@ namespace de.unika.ipd.grGen.grShell
                     HandleToggleLazyChoice();
                     break;
                 case 'a':
-                    grShellImpl.Cancel();
+                    grShellImpl.seqApplierAndDebugger.Cancel();
                     return false;                               // never reached
                 case 'n':
                     stepMode = false;
@@ -4130,7 +4130,7 @@ after_debugging_decision: ;
                 switch(key.KeyChar)
                 {
                 case 'a':
-                    grShellImpl.Cancel();
+                    grShellImpl.seqApplierAndDebugger.Cancel();
                     return;                               // never reached
                 case 's':
                     if(isBottomUpBreak && !stepMode)
@@ -4219,7 +4219,7 @@ after_debugging_decision: ;
         void DebugOnConnectionLost()
         {
             Console.WriteLine("Connection to yComp lost!");
-            grShellImpl.Cancel();
+            grShellImpl.seqApplierAndDebugger.Cancel();
         }
 
         /// <summary>
