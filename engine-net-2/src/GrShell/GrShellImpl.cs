@@ -12,7 +12,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Reflection;
 using System.Threading;
 using ASTdapter;
@@ -94,39 +93,7 @@ namespace de.unika.ipd.grGen.grShell
         }
     }
 
-    public class StatisticsSource
-    {
-        public StatisticsSource(IGraph graph, IActionExecutionEnvironment actionEnv)
-        {
-            this.graph = graph;
-            this.actionEnv = actionEnv;
-        }
-
-        public int MatchesFound
-        {
-            get { return actionEnv.PerformanceInfo.MatchesFound; }
-        }
-
-        public int RewritesPerformed
-        {
-            get { return actionEnv.PerformanceInfo.RewritesPerformed; }
-        }
-
-        public long GraphChanges
-        {
-            get { return graph.ChangesCounter; }
-        }
-
-        public IActionExecutionEnvironment ActionEnv
-        {
-            get { return actionEnv; }
-        }
-
-        IGraph graph;
-        IActionExecutionEnvironment actionEnv;
-    }
-
-    class NewGraphOptions
+    public class NewGraphOptions
     {
         public List<String> ExternalAssembliesReferenced = new List<String>();
         public String Statistics = null;
@@ -145,42 +112,36 @@ namespace de.unika.ipd.grGen.grShell
         String[] backendParameters = null;
 
         List<ShellGraphProcessingEnvironment> shellProcEnvs = new List<ShellGraphProcessingEnvironment>();
-        ShellGraphProcessingEnvironment curShellProcEnv = null;
+        public ShellGraphProcessingEnvironment curShellProcEnv = null;
 
         bool silence = false; // node/edge created successfully messages
-        bool silenceExec = false; // print match statistics during sequence execution on timer
-        bool cancelSequence = false;
 
         public ElementRealizers realizers = new ElementRealizers();
 
-        Debugger debugger = null;
-
-        bool pendingDebugEnable = false;
-        String debugLayout = "Orthogonal";
+        public String debugLayout = "Orthogonal";
         public bool nonDebugNonGuiExitOnError = false;
         public TextWriter debugOut = System.Console.Out;
         public TextWriter errOut = System.Console.Error;
-        public IGrShellUI UserInterface = new GrShellConsoleUI(Console.In, Console.Out);
 
-        private NewGraphOptions newGraphOptions = new NewGraphOptions();
+        public NewGraphOptions newGraphOptions = new NewGraphOptions();
 
         /// <summary>
         /// Maps layouts to layout option names to their values.
         /// This only reflects the settings made by the user and may even contain illegal entries,
         /// if the options were set before yComp was attached.
         /// </summary>
-        Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
+        public Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
 
-        IWorkaround workaround = WorkaroundManager.Workaround;
+        public IWorkaround workaround = WorkaroundManager.Workaround;
+
+        public GrShellSequenceApplierAndDebugger seqApplierAndDebugger;
 
         public GrShellImpl()
         {
-            Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
+            seqApplierAndDebugger = new GrShellSequenceApplierAndDebugger(this, debugOut, errOut);
         }
 
-        public bool OperationCancelled { get { return cancelSequence; } }
         public IWorkaround Workaround { get { return workaround; } }
-        public bool InDebugMode { get { return debugger != null && !debugger.ConnectionLost; } }
 
         public static void PrintVersion()
         {
@@ -207,7 +168,7 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        private bool ActionsExists()
+        public bool ActionsExists()
         {
             if(curShellProcEnv == null || curShellProcEnv.ProcEnv.Actions == null)
             {
@@ -248,20 +209,6 @@ namespace de.unika.ipd.grGen.grShell
                 silence = value;
                 if (silence) errOut.WriteLine("Disabled \"new node/edge created successfully\"-messages");
                 else errOut.WriteLine("Enabled \"new node/edge created successfully\"-messages");
-            }
-        }
-
-        public bool SilenceExec
-        {
-            get
-            {
-                return silenceExec;
-            }
-            set
-            {
-                silenceExec = value;
-                if(silenceExec) errOut.WriteLine("Disabled printing match statistics during non-debug sequence execution every second");
-                else errOut.WriteLine("Enabled printing match statistics during non-debug sequence execution every second");
             }
         }
 
@@ -1059,8 +1006,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void QuitDebugMode()
         {
-            if(InDebugMode)
-                SetDebugMode(false);
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.SetDebugMode(false);
         }
 
         public void Cleanup()
@@ -1291,13 +1238,13 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
 
-            if(InDebugMode) { // switch to new graph from old graph
-                SetDebugMode(false);
-                pendingDebugEnable = true;
+            if(seqApplierAndDebugger.InDebugMode) { // switch to new graph from old graph
+                seqApplierAndDebugger.SetDebugMode(false);
+                seqApplierAndDebugger.pendingDebugEnable = true;
             }
 
-            if(pendingDebugEnable)
-                SetDebugMode(true);
+            if(seqApplierAndDebugger.pendingDebugEnable)
+                seqApplierAndDebugger.SetDebugMode(true);
 
             return true;
         }
@@ -2085,7 +2032,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else if(shellGraphProcEnv == null) return false;
 
-            if(InDebugMode && debugger.ShellProcEnv == shellGraphProcEnv) SetDebugMode(false);
+            if(seqApplierAndDebugger.InDebugMode && seqApplierAndDebugger.debugger.ShellProcEnv == shellGraphProcEnv) seqApplierAndDebugger.SetDebugMode(false);
 
             if(shellGraphProcEnv == curShellProcEnv)
                 curShellProcEnv = null;
@@ -2952,18 +2899,6 @@ namespace de.unika.ipd.grGen.grShell
         }
 #endif
 
-        bool ContainsSpecial(Sequence seq)
-        {
-            if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall) 
-                && ((SequenceRuleCall)seq).Special)
-                return true;
-
-            foreach(Sequence child in seq.Children)
-                if(ContainsSpecial(child)) return true;
-
-            return false;
-        }
-
         public void ParseAndDefineSequence(String str, Token tok, out bool noError)
         {
             try
@@ -3058,8 +2993,8 @@ namespace de.unika.ipd.grGen.grShell
                     Console.WriteLine("The sequence at line " + tok.beginLine + " reported back: " + warning);
                 }
                 seq.SetNeedForProfilingRecursive(GetEmitProfiling());
-                ApplyRewriteSequence(seq, false);
-                noError = !OperationCancelled;
+                seqApplierAndDebugger.ApplyRewriteSequence(seq, false);
+                noError = !seqApplierAndDebugger.OperationCancelled;
             }
             catch(SequenceParserException ex)
             {
@@ -3079,273 +3014,6 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        Sequence curGRS;
-        SequenceRuleCall curRule;
-
-        public void ApplyRewriteSequence(Sequence seq, bool debug)
-        {
-            bool installedDumpHandlers = false;
-
-            if(!ActionsExists()) return;
-
-            if(debug || CheckDebuggerAlive())
-            {
-                debugger.NotifyOnConnectionLost = true;
-                debugger.InitNewRewriteSequence(seq, debug);
-            }
-
-            if(!InDebugMode && ContainsSpecial(seq))
-            {
-                curShellProcEnv.ProcEnv.OnEntereringSequence += DumpOnEntereringSequence;
-                curShellProcEnv.ProcEnv.OnExitingSequence += DumpOnExitingSequence;
-                installedDumpHandlers = true;
-            }
-            else curShellProcEnv.ProcEnv.OnEntereringSequence += NormalEnteringSequenceHandler;
-
-            curGRS = seq;
-            curRule = null;
-
-            debugOut.WriteLine("Executing Graph Rewrite Sequence (CTRL+C for abort) ...");
-            cancelSequence = false;
-            workaround.PreventComputerGoingIntoSleepMode(true);
-            curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
-            StatisticsSource statisticsSource = new StatisticsSource(curShellProcEnv.ProcEnv.NamedGraph, curShellProcEnv.ProcEnv);
-            Timer timer = null;
-            if(!debug && !silenceExec) timer = new Timer(new TimerCallback(PrintStatistics), statisticsSource, 1000, 1000);
-
-            try
-            {
-                bool result = curShellProcEnv.ProcEnv.ApplyGraphRewriteSequence(seq);
-                if(timer != null) timer.Dispose();
-
-                seq.ResetExecutionState();
-                debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result {1}:",
-                    (curShellProcEnv.ProcEnv.PerformanceInfo.TimeNeeded * 1000).ToString("F1", System.Globalization.CultureInfo.InvariantCulture), result);
-                if(newGraphOptions.Profile)
-                    debugOut.WriteLine(" - {0} search steps executed", curShellProcEnv.ProcEnv.PerformanceInfo.SearchSteps);
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
-                debugOut.WriteLine(" - {0} matches found in {1} ms", perfInfo.MatchesFound, perfInfo.TotalMatchTimeMS);
-                debugOut.WriteLine(" - {0} rewrites performed in {1} ms", perfInfo.RewritesPerformed, perfInfo.TotalRewriteTimeMS);
-#if DEBUGACTIONS
-                debugOut.WriteLine("\nDetails:");
-                ShowSequenceDetails(seq, perfInfo);
-#endif
-#else
-                debugOut.WriteLine(" - {0} matches found", curShellProcEnv.ProcEnv.PerformanceInfo.MatchesFound);
-                debugOut.WriteLine(" - {0} rewrites performed", curShellProcEnv.ProcEnv.PerformanceInfo.RewritesPerformed);
-#endif
-            }
-            catch(OperationCanceledException)
-            {
-                cancelSequence = true;      // make sure cancelSequence is set to true
-                if(timer != null) timer.Dispose();
-                if(curRule == null)
-                    errOut.WriteLine("Rewrite sequence aborted!");
-                else
-                {
-                    errOut.WriteLine("Rewrite sequence aborted after position:");
-                    Debugger.PrintSequence(curGRS, curRule, Workaround);
-                    errOut.WriteLine();
-                }
-            }
-            workaround.PreventComputerGoingIntoSleepMode(false);
-            curRule = null;
-            curGRS = null;
-
-            if(InDebugMode)
-            {
-                debugger.NotifyOnConnectionLost = false;
-                debugger.FinishRewriteSequence();
-            }
-
-            StreamWriter emitWriter = curShellProcEnv.ProcEnv.EmitWriter as StreamWriter;
-            if(emitWriter != null)
-                emitWriter.Flush();
-
-            if(installedDumpHandlers)
-            {
-                curShellProcEnv.ProcEnv.OnEntereringSequence -= DumpOnEntereringSequence;
-                curShellProcEnv.ProcEnv.OnExitingSequence -= DumpOnExitingSequence;
-            }
-            else curShellProcEnv.ProcEnv.OnEntereringSequence -= NormalEnteringSequenceHandler;
-        }
-
-        // called from a timer while a sequence is executed outside of the debugger 
-        // (this may still mean the debugger is open and attached ("debug enable"), but just not under user control)
-        static void PrintStatistics(Object state)
-        {
-            StatisticsSource statisticsSource = (StatisticsSource)state;
-            if(!statisticsSource.ActionEnv.HighlightingUnderway)
-                Console.WriteLine(" ... {0} matches, {1} rewrites, {2} graph changes until now ...", statisticsSource.MatchesFound, statisticsSource.RewritesPerformed, statisticsSource.GraphChanges);
-        }
-
-        public void Cancel()
-        {
-            if(InDebugMode)
-                debugger.AbortRewriteSequence();
-            throw new OperationCanceledException();                 // abort rewrite sequence
-        }
-
-        void NormalEnteringSequenceHandler(Sequence seq)
-        {
-            if(cancelSequence)
-                Cancel();
-
-            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall)
-                curRule = (SequenceRuleCall) seq;
-        }
-
-        void DumpOnEntereringSequence(Sequence seq)
-        {
-            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall)
-            {
-                curRule = (SequenceRuleCall) seq;
-                if(curRule.Special)
-                    curShellProcEnv.ProcEnv.OnFinishing += DumpOnFinishing;
-            }
-        }
-
-        void DumpOnExitingSequence(Sequence seq)
-        {
-            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall)
-            {
-                SequenceRuleCall ruleSeq = (SequenceRuleCall) seq;
-                if(ruleSeq != null && ruleSeq.Special)
-                    curShellProcEnv.ProcEnv.OnFinishing -= DumpOnFinishing;
-            }
-
-            if(cancelSequence)
-                Cancel();
-        }
-
-        void DumpOnFinishing(IMatches matches, bool special)
-        {
-            int i = 1;
-            debugOut.WriteLine("Matched " + matches.Producer.Name + " rule:");
-            foreach(IMatch match in matches)
-            {
-                debugOut.WriteLine(" - " + i + ". match:");
-                DumpMatch(match, "   ");
-                ++i;
-            }
-        }
-
-        void DumpMatch(IMatch match, String indentation)
-        {
-            int i = 0;
-            foreach (INode node in match.Nodes)
-                debugOut.WriteLine(indentation + match.Pattern.Nodes[i++].UnprefixedName + ": " + curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node));
-            int j = 0;
-            foreach (IEdge edge in match.Edges)
-                debugOut.WriteLine(indentation + match.Pattern.Edges[j++].UnprefixedName + ": " + curShellProcEnv.ProcEnv.NamedGraph.GetElementName(edge));
-
-            foreach(IMatch nestedMatch in match.EmbeddedGraphs)
-            {
-                debugOut.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
-                DumpMatch(nestedMatch, indentation + "  ");
-            }
-            foreach (IMatch nestedMatch in match.Alternatives)
-            {
-                debugOut.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
-                DumpMatch(nestedMatch, indentation + "  ");
-            }
-            foreach (IMatches nestedMatches in match.Iterateds)
-            {
-                foreach (IMatch nestedMatch in nestedMatches)
-                {
-                    debugOut.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
-                    DumpMatch(nestedMatch, indentation + "  ");
-                }
-            }
-            foreach (IMatch nestedMatch in match.Independents)
-            {
-                debugOut.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
-                DumpMatch(nestedMatch, indentation + "  ");
-            }
-        }
-
-        void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
-        {
-            if(curGRS == null || cancelSequence) return;
-            if(curRule == null) errOut.WriteLine("Cancelling...");
-            else errOut.WriteLine("Cancelling: Waiting for \"" + curRule.ParamBindings.Action.Name + "\" to finish...");
-            e.Cancel = true;        // we handled the cancel event
-            cancelSequence = true;
-        }
-
-        /// <summary>
-        /// Enables or disables debug mode.
-        /// </summary>
-        /// <param name="enable">Whether to enable or not.</param>
-        /// <returns>True, if the mode has the desired value at the end of the function.</returns>
-        public bool SetDebugMode(bool enable)
-        {
-            if(nonDebugNonGuiExitOnError) {
-                return true;
-            }
-
-            if(enable)
-            {
-                if(CurrentShellProcEnv == null)
-                {
-                    errOut.WriteLine("Debug mode will be enabled as soon as a graph has been created!");
-                    pendingDebugEnable = true;
-                    return false;
-                }
-                if(InDebugMode && CheckDebuggerAlive())
-                {
-                    errOut.WriteLine("You are already in debug mode!");
-                    return true;
-                }
-
-                Dictionary<String, String> optMap;
-                debugLayoutOptions.TryGetValue(debugLayout, out optMap);
-                try
-                {
-                    debugger = new Debugger(this, debugLayout, optMap);
-                    curShellProcEnv.ProcEnv.UserProxy = debugger;
-                }
-                catch(Exception ex)
-                {
-                    if(ex.Message != "Connection to yComp lost")
-                        errOut.WriteLine(ex.Message);
-                    return false;
-                }
-                pendingDebugEnable = false;
-            }
-            else
-            {
-                if(CurrentShellProcEnv == null && pendingDebugEnable)
-                {
-                    debugOut.WriteLine("Debug mode will not be enabled anymore when a graph has been created.");
-                    pendingDebugEnable = false;
-                    return true;
-                }
-
-                if(!InDebugMode)
-                {
-                    errOut.WriteLine("You are not in debug mode!");
-                    return true;
-                }
-
-                curShellProcEnv.ProcEnv.UserProxy = null;
-                debugger.Close();
-                debugger = null;
-            }
-            return true;
-        }
-
-        public bool CheckDebuggerAlive()
-        {
-            if(!InDebugMode) return false;
-            if(!debugger.YCompClient.Sync())
-            {
-                debugger = null;
-                return false;
-            }
-            return true;
-        }
-
         public void ParseAndDebugSequence(String str, Token tok, out bool noError)
         {
             try
@@ -3358,8 +3026,8 @@ namespace de.unika.ipd.grGen.grShell
                     Console.WriteLine("The debug sequence at line " + tok.beginLine + " reported back: " + warning);
                 }
                 seq.SetNeedForProfilingRecursive(GetEmitProfiling());
-                DebugRewriteSequence(seq);
-                noError = !OperationCancelled;
+                seqApplierAndDebugger.DebugRewriteSequence(seq);
+                noError = !seqApplierAndDebugger.OperationCancelled;
             }
             catch(SequenceParserException ex)
             {
@@ -3379,41 +3047,14 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public void DebugRewriteSequence(Sequence seq)
-        {
-            if(nonDebugNonGuiExitOnError)
-            {
-                ApplyRewriteSequence(seq, false);
-                return;
-            }
-
-            bool debugModeActivated;
-
-            if(!CheckDebuggerAlive())
-            {
-                if(!SetDebugMode(true)) return;
-                debugModeActivated = true;
-            }
-            else debugModeActivated = false;
-
-            ApplyRewriteSequence(seq, true);
-
-            if(debugModeActivated && CheckDebuggerAlive())   // enabled debug mode here and didn't loose connection?
-            {
-                if (UserInterface.ShowMsgAskForYesNo("Do you want to leave debug mode?")) {
-                    SetDebugMode(false);
-                }
-            }
-        }
-
         public void DebugLayout()
         {
-            if(!CheckDebuggerAlive())
+            if(!seqApplierAndDebugger.CheckDebuggerAlive())
             {
                 debugOut.WriteLine("YComp is not active, yet!");
                 return;
             }
-            debugger.ForceLayout();
+            seqApplierAndDebugger.debugger.ForceLayout();
         }
 
         public void SetDebugLayout(String layout)
@@ -3429,21 +3070,21 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
 
-            if(InDebugMode)
-                debugger.SetLayout(layout);
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.SetLayout(layout);
 
             debugLayout = layout;
         }
 
         public void GetDebugLayoutOptions()
         {
-            if(!CheckDebuggerAlive())
+            if(!seqApplierAndDebugger.CheckDebuggerAlive())
             {
                 errOut.WriteLine("Layout options can only be read, when YComp is active!");
                 return;
             }
 
-            debugger.GetLayoutOptions();
+            seqApplierAndDebugger.debugger.GetLayoutOptions();
         }
 
         public void SetDebugLayoutOption(String optionName, String optionValue)
@@ -3455,14 +3096,14 @@ namespace de.unika.ipd.grGen.grShell
                 debugLayoutOptions[debugLayout] = optMap;
             }
 
-            if(!CheckDebuggerAlive())
+            if(!seqApplierAndDebugger.CheckDebuggerAlive())
             {
                 optMap[optionName] = optionValue; // remember option for debugger startup
                 ChangeOrientationIfNecessary(optionName, optionValue);
                 return;
             }
 
-            if(debugger.SetLayoutOption(optionName, optionValue)) // only remember option if no error was reported
+            if(seqApplierAndDebugger.debugger.SetLayoutOption(optionName, optionValue)) // only remember option if no error was reported
             {
                 optMap[optionName] = optionValue;
                 ChangeOrientationIfNecessary(optionName, optionValue);
@@ -3496,56 +3137,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public object Askfor(String typeName)
         {
-            if(typeName == null)
-            {
-                UserInterface.ShowMsgAskForEnter("Pause..");
-                return null;
-            }
-
-            if(TypesHelper.GetNodeOrEdgeType(typeName, curShellProcEnv.ProcEnv.NamedGraph.Model)!=null) // if type is node/edge type let the user select the element in yComp
-            {
-                if(!CheckDebuggerAlive())
-                {
-                    errOut.WriteLine("debug mode must be enabled (yComp available) for asking for a node/edge type");
-                    return null;
-                }
-
-                debugOut.WriteLine("Select an element of type " + typeName + " by double clicking in yComp (ESC for abort)...");
-
-                String id = debugger.ChooseGraphElement();
-                if(id == null)
-                    return null;
-
-                debugOut.WriteLine("Received @(\"" + id + "\")");
-
-                IGraphElement elem = curShellProcEnv.ProcEnv.NamedGraph.GetGraphElement(id);
-                if(elem == null)
-                {
-                    errOut.WriteLine("Graph element does not exist (anymore?).");
-                    return null;
-                }
-                if(!TypesHelper.IsSameOrSubtype(elem.Type.PackagePrefixedName, typeName, curShellProcEnv.ProcEnv.NamedGraph.Model))
-                {
-                    errOut.WriteLine(elem.Type.PackagePrefixedName + " is not the same type as/a subtype of " + typeName + ".");
-                    return null;
-                }
-                return elem;
-            }
-            else // else let the user type in the value
-            {
-                String inputValue = UserInterface.ShowMsgAskForString("Enter a value of type " + typeName + ": ");
-                StringReader reader = new StringReader(inputValue);
-                GrShell shellForParsing = new GrShell(reader);
-                shellForParsing.SetImpl(this);
-                object val = shellForParsing.Constant();
-                String valTypeName = TypesHelper.XgrsTypeOfConstant(val, curShellProcEnv.ProcEnv.NamedGraph.Model);
-                if(!TypesHelper.IsSameOrSubtype(valTypeName, typeName, curShellProcEnv.ProcEnv.NamedGraph.Model))
-                {
-                    errOut.WriteLine(valTypeName + " is not the same type as/a subtype of " + typeName + ".");
-                    return null;
-                }
-                return val;
-            }
+            return seqApplierAndDebugger.Askfor(typeName);
         }
 
         private ElementMode? ParseElementMode(String modeName)
@@ -3975,8 +3567,8 @@ showavail:
                     curShellProcEnv.DumpInfo.SetElemTypeLabel(subType, label);
             }
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -3996,8 +3588,8 @@ showavail:
                     setDumpColorProc(subType, (GrColor) color);
             }
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4017,8 +3609,8 @@ showavail:
                     setDumpColorProc(subType, (GrColor) color);
             }
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4055,8 +3647,8 @@ showavail:
                 foreach(NodeType subType in type.SubOrSameTypes)
                     curShellProcEnv.DumpInfo.SetNodeTypeShape(subType, (GrNodeShape) shape);
             }
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4070,8 +3662,8 @@ showavail:
 
             realizers.ChangeNodeColor((ElementMode)mode, (GrColor)color);
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4085,8 +3677,8 @@ showavail:
 
             realizers.ChangeNodeBorderColor((ElementMode)mode, (GrColor)color);
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4100,8 +3692,8 @@ showavail:
 
             realizers.ChangeNodeTextColor((ElementMode)mode, (GrColor)color);
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4115,8 +3707,8 @@ showavail:
 
             realizers.ChangeNodeShape((ElementMode)mode, (GrNodeShape)shape);
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4150,8 +3742,8 @@ showavail:
                     curShellProcEnv.DumpInfo.SetEdgeTypeThickness(subType, thickness);
             }
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4170,8 +3762,8 @@ showavail:
                     curShellProcEnv.DumpInfo.SetEdgeTypeLineStyle(subType, (GrLineStyle)style);
             }
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4185,8 +3777,8 @@ showavail:
 
             realizers.ChangeEdgeColor((ElementMode)mode, (GrColor)color);
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4200,8 +3792,8 @@ showavail:
 
             realizers.ChangeEdgeTextColor((ElementMode)mode, (GrColor)color);
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4218,8 +3810,8 @@ showavail:
 
             realizers.ChangeEdgeThickness((ElementMode)mode, thickness);
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4233,8 +3825,8 @@ showavail:
 
             realizers.ChangeEdgeStyle((ElementMode)mode, (GrLineStyle)style);
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4306,8 +3898,8 @@ showavail:
                 foreach(GrGenType subtype in type.SubOrSameTypes)
                     curShellProcEnv.DumpInfo.AddTypeInfoTag(subtype, infoTag);
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
 
             return true;
         }
@@ -4319,8 +3911,8 @@ showavail:
             curShellProcEnv.DumpInfo.Reset();
             realizers.ReSetElementRealizers();
 
-            if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+            if(seqApplierAndDebugger.InDebugMode)
+                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
         }
         #endregion "dump" commands
 
@@ -4844,8 +4436,8 @@ showavail:
                     curShellProcEnv = new ShellGraphProcessingEnvironment((INamedGraph)graph, backendFilename, backendParameters, graph.Model.ModelName + ".gm");
                 else // constructor building named graph
                     curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, graph.Model.ModelName + ".gm");
-                if(InDebugMode)
-                    debugger.ShellProcEnv = curShellProcEnv;
+                if(seqApplierAndDebugger.InDebugMode)
+                    seqApplierAndDebugger.debugger.ShellProcEnv = curShellProcEnv;
                 INamedGraph importedNamedGraph = (INamedGraph)curShellProcEnv.ProcEnv.NamedGraph;
                 if(actions!=null) ((BaseActions)actions).Graph = importedNamedGraph;
                 debugOut.WriteLine("shell import done after: " + (Environment.TickCount - startTime) + " ms");
@@ -5033,7 +4625,7 @@ showavail:
                 }
                 seq.SetNeedForProfilingRecursive(GetEmitProfiling());
                 validated = ValidateWithSequence(seq);
-                noError = !OperationCancelled;
+                noError = !seqApplierAndDebugger.OperationCancelled;
             }
             catch(SequenceParserException ex)
             {

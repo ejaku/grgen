@@ -1041,9 +1041,9 @@ void ShellCommand():
 |
     "silence" ("exec" { boolVal = true; } )?
     (
-        "on" { if(boolVal) impl.SilenceExec = true; else impl.Silence = true; }
+        "on" { if(boolVal) impl.seqApplierAndDebugger.SilenceExec = true; else impl.Silence = true; }
     |
-        "off" { if(boolVal) impl.SilenceExec = false; else impl.Silence = false;}
+        "off" { if(boolVal) impl.seqApplierAndDebugger.SilenceExec = false; else impl.Silence = false;}
     )
 |
     "sync" "io" LineEnd()
@@ -1693,12 +1693,12 @@ void DebugCommand():
     |
         "enable" LineEnd()
         {
-            impl.SetDebugMode(true);
+            impl.seqApplierAndDebugger.SetDebugMode(true);
         }
     |
         "disable" LineEnd()
         {
-            impl.SetDebugMode(false);
+            impl.seqApplierAndDebugger.SetDebugMode(false);
         }
     |
         "layout" LineEnd()
