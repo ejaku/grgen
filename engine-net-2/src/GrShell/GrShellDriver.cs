@@ -8,7 +8,6 @@
 // by Moritz Kroll, Edgar Jakumeit
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -18,8 +17,11 @@ namespace de.unika.ipd.grGen.grShell
 {
     public class GrShellDriver
     {
-        private Stack<GrShellTokenManager> TokenSourceStack = new Stack<GrShellTokenManager>();
-        private Stack<bool> ifNesting = new Stack<bool>();
+        // stack of token sources, for a new file included, a new token source is created, while the old ones are kept so we can restore its state
+        private Stack<GrShellTokenManager> tokenSources = new Stack<GrShellTokenManager>();
+
+        // stack of results of evaluating "if expr commands endif" statements; entire file/session is enclosed in true (safing us from special case handling) 
+        private Stack<bool> conditionalEvaluationResults = new Stack<bool>();
 
         public bool Quitting = false;
         public bool Eof = false;
@@ -38,7 +40,7 @@ namespace de.unika.ipd.grGen.grShell
         static int Main(string[] args)
         {
             String command = null;
-            ArrayList scriptFilename = new ArrayList();
+            List<String> scriptFilename = new List<String>();
             bool showUsage = false;
             bool nonDebugNonGuiExitOnError = false;
             bool showIncludes = false;
@@ -72,28 +74,28 @@ namespace de.unika.ipd.grGen.grShell
             GrShellDriver driver = new GrShellDriver(shell, impl);
             shell.SetImpl(impl);
             shell.SetDriver(driver);
-            driver.TokenSourceStack.Push(shell.token_source);
+            driver.tokenSources.Push(shell.token_source);
             driver.showIncludes = showIncludes;
             impl.nonDebugNonGuiExitOnError = nonDebugNonGuiExitOnError;
 
             try
             {
-                driver.ifNesting.Push(true);
+                driver.conditionalEvaluationResults.Push(true);
 
                 while(!driver.Quitting && !driver.Eof)
                 {
                     driver.ShowPromptAsNeeded(showPrompt);
 
-                    bool noError = shell.ParseShellCommand();
+                    bool success = shell.ParseShellCommand();
 
-                    errorCode = HandleEofOrErrorIfNonConsoleShell(scriptFilename, noError, nonDebugNonGuiExitOnError,
+                    errorCode = HandleEofOrErrorIfNonConsoleShell(scriptFilename, success, nonDebugNonGuiExitOnError,
                         shell, driver, workaround,
                         ref reader, ref showPrompt, ref readFromConsole);
                     if(errorCode != 0)
                         return errorCode;
                 }
 
-                driver.ifNesting.Pop();
+                driver.conditionalEvaluationResults.Pop();
             }
             catch(Exception e)
             {
@@ -135,7 +137,7 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     SimpleCharStream charStream = new SimpleCharStream(reader);
                     GrShellTokenManager tokenSource = new GrShellTokenManager(charStream);
-                    TokenSourceStack.Push(tokenSource);
+                    tokenSources.Push(tokenSource);
 
                     try
                     {
@@ -145,7 +147,7 @@ namespace de.unika.ipd.grGen.grShell
                         {
                             if(!grShell.ParseShellCommand())
                             {
-                                impl.errOut.WriteLine("Shell command parsing failed in include of \"" + filename + "\" (at nesting level " + TokenSourceStack.Count + ")");
+                                impl.errOut.WriteLine("Shell command parsing failed in include of \"" + filename + "\" (at nesting level " + tokenSources.Count + ")");
                                 return false;
                             }
                         }
@@ -156,8 +158,8 @@ namespace de.unika.ipd.grGen.grShell
                         if(showIncludes)
                             impl.debugOut.WriteLine("Leaving " + filename);
 
-                        TokenSourceStack.Pop();
-                        grShell.ReInit(TokenSourceStack.Peek());
+                        tokenSources.Pop();
+                        grShell.ReInit(tokenSources.Peek());
                     }
                 }
             }
@@ -181,32 +183,32 @@ namespace de.unika.ipd.grGen.grShell
 
         public void ParsedIf(SequenceExpression seqExpr)
         {
-            ifNesting.Push(ifNesting.Peek() && impl.Evaluate(seqExpr));
+            conditionalEvaluationResults.Push(conditionalEvaluationResults.Peek() && impl.Evaluate(seqExpr));
         }
 
         public void ParsedElse()
         {
-            bool ifValue = ifNesting.Peek();
-            ifNesting.Pop();
-            ifNesting.Push(ifNesting.Peek() && !ifValue);
+            bool conditionalValue = conditionalEvaluationResults.Peek();
+            conditionalEvaluationResults.Pop();
+            conditionalEvaluationResults.Push(conditionalEvaluationResults.Peek() && !conditionalValue);
         }
 
         public void ParsedEndif()
         {
-            ifNesting.Pop();
+            conditionalEvaluationResults.Pop();
         }
 
         public bool ExecuteCommandLine()
         {
-            return ifNesting.Peek();
+            return conditionalEvaluationResults.Peek();
         }
 
         static void ParseArguments(string[] args,
-            out String command, out ArrayList scriptFilename, out bool showUsage,
+            out String command, out List<String> scriptFilename, out bool showUsage,
             out bool nonDebugNonGuiExitOnError, out bool showIncludes, out int errorCode)
         {
             command = null;
-            scriptFilename = new ArrayList();
+            scriptFilename = new List<String>();
             showUsage = false;
             nonDebugNonGuiExitOnError = false;
             showIncludes = false;
@@ -290,7 +292,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
         }
 
-        static int DetermineAndOpenInputSource(String command, ArrayList scriptFilename, IWorkaround workaround,
+        static int DetermineAndOpenInputSource(String command, List<String> scriptFilename, IWorkaround workaround,
             out TextReader reader, out bool showPrompt, out bool readFromConsole)
         {
             if(command != null)
@@ -327,14 +329,14 @@ namespace de.unika.ipd.grGen.grShell
             return 0;
         }
 
-        static int HandleEofOrErrorIfNonConsoleShell(ArrayList scriptFilename, bool noError, bool nonDebugNonGuiExitOnError, 
+        static int HandleEofOrErrorIfNonConsoleShell(List<String> scriptFilename, bool success, bool nonDebugNonGuiExitOnError, 
             GrShell shell, GrShellDriver driver, IWorkaround workaround, 
             ref TextReader reader, ref bool showPrompt, ref bool readFromConsole)
         {
-            if(readFromConsole || (!driver.Eof && noError))
+            if(readFromConsole || (!driver.Eof && success))
                 return 0;
 
-            if(nonDebugNonGuiExitOnError && !noError)
+            if(nonDebugNonGuiExitOnError && !success)
                 return -1;
 
             if(scriptFilename.Count != 0)
@@ -358,8 +360,8 @@ namespace de.unika.ipd.grGen.grShell
             else
             {
                 shell.ReInit(workaround.In);
-                driver.TokenSourceStack.Pop();
-                driver.TokenSourceStack.Push(shell.token_source);
+                driver.tokenSources.Pop();
+                driver.tokenSources.Push(shell.token_source);
                 showPrompt = true;
                 readFromConsole = true;
                 driver.Eof = false;
