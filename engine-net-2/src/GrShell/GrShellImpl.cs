@@ -112,7 +112,7 @@ namespace de.unika.ipd.grGen.grShell
         String[] backendParameters = null;
 
         List<ShellGraphProcessingEnvironment> shellProcEnvs = new List<ShellGraphProcessingEnvironment>();
-        public ShellGraphProcessingEnvironment curShellProcEnv = null;
+        public ShellGraphProcessingEnvironment curShellProcEnv = null; // one of the shellProcEnvs
 
         bool silence = false; // node/edge created successfully messages
 
@@ -1006,8 +1006,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public void QuitDebugMode()
         {
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.SetDebugMode(false);
+            seqApplierAndDebugger.QuitDebugModeAsNeeded();
         }
 
         public void Cleanup()
@@ -1238,13 +1237,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
 
-            if(seqApplierAndDebugger.InDebugMode) { // switch to new graph from old graph
-                seqApplierAndDebugger.SetDebugMode(false);
-                seqApplierAndDebugger.pendingDebugEnable = true;
-            }
-
-            if(seqApplierAndDebugger.pendingDebugEnable)
-                seqApplierAndDebugger.SetDebugMode(true);
+            seqApplierAndDebugger.RestartDebuggerOnNewGraphAsNeeded();
 
             return true;
         }
@@ -2032,7 +2025,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else if(shellGraphProcEnv == null) return false;
 
-            if(seqApplierAndDebugger.InDebugMode && seqApplierAndDebugger.debugger.ShellProcEnv == shellGraphProcEnv) seqApplierAndDebugger.SetDebugMode(false);
+            seqApplierAndDebugger.DisableDebuggerAfterDeletionAsNeeded(shellGraphProcEnv);
 
             if(shellGraphProcEnv == curShellProcEnv)
                 curShellProcEnv = null;
@@ -3049,12 +3042,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public void DebugLayout()
         {
-            if(!seqApplierAndDebugger.CheckDebuggerAlive())
-            {
-                debugOut.WriteLine("YComp is not active, yet!");
-                return;
-            }
-            seqApplierAndDebugger.debugger.ForceLayout();
+            seqApplierAndDebugger.DebugDoLayout();
         }
 
         public void SetDebugLayout(String layout)
@@ -3070,21 +3058,14 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.SetLayout(layout);
+            seqApplierAndDebugger.SetDebugLayout(layout);
 
             debugLayout = layout;
         }
 
         public void GetDebugLayoutOptions()
         {
-            if(!seqApplierAndDebugger.CheckDebuggerAlive())
-            {
-                errOut.WriteLine("Layout options can only be read, when YComp is active!");
-                return;
-            }
-
-            seqApplierAndDebugger.debugger.GetLayoutOptions();
+            seqApplierAndDebugger.GetDebugLayoutOptions();
         }
 
         public void SetDebugLayoutOption(String optionName, String optionValue)
@@ -3096,14 +3077,8 @@ namespace de.unika.ipd.grGen.grShell
                 debugLayoutOptions[debugLayout] = optMap;
             }
 
-            if(!seqApplierAndDebugger.CheckDebuggerAlive())
-            {
-                optMap[optionName] = optionValue; // remember option for debugger startup
-                ChangeOrientationIfNecessary(optionName, optionValue);
-                return;
-            }
-
-            if(seqApplierAndDebugger.debugger.SetLayoutOption(optionName, optionValue)) // only remember option if no error was reported
+            // only remember option if no error was reported (no error in case debugger was not started yet, option is then remembered for next startup)
+            if(seqApplierAndDebugger.SetDebugLayoutOption(optionName, optionValue))
             {
                 optMap[optionName] = optionValue;
                 ChangeOrientationIfNecessary(optionName, optionValue);
@@ -3567,8 +3542,7 @@ showavail:
                     curShellProcEnv.DumpInfo.SetElemTypeLabel(subType, label);
             }
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3588,8 +3562,7 @@ showavail:
                     setDumpColorProc(subType, (GrColor) color);
             }
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3609,8 +3582,7 @@ showavail:
                     setDumpColorProc(subType, (GrColor) color);
             }
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3647,8 +3619,8 @@ showavail:
                 foreach(NodeType subType in type.SubOrSameTypes)
                     curShellProcEnv.DumpInfo.SetNodeTypeShape(subType, (GrNodeShape) shape);
             }
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3662,8 +3634,7 @@ showavail:
 
             realizers.ChangeNodeColor((ElementMode)mode, (GrColor)color);
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3677,8 +3648,7 @@ showavail:
 
             realizers.ChangeNodeBorderColor((ElementMode)mode, (GrColor)color);
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3692,8 +3662,7 @@ showavail:
 
             realizers.ChangeNodeTextColor((ElementMode)mode, (GrColor)color);
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3707,8 +3676,7 @@ showavail:
 
             realizers.ChangeNodeShape((ElementMode)mode, (GrNodeShape)shape);
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3742,8 +3710,7 @@ showavail:
                     curShellProcEnv.DumpInfo.SetEdgeTypeThickness(subType, thickness);
             }
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3762,8 +3729,7 @@ showavail:
                     curShellProcEnv.DumpInfo.SetEdgeTypeLineStyle(subType, (GrLineStyle)style);
             }
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3777,8 +3743,7 @@ showavail:
 
             realizers.ChangeEdgeColor((ElementMode)mode, (GrColor)color);
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3792,8 +3757,7 @@ showavail:
 
             realizers.ChangeEdgeTextColor((ElementMode)mode, (GrColor)color);
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3810,8 +3774,7 @@ showavail:
 
             realizers.ChangeEdgeThickness((ElementMode)mode, thickness);
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3825,8 +3788,7 @@ showavail:
 
             realizers.ChangeEdgeStyle((ElementMode)mode, (GrLineStyle)style);
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3898,8 +3860,7 @@ showavail:
                 foreach(GrGenType subtype in type.SubOrSameTypes)
                     curShellProcEnv.DumpInfo.AddTypeInfoTag(subtype, infoTag);
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
             return true;
         }
@@ -3911,8 +3872,7 @@ showavail:
             curShellProcEnv.DumpInfo.Reset();
             realizers.ReSetElementRealizers();
 
-            if(seqApplierAndDebugger.InDebugMode)
-                seqApplierAndDebugger.debugger.UpdateYCompDisplay();
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
         }
         #endregion "dump" commands
 
@@ -4436,8 +4396,9 @@ showavail:
                     curShellProcEnv = new ShellGraphProcessingEnvironment((INamedGraph)graph, backendFilename, backendParameters, graph.Model.ModelName + ".gm");
                 else // constructor building named graph
                     curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, graph.Model.ModelName + ".gm");
-                if(seqApplierAndDebugger.InDebugMode)
-                    seqApplierAndDebugger.debugger.ShellProcEnv = curShellProcEnv;
+
+                seqApplierAndDebugger.ChangeDebuggerGraphAsNeeded(curShellProcEnv);
+
                 INamedGraph importedNamedGraph = (INamedGraph)curShellProcEnv.ProcEnv.NamedGraph;
                 if(actions!=null) ((BaseActions)actions).Graph = importedNamedGraph;
                 debugOut.WriteLine("shell import done after: " + (Environment.TickCount - startTime) + " ms");
