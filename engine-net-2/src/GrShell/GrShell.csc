@@ -1376,7 +1376,7 @@ void SelectCommand():
         "graph" shellGraph=Graph() LineEnd()
         {
             if(shellGraph == null) noError = false;
-            else impl.SelectShellGraphProcEnv(shellGraph);
+            else impl.SelectGraphProcEnv(shellGraph);
         }
     |
         "actions" str=Filename() LineEnd()

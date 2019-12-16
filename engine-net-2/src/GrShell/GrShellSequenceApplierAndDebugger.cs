@@ -277,6 +277,29 @@ namespace de.unika.ipd.grGen.grShell
             else impl.curShellProcEnv.ProcEnv.OnEntereringSequence -= NormalEnteringSequenceHandler;
         }
 
+#if DEBUGACTIONS
+        private void ShowSequenceDetails(Sequence seq, PerformanceInfo perfInfo)
+        {
+            switch(seq.OperandClass)
+            {
+                case Sequence.OperandType.Concat:
+                    ShowSequenceDetails(seq.LeftOperand, perfInfo);
+                    ShowSequenceDetails(seq.RightOperand, perfInfo);
+                    break;
+                case Sequence.OperandType.Star:
+                case Sequence.OperandType.Max:
+                    ShowSequenceDetails(seq.LeftOperand, perfInfo);
+                    break;
+                case Sequence.OperandType.Rule:
+                case Sequence.OperandType.RuleAll:
+                    debugOut.WriteLine(" - {0,-18}: Matches = {1,6}  Match = {2,6} ms  Rewrite = {3,6} ms",
+                        ((IAction) seq.Value).Name, seq.GetTotalApplied(),
+                        perfInfo.TimeDiffToMS(seq.GetTotalMatchTime()), perfInfo.TimeDiffToMS(seq.GetTotalRewriteTime()));
+                    break;
+            }
+        }
+#endif
+
         // called from a timer while a sequence is executed outside of the debugger 
         // (this may still mean the debugger is open and attached ("debug enable"), but just not under user control)
         static void PrintStatistics(Object state)
