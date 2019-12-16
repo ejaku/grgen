@@ -17,6 +17,8 @@ namespace de.unika.ipd.grGen.grShell
 {
     public class GrShellDriver
     {
+        public static readonly String VersionString = "GrShell v4.5.5";
+
         // stack of token sources, for a new file included, a new token source is created, while the old ones are kept so we can restore its state
         private Stack<GrShellTokenManager> tokenSources = new Stack<GrShellTokenManager>();
 
@@ -29,9 +31,10 @@ namespace de.unika.ipd.grGen.grShell
         private bool showIncludes = false;
 
         GrShell grShell;
-        GrShellImpl impl;
+        IGrShellImplForDriver impl;
 
-        GrShellDriver(GrShell grShell, GrShellImpl impl)
+
+        GrShellDriver(GrShell grShell, IGrShellImplForDriver impl)
         {
             this.grShell = grShell;
             this.impl = impl;
@@ -46,7 +49,7 @@ namespace de.unika.ipd.grGen.grShell
             bool showIncludes = false;
             int errorCode = 0; // 0==success, the return value
 
-            GrShellImpl.PrintVersion();
+            PrintVersion();
 
             ParseArguments(args,
                 out command, out scriptFilename, out showUsage,
@@ -70,9 +73,10 @@ namespace de.unika.ipd.grGen.grShell
                 return errorCode;
 
             GrShell shell = new GrShell(reader);
-            GrShellImpl impl = new GrShellImpl();
+            GrShellImpl shellImpl = new GrShellImpl();
+            IGrShellImplForDriver impl = shellImpl;
             GrShellDriver driver = new GrShellDriver(shell, impl);
-            shell.SetImpl(impl);
+            shell.SetImpl(shellImpl);
             shell.SetDriver(driver);
             driver.tokenSources.Push(shell.token_source);
             driver.showIncludes = showIncludes;
@@ -108,6 +112,11 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             return errorCode;
+        }
+
+        public static void PrintVersion()
+        {
+            Console.WriteLine(VersionString + " (enter \"help\" for a list of commands)");
         }
 
         public void ShowPromptAsNeeded(bool ShowPrompt)
